@@ -233,7 +233,7 @@ public sealed class StorageStreamConstructionTests
     public void DebugWriterKeepsBorrowedBufferAndLegacyRoute()
     {
         var buffer = new TEBufferStream();
-        var debug = TDebugWriteStream.Create(buffer, null!);
+        var debug = new TDebugWriteStream(buffer, null!);
         Assert.Same(buffer, debug.Stream);
         Assert.Same(buffer, Field<TEBufferStream>(debug, "FBuffer"));
         Assert.False(Field<bool>(debug, "FPartial"));

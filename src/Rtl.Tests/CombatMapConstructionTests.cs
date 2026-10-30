@@ -12,9 +12,11 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class CombatMapConstructionTests
 {
-    private sealed class Owner(bool reject) : TECustomNode
+    private sealed class Owner(bool reject) : TECustomNode(null!)
     {
         internal readonly List<TEObject> Members = [];
         internal readonly List<bool> PublishedAtInsertion = [];

@@ -12,6 +12,8 @@ namespace Aow.Rtl.Tests;
 // Briefs 9.4-3 and 9.4-4: the instance virtuals that left the metaclass, the isometric hexagon's
 // one-constructor dynamic sprite, and the descriptor families (AI player actions, AI groups,
 // editors) that a list reads without an instance.
+[Collection("Engine")]
+[EngineState]
 public sealed class ClassFamilyTests
 {
     [Fact]
@@ -157,32 +159,11 @@ public sealed class ClassFamilyTests
     }
 
     [Fact]
-    public void ItemGridCreatesTheNewItemThroughTheEditorDescriptor()
+    public void ItemGridConstructionStopsAtTheControlBoundary()
     {
-        // TItemGrid's control construction and EditItemDone's Invalidate are still shims, so the
-        // grid is allocated raw with the two fields CreateNewItem reads, the item list hangs off a plain
-        // engine for the editor walk and the engine global is a raw TAoWEngine for ActivateEObject. Reaching EditItemDone's shim proves the route
-        // Item.Editor() to EditorClass.Edit to the done callback.
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-        var previous = Game.AoWEngine;
-        var engine = new TEngine(null!);
-        var items = new TItemList(engine.ControlNode);
-        var grid = new TItemGrid { FStream = new TMemoryStream(), FItems = items };
-        Game.AoWEngine = new TAoWEngine();
-        try
-        {
-            Assert.Throws<NotImplementedException>(grid.CreateNewItem);
-            Assert.Equal(1, items.Count);
-            Assert.Same(EditorClass.Of<TEObjectEditor>(), ((TEObject)items.GetChild(0)).Editor());
-        }
-        finally
-        {
-            Game.AoWEngine = previous;
-            grid.FStream.Destroy();
-            items.Destroy();
-            engine.Destroy();
-        }
+        Assert.Throws<NotImplementedException>(() => new TItemGrid(null!));
     }
+
 
     [Fact]
     public void IsometricHexagonBuildsItsDynamicSpriteInOneConstructor()

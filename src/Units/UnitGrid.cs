@@ -60,9 +60,9 @@ namespace Aow.Units.UnitGrid
 
         // UnitGrid.pas:50
         // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TUnitGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
+
             var call__1 = new Aow.Rtl.TMemoryStream();
             FMemoryStream = call__1;
             RowCount = 1;
@@ -160,23 +160,6 @@ namespace Aow.Units.UnitGrid
 
         [Published]
         public bool EditEnabled { get => FEditEnabled; set => FEditEnabled = value; }
-
-        // UnitGrid.pas:25
-        public static new Aow.Units.UnitGrid.TUnitGrid Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.UnitGrid.TUnitGrid o = new Aow.Units.UnitGrid.TUnitGrid();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class UnitGrid

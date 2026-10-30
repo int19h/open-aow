@@ -653,9 +653,8 @@ namespace Aow.Layout
 {
     public class LayoutTIvTranslator : Aow.Rtl.TIvTranslator
     {
-        public LayoutTIvTranslator(TComponent owner)
+        public LayoutTIvTranslator(TComponent owner) : base(owner)
         {
-            Create__init(owner);
         }
     }
 }
@@ -678,9 +677,8 @@ namespace Aow.Layout
 {
     public class LayoutTVideoPlayer : Aow.Rtl.TVideoPlayer
     {
-        public LayoutTVideoPlayer(TComponent owner)
+        public LayoutTVideoPlayer(TComponent owner) : base(owner)
         {
-            Create__init(owner);
         }
 
         public Aow.Layout.TVideoPlayerLoopMode Loopmode { get; set; }
@@ -693,9 +691,8 @@ namespace Aow.Layout
 {
     public class LayoutTGDPlay : Aow.Rtl.TGDPlay
     {
-        public LayoutTGDPlay(TComponent owner)
+        public LayoutTGDPlay(TComponent owner) : base(owner)
         {
-            Create__init(owner);
         }
 
         public int FilePacketSize { get; set; }

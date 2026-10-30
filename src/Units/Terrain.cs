@@ -90,9 +90,6 @@ namespace Aow.Units.Terrain
         {
         }
 
-        // Raw allocation for SearchTerrain in MovementChecks.
-        protected TTerrainMO() { }
-
         // Terrain.pas:65
         public new const int ClassID = 131430;
 

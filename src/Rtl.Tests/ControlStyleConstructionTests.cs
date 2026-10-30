@@ -8,6 +8,8 @@ using EngineUnit = Aow.Units.Engine.Engine;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class ControlStyleConstructionTests
 {
     [Theory]
@@ -95,39 +97,9 @@ public sealed class ControlStyleConstructionTests
         }
     }
 
-    private sealed class Legacy : TEObject
-    {
-        internal int Calls;
-        public override void SetOwner(TECustomNode owner) { Calls++; base.SetOwner(owner); }
-    }
 
-    [Fact]
-    public void ConvertedAndLegacyChainsRunTheOwnerBodyOnce()
-    {
-        EClass.Register(typeof(Converted), TEControlStyleObject.ClassID, static owner => new Converted(owner), 12);
-        MetaRegistry.Register(typeof(Converted), new TEControlStyleObject.Meta(), 12);
-        EClass.Register(typeof(Legacy), TEObject.ClassID, static owner => EClass.Initialize(new Legacy(), owner), 8);
-        MetaRegistry.Register(typeof(Legacy), new TEObject.Meta(), static () => new Legacy(), 8);
-        Assert.Equal(0, new Legacy().Calls);
-        foreach (bool owned in new[] { false, true })
-        {
-            var owner = new Owner();
-            TECustomNode argument = owned ? owner : null!;
-            var converted = (Converted)TEObject.Meta.Of<Converted>().Create(argument);
-            var legacy = (Legacy)TEObject.Meta.Of<Legacy>().Create(argument);
-            Assert.Equal(1, converted.Calls);
-            Assert.Equal(1, legacy.Calls);
-            Assert.Same(argument, converted.Owner);
-            Assert.Same(argument, legacy.Owner);
-            Assert.Equal(0, converted.ObservedMarker);
-            Assert.Equal(default, converted.ObservedStyle);
-            Assert.Equal(77, converted.Marker);
-            Assert.Equal(TSet<TEControlStyleElement>.Of(EngineUnit.csStored), converted.GetControlStyle());
-            converted.Destroy();
-            legacy.Destroy();
-            Assert.Empty(owner.Members);
-        }
-    }
+
+
 
     [Fact]
     public void NullFlagOwnerFailsBeforeAnUnacquiredLinkIsReleased()
@@ -135,10 +107,6 @@ public sealed class ControlStyleConstructionTests
         using var fixture = new FlagFixture(loaded: true);
         Assert.Throws<NullReferenceException>(() => TFlagControl.Create(null!));
         Assert.Throws<NullReferenceException>(() => TEObject.Meta.Of<TFlagControl>().Create(null!));
-        var raw = new TFlagControl();
-        Assert.Null(raw.Owner);
-        Assert.Null(raw.FFlags);
-        Assert.Equal(default, raw.GetControlStyle());
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
     }
@@ -148,6 +116,8 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class FlagOwner : TAoWHSSet
     {
+        public FlagOwner() : base(null!, null!) { }
+
         internal readonly List<TEObject> Members = [];
         public override int AddChild(TEObject child) { Members.Add(child); return Members.Count - 1; }
         public override int RemoveChild(TEObject child) { int index = Members.IndexOf(child); Members.Remove(child); return index; }
@@ -169,6 +139,7 @@ public sealed class ControlStyleConstructionTests
             if (loaded)
                 Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, TImageLibrary.Create(null!));
             Game.AoWHSSet = Owner;
+            Owner.Members.Clear();
         }
 
         public void Dispose()
@@ -217,6 +188,8 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         internal readonly List<TEObject> Members = [];
         internal int Removals;
         public override int AddChild(TEObject child) { Members.Add(child); return Members.Count - 1; }
@@ -259,7 +232,7 @@ public sealed class ControlStyleConstructionTests
     {
         var engine = CreateEngine();
         var owner = new Owner();
-        var existing = TEObject.Create(owner);
+        var existing = new TEObject(owner);
         TEObject source = TEObject.Meta.Of<TEControlStyleObject>().Create(null!);
         using var stream = new TruncatedStream();
         try

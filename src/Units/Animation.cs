@@ -75,9 +75,6 @@ namespace Aow.Units.Animation
             FAnimationLevel = 26;
         }
 
-        // Raw allocation for FinishedAnimation in remaining-todos.
-        protected TAnimation() { }
-
         // Animation.pas:143
         public new const int ClassID = 131815;
 

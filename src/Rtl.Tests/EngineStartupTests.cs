@@ -21,7 +21,7 @@ public sealed class EngineStartupTests
     private static readonly JsonSerializerOptions Json = new() { WriteIndented = true };
 
     // On the base commit set AOW_ENGINE_STARTUP_RECORD to the baseline's full path.
-    // Regeneration is rejected once the engine initializer declaration is retired.
+    // The recording switch is retired with the split constructor.
     [Fact]
     public async Task RealStartupSideEffectsStateAndFourFailuresMatchBaseCommit()
     {
@@ -65,7 +65,7 @@ public sealed class EngineStartupTests
                 {
                     value = route switch
                     {
-                        "Engine" => CreateEngine(),
+                        "Engine" => new TEngine(null!),
                         "HS" => THSEngine.Create(null!),
                         _ => TAoWEngine.Create(null!)
                     };
@@ -122,12 +122,7 @@ public sealed class EngineStartupTests
             finally { AppDomain.CurrentDomain.FirstChanceException -= Thrown; }
         }
         string? target = Environment.GetEnvironmentVariable("AOW_ENGINE_STARTUP_RECORD");
-        if (target is not null)
-        {
-            Assert.NotNull(typeof(TAoWEngine).GetMethod("Create__init", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-            File.WriteAllText(target, actual.ToJsonString(Json).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new System.Text.UTF8Encoding(false));
-            return;
-        }
+        if (target is not null) throw new InvalidOperationException("Startup baseline recording ended with constructor conversion.");
         using var baseline = typeof(EngineStartupTests).Assembly.GetManifestResourceStream("Aow.Rtl.Tests.EngineStartupBaseline.json")!;
         var expected = JsonNode.Parse(baseline)!.AsObject();
         foreach (var pair in actual)
@@ -135,15 +130,7 @@ public sealed class EngineStartupTests
         Assert.Equal(expected.Count, actual.Count);
     }
 
-    private static TEngine CreateEngine()
-    {
-        // Reflection lets the same recording run before and after the constructor conversion.
-        if (typeof(TEngine).GetConstructor([typeof(TECustomNode)]) is { } ctor)
-            return (TEngine)ctor.Invoke([null]);
-        var value = (TEngine)Activator.CreateInstance(typeof(TEngine))!;
-        typeof(TEngine).GetMethod("Create__init", BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!.Invoke(value, [null]);
-        return value;
-    }
+
 
     private static JsonObject Objects(TObject root, int origin)
     {
@@ -211,9 +198,9 @@ public sealed class EngineStartupTests
         return result;
     }
 
-    private sealed record Entry(string Call, string Argument, int? Engine, int? Set, int Counter, int Engines, string[] DestroyFrames);
+    internal sealed record Entry(string Call, string Argument, int? Engine, int? Set, int Counter, int Engines, string[] DestroyFrames);
 
-    private sealed class RecordingHost : IRtlHost, IFileSystem, ISettingsStore, IDialogService, IDisposable
+    internal sealed class RecordingHost : IRtlHost, IFileSystem, ISettingsStore, IDialogService, IDisposable
     {
         private readonly string fault;
         private readonly string root = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
@@ -305,6 +292,11 @@ public sealed class EngineStartupTests
         }
         public void Write(string key, object value) => Record("Settings.Write", key + "=" + value);
         public int Show(DialogRequest request) { Record("Dialog", request.Text); return request.DefaultResult; }
+        internal void RestoreServices()
+        {
+            Rtl.Files = previousFiles; Rtl.Settings = previousSettings; Rtl.Dialogs = previousDialogs;
+            Rtl.Clock = previousClock; Rtl.Application.ExeName = previousExe; Rtl.MessageHandler = previousMessage;
+        }
         public void Dispose()
         {
             var partial = Game.AoWEngine;
@@ -317,8 +309,7 @@ public sealed class EngineStartupTests
             Core.Engines.Free(); Core.PlugIns.Free(); Core.Packages.Free();
             foreach (var pair in globals) pair.Key.SetValue(null, pair.Value);
             LocalizationRuntime.StartupDirectory = previousLocalization;
-            Rtl.Files = previousFiles; Rtl.Settings = previousSettings; Rtl.Dialogs = previousDialogs;
-            Rtl.Clock = previousClock; Rtl.Application.ExeName = previousExe; Rtl.MessageHandler = previousMessage;
+            RestoreServices();
             Directory.Delete(root, true);
         }
     }

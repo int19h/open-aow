@@ -100,21 +100,12 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1933
         public new const int ClassID = 65793;
 
-        // HSEngine.pas:1898
-        private void InitializeMapField(Aow.Units.Engine.TECustomNode AOwner)
+        public TMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             FTerrainType = unchecked((sbyte)-1);
             FOverlayType = unchecked((sbyte)-1);
             FStatus = TSet<Aow.Units.HSEngine.TMapFieldStatusElement>.Of();
             Resize(3);
-        }
-
-        // Raw allocation for TAoWMapField.
-        protected TMapField() { }
-
-        public TMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeMapField(AOwner);
         }
 
         internal Aow.Units.HSEngine.THexagonSprite[] FHSList = [];
@@ -920,9 +911,6 @@ namespace Aow.Units.HSEngine
     public partial class THSMap : Aow.Units.Engine.TENode
     {
         public new const int ClassID = 66048;
-
-        // Raw base for TAoWHSMap field-injection fixtures and MovementChecks.RawCombatMap.
-        protected THSMap() { }
 
         // HSMAP.PAS:14
         public THSMap(TECustomNode owner) : base(owner)
@@ -2122,10 +2110,6 @@ namespace Aow.Units.HSEngine
             FOnHSSClose = null;
         }
 
-        // HSEngine.pas:4926
-        // Raw base for TAoWEngine fixtures until CF-1.
-        protected THSEngine() { }
-
         private protected THSEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__97 = new Aow.Units.Engine.TEventList();
@@ -2726,7 +2710,7 @@ namespace Aow.Units.HSEngine
         public Aow.Units.Engine.TEventList OnHSSClose { get => FOnHSSClose; }
 
         // HSEngine.pas:803
-        public static new THSEngine Create(TECustomNode owner) =>
+        public static THSEngine Create(TECustomNode owner) =>
             ConstructionContext.Create(owner, static (context, owner) => new THSEngine(context, owner));
 
         public new partial class Meta : Aow.Units.Engine.TEngine.Meta
@@ -2750,9 +2734,6 @@ namespace Aow.Units.HSEngine
         { }
 
         public new const int ClassID = 65872;
-
-        // Raw allocation for the legacy sprite factories and IsoHex Attach protocol.
-        public THexagonSprite() { }
         public THexagonSprite(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // HXSPRITE.PAS:6
@@ -3796,9 +3777,6 @@ namespace Aow.Units.HSEngine
 
         public TMapObject(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
-        // Raw allocation for TMultiHexMO and TCenterViewLocation.
-        public TMapObject() { }
-
         protected internal Aow.Units.HSEngine.TMapObjectResource FResource;
         protected internal TSet<Aow.Units.HSEngine.TMapObjectStatusElement> FStatus;
         // MAPOBJ.PAS:88
@@ -4364,22 +4342,13 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65876;
 
-        // MAPOBJ.PAS:383
-        private void InitializeMapObjectResource(Aow.Units.Engine.TECustomNode AOwner)
+        public TMapObjectResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             var call__190 = new Aow.Units.HSEngine.TTerrainList();
             FTerrainList = call__190;
             var call__191 = Aow.Units.ImageLib.TImageLibrary.Create(null);
             FImageLibrary = call__191;
             SetLevel(26);
-        }
-
-        // Raw allocation for TCenterViewLocationResource and the other legacy resource factories.
-        protected TMapObjectResource() { }
-
-        public TMapObjectResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeMapObjectResource(AOwner);
         }
 
         protected internal Aow.Units.HSEngine.THSEngine FEngine;
@@ -4867,8 +4836,8 @@ namespace Aow.Units.HSEngine
     // { TNewHSMapSettings (instance size 32): the parameters of a new map (THSMap.CreateNewMap) }
     public partial class TNewHSMapSettings : Aow.Rtl.TObject
     {
-        // HSEngine.pas:2802
-        private void InitializeNewHSMapSettings()
+
+        public TNewHSMapSettings()
         {
             Width = 64;
             Height = 64;
@@ -4880,11 +4849,6 @@ namespace Aow.Units.HSEngine
             MapContainerClassID = 65795;
             // { TMapLevel.ClassID }
             MapLevelClassID = 65794;
-        }
-
-        public TNewHSMapSettings()
-        {
-            InitializeNewHSMapSettings();
         }
 
         public int Width;
@@ -5301,21 +5265,12 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:2837
         public new const int ClassID = 65794;
 
-        // HSEngine.pas:2815
-        private void InitializeMapLevel(Aow.Units.Engine.TECustomNode AOwner)
+        protected TMapLevel(ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
             FMapFieldCID = 65793;
         }
 
-        // Raw allocation for TAoWMapLevel.
-        protected TMapLevel() { }
-
-        protected TMapLevel(ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeMapLevel(AOwner);
-        }
-
-        public static new TMapLevel Create(TECustomNode owner) =>
+        public static TMapLevel Create(TECustomNode owner) =>
             ConstructionContext.Create(owner, static (context, value) => new TMapLevel(context, value));
 
         protected internal int FLhx;
@@ -5618,8 +5573,8 @@ namespace Aow.Units.HSEngine
 //     FIgnoreDown, +$39 FShift, +$3A FCursorVisible (+$34 and +$3A are used by the game only). }
     public partial class THSMapMouse : Aow.Rtl.TObject
     {
-        // HSEngine.pas:3475
-        private void InitializeHSMapMouse()
+
+        public THSMapMouse()
         {
             var call__227 = new Aow.Units.Engine.TEventList();
             FOnUp = call__227;
@@ -5632,11 +5587,6 @@ namespace Aow.Units.HSEngine
             var call__231 = new Aow.Units.Engine.TEventList();
             FOnCaptureChanged = call__231;
             Reset();
-        }
-
-        public THSMapMouse()
-        {
-            InitializeHSMapMouse();
         }
 
         internal Aow.Units.HSEngine.THSMap FHSMap;
@@ -6671,10 +6621,6 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:3394
         public new const int ClassID = 66049;
 
-        // HSEngine.pas:3348
-        // Raw base for TAoWHSSet field-injection fixtures until CF-1.
-        protected THSSet() { }
-
         public THSSet(TECustomNode owner) : this(null, owner) { }
 
         private protected THSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
@@ -6944,9 +6890,6 @@ namespace Aow.Units.HSEngine
         public TSingleHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
-        // Raw allocation for TFrozenWaterHS, TWatcherHS.
-        protected TSingleHS() { }
-
         internal byte FStatus;
         // HXSPRITE.PAS:640
         // { TSingleHS }
@@ -7143,8 +7086,6 @@ namespace Aow.Units.HSEngine
 //     (not on a field). +8 FStatus: bit 1 visible. }
     public partial class TFixedVisibleHS : Aow.Units.HSEngine.THexagonSprite
     {
-        // Raw allocation for the TFixedVisibleHS metaclass entry.
-        public TFixedVisibleHS() { }
         public TFixedVisibleHS(TECustomNode owner) : base(owner) { }
 
         internal byte FStatus;
@@ -7551,20 +7492,11 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65874;
 
-        // HXSPRITE.PAS:599
-        private void InitializeHPBasedHS(Aow.Units.Engine.TECustomNode AOwner)
+        public THPBasedHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             FXhp = -2147483648;
             FYhp = -2147483648;
             FLhx = unchecked((sbyte)-1);
-        }
-
-        // Raw allocation for TLibraryHS.
-        protected THPBasedHS() { }
-
-        public THPBasedHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeHPBasedHS(AOwner);
         }
 
         protected internal bool FVisible;
@@ -7644,9 +7576,6 @@ namespace Aow.Units.HSEngine
 
         private protected TMultiHexMO(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {}
-
-        // Raw allocation for TILTerrainMO, TTerrainMO.
-        protected TMultiHexMO() { }
 
         protected internal sbyte FXhx;
         protected internal sbyte FYhx;
@@ -8181,19 +8110,10 @@ namespace Aow.Units.HSEngine
     {
         public new const int ClassID = 65877;
 
-        // MAPOBJ.PAS:1232
-        private void InitializeMultiHexMOR(Aow.Units.Engine.TECustomNode AOwner)
+        public TMultiHexMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
             SetdXmainP(16);
             SetdYmainP(32);
-        }
-
-        // Raw allocation for TTerrainMOR and TILTerrainMOR.
-        protected TMultiHexMOR() { }
-
-        public TMultiHexMOR(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
-        {
-            InitializeMultiHexMOR(AOwner);
         }
 
         protected internal int FdXImage;
@@ -8252,9 +8172,6 @@ namespace Aow.Units.HSEngine
         public new const int ClassID = 65904;
 
         public TAbstractHexagon(TECustomNode owner) : base(owner) { }
-
-        // Raw allocation for TIsometricHexagon and TCombatHexagon.
-        public TAbstractHexagon() { }
 
         // MAPOBJ.PAS:682
         public override byte GetLevel()
@@ -8430,16 +8347,11 @@ namespace Aow.Units.HSEngine
     // { HSEngine.TAbstractHexagonResource (instance size 52) }
     public partial class TAbstractHexagonResource : Aow.Units.HSEngine.TMapObjectResource
     {
-        // MAPOBJ.PAS:770
-        private void InitializeAbstractHexagonResource(Aow.Units.Engine.TECustomNode AOwner)
-        {
-            SetLevel(0);
-        }
 
 
         public TAbstractHexagonResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeAbstractHexagonResource(AOwner);
+            SetLevel(0);
         }
 
         // MAPOBJ.PAS:770
@@ -8476,9 +8388,6 @@ namespace Aow.Units.HSEngine
         public new const int ClassID = 65905;
 
         public TAbstractBorderHexagon(TECustomNode owner) : base(owner) { }
-
-        // Raw allocation for TBorderHexagon.
-        public TAbstractBorderHexagon() { }
 
         public new partial class Meta : Aow.Units.HSEngine.TAbstractHexagon.Meta
         {

@@ -30,10 +30,7 @@ internal static class OrderingRecording
             if (type.GetConstructor([typeof(TECustomNode)]) is { } ctor) return (TEObject)ctor.Invoke([owner]);
             if (type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(TECustomNode)]) is { } factory)
                 return (TEObject)factory.Invoke(null, [owner])!;
-            var value = (TEObject)Activator.CreateInstance(type)!;
-            try { value.Create__init(owner!); }
-            catch { value.Destroy(); throw; }
-            return value;
+            throw new InvalidOperationException(type.FullName + " has no public construction entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
@@ -51,6 +48,8 @@ internal static class OrderingRecording
     internal sealed class Fixture : IDisposable
     {
         private readonly int seed = Rtl.RandSeed;
+        internal TAoWDictionary Dictionary => dictionary;
+        private readonly TAoWDictionary dictionary = EngineFixture.Engine.FDictionary;
         private readonly TAoWHSSet set = Game.AoWHSSet;
         private readonly TAoWEngine engine = Game.AoWEngine;
         private readonly TAoWHSMap map = Game.AoWHSMap;
@@ -59,12 +58,14 @@ internal static class OrderingRecording
         internal Fixture(Type? type = null)
         {
             Rtl.RandSeed = 123456789;
-            var value = new TAoWHSSet();
+            var value = TAoWHSSet.Create(null!);
             if (type == typeof(TArmyHS)) value.FUnitGFXResources = new TUnitGFXResourceList(null!);
             typeof(THSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, Manager);
             Game.AoWHSSet = value;
-            Game.AoWEngine = new TAoWEngine { FDictionary = new TAoWDictionary(null!) };
+            Game.AoWEngine = EngineFixture.Engine;
             Game.AoWHSMap = null!;
+            if (type != typeof(TArmyHS)) Game.AoWHSSet.FUnitGFXResources = null!;
+            Rtl.RandSeed = 123456789;
             if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
             Engine = new TEngine(null!);
             Engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
@@ -78,7 +79,7 @@ internal static class OrderingRecording
         public void Dispose()
         {
             Engine.Destroy();
-            Game.AoWEngine.FDictionary?.Destroy();
+            EngineFixture.Engine.FDictionary = dictionary;
             Game.AoWHSSet?.FUnitGFXResources?.Destroy();
             Game.AoWHSSet = set;
             Game.AoWEngine = engine;

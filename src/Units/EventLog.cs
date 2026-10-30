@@ -414,7 +414,7 @@ namespace Aow.Units.EventLog
             FLayout = Aow.Units.EventLog.TMessageEventLogLayout.melNormal;
         }
 
-        public static new TMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+        public static TMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
             Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TMessageEventLog(context, owner));
 
         public Aow.Rtl.AnsiString FTitle;
@@ -500,7 +500,7 @@ namespace Aow.Units.EventLog
             FMode = 0;
         }
 
-        public static new THelpMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+        public static THelpMessageEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
             Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new THelpMessageEventLog(context, owner));
 
         public Aow.Rtl.TStringList FMessage;
@@ -1237,7 +1237,7 @@ namespace Aow.Units.EventLog
             FMode = TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement>.Of();
         }
 
-        public static new TSaveGameEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+        public static TSaveGameEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
             Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSaveGameEventLog(context, owner));
 
         public TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement> FMode;
@@ -1267,7 +1267,7 @@ namespace Aow.Units.EventLog
             FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNone;
         }
 
-        public static new TPasswordEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
+        public static TPasswordEventLog Create(Aow.Units.Engine.TECustomNode AOwner) =>
             Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TPasswordEventLog(context, owner));
 
         public Aow.Rtl.AnsiString FPassword;

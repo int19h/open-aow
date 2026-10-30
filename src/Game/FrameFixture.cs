@@ -87,7 +87,7 @@ internal sealed class FrameFixture
         string? input = null;
         if (scene != "title")
         {
-            input = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, "../../tools/oracle/obj/frames/inputs", scene + ".asg");
+            input = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, "..", "..", "tools", "oracle", "obj", "frames", "inputs", scene + ".asg");
             if (!File.Exists(input)) throw new FileNotFoundException("Prepared fixture input missing", input);
             File.Copy(input, Path.Combine(output, "user", scene + ".asg"), true);
             argument = Path.Combine(gameRoot, scene + ".asg");
@@ -420,7 +420,7 @@ internal sealed class FrameFixture
             c.TryGetProperty("double_ui", out var doubleUi) && doubleUi.GetBoolean(),
             c.TryGetProperty("move_only", out var moveOnly) && moveOnly.GetBoolean())).ToList();
     }
-    private sealed class FixtureHost : IRtlHost, IDialogService
+    internal sealed class FixtureHost : IRtlHost, IDialogService
     {
         public FixtureHost(string root, string user, Dictionary<string, object> settings, IClock clock, string? saveDirectory)
         {

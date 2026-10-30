@@ -45,6 +45,8 @@ public static class TranslatorProperties
 
 public class TIvCustomTranslator : TComponent
 {
+    public TIvCustomTranslator(TComponent? owner = null) : base(owner) { }
+
     private ConditionalWeakTable<TComponent, Dictionary<string, AnsiString[]>> nativeValues = new();
     public AnsiString DictionaryName { get; set; } = "AoW";
     public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();

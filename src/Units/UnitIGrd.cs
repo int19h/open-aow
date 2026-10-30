@@ -53,7 +53,7 @@ namespace Aow.Units.UnitIGrd
         public byte FReserved1E7;
         // UnitIGrd.pas:51
         // Retained: The Graphics.Color implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TUnitIndexGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Graphics.Color */
             throw new System.NotImplementedException();
@@ -167,23 +167,6 @@ namespace Aow.Units.UnitIGrd
 
         [Published]
         public bool Sorted { get => FSorted; set => FSorted = value; }
-
-        // UnitIGrd.pas:24
-        public static new Aow.Units.UnitIGrd.TUnitIndexGrid Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.UnitIGrd.TUnitIndexGrid o = new Aow.Units.UnitIGrd.TUnitIndexGrid();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public static partial class UnitIGrd

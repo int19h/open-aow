@@ -10,6 +10,8 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class UiConstructionTests
 {
     private sealed class Owner : TComponent
@@ -29,7 +31,7 @@ public sealed class UiConstructionTests
         internal Fixture()
         {
             if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
-            Game.AoWEngine = new TAoWEngine();
+            Game.AoWEngine = EngineFixture.Engine;
             Game.AoWEngine.FOnHSMLoaded = new TEventList();
             Game.AoWEngine.FOnHSMClose = new TEventList();
             Game.AoWHSMap = null!;
@@ -211,7 +213,7 @@ public sealed class UiConstructionTests
     [Fact]
     public void InheritOnlyLineHasItsOwnCompletedOwnerConstructor()
     {
-        var owner = new TComponent();
+        var owner = new TComponent(null!);
         var line = new Aow.Units.AoWLenLine.TAoWLenLine(owner);
         Assert.Same(owner, line.Owner);
         Assert.Same(line, owner.Components[0]);
@@ -226,25 +228,9 @@ public sealed class UiConstructionTests
         owner.Destroy();
     }
 
-    private sealed class NoLegacyDispatch : Aow.Units.AoWControl.TAOWControl
-    {
-        internal NoLegacyDispatch(TComponent owner) : base(owner) { }
-        public override void Create__init(TComponent? owner) => throw new InvalidOperationException("legacy dispatch");
-    }
 
-    [Fact]
-    public void SemanticBaseChainBypassesTheLegacyVirtualInitializer()
-    {
-        var owner = new Owner();
-        var value = new NoLegacyDispatch(owner);
-        Assert.Single(owner.Observations);
-        Assert.Contains("\"TAoWComponent.FChildren\":null", owner.Observations[0]);
-        Assert.NotNull(value.FChildren);
-        Assert.NotNull(value.FToolTipText);
-        value.Destroy();
-        Assert.Equal(0, owner.ComponentCount);
-        owner.Destroy();
-    }
+
+
 
     [Fact]
     public void ConvertedClassesHaveNoRawConstructorOrSplitBody()
@@ -253,7 +239,6 @@ public sealed class UiConstructionTests
         {
             Type type = typeof(TSpell).Assembly.GetType(name)!;
             Assert.Null(type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, Type.EmptyTypes));
-            Assert.DoesNotContain(type.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), method => method.Name.StartsWith("Create__init", StringComparison.Ordinal));
         }
     }
 

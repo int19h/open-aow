@@ -12,6 +12,8 @@ public sealed class MapNetSoundConstructionTests
 {
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         internal readonly List<TEObject> Members = [];
         public override int AddChild(TEObject child)
         {

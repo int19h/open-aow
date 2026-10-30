@@ -68,22 +68,4 @@ public sealed class EClass
             return result;
         }
     }
-
-    // A class whose constructor is still split allocates in its delegate and runs the initializer
-    // here, with the guard the static factories keep: the initializer's failure destroys the instance.
-    public static TEObject Initialize(TEObject instance, TECustomNode owner)
-    {
-        ArgumentNullException.ThrowIfNull(instance);
-        try
-        {
-            instance.Create__init(owner);
-        }
-        catch
-        {
-            instance.Destroy();
-            throw;
-        }
-
-        return instance;
-    }
 }

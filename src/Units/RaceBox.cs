@@ -57,8 +57,8 @@ namespace Aow.Units.RaceBox
         }
 
         // RaceBox.pas:52
-        // Retained: The StdCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TRaceBox(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary StdCtrls.Create */
             throw new System.NotImplementedException();
@@ -106,23 +106,6 @@ namespace Aow.Units.RaceBox
 
         [Published]
         public Aow.Rtl.TNotifyEvent OnGenerateItems { get => FOnGenerateItems; set => FOnGenerateItems = value; }
-
-        // RaceBox.pas:26
-        public static Aow.Units.RaceBox.TRaceBox Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.RaceBox.TRaceBox o = new Aow.Units.RaceBox.TRaceBox();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public struct TObjectFields

@@ -11,10 +11,14 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed class LeftoverConstructionTests
 {
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         internal readonly List<TEObject> Members = [];
         internal readonly List<string> Observations = [];
         internal int Removals;
@@ -37,16 +41,18 @@ public sealed class LeftoverConstructionTests
         internal Fixture()
         {
             Rtl.RandSeed = 123456789;
-            var set = new TAoWHSSet { FCombatResources = CombatResources };
+            var set = EngineFixture.Configure(TAoWHSSet.Create(null!), value => { value.FCombatResources = CombatResources; });
             typeof(THSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(set, Manager);
             Game.AoWHSSet = set;
-            Game.AoWEngine = new TAoWEngine { FDictionary = new TAoWDictionary(null!) };
+            Game.AoWEngine = EngineFixture.Engine;
             Game.AoWHSMap = null!;
+            Game.AoWHSSet.FUnitGFXResources = null!;
+            Rtl.RandSeed = 123456789;
         }
         public void Dispose()
         {
             Rtl.RandSeed = previousSeed;
-            Game.AoWEngine.FDictionary.Destroy();
+
             Game.AoWHSSet = previousSet;
             Game.AoWEngine = previousEngine;
             Game.AoWHSMap = previousMap;
@@ -60,6 +66,7 @@ public sealed class LeftoverConstructionTests
         object? State(object? item, string path)
         {
             if (item is null) return null;
+            if (item is TAoWEngine) return "$engine";
             Type type = item.GetType();
             if (item is AnsiString text) return text.ToString();
             if (type.IsEnum) return Convert.ToInt64(item);
@@ -277,6 +284,8 @@ public sealed class LeftoverConstructionTests
 
     private sealed class RejectingOwner : TECustomNode
     {
+        public RejectingOwner() : base(null!) { }
+
         internal TAoWHSMap? Captured;
         public override int AddChild(TEObject child)
         {

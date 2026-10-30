@@ -62,7 +62,7 @@ namespace Aow.Units.ItemGrid
 
         // ItemGrid.pas:108
         // Retained: The Controls.ControlStyle implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public TItemGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary Controls.ControlStyle */
             throw new System.NotImplementedException();
@@ -210,23 +210,6 @@ namespace Aow.Units.ItemGrid
 
         [Published]
         public bool EditItemEnabled { get => FEditable; set => FEditable = value; }
-
-        // ItemGrid.pas:28
-        public static new Aow.Units.ItemGrid.TItemGrid Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.ItemGrid.TItemGrid o = new Aow.Units.ItemGrid.TItemGrid();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public partial class TItemListView : Aow.Units.Engine.TEChangeNotifyNode

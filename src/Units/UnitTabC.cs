@@ -54,8 +54,8 @@ namespace Aow.Units.UnitTabC
         }
 
         // UnitTabC.pas:35
-        // Retained: The ComCtrls.Create implementation is absent. Preserve the throw before semantic base initialization.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+
+        public TUnitTabControl(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
             /* TODO(T-shim) Platform or editor boundary ComCtrls.Create */
             throw new System.NotImplementedException();
@@ -119,23 +119,6 @@ namespace Aow.Units.UnitTabC
 
         [Published]
         public Aow.Units.UnitTabC.TOnSelectUnitEvent OnSelectUnit { get => FOnSelectUnit; set => FOnSelectUnit = value; }
-
-        // UnitTabC.pas:23
-        public static Aow.Units.UnitTabC.TUnitTabControl Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.UnitTabC.TUnitTabControl o = new Aow.Units.UnitTabC.TUnitTabControl();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public delegate void TOnSelectUnitEvent(Aow.Rtl.TObject Sender, int UnitIndex);

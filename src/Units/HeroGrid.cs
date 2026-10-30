@@ -63,9 +63,9 @@ namespace Aow.Units.HeroGrid
 
         // HeroGrid.pas:114
         // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public override void Create__init(Aow.Rtl.TComponent AOwner)
+        public THeroGrid(Aow.Rtl.TComponent AOwner) : base(AOwner)
         {
-            base.Create__init(AOwner);
+
             DefaultColWidth = 155;
             DefaultRowHeight = 46;
             GrowDirection = Aow.Units.ImageLib.TILGrowDirection.ilVertical;
@@ -218,23 +218,6 @@ namespace Aow.Units.HeroGrid
 
         [Published]
         public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
-
-        // HeroGrid.pas:29
-        public static new Aow.Units.HeroGrid.THeroGrid Create(Aow.Rtl.TComponent AOwner)
-        {
-            Aow.Units.HeroGrid.THeroGrid o = new Aow.Units.HeroGrid.THeroGrid();
-            try
-            {
-                o.Create__init(AOwner);
-            }
-            catch
-            {
-                o.Destroy();
-                throw;
-            }
-
-            return o;
-        }
     }
 
     public struct TRawView

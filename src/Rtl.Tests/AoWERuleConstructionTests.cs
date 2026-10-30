@@ -11,10 +11,14 @@ using Game = Aow.Units.AoWE.AoWE;
 
 namespace Aow.Rtl.Tests;
 
+[Collection("Engine")]
+[EngineState]
 public sealed partial class AoWERuleConstructionTests
 {
     private sealed class Owner : TECustomNode
     {
+        public Owner() : base(null!) { }
+
         internal readonly List<TEObject> Members = [];
         internal readonly List<string> Observations = [];
         internal int Removals;
@@ -35,10 +39,12 @@ public sealed partial class AoWERuleConstructionTests
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
         internal readonly TImageLibraryManager Manager = TImageLibraryManager.Create(null!);
-        internal readonly TAoWHSMap Map = new(default(RawAoWERuleConstruction));
+        internal readonly TAoWHSMap Map;
         internal Fixture()
         {
-            var set = new TAoWHSSet();
+            Game.AoWEngine = EngineFixture.Engine;
+            Map = TAoWHSMap.Create(null!);
+            var set = TAoWHSSet.Create(null!);
             typeof(THSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(set, Manager);
             Game.AoWHSSet = set;
             Game.AoWEngine = null!;
@@ -66,6 +72,7 @@ public sealed partial class AoWERuleConstructionTests
         object? State(object? item, string path)
         {
             if (item is null) return null;
+            if (item is TAoWEngine) return "$engine";
             Type type = item.GetType();
             if (item is AnsiString text) return text.ToString();
             if (type.IsEnum) return Convert.ToInt64(item);
@@ -226,26 +233,7 @@ public sealed partial class AoWERuleConstructionTests
         Assert.Throws<InvalidOperationException>(() => MetaRegistry.Of(type).NewInstance());
     }
 
-    [Fact]
-    public void NamedPrivateProbeAllocationsKeepTheirRawState()
-    {
-        Assert.Null(new TAbility().FDescription);
-        Assert.Null(new TSpell().FSpellText);
-        Assert.Null(new TStrikeAbility().FMeleeRound);
-        Assert.Equal(0, new TUnitEnchantmentAbility().FAbilityID);
-        Assert.Null(new TAIGroup().FProductions);
-        Assert.Null(new TSpellControl().FRegisteredSpells);
-        Assert.Null(new TArmy().FChildren);
-        Assert.Null(new TPlayerList().FChildren);
-        Assert.Null(new TPlayer().FMagicControl);
-        Assert.Null(new TAIExecuter().FPlayers);
-        Assert.Null(new TMoveControl().FGapStarts);
-        Assert.Null(new TGlobalMagicControl().FEnchantments);
-        Assert.Null(new TPlayerMagicControl().FEnchantments);
-        Assert.Null(new TFastCombat().FSides[0]);
-        Assert.Null(new TCombatData().FPlayers);
-        Assert.Equal(0, new TDurationAbilityData().FDuration);
-    }
+
 
     private sealed class ObservedAISettings(TECustomNode owner) : TAIMoveControlSettings(owner)
     {
@@ -287,7 +275,7 @@ public sealed partial class AoWERuleConstructionTests
     [Fact]
     public void DictionaryContinuesToIgnoreItsComponentOwner()
     {
-        var owner = new TComponent();
+        var owner = new TComponent(null!);
         var dictionary = new TAoWDictionary(owner);
         Assert.Equal(0, owner.ComponentCount);
         dictionary.Destroy();

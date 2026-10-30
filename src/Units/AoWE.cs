@@ -556,7 +556,7 @@ namespace Aow.Units.AoWE
         // Army.PAS:5327
         public TWorldFXHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            var call__1 = Aow.Units.aowFX.TXYZList.Create();
+            var call__1 = new Aow.Units.aowFX.TXYZList();
             FPath = call__1;
             FFrame = -1;
         }
@@ -1592,13 +1592,19 @@ namespace Aow.Units.AoWE
 //     $18 loop queue, $1C unit productions, $20 status, $24 settings. VMT 5570A784. }
     public partial class TProductionControl : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TCityProductionControl, TProductionPlaceControl legacy factories.
-        protected TProductionControl() { }
 
         // Structur.PAS:191
         public TProductionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            var call__114 = new Aow.Units.AoWE.TProductionSettings(null);
+            FSettings = call__114;
+            var call__115 = new Aow.Units.AoWE.TUnitProductionList(null);
+            FUnitProductions = call__115;
+            var call__116 = new Aow.Units.AoWE.TProductionQueue(null);
+            FQueue = call__116;
+            FQueue.FProductionControl = this;
+            FStatus = Aow.Units.AoWE.TProductionControlStatus.pcsIdle;
+            Clear();
         }
 
         public Aow.Rtl.TNotifyEvent FOnChange;
@@ -1635,22 +1641,6 @@ namespace Aow.Units.AoWE
             Stream.rwEObject(FSettings, 22);
             Stream.rwData(Aow.Rtl.Bytes.Of(ref FStatus, 1), 1, 23);
             Stream.rwBool(ref FLoopQueue, 24);
-        }
-
-        // Structur.PAS:191
-
-
-        private void InitializeConstruction()
-        {
-            var call__114 = new Aow.Units.AoWE.TProductionSettings(null);
-            FSettings = call__114;
-            var call__115 = new Aow.Units.AoWE.TUnitProductionList(null);
-            FUnitProductions = call__115;
-            var call__116 = new Aow.Units.AoWE.TProductionQueue(null);
-            FQueue = call__116;
-            FQueue.FProductionControl = this;
-            FStatus = Aow.Units.AoWE.TProductionControlStatus.pcsIdle;
-            Clear();
         }
 
         // Structur.PAS:261
@@ -3512,9 +3502,6 @@ namespace Aow.Units.AoWE
 //     $40 power sources, $44/$45 enchantment sets, $48 changed events) }
     public partial class TPlayerMagicControl : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TCrystalMagic legacy factories.
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
-        public TPlayerMagicControl() { }
 
         // Spells.PAS:1908
         // { TPlayerMagicControl: instance size 76; $08 next enchantment ID, $0C cheat,
@@ -3524,7 +3511,25 @@ namespace Aow.Units.AoWE
 //   $40 power sources, $44/$45 active/enemy enchantments, $48 change events. }
         public TPlayerMagicControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            Aow.Units.AoWE.TExternalPowerSource Source = default;
+
+            var call__314 = new Aow.Units.Engine.TIntegerList();
+            FSpells = call__314;
+            var call__315 = new Aow.Units.Engine.TEventList();
+            FChangedEvents = call__315;
+            var call__316 = new Aow.Units.AoWE.TEnchantmentList(null);
+            FEnchantments = call__316;
+            var call__317 = new Aow.Units.AoWE.TPowerSourceList(null);
+            FPowerSources = call__317;
+            Source = new Aow.Units.AoWE.TExternalPowerSource(null);
+            FExternalPowerSource = Source;
+            Source.FExternalPowerControl = this;
+            FPowerSources.AddChild(Source);
+            FResearchPointsLeft = 0;
+            FResearchSpellID = 0;
+            FResearchPercentage = 50;
+            FSpheres = TSet<Aow.Units.AoWE.TMagicSphere>.Of().WithRange(Aow.Units.AoWE.TMagicSphere.msCosmos, Aow.Units.AoWE.TMagicSphere.msSecret);
+            FNextEnchantmentID = 1;
         }
 
         public int FNextEnchantmentID;
@@ -3614,37 +3619,6 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FExternalPower, 28);
             Stream.rwBool(ref FCheatEnabled, 29);
             Stream.rwInteger(ref FNextEnchantmentID, 30);
-        }
-
-        // Spells.PAS:1908
-        // { TPlayerMagicControl: instance size 76; $08 next enchantment ID, $0C cheat,
-//   $10 player, $14 update count, $18 external mana, $1C external power,
-//   $20 external source, $24 mana, $28 spheres, $2C research percentage,
-//   $30 spells, $34 research spell, $38 points, $3C enchantments,
-//   $40 power sources, $44/$45 active/enemy enchantments, $48 change events. }
-
-
-        private void InitializeConstruction()
-        {
-            Aow.Units.AoWE.TExternalPowerSource Source = default;
-
-            var call__314 = new Aow.Units.Engine.TIntegerList();
-            FSpells = call__314;
-            var call__315 = new Aow.Units.Engine.TEventList();
-            FChangedEvents = call__315;
-            var call__316 = new Aow.Units.AoWE.TEnchantmentList(null);
-            FEnchantments = call__316;
-            var call__317 = new Aow.Units.AoWE.TPowerSourceList(null);
-            FPowerSources = call__317;
-            Source = new Aow.Units.AoWE.TExternalPowerSource(null);
-            FExternalPowerSource = Source;
-            Source.FExternalPowerControl = this;
-            FPowerSources.AddChild(Source);
-            FResearchPointsLeft = 0;
-            FResearchSpellID = 0;
-            FResearchPercentage = 50;
-            FSpheres = TSet<Aow.Units.AoWE.TMagicSphere>.Of().WithRange(Aow.Units.AoWE.TMagicSphere.msCosmos, Aow.Units.AoWE.TMagicSphere.msSecret);
-            FNextEnchantmentID = 1;
         }
 
         // Spells.PAS:2243
@@ -4629,16 +4603,14 @@ namespace Aow.Units.AoWE
 //     $10 status, $11 mode, $14 dispel mana, $18 type, $19 player, $1C name, $20 upkeep) }
     public partial class TGlobalEnchantment : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTGlobalEnchantment.
-        // Raw allocation for TCityEnchantment, TSmokeCloudEnchantment legacy factories.
-        protected TGlobalEnchantment() { }
 
         public TGlobalEnchantment(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // Spells.PAS:2471
         private protected TGlobalEnchantment(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeConstruction();
+            FRefCount = 1;
+            FEnchantmentMode = TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.Of(Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemTrueGlobal, Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemOwned);
         }
 
         public int FEnchantmentID;
@@ -4672,15 +4644,6 @@ namespace Aow.Units.AoWE
             Stream.rwString(ref FName, 13);
             Stream.rwInteger(ref FEnchantmentManaUpkeep, 14);
             Stream.rwInteger(ref FDispelMana, 15);
-        }
-
-        // Spells.PAS:2471
-
-
-        private void InitializeConstruction()
-        {
-            FRefCount = 1;
-            FEnchantmentMode = TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.Of(Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemTrueGlobal, Aow.Units.AoWE.TGlobalEnchantmentModeElement.gemOwned);
         }
 
         // Spells.PAS:2477
@@ -5191,8 +5154,6 @@ namespace Aow.Units.AoWE
     // { TGlobalMagicControl: size $40, VMT 5570B7F8; $08 next ID, $0C update count, $10 active types, $14 enchantments, $18..38 double-mana counters, $3C changed events. }
     public partial class TGlobalMagicControl : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
-        public TGlobalMagicControl() { }
 
         // Spells.PAS:2673
         public TGlobalMagicControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -6418,14 +6379,20 @@ namespace Aow.Units.AoWE
     // { TLeaderSetupControl: size $28; $08 references, $0C leader, $10 mode, $14 original leader, $18 items, $20 done event. VMT 5570BE8C. }
     public partial class TLeaderSetupControl : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TCustomizeLeaderControl legacy factories.
-        protected TLeaderSetupControl() { }
 
         // Player.PAS:1755
         // { Return the final search index. }
         public TLeaderSetupControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            var call__544 = new Aow.Units.Engine.TIntegerList();
+            FItems = call__544;
+            var call__545 = new Aow.Units.AoWE.TLeader(null);
+            FOriginalLeader = call__545;
+            var call__546 = new Aow.Units.AoWE.TLeader(null);
+            FLeader = call__546;
+            FRefCount = 1;
+            FMode = TSet<Aow.Units.AoWE.TLeaderSetupModeElement>.Of(Aow.Units.AoWE.TLeaderSetupModeElement.lsmLook, Aow.Units.AoWE.TLeaderSetupModeElement.lsmSettings, Aow.Units.AoWE.TLeaderSetupModeElement.lsmSpheres);
+            FOnDone = null;
         }
 
         public int FRefCount;
@@ -6451,23 +6418,6 @@ namespace Aow.Units.AoWE
             FLeader.Free();
             FItems.Free();
             base.Destroy();
-        }
-
-        // Player.PAS:1755
-        // { Return the final search index. }
-
-
-        private void InitializeConstruction()
-        {
-            var call__544 = new Aow.Units.Engine.TIntegerList();
-            FItems = call__544;
-            var call__545 = new Aow.Units.AoWE.TLeader(null);
-            FOriginalLeader = call__545;
-            var call__546 = new Aow.Units.AoWE.TLeader(null);
-            FLeader = call__546;
-            FRefCount = 1;
-            FMode = TSet<Aow.Units.AoWE.TLeaderSetupModeElement>.Of(Aow.Units.AoWE.TLeaderSetupModeElement.lsmLook, Aow.Units.AoWE.TLeaderSetupModeElement.lsmSettings, Aow.Units.AoWE.TLeaderSetupModeElement.lsmSpheres);
-            FOnDone = null;
         }
 
         // Player.PAS:1774
@@ -6740,11 +6690,6 @@ namespace Aow.Units.AoWE
     public partial class TPlayer : Aow.Units.Engine.TEObject
     {
         public new const int ClassID = 131104;
-
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
-        // Raw allocation for Game/FrameFixtureChecks.cs.
-        public TPlayer() { }
 
         // Player.PAS:261
         public TPlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -9098,9 +9043,6 @@ namespace Aow.Units.AoWE
     // { TPlayerList: size $20; $10 active, $14 local, $18 human, $1C local human lists. VMT 5570C5E8. }
     public partial class TPlayerList : Aow.Units.Engine.TEControlStyleNode
     {
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        // Raw allocation for Game/FrameFixtureChecks.cs.
-        public TPlayerList() { }
 
         // Player.PAS:1414
         public TPlayerList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -9764,9 +9706,6 @@ namespace Aow.Units.AoWE
         public TAoWMapField(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
-        // Raw allocation for RawMapField in remaining-todos.
-        protected TAoWMapField() { }
-
         public new const int ClassID = 131090;
 
         public int FFieldFlags;
@@ -9982,9 +9921,6 @@ namespace Aow.Units.AoWE
         private protected TAoWMapLevel(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {}
 
-        // Raw allocation for RawMapLevel in MovementChecks.
-        protected TAoWMapLevel() { }
-
         public static new TAoWMapLevel Create(Aow.Units.Engine.TECustomNode AOwner)
         {
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAoWMapLevel(context, owner));
@@ -10115,13 +10051,20 @@ namespace Aow.Units.AoWE
 
     public partial class TMoveControlSettings : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TCombatMoveControlSettings legacy factories.
-        protected TMoveControlSettings() { }
 
         // MoveT.PAS:73
         public TMoveControlSettings(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            FRefCount = 1;
+            var call__880 = new Aow.Rtl.TList();
+            FProcessedMapFields = call__880;
+            var call__881 = new Aow.Units.AoWE.TMovepath();
+            FPath = call__881;
+            var call__882 = new Aow.Units.AoWE.TSubMoveList(null);
+            FSubMoves = call__882;
+            var call__883 = new Aow.Units.AoWE.TUnitUserList(null);
+            FUnits = call__883;
+            Reset();
         }
 
         public int FRefCount;
@@ -10194,23 +10137,6 @@ namespace Aow.Units.AoWE
             FPath.Free();
             FUnits.Free();
             base.Destroy();
-        }
-
-        // MoveT.PAS:73
-
-
-        private void InitializeConstruction()
-        {
-            FRefCount = 1;
-            var call__880 = new Aow.Rtl.TList();
-            FProcessedMapFields = call__880;
-            var call__881 = new Aow.Units.AoWE.TMovepath();
-            FPath = call__881;
-            var call__882 = new Aow.Units.AoWE.TSubMoveList(null);
-            FSubMoves = call__882;
-            var call__883 = new Aow.Units.AoWE.TUnitUserList(null);
-            FUnits = call__883;
-            Reset();
         }
 
         // MoveT.PAS:107
@@ -10428,15 +10354,18 @@ namespace Aow.Units.AoWE
 //     $1D0 direct route, $1D8 exploration mask, $1DC settings. }
     public partial class TMoveControl : Aow.Rtl.TObject
     {
-        // Raw allocation for TCombatMoveControl legacy factories.
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
-        public TMoveControl() { }
 
         // MoveT.PAS:257
         // { +004 }
         public TMoveControl(Aow.Units.HSEngine.THSMap AOwner)
         {
-            InitializeConstruction(AOwner);
+            FMap = AOwner;
+            var call__897 = new Aow.Units.HSEngine.TXYLList();
+            FGapStarts = call__897;
+            var call__898 = new Aow.Units.HSEngine.TXYLList();
+            FGapEnds = call__898;
+            var call__899 = new Aow.Units.HSEngine.TXYLList();
+            FDirectRoute = call__899;
         }
 
         public Aow.Units.HSEngine.THSMap FMap;
@@ -10618,21 +10547,6 @@ namespace Aow.Units.AoWE
                 A1.FPath.AddXYL(unchecked((sbyte)A1.FSourceX), unchecked((sbyte)A1.FSourceY), unchecked((sbyte)A1.FSourceL));
                 A1.FStatus = Aow.Units.AoWE.TMoveControlSettingsStatus.mcssProcessed;
             }
-        }
-
-        // MoveT.PAS:257
-        // { +004 }
-
-
-        private void InitializeConstruction(Aow.Units.HSEngine.THSMap AOwner)
-        {
-            FMap = AOwner;
-            var call__897 = new Aow.Units.HSEngine.TXYLList();
-            FGapStarts = call__897;
-            var call__898 = new Aow.Units.HSEngine.TXYLList();
-            FGapEnds = call__898;
-            var call__899 = new Aow.Units.HSEngine.TXYLList();
-            FDirectRoute = call__899;
         }
 
         // MoveT.PAS:274
@@ -16744,7 +16658,9 @@ namespace Aow.Units.AoWE
     {
         public TAbstractAoWHSMapMouse() : base()
         {
-            InitializeAbstractAoWHSMapMouse();
+            ResetRectangleSelection();
+            var call__1613 = new Aow.Units.Engine.TEventList();
+            FRectangleSelectEvents = call__1613;
         }
 
         public Aow.Rtl.TRect FSelectionRectangle;
@@ -16793,16 +16709,6 @@ namespace Aow.Units.AoWE
             {
                 UpdateRectangleSelection((HSMap.ViewXhp + X) - 2, (HSMap.ViewYhp + Y) - 3);
             }
-        }
-
-        // AoWHSMap.PAS:1050
-
-
-        private void InitializeAbstractAoWHSMapMouse()
-        {
-            ResetRectangleSelection();
-            var call__1613 = new Aow.Units.Engine.TEventList();
-            FRectangleSelectEvents = call__1613;
         }
 
 
@@ -16931,7 +16837,7 @@ namespace Aow.Units.AoWE
     // { TAoWHSMapMouse: size $50; no additional fields. VMT 5570E2DC. }
     public partial class TAoWHSMapMouse : Aow.Units.AoWE.TAbstractAoWHSMapMouse
     {
-        // Raw allocation for the retained mouse factory.
+
         public TAoWHSMapMouse() : base() { }
 
         // AoWHSMap.PAS:1148
@@ -17084,8 +16990,6 @@ namespace Aow.Units.AoWE
 
     public partial class TAbstractAoWHSMap : Aow.Units.HSEngine.THSMap
     {
-        // Raw base for TAoWHSMap field-injection fixtures and MovementChecks.RawCombatMap.
-        protected TAbstractAoWHSMap() { }
 
         // AoWHSMap.PAS:366
         public TAbstractAoWHSMap(TECustomNode owner) : base(owner)
@@ -17879,8 +17783,6 @@ namespace Aow.Units.AoWE
     // { TAbstractAoWCombatMap: size $E0; $D8/$DC combat event lists. VMT 5570E548. }
     public partial class TAbstractAoWCombatMap : Aow.Units.AoWE.TAbstractAoWHSMap
     {
-        // Raw base for tools/oracle/MovementChecks/Program.cs RawCombatMap.
-        protected TAbstractAoWCombatMap() { }
 
         public Aow.Units.Engine.TEventList FCombatStartedEvents;
         // { $D8 }
@@ -18019,11 +17921,6 @@ namespace Aow.Units.AoWE
 //     $24C..$417 token log Text, $418 logging enabled. VMT 5570E874. }
     public partial class TAoWHSMap : Aow.Units.AoWE.TAbstractAoWHSMap
     {
-        // Raw allocation for field-injection fixtures in Rtl.Tests and the private MovementChecks.
-        protected TAoWHSMap() { }
-
-        // Keeps the exact map type in AoWERuleConstructionTests field-graph recordings.
-        internal TAoWHSMap(RawAoWERuleConstruction raw) { }
 
         public new const int ClassID = 131089;
 
@@ -21284,7 +21181,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_05.inc:335
-        public static new Aow.Units.AoWE.TAoWHSMap Create(Aow.Units.Engine.TECustomNode AOwner) =>
+        public static Aow.Units.AoWE.TAoWHSMap Create(Aow.Units.Engine.TECustomNode AOwner) =>
             Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAoWHSMap(context, owner));
 
         public new partial class Meta : Aow.Units.HSEngine.THSMap.Meta
@@ -21307,9 +21204,6 @@ namespace Aow.Units.AoWE
     public partial class TUnitGFXResource : Aow.Units.Engine.TEResource
     {
         public new const int ClassID = 131600;
-
-        // Raw allocation for Game/FrameFixtureChecks.cs.
-        public TUnitGFXResource() { }
 
         // UnitHS.PAS:1
         public TUnitGFXResource(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -21663,7 +21557,7 @@ namespace Aow.Units.AoWE
 
         // Engine.pas:524
         // Forwarding entry for TUnitHS.
-        public static new Aow.Units.AoWE.TUnitShadowHS Create(Aow.Units.Engine.TECustomNode AOwner) => new TUnitShadowHS(AOwner);
+        public static Aow.Units.AoWE.TUnitShadowHS Create(Aow.Units.Engine.TECustomNode AOwner) => new TUnitShadowHS(AOwner);
     }
 
     // { TUnitHS (instance size 28, VMT 5570EED0): +08 FStatus; +0C FShowPriority;
@@ -21672,16 +21566,17 @@ namespace Aow.Units.AoWE
     {
         private protected TUnitHS(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeUnitHS();
+            FMoveStep = unchecked((sbyte)-1);
+            FDirection = 3;
+            FShowPriority = 1744830464;
         }
 
         public TUnitHS(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeUnitHS();
+            FMoveStep = unchecked((sbyte)-1);
+            FDirection = 3;
+            FShowPriority = 1744830464;
         }
-
-        // Raw allocation for the private TArmyHS fixture subclasses.
-        protected TUnitHS() { }
 
         public new const int ClassID = 131604;
 
@@ -21737,13 +21632,6 @@ namespace Aow.Units.AoWE
             {
                 FDirection = 3;
             }
-        }
-
-        private void InitializeUnitHS()
-        {
-            FMoveStep = unchecked((sbyte)-1);
-            FDirection = 3;
-            FShowPriority = 1744830464;
         }
 
 
@@ -22398,8 +22286,6 @@ namespace Aow.Units.AoWE
     // { TAbilityData (instance size $0C, +$08 FNext, VMT 5570F05C) }
     public partial class TAbilityData : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TDurationAbilityData raw probe allocations.
-        protected TAbilityData() { }
 
         public TAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -22467,16 +22353,18 @@ namespace Aow.Units.AoWE
 //     Procedure return-ABI adapters preserve unmarked overrides in other packages. }
     public partial class TAbility : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTAbility.
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TAbility() { }
 
         protected TAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // Ability.PAS:1238
         private protected TAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeConstruction();
+            var call__2033 = new Aow.Rtl.TStringList();
+            FDescription = call__2033;
+            var call__2034 = new Aow.Units.Sound.TSFXLibrary(null);
+            FSFXLibrary = call__2034;
+            var call__2035 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
+            FImageSequences = call__2035;
         }
 
         public Aow.Rtl.AnsiString FAbilityName;
@@ -22512,19 +22400,6 @@ namespace Aow.Units.AoWE
             Stream.rwEObject(FSFXLibrary, 7);
             Stream.rwStreamProc(8, FImageSequences.LoadFromStream, FImageSequences.SaveToStream);
             Aow.Rtl.Rtl.RwSet(ref FSelectionTypes, 2, 9, Stream.rwData, 0);
-        }
-
-        // Ability.PAS:1238
-
-
-        private void InitializeConstruction()
-        {
-            var call__2033 = new Aow.Rtl.TStringList();
-            FDescription = call__2033;
-            var call__2034 = new Aow.Units.Sound.TSFXLibrary(null);
-            FSFXLibrary = call__2034;
-            var call__2035 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
-            FImageSequences = call__2035;
         }
 
         // Ability.PAS:1579
@@ -22973,7 +22848,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_06.inc:37
-        public static new TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static TAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TAbility(context, owner));
         }
@@ -22996,8 +22871,6 @@ namespace Aow.Units.AoWE
     // { TCustomAbilityList: size $10; $08 ability-bit buffer, $0C bit count. }
     public partial class TCustomAbilityList : Aow.Units.Engine.TEObject
     {
-        // Raw base route for TAbilityOwner's private remaining-TODO probe consumers.
-        protected TCustomAbilityList() { }
 
         public TCustomAbilityList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -23263,13 +23136,11 @@ namespace Aow.Units.AoWE
     // { TAbilityOwner (instance size $14, +$10 FAbilityData, VMT 5570F588) }
     public partial class TAbilityOwner : Aow.Units.AoWE.TCustomAbilityList
     {
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TAbilityOwner() { }
 
         // Ability.PAS:1663
         public TAbilityOwner(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+
         }
 
         public Aow.Units.AoWE.TAbilityData FAbilityData;
@@ -23355,13 +23226,6 @@ namespace Aow.Units.AoWE
                     }
                 }
             }
-        }
-
-        // Ability.PAS:1663
-
-
-        private void InitializeConstruction()
-        {
         }
 
         // Ability.PAS:1667
@@ -25427,13 +25291,11 @@ namespace Aow.Units.AoWE
 //     $10..$17 change event. }
     public partial class TItemList : Aow.Units.Engine.TEChangeNotifyNode
     {
-        // Raw allocation for TExplorationSiteItemList legacy factories.
-        protected TItemList() { }
 
         // Army.PAS:4516
         public TItemList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+
         }
 
         public Aow.Rtl.TNotifyEvent FOnChanged;
@@ -25457,13 +25319,6 @@ namespace Aow.Units.AoWE
                     }
                 }
             }
-        }
-
-        // Army.PAS:4516
-
-
-        private void InitializeConstruction()
-        {
         }
 
         // Army.PAS:4546
@@ -31397,8 +31252,6 @@ namespace Aow.Units.AoWE
 //     +0C UpdateCount. }
     public partial class TUnitList : Aow.Units.Engine.TEChangeNotifyNode
     {
-        // Raw allocation for TAbstractBehaviorAG, TAggressorAG, TDefenderAG legacy factories.
-        protected TUnitList() { }
 
         public TUnitList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -31765,8 +31618,6 @@ namespace Aow.Units.AoWE
     // { TUnitUserList (instance size 16, VMT 55710FEC): inherited +08 FChildren. }
     public partial class TUnitUserList : Aow.Units.AoWE.TUnitList
     {
-        // Raw allocation for TAbstractBehaviorAG, TAggressorAG, TDefenderAG legacy factories.
-        protected TUnitUserList() { }
 
         public TUnitUserList(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -39564,14 +39415,16 @@ namespace Aow.Units.AoWE
     {
         public new const int ClassID = 131606;
 
-        // Raw allocation for TDefendersArmy, TPrisonersArmy legacy factories.
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TArmy() { }
-
         // Army.PAS:324
         public TArmy(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            FX = unchecked((sbyte)-1);
+            FY = unchecked((sbyte)-1);
+            FL = unchecked((sbyte)-1);
+            FDestinationX = unchecked((sbyte)-1);
+            FDestinationY = unchecked((sbyte)-1);
+            FDestinationL = unchecked((sbyte)-1);
+            FIndependentRelation = unchecked((sbyte)-1);
         }
 
         public TSet<Aow.Units.AoWE.TArmyStatusElement> FStatus;
@@ -39654,20 +39507,6 @@ namespace Aow.Units.AoWE
             {
                 FMode = FMode - TSet<Aow.Units.AoWE.TArmyModeElement>.Of(Aow.Units.AoWE.TArmyModeElement.amMoving);
             }
-        }
-
-        // Army.PAS:324
-
-
-        private void InitializeConstruction()
-        {
-            FX = unchecked((sbyte)-1);
-            FY = unchecked((sbyte)-1);
-            FL = unchecked((sbyte)-1);
-            FDestinationX = unchecked((sbyte)-1);
-            FDestinationY = unchecked((sbyte)-1);
-            FDestinationL = unchecked((sbyte)-1);
-            FIndependentRelation = unchecked((sbyte)-1);
         }
 
         // Army.PAS:2259
@@ -44051,8 +43890,6 @@ namespace Aow.Units.AoWE
 //     $21 FUnitYOffset; $22 FMoveSteps. }
     public partial class TArmyHS : Aow.Units.AoWE.TUnitHS
     {
-        // RawArmyHS fixtures in tests/probes/remaining-todos/Program.cs and tools/oracle/MovementChecks/Program.cs.
-        protected TArmyHS() { }
 
         public new const int ClassID = 131607;
 
@@ -44082,7 +43919,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:2648
-        private TArmyHS(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
+        private protected TArmyHS(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
             FArmy = new Aow.Units.AoWE.TArmy(null);
         }
@@ -45084,7 +44921,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P2_07.inc:587
-        public static new Aow.Units.AoWE.TArmyHS Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static Aow.Units.AoWE.TArmyHS Create(Aow.Units.Engine.TECustomNode AOwner)
             => Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TArmyHS(context, owner));
 
         public new partial class Meta : Aow.Units.AoWE.TUnitHS.Meta
@@ -49869,8 +49706,6 @@ namespace Aow.Units.AoWE
     // { TFlagControl: size $14; $0C race resources, $10 flag library. VMT 557149F8. }
     public partial class TFlagControl : Aow.Units.Engine.TEControlStyleObject
     {
-        // Raw allocation for the image-injection fixture in private tests/probes/remaining-todos/Program.cs.
-        public TFlagControl() { }
 
         public Aow.Units.AoWE.TRaceResourceList FRaceResources;
         // { $0C }
@@ -49980,7 +49815,7 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1909
-        public static new TFlagControl Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static TFlagControl Create(Aow.Units.Engine.TECustomNode AOwner)
         {
             // No link exists for a null owner, and the game never creates this control that way.
             if (AOwner is null) throw new NullReferenceException();
@@ -50200,11 +50035,7 @@ namespace Aow.Units.AoWE
             }
         }
 
-        // Ability.PAS:1
-        // Named raw route for set-shaped field-injection fixtures until CF-1.
-        public TAoWHSSet() { }
-
-        private TAoWHSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected TAoWHSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             Aow.Units.Engine.TBitList Enabled = default;
             var call__4136 = new Aow.Units.HSEngine.TMapObjectResourceList(this);
@@ -50400,7 +50231,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P1_10.inc:44
-        public static new TAoWHSSet Create(TECustomNode owner) =>
+        public static TAoWHSSet Create(TECustomNode owner) =>
             ConstructionContext.Create(owner, static (context, owner) => new TAoWHSSet(context, owner));
 
         public new partial class Meta : Aow.Units.HSEngine.THSSet.Meta
@@ -50874,8 +50705,6 @@ namespace Aow.Units.AoWE
 //     $20 FShowPriority, $24 FPlayer, $28 FExplosionFrame. }
     public partial class TFire : Aow.Units.ILTer.TILTerrainMO
     {
-        // Raw allocation for RawFire in the private MovementChecks field-injection fixture.
-        protected TFire() { }
 
         public new const int ClassID = 132990;
 
@@ -53405,13 +53234,15 @@ namespace Aow.Units.AoWE
 //     $45 FCombatPlayer; $46 FPosition; $47 FStatus; $48 FControlMode. }
     public partial class TCombatObject : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TTacticalCombatUnit legacy factories.
-        protected TCombatObject() { }
 
         // Combat.pas:1922
         public TCombatObject(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            var call__4400 = new Aow.Units.Engine.TQuadItemList();
+            FTargets = call__4400;
+            var call__4401 = new Aow.Units.Engine.TQuadItemList();
+            FTargetedBy = call__4401;
+            FCombatPlayer = unchecked((sbyte)-1);
         }
 
         public Aow.Units.AoWE.TCombat FCombat;
@@ -53469,18 +53300,6 @@ namespace Aow.Units.AoWE
             {
                 FStatus = FStatus - TSet<Aow.Units.AoWE.TCombatObjectStatusElement>.Of(Aow.Units.AoWE.TCombatObjectStatusElement.csActivated);
             }
-        }
-
-        // Combat.pas:1922
-
-
-        private void InitializeConstruction()
-        {
-            var call__4400 = new Aow.Units.Engine.TQuadItemList();
-            FTargets = call__4400;
-            var call__4401 = new Aow.Units.Engine.TQuadItemList();
-            FTargetedBy = call__4401;
-            FCombatPlayer = unchecked((sbyte)-1);
         }
 
         // Combat.pas:5524
@@ -54482,14 +54301,12 @@ namespace Aow.Units.AoWE
         // Combat.pas:1084
         public new const int ClassID = 131745;
 
-        // Raw allocation for TTacticalCombatUnit legacy factories.
-        protected TCombatUnit() { }
-
         // Combat.pas:1071
         // { CombatDID is declared with the shared engine globals. }
         public TCombatUnit(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            FControlMode = TSet<Aow.Units.AoWE.TCombatObjectControlModeElement>.Of(Aow.Units.AoWE.TCombatObjectControlModeElement.cmConquerObject);
+            FUnitGFXResourceIndex = -1;
         }
 
         public Aow.Units.AoWE.TAbstractUnit FUnit;
@@ -54526,16 +54343,6 @@ namespace Aow.Units.AoWE
             }
 
             Stream.rwBool(ref FDisabled, 21);
-        }
-
-        // Combat.pas:1071
-        // { CombatDID is declared with the shared engine globals. }
-
-
-        private void InitializeConstruction()
-        {
-            FControlMode = TSet<Aow.Units.AoWE.TCombatObjectControlModeElement>.Of(Aow.Units.AoWE.TCombatObjectControlModeElement.cmConquerObject);
-            FUnitGFXResourceIndex = -1;
         }
 
         // Combat.pas:1408
@@ -56567,23 +56374,14 @@ namespace Aow.Units.AoWE
     // { TCombatAction: instance size $0C, VMT 557160B4; $08 FRefCount. }
     public partial class TCombatAction : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTCombatAction.
-        protected TCombatAction() { }
 
         // Combat2.pas:698
         public TCombatAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            FRefCount = 1;
         }
 
         public int FRefCount;
-        // Combat2.pas:698
-
-
-        private void InitializeConstruction()
-        {
-            FRefCount = 1;
-        }
 
         // Combat2.pas:701
         public override int AddRef()
@@ -56661,8 +56459,6 @@ namespace Aow.Units.AoWE
 //     $0C FMode; $0D FSourceID; $0E FTargetID. }
     public partial class TSingleTargetCA : Aow.Units.AoWE.TCombatAction
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTSingleTargetCA.
-        protected TSingleTargetCA() { }
 
         public TSingleTargetCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -56770,9 +56566,6 @@ namespace Aow.Units.AoWE
     {
         // Combat2.pas:774
         public new const int ClassID = 131761;
-
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTDamageCA.
-        protected TDamageCA() { }
 
         public TDamageCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -57596,9 +57389,6 @@ namespace Aow.Units.AoWE
         // Combat2.pas:115
         public new const int ClassID = 131744;
 
-        // Raw allocation for TTacticalCombatPlayer legacy factories.
-        protected TCombatPlayer() { }
-
         public TCombatPlayer(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -57716,9 +57506,6 @@ namespace Aow.Units.AoWE
     {
         // Combat2.pas:184
         public new const int ClassID = 131747;
-
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
-        public TCombatData() { }
 
         // Combat2.pas:162
         public TCombatData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -58045,13 +57832,25 @@ namespace Aow.Units.AoWE
 //     $2C FOnExecuted; $34 FTerminated; $38 FOnTerminated; $40 FVisibilityMode. }
     public partial class TCombat : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TTacticalCombat legacy factories.
-        protected TCombat() { }
 
         // Combat.pas:6067
         public TCombat(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            var call__4625 = new Aow.Units.Engine.TEventList();
+            FExecutedEvents = call__4625;
+            var call__4626 = new Aow.Units.AoWE.TCombatSide(null);
+            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker] = call__4626;
+            var call__4627 = new Aow.Units.AoWE.TCombatSide(null);
+            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender] = call__4627;
+            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].FSideIndex = 0;
+            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].FSideIndex = 1;
+            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].FOpponent = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender];
+            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].FOpponent = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker];
+            var call__4628 = new Aow.Units.AoWE.TCombatData(null);
+            FCombatData = call__4628;
+            var call__4629 = new Aow.Units.AoWE.TCombatLogbook(null);
+            FLogbook = call__4629;
+            Clear();
         }
 
         public TSet<Aow.Units.AoWE.TCombatStatusElement> FStatus;
@@ -58115,28 +57914,6 @@ namespace Aow.Units.AoWE
             Stream.rwEObject((Aow.Units.Engine.TEObject)FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender], 11);
             Stream.rwCreateEObject(ref FLogbook, null, 12);
             Stream.rwEObject((Aow.Units.Engine.TEObject)FCombatData, 13);
-        }
-
-        // Combat.pas:6067
-
-
-        private void InitializeConstruction()
-        {
-            var call__4625 = new Aow.Units.Engine.TEventList();
-            FExecutedEvents = call__4625;
-            var call__4626 = new Aow.Units.AoWE.TCombatSide(null);
-            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker] = call__4626;
-            var call__4627 = new Aow.Units.AoWE.TCombatSide(null);
-            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender] = call__4627;
-            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].FSideIndex = 0;
-            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].FSideIndex = 1;
-            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker].FOpponent = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender];
-            FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csDefender].FOpponent = FSides[(int)Aow.Units.AoWE.TCombatSideIndex.csAttacker];
-            var call__4628 = new Aow.Units.AoWE.TCombatData(null);
-            FCombatData = call__4628;
-            var call__4629 = new Aow.Units.AoWE.TCombatLogbook(null);
-            FLogbook = call__4629;
-            Clear();
         }
 
         // Combat.pas:6134
@@ -59477,8 +59254,6 @@ namespace Aow.Units.AoWE
 //     $08 process cycles, $0C player control, $10 phase. }
     public partial class TAIPlayerAction : Aow.Units.Engine.TEObject, Aow.Units.AoWE.IAIPlayerActionClass
     {
-        // Raw allocation for TCityAIPA legacy factories.
-        protected TAIPlayerAction() { }
 
         public TAIPlayerAction(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -60562,8 +60337,6 @@ namespace Aow.Units.AoWE
 //     $28 token cycles, $2C token cycle, $30 lock count. }
     public partial class TAIExecuter : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TAIExecuter() { }
 
         // AI.pas:559
         public TAIExecuter(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -66617,9 +66390,6 @@ namespace Aow.Units.AoWE
         // AI.pas:1653
         public new const int ClassID = 131740;
 
-        // Raw allocation for TAICityFortifyBudget, TAICityResearchBudget, TAICityUpgradeBudget legacy factories.
-        protected TAIBudget() { }
-
         public TAIBudget(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
@@ -68753,14 +68523,20 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:101
         public new const int ClassID = 136272;
 
-        // Raw allocation for TAbstractBehaviorAG, TAggressorAG, TDefenderAG legacy factories.
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TAIGroup() { }
-
         // AIGroup.pas:57
         public TAIGroup(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            FRefCount = 1;
+            FStatus = TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of();
+            var call__5620 = new Aow.Units.AoWE.TAIGroupProductionList(null);
+            FProductions = call__5620;
+            FGroupID = -1;
+            FPlayer = unchecked((sbyte)-1);
+            FIndependentRelation = unchecked((sbyte)-1);
+            FTransporterID = -1;
+            FLeaderID = -1;
+            FProcessPriority = 10;
+            FRecruitmentPriority = 10;
         }
 
         public TSet<Aow.Units.AoWE.TAIGroupStatusElement> FStatus;
@@ -68859,24 +68635,6 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FManaBudget, 30);
             Stream.rwInteger(ref FTargetMovePoints, 31);
             Stream.rwData(Aow.Rtl.Bytes.Of(ref FTargetMode, 1), 1, 32);
-        }
-
-        // AIGroup.pas:57
-
-
-        private void InitializeConstruction()
-        {
-            FRefCount = 1;
-            FStatus = TSet<Aow.Units.AoWE.TAIGroupStatusElement>.Of();
-            var call__5620 = new Aow.Units.AoWE.TAIGroupProductionList(null);
-            FProductions = call__5620;
-            FGroupID = -1;
-            FPlayer = unchecked((sbyte)-1);
-            FIndependentRelation = unchecked((sbyte)-1);
-            FTransporterID = -1;
-            FLeaderID = -1;
-            FProcessPriority = 10;
-            FRecruitmentPriority = 10;
         }
 
         // AIGroup.pas:88
@@ -70323,14 +70081,13 @@ namespace Aow.Units.AoWE
 //     $08 references, $0C cycles, $10 control, $14 status, $18 state. }
     public partial class TAIGroupControlPlugin : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TAIGroupDefendTargetSelector, TAIGroupRazeControl, TAIGroupWanderControl legacy factories.
-        protected TAIGroupControlPlugin() { }
 
         // AIGroup.pas:1354
         // { $18; 557D7422 }
         public TAIGroupControlPlugin(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            FRefCount = 1;
+            FState = -1;
         }
 
         public int FRefCount;
@@ -70343,15 +70100,6 @@ namespace Aow.Units.AoWE
         // { $14 }
         public Aow.Units.FixedArray_byte_3 F_AIGroupControlPlugin_15;
         public int FState;
-        // AIGroup.pas:1354
-        // { $18; 557D7422 }
-
-
-        private void InitializeConstruction()
-        {
-            FRefCount = 1;
-            FState = -1;
-        }
 
         // AIGroup.pas:1361
         public override int AddRef()
@@ -70481,13 +70229,19 @@ namespace Aow.Units.AoWE
 //     $164 production locations, $168 plugin, $16C state. }
     public partial class TAIGroupControl : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TAbstractBehaviorAGC, TAggressorAGC, TDefenderAGC legacy factories.
-        protected TAIGroupControl() { }
 
         // AIGroup.pas:973
         public TAIGroupControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            var call__5702 = new Aow.Units.AoWE.TAIGroupControlTargetList(null);
+            FTargets = call__5702;
+            FTargets.FControl = this;
+            var call__5703 = new Aow.Units.AoWE.TAIRecruitmentGroupList(null);
+            FRecruitmentGroups = call__5703;
+            var call__5704 = new Aow.Units.AoWE.TAIGroupProductionLocationList(null);
+            FProductionLocations = call__5704;
+            var call__5705 = new Aow.Units.AoWE.TCombatPredictor();
+            FCombatPredictor = call__5705;
         }
 
         public int FProcessCycles;
@@ -70539,22 +70293,6 @@ namespace Aow.Units.AoWE
             FProductionLocations.Free();
             FGroup.Release();
             base.Destroy();
-        }
-
-        // AIGroup.pas:973
-
-
-        private void InitializeConstruction()
-        {
-            var call__5702 = new Aow.Units.AoWE.TAIGroupControlTargetList(null);
-            FTargets = call__5702;
-            FTargets.FControl = this;
-            var call__5703 = new Aow.Units.AoWE.TAIRecruitmentGroupList(null);
-            FRecruitmentGroups = call__5703;
-            var call__5704 = new Aow.Units.AoWE.TAIGroupProductionLocationList(null);
-            FProductionLocations = call__5704;
-            var call__5705 = new Aow.Units.AoWE.TCombatPredictor();
-            FCombatPredictor = call__5705;
         }
 
         // AIGroup.pas:1084
@@ -75930,11 +75668,11 @@ namespace Aow.Units.AoWE
     {
         public TMoveTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeMoveTE();
+            var call__6223 = new Aow.Units.AoWE.TMovepath();
+            FPath = call__6223;
+            FMoveIndex = 0;
+            FStatus = Aow.Units.AoWE.TMoveStatus.msIdle;
         }
-
-        // Raw allocation for TMoveArmyTE.
-        protected TMoveTE() { }
 
         public Aow.Units.AoWE.TMoveStatus FStatus;
         // { $10 }
@@ -75955,17 +75693,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(20, FPath.LoadFromStream, FPath.SaveToStream);
-        }
-
-        // MoveT.PAS:1950
-
-
-        private void InitializeMoveTE()
-        {
-            var call__6223 = new Aow.Units.AoWE.TMovepath();
-            FPath = call__6223;
-            FMoveIndex = 0;
-            FStatus = Aow.Units.AoWE.TMoveStatus.msIdle;
         }
 
 
@@ -78446,7 +78173,7 @@ namespace Aow.Units.AoWE
 
         // intf_P5_07.inc:921
         // Forwarding entry for THeroJoinEventLog, TNegotiateRequestEventLog.
-        public static new Aow.Units.AoWE.TNegotiateTE Create(Aow.Units.Engine.TECustomNode AOwner) => new TNegotiateTE(AOwner);
+        public static Aow.Units.AoWE.TNegotiateTE Create(Aow.Units.Engine.TECustomNode AOwner) => new TNegotiateTE(AOwner);
 
         public new partial class Meta : Aow.Units.NetworkE.TTokenEvent.Meta
         {
@@ -80011,9 +79738,6 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:7128
         public new const int ClassID = 131760;
 
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
-        public TFastCombat() { }
-
         // AIGroup.pas:7118
         public TFastCombat(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
@@ -80486,8 +80210,6 @@ namespace Aow.Units.AoWE
     // { TAdjustableAbility (instance size 40, VMT 5571D930; $24 ability type) }
     public partial class TAdjustableAbility : Aow.Units.AoWE.TAbility
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTAdjustableAbility.
-        protected TAdjustableAbility() { }
 
         public static new TAdjustableAbility Create(Aow.Units.Engine.TECustomNode AOwner)
         {
@@ -80517,21 +80239,11 @@ namespace Aow.Units.AoWE
     // { TEnhancementAbility (instance size 40, VMT 5571DABC) }
     public partial class TEnhancementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTEnhancementAbility.
-        protected TEnhancementAbility() { }
 
         protected TEnhancementAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // AoWAb.PAS:922
         private protected TEnhancementAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeConstruction();
-        }
-
-        // AoWAb.PAS:922
-
-
-        private void InitializeConstruction()
         {
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnhancement;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astUnit);
@@ -80549,10 +80261,6 @@ namespace Aow.Units.AoWE
     public partial class TDurationAbilityData : Aow.Units.AoWE.TAbilityData
     {
         public new const int ClassID = 139266;
-
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        // Raw allocation for tools/oracle/MovementChecks/Program.cs.
-        public TDurationAbilityData() { }
 
         public TDurationAbilityData(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -80600,25 +80308,17 @@ namespace Aow.Units.AoWE
     // { TDurationAbility (instance size 44, VMT 5571DD68; $28 duration mode) }
     public partial class TDurationAbility : Aow.Units.AoWE.TAdjustableAbility
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTDurationAbility.
-        protected TDurationAbility() { }
 
         protected TDurationAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // AoWAb.PAS:25
         private protected TDurationAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeConstruction();
+
         }
 
         public Aow.Units.AoWE.TDurationMode FDurationMode;
         public Aow.Units.FixedArray_byte_3 FDurationPadding;
-        // AoWAb.PAS:25
-
-
-        private void InitializeConstruction()
-        {
-        }
 
         // AoWAb.PAS:96
         public override Aow.Rtl.AnsiString GetName(Aow.Units.AoWE.TAbilityOwner A1)
@@ -80872,15 +80572,15 @@ namespace Aow.Units.AoWE
     // { TMultiLevelAbility (instance size 48, VMT 5571DFD0; $28 max level, $2C level costs) }
     public partial class TMultiLevelAbility : Aow.Units.AoWE.TAdjustableAbility
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTMultiLevelAbility.
-        protected TMultiLevelAbility() { }
 
         protected TMultiLevelAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // AoWAb.PAS:248
         private protected TMultiLevelAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeConstruction();
+            var call__6733 = new Aow.Units.Engine.TIntegerList();
+            FLevelCosts = call__6733;
+            FMaxLevel = 4;
         }
 
         public int FMaxLevel;
@@ -80891,16 +80591,6 @@ namespace Aow.Units.AoWE
         {
             FLevelCosts.Free();
             base.Destroy();
-        }
-
-        // AoWAb.PAS:248
-
-
-        private void InitializeConstruction()
-        {
-            var call__6733 = new Aow.Units.Engine.TIntegerList();
-            FLevelCosts = call__6733;
-            FMaxLevel = 4;
         }
 
         // AoWAb.PAS:322
@@ -81782,8 +81472,6 @@ namespace Aow.Units.AoWE
     // { TStrikeEnhancementAbility (instance size 40, VMT 5571E4D0) }
     public partial class TStrikeEnhancementAbility : Aow.Units.AoWE.TAdjustableAbility
     {
-        // Raw allocation for private tests/probes/remaining-todos/Program.cs Enhancement.
-        protected TStrikeEnhancementAbility() { }
 
         // AoWAb.PAS:1475
         private protected TStrikeEnhancementAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
@@ -81810,8 +81498,6 @@ namespace Aow.Units.AoWE
     // { TStrikeAbility (instance size 44, VMT 5571E668; $28 melee round) }
     public partial class TStrikeAbility : Aow.Units.AoWE.TAdjustableAbility
     {
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TStrikeAbility() { }
 
         // AoWAb.PAS:1210
         private protected TStrikeAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
@@ -88009,13 +87695,12 @@ namespace Aow.Units.AoWE
     // { TDispelMagicCA (instance size 20, VMT 55721958; $10 dispelled enchantment IDs) }
     public partial class TDispelMagicCA : Aow.Units.AoWE.TSingleTargetCA
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTDispelMagicCA.
-        protected TDispelMagicCA() { }
 
         // AoWAb.PAS:3936
         public TDispelMagicCA(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            var call__7564 = new Aow.Units.Engine.TIntegerList();
+            FEnchantmentIDs = call__7564;
         }
 
         public Aow.Units.Engine.TIntegerList FEnchantmentIDs;
@@ -88032,15 +87717,6 @@ namespace Aow.Units.AoWE
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(50, FEnchantmentIDs.LoadFromStream, FEnchantmentIDs.SaveToStream);
-        }
-
-        // AoWAb.PAS:3936
-
-
-        private void InitializeConstruction()
-        {
-            var call__7564 = new Aow.Units.Engine.TIntegerList();
-            FEnchantmentIDs = call__7564;
         }
 
         // AoWAb.PAS:3951
@@ -89545,22 +89221,11 @@ namespace Aow.Units.AoWE
     // { TUnitEnchantmentAbility (instance size 40, VMT 55722364) }
     public partial class TUnitEnchantmentAbility : Aow.Units.AoWE.TAdjustableAbility
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTUnitEnchantmentAbility.
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TUnitEnchantmentAbility() { }
 
         protected TUnitEnchantmentAbility(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // AoWAb.PAS:601
         private protected TUnitEnchantmentAbility(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
-        {
-            InitializeConstruction();
-        }
-
-        // AoWAb.PAS:601
-
-
-        private void InitializeConstruction()
         {
             FAbilityType = Aow.Units.AoWE.TAbilityType.atEnchantment;
             FSelectionTypes = TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of();
@@ -89869,8 +89534,6 @@ namespace Aow.Units.AoWE
     // { TConstructionControl (instance size 8, VMT 5572250C) }
     public partial class TConstructionControl : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TShipyardConstructionControl, TTowerConstructionControl legacy factories.
-        protected TConstructionControl() { }
 
         public TConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
@@ -90554,17 +90217,20 @@ namespace Aow.Units.AoWE
 //     $24 text, $28 sounds, $2C images; $18/$1C/$30 remain unresolved Integers) }
     public partial class TSpell : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTSpell.
-        // Raw allocation for TDeathStormSpell, TDivineStormSpell, TFireStormSpell legacy factories.
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TSpell() { }
 
         protected TSpell(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
         // Spells.PAS:10
         private protected TSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeConstruction();
+            var call__7763 = new Aow.Rtl.TStringList();
+            FSpellText = call__7763;
+            var call__7764 = new Aow.Units.Sound.TSFXLibrary(null);
+            FCastSounds = call__7764;
+            var call__7765 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
+            FCastImages = call__7765;
+            FResearchCost = 1;
+            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal);
         }
 
         public Aow.Rtl.AnsiString FSpellName;
@@ -90614,21 +90280,6 @@ namespace Aow.Units.AoWE
             Stream.rwInteger(ref FResearchCost, 15);
             Stream.rwData(Aow.Rtl.Bytes.Of(ref FMagicSphere, 1), 1, 16);
             Stream.rwByte(ref FSpellLevel, 17);
-        }
-
-        // Spells.PAS:10
-
-
-        private void InitializeConstruction()
-        {
-            var call__7763 = new Aow.Rtl.TStringList();
-            FSpellText = call__7763;
-            var call__7764 = new Aow.Units.Sound.TSFXLibrary(null);
-            FCastSounds = call__7764;
-            var call__7765 = new Aow.Units.ImageLib.TImageSequenceList(Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager, null);
-            FCastImages = call__7765;
-            FResearchCost = 1;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal);
         }
 
         // Spells.PAS:224
@@ -90930,7 +90581,7 @@ namespace Aow.Units.AoWE
         }
 
         // intf_P4_02.inc:913
-        public static new TSpell Create(Aow.Units.Engine.TECustomNode AOwner)
+        public static TSpell Create(Aow.Units.Engine.TECustomNode AOwner)
         {
             return Aow.Rtl.ConstructionContext.Create(AOwner, static (context, owner) => new TSpell(context, owner));
         }
@@ -90939,8 +90590,6 @@ namespace Aow.Units.AoWE
     // { TSpellControl (instance size 12, VMT 55722E94; $08 registered-spell list) }
     public partial class TSpellControl : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TSpellControl() { }
 
         // Spells.PAS:577
         public TSpellControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
@@ -91254,9 +90903,6 @@ namespace Aow.Units.AoWE
         public TSpellTE(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
 
-        // Raw allocation for TUnitSpellTE, TCityTargetSpellTE, TGlobalEnchantmentSpellTE.
-        protected TSpellTE() { }
-
         public new const int ClassID = 135936;
 
         public int FEventSpellID;
@@ -91302,25 +90948,16 @@ namespace Aow.Units.AoWE
     // { TSpellCaster (instance size 20, VMT 5572308C; $08 spell ID, $0C source ID, $10 refcount) }
     public partial class TSpellCaster : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTSpellCaster.
-        protected TSpellCaster() { }
 
         // Spells.PAS:748
         public TSpellCaster(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            FCasterRefCount = 1;
         }
 
         public int FCasterSpellID;
         public int FCasterSourceID;
         public int FCasterRefCount;
-        // Spells.PAS:748
-
-
-        private void InitializeConstruction()
-        {
-            FCasterRefCount = 1;
-        }
 
         // Spells.PAS:753
         public override int AddRef()
@@ -91940,8 +91577,6 @@ namespace Aow.Units.AoWE
 //     $34 multiple targets, $38 range, $3C dispel resistance, $40 AI value) }
     public partial class TUnitSpell : Aow.Units.AoWE.TSpell
     {
-        // Raw allocation for Rtl.Tests/SpellBaseConstructionTests.cs ProbeTUnitSpell.
-        protected TUnitSpell() { }
 
         protected TUnitSpell(Aow.Units.Engine.TECustomNode AOwner) : this(null, AOwner) { }
 
@@ -91949,7 +91584,10 @@ namespace Aow.Units.AoWE
         // { $40 }
         private protected TUnitSpell(Aow.Rtl.ConstructionContext context, Aow.Units.Engine.TECustomNode AOwner) : base(context, AOwner)
         {
-            InitializeConstruction();
+            FAIValue = -1;
+            FSpellType = Aow.Units.AoWE.TSpellType.stUnit;
+            FAllowMultipleTargets = true;
+            FTargetRange = 0;
         }
 
         public bool FAllowMultipleTargets;
@@ -91961,17 +91599,6 @@ namespace Aow.Units.AoWE
         // { $3C }
         public Aow.Units.FixedArray_byte_3 F_UnitSpell_3D;
         public int FAIValue;
-        // Spells.PAS:1210
-        // { $40 }
-
-
-        private void InitializeConstruction()
-        {
-            FAIValue = -1;
-            FSpellType = Aow.Units.AoWE.TSpellType.stUnit;
-            FAllowMultipleTargets = true;
-            FTargetRange = 0;
-        }
 
         // Spells.PAS:1444
         public override void AIPrefetchCastSpellActions(Aow.Units.AoWE.TAbstractUnit A1, Aow.Units.AoWE.TAICastSpellActionList A2)
@@ -93953,13 +93580,10 @@ namespace Aow.Units.AoWE
         // Diplomacy.pas:2200
         public new const int ClassID = 131588;
 
-        // Raw allocation for TWMCampaignScenario legacy factories.
-        protected TAoWCampaignScenario() { }
-
         // Diplomacy.pas:2194
         public TAoWCampaignScenario(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+
         }
 
         public int FID;
@@ -93984,13 +93608,6 @@ namespace Aow.Units.AoWE
                 Stream.rwString(ref FName, 10);
                 Stream.rwString(ref FFileName, 11);
             }
-        }
-
-        // Diplomacy.pas:2194
-
-
-        private void InitializeConstruction()
-        {
         }
 
         // intf_P5_08.inc:71
@@ -94093,13 +93710,25 @@ namespace Aow.Units.AoWE
 //     $24 current ID; $28 next ID; $30 difficulty; $31 play mode. }
     public partial class TAoWCampaign : Aow.Units.Engine.TEObject
     {
-        // Raw allocation for TWMCampaign legacy factories.
-        protected TAoWCampaign() { }
 
         // Diplomacy.pas:2246
         public TAoWCampaign(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {
-            InitializeConstruction();
+            var call__8109 = new Aow.Rtl.TMemoryStream();
+            FStream = call__8109;
+            var call__8110 = new Aow.Units.AoWE.TAoWCampaignTransferSettings(null);
+            FTransferSettings = call__8110;
+            var call__8111 = new Aow.Units.AoWE.TAoWCampaignScenarioList(null);
+            FScenarios = call__8111;
+            var call__8112 = new Aow.Units.Engine.TIntegerList();
+            FCompletedScenarios = call__8112;
+            var call__8113 = new Aow.Units.Engine.TByteList();
+            FRaceHistory = call__8113;
+            FCurrentScenarioID = -1;
+            FNextScenarioID = -1;
+            FScenarioStarted = false;
+            FPlayMode = Aow.Units.AoWE.TPlayMode.pmSimultaneous;
+            FDifficultyLevel = Aow.Units.AoWE.TCampaignDifficultyLevel.cdlNormal;
         }
 
         public Aow.Rtl.AnsiString FName;
@@ -94210,28 +93839,6 @@ namespace Aow.Units.AoWE
             {
                 FPlayMode = Aow.Units.AoWE.TPlayMode.pmSimultaneous;
             }
-        }
-
-        // Diplomacy.pas:2246
-
-
-        private void InitializeConstruction()
-        {
-            var call__8109 = new Aow.Rtl.TMemoryStream();
-            FStream = call__8109;
-            var call__8110 = new Aow.Units.AoWE.TAoWCampaignTransferSettings(null);
-            FTransferSettings = call__8110;
-            var call__8111 = new Aow.Units.AoWE.TAoWCampaignScenarioList(null);
-            FScenarios = call__8111;
-            var call__8112 = new Aow.Units.Engine.TIntegerList();
-            FCompletedScenarios = call__8112;
-            var call__8113 = new Aow.Units.Engine.TByteList();
-            FRaceHistory = call__8113;
-            FCurrentScenarioID = -1;
-            FNextScenarioID = -1;
-            FScenarioStarted = false;
-            FPlayMode = Aow.Units.AoWE.TPlayMode.pmSimultaneous;
-            FDifficultyLevel = Aow.Units.AoWE.TCampaignDifficultyLevel.cdlNormal;
         }
 
         // Diplomacy.pas:2271
@@ -96956,8 +96563,6 @@ namespace Aow.Units.AoWE
     // { TAoWDictionary (instance size 152, VMT 557243F4) }
     public partial class TAoWDictionary : Aow.Rtl.TIvBinaryDictionary
     {
-        // Raw allocation for tests/probes/remaining-todos/Program.cs.
-        public TAoWDictionary() { }
 
         public TAoWDictionary(Aow.Rtl.TComponent AOwner)
         {}
@@ -97067,9 +96672,6 @@ namespace Aow.Units.AoWE
             var call__8511 = FRegistry.GetLanguage();
             FLanguage = unchecked((byte)unchecked((byte)call__8511));
         }
-
-        // Named raw route for engine-shaped fixtures until CF-1. No startup runs here.
-        public TAoWEngine() { }
 
         // Army.PAS:5788-5817
         private TAoWEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
@@ -97628,8 +97230,6 @@ namespace Aow.Units.AoWE
     // { TStructureConstructionControl (instance size 8, VMT 557246C8) }
     public partial class TStructureConstructionControl : Aow.Units.AoWE.TConstructionControl
     {
-        // Raw allocation for TShipyardConstructionControl, TTowerConstructionControl legacy factories.
-        protected TStructureConstructionControl() { }
 
         public TStructureConstructionControl(Aow.Units.Engine.TECustomNode AOwner) : base(AOwner)
         {}
