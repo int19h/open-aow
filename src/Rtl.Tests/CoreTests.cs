@@ -87,6 +87,7 @@ public sealed class CoreTests
     [Fact]
     public void StringsAreImmutableByteValues()
     {
+        using var mode = new StringMode(false);
         AnsiString empty = default;
         Assert.Equal(0, empty.Length);
         Assert.Equal("", empty.ToString());
@@ -99,7 +100,7 @@ public sealed class CoreTests
         var value = AnsiString.FromBytes(buffer);
         buffer[1] = 99;
         Assert.Equal(65, value[2]);
-        Assert.Equal((byte)128, ((AnsiString)"\x80")[1]);
+        Assert.Equal((byte)63, ((AnsiString)"\x80")[1]);
         Assert.Equal((byte)128, ((AnsiString)"€")[1]);
         Assert.Equal((AnsiString)"?", (AnsiString)"中");
         Assert.Equal("\0A€ÿ", value.ToString());

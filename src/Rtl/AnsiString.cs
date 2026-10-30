@@ -35,28 +35,9 @@ public readonly struct AnsiString : IEquatable<AnsiString>, IComparable<AnsiStri
         return Ptr<byte>.To(copy, 0);
     }
 
-    // Preserve byte escapes in translated literals and encode Unicode CP1252 characters.
-    private const string HighControls = "\u20ac\u0081\u201a\u0192\u201e\u2026\u2020\u2021\u02c6\u2030\u0160\u2039\u0152\u008d\u017d\u008f\u0090\u2018\u2019\u201c\u201d\u2022\u2013\u2014\u02dc\u2122\u0161\u203a\u0153\u009d\u017e\u0178";
-    public static implicit operator AnsiString(string? value)
-    {
-        if (string.IsNullOrEmpty(value)) return default;
-        var result = new byte[value.Length];
-        for (int i = 0; i < result.Length; i++)
-        {
-            char c = value[i];
-            int special = HighControls.IndexOf(c);
-            result[i] = c <= 255 ? (byte)c : special >= 0 ? (byte)(128 + special) : (byte)'?';
-        }
-        return new(result);
-    }
+    public static implicit operator AnsiString(string? value) => new(Cp1252.Encode(value));
 
-    public override string ToString()
-    {
-        var chars = new char[Length];
-        for (int i = 0; i < chars.Length; i++)
-            chars[i] = bytes![i] is >= 128 and < 160 ? HighControls[bytes[i] - 128] : (char)bytes[i];
-        return new(chars);
-    }
+    public override string ToString() => Cp1252.Decode(Span);
 
     public int CompareTo(AnsiString other) => Span.SequenceCompareTo(other.Span);
     public bool Equals(AnsiString other) => Span.SequenceEqual(other.Span);

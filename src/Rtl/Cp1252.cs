@@ -2,6 +2,7 @@ namespace Aow.Rtl;
 
 public static class Cp1252
 {
+    // This bijection is the frozen text table for the 9.7 document format.
     private static readonly char[] Characters = MakeCharacters();
     private static readonly byte[] Bytes = MakeBytes();
     private static readonly string[] Texts = Characters.Select(c => new string(c, 1)).ToArray();
@@ -25,7 +26,20 @@ public static class Cp1252
 
     public static char Char(byte value) => Characters[value];
     public static byte Byte(char value) => Bytes[value];
+    public static bool IsMapped(char value) => Characters[Bytes[value]] == value;
     public static string Text(byte value) => Texts[value];
+    public static IComparer<string> Comparer { get; } = System.Collections.Generic.Comparer<string>.Create(Compare);
+
+    public static string Normalize(string? value)
+    {
+        value = Rtl.RequireString(value);
+        return string.Create(value.Length, value, (chars, text) =>
+        {
+            for (int i = 0; i < chars.Length; i++) chars[i] = Char(Byte(text[i]));
+        });
+    }
+
+    internal static int Key(char value) => IsMapped(value) ? Byte(value) : 256 + value;
 
     public static string Decode(ReadOnlySpan<byte> value)
     {
@@ -36,7 +50,7 @@ public static class Cp1252
 
     public static byte[] Encode(string? value)
     {
-        value ??= "";
+        value = Rtl.RequireString(value);
         var result = new byte[value.Length];
         for (int i = 0; i < result.Length; i++) result[i] = Byte(value[i]);
         return result;
@@ -44,11 +58,11 @@ public static class Cp1252
 
     public static int Compare(string? a, string? b)
     {
-        a ??= "";
-        b ??= "";
+        a = Rtl.RequireString(a);
+        b = Rtl.RequireString(b);
         for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
         {
-            int difference = Byte(a[i]) - Byte(b[i]);
+            int difference = Key(a[i]) - Key(b[i]);
             if (difference != 0) return difference;
         }
         return a.Length - b.Length;
