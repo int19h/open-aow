@@ -1,8 +1,13 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AoWWindow;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWMemo;
+using Aow.Units.AoWButton;
+using Aow.Units.AoWVScroll;
+using Aow.Units.AoWImage;
 
 namespace Aow.Units.AoWMsgReceiveDlg
 {
@@ -17,7 +22,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
         {
             session.Begin(this);
             Name = "MsgReceiveDlg";
-            MsgReceiveWin = new Aow.Units.AoWWindow.TAOWWindow(this);
+            MsgReceiveWin = new TAOWWindow(this);
             session.BeginRead(MsgReceiveWin);
             MsgReceiveWin.Name = "MsgReceiveWin";
             MsgReceiveWin.Visible = false;
@@ -27,10 +32,10 @@ namespace Aow.Units.AoWMsgReceiveDlg
             MsgReceiveWin.WinWidth = 384;
             MsgReceiveWin.Masked = true;
             MsgReceiveWin.OnHide = Layout_MsgReceiveWinHide_0;
-            MsgReceiveWin.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-            MsgReceiveWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
-            MsgReceiveWin.Alignment.HeightPercent = (byte)(0);
-            MsgReceiveWin.Alignment.WidthPercent = (byte)(0);
+            MsgReceiveWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            MsgReceiveWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+            MsgReceiveWin.Alignment.HeightPercent = 0;
+            MsgReceiveWin.Alignment.WidthPercent = 0;
             MsgReceiveWin.Alignment.LeftOffPercent = 0;
             MsgReceiveWin.Alignment.RightOffPercent = 0;
             MsgReceiveWin.Alignment.TopOffPercent = 0;
@@ -61,17 +66,17 @@ namespace Aow.Units.AoWMsgReceiveDlg
             MsgReceiveWin.WinHeight = 262;
             MsgReceiveWin.Dockable = false;
             session.EndRead(MsgReceiveWin);
-            MessageMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
+            MessageMemo = new TAOWMemo(this);
             session.BeginRead(MessageMemo);
             MessageMemo.Name = "MessageMemo";
             MessageMemo.Priority = 200;
             MessageMemo.WinLeft = 47;
             MessageMemo.WinTop = 100;
             MessageMemo.CaptureInput = false;
-            MessageMemo.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            MessageMemo.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            MessageMemo.Alignment.HeightPercent = (byte)(0);
-            MessageMemo.Alignment.WidthPercent = (byte)(0);
+            MessageMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            MessageMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            MessageMemo.Alignment.HeightPercent = 0;
+            MessageMemo.Alignment.WidthPercent = 0;
             MessageMemo.Alignment.LeftOffPercent = 0;
             MessageMemo.Alignment.RightOffPercent = 0;
             MessageMemo.Alignment.TopOffPercent = 0;
@@ -91,26 +96,26 @@ namespace Aow.Units.AoWMsgReceiveDlg
             MessageMemo.BorderWidth = 10;
             MessageMemo.BorderHeight = 5;
             MessageMemo.TextColor = 0;
-            MessageMemo.CursorChar = (byte)124;
-            MessageMemo.BlinkDelay = (byte)(0);
+            MessageMemo.CursorChar = 124;
+            MessageMemo.BlinkDelay = 0;
             MessageMemo.Editable = false;
             MessageMemo.ILIndexFrame = 40;
             MessageMemo.ILIndexTexture = 0;
             MessageMemo.ItemHeight = 20;
-            MessageMemo.ColorChangeChar = (byte)0;
-            MessageMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
+            MessageMemo.ColorChangeChar = 0;
+            MessageMemo.TextAlign = TaowTextAlign.taCenter;
             session.EndRead(MessageMemo);
-            Close = new Aow.Units.AoWButton.TAOWButton(this);
+            Close = new TAOWButton(this);
             session.BeginRead(Close);
             Close.Name = "Close";
             Close.Priority = 0;
             Close.WinLeft = 122;
             Close.WinTop = 211;
             Close.CaptureInput = true;
-            Close.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-            Close.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
-            Close.Alignment.HeightPercent = (byte)(0);
-            Close.Alignment.WidthPercent = (byte)(0);
+            Close.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            Close.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+            Close.Alignment.HeightPercent = 0;
+            Close.Alignment.WidthPercent = 0;
             Close.Alignment.LeftOffPercent = 0;
             Close.Alignment.RightOffPercent = 0;
             Close.Alignment.TopOffPercent = 0;
@@ -131,7 +136,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
             Close.WinWidth = 140;
             Close.OnClick = Layout_CloseClick_1;
             session.EndRead(Close);
-            MessageSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            MessageSB = new TAOWVScrollBar(this);
             session.BeginRead(MessageSB);
             MessageSB.Name = "MessageSB";
             MessageSB.Visible = false;
@@ -139,10 +144,10 @@ namespace Aow.Units.AoWMsgReceiveDlg
             MessageSB.WinLeft = 301;
             MessageSB.WinTop = 45;
             MessageSB.CaptureInput = true;
-            MessageSB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            MessageSB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            MessageSB.Alignment.HeightPercent = (byte)(0);
-            MessageSB.Alignment.WidthPercent = (byte)(0);
+            MessageSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            MessageSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            MessageSB.Alignment.HeightPercent = 0;
+            MessageSB.Alignment.WidthPercent = 0;
             MessageSB.Alignment.LeftOffPercent = 0;
             MessageSB.Alignment.RightOffPercent = 0;
             MessageSB.Alignment.TopOffPercent = 0;
@@ -168,7 +173,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
             MessageSB.ILIndexBack = 47;
             MessageSB.ILIndexTab = 44;
             session.EndRead(MessageSB);
-            LShield = new Aow.Units.AoWImage.TAOWImage(this);
+            LShield = new TAOWImage(this);
             session.BeginRead(LShield);
             LShield.Name = "LShield";
             LShield.Priority = 1000;
@@ -179,10 +184,10 @@ namespace Aow.Units.AoWMsgReceiveDlg
                 "Player's Shield"
             };
             LShield.CaptureInput = false;
-            LShield.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            LShield.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            LShield.Alignment.HeightPercent = (byte)(0);
-            LShield.Alignment.WidthPercent = (byte)(0);
+            LShield.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            LShield.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            LShield.Alignment.HeightPercent = 0;
+            LShield.Alignment.WidthPercent = 0;
             LShield.Alignment.LeftOffPercent = 0;
             LShield.Alignment.RightOffPercent = 0;
             LShield.Alignment.TopOffPercent = 0;
@@ -200,7 +205,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
             LShield.Animate = false;
             LShield.AnimFrameDelay = 0;
             session.EndRead(LShield);
-            RShield = new Aow.Units.AoWImage.TAOWImage(this);
+            RShield = new TAOWImage(this);
             session.BeginRead(RShield);
             RShield.Name = "RShield";
             RShield.Priority = 1000;
@@ -211,10 +216,10 @@ namespace Aow.Units.AoWMsgReceiveDlg
                 "Player's Shield"
             };
             RShield.CaptureInput = false;
-            RShield.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
-            RShield.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            RShield.Alignment.HeightPercent = (byte)(0);
-            RShield.Alignment.WidthPercent = (byte)(0);
+            RShield.Alignment.AlignWidth = TAOWAlignWidth.awRight;
+            RShield.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            RShield.Alignment.HeightPercent = 0;
+            RShield.Alignment.WidthPercent = 0;
             RShield.Alignment.LeftOffPercent = 0;
             RShield.Alignment.RightOffPercent = 0;
             RShield.Alignment.TopOffPercent = 0;
@@ -232,17 +237,17 @@ namespace Aow.Units.AoWMsgReceiveDlg
             RShield.Animate = false;
             RShield.AnimFrameDelay = 0;
             session.EndRead(RShield);
-            HeaderMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
+            HeaderMemo = new TAOWMemo(this);
             session.BeginRead(HeaderMemo);
             HeaderMemo.Name = "HeaderMemo";
             HeaderMemo.Priority = 200;
             HeaderMemo.WinLeft = 70;
             HeaderMemo.WinTop = 45;
             HeaderMemo.CaptureInput = false;
-            HeaderMemo.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            HeaderMemo.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            HeaderMemo.Alignment.HeightPercent = (byte)(0);
-            HeaderMemo.Alignment.WidthPercent = (byte)(0);
+            HeaderMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            HeaderMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            HeaderMemo.Alignment.HeightPercent = 0;
+            HeaderMemo.Alignment.WidthPercent = 0;
             HeaderMemo.Alignment.LeftOffPercent = 0;
             HeaderMemo.Alignment.RightOffPercent = 0;
             HeaderMemo.Alignment.TopOffPercent = 0;
@@ -261,16 +266,16 @@ namespace Aow.Units.AoWMsgReceiveDlg
             HeaderMemo.BorderWidth = 10;
             HeaderMemo.BorderHeight = 5;
             HeaderMemo.TextColor = 0;
-            HeaderMemo.CursorChar = (byte)124;
-            HeaderMemo.BlinkDelay = (byte)(0);
+            HeaderMemo.CursorChar = 124;
+            HeaderMemo.BlinkDelay = 0;
             HeaderMemo.Editable = false;
             HeaderMemo.ILIndexFrame = 40;
             HeaderMemo.ILIndexTexture = 0;
             HeaderMemo.ItemHeight = 20;
-            HeaderMemo.ColorChangeChar = (byte)0;
-            HeaderMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
+            HeaderMemo.ColorChangeChar = 0;
+            HeaderMemo.TextAlign = TaowTextAlign.taCenter;
             session.EndRead(HeaderMemo);
-            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            var created__Translator = new LayoutTIvTranslator(this);
             Translator = created__Translator;
             session.BeginRead(created__Translator);
             created__Translator.Name = "Translator";
@@ -298,23 +303,23 @@ namespace Aow.Units.AoWMsgReceiveDlg
             HeaderMemo.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            MsgReceiveWin.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            MsgReceiveWin.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            MsgReceiveWin.ILTexture = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            MessageMemo.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
-            MessageMemo.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Close.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10b;
-            Close.ILButton = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans;
-            MessageSB.ILIInc = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            MessageSB.ILIDec = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            MessageSB.ILTBack = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            MessageSB.ILLTab = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            LShield.ToolTip = Aow.Units.AoWWinMan.AoWWinMan.General.ToolTip;
-            LShield.ImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
-            RShield.ToolTip = Aow.Units.AoWWinMan.AoWWinMan.General.ToolTip;
-            RShield.ImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
-            HeaderMemo.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
-            HeaderMemo.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            MsgReceiveWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            MsgReceiveWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            MsgReceiveWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            MessageMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
+            MessageMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            Close.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
+            Close.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans;
+            MessageSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            MessageSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            MessageSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            MessageSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            LShield.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
+            LShield.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
+            RShield.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
+            RShield.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
+            HeaderMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
+            HeaderMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
         }
 
         private void Layout_MsgReceiveWinHide_0(TObject p0)

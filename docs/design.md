@@ -456,15 +456,21 @@ documents that starts with `docs/` or `src/` is in this repository. One that sta
 marked. The rest is where the specifications put things.
 
 Since 2026-10-27, `src/Units/Aow.Units.csproj` compiles the units, their partial files and
-`src/Layout` directly. There is no override manifest or layout import in the product. The
-private transpiler accepts `emit --out <dir>` for reference output outside the product tree.
+`src/Layout` directly. There is no override manifest or layout import in the product. Every
+directory under `src` is hand-owned source, and hand edits go through the same review. `src/Layout`
+joined them with brief C11 of milestone 9.8 (2026-11-05). Until then decision D3
+(`data/rewrite/review-9x.md`) regenerated it whole from the private forms generator, with no hand
+edits, so that the 9.5 strings pass changed the generator once instead of every layout. The
+private transpiler and the forms generator are reference emitters: the transpiler accepts
+`emit --out <dir>`, the generator writes into private scratch space, both stay outside the product
+tree, and their output serves comparison only and is never copied into `src`.
 
 ```
 D:\git\open-aow
 docs/                 this file, process.md, milestones.md, specs/, briefs/               (exists)
 src/Rtl/              the Delphi RTL and VCL shim                                    rtl-shim.md
 src/Units/            editable C# units and their partial class files                transpiler.md
-src/Layout/           editable layout source compiled directly into Aow.Units       ui-layout.md
+src/Layout/           hand-owned layout source compiled directly into Aow.Units      ui-layout.md
 src/Graphics/         the rewritten blitters and memory surfaces                     graphics.md
 src/Forms/            the form files as data                                         ui-layout.md
 src/Platform/         the SDL host: window, input, audio, video, files, settings     platform.md
@@ -478,7 +484,7 @@ data/                 catalogues the port built from the recovered source       
 tools/survey/         scripts that build the catalogues, the cross-reference check  (exists)
 tools/transpile/      the Delphi to C# transpiler, in C# on Roslyn, and its tests   transpiler.md
 tools/oracle/         seeded runs, save and frame comparison                         testing.md, graphics.md
-tools/forms/          form file checks and expected-tree dumps                      ui-layout.md
+tools/forms/          reference layout generator, form checks, expected-tree dumps  ui-layout.md
 tools/localization/   dictionary dump                                                (exists)
 tests/probes/         Delphi 3 probe programs and their expected outputs             testing.md 2 (from-recovery/ exists)
 tests/toolchain/      the C# 15 feature probe                                        (exists)

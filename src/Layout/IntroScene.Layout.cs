@@ -1,8 +1,9 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AowUserWindow;
+using Aow.Units.AoWComp;
 
 namespace Aow.Units.AoWIntroScene
 {
@@ -17,7 +18,7 @@ namespace Aow.Units.AoWIntroScene
         {
             session.Begin(this);
             Name = "IntroScene";
-            Window = new Aow.Units.AowUserWindow.TAoWUserWindow(this);
+            Window = new TAoWUserWindow(this);
             session.BeginRead(Window);
             Window.Name = "Window";
             Window.OnMouseDown = WindowMouseDown;
@@ -30,10 +31,10 @@ namespace Aow.Units.AoWIntroScene
             Window.WinWidth = 640;
             Window.Masked = false;
             Window.OnHide = Layout_WindowHide_1;
-            Window.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            Window.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            Window.Alignment.HeightPercent = (byte)(0);
-            Window.Alignment.WidthPercent = (byte)(0);
+            Window.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            Window.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            Window.Alignment.HeightPercent = 0;
+            Window.Alignment.WidthPercent = 0;
             Window.Alignment.LeftOffPercent = 0;
             Window.Alignment.RightOffPercent = 0;
             Window.Alignment.TopOffPercent = 0;
@@ -65,20 +66,20 @@ namespace Aow.Units.AoWIntroScene
             Window.Dockable = false;
             Window.OnDrawSurfaceEx = WindowDrawSurfaceEx;
             session.EndRead(Window);
-            var created__VideoPlayer = new Aow.Layout.LayoutTVideoPlayer(this);
+            var created__VideoPlayer = new LayoutTVideoPlayer(this);
             VideoPlayer = created__VideoPlayer;
             session.BeginRead(created__VideoPlayer);
             created__VideoPlayer.Name = "VideoPlayer";
             created__VideoPlayer.OnStreamSound = VideoPlayerStreamSound;
-            created__VideoPlayer.Loopmode = Aow.Layout.TVideoPlayerLoopMode.vplmNone;
-            created__VideoPlayer.Options = Aow.Rtl.TSet<Aow.Layout.TVideoPlayerOptions_Element>.Of(Aow.Layout.TVideoPlayerOptions_Element.vpoSoundEnabled, Aow.Layout.TVideoPlayerOptions_Element.vpoVideoEnabled);
+            created__VideoPlayer.Loopmode = TVideoPlayerLoopMode.vplmNone;
+            created__VideoPlayer.Options = TSet<TVideoPlayerOptions_Element>.Of(TVideoPlayerOptions_Element.vpoSoundEnabled, TVideoPlayerOptions_Element.vpoVideoEnabled);
             session.EndRead(created__VideoPlayer);
             session.EndRead(this);
             Loaded();
             Window.Loaded();
             VideoPlayer.Loaded();
             session.Resolve(this);
-            Window.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
+            Window.WinManager = AoWWinMan.AoWWinMan.General.Manager;
         }
 
         private void Layout_WindowUpdate_0(TObject p0)

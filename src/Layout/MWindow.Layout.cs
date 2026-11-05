@@ -1,8 +1,10 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AoWWindow;
+using Aow.Units.AoWComp;
+using Aow.Units.HSEngine;
 
 namespace Aow.Units.AOWMWindow
 {
@@ -18,7 +20,7 @@ namespace Aow.Units.AOWMWindow
             session.Begin(this);
             Name = "MWindow";
             LayoutOnCreate = Layout_MWindowCreate_0;
-            MapWindow = new Aow.Units.AoWWindow.TAOWWindow(this);
+            MapWindow = new TAOWWindow(this);
             session.BeginRead(MapWindow);
             MapWindow.Name = "MapWindow";
             MapWindow.OnMouseDown = Layout_MapWindowMouseDown_1;
@@ -33,10 +35,10 @@ namespace Aow.Units.AOWMWindow
             MapWindow.WinWidth = 440;
             MapWindow.OnExit = MapWindowExit;
             MapWindow.Masked = false;
-            MapWindow.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            MapWindow.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            MapWindow.Alignment.HeightPercent = (byte)(0);
-            MapWindow.Alignment.WidthPercent = (byte)(0);
+            MapWindow.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            MapWindow.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            MapWindow.Alignment.HeightPercent = 0;
+            MapWindow.Alignment.WidthPercent = 0;
             MapWindow.Alignment.LeftOffPercent = 0;
             MapWindow.Alignment.RightOffPercent = 0;
             MapWindow.Alignment.TopOffPercent = 0;
@@ -69,7 +71,7 @@ namespace Aow.Units.AOWMWindow
             MapWindow.WinHeight = 432;
             MapWindow.Dockable = false;
             session.EndRead(MapWindow);
-            MapViewer = new Aow.Units.HSEngine.THSMapViewer(this);
+            MapViewer = new THSMapViewer(this);
             session.BeginRead(MapViewer);
             MapViewer.Name = "MapViewer";
             MapViewer.OnSceneChanged = Layout_MapViewerSceneChanged_7;
@@ -90,22 +92,22 @@ namespace Aow.Units.AOWMWindow
 
         private void Layout_MapWindowMouseDown_1(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
         {
-            MapWindowMouseDown((Aow.Units.AoWComp.TAoWComponent)p0, p1, p2, p3, p4);
+            MapWindowMouseDown((TAoWComponent)p0, p1, p2, p3, p4);
         }
 
         private void Layout_MapWindowMouseUp_2(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
         {
-            MapWindowMouseUp((Aow.Units.AoWComp.TAoWComponent)p0, p1, p2, p3, p4);
+            MapWindowMouseUp((TAoWComponent)p0, p1, p2, p3, p4);
         }
 
         private void Layout_MapWindowMouseMove_3(TObject p0, TSet<TShiftState> p1, int p2, int p3)
         {
-            MapWindowMouseMove((Aow.Units.AoWComp.TAoWComponent)p0, p1, p2, p3);
+            MapWindowMouseMove((TAoWComponent)p0, p1, p2, p3);
         }
 
         private void Layout_MapWindowKeyDown_4(TObject p0, ref ushort p1, TSet<TShiftState> p2)
         {
-            MapWindowKeyDown((Aow.Units.AoWComp.TAoWComponent)p0, ref p1, p2);
+            MapWindowKeyDown((TAoWComponent)p0, ref p1, p2);
         }
 
         private void Layout_MapWindowUpdate_5(TObject p0)
