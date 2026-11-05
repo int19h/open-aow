@@ -1,119 +1,92 @@
 #nullable disable
-using System;
-using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.AoWReg;
-using static Aow.Units.AoWReg.AoWReg;
 namespace Aow.Units.AoWHex
 {
     public partial class TAoWWaterHexagon
     {
-        public override void ShowDynamic(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
             int X = default;
             int Y = default;
-            Aow.Units.ImageLib.TCustomImageLibrary IL = default;
+            TCustomImageLibrary IL = default;
             int Variant = default;
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
+            TImageSequence Sequence = default;
             int Image = default;
             bool Showing = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            Xhp = (Xhp - XhpSurf) - 8;
+            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             // { Original uses the shared engine settings and the Flood enchantment. }
-            if ((Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail != 0) && ((((((Aow.Units.AoWE.TAoWMapField)Owner).FFieldFlags >> 16) & 255) != 0) || !((Aow.Units.AoWE.TAbstractAoWHSMap)((Aow.Units.HSEngine.TMapLevel)Owner.Owner).Map).FFogEnabled))
+            if (AoWEngine.FAnimationDetail != 0 && (((((TAoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((TAbstractAoWHSMap)((TMapLevel)Owner.Owner).Map).FFogEnabled))
             {
-                FAnimationFrame = (sbyte)(((int)FAnimationFrame) + 1);
-                if (unchecked((short)FAnimationFrame) >= 0)
+                FAnimationFrame = (sbyte)(FAnimationFrame + 1);
+                if (FAnimationFrame >= 0)
                 {
                     Showing = false;
-                    if (unchecked((short)FAnimationFrame) == 0)
+                    if (FAnimationFrame == 0)
                     {
                         // { Original tests the Flood enchantment. }
-                        if (Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(Aow.Units.AoWE.TGlobalEnchantmentType.getFlood))
+                        if (AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(TGlobalEnchantmentType.getFlood))
                         {
-                            bool bool__27 = (FOpenSides == 0);
+                            bool bool__27 = FOpenSides == 0;
                             if (bool__27)
                             {
-                                var call__28 = Aow.Rtl.Rtl.Random(300);
-                                bool__27 = (call__28 == 0);
+                                var call__28 = Random(300);
+                                bool__27 = call__28 == 0;
                             }
 
-                            if (bool__27 && !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+                            if (bool__27 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                             {
-                                var call__29 = Aow.Rtl.Rtl.Random(10);
-                                FAnimationIndex = unchecked((byte)(call__29 + 30));
+                                var call__29 = Random(10);
+                                FAnimationIndex = (byte)(call__29 + 30);
                             }
                             else
                             {
-                                if (Aow.Rtl.Rtl.Random(10) < 3)
+                                if (Random(10) < 3)
                                 {
-                                    var call__30 = Aow.Rtl.Rtl.Random(9);
-                                    FAnimationIndex = unchecked((byte)(call__30 + 50));
+                                    var call__30 = Random(9);
+                                    FAnimationIndex = (byte)(call__30 + 50);
                                 }
                                 else
                                 {
-                                    var call__31 = Aow.Rtl.Rtl.Random(10);
-                                    FAnimationIndex = unchecked((byte)(call__31 + 20));
+                                    var call__31 = Random(10);
+                                    FAnimationIndex = (byte)(call__31 + 20);
                                 }
                             }
                         }
                         else
                         {
-                            bool bool__32 = (FOpenSides == 0);
+                            bool bool__32 = FOpenSides == 0;
                             if (bool__32)
                             {
-                                var call__33 = Aow.Rtl.Rtl.Random(700);
-                                bool__32 = (call__33 == 0);
+                                var call__33 = Random(700);
+                                bool__32 = call__33 == 0;
                             }
 
-                            if (bool__32 && !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+                            if (bool__32 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                             {
-                                var call__34 = Aow.Rtl.Rtl.Random(10);
-                                FAnimationIndex = unchecked((byte)(call__34 + 30));
+                                var call__34 = Random(10);
+                                FAnimationIndex = (byte)(call__34 + 30);
                             }
                             else
                             {
-                                var call__35 = Aow.Rtl.Rtl.Random(10);
-                                FAnimationIndex = unchecked((byte)(call__35 + 20));
+                                var call__35 = Random(10);
+                                FAnimationIndex = (byte)(call__35 + 20);
                             }
                         }
                     }
 
                     if (FAnimationIndex < FResource.ImageSequenceList.Count)
                     {
-                        Sequence = (Aow.Units.ImageLib.TImageSequence)FResource.ImageSequenceList.List[FAnimationIndex];
+                        Sequence = (TImageSequence)FResource.ImageSequenceList.List[FAnimationIndex];
                         while (Sequence != null)
                         {
                             var call__36 = Sequence.GetUnloopedFrameIndex(FAnimationFrame);
@@ -135,15 +108,15 @@ namespace Aow.Units.AoWHex
 
                     if (!Showing)
                     {
-                        if (Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail == 1)
+                        if (AoWEngine.FAnimationDetail == 1)
                         {
-                            var call__39 = Aow.Rtl.Rtl.Random(25);
-                            FAnimationFrame = unchecked((sbyte)(-20 - call__39));
+                            var call__39 = Random(25);
+                            FAnimationFrame = (sbyte)(-20 - call__39);
                         }
                         else
                         {
-                            var call__40 = Aow.Rtl.Rtl.Random(25);
-                            FAnimationFrame = unchecked((sbyte)(-10 - call__40));
+                            var call__40 = Random(25);
+                            FAnimationFrame = (sbyte)(-10 - call__40);
                         }
                     }
                 }
@@ -152,7 +125,7 @@ namespace Aow.Units.AoWHex
             base.ShowDynamic(XhpSurf, YhpSurf, SurfaceDesc);
             var call__41 = FResource.ImageSequenceList.ImageSequences[0];
             IL = call__41.ImageLibrary;
-            Variant = Aow.Units.AoWE.FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Aow.Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
+            Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)ObjectToInt(this) >> 8)) & 3);
             if (Variant == 3)
             {
                 Variant = 0;
@@ -187,7 +160,7 @@ namespace Aow.Units.AoWHex
                     {
                         if ((FOpenSides & 3) == 3)
                         {
-                            var call__45 = IL[(Variant + 3) + FShoreTerrain[2 - 1]];
+                            var call__45 = IL[Variant + 3 + FShoreTerrain[2 - 1]];
                             call__45.Show(X, Y, SurfaceDesc);
                         }
                     }
@@ -210,7 +183,7 @@ namespace Aow.Units.AoWHex
                 {
                     if ((FOpenSides & 6) == 6)
                     {
-                        var call__48 = IL[(Variant + 10) + FShoreTerrain[3 - 1]];
+                        var call__48 = IL[Variant + 10 + FShoreTerrain[3 - 1]];
                         call__48.Show(X, Y, SurfaceDesc);
                     }
                     else
@@ -224,7 +197,7 @@ namespace Aow.Units.AoWHex
 
                     if ((FOpenSides & 48) == 48)
                     {
-                        var call__50 = IL[(Variant + 7) + FShoreTerrain[5 - 1]];
+                        var call__50 = IL[Variant + 7 + FShoreTerrain[5 - 1]];
                         call__50.Show(X, Y, SurfaceDesc);
                     }
                     else
@@ -255,7 +228,7 @@ namespace Aow.Units.AoWHex
                             }
                             else
                             {
-                                var call__54 = IL[(Variant + 30) + FShoreTerrain[3 - 1]];
+                                var call__54 = IL[Variant + 30 + FShoreTerrain[3 - 1]];
                                 call__54.Show(X, Y + 1, SurfaceDesc);
                             }
                         }
@@ -277,7 +250,7 @@ namespace Aow.Units.AoWHex
                             }
                             else
                             {
-                                var call__57 = IL[(Variant + 28) + FShoreTerrain[5 - 1]];
+                                var call__57 = IL[Variant + 28 + FShoreTerrain[5 - 1]];
                                 call__57.Show(X, Y, SurfaceDesc);
                             }
                         }

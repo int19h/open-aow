@@ -1,104 +1,55 @@
 // Translated from AOWDialogWin.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
-using Aow.Units.E1Globals;
-using static Aow.Units.E1Globals.E1Globals;
 
 namespace Aow.Units.AOWDialogWin
 {
-    public partial class TDWin : Aow.Rtl.TDataModule
+    public partial class TDWin : TDataModule
     {
         public TDWin(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow Dialog;
-        public Aow.Units.AoWLabel.TAOWLabel DTitle;
-        public Aow.Units.AoWLabel.TAOWLabel DMessage;
-        public Aow.Units.AoWButton.TAOWButton DButton;
-        public Aow.Units.AoWWindow.TAOWWindow DebugWin;
-        public Aow.Units.AoWLabel.TAOWLabel DebugDTitle;
-        public Aow.Units.AoWButton.TAOWButton DebugDOkBtn;
-        public Aow.Units.AoWLabel.TAOWLabel FrameLbl;
-        public Aow.Units.AoWLabel.TAOWLabel DebugDfrTitle;
-        public Aow.Units.AoWMemo.TAOWMemo DebugMemo;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar DMemoScroll;
-        public Aow.Units.AoWPanel.TAOWPanel okPnl;
-        public Aow.Units.AoWPanel.TAOWPanel yesPnl;
-        public Aow.Units.AoWButton.TAOWButton yesBtn;
-        public Aow.Units.AoWButton.TAOWButton noBtn;
-        public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        public Aow.Units.AoWFrame.TAoWFrame TCeltL;
-        public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        public Aow.Units.AoWImage.TAOWImage AOWImage2;
-        public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        public Aow.Units.AoWFrame.TAoWFrame SignBLine;
-        public Aow.Units.AoWImage.TAOWImage SIcon;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWWindow Dialog;
+        public TAOWLabel DTitle;
+        public TAOWLabel DMessage;
+        public TAOWButton DButton;
+        public TAOWWindow DebugWin;
+        public TAOWLabel DebugDTitle;
+        public TAOWButton DebugDOkBtn;
+        public TAOWLabel FrameLbl;
+        public TAOWLabel DebugDfrTitle;
+        public TAOWMemo DebugMemo;
+        public TAOWVScrollBar DMemoScroll;
+        public TAOWPanel okPnl;
+        public TAOWPanel yesPnl;
+        public TAOWButton yesBtn;
+        public TAOWButton noBtn;
+        public TAoWFrame BCeltL;
+        public TAoWFrame TCeltL;
+        public TAOWImage TCeltLineL;
+        public TAOWImage AOWImage1;
+        public TAOWImage AOWImage2;
+        public TAoWFrame AoWFrame1;
+        public TAoWFrame SignBLine;
+        public TAOWImage SIcon;
+        public TIvTranslator Translator;
         public byte FAction;
         public bool FSkipCombatChoice;
         // AOWDialogWin.pas:121
-        public void Confirm(Aow.Rtl.AnsiString Title, Aow.Rtl.AnsiString Text, byte Action)
+        public void Confirm(AnsiString Title, AnsiString Text, byte Action)
         {
-            FAction = unchecked((byte)Action);
+            FAction = Action;
             DTitle.Text = Title;
             DMessage.Text = Text;
             yesPnl.Visible = true;
@@ -107,7 +58,7 @@ namespace Aow.Units.AOWDialogWin
         }
 
         // AOWDialogWin.pas:113
-        public void AddDebugMessage(Aow.Rtl.AnsiString Text)
+        public void AddDebugMessage(AnsiString Text)
         {
             DebugMemo.Items.Add(Text);
             var call__1 = DebugMemo.Items.Count;
@@ -121,25 +72,25 @@ namespace Aow.Units.AOWDialogWin
         }
 
         // AOWDialogWin.pas:60
-        public void DButtonClick(Aow.Rtl.TObject Sender)
+        public void DButtonClick(TObject Sender)
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dialog.Visible = false;
         }
 
         // AOWDialogWin.pas:67
         public void DebugDOkBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             DebugWin.Visible = false;
         }
 
         // AOWDialogWin.pas:73
-        public void yesBtnClick(Aow.Rtl.TObject Sender)
+        public void yesBtnClick(TObject Sender)
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWE.TStructure Structure = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            AnsiString Reason = default;
+            TStructure Structure = default;
+            General.PlayButtonSound(0);
             switch (FAction)
             {
                 case 0:
@@ -147,56 +98,56 @@ namespace Aow.Units.AOWDialogWin
                     ;
                     break;
                 case 2:
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FCity.Loot();
+                    General.FCity.Loot();
                     break;
                 case 3:
-                    var call__2 = Aow.Units.AoWWinMan.AoWWinMan.General.FCity.CanRaze(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), ref Reason);
+                    var call__2 = General.FCity.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason);
                     if (call__2)
                     {
-                        var call__3 = Aow.Units.AoWWinMan.AoWWinMan.General.FCity.Raze(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                        var call__3 = General.FCity.Raze(AoWHSMap.FSeatedPlayer);
                         if (call__3)
                         {
-                            Structure = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure;
-                            Aow.Units.aowMapEvents.aowMapEvents.MapEvents.TheMapStructureDeselected(Aow.Units.AoWWinMan.AoWWinMan.General.FStructure);
-                            Aow.Units.aowMapEvents.aowMapEvents.MapEvents.TheMapStructureSelected(Structure);
+                            Structure = General.FStructure;
+                            aowMapEvents.aowMapEvents.MapEvents.TheMapStructureDeselected(General.FStructure);
+                            aowMapEvents.aowMapEvents.MapEvents.TheMapStructureSelected(Structure);
                         }
                     }
                     else
                     {
-                        Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                        AoWHSMap.ShowWarning(Reason);
                     }
 
                     break;
                 case 4:
-                    var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    var call__4 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                     call__4.Surrender();
                     break;
                 case 5:
-                    Aow.Units.AoWWorldMap.AoWWorldMap.WorldMap.WorldPnl.Visible = false;
-                    Aow.Units.AoWWinMan.AoWWinMan.General.ReturnToTitle();
+                    AoWWorldMap.AoWWorldMap.WorldMap.WorldPnl.Visible = false;
+                    General.ReturnToTitle();
                     break;
                 case 6:
-                    if (Aow.Units.AoWTC.AoWTC.AoWCombatMap != null)
+                    if (AoWCombatMap != null)
                     {
-                        Aow.Units.AoWTC.AoWTC.AoWCombatMap.Surrender(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer));
+                        AoWCombatMap.Surrender(AoWCombatMap.FSeatedCombatPlayer);
                     }
 
                     break;
                 case 7:
-                    if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)
+                    if (General.FSelectedUnit != null)
                     {
-                        var call__5 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.CanDisband(ref Reason);
+                        var call__5 = General.FSelectedUnit.CanDisband(ref Reason);
                         if (call__5)
                         {
-                            var call__6 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.Disband();
+                            var call__6 = General.FSelectedUnit.Disband();
                             if (call__6)
                             {
-                                Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
+                                AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
                             }
                         }
                         else
                         {
-                            Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                            AoWHSMap.ShowWarning(Reason);
                         }
                     }
 
@@ -207,7 +158,7 @@ namespace Aow.Units.AOWDialogWin
         }
 
         // AOWDialogWin.pas:104
-        public void DialogKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void DialogKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             switch (Key)
             {

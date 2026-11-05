@@ -1,4 +1,5 @@
 using Aow.Rtl;
+using Aow.Units.Engine;
 
 namespace Aow.Units.HSEngine;
 
@@ -34,7 +35,7 @@ public partial class TMapField
             if (FindChildIndex(sprite) != -1) throw Rtl.Exception.Create("HS already defined");
         }
         catch (System.Exception) { }
-        if (FCapacity == FCount) Resize(unchecked((byte)(FCapacity + 1)));
+        if (FCapacity == FCount) Resize((byte)(FCapacity + 1));
         int priority = sprite.GetShowPriority();
         int index = FStatus.Contains(TMapFieldStatusElement.msComparing) ? FCount : 0;
         if (!FStatus.Contains(TMapFieldStatusElement.msComparing))
@@ -46,7 +47,7 @@ public partial class TMapField
         }
         if ((uint)priority >> 26 <= 15) FStaticCount++;
         FHSList[index] = sprite;
-        directions[index] = unchecked((byte)hn);
+        directions[index] = (byte)hn;
         FCount++;
         return index;
     }
@@ -67,7 +68,7 @@ public partial class TMapField
             if (FStaticCount != 0) FStaticCount--;
             else
             {
-                try { throw Rtl.Exception.Create($"Invalid StaticCount ({TObject.ClassNameOf(sprite.GetType())})"); }
+                try { throw Rtl.Exception.Create($"Invalid StaticCount ({ClassNameOf(sprite.GetType())})"); }
                 catch (System.Exception) { }
             }
         }
@@ -120,7 +121,7 @@ public partial class TMapField
         THSMapFieldInfo info = new() { MapField = this };
         for (int i = FCount - 1; i >= 0; i--)
         {
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             FHSList[i].UpdateMapField(info);
         }
     }
@@ -138,7 +139,7 @@ public partial class TMapField
         THSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
         for (int i = FCount - 1; i >= 0; i--)
         {
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             FHSList[i].TerrainChanged(info);
         }
         UpdateMapField();
@@ -219,7 +220,7 @@ public partial class TMapField
         THSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
         for (int i = FCount - 1; i >= 0; i--)
         {
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             FHSList[i].ChangeTerrain(info);
         }
         FTerrainType = -1;
@@ -230,7 +231,7 @@ public partial class TMapField
         info.OverlayType = FOverlayType;
         for (int i = FCount - 1; i >= 0; i--)
         {
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             FHSList[i].TerrainChanged(info);
         }
         FStatus += locked;
@@ -243,19 +244,19 @@ public partial class TMapField
         for (int i = FCount - 1; i >= 0; i--) FHSList[i].NeighbourTerrainChanged(directions[i], info);
     }
 
-    public bool CanChangeTerrainEx(Engine.TEObject sender)
+    public bool CanChangeTerrainEx(TEObject sender)
     {
         if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) return false;
         THSSenderInfo info = new() { MapField = this, Sender = sender };
         for (int i = FCount - 1; i >= 0; i--)
         {
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             if (!FHSList[i].CanChangeTerrain(info)) return false;
         }
         return true;
     }
 
-    public bool CanChangeTerrain(Engine.TEObject sender, sbyte terrain, sbyte overlay)
+    public bool CanChangeTerrain(TEObject sender, sbyte terrain, sbyte overlay)
     {
         if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) return false;
         sbyte oldTerrain = FTerrainType, oldOverlay = FOverlayType;
@@ -289,7 +290,7 @@ public partial class TMapField
         while (!result.Done && i != 0)
         {
             i--;
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             FHSList[i].CanMoveOn(info, ref result);
         }
         return result.Code;
@@ -302,7 +303,7 @@ public partial class TMapField
         while (result == 1 && i != 0)
         {
             i--;
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             result = FHSList[i].CanMoveOver(info);
         }
         return result;
@@ -313,7 +314,7 @@ public partial class TMapField
         THSSenderInfo info = new() { Sender = sender, MapField = this };
         for (int i = FCount - 1; i >= 0; i--)
         {
-            info.HN = unchecked((sbyte)directions[i]);
+            info.HN = (sbyte)directions[i];
             FHSList[i].MoveExclusive(info);
         }
     }

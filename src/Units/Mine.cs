@@ -1,45 +1,20 @@
 // Translated from Mine.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Mine
 {
     // FState (bit 0 razed), FIncomeSource
-    public partial class TMine : Aow.Units.AoWE.TPlayerStructure
+    public partial class TMine : TPlayerStructure
     {
         public TMine(TECustomNode owner) : base(owner)
         {
-            var call__1 = new Aow.Units.AoWE.TPlayerStructureIncomeSource(null);
+            var call__1 = new TPlayerStructureIncomeSource(null);
             FIncomeSource = call__1;
             FIncomeSource.Setup(this);
         }
@@ -48,7 +23,7 @@ namespace Aow.Units.Mine
         public new const int ClassID = 131962;
 
         public byte FState;
-        public Aow.Units.AoWE.TPlayerStructureIncomeSource FIncomeSource;
+        public TPlayerStructureIncomeSource FIncomeSource;
         // Mine.pas:76
         public override void Destroy()
         {
@@ -57,10 +32,10 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:172
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FState, 1), 1, 20);
+            Stream.rwData(Bytes.Of(ref FState, 1), 1, 20);
         }
 
         // Mine.pas:69
@@ -72,7 +47,7 @@ namespace Aow.Units.Mine
             base.Activate();
             if (FPlayer != -1)
             {
-                var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(unchecked((sbyte)unchecked((byte)FPlayer)));
+                var call__2 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
                 call__2.RegisterIncomeSource(FIncomeSource);
             }
         }
@@ -82,7 +57,7 @@ namespace Aow.Units.Mine
         {
             if (FPlayer != -1)
             {
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(unchecked((sbyte)unchecked((byte)FPlayer)));
+                var call__3 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
                 call__3.UnregisterIncomeSource(FIncomeSource);
             }
 
@@ -94,12 +69,12 @@ namespace Aow.Units.Mine
         {
             if (Value)
             {
-                SetPlayer(unchecked((sbyte)-1));
-                FState = unchecked((byte)((byte)(TSet<byte>.FromMask((ulong)FState) + TSet<byte>.WithBounds(0, 7).With(0)).Image));
+                SetPlayer(-1);
+                FState = (byte)(TSet<byte>.FromMask(FState) + TSet<byte>.WithBounds(0, 7).With(0)).Image;
             }
             else
             {
-                FState = unchecked((byte)((byte)(TSet<byte>.FromMask((ulong)FState) - TSet<byte>.WithBounds(0, 7).With(0)).Image));
+                FState = (byte)(TSet<byte>.FromMask(FState) - TSet<byte>.WithBounds(0, 7).With(0)).Image;
             }
 
             var call__4 = GetTerrainTypeImage(TerrainType);
@@ -107,18 +82,18 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:93
-        public override Aow.Rtl.AnsiString GetCurrentActivityText()
+        public override AnsiString GetCurrentActivityText()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             var call__5 = GetIncome();
-            var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProducingXIncomeRStr);
-            var call__7 = Aow.Rtl.Rtl.Format(call__6, [Aow.Rtl.Rtl.IntToStr(call__5)]);
+            var call__6 = TranslateRStr(ProducingXIncomeRStr);
+            var call__7 = Rtl.Rtl.Format(call__6, [IntToStr(call__5)]);
             Result = call__7;
             return Result;
         }
 
         // Mine.pas:99
-        public override void UpdateAITarget(in Aow.Units.AoWE.TAITargetInfo Info, ref Aow.Units.AoWE.TAITargetData Data)
+        public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
             int CandidatePriority = default;
             var call__8 = GetRazed();
@@ -134,8 +109,8 @@ namespace Aow.Units.Mine
                 CandidatePriority = Data.Priority;
                 switch (Info.Mode)
                 {
-                    case Aow.Units.AoWE.TAITargetMode.tmAttack:
-                        bool bool__11 = (unchecked((byte)Info.Player) != unchecked((byte)FPlayer));
+                    case TAITargetMode.tmAttack:
+                        bool bool__11 = (byte)Info.Player != (byte)FPlayer;
                         if (bool__11)
                         {
                             var call__12 = GetRazed();
@@ -144,17 +119,17 @@ namespace Aow.Units.Mine
 
                         if (bool__11)
                         {
-                            if (unchecked((byte)FPlayer) == 0)
+                            if ((byte)FPlayer == 0)
                             {
                                 CandidatePriority = 50;
                             }
                             else
                             {
-                                var call__13 = Aow.Units.AoWE.AoWE.ValidAttackRelation(unchecked((sbyte)Info.Player), unchecked((sbyte)Info.IndependentRelation), unchecked((sbyte)unchecked((sbyte)unchecked((byte)FPlayer))), 0);
+                                var call__13 = ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0);
                                 if (call__13)
                                 {
-                                    var call__14 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Info.Player);
-                                    CandidatePriority = 50 - (call__14.FIncome / 2);
+                                    var call__14 = AoWHSMap.FPlayers.GetPlayers(Info.Player);
+                                    CandidatePriority = 50 - call__14.FIncome / 2;
                                     if (CandidatePriority < 25)
                                     {
                                         CandidatePriority = 25;
@@ -169,8 +144,8 @@ namespace Aow.Units.Mine
                         }
 
                         break;
-                    case Aow.Units.AoWE.TAITargetMode.tmDefend:
-                        if (unchecked((byte)Info.Player) == unchecked((byte)FPlayer))
+                    case TAITargetMode.tmDefend:
+                        if ((byte)Info.Player == (byte)FPlayer)
                         {
                             Data.Priority = 20;
                         }
@@ -191,24 +166,24 @@ namespace Aow.Units.Mine
         {
             if (Player != FPlayer)
             {
-                if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
+                if (FStatus.Contains(TMapObjectStatusElement.moActivated))
                 {
                     if (FPlayer != -1)
                     {
-                        var call__15 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(unchecked((sbyte)unchecked((byte)FPlayer)));
+                        var call__15 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
                         call__15.UnregisterIncomeSource(FIncomeSource);
                     }
 
-                    base.SetPlayer(unchecked((sbyte)Player));
+                    base.SetPlayer(Player);
                     if (FPlayer != -1)
                     {
-                        var call__16 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(unchecked((sbyte)unchecked((byte)FPlayer)));
+                        var call__16 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
                         call__16.RegisterIncomeSource(FIncomeSource);
                     }
                 }
                 else
                 {
-                    base.SetPlayer(unchecked((sbyte)Player));
+                    base.SetPlayer(Player);
                 }
             }
         }
@@ -238,12 +213,12 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:178
-        public override Aow.Rtl.AnsiString GetCombatEventText(Aow.Units.AoWE.TCombat Combat)
+        public override AnsiString GetCombatEventText(TCombat Combat)
         {
-            Aow.Rtl.AnsiString Result = default;
-            if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
+            AnsiString Result = default;
+            if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
             {
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MineBattleWonRStr);
+                Result = TranslateRStr(MineBattleWonRStr);
             }
             else
             {
@@ -258,7 +233,7 @@ namespace Aow.Units.Mine
 
     }
 
-    public partial class TMineResource : Aow.Units.AoWE.TPlayerStructureResource
+    public partial class TMineResource : TPlayerStructureResource
     {
         public TMineResource(TECustomNode owner) : base(owner)
         {
@@ -288,10 +263,10 @@ namespace Aow.Units.Mine
 
 
         // Mine.pas:197
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MineRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(MineRStr);
             return Result;
         }
 
@@ -301,7 +276,7 @@ namespace Aow.Units.Mine
     public struct TMineCombatData
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_20 Reserved;
+        public FixedArray_byte_20 Reserved;
         [FieldOffset(20)]
         public byte Outcome;
     }
@@ -310,7 +285,7 @@ namespace Aow.Units.Mine
     public struct TMineImageData
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_20 Reserved;
+        public FixedArray_byte_20 Reserved;
         [FieldOffset(20)]
         public int ImageIndex;
     }
@@ -321,12 +296,12 @@ namespace Aow.Units.Mine
         public static int MineIncome(sbyte Player)
         {
             int Result = default;
-            Aow.Units.AoWE.TPlayer P = default;
-            Aow.Units.AoWE.TPlayerStructure S = default;
+            TPlayer P = default;
+            TPlayerStructure S = default;
             int I = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
+            if (AoWHSMap != null)
             {
-                var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__20 = AoWHSMap.FPlayers.GetPlayers(Player);
                 P = call__20;
                 Result = 0;
                 {
@@ -337,7 +312,7 @@ namespace Aow.Units.Mine
                         var call__22 = P.FStructures.GetStructure(I);
                         S = call__22;
                         var call__23 = S.EClass.ClassID;
-                        if ((call__23 == 131962) && (unchecked((sbyte)unchecked((byte)S.FPlayer)) == Player))
+                        if (call__23 == 131962 && (sbyte)(byte)S.FPlayer == Player)
                         {
                             Result += S.GetIncome();
                         }
@@ -353,9 +328,9 @@ namespace Aow.Units.Mine
         }
 
         // Mine.pas:226
-        public static void RegisterMine(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterMine(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Mine.TMine>(), Aow.Units.Engine.EClass.Of<Aow.Units.Mine.TMineResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TMine>(), EClass.Of<TMineResource>()]);
         }
 
         public static void Initialize()

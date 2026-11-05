@@ -1,28 +1,12 @@
 // Translated from AoWTabPanel.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
 
 namespace Aow.Units.AoWTabPanel
 {
@@ -31,22 +15,22 @@ namespace Aow.Units.AoWTabPanel
 //   their OwnerItem is the selected tab and hidden otherwise. }
     // Fields: FItems, FSelected, FILButton, FBorderHeightSelected (the text offset of the selected
     // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
-    public partial class TAOWTabPanel : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWTabPanel : TAOWControl
     {
-        public Aow.Rtl.TStringList FItems;
+        public TStringList FItems;
         public int FSelected;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILButton;
+        public TInterfaceIL FILButton;
         public int FBorderHeightSelected;
         public int FILIndexUp;
         public int FILIndexDown;
-        public Aow.Rtl.TList FPanels;
+        public TList FPanels;
         // AoWTabPanel.pas:62
         public TAOWTabPanel(TComponent owner) : base(owner)
         {
-            var call__1 = new Aow.Rtl.TStringList();
+            var call__1 = new TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
-            var call__2 = new Aow.Rtl.TList();
+            var call__2 = new TList();
             FPanels = call__2;
         }
 
@@ -54,14 +38,14 @@ namespace Aow.Units.AoWTabPanel
         public override void Destroy()
         {
             int I = default;
-            Aow.Units.AoWWinControl.TAOWWindowControl P = default;
+            TAOWWindowControl P = default;
             {
                 I = 0;
                 int end__3 = FPanels.Count - 1;
                 for (; I <= end__3; I += 1)
                 {
                     var call__4 = FPanels[I];
-                    P = (Aow.Units.AoWWinControl.TAOWWindowControl)call__4;
+                    P = (TAOWWindowControl)call__4;
                     P.DetachMenuBar();
                 }
             }
@@ -86,7 +70,7 @@ namespace Aow.Units.AoWTabPanel
                 FILButton = call__6;
             }
 
-            if ((FILButton != null) && (FAOWFont != null))
+            if (FILButton != null && FAOWFont != null)
             {
                 FValid = true;
             }
@@ -100,7 +84,7 @@ namespace Aow.Units.AoWTabPanel
             var call__7 = FILButton[FILIndexUp];
             var call__8 = FILButton[FILIndexUp + 2];
             var call__9 = FItems.Count;
-            if (((call__7.Width + call__8.Width) * call__9) > FWinWidth)
+            if ((call__7.Width + call__8.Width) * call__9 > FWinWidth)
             {
                 var call__10 = FILButton[FILIndexUp];
                 var call__11 = FILButton[FILIndexUp + 2];
@@ -123,10 +107,10 @@ namespace Aow.Units.AoWTabPanel
         // AoWTabPanel.pas:164
         // { Draw: the tabs side by side in equal shares of the width, the text centered; the selected tab
 //   with the down image and its text BorderHeightSelected pixels down }
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             int I = default;
-            Aow.Rtl.TRect OldClip = default;
+            TRect OldClip = default;
             try
             {
                 if (FValid && FVisible)
@@ -146,7 +130,7 @@ namespace Aow.Units.AoWTabPanel
                             {
                                 var call__17 = FItems.Count;
                                 var call__18 = FItems.Count;
-                                var call__19 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__18), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__17, FWinHeight);
+                                var call__19 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__18, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__17, FWinHeight);
                                 FILButton.DrawILLh(FILIndexUp, call__19, ref SurfDesc);
                                 if (FAOWFont != null)
                                 {
@@ -155,14 +139,14 @@ namespace Aow.Units.AoWTabPanel
                                     var call__21 = FAOWFont.GetTextWidth(call__20);
                                     var call__22 = FItems.Count;
                                     var call__23 = FItems[I];
-                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * ((2 * I) + 1)) / (2 * call__22))) - (call__21 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, call__23, SurfDesc);
+                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * call__22) - call__21 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, call__23, SurfDesc);
                                 }
                             }
                             else
                             {
                                 var call__24 = FItems.Count;
                                 var call__25 = FItems.Count;
-                                var call__26 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__25), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
+                                var call__26 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__25, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
                                 FILButton.DrawILLh(FILIndexDown, call__26, ref SurfDesc);
                                 if (FAOWFont != null)
                                 {
@@ -171,7 +155,7 @@ namespace Aow.Units.AoWTabPanel
                                     var call__28 = FAOWFont.GetTextWidth(call__27);
                                     var call__29 = FItems.Count;
                                     var call__30 = FItems[I];
-                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * ((2 * I) + 1)) / (2 * call__29))) - (call__28 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeightSelected, call__30, SurfDesc);
+                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * call__29) - call__28 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, call__30, SurfDesc);
                                 }
                             }
                         }
@@ -185,23 +169,23 @@ namespace Aow.Units.AoWTabPanel
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWTabPanel.pas:211
         // { CheckMouseDown: a left click on a tab selects it }
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
-                if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                if (Button == TMouseButton.mbLeft)
                 {
                     var call__31 = FItems.Count;
-                    SetIndex(((X - FAOWWindow.FWinLeft) - FWinLeft) / (FWinWidth / call__31));
+                    SetIndex((X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / call__31));
                 }
 
                 if (FOnMouseDown != null)
@@ -212,10 +196,10 @@ namespace Aow.Units.AoWTabPanel
         }
 
         // AoWTabPanel.pas:226
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight))) && (FValid == true)) && (FVisible == true))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -226,11 +210,11 @@ namespace Aow.Units.AoWTabPanel
         }
 
         // AoWTabPanel.pas:239
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
-            if ((((X >= (FAOWWindow.FWinLeft + FWinLeft)) && (X <= (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - 1))) && (Y >= (FAOWWindow.FWinTop + FWinTop))) && (Y <= (((FAOWWindow.FWinTop + FWinTop) + FWinHeight) - 1)))
+            if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
             {
                 FHandled = true;
                 if (FOnMouseMove != null)
@@ -247,7 +231,7 @@ namespace Aow.Units.AoWTabPanel
         }
 
         // AoWTabPanel.pas:85
-        public virtual void SetILButton(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILButton(TInterfaceIL Value)
         {
             if (Value != FILButton)
             {
@@ -277,7 +261,7 @@ namespace Aow.Units.AoWTabPanel
         }
 
         // AoWTabPanel.pas:133
-        public void SetFStrings(Aow.Rtl.TStringList Value)
+        public void SetFStrings(TStringList Value)
         {
             int I = default;
             FItems.Clear();
@@ -305,7 +289,7 @@ namespace Aow.Units.AoWTabPanel
                     int end__34 = FPanels.Count - 1;
                     for (; I <= end__34; I += 1)
                     {
-                        var component = (Aow.Units.AoWComp.TAoWComponent)FPanels[I];
+                        var component = (TAoWComponent)FPanels[I];
                         if (component.FOwnerItem == this.FSelected)
                         {
                             component.SetVisible(true);
@@ -327,10 +311,10 @@ namespace Aow.Units.AoWTabPanel
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+        public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
         [Published]
-        public Aow.Rtl.TStringList Items { get => FItems; set => SetFStrings(value); }
+        public TStringList Items { get => FItems; set => SetFStrings(value); }
 
         [Published]
         public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
@@ -339,7 +323,7 @@ namespace Aow.Units.AoWTabPanel
         public int Selected { get => FSelected; set => SetIndex(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
+        public TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
 
         [Published]
         public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
@@ -356,7 +340,7 @@ namespace Aow.Units.AoWTabPanel
         // AoWTabPanel.pas:257
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWTabPanel.TAOWTabPanel)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWTabPanel)]);
         }
     }
 }

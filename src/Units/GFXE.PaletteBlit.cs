@@ -1,5 +1,3 @@
-using Aow.Rtl;
-
 namespace Aow.Units.GFXE;
 
 public static partial class GFXE

@@ -20,7 +20,7 @@ public struct TSurfaceDesc
     [FieldOffset(56)] public int AMask;
     public object Data { readonly get => BorrowedReferences.Load(data); set => data = BorrowedReferences.Store(value); }
     public TGFXEPalette Palette { readonly get => (TGFXEPalette)BorrowedReferences.Load(palette); set => palette = BorrowedReferences.Store(value); }
-    public static implicit operator Aow.Graphics.TSurfaceDesc(TSurfaceDesc value) => new()
+    public static implicit operator Graphics.TSurfaceDesc(TSurfaceDesc value) => new()
     {
         Width = value.Width,
         Height = value.Height,

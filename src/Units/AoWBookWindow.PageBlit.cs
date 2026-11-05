@@ -10,12 +10,12 @@ public partial class TAoWBookWindow
     {
         if (FPageSurface is not null && (FPageSurface.PixelFormatID != FBackSurface.PixelFormatID ||
             FPageSurface.Width != FBackSurface.Width || FPageSurface.Height != FBackSurface.Height ||
-            (FPageSurface is TDDrawSurface) != (FBackSurface is TDDrawSurface)))
+            FPageSurface is TDDrawSurface != FBackSurface is TDDrawSurface))
         {
             FPageSurface.Free();
             FPageSurface = null;
         }
-        var area = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+        var area = Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
         if (FPageSurface is null)
         {
             if (FBackSurface is TDDrawSurface direct)
@@ -37,13 +37,13 @@ public partial class TAoWBookWindow
         }
         if (FFirstAnimationFrame || !FPreviousSurfaceValid)
         {
-            area = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+            area = Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
             TSurface initial = FPageTurnMode == TPageTurnMode.ptLeft ? FBackSurface : FPageSurface;
             if (FPageTurnMode is TPageTurnMode.ptLeft or TPageTurnMode.ptRight)
             {
                 if (!FMasked) initial.BltAreaClipped(surface, area, FWinLeft, FWinTop);
                 else initial.BltAreaColorKeyClipped(surface, area, FWinLeft, FWinTop,
-                    Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, FBackSurface.PixelFormatID, null));
+                    GFXE.GFXE.Color2PixelInfo(FMaskColor, FBackSurface.PixelFormatID, null));
             }
             FFirstAnimationFrame = false;
         }

@@ -1,5 +1,4 @@
 #nullable disable
-using Aow.Rtl;
 namespace Aow.Units.HSEngine
 {
     public partial class THexagonSpriteSelection
@@ -9,17 +8,17 @@ namespace Aow.Units.HSEngine
             bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.TMapField MapF = default;
+            TMapField MapF = default;
             int I = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            if ((((Xhx >= 0) && (((Aow.Units.HSEngine.THSMap)Owner).FMapContainer.FWidth > Xhx)) && (((Aow.Units.HSEngine.THSMap)Owner).FMapContainer.FHeight > Yhx)) && (Yhx >= 0))
+            HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            if (Xhx >= 0 && ((THSMap)Owner).FMapContainer.FWidth > Xhx && ((THSMap)Owner).FMapContainer.FHeight > Yhx && Yhx >= 0)
             {
-                var call__226 = ((Aow.Units.HSEngine.THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
+                var call__226 = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
                 MapF = call__226;
                 var call__227 = MapF.Count;
                 I = call__227;
                 Result = false;
-                while (!Result && (I != 0))
+                while (!Result && I != 0)
                 {
                     I -= 1;
                     var call__228 = MapF.FHSList[I].CanSelect(Xhp, Yhp);
@@ -38,11 +37,11 @@ namespace Aow.Units.HSEngine
             int N = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.TMapField MapF = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
+            TMapField MapF = default;
+            THexagonSprite HS = default;
             int I = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            var call__229 = ((Aow.Units.HSEngine.THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
+            HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            var call__229 = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
             MapF = call__229;
             I = FindLocationHSIndex(MapF) - 1;
             ;
@@ -55,7 +54,7 @@ namespace Aow.Units.HSEngine
 
             var call__231 = MapF.Count;
             N = call__231;
-            while ((N != 0) && (HS == null))
+            while (N != 0 && HS == null)
             {
                 HS = MapF.FHSList[I];
                 if (!HS.CanSelect(Xhp, Yhp))
@@ -82,25 +81,25 @@ namespace Aow.Units.HSEngine
                 }
             }
         }
-        public int FindLocationHSIndex(Aow.Units.HSEngine.TMapField MapF)
+        public int FindLocationHSIndex(TMapField MapF)
         {
             int Result = default;
             int I = default;
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
+            THexagonSprite HS = default;
             Result = -1;
             if (FLocationHS.Count != 0)
             {
                 I = 0;
-                Aow.Units.HSEngine.HSEngine.HXtoHP(MapF.FXhx, MapF.FYhx, ref Xhp, ref Yhp);
+                HSEngine.HXtoHP(MapF.FXhx, MapF.FYhx, ref Xhp, ref Yhp);
                 while (true)
                 {
-                    bool bool__227 = (Result == -1);
+                    bool bool__227 = Result == -1;
                     if (bool__227)
                     {
                         var call__228 = MapF.Count;
-                        bool__227 = (I != call__228);
+                        bool__227 = I != call__228;
                     }
 
                     if (!bool__227)

@@ -3,6 +3,7 @@ using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.AoWCheckBox;
 using static Aow.Units.AoWWinMan.AoWWinMan;
+using Aow.Platform;
 
 namespace Aow.Units.AoWUnitWindow;
 
@@ -71,7 +72,7 @@ public partial class TUnitWindow
             selected.Checked = false;
             ClearItemSelection();
         }
-        Aow.Platform.GameHost.MainForm.FCursorImage = FCursorImage;
+        GameHost.MainForm.FCursorImage = FCursorImage;
     }
 
     private void ClearItemSelection()

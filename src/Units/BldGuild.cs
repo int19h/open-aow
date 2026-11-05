@@ -1,42 +1,13 @@
 // Translated from BldGuild.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.PrdPlace;
-using static Aow.Units.PrdPlace.PrdPlace;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.BldGuild
 {
-    public partial class TBuildersGuild : Aow.Units.PrdPlace.TProductionPlace
+    public partial class TBuildersGuild : TProductionPlace
     {
         public TBuildersGuild(TECustomNode owner) : base(owner)
         {}
@@ -46,7 +17,7 @@ namespace Aow.Units.BldGuild
 
     }
 
-    public partial class TBuildersGuildResource : Aow.Units.PrdPlace.TProductionPlaceResource
+    public partial class TBuildersGuildResource : TProductionPlaceResource
     {
         public TBuildersGuildResource(TECustomNode owner) : base(owner)
         {
@@ -75,10 +46,10 @@ namespace Aow.Units.BldGuild
 
 
         // BldGuild.pas:50
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BuildersGuildRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(BuildersGuildRStr);
             return Result;
         }
 
@@ -90,12 +61,12 @@ namespace Aow.Units.BldGuild
         public static int BuildersGuildIncome(sbyte Player)
         {
             int Result = default;
-            Aow.Units.AoWE.TPlayer P = default;
+            TPlayer P = default;
             int I = default;
-            Aow.Units.AoWE.TPlayerStructure S = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
+            TPlayerStructure S = default;
+            if (AoWHSMap != null)
             {
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__1 = AoWHSMap.FPlayers.GetPlayers(Player);
                 P = call__1;
                 Result = 0;
                 {
@@ -106,7 +77,7 @@ namespace Aow.Units.BldGuild
                         var call__3 = P.FStructures.GetStructure(I);
                         S = call__3;
                         var call__4 = S.EClass.ClassID;
-                        if ((call__4 == 133422) && (S.FPlayer == Player))
+                        if (call__4 == 133422 && S.FPlayer == Player)
                         {
                             Result += S.GetIncome();
                         }
@@ -122,9 +93,9 @@ namespace Aow.Units.BldGuild
         }
 
         // BldGuild.pas:79
-        public static void RegisterBuildersGuild(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterBuildersGuild(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.BldGuild.TBuildersGuild>(), Aow.Units.Engine.EClass.Of<Aow.Units.BldGuild.TBuildersGuildResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TBuildersGuild>(), EClass.Of<TBuildersGuildResource>()]);
         }
 
         public static void Initialize()

@@ -1,42 +1,12 @@
 // Translated from Ruin.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.ItemExpS;
-using static Aow.Units.ItemExpS.ItemExpS;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Ruin
 {
-    public partial class TRuin : Aow.Units.ItemExpS.TItemExplorationSite
+    public partial class TRuin : TItemExplorationSite
     {
         public TRuin(TECustomNode owner) : base(owner)
         {}
@@ -46,7 +16,7 @@ namespace Aow.Units.Ruin
 
     }
 
-    public partial class TRuinResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
+    public partial class TRuinResource : TItemExplorationSiteResource
     {
         public TRuinResource(TECustomNode owner) : base(owner)
         {}
@@ -63,10 +33,10 @@ namespace Aow.Units.Ruin
         }
 
         // Ruin.pas:37
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastleRuinRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(CastleRuinRStr);
             return Result;
         }
 
@@ -75,9 +45,9 @@ namespace Aow.Units.Ruin
     public static partial class Ruin
     {
         // Ruin.pas:46
-        public static void RegisterRuin(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterRuin(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Ruin.TRuin>(), Aow.Units.Engine.EClass.Of<Aow.Units.Ruin.TRuinResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TRuin>(), EClass.Of<TRuinResource>()]);
         }
 
         public static void Initialize()

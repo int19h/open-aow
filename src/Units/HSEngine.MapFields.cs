@@ -125,7 +125,7 @@ public partial class TMapLevel
 public partial class TMapContainer
 {
     public TMapField GetField(int x, int y, int level) => GetMapLevel(level).GetField(x, y);
-    public TMapField GetFieldXYL(int location) => GetField(unchecked((sbyte)location), unchecked((sbyte)(location >> 8)), unchecked((sbyte)(location >> 16)));
+    public TMapField GetFieldXYL(int location) => GetField((sbyte)location, (sbyte)(location >> 8), (sbyte)(location >> 16));
 
     public void RemoveHS(int x, int y, int level, THexagonSprite sprite)
     {

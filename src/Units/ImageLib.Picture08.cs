@@ -1,4 +1,3 @@
-using Aow.Rtl;
 using Aow.Units.GFXE;
 
 namespace Aow.Units.ImageLib;
@@ -38,7 +37,7 @@ public partial class TPicture08
         {
             if (sd.PixelFormatID != FRemapPalette.PixelFormatID &&
                 RemapToPixelFormat(sd.PixelFormatID) != GFXE.GFXE.GFXE_OK)
-                throw new Aow.Rtl.Exception("Surface pixel format not supported!");
+                throw new Rtl.Exception("Surface pixel format not supported!");
             if (sd.PixelFormatID == GFXE.GFXE.pfRGB555)
                 GFXE.GFXE.RemapSurface08to555(source, destination, FPitch, sd.Pitch, width, height, FRemapPalette);
             else if (sd.PixelFormatID == GFXE.GFXE.pfRGB565)

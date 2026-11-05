@@ -1,34 +1,8 @@
 // Translated from PowerNode.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -40,11 +14,11 @@ namespace Aow.Units.PowerNode
     }
 
     // FState, FPowerSource
-    public partial class TPowerNode : Aow.Units.AoWE.TPlayerStructure
+    public partial class TPowerNode : TPlayerStructure
     {
         public TPowerNode(TECustomNode owner) : base(owner)
         {
-            var call__1 = new Aow.Units.AoWE.TPlayerStructurePowerSource(null);
+            var call__1 = new TPlayerStructurePowerSource(null);
             FPowerSource = call__1;
             FPowerSource.Setup(this);
         }
@@ -52,8 +26,8 @@ namespace Aow.Units.PowerNode
         // PowerNode.pas:64
         public new const int ClassID = 131482;
 
-        public TSet<Aow.Units.PowerNode.TPowerNodeStateElement> FState;
-        public Aow.Units.AoWE.TPlayerStructurePowerSource FPowerSource;
+        public TSet<TPowerNodeStateElement> FState;
+        public TPlayerStructurePowerSource FPowerSource;
         // PowerNode.pas:58
         public override void Destroy()
         {
@@ -62,10 +36,10 @@ namespace Aow.Units.PowerNode
         }
 
         // PowerNode.pas:87
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Aow.Rtl.Rtl.RwSet(ref FState, 1, 20, Stream.rwData, 0);
+            RwSet(ref FState, 1, 20, Stream.rwData, 0);
         }
 
         // PowerNode.pas:51
@@ -77,7 +51,7 @@ namespace Aow.Units.PowerNode
             base.Activate();
             if (FPlayer != -1)
             {
-                var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__2 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                 call__2.FMagicControl.RegisterPowerSource(FPowerSource);
             }
         }
@@ -87,7 +61,7 @@ namespace Aow.Units.PowerNode
         {
             if (FPlayer != -1)
             {
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__3 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                 call__3.FMagicControl.UnregisterPowerSource(FPowerSource);
             }
 
@@ -99,12 +73,12 @@ namespace Aow.Units.PowerNode
         {
             if (Value)
             {
-                SetPlayer(unchecked((sbyte)-1));
-                FState = FState + TSet<Aow.Units.PowerNode.TPowerNodeStateElement>.Of(Aow.Units.PowerNode.TPowerNodeStateElement.pnsRazed);
+                SetPlayer(-1);
+                FState = FState + TSet<TPowerNodeStateElement>.Of(TPowerNodeStateElement.pnsRazed);
             }
             else
             {
-                FState = FState - TSet<Aow.Units.PowerNode.TPowerNodeStateElement>.Of(Aow.Units.PowerNode.TPowerNodeStateElement.pnsRazed);
+                FState = FState - TSet<TPowerNodeStateElement>.Of(TPowerNodeStateElement.pnsRazed);
             }
 
             var call__4 = GetTerrainTypeImage(FTerrainType);
@@ -115,29 +89,29 @@ namespace Aow.Units.PowerNode
         public override bool GetRazed()
         {
             bool Result = default;
-            Result = FState.Contains(Aow.Units.PowerNode.TPowerNodeStateElement.pnsRazed);
+            Result = FState.Contains(TPowerNodeStateElement.pnsRazed);
             return Result;
         }
 
         // PowerNode.pas:93
-        public override Aow.Rtl.AnsiString GetCurrentActivityText()
+        public override AnsiString GetCurrentActivityText()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             var call__5 = GetPower();
-            var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GeneratingXPowerRStr);
-            var call__7 = Aow.Rtl.Rtl.Format(call__6, [Aow.Rtl.Rtl.IntToStr(call__5)]);
+            var call__6 = TranslateRStr(GeneratingXPowerRStr);
+            var call__7 = Rtl.Rtl.Format(call__6, [IntToStr(call__5)]);
             Result = call__7;
             return Result;
         }
 
         // PowerNode.pas:96
-        public override void UpdateAITarget(in Aow.Units.AoWE.TAITargetInfo Info, ref Aow.Units.AoWE.TAITargetData Data)
+        public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
             int P = default;
             switch (Info.Mode)
             {
-                case Aow.Units.AoWE.TAITargetMode.tmAttack:
-                    bool bool__8 = (Info.Player != FPlayer);
+                case TAITargetMode.tmAttack:
+                    bool bool__8 = Info.Player != FPlayer;
                     if (bool__8)
                     {
                         var call__9 = GetRazed();
@@ -153,11 +127,11 @@ namespace Aow.Units.PowerNode
                         }
                         else
                         {
-                            var call__10 = Aow.Units.AoWE.AoWE.ValidAttackRelation(unchecked((sbyte)Info.Player), unchecked((sbyte)Info.IndependentRelation), unchecked((sbyte)FPlayer), 0);
+                            var call__10 = ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0);
                             if (call__10)
                             {
-                                var call__11 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Info.Player);
-                                P = 50 - (call__11.FIncome / 2);
+                                var call__11 = AoWHSMap.FPlayers.GetPlayers(Info.Player);
+                                P = 50 - call__11.FIncome / 2;
                                 if (P < 25)
                                 {
                                     P = 25;
@@ -185,24 +159,24 @@ namespace Aow.Units.PowerNode
         {
             if (Player != FPlayer)
             {
-                if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
+                if (FStatus.Contains(TMapObjectStatusElement.moActivated))
                 {
                     if (FPlayer != -1)
                     {
-                        var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                        var call__12 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                         call__12.FMagicControl.UnregisterPowerSource(FPowerSource);
                     }
 
-                    base.SetPlayer(unchecked((sbyte)Player));
+                    base.SetPlayer(Player);
                     if (FPlayer != -1)
                     {
-                        var call__13 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                        var call__13 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                         call__13.FMagicControl.RegisterPowerSource(FPowerSource);
                     }
                 }
                 else
                 {
-                    base.SetPlayer(unchecked((sbyte)Player));
+                    base.SetPlayer(Player);
                 }
             }
         }
@@ -232,12 +206,12 @@ namespace Aow.Units.PowerNode
         }
 
         // PowerNode.pas:145
-        public override Aow.Rtl.AnsiString GetCombatEventText(Aow.Units.AoWE.TCombat Combat)
+        public override AnsiString GetCombatEventText(TCombat Combat)
         {
-            Aow.Rtl.AnsiString Result = default;
-            if ((Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crVictory) || (Combat.FCombatResult == Aow.Units.AoWE.TCombatResult.crNoDefenders))
+            AnsiString Result = default;
+            if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
             {
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PowerNodeBattleWonRStr);
+                Result = TranslateRStr(PowerNodeBattleWonRStr);
             }
             else
             {
@@ -252,7 +226,7 @@ namespace Aow.Units.PowerNode
 
     }
 
-    public partial class TPowerNodeResource : Aow.Units.AoWE.TPlayerStructureResource
+    public partial class TPowerNodeResource : TPlayerStructureResource
     {
         public TPowerNodeResource(TECustomNode owner) : base(owner)
         {
@@ -282,10 +256,10 @@ namespace Aow.Units.PowerNode
 
 
         // PowerNode.pas:163
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PowerNodeRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(PowerNodeRStr);
             return Result;
         }
 
@@ -294,9 +268,9 @@ namespace Aow.Units.PowerNode
     public static partial class PowerNode
     {
         // PowerNode.pas:172
-        public static void RegisterPowerNode(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterPowerNode(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PowerNode.TPowerNode>(), Aow.Units.Engine.EClass.Of<Aow.Units.PowerNode.TPowerNodeResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TPowerNode>(), EClass.Of<TPowerNodeResource>()]);
         }
 
         public static void Initialize()

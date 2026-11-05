@@ -15,7 +15,7 @@ public partial class TAoWHSMap
         try
         {
             if (tokenLog is null) return;
-            tokenLog.Write(Aow.Rtl.Rtl.StringBytes(text + "\r\n"));
+            tokenLog.Write(Rtl.Rtl.StringBytes(text + "\r\n"));
             if (flush) tokenLog.Flush();
         }
         catch (IOException) { }
@@ -26,13 +26,13 @@ public partial class TAoWHSMap
         if (FTokenEventLogging || AoWE.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) return;
         try
         {
-            try { tokenLog = Aow.Rtl.Rtl.Files.Open((AoWE.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + Aow.Rtl.Rtl.IntToStr(GFXE.GFXE.GetElapsedMilliSeconds()) + ".TXT").ToString(), Aow.Rtl.Rtl.fmCreate); }
+            try { tokenLog = Rtl.Rtl.Files.Open((AoWE.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + Rtl.Rtl.IntToStr(GFXE.GFXE.GetElapsedMilliSeconds()) + ".TXT").ToString(), Rtl.Rtl.fmCreate); }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog("Map Session: " + FMapName);
             int player = AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers[0];
-            WriteTokenLog("Local Player: " + Aow.Rtl.Rtl.IntToStr(player));
-            WriteTokenLog("Local Race: " + AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[AoWE.AoWHSMap.FPlayers.GetPlayers(unchecked((sbyte)player)).FPlayerRace]));
+            WriteTokenLog("Local Player: " + Rtl.Rtl.IntToStr(player));
+            WriteTokenLog("Local Race: " + AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[AoWE.AoWHSMap.FPlayers.GetPlayers((sbyte)player).FPlayerRace]));
             FTokenEventLogging = true;
         }
         catch (System.Exception) { }
@@ -51,9 +51,9 @@ public partial class TAoWHSMap
     {
         if (token.EClass.ClassID != 0x554) SetModified();
         if (FTokenEventLogging && FTokenManager.TokenExecuter.ExecuteCount == 0)
-            WriteTokenLog(Aow.Rtl.TObject.ClassNameOf(token.GetType()) + " (P:" + Aow.Rtl.Rtl.IntToStr(FTokenManager.TokenExecuter.ActiveTCIndex) +
-                "/T:" + Aow.Rtl.Rtl.IntToStr(token.TokenCounter) + "/S:" + Aow.Rtl.Rtl.IntToStr(FDefendersSeed) +
-                "/D:" + Aow.Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FDay) + "/AIPC:" + Aow.Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FAIExecuter.FProcessCycles), true);
+            WriteTokenLog(ClassNameOf(token.GetType()) + " (P:" + Rtl.Rtl.IntToStr(FTokenManager.TokenExecuter.ActiveTCIndex) +
+                "/T:" + Rtl.Rtl.IntToStr(token.TokenCounter) + "/S:" + Rtl.Rtl.IntToStr(FDefendersSeed) +
+                "/D:" + Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FDay) + "/AIPC:" + Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FAIExecuter.FProcessCycles), true);
     }
 
     public void OnTokenManagerMessage(TObject sender, AnsiString message)
@@ -65,7 +65,7 @@ public partial class TAoWHSMap
     public void OnStreamError(TEStorageStream stream, AnsiString message, ref bool handled)
     {
         if (FIgnoreStreamErrors) return;
-        int answer = (Aow.Rtl.Rtl.Dialogs ?? throw new EInvalidOperation(message)).Show(new((message + " Ignore failure?").ToString(), "Error", 0, 7));
+        int answer = (Rtl.Rtl.Dialogs ?? throw new EInvalidOperation(message)).Show(new((message + " Ignore failure?").ToString(), "Error", 0, 7));
         handled = answer is 6 or 8;
         FIgnoreStreamErrors = answer == 8;
     }

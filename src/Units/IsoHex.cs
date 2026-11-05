@@ -1,38 +1,29 @@
 // Translated from IsoHex.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 
 namespace Aow.Units.IsoHex
 {
     // FDynamic, FOpenSides (bit HN-1: the neighbour HN is no hexagon of this kind), FSides (bits
     // 0.5: the neighbour HN has another terrain, bits 6.7: the image variant)
-    public partial class TIsometricHexagon : Aow.Units.HSEngine.TAbstractHexagon
+    public partial class TIsometricHexagon : TAbstractHexagon
     {
         public TIsometricHexagon(TECustomNode owner) : base(owner)
         {
-            var call__1 = Aow.Rtl.Rtl.Random(4);
-            FSides = unchecked((byte)(call__1 << 6));
+            var call__1 = Random(4);
+            FSides = (byte)(call__1 << 6);
         }
 
 
         // IsoHex.pas:214
         public new const int ClassID = 131437;
 
-        protected internal Aow.Units.IsoHex.TDynamicIsometricHexagon FDynamic;
+        protected internal TDynamicIsometricHexagon FDynamic;
         protected internal byte FOpenSides;
         protected internal byte FSides;
         // IsoHex.pas:204
@@ -63,23 +54,23 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:234
-        public override void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
         {
             UpdateTransitions();
         }
 
         // IsoHex.pas:239
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TCustomImageLibrary IL = default;
+            TCustomImageLibrary IL = default;
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            Xhp = (Xhp - XhpSurf) - 8;
+            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             var call__2 = FResource.ImageSequenceList.ImageSequences[0];
             IL = call__2.ImageLibrary;
-            var call__3 = IL[((int)(((uint)FSides) >> 6)) + 40];
+            var call__3 = IL[(int)(((uint)FSides) >> 6) + 40];
             call__3.Show(Xhp, Yhp, SurfaceDesc);
             Xhp -= 6;
             Yhp -= 9;
@@ -103,7 +94,7 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:256
-        public virtual void ShowDynamic(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public virtual void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
         }
 
@@ -115,16 +106,16 @@ namespace Aow.Units.IsoHex
 
     // owned by its TIsometricHexagon (FOwner set directly, so it is not added as a child) and shown
     // from the map field of that hexagon
-    public partial class TDynamicIsometricHexagon : Aow.Units.HSEngine.THexagonSprite
+    public partial class TDynamicIsometricHexagon : THexagonSprite
     {
         // IsoHex.pas:126
         public new const int ClassID = 131439;
 
         // IsoHex.pas:136
-        public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
+        public override TSet<TEControlStyleElement> GetControlStyle()
         {
-            TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
-            Result = TSet<Aow.Units.Engine.TEControlStyleElement>.Of();
+            TSet<TEControlStyleElement> Result = default;
+            Result = TSet<TEControlStyleElement>.Of();
             return Result;
         }
 
@@ -150,17 +141,17 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:141
-        public override TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
+        public override TSet<TControlModeElement> ControlMode()
         {
-            TSet<Aow.Units.HSEngine.TControlModeElement> Result = default;
-            Result = TSet<Aow.Units.HSEngine.TControlModeElement>.Of();
+            TSet<TControlModeElement> Result = default;
+            Result = TSet<TControlModeElement>.Of();
             return Result;
         }
 
     }
 
     // FDynamicLevel (26)
-    public partial class TIsometricHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
+    public partial class TIsometricHexagonResource : TAbstractHexagonResource
     {
         public TIsometricHexagonResource(TECustomNode owner) : base(owner)
         {
@@ -176,7 +167,7 @@ namespace Aow.Units.IsoHex
 
 
         // IsoHex.pas:302
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65621)
@@ -186,13 +177,13 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:273
-        public override Aow.Units.HSEngine.TMapObject PlaceResourceUser(Aow.Units.HSEngine.THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override TMapObject PlaceResourceUser(THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            Aow.Units.HSEngine.TMapObject Result = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
+            TMapObject Result = default;
+            TMapField MapField = default;
             var call__7 = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
             MapField = call__7;
-            Result = (Aow.Units.HSEngine.TMapObject)MapField.FindOwnedHS(typeof(Aow.Units.IsoHex.TIsometricHexagon));
+            Result = (TMapObject)MapField.FindOwnedHS(typeof(TIsometricHexagon));
             if (Result != null)
             {
                 var call__8 = Result.GetTerrain(0);
@@ -201,7 +192,7 @@ namespace Aow.Units.IsoHex
                 {
                     Result.SetResource(this);
                     MapField.UpdateTerrainType();
-                    ((Aow.Units.IsoHex.TIsometricHexagon)Result).UpdateTransitions();
+                    ((TIsometricHexagon)Result).UpdateTransitions();
                 }
                 else
                 {
@@ -212,7 +203,7 @@ namespace Aow.Units.IsoHex
             }
             else
             {
-                Result = (Aow.Units.HSEngine.TMapObject)CreateResourceUser();
+                Result = (TMapObject)CreateResourceUser();
                 if (!Map.PlaceHX(Result, Xhx, Yhx, Lhx))
                 {
                     Result.Free();
@@ -228,7 +219,7 @@ namespace Aow.Units.IsoHex
 
     }
 
-    public partial class TUpperIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
+    public partial class TUpperIsometricHexagon : TIsometricHexagon
     {
         public TUpperIsometricHexagon(TECustomNode owner) : base(owner)
         {}
@@ -237,19 +228,19 @@ namespace Aow.Units.IsoHex
         public new const int ClassID = 131440;
 
         // IsoHex.pas:355
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TCustomImageLibrary IL = default;
+            TCustomImageLibrary IL = default;
             int Xhp = default;
             int Yhp = default;
             if (FDynamic == null)
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-                Xhp = (Xhp - XhpSurf) - 8;
+                HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+                Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf;
                 var call__10 = FResource.ImageSequenceList.ImageSequences[0];
                 IL = call__10.ImageLibrary;
-                var call__11 = IL[((int)(((uint)FSides) >> 6)) + 40];
+                var call__11 = IL[(int)(((uint)FSides) >> 6) + 40];
                 call__11.Show(Xhp, Yhp, SurfaceDesc);
                 Xhp -= 6;
                 Yhp -= 9;
@@ -275,7 +266,7 @@ namespace Aow.Units.IsoHex
 
     }
 
-    public partial class TUpperIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
+    public partial class TUpperIsometricHexagonResource : TIsometricHexagonResource
     {
         public TUpperIsometricHexagonResource(TECustomNode owner) : base(owner)
         {}
@@ -292,16 +283,16 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:448
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.HSEngine.HSEngine.UpperIsometricHexagonStr;
+            AnsiString Result = default;
+            Result = UpperIsometricHexagonStr;
             return Result;
         }
 
     }
 
-    public partial class TLowerIsometricHexagon : Aow.Units.IsoHex.TIsometricHexagon
+    public partial class TLowerIsometricHexagon : TIsometricHexagon
     {
         public TLowerIsometricHexagon(TECustomNode owner) : base(owner)
         {}
@@ -311,7 +302,7 @@ namespace Aow.Units.IsoHex
 
     }
 
-    public partial class TLowerIsometricHexagonResource : Aow.Units.IsoHex.TIsometricHexagonResource
+    public partial class TLowerIsometricHexagonResource : TIsometricHexagonResource
     {
         public TLowerIsometricHexagonResource(TECustomNode owner) : base(owner)
         {}
@@ -328,10 +319,10 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:576
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.HSEngine.HSEngine.LowerIsometricHexagonStr;
+            AnsiString Result = default;
+            Result = LowerIsometricHexagonStr;
             return Result;
         }
 
@@ -340,9 +331,9 @@ namespace Aow.Units.IsoHex
     public static partial class IsoHex
     {
         // IsoHex.pas:586
-        public static void RegisterIsometricHexagon(Aow.Units.Engine.TEngine Engine)
+        public static void RegisterIsometricHexagon(TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TIsometricHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TIsometricHexagonResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TUpperIsometricHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TUpperIsometricHexagonResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TLowerIsometricHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.IsoHex.TLowerIsometricHexagonResource>()]);
+            Engine.RegisterEClasses([EClass.Of<TIsometricHexagon>(), EClass.Of<TIsometricHexagonResource>(), EClass.Of<TUpperIsometricHexagon>(), EClass.Of<TUpperIsometricHexagonResource>(), EClass.Of<TLowerIsometricHexagon>(), EClass.Of<TLowerIsometricHexagonResource>()]);
         }
     }
 }

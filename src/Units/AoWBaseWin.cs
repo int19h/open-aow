@@ -1,22 +1,12 @@
 // Translated from AoWBaseWin.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
 
 namespace Aow.Units.AoWBaseWin
 {
@@ -26,22 +16,22 @@ namespace Aow.Units.AoWBaseWin
 //   windows above it and to its owner. }
     // Fields: FBuffer (freed by TAOWGenericWindow.Destroy), FFreeSurfaceOnHide, FWinManager,
     // FOnShow, FOnHide
-    public partial class TAOWBaseWindow : Aow.Units.AoWWinControl.TAOWWindowControl
+    public partial class TAOWBaseWindow : TAOWWindowControl
     {
         public TAOWBaseWindow(TComponent owner) : base(owner)
         { }
 
-        public Aow.Rtl.TObject FBuffer;
+        public TObject FBuffer;
         public bool FFreeSurfaceOnHide;
-        public Aow.Units.AOWWinManager.TAOWWinManager FWinManager;
-        public Aow.Rtl.TNotifyEvent FOnShow;
-        public Aow.Rtl.TNotifyEvent FOnHide;
+        public TAOWWinManager FWinManager;
+        public TNotifyEvent FOnShow;
+        public TNotifyEvent FOnHide;
         // AoWBaseWin.pas:56
-        public override void InvalidateRect(int Index, ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
+        public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
-            if (((Index > -1) && FValid) && FVisible)
+            TAoWComponent C = default;
+            if (Index > -1 && FValid && FVisible)
             {
                 {
                     I = Index;
@@ -49,10 +39,10 @@ namespace Aow.Units.AoWBaseWin
                     for (; I <= end__1; I += 1)
                     {
                         var call__2 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__2;
-                        if ((((((C.FValid && C.FVisible) && (ARect.Right >= C.FWinLeft)) && ((C.FWinLeft + C.FWinWidth) >= ARect.Left)) && (ARect.Bottom >= C.FWinTop)) && ((C.FWinTop + C.FWinHeight) >= ARect.Top)) && (C != Sender))
+                        C = (TAoWComponent)call__2;
+                        if (C.FValid && C.FVisible && ARect.Right >= C.FWinLeft && C.FWinLeft + C.FWinWidth >= ARect.Left && ARect.Bottom >= C.FWinTop && C.FWinTop + C.FWinHeight >= ARect.Top && C != Sender)
                         {
-                            if (C is Aow.Units.AoWBaseWin.TAOWBaseWindow)
+                            if (C is TAOWBaseWindow)
                             {
                                 C.InvalidateRect(0, ref ARect, this);
                             }
@@ -64,7 +54,7 @@ namespace Aow.Units.AoWBaseWin
                     }
                 }
 
-                if ((FAOWOwner != Sender) && (FAOWOwner is Aow.Units.AoWBaseWin.TAOWBaseWindow))
+                if (FAOWOwner != Sender && FAOWOwner is TAOWBaseWindow)
                 {
                     var call__3 = FAOWOwner.FChildren.IndexOf(this);
                     FAOWOwner.InvalidateRect(call__3 + 1, ref ARect, this);
@@ -73,7 +63,7 @@ namespace Aow.Units.AoWBaseWin
         }
 
         // AoWBaseWin.pas:50
-        public override void AddBltRect(ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
+        public override void AddBltRect(ref TRect ARect, TAoWComponent Sender)
         {
             if (FDoubleBuffered && FSurfaceValid)
             {
@@ -98,7 +88,7 @@ namespace Aow.Units.AoWBaseWin
                         FOnHide(this);
                     }
 
-                    if (FFreeSurfaceOnHide && (FBackSurface != null))
+                    if (FFreeSurfaceOnHide && FBackSurface != null)
                     {
                         FBackSurface.Free();
                         FBackSurface = null;
@@ -123,7 +113,7 @@ namespace Aow.Units.AoWBaseWin
                         FBackRect.Left = FWinLeft;
                     }
 
-                    if ((!FValid || !FAligned) || !FSized)
+                    if (!FValid || !FAligned || !FSized)
                     {
                         Setup();
                     }
@@ -149,17 +139,17 @@ namespace Aow.Units.AoWBaseWin
 //   drawn or only the rectangles of its draw list, then lets the controls draw themselves and
 //   blits the dirty rectangles of its blit list to Surface, telling the window manager about each
 //   one. A window without a back surface draws itself and its controls straight into Surface. }
-        public override void DrawSurface(Aow.Units.GFXE.TSurface Surface)
+        public override void DrawSurface(TSurface Surface)
         {
             int I = default;
             int J = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
-            Aow.Units.AoWComp.TaowRect D = default;
+            TAoWComponent C = default;
+            TaowRect D = default;
             int OldLeft = default;
             int OldTop = default;
             bool Locked = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
-            Aow.Rtl.TRect R = default;
+            TSurfaceDesc SD = default;
+            TRect R = default;
             try
             {
                 if (FValid && FVisible)
@@ -185,7 +175,7 @@ namespace Aow.Units.AoWBaseWin
                     catch (System.Exception)
                     {
                         Locked = false;
-                        Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Verify Surface Error", ((AnsiString)"Error - ") + Name, (int)0);
+                        MessageBox(0, (AnsiString)"Verify Surface Error", (AnsiString)"Error - " + Name, 0);
                     }
 
                     if (Locked)
@@ -217,9 +207,9 @@ namespace Aow.Units.AoWBaseWin
                                         for (; J <= end__6; J += 1)
                                         {
                                             var call__7 = FDrawList[J];
-                                            D = (Aow.Units.AoWComp.TaowRect)call__7;
+                                            D = (TaowRect)call__7;
                                             R = SD.ClipRect;
-                                            var call__8 = Aow.Rtl.Rtl.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                            var call__8 = Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                             SD.ClipRect = call__8;
                                             Draw(SD);
                                             SD.ClipRect = R;
@@ -233,12 +223,12 @@ namespace Aow.Units.AoWBaseWin
                         }
                         catch (System.Exception)
                         {
-                            Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Draw Error", ((AnsiString)"Error - ") + Name, (int)0);
+                            MessageBox(0, (AnsiString)"Draw Error", (AnsiString)"Error - " + Name, 0);
                         }
 
                         if (FDoubleBuffered)
                         {
-                            if ((FPriority >= FWinManager.FOverlayPriority) || !FDrawn)
+                            if (FPriority >= FWinManager.FOverlayPriority || !FDrawn)
                             {
                                 {
                                     I = 0;
@@ -246,10 +236,10 @@ namespace Aow.Units.AoWBaseWin
                                     for (; I <= end__9; I += 1)
                                     {
                                         var call__10 = FChildren[I];
-                                        C = (Aow.Units.AoWComp.TAoWComponent)call__10;
-                                        if ((C.FValid && C.FVisible) && (!FDrawn || !C.FDrawn))
+                                        C = (TAoWComponent)call__10;
+                                        if (C.FValid && C.FVisible && (!FDrawn || !C.FDrawn))
                                         {
-                                            if (!FDrawn && (C is Aow.Units.AoWBaseWin.TAOWBaseWindow))
+                                            if (!FDrawn && C is TAOWBaseWindow)
                                             {
                                                 C.FSurfaceValid = false;
                                             }
@@ -262,7 +252,7 @@ namespace Aow.Units.AoWBaseWin
                                                 for (; J <= end__11; J += 1)
                                                 {
                                                     var call__12 = FDrawList[J];
-                                                    D = (Aow.Units.AoWComp.TaowRect)call__12;
+                                                    D = (TaowRect)call__12;
                                                     InvalidateRect(I + 1, ref D.R, null);
                                                 }
                                             }
@@ -272,13 +262,13 @@ namespace Aow.Units.AoWBaseWin
                                             {
                                                 if (FSurfaceValid)
                                                 {
-                                                    var call__13 = Aow.Rtl.Rtl.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                                                    var call__13 = Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
                                                     R = call__13;
                                                     AddBltRect(ref R, C);
                                                 }
 
                                                 C.FFirstDraw = C.FDrawn;
-                                                var call__14 = Aow.Rtl.Rtl.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, ((FWinLeft + C.FWinLeft) + C.FWinWidth) - 1, ((FWinTop + C.FWinTop) + C.FWinHeight) - 1);
+                                                var call__14 = Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth - 1, FWinTop + C.FWinTop + C.FWinHeight - 1);
                                                 R = call__14;
                                                 InvalidateRect(I + 1, ref R, C);
                                             }
@@ -318,8 +308,8 @@ namespace Aow.Units.AoWBaseWin
                                             for (; J <= end__15; J += 1)
                                             {
                                                 var call__16 = FBltList[J];
-                                                D = (Aow.Units.AoWComp.TaowRect)call__16;
-                                                var call__17 = Aow.Rtl.Rtl.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                                D = (TaowRect)call__16;
+                                                var call__17 = Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                                 R = call__17;
                                                 if (!FMasked)
                                                 {
@@ -328,11 +318,11 @@ namespace Aow.Units.AoWBaseWin
                                                 else
                                                 {
                                                     var call__18 = FBackSurface.GetPixelFormatID();
-                                                    var call__19 = Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, call__18, null);
+                                                    var call__19 = Color2PixelInfo(FMaskColor, call__18, null);
                                                     FBackSurface.BltAreaColorKeyClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop, call__19);
                                                 }
 
-                                                var call__20 = Aow.Rtl.Rtl.Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);
+                                                var call__20 = Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);
                                                 R = call__20;
                                                 FWinManager.AddBltRect(ref R, this);
                                             }
@@ -351,7 +341,7 @@ namespace Aow.Units.AoWBaseWin
                             }
                             catch (System.Exception)
                             {
-                                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Blt Error", ((AnsiString)"Error - ") + Name, (int)0);
+                                MessageBox(0, (AnsiString)"Blt Error", (AnsiString)"Error - " + Name, 0);
                             }
                         }
                         else
@@ -362,8 +352,8 @@ namespace Aow.Units.AoWBaseWin
                                 for (; I <= end__21; I += 1)
                                 {
                                     var call__22 = FChildren[I];
-                                    C = (Aow.Units.AoWComp.TAoWComponent)call__22;
-                                    if ((!FDrawn || !C.FDrawn) || (C is Aow.Units.AoWBaseWin.TAOWBaseWindow))
+                                    C = (TAoWComponent)call__22;
+                                    if (!FDrawn || !C.FDrawn || C is TAOWBaseWindow)
                                     {
                                         C.Draw(SD);
                                         C.FDrawn = true;
@@ -395,7 +385,7 @@ namespace Aow.Units.AoWBaseWin
                             }
                             catch (System.Exception)
                             {
-                                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"SB Draw Events Error", ((AnsiString)"Error - ") + Name, (int)0);
+                                MessageBox(0, (AnsiString)"SB Draw Events Error", (AnsiString)"Error - " + Name, 0);
                             }
                         }
 
@@ -405,7 +395,7 @@ namespace Aow.Units.AoWBaseWin
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during DrawSurface", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during DrawSurface", (AnsiString)"Error - " + Name, 0);
             }
         }
 
@@ -413,16 +403,16 @@ namespace Aow.Units.AoWBaseWin
         // { DrawSurfDesc draws the window and its controls into SurfDesc. A double-buffered window draws
 //   into its back surface instead (created, or created again when the pixel format changed) and
 //   copies it into SurfDesc, masked with FMaskColor for a masked window. }
-        public override void DrawSurfDesc(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void DrawSurfDesc(TSurfaceDesc SurfDesc)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             int OldLeft = default;
             int OldTop = default;
             bool Ok = default;
-            Aow.Units.GFXE.TSurfaceDesc DestSD = default;
-            Aow.Rtl.TRect SrcRect = default;
-            Aow.Rtl.TRect DestRect = default;
+            TSurfaceDesc DestSD = default;
+            TRect SrcRect = default;
+            TRect DestRect = default;
             try
             {
                 OldLeft = FWinLeft;
@@ -433,7 +423,7 @@ namespace Aow.Units.AoWBaseWin
                     DestSD = SurfDesc;
                     if (FBackSurface == null)
                     {
-                        var call__23 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                        var call__23 = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FBackSurface = call__23;
                         if (FMasked)
                         {
@@ -453,7 +443,7 @@ namespace Aow.Units.AoWBaseWin
                             {
                                 FBackSurface.Unlock();
                                 FBackSurface.Free();
-                                var call__26 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
+                                var call__26 = new TDataSurface(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
                                 FBackSurface = call__26;
                                 if (FMasked)
                                 {
@@ -482,8 +472,8 @@ namespace Aow.Units.AoWBaseWin
                         for (; I <= end__28; I += 1)
                         {
                             var call__29 = FChildren[I];
-                            C = (Aow.Units.AoWComp.TAoWComponent)call__29;
-                            if ((C.FValid && C.FVisible) && (!FDrawn || !C.FDrawn))
+                            C = (TAoWComponent)call__29;
+                            if (C.FValid && C.FVisible && (!FDrawn || !C.FDrawn))
                             {
                                 C.Draw(SurfDesc);
                                 C.FDrawn = true;
@@ -500,20 +490,20 @@ namespace Aow.Units.AoWBaseWin
                     {
                         FWinLeft = OldLeft;
                         FWinTop = OldTop;
-                        var call__30 = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+                        var call__30 = Rect(0, 0, FWinWidth, FWinHeight);
                         SrcRect = call__30;
                         // { not used }
-                        var call__31 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth, FWinTop + FWinHeight);
+                        var call__31 = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth, FWinTop + FWinHeight);
                         DestRect = call__31;
                         try
                         {
                             if (FMasked == true)
                             {
-                                Aow.Units.GFXE.GFXE.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
+                                BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
                             }
                             else
                             {
-                                Aow.Units.GFXE.GFXE.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
+                                BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
                             }
                         }
                         catch (System.Exception)
@@ -526,12 +516,12 @@ namespace Aow.Units.AoWBaseWin
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during DrawSurfaceDesc", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during DrawSurfaceDesc", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWBaseWin.pas:341
-        public virtual void SetILFrame(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILFrame(TInterfaceIL Value)
         {
             if (Value != FILFrame)
             {
@@ -541,7 +531,7 @@ namespace Aow.Units.AoWBaseWin
         }
 
         // AoWBaseWin.pas:350
-        public virtual void SetILTexture(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTexture(TInterfaceIL Value)
         {
             if (Value != FILTexture)
             {
@@ -571,21 +561,21 @@ namespace Aow.Units.AoWBaseWin
         }
 
         // AoWBaseWin.pas:359
-        public void SetManager(Aow.Units.AOWWinManager.TAOWWinManager Value)
+        public void SetManager(TAOWWinManager Value)
         {
             SetOwner(Value);
         }
 
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
+        public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+        public TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
         public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
         public int ILIndexTexture { get => FILIndexTexture; set => SetILTIndex(value); }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnHide { get => FOnHide; set => FOnHide = value; }
+        public TNotifyEvent OnHide { get => FOnHide; set => FOnHide = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnShow { get => FOnShow; set => FOnShow = value; }
+        public TNotifyEvent OnShow { get => FOnShow; set => FOnShow = value; }
     }
 
     public static partial class AoWBaseWin

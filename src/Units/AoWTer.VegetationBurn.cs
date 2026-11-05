@@ -9,7 +9,7 @@ public partial class TAoWTerrain
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
     public void ValidateDenseVegetationBurned(object info)
     {
-        if (((TFire)info).FAge < 2 || (short)FResource.TerrainList.Overlay[0] != 1) return;
+        if (((TFire)info).FAge < 2 || FResource.TerrainList.Overlay[0] != 1) return;
         var resource = FindCompatibleResource(((TTerrainMOR)FResource).TerrainType, 3, 3);
         if (resource == null) return;
         UpdateTerrain((TMapLevel)Owner.Owner, GetXhx(), GetYhx());

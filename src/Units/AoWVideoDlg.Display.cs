@@ -1,4 +1,5 @@
 #nullable disable
+using Aow.Platform;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AoWVideoDlg;
@@ -7,7 +8,7 @@ public partial class TVideoDialog
 {
     public void ApplyMode()
     {
-        if (!FModeChanged || Aow.Platform.GameHost.MainForm is not { } form) return;
+        if (!FModeChanged || GameHost.MainForm is not { } form) return;
         bool full = form.Display.Host.Fullscreen;
         if (FFullScreen == TScreenMode.scmWindowed || !full) ChangeResolution(0, 0);
         else if (FFullScreen == TScreenMode.scmTitle && AoWEngine.FRegistry.GetAllowResolutionSwitches()) ChangeResolution(FSceneWidth, FSceneHeight);
@@ -16,14 +17,14 @@ public partial class TVideoDialog
     }
     public void ChangeResolution(int width, int height)
     {
-        var form = Aow.Platform.GameHost.MainForm;
+        var form = GameHost.MainForm;
         if (form is null) return;
         if (width == 0 || height == 0) (width, height) = form.Display.Host.ClientSize;
         form.Display.ResizeBackSurfaces(width, height);
     }
     public int CurrentMode()
     {
-        if (Aow.Platform.GameHost.MainForm is not { } form || !form.Display.Host.Fullscreen) return 0;
+        if (GameHost.MainForm is not { } form || !form.Display.Host.Fullscreen) return 0;
         for (int i = 0; i < FDisplayModes.Count; i++)
             if (FDisplayModes.Items[i].Width == form.Display.BackSurfaceWidth && FDisplayModes.Items[i].Height == form.Display.BackSurfaceHeight) return i + 1;
         return 0;

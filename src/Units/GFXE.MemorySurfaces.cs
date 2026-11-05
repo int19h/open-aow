@@ -1,3 +1,4 @@
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Units.GFXE;
@@ -151,9 +152,9 @@ public partial class TSurface
                 switch (sd.BitCount)
                 {
                     case 8: row.AsSpan(sd.Width).Fill((byte)pixel); break;
-                    case 16: Aow.Graphics.Blit.FillWord(row, sd.Width, pixel); break;
-                    case 24: if (sd.Width > 0) Aow.Graphics.Blit.FillTrippleByte(row, sd.Width, pixel); break;
-                    case 32: Aow.Graphics.Blit.FillInt(row, sd.Width, pixel); break;
+                    case 16: Blit.FillWord(row, sd.Width, pixel); break;
+                    case 24: if (sd.Width > 0) Blit.FillTrippleByte(row, sd.Width, pixel); break;
+                    case 32: Blit.FillInt(row, sd.Width, pixel); break;
                     default: return GFXE.GFXE_NOTSUPPORTED;
                 }
             }
@@ -179,7 +180,7 @@ public static partial class GFXE
         };
     }
     public static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in TSurfaceDesc SD)
-        => Aow.Graphics.Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD);
+        => Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD);
     public static int ColorFillSD(TRect R, int Color, in TSurfaceDesc SD)
     {
         if (SD.PixelFormatID != pfRGB555 && SD.PixelFormatID != pfARGB1555 && SD.PixelFormatID != pfRGB565) return GFXE_NOTSUPPORTED;
@@ -188,7 +189,7 @@ public static partial class GFXE
         if (left >= right || top >= bottom) return GFXE_OK;
         int pixel = Color2PixelInfo(Color, SD.PixelFormatID, null);
         var data = Rtl.Rtl.BytePointer(SD.Data);
-        for (int y = top; y < bottom; y++) Aow.Graphics.Blit.FillWord(data + y * SD.Pitch + left * 2, right - left, pixel);
+        for (int y = top; y < bottom; y++) Blit.FillWord(data + y * SD.Pitch + left * 2, right - left, pixel);
         return GFXE_OK;
     }
 }

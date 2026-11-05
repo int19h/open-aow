@@ -1,19 +1,21 @@
-using Aow.Rtl;
+using Aow.Units.AoWE;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
 
 namespace Aow.Units.AoWHex;
 
 public partial class TAoWWaterHexagon
 {
     // AoWHex.pas:315. The base texture includes an owner-address phase.
-    public override void Show(int xSurface, int ySurface, in Aow.Units.GFXE.TSurfaceDesc surface)
+    public override void Show(int xSurface, int ySurface, in TSurfaceDesc surface)
     {
-        var field = (Aow.Units.HSEngine.TMapField)Owner;
+        var field = (TMapField)Owner;
         int x = 0, y = 0;
-        Aow.Units.HSEngine.HSEngine.HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
+        HSEngine.HSEngine.HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
         x -= xSurface + 8;
         y -= ySurface;
         var library = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        int phase = Aow.Units.AoWE.FrameFixtureInputs.WaterVariantPhase ?? (int)((uint)Aow.Rtl.Rtl.ObjectToInt(Owner) >> 3);
+        int phase = FrameFixtureInputs.WaterVariantPhase ?? (int)((uint)Rtl.Rtl.ObjectToInt(Owner) >> 3);
         library[((phase + field.Xhx + field.Yhx * 2 + (FSides >> 6)) & 15) + 140].Show(x, y, surface);
         x -= 6;
         y -= 9;

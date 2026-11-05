@@ -1,12 +1,7 @@
 // Translated from FileSecurity.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 
 namespace Aow.Units.FileSecurity
 {
@@ -18,11 +13,11 @@ namespace Aow.Units.FileSecurity
         [FieldOffset(4)]
         public byte Key;
         [FieldOffset(5)]
-        public Aow.Units.FixedArray_byte_51 ID__image;
-        public Aow.Rtl.AnsiString ID { get => Aow.Rtl.Rtl.ReadShortString((ReadOnlySpan<byte>)ID__image); set => Aow.Rtl.Rtl.WriteShortString((Span<byte>)ID__image, value); }
+        public FixedArray_byte_51 ID__image;
+        public AnsiString ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
         [FieldOffset(56)]
-        public Aow.Units.FixedArray_byte_50 Reserved38;
+        public FixedArray_byte_50 Reserved38;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 12)]
@@ -33,7 +28,7 @@ namespace Aow.Units.FileSecurity
         [FieldOffset(4)]
         public int Size;
         [FieldOffset(8)]
-        public Aow.Units.FixedArray_byte_4 Signature;
+        public FixedArray_byte_4 Signature;
     }
 
     public static partial class FileSecurity
@@ -42,13 +37,13 @@ namespace Aow.Units.FileSecurity
         // { FileSecurity, from AoWEPACK.dpl. Security trailers use a $6A-byte data record
 //   and a $0C-byte footer containing CRC32, size and the SDID signature.
 //   The four unnamed helpers follow PageTurnCtrl's finalization in code order. }
-        public static bool GetFileSecurityID(Aow.Rtl.AnsiString FileName, ref Aow.Rtl.AnsiString ID)
+        public static bool GetFileSecurityID(AnsiString FileName, ref AnsiString ID)
         {
             bool Result = default;
-            Aow.Units.FileSecurity.TSecurityData Data = default;
-            if (Aow.Units.FileSecurity.FileSecurity.ReadSecurityData(FileName, ref Data))
+            TSecurityData Data = default;
+            if (ReadSecurityData(FileName, ref Data))
             {
-                var call__1 = Aow.Units.FileSecurity.FileSecurity.EncodeSecurityID(Data.ID, unchecked((byte)Data.Key));
+                var call__1 = EncodeSecurityID(Data.ID, Data.Key);
                 ID = call__1;
                 Result = true;
             }
@@ -62,32 +57,32 @@ namespace Aow.Units.FileSecurity
         }
 
         // FileSecurity.pas:148
-        public static bool SetFileSecurityID(Aow.Rtl.AnsiString FileName, Aow.Rtl.AnsiString ID)
+        public static bool SetFileSecurityID(AnsiString FileName, AnsiString ID)
         {
             bool Result = default;
-            Aow.Units.FileSecurity.TSecurityData Data = default;
+            TSecurityData Data = default;
             byte Key = default;
             Data = default;
-            Key = unchecked((byte)Aow.Rtl.Rtl.Random(256));
-            Data.Key = unchecked((byte)Key);
-            var call__2 = Aow.Units.FileSecurity.FileSecurity.EncodeSecurityID(ID, unchecked((byte)Key));
-            Data.ID = (Aow.Rtl.AnsiString)call__2;
-            Result = Aow.Units.FileSecurity.FileSecurity.WriteSecurityData(FileName, Data);
+            Key = (byte)Random(256);
+            Data.Key = Key;
+            var call__2 = EncodeSecurityID(ID, Key);
+            Data.ID = call__2;
+            Result = WriteSecurityData(FileName, Data);
             return Result;
         }
 
         // FileSecurity.pas:160
-        public static bool RemoveFileSecurityID(Aow.Rtl.AnsiString FileName)
+        public static bool RemoveFileSecurityID(AnsiString FileName)
         {
             bool Result = default;
-            Result = Aow.Units.FileSecurity.FileSecurity.RemoveSecurityData(FileName);
+            Result = RemoveSecurityData(FileName);
             return Result;
         }
 
         // FileSecurity.pas:31
-        public static Aow.Rtl.AnsiString EncodeSecurityID(Aow.Rtl.AnsiString Value, byte Key)
+        public static AnsiString EncodeSecurityID(AnsiString Value, byte Key)
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             int I = default;
             Result = (AnsiString)"";
             {
@@ -95,7 +90,7 @@ namespace Aow.Units.FileSecurity
                 int end__3 = Value.Length;
                 for (; I <= end__3; I += 1)
                 {
-                    Result = Result + AnsiString.FromBytes(unchecked((byte)(unchecked((byte)(((Value.Length + (I + 5)) + unchecked((byte)(Key + 0))) & 255)) ^ Value[I])));
+                    Result = Result + AnsiString.FromBytes((byte)((byte)((Value.Length + (I + 5) + (byte)(Key + 0)) & 255) ^ Value[I]));
                 }
             }
 
@@ -103,17 +98,17 @@ namespace Aow.Units.FileSecurity
         }
 
         // FileSecurity.pas:63
-        public static bool WriteSecurityData(Aow.Rtl.AnsiString FileName, in Aow.Units.FileSecurity.TSecurityData Data)
+        public static bool WriteSecurityData(AnsiString FileName, in TSecurityData Data)
         {
             /* TODO: Implement Windows.CreateFile in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // FileSecurity.pas:99
-        public static bool RemoveSecurityData(Aow.Rtl.AnsiString FileName)
+        public static bool RemoveSecurityData(AnsiString FileName)
         {
             /* TODO: Implement Windows.CreateFile in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public static void Initialize()

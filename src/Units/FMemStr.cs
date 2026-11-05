@@ -1,10 +1,7 @@
 // Translated from FMemStr.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 namespace Aow.Units.FMemStr
 {
@@ -12,7 +9,7 @@ namespace Aow.Units.FMemStr
 //   by tools/match.py. TFastMemoryStream is Delphi 3's TMemoryStream with a direct Position field, a
 //   32/128-byte capacity granularity and one-, two- and four-byte fast paths in Read and Write. }
     // FMemory, FSize, FPosition, FCapacity
-    public partial class TFastMemoryStream : Aow.Rtl.TStream
+    public partial class TFastMemoryStream : TStream
     {
         internal byte[] FMemory = [];
         internal int FSize;
@@ -82,7 +79,7 @@ namespace Aow.Units.FMemStr
                 {
                     {
                         int value__3 = MemoryMarshal.Read<int>(FMemory.AsSpan(FPosition, 4));
-                        MemoryMarshal.Write<int>(Buffer, in value__3);
+                        MemoryMarshal.Write(Buffer, in value__3);
                     }
                 }
                 else
@@ -90,8 +87,8 @@ namespace Aow.Units.FMemStr
                     if (Count == 1)
                     {
                         {
-                            byte value__4 = unchecked((byte)MemoryMarshal.Read<byte>(FMemory.AsSpan(FPosition, 1)));
-                            MemoryMarshal.Write<byte>(Buffer, in value__4);
+                            byte value__4 = MemoryMarshal.Read<byte>(FMemory.AsSpan(FPosition, 1));
+                            MemoryMarshal.Write(Buffer, in value__4);
                         }
                     }
                     else
@@ -99,13 +96,13 @@ namespace Aow.Units.FMemStr
                         if (Count == 2)
                         {
                             {
-                                ushort value__5 = unchecked((ushort)MemoryMarshal.Read<ushort>(FMemory.AsSpan(FPosition, 2)));
-                                MemoryMarshal.Write<ushort>(Buffer, in value__5);
+                                ushort value__5 = MemoryMarshal.Read<ushort>(FMemory.AsSpan(FPosition, 2));
+                                MemoryMarshal.Write(Buffer, in value__5);
                             }
                         }
                         else
                         {
-                            Aow.Rtl.Rtl.Move(FMemory.AsSpan(FPosition, Result), Buffer.Slice(0, Result), Result);
+                            Move(FMemory.AsSpan(FPosition, Result), Buffer.Slice(0, Result), Result);
                         }
                     }
                 }
@@ -124,7 +121,7 @@ namespace Aow.Units.FMemStr
             int Count = Buffer.Length;
             int Result = default;
             int Pos = default;
-            if ((FPosition >= 0) && (Count >= 0))
+            if (FPosition >= 0 && Count >= 0)
             {
                 Pos = FPosition + Count;
                 if (Pos > 0)
@@ -143,7 +140,7 @@ namespace Aow.Units.FMemStr
                     {
                         {
                             int value__6 = MemoryMarshal.Read<int>(Buffer);
-                            MemoryMarshal.Write<int>(FMemory.AsSpan(FPosition, 4), in value__6);
+                            MemoryMarshal.Write(FMemory.AsSpan(FPosition, 4), in value__6);
                         }
                     }
                     else
@@ -151,8 +148,8 @@ namespace Aow.Units.FMemStr
                         if (Count == 1)
                         {
                             {
-                                byte value__7 = unchecked((byte)MemoryMarshal.Read<byte>(Buffer));
-                                MemoryMarshal.Write<byte>(FMemory.AsSpan(FPosition, 1), in value__7);
+                                byte value__7 = MemoryMarshal.Read<byte>(Buffer);
+                                MemoryMarshal.Write(FMemory.AsSpan(FPosition, 1), in value__7);
                             }
                         }
                         else
@@ -160,14 +157,14 @@ namespace Aow.Units.FMemStr
                             if (Count == 2)
                             {
                                 {
-                                    ushort value__8 = unchecked((ushort)MemoryMarshal.Read<ushort>(Buffer));
-                                    MemoryMarshal.Write<ushort>(FMemory.AsSpan(FPosition, 2), in value__8);
+                                    ushort value__8 = MemoryMarshal.Read<ushort>(Buffer);
+                                    MemoryMarshal.Write(FMemory.AsSpan(FPosition, 2), in value__8);
                                 }
                             }
                             else
                             {
                                 if (Count != 0)
-                                    Aow.Rtl.Rtl.Move(Buffer.Slice(0, Count), FMemory.AsSpan(FPosition, Count), Count);
+                                    Move(Buffer.Slice(0, Count), FMemory.AsSpan(FPosition, Count), Count);
                             }
                         }
                     }
@@ -212,7 +209,7 @@ namespace Aow.Units.FMemStr
         }
 
         // FMemStr.pas:103
-        public void LoadFromStream(Aow.Rtl.TStream Stream)
+        public void LoadFromStream(TStream Stream)
         {
             int Count = default;
             Stream.Position = 0;
@@ -226,10 +223,10 @@ namespace Aow.Units.FMemStr
         }
 
         // FMemStr.pas:113
-        public void LoadFromFile(Aow.Rtl.AnsiString FileName)
+        public void LoadFromFile(AnsiString FileName)
         {
-            Aow.Rtl.TStream Stream = default;
-            Stream = new Aow.Rtl.TFileStream(FileName, 0);
+            TStream Stream = default;
+            Stream = new TFileStream(FileName, 0);
             try
             {
                 LoadFromStream(Stream);
@@ -241,7 +238,7 @@ namespace Aow.Units.FMemStr
         }
 
         // FMemStr.pas:73
-        public void SaveToStream(Aow.Rtl.TStream Stream)
+        public void SaveToStream(TStream Stream)
         {
             if (FSize != 0)
             {
@@ -250,10 +247,10 @@ namespace Aow.Units.FMemStr
         }
 
         // FMemStr.pas:78
-        public void SaveToFile(Aow.Rtl.AnsiString FileName)
+        public void SaveToFile(AnsiString FileName)
         {
-            Aow.Rtl.TStream Stream = default;
-            Stream = new Aow.Rtl.TFileStream(FileName, 65535);
+            TStream Stream = default;
+            Stream = new TFileStream(FileName, 65535);
             try
             {
                 SaveToStream(Stream);

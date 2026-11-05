@@ -1,151 +1,97 @@
 // Translated from AoWTBWindow.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AOWMenuBar;
-using static Aow.Units.AOWMenuBar.AOWMenuBar;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWCheckBox;
-using static Aow.Units.AoWCheckBox.AoWCheckBox;
 using Aow.Units.AoWEdit;
-using static Aow.Units.AoWEdit.AoWEdit;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
 using Aow.Units.TurnButton;
-using static Aow.Units.TurnButton.TurnButton;
-using Aow.Units.AoWPInfoWin;
 using static Aow.Units.AoWPInfoWin.AoWPInfoWin;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.AoWTCUnit;
 using static Aow.Units.AoWTCUnit.AoWTCUnit;
-using Aow.Units.AoWRealm;
 using static Aow.Units.AoWRealm.AoWRealm;
-using Aow.Units.aowMapEvents;
 using static Aow.Units.aowMapEvents.aowMapEvents;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
-using Aow.Units.E1Globals;
 using static Aow.Units.E1Globals.E1Globals;
-using Aow.Units.E1GameFlow;
 using static Aow.Units.E1GameFlow.E1GameFlow;
 
 namespace Aow.Units.AoWTBWindow
 {
     // indicator frame/step, world/combat clock delays, chat flash countdown
-    public partial class TTBWindow : Aow.Rtl.TDataModule
+    public partial class TTBWindow : TDataModule
     {
         public TTBWindow(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow TaskWindow;
-        public Aow.Units.AoWButton.TAOWButton TBNextButton;
-        public Aow.Units.AOWMenuBar.TAOWMenuBar StartMenuBar;
-        public Aow.Units.AoWEdit.TAOWEdit TBMessEdit;
-        public Aow.Units.AoWLabel.TAOWLabel WGILbl;
-        public Aow.Units.AoWLabel.TAOWLabel WGTLbl;
-        public Aow.Units.TurnButton.TAOWTurnButton TurnButton;
-        public Aow.Units.AoWButton.TAOWButton WMButton;
-        public Aow.Units.AoWButton.TAOWButton OVButton;
-        public Aow.Units.AoWButton.TAOWButton ConButton;
-        public Aow.Units.AoWButton.TAOWButton StructButton;
-        public Aow.Units.AoWButton.TAOWButton OV2Btn;
-        public Aow.Units.AoWButton.TAOWButton InfoBtn;
-        public Aow.Units.AoWButton.TAOWButton ChatBtn;
-        public Aow.Units.AoWPanel.TAOWPanel TaskPanel;
-        public Aow.Units.AoWPanel.TAOWPanel WGIPnl;
-        public Aow.Units.AoWFrame.TAoWFrame TBbk;
-        public Aow.Units.AoWImage.TAOWImage TimerImg;
-        public Aow.Units.AoWImage.TAOWImage TimeIcn;
-        public Aow.Units.AoWLabel.TAOWLabel TimeLbl;
-        public Aow.Units.AoWFrame.TAoWFrame PInd;
-        public Aow.Units.AoWImage.TAOWImage CurP;
-        public Aow.Units.AoWPanel.TAOWPanel TBWorld;
-        public Aow.Units.AoWButton.TAOWButton TCNextBtn;
-        public Aow.Units.AOWMenuBar.TAOWMenuBar TCStartBar;
-        public Aow.Units.AoWEdit.TAOWEdit TCMsg;
-        public Aow.Units.TurnButton.TAOWTurnButton TCTurnButton;
-        public Aow.Units.AoWButton.TAOWButton TCScannerBtn;
-        public Aow.Units.AoWButton.TAOWButton TCUnitBtn;
-        public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        public Aow.Units.AoWImage.TAOWImage TCTimerImg;
-        public Aow.Units.AoWImage.TAOWImage TCTimeImg;
-        public Aow.Units.AoWLabel.TAOWLabel TCTimeLbl;
-        public Aow.Units.AoWFrame.TAoWFrame TCPInd;
-        public Aow.Units.AoWImage.TAOWImage TCCurP;
-        public Aow.Units.AoWPanel.TAOWPanel TBCombat;
-        public Aow.Units.AoWPanel.TAOWPanel TCPnl;
-        public Aow.Units.AoWButton.TAOWButton TCChatBtn;
-        public Aow.Units.AoWPanel.TAOWPanel WGoldPnl;
-        public Aow.Units.AoWLabel.TAOWLabel WGSign;
-        public Aow.Units.AoWLabel.TAOWLabel WMILbl;
-        public Aow.Units.AoWLabel.TAOWLabel WMTLbl;
-        public Aow.Units.AoWPanel.TAOWPanel WMIPnl;
-        public Aow.Units.AoWPanel.TAOWPanel WManaPnl;
-        public Aow.Units.AoWLabel.TAOWLabel WMTSign;
-        public Aow.Units.AoWLabel.TAOWLabel TGILbl;
-        public Aow.Units.AoWLabel.TAOWLabel TGTLbl;
-        public Aow.Units.AoWImage.TAOWImage TGIcn;
-        public Aow.Units.AoWPanel.TAOWPanel TGIPnl;
-        public Aow.Units.AoWPanel.TAOWPanel TGoldPnl;
-        public Aow.Units.AoWLabel.TAOWLabel TGSign;
-        public Aow.Units.AoWLabel.TAOWLabel TMILbl;
-        public Aow.Units.AoWLabel.TAOWLabel TMTLbl;
-        public Aow.Units.AoWImage.TAOWImage TWMIcn;
-        public Aow.Units.AoWPanel.TAOWPanel TMIPnl;
-        public Aow.Units.AoWPanel.TAOWPanel TManaPnl;
-        public Aow.Units.AoWLabel.TAOWLabel TMTSign;
-        public Aow.Units.AoWButton.TAOWButton RelationsBtn;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox AutoBtn;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWWindow TaskWindow;
+        public TAOWButton TBNextButton;
+        public TAOWMenuBar StartMenuBar;
+        public TAOWEdit TBMessEdit;
+        public TAOWLabel WGILbl;
+        public TAOWLabel WGTLbl;
+        public TAOWTurnButton TurnButton;
+        public TAOWButton WMButton;
+        public TAOWButton OVButton;
+        public TAOWButton ConButton;
+        public TAOWButton StructButton;
+        public TAOWButton OV2Btn;
+        public TAOWButton InfoBtn;
+        public TAOWButton ChatBtn;
+        public TAOWPanel TaskPanel;
+        public TAOWPanel WGIPnl;
+        public TAoWFrame TBbk;
+        public TAOWImage TimerImg;
+        public TAOWImage TimeIcn;
+        public TAOWLabel TimeLbl;
+        public TAoWFrame PInd;
+        public TAOWImage CurP;
+        public TAOWPanel TBWorld;
+        public TAOWButton TCNextBtn;
+        public TAOWMenuBar TCStartBar;
+        public TAOWEdit TCMsg;
+        public TAOWTurnButton TCTurnButton;
+        public TAOWButton TCScannerBtn;
+        public TAOWButton TCUnitBtn;
+        public TAoWFrame AoWFrame1;
+        public TAOWImage TCTimerImg;
+        public TAOWImage TCTimeImg;
+        public TAOWLabel TCTimeLbl;
+        public TAoWFrame TCPInd;
+        public TAOWImage TCCurP;
+        public TAOWPanel TBCombat;
+        public TAOWPanel TCPnl;
+        public TAOWButton TCChatBtn;
+        public TAOWPanel WGoldPnl;
+        public TAOWLabel WGSign;
+        public TAOWLabel WMILbl;
+        public TAOWLabel WMTLbl;
+        public TAOWPanel WMIPnl;
+        public TAOWPanel WManaPnl;
+        public TAOWLabel WMTSign;
+        public TAOWLabel TGILbl;
+        public TAOWLabel TGTLbl;
+        public TAOWImage TGIcn;
+        public TAOWPanel TGIPnl;
+        public TAOWPanel TGoldPnl;
+        public TAOWLabel TGSign;
+        public TAOWLabel TMILbl;
+        public TAOWLabel TMTLbl;
+        public TAOWImage TWMIcn;
+        public TAOWPanel TMIPnl;
+        public TAOWPanel TManaPnl;
+        public TAOWLabel TMTSign;
+        public TAOWButton RelationsBtn;
+        public TAOWCheckBox AutoBtn;
+        public TIvTranslator Translator;
         public int FIndicatorFrame;
         public int FIndicatorStep;
         public short FWorldClockDelay;
@@ -155,17 +101,17 @@ namespace Aow.Units.AoWTBWindow
         public void TurnButtonAnimDone()
         {
             TurnButton.Checked = false;
-            if (Aow.Units.AoWTC.AoWTC.AoWCombatMap != null)
+            if (AoWCombatMap != null)
             {
-                Aow.Units.AoWTC.AoWTC.AoWCombatMap.FEndTurnPending = true;
+                AoWCombatMap.FEndTurnPending = true;
             }
         }
 
         // AoWTBWindow.pas:128
         public void WMButtonClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible = !Aow.Units.AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible;
+            General.PlayButtonSound(0);
+            AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible = !AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible;
         }
 
         // AoWTBWindow.pas:134
@@ -173,134 +119,134 @@ namespace Aow.Units.AoWTBWindow
         {
             if (A1 != 0)
             {
-                Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+                General.PlayButtonSound(0);
             }
 
-            Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible = !Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible;
-            if (Aow.Units.AoWRealm.AoWRealm.RealmWin.Dlg.Visible)
+            RealmWin.Dlg.Visible = !RealmWin.Dlg.Visible;
+            if (RealmWin.Dlg.Visible)
             {
-                Aow.Units.AoWRealm.AoWRealm.RealmWin.UpdateOverview();
+                RealmWin.UpdateOverview();
             }
         }
 
         // AoWTBWindow.pas:141
         public void ConButtonClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = !Aow.Units.AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
+            General.PlayButtonSound(0);
+            AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = !AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
         }
 
         // AoWTBWindow.pas:147
         public void StructButtonClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible = !Aow.Units.AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible;
+            General.PlayButtonSound(0);
+            AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible = !AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible;
         }
 
         // AoWTBWindow.pas:153
         public void TBNextButtonClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWE.AoWE.AoWHSMap.SelectNextArmy();
+            General.PlayButtonSound(0);
+            AoWHSMap.SelectNextArmy();
         }
 
         // AoWTBWindow.pas:159
         public void UnitBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = true;
+            General.PlayButtonSound(0);
+            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = true;
         }
 
         // AoWTBWindow.pas:165
-        public void InfoBtnClick(Aow.Rtl.TObject Sender)
+        public void InfoBtnClick(TObject Sender)
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            if (Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible)
+            General.PlayButtonSound(0);
+            if (PInfoW.PInfoWin.Visible)
             {
-                Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible = false;
+                PInfoW.PInfoWin.Visible = false;
             }
             else
             {
-                Aow.Units.AoWPInfoWin.AoWPInfoWin.PInfoW.UpdatePlayer();
+                PInfoW.UpdatePlayer();
             }
         }
 
         // AoWTBWindow.pas:172
         public void ProdBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
         }
 
         // AoWTBWindow.pas:177
         public void COBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
         }
 
         // AoWTBWindow.pas:182
         public void ChatBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible = !Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.ChatWin.Visible;
+            General.PlayButtonSound(0);
+            ChatWindow.ChatWin.Visible = !ChatWindow.ChatWin.Visible;
         }
 
         // AoWTBWindow.pas:188
         public void TurnButtonChange()
         {
-            var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__1 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             if (!call__1.FSingleProcessCycle)
             {
-                var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.EndTurn();
+                var call__2 = AoWHSMap.EndTurn();
                 TurnButton.Checked = call__2;
             }
             else
             {
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.CancelEndTurn();
+                var call__3 = AoWHSMap.CancelEndTurn();
                 TurnButton.Checked = !call__3;
             }
         }
 
         // AoWTBWindow.pas:195
-        public void PIndDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void PIndDraw(TObject Sender, TSurfaceDesc Surface)
         {
             int I = default;
             int Position = default;
             int Race = default;
             Position = 0;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
+            if (AoWHSMap != null)
             {
                 {
                     I = 0;
-                    int end__4 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount() - 1;
+                    int end__4 = AoWHSMap.FPlayers.GetCount() - 1;
                     for (; I <= end__4; I += 1)
                     {
-                        var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                        if (call__5.FStatus == Aow.Units.AoWE.TPlayerStatus.psPlaying)
+                        var call__5 = AoWHSMap.FPlayers.GetPlayers(I);
+                        if (call__5.FStatus == TPlayerStatus.psPlaying)
                         {
-                            var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                            var call__6 = AoWHSMap.FPlayers.GetPlayers(I);
                             Race = call__6.FPlayerRace;
                             if (Race == -1)
                             {
                                 Race = 12;
                             }
 
-                            var call__7 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
-                            call__7.ShowClipped((PInd.WinLeft + 3) + (Position * 5), PInd.WinTop + 2, Surface);
-                            if (Aow.Units.AoWE.AoWE.AoWHSMap.FPlayMode == Aow.Units.AoWE.TPlayMode.pmTurn)
+                            var call__7 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
+                            call__7.ShowClipped(PInd.WinLeft + 3 + Position * 5, PInd.WinTop + 2, Surface);
+                            if (AoWHSMap.FPlayMode == TPlayMode.pmTurn)
                             {
-                                if (I == Aow.Units.AoWE.AoWE.AoWHSMap.FCurrentPlayer)
+                                if (I == AoWHSMap.FCurrentPlayer)
                                 {
-                                    CurP.WinLeft = (PInd.WinLeft + 2) + (Position * 5);
+                                    CurP.WinLeft = PInd.WinLeft + 2 + Position * 5;
                                     CurP.WinTop = PInd.WinTop + 11;
                                 }
                             }
                             else
                             {
-                                var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                                var call__8 = AoWHSMap.FPlayers.GetPlayers(I);
                                 if (call__8.FSingleProcessCycle)
                                 {
-                                    var call__9 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[50];
-                                    call__9.ShowClipped((PInd.WinLeft + 2) + (Position * 5), PInd.WinTop + 11, Surface);
+                                    var call__9 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[50];
+                                    call__9.ShowClipped(PInd.WinLeft + 2 + Position * 5, PInd.WinTop + 11, Surface);
                                 }
                             }
 
@@ -334,25 +280,25 @@ namespace Aow.Units.AoWTBWindow
         {
             if (TCTurnButton.Checked)
             {
-                var call__10 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.EndTurn(false);
+                var call__10 = AoWCombatMap.EndTurn(false);
                 TCTurnButton.Checked = call__10;
             }
             else
             {
-                Aow.Units.AoWTC.AoWTC.AoWCombatMap.CancelEndTurn();
+                AoWCombatMap.CancelEndTurn();
             }
         }
 
         // AoWTBWindow.pas:237
         public void TCTurnButtonAnimDone()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
+            General.Manager.OverlayPriority = 0;
             TCTurnButton.Checked = false;
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FEndTurnPending = true;
+            AoWCombatMap.FEndTurnPending = true;
         }
 
         // AoWTBWindow.pas:244
-        public void TCPIndDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void TCPIndDraw(TObject Sender, TSurfaceDesc Surface)
         {
             int I = default;
             int Position = default;
@@ -360,24 +306,24 @@ namespace Aow.Units.AoWTBWindow
             Position = 0;
             {
                 I = 0;
-                int end__11 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count - 1;
+                int end__11 = AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count - 1;
                 for (; I <= end__11; I += 1)
                 {
-                    var call__12 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
-                    var call__13 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)call__12));
-                    var call__14 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__13.FPlayer);
+                    var call__12 = AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
+                    var call__13 = AoWCombatMap.FPlayers.GetPlayers((sbyte)call__12);
+                    var call__14 = AoWHSMap.FPlayers.GetPlayers(call__13.FPlayer);
                     Race = call__14.FPlayerRace;
                     if (Race == -1)
                     {
                         Race = 12;
                     }
 
-                    var call__15 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
-                    call__15.ShowClipped((TCPInd.WinLeft + 3) + (Position * 5), TCPInd.WinTop + 2, Surface);
-                    var call__16 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
-                    if (call__16 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentCombatPlayer)
+                    var call__15 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
+                    call__15.ShowClipped(TCPInd.WinLeft + 3 + Position * 5, TCPInd.WinTop + 2, Surface);
+                    var call__16 = AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
+                    if (call__16 == AoWCombatMap.FCurrentCombatPlayer)
                     {
-                        TCCurP.WinLeft = (TCPInd.WinLeft + 2) + (Position * 5);
+                        TCCurP.WinLeft = TCPInd.WinLeft + 2 + Position * 5;
                         TCCurP.WinTop = TCPInd.WinTop + 11;
                     }
 
@@ -407,37 +353,37 @@ namespace Aow.Units.AoWTBWindow
         // AoWTBWindow.pas:273
         public void TCScannerBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.Visible = !Aow.Units.AoWExeForms.AoWExeForms.TCScanner.TCScannerWin.Visible;
+            General.PlayButtonSound(0);
+            TCScanner.TCScannerWin.Visible = !TCScanner.TCScannerWin.Visible;
         }
 
         // AoWTBWindow.pas:279
         public void TCNextBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.SelectNextUnit(true);
+            General.PlayButtonSound(0);
+            AoWCombatMap.SelectNextUnit(true);
         }
 
         // AoWTBWindow.pas:285
-        public void TBWorldUpdate(Aow.Rtl.TObject Sender)
+        public void TBWorldUpdate(TObject Sender)
         {
             ushort Hour = default;
             ushort Minute = default;
             ushort Second = default;
             ushort Millisecond = default;
-            if (TBWorld.Visible && (Aow.Units.AoWE.AoWE.AoWHSMap != null))
+            if (TBWorld.Visible && AoWHSMap != null)
             {
-                FWorldClockDelay = (short)(((int)FWorldClockDelay) - 1);
+                FWorldClockDelay = (short)(FWorldClockDelay - 1);
                 if (FWorldClockDelay < 0)
                 {
-                    if (Aow.Units.AoWE.AoWE.AoWHSMap.FTurnTime != 0)
+                    if (AoWHSMap.FTurnTime != 0)
                     {
                         FWorldClockDelay = 10;
-                        var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.GetTurnTimeLeft();
-                        Minute = unchecked((ushort)(call__17 / 60000));
-                        var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.GetTurnTimeLeft();
-                        Second = unchecked((ushort)((call__18 % 60000) / 1000));
-                        if (((Minute == 0) && (Second > 0)) && (Second <= 10))
+                        var call__17 = AoWHSMap.GetTurnTimeLeft();
+                        Minute = (ushort)(call__17 / 60000);
+                        var call__18 = AoWHSMap.GetTurnTimeLeft();
+                        Second = (ushort)(call__18 % 60000 / 1000);
+                        if (Minute == 0 && Second > 0 && Second <= 10)
                         {
                             TimeLbl.TextColor = 255;
                         }
@@ -446,22 +392,22 @@ namespace Aow.Units.AoWTBWindow
                             TimeLbl.TextColor = 0;
                         }
 
-                        TimeLbl.Text = Aow.Rtl.Rtl.IntToStr(Minute) + AnsiString.FromBytes(58);
+                        TimeLbl.Text = IntToStr(Minute) + AnsiString.FromBytes(58);
                         if (Second < 10)
                         {
                             TimeLbl.Text = TimeLbl.Text + AnsiString.FromBytes(48);
                         }
 
-                        TimeLbl.Text = TimeLbl.Text + Aow.Rtl.Rtl.IntToStr(Second);
+                        TimeLbl.Text = TimeLbl.Text + IntToStr(Second);
                     }
                     else
                     {
                         FWorldClockDelay = 900;
-                        var call__19 = Aow.Rtl.Rtl.Time();
-                        Aow.Rtl.Rtl.DecodeTime(call__19, ref Hour, ref Minute, ref Second, ref Millisecond);
+                        var call__19 = Time();
+                        DecodeTime(call__19, ref Hour, ref Minute, ref Second, ref Millisecond);
                         if (Hour > 12)
                         {
-                            Hour = (ushort)(((int)Hour) - 12);
+                            Hour = (ushort)(Hour - 12);
                         }
 
                         if (Hour == 0)
@@ -469,36 +415,36 @@ namespace Aow.Units.AoWTBWindow
                             Hour = 12;
                         }
 
-                        TimeLbl.Text = Aow.Rtl.Rtl.IntToStr(Hour) + AnsiString.FromBytes(58);
+                        TimeLbl.Text = IntToStr(Hour) + AnsiString.FromBytes(58);
                         if (Minute < 10)
                         {
                             TimeLbl.Text = TimeLbl.Text + AnsiString.FromBytes(48);
                         }
 
-                        TimeLbl.Text = TimeLbl.Text + Aow.Rtl.Rtl.IntToStr(Minute);
+                        TimeLbl.Text = TimeLbl.Text + IntToStr(Minute);
                     }
                 }
             }
         }
 
         // AoWTBWindow.pas:317
-        public void TBCombatUpdate(Aow.Rtl.TObject Sender)
+        public void TBCombatUpdate(TObject Sender)
         {
             ushort Hour = default;
             ushort Minute = default;
             ushort Second = default;
             ushort Millisecond = default;
-            if (TBCombat.Visible && (Aow.Units.AoWTC.AoWTC.AoWCombatMap != null))
+            if (TBCombat.Visible && AoWCombatMap != null)
             {
-                FCombatClockDelay = (short)(((int)FCombatClockDelay) - 1);
+                FCombatClockDelay = (short)(FCombatClockDelay - 1);
                 if (FCombatClockDelay < 0)
                 {
                     FCombatClockDelay = 900;
-                    var call__20 = Aow.Rtl.Rtl.Time();
-                    Aow.Rtl.Rtl.DecodeTime(call__20, ref Hour, ref Minute, ref Second, ref Millisecond);
+                    var call__20 = Time();
+                    DecodeTime(call__20, ref Hour, ref Minute, ref Second, ref Millisecond);
                     if (Hour > 12)
                     {
-                        Hour = (ushort)(((int)Hour) - 12);
+                        Hour = (ushort)(Hour - 12);
                     }
 
                     if (Hour == 0)
@@ -506,13 +452,13 @@ namespace Aow.Units.AoWTBWindow
                         Hour = 12;
                     }
 
-                    TCTimeLbl.Text = Aow.Rtl.Rtl.IntToStr(Hour) + AnsiString.FromBytes(58);
+                    TCTimeLbl.Text = IntToStr(Hour) + AnsiString.FromBytes(58);
                     if (Minute < 10)
                     {
                         TCTimeLbl.Text = TCTimeLbl.Text + AnsiString.FromBytes(48);
                     }
 
-                    TCTimeLbl.Text = TCTimeLbl.Text + Aow.Rtl.Rtl.IntToStr(Minute);
+                    TCTimeLbl.Text = TCTimeLbl.Text + IntToStr(Minute);
                 }
             }
         }
@@ -520,47 +466,47 @@ namespace Aow.Units.AoWTBWindow
         // AoWTBWindow.pas:337
         public void OV2BtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            if (Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.Visible)
+            General.PlayButtonSound(0);
+            if (MagicWin.Dlg.Visible)
             {
-                Aow.Units.E1GameFlow.E1GameFlow.HideMagic(Aow.Units.AoWExeForms.AoWExeForms.MagicWin);
+                HideMagic(MagicWin);
             }
             else
             {
-                Aow.Units.aowMapEvents.aowMapEvents.ShowMagicWindow(Aow.Units.AoWExeForms.AoWExeForms.MagicWin);
+                ShowMagicWindow(MagicWin);
             }
         }
 
         // AoWTBWindow.pas:344
         public void TCUnitBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.Visible = !Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.Visible;
+            General.PlayButtonSound(0);
+            TCUnit.TCUnitWin.Visible = !TCUnit.TCUnitWin.Visible;
         }
 
         // AoWTBWindow.pas:350
         public void StartMenuBarChange()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(3);
+            General.PlayButtonSound(3);
         }
 
         // AoWTBWindow.pas:355
-        public void RelationsBtnClick(Aow.Rtl.TObject Sender)
+        public void RelationsBtnClick(TObject Sender)
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var relWindow = Aow.Units.E1Globals.E1Globals.RelWindow;
+            General.PlayButtonSound(0);
+            var relWindow = RelWindow;
             if (relWindow.RelWin.Visible)
             {
                 relWindow.RelWin.Visible = false;
             }
             else
             {
-                Aow.Units.E1Globals.E1Globals.RelWindow.ShowRelations(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                RelWindow.ShowRelations(AoWHSMap.FSeatedPlayer);
             }
         }
 
         // AoWTBWindow.pas:363
-        public void ChatBtnUpdate(Aow.Rtl.TObject Sender)
+        public void ChatBtnUpdate(TObject Sender)
         {
             if (FChatFlash > 0)
             {
@@ -572,7 +518,7 @@ namespace Aow.Units.AoWTBWindow
                     case 91:
                     case 121:
                     {
-                        var button = (Aow.Units.AoWButton.TAOWButton)Sender;
+                        var button = (TAOWButton)Sender;
                         button.FDrawn = false;
                         button.ILIndexUp = 14;
                     }
@@ -584,7 +530,7 @@ namespace Aow.Units.AoWTBWindow
                     case 106:
                     case 136:
                     {
-                        var button2 = (Aow.Units.AoWButton.TAOWButton)Sender;
+                        var button2 = (TAOWButton)Sender;
                         button2.FDrawn = false;
                         button2.ILIndexUp = 20;
                     }
@@ -592,16 +538,16 @@ namespace Aow.Units.AoWTBWindow
                         break;
                 }
 
-                FChatFlash = (short)(((int)FChatFlash) - 1);
+                FChatFlash = (short)(FChatFlash - 1);
             }
         }
 
         // AoWTBWindow.pas:377
         public void AutoBtn2Click()
         {
-            if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer > -1)
+            if (AoWCombatMap.FSeatedCombatPlayer > -1)
             {
-                var call__24 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayers.GetPlayers(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedCombatPlayer));
+                var call__24 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedCombatPlayer);
                 call__24.SetAuto(AutoBtn.Checked);
             }
         }

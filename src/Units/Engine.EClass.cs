@@ -25,7 +25,7 @@ public sealed class EClass
     public int InstanceSize { get; }
     // The base class's descriptor, null at TEObject.
     public EClass Parent { get; }
-    public string ClassName => Aow.Rtl.TObject.ClassNameOf(Type);
+    public string ClassName => TObject.ClassNameOf(Type);
 
     public TEObject Create(TECustomNode owner) => create(owner);
     public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);

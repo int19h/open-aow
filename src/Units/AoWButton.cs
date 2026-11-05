@@ -1,34 +1,12 @@
 // Translated from AoWButton.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.AOWMenuBar;
-using static Aow.Units.AOWMenuBar.AOWMenuBar;
 using Aow.Units.AOWMenu;
-using static Aow.Units.AOWMenu.AOWMenu;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWWinGeneric;
-using static Aow.Units.AoWWinGeneric.AoWWinGeneric;
 
 namespace Aow.Units.AoWButton
 {
@@ -41,19 +19,19 @@ namespace Aow.Units.AoWButton
     // FBorderHeight when it is up), FButtonType (btText: drawn from FILButton, btIcon: from
     // FILIcon. set by Validate), FILButton, FILIcon, FILIndexUp, FILIndexDown, FILIndexLit,
     // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
-    public partial class TAOWBaseButton : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWBaseButton : TAOWControl
     {
         public TAOWBaseButton(TComponent owner) : base(owner)
         { }
 
         public int FBorderHeightSelected;
-        public Aow.Units.AoWComp.TButtonType FButtonType;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILButton;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILIcon;
+        public TButtonType FButtonType;
+        public TInterfaceIL FILButton;
+        public TInterfaceIL FILIcon;
         public int FILIndexUp;
         public int FILIndexDown;
         public int FILIndexLit;
-        public Aow.Units.AOWMenu.TAOWMenu FPopupMenu;
+        public TAOWMenu FPopupMenu;
         public bool FLit;
         // AoWButton.pas:85
         public override void Validate()
@@ -70,7 +48,7 @@ namespace Aow.Units.AoWButton
                 FILButton = call__2;
             }
 
-            if ((FILButton != null) && (FILIndexLit != FILIndexUp))
+            if (FILButton != null && FILIndexLit != FILIndexUp)
             {
                 var call__3 = FILButton.CheckIL(FILIndexLit, 3, this);
                 FILButton = call__3;
@@ -88,7 +66,7 @@ namespace Aow.Units.AoWButton
                 FILIcon = call__5;
             }
 
-            if ((FILIcon != null) && (FILIndexLit != FILIndexUp))
+            if (FILIcon != null && FILIndexLit != FILIndexUp)
             {
                 var call__6 = FILIcon.CheckIL(FILIndexLit, 1, this);
                 FILIcon = call__6;
@@ -96,14 +74,14 @@ namespace Aow.Units.AoWButton
 
             if (FILButton != null)
             {
-                FButtonType = Aow.Units.AoWComp.TButtonType.btText;
+                FButtonType = TButtonType.btText;
                 FValid = true;
             }
             else
             {
                 if (FILIcon != null)
                 {
-                    FButtonType = Aow.Units.AoWComp.TButtonType.btIcon;
+                    FButtonType = TButtonType.btIcon;
                     FValid = true;
                 }
             }
@@ -116,10 +94,10 @@ namespace Aow.Units.AoWButton
         {
             switch (FButtonType)
             {
-                case Aow.Units.AoWComp.TButtonType.btText:
+                case TButtonType.btText:
                     var call__7 = FILButton[FILIndexUp];
                     var call__8 = FILButton[FILIndexUp + 2];
-                    if ((call__7.Width + call__8.Width) > FWinWidth)
+                    if (call__7.Width + call__8.Width > FWinWidth)
                     {
                         var call__9 = FILButton[FILIndexUp];
                         var call__10 = FILButton[FILIndexUp + 2];
@@ -129,7 +107,7 @@ namespace Aow.Units.AoWButton
                     var call__11 = FILButton[FILIndexUp];
                     FWinHeight = call__11.Height;
                     break;
-                case Aow.Units.AoWComp.TButtonType.btIcon:
+                case TButtonType.btIcon:
                     var call__12 = FILIcon[FILIndexUp];
                     FWinWidth = call__12.Width;
                     var call__13 = FILIcon[FILIndexUp];
@@ -152,7 +130,7 @@ namespace Aow.Units.AoWButton
         }
 
         // AoWButton.pas:183
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             try
             {
@@ -165,14 +143,14 @@ namespace Aow.Units.AoWButton
 
                     if (FChecked)
                     {
-                        if (FButtonType == Aow.Units.AoWComp.TButtonType.btText)
+                        if (FButtonType == TButtonType.btText)
                         {
-                            var call__14 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var call__14 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILButton.DrawILLh(FILIndexDown, call__14, ref SurfDesc);
                         }
                         else
                         {
-                            var call__15 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var call__15 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILIcon.DrawILI(FILIndexDown, call__15, ref SurfDesc);
                         }
 
@@ -180,21 +158,21 @@ namespace Aow.Units.AoWButton
                         {
                             FAOWFont.Color = FSelColor;
                             var call__16 = FAOWFont.GetTextWidth(FText);
-                            FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + (FWinWidth / 2)) - (call__16 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeightSelected, FText, SurfDesc);
+                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - call__16 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, FText, SurfDesc);
                         }
                     }
                     else
                     {
-                        if (FButtonType == Aow.Units.AoWComp.TButtonType.btText)
+                        if (FButtonType == TButtonType.btText)
                         {
                             if (FLit)
                             {
-                                var call__17 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                var call__17 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                                 FILButton.DrawILLh(FILIndexLit, call__17, ref SurfDesc);
                             }
                             else
                             {
-                                var call__18 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                var call__18 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                                 FILButton.DrawILLh(FILIndexUp, call__18, ref SurfDesc);
                             }
                         }
@@ -202,12 +180,12 @@ namespace Aow.Units.AoWButton
                         {
                             if (FLit)
                             {
-                                var call__19 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                var call__19 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                                 FILIcon.DrawILI(FILIndexLit, call__19, ref SurfDesc);
                             }
                             else
                             {
-                                var call__20 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                var call__20 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                                 FILIcon.DrawILI(FILIndexUp, call__20, ref SurfDesc);
                             }
                         }
@@ -216,7 +194,7 @@ namespace Aow.Units.AoWButton
                         {
                             FAOWFont.Color = FColor;
                             var call__21 = FAOWFont.GetTextWidth(FText);
-                            FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + (FWinWidth / 2)) - (call__21 / 2), (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, FText, SurfDesc);
+                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - call__21 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, FText, SurfDesc);
                         }
                     }
 
@@ -228,12 +206,12 @@ namespace Aow.Units.AoWButton
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWButton.pas:136
-        public virtual void SetILButton(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILButton(TInterfaceIL Value)
         {
             if (Value != FILButton)
             {
@@ -244,7 +222,7 @@ namespace Aow.Units.AoWButton
         }
 
         // AoWButton.pas:146
-        public virtual void SetILIcon(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILIcon(TInterfaceIL Value)
         {
             if (Value != FILIcon)
             {
@@ -285,14 +263,14 @@ namespace Aow.Units.AoWButton
         }
 
         // AoWButton.pas:130
-        public void SetGText(Aow.Rtl.AnsiString Value)
+        public void SetGText(AnsiString Value)
         {
             FText = Value;
             FDrawn = false;
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+        public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
         [Published]
         public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
@@ -301,10 +279,10 @@ namespace Aow.Units.AoWButton
         public int BorderHeightSelected { get => FBorderHeightSelected; set => FBorderHeightSelected = value; }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
+        public TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILIcon { get => FILIcon; set => SetILIcon(value); }
+        public TInterfaceIL ILIcon { get => FILIcon; set => SetILIcon(value); }
 
         [Published]
         public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
@@ -316,31 +294,31 @@ namespace Aow.Units.AoWButton
         public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
 
         [Published]
-        public Aow.Units.AOWMenu.TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+        public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
 
         [Published]
-        public Aow.Rtl.AnsiString Text { get => FText; set => SetGText(value); }
+        public AnsiString Text { get => FText; set => SetGText(value); }
     }
 
     // Fields: FOnClick
-    public partial class TAOWButton : Aow.Units.AoWButton.TAOWBaseButton
+    public partial class TAOWButton : TAOWBaseButton
     {
         public TAOWButton(TComponent owner) : base(owner)
         { }
 
-        public Aow.Rtl.TNotifyEvent FOnClick;
+        public TNotifyEvent FOnClick;
         // AoWButton.pas:239
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
             FLit = false;
             if (!FAOWWindow.FHandled)
             {
-                if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+                if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
                 {
                     FHandled = true;
-                    if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                    if (Button == TMouseButton.mbLeft)
                     {
                         FMouseDown = true;
                         FChecked = true;
@@ -357,17 +335,17 @@ namespace Aow.Units.AoWButton
         }
 
         // AoWButton.pas:261
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
             FChecked = false;
             FLit = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
-                if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                if (Button == TMouseButton.mbLeft)
                 {
-                    if (FMouseDown && (FOnClick != null))
+                    if (FMouseDown && FOnClick != null)
                     {
                         FOnClick(this);
                     }
@@ -390,7 +368,7 @@ namespace Aow.Units.AoWButton
         }
 
         // AoWButton.pas:284
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             bool OldChecked = default;
             bool OldLit = default;
@@ -399,7 +377,7 @@ namespace Aow.Units.AoWButton
             OldChecked = FChecked;
             OldLit = FLit;
             FRedraw = false;
-            if ((((FAOWWindow.FHandled || (X < (FAOWWindow.FWinLeft + FWinLeft))) || (X > (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - 1))) || (Y < (FAOWWindow.FWinTop + FWinTop))) || (Y > (((FAOWWindow.FWinTop + FWinTop) + FWinHeight) - 1)))
+            if (FAOWWindow.FHandled || X < FAOWWindow.FWinLeft + FWinLeft || X > FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 || Y < FAOWWindow.FWinTop + FWinTop || Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
             {
                 FChecked = false;
                 FLit = false;
@@ -416,14 +394,14 @@ namespace Aow.Units.AoWButton
                 }
             }
 
-            if ((OldLit != FLit) || (OldChecked != FChecked))
+            if (OldLit != FLit || OldChecked != FChecked)
             {
                 FDrawn = false;
             }
         }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnClick { get => FOnClick; set => FOnClick = value; }
+        public TNotifyEvent OnClick { get => FOnClick; set => FOnClick = value; }
     }
 
     public static partial class AoWButton
@@ -431,7 +409,7 @@ namespace Aow.Units.AoWButton
         // AoWButton.pas:313
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWButton.TAOWButton)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWButton)]);
         }
     }
 }

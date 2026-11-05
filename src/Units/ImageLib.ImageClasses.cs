@@ -1,4 +1,5 @@
 using Aow.Rtl;
+using Aow.Units.GFXE;
 
 namespace Aow.Units.ImageLib;
 
@@ -36,15 +37,15 @@ public sealed class LibraryImageClass
     public static LibraryImageClass Of(Type type) => catalog[type];
     public static IReadOnlyList<LibraryImageClass> All => catalog.All;
 
-    public int GrabImages(in Aow.Units.GFXE.TSurfaceDesc SD, Aow.Units.ImageLib.TGrabInfo GrabInfo, Aow.Units.ImageLib.TCustomImageLibrary ImageLibrary, Aow.Units.ImageLib.TGrabProgressEvent OnProgress)
+    public int GrabImages(in TSurfaceDesc SD, TGrabInfo GrabInfo, TCustomImageLibrary ImageLibrary, TGrabProgressEvent OnProgress)
     {
         int Result = default;
         LibraryImageClass ImageClass = default;
-        Aow.Units.ImageLib.TLibraryImage Image = default;
-        Aow.Rtl.AnsiString Msg = default;
-        Aow.Units.GFXE.TRectangleList Rects = default;
+        TLibraryImage Image = default;
+        AnsiString Msg = default;
+        TRectangleList Rects = default;
         int I = default;
-        void Progress(int Percent, Aow.Rtl.AnsiString Msg)
+        void Progress(int Percent, AnsiString Msg)
         {
             if (OnProgress != null)
             {
@@ -54,21 +55,21 @@ public sealed class LibraryImageClass
 
         Progress(10, (AnsiString)"Analyzing Image..");
         var call__9 = ClassID;
-        var call__10 = Aow.Units.ImageLib.ImageLib.FindLibraryImageClass(call__9);
+        var call__10 = ImageLib.FindLibraryImageClass(call__9);
         ImageClass = call__10;
         if (GrabInfo.FindRectangles)
         {
-            var call__11 = Aow.Units.GFXE.GFXE.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
+            var call__11 = GFXE.GFXE.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
             Rects = call__11;
         }
         else
         {
-            Rects = new Aow.Units.GFXE.TRectangleList();
-            var call__12 = new Aow.Units.GFXE.TRectangle(0, 0, SD.Width, SD.Height);
+            Rects = new TRectangleList();
+            var call__12 = new TRectangle(0, 0, SD.Width, SD.Height);
             Rects.Add(call__12);
         }
 
-        if ((Rects != null) && (ImageClass != null))
+        if (Rects != null && ImageClass != null)
         {
             {
                 I = 0;
@@ -78,7 +79,7 @@ public sealed class LibraryImageClass
                     Msg = (AnsiString)"Grabbing Image";
                     if (Rects.Count > 1)
                     {
-                        Progress(Aow.Rtl.Rtl.Round(((double)(I * 90)) / (Rects.Count - 1)) + 10, ((AnsiString)"Grabbing Image ") + Aow.Rtl.Rtl.IntToStr(I + 1));
+                        Progress(Rtl.Rtl.Round((double)(I * 90) / (Rects.Count - 1)) + 10, (AnsiString)"Grabbing Image " + Rtl.Rtl.IntToStr(I + 1));
                     }
                     else
                     {
@@ -104,7 +105,7 @@ public sealed class LibraryImageClass
         }
         else
         {
-            Result = Aow.Units.GFXE.GFXE.GFXE_ERROR;
+            Result = GFXE.GFXE.GFXE_ERROR;
         }
 
         Rects.Free();

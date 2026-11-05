@@ -1,31 +1,16 @@
 // Translated from AoWWinGeneric.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
 using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
 
 namespace Aow.Units.AoWWinGeneric
 {
     // { The AoWWinGeneric unit of aowInt.dpl: TAOWGenericWindow, the base window class that publishes
 //   the window manager's settings (the ancestor of TAOWWindow, TAOWToolTip and TAOWMenu). }
     // no fields of its own
-    public partial class TAOWGenericWindow : Aow.Units.AoWBaseWin.TAOWBaseWindow
+    public partial class TAOWGenericWindow : TAOWBaseWindow
     {
         public TAOWGenericWindow(TComponent owner) : base(owner)
         { }
@@ -38,10 +23,10 @@ namespace Aow.Units.AoWWinGeneric
         }
 
         // AoWWinGeneric.pas:45
-        public override void SetOwner(Aow.Units.AoWComp.TAoWComponent Value)
+        public override void SetOwner(TAoWComponent Value)
         {
             base.SetOwner(Value);
-            FWinManager = (Aow.Units.AOWWinManager.TAOWWinManager)FAOWOwner;
+            FWinManager = (TAOWWinManager)FAOWOwner;
         }
 
         // AoWWinGeneric.pas:51
@@ -77,7 +62,7 @@ namespace Aow.Units.AoWWinGeneric
         }
 
         [Published]
-        public Aow.Units.AOWWinManager.TAOWWinManager WinManager { get => FWinManager; set => SetManager(value); }
+        public TAOWWinManager WinManager { get => FWinManager; set => SetManager(value); }
 
         [Published]
         public bool UseVMem { get => FUseVMem; set => FUseVMem = value; }
@@ -98,16 +83,16 @@ namespace Aow.Units.AoWWinGeneric
         public bool DoubleBuffered { get => FDoubleBuffered; set => SetBuffer(value); }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnChangeCursor { get => FOnChangeCursor; set => FOnChangeCursor = value; }
+        public TNotifyEvent OnChangeCursor { get => FOnChangeCursor; set => FOnChangeCursor = value; }
 
         [Published]
         public int MaskColor { get => FMaskColor; set => FMaskColor = value; }
 
         [Published]
-        public Aow.Units.AoWWinControl.TAoWOnDrawSurface OnDrawSurface { get => FOnDrawSurface; set => FOnDrawSurface = value; }
+        public TAoWOnDrawSurface OnDrawSurface { get => FOnDrawSurface; set => FOnDrawSurface = value; }
 
         [Published]
-        public Aow.Units.AoWWinControl.TAoWOnDrawSurface OnPreDrawSurface { get => FOnPreDrawSurface; set => FOnPreDrawSurface = value; }
+        public TAoWOnDrawSurface OnPreDrawSurface { get => FOnPreDrawSurface; set => FOnPreDrawSurface = value; }
 
         [Published]
         public bool FreeSurfaceOnHide { get => FFreeSurfaceOnHide; set => FFreeSurfaceOnHide = value; }

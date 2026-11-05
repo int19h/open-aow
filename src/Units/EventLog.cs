@@ -1,38 +1,13 @@
 // Translated from EventLog.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.Animation;
-using static Aow.Units.Animation.Animation;
 
 namespace Aow.Units.EventLog
 {
@@ -43,7 +18,7 @@ namespace Aow.Units.EventLog
 
     // { ot=1 }
     // day, unique ID, player, reference count
-    public partial class TEventLog : Aow.Units.Engine.TEObject
+    public partial class TEventLog : TEObject
     {
 
         public TEventLog(TECustomNode owner) : base(owner)
@@ -51,12 +26,12 @@ namespace Aow.Units.EventLog
             FRefCount = 1;
         }
 
-        public int FDay = Aow.Units.AoWE.AoWE.AoWHSMap is { } map ? map.FDay : 0;
+        public int FDay = AoWHSMap is { } map ? map.FDay : 0;
         public int FID;
-        public sbyte FPlayer = Aow.Units.AoWE.AoWE.AoWHSMap is { } map ? unchecked((sbyte)map.FCurrentPlayer) : (sbyte)0;
+        public sbyte FPlayer = AoWHSMap is { } map ? map.FCurrentPlayer : (sbyte)0;
         public int FRefCount;
         // EventLog.pas:334
-        public override void SetOwner(Aow.Units.Engine.TECustomNode AOwner)
+        public override void SetOwner(TECustomNode AOwner)
         {
             if (FRefCount != 0)
             {
@@ -71,7 +46,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:358
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FDay, 10);
@@ -103,9 +78,9 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:371
-        public virtual Aow.Rtl.AnsiString GetText()
+        public virtual AnsiString GetText()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Default TEventLog";
             return Result;
         }
@@ -115,16 +90,16 @@ namespace Aow.Units.EventLog
         {
             int Result = default;
             int Index = default;
-            bool bool__1 = (FPlayer > 0);
+            bool bool__1 = FPlayer > 0;
             if (bool__1)
             {
-                var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount();
-                bool__1 = (FPlayer < call__2);
+                var call__2 = AoWHSMap.FPlayers.GetCount();
+                bool__1 = FPlayer < call__2;
             }
 
             if (bool__1)
             {
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__3 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                 Index = call__3.FPlayerRace;
             }
             else
@@ -132,7 +107,7 @@ namespace Aow.Units.EventLog
                 Index = 12;
             }
 
-            Result = Aow.Units.AoWE.AoWE.RaceColors[Index];
+            Result = RaceColors[Index];
             return Result;
         }
 
@@ -140,16 +115,16 @@ namespace Aow.Units.EventLog
         public virtual int GetLeftIcon()
         {
             int Result = default;
-            bool bool__4 = (FPlayer > 0);
+            bool bool__4 = FPlayer > 0;
             if (bool__4)
             {
-                var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount();
-                bool__4 = (FPlayer < call__5);
+                var call__5 = AoWHSMap.FPlayers.GetCount();
+                bool__4 = FPlayer < call__5;
             }
 
             if (bool__4)
             {
-                var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__6 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                 Result = call__6.FPlayerRace;
             }
             else
@@ -187,25 +162,25 @@ namespace Aow.Units.EventLog
         // EventLog.pas:425
         public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
-            X = unchecked((sbyte)-1);
-            Y = unchecked((sbyte)-1);
-            L = unchecked((sbyte)-1);
+            X = -1;
+            Y = -1;
+            L = -1;
         }
 
         // EventLog.pas:444
-        public virtual void PlayLoggedSFX(Aow.Units.EventLog.TEventLogbook A1)
+        public virtual void PlayLoggedSFX(TEventLogbook A1)
         {
-            Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
+            PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
         }
 
         // EventLog.pas:449
-        public virtual void NotifyLogged(Aow.Units.EventLog.TEventLogbook A1)
+        public virtual void NotifyLogged(TEventLogbook A1)
         {
-            bool bool__7 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A1.FPlayer);
+            bool bool__7 = AoWHSMap.FSeatedPlayer == A1.FPlayer;
             if (bool__7)
             {
-                var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                bool__7 = (call__8.FGameOverStatus == Aow.Units.AoWE.TGameOverStatus.goNone);
+                var call__8 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                bool__7 = call__8.FGameOverStatus == TGameOverStatus.goNone;
             }
 
             if (bool__7)
@@ -215,19 +190,19 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:403
-        public virtual bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public virtual bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
         {
             bool Result = default;
-            if ((Trigger == Aow.Units.EventLog.TExecuteTrigger.etUser) || (((Trigger == Aow.Units.EventLog.TExecuteTrigger.etEvent) || ((Trigger == Aow.Units.EventLog.TExecuteTrigger.etNewTurn) && Aow.Units.AoWE.AoWE.AoWHSMap.FRequestCombatType)) && (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == FPlayer)))
+            if (Trigger == TExecuteTrigger.etUser || (Trigger == TExecuteTrigger.etEvent || Trigger == TExecuteTrigger.etNewTurn && AoWHSMap.FRequestCombatType) && AoWHSMap.FSeatedPlayer == FPlayer)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+                AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
                 Result = true;
             }
             else
             {
-                if (Trigger == Aow.Units.EventLog.TExecuteTrigger.etEvent)
+                if (Trigger == TExecuteTrigger.etEvent)
                 {
-                    Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
+                    PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
                 }
 
                 Result = false;
@@ -245,22 +220,22 @@ namespace Aow.Units.EventLog
             GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(X, Y, L);
-                Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
+                AoWHSMap.CenterViewTo(X, Y, L);
+                AoWHSMap.PlayCenterAnimation(X, Y, L);
             }
         }
 
         // EventLog.pas:419
         public void CenterViewTo(sbyte X, sbyte Y, sbyte L)
         {
-            Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(X, Y, L);
-            Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
+            AoWHSMap.CenterViewTo(X, Y, L);
+            AoWHSMap.PlayCenterAnimation(X, Y, L);
         }
 
     }
 
     // text
-    public partial class TTextEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TTextEventLog : TEventLog
     {
         public TTextEventLog(TECustomNode owner) : base(owner)
         { }
@@ -268,24 +243,24 @@ namespace Aow.Units.EventLog
         // EventLog.pas:713
         public new const int ClassID = 131809;
 
-        public Aow.Rtl.AnsiString FText;
+        public AnsiString FText;
         // EventLog.pas:716
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwString(ref FText, 15);
         }
 
         // EventLog.pas:719
-        public override Aow.Rtl.AnsiString GetText()
+        public override AnsiString GetText()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = FText;
             return Result;
         }
 
         // EventLog.pas:722
-        public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
         {
             bool Result = default;
             Result = false;
@@ -295,14 +270,14 @@ namespace Aow.Units.EventLog
     }
 
     // location
-    public partial class TLocationTextEventLog : Aow.Units.EventLog.TTextEventLog
+    public partial class TLocationTextEventLog : TTextEventLog
     {
         // EventLog.pas:725
         public TLocationTextEventLog(TECustomNode owner) : base(owner)
         {
-            FXhx = unchecked((sbyte)-1);
-            FYhx = unchecked((sbyte)-1);
-            FLhx = unchecked((sbyte)-1);
+            FXhx = -1;
+            FYhx = -1;
+            FLhx = -1;
         }
 
         // EventLog.pas:728
@@ -312,7 +287,7 @@ namespace Aow.Units.EventLog
         public sbyte FYhx;
         public sbyte FLhx;
         // EventLog.pas:731
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 20);
@@ -323,17 +298,17 @@ namespace Aow.Units.EventLog
         // EventLog.pas:740
         public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
-            X = unchecked((sbyte)FXhx);
-            Y = unchecked((sbyte)FYhx);
-            L = unchecked((sbyte)FLhx);
+            X = FXhx;
+            Y = FYhx;
+            L = FLhx;
         }
 
         // EventLog.pas:743
-        public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
         {
             bool Result = default;
             base.Execute(Mode, Trigger, Done);
-            if (Trigger == Aow.Units.EventLog.TExecuteTrigger.etUser)
+            if (Trigger == TExecuteTrigger.etUser)
             {
                 ViewLocation();
             }
@@ -345,34 +320,34 @@ namespace Aow.Units.EventLog
         // EventLog.pas:737
         public void SetLocation(sbyte X, sbyte Y, sbyte L)
         {
-            FXhx = unchecked((sbyte)X);
-            FYhx = unchecked((sbyte)Y);
-            FLhx = unchecked((sbyte)L);
+            FXhx = X;
+            FYhx = Y;
+            FLhx = L;
         }
 
     }
 
     // title, message, layout, buttons, pressed button
-    public partial class TMessageEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TMessageEventLog : TEventLog
     {
         // EventLog.pas:824
         public TMessageEventLog(TECustomNode owner) : base(owner)
         {
-            var call__9 = new Aow.Rtl.TStringList();
+            var call__9 = new TStringList();
             FMessage = call__9;
-            var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MessageRStr);
+            var call__10 = TranslateRStr(MessageRStr);
             FTitle = call__10;
-            FButtons = Aow.Units.EventLog.TMessageEventLogButtons.mebOk;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNone;
-            FLayout = Aow.Units.EventLog.TMessageEventLogLayout.melNormal;
+            FButtons = TMessageEventLogButtons.mebOk;
+            FPressedButton = TPressedEventLogButton.pebNone;
+            FLayout = TMessageEventLogLayout.melNormal;
         }
 
-        public Aow.Rtl.AnsiString FTitle;
-        public Aow.Rtl.AnsiString FHeader;
-        public Aow.Rtl.TStrings FMessage;
-        public Aow.Units.EventLog.TMessageEventLogLayout FLayout;
-        public Aow.Units.EventLog.TMessageEventLogButtons FButtons;
-        public Aow.Units.EventLog.TPressedEventLogButton FPressedButton;
+        public AnsiString FTitle;
+        public AnsiString FHeader;
+        public TStrings FMessage;
+        public TMessageEventLogLayout FLayout;
+        public TMessageEventLogButtons FButtons;
+        public TPressedEventLogButton FPressedButton;
         // EventLog.pas:832
         public override void Destroy()
         {
@@ -381,12 +356,12 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:835
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 30);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FLayout, 1), 1, 31);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FButtons, 1), 1, 32);
+            Stream.rwData(Bytes.Of(ref FLayout, 1), 1, 31);
+            Stream.rwData(Bytes.Of(ref FButtons, 1), 1, 32);
             Stream.rwString(ref FTitle, 33);
         }
 
@@ -394,7 +369,7 @@ namespace Aow.Units.EventLog
         public virtual bool OK()
         {
             bool Result = default;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebOk;
+            FPressedButton = TPressedEventLogButton.pebOk;
             Result = true;
             return Result;
         }
@@ -403,7 +378,7 @@ namespace Aow.Units.EventLog
         public virtual bool Cancel()
         {
             bool Result = default;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebCancel;
+            FPressedButton = TPressedEventLogButton.pebCancel;
             Result = true;
             return Result;
         }
@@ -412,7 +387,7 @@ namespace Aow.Units.EventLog
         public virtual bool Yes()
         {
             bool Result = default;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebYes;
+            FPressedButton = TPressedEventLogButton.pebYes;
             Result = true;
             return Result;
         }
@@ -421,7 +396,7 @@ namespace Aow.Units.EventLog
         public virtual bool No()
         {
             bool Result = default;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNo;
+            FPressedButton = TPressedEventLogButton.pebNo;
             Result = true;
             return Result;
         }
@@ -429,20 +404,20 @@ namespace Aow.Units.EventLog
     }
 
     // message, help title, mode
-    public partial class THelpMessageEventLog : Aow.Units.EventLog.TEventLog
+    public partial class THelpMessageEventLog : TEventLog
     {
         // EventLog.pas:860
         public THelpMessageEventLog(TECustomNode owner) : base(owner)
         {
-            var call__11 = new Aow.Rtl.TStringList();
+            var call__11 = new TStringList();
             FMessage = call__11;
-            var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HelpRStr);
+            var call__12 = TranslateRStr(HelpRStr);
             FHelpFileName = call__12;
             FMode = 0;
         }
 
-        public Aow.Rtl.TStringList FMessage;
-        public Aow.Rtl.AnsiString FHelpFileName;
+        public TStringList FMessage;
+        public AnsiString FHelpFileName;
         public byte FMode;
         // EventLog.pas:868
         public override void Destroy()
@@ -454,9 +429,9 @@ namespace Aow.Units.EventLog
     }
 
     // list of -byte callback records
-    public partial class TExecuteEventLogCallBackList : Aow.Rtl.TObject
+    public partial class TExecuteEventLogCallBackList : TObject
     {
-        public System.Collections.Generic.List<TExecuteEventLogInfo> FList = [];
+        public List<TExecuteEventLogInfo> FList = [];
         // EventLog.pas:283
         public override void Destroy()
         {
@@ -468,7 +443,7 @@ namespace Aow.Units.EventLog
         public TExecuteEventLogCallBackList()
         {
             ;
-            var call__13 = new System.Collections.Generic.List<TExecuteEventLogInfo>();
+            var call__13 = new List<TExecuteEventLogInfo>();
             FList = call__13;
         }
 
@@ -493,7 +468,7 @@ namespace Aow.Units.EventLog
         public ref TExecuteEventLogInfo GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
 
         // EventLog.pas:305
-        public void Add(in Aow.Units.EventLog.TExecuteEventLogInfo Info)
+        public void Add(in TExecuteEventLogInfo Info)
         {
             FList.Add(Info);
         }
@@ -512,33 +487,33 @@ namespace Aow.Units.EventLog
     }
 
     // update count, changed callback
-    public partial class TEventLogList : Aow.Units.Engine.TENode
+    public partial class TEventLogList : TENode
     {
         public TEventLogList(TECustomNode owner) : base(owner)
         { }
 
         public int FUpdateCount;
-        public Aow.Rtl.TNotifyEvent FOnChanged;
+        public TNotifyEvent FOnChanged;
         // EventLog.pas:481
-        public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void MainReadWrite(TEStorageStream Stream)
         {
             int I = default;
-            if (Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smRead))
+            if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
             {
                 BeginUpdate();
             }
 
             base.MainReadWrite(Stream);
-            if (Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smRead))
+            if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
             {
-                if ((Stream.StorageMode() & TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead, Aow.Units.Engine.TStorageModeElement.smCompare, Aow.Units.Engine.TStorageModeElement.smTranslate)) == TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead))
+                if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smCompare, TStorageModeElement.smTranslate)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
                 {
                     {
                         I = 0;
                         int end__14 = FChildren.Count - 1;
                         for (; I <= end__14; I += 1)
                         {
-                            ((Aow.Units.Engine.TEObject)FChildren.List[I]).Release();
+                            ((TEObject)FChildren.List[I]).Release();
                         }
                     }
                 }
@@ -556,7 +531,7 @@ namespace Aow.Units.EventLog
                 byte end__15 = 0;
                 for (; I >= end__15; I -= 1)
                 {
-                    ((Aow.Units.Engine.TEObject)FChildren.List[I]).Release();
+                    ((TEObject)FChildren.List[I]).Release();
                 }
             }
 
@@ -570,7 +545,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:464
-        public override int RemoveChild(Aow.Units.Engine.TEObject Child)
+        public override int RemoveChild(TEObject Child)
         {
             int Result = default;
             var call__16 = FChildren.Remove(Child);
@@ -586,13 +561,13 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:456
-        public override int AddChild(Aow.Units.Engine.TEObject Child)
+        public override int AddChild(TEObject Child)
         {
             int Result = default;
             FChildren.Add(Child);
             if (Child.AddRef() == -1)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"EObject doesn't support ReferenceCounting");
+                throw Exception.Create((AnsiString)"EObject doesn't support ReferenceCounting");
             }
 
             Result = FChildren.Count - 1;
@@ -603,7 +578,7 @@ namespace Aow.Units.EventLog
         // EventLog.pas:494
         public void Changed()
         {
-            if ((FUpdateCount == 0) && (FOnChanged != null))
+            if (FUpdateCount == 0 && FOnChanged != null)
             {
                 FOnChanged(this);
             }
@@ -626,38 +601,38 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:505
-        public Aow.Units.EventLog.TEventLog GetEvents(int Index)
+        public TEventLog GetEvents(int Index)
         {
-            Aow.Units.EventLog.TEventLog Result = default;
-            Result = (Aow.Units.EventLog.TEventLog)FChildren.List[Index];
+            TEventLog Result = default;
+            Result = (TEventLog)FChildren.List[Index];
             return Result;
         }
 
         // EventLog.pas:508
-        public void AddEvent(Aow.Units.EventLog.TEventLog Event)
+        public void AddEvent(TEventLog Event)
         {
             AddChild(Event);
         }
 
         // EventLog.pas:511
-        public void RemoveEvent(Aow.Units.EventLog.TEventLog Event)
+        public void RemoveEvent(TEventLog Event)
         {
             RemoveChild(Event);
         }
 
         // EventLog.pas:514
-        public Aow.Units.EventLog.TEventLog FindID(int ID)
+        public TEventLog FindID(int ID)
         {
-            Aow.Units.EventLog.TEventLog Result = default;
+            TEventLog Result = default;
             int I = default;
             I = GetCount();
             Result = null;
-            while ((I != 0) && (Result == null))
+            while (I != 0 && Result == null)
             {
                 I -= 1;
-                if (((Aow.Units.EventLog.TEventLog)FChildren.List[I]).FID == ID)
+                if (((TEventLog)FChildren.List[I]).FID == ID)
                 {
-                    Result = (Aow.Units.EventLog.TEventLog)FChildren.List[I];
+                    Result = (TEventLog)FChildren.List[I];
                     break;
                 }
             }
@@ -669,13 +644,13 @@ namespace Aow.Units.EventLog
     }
 
     // events, player, next ID
-    public partial class TEventLogbook : Aow.Units.Engine.TEObject
+    public partial class TEventLogbook : TEObject
     {
         // EventLog.pas:532
         public new const int ClassID = 131808;
 
 
-        public Aow.Units.EventLog.TEventLogList FEvents;
+        public TEventLogList FEvents;
         public sbyte FPlayer;
         public int FNextID;
         // EventLog.pas:529
@@ -686,7 +661,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:547
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwEObject(FEvents, 10);
@@ -696,12 +671,12 @@ namespace Aow.Units.EventLog
         // EventLog.pas:526
         public TEventLogbook(TECustomNode owner) : base(owner)
         {
-            var call__17 = new Aow.Units.EventLog.TEventLogList(null);
+            var call__17 = new TEventLogList(null);
             FEvents = call__17;
         }
 
         // EventLog.pas:535
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             FEvents.MsgProc(ref Msg, Sender);
@@ -717,21 +692,21 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:541
-        public Aow.Rtl.TNotifyEvent GetOnChanged()
+        public TNotifyEvent GetOnChanged()
         {
-            Aow.Rtl.TNotifyEvent Result = default;
+            TNotifyEvent Result = default;
             Result = FEvents.FOnChanged;
             return Result;
         }
 
         // EventLog.pas:544
-        public void SetOnChanged(Aow.Rtl.TNotifyEvent Value)
+        public void SetOnChanged(TNotifyEvent Value)
         {
             FEvents.FOnChanged = Value;
         }
 
         // EventLog.pas:550
-        public void ListEvents(Aow.Rtl.TStrings Strings)
+        public void ListEvents(TStrings Strings)
         {
             int I = default;
             {
@@ -739,21 +714,21 @@ namespace Aow.Units.EventLog
                 int end__19 = FEvents.FChildren.Count - 1;
                 for (; I <= end__19; I += 1)
                 {
-                    var call__20 = ((Aow.Units.EventLog.TEventLog)FEvents.FChildren.List[I]).GetVisible();
+                    var call__20 = ((TEventLog)FEvents.FChildren.List[I]).GetVisible();
                     if (call__20)
                     {
-                        var call__21 = ((Aow.Units.EventLog.TEventLog)FEvents.FChildren.List[I]).GetText();
-                        Strings.AddObject(call__21, Aow.Rtl.Rtl.IntToObject((int)I));
+                        var call__21 = ((TEventLog)FEvents.FChildren.List[I]).GetText();
+                        Strings.AddObject(call__21, IntToObject(I));
                     }
                 }
             }
         }
 
         // EventLog.pas:558
-        public Aow.Units.EventLog.TEventLog GetLogs(int Index)
+        public TEventLog GetLogs(int Index)
         {
-            Aow.Units.EventLog.TEventLog Result = default;
-            Result = (Aow.Units.EventLog.TEventLog)FEvents.FChildren.List[Index];
+            TEventLog Result = default;
+            Result = (TEventLog)FEvents.FChildren.List[Index];
             return Result;
         }
 
@@ -781,9 +756,9 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:572
-        public Aow.Units.EventLog.TEventLog FindID(int ID)
+        public TEventLog FindID(int ID)
         {
-            Aow.Units.EventLog.TEventLog Result = default;
+            TEventLog Result = default;
             var call__23 = FEvents.FindID(ID);
             Result = call__23;
             return Result;
@@ -794,7 +769,7 @@ namespace Aow.Units.EventLog
         {
             int Result = default;
             Result = 0;
-            while ((Result != this.FEvents.FChildren.Count) && ((((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player) || (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day)))
+            while (Result != this.FEvents.FChildren.Count && (((TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day))
             {
                 Result += 1;
             }
@@ -814,14 +789,14 @@ namespace Aow.Units.EventLog
             Result = 0;
             while (true)
             {
-                bool bool__26 = (Result != this.FEvents.FChildren.Count);
+                bool bool__26 = Result != this.FEvents.FChildren.Count;
                 if (bool__26)
                 {
-                    bool bool__27 = (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player) || (((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day);
+                    bool bool__27 = ((TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day;
                     if (!bool__27)
                     {
-                        var call__28 = ((Aow.Units.EventLog.TEventLog)this.FEvents.FChildren.List[Result]).EClass.ClassID;
-                        bool__27 = (call__28 != AClassID);
+                        var call__28 = ((TEventLog)this.FEvents.FChildren.List[Result]).EClass.ClassID;
+                        bool__27 = call__28 != AClassID;
                     }
 
                     bool__26 = bool__27;
@@ -843,10 +818,10 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:600
-        public void AddEvent(Aow.Units.EventLog.TEventLog Event)
+        public void AddEvent(TEventLog Event)
         {
-            var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.GetSynchronised();
-            Aow.Rtl.Rtl.Assert(call__29, (AnsiString)"", "EventLog.pas", 704);
+            var call__29 = AoWHSMap.GetSynchronised();
+            Assert(call__29, (AnsiString)"", "EventLog.pas", 704);
             Event.SetOwner(FEvents);
             var call__30 = CreateUniqueID();
             Event.FID = call__30;
@@ -854,22 +829,22 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:710
-        public void RemoveEvent(Aow.Units.EventLog.TEventLog Event)
+        public void RemoveEvent(TEventLog Event)
         {
             FEvents.RemoveChild(Event);
         }
 
     }
 
-    public partial class TUserEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TUserEventLog : TEventLog
     {
         public TUserEventLog(TECustomNode owner) : base(owner)
         { }
 
-        public Aow.Rtl.TObject FData;
+        public TObject FData;
     }
 
-    public partial class TEndTurnEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TEndTurnEventLog : TEventLog
     {
         public TEndTurnEventLog(TECustomNode owner) : base(owner)
         { }
@@ -886,7 +861,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:756
-        public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
         {
             bool Result = default;
             Result = false;
@@ -896,19 +871,19 @@ namespace Aow.Units.EventLog
     }
 
     // message
-    public partial class TShowMessageEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TShowMessageEventLog : TEventLog
     {
         // EventLog.pas:759
         public TShowMessageEventLog(TECustomNode owner) : base(owner)
         {
-            var call__31 = new Aow.Rtl.TStringList();
+            var call__31 = new TStringList();
             FMessage = call__31;
         }
 
         // EventLog.pas:765
         public new const int ClassID = 131830;
 
-        public Aow.Rtl.TStringList FMessage;
+        public TStringList FMessage;
         // EventLog.pas:762
         public override void Destroy()
         {
@@ -917,7 +892,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:768
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 20);
@@ -926,19 +901,19 @@ namespace Aow.Units.EventLog
     }
 
     // message, inherited player
-    public partial class TGameOverEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TGameOverEventLog : TEventLog
     {
         // EventLog.pas:771
         public TGameOverEventLog(TECustomNode owner) : base(owner)
         {
-            var call__32 = new Aow.Rtl.TStringList();
+            var call__32 = new TStringList();
             FMessage = call__32;
         }
 
         // EventLog.pas:777
         public new const int ClassID = 131812;
 
-        public Aow.Rtl.TStringList FMessage;
+        public TStringList FMessage;
         public sbyte FTargetPlayer;
         // EventLog.pas:774
         public override void Destroy()
@@ -948,31 +923,31 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:780
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 20);
         }
 
         // EventLog.pas:783
-        public override Aow.Rtl.AnsiString GetText()
+        public override AnsiString GetText()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__33 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+            AnsiString Result = default;
+            var call__33 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
             switch (call__33.FGameOverStatus)
             {
-                case Aow.Units.AoWE.TGameOverStatus.goLost:
-                    var call__34 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                case TGameOverStatus.goLost:
+                    var call__34 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                     var call__35 = call__34.GetName();
-                    var call__36 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GameOverDefeatEventLogRStr);
-                    var call__37 = Aow.Rtl.Rtl.Format(call__36, [call__35]);
+                    var call__36 = TranslateRStr(GameOverDefeatEventLogRStr);
+                    var call__37 = Rtl.Rtl.Format(call__36, [call__35]);
                     Result = call__37;
                     break;
-                case Aow.Units.AoWE.TGameOverStatus.goWon:
-                    var call__38 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                case TGameOverStatus.goWon:
+                    var call__38 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                     var call__39 = call__38.GetName();
-                    var call__40 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GameOverVictoryEventLogRStr);
-                    var call__41 = Aow.Rtl.Rtl.Format(call__40, [call__39]);
+                    var call__40 = TranslateRStr(GameOverVictoryEventLogRStr);
+                    var call__41 = Rtl.Rtl.Format(call__40, [call__39]);
                     Result = call__41;
                     break;
             }
@@ -981,15 +956,15 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:794
-        public override bool Execute(bool Mode, Aow.Units.EventLog.TExecuteTrigger Trigger, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
         {
             bool Result = default;
             switch (Trigger)
             {
-                case Aow.Units.EventLog.TExecuteTrigger.etUser:
-                    if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer != FPlayer)
+                case TExecuteTrigger.etUser:
+                    if (AoWHSMap.FSeatedPlayer != FPlayer)
                     {
-                        Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+                        AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
                         Result = true;
                     }
                     else
@@ -998,12 +973,12 @@ namespace Aow.Units.EventLog
                     }
 
                     break;
-                case Aow.Units.EventLog.TExecuteTrigger.etEvent:
-                    Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+                case TExecuteTrigger.etEvent:
+                    AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
                     Result = true;
                     break;
-                case Aow.Units.EventLog.TExecuteTrigger.etNewTurn:
-                    Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+                case TExecuteTrigger.etNewTurn:
+                    AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
                     Result = true;
                     break;
                 default:
@@ -1017,13 +992,13 @@ namespace Aow.Units.EventLog
         // EventLog.pas:791
         public void Handled()
         {
-            Aow.Units.AoWE.AoWE.AoWHSMap.GameOverEventHandled(unchecked((sbyte)FPlayer));
+            AoWHSMap.GameOverEventHandled(FPlayer);
         }
 
     }
 
     // inherited text
-    public partial class TNewDayEventLog : Aow.Units.EventLog.TTextEventLog
+    public partial class TNewDayEventLog : TTextEventLog
     {
         public TNewDayEventLog(TECustomNode owner) : base(owner)
         { }
@@ -1040,9 +1015,9 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:815
-        public override void PlayLoggedSFX(Aow.Units.EventLog.TEventLogbook A1)
+        public override void PlayLoggedSFX(TEventLogbook A1)
         {
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FDay > 1)
+            if (AoWHSMap.FDay > 1)
             {
                 base.PlayLoggedSFX(A1);
             }
@@ -1050,7 +1025,7 @@ namespace Aow.Units.EventLog
 
     }
 
-    public partial class TShowBookEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TShowBookEventLog : TEventLog
     {
         public TShowBookEventLog(TECustomNode owner) : base(owner)
         { }
@@ -1069,62 +1044,62 @@ namespace Aow.Units.EventLog
     }
 
     // inherited message and title
-    public partial class TTutorialMessageEventLog : Aow.Units.EventLog.THelpMessageEventLog
+    public partial class TTutorialMessageEventLog : THelpMessageEventLog
     {
         // EventLog.pas:871
         public TTutorialMessageEventLog(TECustomNode owner) : base(owner)
         {
-            var call__42 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TutorialRStr);
+            var call__42 = TranslateRStr(TutorialRStr);
             FHelpFileName = call__42;
         }
 
     }
 
     // directory, default name, file name, title
-    public partial class TSaveGameEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TSaveGameEventLog : TEventLog
     {
         // EventLog.pas:874
         public TSaveGameEventLog(TECustomNode owner) : base(owner)
         {
-            var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SaveRStr);
+            var call__43 = TranslateRStr(SaveRStr);
             FTitle = call__43;
-            FMode = TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement>.Of();
+            FMode = TSet<TSaveGameEventLogModeElement>.Of();
         }
 
-        public TSet<Aow.Units.EventLog.TSaveGameEventLogModeElement> FMode;
-        public Aow.Rtl.AnsiString FDirectory;
-        public Aow.Rtl.AnsiString FDefaultName;
-        public Aow.Rtl.AnsiString FFileName;
-        public Aow.Rtl.AnsiString FTitle;
+        public TSet<TSaveGameEventLogModeElement> FMode;
+        public AnsiString FDirectory;
+        public AnsiString FDefaultName;
+        public AnsiString FFileName;
+        public AnsiString FTitle;
 
     }
 
     // password, title, prompt, button
-    public partial class TPasswordEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TPasswordEventLog : TEventLog
     {
         // EventLog.pas:877
         public TPasswordEventLog(TECustomNode owner) : base(owner)
         {
             FPassword = (AnsiString)"";
-            var call__44 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterPasswordRStr);
+            var call__44 = TranslateRStr(EnterPasswordRStr);
             FPrompt = call__44;
-            var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PasswordVerificationRStr);
+            var call__45 = TranslateRStr(PasswordVerificationRStr);
             FTitle = call__45;
-            FPressedButton = Aow.Units.EventLog.TPressedEventLogButton.pebNone;
+            FPressedButton = TPressedEventLogButton.pebNone;
         }
 
-        public Aow.Rtl.AnsiString FPassword;
-        public Aow.Rtl.AnsiString FTitle;
-        public Aow.Rtl.AnsiString FPrompt;
-        public Aow.Units.EventLog.TPressedEventLogButton FPressedButton;
+        public AnsiString FPassword;
+        public AnsiString FTitle;
+        public AnsiString FPrompt;
+        public TPressedEventLogButton FPressedButton;
 
     }
 
-    public delegate void TExecuteDoneEvent(Aow.Units.EventLog.TEventLog Log);
+    public delegate void TExecuteDoneEvent(TEventLog Log);
     public struct TExecuteEventLogInfo
     {
-        public Aow.Units.EventLog.TEventLog Log;
-        public Aow.Units.EventLog.TExecuteDoneEvent Done;
+        public TEventLog Log;
+        public TExecuteDoneEvent Done;
         public bool Immediate;
     }
 
@@ -1161,32 +1136,32 @@ namespace Aow.Units.EventLog
     public static partial class EventLog
     {
         // EventLog.pas:886
-        public static void RegisterEventLog(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterEventLog(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TTextEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TEndTurnEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TGameOverEventLog>(), Aow.Units.Engine.EClass.Of<Aow.Units.EventLog.TLocationTextEventLog>()]);
+            AEngine.RegisterEClasses([EClass.Of<TTextEventLog>(), EClass.Of<TEndTurnEventLog>(), EClass.Of<TGameOverEventLog>(), EClass.Of<TLocationTextEventLog>()]);
         }
 
         // EventLog.pas:889
-        public static void DistributeEventLog(Aow.Units.EventLog.TEventLog Log, bool Execute)
+        public static void DistributeEventLog(TEventLog Log, bool Execute)
         {
             int I = default;
-            Aow.Units.AoWE.TPlayer Player = default;
-            Aow.Units.EventLog.TEventLog CopyLog = default;
+            TPlayer Player = default;
+            TEventLog CopyLog = default;
             {
                 I = 0;
-                int end__46 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount() - 1;
+                int end__46 = AoWHSMap.FPlayers.GetCount() - 1;
                 for (; I <= end__46; I += 1)
                 {
-                    var call__47 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__47 = AoWHSMap.FPlayers.GetPlayers(I);
                     Player = call__47;
-                    if (Player.FStatus == Aow.Units.AoWE.TPlayerStatus.psPlaying)
+                    if (Player.FStatus == TPlayerStatus.psPlaying)
                     {
-                        var call__48 = Log.Copy(Aow.Units.AoWE.AoWE.AoWEngine);
-                        CopyLog = (Aow.Units.EventLog.TEventLog)call__48;
+                        var call__48 = Log.Copy(AoWEngine);
+                        CopyLog = (TEventLog)call__48;
                         Player.FEventLogbook.AddEvent(CopyLog);
-                        if ((I == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer) && Execute)
+                        if (I == AoWHSMap.FSeatedPlayer && Execute)
                         {
-                            CopyLog.Execute(false, Aow.Units.EventLog.TExecuteTrigger.etEvent, null);
+                            CopyLog.Execute(false, TExecuteTrigger.etEvent, null);
                         }
 
                         CopyLog.Release();
@@ -1196,25 +1171,25 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:905
-        public static void DistributeLocationEventLog(Aow.Units.EventLog.TEventLog Log, sbyte Player, sbyte X, sbyte Y, sbyte L, bool Execute)
+        public static void DistributeLocationEventLog(TEventLog Log, sbyte Player, sbyte X, sbyte Y, sbyte L, bool Execute)
         {
             int I = default;
-            Aow.Units.AoWE.TPlayer TargetPlayer = default;
-            Aow.Units.EventLog.TEventLog CopyLog = default;
+            TPlayer TargetPlayer = default;
+            TEventLog CopyLog = default;
             {
                 I = 0;
-                int end__49 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetCount() - 1;
+                int end__49 = AoWHSMap.FPlayers.GetCount() - 1;
                 for (; I <= end__49; I += 1)
                 {
-                    var call__50 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__50 = AoWHSMap.FPlayers.GetPlayers(I);
                     TargetPlayer = call__50;
-                    bool bool__51 = (TargetPlayer.FStatus == Aow.Units.AoWE.TPlayerStatus.psPlaying);
+                    bool bool__51 = TargetPlayer.FStatus == TPlayerStatus.psPlaying;
                     if (bool__51)
                     {
-                        bool bool__52 = (I == Player);
+                        bool bool__52 = I == Player;
                         if (!bool__52)
                         {
-                            var call__53 = Aow.Units.AoWE.AoWE.AoWHSMap.FoggedForPlayer(X, Y, L, unchecked((sbyte)I));
+                            var call__53 = AoWHSMap.FoggedForPlayer(X, Y, L, (sbyte)I);
                             bool__52 = !call__53;
                         }
 
@@ -1223,19 +1198,19 @@ namespace Aow.Units.EventLog
 
                     if (bool__51)
                     {
-                        var call__54 = Log.Copy(Aow.Units.AoWE.AoWE.AoWEngine);
-                        CopyLog = (Aow.Units.EventLog.TEventLog)call__54;
+                        var call__54 = Log.Copy(AoWEngine);
+                        CopyLog = (TEventLog)call__54;
                         TargetPlayer.FEventLogbook.AddEvent(CopyLog);
-                        bool bool__55 = (I == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                        bool bool__55 = I == AoWHSMap.FSeatedPlayer;
                         if (bool__55)
                         {
-                            var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                            bool__55 = (call__56.FPlayerType == Aow.Units.AoWE.TPlayerType.ptHuman);
+                            var call__56 = AoWHSMap.FPlayers.GetPlayers(I);
+                            bool__55 = call__56.FPlayerType == TPlayerType.ptHuman;
                         }
 
                         if (bool__55 && Execute)
                         {
-                            CopyLog.Execute(false, Aow.Units.EventLog.TExecuteTrigger.etEvent, null);
+                            CopyLog.Execute(false, TExecuteTrigger.etEvent, null);
                         }
 
                         CopyLog.Release();

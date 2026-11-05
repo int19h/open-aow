@@ -1,36 +1,11 @@
 // Translated from Gems.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
 using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -38,11 +13,11 @@ namespace Aow.Units.Gems
 {
     // { ot=1 }
     // FAmount, FGenerateMode
-    public partial class TGems : Aow.Units.ILTer.TILTerrainMO
+    public partial class TGems : TILTerrainMO
     {
         public TGems(TECustomNode owner) : base(owner)
         {
-            FGenerateMode = Aow.Units.Gems.TGemsGenerateMode.gmNormal;
+            FGenerateMode = TGemsGenerateMode.gmNormal;
             FAmount = 0;
         }
 
@@ -50,42 +25,42 @@ namespace Aow.Units.Gems
         public new const int ClassID = 132014;
 
         public int FAmount;
-        public Aow.Units.Gems.TGemsGenerateMode FGenerateMode;
+        public TGemsGenerateMode FGenerateMode;
         // Gems.pas:56
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FAmount, 5);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FGenerateMode, 1), 1, 6);
+            Stream.rwData(Bytes.Of(ref FGenerateMode, 1), 1, 6);
         }
 
         // Gems.pas:46
 
 
         // Gems.pas:93
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
-            if ((Msg.MsgID == 537001985) && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay == 1))
+            if (Msg.MsgID == 537001985 && AoWHSMap.FDay == 1)
             {
                 GenerateGemsAmount();
             }
         }
 
         // Gems.pas:119
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4354)
             {
-                ArmyEntered(Msg.Param[0].As<Aow.Units.AoWE.TArmyHS>());
+                ArmyEntered(Msg.Param[0].As<TArmyHS>());
                 return;
             }
 
-            if ((Msg.MsgID == 4608) && (Msg.HN == 0))
+            if (Msg.MsgID == 4608 && Msg.HN == 0)
             {
-                UpdateAITarget(ref ((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Info, ref ((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Data.Priority);
-                if (((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
+                UpdateAITarget(ref ((AITargetQuery)Msg.Param[0].Ref).Info, ref ((AITargetQuery)Msg.Param[0].Ref).Data.Priority);
+                if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
                 {
                     Msg.Result = 1;
                 }
@@ -93,50 +68,50 @@ namespace Aow.Units.Gems
         }
 
         // Gems.pas:87
-        public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public override void UpdateMapField(in THSMapFieldInfo Info)
         {
             if (Info.HN == 0)
             {
-                ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags | 134217728;
+                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 134217728;
             }
         }
 
         // Gems.pas:63
         public void GenerateGemsAmount()
         {
-            if (FGenerateMode == Aow.Units.Gems.TGemsGenerateMode.gmRandom)
+            if (FGenerateMode == TGemsGenerateMode.gmRandom)
             {
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
-                FGenerateMode = (Aow.Units.Gems.TGemsGenerateMode)(call__1 + 1);
+                var call__1 = AoWHSMap.Random(3);
+                FGenerateMode = (TGemsGenerateMode)(call__1 + 1);
             }
 
             switch (FGenerateMode)
             {
-                case Aow.Units.Gems.TGemsGenerateMode.gmLow:
-                    var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(25);
+                case TGemsGenerateMode.gmLow:
+                    var call__2 = AoWHSMap.Random(25);
                     FAmount = call__2 + 25;
                     break;
-                case Aow.Units.Gems.TGemsGenerateMode.gmNormal:
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(25);
+                case TGemsGenerateMode.gmNormal:
+                    var call__3 = AoWHSMap.Random(25);
                     FAmount = call__3 + 50;
                     break;
-                case Aow.Units.Gems.TGemsGenerateMode.gmHigh:
-                    var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(50);
+                case TGemsGenerateMode.gmHigh:
+                    var call__4 = AoWHSMap.Random(50);
                     FAmount = call__4 + 100;
                     break;
             }
         }
 
         // Gems.pas:74
-        public void UpdateAITarget(ref Aow.Units.AoWE.TAITargetInfo Info, ref int Priority)
+        public void UpdateAITarget(ref TAITargetInfo Info, ref int Priority)
         {
             int Value = default;
             switch (Info.Mode)
             {
-                case >= Aow.Units.AoWE.TAITargetMode.tmAttack and <= Aow.Units.AoWE.TAITargetMode.tmAttack:
+                case >= TAITargetMode.tmAttack and <= TAITargetMode.tmAttack:
                     if (Info.Player != 0)
                     {
-                        Value = (FAmount / 5) + 15;
+                        Value = FAmount / 5 + 15;
                         if (Value > Priority)
                         {
                             Priority = Value;
@@ -148,40 +123,40 @@ namespace Aow.Units.Gems
         }
 
         // Gems.pas:99
-        public void ArmyEntered(Aow.Units.AoWE.TArmyHS ArmyHS)
+        public void ArmyEntered(TArmyHS ArmyHS)
         {
-            Aow.Units.EventLog.TLocationTextEventLog Event = default;
+            TLocationTextEventLog Event = default;
             if (ArmyHS.FArmy.FPlayer != 0)
             {
-                bool bool__5 = (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == ArmyHS.FArmy.FPlayer);
+                bool bool__5 = AoWHSMap.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
                 if (!bool__5)
                 {
                     var call__6 = GetLhx();
                     var call__7 = GetYhx();
                     var call__8 = GetXhx();
-                    var call__9 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)call__8), unchecked((sbyte)call__7), unchecked((sbyte)call__6), 0);
+                    var call__9 = AoWHSMap.Watching(call__8, call__7, call__6, 0);
                     bool__5 = call__9;
                 }
 
                 if (bool__5)
                 {
-                    Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\EVENTS\\GOLD.WAV");
+                    PlaySample((AnsiString)"SFX\\EVENTS\\GOLD.WAV");
                 }
 
-                var player = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+                var player = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
                 player.SetGems(player.FGems + FAmount);
 
-                Event = new Aow.Units.EventLog.TLocationTextEventLog(null);
-                Event.FPlayer = unchecked((sbyte)ArmyHS.FArmy.FPlayer);
-                var call__11 = Aow.Units.AoWE.AoWE.GoldFoundRStr;
-                var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(call__11);
-                var call__13 = Aow.Rtl.Rtl.Format(call__12, [Aow.Rtl.Rtl.IntToStr(FAmount)]);
+                Event = new TLocationTextEventLog(null);
+                Event.FPlayer = ArmyHS.FArmy.FPlayer;
+                var call__11 = GoldFoundRStr;
+                var call__12 = TranslateRStr(call__11);
+                var call__13 = Rtl.Rtl.Format(call__12, [IntToStr(FAmount)]);
                 Event.FText = call__13;
                 var call__14 = GetLhx();
                 var call__15 = GetYhx();
                 var call__16 = GetXhx();
-                Event.SetLocation(unchecked((sbyte)call__16), unchecked((sbyte)call__15), unchecked((sbyte)call__14));
-                var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+                Event.SetLocation(call__16, call__15, call__14);
+                var call__17 = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
                 call__17.FEventLogbook.AddEvent(Event);
                 Event.Release();
                 Destroy();
@@ -193,7 +168,7 @@ namespace Aow.Units.Gems
 
     }
 
-    public partial class TGemsResource : Aow.Units.ILTer.TILTerrainMOR
+    public partial class TGemsResource : TILTerrainMOR
     {
         public TGemsResource(TECustomNode owner) : base(owner)
         {}
@@ -210,11 +185,11 @@ namespace Aow.Units.Gems
         }
 
         // Gems.pas:134
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__18 = Aow.Units.AoWE.AoWE.GoldRStr;
-            var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(call__18);
+            AnsiString Result = default;
+            var call__18 = GoldRStr;
+            var call__19 = TranslateRStr(call__18);
             Result = call__19;
             return Result;
         }
@@ -233,9 +208,9 @@ namespace Aow.Units.Gems
     public static partial class Gems
     {
         // Gems.pas:143
-        public static void RegisterGems(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterGems(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Gems.TGems>(), Aow.Units.Engine.EClass.Of<Aow.Units.Gems.TGemsResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TGems>(), EClass.Of<TGemsResource>()]);
         }
 
         public static void Initialize()

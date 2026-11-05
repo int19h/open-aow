@@ -1,10 +1,12 @@
 using Aow.Rtl;
+using Aow.Units.AoWTC;
+using Aow.Units.HSEngine;
 
 namespace Aow.Units.AoWE;
 
 public partial class TMoveControl
 {
-    public void SetMapL(HSEngine.TMapLevel level)
+    public void SetMapL(TMapLevel level)
     {
         if (level == FMapLevel) return;
         FMapLevel = level;
@@ -42,7 +44,7 @@ public partial class TMoveControl
         FMode = FSettings.FMode;
         // Tactical movement retains its sprite in TCombatMoveControl.FUnitHS.
         // The base army cache is read only by world movement callbacks.
-        FArmyHS = this is Aow.Units.AoWTC.TCombatMoveControl ? null : (TArmyHS)FSettings.FArmyHS;
+        FArmyHS = this is TCombatMoveControl ? null : (TArmyHS)FSettings.FArmyHS;
         FSelection = FSettings.FSelection;
         FTransporterArmy = FSettings.FTransporterArmy;
         FProcessedMapFields = FSettings.FProcessedMapFields;

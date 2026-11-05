@@ -1,5 +1,4 @@
 #nullable enable
-using Aow.Rtl;
 
 namespace Aow.Units.AoWE;
 
@@ -33,7 +32,7 @@ public partial class TTurnPlayerControl
         int player = map.FSeatedPlayer;
         if (map.FRequestCombatType) map.FSeatedPlayer = -1;
         base.NewDay();
-        if (map.FRequestCombatType) map.FSeatedPlayer = unchecked((sbyte)player);
+        if (map.FRequestCombatType) map.FSeatedPlayer = (sbyte)player;
         HeadlessHooks.AfterNewDay?.Invoke(this);
     }
 }

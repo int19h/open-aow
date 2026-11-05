@@ -25,7 +25,7 @@ public partial class TAbstractUnit
         if (active.Contains(TDamageType.dtLightning) && ExpandAbility(92))
         {
             var data = (TDurationAbilityData)GetAbilityData(92);
-            if (data != null) data.FPlayerIndex = (byte)combat.FCombatData.FCurrentPlayer;
+            if (data != null) data.FPlayerIndex = combat.FCombatData.FCurrentPlayer;
             result += TSet<TDamageType>.Of(TDamageType.dtLightning);
         }
         if (active.Contains(TDamageType.dtPoison) && ExpandAbility(96))

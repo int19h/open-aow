@@ -1,97 +1,71 @@
 // Translated from MapCtrl.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MapCtrl
 {
-    public partial class TAoWMapControl : Aow.Rtl.TComponent
+    public partial class TAoWMapControl : TComponent
     {
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnSelectArmy;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnDeselectArmy;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnDblClickArmy;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnArmyChanged;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnArmyDestroyed;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnSelectStructure;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnDeselectStructure;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnDblClickStructure;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnStructureChanged;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnStructureDestroyed;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnSelectItem;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnDeselectItem;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnUnitChanged;
-        public Aow.Units.MapCtrl.TMapObjectEvent FOnUnitDestroyed;
-        public Aow.Rtl.TNotifyEvent FOnActivateAbility;
-        public Aow.Rtl.TNotifyEvent FOnDiplomaticChange;
-        public Aow.Rtl.TNotifyEvent FOnActivateHSM;
-        public Aow.Rtl.TNotifyEvent FOnDeactivateHSM;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnIncomeChanged;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnUpkeepChanged;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnGemsChanged;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnPlayerMagicChanged;
-        public Aow.Rtl.TNotifyEvent FOnGlobalMagicChanged;
-        public Aow.Rtl.TNotifyEvent FOnShowMessage;
-        public Aow.Units.MapCtrl.TMapDayEvent FOnChangeDay;
-        public Aow.Rtl.TNotifyEvent FOnNewTurn;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnPlayerChanged;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnSeatedPlayerChanged;
-        public Aow.Rtl.TNotifyEvent FOnCombatEvent;
-        public Aow.Units.MapCtrl.TMapExecuteLogEvent FOnExecuteEventLog;
-        public Aow.Rtl.TNotifyEvent FOnMapChanged;
-        public Aow.Rtl.TNotifyEvent FOnScannerIconsChanged;
-        public Aow.Rtl.TNotifyEvent FOnMapSettingsChanged;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnLogbookChanged;
-        public Aow.Rtl.TNotifyEvent FOnGameOver;
-        public Aow.Units.MapCtrl.TMapPlayerEvent FOnGameTerminated;
-        public Aow.Rtl.TNotifyEvent FOnPlayerTerminated;
-        public Aow.Rtl.TNotifyEvent FOnActivateCombatMap;
-        public Aow.Rtl.TNotifyEvent FOnDeactivateCombatMap;
-        public Aow.Units.MapCtrl.TMapTargetEvent FOnTargetSelectionChange;
-        public Aow.Rtl.TNotifyEvent FOnViewPortChange;
-        public Aow.Rtl.TNotifyEvent FOnCastSpell;
-        public Aow.Units.MapCtrl.TMapEndTurnEvent FOnEndTurn;
-        public Aow.Rtl.TNotifyEvent FOnRelationsChanged;
-        public Aow.Rtl.TNotifyEvent FOnExitGameEvent;
-        public Aow.Rtl.TNotifyEvent FOnHSChanged;
+        public TMapObjectEvent FOnSelectArmy;
+        public TMapObjectEvent FOnDeselectArmy;
+        public TMapObjectEvent FOnDblClickArmy;
+        public TMapObjectEvent FOnArmyChanged;
+        public TMapObjectEvent FOnArmyDestroyed;
+        public TMapObjectEvent FOnSelectStructure;
+        public TMapObjectEvent FOnDeselectStructure;
+        public TMapObjectEvent FOnDblClickStructure;
+        public TMapObjectEvent FOnStructureChanged;
+        public TMapObjectEvent FOnStructureDestroyed;
+        public TMapObjectEvent FOnSelectItem;
+        public TMapObjectEvent FOnDeselectItem;
+        public TMapObjectEvent FOnUnitChanged;
+        public TMapObjectEvent FOnUnitDestroyed;
+        public TNotifyEvent FOnActivateAbility;
+        public TNotifyEvent FOnDiplomaticChange;
+        public TNotifyEvent FOnActivateHSM;
+        public TNotifyEvent FOnDeactivateHSM;
+        public TMapPlayerEvent FOnIncomeChanged;
+        public TMapPlayerEvent FOnUpkeepChanged;
+        public TMapPlayerEvent FOnGemsChanged;
+        public TMapPlayerEvent FOnPlayerMagicChanged;
+        public TNotifyEvent FOnGlobalMagicChanged;
+        public TNotifyEvent FOnShowMessage;
+        public TMapDayEvent FOnChangeDay;
+        public TNotifyEvent FOnNewTurn;
+        public TMapPlayerEvent FOnPlayerChanged;
+        public TMapPlayerEvent FOnSeatedPlayerChanged;
+        public TNotifyEvent FOnCombatEvent;
+        public TMapExecuteLogEvent FOnExecuteEventLog;
+        public TNotifyEvent FOnMapChanged;
+        public TNotifyEvent FOnScannerIconsChanged;
+        public TNotifyEvent FOnMapSettingsChanged;
+        public TMapPlayerEvent FOnLogbookChanged;
+        public TNotifyEvent FOnGameOver;
+        public TMapPlayerEvent FOnGameTerminated;
+        public TNotifyEvent FOnPlayerTerminated;
+        public TNotifyEvent FOnActivateCombatMap;
+        public TNotifyEvent FOnDeactivateCombatMap;
+        public TMapTargetEvent FOnTargetSelectionChange;
+        public TNotifyEvent FOnViewPortChange;
+        public TNotifyEvent FOnCastSpell;
+        public TMapEndTurnEvent FOnEndTurn;
+        public TNotifyEvent FOnRelationsChanged;
+        public TNotifyEvent FOnExitGameEvent;
+        public TNotifyEvent FOnHSChanged;
         // MapCtrl.pas:186
         public override void Destroy()
         {
-            if (Aow.Units.AoWE.AoWE.AoWEngine != null)
+            if (AoWEngine != null)
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.FOnHSMLoaded.Remove(ActivateHSM);
-                Aow.Units.AoWE.AoWE.AoWEngine.FOnHSMClose.Remove(DeactivateHSM);
-                if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
+                AoWEngine.FOnHSMLoaded.Remove(ActivateHSM);
+                AoWEngine.FOnHSMClose.Remove(DeactivateHSM);
+                if (AoWHSMap != null)
                 {
                     ReleaseHSM();
                 }
@@ -103,11 +77,11 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:174
         public TAoWMapControl(TComponent owner) : base(owner)
         {
-            if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
+            if (ValidateAoWEngine())
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.FOnHSMLoaded.Add(ActivateHSM);
-                Aow.Units.AoWE.AoWE.AoWEngine.FOnHSMClose.Add(DeactivateHSM);
-                if (Aow.Units.AoWE.AoWE.AoWHSMap != null)
+                AoWEngine.FOnHSMLoaded.Add(ActivateHSM);
+                AoWEngine.FOnHSMClose.Add(DeactivateHSM);
+                if (AoWHSMap != null)
                 {
                     LinkToHSM();
                 }
@@ -118,55 +92,55 @@ namespace Aow.Units.MapCtrl
         public void LinkToHSM()
         {
             int I = default;
-            Aow.Units.AoWE.AoWE.AoWHSMap.FMouse.FOnDblClick.Add(DblClick);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FNewDayEvents.Add(ChangeDay);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCurrentPlayerChangedEvents.Add(PlayerChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FNewTurnEvents.Add(NewTurn);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FEndTurnEvents.Add(EndTurn);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayerChangedEvents.Add(SeatedPlayerChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FSelection.FOnSelect.Add(SelectHS);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FSelection.FOnDeselect.Add(DeselectHS);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FShowMessageEvents.Add(ShowMessage);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FMapChangedEvents.Add(MapChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FScannerIconsChangedEvents.Add(ScannerIconsChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FUpdateVisibilityEvents.Add(MapSettingsChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCombatEvents.Add(CombatEvent);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FStructureChangedEvents.Add(StructureChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FStructureDestroyedEvents.Add(StructureDestroyed);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FArmyChangedEvents.Add(ArmyChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FArmyDestroyedEvents.Add(ArmyDestroyed);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FUnitChangedEvents.Add(UnitChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FUnitDestroyedEvents.Add(UnitDestroyed);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FGameTerminatedEvents.Add(GameOver);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FGameOverEvents.Add(GameTerminated);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FHSChangedEvents.Add(HSChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerTerminatedEvents.Add(PlayerTerminated);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FExecuteEventLogEvents.Add(ExecuteEventLog);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.FOnChange.Add(TargetSelectionChange);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FViewPortChangedEvents.Add(ViewPortChange);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCosmeticSurgeryEvents.Add(CastSpell);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FOnActivateAbility.Add(ActivateAbility);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.FChangedEvents.Add(GlobalMagicChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerChangedEvents.Add(RelationsChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FDiplomaticRelationsChangedEvents.Add(DiplomaticChange);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FExitEvents.Add(ExitGameEvent);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMapCreatedEvents.Add(ActivateCombatMap);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMapDestroyedEvents.Add(DeactivateCombatMap);
+            AoWHSMap.FMouse.FOnDblClick.Add(DblClick);
+            AoWHSMap.FNewDayEvents.Add(ChangeDay);
+            AoWHSMap.FCurrentPlayerChangedEvents.Add(PlayerChanged);
+            AoWHSMap.FNewTurnEvents.Add(NewTurn);
+            AoWHSMap.FEndTurnEvents.Add(EndTurn);
+            AoWHSMap.FSeatedPlayerChangedEvents.Add(SeatedPlayerChanged);
+            AoWHSMap.FSelection.FOnSelect.Add(SelectHS);
+            AoWHSMap.FSelection.FOnDeselect.Add(DeselectHS);
+            AoWHSMap.FShowMessageEvents.Add(ShowMessage);
+            AoWHSMap.FMapChangedEvents.Add(MapChanged);
+            AoWHSMap.FScannerIconsChangedEvents.Add(ScannerIconsChanged);
+            AoWHSMap.FUpdateVisibilityEvents.Add(MapSettingsChanged);
+            AoWHSMap.FCombatEvents.Add(CombatEvent);
+            AoWHSMap.FStructureChangedEvents.Add(StructureChanged);
+            AoWHSMap.FStructureDestroyedEvents.Add(StructureDestroyed);
+            AoWHSMap.FArmyChangedEvents.Add(ArmyChanged);
+            AoWHSMap.FArmyDestroyedEvents.Add(ArmyDestroyed);
+            AoWHSMap.FUnitChangedEvents.Add(UnitChanged);
+            AoWHSMap.FUnitDestroyedEvents.Add(UnitDestroyed);
+            AoWHSMap.FGameTerminatedEvents.Add(GameOver);
+            AoWHSMap.FGameOverEvents.Add(GameTerminated);
+            AoWHSMap.FHSChangedEvents.Add(HSChanged);
+            AoWHSMap.FPlayerTerminatedEvents.Add(PlayerTerminated);
+            AoWHSMap.FExecuteEventLogEvents.Add(ExecuteEventLog);
+            AoWHSMap.FTargetSelection.FOnChange.Add(TargetSelectionChange);
+            AoWHSMap.FViewPortChangedEvents.Add(ViewPortChange);
+            AoWHSMap.FCosmeticSurgeryEvents.Add(CastSpell);
+            AoWHSMap.FOnActivateAbility.Add(ActivateAbility);
+            AoWHSMap.FGlobalMagicControl.FChangedEvents.Add(GlobalMagicChanged);
+            AoWHSMap.FPlayerChangedEvents.Add(RelationsChanged);
+            AoWHSMap.FDiplomaticRelationsChangedEvents.Add(DiplomaticChange);
+            AoWHSMap.FExitEvents.Add(ExitGameEvent);
+            AoWHSMap.FCombatMapCreatedEvents.Add(ActivateCombatMap);
+            AoWHSMap.FCombatMapDestroyedEvents.Add(DeactivateCombatMap);
             {
                 I = 0;
-                int end__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
+                int end__1 = AoWHSMap.FPlayers.Count - 1;
                 for (; I <= end__1; I += 1)
                 {
-                    var call__2 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__2)).FGemsChangedEvents.Add(GemsChanged);
-                    var call__3 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__3)).FIncomeChangedEvents.Add(IncomeChanged);
-                    var call__4 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__4)).FUpkeepChangedEvents.Add(UpkeepChanged);
-                    var call__5 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__5)).FLogbookChangedEvents.Add(LogbookChanged);
-                    var call__6 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__6)).FMagicControl.FChangedEvents.Add(PlayerMagicChanged);
+                    var call__2 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__2).FGemsChangedEvents.Add(GemsChanged);
+                    var call__3 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__3).FIncomeChangedEvents.Add(IncomeChanged);
+                    var call__4 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__4).FUpkeepChangedEvents.Add(UpkeepChanged);
+                    var call__5 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__5).FLogbookChangedEvents.Add(LogbookChanged);
+                    var call__6 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__6).FMagicControl.FChangedEvents.Add(PlayerMagicChanged);
                 }
             }
         }
@@ -175,63 +149,63 @@ namespace Aow.Units.MapCtrl
         public void ReleaseHSM()
         {
             int I = default;
-            Aow.Units.AoWE.AoWE.AoWHSMap.FMouse.FOnDblClick.Remove(DblClick);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FNewDayEvents.Remove(ChangeDay);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCurrentPlayerChangedEvents.Remove(PlayerChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FNewTurnEvents.Remove(NewTurn);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FEndTurnEvents.Remove(EndTurn);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayerChangedEvents.Remove(SeatedPlayerChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FSelection.FOnSelect.Remove(SelectHS);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FSelection.FOnDeselect.Remove(DeselectHS);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FShowMessageEvents.Remove(ShowMessage);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FMapChangedEvents.Remove(MapChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FScannerIconsChangedEvents.Remove(ScannerIconsChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FUpdateVisibilityEvents.Remove(MapSettingsChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCombatEvents.Remove(CombatEvent);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FArmyChangedEvents.Remove(ArmyChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FArmyDestroyedEvents.Remove(ArmyDestroyed);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FUnitChangedEvents.Remove(UnitChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FUnitDestroyedEvents.Remove(UnitDestroyed);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FStructureChangedEvents.Remove(StructureChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FStructureDestroyedEvents.Remove(StructureDestroyed);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FHSChangedEvents.Remove(HSChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FGameTerminatedEvents.Remove(GameOver);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FGameOverEvents.Remove(GameTerminated);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerTerminatedEvents.Remove(PlayerTerminated);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FExecuteEventLogEvents.Remove(ExecuteEventLog);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.FOnChange.Remove(TargetSelectionChange);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FViewPortChangedEvents.Remove(ViewPortChange);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCosmeticSurgeryEvents.Remove(CastSpell);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FOnActivateAbility.Remove(ActivateAbility);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.FChangedEvents.Remove(GlobalMagicChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FPlayerChangedEvents.Remove(RelationsChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FDiplomaticRelationsChangedEvents.Remove(DiplomaticChange);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FExitEvents.Remove(ExitGameEvent);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMapCreatedEvents.Remove(ActivateCombatMap);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMapDestroyedEvents.Remove(DeactivateCombatMap);
+            AoWHSMap.FMouse.FOnDblClick.Remove(DblClick);
+            AoWHSMap.FNewDayEvents.Remove(ChangeDay);
+            AoWHSMap.FCurrentPlayerChangedEvents.Remove(PlayerChanged);
+            AoWHSMap.FNewTurnEvents.Remove(NewTurn);
+            AoWHSMap.FEndTurnEvents.Remove(EndTurn);
+            AoWHSMap.FSeatedPlayerChangedEvents.Remove(SeatedPlayerChanged);
+            AoWHSMap.FSelection.FOnSelect.Remove(SelectHS);
+            AoWHSMap.FSelection.FOnDeselect.Remove(DeselectHS);
+            AoWHSMap.FShowMessageEvents.Remove(ShowMessage);
+            AoWHSMap.FMapChangedEvents.Remove(MapChanged);
+            AoWHSMap.FScannerIconsChangedEvents.Remove(ScannerIconsChanged);
+            AoWHSMap.FUpdateVisibilityEvents.Remove(MapSettingsChanged);
+            AoWHSMap.FCombatEvents.Remove(CombatEvent);
+            AoWHSMap.FArmyChangedEvents.Remove(ArmyChanged);
+            AoWHSMap.FArmyDestroyedEvents.Remove(ArmyDestroyed);
+            AoWHSMap.FUnitChangedEvents.Remove(UnitChanged);
+            AoWHSMap.FUnitDestroyedEvents.Remove(UnitDestroyed);
+            AoWHSMap.FStructureChangedEvents.Remove(StructureChanged);
+            AoWHSMap.FStructureDestroyedEvents.Remove(StructureDestroyed);
+            AoWHSMap.FHSChangedEvents.Remove(HSChanged);
+            AoWHSMap.FGameTerminatedEvents.Remove(GameOver);
+            AoWHSMap.FGameOverEvents.Remove(GameTerminated);
+            AoWHSMap.FPlayerTerminatedEvents.Remove(PlayerTerminated);
+            AoWHSMap.FExecuteEventLogEvents.Remove(ExecuteEventLog);
+            AoWHSMap.FTargetSelection.FOnChange.Remove(TargetSelectionChange);
+            AoWHSMap.FViewPortChangedEvents.Remove(ViewPortChange);
+            AoWHSMap.FCosmeticSurgeryEvents.Remove(CastSpell);
+            AoWHSMap.FOnActivateAbility.Remove(ActivateAbility);
+            AoWHSMap.FGlobalMagicControl.FChangedEvents.Remove(GlobalMagicChanged);
+            AoWHSMap.FPlayerChangedEvents.Remove(RelationsChanged);
+            AoWHSMap.FDiplomaticRelationsChangedEvents.Remove(DiplomaticChange);
+            AoWHSMap.FExitEvents.Remove(ExitGameEvent);
+            AoWHSMap.FCombatMapCreatedEvents.Remove(ActivateCombatMap);
+            AoWHSMap.FCombatMapDestroyedEvents.Remove(DeactivateCombatMap);
             {
                 I = 0;
-                int end__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
+                int end__7 = AoWHSMap.FPlayers.Count - 1;
                 for (; I <= end__7; I += 1)
                 {
-                    var call__8 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__8)).FGemsChangedEvents.Remove(GemsChanged);
-                    var call__9 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__9)).FIncomeChangedEvents.Remove(IncomeChanged);
-                    var call__10 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__10)).FUpkeepChangedEvents.Remove(UpkeepChanged);
-                    var call__11 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__11)).FLogbookChangedEvents.Remove(LogbookChanged);
-                    var call__12 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I));
-                    ((Aow.Units.AoWE.TPlayer)((System.Object)call__12)).FMagicControl.FChangedEvents.Remove(PlayerMagicChanged);
+                    var call__8 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__8).FGemsChangedEvents.Remove(GemsChanged);
+                    var call__9 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__9).FIncomeChangedEvents.Remove(IncomeChanged);
+                    var call__10 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__10).FUpkeepChangedEvents.Remove(UpkeepChanged);
+                    var call__11 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__11).FLogbookChangedEvents.Remove(LogbookChanged);
+                    var call__12 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
+                    ((TPlayer)(object)call__12).FMagicControl.FChangedEvents.Remove(PlayerMagicChanged);
                 }
             }
         }
 
         // MapCtrl.pas:291
-        public void ActivateHSM(Aow.Rtl.TObject Map)
+        public void ActivateHSM(TObject Map)
         {
-            if (((Aow.Units.Engine.TEObject)Map).EClass.ClassID == 131089)
+            if (((TEObject)Map).EClass.ClassID == 131089)
             {
                 LinkToHSM();
                 if (FOnActivateHSM != null)
@@ -242,9 +216,9 @@ namespace Aow.Units.MapCtrl
         }
 
         // MapCtrl.pas:300
-        public void DeactivateHSM(Aow.Rtl.TObject Map)
+        public void DeactivateHSM(TObject Map)
         {
-            if (((Aow.Units.Engine.TEObject)Map).EClass.ClassID == 131089)
+            if (((TEObject)Map).EClass.ClassID == 131089)
             {
                 if (FOnDeactivateHSM != null)
                 {
@@ -256,22 +230,22 @@ namespace Aow.Units.MapCtrl
         }
 
         // MapCtrl.pas:309
-        public void DblClick(Aow.Rtl.TObject Sender)
+        public void DblClick(TObject Sender)
         {
-            Aow.Units.HSEngine.THexagonSprite HS = default;
+            THexagonSprite HS = default;
             if (FOnDblClickArmy != null)
             {
-                var call__13 = Aow.Units.AoWE.AoWE.AoWHSMap.Selection.FindClass(typeof(Aow.Units.AoWE.TArmyHS));
+                var call__13 = AoWHSMap.Selection.FindClass(typeof(TArmyHS));
                 HS = call__13;
                 if (HS != null)
                 {
-                    FOnDblClickArmy((Aow.Rtl.TObject)((Aow.Units.AoWE.TArmyHS)((System.Object)HS)).FArmy);
+                    FOnDblClickArmy(((TArmyHS)(object)HS).FArmy);
                 }
             }
 
             if (FOnDblClickStructure != null)
             {
-                var call__14 = Aow.Units.AoWE.AoWE.AoWHSMap.Selection.FindClass(typeof(Aow.Units.AoWE.TStructure));
+                var call__14 = AoWHSMap.Selection.FindClass(typeof(TStructure));
                 HS = call__14;
                 if (HS != null)
                 {
@@ -281,7 +255,7 @@ namespace Aow.Units.MapCtrl
         }
 
         // MapCtrl.pas:350
-        public void MapChanged(Aow.Rtl.TObject Sender)
+        public void MapChanged(TObject Sender)
         {
             try
             {
@@ -292,12 +266,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during MapChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during MapChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:359
-        public void ScannerIconsChanged(Aow.Rtl.TObject Sender)
+        public void ScannerIconsChanged(TObject Sender)
         {
             try
             {
@@ -308,12 +282,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:368
-        public void MapSettingsChanged(Aow.Rtl.TObject Sender)
+        public void MapSettingsChanged(TObject Sender)
         {
             try
             {
@@ -324,91 +298,91 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during MapSettingsChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during MapSettingsChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:324
-        public void SelectHS(Aow.Rtl.TObject Sender)
+        public void SelectHS(TObject Sender)
         {
-            Aow.Units.HSEngine.THexagonSpriteSelection Selection = default;
+            THexagonSpriteSelection Selection = default;
             try
             {
-                Selection = Aow.Units.AoWE.AoWE.AoWHSMap.Selection;
-                bool bool__15 = (FOnSelectArmy != null) && (Selection.EventHS is Aow.Units.AoWE.TArmyHS);
+                Selection = AoWHSMap.Selection;
+                bool bool__15 = FOnSelectArmy != null && Selection.EventHS is TArmyHS;
                 if (bool__15)
                 {
-                    var call__16 = Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.GetArmyHS();
-                    bool__15 = (call__16 != null);
+                    var call__16 = AoWHSMap.FSelectedArmy.GetArmyHS();
+                    bool__15 = call__16 != null;
                 }
 
                 if (bool__15)
                 {
-                    FOnSelectArmy((Aow.Rtl.TObject)((Aow.Units.AoWE.TArmyHS)((System.Object)Selection.EventHS)).FArmy);
+                    FOnSelectArmy(((TArmyHS)(object)Selection.EventHS).FArmy);
                 }
 
-                if ((FOnSelectStructure != null) && (Selection.EventHS is Aow.Units.AoWE.TStructure))
+                if (FOnSelectStructure != null && Selection.EventHS is TStructure)
                 {
                     FOnSelectStructure(Selection.EventHS);
                 }
 
-                if ((FOnSelectItem != null) && (Selection.EventHS is Aow.Units.AoWE.TItemHS))
+                if (FOnSelectItem != null && Selection.EventHS is TItemHS)
                 {
                     FOnSelectItem(Selection.EventHS);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during SelectHS event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during SelectHS event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:337
-        public void DeselectHS(Aow.Rtl.TObject Sender)
+        public void DeselectHS(TObject Sender)
         {
-            Aow.Units.HSEngine.THexagonSpriteSelection Selection = default;
+            THexagonSpriteSelection Selection = default;
             try
             {
-                Selection = Aow.Units.AoWE.AoWE.AoWHSMap.Selection;
-                if ((FOnDeselectArmy != null) && (Selection.EventHS is Aow.Units.AoWE.TArmyHS))
+                Selection = AoWHSMap.Selection;
+                if (FOnDeselectArmy != null && Selection.EventHS is TArmyHS)
                 {
-                    FOnDeselectArmy((Aow.Rtl.TObject)((Aow.Units.AoWE.TArmyHS)((System.Object)Selection.EventHS)).FArmy);
+                    FOnDeselectArmy(((TArmyHS)(object)Selection.EventHS).FArmy);
                 }
 
-                if ((FOnDeselectStructure != null) && (Selection.EventHS is Aow.Units.AoWE.TStructure))
+                if (FOnDeselectStructure != null && Selection.EventHS is TStructure)
                 {
                     FOnDeselectStructure(Selection.EventHS);
                 }
 
-                if ((FOnDeselectItem != null) && (Selection.EventHS is Aow.Units.AoWE.TItemHS))
+                if (FOnDeselectItem != null && Selection.EventHS is TItemHS)
                 {
                     FOnDeselectItem(Selection.EventHS);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during DeselectHS event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during DeselectHS event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:377
-        public void PlayerChanged(Aow.Rtl.TObject Sender)
+        public void PlayerChanged(TObject Sender)
         {
             try
             {
                 if (FOnPlayerChanged != null)
                 {
-                    FOnPlayerChanged(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FCurrentPlayer));
+                    FOnPlayerChanged(AoWHSMap.FCurrentPlayer);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:386
-        public void ExitGameEvent(Aow.Rtl.TObject Sender)
+        public void ExitGameEvent(TObject Sender)
         {
             try
             {
@@ -419,12 +393,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ExitGame event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ExitGame event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:395
-        public void NewTurn(Aow.Rtl.TObject Sender)
+        public void NewTurn(TObject Sender)
         {
             try
             {
@@ -435,109 +409,109 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during NewTurn event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during NewTurn event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:404
-        public void EndTurn(Aow.Rtl.TObject Player)
+        public void EndTurn(TObject Player)
         {
             try
             {
                 if (FOnEndTurn != null)
                 {
-                    var call__17 = (Aow.Rtl.TObject)(Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Rtl.Rtl.ObjectToInt(Player)));
-                    FOnEndTurn(unchecked((sbyte)Aow.Rtl.Rtl.ObjectToInt(Player)), !((Aow.Units.AoWE.TPlayer)((System.Object)call__17)).FSingleProcessCycle);
+                    var call__17 = (TObject)AoWHSMap.FPlayers.GetPlayers(ObjectToInt(Player));
+                    FOnEndTurn((sbyte)ObjectToInt(Player), !((TPlayer)(object)call__17).FSingleProcessCycle);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during EndTurn event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during EndTurn event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:413
-        public void SeatedPlayerChanged(Aow.Rtl.TObject Sender)
+        public void SeatedPlayerChanged(TObject Sender)
         {
             try
             {
                 if (FOnSeatedPlayerChanged != null)
                 {
-                    FOnSeatedPlayerChanged(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                    FOnSeatedPlayerChanged(AoWHSMap.FSeatedPlayer);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:422
-        public void GemsChanged(Aow.Rtl.TObject Player)
+        public void GemsChanged(TObject Player)
         {
             try
             {
                 if (FOnGemsChanged != null)
                 {
-                    FOnGemsChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)((System.Object)Player)).FPlayerIndex));
+                    FOnGemsChanged(((TPlayer)(object)Player).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Gems Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Gems Changed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:431
-        public void IncomeChanged(Aow.Rtl.TObject Player)
+        public void IncomeChanged(TObject Player)
         {
             try
             {
                 if (FOnIncomeChanged != null)
                 {
-                    FOnIncomeChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)((System.Object)Player)).FPlayerIndex));
+                    FOnIncomeChanged(((TPlayer)(object)Player).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Income Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Income Changed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:440
-        public void UpkeepChanged(Aow.Rtl.TObject Player)
+        public void UpkeepChanged(TObject Player)
         {
             try
             {
                 if (FOnUpkeepChanged != null)
                 {
-                    FOnUpkeepChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)((System.Object)Player)).FPlayerIndex));
+                    FOnUpkeepChanged(((TPlayer)(object)Player).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Upkeep Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Upkeep Changed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:449
-        public void PlayerMagicChanged(Aow.Rtl.TObject Control)
+        public void PlayerMagicChanged(TObject Control)
         {
             try
             {
                 if (FOnPlayerMagicChanged != null)
                 {
-                    FOnPlayerMagicChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayerMagicControl)((System.Object)Control)).FPlayer.FPlayerIndex));
+                    FOnPlayerMagicChanged(((TPlayerMagicControl)(object)Control).FPlayer.FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Player Magic Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Player Magic Changed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:458
-        public void GlobalMagicChanged(Aow.Rtl.TObject Sender)
+        public void GlobalMagicChanged(TObject Sender)
         {
             try
             {
@@ -548,12 +522,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Magic Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Magic Changed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:467
-        public void ShowMessage(Aow.Rtl.TObject Sender)
+        public void ShowMessage(TObject Sender)
         {
             try
             {
@@ -564,28 +538,28 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ShowMessage event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ShowMessage event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:476
-        public void ChangeDay(Aow.Rtl.TObject Sender)
+        public void ChangeDay(TObject Sender)
         {
             try
             {
                 if (FOnChangeDay != null)
                 {
-                    FOnChangeDay(Aow.Units.AoWE.AoWE.AoWHSMap.FDay);
+                    FOnChangeDay(AoWHSMap.FDay);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ChangeDay event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ChangeDay event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:485
-        public void CombatEvent(Aow.Rtl.TObject Sender)
+        public void CombatEvent(TObject Sender)
         {
             try
             {
@@ -596,28 +570,28 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during on combat event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during on combat event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:494
-        public void LogbookChanged(Aow.Rtl.TObject Player)
+        public void LogbookChanged(TObject Player)
         {
             try
             {
                 if (FOnLogbookChanged != null)
                 {
-                    FOnLogbookChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)((System.Object)Player)).FPlayerIndex));
+                    FOnLogbookChanged(((TPlayer)(object)Player).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during LogbookChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during LogbookChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:503
-        public void StructureChanged(Aow.Rtl.TObject Obj)
+        public void StructureChanged(TObject Obj)
         {
             try
             {
@@ -628,12 +602,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnStructureChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnStructureChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:512
-        public void StructureDestroyed(Aow.Rtl.TObject Obj)
+        public void StructureDestroyed(TObject Obj)
         {
             try
             {
@@ -644,12 +618,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:521
-        public void ArmyChanged(Aow.Rtl.TObject Obj)
+        public void ArmyChanged(TObject Obj)
         {
             try
             {
@@ -660,12 +634,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnArmyChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnArmyChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:530
-        public void ArmyDestroyed(Aow.Rtl.TObject Obj)
+        public void ArmyDestroyed(TObject Obj)
         {
             try
             {
@@ -676,12 +650,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:539
-        public void HSChanged(Aow.Rtl.TObject Sender)
+        public void HSChanged(TObject Sender)
         {
             try
             {
@@ -692,12 +666,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnHSChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnHSChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:548
-        public void UnitChanged(Aow.Rtl.TObject Obj)
+        public void UnitChanged(TObject Obj)
         {
             try
             {
@@ -708,12 +682,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnUnitChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnUnitChanged event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:557
-        public void UnitDestroyed(Aow.Rtl.TObject Obj)
+        public void UnitDestroyed(TObject Obj)
         {
             try
             {
@@ -724,12 +698,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:566
-        public void GameOver(Aow.Rtl.TObject Sender)
+        public void GameOver(TObject Sender)
         {
             try
             {
@@ -740,28 +714,28 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnGameOver event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnGameOver event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:575
-        public void GameTerminated(Aow.Rtl.TObject Sender)
+        public void GameTerminated(TObject Sender)
         {
             try
             {
                 if (FOnGameTerminated != null)
                 {
-                    FOnGameTerminated(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FGameResult));
+                    FOnGameTerminated((sbyte)AoWHSMap.FGameResult);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnGameTerminated event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnGameTerminated event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:584
-        public void PlayerTerminated(Aow.Rtl.TObject Sender)
+        public void PlayerTerminated(TObject Sender)
         {
             try
             {
@@ -772,28 +746,28 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:593
-        public void ExecuteEventLog(Aow.Rtl.TObject Info)
+        public void ExecuteEventLog(TObject Info)
         {
             try
             {
                 if (FOnExecuteEventLog != null)
                 {
-                    FOnExecuteEventLog(((Aow.Units.AoWE.ExecuteEventLogNotification)Info).Info.Log, ((Aow.Units.AoWE.ExecuteEventLogNotification)Info).Info.Immediate, ((Aow.Units.AoWE.ExecuteEventLogNotification)Info).Info.Done);
+                    FOnExecuteEventLog(((ExecuteEventLogNotification)Info).Info.Log, ((ExecuteEventLogNotification)Info).Info.Immediate, ((ExecuteEventLogNotification)Info).Info.Done);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:603
-        public void ActivateCombatMap(Aow.Rtl.TObject Sender)
+        public void ActivateCombatMap(TObject Sender)
         {
             try
             {
@@ -804,12 +778,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:612
-        public void DeactivateCombatMap(Aow.Rtl.TObject Sender)
+        public void DeactivateCombatMap(TObject Sender)
         {
             try
             {
@@ -820,28 +794,28 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:621
-        public void TargetSelectionChange(Aow.Rtl.TObject Control)
+        public void TargetSelectionChange(TObject Control)
         {
             try
             {
-                if ((FOnTargetSelectionChange != null) && ((((int)Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.FTargetMode.Image) & 8) != 0))
+                if (FOnTargetSelectionChange != null && (((int)AoWHSMap.FTargetSelection.FTargetMode.Image) & 8) != 0)
                 {
-                    FOnTargetSelectionChange((Aow.Units.AoWE.TTargetSelectionControl)Control, ((Aow.Units.AoWE.TTargetSelectionControl)Control).FChange);
+                    FOnTargetSelectionChange((TTargetSelectionControl)Control, ((TTargetSelectionControl)Control).FChange);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:630
-        public void CastSpell(Aow.Rtl.TObject Sender)
+        public void CastSpell(TObject Sender)
         {
             try
             {
@@ -852,12 +826,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnCastSpell event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnCastSpell event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:639
-        public void ViewPortChange(Aow.Rtl.TObject Sender)
+        public void ViewPortChange(TObject Sender)
         {
             try
             {
@@ -868,12 +842,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnViewPortChange event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnViewPortChange event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:648
-        public void ActivateAbility(Aow.Rtl.TObject Sender)
+        public void ActivateAbility(TObject Sender)
         {
             try
             {
@@ -884,12 +858,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateAbility event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateAbility event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:657
-        public void DiplomaticChange(Aow.Rtl.TObject Sender)
+        public void DiplomaticChange(TObject Sender)
         {
             try
             {
@@ -900,12 +874,12 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
             }
         }
 
         // MapCtrl.pas:666
-        public void RelationsChanged(Aow.Rtl.TObject Sender)
+        public void RelationsChanged(TObject Sender)
         {
             try
             {
@@ -916,159 +890,159 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnRelationsChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnRelationsChanged event (TAoWMapControl)");
             }
         }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnArmySelected { get => FOnSelectArmy; set => FOnSelectArmy = value; }
+        public TMapObjectEvent OnArmySelected { get => FOnSelectArmy; set => FOnSelectArmy = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnArmyDeselected { get => FOnDeselectArmy; set => FOnDeselectArmy = value; }
+        public TMapObjectEvent OnArmyDeselected { get => FOnDeselectArmy; set => FOnDeselectArmy = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnArmyDblClick { get => FOnDblClickArmy; set => FOnDblClickArmy = value; }
+        public TMapObjectEvent OnArmyDblClick { get => FOnDblClickArmy; set => FOnDblClickArmy = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnArmyChanged { get => FOnArmyChanged; set => FOnArmyChanged = value; }
+        public TMapObjectEvent OnArmyChanged { get => FOnArmyChanged; set => FOnArmyChanged = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnArmyDestroyed { get => FOnArmyDestroyed; set => FOnArmyDestroyed = value; }
+        public TMapObjectEvent OnArmyDestroyed { get => FOnArmyDestroyed; set => FOnArmyDestroyed = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnStructureSelected { get => FOnSelectStructure; set => FOnSelectStructure = value; }
+        public TMapObjectEvent OnStructureSelected { get => FOnSelectStructure; set => FOnSelectStructure = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnStructureDeselected { get => FOnDeselectStructure; set => FOnDeselectStructure = value; }
+        public TMapObjectEvent OnStructureDeselected { get => FOnDeselectStructure; set => FOnDeselectStructure = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnStructureDblClick { get => FOnDblClickStructure; set => FOnDblClickStructure = value; }
+        public TMapObjectEvent OnStructureDblClick { get => FOnDblClickStructure; set => FOnDblClickStructure = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnStructureChanged { get => FOnStructureChanged; set => FOnStructureChanged = value; }
+        public TMapObjectEvent OnStructureChanged { get => FOnStructureChanged; set => FOnStructureChanged = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnStructureDestroyed { get => FOnStructureDestroyed; set => FOnStructureDestroyed = value; }
+        public TMapObjectEvent OnStructureDestroyed { get => FOnStructureDestroyed; set => FOnStructureDestroyed = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
+        public TMapObjectEvent OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnUnitDestroyed { get => FOnUnitDestroyed; set => FOnUnitDestroyed = value; }
+        public TMapObjectEvent OnUnitDestroyed { get => FOnUnitDestroyed; set => FOnUnitDestroyed = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
+        public TNotifyEvent OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
+        public TNotifyEvent OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnGemsChanged { get => FOnGemsChanged; set => FOnGemsChanged = value; }
+        public TMapPlayerEvent OnGemsChanged { get => FOnGemsChanged; set => FOnGemsChanged = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnIncomeChanged { get => FOnIncomeChanged; set => FOnIncomeChanged = value; }
+        public TMapPlayerEvent OnIncomeChanged { get => FOnIncomeChanged; set => FOnIncomeChanged = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnUpkeepChanged { get => FOnUpkeepChanged; set => FOnUpkeepChanged = value; }
+        public TMapPlayerEvent OnUpkeepChanged { get => FOnUpkeepChanged; set => FOnUpkeepChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnShowMessage { get => FOnShowMessage; set => FOnShowMessage = value; }
+        public TNotifyEvent OnShowMessage { get => FOnShowMessage; set => FOnShowMessage = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapDayEvent OnDayChanged { get => FOnChangeDay; set => FOnChangeDay = value; }
+        public TMapDayEvent OnDayChanged { get => FOnChangeDay; set => FOnChangeDay = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnPlayerChanged { get => FOnPlayerChanged; set => FOnPlayerChanged = value; }
+        public TMapPlayerEvent OnPlayerChanged { get => FOnPlayerChanged; set => FOnPlayerChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnNewTurn { get => FOnNewTurn; set => FOnNewTurn = value; }
+        public TNotifyEvent OnNewTurn { get => FOnNewTurn; set => FOnNewTurn = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapEndTurnEvent OnEndTurn { get => FOnEndTurn; set => FOnEndTurn = value; }
+        public TMapEndTurnEvent OnEndTurn { get => FOnEndTurn; set => FOnEndTurn = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnHSChanged { get => FOnHSChanged; set => FOnHSChanged = value; }
+        public TNotifyEvent OnHSChanged { get => FOnHSChanged; set => FOnHSChanged = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnSeatedPlayerChanged { get => FOnSeatedPlayerChanged; set => FOnSeatedPlayerChanged = value; }
+        public TMapPlayerEvent OnSeatedPlayerChanged { get => FOnSeatedPlayerChanged; set => FOnSeatedPlayerChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnMapChanged { get => FOnMapChanged; set => FOnMapChanged = value; }
+        public TNotifyEvent OnMapChanged { get => FOnMapChanged; set => FOnMapChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnScannerIconsChanged { get => FOnScannerIconsChanged; set => FOnScannerIconsChanged = value; }
+        public TNotifyEvent OnScannerIconsChanged { get => FOnScannerIconsChanged; set => FOnScannerIconsChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnMapSettingsChanged { get => FOnMapSettingsChanged; set => FOnMapSettingsChanged = value; }
+        public TNotifyEvent OnMapSettingsChanged { get => FOnMapSettingsChanged; set => FOnMapSettingsChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnCombat { get => FOnCombatEvent; set => FOnCombatEvent = value; }
+        public TNotifyEvent OnCombat { get => FOnCombatEvent; set => FOnCombatEvent = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
+        public TMapPlayerEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapTargetEvent OnTargetSelectionChange { get => FOnTargetSelectionChange; set => FOnTargetSelectionChange = value; }
+        public TMapTargetEvent OnTargetSelectionChange { get => FOnTargetSelectionChange; set => FOnTargetSelectionChange = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
+        public TNotifyEvent OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
+        public TNotifyEvent OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnPlayerMagicChanged { get => FOnPlayerMagicChanged; set => FOnPlayerMagicChanged = value; }
+        public TMapPlayerEvent OnPlayerMagicChanged { get => FOnPlayerMagicChanged; set => FOnPlayerMagicChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnGlobalMagicChanged { get => FOnGlobalMagicChanged; set => FOnGlobalMagicChanged = value; }
+        public TNotifyEvent OnGlobalMagicChanged { get => FOnGlobalMagicChanged; set => FOnGlobalMagicChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnRelationsChanged { get => FOnRelationsChanged; set => FOnRelationsChanged = value; }
+        public TNotifyEvent OnRelationsChanged { get => FOnRelationsChanged; set => FOnRelationsChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnActivateCombatMap { get => FOnActivateCombatMap; set => FOnActivateCombatMap = value; }
+        public TNotifyEvent OnActivateCombatMap { get => FOnActivateCombatMap; set => FOnActivateCombatMap = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDeactivateCombatMap { get => FOnDeactivateCombatMap; set => FOnDeactivateCombatMap = value; }
+        public TNotifyEvent OnDeactivateCombatMap { get => FOnDeactivateCombatMap; set => FOnDeactivateCombatMap = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnItemsSelected { get => FOnSelectItem; set => FOnSelectItem = value; }
+        public TMapObjectEvent OnItemsSelected { get => FOnSelectItem; set => FOnSelectItem = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapObjectEvent OnItemsDeselected { get => FOnDeselectItem; set => FOnDeselectItem = value; }
+        public TMapObjectEvent OnItemsDeselected { get => FOnDeselectItem; set => FOnDeselectItem = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnGameOver { get => FOnGameOver; set => FOnGameOver = value; }
+        public TNotifyEvent OnGameOver { get => FOnGameOver; set => FOnGameOver = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapPlayerEvent OnGameTerminated { get => FOnGameTerminated; set => FOnGameTerminated = value; }
+        public TMapPlayerEvent OnGameTerminated { get => FOnGameTerminated; set => FOnGameTerminated = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnPlayerTerminated { get => FOnPlayerTerminated; set => FOnPlayerTerminated = value; }
+        public TNotifyEvent OnPlayerTerminated { get => FOnPlayerTerminated; set => FOnPlayerTerminated = value; }
 
         [Published]
-        public Aow.Units.MapCtrl.TMapExecuteLogEvent OnExecuteEventLog { get => FOnExecuteEventLog; set => FOnExecuteEventLog = value; }
+        public TMapExecuteLogEvent OnExecuteEventLog { get => FOnExecuteEventLog; set => FOnExecuteEventLog = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnViewPortChange { get => FOnViewPortChange; set => FOnViewPortChange = value; }
+        public TNotifyEvent OnViewPortChange { get => FOnViewPortChange; set => FOnViewPortChange = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDiplomaticChange { get => FOnDiplomaticChange; set => FOnDiplomaticChange = value; }
+        public TNotifyEvent OnDiplomaticChange { get => FOnDiplomaticChange; set => FOnDiplomaticChange = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnExitGame { get => FOnExitGameEvent; set => FOnExitGameEvent = value; }
+        public TNotifyEvent OnExitGame { get => FOnExitGameEvent; set => FOnExitGameEvent = value; }
     }
 
     public delegate void TMapEvent();
     public delegate void TMapPlayerEvent(sbyte Player);
     public delegate void TMapDayEvent(int Day);
-    public delegate void TMapObjectEvent(Aow.Rtl.TObject Obj);
+    public delegate void TMapObjectEvent(TObject Obj);
     public delegate void TMapEndTurnEvent(sbyte Player, bool Automatic);
-    public delegate void TMapExecuteLogEvent(Aow.Units.EventLog.TEventLog Log, bool Immediate, Aow.Units.EventLog.TExecuteDoneEvent Done);
-    public delegate void TMapTargetEvent(Aow.Units.AoWE.TTargetSelectionControl Control, Aow.Units.AoWE.TTargetSelectionChange Change);
+    public delegate void TMapExecuteLogEvent(TEventLog Log, bool Immediate, TExecuteDoneEvent Done);
+    public delegate void TMapTargetEvent(TTargetSelectionControl Control, TTargetSelectionChange Change);
     public struct TExecuteLogInfo
     {
-        public Aow.Units.EventLog.TEventLog Log;
+        public TEventLog Log;
         public object Data2;
         public object Data1;
         public byte Trigger;
@@ -1076,24 +1050,24 @@ namespace Aow.Units.MapCtrl
 
     public struct TRawObject
     {
-        public Aow.Units.FixedArray_object_512 Fields;
+        public FixedArray_object_512 Fields;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 376)]
     public struct TMapState
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_164 Reserved00;
+        public FixedArray_byte_164 Reserved00;
         [FieldOffset(164)]
         public sbyte CurrentPlayer;
         [FieldOffset(165)]
         public sbyte SeatedPlayer;
         [FieldOffset(166)]
-        public Aow.Units.FixedArray_byte_115 ReservedA6;
+        public FixedArray_byte_115 ReservedA6;
         [FieldOffset(281)]
         public sbyte Result;
         [FieldOffset(282)]
-        public Aow.Units.FixedArray_byte_90 Reserved11A;
+        public FixedArray_byte_90 Reserved11A;
         [FieldOffset(372)]
         public int Day;
     }
@@ -1102,11 +1076,11 @@ namespace Aow.Units.MapCtrl
     public struct TPlayerState
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_44 Reserved00;
+        public FixedArray_byte_44 Reserved00;
         [FieldOffset(44)]
         public bool Human;
         [FieldOffset(45)]
-        public Aow.Units.FixedArray_byte_121 Reserved2D;
+        public FixedArray_byte_121 Reserved2D;
         [FieldOffset(166)]
         public sbyte PlayerID;
     }
@@ -1115,24 +1089,24 @@ namespace Aow.Units.MapCtrl
     public struct TTargetState
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_13 Reserved00;
+        public FixedArray_byte_13 Reserved00;
         [FieldOffset(13)]
         public byte Status;
         [FieldOffset(14)]
-        public Aow.Units.FixedArray_byte_42 Reserved0E;
+        public FixedArray_byte_42 Reserved0E;
         [FieldOffset(56)]
         public byte Mode;
     }
 
-    public delegate Aow.Rtl.TObject TGetPlayers(Aow.Units.AoWE.TPlayerList List, int Index);
-    public delegate Aow.Units.AoWE.TArmyHS TGetArmyHS(Aow.Units.AoWE.TSelectedArmy Selection);
+    public delegate TObject TGetPlayers(TPlayerList List, int Index);
+    public delegate TArmyHS TGetArmyHS(TSelectedArmy Selection);
     public delegate bool TValidateEngine();
     public static partial class MapCtrl
     {
         // MapCtrl.pas:675
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.MapCtrl.TAoWMapControl)]);
+            RegisterComponents((AnsiString)"AoW", [typeof(TAoWMapControl)]);
         }
 
         public static void Initialize()

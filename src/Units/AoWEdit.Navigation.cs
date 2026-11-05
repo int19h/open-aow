@@ -22,8 +22,8 @@ public partial class TAOWEdit
             case 46:
                 if (FCursorPos < FText.Length)
                 {
-                    FText = Aow.Rtl.Rtl.Copy(FText, 1, FCursorPos + FFirstChar - 1) +
-                        Aow.Rtl.Rtl.Copy(FText, FCursorPos + FFirstChar + 1, FText.Length - FCursorPos - FFirstChar);
+                    FText = Rtl.Rtl.Copy(FText, 1, FCursorPos + FFirstChar - 1) +
+                        Rtl.Rtl.Copy(FText, FCursorPos + FFirstChar + 1, FText.Length - FCursorPos - FFirstChar);
                     FCursorPos += FFirstChar - 1;
                     FFirstChar = 1;
                 }

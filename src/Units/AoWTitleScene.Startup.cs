@@ -2,6 +2,9 @@
 using static Aow.Units.AoWWinMan.AoWWinMan;
 using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
 using static Aow.Units.AoWExeForms.AoWExeForms;
+using Aow.Units.AoWVideoDlg;
+using Aow.Platform;
+using Aow.Rtl;
 
 namespace Aow.Units.AoWTitleScene;
 
@@ -9,7 +12,7 @@ public partial class TTitleScene
 {
     public void ShowScene(bool playMusic)
     {
-        var player = Aow.Units.Sound.Sound.SongPlayer;
+        var player = Sound.Sound.SongPlayer;
         if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             player.Songs.Clear();
@@ -19,10 +22,10 @@ public partial class TTitleScene
         General.Manager.OverlayPriority = 0;
         TitleSceneIL.LoadDiscardableImageData();
         VideoDialog.SetSceneSize(640, 480);
-        Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(VideoDialog, Aow.Units.AoWVideoDlg.TScreenMode.scmTitle);
+        SetVideoMode(VideoDialog, TScreenMode.scmTitle);
         VideoDialog.ApplyMode();
-        Aow.Platform.GameHost.MainForm.Display.SetFrameRate(30);
-        Aow.Platform.GameHost.MainForm.DXDC.UseVerticalBlank = true;
+        GameHost.MainForm.Display.SetFrameRate(30);
+        GameHost.MainForm.DXDC.UseVerticalBlank = true;
         FRedrawBackground = true;
         FPressedButton = FHoverButton = -1;
         FFont = FCreditsFont = FontModule.AoW15WhiteGrey;
@@ -32,12 +35,12 @@ public partial class TTitleScene
     public void WindowHide()
     {
         Window.WinManager.ILIndexTBack = 0;
-        Aow.Platform.GameHost.MainForm?.Display.SetFrameRate(30);
-        if (Aow.Platform.GameHost.MainForm is { } form) form.DXDC.UseVerticalBlank = false;
+        GameHost.MainForm?.Display.SetFrameRate(30);
+        if (GameHost.MainForm is { } form) form.DXDC.UseVerticalBlank = false;
         Window.Visible = false;
         TitleSceneIL.ReleaseDiscardableImageData();
     }
-    public void WindowMouseUp(Aow.Rtl.TObject sender, Aow.Rtl.TMouseButton button, Aow.Rtl.TSet<Aow.Rtl.TShiftState> shift, int x, int y)
+    public void WindowMouseUp(TObject sender, TMouseButton button, TSet<TShiftState> shift, int x, int y)
     {
         FMouseX = x;
         FMouseY = y;
@@ -79,7 +82,7 @@ public partial class TTitleScene
                     Window.Visible = false;
                     General.PlayButtonSound(0);
                     if (AoWE.AoWE.AoWEngine.FDemo) E2Globals.E2Globals.TitleWindow.ShowExitSplash();
-                    else Aow.Platform.GameHost.MainForm.CloseRequested();
+                    else GameHost.MainForm.CloseRequested();
                     break;
             }
         }

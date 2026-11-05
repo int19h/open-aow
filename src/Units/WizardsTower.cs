@@ -1,48 +1,24 @@
 // Translated from WizardsTower.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
 using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.WizardsTower
 {
     // generate, spheres, level, spell ID
-    public partial class TWizardsTower : Aow.Units.AoWE.TStructure
+    public partial class TWizardsTower : TStructure
     {
         public TWizardsTower(TECustomNode owner) : base(owner)
         {
             FGenerateSpell = true;
-            FMagicSpheres = Aow.Units.WizardsTower.WizardsTower.AllMagicSpheres;
+            FMagicSpheres = WizardsTower.AllMagicSpheres;
             FSpellLevel = 2;
         }
 
@@ -50,49 +26,49 @@ namespace Aow.Units.WizardsTower
         public new const int ClassID = 133278;
 
         public bool FGenerateSpell;
-        public TSet<Aow.Units.AoWE.TMagicSphere> FMagicSpheres;
+        public TSet<TMagicSphere> FMagicSpheres;
         public byte FSpellLevel;
         public int FSpellID;
         // WizardsTower.pas:87
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwBool(ref FGenerateSpell, 30);
-            Aow.Rtl.Rtl.RwSet(ref FMagicSpheres, 2, 31, Stream.rwData, 0);
+            RwSet(ref FMagicSpheres, 2, 31, Stream.rwData, 0);
             Stream.rwByte(ref FSpellLevel, 32);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FSpellID, 4), 4, 33);
+            Stream.rwData(Bytes.Of(ref FSpellID, 4), 4, 33);
         }
 
         // WizardsTower.pas:76
 
 
         // WizardsTower.pas:196
-        public override Aow.Units.NetworkE.TExecuteResult ExecuteTE(Aow.Units.AoWE.TStructureTE A1, Aow.Units.NetworkE.TTokenExecuter Executer)
+        public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
-            Aow.Units.NetworkE.TExecuteResult Result = default;
-            Aow.Units.AoWE.TPlayer Player = default;
-            Aow.Rtl.AnsiString Reason = default;
+            TExecuteResult Result = default;
+            TPlayer Player = default;
+            AnsiString Reason = default;
             Result = base.ExecuteTE(A1, Executer);
-            bool bool__1 = (A1.FAction == 1);
+            bool bool__1 = A1.FAction == 1;
             if (bool__1)
             {
-                var call__2 = CanBuy(unchecked((sbyte)A1.FParam), ref Reason);
+                var call__2 = CanBuy((sbyte)A1.FParam, ref Reason);
                 bool__1 = call__2;
             }
 
             if (bool__1)
             {
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FParam);
+                var call__3 = AoWHSMap.FPlayers.GetPlayers(A1.FParam);
                 Player = call__3;
                 var call__4 = BuyCost();
                 Player.SetGems(Player.FGems - call__4);
                 Player.FMagicControl.FSpells.Add(FSpellID);
-                if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == A1.FParam)
+                if (AoWHSMap.FSeatedPlayer == A1.FParam)
                 {
-                    var call__5 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TheyTaughtYouTheSpellXRStr);
-                    var call__7 = Aow.Rtl.Rtl.Format(call__6, [call__5.FSpellName]);
-                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__7);
+                    var call__5 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                    var call__6 = TranslateRStr(TheyTaughtYouTheSpellXRStr);
+                    var call__7 = Rtl.Rtl.Format(call__6, [call__5.FSpellName]);
+                    AoWHSMap.ShowMessage(call__7);
                 }
             }
 
@@ -103,28 +79,28 @@ namespace Aow.Units.WizardsTower
         public override void NewDay()
         {
             base.NewDay();
-            if ((Aow.Units.AoWE.AoWE.AoWHSMap.FDay == 1) && (FGenerateSpell || (FSpellID == 0)))
+            if (AoWHSMap.FDay == 1 && (FGenerateSpell || FSpellID == 0))
             {
                 GenerateSettings();
             }
         }
 
         // WizardsTower.pas:126
-        public override void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
+        public override void ArmyPlaced(TArmyHS A1)
         {
-            Aow.Units.AoWE.TArmy Army = default;
-            Aow.Units.AoWE.TAIGroup Group = default;
+            TArmy Army = default;
+            TAIGroup Group = default;
             int I = default;
-            Aow.Rtl.AnsiString Reason = default;
+            AnsiString Reason = default;
             int Cost = default;
             bool Found = default;
             int Location = default;
             base.ArmyPlaced(A1);
-            var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FArmy.FPlayer);
-            bool bool__9 = TSet<Aow.Units.AoWE.TPlayerType>.Of(Aow.Units.AoWE.TPlayerType.ptCPU1, Aow.Units.AoWE.TPlayerType.ptCPU2, Aow.Units.AoWE.TPlayerType.ptCPU3, Aow.Units.AoWE.TPlayerType.ptCPU4, Aow.Units.AoWE.TPlayerType.ptCPU5).Contains(call__8.FPlayerType);
+            var call__8 = AoWHSMap.FPlayers.GetPlayers(A1.FArmy.FPlayer);
+            bool bool__9 = TSet<TPlayerType>.Of(TPlayerType.ptCPU1, TPlayerType.ptCPU2, TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(call__8.FPlayerType);
             if (bool__9)
             {
-                var call__10 = ValidAITarget(unchecked((sbyte)A1.FArmy.FPlayer));
+                var call__10 = ValidAITarget(A1.FArmy.FPlayer);
                 bool__9 = call__10;
             }
 
@@ -138,15 +114,15 @@ namespace Aow.Units.WizardsTower
                 var call__11 = GetLhx();
                 var call__12 = GetYhx();
                 var call__13 = GetXhx();
-                var call__14 = Aow.Units.HSEngine.HSEngine.PackXYL(unchecked((sbyte)call__13), unchecked((sbyte)call__12), unchecked((sbyte)call__11));
-                Location = Unsafe.BitCast<Aow.Units.HSEngine.TXYL, int>(call__14);
+                var call__14 = PackXYL(call__13, call__12, call__11);
+                Location = Unsafe.BitCast<TXYL, int>(call__14);
                 while (true)
                 {
                     bool bool__15 = !Found;
                     if (bool__15)
                     {
                         var call__16 = Army.Count;
-                        bool__15 = (I != call__16);
+                        bool__15 = I != call__16;
                     }
 
                     if (!bool__15)
@@ -154,7 +130,7 @@ namespace Aow.Units.WizardsTower
                     {
                         var call__17 = Army.GetUnit(I);
                         Group = call__17.FGroup;
-                        Found = ((Group != null) && (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Group.FTargetXYL) == Location)) && (Group.FGoldBudget == Cost);
+                        Found = Group != null && Unsafe.As<TXYL, int>(ref Group.FTargetXYL) == Location && Group.FGoldBudget == Cost;
                         I += 1;
                     }
                 }
@@ -162,24 +138,24 @@ namespace Aow.Units.WizardsTower
                 bool bool__18 = Found;
                 if (bool__18)
                 {
-                    var call__19 = CanBuy(unchecked((sbyte)Army.FPlayer), ref Reason);
+                    var call__19 = CanBuy(Army.FPlayer, ref Reason);
                     bool__18 = call__19;
                 }
 
                 if (bool__18)
                 {
                     Group.ReturnTargetExpense();
-                    var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Army.FPlayer);
-                    var call__21 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Army.FPlayer);
+                    var call__20 = AoWHSMap.FPlayers.GetPlayers(Army.FPlayer);
+                    var call__21 = AoWHSMap.FPlayers.GetPlayers(Army.FPlayer);
                     call__21.SetGems(call__20.FGems - Cost);
-                    var call__22 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Army.FPlayer);
+                    var call__22 = AoWHSMap.FPlayers.GetPlayers(Army.FPlayer);
                     call__22.FMagicControl.FSpells.Add(FSpellID);
                 }
             }
         }
 
         // WizardsTower.pas:107
-        public override void UpdateAITarget(in Aow.Units.AoWE.TAITargetInfo Info, ref Aow.Units.AoWE.TAITargetData Data)
+        public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
             sbyte Player = default;
             var call__23 = GetRazed();
@@ -194,16 +170,16 @@ namespace Aow.Units.WizardsTower
             {
                 switch (Info.Mode)
                 {
-                    case Aow.Units.AoWE.TAITargetMode.tmAttack:
-                        var call__26 = ((Aow.Units.AoWE.TAoWMapField)Owner).GetPlayer();
-                        Player = unchecked((sbyte)call__26);
-                        bool bool__27 = (Player != Info.Player);
+                    case TAITargetMode.tmAttack:
+                        var call__26 = ((TAoWMapField)Owner).GetPlayer();
+                        Player = call__26;
+                        bool bool__27 = Player != Info.Player;
                         if (bool__27)
                         {
-                            bool bool__28 = (Player <= 0);
+                            bool bool__28 = Player <= 0;
                             if (!bool__28)
                             {
-                                var call__29 = Aow.Units.AoWE.AoWE.ValidAttackRelation(unchecked((sbyte)Info.Player), 0, unchecked((sbyte)Player), 0);
+                                var call__29 = ValidAttackRelation(Info.Player, 0, Player, 0);
                                 bool__28 = call__29;
                             }
 
@@ -213,7 +189,7 @@ namespace Aow.Units.WizardsTower
                         bool bool__30 = bool__27;
                         if (bool__30)
                         {
-                            var call__31 = ValidAITarget(unchecked((sbyte)Info.Player));
+                            var call__31 = ValidAITarget(Info.Player);
                             bool__30 = call__31;
                         }
 
@@ -237,7 +213,7 @@ namespace Aow.Units.WizardsTower
         public override bool CanDblClick()
         {
             bool Result = default;
-            var call__33 = CanEnter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            var call__33 = CanEnter(AoWHSMap.FSeatedPlayer);
             Result = call__33;
             return Result;
         }
@@ -246,24 +222,24 @@ namespace Aow.Units.WizardsTower
         public bool ValidAITarget(sbyte Player)
         {
             bool Result = default;
-            bool bool__34 = (Player > 0);
+            bool bool__34 = Player > 0;
             if (bool__34)
             {
                 var call__35 = GetRazed();
                 bool__34 = !call__35;
             }
 
-            bool bool__36 = bool__34 && (FSpellID != 0);
+            bool bool__36 = bool__34 && FSpellID != 0;
             if (bool__36)
             {
-                var call__37 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__37 = AoWHSMap.FPlayers.GetPlayers(Player);
                 var call__38 = call__37.FMagicControl.FSpells.IndexOf(FSpellID);
-                bool__36 = (call__38 == -1);
+                bool__36 = call__38 == -1;
             }
 
             if (bool__36)
             {
-                var call__39 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var call__39 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
                 Result = call__39.FCastDuration > 0;
             }
             else
@@ -277,7 +253,7 @@ namespace Aow.Units.WizardsTower
         // WizardsTower.pas:163
         public void GenerateSettings()
         {
-            var call__40 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetRandomSpell(FSpellLevel, FSpellLevel, FMagicSpheres);
+            var call__40 = AoWHSSet.FSpellControl.GetRandomSpell(FSpellLevel, FSpellLevel, FMagicSpheres);
             FSpellID = call__40;
         }
 
@@ -285,10 +261,10 @@ namespace Aow.Units.WizardsTower
         public bool CanEnter(sbyte Player)
         {
             bool Result = default;
-            Aow.Units.AoWE.TArmyHS ArmyHS = default;
+            TArmyHS ArmyHS = default;
             var call__41 = Owner.FindOwnedChild(131607);
-            ArmyHS = (Aow.Units.AoWE.TArmyHS)call__41;
-            if ((ArmyHS == null) || (ArmyHS.FArmy.FPlayer != Player))
+            ArmyHS = (TArmyHS)call__41;
+            if (ArmyHS == null || ArmyHS.FArmy.FPlayer != Player)
             {
                 Result = false;
             }
@@ -304,13 +280,13 @@ namespace Aow.Units.WizardsTower
         public bool Enter()
         {
             bool Result = default;
-            Aow.Units.WizardsTower.TEnterWizardsTowerEventLog Log = default;
-            var call__42 = CanEnter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            TEnterWizardsTowerEventLog Log = default;
+            var call__42 = CanEnter(AoWHSMap.FSeatedPlayer);
             if (call__42)
             {
-                Log = new Aow.Units.WizardsTower.TEnterWizardsTowerEventLog(null);
+                Log = new TEnterWizardsTowerEventLog(null);
                 Log.FTower = this;
-                Log.Execute(true, Aow.Units.EventLog.TExecuteTrigger.etUser, null);
+                Log.Execute(true, TExecuteTrigger.etUser, null);
                 Log.Release();
                 Result = true;
             }
@@ -328,7 +304,7 @@ namespace Aow.Units.WizardsTower
             int Result = default;
             if (FSpellID != 0)
             {
-                var call__43 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var call__43 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
                 Result = call__43.FResearchCost;
             }
             else
@@ -340,16 +316,16 @@ namespace Aow.Units.WizardsTower
         }
 
         // WizardsTower.pas:221
-        public bool CanBuy(sbyte Player, ref Aow.Rtl.AnsiString Reason)
+        public bool CanBuy(sbyte Player, ref AnsiString Reason)
         {
             bool Result = default;
             if (FSpellID != 0)
             {
-                var call__44 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__44 = AoWHSMap.FPlayers.GetPlayers(Player);
                 var call__45 = call__44.FMagicControl.FSpells.IndexOf(FSpellID);
                 if (call__45 == -1)
                 {
-                    var call__46 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                    var call__46 = AoWHSMap.FPlayers.GetPlayers(Player);
                     var call__47 = BuyCost();
                     if (call__46.FGems >= call__47)
                     {
@@ -358,16 +334,16 @@ namespace Aow.Units.WizardsTower
                     else
                     {
                         Result = false;
-                        var call__48 = Aow.Units.AoWE.AoWE.NotEnoughGoldRStr;
-                        var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(call__48);
+                        var call__48 = NotEnoughGoldRStr;
+                        var call__49 = TranslateRStr(call__48);
                         Reason = call__49;
                     }
                 }
                 else
                 {
                     Result = false;
-                    var call__50 = Aow.Units.AoWE.AoWE.SpellIsAlreadyResearchedRStr;
-                    var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(call__50);
+                    var call__50 = SpellIsAlreadyResearchedRStr;
+                    var call__51 = TranslateRStr(call__50);
                     Reason = call__51;
                 }
             }
@@ -380,16 +356,16 @@ namespace Aow.Units.WizardsTower
         }
 
         // WizardsTower.pas:243
-        public bool Buy(sbyte Player, ref Aow.Rtl.AnsiString Reason)
+        public bool Buy(sbyte Player, ref AnsiString Reason)
         {
             bool Result = default;
-            Aow.Units.AoWE.TStructureTE TE = default;
+            TStructureTE TE = default;
             Reason = (AnsiString)"";
-            var call__52 = CanBuy(unchecked((sbyte)Player), ref Reason);
+            var call__52 = CanBuy(Player, ref Reason);
             bool bool__53 = call__52;
             if (bool__53)
             {
-                var call__54 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__54 = AoWHSMap.FPlayers.GetPlayers(Player);
                 var call__55 = call__54.GetBusy();
                 bool__53 = !call__55;
             }
@@ -400,7 +376,7 @@ namespace Aow.Units.WizardsTower
                 SetupTE(TE);
                 TE.FAction = 1;
                 TE.FParam = Player;
-                var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(Player);
+                var call__56 = AoWHSMap.FTokenManager.GetTokenControl(Player);
                 call__56.AddEvent(TE);
                 TE.Release();
                 Result = true;
@@ -418,7 +394,7 @@ namespace Aow.Units.WizardsTower
 
     }
 
-    public partial class TWizardsTowerResource : Aow.Units.AoWE.TStructureResource
+    public partial class TWizardsTowerResource : TStructureResource
     {
         public TWizardsTowerResource(TECustomNode owner) : base(owner)
         {}
@@ -435,11 +411,11 @@ namespace Aow.Units.WizardsTower
         }
 
         // WizardsTower.pas:260
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__57 = Aow.Units.AoWE.AoWE.WizardsTowerRStr;
-            var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(call__57);
+            AnsiString Result = default;
+            var call__57 = WizardsTowerRStr;
+            var call__58 = TranslateRStr(call__57);
             Result = call__58;
             return Result;
         }
@@ -447,13 +423,13 @@ namespace Aow.Units.WizardsTower
     }
 
     // tower
-    public partial class TEnterWizardsTowerEventLog : Aow.Units.EventLog.TEventLog
+    public partial class TEnterWizardsTowerEventLog : TEventLog
     {
         // WizardsTower.pas:70
         public TEnterWizardsTowerEventLog(TECustomNode owner) : base(owner)
         { }
 
-        public Aow.Units.WizardsTower.TWizardsTower FTower;
+        public TWizardsTower FTower;
         // WizardsTower.pas:73
         public override void Destroy()
         {
@@ -465,12 +441,12 @@ namespace Aow.Units.WizardsTower
     public static partial class WizardsTower
     {
         // WizardsTower.pas:269
-        public static void RegisterWizardsTower(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterWizardsTower(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.WizardsTower.TWizardsTower>(), Aow.Units.Engine.EClass.Of<Aow.Units.WizardsTower.TWizardsTowerResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TWizardsTower>(), EClass.Of<TWizardsTowerResource>()]);
         }
 
-        public static TSet<Aow.Units.AoWE.TMagicSphere> AllMagicSpheres = TSet<Aow.Units.AoWE.TMagicSphere>.FromMask(255UL);
+        public static TSet<TMagicSphere> AllMagicSpheres = TSet<TMagicSphere>.FromMask(255UL);
         public static void Initialize()
         {
         }

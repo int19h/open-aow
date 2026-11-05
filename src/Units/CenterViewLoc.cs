@@ -1,48 +1,14 @@
 // Translated from CenterViewLoc.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CenterViewLoc
 {
-    public partial class TCenterViewLocation : Aow.Units.HSEngine.TMapObject
+    public partial class TCenterViewLocation : TMapObject
     {
         public TCenterViewLocation(TECustomNode owner) : base(owner)
         {}
@@ -51,9 +17,9 @@ namespace Aow.Units.CenterViewLoc
         public new const int ClassID = 2233640;
 
         // CenterViewLoc.pas:80
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
@@ -65,12 +31,12 @@ namespace Aow.Units.CenterViewLoc
             base.Activate();
             if (!GetEditMode())
             {
-                if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCenterViewLocation != null)
+                if (AoWCombatMap.FCenterViewLocation != null)
                 {
-                    Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCenterViewLocation.Free();
+                    AoWCombatMap.FCenterViewLocation.Free();
                 }
 
-                Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCenterViewLocation = this;
+                AoWCombatMap.FCenterViewLocation = this;
             }
         }
 
@@ -80,9 +46,9 @@ namespace Aow.Units.CenterViewLoc
             base.Deactivate();
             if (!GetEditMode())
             {
-                if (Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCenterViewLocation == this)
+                if (AoWCombatMap.FCenterViewLocation == this)
                 {
-                    Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCenterViewLocation = null;
+                    AoWCombatMap.FCenterViewLocation = null;
                 }
             }
         }
@@ -96,15 +62,15 @@ namespace Aow.Units.CenterViewLoc
         }
 
         // CenterViewLoc.pas:49
-        public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
         {
-            Aow.Units.HSEngine.TMapObjectResourceList Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources;
+            TMapObjectResourceList Result = default;
+            Result = AoWHSSet.FCombatResources;
             return Result;
         }
 
         // CenterViewLoc.pas:52
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             Result = true;
@@ -112,16 +78,16 @@ namespace Aow.Units.CenterViewLoc
         }
 
         // CenterViewLoc.pas:58
-        public override bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Result = base.PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             return Result;
         }
 
     }
 
-    public partial class TCenterViewLocationResource : Aow.Units.HSEngine.TMapObjectResource
+    public partial class TCenterViewLocationResource : TMapObjectResource
     {
         public TCenterViewLocationResource(TECustomNode owner) : base(owner)
         {
@@ -152,9 +118,9 @@ namespace Aow.Units.CenterViewLoc
 
 
         // CenterViewLoc.pas:99
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Center View Location";
             return Result;
         }
@@ -164,9 +130,9 @@ namespace Aow.Units.CenterViewLoc
     public static partial class CenterViewLoc
     {
         // CenterViewLoc.pas:105
-        public static void RegisterCenterViewLocation(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterCenterViewLocation(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CenterViewLoc.TCenterViewLocationResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CenterViewLoc.TCenterViewLocation>()]);
+            AEngine.RegisterEClasses([EClass.Of<TCenterViewLocationResource>(), EClass.Of<TCenterViewLocation>()]);
         }
 
         public static void Initialize()

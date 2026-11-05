@@ -1,36 +1,9 @@
 // Translated from Altar.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
 using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.Storms;
-using static Aow.Units.Storms.Storms;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -38,7 +11,7 @@ namespace Aow.Units.Altar
 {
     // { ot=1 }
     // FStorm, FMode, FRechargeDays
-    public partial class TAltar : Aow.Units.AoWE.TPlayerStructure
+    public partial class TAltar : TPlayerStructure
     {
         public TAltar(TECustomNode owner) : base(owner)
         {}
@@ -46,15 +19,15 @@ namespace Aow.Units.Altar
         // Altar.pas:59
         public new const int ClassID = 132081;
 
-        public Aow.Units.Storms.TStorm FStorm;
-        public Aow.Units.Altar.TAltarMode FMode;
+        public TStorm FStorm;
+        public TAltarMode FMode;
         public byte FRechargeDays;
         // Altar.pas:226
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref FRechargeDays, 15);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FMode, 1), 1, 16);
+            Stream.rwData(Bytes.Of(ref FMode, 1), 1, 16);
         }
 
         // Altar.pas:248
@@ -62,12 +35,12 @@ namespace Aow.Units.Altar
         {
             if (Value)
             {
-                SetPlayer(unchecked((sbyte)-1));
-                FMode = Aow.Units.Altar.TAltarMode.amRazed;
+                SetPlayer(-1);
+                FMode = TAltarMode.amRazed;
             }
             else
             {
-                FMode = Aow.Units.Altar.TAltarMode.amIdle;
+                FMode = TAltarMode.amIdle;
             }
 
             var call__1 = GetTerrainTypeImage(FTerrainType);
@@ -78,19 +51,19 @@ namespace Aow.Units.Altar
         public override bool GetRazed()
         {
             bool Result = default;
-            Result = FMode == Aow.Units.Altar.TAltarMode.amRazed;
+            Result = FMode == TAltarMode.amRazed;
             return Result;
         }
 
         // Altar.pas:78
-        public override Aow.Units.NetworkE.TExecuteResult ExecuteTE(Aow.Units.AoWE.TStructureTE A1, Aow.Units.NetworkE.TTokenExecuter Executer)
+        public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
-            Aow.Units.NetworkE.TExecuteResult Result = default;
-            Aow.Rtl.AnsiString Reason = default;
+            TExecuteResult Result = default;
+            AnsiString Reason = default;
             Result = base.ExecuteTE(A1, Executer);
             if (A1.FAction == 0)
             {
-                bool bool__2 = (Executer.ExecuteCount == 0);
+                bool bool__2 = Executer.ExecuteCount == 0;
                 if (bool__2)
                 {
                     var call__3 = CanTarget(ref Reason);
@@ -101,12 +74,12 @@ namespace Aow.Units.Altar
                 {
                     var call__4 = CreateStorm();
                     FStorm = call__4;
-                    var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    var call__5 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                     var call__6 = TargetMana();
-                    var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                    var call__7 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                     call__7.FMagicControl.SetMana(call__5.FMagicControl.FMana - call__6);
                     FRechargeDays = 0;
-                    FStorm.InitializeStorm(unchecked((sbyte)FPlayer), unchecked((sbyte)unchecked((sbyte)(A1.FParam & 255))), unchecked((sbyte)unchecked((sbyte)(((int)(((uint)A1.FParam) >> 8)) & 255))), unchecked((sbyte)unchecked((sbyte)(((int)(((uint)A1.FParam) >> 16)) & 255))));
+                    FStorm.InitializeStorm(FPlayer, (sbyte)(A1.FParam & 255), (sbyte)(((int)(((uint)A1.FParam) >> 8)) & 255), (sbyte)(((int)(((uint)A1.FParam) >> 16)) & 255));
                 }
 
                 if (FStorm != null)
@@ -117,17 +90,17 @@ namespace Aow.Units.Altar
                         FStorm.FinalizeStorm();
                         FStorm.Free();
                         FStorm = null;
-                        Result = Aow.Units.NetworkE.TExecuteResult.erDone;
+                        Result = TExecuteResult.erDone;
                         Update();
                     }
                     else
                     {
-                        Result = Aow.Units.NetworkE.TExecuteResult.erRetry;
+                        Result = TExecuteResult.erRetry;
                     }
                 }
                 else
                 {
-                    Result = Aow.Units.NetworkE.TExecuteResult.erDoneHalt;
+                    Result = TExecuteResult.erDoneHalt;
                 }
             }
 
@@ -141,25 +114,25 @@ namespace Aow.Units.Altar
             var call__9 = GetRechargeDays();
             if (call__9 != FRechargeDays)
             {
-                FRechargeDays = (byte)(((int)FRechargeDays) + 1);
+                FRechargeDays = (byte)(FRechargeDays + 1);
             }
         }
 
         // Altar.pas:70
-        public override Aow.Rtl.AnsiString GetCurrentActivityText()
+        public override AnsiString GetCurrentActivityText()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             var call__10 = GetRechargeDays();
             if (call__10 != FRechargeDays)
             {
                 var call__11 = GetRechargeDays();
-                var call__12 = Aow.Units.AoWE.AoWE.FmtDaysLeftStr(call__11 - FRechargeDays);
-                var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChargingRStr);
-                Result = ((call__13 + ((AnsiString)" (")) + call__12) + AnsiString.FromBytes(41);
+                var call__12 = FmtDaysLeftStr(call__11 - FRechargeDays);
+                var call__13 = TranslateRStr(ChargingRStr);
+                Result = call__13 + (AnsiString)" (" + call__12 + AnsiString.FromBytes(41);
             }
             else
             {
-                Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ReadyRStr);
+                Result = TranslateRStr(ReadyRStr);
             }
 
             return Result;
@@ -169,50 +142,50 @@ namespace Aow.Units.Altar
         public override bool ExecuteAI(sbyte Player, int Phase)
         {
             bool Result = default;
-            Aow.Units.Storms.TStorm Storm = default;
-            Aow.Units.HSEngine.TXYL Target = default;
-            Aow.Units.AoWE.TBattleFieldInfo Friendly = default;
-            Aow.Units.AoWE.TBattleFieldInfo Enemy = default;
-            Aow.Units.AoWE.TStormDamageInfo Damage = default;
+            TStorm Storm = default;
+            TXYL Target = default;
+            TBattleFieldInfo Friendly = default;
+            TBattleFieldInfo Enemy = default;
+            TStormDamageInfo Damage = default;
             int Value = default;
-            if ((Player == FPlayer) && ((Phase == 1) || (Phase == 2)))
+            if (Player == FPlayer && (Phase == 1 || Phase == 2))
             {
                 Storm = CreateStorm();
                 var call__14 = GetLhx();
                 var call__15 = GetYhx();
                 var call__16 = GetXhx();
-                var call__17 = Storm.GetBestTarget(unchecked((sbyte)Player), call__16, call__15, call__14, 12, ref Target, ref Damage);
+                var call__17 = Storm.GetBestTarget(Player, call__16, call__15, call__14, 12, ref Target, ref Damage);
                 if (call__17)
                 {
                     Value = Damage.EnemyDamage - Damage.FriendlyDamage;
-                    if (((double)Value) > (((double)TargetMana()) * 0.75))
+                    if ((double)Value > (double)TargetMana() * 0.75)
                     {
-                        var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                        var call__18 = AoWHSMap.FPlayers.GetPlayers(Player);
                         var call__19 = TargetMana();
-                        var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                        var call__20 = AoWHSMap.FPlayers.GetPlayers(Player);
                         var call__21 = call__20.FAIBudget.RequestBudgetExpense(0, call__19, call__18.FAIBudget.FDefaultBudget, true);
                         if (call__21)
                         {
-                            Aow.Units.AoWE.AoWE.SetupBattleFieldInfo(ref Friendly, unchecked((sbyte)Player), 0, TSet<Aow.Units.AoWE.TBattleFieldInfoRequestsElement>.Of(), Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
+                            SetupBattleFieldInfo(ref Friendly, Player, 0, TSet<TBattleFieldInfoRequestsElement>.Of(), dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
                             Friendly.EnemyRelations = TSet<byte>.WithBounds(0, 7);
                             var call__22 = GetLhx();
                             var call__23 = GetYhx();
                             var call__24 = GetXhx();
-                            Aow.Units.AoWE.AoWE.AoWHSMap.RetrieveBattleFieldInfo(call__24, call__23, call__22, 1, ref Friendly);
-                            Aow.Units.AoWE.AoWE.SetupBattleFieldInfo(ref Enemy, unchecked((sbyte)Player), 0, TSet<Aow.Units.AoWE.TBattleFieldInfoRequestsElement>.Of(), Aow.Units.AoWE.AoWE.dtAll - TSet<Aow.Units.AoWE.TDamageType>.Of(Aow.Units.AoWE.TDamageType.dtWall));
+                            AoWHSMap.RetrieveBattleFieldInfo(call__24, call__23, call__22, 1, ref Friendly);
+                            SetupBattleFieldInfo(ref Enemy, Player, 0, TSet<TBattleFieldInfoRequestsElement>.Of(), dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
                             var call__25 = GetLhx();
                             var call__26 = GetYhx();
                             var call__27 = GetXhx();
-                            Aow.Units.AoWE.AoWE.AoWHSMap.RetrieveBattleFieldInfo(call__27, call__26, call__25, 8, ref Enemy);
-                            if ((Friendly.FriendlyStrength < Enemy.Strength) || (Value > 100))
+                            AoWHSMap.RetrieveBattleFieldInfo(call__27, call__26, call__25, 8, ref Enemy);
+                            if (Friendly.FriendlyStrength < Enemy.Strength || Value > 100)
                             {
-                                var call__28 = StormTargetSelected(unchecked((sbyte)Target.X), unchecked((sbyte)Target.Y), unchecked((sbyte)Target.L));
+                                var call__28 = StormTargetSelected(Target.X, Target.Y, Target.L);
                                 if (call__28)
                                 {
-                                    var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                                    var call__29 = AoWHSMap.FPlayers.GetPlayers(Player);
                                     var call__30 = TargetMana();
-                                    var call__31 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                                    call__31.FAIBudget.BudgetExpenseMade(0, call__30, call__29.FAIBudget.FDefaultBudget, Aow.Units.AoWE.TBudgetExpenseMode.bemPoolThenBudget);
+                                    var call__31 = AoWHSMap.FPlayers.GetPlayers(Player);
+                                    call__31.FAIBudget.BudgetExpenseMade(0, call__30, call__29.FAIBudget.FDefaultBudget, TBudgetExpenseMode.bemPoolThenBudget);
                                 }
                             }
                         }
@@ -231,10 +204,10 @@ namespace Aow.Units.Altar
         {
             if (Player != FPlayer)
             {
-                base.SetPlayer(unchecked((sbyte)Player));
-                if ((Player == FPlayer) && (this == Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.FSource))
+                base.SetPlayer(Player);
+                if (Player == FPlayer && this == AoWHSMap.FTargetSelection.FSource)
                 {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.Deactivate();
+                    AoWHSMap.FTargetSelection.Deactivate();
                 }
             }
         }
@@ -243,14 +216,14 @@ namespace Aow.Units.Altar
         public override int GetDefaultAITargetPriority()
         {
             int Result = default;
-            Result = (FRechargeDays * 10) + 10;
+            Result = FRechargeDays * 10 + 10;
             return Result;
         }
 
         // Altar.pas:62
-        public virtual Aow.Units.Storms.TStorm CreateStorm()
+        public virtual TStorm CreateStorm()
         {
-            Aow.Units.Storms.TStorm Result = default;
+            TStorm Result = default;
             Result = null;
             return Result;
         }
@@ -259,13 +232,13 @@ namespace Aow.Units.Altar
         public virtual bool StormTargetSelected(sbyte X, sbyte Y, sbyte L)
         {
             bool Result = default;
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWE.TStructureTE Event = default;
+            AnsiString Reason = default;
+            TStructureTE Event = default;
             var call__32 = CanTarget(ref Reason);
             bool bool__33 = call__32;
             if (bool__33)
             {
-                var call__34 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                var call__34 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
                 var call__35 = call__34.GetBusy();
                 bool__33 = !call__35;
             }
@@ -274,9 +247,9 @@ namespace Aow.Units.Altar
             {
                 Event = CreateTE();
                 SetupTE(Event);
-                Event.FParam = (X + (Y << 8)) + (L << 16);
+                Event.FParam = X + (Y << 8) + (L << 16);
                 Event.FAction = 0;
-                var call__36 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(FPlayer);
+                var call__36 = AoWHSMap.FTokenManager.GetTokenControl(FPlayer);
                 call__36.AddEvent(Event);
                 Event.Release();
                 Result = true;
@@ -298,11 +271,11 @@ namespace Aow.Units.Altar
         }
 
         // Altar.pas:153
-        public virtual bool CanTarget(ref Aow.Rtl.AnsiString Reason)
+        public virtual bool CanTarget(ref AnsiString Reason)
         {
             bool Result = default;
             var call__37 = TargetMana();
-            var call__38 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
+            var call__38 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
             if (call__37 <= call__38.FMagicControl.FMana)
             {
                 Result = true;
@@ -310,7 +283,7 @@ namespace Aow.Units.Altar
             else
             {
                 Result = false;
-                Reason = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NotEnoughManaRStr);
+                Reason = TranslateRStr(NotEnoughManaRStr);
             }
 
             return Result;
@@ -320,16 +293,16 @@ namespace Aow.Units.Altar
         public virtual bool Target()
         {
             bool Result = default;
-            Aow.Units.AoWE.TTargetSelectionControl Selection = default;
-            Aow.Rtl.AnsiString Reason = default;
-            Selection = Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection;
+            TTargetSelectionControl Selection = default;
+            AnsiString Reason = default;
+            Selection = AoWHSMap.FTargetSelection;
             var call__39 = GetRazed();
-            bool bool__40 = !call__39 && (FPlayer >= 0);
+            bool bool__40 = !call__39 && FPlayer >= 0;
             if (bool__40)
             {
                 var call__41 = TargetMana();
-                var call__42 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                bool__40 = (call__41 <= call__42.FMagicControl.FMana);
+                var call__42 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                bool__40 = call__41 <= call__42.FMagicControl.FMana;
             }
 
             bool bool__43 = bool__40;
@@ -339,10 +312,10 @@ namespace Aow.Units.Altar
                 bool__43 = call__44;
             }
 
-            if (bool__43 && (FStorm == null))
+            if (bool__43 && FStorm == null)
             {
                 Selection.Initialize(this);
-                Selection.FTargetMode = Selection.FTargetMode + TSet<Aow.Units.AoWE.TTargetSelectionModeElement>.Of(Aow.Units.AoWE.TTargetSelectionModeElement.tmValidateDistance, Aow.Units.AoWE.TTargetSelectionModeElement.tmExternalFloater);
+                Selection.FTargetMode = Selection.FTargetMode + TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmValidateDistance, TTargetSelectionModeElement.tmExternalFloater);
                 var call__45 = GetXhx();
                 Selection.FSourceX = call__45;
                 var call__46 = GetYhx();
@@ -353,14 +326,14 @@ namespace Aow.Units.Altar
                 Selection.FOnChange.Add(OnTargetSelectionChange);
                 var call__48 = CreateStorm();
                 FStorm = call__48;
-                FStorm.UpdateTargetSelection(Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection);
+                FStorm.UpdateTargetSelection(AoWHSMap.FTargetSelection);
                 var call__49 = FStorm.Name();
-                var call__50 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectTargetLocationForXOnMapRStr);
-                var call__51 = Aow.Rtl.Rtl.Format(call__50, [call__49]);
+                var call__50 = TranslateRStr(SelectTargetLocationForXOnMapRStr);
+                var call__51 = Rtl.Rtl.Format(call__50, [call__49]);
                 Selection.FText.Text = call__51;
                 var call__52 = EditName();
                 Selection.FTitle = call__52;
-                var call__53 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CancelRStr);
+                var call__53 = TranslateRStr(CancelRStr);
                 Selection.FCancelText = call__53;
                 var call__54 = GetTopBorderImage();
                 Selection.FSourceImage = call__54;
@@ -387,7 +360,7 @@ namespace Aow.Units.Altar
             bool Result = default;
             if (GetTargeting())
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.Deactivate();
+                AoWHSMap.FTargetSelection.Deactivate();
                 Result = true;
             }
             else
@@ -408,21 +381,21 @@ namespace Aow.Units.Altar
         }
 
         // Altar.pas:128
-        public void OnTargetSelectionChange(Aow.Rtl.TObject Sender)
+        public void OnTargetSelectionChange(TObject Sender)
         {
-            Aow.Units.AoWE.TTargetSelectionControl Selection = default;
-            Selection = (Aow.Units.AoWE.TTargetSelectionControl)Sender;
+            TTargetSelectionControl Selection = default;
+            Selection = (TTargetSelectionControl)Sender;
             switch (Selection.FChange)
             {
-                case Aow.Units.AoWE.TTargetSelectionChange.tscDeactivated:
+                case TTargetSelectionChange.tscDeactivated:
                     FStorm.Free();
                     FStorm = null;
                     Selection.FOnChange.Remove(OnTargetSelectionChange);
                     Update();
                     break;
-                case Aow.Units.AoWE.TTargetSelectionChange.tscSelected:
+                case TTargetSelectionChange.tscSelected:
                     Selection.FOnChange.Remove(OnTargetSelectionChange);
-                    var call__58 = StormTargetSelected(unchecked((sbyte)Selection.FTargetX), unchecked((sbyte)Selection.FTargetY), unchecked((sbyte)Selection.FTargetL));
+                    var call__58 = StormTargetSelected(Selection.FTargetX, Selection.FTargetY, Selection.FTargetL);
                     if (call__58)
                     {
                         Selection.Deactivate();
@@ -439,13 +412,13 @@ namespace Aow.Units.Altar
         public bool GetTargeting()
         {
             bool Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.FStatus.Contains(Aow.Units.AoWE.TTargetSelectionStatusElement.tsActivated) && (this == Aow.Units.AoWE.AoWE.AoWHSMap.FTargetSelection.FSource);
+            Result = AoWHSMap.FTargetSelection.FStatus.Contains(TTargetSelectionStatusElement.tsActivated) && this == AoWHSMap.FTargetSelection.FSource;
             return Result;
         }
 
     }
 
-    public partial class TAltarResource : Aow.Units.AoWE.TPlayerStructureResource
+    public partial class TAltarResource : TPlayerStructureResource
     {
         public TAltarResource(TECustomNode owner) : base(owner)
         {
@@ -474,9 +447,9 @@ namespace Aow.Units.Altar
 
 
         // Altar.pas:304
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"";
             return Result;
         }
@@ -493,9 +466,9 @@ namespace Aow.Units.Altar
     public static partial class Altar
     {
         // Altar.pas:313
-        public static void RegisterAltar(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterAltar(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Altar.TAltar>(), Aow.Units.Engine.EClass.Of<Aow.Units.Altar.TAltarResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TAltar>(), EClass.Of<TAltarResource>()]);
         }
 
         public static void Initialize()

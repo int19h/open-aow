@@ -1,136 +1,88 @@
 // Translated from AoWUnitSelDlg.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.Arena;
-using static Aow.Units.Arena.Arena;
-using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWCheckBox;
-using static Aow.Units.AoWCheckBox.AoWCheckBox;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWUnitSelDlg
 {
     // unit selector. retained event log
-    public partial class TUnitSelectionDlg : Aow.Rtl.TDataModule
+    public partial class TUnitSelectionDlg : TDataModule
     {
         public TUnitSelectionDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWButton.TAOWButton SelectBtn;
-        public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        public Aow.Units.AoWPanel.TAOWPanel SourcePnl;
-        public Aow.Units.AoWLabel.TAOWLabel SourceNameLbl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U1;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U2;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U3;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U4;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U5;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U6;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U7;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U8;
-        public Aow.Units.AoWImage.TAOWImage DecoL;
-        public Aow.Units.AoWImage.TAOWImage DecoR;
-        public Aow.Units.AoWImage.TAOWImage SourceFace;
-        public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        public Aow.Units.AoWPanel.TAOWPanel SelectionInfoPnl;
-        public Aow.Units.AoWLabel.TAOWLabel SelectionInfoLbl;
-        public Aow.Units.AoWLabel.TAOWLabel SelectionLbl;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.AoWE.TUnitSelector FEvent;
-        public Aow.Units.AoWE.TUnitSelectorAAI FEventLog;
+        public TAOWButton SelectBtn;
+        public TAOWImage TitleIcon;
+        public TAOWButton Close;
+        public TAOWLabel Title;
+        public TAOWButton CancelBtn;
+        public TAOWWindow Dlg;
+        public TAOWPanel UnitPnl;
+        public TAOWPanel SourcePnl;
+        public TAOWLabel SourceNameLbl;
+        public TAOWCheckBox U1;
+        public TAOWCheckBox U2;
+        public TAOWCheckBox U3;
+        public TAOWCheckBox U4;
+        public TAOWCheckBox U5;
+        public TAOWCheckBox U6;
+        public TAOWCheckBox U7;
+        public TAOWCheckBox U8;
+        public TAOWImage DecoL;
+        public TAOWImage DecoR;
+        public TAOWImage SourceFace;
+        public TAoWFrame AoWFrame1;
+        public TAOWPanel SelectionInfoPnl;
+        public TAOWLabel SelectionInfoLbl;
+        public TAOWLabel SelectionLbl;
+        public TIvTranslator Translator;
+        public TUnitSelector FEvent;
+        public TUnitSelectorAAI FEventLog;
         // AoWUnitSelDlg.pas:66
-        public void DrawUnit(int Index, int X, int Y, ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
         {
-            Aow.Rtl.TRect SaveRect = default;
-            Aow.Units.AoWE.TP2UnitShowInfo Info = default;
-            Aow.Units.ImageLib.TLibraryImage Img = default;
-            Aow.Units.AoWE.TAlignment Alignment = default;
+            TRect SaveRect = default;
+            TP2UnitShowInfo Info = default;
+            ImageLib.TLibraryImage Img = default;
+            TAlignment Alignment = default;
             var call__1 = FEvent.FUnits.GetCount();
             if (Index < call__1)
             {
                 SaveRect = SD.ClipRect;
-                var call__2 = Aow.Rtl.Rtl.Rect(X + 5, Y + 4, X + 46, Y + 56);
+                var call__2 = Rect(X + 5, Y + 4, X + 46, Y + 56);
                 SD.ClipRect = call__2;
                 var call__3 = FEvent.FUnits.GetUnit(Index);
                 var call__4 = call__3.GetAlignment();
                 Alignment = call__4;
-                if (((int)Alignment) < Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
+                if ((int)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
                     // { D3 masks the enum index after the original full-byte guard. }
-                    var call__5 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
+                    var call__5 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
                     Img = call__5;
-                    Img.ShowClipped((X + 25) - (Img.Width / 2), (Y + 30) - (Img.Height / 2), SD);
+                    Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
                 Info = default;
                 Info.Direction = 3;
-                Info.Overlays = TSet<Aow.Units.AoWE.TUnitOverlayModesElement>.Of(Aow.Units.AoWE.TUnitOverlayModesElement.uoHitPoints, Aow.Units.AoWE.TUnitOverlayModesElement.uoRank);
+                Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
                 var call__6 = FEvent.FUnits.GetUnit(Index);
                 call__6.ShowEx(X - 8, Y - 5, SD, Info);
                 if ((((int)(((uint)FEvent.FSelectable) >> Index)) & 1) == 0)
                 {
-                    var call__7 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                    var call__7 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
                     Img = call__7;
-                    Img.ShowClipped((X + 25) - (Img.Width / 2), (Y + 30) - (Img.Height / 2), SD);
+                    Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
                 SD.ClipRect = SaveRect;
@@ -164,15 +116,15 @@ namespace Aow.Units.AoWUnitSelDlg
         }
 
         // AoWUnitSelDlg.pas:186
-        public void Execute(Aow.Units.AoWE.TUnitSelectorAAI Request)
+        public void Execute(TUnitSelectorAAI Request)
         {
-            Aow.Units.AoWE.TAbstractUnit U = default;
+            TAbstractUnit U = default;
             ResetSelection();
             FEventLog = Request;
             FEventLog.AddRef();
             FEvent = Request.FUnitSelector;
             FEvent.AddRef();
-            var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+            var call__8 = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
             U = call__8;
             if (U != null)
             {
@@ -208,15 +160,15 @@ namespace Aow.Units.AoWUnitSelDlg
         // AoWUnitSelDlg.pas:101
         public void CloseClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
         // AoWUnitSelDlg.pas:107
         public void SelectBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
             var call__10 = FEvent.CanSelect(ref Reason);
             if (call__10)
             {
@@ -225,28 +177,28 @@ namespace Aow.Units.AoWUnitSelDlg
             }
             else
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                AoWHSMap.ShowWarning(Reason);
             }
         }
 
         // AoWUnitSelDlg.pas:120
-        public void U1Change(Aow.Rtl.TObject Sender)
+        public void U1Change(TObject Sender)
         {
-            Aow.Rtl.AnsiString Reason = default;
-            if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked)
+            AnsiString Reason = default;
+            if (((TAOWCheckBox)Sender).Checked)
             {
                 if (!FEvent.FCanceled)
                 {
-                    FEvent.SetSelection(unchecked((byte)(1 << ((Aow.Rtl.TComponent)Sender).Tag)));
+                    FEvent.SetSelection((byte)(1 << ((TComponent)Sender).Tag));
                 }
                 else
                 {
-                    FEvent.SetSelection(unchecked((byte)(FEvent.FSelection | (1 << ((Aow.Rtl.TComponent)Sender).Tag))));
+                    FEvent.SetSelection((byte)(FEvent.FSelection | (1 << ((TComponent)Sender).Tag)));
                 }
             }
             else
             {
-                FEvent.SetSelection(unchecked((byte)(FEvent.FSelection & ~(1 << ((Aow.Rtl.TComponent)Sender).Tag))));
+                FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << ((TComponent)Sender).Tag)));
             }
 
             U1.Checked = (FEvent.FSelection & 1) != 0;
@@ -257,15 +209,15 @@ namespace Aow.Units.AoWUnitSelDlg
             U6.Checked = (FEvent.FSelection & 32) != 0;
             U7.Checked = (FEvent.FSelection & 64) != 0;
             U8.Checked = (FEvent.FSelection & 128) != 0;
-            if ((FEvent.FSelectable & (1 << ((Aow.Rtl.TComponent)Sender).Tag)) != 0)
+            if ((FEvent.FSelectable & (1 << ((TComponent)Sender).Tag)) != 0)
             {
-                if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked)
+                if (((TAOWCheckBox)Sender).Checked)
                 {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
+                    General.PlayButtonSound(1);
                 }
                 else
                 {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(2);
+                    General.PlayButtonSound(2);
                 }
             }
 
@@ -288,20 +240,20 @@ namespace Aow.Units.AoWUnitSelDlg
         }
 
         // AoWUnitSelDlg.pas:146
-        public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            var image = (TAOWImage)Sender;
             DrawUnit(Sender.Tag, UnitPnl.WinLeft + image.WinLeft, UnitPnl.WinTop + image.WinTop, ref SD);
         }
 
         // AoWUnitSelDlg.pas:151
-        public void SourceFacePreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void SourceFacePreDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            Aow.Rtl.TRect R = default;
-            Aow.Units.AoWE.TAbstractUnit U = default;
+            TRect R = default;
+            TAbstractUnit U = default;
             if (FEvent != null)
             {
-                var call__13 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+                var call__13 = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
                 U = call__13;
                 if (U != null)
                 {

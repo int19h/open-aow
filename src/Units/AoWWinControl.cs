@@ -1,18 +1,10 @@
 // Translated from AoWWinControl.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 
 namespace Aow.Units.AoWWinControl
 {
@@ -31,11 +23,11 @@ namespace Aow.Units.AoWWinControl
     // FFrameLeft, FFrameTop, FFrameRight, FFrameBottom, FMaskColor, FUseVMem, FBackSurface,
     // (unused), FBackRect, (unused), FOnDrawBack, FOnEnter, FOnExit, FMouseInside, FILIndexFrame,
     // FILIndexTexture, FDockable
-    public partial class TAOWWindowControl : Aow.Units.AoWComp.TAoWComponent
+    public partial class TAOWWindowControl : TAoWComponent
     {
         public bool FModal;
-        public Aow.Units.AoWWinControl.TAoWOnDrawSurface FOnDrawSurface;
-        public Aow.Units.AoWWinControl.TAoWOnDrawSurface FOnPreDrawSurface;
+        public TAoWOnDrawSurface FOnDrawSurface;
+        public TAoWOnDrawSurface FOnPreDrawSurface;
         public byte FDragging;
         public int FDragX;
         public int FDragY;
@@ -43,21 +35,21 @@ namespace Aow.Units.AoWWinControl
         public bool FResizable;
         public byte FResizingX;
         public byte FResizingY;
-        public Aow.Rtl.TNotifyEvent FOnResize;
-        public Aow.Rtl.TNotifyEvent FOnInternalResize;
+        public TNotifyEvent FOnResize;
+        public TNotifyEvent FOnInternalResize;
         public int FDragHeight;
         public bool FOverlapTopCorners;
         public int FOldCursor;
         public int FWindowCursor;
-        public Aow.Rtl.TNotifyEvent FOnChangeCursor;
+        public TNotifyEvent FOnChangeCursor;
         public int FMinWidth;
         public int FMinHeight;
         public int FMaxWidth;
         public int FMaxHeight;
         public bool FInResizeArea;
-        public Aow.Units.AoWWinControl.TWindowType FWindowType;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTexture;
+        public TWindowType FWindowType;
+        public TInterfaceIL FILFrame;
+        public TInterfaceIL FILTexture;
         public bool FUseManagerBorders;
         public int FFrameLeft;
         public int FFrameTop;
@@ -65,13 +57,13 @@ namespace Aow.Units.AoWWinControl
         public int FFrameBottom;
         public int FMaskColor;
         public bool FUseVMem;
-        public Aow.Units.GFXE.TSurface FBackSurface;
+        public TSurface FBackSurface;
         public int F190;
-        public Aow.Rtl.TRect FBackRect;
+        public TRect FBackRect;
         public int F1A4;
-        public Aow.Units.AoWComp.TAoWOnDrawBackEvent FOnDrawBack;
-        public Aow.Rtl.TNotifyEvent FOnEnter;
-        public Aow.Rtl.TNotifyEvent FOnExit;
+        public TAoWOnDrawBackEvent FOnDrawBack;
+        public TNotifyEvent FOnEnter;
+        public TNotifyEvent FOnExit;
         public bool FMouseInside;
         public int FILIndexFrame;
         public int FILIndexTexture;
@@ -111,22 +103,22 @@ namespace Aow.Units.AoWWinControl
                 {
                     if (FILTexture != null)
                     {
-                        FWindowType = Aow.Units.AoWWinControl.TWindowType.winNormal;
+                        FWindowType = TWindowType.winNormal;
                     }
                     else
                     {
-                        FWindowType = Aow.Units.AoWWinControl.TWindowType.winHollow;
+                        FWindowType = TWindowType.winHollow;
                     }
                 }
                 else
                 {
                     if (FILTexture != null)
                     {
-                        FWindowType = Aow.Units.AoWWinControl.TWindowType.winBorderless;
+                        FWindowType = TWindowType.winBorderless;
                     }
                     else
                     {
-                        FWindowType = Aow.Units.AoWWinControl.TWindowType.winBlank;
+                        FWindowType = TWindowType.winBlank;
                     }
                 }
 
@@ -140,7 +132,7 @@ namespace Aow.Units.AoWWinControl
         public override void CheckKeyPress(ref byte Key)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             if (FVisible)
             {
@@ -150,7 +142,7 @@ namespace Aow.Units.AoWWinControl
                     for (; I >= end__3; I -= 1)
                     {
                         var call__4 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__4;
+                        C = (TAoWComponent)call__4;
                         C.CheckKeyPress(ref Key);
                         if (C.FHandled == true)
                         {
@@ -159,7 +151,7 @@ namespace Aow.Units.AoWWinControl
                     }
                 }
 
-                if ((FHandled || FModal) && (FOnKeyPress != null))
+                if ((FHandled || FModal) && FOnKeyPress != null)
                 {
                     FOnKeyPress(this, ref Key);
                 }
@@ -172,10 +164,10 @@ namespace Aow.Units.AoWWinControl
         }
 
         // AoWWinControl.pas:246
-        public override void CheckKeyDown(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public override void CheckKeyDown(ref ushort Key, TSet<TShiftState> Shift)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             if (FVisible)
             {
@@ -185,7 +177,7 @@ namespace Aow.Units.AoWWinControl
                     for (; I >= end__5; I -= 1)
                     {
                         var call__6 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__6;
+                        C = (TAoWComponent)call__6;
                         C.CheckKeyDown(ref Key, Shift);
                         if (C.FHandled == true)
                         {
@@ -212,15 +204,15 @@ namespace Aow.Units.AoWWinControl
         }
 
         // AoWWinControl.pas:208
-        public virtual void Blt(Aow.Units.GFXE.TSurface Surface)
+        public virtual void Blt(TSurface Surface)
         {
-            Aow.Rtl.TRect R = default;
+            TRect R = default;
             if (FOnPreDrawSurface != null)
             {
                 FOnPreDrawSurface(this, Surface, FWinLeft, FWinTop);
             }
 
-            var call__7 = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+            var call__7 = Rect(0, 0, FWinWidth, FWinHeight);
             R = call__7;
             if (!FMasked)
             {
@@ -229,7 +221,7 @@ namespace Aow.Units.AoWWinControl
             else
             {
                 var call__8 = FBackSurface.GetPixelFormatID();
-                var call__9 = Aow.Units.GFXE.GFXE.Color2PixelInfo(FMaskColor, call__8, null);
+                var call__9 = Color2PixelInfo(FMaskColor, call__8, null);
                 FBackSurface.BltAreaColorKeyClipped(Surface, R, FWinLeft, FWinTop, call__9);
             }
 
@@ -248,18 +240,18 @@ namespace Aow.Units.AoWWinControl
 
         // AoWWinControl.pas:149
         // { RadioChange unchecks the other children of the radio group of Sender }
-        public void RadioChange(Aow.Units.AoWComp.TAoWComponent Sender)
+        public void RadioChange(TAoWComponent Sender)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             {
                 I = 0;
                 int end__10 = FChildren.Count - 1;
                 for (; I <= end__10; I += 1)
                 {
                     var call__11 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__11;
-                    if (((Sender.FRadioIndex == C.FRadioIndex) && (C != Sender)) && (C.FChecked == true))
+                    C = (TAoWComponent)call__11;
+                    if (Sender.FRadioIndex == C.FRadioIndex && C != Sender && C.FChecked == true)
                     {
                         C.FChecked = false;
                         C.FDrawn = false;
@@ -276,11 +268,11 @@ namespace Aow.Units.AoWWinControl
         // { VerifyBackSurface makes the back surface match Surface (a DirectDraw surface in video memory
 //   when Surface is one and UseVMem is set, else a surface in system memory or a data surface);
 //   True when the back surface was created or restored and has to be drawn again }
-        public bool VerifyBackSurface(Aow.Units.GFXE.TSurface Surface)
+        public bool VerifyBackSurface(TSurface Surface)
         {
             bool Result = default;
-            TSet<Aow.Units.GFXE.TDDSCreationFlagsElement> Flags = default;
-            Aow.Units.GFXE.TDDrawSurface DDS = default;
+            TSet<TDDSCreationFlagsElement> Flags = default;
+            TDDrawSurface DDS = default;
             Result = false;
             if (FDoubleBuffered)
             {
@@ -288,7 +280,7 @@ namespace Aow.Units.AoWWinControl
                 {
                     var call__12 = FBackSurface.GetPixelFormatID();
                     var call__13 = Surface.GetPixelFormatID();
-                    if ((call__12 != call__13) || ((FBackSurface is Aow.Units.GFXE.TDDrawSurface) ^ (Surface is Aow.Units.GFXE.TDDrawSurface)))
+                    if (call__12 != call__13 || (FBackSurface is TDDrawSurface) ^ (Surface is TDDrawSurface))
                     {
                         FBackSurface.Free();
                         FBackSurface = null;
@@ -297,18 +289,18 @@ namespace Aow.Units.AoWWinControl
 
                 if (FBackSurface == null)
                 {
-                    if (Surface is Aow.Units.GFXE.TDDrawSurface)
+                    if (Surface is TDDrawSurface)
                     {
-                        if (((Aow.Units.GFXE.TDDrawSurface)Surface).Status.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssVideoMemory) && FUseVMem)
+                        if (((TDDrawSurface)Surface).Status.Contains(TDDrawSurfaceStatusElement.ssVideoMemory) && FUseVMem)
                         {
-                            Flags = TSet<Aow.Units.GFXE.TDDSCreationFlagsElement>.Of(Aow.Units.GFXE.TDDSCreationFlagsElement.cfVideoMemory, Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory);
+                            Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfVideoMemory, TDDSCreationFlagsElement.cfSystemMemory);
                         }
                         else
                         {
-                            Flags = TSet<Aow.Units.GFXE.TDDSCreationFlagsElement>.Of(Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory);
+                            Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfSystemMemory);
                         }
 
-                        DDS = new Aow.Units.GFXE.TDDrawSurface();
+                        DDS = new TDDrawSurface();
                         FBackSurface = DDS;
                         var call__14 = Surface.GetPixelFormatID();
                         DDS.CreateSurface(FWinWidth, FWinHeight, call__14, Flags);
@@ -316,7 +308,7 @@ namespace Aow.Units.AoWWinControl
                     else
                     {
                         var call__15 = Surface.GetPixelFormatID();
-                        var call__16 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, call__15, null);
+                        var call__16 = new TDataSurface(FWinWidth, FWinHeight, call__15, null);
                         FBackSurface = call__16;
                     }
 
@@ -329,17 +321,17 @@ namespace Aow.Units.AoWWinControl
                 }
                 else
                 {
-                    bool bool__17 = (FBackSurface is Aow.Units.GFXE.TDDrawSurface);
+                    bool bool__17 = FBackSurface is TDDrawSurface;
                     if (bool__17)
                     {
-                        var call__18 = ((Aow.Units.GFXE.TDDrawSurface)FBackSurface).Lost();
+                        var call__18 = ((TDDrawSurface)FBackSurface).Lost();
                         bool__17 = call__18;
                     }
 
                     if (bool__17)
                     {
-                        var call__19 = ((Aow.Units.GFXE.TDDrawSurface)FBackSurface).Restore();
-                        Result = call__19 == Aow.Units.GFXE.GFXE.DD_OK;
+                        var call__19 = ((TDDrawSurface)FBackSurface).Restore();
+                        Result = call__19 == DD_OK;
                     }
                 }
             }
@@ -348,16 +340,16 @@ namespace Aow.Units.AoWWinControl
         }
 
         [Published]
-        public Aow.Units.AoWComp.TAoWOnDrawBackEvent OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
+        public TAoWOnDrawBackEvent OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnEnter { get => FOnEnter; set => FOnEnter = value; }
+        public TNotifyEvent OnEnter { get => FOnEnter; set => FOnEnter = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
+        public TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
     }
 
-    public delegate void TAoWOnDrawSurface(Aow.Units.AoWWinControl.TAOWWindowControl Sender, Aow.Units.GFXE.TSurface Surface, int Left, int Top);
+    public delegate void TAoWOnDrawSurface(TAOWWindowControl Sender, TSurface Surface, int Left, int Top);
     public static partial class AoWWinControl
     {
     }

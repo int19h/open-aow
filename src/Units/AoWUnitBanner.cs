@@ -1,121 +1,77 @@
 // Translated from AoWUnitBanner.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWMenu;
-using static Aow.Units.AOWMenu.AOWMenu;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWListBox.AoWListBox;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWUnitBanner
 {
     // published labels, popup and ability-list controls
-    public partial class TUnitBanner : Aow.Rtl.TDataModule
+    public partial class TUnitBanner : TDataModule
     {
         public TUnitBanner(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWLabel.TAOWLabel UnitNameLbl;
-        public Aow.Units.AoWImage.TAOWImage AttackIcon;
-        public Aow.Units.AoWImage.TAOWImage DefenseIcon;
-        public Aow.Units.AoWImage.TAOWImage MovesIcon;
-        public Aow.Units.AoWImage.TAOWImage DamageIcon;
-        public Aow.Units.AoWImage.TAOWImage ResistanceIcon;
-        public Aow.Units.AoWImage.TAOWImage HitsIcon;
-        public Aow.Units.AoWLabel.TAOWLabel Attack;
-        public Aow.Units.AoWLabel.TAOWLabel Defense;
-        public Aow.Units.AoWLabel.TAOWLabel Moves;
-        public Aow.Units.AoWLabel.TAOWLabel Damage;
-        public Aow.Units.AoWLabel.TAOWLabel Resistance;
-        public Aow.Units.AoWLabel.TAOWLabel Hits;
-        public Aow.Units.AOWMenu.TAOWMenu BannerPopup;
-        public Aow.Units.AoWListBox.TAOWListBox AbLB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar AbVSB;
+        public TAOWLabel UnitNameLbl;
+        public TAOWImage AttackIcon;
+        public TAOWImage DefenseIcon;
+        public TAOWImage MovesIcon;
+        public TAOWImage DamageIcon;
+        public TAOWImage ResistanceIcon;
+        public TAOWImage HitsIcon;
+        public TAOWLabel Attack;
+        public TAOWLabel Defense;
+        public TAOWLabel Moves;
+        public TAOWLabel Damage;
+        public TAOWLabel Resistance;
+        public TAOWLabel Hits;
+        public TAOWMenu BannerPopup;
+        public TAOWListBox AbLB;
+        public TAOWVScrollBar AbVSB;
         // AoWUnitBanner.pas:53
-        public void BannerPopupShow(Aow.Rtl.TObject Sender)
+        public void BannerPopupShow(TObject Sender)
         {
             int I = default;
-            Aow.Units.AoWTC.TTCAbility A = default;
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)
+            TTCAbility A = default;
+            if (General.FSelectedUnit != null)
             {
-                var call__1 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetName();
+                var call__1 = General.FSelectedUnit.GetName();
                 UnitNameLbl.Text = call__1;
                 BannerPopup.FAligned = false;
-                var call__2 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetHitPoints();
-                var call__3 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetHits();
-                Hits.Text = (Aow.Rtl.Rtl.IntToStr(call__2) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__3);
-                var call__4 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetMovePoints();
-                var call__5 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetMoves();
-                Moves.Text = (Aow.Rtl.Rtl.IntToStr(call__4) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__5);
-                var call__6 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetAttack();
-                Attack.Text = Aow.Rtl.Rtl.IntToStr(call__6);
-                var call__7 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetDamage();
-                Damage.Text = Aow.Rtl.Rtl.IntToStr(call__7);
-                var call__8 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetDefense();
-                Defense.Text = Aow.Rtl.Rtl.IntToStr(call__8);
-                var call__9 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetResistance();
-                Resistance.Text = Aow.Rtl.Rtl.IntToStr(call__9);
-                var call__10 = Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit.GetMoveTypes();
-                var call__11 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__10);
+                var call__2 = General.FSelectedUnit.GetHitPoints();
+                var call__3 = General.FSelectedUnit.GetHits();
+                Hits.Text = IntToStr(call__2) + AnsiString.FromBytes(47) + IntToStr(call__3);
+                var call__4 = General.FSelectedUnit.GetMovePoints();
+                var call__5 = General.FSelectedUnit.GetMoves();
+                Moves.Text = IntToStr(call__4) + AnsiString.FromBytes(47) + IntToStr(call__5);
+                var call__6 = General.FSelectedUnit.GetAttack();
+                Attack.Text = IntToStr(call__6);
+                var call__7 = General.FSelectedUnit.GetDamage();
+                Damage.Text = IntToStr(call__7);
+                var call__8 = General.FSelectedUnit.GetDefense();
+                Defense.Text = IntToStr(call__8);
+                var call__9 = General.FSelectedUnit.GetResistance();
+                Resistance.Text = IntToStr(call__9);
+                var call__10 = General.FSelectedUnit.GetMoveTypes();
+                var call__11 = General.MTtoInt(call__10);
                 MovesIcon.CurrentImage = call__11;
                 AbLB.Items.Clear();
-                Aow.Units.AoWWinMan.AoWWinMan.General.BuildAbilities();
+                General.BuildAbilities();
                 {
                     I = 0;
-                    int end__12 = Aow.Units.AoWWinMan.AoWWinMan.General.FAbilities.Count - 1;
+                    int end__12 = General.FAbilities.Count - 1;
                     for (; I <= end__12; I += 1)
                     {
-                        var call__13 = Aow.Units.AoWWinMan.AoWWinMan.General.FAbilities[I];
-                        A = (Aow.Units.AoWTC.TTCAbility)call__13;
-                        var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(A.Ability);
-                        var call__15 = call__14.GetName(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit);
+                        var call__13 = General.FAbilities[I];
+                        A = (TTCAbility)call__13;
+                        var call__14 = AoWHSSet.FAbilityControl.GetAbility(A.Ability);
+                        var call__15 = call__14.GetName(General.FSelectedUnit);
                         AbLB.Items.Add(call__15);
                     }
                 }
@@ -136,9 +92,9 @@ namespace Aow.Units.AoWUnitBanner
         }
 
         // AoWUnitBanner.pas:85
-        public void AbLBMouseMove(Aow.Rtl.TObject Sender, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void AbLBMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
         {
-            if ((Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null) && (AbLB.F188 >= Aow.Units.AoWWinMan.AoWWinMan.General.FActiveAbilityCount))
+            if (General.FSelectedUnit != null && AbLB.F188 >= General.FActiveAbilityCount)
             {
                 AbLB.F188 = -1;
             }
@@ -149,21 +105,21 @@ namespace Aow.Units.AoWUnitBanner
         {
             if (A2 == 1)
             {
-                Aow.Units.AoWUnitBanner.AoWUnitBanner.UnitBanner.BannerPopup.Visible = false;
+                AoWUnitBanner.UnitBanner.BannerPopup.Visible = false;
             }
         }
 
         // AoWUnitBanner.pas:95
-        public void AbLBMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void AbLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            Aow.Rtl.AnsiString Reason = default;
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit != null)
+            AnsiString Reason = default;
+            if (General.FSelectedUnit != null)
             {
-                if ((AbLB.Selected > -1) && (AbLB.Selected < Aow.Units.AoWWinMan.AoWWinMan.General.FActiveAbilityCount))
+                if (AbLB.Selected > -1 && AbLB.Selected < General.FActiveAbilityCount)
                 {
-                    var call__17 = Aow.Units.AoWWinMan.AoWWinMan.General.FAbilities[AbLB.Selected];
-                    var call__18 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(((Aow.Units.AoWTC.TTCAbility)call__17).Ability);
-                    call__18.Activate(Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit, ref Reason);
+                    var call__17 = General.FAbilities[AbLB.Selected];
+                    var call__18 = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)call__17).Ability);
+                    call__18.Activate(General.FSelectedUnit, ref Reason);
                     BannerPopup.Visible = false;
                 }
                 else
@@ -176,6 +132,6 @@ namespace Aow.Units.AoWUnitBanner
 
     public static partial class AoWUnitBanner
     {
-        public static Aow.Units.AoWUnitBanner.TUnitBanner UnitBanner;
+        public static TUnitBanner UnitBanner;
     }
 }

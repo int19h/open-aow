@@ -1,101 +1,52 @@
 // Translated from AoWWizardsTowerDlg.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.City;
-using static Aow.Units.City.City;
 using Aow.Units.WizardsTower;
-using static Aow.Units.WizardsTower.WizardsTower;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWWizardsTowerDlg
 {
     // completion callback. tower-entry event
-    public partial class TWizardsTowerDlg : Aow.Rtl.TDataModule
+    public partial class TWizardsTowerDlg : TDataModule
     {
         public TWizardsTowerDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        public Aow.Units.AoWButton.TAOWButton BuyBtn;
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWPanel.TAOWPanel ResearchPnl;
-        public Aow.Units.AoWLabel.TAOWLabel SpellName;
-        public Aow.Units.AoWImage.TAOWImage SpellIcn;
-        public Aow.Units.AoWLabel.TAOWLabel SpellClass;
-        public Aow.Units.AoWLabel.TAOWLabel SpellCost;
-        public Aow.Units.AoWMemo.TAOWMemo ResearchMemo;
-        public Aow.Units.AoWLabel.TAOWLabel PriceLbl;
-        public Aow.Units.AoWLabel.TAOWLabel OfferText;
-        public Aow.Units.AoWPanel.TAOWPanel PicPnl;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
-        public Aow.Units.WizardsTower.TEnterWizardsTowerEventLog FEvent;
+        public TAOWImage TitleIcon;
+        public TAOWButton Close;
+        public TAOWLabel Title;
+        public TAoWFrame BCeltL;
+        public TAOWButton CancelBtn;
+        public TAOWButton BuyBtn;
+        public TAOWWindow Dlg;
+        public TAOWPanel ResearchPnl;
+        public TAOWLabel SpellName;
+        public TAOWImage SpellIcn;
+        public TAOWLabel SpellClass;
+        public TAOWLabel SpellCost;
+        public TAOWMemo ResearchMemo;
+        public TAOWLabel PriceLbl;
+        public TAOWLabel OfferText;
+        public TAOWPanel PicPnl;
+        public TIvTranslator Translator;
+        public TExecuteDoneEvent FOnClose;
+        public TEnterWizardsTowerEventLog FEvent;
         // AoWWizardsTowerDlg.pas:54
         public void ClearEvent()
         {
-            Aow.Units.WizardsTower.TEnterWizardsTowerEventLog Event = default;
-            Aow.Units.EventLog.TExecuteDoneEvent Notify = default;
+            TEnterWizardsTowerEventLog Event = default;
+            TExecuteDoneEvent Notify = default;
             Dlg.Visible = false;
             Notify = FOnClose;
             Event = FEvent;
@@ -111,25 +62,25 @@ namespace Aow.Units.AoWWizardsTowerDlg
                 Event.Release();
             }
 
-            Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(69, true, true);
+            AoWHSMap.FTutorialControl.ShowMessage(69, true, true);
         }
 
         // AoWWizardsTowerDlg.pas:67
         public void CancelBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
         // AoWWizardsTowerDlg.pas:73
         public void BuyBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__1 = FEvent.FTower.Buy(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), ref Reason);
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
+            var call__1 = FEvent.FTower.Buy(AoWHSMap.FSeatedPlayer, ref Reason);
             if (!call__1)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                AoWHSMap.ShowWarning(Reason);
             }
             else
             {
@@ -144,22 +95,22 @@ namespace Aow.Units.AoWWizardsTowerDlg
         }
 
         // AoWWizardsTowerDlg.pas:87
-        public void SpellIcnDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void SpellIcnDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TSpell S = default;
+            TSpell S = default;
             int X = default;
             int Y = default;
             var wizardsTower = FEvent.FTower;
             if (wizardsTower.FSpellID != 0)
             {
-                var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(wizardsTower.FSpellID);
+                var call__3 = AoWHSSet.FSpellControl.GetSpell(wizardsTower.FSpellID);
                 S = call__3;
                 if (S != null)
                 {
                     var call__4 = S.FCastImages.GetImageSequence(10);
                     if (call__4 != null)
                     {
-                        var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+                        var image = (TAOWImage)Sender;
                         X = image.AOWWindow.WinLeft;
                         Y = image.AOWWindow.WinTop;
                         S.FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
@@ -169,7 +120,7 @@ namespace Aow.Units.AoWWizardsTowerDlg
         }
 
         // AoWWizardsTowerDlg.pas:101
-        public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             if (Key == 27)
             {

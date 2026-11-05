@@ -1,3 +1,5 @@
+using Aow.Units.AoWWinControl;
+
 namespace Aow.Units.AoWWinMan;
 
 public partial class TGeneral
@@ -6,7 +8,7 @@ public partial class TGeneral
     public void HideTransientWindows()
     {
         for (int i = 0; i < Manager.FChildren.Count; i++)
-            if (Manager.FChildren[i] is AoWWinControl.TAOWWindowControl window &&
+            if (Manager.FChildren[i] is TAOWWindowControl window &&
                 window != AOWMWindow.AOWMWindow.MWindow.MapWindow && window.FModal && window.Visible)
                 window.Visible = false;
     }

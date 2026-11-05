@@ -1,40 +1,12 @@
 // Translated from CombatTerrain.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
 using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWTC;
@@ -42,12 +14,12 @@ using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CombatTerrain
 {
-    public partial class TCombatTerrainShadow : Aow.Units.HSEngine.THexagonSprite
+    public partial class TCombatTerrainShadow : THexagonSprite
     {
         public TCombatTerrainShadow(TECustomNode owner) : base(owner)
         {}
 
-        public Aow.Units.CombatTerrain.TCombatTerrain FTerrain;
+        public TCombatTerrain FTerrain;
         // CombatTerrain.pas:72
         public override int GetShowPriority()
         {
@@ -58,7 +30,7 @@ namespace Aow.Units.CombatTerrain
         }
 
         // CombatTerrain.pas:77
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             FTerrain.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -67,7 +39,7 @@ namespace Aow.Units.CombatTerrain
 
     }
 
-    public partial class TCombatTerrain : Aow.Units.Terrain.TTerrainMO
+    public partial class TCombatTerrain : TTerrainMO
     {
         public TCombatTerrain(TECustomNode owner) : base(owner)
         {}
@@ -75,7 +47,7 @@ namespace Aow.Units.CombatTerrain
         // CombatTerrain.pas:82
         public new const int ClassID = 2228582;
 
-        public Aow.Units.CombatTerrain.TCombatTerrainShadow FShadow;
+        public TCombatTerrainShadow FShadow;
         public int FHitPoints;
         public bool FDamaged;
         public int FDefense;
@@ -95,7 +67,7 @@ namespace Aow.Units.CombatTerrain
             {
                 var call__2 = Yhx;
                 var call__3 = Xhx;
-                UpdateMapFields((Aow.Units.HSEngine.TMapLevel)Owner.Owner, call__3, call__2);
+                UpdateMapFields((TMapLevel)Owner.Owner, call__3, call__2);
             }
 
             return Result;
@@ -104,80 +76,80 @@ namespace Aow.Units.CombatTerrain
         // CombatTerrain.pas:275
         public override void RemoveFromMap()
         {
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapLevel MapLevel = default;
+            MapLevel = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(MapLevel, FXhx, FYhx);
         }
 
         // CombatTerrain.pas:149
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
-            Aow.Units.AoWE.TAbilityCombatInfo AbilityInfo = default;
-            Aow.Units.AoWE.TSpellCombatInfo SpellInfo = default;
+            TAbilityCombatInfo AbilityInfo = default;
+            TSpellCombatInfo SpellInfo = default;
             base.MapFieldMsgProc(ref Msg);
             if (Msg.HN == 0)
             {
-                if (TSet<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((Aow.Units.Terrain.TTerrainMOR)FResource).DecorationType))
+                if (TSet<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TTerrainMOR)FResource).DecorationType))
                 {
                     switch (Msg.MsgID)
                     {
                         case 200704:
-                            var call__4 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(65);
-                            call__4.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                            var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__5;
-                            var call__6 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
+                            var call__4 = AoWHSSet.FAbilityControl.GetAbility(65);
+                            call__4.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                            var call__5 = AoWHSMap.Random(16777215);
+                            RandSeed = call__5;
+                            var call__6 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__6);
                             break;
                         case 200705:
-                            var call__7 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(24);
-                            call__7.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                            var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__8;
-                            var call__9 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
+                            var call__7 = AoWHSSet.FAbilityControl.GetAbility(24);
+                            call__7.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                            var call__8 = AoWHSMap.Random(16777215);
+                            RandSeed = call__8;
+                            var call__9 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__9);
                             break;
                         case 200706:
-                            var call__10 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(44);
-                            call__10.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                            var call__11 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__11;
-                            var call__12 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
+                            var call__10 = AoWHSSet.FAbilityControl.GetAbility(44);
+                            call__10.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                            var call__11 = AoWHSMap.Random(16777215);
+                            RandSeed = call__11;
+                            var call__12 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__12);
                             break;
                         case 200707:
-                            var call__13 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(117);
-                            call__13.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__14 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__14;
-                            var call__15 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
+                            var call__13 = AoWHSSet.FSpellControl.GetSpell(117);
+                            call__13.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__14 = AoWHSMap.Random(16777215);
+                            RandSeed = call__14;
+                            var call__15 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__15);
                             break;
                         case 200714:
-                            var call__16 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(31);
-                            call__16.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                            var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__17;
-                            var call__18 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
+                            var call__16 = AoWHSSet.FAbilityControl.GetAbility(31);
+                            call__16.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                            var call__17 = AoWHSMap.Random(16777215);
+                            RandSeed = call__17;
+                            var call__18 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__18);
                             break;
                         case 200715:
-                            var call__19 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(113);
-                            call__19.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__20 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__20;
-                            var call__21 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
+                            var call__19 = AoWHSSet.FSpellControl.GetSpell(113);
+                            call__19.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__20 = AoWHSMap.Random(16777215);
+                            RandSeed = call__20;
+                            var call__21 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__21);
                             break;
                         case 200722:
-                            if ((Msg.Param[1].Value == 30) || (Msg.Param[1].Value == 86))
+                            if (Msg.Param[1].Value == 30 || Msg.Param[1].Value == 86)
                             {
-                                var call__22 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Value);
-                                call__22.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref AbilityInfo);
-                                var call__23 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                                Aow.Rtl.Rtl.RandSeed = call__23;
-                                var call__24 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
+                                var call__22 = AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Value);
+                                call__22.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                                var call__23 = AoWHSMap.Random(16777215);
+                                RandSeed = call__23;
+                                var call__24 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
                                 SetHitPoints(FHitPoints - call__24);
                             }
 
@@ -185,53 +157,53 @@ namespace Aow.Units.CombatTerrain
                         case 200723:
                             if (Msg.Param[1].Value == 114)
                             {
-                                var call__25 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Value);
-                                call__25.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                                var call__26 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                                Aow.Rtl.Rtl.RandSeed = call__26;
-                                var call__27 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
+                                var call__25 = AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Value);
+                                call__25.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                                var call__26 = AoWHSMap.Random(16777215);
+                                RandSeed = call__26;
+                                var call__27 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                                 SetHitPoints(FHitPoints - call__27);
                             }
 
                             break;
                         case 200710:
-                            var call__28 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(116);
-                            call__28.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__29;
-                            var call__30 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
+                            var call__28 = AoWHSSet.FSpellControl.GetSpell(116);
+                            call__28.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__29 = AoWHSMap.Random(16777215);
+                            RandSeed = call__29;
+                            var call__30 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__30);
                             break;
                         case 200717:
-                            var call__31 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(127);
-                            call__31.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__32 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__32;
-                            var call__33 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
+                            var call__31 = AoWHSSet.FSpellControl.GetSpell(127);
+                            call__31.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__32 = AoWHSMap.Random(16777215);
+                            RandSeed = call__32;
+                            var call__33 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__33);
                             break;
                         case 200718:
-                            var call__34 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(128);
-                            call__34.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__35 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__35;
-                            var call__36 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
+                            var call__34 = AoWHSSet.FSpellControl.GetSpell(128);
+                            call__34.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__35 = AoWHSMap.Random(16777215);
+                            RandSeed = call__35;
+                            var call__36 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__36);
                             break;
                         case 200708:
                             FDamaged = Msg.Param[1].Value == 0;
-                            var call__37 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(112);
-                            call__37.GetCombatInfo(Msg.Param[0].As<Aow.Units.AoWE.TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__38 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__38;
-                            var call__39 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
+                            var call__37 = AoWHSSet.FSpellControl.GetSpell(112);
+                            call__37.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            var call__38 = AoWHSMap.Random(16777215);
+                            RandSeed = call__38;
+                            var call__39 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - call__39);
                             Msg.Param[1] = 1;
                             break;
                         case 200711:
-                            var call__40 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(16777215);
-                            Aow.Rtl.Rtl.RandSeed = call__40;
-                            var call__41 = Aow.Units.AoWE.AoWE.ExecuteDamageRole(Aow.Units.AoWTC.AoWTC.TCDamage[1], Aow.Units.AoWTC.AoWTC.TCAttack[1] - FDefense);
+                            var call__40 = AoWHSMap.Random(16777215);
+                            RandSeed = call__40;
+                            var call__41 = ExecuteDamageRole(TCDamage[1], TCAttack[1] - FDefense);
                             SetHitPoints(FHitPoints - call__41);
                             break;
                     }
@@ -241,9 +213,9 @@ namespace Aow.Units.CombatTerrain
                 {
                     case 135169:
                         var call__42 = FResource.TerrainList.GetTerrain(Msg.HN);
-                        if ((call__42 >= 0) && (Msg.Param[0].Value < ((Aow.Units.CombatTerrain.TCombatTerrainResource)FResource).FDefense))
+                        if (call__42 >= 0 && Msg.Param[0].Value < ((TCombatTerrainResource)FResource).FDefense)
                         {
-                            Msg.Param[0] = ((Aow.Units.CombatTerrain.TCombatTerrainResource)FResource).FDefense;
+                            Msg.Param[0] = ((TCombatTerrainResource)FResource).FDefense;
                         }
 
                         break;
@@ -252,9 +224,9 @@ namespace Aow.Units.CombatTerrain
         }
 
         // CombatTerrain.pas:291
-        public override void CanMoveOn(in Aow.Units.HSEngine.THSMoveOnInfo Info, ref Aow.Units.HSEngine.THSMoveOnResult MoveResult)
+        public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
         {
-            var call__43 = ((Aow.Units.AoWTC.TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
+            var call__43 = ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
             if (call__43)
             {
                 var call__44 = FResource.TerrainList.GetOverlay(Info.HN);
@@ -270,7 +242,7 @@ namespace Aow.Units.CombatTerrain
         public override void Activate()
         {
             base.Activate();
-            if (TSet<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((Aow.Units.Terrain.TTerrainMOR)FResource).DecorationType))
+            if (TSet<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TTerrainMOR)FResource).DecorationType))
             {
                 FHitPoints = 3;
             }
@@ -291,19 +263,19 @@ namespace Aow.Units.CombatTerrain
         }
 
         // CombatTerrain.pas:284
-        public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public override void UpdateMapField(in THSMapFieldInfo Info)
         {
             base.UpdateMapField(Info);
             if (Info.HN < FResource.TerrainList.Count)
             {
-                ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags | 16384;
+                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 16384;
             }
         }
 
         // CombatTerrain.pas:124
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(TMapObjectStatusElement.moVisible))
             {
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
@@ -315,18 +287,18 @@ namespace Aow.Units.CombatTerrain
         }
 
         // CombatTerrain.pas:91
-        public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
         {
-            Aow.Units.HSEngine.TMapObjectResourceList Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources;
+            TMapObjectResourceList Result = default;
+            Result = AoWHSSet.FCombatResources;
             return Result;
         }
 
         // CombatTerrain.pas:106
-        public override bool CanPlaceOnHS(Aow.Units.HSEngine.THexagonSprite HS)
+        public override bool CanPlaceOnHS(THexagonSprite HS)
         {
             bool Result = default;
-            Result = base.CanPlaceOnHS(HS) || (HS is Aow.Units.HSEngine.TAbstractRoad);
+            Result = base.CanPlaceOnHS(HS) || HS is TAbstractRoad;
             return Result;
         }
 
@@ -356,9 +328,9 @@ namespace Aow.Units.CombatTerrain
                     DestroyShadow();
                 }
 
-                if ((Aow.Units.AoWE.AoWE.AoWHSMap == null) || Aow.Units.AoWE.AoWE.AoWHSMap.FShowUnitShadows)
+                if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
                 {
-                    var call__47 = new Aow.Units.CombatTerrain.TCombatTerrainShadow(null);
+                    var call__47 = new TCombatTerrainShadow(null);
                     FShadow = call__47;
                     FShadow.FTerrain = this;
                 }
@@ -373,19 +345,19 @@ namespace Aow.Units.CombatTerrain
         }
 
         // CombatTerrain.pas:138
-        public void ShowShadow(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public void ShowShadow(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
+            HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf;
             YhpSurf = Y - YhpSurf;
-            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, unchecked((uint)(((Aow.Units.HSEngine.TMapField)Owner).Xhx + (((Aow.Units.HSEngine.TMapField)Owner).Yhx << 4))));
+            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
         }
 
     }
 
-    public partial class TCombatTerrainResource : Aow.Units.Terrain.TTerrainMOR
+    public partial class TCombatTerrainResource : TTerrainMOR
     {
         public TCombatTerrainResource(TECustomNode owner) : base(owner)
         {}
@@ -398,7 +370,7 @@ namespace Aow.Units.CombatTerrain
         public byte FHitPoints;
         public bool FMeleeTarget;
         // CombatTerrain.pas:310
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefense), 20);
@@ -416,9 +388,9 @@ namespace Aow.Units.CombatTerrain
         }
 
         // CombatTerrain.pas:307
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Combat Terrain";
             return Result;
         }
@@ -428,9 +400,9 @@ namespace Aow.Units.CombatTerrain
     public static partial class CombatTerrain
     {
         // CombatTerrain.pas:319
-        public static void RegisterCombatTerrain(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterCombatTerrain(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatTerrain.TCombatTerrain>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatTerrain.TCombatTerrainResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TCombatTerrain>(), EClass.Of<TCombatTerrainResource>()]);
         }
 
         public static void Initialize()

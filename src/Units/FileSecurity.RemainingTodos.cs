@@ -11,7 +11,7 @@ public static partial class FileSecurity
         data = default;
         try
         {
-            using var stream = Aow.Rtl.Rtl.Files.Open(fileName.ToString(), Aow.Rtl.Rtl.fmOpenRead | Aow.Rtl.Rtl.fmShareDenyWrite);
+            using var stream = Rtl.Rtl.Files.Open(fileName.ToString(), Rtl.Rtl.fmOpenRead | Rtl.Rtl.fmShareDenyWrite);
             if (stream.Length < 12) return false;
             stream.Seek(-12, SeekOrigin.End);
             Span<byte> footer = stackalloc byte[12];

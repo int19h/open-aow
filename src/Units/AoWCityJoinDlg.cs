@@ -1,94 +1,49 @@
 // Translated from AoWCityJoinDlg.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AoWArnoLine;
-using static Aow.Units.AoWArnoLine.AoWArnoLine;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWCityJoinDlg
 {
     // race, completion event, retained negotiation event
-    public partial class TCityJoinDlg : Aow.Rtl.TDataModule
+    public partial class TCityJoinDlg : TDataModule
     {
         public TCityJoinDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWLabel.TAOWLabel ApproachLbl;
-        public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        public Aow.Units.AoWFrame.TAoWFrame CeltFrame;
-        public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        public Aow.Units.AoWMemo.TAOWMemo Memo;
-        public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        public Aow.Units.AoWButton.TAOWButton AttackBtn;
-        public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWButton.TAOWButton AcceptBtn;
-        public Aow.Units.AoWLabel.TAOWLabel WhatLbl;
-        public Aow.Units.AoWArnoLine.TAoWArnoLine CityPicLine;
-        public Aow.Units.AoWButton.TAOWButton CloseBtn;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWWindow Dlg;
+        public TAOWLabel ApproachLbl;
+        public TAOWImage TCeltLineL;
+        public TAoWFrame CeltFrame;
+        public TAoWFrame BCeltL;
+        public TAOWMemo Memo;
+        public TAOWButton CancelBtn;
+        public TAOWButton AttackBtn;
+        public TAOWImage TitleIcon;
+        public TAOWLabel Title;
+        public TAOWButton AcceptBtn;
+        public TAOWLabel WhatLbl;
+        public TAoWArnoLine CityPicLine;
+        public TAOWButton CloseBtn;
+        public TIvTranslator Translator;
         public sbyte FRace;
-        public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        public Aow.Units.AoWE.TNegotiateRequestEventLog FEvent;
+        public TExecuteDoneEvent FDone;
+        public TNegotiateRequestEventLog FEvent;
         // AoWCityJoinDlg.pas:55
         public void FinishDialog()
         {
-            Aow.Units.EventLog.TExecuteDoneEvent Done = default;
-            Aow.Units.AoWE.TNegotiateRequestEventLog Log = default;
+            TExecuteDoneEvent Done = default;
+            TNegotiateRequestEventLog Log = default;
             Done = FDone;
             Log = FEvent;
             FDone = null;
@@ -107,12 +62,12 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:69
         public void AcceptBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
             var call__1 = FEvent.Accept(ref Reason);
             if (!call__1)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                AoWHSMap.ShowWarning(Reason);
             }
             else
             {
@@ -123,12 +78,12 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:78
         public void AttackBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
             var call__2 = FEvent.Reject(ref Reason);
             if (!call__2)
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                AoWHSMap.ShowWarning(Reason);
             }
             else
             {
@@ -139,15 +94,15 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:87
         public void CancelBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
         // AoWCityJoinDlg.pas:93
-        public void DlgDrawBack(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DlgDrawBack(TObject Sender, TSurfaceDesc Surface)
         {
-            Aow.Units.ImageLib.TLibraryImage Face = default;
-            var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+            ImageLib.TLibraryImage Face = default;
+            var call__3 = AoWHSSet.FRaceResources.GetRaceResource(FRace);
             var call__4 = call__3.GetFace();
             Face = call__4;
             if (Face != null)
@@ -165,12 +120,12 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:107
         public void CloseBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
         // AoWCityJoinDlg.pas:113
-        public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             if (Key == 27)
             {

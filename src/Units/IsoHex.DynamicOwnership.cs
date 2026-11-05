@@ -1,4 +1,5 @@
 using Aow.Rtl;
+using Aow.Units.BorderHx;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
@@ -22,14 +23,14 @@ public partial class TIsometricHexagon
                 var neighbour = level.GetField(walk.X, walk.Y);
                 var sprite = neighbour.FindOwnedHS(peer);
                 bool peerFound = sprite != null;
-                sprite ??= neighbour.FindOwnedHS(typeof(BorderHx.TBorderHexagon));
+                sprite ??= neighbour.FindOwnedHS(typeof(TBorderHexagon));
                 if (sprite == null)
                 {
-                    FOpenSides |= unchecked((byte)(1 << (walk.HN - 1)));
+                    FOpenSides |= (byte)(1 << (walk.HN - 1));
                     if (water) shore(walk.HN, neighbour.TerrainType switch { 3 => 40, 5 => 80, _ => 0 });
                 }
                 else if ((!water || peerFound) && neighbour.TerrainType != GetTerrain(0))
-                    FSides |= unchecked((byte)(1 << (walk.HN - 1)));
+                    FSides |= (byte)(1 << (walk.HN - 1));
             }
             HSEngine.HSEngine.WalkToNextHN(ref walk);
         }
@@ -41,7 +42,7 @@ public partial class TIsometricHexagon
         {
             FDynamic.Free();
             FDynamic = null;
-            FSides = unchecked((byte)(Rtl.Rtl.Random(4) << 6));
+            FSides = (byte)(Rtl.Rtl.Random(4) << 6);
             FResource.Engine.HSMap.InvalidateStaticScene(field.Xhx, field.Yhx, field.Lhx);
         }
     }
@@ -63,7 +64,7 @@ public partial class TDynamicIsometricHexagon
     private TMapField Field => (TMapField)hexagon.Owner;
     // IsoHex.pas:109. The TEObject body runs with a null owner (the hexagon owns the sprite directly,
     // not as a child), then the sprite is attached and the field of the hexagon shows it.
-    public TDynamicIsometricHexagon(TIsometricHexagon owner) : base((TECustomNode)null)
+    public TDynamicIsometricHexagon(TIsometricHexagon owner) : base(null)
     {
         hexagon = owner;
         Field.AddHS(this, 0);

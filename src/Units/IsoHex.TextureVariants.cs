@@ -1,26 +1,31 @@
 #nullable disable
+using Aow.Units.AoWE;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+
 namespace Aow.Units.IsoHex
 {
     public partial class TUpperIsometricHexagon
     {
-        public override void ShowDynamic(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TCustomImageLibrary IL = default;
+            TCustomImageLibrary IL = default;
             int Xhp = default;
             int Yhp = default;
             int Variant = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            Xhp = (Xhp - XhpSurf) - 8;
+            HSEngine.HSEngine.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             var call__15 = FResource.ImageSequenceList.ImageSequences[0];
             IL = call__15.ImageLibrary;
-            Variant = Aow.Units.AoWE.FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Aow.Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
+            Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
             if (Variant == 3)
             {
                 Variant = 0;
             }
 
-            var call__16 = IL[((int)(((uint)FSides) >> 6)) + 40];
+            var call__16 = IL[(int)(((uint)FSides) >> 6) + 40];
             call__16.Show(Xhp, Yhp, SurfaceDesc);
             if (FOpenSides != 0)
             {
@@ -29,26 +34,26 @@ namespace Aow.Units.IsoHex
                     if ((FOpenSides & 32) == 0)
                     {
                         var call__17 = IL[18];
-                        call__17.Show(Xhp - 19, (Yhp - 48) - 16, SurfaceDesc);
+                        call__17.Show(Xhp - 19, Yhp - 48 - 16, SurfaceDesc);
                     }
 
                     if ((FOpenSides & 2) == 0)
                     {
                         var call__18 = IL[19];
-                        call__18.Show(Xhp - 19, (Yhp - 48) - 16, SurfaceDesc);
+                        call__18.Show(Xhp - 19, Yhp - 48 - 16, SurfaceDesc);
                     }
 
                     if ((FOpenSides & 34) == 34)
                     {
                         var call__19 = IL[23];
-                        call__19.Show(Xhp - 20, (Yhp - 48) - 16, SurfaceDesc);
+                        call__19.Show(Xhp - 20, Yhp - 48 - 16, SurfaceDesc);
                     }
                     else
                     {
                         if ((FOpenSides & 34) == 0)
                         {
                             var call__20 = IL[20];
-                            call__20.Show(Xhp - 20, (Yhp - 50) - 16, SurfaceDesc);
+                            call__20.Show(Xhp - 20, Yhp - 50 - 16, SurfaceDesc);
                         }
                     }
                 }
@@ -60,12 +65,12 @@ namespace Aow.Units.IsoHex
                         if ((FOpenSides & 32) != 0)
                         {
                             var call__21 = IL[17];
-                            call__21.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                            call__21.Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
                             var call__22 = IL[Variant + 3];
-                            call__22.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                            call__22.Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
                         }
                     }
 
@@ -74,12 +79,12 @@ namespace Aow.Units.IsoHex
                         if ((FOpenSides & 2) != 0)
                         {
                             var call__23 = IL[16];
-                            call__23.Show(((Xhp - 19) + 16) + 16, Yhp - 16, SurfaceDesc);
+                            call__23.Show(Xhp - 19 + 16 + 16, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
                             var call__24 = IL[Variant];
-                            call__24.Show(((Xhp - 19) + 16) + 16, Yhp - 16, SurfaceDesc);
+                            call__24.Show(Xhp - 19 + 16 + 16, Yhp - 16, SurfaceDesc);
                         }
                     }
 
@@ -104,19 +109,19 @@ namespace Aow.Units.IsoHex
                         if ((FOpenSides & 32) == 0)
                         {
                             var call__27 = IL[25];
-                            call__27.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                            call__27.Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
                             if ((FOpenSides & 1) != 0)
                             {
                                 var call__28 = IL[15];
-                                call__28.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                                call__28.Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
                             }
                             else
                             {
                                 var call__29 = IL[Variant + 10];
-                                call__29.Show((Xhp - 19) - 32, Yhp - 16, SurfaceDesc);
+                                call__29.Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
                             }
                         }
                     }
@@ -126,19 +131,19 @@ namespace Aow.Units.IsoHex
                         if ((FOpenSides & 2) == 0)
                         {
                             var call__30 = IL[24];
-                            call__30.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
+                            call__30.Show(Xhp - 19 + 32, Yhp - 16, SurfaceDesc);
                         }
                         else
                         {
                             if ((FOpenSides & 1) != 0)
                             {
                                 var call__31 = IL[14];
-                                call__31.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
+                                call__31.Show(Xhp - 19 + 32, Yhp - 16, SurfaceDesc);
                             }
                             else
                             {
                                 var call__32 = IL[Variant + 7];
-                                call__32.Show((Xhp - 19) + 32, Yhp - 16, SurfaceDesc);
+                                call__32.Show(Xhp - 19 + 32, Yhp - 16, SurfaceDesc);
                             }
                         }
                     }
@@ -149,20 +154,20 @@ namespace Aow.Units.IsoHex
 
     public partial class TLowerIsometricHexagon
     {
-        public override void ShowDynamic(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TCustomImageLibrary IL = default;
+            TCustomImageLibrary IL = default;
             int Xhp = default;
             int Yhp = default;
             int Variant = default;
             int X = default;
             int Y = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            Xhp = (Xhp - XhpSurf) - 8;
+            HSEngine.HSEngine.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             var call__33 = FResource.ImageSequenceList.ImageSequences[0];
             IL = call__33.ImageLibrary;
-            Variant = Aow.Units.AoWE.FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Aow.Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
+            Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
             if (Variant == 3)
             {
                 Variant = 0;

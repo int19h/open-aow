@@ -36,14 +36,14 @@ public partial class TAOWImage
         {
             if (!FValid || !FVisible) return;
             FOnPreDraw?.Invoke(this, surface);
-            var rectangle = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft,
+            var rectangle = Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft,
                 FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
             FImageLib.DrawILT(FCurrentImage, rectangle, ref surface);
             FOnDraw?.Invoke(this, surface);
         }
         catch (System.Exception)
         {
-            Aow.Rtl.Rtl.MessageBox(0, "Exception during Draw", (AnsiString)"Error - " + Name, 0);
+            Rtl.Rtl.MessageBox(0, "Exception during Draw", (AnsiString)"Error - " + Name, 0);
         }
     }
 }

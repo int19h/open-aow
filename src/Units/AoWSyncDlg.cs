@@ -1,89 +1,48 @@
 // Translated from AoWSyncDlg.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWSetup;
-using static Aow.Units.AoWSetup.AoWSetup;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.aowSetupEvents;
 using static Aow.Units.aowSetupEvents.aowSetupEvents;
 
 namespace Aow.Units.AoWSyncDlg
 {
-    public partial class TSynchronizeDlg : Aow.Rtl.TDataModule
+    public partial class TSynchronizeDlg : TDataModule
     {
         public TSynchronizeDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWFrame.TAoWFrame TCeltB;
-        public Aow.Units.AoWLabel.TAOWLabel BottomMsg;
-        public Aow.Units.AoWImage.TAOWImage LShield;
-        public Aow.Units.AoWLabel.TAOWLabel PlayerName;
-        public Aow.Units.AoWLabel.TAOWLabel InfoMsg;
-        public Aow.Units.AoWLabel.TAOWLabel PlayerRace;
-        public Aow.Units.AoWLabel.TAOWLabel Turn;
-        public Aow.Units.AoWImage.TAOWImage RShield;
-        public Aow.Units.AoWFrame.TAoWFrame BlueFr;
-        public Aow.Units.AoWImage.TAOWImage TCeltLineL;
-        public Aow.Units.AoWImage.TAOWImage TCeltLineR;
-        public Aow.Units.AoWPanel.TAOWPanel NewTPnl;
-        public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWWindow Dlg;
+        public TAoWFrame TCeltB;
+        public TAOWLabel BottomMsg;
+        public TAOWImage LShield;
+        public TAOWLabel PlayerName;
+        public TAOWLabel InfoMsg;
+        public TAOWLabel PlayerRace;
+        public TAOWLabel Turn;
+        public TAOWImage RShield;
+        public TAoWFrame BlueFr;
+        public TAOWImage TCeltLineL;
+        public TAOWImage TCeltLineR;
+        public TAOWPanel NewTPnl;
+        public TAOWImage FaceFrame;
+        public TIvTranslator Translator;
         // AoWSyncDlg.pas:45
-        public Aow.Units.AoWSetup.TPlayerSetupSettings GetPlayerSetup()
+        public TPlayerSetupSettings GetPlayerSetup()
         {
-            Aow.Units.AoWSetup.TPlayerSetupSettings Result = default;
+            TPlayerSetupSettings Result = default;
             int Index = default;
-            var call__1 = Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+            var call__1 = SetupEvents.SetupControl.FSettings.IndexOfRemoteID(SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
             Index = call__1;
             if (Index != -1)
             {
-                var call__2 = Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.SetupControl.FSettings.GetSettings(Index);
+                var call__2 = SetupEvents.SetupControl.FSettings.GetSettings(Index);
                 Result = call__2;
             }
             else
@@ -95,14 +54,14 @@ namespace Aow.Units.AoWSyncDlg
         }
 
         // AoWSyncDlg.pas:54
-        public void FaceFramePreDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void FaceFramePreDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            Aow.Units.AoWSetup.TPlayerSetupSettings Settings = default;
-            Aow.Rtl.TRect R = default;
+            TPlayerSetupSettings Settings = default;
+            TRect R = default;
             Settings = GetPlayerSetup();
             if (Settings != null)
             {
-                var call__3 = Aow.Rtl.Rtl.Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, (Dlg.WinLeft + 188) + 103, (Dlg.WinTop + 40) + 128);
+                var call__3 = Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, Dlg.WinLeft + 188 + 103, Dlg.WinTop + 40 + 128);
                 R = call__3;
                 Settings.FLeader.ShowFace(R, Surface);
             }
@@ -111,19 +70,19 @@ namespace Aow.Units.AoWSyncDlg
         // AoWSyncDlg.pas:67
         public void DlgShow()
         {
-            Aow.Units.AoWSetup.TPlayerSetupSettings Settings = default;
+            TPlayerSetupSettings Settings = default;
             int I = default;
             int Day = default;
             Settings = GetPlayerSetup();
             if (Settings != null)
             {
-                if (!Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
+                if (!SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
                 {
-                    var call__4 = Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+                    var call__4 = SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
                     I = call__4;
                     if (I != -1)
                     {
-                        var call__5 = Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
+                        var call__5 = SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
                         PlayerName.Text = call__5.FName;
                     }
                     else
@@ -136,16 +95,16 @@ namespace Aow.Units.AoWSyncDlg
                     PlayerName.Text = Settings.FLeader.FHeroName;
                 }
 
-                var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[Settings.FRace]);
+                var call__6 = TranslateRStr(RaceNamesPluralRStr[Settings.FRace]);
                 PlayerRace.Text = call__6;
-                Day = Aow.Units.AoWE.AoWE.AoWHSMap.FDay;
+                Day = AoWHSMap.FDay;
                 if (Day == 0)
                 {
                     Day = 1;
                 }
 
-                var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DayRStr);
-                Turn.Text = (call__7 + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Day);
+                var call__7 = TranslateRStr(DayRStr);
+                Turn.Text = call__7 + AnsiString.FromBytes(32) + IntToStr(Day);
                 LShield.CurrentImage = Settings.FRace + 26;
                 RShield.CurrentImage = Settings.FRace + 26;
             }

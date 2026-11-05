@@ -1,30 +1,11 @@
 // Translated from AoWComboBox.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
 
 namespace Aow.Units.AoWComboBox
 {
@@ -39,12 +20,12 @@ namespace Aow.Units.AoWComboBox
     // FILFrame, FILTextureNormal, FILTextureSelected, FItemHeight, FOnOpen, FOnClose, FILEIndex,
     // FILFIndex, FILTnIndex, FILTsIndex, FDrawItem, FDrawItemRect (the item and its rectangle while
     // OnDrawItem runs)
-    public partial class TAOWComboBox : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWComboBox : TAOWControl
     {
         public bool F114;
         public bool FOpen;
-        public Aow.Rtl.TStringList FItems;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar FVScrollBar;
+        public TStringList FItems;
+        public TAOWVScrollBar FVScrollBar;
         public int F124;
         public int FNumberVisible;
         public int F12C;
@@ -54,26 +35,26 @@ namespace Aow.Units.AoWComboBox
         public int F13C;
         public int FPriorityOpened;
         public int F144;
-        public Aow.Rtl.TNotifyEvent FOnDrawItem;
+        public TNotifyEvent FOnDrawItem;
         public int F150;
         public bool F154;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILEdit;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTextureNormal;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTextureSelected;
+        public TInterfaceIL FILEdit;
+        public TInterfaceIL FILFrame;
+        public TInterfaceIL FILTextureNormal;
+        public TInterfaceIL FILTextureSelected;
         public int FItemHeight;
-        public Aow.Rtl.TNotifyEvent FOnOpen;
-        public Aow.Rtl.TNotifyEvent FOnClose;
+        public TNotifyEvent FOnOpen;
+        public TNotifyEvent FOnClose;
         public int FILEIndex;
         public int FILFIndex;
         public int FILTnIndex;
         public int FILTsIndex;
         public int FDrawItem;
-        public Aow.Rtl.TRect FDrawItemRect;
+        public TRect FDrawItemRect;
         // AoWComboBox.pas:114
         public TAOWComboBox(TComponent owner) : base(owner)
         {
-            var call__1 = new Aow.Rtl.TStringList();
+            var call__1 = new TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
             F13C = -1;
@@ -113,7 +94,7 @@ namespace Aow.Units.AoWComboBox
                 FILTextureSelected = call__5;
             }
 
-            if (((((FAOWFont != null) && (FILEdit != null)) && (FILFrame != null)) && (FILTextureNormal != null)) && (FILTextureSelected != null))
+            if (FAOWFont != null && FILEdit != null && FILFrame != null && FILTextureNormal != null && FILTextureSelected != null)
             {
                 FValid = true;
             }
@@ -129,7 +110,7 @@ namespace Aow.Units.AoWComboBox
             FOpen = false;
             var call__6 = FILEdit[FILEIndex];
             var call__7 = FILEdit[FILEIndex + 2];
-            if ((call__6.Width + call__7.Width) > FWinWidth)
+            if (call__6.Width + call__7.Width > FWinWidth)
             {
                 var call__8 = FILEdit[FILEIndex];
                 var call__9 = FILEdit[FILEIndex + 2];
@@ -167,14 +148,14 @@ namespace Aow.Units.AoWComboBox
                 FVScrollBar.SetFPos(F12C);
                 FVScrollBar.SetFNum(F124 - 1);
                 var call__16 = FILFrame[FILFIndex + 6];
-                FVScrollBar.WinHeight = call__16.Height + ((FItemHeight * F124) + FBorderHeight);
+                FVScrollBar.WinHeight = call__16.Height + (FItemHeight * F124 + FBorderHeight);
                 FVScrollBar.SetLarge(F124 - 1);
                 FVScrollBar.Visible = FOpen;
                 bool bool__17 = FVScrollBar.FVanishWhenFull;
                 if (bool__17)
                 {
                     var call__18 = FItems.Count;
-                    bool__17 = ((call__18 - 1) < F124);
+                    bool__17 = call__18 - 1 < F124;
                 }
 
                 if (bool__17)
@@ -183,7 +164,7 @@ namespace Aow.Units.AoWComboBox
                 }
 
                 FVScrollBar.FSized = false;
-                FVScrollBar.WinLeft = (FWinLeft + FWinWidth) - FVScrollBar.FWinWidth;
+                FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.FWinWidth;
                 var call__19 = FILEdit[0];
                 FVScrollBar.WinTop = call__19.Height + FWinTop;
                 F154 = FVScrollBar.FVisible;
@@ -200,11 +181,11 @@ namespace Aow.Units.AoWComboBox
             if (FVisible)
             {
                 FRedraw = FOpen;
-                bool bool__20 = (FVScrollBar != null);
+                bool bool__20 = FVScrollBar != null;
                 if (bool__20)
                 {
                     var call__21 = FItems.Count;
-                    bool__20 = (call__21 > 0);
+                    bool__20 = call__21 > 0;
                 }
 
                 if (bool__20)
@@ -213,7 +194,7 @@ namespace Aow.Units.AoWComboBox
                     {
                         F12C = FVScrollBar.FPosition;
                         var call__22 = FItems.Count;
-                        if ((F12C + F124) > call__22)
+                        if (F12C + F124 > call__22)
                         {
                             var call__23 = FItems.Count;
                             F12C = call__23 - F124;
@@ -229,7 +210,7 @@ namespace Aow.Units.AoWComboBox
         public override void SetVisible(bool Value)
         {
             base.SetVisible(Value);
-            if (FOpen && (FVScrollBar != null))
+            if (FOpen && FVScrollBar != null)
             {
                 FVScrollBar.Visible = FVisible;
             }
@@ -239,9 +220,9 @@ namespace Aow.Units.AoWComboBox
         // { Draw draws the edit field with the selected item and, when the list is open, the frame, the
 //   texture of the list, the highlight of the item under the mouse and the items, clipped short of
 //   the scroll bar; OnDrawItem is called for every item with FDrawItem and FDrawItemRect set }
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
-            Aow.Rtl.TRect OldClip = default;
+            TRect OldClip = default;
             int I = default;
             try
             {
@@ -254,19 +235,19 @@ namespace Aow.Units.AoWComboBox
 
                     FAOWFont.Color = FColor;
                     OldClip = SurfDesc.ClipRect;
-                    var call__24 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    var call__24 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                     FILEdit.DrawILLh(FILEIndex, call__24, ref SurfDesc);
-                    bool bool__25 = (FSelected > -1);
+                    bool bool__25 = FSelected > -1;
                     if (bool__25)
                     {
                         var call__26 = FItems.Count;
-                        bool__25 = (call__26 > FSelected);
+                        bool__25 = call__26 > FSelected;
                     }
 
                     if (bool__25)
                     {
                         var call__27 = FItems[FSelected];
-                        FAOWFont.SetText((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, call__27, SurfDesc);
+                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, call__27, SurfDesc);
                     }
 
                     SurfDesc.ClipRect = OldClip;
@@ -275,29 +256,29 @@ namespace Aow.Units.AoWComboBox
                         var call__28 = FILFrame[FILFIndex + 1];
                         var call__29 = FILFrame[FILFIndex + 6];
                         var call__30 = FILEdit[FILEIndex];
-                        var call__31 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, (FAOWWindow.FWinTop + FWinTop) + call__30.Height, FWinWidth, ((call__28.Height + call__29.Height) + (FItemHeight * F124)) + FListBorderHeight);
+                        var call__31 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + call__30.Height, FWinWidth, call__28.Height + call__29.Height + FItemHeight * F124 + FListBorderHeight);
                         FILFrame.DrawILF(FILFIndex, call__31, ref SurfDesc);
                         var call__32 = FILFrame[FILFIndex + 3];
                         var call__33 = FILFrame[FILFIndex + 4];
                         var call__34 = FILEdit[FILEIndex];
                         var call__35 = FILFrame[FILFIndex + 1];
                         var call__36 = FILFrame[FILFIndex + 3];
-                        var call__37 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__36.Width, ((FAOWWindow.FWinTop + FWinTop) + call__34.Height) + call__35.Height, (FWinWidth - call__32.Width) - call__33.Width, (FItemHeight * F124) + FListBorderHeight);
+                        var call__37 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__36.Width, FAOWWindow.FWinTop + FWinTop + call__34.Height + call__35.Height, FWinWidth - call__32.Width - call__33.Width, FItemHeight * F124 + FListBorderHeight);
                         FILTextureNormal.DrawILT(FILTnIndex, call__37, ref SurfDesc);
-                        if ((F13C >= F12C) && (F13C < (F124 + F12C)))
+                        if (F13C >= F12C && F13C < F124 + F12C)
                         {
                             var call__38 = FILFrame[FILFIndex + 3];
                             var call__39 = FILFrame[FILFIndex + 4];
                             var call__40 = FILEdit[FILEIndex];
                             var call__41 = FILFrame[FILFIndex + 1];
                             var call__42 = FILFrame[FILFIndex + 3];
-                            var call__43 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__42.Width, (((FAOWWindow.FWinTop + FWinTop) + call__40.Height) + call__41.Height) + ((F13C - F12C) * FItemHeight), (FWinWidth - call__38.Width) - call__39.Width, FItemHeight);
+                            var call__43 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__42.Width, FAOWWindow.FWinTop + FWinTop + call__40.Height + call__41.Height + (F13C - F12C) * FItemHeight, FWinWidth - call__38.Width - call__39.Width, FItemHeight);
                             FILTextureSelected.DrawILT(FILTsIndex, call__43, ref SurfDesc);
                         }
 
-                        if ((((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - F150) < OldClip.Right)
+                        if (FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150 < OldClip.Right)
                         {
-                            SurfDesc.ClipRect.Right = ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - F150;
+                            SurfDesc.ClipRect.Right = FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150;
                         }
 
                         {
@@ -308,7 +289,7 @@ namespace Aow.Units.AoWComboBox
                                 var call__45 = FItems.Count;
                                 if (I < call__45)
                                 {
-                                    if ((F12C + I) == F13C)
+                                    if (F12C + I == F13C)
                                     {
                                         FAOWFont.Color = FSelColor;
                                     }
@@ -316,8 +297,8 @@ namespace Aow.Units.AoWComboBox
                                     var call__46 = FILEdit[FILEIndex];
                                     var call__47 = FILFrame[FILFIndex + 1];
                                     var call__48 = FItems[F12C + I];
-                                    FAOWFont.SetText((FAOWWindow.FWinLeft + FWinLeft) + FListBorderWidth, ((((FAOWWindow.FWinTop + FWinTop) + call__46.Height) + call__47.Height) + FListBorderHeight) + (FItemHeight * I), call__48, SurfDesc);
-                                    if ((F12C + I) == F13C)
+                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FListBorderWidth, FAOWWindow.FWinTop + FWinTop + call__46.Height + call__47.Height + FListBorderHeight + FItemHeight * I, call__48, SurfDesc);
+                                    if (F12C + I == F13C)
                                     {
                                         FAOWFont.Color = FColor;
                                     }
@@ -329,7 +310,7 @@ namespace Aow.Units.AoWComboBox
                                     var call__52 = FILFrame[FILFIndex + 1];
                                     var call__53 = FILFrame[FILFIndex + 3];
                                     var call__54 = FILFrame[FILFIndex + 3];
-                                    var call__55 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__54.Width, (((FAOWWindow.FWinTop + FWinTop) + call__51.Height) + call__52.Height) + (FItemHeight * I), ((FAOWWindow.FWinLeft + FWinLeft) + call__53.Width) + FWinWidth, (((FAOWWindow.FWinTop + FWinTop) + call__49.Height) + call__50.Height) + ((I + 1) * FItemHeight));
+                                    var call__55 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__54.Width, FAOWWindow.FWinTop + FWinTop + call__51.Height + call__52.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + call__53.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + call__49.Height + call__50.Height + (I + 1) * FItemHeight);
                                     FDrawItemRect = call__55;
                                     if (FOnDrawItem != null)
                                     {
@@ -350,32 +331,32 @@ namespace Aow.Units.AoWComboBox
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWComboBox.pas:375
         // { CheckMouseDown opens or closes the list with a click on the edit field and closes it with a
 //   click outside the control }
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            bool bool__56 = ((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1));
+            bool bool__56 = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
             if (bool__56)
             {
                 var call__57 = FILEdit[FILEIndex];
-                bool__56 = (Y < ((FAOWWindow.FWinTop + FWinTop) + call__57.Height));
+                bool__56 = Y < FAOWWindow.FWinTop + FWinTop + call__57.Height;
             }
 
             if (bool__56)
             {
                 FHandled = true;
-                if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                if (Button == TMouseButton.mbLeft)
                 {
                     FMouseDown = true;
                     F114 = true;
-                    if ((FValid == true) && (FVisible == true))
+                    if (FValid == true && FVisible == true)
                     {
                         if (FOpen)
                         {
@@ -416,9 +397,9 @@ namespace Aow.Units.AoWComboBox
                             var call__61 = FILEdit[FILEIndex];
                             var call__62 = FILFrame[FILFIndex + 1];
                             var call__63 = FILFrame[FILFIndex + 6];
-                            FWinHeight = (((call__61.Height + FListBorderHeight) + (FItemHeight * F124)) + call__62.Height) + call__63.Height;
+                            FWinHeight = call__61.Height + FListBorderHeight + FItemHeight * F124 + call__62.Height + call__63.Height;
                             var call__64 = FItems.Count;
-                            if (call__64 < (F12C + F124))
+                            if (call__64 < F12C + F124)
                             {
                                 var call__65 = FItems.Count;
                                 F12C = call__65 - F124;
@@ -428,9 +409,9 @@ namespace Aow.Units.AoWComboBox
                             var call__66 = FILFrame[FILFIndex + 4];
                             F150 = call__66.Width;
                             F154 = false;
-                            if ((FVScrollBar != null) && (F124 > 0))
+                            if (FVScrollBar != null && F124 > 0)
                             {
-                                if ((FPriority + 1) != FVScrollBar.FPriority)
+                                if (FPriority + 1 != FVScrollBar.FPriority)
                                 {
                                     FVScrollBar.Priority = FPriority + 1;
                                 }
@@ -441,13 +422,13 @@ namespace Aow.Units.AoWComboBox
                                 FVScrollBar.SetFPos(F12C);
                                 FVScrollBar.SetFNum(F124);
                                 var call__68 = FILFrame[FILFIndex + 6];
-                                FVScrollBar.WinHeight = call__68.Height + ((FItemHeight * F124) + FBorderHeight);
+                                FVScrollBar.WinHeight = call__68.Height + (FItemHeight * F124 + FBorderHeight);
                                 FVScrollBar.Visible = true;
-                                bool bool__69 = (FVScrollBar.FVanishWhenFull == true);
+                                bool bool__69 = FVScrollBar.FVanishWhenFull == true;
                                 if (bool__69)
                                 {
                                     var call__70 = FItems.Count;
-                                    bool__69 = ((call__70 - 1) < F124);
+                                    bool__69 = call__70 - 1 < F124;
                                 }
 
                                 if (bool__69)
@@ -461,7 +442,7 @@ namespace Aow.Units.AoWComboBox
 
                                 F154 = FVScrollBar.FVisible;
                                 FVScrollBar.FSized = false;
-                                FVScrollBar.WinLeft = (FWinLeft + FWinWidth) - FVScrollBar.FWinWidth;
+                                FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.FWinWidth;
                                 var call__71 = FILEdit[FILEIndex];
                                 FVScrollBar.WinTop = call__71.Height + FWinTop;
                                 FVScrollBar.FDrawn = false;
@@ -505,7 +486,7 @@ namespace Aow.Units.AoWComboBox
             }
             else
             {
-                if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+                if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
                 {
                     FHandled = true;
                 }
@@ -537,18 +518,18 @@ namespace Aow.Units.AoWComboBox
 
         // AoWComboBox.pas:476
         // { CheckMouseUp selects the item under the mouse in the open list and closes the list }
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
             FHandled = false;
             FMouseDown = false;
             F114 = false;
             FRedraw = false;
-            bool bool__74 = ((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1));
+            bool bool__74 = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
             if (bool__74)
             {
                 var call__75 = FILEdit[FILEIndex];
-                bool__74 = (Y < ((FAOWWindow.FWinTop + FWinTop) + call__75.Height));
+                bool__74 = Y < FAOWWindow.FWinTop + FWinTop + call__75.Height;
             }
 
             if (bool__74)
@@ -561,21 +542,21 @@ namespace Aow.Units.AoWComboBox
             }
             else
             {
-                if ((((Button == Aow.Rtl.TMouseButton.mbLeft) && (FValid == true)) && (FVisible == true)) && (FOpen == true))
+                if (Button == TMouseButton.mbLeft && FValid == true && FVisible == true && FOpen == true)
                 {
-                    bool bool__76 = (X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth));
+                    bool bool__76 = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth;
                     if (bool__76)
                     {
                         var call__77 = FILEdit[FILEIndex];
-                        bool__76 = (Y > (((FAOWWindow.FWinTop + FWinTop) + call__77.Height) - 1));
+                        bool__76 = Y > FAOWWindow.FWinTop + FWinTop + call__77.Height - 1;
                     }
 
-                    if (bool__76 && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+                    if (bool__76 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
                     {
-                        if (X < (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - F150))
+                        if (X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150)
                         {
                             var call__78 = FILEdit[FILEIndex];
-                            I = (((((Y - FAOWWindow.FWinTop) - FWinTop) - FBorderHeight) - call__78.Height) / FItemHeight) + F12C;
+                            I = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - call__78.Height) / FItemHeight + F12C;
                             var call__79 = FItems.Count;
                             if (I < call__79)
                             {
@@ -625,30 +606,30 @@ namespace Aow.Units.AoWComboBox
 
         // AoWComboBox.pas:530
         // { CheckMouseMove tracks the item under the mouse in the open list }
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             int OldItem = default;
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
             OldItem = F13C;
             F13C = -1;
-            if ((((X >= (FAOWWindow.FWinLeft + FWinLeft)) && (X < (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - F150))) && (Y >= (FAOWWindow.FWinTop + FWinTop))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X >= FAOWWindow.FWinLeft + FWinLeft && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150 && Y >= FAOWWindow.FWinTop + FWinTop && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOpen)
                 {
                     var call__82 = FILEdit[FILEIndex];
-                    bool bool__83 = (Y >= (((FAOWWindow.FWinTop + FWinTop) + FBorderHeight) + call__82.Height));
+                    bool bool__83 = Y >= FAOWWindow.FWinTop + FWinTop + FBorderHeight + call__82.Height;
                     if (bool__83)
                     {
                         var call__84 = FILEdit[FILEIndex];
-                        bool__83 = (Y < ((((FAOWWindow.FWinTop + FWinTop) + call__84.Height) + FBorderHeight) + (FItemHeight * F124)));
+                        bool__83 = Y < FAOWWindow.FWinTop + FWinTop + call__84.Height + FBorderHeight + FItemHeight * F124;
                     }
 
                     if (bool__83)
                     {
                         var call__85 = FILEdit[FILEIndex];
-                        F13C = (((((Y - FAOWWindow.FWinTop) - FWinTop) - FBorderHeight) - call__85.Height) / FItemHeight) + F12C;
+                        F13C = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - call__85.Height) / FItemHeight + F12C;
                     }
                 }
 
@@ -658,7 +639,7 @@ namespace Aow.Units.AoWComboBox
                 }
             }
 
-            if ((FOpen == true) && (OldItem != F13C))
+            if (FOpen == true && OldItem != F13C)
             {
                 FDrawn = false;
                 if (FVScrollBar != null)
@@ -669,7 +650,7 @@ namespace Aow.Units.AoWComboBox
         }
 
         // AoWComboBox.pas:211
-        public virtual void SetILEdit(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILEdit(TInterfaceIL Value)
         {
             if (Value != FILEdit)
             {
@@ -689,7 +670,7 @@ namespace Aow.Units.AoWComboBox
         }
 
         // AoWComboBox.pas:229
-        public virtual void SetILFrame(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILFrame(TInterfaceIL Value)
         {
             if (Value != FILFrame)
             {
@@ -709,7 +690,7 @@ namespace Aow.Units.AoWComboBox
         }
 
         // AoWComboBox.pas:247
-        public virtual void SetILTNorm(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTNorm(TInterfaceIL Value)
         {
             if (Value != FILTextureNormal)
             {
@@ -729,7 +710,7 @@ namespace Aow.Units.AoWComboBox
         }
 
         // AoWComboBox.pas:265
-        public virtual void SetILTSel(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTSel(TInterfaceIL Value)
         {
             if (Value != FILTextureSelected)
             {
@@ -766,14 +747,14 @@ namespace Aow.Units.AoWComboBox
         }
 
         // AoWComboBox.pas:190
-        public void SetFStrings(Aow.Rtl.TStringList Value)
+        public void SetFStrings(TStringList Value)
         {
             FItems.Clear();
             FItems.AddStrings(Value);
         }
 
         // AoWComboBox.pas:196
-        public void SetVScroll(Aow.Units.AoWVScroll.TAOWVScrollBar Value)
+        public void SetVScroll(TAOWVScrollBar Value)
         {
             FVScrollBar = Value;
             if (Value != null)
@@ -785,10 +766,10 @@ namespace Aow.Units.AoWComboBox
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+        public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
         [Published]
-        public Aow.Rtl.TStringList Items { get => FItems; set => SetFStrings(value); }
+        public TStringList Items { get => FItems; set => SetFStrings(value); }
 
         [Published]
         public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -803,7 +784,7 @@ namespace Aow.Units.AoWComboBox
         public int ListBorderHeight { get => FListBorderHeight; set => FListBorderHeight = value; }
 
         [Published]
-        public Aow.Units.AoWVScroll.TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+        public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
         [Published]
         public int NumberVisible { get => FNumberVisible; set => FNumberVisible = value; }
@@ -815,28 +796,28 @@ namespace Aow.Units.AoWComboBox
         public int PriorityOpened { get => FPriorityOpened; set => FPriorityOpened = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+        public TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
+        public TInterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
 
         [Published]
         public int ILEIndex { get => FILEIndex; set => SetILEIndex(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+        public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
         [Published]
         public int ILFIndex { get => FILFIndex; set => SetILFIndex(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+        public TInterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
 
         [Published]
         public int ILTnIndex { get => FILTnIndex; set => SetILTnIndex(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+        public TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
 
         [Published]
         public int ILTsIndex { get => FILTsIndex; set => SetILTsIndex(value); }
@@ -845,10 +826,10 @@ namespace Aow.Units.AoWComboBox
         public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnOpen { get => FOnOpen; set => FOnOpen = value; }
+        public TNotifyEvent OnOpen { get => FOnOpen; set => FOnOpen = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnClose { get => FOnClose; set => FOnClose = value; }
+        public TNotifyEvent OnClose { get => FOnClose; set => FOnClose = value; }
     }
 
     public static partial class AoWComboBox
@@ -856,7 +837,7 @@ namespace Aow.Units.AoWComboBox
         // AoWComboBox.pas:561
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWComboBox.TAOWComboBox)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWComboBox)]);
         }
     }
 }

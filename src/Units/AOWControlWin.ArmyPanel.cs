@@ -11,7 +11,7 @@ public partial class TControlWin
 {
     // Original AoW.exe loads the three-space string. The recovered UpdateArmy source has one space
     // at all eight labels
-    public static AnsiString UnitMoveText(int points) => "   " + Aow.Rtl.Rtl.IntToStr(points);
+    public static AnsiString UnitMoveText(int points) => "   " + Rtl.Rtl.IntToStr(points);
 
     public void UpdateArmy()
     {
@@ -42,14 +42,14 @@ public partial class TControlWin
             {
                 1 => PatrollingRStr, 2 or 3 => GuardingRStr, 4 => ScoutingRStr,
                 5 => SeekingRefugeRStr, 6 => RaidingRStr, 7 => HuntingRStr,
-                8 => ProtectingRStr, 9 => FortifiedRStr, 10 => Aow.Units.E3Globals.E3Globals.BerserkRStr, _ => WanderingRStr
+                8 => ProtectingRStr, 9 => FortifiedRStr, 10 => E3Globals.E3Globals.BerserkRStr, _ => WanderingRStr
             });
         }
         else if (readOnly)
         {
             PartyBPnl.Visible = false;
             PartyIPnl.Visible = true;
-            PartyILbl.Text = Aow.Units.AoWE.AoWE.Format(TranslateRStr(PartyOwnerXRStr), [TranslateRStr(RaceNamesPluralRStr[AoWHSMap.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
+            PartyILbl.Text = Format(TranslateRStr(PartyOwnerXRStr), [TranslateRStr(RaceNamesPluralRStr[AoWHSMap.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
             PControlPnl.Visible = false;
         }
         else
@@ -58,7 +58,7 @@ public partial class TControlWin
             PartyIPnl.Visible = false;
             MoveIcon.Visible = true;
             MoveIcon.CurrentImage = General.MTtoInt(army.GetPartyMoves(255));
-            MovesLbl.Text = Aow.Rtl.Rtl.IntToStr(army.MovePoints(255));
+            MovesLbl.Text = Rtl.Rtl.IntToStr(army.MovePoints(255));
             AOWControlWin.ControlWin.CheckEnd();
             PControlPnl.Visible = true;
             PGuard.Checked = army.FUserMode.Contains(TArmyUserModeElement.aumGuard);
@@ -67,7 +67,7 @@ public partial class TControlWin
         {
             int index = General.FSelectedUnits[i];
             if (index == -1) continue;
-            byte selection = unchecked((byte)(1 << index));
+            byte selection = (byte)(1 << index);
             icons[i].CurrentImage = General.MTtoInt(army.MoveTypes(selection));
             var unit = army.GetUnit(index);
             gauges[i].Max = unit.GetHits();
@@ -77,7 +77,7 @@ public partial class TControlWin
             checks[i].Visible = !readOnly;
             emptyChecks[i].Visible = readOnly;
         }
-        if (!Aow.Units.AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible) ControlWindow.Visible = true;
-        Aow.Units.AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible = true;
+        if (!AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible) ControlWindow.Visible = true;
+        AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible = true;
     }
 }

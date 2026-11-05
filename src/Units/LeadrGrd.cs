@@ -1,52 +1,26 @@
 // Translated from LeadrGrd.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.LeadrGrd
 {
     // show level, show status, stream, map
-    public partial class TLeaderGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
+    public partial class TLeaderGrid : TCustomImageDrawGrid
     {
         public bool FShowLevel;
         public bool FReserved1DD;
         public bool FShowStatus;
-        public Aow.Rtl.TMemoryStream FStream;
-        public Aow.Units.AoWE.TAoWHSMap FMap;
+        public TMemoryStream FStream;
+        public TAoWHSMap FMap;
         // LeadrGrd.pas:111
         public override void Destroy()
         {
             /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // LeadrGrd.pas:101
@@ -56,49 +30,49 @@ namespace Aow.Units.LeadrGrd
 
             DefaultColWidth = 155;
             DefaultRowHeight = 56;
-            GrowDirection = Aow.Units.ImageLib.TILGrowDirection.ilVertical;
-            ScrollBars = Aow.Rtl.TScrollStyle.ssVertical;
-            var call__1 = new Aow.Rtl.TMemoryStream();
+            GrowDirection = TILGrowDirection.ilVertical;
+            ScrollBars = TScrollStyle.ssVertical;
+            var call__1 = new TMemoryStream();
             FStream = call__1;
         }
 
         // LeadrGrd.pas:166
-        protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
+        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
         {
             /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // LeadrGrd.pas:118
-        public void LeadersUpdated(Aow.Rtl.TObject Sender)
+        public void LeadersUpdated(TObject Sender)
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // LeadrGrd.pas:123
-        public void SetAoWHSMap(Aow.Units.AoWE.TAoWHSMap Value)
+        public void SetAoWHSMap(TAoWHSMap Value)
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // LeadrGrd.pas:134
-        public Aow.Units.AoWE.TLeader GetLeader(sbyte Player)
+        public TLeader GetLeader(sbyte Player)
         {
-            Aow.Units.AoWE.TLeader Result = default;
-            Aow.Units.AoWE.TAoWHSMap Map = default;
+            TLeader Result = default;
+            TAoWHSMap Map = default;
             Map = FMap;
-            bool bool__2 = (Map != null) && (Player > 0);
+            bool bool__2 = Map != null && Player > 0;
             if (bool__2)
             {
                 var call__3 = Map.FPlayers.Count;
-                bool__2 = (call__3 > Player);
+                bool__2 = call__3 > Player;
             }
 
             if (bool__2)
             {
-                var call__4 = FMap.FPlayers.GetPlayers((int)(Player));
+                var call__4 = FMap.FPlayers.GetPlayers(Player);
                 Result = call__4.FLeader;
             }
             else
@@ -110,19 +84,19 @@ namespace Aow.Units.LeadrGrd
         }
 
         // LeadrGrd.pas:144
-        public Aow.Units.AoWE.TLeader GetSelectedLeader()
+        public TLeader GetSelectedLeader()
         {
             /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // LeadrGrd.pas:155
-        public void SetSelectedLeader(Aow.Units.AoWE.TLeader Value)
+        public void SetSelectedLeader(TLeader Value)
         {
             int I = default;
             if (FMap != null)
             {
-                var call__5 = FMap.FPlayers.RaceToPlayer(unchecked((sbyte)unchecked((byte)Value.FRace)));
+                var call__5 = FMap.FPlayers.RaceToPlayer((sbyte)(byte)Value.FRace);
                 I = call__5;
                 if (I != -1)
                 {
@@ -134,7 +108,7 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:263
         public void RemoveFromMap()
         {
-            Aow.Units.AoWE.TLeader Leader = default;
+            TLeader Leader = default;
             Leader = GetSelectedLeader();
             if (Leader != null)
             {
@@ -152,51 +126,51 @@ namespace Aow.Units.LeadrGrd
         public bool ShowLevel { get => FShowLevel; set => FShowLevel = value; }
     }
 
-    public partial class TGridMapView : Aow.Rtl.TObject
+    public partial class TGridMapView : TObject
     {
-        public Aow.Units.AoWE.TItemControl ItemControl;
-        public Aow.Units.AoWE.THeroControl HeroControl;
-        public Aow.Units.AoWE.TPlayerList Players;
-        public Aow.Units.Engine.TEventList LeaderEvent;
+        public TItemControl ItemControl;
+        public THeroControl HeroControl;
+        public TPlayerList Players;
+        public TEventList LeaderEvent;
     }
 
     public struct TRawView
     {
-        public Aow.Units.FixedArray_object_512 Fields;
+        public FixedArray_object_512 Fields;
     }
 
     public struct TNodeView
     {
-        public Aow.Units.FixedArray_byte_8 Reserved;
-        public Aow.Rtl.TList Children;
+        public FixedArray_byte_8 Reserved;
+        public TList Children;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 49)]
     public struct TEngineView
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_48 Reserved;
+        public FixedArray_byte_48 Reserved;
         [FieldOffset(48)]
         public byte Status;
     }
 
     public struct THeroView
     {
-        public Aow.Units.FixedArray_byte_96 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_4 Reserved64;
+        public FixedArray_byte_96 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_4 Reserved64;
         public byte Race;
-        public Aow.Units.FixedArray_byte_15 Reserved69;
+        public FixedArray_byte_15 Reserved69;
         public bool Hidden;
     }
 
     public struct TItemView
     {
-        public Aow.Units.FixedArray_byte_24 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_24 Reserved1C;
+        public FixedArray_byte_24 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_24 Reserved1C;
         public byte Kind;
-        public Aow.Units.FixedArray_byte_15 Reserved35;
+        public FixedArray_byte_15 Reserved35;
         public bool Hidden;
     }
 
@@ -205,11 +179,11 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:271
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.LeadrGrd.TLeaderGrid)]);
+            RegisterComponents((AnsiString)"AoW", [typeof(TLeaderGrid)]);
         }
 
-        public static readonly Aow.Rtl.AnsiString GridUsedRStr = (AnsiString)"Used";
-        public static readonly Aow.Rtl.AnsiString GridPlayerRStr = (AnsiString)"Player";
+        public static readonly AnsiString GridUsedRStr = (AnsiString)"Used";
+        public static readonly AnsiString GridPlayerRStr = (AnsiString)"Player";
 
         public static void Initialize()
         {

@@ -1,80 +1,46 @@
 // Translated from CMapCtrl.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CMapCtrl
 {
     // event methods occupy
-    public partial class TAoWCombatMapControl : Aow.Rtl.TComponent
+    public partial class TAoWCombatMapControl : TComponent
     {
-        public Aow.Units.CMapCtrl.TSelectHSEvent FOnSelected;
-        public Aow.Units.CMapCtrl.TSelectHSEvent FOnDeselected;
-        public Aow.Rtl.TNotifyEvent FOnActivateHSM;
-        public Aow.Rtl.TNotifyEvent FOnDeactivateHSM;
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnIncomeChanged;
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnUpkeepChanged;
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnGemsChanged;
-        public Aow.Units.CMapCtrl.TShowMessageEvent FOnShowMessage;
-        public Aow.Units.CMapCtrl.TTurnChangedEvent FOnTurnChanged;
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnPlayerChanged;
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnSeatedPlayerChanged;
-        public Aow.Units.CMapCtrl.TOnExecuteEventLogEvent FOnExecuteEventLog;
-        public Aow.Units.CMapCtrl.TMapChangedEvent FOnMapChanged;
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent FOnLogbookChanged;
-        public Aow.Rtl.TNotifyEvent FOnActivateMap;
-        public Aow.Rtl.TNotifyEvent FOnDeActivateMap;
-        public Aow.Units.CMapCtrl.TSelectHSEvent FOnMouseOverTarget;
-        public Aow.Units.CMapCtrl.TSelectHSEvent FOnUnitChanged;
-        public Aow.Units.CMapCtrl.TCastCombatSpellEvent FOnCastSpell;
-        public Aow.Units.CMapCtrl.TActivateCombatAbilityEvent FOnActivateAbility;
+        public TSelectHSEvent FOnSelected;
+        public TSelectHSEvent FOnDeselected;
+        public TNotifyEvent FOnActivateHSM;
+        public TNotifyEvent FOnDeactivateHSM;
+        public TPlayerChangedEvent FOnIncomeChanged;
+        public TPlayerChangedEvent FOnUpkeepChanged;
+        public TPlayerChangedEvent FOnGemsChanged;
+        public TShowMessageEvent FOnShowMessage;
+        public TTurnChangedEvent FOnTurnChanged;
+        public TPlayerChangedEvent FOnPlayerChanged;
+        public TPlayerChangedEvent FOnSeatedPlayerChanged;
+        public TOnExecuteEventLogEvent FOnExecuteEventLog;
+        public TMapChangedEvent FOnMapChanged;
+        public TPlayerChangedEvent FOnLogbookChanged;
+        public TNotifyEvent FOnActivateMap;
+        public TNotifyEvent FOnDeActivateMap;
+        public TSelectHSEvent FOnMouseOverTarget;
+        public TSelectHSEvent FOnUnitChanged;
+        public TCastCombatSpellEvent FOnCastSpell;
+        public TActivateCombatAbilityEvent FOnActivateAbility;
         // CMapCtrl.pas:117
         public override void Destroy()
         {
-            if (Aow.Units.AoWE.AoWE.AoWEngine != null)
+            if (AoWEngine != null)
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Remove(ActivateHSM);
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMClose.Remove(DeactivateHSM);
-                if (Aow.Units.AoWTC.AoWTC.AoWCombatMap != null)
+                AoWEngine.OnHSMLoaded.Remove(ActivateHSM);
+                AoWEngine.OnHSMClose.Remove(DeactivateHSM);
+                if (AoWCombatMap != null)
                 {
                     ReleaseHSM();
                 }
@@ -86,10 +52,10 @@ namespace Aow.Units.CMapCtrl
         // CMapCtrl.pas:107
         public TAoWCombatMapControl(TComponent owner) : base(owner)
         {
-            if (Aow.Units.AoWE.AoWE.ValidateAoWEngine())
+            if (ValidateAoWEngine())
             {
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMLoaded.Add(ActivateHSM);
-                Aow.Units.AoWE.AoWE.AoWEngine.OnHSMClose.Add(DeactivateHSM);
+                AoWEngine.OnHSMLoaded.Add(ActivateHSM);
+                AoWEngine.OnHSMClose.Add(DeactivateHSM);
             }
         }
 
@@ -97,32 +63,32 @@ namespace Aow.Units.CMapCtrl
         public void LinkToHSM()
         {
             int I = default;
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FChangeTurnEvents.Add(ChangeTurn);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayerChangedEvents.Add(PlayerChanged);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayerChangedEvents.Add(SeatedPlayerChanged);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.Selection.OnSelect.Add(SelectHS);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.Selection.OnDeselect.Add(DeselectHS);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FShowMessageEvents.Add(ShowMessage);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FMapChangedEvents.Add(MapChanged);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FDeselectEvents.Add(ActivateMap);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSelectEvents.Add(DeactivateMap);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FMouseOverTargetEvents.Add(MouseOverTarget);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitChangedEvents.Add(UnitChanged);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FAbilityActivatedEvents.Add(ActivateAbility);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombatStartedEvents.Add(CastSpell);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FExecuteEventLogEvents.Add(ExecuteEventLog);
+            AoWCombatMap.FChangeTurnEvents.Add(ChangeTurn);
+            AoWCombatMap.FPlayerChangedEvents.Add(PlayerChanged);
+            AoWCombatMap.FSeatedPlayerChangedEvents.Add(SeatedPlayerChanged);
+            AoWCombatMap.Selection.OnSelect.Add(SelectHS);
+            AoWCombatMap.Selection.OnDeselect.Add(DeselectHS);
+            AoWCombatMap.FShowMessageEvents.Add(ShowMessage);
+            AoWCombatMap.FMapChangedEvents.Add(MapChanged);
+            AoWCombatMap.FDeselectEvents.Add(ActivateMap);
+            AoWCombatMap.FSelectEvents.Add(DeactivateMap);
+            AoWCombatMap.FMouseOverTargetEvents.Add(MouseOverTarget);
+            AoWCombatMap.FUnitChangedEvents.Add(UnitChanged);
+            AoWCombatMap.FAbilityActivatedEvents.Add(ActivateAbility);
+            AoWCombatMap.FCombatStartedEvents.Add(CastSpell);
+            AoWHSMap.FExecuteEventLogEvents.Add(ExecuteEventLog);
             {
                 I = 0;
-                int end__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
+                int end__1 = AoWHSMap.FPlayers.Count - 1;
                 for (; I <= end__1; I += 1)
                 {
-                    var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__2 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__2.FGemsChangedEvents.Add(GemsChanged);
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__3 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__3.FIncomeChangedEvents.Add(IncomeChanged);
-                    var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__4 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__4.FUpkeepChangedEvents.Add(UpkeepChanged);
-                    var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__5 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__5.FLogbookChangedEvents.Add(LogbookChanged);
                 }
             }
@@ -132,41 +98,41 @@ namespace Aow.Units.CMapCtrl
         public void ReleaseHSM()
         {
             int I = default;
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FChangeTurnEvents.Remove(ChangeTurn);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FPlayerChangedEvents.Remove(PlayerChanged);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayerChangedEvents.Remove(SeatedPlayerChanged);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.Selection.OnSelect.Remove(SelectHS);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.Selection.OnDeselect.Remove(DeselectHS);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FShowMessageEvents.Remove(ShowMessage);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FMapChangedEvents.Remove(MapChanged);
-            Aow.Units.AoWE.AoWE.AoWHSMap.FExecuteEventLogEvents.Remove(ExecuteEventLog);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FDeselectEvents.Remove(ActivateMap);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSelectEvents.Remove(DeactivateMap);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FMouseOverTargetEvents.Remove(MouseOverTarget);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitChangedEvents.Remove(UnitChanged);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FAbilityActivatedEvents.Remove(ActivateAbility);
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCombatStartedEvents.Remove(CastSpell);
+            AoWCombatMap.FChangeTurnEvents.Remove(ChangeTurn);
+            AoWCombatMap.FPlayerChangedEvents.Remove(PlayerChanged);
+            AoWCombatMap.FSeatedPlayerChangedEvents.Remove(SeatedPlayerChanged);
+            AoWCombatMap.Selection.OnSelect.Remove(SelectHS);
+            AoWCombatMap.Selection.OnDeselect.Remove(DeselectHS);
+            AoWCombatMap.FShowMessageEvents.Remove(ShowMessage);
+            AoWCombatMap.FMapChangedEvents.Remove(MapChanged);
+            AoWHSMap.FExecuteEventLogEvents.Remove(ExecuteEventLog);
+            AoWCombatMap.FDeselectEvents.Remove(ActivateMap);
+            AoWCombatMap.FSelectEvents.Remove(DeactivateMap);
+            AoWCombatMap.FMouseOverTargetEvents.Remove(MouseOverTarget);
+            AoWCombatMap.FUnitChangedEvents.Remove(UnitChanged);
+            AoWCombatMap.FAbilityActivatedEvents.Remove(ActivateAbility);
+            AoWCombatMap.FCombatStartedEvents.Remove(CastSpell);
             {
                 I = 0;
-                int end__6 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
+                int end__6 = AoWHSMap.FPlayers.Count - 1;
                 for (; I <= end__6; I += 1)
                 {
-                    var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__7 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__7.FGemsChangedEvents.Remove(GemsChanged);
-                    var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__8 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__8.FIncomeChangedEvents.Remove(IncomeChanged);
-                    var call__9 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__9 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__9.FUpkeepChangedEvents.Remove(UpkeepChanged);
-                    var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
+                    var call__10 = AoWHSMap.FPlayers.GetPlayers(I);
                     call__10.FLogbookChangedEvents.Remove(LogbookChanged);
                 }
             }
         }
 
         // CMapCtrl.pas:180
-        public void ActivateHSM(Aow.Rtl.TObject Sender)
+        public void ActivateHSM(TObject Sender)
         {
-            if (((Aow.Units.Engine.TEObject)Sender).EClass.ClassID == 2228480)
+            if (((TEObject)Sender).EClass.ClassID == 2228480)
             {
                 LinkToHSM();
                 if (FOnActivateHSM != null)
@@ -177,9 +143,9 @@ namespace Aow.Units.CMapCtrl
         }
 
         // CMapCtrl.pas:189
-        public void DeactivateHSM(Aow.Rtl.TObject Sender)
+        public void DeactivateHSM(TObject Sender)
         {
-            if (((Aow.Units.Engine.TEObject)Sender).EClass.ClassID == 2228480)
+            if (((TEObject)Sender).EClass.ClassID == 2228480)
             {
                 if (FOnDeactivateHSM != null)
                 {
@@ -191,185 +157,185 @@ namespace Aow.Units.CMapCtrl
         }
 
         // CMapCtrl.pas:207
-        public void SelectHS(Aow.Rtl.TObject Sender)
+        public void SelectHS(TObject Sender)
         {
             try
             {
                 if (FOnSelected != null)
                 {
-                    FOnSelected(Aow.Units.AoWTC.AoWTC.AoWCombatMap.Selection.EventHS);
+                    FOnSelected(AoWCombatMap.Selection.EventHS);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnSelect event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnSelect event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:216
-        public void DeselectHS(Aow.Rtl.TObject Sender)
+        public void DeselectHS(TObject Sender)
         {
             try
             {
                 if (FOnDeselected != null)
                 {
-                    FOnDeselected(Aow.Units.AoWTC.AoWTC.AoWCombatMap.Selection.EventHS);
+                    FOnDeselected(AoWCombatMap.Selection.EventHS);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeselect event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeselect event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:225
-        public void MouseOverTarget(Aow.Rtl.TObject Sender)
+        public void MouseOverTarget(TObject Sender)
         {
             try
             {
                 if (FOnMouseOverTarget != null)
                 {
-                    FOnMouseOverTarget(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.FMouseOverTarget);
+                    FOnMouseOverTarget(AoWCombatMap.FUnitSelection.FMouseOverTarget);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:234
-        public void UnitChanged(Aow.Rtl.TObject Sender)
+        public void UnitChanged(TObject Sender)
         {
             try
             {
                 if (FOnUnitChanged != null)
                 {
-                    var call__11 = Aow.Units.AoWTC.AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS();
+                    var call__11 = AoWCombatMap.FUnitSelection.GetTCUnitHS();
                     FOnUnitChanged(call__11);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during UnitChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during UnitChanged event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:243
-        public void PlayerChanged(Aow.Rtl.TObject Sender)
+        public void PlayerChanged(TObject Sender)
         {
             try
             {
                 if (FOnPlayerChanged != null)
                 {
-                    FOnPlayerChanged(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FCurrentPlayer));
+                    FOnPlayerChanged(AoWCombatMap.FCurrentPlayer);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:252
-        public void SeatedPlayerChanged(Aow.Rtl.TObject Sender)
+        public void SeatedPlayerChanged(TObject Sender)
         {
             try
             {
                 if (FOnSeatedPlayerChanged != null)
                 {
-                    FOnSeatedPlayerChanged(unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer));
+                    FOnSeatedPlayerChanged(AoWCombatMap.FSeatedPlayer);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:261
-        public void GemsChanged(Aow.Rtl.TObject Sender)
+        public void GemsChanged(TObject Sender)
         {
             try
             {
                 if (FOnGemsChanged != null)
                 {
-                    FOnGemsChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)Sender).FPlayerIndex));
+                    FOnGemsChanged(((TPlayer)Sender).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Gems Changed event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Gems Changed event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:270
-        public void IncomeChanged(Aow.Rtl.TObject Sender)
+        public void IncomeChanged(TObject Sender)
         {
             try
             {
                 if (FOnIncomeChanged != null)
                 {
-                    FOnIncomeChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)Sender).FPlayerIndex));
+                    FOnIncomeChanged(((TPlayer)Sender).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Income Changed event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Income Changed event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:279
-        public void UpkeepChanged(Aow.Rtl.TObject Sender)
+        public void UpkeepChanged(TObject Sender)
         {
             try
             {
                 if (FOnUpkeepChanged != null)
                 {
-                    FOnUpkeepChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)Sender).FPlayerIndex));
+                    FOnUpkeepChanged(((TPlayer)Sender).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:297
-        public void ChangeTurn(Aow.Rtl.TObject Sender)
+        public void ChangeTurn(TObject Sender)
         {
             try
             {
                 // { The original passes the seated player as the turn number. }
                 if (FOnTurnChanged != null)
                 {
-                    FOnTurnChanged(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
+                    FOnTurnChanged(AoWCombatMap.FSeatedPlayer);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:307
-        public void LogbookChanged(Aow.Rtl.TObject Sender)
+        public void LogbookChanged(TObject Sender)
         {
             try
             {
                 if (FOnLogbookChanged != null)
                 {
-                    FOnLogbookChanged(unchecked((sbyte)((Aow.Units.AoWE.TPlayer)Sender).FPlayerIndex));
+                    FOnLogbookChanged(((TPlayer)Sender).FPlayerIndex);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:325
-        public void ActivateMap(Aow.Rtl.TObject Sender)
+        public void ActivateMap(TObject Sender)
         {
             try
             {
@@ -380,12 +346,12 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:334
-        public void DeactivateMap(Aow.Rtl.TObject Sender)
+        public void DeactivateMap(TObject Sender)
         {
             try
             {
@@ -396,120 +362,120 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:343
-        public void CastSpell(Aow.Rtl.TObject Sender)
+        public void CastSpell(TObject Sender)
         {
             try
             {
                 if (FOnCastSpell != null)
                 {
-                    FOnCastSpell((Aow.Units.AoWE.TCombatSpellCaster)Sender);
+                    FOnCastSpell((TCombatSpellCaster)Sender);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
             }
         }
 
         // CMapCtrl.pas:352
-        public void ActivateAbility(Aow.Rtl.TObject Sender)
+        public void ActivateAbility(TObject Sender)
         {
             try
             {
                 if (FOnActivateAbility != null)
                 {
-                    FOnActivateAbility((Aow.Units.AoWE.TActivateAbilityInfo)Sender);
+                    FOnActivateAbility((TActivateAbilityInfo)Sender);
                 }
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
             }
         }
 
         [Published]
-        public Aow.Units.CMapCtrl.TSelectHSEvent OnSelected { get => FOnSelected; set => FOnSelected = value; }
+        public TSelectHSEvent OnSelected { get => FOnSelected; set => FOnSelected = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TSelectHSEvent OnDeselected { get => FOnDeselected; set => FOnDeselected = value; }
+        public TSelectHSEvent OnDeselected { get => FOnDeselected; set => FOnDeselected = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
+        public TNotifyEvent OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
+        public TNotifyEvent OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent OnIncomeChanged { get => FOnIncomeChanged; set => FOnIncomeChanged = value; }
+        public TPlayerChangedEvent OnIncomeChanged { get => FOnIncomeChanged; set => FOnIncomeChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent OnUpkeepChanged { get => FOnUpkeepChanged; set => FOnUpkeepChanged = value; }
+        public TPlayerChangedEvent OnUpkeepChanged { get => FOnUpkeepChanged; set => FOnUpkeepChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent OnGemsChanged { get => FOnGemsChanged; set => FOnGemsChanged = value; }
+        public TPlayerChangedEvent OnGemsChanged { get => FOnGemsChanged; set => FOnGemsChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TShowMessageEvent OnShowMessage { get => FOnShowMessage; set => FOnShowMessage = value; }
+        public TShowMessageEvent OnShowMessage { get => FOnShowMessage; set => FOnShowMessage = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TTurnChangedEvent OnTurnChanged { get => FOnTurnChanged; set => FOnTurnChanged = value; }
+        public TTurnChangedEvent OnTurnChanged { get => FOnTurnChanged; set => FOnTurnChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent OnPlayerChanged { get => FOnPlayerChanged; set => FOnPlayerChanged = value; }
+        public TPlayerChangedEvent OnPlayerChanged { get => FOnPlayerChanged; set => FOnPlayerChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent OnSeatedPlayerChanged { get => FOnSeatedPlayerChanged; set => FOnSeatedPlayerChanged = value; }
+        public TPlayerChangedEvent OnSeatedPlayerChanged { get => FOnSeatedPlayerChanged; set => FOnSeatedPlayerChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TOnExecuteEventLogEvent OnExecuteEventLog { get => FOnExecuteEventLog; set => FOnExecuteEventLog = value; }
+        public TOnExecuteEventLogEvent OnExecuteEventLog { get => FOnExecuteEventLog; set => FOnExecuteEventLog = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TMapChangedEvent OnMapChanged { get => FOnMapChanged; set => FOnMapChanged = value; }
+        public TMapChangedEvent OnMapChanged { get => FOnMapChanged; set => FOnMapChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TPlayerChangedEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
+        public TPlayerChangedEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnActivateMap { get => FOnActivateMap; set => FOnActivateMap = value; }
+        public TNotifyEvent OnActivateMap { get => FOnActivateMap; set => FOnActivateMap = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDeActivateMap { get => FOnDeActivateMap; set => FOnDeActivateMap = value; }
+        public TNotifyEvent OnDeActivateMap { get => FOnDeActivateMap; set => FOnDeActivateMap = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TSelectHSEvent OnMouseOverTarget { get => FOnMouseOverTarget; set => FOnMouseOverTarget = value; }
+        public TSelectHSEvent OnMouseOverTarget { get => FOnMouseOverTarget; set => FOnMouseOverTarget = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TSelectHSEvent OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
+        public TSelectHSEvent OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TCastCombatSpellEvent OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
+        public TCastCombatSpellEvent OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
 
         [Published]
-        public Aow.Units.CMapCtrl.TActivateCombatAbilityEvent OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
+        public TActivateCombatAbilityEvent OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
     }
 
-    public delegate void TOnMessageEvent(ref Aow.Units.Engine.TEMsg EMsg);
-    public delegate void TSelectHSEvent(Aow.Units.HSEngine.THexagonSprite HS);
-    public delegate void TDeselectHSEvent(Aow.Units.HSEngine.THexagonSprite HS);
+    public delegate void TOnMessageEvent(ref TEMsg EMsg);
+    public delegate void TSelectHSEvent(THexagonSprite HS);
+    public delegate void TDeselectHSEvent(THexagonSprite HS);
     public delegate void TPlayerChangedEvent(sbyte Player);
-    public delegate void TShowMessageEvent(in Aow.Units.AoWE.TShowMessageInfo Info);
+    public delegate void TShowMessageEvent(in TShowMessageInfo Info);
     public delegate void TTurnChangedEvent(int Turn);
-    public delegate void TMapChangedEvent(in Aow.Units.AoWE.TMapChangedInfo ChangedArea);
+    public delegate void TMapChangedEvent(in TMapChangedInfo ChangedArea);
     public delegate void TOnGameOverEvent(sbyte Player);
-    public delegate void TOnExecuteEventLogEvent(Aow.Units.EventLog.TEventLog EventLog, Aow.Units.EventLog.TExecuteDoneEvent ExecuteDoneEvent);
-    public delegate void TCastCombatSpellEvent(Aow.Units.AoWE.TCombatSpellCaster SC);
-    public delegate void TActivateCombatAbilityEvent(Aow.Units.AoWE.TActivateAbilityInfo AAI);
+    public delegate void TOnExecuteEventLogEvent(TEventLog EventLog, TExecuteDoneEvent ExecuteDoneEvent);
+    public delegate void TCastCombatSpellEvent(TCombatSpellCaster SC);
+    public delegate void TActivateCombatAbilityEvent(TActivateAbilityInfo AAI);
     public static partial class CMapCtrl
     {
         // CMapCtrl.pas:361
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoWEngine", [typeof(Aow.Units.CMapCtrl.TAoWCombatMapControl)]);
+            RegisterComponents((AnsiString)"AoWEngine", [typeof(TAoWCombatMapControl)]);
         }
 
         public static void Initialize()

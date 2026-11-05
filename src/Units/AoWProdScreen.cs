@@ -1,200 +1,152 @@
 // Translated from AoWProdScreen.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.PrdPlace;
-using static Aow.Units.PrdPlace.PrdPlace;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWGauge;
-using static Aow.Units.AOWGauge.AOWGauge;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWCheckBox;
-using static Aow.Units.AoWCheckBox.AoWCheckBox;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWListBox.AoWListBox;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.aowUserDrawBox.aowUserDrawBox;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.OverviewUnit;
 using static Aow.Units.OverviewUnit.OverviewUnit;
 using Aow.Units.Shipyard;
-using static Aow.Units.Shipyard.Shipyard;
 
 namespace Aow.Units.AoWProdScreen
 {
     // view, place, production, queue, mode, preview, images
-    public partial class TProductionScreen : Aow.Rtl.TDataModule
+    public partial class TProductionScreen : TDataModule
     {
         public TProductionScreen(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        public Aow.Units.AoWListBox.TAOWListBox UAbilitiesLB;
-        public Aow.Units.AoWImage.TAOWImage UAttackIcon;
-        public Aow.Units.AoWImage.TAOWImage UDefenseIcon;
-        public Aow.Units.AoWImage.TAOWImage UMovesIcon;
-        public Aow.Units.AoWImage.TAOWImage UDamageIcon;
-        public Aow.Units.AoWImage.TAOWImage UResistanceIcon;
-        public Aow.Units.AoWImage.TAOWImage UHitsIcon;
-        public Aow.Units.AoWLabel.TAOWLabel UAttack;
-        public Aow.Units.AoWLabel.TAOWLabel UDefense;
-        public Aow.Units.AoWLabel.TAOWLabel UMoves;
-        public Aow.Units.AoWLabel.TAOWLabel UDamage;
-        public Aow.Units.AoWLabel.TAOWLabel UResistance;
-        public Aow.Units.AoWLabel.TAOWLabel UHits;
-        public Aow.Units.AoWPanel.TAOWPanel UStatPnl;
-        public Aow.Units.AoWPanel.TAOWPanel UStatP1;
-        public Aow.Units.AoWPanel.TAOWPanel UStatP2;
-        public Aow.Units.AoWLabel.TAOWLabel UAlignment;
-        public Aow.Units.AoWLabel.TAOWLabel ULevel;
-        public Aow.Units.AoWPanel.TAOWPanel UPicturePnl;
-        public Aow.Units.AoWPanel.TAOWPanel UCostPnl;
-        public Aow.Units.AoWLabel.TAOWLabel StructName;
-        public Aow.Units.AoWLabel.TAOWLabel CostLbl;
-        public Aow.Units.AoWLabel.TAOWLabel UCost;
-        public Aow.Units.AoWLabel.TAOWLabel UnitLbl;
-        public Aow.Units.AoWLabel.TAOWLabel TurnsLbl;
-        public Aow.Units.AoWLabel.TAOWLabel UTurns;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox B4CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox B5CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox B6CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox B1CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox B2CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox B3CB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar T2SBar;
-        public Aow.Units.AoWPanel.TAOWPanel AbilPnl;
-        public Aow.Units.AoWPanel.TAOWPanel UpgradePnl;
-        public Aow.Units.AoWLabel.TAOWLabel UpgradeLbl;
-        public Aow.Units.AoWPanel.TAOWPanel UpgradeMemoFr;
-        public Aow.Units.AoWMemo.TAOWMemo UpgradeMemo;
-        public Aow.Units.AoWPanel.TAOWPanel RightPnl;
-        public Aow.Units.AoWPanel.TAOWPanel QueuePnl;
-        public Aow.Units.AoWImage.TAOWImage Oval;
-        public Aow.Units.AoWImage.TAOWImage ShadowL;
-        public Aow.Units.AoWImage.TAOWImage ShadowR;
-        public Aow.Units.AoWButton.TAOWButton MainBtn3;
-        public Aow.Units.AoWButton.TAOWButton MainBtn1;
-        public Aow.Units.AoWListBox.TAOWListBox QueueLB;
-        public Aow.Units.AoWPanel.TAOWPanel ActivityPnl;
-        public Aow.Units.AoWPanel.TAOWPanel InfoPnl2;
-        public Aow.Units.AoWLabel.TAOWLabel ActiveAction;
-        public Aow.Units.AoWLabel.TAOWLabel ActiveActionTurns;
-        public Aow.Units.AoWImage.TAOWImage SepBar;
-        public Aow.Units.AoWPanel.TAOWPanel ActivityPnl2;
-        public Aow.Units.AOWGauge.TAoWGauge ActiveActionTurnsBar;
-        public Aow.Units.AoWButton.TAOWButton MainBtn2;
-        public Aow.Units.AoWPanel.TAOWPanel InfoPnl;
-        public Aow.Units.AoWPanel.TAOWPanel IPPnl;
-        public Aow.Units.AoWFrame.TAoWFrame IPPicFr;
-        public Aow.Units.AoWMemo.TAOWMemo PlaceInfoMemo;
-        public Aow.Units.AoWPanel.TAOWPanel IIPnl;
-        public Aow.Units.AoWFrame.TAoWFrame IncomePicture;
-        public Aow.Units.AoWMemo.TAOWMemo IncomeMemo;
-        public Aow.Units.AoWMemo.TAOWMemo IncomeHdr;
-        public Aow.Units.AoWPanel.TAOWPanel CurrentInfo;
-        public Aow.Units.AoWFrame.TAoWFrame RPillar;
-        public Aow.Units.AoWFrame.TAoWFrame LPillar;
-        public Aow.Units.AoWPanel.TAOWPanel QueueInfo;
-        public Aow.Units.AoWLabel.TAOWLabel QueueLbl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox LoopQueueBox;
-        public Aow.Units.AoWLabel.TAOWLabel RepeatLbl;
-        public Aow.Units.AoWPanel.TAOWPanel ActiveActionPnl;
-        public Aow.Units.AoWImage.TAOWImage CurrentActionImage;
-        public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        public Aow.Units.AoWImage.TAOWImage BlackBg2;
-        public Aow.Units.AoWPanel.TAOWPanel UPictureFramePnl;
-        public Aow.Units.AoWPanel.TAOWPanel UStatFr1;
-        public Aow.Units.AoWPanel.TAOWPanel UStatFr2;
-        public Aow.Units.AoWPanel.TAOWPanel UInfoFr;
-        public Aow.Units.AoWPanel.TAOWPanel CostFr;
-        public Aow.Units.AoWPanel.TAOWPanel TurnsFr;
-        public Aow.Units.AoWPanel.TAOWPanel UpgPicPnl;
-        public Aow.Units.AoWImage.TAOWImage UpgradePic;
-        public Aow.Units.AoWPanel.TAOWPanel UpgPicFr;
-        public Aow.Units.AoWPanel.TAOWPanel UpgCostPnl;
-        public Aow.Units.AoWLabel.TAOWLabel UpgCostLbl;
-        public Aow.Units.AoWLabel.TAOWLabel UpgradeCost;
-        public Aow.Units.AoWLabel.TAOWLabel UpgTurnsLbl;
-        public Aow.Units.AoWLabel.TAOWLabel UpgradeTurns;
-        public Aow.Units.AoWPanel.TAOWPanel UpgCostFr;
-        public Aow.Units.AoWPanel.TAOWPanel UpgTurnsFr;
-        public Aow.Units.AoWImage.TAOWImage RelIcn;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar QueueVSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar IPVSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar IIVSB;
-        public Aow.Units.AoWMemo.TAOWMemo IncomeValuesMemo;
-        public Aow.Units.aowUserDrawBox.TaowUserDrawBox UFace;
-        public Aow.Units.AoWImage.TAOWImage InfoSep;
-        public Aow.Units.AoWButton.TAOWButton Sphere;
-        public Aow.Units.aowUserDrawBox.TaowUserDrawBox MapView;
-        public Aow.Units.AoWButton.TAOWButton PNext;
-        public Aow.Units.AoWButton.TAOWButton PPrev;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWWindow Dlg;
+        public TAOWPanel UnitPnl;
+        public TAOWListBox UAbilitiesLB;
+        public TAOWImage UAttackIcon;
+        public TAOWImage UDefenseIcon;
+        public TAOWImage UMovesIcon;
+        public TAOWImage UDamageIcon;
+        public TAOWImage UResistanceIcon;
+        public TAOWImage UHitsIcon;
+        public TAOWLabel UAttack;
+        public TAOWLabel UDefense;
+        public TAOWLabel UMoves;
+        public TAOWLabel UDamage;
+        public TAOWLabel UResistance;
+        public TAOWLabel UHits;
+        public TAOWPanel UStatPnl;
+        public TAOWPanel UStatP1;
+        public TAOWPanel UStatP2;
+        public TAOWLabel UAlignment;
+        public TAOWLabel ULevel;
+        public TAOWPanel UPicturePnl;
+        public TAOWPanel UCostPnl;
+        public TAOWLabel StructName;
+        public TAOWLabel CostLbl;
+        public TAOWLabel UCost;
+        public TAOWLabel UnitLbl;
+        public TAOWLabel TurnsLbl;
+        public TAOWLabel UTurns;
+        public TAOWCheckBox B4CB;
+        public TAOWCheckBox B5CB;
+        public TAOWCheckBox B6CB;
+        public TAOWCheckBox B1CB;
+        public TAOWCheckBox B2CB;
+        public TAOWCheckBox B3CB;
+        public TAOWVScrollBar T2SBar;
+        public TAOWPanel AbilPnl;
+        public TAOWPanel UpgradePnl;
+        public TAOWLabel UpgradeLbl;
+        public TAOWPanel UpgradeMemoFr;
+        public TAOWMemo UpgradeMemo;
+        public TAOWPanel RightPnl;
+        public TAOWPanel QueuePnl;
+        public TAOWImage Oval;
+        public TAOWImage ShadowL;
+        public TAOWImage ShadowR;
+        public TAOWButton MainBtn3;
+        public TAOWButton MainBtn1;
+        public TAOWListBox QueueLB;
+        public TAOWPanel ActivityPnl;
+        public TAOWPanel InfoPnl2;
+        public TAOWLabel ActiveAction;
+        public TAOWLabel ActiveActionTurns;
+        public TAOWImage SepBar;
+        public TAOWPanel ActivityPnl2;
+        public TAoWGauge ActiveActionTurnsBar;
+        public TAOWButton MainBtn2;
+        public TAOWPanel InfoPnl;
+        public TAOWPanel IPPnl;
+        public TAoWFrame IPPicFr;
+        public TAOWMemo PlaceInfoMemo;
+        public TAOWPanel IIPnl;
+        public TAoWFrame IncomePicture;
+        public TAOWMemo IncomeMemo;
+        public TAOWMemo IncomeHdr;
+        public TAOWPanel CurrentInfo;
+        public TAoWFrame RPillar;
+        public TAoWFrame LPillar;
+        public TAOWPanel QueueInfo;
+        public TAOWLabel QueueLbl;
+        public TAOWCheckBox LoopQueueBox;
+        public TAOWLabel RepeatLbl;
+        public TAOWPanel ActiveActionPnl;
+        public TAOWImage CurrentActionImage;
+        public TAoWFrame AoWFrame1;
+        public TAOWImage BlackBg2;
+        public TAOWPanel UPictureFramePnl;
+        public TAOWPanel UStatFr1;
+        public TAOWPanel UStatFr2;
+        public TAOWPanel UInfoFr;
+        public TAOWPanel CostFr;
+        public TAOWPanel TurnsFr;
+        public TAOWPanel UpgPicPnl;
+        public TAOWImage UpgradePic;
+        public TAOWPanel UpgPicFr;
+        public TAOWPanel UpgCostPnl;
+        public TAOWLabel UpgCostLbl;
+        public TAOWLabel UpgradeCost;
+        public TAOWLabel UpgTurnsLbl;
+        public TAOWLabel UpgradeTurns;
+        public TAOWPanel UpgCostFr;
+        public TAOWPanel UpgTurnsFr;
+        public TAOWImage RelIcn;
+        public TAOWVScrollBar QueueVSB;
+        public TAOWVScrollBar IPVSB;
+        public TAOWVScrollBar IIVSB;
+        public TAOWMemo IncomeValuesMemo;
+        public TaowUserDrawBox UFace;
+        public TAOWImage InfoSep;
+        public TAOWButton Sphere;
+        public TaowUserDrawBox MapView;
+        public TAOWButton PNext;
+        public TAOWButton PPrev;
+        public TIvTranslator Translator;
         public int FViewX;
         public int FViewY;
-        public Aow.Units.PrdPlace.TProductionPlace FPlace;
+        public TProductionPlace FPlace;
         public int FProductionIndex;
         public int FQueueIndex;
         public byte FMode;
-        public Aow.Units.AoWTC.TAoWCombatMap FPreview;
-        public Aow.Units.Engine.TIntegerList FImages;
+        public TAoWCombatMap FPreview;
+        public TIntegerList FImages;
         // AoWProdScreen.pas:590
         public void FreePreview()
         {
@@ -215,7 +167,7 @@ namespace Aow.Units.AoWProdScreen
                 for (; I >= end__1; I -= 1)
                 {
                     var call__2 = FImages[I];
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__2);
+                    var call__3 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__2);
                     call__3.Release();
                 }
             }
@@ -227,9 +179,9 @@ namespace Aow.Units.AoWProdScreen
         public void LoadUnitImages(int Index)
         {
             int Gfx = default;
-            var call__4 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitResources.GetUnitResource(Index);
+            var call__4 = AoWHSSet.FUnitResources.GetUnitResource(Index);
             Gfx = call__4.FUnitGFXResourceIndex;
-            var call__5 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Gfx);
+            var call__5 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Gfx);
             call__5.AddRef();
             FImages.Add(Gfx);
         }
@@ -257,19 +209,19 @@ namespace Aow.Units.AoWProdScreen
             UnitPnl.Visible = false;
             UpgradePnl.Visible = false;
             MainBtn1.Visible = true;
-            var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.OptionsRStr);
+            var call__6 = TranslateRStr(OptionsRStr);
             MainBtn1.Text = call__6;
             MainBtn2.Visible = false;
             PPrev.Visible = !MainBtn2.Visible;
             PNext.Visible = !MainBtn2.Visible;
-            ShadowL.Visible = Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail != 0;
-            ShadowR.Visible = Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail != 0;
-            Oval.Visible = Aow.Units.AoWE.AoWE.AoWEngine.FAnimationDetail != 0;
+            ShadowL.Visible = AoWEngine.FAnimationDetail != 0;
+            ShadowR.Visible = AoWEngine.FAnimationDetail != 0;
+            Oval.Visible = AoWEngine.FAnimationDetail != 0;
             FQueueIndex = -1;
             QueueLB.Selected = -1;
-            var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.QueueRStr);
+            var call__7 = TranslateRStr(QueueRStr);
             QueueLbl.Text = call__7;
-            var call__8 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RepeatRStr);
+            var call__8 = TranslateRStr(RepeatRStr);
             RepeatLbl.Text = call__8;
             FreePreview();
         }
@@ -279,13 +231,13 @@ namespace Aow.Units.AoWProdScreen
         {
             Reset();
             FPlace = null;
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
+            General.Manager.OverlayPriority = 0;
         }
 
         // AoWProdScreen.pas:659
         public void SetMode(byte Mode)
         {
-            FMode = unchecked((byte)Mode);
+            FMode = Mode;
             switch (FMode)
             {
                 case 0:
@@ -293,12 +245,12 @@ namespace Aow.Units.AoWProdScreen
                     InfoPnl2.Visible = true;
                     ActivityPnl.Visible = false;
                     ActivityPnl2.Visible = false;
-                    var call__9 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChangeRStr);
+                    var call__9 = TranslateRStr(ChangeRStr);
                     MainBtn1.Text = call__9;
                     MainBtn2.Visible = false;
                     PPrev.Visible = !MainBtn2.Visible;
                     PNext.Visible = !MainBtn2.Visible;
-                    var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ExitRStr);
+                    var call__10 = TranslateRStr(ExitRStr);
                     MainBtn3.Text = call__10;
                     QueueLB.Selected = -1;
                     break;
@@ -309,9 +261,9 @@ namespace Aow.Units.AoWProdScreen
                     InfoPnl2.Visible = false;
                     ActivityPnl.Visible = true;
                     ActivityPnl2.Visible = true;
-                    var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InfoRStr);
+                    var call__11 = TranslateRStr(InfoRStr);
                     MainBtn1.Text = call__11;
-                    var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DoneRStr);
+                    var call__12 = TranslateRStr(DoneRStr);
                     MainBtn3.Text = call__12;
                     break;
                 case 2:
@@ -321,9 +273,9 @@ namespace Aow.Units.AoWProdScreen
                     InfoPnl2.Visible = false;
                     ActivityPnl.Visible = true;
                     ActivityPnl2.Visible = true;
-                    var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InfoRStr);
+                    var call__13 = TranslateRStr(InfoRStr);
                     MainBtn1.Text = call__13;
-                    var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DoneRStr);
+                    var call__14 = TranslateRStr(DoneRStr);
                     MainBtn3.Text = call__14;
                     break;
             }
@@ -338,7 +290,7 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:705
-        public void ProductionEvent(Aow.Units.PrdPlace.TProductionPlaceEventLog Event)
+        public void ProductionEvent(TProductionPlaceEventLog Event)
         {
             var call__15 = Event.GetProductionPlace();
             ShowPlace(call__15);
@@ -347,11 +299,11 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:712
-        public void PlaceChanged(Aow.Rtl.TObject Sender)
+        public void PlaceChanged(TObject Sender)
         {
-            if (Dlg.Visible && (Sender == FPlace))
+            if (Dlg.Visible && Sender == FPlace)
             {
-                if (FPlace.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
+                if (FPlace.FPlayer == AoWHSMap.FSeatedPlayer)
                 {
                     UpdateInfo();
                 }
@@ -363,7 +315,7 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:719
-        public int ActivityImage(Aow.Units.AoWE.TProductionItem Item)
+        public int ActivityImage(TProductionItem Item)
         {
             int Result = default;
             switch (Item.FProductionID)
@@ -373,7 +325,7 @@ namespace Aow.Units.AoWProdScreen
                     break;
                 case 10:
                     var call__16 = FPlace.GetMagicSphere();
-                    if (call__16 != Aow.Units.AoWE.TMagicSphere.msNone)
+                    if (call__16 != TMagicSphere.msNone)
                     {
                         Result = 48;
                     }
@@ -394,8 +346,8 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:729
         public void SelectProduction(int Index)
         {
-            Aow.Units.AoWE.TUnit U = default;
-            Aow.Units.AoWE.TProductionItem Item = default;
+            TUnit U = default;
+            TProductionItem Item = default;
             if (FMode != 1)
             {
                 SetMode(1);
@@ -420,70 +372,70 @@ namespace Aow.Units.AoWProdScreen
                     {
                         UnitPnl.Visible = true;
                         var call__18 = U.GetAttack();
-                        UAttack.Text = Aow.Rtl.Rtl.IntToStr(call__18);
+                        UAttack.Text = IntToStr(call__18);
                         var call__19 = U.GetDefense();
-                        UDefense.Text = Aow.Rtl.Rtl.IntToStr(call__19);
+                        UDefense.Text = IntToStr(call__19);
                         var call__20 = U.GetResistance();
-                        UResistance.Text = Aow.Rtl.Rtl.IntToStr(call__20);
+                        UResistance.Text = IntToStr(call__20);
                         var call__21 = U.GetDamage();
-                        UDamage.Text = Aow.Rtl.Rtl.IntToStr(call__21);
+                        UDamage.Text = IntToStr(call__21);
                         var call__22 = U.GetHits();
-                        UHits.Text = Aow.Rtl.Rtl.IntToStr(call__22);
+                        UHits.Text = IntToStr(call__22);
                         var call__23 = U.GetMoves();
-                        UMoves.Text = Aow.Rtl.Rtl.IntToStr(call__23);
+                        UMoves.Text = IntToStr(call__23);
                         var call__24 = U.GetMoveTypes();
-                        var call__25 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__24);
+                        var call__25 = General.MTtoInt(call__24);
                         UMovesIcon.CurrentImage = call__25;
                         var call__26 = U.GetAlignment();
-                        var call__27 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TAlignmentRStr[(int)call__26]);
-                        var call__28 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.AlignmentXRStr);
-                        var call__29 = Aow.Units.AoWE.AoWE.Format(call__28, [call__27]);
+                        var call__27 = TranslateRStr(TAlignmentRStr[(int)call__26]);
+                        var call__28 = TranslateRStr(AlignmentXRStr);
+                        var call__29 = AoWE.AoWE.Format(call__28, [call__27]);
                         UAlignment.Text = call__29;
                         var call__30 = U.GetUnitLevel();
-                        var call__31 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelXRStr);
-                        var call__32 = Aow.Units.AoWE.AoWE.Format(call__31, [Aow.Rtl.Rtl.IntToStr(call__30)]);
+                        var call__31 = TranslateRStr(LevelXRStr);
+                        var call__32 = AoWE.AoWE.Format(call__31, [IntToStr(call__30)]);
                         var call__33 = U.GetUpkeep();
-                        var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UpkeepXRStr);
-                        var call__35 = Aow.Units.AoWE.AoWE.Format(call__34, [(int)call__33]);
-                        ULevel.Text = (call__32 + ((AnsiString)" / ")) + call__35;
+                        var call__34 = TranslateRStr(UpkeepXRStr);
+                        var call__35 = AoWE.AoWE.Format(call__34, [(int)call__33]);
+                        ULevel.Text = call__32 + (AnsiString)" / " + call__35;
                         UAbilitiesLB.Items.Clear();
                         U.ListAbilities(UAbilitiesLB.Items);
                         var call__36 = FPlace.FProductionControl.FUnitProductions.GetItem(FProductionIndex);
                         if (call__36.FResearched)
                         {
                             MainBtn1.Visible = true;
-                            var call__37 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProduceRStr);
+                            var call__37 = TranslateRStr(ProduceRStr);
                             MainBtn1.Text = call__37;
                             var call__38 = FPlace.FProductionControl.GetQueueLocked();
                             MainBtn2.Visible = !call__38;
-                            var call__39 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.QueueRStr);
+                            var call__39 = TranslateRStr(QueueRStr);
                             MainBtn2.Text = call__39;
                             var call__40 = U.GetName();
-                            var call__41 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProduceXRStr);
-                            var call__42 = Aow.Units.AoWE.AoWE.Format(call__41, [call__40]);
+                            var call__41 = TranslateRStr(ProduceXRStr);
+                            var call__42 = AoWE.AoWE.Format(call__41, [call__40]);
                             UnitLbl.Text = call__42;
                             var call__43 = FPlace.FProductionControl.UnitProductionGold(FProductionIndex);
-                            UCost.Text = Aow.Rtl.Rtl.IntToStr(call__43);
+                            UCost.Text = IntToStr(call__43);
                             var call__44 = FPlace.FProductionControl.UnitProductionTime(FProductionIndex);
-                            UTurns.Text = Aow.Rtl.Rtl.IntToStr(call__44);
+                            UTurns.Text = IntToStr(call__44);
                         }
                         else
                         {
                             MainBtn1.Visible = true;
-                            var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InstallRStr);
+                            var call__45 = TranslateRStr(InstallRStr);
                             MainBtn1.Text = call__45;
                             var call__46 = FPlace.FProductionControl.GetQueueLocked();
                             MainBtn2.Visible = !call__46;
-                            var call__47 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.QueueRStr);
+                            var call__47 = TranslateRStr(QueueRStr);
                             MainBtn2.Text = call__47;
                             var call__48 = U.GetName();
-                            var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InstallXRStr);
-                            var call__50 = Aow.Units.AoWE.AoWE.Format(call__49, [call__48]);
+                            var call__49 = TranslateRStr(InstallXRStr);
+                            var call__50 = AoWE.AoWE.Format(call__49, [call__48]);
                             UnitLbl.Text = call__50;
                             var call__51 = FPlace.FProductionControl.UnitResearchGold(FProductionIndex);
-                            UCost.Text = Aow.Rtl.Rtl.IntToStr(call__51);
+                            UCost.Text = IntToStr(call__51);
                             var call__52 = FPlace.FProductionControl.UnitResearchTime(FProductionIndex);
-                            UTurns.Text = Aow.Rtl.Rtl.IntToStr(call__52);
+                            UTurns.Text = IntToStr(call__52);
                         }
 
                         PPrev.Visible = !MainBtn2.Visible;
@@ -498,32 +450,32 @@ namespace Aow.Units.AoWProdScreen
                     break;
                 case 4:
                     MainBtn1.Visible = true;
-                    Item = new Aow.Units.AoWE.TProductionItem(null);
+                    Item = new TProductionItem(null);
                     Item.FProductionID = 10;
                     var call__53 = FPlace.GetProductionName(Item);
                     MainBtn1.Text = call__53;
                     Item.Free();
                     var call__54 = FPlace.FProductionControl.GetQueueLocked();
                     MainBtn2.Visible = !call__54;
-                    var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.QueueRStr);
+                    var call__55 = TranslateRStr(QueueRStr);
                     MainBtn2.Text = call__55;
                     PPrev.Visible = !MainBtn2.Visible;
                     PNext.Visible = !MainBtn2.Visible;
                     var call__56 = FPlace.GetMagicSphere();
-                    if (call__56 == Aow.Units.AoWE.TMagicSphere.msNone)
+                    if (call__56 == TMagicSphere.msNone)
                     {
-                        var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProduceMerchandiseTextRStr);
+                        var call__57 = TranslateRStr(ProduceMerchandiseTextRStr);
                         UpgradeMemo.Items.Text = call__57;
                     }
                     else
                     {
-                        var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GenerateExtraPowerTextRStr);
+                        var call__58 = TranslateRStr(GenerateExtraPowerTextRStr);
                         UpgradeMemo.Items.Text = call__58;
                     }
 
                     UpgradePnl.Visible = true;
                     var call__59 = FPlace.GetMagicSphere();
-                    if (call__59 != Aow.Units.AoWE.TMagicSphere.msNone)
+                    if (call__59 != TMagicSphere.msNone)
                     {
                         UpgradePic.CurrentImage = 28;
                     }
@@ -536,17 +488,17 @@ namespace Aow.Units.AoWProdScreen
                     break;
                 case 5:
                     MainBtn1.Visible = true;
-                    var call__60 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RazeRStr);
-                    MainBtn1.Text = call__60 + ((AnsiString)"...");
+                    var call__60 = TranslateRStr(RazeRStr);
+                    MainBtn1.Text = call__60 + (AnsiString)"...";
                     PPrev.Visible = false;
                     PNext.Visible = false;
                     var call__61 = FPlace.GetName();
-                    var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProductionPlaceXRazeRStr);
-                    var call__63 = Aow.Units.AoWE.AoWE.Format(call__62, [call__61]);
+                    var call__62 = TranslateRStr(ProductionPlaceXRazeRStr);
+                    var call__63 = AoWE.AoWE.Format(call__62, [call__61]);
                     UpgradeMemo.Items.Text = call__63;
                     UpgradePnl.Visible = true;
                     UpgradePic.CurrentImage = 26;
-                    var call__64 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RazeRStr);
+                    var call__64 = TranslateRStr(RazeRStr);
                     UpgradeLbl.Text = call__64;
                     break;
             }
@@ -555,21 +507,21 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:832
         public void UpdateInfo()
         {
-            Aow.Rtl.AnsiString Reason = default;
+            AnsiString Reason = default;
             int I = default;
             int J = default;
-            Aow.Units.AoWE.TProductionItem Item = default;
+            TProductionItem Item = default;
             IncomeHdr.Items.Clear();
             var call__65 = FPlace.GetName();
             StructName.Text = call__65;
-            var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IncomeRStr);
+            var call__66 = TranslateRStr(IncomeRStr);
             IncomeHdr.Items.Add(call__66);
             var call__67 = FPlace.GetMagicSphere();
-            if (call__67 != Aow.Units.AoWE.TMagicSphere.msNone)
+            if (call__67 != TMagicSphere.msNone)
             {
                 var call__68 = FPlace.GetPower();
-                var call__69 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XPowerRStr);
-                var call__70 = Aow.Units.AoWE.AoWE.Format(AnsiString.FromBytes(32) + call__69, [Aow.Rtl.Rtl.IntToStr(call__68)]);
+                var call__69 = TranslateRStr(XPowerRStr);
+                var call__70 = AoWE.AoWE.Format(AnsiString.FromBytes(32) + call__69, [IntToStr(call__68)]);
                 IncomeHdr.Items.Add(call__70);
             }
 
@@ -577,24 +529,24 @@ namespace Aow.Units.AoWProdScreen
             if (call__71 != 0)
             {
                 var call__72 = FPlace.GetIncome();
-                var call__73 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XGoldRStr);
-                var call__74 = Aow.Units.AoWE.AoWE.Format(AnsiString.FromBytes(32) + call__73, [Aow.Rtl.Rtl.IntToStr(call__72)]);
+                var call__73 = TranslateRStr(XGoldRStr);
+                var call__74 = AoWE.AoWE.Format(AnsiString.FromBytes(32) + call__73, [IntToStr(call__72)]);
                 IncomeHdr.Items.Add(call__74);
             }
 
             var call__75 = FPlace.GetMagicSphere();
-            if (call__75 != Aow.Units.AoWE.TMagicSphere.msNone)
+            if (call__75 != TMagicSphere.msNone)
             {
                 IncomePicture.ILIndexTexture = 64;
                 IPPicFr.ILTexture = null;
                 var call__76 = FPlace.GetMagicSphere();
-                var call__77 = Aow.Units.AoWProdScreen.AoWProdScreen.SphereImage(call__76);
+                var call__77 = AoWProdScreen.SphereImage(call__76);
                 Sphere.SetILUIndex(call__77);
                 Sphere.Visible = true;
             }
             else
             {
-                if (FPlace is Aow.Units.Shipyard.TShipyard)
+                if (FPlace is TShipyard)
                 {
                     IncomeHdr.Items.Clear();
                     IncomePicture.ILIndexTexture = 68;
@@ -604,8 +556,8 @@ namespace Aow.Units.AoWProdScreen
                     IncomePicture.ILIndexTexture = 65;
                 }
 
-                IPPicFr.ILTexture = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin;
-                if (FPlace is Aow.Units.Shipyard.TShipyard)
+                IPPicFr.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin;
+                if (FPlace is TShipyard)
                 {
                     IPPicFr.ILIndexTexture = 67;
                 }
@@ -628,7 +580,7 @@ namespace Aow.Units.AoWProdScreen
                 {
                     var call__79 = FPlace.FProductionControl.FQueue.GetItem(I);
                     var call__80 = call__79.GetName();
-                    QueueLB.Items.Add((Aow.Rtl.Rtl.IntToStr(I + 1) + ((AnsiString)". ")) + call__80);
+                    QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + call__80);
                 }
             }
 
@@ -637,8 +589,8 @@ namespace Aow.Units.AoWProdScreen
                 byte end__81 = 4;
                 for (; I <= end__81; I += 1)
                 {
-                    var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EmptyQueueRStr);
-                    QueueLB.Items.Add((Aow.Rtl.Rtl.IntToStr(I + 1) + ((AnsiString)". ")) + call__82);
+                    var call__82 = TranslateRStr(EmptyQueueRStr);
+                    QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + call__82);
                 }
             }
 
@@ -651,14 +603,14 @@ namespace Aow.Units.AoWProdScreen
             }
 
             LoopQueueBox.Checked = FPlace.FProductionControl.FLoopQueue;
-            if (FPlace.FProductionControl.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
+            if (FPlace.FProductionControl.FStatus == TProductionControlStatus.pcsProducing)
             {
                 var call__85 = FPlace.FProductionControl.FQueue.GetItem(0);
                 var call__86 = call__85.GetNameProgressive();
                 ActiveAction.Text = call__86;
                 if (FPlace.FProductionControl.FSettings.FTurnsLeft != -1)
                 {
-                    var call__87 = Aow.Units.AoWE.AoWE.FmtTurnsLeftStr(FPlace.FProductionControl.FSettings.FTurnsLeft);
+                    var call__87 = FmtTurnsLeftStr(FPlace.FProductionControl.FSettings.FTurnsLeft);
                     ActiveActionTurns.Text = call__87;
                     ActiveActionTurns.Visible = true;
                     ActiveActionTurns.TextColor = 6783862;
@@ -680,18 +632,18 @@ namespace Aow.Units.AoWProdScreen
             }
             else
             {
-                if (FPlace.FProductionControl.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsIdle)
+                if (FPlace.FProductionControl.FStatus == TProductionControlStatus.pcsIdle)
                 {
                     var call__91 = FPlace.GetCurrentActivityText();
                     ActiveAction.Text = call__91;
-                    var call__92 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DefaultRStr);
-                    ActiveActionTurns.Text = (AnsiString.FromBytes(40) + Aow.Rtl.Rtl.LowerCase(call__92)) + AnsiString.FromBytes(41);
+                    var call__92 = TranslateRStr(DefaultRStr);
+                    ActiveActionTurns.Text = AnsiString.FromBytes(40) + LowerCase(call__92) + AnsiString.FromBytes(41);
                     ActiveActionTurns.TextColor = 6783862;
-                    var call__93 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoneRStr);
-                    if (Aow.Rtl.Rtl.CompareText(ActiveAction.Text, call__93) != 0)
+                    var call__93 = TranslateRStr(NoneRStr);
+                    if (CompareText(ActiveAction.Text, call__93) != 0)
                     {
                         ActiveActionTurns.Visible = true;
-                        Item = new Aow.Units.AoWE.TProductionItem(null);
+                        Item = new TProductionItem(null);
                         Item.FProductionID = 10;
                         var call__94 = ActivityImage(Item);
                         CurrentActionImage.CurrentImage = call__94;
@@ -707,7 +659,7 @@ namespace Aow.Units.AoWProdScreen
                 }
                 else
                 {
-                    if (FPlace.FProductionControl.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsWaiting)
+                    if (FPlace.FProductionControl.FStatus == TProductionControlStatus.pcsWaiting)
                     {
                         Reason = (AnsiString)"";
                         var call__95 = FPlace.FProductionControl.FQueue.GetItem(0);
@@ -744,12 +696,12 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:180
-        public void ShowPlace(Aow.Units.PrdPlace.TProductionPlace Place)
+        public void ShowPlace(TProductionPlace Place)
         {
             int I = default;
-            Aow.Units.AoWE.TArmyHS Army = default;
-            Aow.Units.AoWTC.TRndTacHsm Generator = default;
-            Aow.Units.HSEngine.THexagonSprite Center = default;
+            TArmyHS Army = default;
+            TRndTacHsm Generator = default;
+            THexagonSprite Center = default;
             Reset();
             FPlace = Place;
             UpdateInfo();
@@ -768,14 +720,14 @@ namespace Aow.Units.AoWProdScreen
             }
 
             FreePreview();
-            Generator = new Aow.Units.AoWTC.TRndTacHsm();
+            Generator = new TRndTacHsm();
             var call__104 = FPlace.GetLhx();
             var call__105 = FPlace.GetYhx();
             var call__106 = FPlace.GetXhx();
             var call__107 = Generator.RandomMap(null, call__106, call__105, call__104);
             FPreview = call__107;
             Generator.Free();
-            var call__108 = ((Aow.Units.AoWE.TAoWMapField)FPlace.Owner).GetArmyHS();
+            var call__108 = ((TAoWMapField)FPlace.Owner).GetArmyHS();
             Army = call__108;
             if (Army != null)
             {
@@ -785,7 +737,7 @@ namespace Aow.Units.AoWProdScreen
                     for (; I <= end__109; I += 1)
                     {
                         var call__110 = Army.FArmy.GetUnit(I);
-                        Aow.Units.OverviewUnit.OverviewUnit.PlaceOverviewUnit(FPreview, call__110, 0, I);
+                        PlaceOverviewUnit(FPreview, call__110, 0, I);
                     }
                 }
             }
@@ -798,9 +750,9 @@ namespace Aow.Units.AoWProdScreen
                 {
                     var call__112 = FPreview.FCenterViewLocation.GetYhx();
                     var call__113 = Center.GetXhx();
-                    Aow.Units.HSEngine.HSEngine.HXtoHP(call__113, call__112, ref FViewX, ref FViewY);
-                    FViewX = (FViewX + 16) - (MapView.WinWidth / 2);
-                    FViewY = (FViewY + 16) - (MapView.WinHeight / 2);
+                    HXtoHP(call__113, call__112, ref FViewX, ref FViewY);
+                    FViewX = FViewX + 16 - MapView.WinWidth / 2;
+                    FViewY = FViewY + 16 - MapView.WinHeight / 2;
                 }
                 else
                 {
@@ -809,14 +761,14 @@ namespace Aow.Units.AoWProdScreen
                 }
             }
 
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
+            General.Manager.OverlayPriority = 49;
             Dlg.Visible = true;
         }
 
         // AoWProdScreen.pas:221
         public void ProductionScreenCreate()
         {
-            var call__114 = new Aow.Units.Engine.TIntegerList();
+            var call__114 = new TIntegerList();
             FImages = call__114;
         }
 
@@ -827,34 +779,34 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:231
-        public void ActivityChange(Aow.Rtl.TObject Sender)
+        public void ActivityChange(TObject Sender)
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
-            if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked)
+            General.PlayButtonSound(1);
+            if (((TAOWCheckBox)Sender).Checked)
             {
                 ResetChecks();
-                SelectProduction(((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag);
-                ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = true;
+                SelectProduction(((TAOWCheckBox)Sender).Tag);
+                ((TAOWCheckBox)Sender).Checked = true;
             }
         }
 
         // AoWProdScreen.pas:242
-        public void ActivityDoubleClick(Aow.Rtl.TObject Sender)
+        public void ActivityDoubleClick(TObject Sender)
         {
             ResetChecks();
-            SelectProduction(((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag);
-            ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked = true;
+            SelectProduction(((TAOWCheckBox)Sender).Tag);
+            ((TAOWCheckBox)Sender).Checked = true;
             MainBtn1Click(null);
         }
 
         // AoWProdScreen.pas:250
-        public void ActivityPreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void ActivityPreDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TP2UnitShowInfo Info = default;
-            Aow.Rtl.TRect R = default;
-            Aow.Units.AoWE.TUnit U = default;
-            Aow.Units.AoWE.TProductionItem Item = default;
-            var call__115 = Aow.Rtl.Rtl.Rect(ActivityPnl2.WinLeft + Sender.WinLeft, ActivityPnl2.WinTop + Sender.WinTop, (ActivityPnl2.WinLeft + Sender.WinLeft) + Sender.WinWidth, (ActivityPnl2.WinTop + Sender.WinTop) + Sender.WinHeight);
+            TP2UnitShowInfo Info = default;
+            TRect R = default;
+            TUnit U = default;
+            TProductionItem Item = default;
+            var call__115 = Rect(ActivityPnl2.WinLeft + Sender.WinLeft, ActivityPnl2.WinTop + Sender.WinTop, ActivityPnl2.WinLeft + Sender.WinLeft + Sender.WinWidth, ActivityPnl2.WinTop + Sender.WinTop + Sender.WinHeight);
             R = call__115;
             switch (Sender.Tag)
             {
@@ -864,14 +816,14 @@ namespace Aow.Units.AoWProdScreen
                     if (U != null)
                     {
                         Info.Direction = 3;
-                        Info.Overlays = TSet<Aow.Units.AoWE.TUnitOverlayModesElement>.Of();
-                        Info.Animation = (Aow.Units.AoWE.TUnitAnimation)0;
+                        Info.Overlays = TSet<TUnitOverlayModesElement>.Of();
+                        Info.Animation = 0;
                         Info.Frame = 0;
                         Info.Looped = false;
                         var call__117 = FPlace.FProductionControl.FUnitProductions.GetItem(Sender.Tag);
                         if (!call__117.FResearched)
                         {
-                            var call__118 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5];
+                            var call__118 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5];
                             call__118.Show(R.Left + 2, R.Top + 2, SD);
                             Info.Direction = 5;
                             if (U != null)
@@ -879,13 +831,13 @@ namespace Aow.Units.AoWProdScreen
                                 U.ShowEx(R.Left - 4, R.Top, SD, Info);
                             }
 
-                            var call__119 = Aow.Units.GFXE.GFXE.AlphaBlendTable.GetLookupTables(45);
-                            var call__120 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5];
+                            var call__119 = AlphaBlendTable.GetLookupTables(45);
+                            var call__120 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5];
                             call__120.ShowBlended(R.Left + 2, R.Top + 2, SD, call__119);
                         }
                         else
                         {
-                            var call__121 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4];
+                            var call__121 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4];
                             call__121.Show(R.Left + 2, R.Top + 2, SD);
                             if (U != null)
                             {
@@ -897,7 +849,7 @@ namespace Aow.Units.AoWProdScreen
                     }
                     else
                     {
-                        var call__122 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62];
+                        var call__122 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62];
                         call__122.Show(R.Left + 2, R.Top + 2, SD);
                     }
 
@@ -906,31 +858,31 @@ namespace Aow.Units.AoWProdScreen
                     var call__123 = FPlace.GetBaseIncome();
                     if (call__123 != 0)
                     {
-                        Item = new Aow.Units.AoWE.TProductionItem(null);
+                        Item = new TProductionItem(null);
                         Item.FProductionID = 10;
                         var call__124 = ActivityImage(Item);
-                        var call__125 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[call__124];
+                        var call__125 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[call__124];
                         call__125.Show(R.Left + 2, R.Top + 2, SD);
                         Item.Free();
                     }
                     else
                     {
-                        var call__126 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62];
+                        var call__126 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62];
                         call__126.Show(R.Left + 2, R.Top + 2, SD);
                     }
 
                     break;
                 case 5:
-                    var call__127 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[46];
+                    var call__127 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[46];
                     call__127.Show(R.Left + 2, R.Top + 2, SD);
                     break;
             }
         }
 
         // AoWProdScreen.pas:299
-        public void MainBtn1Click(Aow.Rtl.TObject Sender)
+        public void MainBtn1Click(TObject Sender)
         {
-            Aow.Rtl.AnsiString Reason = default;
+            AnsiString Reason = default;
             switch (FMode)
             {
                 case 0:
@@ -952,7 +904,7 @@ namespace Aow.Units.AoWProdScreen
                                 }
                                 else
                                 {
-                                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                    AoWHSMap.ShowWarning(Reason);
                                 }
                             }
                             else
@@ -965,7 +917,7 @@ namespace Aow.Units.AoWProdScreen
                                 }
                                 else
                                 {
-                                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                    AoWHSMap.ShowWarning(Reason);
                                 }
                             }
 
@@ -979,20 +931,20 @@ namespace Aow.Units.AoWProdScreen
                             }
                             else
                             {
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                AoWHSMap.ShowWarning(Reason);
                             }
 
                             break;
                         case 5:
-                            var call__132 = FPlace.CanRaze(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), ref Reason);
+                            var call__132 = FPlace.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason);
                             if (call__132)
                             {
-                                FPlace.Raze(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                                FPlace.Raze(AoWHSMap.FSeatedPlayer);
                                 Dlg.Visible = false;
                             }
                             else
                             {
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                AoWHSMap.ShowWarning(Reason);
                             }
 
                             break;
@@ -1012,7 +964,7 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:347
         public void MainBtn2Click()
         {
-            Aow.Rtl.AnsiString Reason = default;
+            AnsiString Reason = default;
             switch (FMode)
             {
                 case 1:
@@ -1029,7 +981,7 @@ namespace Aow.Units.AoWProdScreen
                                 }
                                 else
                                 {
-                                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                    AoWHSMap.ShowWarning(Reason);
                                 }
                             }
                             else
@@ -1041,7 +993,7 @@ namespace Aow.Units.AoWProdScreen
                                 }
                                 else
                                 {
-                                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                    AoWHSMap.ShowWarning(Reason);
                                 }
                             }
 
@@ -1054,7 +1006,7 @@ namespace Aow.Units.AoWProdScreen
                             }
                             else
                             {
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                AoWHSMap.ShowWarning(Reason);
                             }
 
                             break;
@@ -1071,7 +1023,7 @@ namespace Aow.Units.AoWProdScreen
                         }
                         else
                         {
-                            Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                            AoWHSMap.ShowWarning(Reason);
                         }
                     }
 
@@ -1082,7 +1034,7 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:383
         public void MainBtn3Click()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FMode == 0)
             {
                 Dlg.Visible = false;
@@ -1094,15 +1046,15 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:389
-        public void UFaceDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void UFaceDraw(TObject Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TUnit U = default;
-            Aow.Rtl.TRect R = default;
+            TUnit U = default;
+            TRect R = default;
             var call__138 = FPlace.FProductionControl.CreateUnitProduction(FProductionIndex);
             U = call__138;
             if (U != null)
             {
-                var call__139 = Aow.Rtl.Rtl.Rect((UPictureFramePnl.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft) + 2, (UPictureFramePnl.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop) + 2, ((UPictureFramePnl.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinWidth) - 4, ((UPictureFramePnl.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinHeight) - 2);
+                var call__139 = Rect(UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + 2, UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 4, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
                 R = call__139;
                 U.ShowFace(R, SD);
                 U.Release();
@@ -1110,10 +1062,10 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:406
-        public void QueueLBChange(Aow.Rtl.TObject Sender)
+        public void QueueLBChange(TObject Sender)
         {
             var call__140 = FPlace.FProductionControl.FQueue.GetCount();
-            if ((QueueLB.Selected < call__140) && (FMode != 0))
+            if (QueueLB.Selected < call__140 && FMode != 0)
             {
                 if (QueueLB.Selected != -1)
                 {
@@ -1132,12 +1084,12 @@ namespace Aow.Units.AoWProdScreen
                     SetMode(2);
                     QueueLB.Selected = FQueueIndex;
                     MainBtn1.Visible = true;
-                    var call__143 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeleteRStr);
+                    var call__143 = TranslateRStr(DeleteRStr);
                     MainBtn1.Text = call__143;
-                    if ((FQueueIndex == 0) && (FPlace.FProductionControl.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsWaiting))
+                    if (FQueueIndex == 0 && FPlace.FProductionControl.FStatus == TProductionControlStatus.pcsWaiting)
                     {
                         MainBtn2.Visible = true;
-                        var call__144 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ExecuteRStr);
+                        var call__144 = TranslateRStr(ExecuteRStr);
                         MainBtn2.Text = call__144;
                     }
                     else
@@ -1168,12 +1120,12 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:439
-        public void B4CBUpdate(Aow.Rtl.TObject Sender)
+        public void B4CBUpdate(TObject Sender)
         {
-            if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag <= 3)
+            if (((TAOWCheckBox)Sender).Tag <= 3)
             {
-                var call__145 = FPlace.FProductionControl.FUnitProductions.GetItem(((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Tag);
-                ((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).CaptureInput = call__145 != null;
+                var call__145 = FPlace.FProductionControl.FUnitProductions.GetItem(((TAOWCheckBox)Sender).Tag);
+                ((TAOWCheckBox)Sender).CaptureInput = call__145 != null;
             }
         }
 
@@ -1184,25 +1136,25 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:450
-        public void CurrentActionImageDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void CurrentActionImageDraw(TObject Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TP2UnitShowInfo Info = default;
-            Aow.Rtl.TRect R = default;
-            Aow.Units.AoWE.TUnit U = default;
+            TP2UnitShowInfo Info = default;
+            TRect R = default;
+            TUnit U = default;
             var call__146 = FPlace.FProductionControl.FQueue.GetCount();
             if (call__146 != 0)
             {
                 var call__147 = FPlace.FProductionControl.FQueue.GetItem(0);
-                bool bool__148 = (call__147.FProductionID == 1);
+                bool bool__148 = call__147.FProductionID == 1;
                 if (!bool__148)
                 {
                     var call__149 = FPlace.FProductionControl.FQueue.GetItem(0);
-                    bool__148 = (call__149.FProductionID == 2);
+                    bool__148 = call__149.FProductionID == 2;
                 }
 
                 if (bool__148)
                 {
-                    var call__150 = Aow.Rtl.Rtl.Rect(ActiveActionPnl.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop, (ActiveActionPnl.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinWidth, (ActiveActionPnl.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinHeight);
+                    var call__150 = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
                     R = call__150;
                     var productionPlaceControl = FPlace.FProductionControl;
                     var call__152 = productionPlaceControl.FUnitProductions.GetItem(productionPlaceControl.FSettings.FUnitProductionIndex);
@@ -1213,8 +1165,8 @@ namespace Aow.Units.AoWProdScreen
                         if (U != null)
                         {
                             Info.Direction = 3;
-                            Info.Overlays = TSet<Aow.Units.AoWE.TUnitOverlayModesElement>.Of();
-                            Info.Animation = (Aow.Units.AoWE.TUnitAnimation)0;
+                            Info.Overlays = TSet<TUnitOverlayModesElement>.Of();
+                            Info.Animation = 0;
                             Info.Frame = 0;
                             Info.Looped = false;
                             U.ShowEx(R.Left - 12, R.Top - 5, SD, Info);
@@ -1226,32 +1178,32 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:483
-        public void MapViewDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void MapViewDraw(TObject Sender, TSurfaceDesc SD)
         {
-            Aow.Units.GFXE.TSurfaceDesc ViewSD = default;
-            Aow.Rtl.TRect R = default;
+            TSurfaceDesc ViewSD = default;
+            TRect R = default;
             int W = default;
             int H = default;
             int Width = default;
             if (FPreview != null)
             {
-                var call__154 = Aow.Rtl.Rtl.Rect(Dlg.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop, (Dlg.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinWidth, (Dlg.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinHeight);
+                var call__154 = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
                 R = call__154;
                 Width = R.Right - R.Left;
                 W = Width;
                 H = R.Bottom - R.Top;
                 var call__155 = FPreview.GetMaxXhp();
-                if (((FViewX + W) + 16) > call__155)
+                if (FViewX + W + 16 > call__155)
                 {
                     var call__156 = FPreview.GetMaxXhp();
-                    FViewX = (call__156 - W) - 16;
+                    FViewX = call__156 - W - 16;
                 }
 
                 var call__157 = FPreview.GetMaxYhp();
-                if (((FViewY + H) + 16) > call__157)
+                if (FViewY + H + 16 > call__157)
                 {
                     var call__158 = FPreview.GetMaxYhp();
-                    FViewY = (call__158 - H) - 16;
+                    FViewY = call__158 - H - 16;
                 }
 
                 if (FViewX < 16)
@@ -1264,7 +1216,7 @@ namespace Aow.Units.AoWProdScreen
                     FViewY = 16;
                 }
 
-                Aow.Units.GFXE.GFXE.CreateSDfromSD(SD, R, ref ViewSD);
+                CreateSDfromSD(SD, R, ref ViewSD);
                 FPreview.SetExplorationEnabled(false);
                 FPreview.SetFogEnabled(false);
                 FPreview.SetViewPort(FViewX, FViewY, 0, Width, R.Bottom - R.Top);
@@ -1276,7 +1228,7 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:510
-        public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             switch (Key)
             {
@@ -1305,14 +1257,14 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:521
         public void MapViewUpdate()
         {
-            Aow.Units.AoWTC.TAoWCombatMap Preview = default;
+            TAoWCombatMap Preview = default;
             Preview = FPreview;
             if (Preview != null)
             {
                 Preview.NewFrame();
             }
 
-            MapView.FDrawn = MapView.FDrawn && ((Aow.Units.AoWE.AoWE.AoWHSMap.Frame & 1) != 0);
+            MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Frame & 1) != 0;
         }
 
         // AoWProdScreen.pas:530
@@ -1322,18 +1274,18 @@ namespace Aow.Units.AoWProdScreen
         }
 
         // AoWProdScreen.pas:535
-        public void UAbilitiesLBMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void UAbilitiesLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            Aow.Units.AoWE.TAbility A = default;
-            if ((Button == Aow.Rtl.TMouseButton.mbRight) && (UAbilitiesLB.Selected > -1))
+            TAbility A = default;
+            if (Button == TMouseButton.mbRight && UAbilitiesLB.Selected > -1)
             {
                 var call__159 = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
-                var call__160 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__159));
+                var call__160 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__159));
                 A = call__160;
                 if (A != null)
                 {
                     var call__161 = A.GetName(null);
-                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__161, A.FDescription);
+                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, call__161, A.FDescription);
                 }
             }
         }
@@ -1343,34 +1295,34 @@ namespace Aow.Units.AoWProdScreen
         {
             int Start = default;
             int Index = default;
-            Aow.Units.AoWE.TPlayerStructure S = default;
-            var call__162 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            TPlayerStructure S = default;
+            var call__162 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             var call__163 = call__162.FStructures.FindChildIndex(FPlace);
             Start = call__163;
             Index = Start;
             Index -= 1;
             if (Index < 0)
             {
-                var call__164 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__164 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 var call__165 = call__164.FStructures.GetCount();
                 Index = call__165 - 1;
             }
 
             while (Index != Start)
             {
-                var call__166 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__166 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 var call__167 = call__166.FStructures.GetStructure(Index);
                 S = call__167;
-                if ((S is Aow.Units.PrdPlace.TProductionPlace) && (((Aow.Units.PrdPlace.TProductionPlace)S).GetMagicSphere() == Aow.Units.AoWE.TMagicSphere.msNone))
+                if (S is TProductionPlace && ((TProductionPlace)S).GetMagicSphere() == TMagicSphere.msNone)
                 {
                     Index = Start + 1;
-                    ShowPlace((Aow.Units.PrdPlace.TProductionPlace)S);
+                    ShowPlace((TProductionPlace)S);
                 }
 
                 Index += -1;
                 if (Index < 0)
                 {
-                    var call__168 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    var call__168 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                     var call__169 = call__168.FStructures.GetCount();
                     Index = call__169 - 1;
                 }
@@ -1382,12 +1334,12 @@ namespace Aow.Units.AoWProdScreen
         {
             int Start = default;
             int Index = default;
-            Aow.Units.AoWE.TPlayerStructure S = default;
-            var call__170 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            TPlayerStructure S = default;
+            var call__170 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             var call__171 = call__170.FStructures.FindChildIndex(FPlace);
             Start = call__171;
             Index = Start + 1;
-            var call__172 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__172 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             var call__173 = call__172.FStructures.GetCount();
             if (Index >= call__173)
             {
@@ -1396,17 +1348,17 @@ namespace Aow.Units.AoWProdScreen
 
             while (Index != Start)
             {
-                var call__174 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__174 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 var call__175 = call__174.FStructures.GetStructure(Index);
                 S = call__175;
-                if ((S is Aow.Units.PrdPlace.TProductionPlace) && (((Aow.Units.PrdPlace.TProductionPlace)S).GetMagicSphere() == Aow.Units.AoWE.TMagicSphere.msNone))
+                if (S is TProductionPlace && ((TProductionPlace)S).GetMagicSphere() == TMagicSphere.msNone)
                 {
                     Index = Start - 1;
-                    ShowPlace((Aow.Units.PrdPlace.TProductionPlace)S);
+                    ShowPlace((TProductionPlace)S);
                 }
 
                 Index += 1;
-                var call__176 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__176 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 var call__177 = call__176.FStructures.GetCount();
                 if (Index >= call__177)
                 {
@@ -1418,29 +1370,29 @@ namespace Aow.Units.AoWProdScreen
 
     public static partial class AoWProdScreen
     {
-        public static Aow.Units.AoWProdScreen.TProductionScreen ProductionScreen;
+        public static TProductionScreen ProductionScreen;
         // AoWProdScreen.pas:819
-        public static int SphereImage(Aow.Units.AoWE.TMagicSphere Sphere)
+        public static int SphereImage(TMagicSphere Sphere)
         {
             int Result = default;
             switch (Sphere)
             {
-                case (Aow.Units.AoWE.TMagicSphere)1:
+                case (TMagicSphere)1:
                     Result = 27;
                     break;
-                case (Aow.Units.AoWE.TMagicSphere)5:
+                case (TMagicSphere)5:
                     Result = 42;
                     break;
-                case (Aow.Units.AoWE.TMagicSphere)3:
+                case (TMagicSphere)3:
                     Result = 33;
                     break;
-                case (Aow.Units.AoWE.TMagicSphere)4:
+                case (TMagicSphere)4:
                     Result = 36;
                     break;
-                case (Aow.Units.AoWE.TMagicSphere)6:
+                case (TMagicSphere)6:
                     Result = 39;
                     break;
-                case (Aow.Units.AoWE.TMagicSphere)2:
+                case (TMagicSphere)2:
                     Result = 30;
                     break;
                 default:

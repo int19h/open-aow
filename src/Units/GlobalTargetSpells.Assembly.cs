@@ -16,7 +16,7 @@ public partial class TFreezeWater
     {
         if (!base.ValidTargetSelectionMapF(field)) return false;
         sbyte terrain = field.FTerrainType;
-        if ((terrain != 0 && terrain != 10) || field.FindNoneTransparentHS(typeof(TStructure)) != null) return false;
+        if (terrain != 0 && terrain != 10 || field.FindNoneTransparentHS(typeof(TStructure)) != null) return false;
         var army = ((TAoWMapField)field).GetArmyHS();
         return army == null || !army.VisibleForSeatedPlayer();
     }

@@ -15,10 +15,10 @@ public partial class TAbstractUnit
             var owner = GetAbilityOwner(i);
             var ability = AoWE.AoWHSSet.FAbilityControl.GetAbility(i);
             var name = ability.GetName(owner);
-            if (name != "") names.AddObject(name, Aow.Rtl.Rtl.IntToObject(i));
-            types?.AddObject(AoWE.TranslateRStr(AoWE.TAbilityTypeRStr[(int)ability.GetAbilityType()]), Aow.Rtl.Rtl.IntToObject(i));
+            if (name != "") names.AddObject(name, Rtl.Rtl.IntToObject(i));
+            types?.AddObject(AoWE.TranslateRStr(AoWE.TAbilityTypeRStr[(int)ability.GetAbilityType()]), Rtl.Rtl.IntToObject(i));
             var source = ability.GetSourceName(owner);
-            sources?.AddObject(source, Aow.Rtl.Rtl.IntToObject(i));
+            sources?.AddObject(source, Rtl.Rtl.IntToObject(i));
         }
     }
 }

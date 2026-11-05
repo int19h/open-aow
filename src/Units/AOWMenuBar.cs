@@ -1,30 +1,12 @@
 // Translated from AOWMenuBar.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 
 namespace Aow.Units.AOWMenuBar
 {
@@ -34,23 +16,23 @@ namespace Aow.Units.AOWMenuBar
     // Fields: FItems, FSelected (-1 for none), FILButton, FLastSelected, FILIndexUp, FILIndexDown,
     // FMenus (the TAOWMenu objects whose OwnerMenuBar is this bar), F130 (only cleared and tested:
     // a click on the item last selected then does nothing)
-    public partial class TAOWMenuBar : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWMenuBar : TAOWControl
     {
-        public Aow.Rtl.TStringList FItems;
+        public TStringList FItems;
         public int FSelected;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILButton;
+        public TInterfaceIL FILButton;
         public int FLastSelected;
         public int FILIndexUp;
         public int FILIndexDown;
-        public Aow.Rtl.TList FMenus;
+        public TList FMenus;
         public bool F130;
         // AOWMenuBar.pas:65
         public TAOWMenuBar(TComponent owner) : base(owner)
         {
-            var call__1 = new Aow.Rtl.TStringList();
+            var call__1 = new TStringList();
             FItems = call__1;
             FItems.OnChange = OnChangeText;
-            var call__2 = new Aow.Rtl.TList();
+            var call__2 = new TList();
             FMenus = call__2;
             FSelected = -1;
         }
@@ -59,14 +41,14 @@ namespace Aow.Units.AOWMenuBar
         public override void Destroy()
         {
             int I = default;
-            Aow.Units.AoWWinControl.TAOWWindowControl M = default;
+            TAOWWindowControl M = default;
             {
                 I = 0;
                 int end__3 = FMenus.Count - 1;
                 for (; I <= end__3; I += 1)
                 {
                     var call__4 = FMenus[I];
-                    M = (Aow.Units.AoWWinControl.TAOWWindowControl)call__4;
+                    M = (TAOWWindowControl)call__4;
                     M.DetachMenuBar();
                 }
             }
@@ -107,7 +89,7 @@ namespace Aow.Units.AOWMenuBar
             var call__7 = FILButton[FILIndexUp];
             var call__8 = FILButton[FILIndexUp + 2];
             var call__9 = FItems.Count;
-            if (((call__7.Width + call__8.Width) * call__9) > FWinWidth)
+            if ((call__7.Width + call__8.Width) * call__9 > FWinWidth)
             {
                 var call__10 = FILButton[FILIndexUp];
                 var call__11 = FILButton[FILIndexUp + 2];
@@ -123,7 +105,7 @@ namespace Aow.Units.AOWMenuBar
                 for (; I <= end__14; I += 1)
                 {
                     var call__15 = FMenus[I];
-                    ((Aow.Units.AoWComp.TAoWComponent)call__15).FAligned = false;
+                    ((TAoWComponent)call__15).FAligned = false;
                 }
             }
 
@@ -140,7 +122,7 @@ namespace Aow.Units.AOWMenuBar
                 for (; I <= end__16; I += 1)
                 {
                     var call__17 = FMenus[I];
-                    ((Aow.Units.AoWComp.TAoWComponent)call__17).FAligned = false;
+                    ((TAoWComponent)call__17).FAligned = false;
                 }
             }
 
@@ -150,10 +132,10 @@ namespace Aow.Units.AOWMenuBar
         // AOWMenuBar.pas:160
         // { Draw: the items side by side, each in an equal share of the width; the selected one with the up
 //   image and the text one pixel lower }
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             int I = default;
-            Aow.Rtl.TRect OldClip = default;
+            TRect OldClip = default;
             try
             {
                 if (FValid && FVisible)
@@ -173,28 +155,28 @@ namespace Aow.Units.AOWMenuBar
                             {
                                 var call__19 = FItems.Count;
                                 var call__20 = FItems.Count;
-                                var call__21 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__20), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__19, FWinHeight);
+                                var call__21 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__20, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__19, FWinHeight);
                                 FILButton.DrawILLh(FILIndexDown, call__21, ref SurfDesc);
                                 if (FAOWFont != null)
                                 {
                                     FAOWFont.Color = FSelColor;
                                     var call__22 = FItems[I];
                                     var call__23 = FItems.Count;
-                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__23)) + FBorderWidth, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, call__22, SurfDesc);
+                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__23 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, call__22, SurfDesc);
                                 }
                             }
                             else
                             {
                                 var call__24 = FItems.Count;
                                 var call__25 = FItems.Count;
-                                var call__26 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__25), FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
+                                var call__26 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__25, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
                                 FILButton.DrawILLh(FILIndexUp, call__26, ref SurfDesc);
                                 if (FAOWFont != null)
                                 {
                                     FAOWFont.Color = FColor;
                                     var call__27 = FItems[I];
                                     var call__28 = FItems.Count;
-                                    FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + ((FWinWidth * I) / call__28)) + FBorderWidth, ((FAOWWindow.FWinTop + FWinTop) + FBorderHeight) + 1, call__27, SurfDesc);
+                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__28 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight + 1, call__27, SurfDesc);
                                 }
                             }
                         }
@@ -208,26 +190,26 @@ namespace Aow.Units.AOWMenuBar
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AOWMenuBar.pas:206
         // { CheckMouseDown: a left click on an item selects it and shows its menus, or closes it when it
 //   was selected; a click outside the bar closes the selected item }
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 FRedraw = true;
-                if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                if (Button == TMouseButton.mbLeft)
                 {
                     var call__29 = FItems.Count;
-                    I = ((X - FAOWWindow.FWinLeft) - FWinLeft) / (FWinWidth / call__29);
+                    I = (X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / call__29);
                     if (I == FSelected)
                     {
                         FSelected = -1;
@@ -240,7 +222,7 @@ namespace Aow.Units.AOWMenuBar
                     }
                     else
                     {
-                        if (!F130 || ((I > -1) && (I != FLastSelected)))
+                        if (!F130 || I > -1 && I != FLastSelected)
                         {
                             FSelected = I;
                             FLastSelected = I;
@@ -249,7 +231,7 @@ namespace Aow.Units.AOWMenuBar
                                 int end__30 = FMenus.Count - 1;
                                 for (; I <= end__30; I += 1)
                                 {
-                                    var component = (Aow.Units.AoWComp.TAoWComponent)FMenus[I];
+                                    var component = (TAoWComponent)FMenus[I];
                                     if (component.FOwnerItem == this.FSelected)
                                     {
                                         component.SetVisible(true);
@@ -285,10 +267,10 @@ namespace Aow.Units.AOWMenuBar
         }
 
         // AOWMenuBar.pas:251
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight))) && (FValid == true)) && (FVisible == true))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -299,11 +281,11 @@ namespace Aow.Units.AOWMenuBar
         }
 
         // AOWMenuBar.pas:264
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
-            if ((((X >= (FAOWWindow.FWinLeft + FWinLeft)) && (X <= (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - 1))) && (Y >= (FAOWWindow.FWinTop + FWinTop))) && (Y <= (((FAOWWindow.FWinTop + FWinTop) + FWinHeight) - 1)))
+            if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
             {
                 FHandled = true;
                 if (FOnMouseMove != null)
@@ -320,7 +302,7 @@ namespace Aow.Units.AOWMenuBar
         }
 
         // AOWMenuBar.pas:89
-        public virtual void SetILButton(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILButton(TInterfaceIL Value)
         {
             if (Value != FILButton)
             {
@@ -350,7 +332,7 @@ namespace Aow.Units.AOWMenuBar
         }
 
         // AOWMenuBar.pas:149
-        public void SetFStrings(Aow.Rtl.TStringList Value)
+        public void SetFStrings(TStringList Value)
         {
             int I = default;
             FItems.Clear();
@@ -366,10 +348,10 @@ namespace Aow.Units.AOWMenuBar
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+        public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
         [Published]
-        public Aow.Rtl.TStringList Items { get => FItems; set => SetFStrings(value); }
+        public TStringList Items { get => FItems; set => SetFStrings(value); }
 
         [Published]
         public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -381,7 +363,7 @@ namespace Aow.Units.AOWMenuBar
         public int Selected { get => FSelected; set => FSelected = value; }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
+        public TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
 
         [Published]
         public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
@@ -395,7 +377,7 @@ namespace Aow.Units.AOWMenuBar
         // AOWMenuBar.pas:282
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AOWMenuBar.TAOWMenuBar)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWMenuBar)]);
         }
     }
 }

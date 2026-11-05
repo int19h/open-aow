@@ -1,250 +1,205 @@
 // Translated from AoWLeaderSetup.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
 using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWComboBox;
-using static Aow.Units.AoWComboBox.AoWComboBox;
 using Aow.Units.AoWEdit;
-using static Aow.Units.AoWEdit.AoWEdit;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWListBox.AoWListBox;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.aowSetupEvents;
 using static Aow.Units.aowSetupEvents.aowSetupEvents;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.E2Globals;
 using static Aow.Units.E2Globals.E2Globals;
 
 namespace Aow.Units.AoWLeaderSetup
 {
     // setup control, phase, fixed spheres, working leader, selected sort, available sort
-    public partial class TLeaderSetupWin : Aow.Rtl.TDataModule
+    public partial class TLeaderSetupWin : TDataModule
     {
         public TLeaderSetupWin(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWListBox.TAOWListBox SelectedAbilities;
-        public Aow.Units.AoWPanel.TAOWPanel Phase2Pnl;
-        public Aow.Units.AoWPanel.TAOWPanel LMainPnl;
-        public Aow.Units.AoWButton.TAOWButton NextBtn;
-        public Aow.Units.AoWButton.TAOWButton DefaultBtn;
-        public Aow.Units.AoWButton.TAOWButton ClearBtn;
-        public Aow.Units.AoWButton.TAOWButton PrevBtn;
-        public Aow.Units.AoWPanel.TAOWPanel EditStatisticsPnl;
-        public Aow.Units.AoWListBox.TAOWListBox AvailableAbilities;
-        public Aow.Units.AoWLabel.TAOWLabel AttValue;
-        public Aow.Units.AoWLabel.TAOWLabel AttLbl;
-        public Aow.Units.AoWPanel.TAOWPanel AttPnl;
-        public Aow.Units.AoWLabel.TAOWLabel DamValue;
-        public Aow.Units.AoWLabel.TAOWLabel DamLbl;
-        public Aow.Units.AoWPanel.TAOWPanel DamPnl;
-        public Aow.Units.AoWLabel.TAOWLabel DefValue;
-        public Aow.Units.AoWLabel.TAOWLabel DefLbl;
-        public Aow.Units.AoWPanel.TAOWPanel DefPnl;
-        public Aow.Units.AoWLabel.TAOWLabel ResValue;
-        public Aow.Units.AoWLabel.TAOWLabel ResLbl;
-        public Aow.Units.AoWPanel.TAOWPanel ResPnl;
-        public Aow.Units.AoWLabel.TAOWLabel HitValue;
-        public Aow.Units.AoWLabel.TAOWLabel HitLbl;
-        public Aow.Units.AoWPanel.TAOWPanel HitPnl;
-        public Aow.Units.AoWLabel.TAOWLabel MovValue;
-        public Aow.Units.AoWLabel.TAOWLabel MovLbl;
-        public Aow.Units.AoWPanel.TAOWPanel MovPnl;
-        public Aow.Units.AoWLabel.TAOWLabel AttI;
-        public Aow.Units.AoWLabel.TAOWLabel DamI;
-        public Aow.Units.AoWLabel.TAOWLabel DefI;
-        public Aow.Units.AoWLabel.TAOWLabel ResI;
-        public Aow.Units.AoWLabel.TAOWLabel HitI;
-        public Aow.Units.AoWLabel.TAOWLabel MovI;
-        public Aow.Units.AoWLabel.TAOWLabel AttA;
-        public Aow.Units.AoWLabel.TAOWLabel DamA;
-        public Aow.Units.AoWLabel.TAOWLabel DefA;
-        public Aow.Units.AoWLabel.TAOWLabel ResA;
-        public Aow.Units.AoWLabel.TAOWLabel HitA;
-        public Aow.Units.AoWLabel.TAOWLabel MovA;
-        public Aow.Units.AoWLabel.TAOWLabel AttP;
-        public Aow.Units.AoWLabel.TAOWLabel DamP;
-        public Aow.Units.AoWLabel.TAOWLabel DefP;
-        public Aow.Units.AoWLabel.TAOWLabel ResP;
-        public Aow.Units.AoWLabel.TAOWLabel HitP;
-        public Aow.Units.AoWLabel.TAOWLabel MovP;
-        public Aow.Units.AoWLabel.TAOWLabel AttB;
-        public Aow.Units.AoWLabel.TAOWLabel DamB;
-        public Aow.Units.AoWLabel.TAOWLabel DefB;
-        public Aow.Units.AoWLabel.TAOWLabel ResB;
-        public Aow.Units.AoWLabel.TAOWLabel HitB;
-        public Aow.Units.AoWLabel.TAOWLabel MovB;
-        public Aow.Units.AoWLabel.TAOWLabel SkillPointsLbl;
-        public Aow.Units.AoWImage.TAOWImage UAttIcn;
-        public Aow.Units.AoWImage.TAOWImage UDefIcn;
-        public Aow.Units.AoWImage.TAOWImage UMovIcn;
-        public Aow.Units.AoWImage.TAOWImage UDamIcn;
-        public Aow.Units.AoWImage.TAOWImage UResIcn;
-        public Aow.Units.AoWImage.TAOWImage UHitIcn;
-        public Aow.Units.AoWLabel.TAOWLabel UAttack;
-        public Aow.Units.AoWLabel.TAOWLabel UDefense;
-        public Aow.Units.AoWLabel.TAOWLabel UMoves;
-        public Aow.Units.AoWLabel.TAOWLabel UDamage;
-        public Aow.Units.AoWLabel.TAOWLabel UResistance;
-        public Aow.Units.AoWLabel.TAOWLabel UHits;
-        public Aow.Units.AoWPanel.TAOWPanel StatPnl;
-        public Aow.Units.AoWListBox.TAOWListBox UAbilities;
-        public Aow.Units.AoWPanel.TAOWPanel AbilityPnl;
-        public Aow.Units.AoWPanel.TAOWPanel UStatP1;
-        public Aow.Units.AoWPanel.TAOWPanel UStatP2;
-        public Aow.Units.AoWLabel.TAOWLabel LeaderName;
-        public Aow.Units.AoWImage.TAOWImage ShieldL;
-        public Aow.Units.AoWImage.TAOWImage ShieldR;
-        public Aow.Units.AoWPanel.TAOWPanel ButtonPnl;
-        public Aow.Units.AoWPanel.TAOWPanel LeftPnl;
-        public Aow.Units.AoWPanel.TAOWPanel RightPnl;
-        public Aow.Units.AoWLabel.TAOWLabel LeaderStatsLbl;
-        public Aow.Units.AoWLabel.TAOWLabel LeaderAbilLbl;
-        public Aow.Units.AoWLabel.TAOWLabel FullAbilLbl;
-        public Aow.Units.AoWButton.TAOWButton RemoveAbility;
-        public Aow.Units.AoWButton.TAOWButton AddAbility;
-        public Aow.Units.AoWImage.TAOWImage MainFace;
-        public Aow.Units.AoWPanel.TAOWPanel Phase1Pnl;
-        public Aow.Units.AoWImage.TAOWImage Face4;
-        public Aow.Units.AoWImage.TAOWImage Face5;
-        public Aow.Units.AoWImage.TAOWImage Face6;
-        public Aow.Units.AoWImage.TAOWImage Face7;
-        public Aow.Units.AoWImage.TAOWImage Face3;
-        public Aow.Units.AoWImage.TAOWImage Face2;
-        public Aow.Units.AoWImage.TAOWImage Face1;
-        public Aow.Units.AoWEdit.TAOWEdit NameEdit;
-        public Aow.Units.AoWLabel.TAOWLabel NameLbl;
-        public Aow.Units.AoWLabel.TAOWLabel FaceLbl;
-        public Aow.Units.AoWLabel.TAOWLabel RaceLbl;
-        public Aow.Units.AoWLabel.TAOWLabel Phase1Header;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar UAbilSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar AvailableAbilitiesLB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar SelectedAbilitiesLB;
-        public Aow.Units.AoWPanel.TAOWPanel Phase3Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel SpheresLbl;
-        public Aow.Units.AoWButton.TAOWButton SelDeath;
-        public Aow.Units.AoWPanel.TAOWPanel SpherePnl;
-        public Aow.Units.AoWButton.TAOWButton SelLife;
-        public Aow.Units.AoWButton.TAOWButton SelFire;
-        public Aow.Units.AoWButton.TAOWButton SelEarth;
-        public Aow.Units.AoWButton.TAOWButton SelAir;
-        public Aow.Units.AoWButton.TAOWButton SelWater;
-        public Aow.Units.AoWLabel.TAOWLabel LifeLbl;
-        public Aow.Units.AoWButton.TAOWButton Sel4;
-        public Aow.Units.AoWPanel.TAOWPanel SphereSelectionPnl;
-        public Aow.Units.AoWButton.TAOWButton Sel3;
-        public Aow.Units.AoWButton.TAOWButton Sel2;
-        public Aow.Units.AoWButton.TAOWButton Sel1;
-        public Aow.Units.AoWButton.TAOWButton Sel5;
-        public Aow.Units.AoWButton.TAOWButton Sel6;
-        public Aow.Units.AoWButton.TAOWButton Sel7;
-        public Aow.Units.AoWLabel.TAOWLabel DeathLbl;
-        public Aow.Units.AoWLabel.TAOWLabel EarthLbl;
-        public Aow.Units.AoWLabel.TAOWLabel WaterLbl;
-        public Aow.Units.AoWLabel.TAOWLabel FireLbl;
-        public Aow.Units.AoWLabel.TAOWLabel AirLbl;
-        public Aow.Units.AoWLabel.TAOWLabel SelectedSpheresLbl;
-        public Aow.Units.AoWButton.TAOWButton FaceNextBtn;
-        public Aow.Units.AoWButton.TAOWButton FacePrevBtn;
-        public Aow.Units.AoWLabel.TAOWLabel LeaderLbl;
-        public Aow.Units.AoWLabel.TAOWLabel SideNameLbl;
-        public Aow.Units.AoWListBox.TAOWListBox SelectedAbilitiesCost;
-        public Aow.Units.AoWListBox.TAOWListBox AvailableAbilitiesCost;
-        public Aow.Units.AoWButton.TAOWButton AttUp;
-        public Aow.Units.AoWButton.TAOWButton AttDn;
-        public Aow.Units.AoWButton.TAOWButton DamUp;
-        public Aow.Units.AoWButton.TAOWButton DamDn;
-        public Aow.Units.AoWButton.TAOWButton DefUp;
-        public Aow.Units.AoWButton.TAOWButton DefDn;
-        public Aow.Units.AoWButton.TAOWButton ResUp;
-        public Aow.Units.AoWButton.TAOWButton ResDn;
-        public Aow.Units.AoWButton.TAOWButton HitUp;
-        public Aow.Units.AoWButton.TAOWButton HitDn;
-        public Aow.Units.AoWButton.TAOWButton MovUp;
-        public Aow.Units.AoWButton.TAOWButton MovDn;
-        public Aow.Units.AoWImage.TAOWImage AttIc;
-        public Aow.Units.AoWImage.TAOWImage DamIcn;
-        public Aow.Units.AoWImage.TAOWImage DefIc;
-        public Aow.Units.AoWImage.TAOWImage ResIc;
-        public Aow.Units.AoWImage.TAOWImage HitIc;
-        public Aow.Units.AoWImage.TAOWImage MovIc;
-        public Aow.Units.AoWButton.TAOWButton SBase;
-        public Aow.Units.AoWButton.TAOWButton SExtra;
-        public Aow.Units.AoWButton.TAOWButton SFinal;
-        public Aow.Units.AoWButton.TAOWButton SelectedAbilitiesSort;
-        public Aow.Units.AoWButton.TAOWButton SelectedAbilitiesCostSort;
-        public Aow.Units.AoWButton.TAOWButton AvailableAbilitiesSort;
-        public Aow.Units.AoWButton.TAOWButton AvailableAbilitiesCostSort;
-        public Aow.Units.AoWFrame.TAoWFrame MainFaceFr;
-        public Aow.Units.AoWFrame.TAoWFrame FFr1;
-        public Aow.Units.AoWFrame.TAoWFrame FFr7;
-        public Aow.Units.AoWFrame.TAoWFrame FFr2;
-        public Aow.Units.AoWFrame.TAoWFrame FFr6;
-        public Aow.Units.AoWFrame.TAoWFrame FFr3;
-        public Aow.Units.AoWFrame.TAoWFrame FFr5;
-        public Aow.Units.AoWFrame.TAoWFrame FFr4;
-        public Aow.Units.AoWLabel.TAOWLabel Phase2Header;
-        public Aow.Units.AoWLabel.TAOWLabel Phase3Header;
-        public Aow.Units.AoWPanel.TAOWPanel LeaderPnl;
-        public Aow.Units.AoWComboBox.TAOWComboBox RaceCB;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.AoWE.TLeaderSetupControl FSetup;
+        public TAOWListBox SelectedAbilities;
+        public TAOWPanel Phase2Pnl;
+        public TAOWPanel LMainPnl;
+        public TAOWButton NextBtn;
+        public TAOWButton DefaultBtn;
+        public TAOWButton ClearBtn;
+        public TAOWButton PrevBtn;
+        public TAOWPanel EditStatisticsPnl;
+        public TAOWListBox AvailableAbilities;
+        public TAOWLabel AttValue;
+        public TAOWLabel AttLbl;
+        public TAOWPanel AttPnl;
+        public TAOWLabel DamValue;
+        public TAOWLabel DamLbl;
+        public TAOWPanel DamPnl;
+        public TAOWLabel DefValue;
+        public TAOWLabel DefLbl;
+        public TAOWPanel DefPnl;
+        public TAOWLabel ResValue;
+        public TAOWLabel ResLbl;
+        public TAOWPanel ResPnl;
+        public TAOWLabel HitValue;
+        public TAOWLabel HitLbl;
+        public TAOWPanel HitPnl;
+        public TAOWLabel MovValue;
+        public TAOWLabel MovLbl;
+        public TAOWPanel MovPnl;
+        public TAOWLabel AttI;
+        public TAOWLabel DamI;
+        public TAOWLabel DefI;
+        public TAOWLabel ResI;
+        public TAOWLabel HitI;
+        public TAOWLabel MovI;
+        public TAOWLabel AttA;
+        public TAOWLabel DamA;
+        public TAOWLabel DefA;
+        public TAOWLabel ResA;
+        public TAOWLabel HitA;
+        public TAOWLabel MovA;
+        public TAOWLabel AttP;
+        public TAOWLabel DamP;
+        public TAOWLabel DefP;
+        public TAOWLabel ResP;
+        public TAOWLabel HitP;
+        public TAOWLabel MovP;
+        public TAOWLabel AttB;
+        public TAOWLabel DamB;
+        public TAOWLabel DefB;
+        public TAOWLabel ResB;
+        public TAOWLabel HitB;
+        public TAOWLabel MovB;
+        public TAOWLabel SkillPointsLbl;
+        public TAOWImage UAttIcn;
+        public TAOWImage UDefIcn;
+        public TAOWImage UMovIcn;
+        public TAOWImage UDamIcn;
+        public TAOWImage UResIcn;
+        public TAOWImage UHitIcn;
+        public TAOWLabel UAttack;
+        public TAOWLabel UDefense;
+        public TAOWLabel UMoves;
+        public TAOWLabel UDamage;
+        public TAOWLabel UResistance;
+        public TAOWLabel UHits;
+        public TAOWPanel StatPnl;
+        public TAOWListBox UAbilities;
+        public TAOWPanel AbilityPnl;
+        public TAOWPanel UStatP1;
+        public TAOWPanel UStatP2;
+        public TAOWLabel LeaderName;
+        public TAOWImage ShieldL;
+        public TAOWImage ShieldR;
+        public TAOWPanel ButtonPnl;
+        public TAOWPanel LeftPnl;
+        public TAOWPanel RightPnl;
+        public TAOWLabel LeaderStatsLbl;
+        public TAOWLabel LeaderAbilLbl;
+        public TAOWLabel FullAbilLbl;
+        public TAOWButton RemoveAbility;
+        public TAOWButton AddAbility;
+        public TAOWImage MainFace;
+        public TAOWPanel Phase1Pnl;
+        public TAOWImage Face4;
+        public TAOWImage Face5;
+        public TAOWImage Face6;
+        public TAOWImage Face7;
+        public TAOWImage Face3;
+        public TAOWImage Face2;
+        public TAOWImage Face1;
+        public TAOWEdit NameEdit;
+        public TAOWLabel NameLbl;
+        public TAOWLabel FaceLbl;
+        public TAOWLabel RaceLbl;
+        public TAOWLabel Phase1Header;
+        public TAOWVScrollBar UAbilSB;
+        public TAOWVScrollBar AvailableAbilitiesLB;
+        public TAOWVScrollBar SelectedAbilitiesLB;
+        public TAOWPanel Phase3Pnl;
+        public TAOWLabel SpheresLbl;
+        public TAOWButton SelDeath;
+        public TAOWPanel SpherePnl;
+        public TAOWButton SelLife;
+        public TAOWButton SelFire;
+        public TAOWButton SelEarth;
+        public TAOWButton SelAir;
+        public TAOWButton SelWater;
+        public TAOWLabel LifeLbl;
+        public TAOWButton Sel4;
+        public TAOWPanel SphereSelectionPnl;
+        public TAOWButton Sel3;
+        public TAOWButton Sel2;
+        public TAOWButton Sel1;
+        public TAOWButton Sel5;
+        public TAOWButton Sel6;
+        public TAOWButton Sel7;
+        public TAOWLabel DeathLbl;
+        public TAOWLabel EarthLbl;
+        public TAOWLabel WaterLbl;
+        public TAOWLabel FireLbl;
+        public TAOWLabel AirLbl;
+        public TAOWLabel SelectedSpheresLbl;
+        public TAOWButton FaceNextBtn;
+        public TAOWButton FacePrevBtn;
+        public TAOWLabel LeaderLbl;
+        public TAOWLabel SideNameLbl;
+        public TAOWListBox SelectedAbilitiesCost;
+        public TAOWListBox AvailableAbilitiesCost;
+        public TAOWButton AttUp;
+        public TAOWButton AttDn;
+        public TAOWButton DamUp;
+        public TAOWButton DamDn;
+        public TAOWButton DefUp;
+        public TAOWButton DefDn;
+        public TAOWButton ResUp;
+        public TAOWButton ResDn;
+        public TAOWButton HitUp;
+        public TAOWButton HitDn;
+        public TAOWButton MovUp;
+        public TAOWButton MovDn;
+        public TAOWImage AttIc;
+        public TAOWImage DamIcn;
+        public TAOWImage DefIc;
+        public TAOWImage ResIc;
+        public TAOWImage HitIc;
+        public TAOWImage MovIc;
+        public TAOWButton SBase;
+        public TAOWButton SExtra;
+        public TAOWButton SFinal;
+        public TAOWButton SelectedAbilitiesSort;
+        public TAOWButton SelectedAbilitiesCostSort;
+        public TAOWButton AvailableAbilitiesSort;
+        public TAOWButton AvailableAbilitiesCostSort;
+        public TAoWFrame MainFaceFr;
+        public TAoWFrame FFr1;
+        public TAoWFrame FFr7;
+        public TAoWFrame FFr2;
+        public TAoWFrame FFr6;
+        public TAoWFrame FFr3;
+        public TAoWFrame FFr5;
+        public TAoWFrame FFr4;
+        public TAOWLabel Phase2Header;
+        public TAOWLabel Phase3Header;
+        public TAOWPanel LeaderPnl;
+        public TAOWComboBox RaceCB;
+        public TIvTranslator Translator;
+        public TLeaderSetupControl FSetup;
         public int FPhase;
         public int FFixedSpheres;
-        public Aow.Units.AoWE.TLeader FLeader;
+        public TLeader FLeader;
         public int FSelectedSort;
         public int FAvailableSort;
         // AoWLeaderSetup.pas:1050
-        public void Execute(Aow.Units.AoWE.TLeaderSetupControl Control)
+        public void Execute(TLeaderSetupControl Control)
         {
             int I = default;
             Reset();
@@ -257,9 +212,9 @@ namespace Aow.Units.AoWLeaderSetup
             FSetup.AddRef();
             FSelectedSort = 0;
             FAvailableSort = 0;
-            LeaderPnl.ILTexture = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleScreen;
+            LeaderPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleScreen;
             LeaderPnl.ILIndexTexture = 4;
-            RaceCB.Visible = (FSetup.FItems.Count != 0) && FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign);
+            RaceCB.Visible = FSetup.FItems.Count != 0 && FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign);
             RaceLbl.Visible = RaceCB.Visible;
             if (RaceCB.Visible)
             {
@@ -270,9 +225,9 @@ namespace Aow.Units.AoWLeaderSetup
                     for (; I <= end__1; I += 1)
                     {
                         var call__2 = FSetup.FItems[I];
-                        var call__3 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesRStr[call__2]);
+                        var call__3 = TranslateRStr(RaceNamesRStr[call__2]);
                         var call__4 = FSetup.FItems[I];
-                        RaceCB.Items.AddObject(call__3, Aow.Rtl.Rtl.IntToObject((int)call__4));
+                        RaceCB.Items.AddObject(call__3, IntToObject(call__4));
                     }
                 }
 
@@ -280,26 +235,26 @@ namespace Aow.Units.AoWLeaderSetup
                 RaceCB.Selected = call__5;
             }
 
-            var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
+            var call__6 = TranslateRStr(RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
             SideNameLbl.Text = call__6;
             ShieldL.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
             ShieldR.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
-            ShieldR.Visible = !FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign);
+            ShieldR.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign);
             LoadLeader();
             SaveLeader();
-            if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmLook))
+            if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmLook))
             {
                 SetPhase(1);
             }
             else
             {
-                if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSettings))
+                if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmSettings))
                 {
                     SetPhase(2);
                 }
                 else
                 {
-                    if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSpheres))
+                    if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmSpheres))
                     {
                         SetPhase(3);
                     }
@@ -312,13 +267,13 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:1083
         public void Finish()
         {
-            Aow.Units.AoWE.TLeaderSetupControl Control = default;
+            TLeaderSetupControl Control = default;
             SaveLeader();
             Control = FSetup;
-            Control.FStatus = Aow.Units.AoWE.TLeaderSetupStatus.lssDone;
+            Control.FStatus = TLeaderSetupStatus.lssDone;
             FSetup = null;
             LeaderPnl.Visible = false;
-            Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.UpdatePlayerName(Control.FOriginalLeader.FHeroName);
+            SetupEvents.UpdatePlayerName(Control.FOriginalLeader.FHeroName);
             Control.Done();
             Control.Release();
         }
@@ -326,10 +281,10 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:1097
         public void Cancel()
         {
-            Aow.Units.AoWE.TLeaderSetupControl Control = default;
+            TLeaderSetupControl Control = default;
             SaveLeader();
             Control = FSetup;
-            Control.FStatus = Aow.Units.AoWE.TLeaderSetupStatus.lssCanceled;
+            Control.FStatus = TLeaderSetupStatus.lssCanceled;
             FSetup = null;
             LeaderPnl.Visible = false;
             Control.Done();
@@ -339,31 +294,31 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:750
         public void LoadLeader()
         {
-            FLeader.Assign(FSetup.FOriginalLeader, Aow.Units.AoWE.AoWE.AoWEngine);
+            FLeader.Assign(FSetup.FOriginalLeader, AoWEngine);
         }
 
         // AoWLeaderSetup.pas:755
         public void SaveLeader()
         {
-            Aow.Units.AoWE.TLeader Leader = default;
-            FSetup.FOriginalLeader.Assign(FLeader, Aow.Units.AoWE.AoWE.AoWEngine);
+            TLeader Leader = default;
+            FSetup.FOriginalLeader.Assign(FLeader, AoWEngine);
             Leader = FSetup.FOriginalLeader;
             LeaderName.Text = Leader.FHeroName;
             var call__7 = Leader.GetInherentAttack();
-            UAttack.Text = Aow.Rtl.Rtl.IntToStr(call__7);
+            UAttack.Text = IntToStr(call__7);
             var call__8 = Leader.GetInherentDefense();
-            UDefense.Text = Aow.Rtl.Rtl.IntToStr(call__8);
+            UDefense.Text = IntToStr(call__8);
             var call__9 = Leader.GetInherentDamage();
-            UDamage.Text = Aow.Rtl.Rtl.IntToStr(call__9);
+            UDamage.Text = IntToStr(call__9);
             var call__10 = Leader.GetInherentResistance();
-            UResistance.Text = Aow.Rtl.Rtl.IntToStr(call__10);
+            UResistance.Text = IntToStr(call__10);
             var call__11 = Leader.GetHits();
-            UHits.Text = Aow.Rtl.Rtl.IntToStr(call__11);
+            UHits.Text = IntToStr(call__11);
             var call__12 = Leader.GetMoves();
-            UMoves.Text = Aow.Rtl.Rtl.IntToStr(call__12);
+            UMoves.Text = IntToStr(call__12);
             UAbilities.Items.Clear();
             Leader.ListAbilities(UAbilities.Items);
-            var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[Leader.FRace]);
+            var call__13 = TranslateRStr(RaceNamesPluralRStr[Leader.FRace]);
             SideNameLbl.Text = call__13;
             ShieldL.CurrentImage = Leader.FRace + 13;
             ShieldR.CurrentImage = Leader.FRace + 13;
@@ -373,40 +328,40 @@ namespace Aow.Units.AoWLeaderSetup
         public void UpdateSkillPoints()
         {
             var call__14 = FLeader.GetSkillPoints();
-            var call__15 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SkillPointsRStr);
+            var call__15 = TranslateRStr(SkillPointsRStr);
             var call__16 = FLeader.GetSkillPointsMax();
-            SkillPointsLbl.Text = (((call__15 + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(call__14)) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__16);
+            SkillPointsLbl.Text = call__15 + AnsiString.FromBytes(32) + IntToStr(call__14) + AnsiString.FromBytes(47) + IntToStr(call__16);
         }
 
         // AoWLeaderSetup.pas:781
         public void UpdateStatistics()
         {
-            Aow.Units.AoWE.THeroResource Res = default;
+            THeroResource Res = default;
             Res = FLeader.FHeroResource;
-            AttB.Text = Aow.Rtl.Rtl.IntToStr(Res.FAttack);
-            DefB.Text = Aow.Rtl.Rtl.IntToStr(Res.FDefense);
-            DamB.Text = Aow.Rtl.Rtl.IntToStr(Res.FDamage);
-            ResB.Text = Aow.Rtl.Rtl.IntToStr(Res.FResistance);
-            HitB.Text = Aow.Rtl.Rtl.IntToStr(Res.FHits);
-            MovB.Text = Aow.Rtl.Rtl.IntToStr(Res.FMoves);
-            AttA.Text = Aow.Rtl.Rtl.IntToStr(FLeader.FUnitAttack);
-            DefA.Text = Aow.Rtl.Rtl.IntToStr(FLeader.FUnitDefense);
-            DamA.Text = Aow.Rtl.Rtl.IntToStr(FLeader.FUnitDamage);
-            ResA.Text = Aow.Rtl.Rtl.IntToStr(FLeader.FUnitResistance);
-            HitA.Text = Aow.Rtl.Rtl.IntToStr(FLeader.FUnitHits);
-            MovA.Text = Aow.Rtl.Rtl.IntToStr(FLeader.FUnitMoves);
+            AttB.Text = IntToStr(Res.FAttack);
+            DefB.Text = IntToStr(Res.FDefense);
+            DamB.Text = IntToStr(Res.FDamage);
+            ResB.Text = IntToStr(Res.FResistance);
+            HitB.Text = IntToStr(Res.FHits);
+            MovB.Text = IntToStr(Res.FMoves);
+            AttA.Text = IntToStr(FLeader.FUnitAttack);
+            DefA.Text = IntToStr(FLeader.FUnitDefense);
+            DamA.Text = IntToStr(FLeader.FUnitDamage);
+            ResA.Text = IntToStr(FLeader.FUnitResistance);
+            HitA.Text = IntToStr(FLeader.FUnitHits);
+            MovA.Text = IntToStr(FLeader.FUnitMoves);
             var call__17 = FLeader.GetInherentAttack();
-            AttValue.Text = Aow.Rtl.Rtl.IntToStr(call__17);
+            AttValue.Text = IntToStr(call__17);
             var call__18 = FLeader.GetInherentDefense();
-            DefValue.Text = Aow.Rtl.Rtl.IntToStr(call__18);
+            DefValue.Text = IntToStr(call__18);
             var call__19 = FLeader.GetInherentDamage();
-            DamValue.Text = Aow.Rtl.Rtl.IntToStr(call__19);
+            DamValue.Text = IntToStr(call__19);
             var call__20 = FLeader.GetInherentResistance();
-            ResValue.Text = Aow.Rtl.Rtl.IntToStr(call__20);
+            ResValue.Text = IntToStr(call__20);
             var call__21 = FLeader.GetHits();
-            HitValue.Text = Aow.Rtl.Rtl.IntToStr(call__21);
+            HitValue.Text = IntToStr(call__21);
             var call__22 = FLeader.GetMoves();
-            MovValue.Text = Aow.Rtl.Rtl.IntToStr(call__22);
+            MovValue.Text = IntToStr(call__22);
             UpdateSkillPoints();
         }
 
@@ -424,16 +379,16 @@ namespace Aow.Units.AoWLeaderSetup
             switch (FSelectedSort)
             {
                 case 0:
-                    Aow.Units.Engine.Engine.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                    SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                     break;
                 case 1:
-                    Aow.Units.Engine.Engine.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                    SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                     break;
                 case 2:
-                    Aow.Units.Engine.Engine.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                    SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                     break;
                 case 3:
-                    Aow.Units.Engine.Engine.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                    SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                     break;
             }
         }
@@ -444,16 +399,16 @@ namespace Aow.Units.AoWLeaderSetup
             switch (FAvailableSort)
             {
                 case 0:
-                    Aow.Units.Engine.Engine.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                    SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                     break;
                 case 1:
-                    Aow.Units.Engine.Engine.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                    SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                     break;
                 case 2:
-                    Aow.Units.Engine.Engine.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                    SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                     break;
                 case 3:
-                    Aow.Units.Engine.Engine.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                    SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                     break;
             }
         }
@@ -462,36 +417,36 @@ namespace Aow.Units.AoWLeaderSetup
         public void UpdateAbilities()
         {
             int I = default;
-            Aow.Rtl.AnsiString Name = default;
-            Aow.Rtl.AnsiString Cost = default;
-            Aow.Units.AoWE.TAbility Ability = default;
+            AnsiString Name = default;
+            AnsiString Cost = default;
+            TAbility Ability = default;
             AvailableAbilities.Items.Clear();
             AvailableAbilitiesCost.Items.Clear();
             {
                 I = 0;
-                int end__23 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetCount() - 1;
+                int end__23 = AoWHSSet.FAbilityControl.GetCount() - 1;
                 for (; I <= end__23; I += 1)
                 {
-                    var call__24 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
-                    bool bool__25 = (call__24 != null);
+                    var call__24 = AoWHSSet.FAbilityControl.GetAbility(I);
+                    bool bool__25 = call__24 != null;
                     if (bool__25)
                     {
-                        var call__26 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
-                        bool__25 = ((call__26.FSelectionTypes & TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astCustomizeLeader, Aow.Units.AoWE.TAbilitySelectionType.astHeroUpgrade)) != TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of());
+                        var call__26 = AoWHSSet.FAbilityControl.GetAbility(I);
+                        bool__25 = (call__26.FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of();
                     }
 
                     if (bool__25)
                     {
-                        var call__27 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
+                        var call__27 = AoWHSSet.FAbilityControl.GetAbility(I);
                         var call__28 = call__27.CanExpand(FLeader);
                         if (call__28)
                         {
-                            var call__29 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
+                            var call__29 = AoWHSSet.FAbilityControl.GetAbility(I);
                             var call__30 = call__29.ExpandName(FLeader);
-                            AvailableAbilities.Items.AddObject(call__30, Aow.Rtl.Rtl.IntToObject((int)I));
-                            var call__31 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
+                            AvailableAbilities.Items.AddObject(call__30, IntToObject(I));
+                            var call__31 = AoWHSSet.FAbilityControl.GetAbility(I);
                             var call__32 = call__31.ExpandCost(FLeader);
-                            AvailableAbilitiesCost.Items.Add(Aow.Rtl.Rtl.IntToStr(call__32));
+                            AvailableAbilitiesCost.Items.Add(IntToStr(call__32));
                         }
                     }
                 }
@@ -504,19 +459,19 @@ namespace Aow.Units.AoWLeaderSetup
                 int end__33 = FLeader.GetAbCount() - 1;
                 for (; I <= end__33; I += 1)
                 {
-                    var call__34 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
+                    var call__34 = AoWHSSet.FAbilityControl.GetAbility(I);
                     Ability = call__34;
                     var call__35 = FLeader.GetAbSet(I);
                     bool bool__36 = call__35;
                     if (bool__36)
                     {
                         var call__37 = FLeader.FHeroResource.FAbilities.GetAbSet(I);
-                        bool__36 = (call__37 || ((Ability.FSelectionTypes & TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of(Aow.Units.AoWE.TAbilitySelectionType.astCustomizeLeader, Aow.Units.AoWE.TAbilitySelectionType.astHeroUpgrade)) != TSet<Aow.Units.AoWE.TAbilitySelectionType>.Of()));
+                        bool__36 = call__37 || (Ability.FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of();
                     }
 
                     if (bool__36)
                     {
-                        var call__38 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
+                        var call__38 = AoWHSSet.FAbilityControl.GetAbility(I);
                         var call__39 = call__38.GetName(FLeader);
                         Name = call__39;
                         var call__40 = FLeader.FHeroResource.FAbilities.GetAbSet(I);
@@ -525,23 +480,23 @@ namespace Aow.Units.AoWLeaderSetup
                         {
                             var call__42 = FLeader.FHeroResource.FAbilities.GetAbLevel(I);
                             var call__43 = FLeader.GetAbilityLevel(I);
-                            bool__41 = (call__42 == call__43);
+                            bool__41 = call__42 == call__43;
                         }
 
                         if (bool__41)
                         {
-                            Name = ((Name + ((AnsiString)" (")) + Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FixedRStr)) + AnsiString.FromBytes(41);
+                            Name = Name + (AnsiString)" (" + TranslateRStr(FixedRStr) + AnsiString.FromBytes(41);
                             Cost = AnsiString.FromBytes(45);
                         }
                         else
                         {
                             var call__44 = Ability.GetSkillPoints(FLeader);
                             var call__45 = Ability.GetSkillPoints(FLeader.FHeroResource.FAbilities);
-                            Cost = Aow.Rtl.Rtl.IntToStr(call__44 - call__45);
+                            Cost = IntToStr(call__44 - call__45);
                         }
 
                         SelectedAbilitiesCost.Items.Add(Cost);
-                        SelectedAbilities.Items.AddObject(Name, Aow.Rtl.Rtl.IntToObject((int)I));
+                        SelectedAbilities.Items.AddObject(Name, IntToObject(I));
                     }
                 }
             }
@@ -572,15 +527,15 @@ namespace Aow.Units.AoWLeaderSetup
         public bool CanAddAbility(int AbilityID)
         {
             bool Result = default;
-            var call__48 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
+            var call__48 = AoWHSSet.FAbilityControl.GetAbility(AbilityID);
             var call__49 = call__48.CanExpand(FLeader);
             bool bool__50 = call__49;
             if (bool__50)
             {
-                var call__51 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID);
+                var call__51 = AoWHSSet.FAbilityControl.GetAbility(AbilityID);
                 var call__52 = call__51.ExpandCost(FLeader);
                 var call__53 = FLeader.GetSkillPoints();
-                bool__50 = (call__52 <= call__53);
+                bool__50 = call__52 <= call__53;
             }
 
             Result = bool__50;
@@ -600,20 +555,20 @@ namespace Aow.Units.AoWLeaderSetup
             StatPnl.Visible = Value > 2;
             AbilityPnl.Visible = Value > 2;
             LeaderName.Visible = Value > 1;
-            LeaderLbl.Visible = !FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign);
-            SideNameLbl.Visible = !FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign);
-            ShieldL.Visible = !FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign) || (Value > 1);
-            ShieldR.Visible = !FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign) || (Value > 1);
-            MainFaceFr.Visible = !FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign) || (Value > 1);
+            LeaderLbl.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign);
+            SideNameLbl.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign);
+            ShieldL.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign) || Value > 1;
+            ShieldR.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign) || Value > 1;
+            MainFaceFr.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign) || Value > 1;
             MainFace.Visible = MainFaceFr.Visible;
-            if (((Value == 3) || ((Value == 2) && ((FSetup.FMode & TSet<Aow.Units.AoWE.TLeaderSetupModeElement>.Of(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSpheres)) == TSet<Aow.Units.AoWE.TLeaderSetupModeElement>.Of()))) || ((Value == 1) && ((FSetup.FMode & TSet<Aow.Units.AoWE.TLeaderSetupModeElement>.Of(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSettings, Aow.Units.AoWE.TLeaderSetupModeElement.lsmSpheres)) == TSet<Aow.Units.AoWE.TLeaderSetupModeElement>.Of())))
+            if (Value == 3 || Value == 2 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of() || Value == 1 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSettings, TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of())
             {
-                var call__54 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FinishRStr);
+                var call__54 = TranslateRStr(FinishRStr);
                 NextBtn.Text = call__54;
             }
             else
             {
-                var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NextRStr);
+                var call__55 = TranslateRStr(NextRStr);
                 NextBtn.Text = call__55;
             }
 
@@ -645,11 +600,11 @@ namespace Aow.Units.AoWLeaderSetup
             DefaultBtn.Visible = true;
             PrevBtn.Visible = true;
             NextBtn.Visible = true;
-            var call__56 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.Step1CustomizeLeaderRStr);
+            var call__56 = TranslateRStr(Step1CustomizeLeaderRStr);
             Phase1Header.Text = call__56;
-            var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.Step2AssignSkillPointsRStr);
+            var call__57 = TranslateRStr(Step2AssignSkillPointsRStr);
             Phase2Header.Text = call__57;
-            var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.Step3AssignSpheresRStr);
+            var call__58 = TranslateRStr(Step3AssignSpheresRStr);
             Phase3Header.Text = call__58;
             SetFixedSpheres(0);
         }
@@ -658,7 +613,7 @@ namespace Aow.Units.AoWLeaderSetup
         public void UpdateSpheres()
         {
             int I = default;
-            Aow.Units.AoWButton.TAOWButton Btn = default;
+            TAOWButton Btn = default;
             {
                 I = 0;
                 byte end__59 = 6;
@@ -697,7 +652,7 @@ namespace Aow.Units.AoWLeaderSetup
                     {
                         Btn.Visible = true;
                         var call__61 = FLeader.GetSpheres(I);
-                        switch (unchecked((int)call__61) & 127)
+                        switch ((int)call__61 & 127)
                         {
                             case 1:
                                 Btn.ILIndexDown = 28;
@@ -749,9 +704,9 @@ namespace Aow.Units.AoWLeaderSetup
             }
 
             var call__62 = FLeader.GetSphereCount();
-            var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SelectedSpheresRStr);
-            SelectedSpheresLbl.Text = ((((call__63 + ((AnsiString)" (")) + Aow.Rtl.Rtl.IntToStr(call__62)) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(FLeader.FSpherePicksMax)) + AnsiString.FromBytes(41);
-            var call__64 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msLife);
+            var call__63 = TranslateRStr(SelectedSpheresRStr);
+            SelectedSpheresLbl.Text = call__63 + (AnsiString)" (" + IntToStr(call__62) + AnsiString.FromBytes(47) + IntToStr(FLeader.FSpherePicksMax) + AnsiString.FromBytes(41);
+            var call__64 = FLeader.CanAddSphere(TMagicSphere.msLife);
             if (call__64)
             {
                 SelLife.ILIndexUp = 27;
@@ -763,7 +718,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelLife.FCaptureInput = false;
             }
 
-            var call__65 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msDeath);
+            var call__65 = FLeader.CanAddSphere(TMagicSphere.msDeath);
             if (call__65)
             {
                 SelDeath.ILIndexUp = 30;
@@ -775,7 +730,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelDeath.FCaptureInput = false;
             }
 
-            var call__66 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msFire);
+            var call__66 = FLeader.CanAddSphere(TMagicSphere.msFire);
             if (call__66)
             {
                 SelFire.ILIndexUp = 42;
@@ -787,7 +742,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelFire.FCaptureInput = false;
             }
 
-            var call__67 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msWater);
+            var call__67 = FLeader.CanAddSphere(TMagicSphere.msWater);
             if (call__67)
             {
                 SelWater.ILIndexUp = 39;
@@ -799,7 +754,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelWater.FCaptureInput = false;
             }
 
-            var call__68 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msEarth);
+            var call__68 = FLeader.CanAddSphere(TMagicSphere.msEarth);
             if (call__68)
             {
                 SelEarth.ILIndexUp = 33;
@@ -811,7 +766,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelEarth.FCaptureInput = false;
             }
 
-            var call__69 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msAir);
+            var call__69 = FLeader.CanAddSphere(TMagicSphere.msAir);
             if (call__69)
             {
                 SelAir.ILIndexUp = 36;
@@ -834,7 +789,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:269
         public void LeaderSetupWinCreate()
         {
-            var call__70 = new Aow.Units.AoWE.TLeader(null);
+            var call__70 = new TLeader(null);
             FLeader = call__70;
         }
 
@@ -848,11 +803,11 @@ namespace Aow.Units.AoWLeaderSetup
         public void AddAbilityClick()
         {
             int AbilityID = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (AvailableAbilities.Selected != -1)
             {
                 var call__71 = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-                AbilityID = Aow.Rtl.Rtl.ObjectToInt(call__71);
+                AbilityID = ObjectToInt(call__71);
                 if (CanAddAbility(AbilityID))
                 {
                     FLeader.ExpandAbility(AbilityID);
@@ -866,18 +821,18 @@ namespace Aow.Units.AoWLeaderSetup
         public void RemoveAbilityClick()
         {
             int AbilityID = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (SelectedAbilities.Selected != -1)
             {
                 var call__72 = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-                AbilityID = Aow.Rtl.Rtl.ObjectToInt(call__72);
+                AbilityID = ObjectToInt(call__72);
                 var call__73 = FLeader.FHeroResource.FAbilities.GetAbSet(AbilityID);
                 bool bool__74 = call__73;
                 if (bool__74)
                 {
                     var call__75 = FLeader.FHeroResource.FAbilities.GetAbLevel(AbilityID);
                     var call__76 = FLeader.GetAbilityLevel(AbilityID);
-                    bool__74 = (call__75 == call__76);
+                    bool__74 = call__75 == call__76;
                 }
 
                 if (bool__74)
@@ -892,38 +847,38 @@ namespace Aow.Units.AoWLeaderSetup
         }
 
         // AoWLeaderSetup.pas:312
-        public void DrawSelectionFace(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void DrawSelectionFace(TObject Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TLeaderSetupControl Setup = default;
+            TLeaderSetupControl Setup = default;
             int Index = default;
             int Offset = default;
-            Aow.Rtl.TRect R = default;
-            Aow.Units.AoWE.TFaceResource Face = default;
+            TRect R = default;
+            TFaceResource Face = default;
             Setup = FSetup;
-            Offset = ((Aow.Rtl.TComponent)Sender).Tag;
+            Offset = ((TComponent)Sender).Tag;
             Index = FLeader.FFaceIndex;
             while (Offset < 0)
             {
                 Offset += 1;
-                var call__77 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.PrevFace(Index);
+                var call__77 = AoWHSSet.FFaceResources.PrevFace(Index);
                 Index = call__77;
             }
 
             while (Offset > 0)
             {
                 Offset -= 1;
-                var call__78 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.NextFace(Index);
+                var call__78 = AoWHSSet.FFaceResources.NextFace(Index);
                 Index = call__78;
             }
 
-            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
-            var call__80 = Aow.Rtl.Rtl.Rect((Phase1Pnl.WinLeft + image.WinLeft) + 2, Phase1Pnl.WinTop + image.WinTop, ((Phase1Pnl.WinLeft + image.WinLeft) + image.WinWidth) - 2, ((Phase1Pnl.WinTop + image.WinTop) + image.WinHeight) - 2);
+            var image = (TAOWImage)Sender;
+            var call__80 = Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
             R = call__80;
 
             var call__81 = Setup.FOriginalLeader.GetFace();
             if (call__81 != null)
             {
-                var call__82 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.GetFaceResource(Index);
+                var call__82 = AoWHSSet.FFaceResources.GetFaceResource(Index);
                 Face = call__82;
                 Face.AddRef();
                 var call__83 = Face.GetFaceImage();
@@ -935,29 +890,29 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:345
         public void FacePrevBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__84 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
+            General.PlayButtonSound(0);
+            var call__84 = AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
             FLeader.SetFaceIndex(call__84);
-            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+            TitleWindow.TitleWin.FDrawn = false;
         }
 
         // AoWLeaderSetup.pas:352
         public void FaceNextBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__85 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
+            General.PlayButtonSound(0);
+            var call__85 = AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
             FLeader.SetFaceIndex(call__85);
-            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+            TitleWindow.TitleWin.FDrawn = false;
         }
 
         // AoWLeaderSetup.pas:359
         public void PrevBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             switch (FPhase)
             {
                 case 1:
-                    if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmCampaign))
+                    if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign))
                     {
                         Cancel();
                     }
@@ -965,7 +920,7 @@ namespace Aow.Units.AoWLeaderSetup
                     break;
                 case 2:
                     SaveLeader();
-                    if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmLook))
+                    if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmLook))
                     {
                         SetPhase(1);
                     }
@@ -973,13 +928,13 @@ namespace Aow.Units.AoWLeaderSetup
                     break;
                 case 3:
                     SaveLeader();
-                    if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSettings))
+                    if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmSettings))
                     {
                         SetPhase(2);
                     }
                     else
                     {
-                        if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmLook))
+                        if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmLook))
                         {
                             SetPhase(1);
                         }
@@ -992,18 +947,18 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:376
         public void NextBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             switch (FPhase)
             {
                 case 1:
                     SaveLeader();
-                    if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSettings))
+                    if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmSettings))
                     {
                         SetPhase(2);
                     }
                     else
                     {
-                        if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSpheres))
+                        if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmSpheres))
                         {
                             SetPhase(3);
                         }
@@ -1013,11 +968,11 @@ namespace Aow.Units.AoWLeaderSetup
                         }
                     }
 
-                    Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+                    TitleWindow.TitleWin.FDrawn = false;
                     break;
                 case 2:
                     SaveLeader();
-                    if (FSetup.FMode.Contains(Aow.Units.AoWE.TLeaderSetupModeElement.lsmSpheres))
+                    if (FSetup.FMode.Contains(TLeaderSetupModeElement.lsmSpheres))
                     {
                         SetPhase(3);
                     }
@@ -1026,7 +981,7 @@ namespace Aow.Units.AoWLeaderSetup
                         Finish();
                     }
 
-                    Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+                    TitleWindow.TitleWin.FDrawn = false;
                     break;
                 case 3:
                     var call__86 = FLeader.GetSphereCount();
@@ -1036,12 +991,12 @@ namespace Aow.Units.AoWLeaderSetup
                     }
                     else
                     {
-                        Aow.Units.AoWExeForms.AoWExeForms.ResetMessageDialog(Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                        Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                        var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PleaseAssignAllSpheresRStr);
-                        Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__87);
-                        Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
-                        Aow.Units.AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
+                        ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                        var call__87 = TranslateRStr(PleaseAssignAllSpheresRStr);
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__87);
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
                     }
 
                     break;
@@ -1049,15 +1004,15 @@ namespace Aow.Units.AoWLeaderSetup
         }
 
         // AoWLeaderSetup.pas:405
-        public void MainFaceFrPreDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void MainFaceFrPreDraw(TObject Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TLeaderSetupControl Setup = default;
-            Aow.Rtl.TRect R = default;
+            TLeaderSetupControl Setup = default;
+            TRect R = default;
             Setup = FSetup;
             if (FPhase > 1)
             {
-                var frame = (Aow.Units.AoWFrame.TAoWFrame)Sender;
-                var call__89 = Aow.Rtl.Rtl.Rect((LMainPnl.WinLeft + frame.WinLeft) + 2, LMainPnl.WinTop + frame.WinTop, ((LMainPnl.WinLeft + frame.WinLeft) + frame.WinWidth) - 2, ((LMainPnl.WinTop + frame.WinTop) + frame.WinHeight) - 2);
+                var frame = (TAoWFrame)Sender;
+                var call__89 = Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
                 R = call__89;
 
                 var call__90 = Setup.FOriginalLeader.GetFace();
@@ -1116,103 +1071,103 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:459
         public void AttUpClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitAttack(unchecked((sbyte)(FLeader.FUnitAttack + 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitAttack((sbyte)(FLeader.FUnitAttack + 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:466
         public void AttDnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitAttack(unchecked((sbyte)(FLeader.FUnitAttack - 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitAttack((sbyte)(FLeader.FUnitAttack - 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:473
         public void DefUpClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitDefense(unchecked((sbyte)(FLeader.FUnitDefense + 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitDefense((sbyte)(FLeader.FUnitDefense + 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:480
         public void DefDnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitDefense(unchecked((sbyte)(FLeader.FUnitDefense - 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitDefense((sbyte)(FLeader.FUnitDefense - 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:487
         public void DamUpClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitDamage(unchecked((sbyte)(FLeader.FUnitDamage + 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitDamage((sbyte)(FLeader.FUnitDamage + 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:494
         public void DamDnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitDamage(unchecked((sbyte)(FLeader.FUnitDamage - 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitDamage((sbyte)(FLeader.FUnitDamage - 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:501
         public void ResUpClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitResistance(unchecked((sbyte)(FLeader.FUnitResistance + 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitResistance((sbyte)(FLeader.FUnitResistance + 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:508
         public void ResDnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitResistance(unchecked((sbyte)(FLeader.FUnitResistance - 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitResistance((sbyte)(FLeader.FUnitResistance - 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:515
         public void HitUpClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitHits(unchecked((sbyte)(FLeader.FUnitHits + 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitHits((sbyte)(FLeader.FUnitHits + 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:522
         public void HitDnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitHits(unchecked((sbyte)(FLeader.FUnitHits - 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitHits((sbyte)(FLeader.FUnitHits - 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:529
         public void MovUpClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitMoves(unchecked((sbyte)(FLeader.FUnitMoves + 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitMoves((sbyte)(FLeader.FUnitMoves + 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:536
         public void MovDnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            FLeader.SetUnitMoves(unchecked((sbyte)(FLeader.FUnitMoves - 1)));
+            General.PlayButtonSound(0);
+            FLeader.SetUnitMoves((sbyte)(FLeader.FUnitMoves - 1));
             UpdateStatistics();
         }
 
         // AoWLeaderSetup.pas:543
         public void ClearBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             switch (FPhase)
             {
                 case 1:
@@ -1246,11 +1201,11 @@ namespace Aow.Units.AoWLeaderSetup
         }
 
         // AoWLeaderSetup.pas:568
-        public void DefaultBtnClick(Aow.Rtl.TObject Sender)
+        public void DefaultBtnClick(TObject Sender)
         {
             int I = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+            General.PlayButtonSound(0);
+            TitleWindow.TitleWin.FDrawn = false;
             switch (FPhase)
             {
                 case 1:
@@ -1268,12 +1223,12 @@ namespace Aow.Units.AoWLeaderSetup
                 {
                     var leader2 = FLeader;
                     leader2.AssignAb(FSetup.FLeader);
-                    leader2.SetUnitAttack(unchecked((sbyte)FSetup.FLeader.FUnitAttack));
-                    leader2.SetUnitDefense(unchecked((sbyte)FSetup.FLeader.FUnitDefense));
-                    leader2.SetUnitDamage(unchecked((sbyte)FSetup.FLeader.FUnitDamage));
-                    leader2.SetUnitHits(unchecked((sbyte)FSetup.FLeader.FUnitHits));
-                    leader2.SetUnitMoves(unchecked((sbyte)FSetup.FLeader.FUnitMoves));
-                    leader2.SetUnitResistance(unchecked((sbyte)FSetup.FLeader.FUnitResistance));
+                    leader2.SetUnitAttack(FSetup.FLeader.FUnitAttack);
+                    leader2.SetUnitDefense(FSetup.FLeader.FUnitDefense);
+                    leader2.SetUnitDamage(FSetup.FLeader.FUnitDamage);
+                    leader2.SetUnitHits(FSetup.FLeader.FUnitHits);
+                    leader2.SetUnitMoves(FSetup.FLeader.FUnitMoves);
+                    leader2.SetUnitResistance(FSetup.FLeader.FUnitResistance);
                     UpdateLeader();
                 }
 
@@ -1303,11 +1258,11 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:604
         public void SelLifeClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__100 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msLife);
+            General.PlayButtonSound(0);
+            var call__100 = FLeader.CanAddSphere(TMagicSphere.msLife);
             if (call__100)
             {
-                FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msLife);
+                FLeader.AddSphere(TMagicSphere.msLife);
                 UpdateSpheres();
             }
         }
@@ -1315,11 +1270,11 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:614
         public void SelFireClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__101 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msFire);
+            General.PlayButtonSound(0);
+            var call__101 = FLeader.CanAddSphere(TMagicSphere.msFire);
             if (call__101)
             {
-                FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msFire);
+                FLeader.AddSphere(TMagicSphere.msFire);
                 UpdateSpheres();
             }
         }
@@ -1327,11 +1282,11 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:624
         public void SelDeathClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__102 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msDeath);
+            General.PlayButtonSound(0);
+            var call__102 = FLeader.CanAddSphere(TMagicSphere.msDeath);
             if (call__102)
             {
-                FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msDeath);
+                FLeader.AddSphere(TMagicSphere.msDeath);
                 UpdateSpheres();
             }
         }
@@ -1339,11 +1294,11 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:634
         public void SelWaterClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__103 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msWater);
+            General.PlayButtonSound(0);
+            var call__103 = FLeader.CanAddSphere(TMagicSphere.msWater);
             if (call__103)
             {
-                FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msWater);
+                FLeader.AddSphere(TMagicSphere.msWater);
                 UpdateSpheres();
             }
         }
@@ -1351,11 +1306,11 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:644
         public void SelAirClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__104 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msAir);
+            General.PlayButtonSound(0);
+            var call__104 = FLeader.CanAddSphere(TMagicSphere.msAir);
             if (call__104)
             {
-                FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msAir);
+                FLeader.AddSphere(TMagicSphere.msAir);
                 UpdateSpheres();
             }
         }
@@ -1363,23 +1318,23 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:654
         public void SelEarthClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__105 = FLeader.CanAddSphere(Aow.Units.AoWE.TMagicSphere.msEarth);
+            General.PlayButtonSound(0);
+            var call__105 = FLeader.CanAddSphere(TMagicSphere.msEarth);
             if (call__105)
             {
-                FLeader.AddSphere(Aow.Units.AoWE.TMagicSphere.msEarth);
+                FLeader.AddSphere(TMagicSphere.msEarth);
                 UpdateSpheres();
             }
         }
 
         // AoWLeaderSetup.pas:664
-        public void DeleteSphereClick(Aow.Rtl.TObject Sender)
+        public void DeleteSphereClick(TObject Sender)
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             var call__106 = FLeader.GetSphereCount();
-            if (((Aow.Rtl.TComponent)Sender).Tag < call__106)
+            if (((TComponent)Sender).Tag < call__106)
             {
-                FLeader.DeleteSphereIndex(((Aow.Rtl.TComponent)Sender).Tag);
+                FLeader.DeleteSphereIndex(((TComponent)Sender).Tag);
             }
 
             UpdateSpheres();
@@ -1388,15 +1343,15 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:672
         public void RaceCBChange()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             var call__107 = RaceCB.Items.Objects[RaceCB.Selected];
-            FLeader.SetRace(unchecked((sbyte)Aow.Rtl.Rtl.ObjectToInt(call__107)));
+            FLeader.SetRace((sbyte)ObjectToInt(call__107));
         }
 
         // AoWLeaderSetup.pas:678
         public void SelectedAbilitiesSortClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FSelectedSort == 0)
             {
                 FSelectedSort = 1;
@@ -1412,7 +1367,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:686
         public void SelectedAbilitiesCostSortClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FSelectedSort == 2)
             {
                 FSelectedSort = 3;
@@ -1428,7 +1383,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:694
         public void AvailableAbilitiesSortClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FAvailableSort == 0)
             {
                 FAvailableSort = 1;
@@ -1444,7 +1399,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:702
         public void AvailableAbilitiesCostSortClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FAvailableSort == 2)
             {
                 FAvailableSort = 3;
@@ -1460,51 +1415,51 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:710
         public void SBaseClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
         }
 
         // AoWLeaderSetup.pas:715
         public void SExtraClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
         }
 
         // AoWLeaderSetup.pas:720
         public void SFinalClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
         }
 
         // AoWLeaderSetup.pas:725
-        public void SelectedAbilitiesCostMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void SelectedAbilitiesCostMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            Aow.Units.AoWE.TAbility Ability = default;
-            if ((Button == Aow.Rtl.TMouseButton.mbRight) && (SelectedAbilities.Selected != -1))
+            TAbility Ability = default;
+            if (Button == TMouseButton.mbRight && SelectedAbilities.Selected != -1)
             {
                 var call__108 = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-                var call__109 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__108));
+                var call__109 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__108));
                 Ability = call__109;
                 if (Ability != null)
                 {
                     var call__110 = Ability.GetName(null);
-                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__110, Ability.FDescription);
+                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, call__110, Ability.FDescription);
                 }
             }
         }
 
         // AoWLeaderSetup.pas:737
-        public void AvailableAbilitiesMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void AvailableAbilitiesMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            Aow.Units.AoWE.TAbility Ability = default;
-            if ((Button == Aow.Rtl.TMouseButton.mbRight) && (AvailableAbilities.Selected != -1))
+            TAbility Ability = default;
+            if (Button == TMouseButton.mbRight && AvailableAbilities.Selected != -1)
             {
                 var call__111 = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-                var call__112 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__111));
+                var call__112 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__111));
                 Ability = call__112;
                 if (Ability != null)
                 {
                     var call__113 = Ability.GetName(null);
-                    Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__113, Ability.FDescription);
+                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, call__113, Ability.FDescription);
                 }
             }
         }
@@ -1512,6 +1467,6 @@ namespace Aow.Units.AoWLeaderSetup
 
     public static partial class AoWLeaderSetup
     {
-        public static Aow.Units.AoWLeaderSetup.TLeaderSetupWin LeaderSetupWin;
+        public static TLeaderSetupWin LeaderSetupWin;
     }
 }

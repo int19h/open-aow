@@ -1,6 +1,5 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
-using Aow.Units.HSEngine;
 using Aow.Units.EventLog;
 
 namespace Aow.Units.AoWE;
@@ -20,7 +19,7 @@ public partial class TCustomAbilityList
 {
     public virtual void SetAbSet(int index, byte value)
     {
-        if ((uint)index >= (uint)FAbilityCount) SetAbCount(unchecked(index + 1));
+        if ((uint)index >= (uint)FAbilityCount) SetAbCount(index + 1);
         var bits = FAbilityBits;
         byte mask = (byte)(1 << (index & 7));
         if (value != 0) bits[index >> 3] |= mask;
@@ -78,7 +77,7 @@ public partial class TMultiLevelAbility
     public override int GetLevel(TAbilityOwner owner) => owner == null ? 0 : ((TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
     public override int GetInherentLevel(TAbilityOwner owner) => owner == null ? 0 : ((TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
     public override AnsiString GetName(TAbilityOwner owner) => GetLevelName(GetLevel(owner));
-    public override AnsiString ExpandName(TAbilityOwner owner) => GetLevelName(unchecked(GetLevel(owner) + 1));
+    public override AnsiString ExpandName(TAbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
     public override int ExpandCost(TAbilityOwner owner)
     {
         int level = GetInherentLevel(owner);
@@ -89,7 +88,7 @@ public partial class TMultiLevelAbility
     {
         int level = GetInherentLevel(owner), sum = 0;
         // The original reads the current level cost on every iteration.
-        for (int i = level; i >= 1; --i) sum = unchecked(sum + FLevelCosts.Get(level));
+        for (int i = level; i >= 1; --i) sum = sum + FLevelCosts.Get(level);
         return sum;
     }
     public override bool Expand(TAbilityOwner owner)
@@ -98,14 +97,14 @@ public partial class TMultiLevelAbility
         if (data == null)
         {
             data = (TMultiLevelAbilityData)AbilityDataClass().Create(null);
-            data.FLevelAbilityID = unchecked((ushort)FAbilityID);
+            data.FLevelAbilityID = (ushort)FAbilityID;
             data.FLevel = 1;
             SetAb(owner, FAbilityID, 1);
             owner.AddAbilityData(data);
             return true;
         }
         if (data.FLevel == FMaxLevel) return false;
-        data.FLevel = unchecked((byte)(data.FLevel + 1));
+        data.FLevel = (byte)(data.FLevel + 1);
         return true;
     }
     public override bool Remove(TAbilityOwner owner)
@@ -113,7 +112,7 @@ public partial class TMultiLevelAbility
         var data = (TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID);
         if (data == null) { SetAb(owner, FAbilityID, 0); return false; }
         if (data.FLevel == 1) { SetAb(owner, FAbilityID, 0); owner.RemoveAbilityData(data); }
-        else data.FLevel = unchecked((byte)(data.FLevel - 1));
+        else data.FLevel = (byte)(data.FLevel - 1);
         return true;
     }
 }
@@ -123,7 +122,7 @@ public partial class TCombatEventLog
     public override void ViewLocation()
     {
         var data = FLogbook.FFinalData;
-        CenterViewTo(unchecked((sbyte)data.FX), unchecked((sbyte)data.FY), unchecked((sbyte)data.FL));
+        CenterViewTo((sbyte)data.FX, (sbyte)data.FY, (sbyte)data.FL);
     }
 }
 public partial class TDamageEffectCA
@@ -141,11 +140,11 @@ public partial class TMoveWallCA { public override bool Play(TCombatViewer viewe
 public partial class TFleeCA { public override bool Play(TCombatViewer viewer) { Execute(viewer.FCombat); return false; } }
 public partial class TNegotiateRequestEventLog
 {
-    public override bool Execute(bool mode, TExecuteTrigger trigger, TExecuteDoneEvent done) => (byte)trigger == 0 && AoWE.AoWHSMap.FSeatedPlayer == FPlayer && base.Execute(mode, trigger, done);
+    public override bool Execute(bool mode, TExecuteTrigger trigger, TExecuteDoneEvent done) => trigger == 0 && AoWE.AoWHSMap.FSeatedPlayer == FPlayer && base.Execute(mode, trigger, done);
 }
 public partial class TDiplomaticActionEventLog
 {
-    public override int GetMiddleIcon() => (byte)FAction.FActionType == 0 || (byte)FAction.FActionType == 9 && (byte)FAction.FReaction == 1 ? 0x15 : 0x16;
+    public override int GetMiddleIcon() => FAction.FActionType == 0 || (byte)FAction.FActionType == 9 && (byte)FAction.FReaction == 1 ? 0x15 : 0x16;
 }
 
 public partial class TSpell
@@ -172,7 +171,7 @@ public partial class TSpellTE
     public virtual bool Validate(THero source)
     {
         AnsiString reason = default;
-        try { return unchecked((byte)source.FPlayer) == FEventPlayerIndex && source.CanCastSpellInstantly(FEventSpellID, FEventMana, ref reason); }
+        try { return (byte)source.FPlayer == FEventPlayerIndex && source.CanCastSpellInstantly(FEventSpellID, FEventMana, ref reason); }
         finally { reason = default; }
     }
     public virtual bool Process(TAbstractUnit source, int value) => AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).ExecuteTE(this, source, value);
