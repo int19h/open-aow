@@ -70,8 +70,8 @@ public static partial class Rtl
                 case 'S':
                     output = value.Kind switch
                     {
-                        VarKind.String => Cp1252.Decode(value.Str.Span),
-                        VarKind.Char => Cp1252.Text(value.Chr),
+                        VarKind.String => RequireString(value.Str),
+                        VarKind.Char => value.Chr.ToString(),
                         VarKind.PChar => FromPChar((Ptr<byte>)value.Obj!),
                         _ => throw new EConvertError("String format argument required")
                     };

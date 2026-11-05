@@ -12,72 +12,72 @@ public abstract class TStrings : TPersistent
     protected int UpdateCount;
     public abstract int Count { get; }
     public virtual int Capacity { get => Count; set { } }
-    public abstract AnsiString this[int index] { get; set; }
+    public abstract string this[int index] { get; set; }
     protected virtual TObject? GetObject(int index) => null;
     protected virtual void PutObject(int index, TObject? value) { }
-    public IndexedProperty<int, AnsiString> Strings => new(i => this[i], (i, s) => this[i] = s);
+    public IndexedProperty<int, string> Strings => new(i => this[i], (i, s) => this[i] = s);
     public IndexedProperty<int, TObject?> Objects => new(GetObject, PutObject);
     // CLASSES.PAS TStrings.GetName, GetValue and SetValue.
-    public IndexedProperty<int, AnsiString> Names => new(i => { var s = this[i]; return Copy(s, 1, AnsiPos("=", s) - 1); });
-    public IndexedProperty<AnsiString, AnsiString> Values => new(name =>
+    public IndexedProperty<int, string> Names => new(i => { var s = this[i]; return Copy(s, 1, AnsiPos("=", s) - 1); });
+    public IndexedProperty<string, string> Values => new(name =>
     {
-        int i = IndexOfName(name); return i < 0 ? default : Copy(this[i], name.Length + 2, int.MaxValue);
+        int i = IndexOfName(name); return i < 0 ? "" : Copy(this[i], name.Length + 2, int.MaxValue);
     }, (name, value) =>
     {
         int i = IndexOfName(name);
-        if (value.Length > 0) { if (i < 0) i = Add(default); this[i] = name + "=" + value; }
+        if (value.Length > 0) { if (i < 0) i = Add(""); this[i] = name + "=" + value; }
         else if (i >= 0) Delete(i);
     });
     // CLASSES.PAS TStrings.Add, AddObject and InsertObject.
-    public virtual int Add(AnsiString value) { int i = Count; Insert(i, value); return i; }
-    public int AddObject(AnsiString value, TObject? item) { int i = Add(value); PutObject(i, item); return i; }
-    public void InsertObject(int index, AnsiString value, TObject? item) { Insert(index, value); PutObject(index, item); }
-    public abstract void Insert(int index, AnsiString value);
+    public virtual int Add(string value) { int i = Count; Insert(i, value); return i; }
+    public int AddObject(string value, TObject? item) { int i = Add(value); PutObject(i, item); return i; }
+    public void InsertObject(int index, string value, TObject? item) { Insert(index, value); PutObject(index, item); }
+    public abstract void Insert(int index, string value);
     public abstract void Delete(int index);
     public abstract void Clear();
     // CLASSES.PAS TStrings.IndexOf, IndexOfName and IndexOfObject.
-    public virtual int IndexOf(AnsiString value) { for (int i = 0; i < Count; i++) if (AnsiCompareText(this[i], value) == 0) return i; return -1; }
-    public int IndexOfName(AnsiString name)
+    public virtual int IndexOf(string value) { for (int i = 0; i < Count; i++) if (AnsiCompareText(this[i], value) == 0) return i; return -1; }
+    public int IndexOfName(string name)
     {
         for (int i = 0; i < Count; i++) { var s = this[i]; int p = AnsiPos("=", s); if (p > 0 && AnsiCompareText(Copy(s, 1, p - 1), name) == 0) return i; }
         return -1;
     }
     public int IndexOfObject(TObject? item) { for (int i = 0; i < Count; i++) if (ReferenceEquals(GetObject(i), item)) return i; return -1; }
     // CLASSES.PAS TStrings.GetTextStr and SetTextStr. The reader stops at NUL.
-    public AnsiString Text
+    public string Text
     {
-        get { AnsiString text = default; for (int i = 0; i < Count; i++) text += this[i] + "\r\n"; return text; }
+        get { string text = ""; for (int i = 0; i < Count; i++) text += this[i] + "\r\n"; return text; }
         set
         {
             BeginUpdate();
             try
             {
                 Clear(); int p = 1;
-                while (p <= value.Length && value[p] != 0)
+                while (p <= value.Length && value[p - 1] != 0)
                 {
                     int start = p;
-                    while (p <= value.Length && value[p] is not (0 or 10 or 13)) p++;
+                    while (p <= value.Length && value[p - 1] is not ('\0' or '\n' or '\r')) p++;
                     Add(Copy(value, start, p - start));
-                    if (p <= value.Length && value[p] == 13) p++;
-                    if (p <= value.Length && value[p] == 10) p++;
+                    if (p <= value.Length && value[p - 1] == 13) p++;
+                    if (p <= value.Length && value[p - 1] == 10) p++;
                 }
             }
             finally { EndUpdate(); }
         }
     }
     // CLASSES.PAS TStrings.GetCommaText and SetCommaText.
-    public AnsiString CommaText
+    public string CommaText
     {
         get
         {
             if (Count == 1 && this[0].Length == 0) return "\"\"";
-            AnsiString text = default;
+            string text = "";
             for (int i = 0; i < Count; i++)
             {
                 var s = this[i];
                 bool quote = false;
-                for (int p = 1; p <= s.Length && s[p] != 0; p++) if (s[p] <= 32 || s[p] is 34 or 44) { quote = true; break; }
-                if (quote) s = "\"" + (AnsiString)s.ToString().Replace("\"", "\"\"", StringComparison.Ordinal) + "\"";
+                for (int p = 1; p <= s.Length && s[p - 1] != 0; p++) if (s[p - 1] <= 32 || s[p - 1] is '"' or ',') { quote = true; break; }
+                if (quote) s = "\"" + s.Replace("\"", "\"\"", StringComparison.Ordinal) + "\"";
                 if (i > 0) text += ",";
                 text += s;
             }
@@ -89,12 +89,12 @@ public abstract class TStrings : TPersistent
             try
             {
                 Clear(); int p = 1;
-                byte At() => p <= value.Length ? value[p] : (byte)0;
+                byte At() => p <= value.Length ? Cp1252.Byte(value[p - 1]) : (byte)0;
                 void Spaces() { while (At() is >= 1 and <= 32) p++; }
                 Spaces();
                 while (At() != 0)
                 {
-                    AnsiString s = default;
+                    string s = "";
                     if (At() == 34)
                     {
                         p++;
@@ -102,7 +102,7 @@ public abstract class TStrings : TPersistent
                         {
                             byte c = At(); p++;
                             if (c == 34) { if (At() != 34) break; p++; }
-                            s += AnsiString.FromBytes(c);
+                            s += Cp1252.Text(c);
                         }
                     }
                     else
@@ -146,22 +146,22 @@ public abstract class TStrings : TPersistent
     public virtual void LoadFromStream(TStream stream)
     {
         BeginUpdate();
-        try { byte[] bytes = new byte[stream.Size - stream.Position]; stream.Read(bytes); Text = AnsiString.FromBytes(bytes); }
+        try { byte[] bytes = new byte[stream.Size - stream.Position]; stream.Read(bytes); Text = Cp1252.Decode(bytes); }
         finally { EndUpdate(); }
     }
-    public virtual void SaveToStream(TStream stream) => stream.WriteBuffer(Text.Span);
+    public virtual void SaveToStream(TStream stream) => stream.WriteBuffer(Cp1252.Encode(Text));
     // CLASSES.PAS TStrings.LoadFromFile and SaveToFile.
-    public void LoadFromFile(AnsiString name) { using var stream = new TFileStream(name, fmOpenRead); LoadFromStream(stream); }
-    public void SaveToFile(AnsiString name) { using var stream = new TFileStream(name, fmCreate); SaveToStream(stream); }
+    public void LoadFromFile(string name) { using var stream = new TFileStream(name, fmOpenRead); LoadFromStream(stream); }
+    public void SaveToFile(string name) { using var stream = new TFileStream(name, fmCreate); SaveToStream(stream); }
     // CLASSES.PAS TStrings.Error.
-    public static void Error(AnsiString message, int data) => throw EStringListError.CreateFmt(message, data);
+    public static void Error(string message, int data) => throw EStringListError.CreateFmt(message, data);
 }
 
 public enum TDuplicates : byte { dupIgnore, dupAccept, dupError }
 
 public class TStringList : TStrings
 {
-    private record struct StringItem(AnsiString Text, TObject? Object);
+    private record struct StringItem(string Text, TObject? Object);
     private StringItem[] items = [];
     private int count;
     private bool sorted;
@@ -177,7 +177,7 @@ public class TStringList : TStrings
     protected override void SetUpdateState(bool updating) { if (updating) Changing(); else Changed(); }
     private void Check(int index) { if (index < 0 || index >= count) Error("List index out of bounds (%d)", index); }
     // CLASSES.PAS TStringList.Get and Put.
-    public override AnsiString this[int index]
+    public override string this[int index]
     {
         get { Check(index); return items[index].Text; }
         set { if (Sorted) Error("Operation not allowed on sorted string list", 0); Check(index); Changing(); items[index].Text = value; Changed(); }
@@ -190,12 +190,12 @@ public class TStringList : TStrings
     // CLASSES.PAS TStringList.Grow.
     private void Grow() => Capacity += Capacity > 64 ? Capacity / 4 : Capacity > 8 ? 16 : 4;
     // CLASSES.PAS TStringList.InsertItem.
-    private void InsertItem(int index, AnsiString value)
+    private void InsertItem(int index, string value)
     {
         Changing(); if (count == Capacity) Grow(); Array.Copy(items, index, items, index + 1, count - index); items[index] = new(value, null); count++; Changed();
     }
     // CLASSES.PAS TStringList.Add.
-    public override int Add(AnsiString value)
+    public override int Add(string value)
     {
         int i = count;
         if (Sorted && Find(value, ref i))
@@ -206,7 +206,7 @@ public class TStringList : TStrings
         InsertItem(i, value); return i;
     }
     // CLASSES.PAS TStringList.Insert, Delete and Clear.
-    public override void Insert(int index, AnsiString value)
+    public override void Insert(int index, string value)
     {
         if (Sorted) Error("Operation not allowed on sorted string list", 0);
         if (index < 0 || index > count) Error("List index out of bounds (%d)", index);
@@ -217,7 +217,7 @@ public class TStringList : TStrings
     // CLASSES.PAS TStringList.Exchange and ExchangeItems.
     public override void Exchange(int first, int second) { Check(first); Check(second); Changing(); (items[first], items[second]) = (items[second], items[first]); Changed(); }
     // CLASSES.PAS TStringList.Find. dupAccept keeps searching to the left.
-    public bool Find(AnsiString value, ref int index)
+    public bool Find(string value, ref int index)
     {
         bool result = false; int low = 0, high = count - 1;
         while (low <= high)
@@ -229,7 +229,7 @@ public class TStringList : TStrings
         index = low; return result;
     }
     // CLASSES.PAS TStringList.IndexOf.
-    public override int IndexOf(AnsiString value)
+    public override int IndexOf(string value)
     {
         if (!Sorted) return base.IndexOf(value);
         int index = 0;

@@ -33,7 +33,7 @@ public readonly record struct THeapStatus(int TotalAllocated);
 
 public sealed class TApplication
 {
-    public AnsiString ExeName { get; set; } = Environment.ProcessPath ?? "";
+    public string ExeName { get; set; } = Environment.ProcessPath ?? "";
 }
 
 public static partial class Rtl
@@ -58,21 +58,20 @@ public static partial class Rtl
         var arguments = parameters.Select((p, i) => (Expression)Expression.Convert(p, inputs[i].ParameterType));
         return Expression.Lambda<T>(Expression.Invoke(Expression.Constant(value), arguments), parameters).Compile();
     }
-    public static AnsiString ReadShortString(ReadOnlySpan<byte> image) => AnsiString.FromBytes(image.Slice(1, image[0]).ToArray());
-    public static void WriteShortString(Span<byte> image, AnsiString value)
+    public static string ReadShortString(ReadOnlySpan<byte> image) => Cp1252.Decode(image.Slice(1, image[0]).ToArray());
+    public static void WriteShortString(Span<byte> image, string value)
     {
         int length = Math.Min(value.Length, image.Length - 1);
         image[0] = (byte)length;
-        value.Span.Slice(0, length).CopyTo(image.Slice(1));
+        Cp1252.Encode(value).AsSpan().Slice(0, length).CopyTo(image.Slice(1));
     }
     public static TApplication Application { get; } = new();
-    public static Action<AnsiString> MessageHandler { get; set; } = message => throw new EInvalidOperation(message);
-    public static void ShowMessage(AnsiString message) => MessageHandler(message);
+    public static Action<string> MessageHandler { get; set; } = message => throw new EInvalidOperation(message);
+    public static void ShowMessage(string message) => MessageHandler(message);
     public static void RegisterClass(Type type) { }
-    public static void RegisterComponents(AnsiString category, Type[] types) { }
-    public static uint RegisterClipboardFormat(AnsiString name) => 1;
+    public static void RegisterComponents(string category, Type[] types) { }
+    public static uint RegisterClipboardFormat(string name) => 1;
     public static byte[] ValueBytes<T>(T value, int count) where T : unmanaged => Bytes.Of(ref value, count).ToArray();
-    public static ReadOnlySpan<byte> StringBytes(AnsiString value) => value.Span;
     public static THeapStatus GetHeapStatus() => new(unchecked((int)GC.GetTotalMemory(false)));
     public static void FillBytes(Span<byte> bytes, int value) => bytes.Fill(unchecked((byte)value));
     public static bool ArrayEquals<TArray, TElement>(TArray left, TArray right) where TArray : unmanaged where TElement : unmanaged => Bytes.Of(ref left).SequenceEqual(Bytes.Of(ref right));
@@ -89,13 +88,13 @@ public static partial class Rtl
         for (int i = 0; i < count; i++) if (!EqualityComparer<T>.Default.Equals(left[i], right[i])) return false;
         return true;
     }
-    public static int ReadString(TStream stream, ref AnsiString value, int start, int count, bool exact)
+    public static int ReadString(TStream stream, ref string value, int start, int count, bool exact)
     {
-        byte[] bytes = value.Span.ToArray();
+        byte[] bytes = Cp1252.Encode(value).ToArray();
         var buffer = bytes.AsSpan(start, count);
         if (exact && count == 0) return 0;
         int read = stream.Read(buffer);
-        value = AnsiString.FromBytes(bytes);
+        value = Cp1252.Decode(bytes);
         if (exact && read != count) throw new EReadError("Stream read error");
         return read;
     }

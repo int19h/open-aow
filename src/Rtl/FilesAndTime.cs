@@ -112,7 +112,7 @@ public sealed class SystemClock : IClock
 
 public struct TSearchRec
 {
-    public AnsiString Name;
+    public string Name;
     public int Size, Attr, Time;
     internal RtlFileEntry[]? Entries;
     internal int Index;
@@ -123,54 +123,24 @@ public static partial class Rtl
     public static IFileSystem Files { get; set; } = new SystemIoFileSystem();
     public static IClock Clock { get; set; } = new SystemClock();
     public const int faReadOnly = 1, faHidden = 2, faSysFile = 4, faVolumeID = 8, faDirectory = 16, faArchive = 32, faAnyFile = 63;
-    private static int Delimiter(AnsiString name, bool dot = false)
-    {
-        for (int i = name.Length; i > 0; i--) if (name[i] is (byte)'\\' or (byte)':' || (dot && name[i] == '.')) return i;
-        return 0;
-    }
-    // SYSUTILS.PAS ExtractFileName, ExtractFilePath, ExtractFileDir, ExtractFileExt, ChangeFileExt.
-    public static AnsiString ExtractFileName(AnsiString name) => Copy(name, Delimiter(name) + 1, int.MaxValue);
-    public static AnsiString ExtractFileDrive(AnsiString name)
-    {
-        if (name.Length >= 2 && name[2] == ':') return Copy(name, 1, 2);
-        if (name.Length < 2 || name[1] != '\\' || name[2] != '\\') return default;
-        int i = 3, separators = 0;
-        while (i < name.Length && separators < 2)
-        {
-            if (name[i] == '\\') separators++;
-            if (separators < 2) i++;
-        }
-        if (i <= name.Length && name[i] == '\\') i--;
-        return Copy(name, 1, i);
-    }
-    public static AnsiString ExtractFilePath(AnsiString name) => Copy(name, 1, Delimiter(name));
-    public static AnsiString ExtractFileDir(AnsiString name)
-    {
-        int i = Delimiter(name);
-        if (i > 1 && name[i] == (byte)'\\' && name[i - 1] is not ((byte)'\\' or (byte)':')) i--;
-        return Copy(name, 1, i);
-    }
-    public static AnsiString ExtractFileExt(AnsiString name) { int i = Delimiter(name, true); return i > 0 && name[i] == '.' ? Copy(name, i, int.MaxValue) : default; }
-    public static AnsiString ChangeFileExt(AnsiString name, AnsiString extension) { int i = Delimiter(name, true); return (i > 0 && name[i] == '.' ? Copy(name, 1, i - 1) : name) + extension; }
-    public static AnsiString ExpandFileName(AnsiString name) => name.Length == 0 ? default : Files.ExpandPath(name.ToString());
-    public static AnsiString GetCurrentDir() => Files.CurrentDirectory;
-    public static bool SetCurrentDir(AnsiString path) => Files.SetCurrentDirectory(path.ToString());
-    public static bool FileExists(AnsiString name) => Files.FileExists(name.ToString());
-    public static bool DirectoryExists(AnsiString name) => Files.DirectoryExists(name.ToString());
-    public static bool DeleteFile(AnsiString name) => Files.DeleteFile(name.ToString());
-    public static bool RenameFile(AnsiString source, AnsiString target) => Files.RenameFile(source.ToString(), target.ToString());
-    public static bool CreateDir(AnsiString name) => Files.CreateDirectory(name.ToString());
-    public static bool RemoveDir(AnsiString name) => Files.RemoveDirectory(name.ToString());
-    public static int FileGetAttr(AnsiString name) => Files.GetAttributes(name.ToString());
-    public static int FileSetAttr(AnsiString name, int attributes) => Files.SetAttributes(name.ToString(), attributes);
+    public static string GetCurrentDir() => Files.CurrentDirectory;
+    public static bool SetCurrentDir(string path) => Files.SetCurrentDirectory(path);
+    public static bool FileExists(string name) => Files.FileExists(name);
+    public static bool DirectoryExists(string name) => Files.DirectoryExists(name);
+    public static bool DeleteFile(string name) => Files.DeleteFile(name);
+    public static bool RenameFile(string source, string target) => Files.RenameFile(source, target);
+    public static bool CreateDir(string name) => Files.CreateDirectory(name);
+    public static bool RemoveDir(string name) => Files.RemoveDirectory(name);
+    public static int FileGetAttr(string name) => Files.GetAttributes(name);
+    public static int FileSetAttr(string name, int attributes) => Files.SetAttributes(name, attributes);
     // SYSUTILS.PAS FindFirst and FindMatchingFile, with the specified deterministic order.
-    public static int FindFirst(AnsiString path, int attr, ref TSearchRec search)
+    public static int FindFirst(string path, int attr, ref TSearchRec search)
     {
         search = default;
-        path = path.ToString().Replace('/', '\\');
-        string directory = ExtractFilePath(path).ToString();
+        path = path.Replace('/', '\\');
+        string directory = ExtractFilePath(path);
         if (directory.Length == 0) directory = Files.CurrentDirectory;
-        string pattern = ExtractFileName(path).ToString();
+        string pattern = ExtractFileName(path);
         try
         {
             if (!Files.DirectoryExists(directory)) return 3;
@@ -199,7 +169,7 @@ public static partial class Rtl
         return 0;
     }
     public static void FindClose(ref TSearchRec search) => search.Entries = null;
-    public static int FileAge(AnsiString name) => Files.LastWriteTime(name.ToString()) is { } time ? DateTimeToFileDate(ToDelphiDate(time)) : -1;
+    public static int FileAge(string name) => Files.LastWriteTime(name) is { } time ? DateTimeToFileDate(ToDelphiDate(time)) : -1;
     // SYSUTILS.PAS FileDateToDateTime and DateTimeToFileDate use DOS two-second resolution.
     public static double FileDateToDateTime(int value) => EncodeDate((int)((uint)value >> 25) + 1980, (value >> 21) & 15, (value >> 16) & 31) + EncodeTime((value >> 11) & 31, (value >> 5) & 63, (value & 31) * 2, 0);
     public static int DateTimeToFileDate(double value)
@@ -254,7 +224,7 @@ public static partial class Rtl
         DecodeDate(value, out int y, out int m, out int d);
         year = (ushort)y; month = (ushort)m; day = (ushort)d;
     }
-    public static AnsiString DateTimeToStr(double value)
+    public static string DateTimeToStr(double value)
     {
         DecodeDate(value, out int y, out int m, out int d); DecodeTime(value, out int h, out int n, out int s, out int ms);
         return new DateTime(y, m, d, h, n, s, ms).ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
