@@ -1,3 +1,5 @@
+using Aow.Platform;
+
 namespace Aow.Units.aowMapEvents;
 
 public partial class TMapEvents
@@ -7,15 +9,15 @@ public partial class TMapEvents
     {
         try
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.SaveLayout();
-            Aow.Units.AoWWinMan.AoWWinMan.General.HideWindows();
-            Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = null;
-            if (Aow.Units.aowSetupEvents.aowSetupEvents.SetupEvents.FLobbyGame)
-                Aow.Platform.GameHost.MainForm.CloseRequested();
+            AoWWinMan.AoWWinMan.General.SaveLayout();
+            AoWWinMan.AoWWinMan.General.HideWindows();
+            AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = null;
+            if (aowSetupEvents.aowSetupEvents.SetupEvents.FLobbyGame)
+                GameHost.MainForm.CloseRequested();
         }
         catch (System.Exception)
         {
-            Aow.Rtl.Rtl.ShowMessage("Error during close");
+            Rtl.Rtl.ShowMessage("Error during close");
         }
     }
 }

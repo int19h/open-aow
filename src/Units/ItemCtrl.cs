@@ -1,55 +1,30 @@
 // Translated from ItemCtrl.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.ItemCtrl
 {
     // indices, stream, show status, map, sort, unselect event
-    public partial class TItemControlGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
+    public partial class TItemControlGrid : TCustomImageDrawGrid
     {
-        public Aow.Units.Engine.TIntegerList FIndices;
-        public Aow.Rtl.TMemoryStream FStream;
+        public TIntegerList FIndices;
+        public TMemoryStream FStream;
         public bool FDisplayMode;
         public bool FUnplacedOnly;
         public bool FShowStatus;
-        public Aow.Units.AoWE.TAoWHSMap FMap;
+        public TAoWHSMap FMap;
         public byte FSort;
-        public Aow.Rtl.TNotifyEvent FOnUnselect;
+        public TNotifyEvent FOnUnselect;
         // ItemCtrl.pas:135
         public override void Destroy()
         {
             /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:123
@@ -57,55 +32,55 @@ namespace Aow.Units.ItemCtrl
         public TItemControlGrid(TComponent owner) : base(owner)
         {
 
-            var call__1 = new Aow.Rtl.TMemoryStream();
+            var call__1 = new TMemoryStream();
             FStream = call__1;
             DefaultColWidth = 155;
             DefaultRowHeight = 46;
-            GrowDirection = Aow.Units.ImageLib.TILGrowDirection.ilVertical;
-            ScrollBars = Aow.Rtl.TScrollStyle.ssVertical;
-            var call__2 = new Aow.Units.Engine.TIntegerList();
+            GrowDirection = TILGrowDirection.ilVertical;
+            ScrollBars = TScrollStyle.ssVertical;
+            var call__2 = new TIntegerList();
             FIndices = call__2;
             FSort = 0;
         }
 
         // ItemCtrl.pas:262
-        protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
+        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
         {
             /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:207
         public override void DelCell()
         {
-            if (EditMode.Contains(Aow.Units.ImageLib.TILGridEditModeElement.igDel))
+            if (EditMode.Contains(TILGridEditModeElement.igDel))
             {
                 DeleteItem();
             }
         }
 
         // ItemCtrl.pas:143
-        protected internal override void MouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:157
-        public void ItemChanged(Aow.Rtl.TObject Sender)
+        public void ItemChanged(TObject Sender)
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:163
-        public void ItemControlChanged(Aow.Rtl.TObject Sender)
+        public void ItemControlChanged(TObject Sender)
         {
             UpdateItems();
         }
 
         // ItemCtrl.pas:168
-        public void SetAoWHSMap(Aow.Units.AoWE.TAoWHSMap Value)
+        public void SetAoWHSMap(TAoWHSMap Value)
         {
             if (Value != FMap)
             {
@@ -130,33 +105,33 @@ namespace Aow.Units.ItemCtrl
         public void SortOnName()
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:197
         public void SortOnType()
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:212
-        public Aow.Units.AoWE.TItem GetSelectedItem()
+        public TItem GetSelectedItem()
         {
             /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:223
-        public Aow.Units.AoWE.TItem GetItem(int Index)
+        public TItem GetItem(int Index)
         {
-            Aow.Units.AoWE.TItem Result = default;
+            TItem Result = default;
             int I = default;
-            Aow.Units.AoWE.TAoWHSMap Map = default;
+            TAoWHSMap Map = default;
             I = Index;
             Map = FMap;
             // { Original checks only the upper bound. }
-            if ((Map != null) && (Index < FIndices.Count))
+            if (Map != null && Index < FIndices.Count)
             {
                 var call__3 = FIndices[Index];
                 var call__4 = Map.FItemControl.GetItem(call__3);
@@ -174,7 +149,7 @@ namespace Aow.Units.ItemCtrl
         public void UpdateItems()
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:328
@@ -188,24 +163,24 @@ namespace Aow.Units.ItemCtrl
         }
 
         // ItemCtrl.pas:334
-        public void EditItemDone(Aow.Units.Engine.TEditResult ResultCode, Aow.Units.Engine.TEObject Obj)
+        public void EditItemDone(TEditResult ResultCode, TEObject Obj)
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:357
         public void DeleteItem()
         {
             /* TODO: Implement Grids.Bottom in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemCtrl.pas:388
         public void RemoveItemFromMap()
         {
             /* TODO: Implement Grids.Bottom in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         [Published]
@@ -218,55 +193,55 @@ namespace Aow.Units.ItemCtrl
         public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
+        public TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
     }
 
-    public partial class TGridMapView : Aow.Rtl.TObject
+    public partial class TGridMapView : TObject
     {
-        public Aow.Units.AoWE.TItemControl ItemControl;
-        public Aow.Units.AoWE.THeroControl HeroControl;
-        public Aow.Units.AoWE.TPlayerList Players;
-        public Aow.Units.Engine.TEventList LeaderEvent;
+        public TItemControl ItemControl;
+        public THeroControl HeroControl;
+        public TPlayerList Players;
+        public TEventList LeaderEvent;
     }
 
     public struct TRawView
     {
-        public Aow.Units.FixedArray_object_512 Fields;
+        public FixedArray_object_512 Fields;
     }
 
     public struct TNodeView
     {
-        public Aow.Units.FixedArray_byte_8 Reserved;
-        public Aow.Rtl.TList Children;
+        public FixedArray_byte_8 Reserved;
+        public TList Children;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 49)]
     public struct TEngineView
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_48 Reserved;
+        public FixedArray_byte_48 Reserved;
         [FieldOffset(48)]
         public byte Status;
     }
 
     public struct THeroView
     {
-        public Aow.Units.FixedArray_byte_96 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_4 Reserved64;
+        public FixedArray_byte_96 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_4 Reserved64;
         public byte Race;
-        public Aow.Units.FixedArray_byte_15 Reserved69;
+        public FixedArray_byte_15 Reserved69;
         public bool Hidden;
     }
 
     public struct TItemView
     {
-        public Aow.Units.FixedArray_byte_24 Reserved00;
-        public Aow.Rtl.AnsiString Name;
+        public FixedArray_byte_24 Reserved00;
+        public AnsiString Name;
         public byte Status;
-        public Aow.Units.FixedArray_byte_23 Reserved1D;
+        public FixedArray_byte_23 Reserved1D;
         public byte Kind;
-        public Aow.Units.FixedArray_byte_15 Reserved35;
+        public FixedArray_byte_15 Reserved35;
         public bool Hidden;
     }
 
@@ -275,18 +250,18 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:406
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.ItemCtrl.TItemControlGrid)]);
+            RegisterComponents((AnsiString)"AoW", [typeof(TItemControlGrid)]);
         }
 
-        public static readonly Aow.Rtl.AnsiString GridUsedRStr = (AnsiString)"Used";
+        public static readonly AnsiString GridUsedRStr = (AnsiString)"Used";
 
         // ItemCtrl.pas:112
         public static int ItemControlCompareName(int A, int B)
         {
             int Result = default;
-            var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(B);
-            var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(A);
-            Result = Aow.Rtl.Rtl.CompareText(call__6.FOwnerName, call__5.FOwnerName);
+            var call__5 = AoWHSMap.FItemControl.GetItem(B);
+            var call__6 = AoWHSMap.FItemControl.GetItem(A);
+            Result = CompareText(call__6.FOwnerName, call__5.FOwnerName);
             return Result;
         }
 
@@ -294,8 +269,8 @@ namespace Aow.Units.ItemCtrl
         public static int ItemControlCompareType(int A, int B)
         {
             int Result = default;
-            var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(A);
-            var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.GetItem(B);
+            var call__7 = AoWHSMap.FItemControl.GetItem(A);
+            var call__8 = AoWHSMap.FItemControl.GetItem(B);
             Result = call__7.FItemType - call__8.FItemType;
             return Result;
         }

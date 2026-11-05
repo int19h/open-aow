@@ -1,42 +1,12 @@
 // Translated from Crypt.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.ItemExpS;
-using static Aow.Units.ItemExpS.ItemExpS;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Crypt
 {
-    public partial class TCrypt : Aow.Units.ItemExpS.TItemExplorationSite
+    public partial class TCrypt : TItemExplorationSite
     {
         public TCrypt(TECustomNode owner) : base(owner)
         {}
@@ -46,7 +16,7 @@ namespace Aow.Units.Crypt
 
     }
 
-    public partial class TCryptResource : Aow.Units.ItemExpS.TItemExplorationSiteResource
+    public partial class TCryptResource : TItemExplorationSiteResource
     {
         public TCryptResource(TECustomNode owner) : base(owner)
         {}
@@ -63,10 +33,10 @@ namespace Aow.Units.Crypt
         }
 
         // Crypt.pas:37
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CryptRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(CryptRStr);
             return Result;
         }
 
@@ -75,9 +45,9 @@ namespace Aow.Units.Crypt
     public static partial class Crypt
     {
         // Crypt.pas:46
-        public static void RegisterCrypt(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterCrypt(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Crypt.TCrypt>(), Aow.Units.Engine.EClass.Of<Aow.Units.Crypt.TCryptResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TCrypt>(), EClass.Of<TCryptResource>()]);
         }
 
         public static void Initialize()

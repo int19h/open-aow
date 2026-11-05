@@ -1,30 +1,9 @@
 // Translated from AOWGauge.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWWinGeneric;
-using static Aow.Units.AoWWinGeneric.AoWWinGeneric;
 
 namespace Aow.Units.AOWGauge
 {
@@ -36,15 +15,15 @@ namespace Aow.Units.AOWGauge
 
     // Fields: FMin, FMax, FPosition, FILFrame, FILTextureNormal, FILTextureSelected, FStyle,
     // FILIndexFrame, FILIndexTNormal, FILIndexTSelected
-    public partial class TAoWGauge : Aow.Units.AoWControl.TAOWControl
+    public partial class TAoWGauge : TAOWControl
     {
         public int FMin;
         public int FMax;
         public int FPosition;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTextureNormal;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTextureSelected;
-        public Aow.Units.AOWGauge.TAOWGaugeType FStyle;
+        public TInterfaceIL FILFrame;
+        public TInterfaceIL FILTextureNormal;
+        public TInterfaceIL FILTextureSelected;
+        public TAOWGaugeType FStyle;
         public int FILIndexFrame;
         public int FILIndexTNormal;
         public int FILIndexTSelected;
@@ -69,7 +48,7 @@ namespace Aow.Units.AOWGauge
                 FILTextureSelected = call__2;
             }
 
-            if ((FILTextureNormal != null) && (FILTextureSelected != null))
+            if (FILTextureNormal != null && FILTextureSelected != null)
             {
                 if (FILFrame != null)
                 {
@@ -79,11 +58,11 @@ namespace Aow.Units.AOWGauge
 
                 if (FILFrame != null)
                 {
-                    FStyle = Aow.Units.AOWGauge.TAOWGaugeType.gtNormal;
+                    FStyle = TAOWGaugeType.gtNormal;
                 }
                 else
                 {
-                    FStyle = Aow.Units.AOWGauge.TAOWGaugeType.gtBorderless;
+                    FStyle = TAOWGaugeType.gtBorderless;
                 }
 
                 FValid = true;
@@ -97,10 +76,10 @@ namespace Aow.Units.AOWGauge
         {
             switch (FStyle)
             {
-                case Aow.Units.AOWGauge.TAOWGaugeType.gtNormal:
+                case TAOWGaugeType.gtNormal:
                     var call__4 = FILFrame[FILIndexFrame];
                     var call__5 = FILFrame[FILIndexFrame + 5];
-                    if ((call__4.Height + call__5.Height) > FWinHeight)
+                    if (call__4.Height + call__5.Height > FWinHeight)
                     {
                         var call__6 = FILFrame[FILIndexFrame];
                         var call__7 = FILFrame[FILIndexFrame + 5];
@@ -109,7 +88,7 @@ namespace Aow.Units.AOWGauge
 
                     var call__8 = FILFrame[FILIndexFrame];
                     var call__9 = FILFrame[FILIndexFrame + 2];
-                    if ((call__8.Width + call__9.Width) > FWinWidth)
+                    if (call__8.Width + call__9.Width > FWinWidth)
                     {
                         var call__10 = FILFrame[FILIndexFrame];
                         var call__11 = FILFrame[FILIndexFrame + 2];
@@ -119,7 +98,7 @@ namespace Aow.Units.AOWGauge
                     break;
             }
 
-            if ((FMin + 1) > FMax)
+            if (FMin + 1 > FMax)
             {
                 FMax = FMin + 1;
             }
@@ -140,9 +119,9 @@ namespace Aow.Units.AOWGauge
         // AOWGauge.pas:183
         // { Draw: the filled width P is computed from Position without subtracting Min (original bug:
 //   the gauge is only right for Min = 0) }
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
-            Aow.Rtl.TRect OldClip = default;
+            TRect OldClip = default;
             int P = default;
             try
             {
@@ -156,17 +135,17 @@ namespace Aow.Units.AOWGauge
                     OldClip = SurfDesc.ClipRect;
                     switch (FStyle)
                     {
-                        case Aow.Units.AOWGauge.TAOWGaugeType.gtNormal:
+                        case TAOWGaugeType.gtNormal:
                             var call__12 = FILFrame[FILIndexFrame + 3];
                             var call__13 = FILFrame[FILIndexFrame + 4];
-                            P = (((FWinWidth - call__12.Width) - call__13.Width) * FPosition) / (FMax - FMin);
-                            var call__14 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            P = (FWinWidth - call__12.Width - call__13.Width) * FPosition / (FMax - FMin);
+                            var call__14 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILFrame.DrawILF(FILIndexFrame, call__14, ref SurfDesc);
                             var call__15 = FILFrame[FILIndexFrame + 3];
-                            if ((((FAOWWindow.FWinLeft + P) + FWinLeft) + call__15.Width) > SurfDesc.ClipRect.Left)
+                            if (FAOWWindow.FWinLeft + P + FWinLeft + call__15.Width > SurfDesc.ClipRect.Left)
                             {
                                 var call__16 = FILFrame[FILIndexFrame + 3];
-                                SurfDesc.ClipRect.Left = ((FAOWWindow.FWinLeft + P) + FWinLeft) + call__16.Width;
+                                SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft + call__16.Width;
                             }
 
                             var call__17 = FILFrame[FILIndexFrame + 1];
@@ -175,27 +154,27 @@ namespace Aow.Units.AOWGauge
                             var call__20 = FILFrame[FILIndexFrame + 4];
                             var call__21 = FILFrame[FILIndexFrame + 1];
                             var call__22 = FILFrame[FILIndexFrame + 3];
-                            var call__23 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__22.Width, (FAOWWindow.FWinTop + FWinTop) + call__21.Height, (FWinWidth - call__19.Width) - call__20.Width, (FWinHeight - call__17.Height) - call__18.Height);
+                            var call__23 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__22.Width, FAOWWindow.FWinTop + FWinTop + call__21.Height, FWinWidth - call__19.Width - call__20.Width, FWinHeight - call__17.Height - call__18.Height);
                             FILTextureNormal.DrawILT(FILIndexTNormal, call__23, ref SurfDesc);
                             SurfDesc.ClipRect = OldClip;
                             var call__24 = FILFrame[FILIndexFrame + 1];
                             var call__25 = FILFrame[FILIndexFrame + 6];
                             var call__26 = FILFrame[FILIndexFrame + 1];
                             var call__27 = FILFrame[FILIndexFrame + 3];
-                            var call__28 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__27.Width, (FAOWWindow.FWinTop + FWinTop) + call__26.Height, P, (FWinHeight - call__24.Height) - call__25.Height);
+                            var call__28 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__27.Width, FAOWWindow.FWinTop + FWinTop + call__26.Height, P, FWinHeight - call__24.Height - call__25.Height);
                             FILTextureSelected.DrawILT(FILIndexTSelected, call__28, ref SurfDesc);
                             break;
-                        case Aow.Units.AOWGauge.TAOWGaugeType.gtBorderless:
-                            P = (FPosition * FWinWidth) / (FMax - FMin);
-                            if (((FAOWWindow.FWinLeft + P) + FWinLeft) > SurfDesc.ClipRect.Left)
+                        case TAOWGaugeType.gtBorderless:
+                            P = FPosition * FWinWidth / (FMax - FMin);
+                            if (FAOWWindow.FWinLeft + P + FWinLeft > SurfDesc.ClipRect.Left)
                             {
-                                SurfDesc.ClipRect.Left = (FAOWWindow.FWinLeft + P) + FWinLeft;
+                                SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft;
                             }
 
-                            var call__29 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + P) + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
+                            var call__29 = Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
                             FILTextureNormal.DrawILT(FILIndexTNormal, call__29, ref SurfDesc);
                             SurfDesc.ClipRect = OldClip;
-                            var call__30 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
+                            var call__30 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
                             FILTextureSelected.DrawILT(FILIndexTSelected, call__30, ref SurfDesc);
                             break;
                     }
@@ -208,16 +187,16 @@ namespace Aow.Units.AOWGauge
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AOWGauge.pas:237
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseDown != null)
@@ -228,10 +207,10 @@ namespace Aow.Units.AOWGauge
         }
 
         // AOWGauge.pas:250
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -242,10 +221,10 @@ namespace Aow.Units.AOWGauge
         }
 
         // AOWGauge.pas:262
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseMove != null)
@@ -262,7 +241,7 @@ namespace Aow.Units.AOWGauge
         }
 
         // AOWGauge.pas:141
-        public virtual void SetILFrame(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILFrame(TInterfaceIL Value)
         {
             if (Value != FILFrame)
             {
@@ -272,7 +251,7 @@ namespace Aow.Units.AOWGauge
         }
 
         // AOWGauge.pas:150
-        public virtual void SetILTNorm(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTNorm(TInterfaceIL Value)
         {
             if (Value != FILTextureNormal)
             {
@@ -282,7 +261,7 @@ namespace Aow.Units.AOWGauge
         }
 
         // AOWGauge.pas:159
-        public virtual void SetILTSel(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTSel(TInterfaceIL Value)
         {
             if (Value != FILTextureSelected)
             {
@@ -351,13 +330,13 @@ namespace Aow.Units.AOWGauge
         public int Position { get => FPosition; set => SetPos(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+        public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+        public TInterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+        public TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
 
         [Published]
         public int ILIndexFrame { get => FILIndexFrame; set => FILIndexFrame = value; }
@@ -374,7 +353,7 @@ namespace Aow.Units.AOWGauge
         // AOWGauge.pas:279
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AOWGauge.TAoWGauge)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAoWGauge)]);
         }
     }
 }

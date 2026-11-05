@@ -1,36 +1,10 @@
 // Translated from Cave.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
 using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -50,44 +24,44 @@ namespace Aow.Units.Cave
 
     // { ot=1 }
     // FEntrance
-    public partial class TCave : Aow.Units.AoWE.TStructure
+    public partial class TCave : TStructure
     {
         public TCave(TECustomNode owner) : base(owner)
         {
-            FEntrance = Aow.Units.Cave.TCaveEntrance.ceDown;
+            FEntrance = TCaveEntrance.ceDown;
         }
 
         // Cave.pas:160
         public new const int ClassID = 131966;
 
-        public Aow.Units.Cave.TCaveEntrance FEntrance;
+        public TCaveEntrance FEntrance;
         // Cave.pas:134
         public override void Destroy()
         {
-            Aow.Units.Cave.TCaveEntrance OldEntrance = default;
-            Aow.Units.Cave.TCave Partner = default;
+            TCaveEntrance OldEntrance = default;
+            TCave Partner = default;
             OldEntrance = FEntrance;
-            FEntrance = Aow.Units.Cave.TCaveEntrance.ceIdle;
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap) && (Owner != null))
+            FEntrance = TCaveEntrance.ceIdle;
+            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap) && Owner != null)
             {
                 if (!GetEditMode())
                 {
-                    if (OldEntrance == Aow.Units.Cave.TCaveEntrance.ceUp)
+                    if (OldEntrance == TCaveEntrance.ceUp)
                     {
-                        var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx - 1);
+                        var call__1 = AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((TMapField)Owner).Lhx - 1);
                         var call__2 = call__1.FindOwnedChild(131966);
-                        Partner = (Aow.Units.Cave.TCave)call__2;
-                        if ((Partner != null) && (Partner.FEntrance == Aow.Units.Cave.TCaveEntrance.ceDown))
+                        Partner = (TCave)call__2;
+                        if (Partner != null && Partner.FEntrance == TCaveEntrance.ceDown)
                         {
                             Partner.Destroy();
                         }
                     }
                     else
                     {
-                        var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx + 1);
+                        var call__3 = AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((TMapField)Owner).Lhx + 1);
                         var call__4 = call__3.FindOwnedChild(131966);
-                        Partner = (Aow.Units.Cave.TCave)call__4;
-                        if ((Partner != null) && (Partner.FEntrance == Aow.Units.Cave.TCaveEntrance.ceUp))
+                        Partner = (TCave)call__4;
+                        if (Partner != null && Partner.FEntrance == TCaveEntrance.ceUp)
                         {
                             Partner.Destroy();
                         }
@@ -99,10 +73,10 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:244
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FEntrance, 1), 1, 6);
+            Stream.rwData(Bytes.Of(ref FEntrance, 1), 1, 6);
         }
 
         // Cave.pas:128
@@ -113,29 +87,29 @@ namespace Aow.Units.Cave
         {
             sbyte Result = default;
             var call__5 = FResource.TerrainList.Terrain[Index];
-            Result = unchecked((sbyte)call__5);
+            Result = call__5;
             if (Result >= 0)
             {
-                Result = unchecked((sbyte)-1);
+                Result = -1;
             }
 
             return Result;
         }
 
         // Cave.pas:257
-        public override void MoveExclusive(in Aow.Units.HSEngine.THSSenderInfo Info)
+        public override void MoveExclusive(in THSSenderInfo Info)
         {
-            Aow.Units.HSEngine.TMapField Field = default;
+            TMapField Field = default;
             if (Info.HN == 0)
             {
                 switch (FEntrance)
                 {
-                    case Aow.Units.Cave.TCaveEntrance.ceUp:
-                        var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx - 1);
+                    case TCaveEntrance.ceUp:
+                        var call__6 = AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((TMapField)Owner).Lhx - 1);
                         Field = call__6;
                         break;
-                    case Aow.Units.Cave.TCaveEntrance.ceDown:
-                        var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx + 1);
+                    case TCaveEntrance.ceDown:
+                        var call__7 = AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((TMapField)Owner).Lhx + 1);
                         Field = call__7;
                         break;
                     default:
@@ -144,7 +118,7 @@ namespace Aow.Units.Cave
                 }
 
                 // { Original dereferences the destination even for an idle entrance. }
-                ((Aow.Units.AoWE.TMoveControl)Info.Sender).ExecuteExternalMove((Aow.Units.AoWE.TAoWMapField)Info.MapField, (Aow.Units.AoWE.TAoWMapField)Field, MemoryMarshal.Cast<Aow.Units.FixedArray_sbyte_16, sbyte>((Span<Aow.Units.FixedArray_sbyte_16>)((Aow.Units.AoWE.TMoveControl)((System.Object)Info.Sender)).FMovePointTable)[(1 + (16 * Field.TerrainType)) + Field.OverlayType]);
+                ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)Field, MemoryMarshal.Cast<FixedArray_sbyte_16, sbyte>(((TMoveControl)(object)Info.Sender).FMovePointTable)[1 + 16 * Field.TerrainType + Field.OverlayType]);
             }
         }
 
@@ -152,62 +126,62 @@ namespace Aow.Units.Cave
         public override void Activate()
         {
             base.Activate();
-            ((Aow.Units.AoWE.TAoWMapField)Owner).UpdateMapField();
+            ((TAoWMapField)Owner).UpdateMapField();
         }
 
         // Cave.pas:285
         public override void Deactivate()
         {
             base.Deactivate();
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated);
-            ((Aow.Units.AoWE.TAoWMapField)Owner).UpdateMapField();
+            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moActivated);
+            ((TAoWMapField)Owner).UpdateMapField();
         }
 
         // Cave.pas:250
-        public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public override void UpdateMapField(in THSMapFieldInfo Info)
         {
             if (Info.HN == 0)
             {
-                ((Aow.Units.AoWE.TAoWMapField)((System.Object)Info.MapField)).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)((System.Object)Info.MapField)).FFieldFlags | 32768;
+                ((TAoWMapField)(object)Info.MapField).FFieldFlags = ((TAoWMapField)(object)Info.MapField).FFieldFlags | 32768;
             }
         }
 
         // Cave.pas:204
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             // { Original permits an upward cave on level zero; there is no lower-bound test. }
-            var call__8 = base.CanPlace(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
-            Result = call__8 && (((Lhx + 1) < MapContainer.LevelCount) || (FEntrance == Aow.Units.Cave.TCaveEntrance.ceUp));
+            var call__8 = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
+            Result = call__8 && (Lhx + 1 < MapContainer.LevelCount || FEntrance == TCaveEntrance.ceUp);
             return Result;
         }
 
         // Cave.pas:211
-        public override bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.Cave.TCave Up = default;
-            Aow.Units.Cave.TCave Down = default;
-            Result = base.PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            TCave Up = default;
+            TCave Down = default;
+            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             if (Result)
             {
                 if (!GetEditMode())
                 {
-                    if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceDown)
+                    if (FEntrance == TCaveEntrance.ceDown)
                     {
                         var call__9 = MapContainer.GetField(Xhx, Yhx, Lhx + 1);
                         var call__10 = call__9.FindOwnedChild(131966);
-                        Up = (Aow.Units.Cave.TCave)call__10;
+                        Up = (TCave)call__10;
                         if (Up == null)
                         {
                             var call__11 = FResource.CreateResourceUser();
-                            Up = (Aow.Units.Cave.TCave)call__11;
-                            Up.FEntrance = Aow.Units.Cave.TCaveEntrance.ceUp;
-                            Result = Up.PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)(Lhx + 1)));
+                            Up = (TCave)call__11;
+                            Up.FEntrance = TCaveEntrance.ceUp;
+                            Result = Up.PlaceHX(MapContainer, Xhx, Yhx, (sbyte)(Lhx + 1));
                         }
                         else
                         {
-                            Result = Up.FEntrance == Aow.Units.Cave.TCaveEntrance.ceUp;
+                            Result = Up.FEntrance == TCaveEntrance.ceUp;
                         }
 
                         // { Original destroys an existing partner when its entrance direction is wrong. }
@@ -224,17 +198,17 @@ namespace Aow.Units.Cave
                     {
                         var call__12 = MapContainer.GetField(Xhx, Yhx, Lhx - 1);
                         var call__13 = call__12.FindOwnedChild(131966);
-                        Down = (Aow.Units.Cave.TCave)call__13;
+                        Down = (TCave)call__13;
                         if (Down == null)
                         {
                             var call__14 = FResource.CreateResourceUser();
-                            Down = (Aow.Units.Cave.TCave)call__14;
-                            Down.FEntrance = Aow.Units.Cave.TCaveEntrance.ceDown;
-                            Result = Down.PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)(Lhx - 1)));
+                            Down = (TCave)call__14;
+                            Down.FEntrance = TCaveEntrance.ceDown;
+                            Result = Down.PlaceHX(MapContainer, Xhx, Yhx, (sbyte)(Lhx - 1));
                         }
                         else
                         {
-                            Result = Down.FEntrance == Aow.Units.Cave.TCaveEntrance.ceDown;
+                            Result = Down.FEntrance == TCaveEntrance.ceDown;
                         }
 
                         if (!Result)
@@ -256,7 +230,7 @@ namespace Aow.Units.Cave
         public override int GetTerrainTypeImage(int TerrainType)
         {
             int Result = default;
-            if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceDown)
+            if (FEntrance == TCaveEntrance.ceDown)
             {
                 Result = TerrainType;
             }
@@ -269,16 +243,16 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:163
-        public override Aow.Units.ImageLib.TLibraryImage GetTopBorderImage()
+        public override ImageLib.TLibraryImage GetTopBorderImage()
         {
-            Aow.Units.ImageLib.TLibraryImage Result = default;
-            if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceUp)
+            ImageLib.TLibraryImage Result = default;
+            if (FEntrance == TCaveEntrance.ceUp)
             {
-                bool bool__15 = (FResource.ImageSequenceList != null);
+                bool bool__15 = FResource.ImageSequenceList != null;
                 if (bool__15)
                 {
                     var call__16 = FResource.ImageSequenceList.ImageSequences[33];
-                    bool__15 = (call__16 != null);
+                    bool__15 = call__16 != null;
                 }
 
                 if (bool__15)
@@ -301,16 +275,16 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:175
-        public override Aow.Units.ImageLib.TLibraryImage GetMiddleBorderImage()
+        public override ImageLib.TLibraryImage GetMiddleBorderImage()
         {
-            Aow.Units.ImageLib.TLibraryImage Result = default;
-            if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceUp)
+            ImageLib.TLibraryImage Result = default;
+            if (FEntrance == TCaveEntrance.ceUp)
             {
-                bool bool__19 = (FResource.ImageSequenceList != null);
+                bool bool__19 = FResource.ImageSequenceList != null;
                 if (bool__19)
                 {
                     var call__20 = FResource.ImageSequenceList.ImageSequences[34];
-                    bool__19 = (call__20 != null);
+                    bool__19 = call__20 != null;
                 }
 
                 if (bool__19)
@@ -333,16 +307,16 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:187
-        public override Aow.Units.ImageLib.TLibraryImage GetBottomBorderImage()
+        public override ImageLib.TLibraryImage GetBottomBorderImage()
         {
-            Aow.Units.ImageLib.TLibraryImage Result = default;
-            if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceUp)
+            ImageLib.TLibraryImage Result = default;
+            if (FEntrance == TCaveEntrance.ceUp)
             {
-                bool bool__23 = (FResource.ImageSequenceList != null);
+                bool bool__23 = FResource.ImageSequenceList != null;
                 if (bool__23)
                 {
                     var call__24 = FResource.ImageSequenceList.ImageSequences[35];
-                    bool__23 = (call__24 != null);
+                    bool__23 = call__24 != null;
                 }
 
                 if (bool__23)
@@ -365,15 +339,15 @@ namespace Aow.Units.Cave
         }
 
         // Cave.pas:412
-        public override void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
+        public override void ArmyPlaced(TArmyHS A1)
         {
             int L = default;
-            Aow.Units.AoWE.TArmyHS ArmyHS = default;
+            TArmyHS ArmyHS = default;
             base.ArmyPlaced(A1);
             ArmyHS = A1;
             if (ArmyHS != null)
             {
-                if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceDown)
+                if (FEntrance == TCaveEntrance.ceDown)
                 {
                     L = GetLhx() + 1;
                 }
@@ -385,18 +359,18 @@ namespace Aow.Units.Cave
                 var call__27 = ArmyHS.FArmy.VisibilityRange();
                 var call__28 = ArmyHS.GetYhx();
                 var call__29 = ArmyHS.GetXhx();
-                var call__30 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(L);
-                ((Aow.Units.AoWE.TAoWMapLevel)call__30).ExploreArea(call__29, call__28, unchecked((sbyte)ArmyHS.FArmy.FPlayer), call__27);
+                var call__30 = AoWHSMap.MapContainer.GetMapLevel(L);
+                ((TAoWMapLevel)call__30).ExploreArea(call__29, call__28, ArmyHS.FArmy.FPlayer, call__27);
             }
         }
 
         // Cave.pas:292
-        public sbyte EnterMovePoints(Aow.Units.AoWE.TArmy Army, byte Selection)
+        public sbyte EnterMovePoints(TArmy Army, byte Selection)
         {
             sbyte Result = default;
-            Aow.Units.HSEngine.TMapField Field = default;
+            TMapField Field = default;
             int L = default;
-            if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceDown)
+            if (FEntrance == TCaveEntrance.ceDown)
             {
                 L = GetLhx() + 1;
             }
@@ -407,22 +381,22 @@ namespace Aow.Units.Cave
 
             var call__31 = GetYhx();
             var call__32 = GetXhx();
-            var call__33 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(call__32, call__31, L);
+            var call__33 = AoWHSMap.MapContainer.GetField(call__32, call__31, L);
             Field = call__33;
-            var call__34 = unchecked((sbyte)Army.MoveOnMovePoints(unchecked((byte)unchecked((byte)Selection)), unchecked((sbyte)unchecked((sbyte)Field.TerrainType)), unchecked((sbyte)unchecked((sbyte)Field.OverlayType))));
-            Result = unchecked((sbyte)call__34);
+            var call__34 = (sbyte)Army.MoveOnMovePoints(Selection, Field.TerrainType, Field.OverlayType);
+            Result = call__34;
             return Result;
         }
 
         // Cave.pas:300
-        public byte CanEnterSelection(Aow.Units.AoWE.TUnitList Units)
+        public byte CanEnterSelection(TUnitList Units)
         {
             byte Result = default;
             int L = default;
             int I = default;
-            Aow.Units.HSEngine.TMapField Field = default;
-            Aow.Units.AoWE.TAbstractUnit AUnit = default;
-            if (FEntrance == Aow.Units.Cave.TCaveEntrance.ceDown)
+            TMapField Field = default;
+            TAbstractUnit AUnit = default;
+            if (FEntrance == TCaveEntrance.ceDown)
             {
                 L = GetLhx() + 1;
             }
@@ -433,7 +407,7 @@ namespace Aow.Units.Cave
 
             var call__35 = GetYhx();
             var call__36 = GetXhx();
-            var call__37 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(call__36, call__35, L);
+            var call__37 = AoWHSMap.MapContainer.GetField(call__36, call__35, L);
             Field = call__37;
             Result = 0;
             {
@@ -442,11 +416,11 @@ namespace Aow.Units.Cave
                 for (; I <= end__38; I += 1)
                 {
                     AUnit = Units.GetUnit(I);
-                    var call__39 = AUnit.MovePointCost(unchecked((sbyte)unchecked((sbyte)Field.TerrainType)), unchecked((sbyte)unchecked((sbyte)Field.OverlayType)));
+                    var call__39 = AUnit.MovePointCost(Field.TerrainType, Field.OverlayType);
                     var call__40 = AUnit.GetMovePoints();
                     if (call__39 <= call__40)
                     {
-                        Result = (byte)(((int)Result) + (1 << I));
+                        Result = (byte)(Result + (1 << I));
                     }
                 }
             }
@@ -458,14 +432,14 @@ namespace Aow.Units.Cave
         public bool CanEnter(sbyte Player)
         {
             bool Result = default;
-            Aow.Units.AoWE.TArmyHS ArmyHS = default;
+            TArmyHS ArmyHS = default;
             var call__41 = Owner.FindOwnedChild(131607);
-            ArmyHS = (Aow.Units.AoWE.TArmyHS)call__41;
-            bool bool__42 = (ArmyHS != null) && (Player == ArmyHS.FArmy.FPlayer);
+            ArmyHS = (TArmyHS)call__41;
+            bool bool__42 = ArmyHS != null && Player == ArmyHS.FArmy.FPlayer;
             if (bool__42)
             {
                 var call__43 = CanEnterSelection(ArmyHS.FArmy);
-                bool__42 = (call__43 != 0);
+                bool__42 = call__43 != 0;
             }
 
             Result = bool__42;
@@ -477,87 +451,87 @@ namespace Aow.Units.Cave
         {
             bool Result = default;
             byte Selection = default;
-            Aow.Units.AoWE.TMovepath Path = default;
+            TMovepath Path = default;
             sbyte L = default;
-            Aow.Rtl.AnsiString MessageText = default;
-            Aow.Units.AoWE.TArmyHS ArmyHS = default;
-            Aow.Units.AoWE.TAoWMapField Field = default;
-            Aow.Units.NetworkE.TTokenEvent Event = default;
+            AnsiString MessageText = default;
+            TArmyHS ArmyHS = default;
+            TAoWMapField Field = default;
+            TTokenEvent Event = default;
             var call__44 = Owner.FindOwnedChild(131607);
-            ArmyHS = (Aow.Units.AoWE.TArmyHS)call__44;
-            bool bool__45 = (ArmyHS != null);
+            ArmyHS = (TArmyHS)call__44;
+            bool bool__45 = ArmyHS != null;
             if (bool__45)
             {
-                var call__46 = CanEnter(unchecked((sbyte)ArmyHS.FArmy.FPlayer));
+                var call__46 = CanEnter(ArmyHS.FArmy.FPlayer);
                 bool__45 = call__46;
             }
 
             if (bool__45)
             {
-                var call__47 = CanEnterSelection((Aow.Units.AoWE.TUnitList)ArmyHS.FArmy);
-                Selection = unchecked((byte)call__47);
+                var call__47 = CanEnterSelection(ArmyHS.FArmy);
+                Selection = call__47;
                 L = 0;
-                Path = new Aow.Units.AoWE.TMovepath();
+                Path = new TMovepath();
                 switch (FEntrance)
                 {
-                    case Aow.Units.Cave.TCaveEntrance.ceDown:
-                        L = unchecked((sbyte)(GetLhx() + 1));
+                    case TCaveEntrance.ceDown:
+                        L = (sbyte)(GetLhx() + 1);
                         break;
-                    case Aow.Units.Cave.TCaveEntrance.ceUp:
-                        L = unchecked((sbyte)(GetLhx() - 1));
+                    case TCaveEntrance.ceUp:
+                        L = (sbyte)(GetLhx() - 1);
                         break;
                 }
 
                 var call__48 = GetYhx();
                 var call__49 = GetXhx();
-                Path.AddXYL(unchecked((sbyte)call__49), unchecked((sbyte)call__48), unchecked((sbyte)L));
-                var call__50 = EnterMovePoints(ArmyHS.FArmy, unchecked((byte)Selection));
-                Path.List[0].Flag = unchecked((sbyte)call__50);
+                Path.AddXYL(call__49, call__48, L);
+                var call__50 = EnterMovePoints(ArmyHS.FArmy, Selection);
+                Path.List[0].Flag = call__50;
                 var call__51 = GetLhx();
                 var call__52 = GetYhx();
                 var call__53 = GetXhx();
-                Path.AddXYL(unchecked((sbyte)call__53), unchecked((sbyte)call__52), unchecked((sbyte)call__51));
+                Path.AddXYL(call__53, call__52, call__51);
                 var call__54 = GetYhx();
                 var call__55 = GetXhx();
-                var call__56 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(call__55, call__54, L);
-                Field = (Aow.Units.AoWE.TAoWMapField)call__56;
-                var call__57 = Field.GetMoveAction(unchecked((sbyte)ArmyHS.FArmy.FPlayer));
-                bool bool__58 = (call__57 != Aow.Units.AoWE.TMoveAction.maAttack);
+                var call__56 = AoWHSMap.MapContainer.GetField(call__55, call__54, L);
+                Field = (TAoWMapField)call__56;
+                var call__57 = Field.GetMoveAction(ArmyHS.FArmy.FPlayer);
+                bool bool__58 = call__57 != TMoveAction.maAttack;
                 if (!bool__58)
                 {
                     var call__59 = Field.GetPlayer();
-                    bool__58 = (call__59 <= 0);
+                    bool__58 = call__59 <= 0;
                 }
 
                 bool bool__60 = bool__58;
                 if (!bool__60)
                 {
                     var call__61 = Field.GetPlayer();
-                    var call__62 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetDiplomaticRelation(unchecked((sbyte)ArmyHS.FArmy.FPlayer), unchecked((sbyte)call__61));
-                    bool__60 = TSet<byte>.WithBounds(0, 255).With(1).With(3).Contains((byte)((int)call__62));
+                    var call__62 = AoWHSMap.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, call__61);
+                    bool__60 = TSet<byte>.WithBounds(0, 255).With(1).With(3).Contains((byte)(int)call__62);
                 }
 
                 if (bool__60)
                 {
                     var call__63 = Field.GetPlayer();
-                    bool bool__64 = (call__63 > -1);
+                    bool bool__64 = call__63 > -1;
                     if (bool__64)
                     {
                         var call__65 = Field.GetPlayer();
-                        bool__64 = (call__65 != ArmyHS.FArmy.FPlayer);
+                        bool__64 = call__65 != ArmyHS.FArmy.FPlayer;
                     }
 
                     if (bool__64)
                     {
-                        var call__66 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+                        var call__66 = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
                         var call__67 = call__66.GetBusy();
                         if (!call__67)
                         {
                             // { Original passes action before mode. }
-                            Event = Aow.Units.AoWE.AoWE.CreateArmyMoveTE(ArmyHS, unchecked((byte)Selection), Path, Aow.Units.AoWE.TMoveAction.maAttack, TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of());
+                            Event = CreateArmyMoveTE(ArmyHS, Selection, Path, TMoveAction.maAttack, TSet<TArmyMoveModeElement>.Of());
                             if (Event != null)
                             {
-                                var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer);
+                                var call__68 = AoWHSMap.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer);
                                 call__68.AddEvent(Event);
                                 Event.Release();
                                 Result = true;
@@ -574,28 +548,28 @@ namespace Aow.Units.Cave
                     }
                     else
                     {
-                        Result = Aow.Units.AoWE.AoWE.MoveArmyEx(ArmyHS, unchecked((byte)Selection), Path, TSet<Aow.Units.AoWE.TArmyMoveModeElement>.Of(), false);
+                        Result = MoveArmyEx(ArmyHS, Selection, Path, TSet<TArmyMoveModeElement>.Of(), false);
                     }
 
-                    if (Result && (unchecked((byte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer) == unchecked((byte)ArmyHS.FArmy.FPlayer)))
+                    if (Result && (byte)AoWHSMap.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
                     {
-                        Aow.Units.AoWE.AoWE.AoWHSMap.ViewLevel(L);
-                        Aow.Units.AoWE.AoWE.AoWHSMap.FSelectedArmy.Select(ArmyHS);
+                        AoWHSMap.ViewLevel(L);
+                        AoWHSMap.FSelectedArmy.Select(ArmyHS);
                     }
                 }
                 else
                 {
                     // { Original only warns the seated player. }
-                    if (ArmyHS.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
+                    if (ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
                     {
                         var call__69 = Field.GetPlayer();
-                        var call__70 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__69);
-                        var call__71 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[call__70.FPlayerRace]);
-                        var call__72 = Aow.Units.AoWE.AoWE.NoWarDeclaredtoXRStr;
-                        var call__73 = Aow.Units.AoWE.AoWE.TranslateRStr(call__72);
-                        var call__74 = Aow.Rtl.Rtl.Format(call__73, [call__71]);
+                        var call__70 = AoWHSMap.FPlayers.GetPlayers(call__69);
+                        var call__71 = TranslateRStr(RaceNamesPluralRStr[call__70.FPlayerRace]);
+                        var call__72 = NoWarDeclaredtoXRStr;
+                        var call__73 = TranslateRStr(call__72);
+                        var call__74 = Rtl.Rtl.Format(call__73, [call__71]);
                         MessageText = call__74;
-                        ((Aow.Units.AoWE.TAbstractAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap).ShowMessage(MessageText);
+                        AoWHSMap.ShowMessage(MessageText);
                     }
 
                     Result = false;
@@ -616,22 +590,22 @@ namespace Aow.Units.Cave
         public bool Enter(sbyte Player)
         {
             bool Result = default;
-            Aow.Units.AoWE.TArmyHS ArmyHS = default;
-            Aow.Units.Cave.TEnterCaveEventLog Log = default;
-            if (CanEnter(unchecked((sbyte)Player)))
+            TArmyHS ArmyHS = default;
+            TEnterCaveEventLog Log = default;
+            if (CanEnter(Player))
             {
                 var call__75 = Owner.FindOwnedChild(131607);
-                ArmyHS = (Aow.Units.AoWE.TArmyHS)call__75;
-                var call__76 = CanEnterSelection((Aow.Units.AoWE.TUnitList)ArmyHS.FArmy);
-                var call__77 = unchecked((byte)ArmyHS.FArmy.ValidateSelection(unchecked((byte)(byte)(255))));
+                ArmyHS = (TArmyHS)call__75;
+                var call__76 = CanEnterSelection(ArmyHS.FArmy);
+                var call__77 = ArmyHS.FArmy.ValidateSelection(255);
                 if (call__76 != call__77)
                 {
-                    Log = new Aow.Units.Cave.TEnterCaveEventLog(null);
+                    Log = new TEnterCaveEventLog(null);
                     Log.FCave = this;
-                    var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SplitOnEnterCaveWarningRStr);
+                    var call__78 = TranslateRStr(SplitOnEnterCaveWarningRStr);
                     Log.FMessage.Text = call__78;
-                    Log.FButtons = Aow.Units.EventLog.TMessageEventLogButtons.mebYesNo;
-                    Log.Execute(true, Aow.Units.EventLog.TExecuteTrigger.etUser, null);
+                    Log.FButtons = TMessageEventLogButtons.mebYesNo;
+                    Log.Execute(true, TExecuteTrigger.etUser, null);
                     Log.Release();
                     Result = true;
                 }
@@ -653,7 +627,7 @@ namespace Aow.Units.Cave
 
     }
 
-    public partial class TCaveResource : Aow.Units.AoWE.TStructureResource
+    public partial class TCaveResource : TStructureResource
     {
         public TCaveResource(TECustomNode owner) : base(owner)
         {
@@ -679,22 +653,22 @@ namespace Aow.Units.Cave
 
 
         // Cave.pas:433
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CaveRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(CaveRStr);
             return Result;
         }
 
     }
 
     // FCave
-    public partial class TEnterCaveEventLog : Aow.Units.EventLog.TMessageEventLog
+    public partial class TEnterCaveEventLog : TMessageEventLog
     {
         public TEnterCaveEventLog(TECustomNode owner) : base(owner)
         { }
 
-        public Aow.Units.Cave.TCave FCave;
+        public TCave FCave;
         // Cave.pas:442
         public override bool Yes()
         {
@@ -720,7 +694,7 @@ namespace Aow.Units.Cave
     public struct TCaveFieldFlags
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_24 Reserved;
+        public FixedArray_byte_24 Reserved;
         [FieldOffset(24)]
         public int Flags;
     }
@@ -729,7 +703,7 @@ namespace Aow.Units.Cave
     public struct TCaveMapFields
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_165 Reserved;
+        public FixedArray_byte_165 Reserved;
         [FieldOffset(165)]
         public sbyte SeatedPlayer;
     }
@@ -738,7 +712,7 @@ namespace Aow.Units.Cave
     public struct TCavePlayerFields
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_165 Reserved;
+        public FixedArray_byte_165 Reserved;
         [FieldOffset(165)]
         public sbyte Race;
     }
@@ -747,22 +721,22 @@ namespace Aow.Units.Cave
     public struct TCaveMoveData
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_49 Reserved;
+        public FixedArray_byte_49 Reserved;
         [FieldOffset(49)]
-        public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 Costs;
+        public FixedArray_Aow_Units_FixedArray_sbyte_16_16 Costs;
     }
 
     public static partial class Cave
     {
         // Cave.pas:451
-        public static void RegisterCave(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterCave(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Cave.TCave>(), Aow.Units.Engine.EClass.Of<Aow.Units.Cave.TCaveResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TCave>(), EClass.Of<TCaveResource>()]);
         }
 
         // Original AoWE resource initialization table
-        public static Aow.Rtl.AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
-        public static readonly Aow.Rtl.AnsiString CaveNoWarRStr = (AnsiString)"Not at war with the %s";
+        public static AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
+        public static readonly AnsiString CaveNoWarRStr = (AnsiString)"Not at war with the %s";
 
         public static void Initialize()
         {

@@ -1,48 +1,25 @@
 // Translated from MagicSanctuary.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MagicSanctuary
 {
     // FStructure. FFadeEndFrame
-    public partial class TMagicSanctuaryOverlayHS : Aow.Units.HSEngine.TSingleHS
+    public partial class TMagicSanctuaryOverlayHS : TSingleHS
     {
         public TMagicSanctuaryOverlayHS(TECustomNode owner) : base(owner)
         {
             FFadeEndFrame = -1;
         }
 
-        public Aow.Units.MagicSanctuary.TMagicSanctuary FStructure;
+        public TMagicSanctuary FStructure;
         public int FFadeEndFrame;
         // MagicSanctuary.pas:67
 
@@ -57,15 +34,15 @@ namespace Aow.Units.MagicSanctuary
         }
 
         // MagicSanctuary.pas:78
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
+            TImageSequence Sequence = default;
             int FrameIndex = default;
             int Blend = default;
             int Xhp = default;
             int Yhp = default;
             int FramesLeft = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
+            HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             var call__2 = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
@@ -73,12 +50,12 @@ namespace Aow.Units.MagicSanctuary
             if (Sequence != null)
             {
                 Blend = 50;
-                if ((FFadeEndFrame != -1) && (FFadeEndFrame > Aow.Units.AoWE.AoWE.AoWHSMap.Frame))
+                if (FFadeEndFrame != -1 && FFadeEndFrame > AoWHSMap.Frame)
                 {
-                    FramesLeft = FFadeEndFrame - Aow.Units.AoWE.AoWE.AoWHSMap.Frame;
+                    FramesLeft = FFadeEndFrame - AoWHSMap.Frame;
                     if (FramesLeft <= 20)
                     {
-                        Blend += (10 - System.Math.Abs(FramesLeft - 10)) * 3;
+                        Blend += (10 - Math.Abs(FramesLeft - 10)) * 3;
                     }
                     else
                     {
@@ -92,14 +69,14 @@ namespace Aow.Units.MagicSanctuary
 
                 FrameIndex = Sequence.GetFrameIndex(0, 0);
                 var call__3 = Sequence.ImageLibrary[FrameIndex];
-                call__3.ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, Aow.Units.GFXE.GFXE.IntensityBlendTable.LookupTables[Blend]);
+                call__3.ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, IntensityBlendTable.LookupTables[Blend]);
             }
         }
 
         // MagicSanctuary.pas:105
         public void FadeUp()
         {
-            FFadeEndFrame = Aow.Units.AoWE.AoWE.AoWHSMap.Frame + 20;
+            FFadeEndFrame = AoWHSMap.Frame + 20;
         }
 
         // MagicSanctuary.pas:22
@@ -107,11 +84,11 @@ namespace Aow.Units.MagicSanctuary
     }
 
     // FOverlayHS
-    public partial class TMagicSanctuary : Aow.Units.AoWE.TStructure
+    public partial class TMagicSanctuary : TStructure
     {
         public TMagicSanctuary(TECustomNode owner) : base(owner)
         {
-            var call__4 = new Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS(null);
+            var call__4 = new TMagicSanctuaryOverlayHS(null);
             FOverlayHS = call__4;
             FOverlayHS.FStructure = this;
         }
@@ -119,11 +96,11 @@ namespace Aow.Units.MagicSanctuary
         // MagicSanctuary.pas:124
         public new const int ClassID = 133274;
 
-        public Aow.Units.MagicSanctuary.TMagicSanctuaryOverlayHS FOverlayHS;
+        public TMagicSanctuaryOverlayHS FOverlayHS;
         // MagicSanctuary.pas:117
         public override void Destroy()
         {
-            Aow.Units.AoWE.AoWE.AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
+            AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
             FOverlayHS.Free();
             base.Destroy();
         }
@@ -132,7 +109,7 @@ namespace Aow.Units.MagicSanctuary
 
 
         // MagicSanctuary.pas:136
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             var call__5 = FResource.TerrainList.GetTerrain(Msg.HN);
@@ -146,9 +123,9 @@ namespace Aow.Units.MagicSanctuary
         }
 
         // MagicSanctuary.pas:127
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(TMapObjectStatusElement.moVisible))
             {
                 base.MakeVisible(VisibilityList);
                 FOverlayHS.MakeVisible(VisibilityList);
@@ -156,7 +133,7 @@ namespace Aow.Units.MagicSanctuary
         }
 
         // MagicSanctuary.pas:143
-        public override void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
+        public override void ArmyPlaced(TArmyHS A1)
         {
             base.ArmyPlaced(A1);
             FOverlayHS.FadeUp();
@@ -167,7 +144,7 @@ namespace Aow.Units.MagicSanctuary
 
     }
 
-    public partial class TMagicSanctuaryResource : Aow.Units.AoWE.TStructureResource
+    public partial class TMagicSanctuaryResource : TStructureResource
     {
         public TMagicSanctuaryResource(TECustomNode owner) : base(owner)
         {
@@ -194,11 +171,11 @@ namespace Aow.Units.MagicSanctuary
 
 
         // MagicSanctuary.pas:157
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__6 = Aow.Units.AoWE.AoWE.MagicSanctuaryRStr;
-            var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(call__6);
+            AnsiString Result = default;
+            var call__6 = MagicSanctuaryRStr;
+            var call__7 = TranslateRStr(call__6);
             Result = call__7;
             return Result;
         }
@@ -208,9 +185,9 @@ namespace Aow.Units.MagicSanctuary
     public static partial class MagicSanctuary
     {
         // MagicSanctuary.pas:166
-        public static void RegisterMagicSanctuary(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterMagicSanctuary(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MagicSanctuary.TMagicSanctuary>(), Aow.Units.Engine.EClass.Of<Aow.Units.MagicSanctuary.TMagicSanctuaryResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TMagicSanctuary>(), EClass.Of<TMagicSanctuaryResource>()]);
         }
 
         public static void Initialize()

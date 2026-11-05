@@ -1,214 +1,169 @@
 // Translated from AoWSpellBook.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.PageTurnCtrl;
-using static Aow.Units.PageTurnCtrl.PageTurnCtrl;
 using Aow.Units.AoWBookWindow;
-using static Aow.Units.AoWBookWindow.AoWBookWindow;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWSpellBook
 {
     // mode, page kind, spell type, spells, page, hero, activation, researched spell, callback,
     // event, saved player pages
-    public partial class TSpellBook : Aow.Rtl.TDataModule
+    public partial class TSpellBook : TDataModule
     {
         public TSpellBook(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWLabel.TAOWLabel LeftHeader;
-        public Aow.Units.AoWPanel.TAOWPanel LeftSpellPage;
-        public Aow.Units.AoWPanel.TAOWPanel S1Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S1Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S1Class;
-        public Aow.Units.AoWMemo.TAOWMemo S1Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S1Cost;
-        public Aow.Units.AoWImage.TAOWImage S1Icn;
-        public Aow.Units.AoWPanel.TAOWPanel S2Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S2Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S2Class;
-        public Aow.Units.AoWMemo.TAOWMemo S2Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S2Cost;
-        public Aow.Units.AoWImage.TAOWImage S2Icn;
-        public Aow.Units.AoWPanel.TAOWPanel S3Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S3Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S3Class;
-        public Aow.Units.AoWMemo.TAOWMemo S3Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S3Cost;
-        public Aow.Units.AoWImage.TAOWImage S3Icn;
-        public Aow.Units.AoWPanel.TAOWPanel S4Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S4Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S4Class;
-        public Aow.Units.AoWMemo.TAOWMemo S4Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S4Cost;
-        public Aow.Units.AoWImage.TAOWImage S4Icn;
-        public Aow.Units.AoWLabel.TAOWLabel RightHeader;
-        public Aow.Units.AoWPanel.TAOWPanel RightSpellPage;
-        public Aow.Units.AoWPanel.TAOWPanel S5Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S5Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S5Class;
-        public Aow.Units.AoWMemo.TAOWMemo S5Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S5Cost;
-        public Aow.Units.AoWImage.TAOWImage S5Icn;
-        public Aow.Units.AoWPanel.TAOWPanel S6Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S6Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S6Class;
-        public Aow.Units.AoWMemo.TAOWMemo S6Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S6Cost;
-        public Aow.Units.AoWImage.TAOWImage S6Icn;
-        public Aow.Units.AoWPanel.TAOWPanel S7Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S7Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S7Class;
-        public Aow.Units.AoWMemo.TAOWMemo S7Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S7Cost;
-        public Aow.Units.AoWImage.TAOWImage S7Icn;
-        public Aow.Units.AoWPanel.TAOWPanel S8Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel S8Spell;
-        public Aow.Units.AoWLabel.TAOWLabel S8Class;
-        public Aow.Units.AoWMemo.TAOWMemo S8Memo;
-        public Aow.Units.AoWLabel.TAOWLabel S8Cost;
-        public Aow.Units.AoWImage.TAOWImage S8Icn;
-        public Aow.Units.AoWButton.TAOWButton S1Btn;
-        public Aow.Units.AoWLabel.TAOWLabel CurrentPointsLbl;
-        public Aow.Units.AoWLabel.TAOWLabel Line;
-        public Aow.Units.AoWLabel.TAOWLabel CastingPointsMaxLbl;
-        public Aow.Units.AoWButton.TAOWButton GlobalBtn;
-        public Aow.Units.AoWButton.TAOWButton UnitBtn;
-        public Aow.Units.AoWButton.TAOWButton CombatBtn;
-        public Aow.Units.AoWButton.TAOWButton InfoBtn;
-        public Aow.Units.AoWButton.TAOWButton PrevBtn;
-        public Aow.Units.AoWButton.TAOWButton NextBtn;
-        public Aow.Units.AoWButton.TAOWButton Cancel;
-        public Aow.Units.AoWButton.TAOWButton S2Btn;
-        public Aow.Units.AoWButton.TAOWButton S3Btn;
-        public Aow.Units.AoWButton.TAOWButton S4Btn;
-        public Aow.Units.AoWButton.TAOWButton S5btn;
-        public Aow.Units.AoWButton.TAOWButton S6Btn;
-        public Aow.Units.AoWButton.TAOWButton S7Btn;
-        public Aow.Units.AoWButton.TAOWButton S8Btn;
-        public Aow.Units.AoWPanel.TAOWPanel CastingPage;
-        public Aow.Units.AoWPanel.TAOWPanel CastingPnl;
-        public Aow.Units.AoWLabel.TAOWLabel CastingSpell;
-        public Aow.Units.AoWLabel.TAOWLabel CastingClass;
-        public Aow.Units.AoWMemo.TAOWMemo CastingMemo;
-        public Aow.Units.AoWLabel.TAOWLabel CastingCost;
-        public Aow.Units.AoWImage.TAOWImage CastingIcn;
-        public Aow.Units.AoWPanel.TAOWPanel LeftInfoPage;
-        public Aow.Units.AoWLabel.TAOWLabel CastingStatus;
-        public Aow.Units.AoWLabel.TAOWLabel CastingPointsLbl;
-        public Aow.Units.AoWButton.TAOWButton CastingBtn;
-        public Aow.Units.AoWButton.TAOWButton Sel4;
-        public Aow.Units.AoWPanel.TAOWPanel SelPnl;
-        public Aow.Units.AoWButton.TAOWButton Sel3;
-        public Aow.Units.AoWButton.TAOWButton Sel2;
-        public Aow.Units.AoWButton.TAOWButton Sel1;
-        public Aow.Units.AoWButton.TAOWButton Sel5;
-        public Aow.Units.AoWButton.TAOWButton Sel6;
-        public Aow.Units.AoWButton.TAOWButton Sel7;
-        public Aow.Units.AoWLabel.TAOWLabel SelLbl;
-        public Aow.Units.AoWLabel.TAOWLabel SpellBookLbl;
-        public Aow.Units.AoWLabel.TAOWLabel NameLbl;
-        public Aow.Units.AoWLabel.TAOWLabel ManaPoolLbl;
-        public Aow.Units.AoWLabel.TAOWLabel CastingLbl;
-        public Aow.Units.AoWImage.TAOWImage FaceFrame;
-        public Aow.Units.AoWImage.TAOWImage Face;
-        public Aow.Units.AoWBookWindow.TAoWBookWindow Dlg;
-        public Aow.Units.AoWLabel.TAOWLabel NoneCastingLbl;
-        public Aow.Units.AoWPanel.TAOWPanel ResearchPage;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchName;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchClass;
-        public Aow.Units.AoWMemo.TAOWMemo ResearchMemo;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchCost;
-        public Aow.Units.AoWImage.TAOWImage ResearchIcn;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchStatus;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchNone;
-        public Aow.Units.AoWPanel.TAOWPanel ResearchPnl;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchLbl;
-        public Aow.Units.AoWPanel.TAOWPanel RightInfoPage;
-        public Aow.Units.AoWLabel.TAOWLabel ManaInfo;
-        public Aow.Units.AoWImage.TAOWImage Sep;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchPointsLbl;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchManaPoolLbl;
-        public Aow.Units.AoWLabel.TAOWLabel RManaInfo;
-        public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchBookLbl;
-        public Aow.Units.AoWButton.TAOWButton CancelResearchBtn;
-        public Aow.Units.AoWButton.TAOWButton CancelCastingBtn;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWLabel LeftHeader;
+        public TAOWPanel LeftSpellPage;
+        public TAOWPanel S1Pnl;
+        public TAOWLabel S1Spell;
+        public TAOWLabel S1Class;
+        public TAOWMemo S1Memo;
+        public TAOWLabel S1Cost;
+        public TAOWImage S1Icn;
+        public TAOWPanel S2Pnl;
+        public TAOWLabel S2Spell;
+        public TAOWLabel S2Class;
+        public TAOWMemo S2Memo;
+        public TAOWLabel S2Cost;
+        public TAOWImage S2Icn;
+        public TAOWPanel S3Pnl;
+        public TAOWLabel S3Spell;
+        public TAOWLabel S3Class;
+        public TAOWMemo S3Memo;
+        public TAOWLabel S3Cost;
+        public TAOWImage S3Icn;
+        public TAOWPanel S4Pnl;
+        public TAOWLabel S4Spell;
+        public TAOWLabel S4Class;
+        public TAOWMemo S4Memo;
+        public TAOWLabel S4Cost;
+        public TAOWImage S4Icn;
+        public TAOWLabel RightHeader;
+        public TAOWPanel RightSpellPage;
+        public TAOWPanel S5Pnl;
+        public TAOWLabel S5Spell;
+        public TAOWLabel S5Class;
+        public TAOWMemo S5Memo;
+        public TAOWLabel S5Cost;
+        public TAOWImage S5Icn;
+        public TAOWPanel S6Pnl;
+        public TAOWLabel S6Spell;
+        public TAOWLabel S6Class;
+        public TAOWMemo S6Memo;
+        public TAOWLabel S6Cost;
+        public TAOWImage S6Icn;
+        public TAOWPanel S7Pnl;
+        public TAOWLabel S7Spell;
+        public TAOWLabel S7Class;
+        public TAOWMemo S7Memo;
+        public TAOWLabel S7Cost;
+        public TAOWImage S7Icn;
+        public TAOWPanel S8Pnl;
+        public TAOWLabel S8Spell;
+        public TAOWLabel S8Class;
+        public TAOWMemo S8Memo;
+        public TAOWLabel S8Cost;
+        public TAOWImage S8Icn;
+        public TAOWButton S1Btn;
+        public TAOWLabel CurrentPointsLbl;
+        public TAOWLabel Line;
+        public TAOWLabel CastingPointsMaxLbl;
+        public TAOWButton GlobalBtn;
+        public TAOWButton UnitBtn;
+        public TAOWButton CombatBtn;
+        public TAOWButton InfoBtn;
+        public TAOWButton PrevBtn;
+        public TAOWButton NextBtn;
+        public TAOWButton Cancel;
+        public TAOWButton S2Btn;
+        public TAOWButton S3Btn;
+        public TAOWButton S4Btn;
+        public TAOWButton S5btn;
+        public TAOWButton S6Btn;
+        public TAOWButton S7Btn;
+        public TAOWButton S8Btn;
+        public TAOWPanel CastingPage;
+        public TAOWPanel CastingPnl;
+        public TAOWLabel CastingSpell;
+        public TAOWLabel CastingClass;
+        public TAOWMemo CastingMemo;
+        public TAOWLabel CastingCost;
+        public TAOWImage CastingIcn;
+        public TAOWPanel LeftInfoPage;
+        public TAOWLabel CastingStatus;
+        public TAOWLabel CastingPointsLbl;
+        public TAOWButton CastingBtn;
+        public TAOWButton Sel4;
+        public TAOWPanel SelPnl;
+        public TAOWButton Sel3;
+        public TAOWButton Sel2;
+        public TAOWButton Sel1;
+        public TAOWButton Sel5;
+        public TAOWButton Sel6;
+        public TAOWButton Sel7;
+        public TAOWLabel SelLbl;
+        public TAOWLabel SpellBookLbl;
+        public TAOWLabel NameLbl;
+        public TAOWLabel ManaPoolLbl;
+        public TAOWLabel CastingLbl;
+        public TAOWImage FaceFrame;
+        public TAOWImage Face;
+        public TAoWBookWindow Dlg;
+        public TAOWLabel NoneCastingLbl;
+        public TAOWPanel ResearchPage;
+        public TAOWLabel ResearchName;
+        public TAOWLabel ResearchClass;
+        public TAOWMemo ResearchMemo;
+        public TAOWLabel ResearchCost;
+        public TAOWImage ResearchIcn;
+        public TAOWLabel ResearchStatus;
+        public TAOWLabel ResearchNone;
+        public TAOWPanel ResearchPnl;
+        public TAOWLabel ResearchLbl;
+        public TAOWPanel RightInfoPage;
+        public TAOWLabel ManaInfo;
+        public TAOWImage Sep;
+        public TAOWLabel ResearchPointsLbl;
+        public TAOWLabel ResearchManaPoolLbl;
+        public TAOWLabel RManaInfo;
+        public TAOWImage AOWImage1;
+        public TAOWLabel ResearchBookLbl;
+        public TAOWButton CancelResearchBtn;
+        public TAOWButton CancelCastingBtn;
+        public TIvTranslator Translator;
         public byte FMode;
         // world casting, combat casting, research, researched
         public byte FPageKind;
         // information or spell list
-        public Aow.Units.AoWE.TSpellType FSpellType;
-        public Aow.Units.AoWE.TSpellList FSpells;
+        public TSpellType FSpellType;
+        public TSpellList FSpells;
         public int FPage;
-        public Aow.Units.AoWE.THero FHero;
-        public Aow.Units.AoWE.TActivateAbilityInfo FActivation;
+        public THero FHero;
+        public TActivateAbilityInfo FActivation;
         public int FResearchedSpell;
-        public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        public Aow.Units.AoWE.TPlayerMagicEventLog FEvent;
-        public Aow.Units.Engine.TDoubleItemList FPlayerPages;
+        public TExecuteDoneEvent FDone;
+        public TPlayerMagicEventLog FEvent;
+        public TDoubleItemList FPlayerPages;
         // AoWSpellBook.pas:393
         public void FinishDialog()
         {
-            Aow.Units.EventLog.TExecuteDoneEvent Done = default;
-            Aow.Units.AoWE.TPlayerMagicEventLog Event = default;
-            Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\INT\\BOOKCLSE.WAV");
+            TExecuteDoneEvent Done = default;
+            TPlayerMagicEventLog Event = default;
+            PlaySample((AnsiString)"SFX\\INT\\BOOKCLSE.WAV");
             Done = FDone;
             Event = FEvent;
             FDone = null;
@@ -223,9 +178,9 @@ namespace Aow.Units.AoWSpellBook
                 Event.Release();
             }
 
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.FDrawOverlay = true;
-            Aow.Units.AoWExeForms.AoWExeForms.MagicWin.Dlg.FDrawn = false;
+            General.Manager.OverlayPriority = 0;
+            General.Manager.FDrawOverlay = true;
+            AoWExeForms.AoWExeForms.MagicWin.Dlg.FDrawn = false;
         }
 
         // AoWSpellBook.pas:405
@@ -234,9 +189,9 @@ namespace Aow.Units.AoWSpellBook
             bool Result = default;
             if (FActivation != null)
             {
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FActivation.FUnitID);
-                FHero = (Aow.Units.AoWE.THero)call__1;
-                Result = (FHero != null) && !FHero.FUnitStatus.Contains(Aow.Units.AoWE.TUnitStatusElement.usKilled);
+                var call__1 = AoWHSMap.FUnitControl.FindUnit(FActivation.FUnitID);
+                FHero = (THero)call__1;
+                Result = FHero != null && !FHero.FUnitStatus.Contains(TUnitStatusElement.usKilled);
             }
             else
             {
@@ -275,7 +230,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:439
         public void SetPageKind(byte Kind)
         {
-            FPageKind = unchecked((byte)Kind);
+            FPageKind = Kind;
             LeftSpellPage.Visible = Kind == 1;
             RightSpellPage.Visible = Kind == 1;
             LeftInfoPage.Visible = Kind == 0;
@@ -284,7 +239,7 @@ namespace Aow.Units.AoWSpellBook
             {
                 case 1:
                     var call__2 = FSpells.GetCount();
-                    NextBtn.Visible = (call__2 - ((FPage + 1) * 8)) > 0;
+                    NextBtn.Visible = call__2 - (FPage + 1) * 8 > 0;
                     PrevBtn.Visible = FPage != 0;
                     break;
                 case 0:
@@ -298,7 +253,7 @@ namespace Aow.Units.AoWSpellBook
         public void UpdateSpellPages()
         {
             int I = default;
-            Aow.Units.AoWE.TSpell Spell = default;
+            TSpell Spell = default;
             if (ValidateHero())
             {
                 switch (FMode)
@@ -306,49 +261,49 @@ namespace Aow.Units.AoWSpellBook
                     case 2:
                     case 3:
                         FSpells.Clear();
-                        var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                        call__3.FMagicControl.ListResearchSpells(ref FSpells, TSet<Aow.Units.AoWE.TSpellType>.Of(Aow.Units.AoWE.TSpellType.stCombat, Aow.Units.AoWE.TSpellType.stUnit, Aow.Units.AoWE.TSpellType.stGlobal));
+                        var call__3 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                        call__3.FMagicControl.ListResearchSpells(ref FSpells, TSet<TSpellType>.Of(TSpellType.stCombat, TSpellType.stUnit, TSpellType.stGlobal));
                         FSpells.SortOnLevel();
-                        var call__4 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TSpellTypeRStr[(int)FSpellType]);
-                        var call__5 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchXspellRStr);
-                        var call__6 = Aow.Units.AoWE.AoWE.Format(call__5, [call__4]);
+                        var call__4 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var call__5 = TranslateRStr(ResearchXspellRStr);
+                        var call__6 = AoWE.AoWE.Format(call__5, [call__4]);
                         LeftHeader.Text = call__6;
-                        var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TSpellTypeRStr[(int)FSpellType]);
-                        var call__8 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchXspellRStr);
-                        var call__9 = Aow.Units.AoWE.AoWE.Format(call__8, [call__7]);
+                        var call__7 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var call__8 = TranslateRStr(ResearchXspellRStr);
+                        var call__9 = AoWE.AoWE.Format(call__8, [call__7]);
                         RightHeader.Text = call__9;
                         // { Original overwrites the type-specific headers. }
-                        var call__10 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchSpellRStr);
+                        var call__10 = TranslateRStr(ResearchSpellRStr);
                         LeftHeader.Text = call__10;
-                        var call__11 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchSpellRStr);
+                        var call__11 = TranslateRStr(ResearchSpellRStr);
                         RightHeader.Text = call__11;
                         break;
                     case 0:
                         FSpells.Clear();
-                        var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                        call__12.FMagicControl.ListSpells(ref FSpells, TSet<Aow.Units.AoWE.TSpellType>.Of(FSpellType));
+                        var call__12 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                        call__12.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                         FSpells.SortOnLevel();
-                        var call__13 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TSpellTypeRStr[(int)FSpellType]);
-                        var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastXSpellRStr);
-                        var call__15 = Aow.Units.AoWE.AoWE.Format(call__14, [call__13]);
+                        var call__13 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var call__14 = TranslateRStr(CastXSpellRStr);
+                        var call__15 = AoWE.AoWE.Format(call__14, [call__13]);
                         LeftHeader.Text = call__15;
-                        var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TSpellTypeRStr[(int)FSpellType]);
-                        var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastXSpellRStr);
-                        var call__18 = Aow.Units.AoWE.AoWE.Format(call__17, [call__16]);
+                        var call__16 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var call__17 = TranslateRStr(CastXSpellRStr);
+                        var call__18 = AoWE.AoWE.Format(call__17, [call__16]);
                         RightHeader.Text = call__18;
                         break;
                     case 1:
                         FSpells.Clear();
-                        var call__19 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
-                        call__19.FMagicControl.ListSpells(ref FSpells, TSet<Aow.Units.AoWE.TSpellType>.Of(FSpellType));
+                        var call__19 = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer);
+                        call__19.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                         FSpells.SortOnLevel();
-                        var call__20 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TSpellTypeRStr[(int)FSpellType]);
-                        var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastXSpellRStr);
-                        var call__22 = Aow.Units.AoWE.AoWE.Format(call__21, [call__20]);
+                        var call__20 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var call__21 = TranslateRStr(CastXSpellRStr);
+                        var call__22 = AoWE.AoWE.Format(call__21, [call__20]);
                         LeftHeader.Text = call__22;
-                        var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TSpellTypeRStr[(int)FSpellType]);
-                        var call__24 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastXSpellRStr);
-                        var call__25 = Aow.Units.AoWE.AoWE.Format(call__24, [call__23]);
+                        var call__23 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var call__24 = TranslateRStr(CastXSpellRStr);
+                        var call__25 = AoWE.AoWE.Format(call__24, [call__23]);
                         RightHeader.Text = call__25;
                         break;
                 }
@@ -359,11 +314,11 @@ namespace Aow.Units.AoWSpellBook
                     for (; I >= end__26; I -= 1)
                     {
                         var call__27 = FSpells.GetSpell(I);
-                        bool bool__28 = (call__27.FSpellID >= 100);
+                        bool bool__28 = call__27.FSpellID >= 100;
                         if (bool__28)
                         {
                             var call__29 = FSpells.GetSpell(I);
-                            bool__28 = (Aow.Units.AoWTC.AoWTC.SpellTypes[call__29.FSpellID] == Aow.Units.AoWTC.TfxType.fxNone);
+                            bool__28 = SpellTypes[call__29.FSpellID] == TfxType.fxNone;
                         }
 
                         if (bool__28)
@@ -376,38 +331,38 @@ namespace Aow.Units.AoWSpellBook
                 var call__30 = FSpells.GetSpell(FPage * 8);
                 Spell = call__30;
                 ShowSpellEntry(Spell, S1Pnl, S1Btn, S1Spell, S1Class, S1Cost, S1Memo, S1Icn);
-                var call__31 = FSpells.GetSpell((FPage * 8) + 1);
+                var call__31 = FSpells.GetSpell(FPage * 8 + 1);
                 Spell = call__31;
                 ShowSpellEntry(Spell, S2Pnl, S2Btn, S2Spell, S2Class, S2Cost, S2Memo, S2Icn);
-                var call__32 = FSpells.GetSpell((FPage * 8) + 2);
+                var call__32 = FSpells.GetSpell(FPage * 8 + 2);
                 Spell = call__32;
                 ShowSpellEntry(Spell, S3Pnl, S3Btn, S3Spell, S3Class, S3Cost, S3Memo, S3Icn);
-                var call__33 = FSpells.GetSpell((FPage * 8) + 3);
+                var call__33 = FSpells.GetSpell(FPage * 8 + 3);
                 Spell = call__33;
                 ShowSpellEntry(Spell, S4Pnl, S4Btn, S4Spell, S4Class, S4Cost, S4Memo, S4Icn);
-                var call__34 = FSpells.GetSpell((FPage * 8) + 4);
+                var call__34 = FSpells.GetSpell(FPage * 8 + 4);
                 Spell = call__34;
                 ShowSpellEntry(Spell, S5Pnl, S5btn, S5Spell, S5Class, S5Cost, S5Memo, S5Icn);
-                var call__35 = FSpells.GetSpell((FPage * 8) + 5);
+                var call__35 = FSpells.GetSpell(FPage * 8 + 5);
                 Spell = call__35;
                 ShowSpellEntry(Spell, S6Pnl, S6Btn, S6Spell, S6Class, S6Cost, S6Memo, S6Icn);
-                var call__36 = FSpells.GetSpell((FPage * 8) + 6);
+                var call__36 = FSpells.GetSpell(FPage * 8 + 6);
                 Spell = call__36;
                 ShowSpellEntry(Spell, S7Pnl, S7Btn, S7Spell, S7Class, S7Cost, S7Memo, S7Icn);
-                var call__37 = FSpells.GetSpell((FPage * 8) + 7);
+                var call__37 = FSpells.GetSpell(FPage * 8 + 7);
                 Spell = call__37;
                 ShowSpellEntry(Spell, S8Pnl, S8Btn, S8Spell, S8Class, S8Cost, S8Memo, S8Icn);
                 if (FMode == 0)
                 {
-                    FPlayerPages.Count = Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer + 1;
-                    FPlayerPages.List[Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer].A = (int)FSpellType;
-                    FPlayerPages.List[Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer].B = FPage;
+                    FPlayerPages.Count = AoWHSMap.FSeatedPlayer + 1;
+                    FPlayerPages.List[AoWHSMap.FSeatedPlayer].A = (int)FSpellType;
+                    FPlayerPages.List[AoWHSMap.FSeatedPlayer].B = FPage;
                 }
 
                 if (FPageKind == 1)
                 {
                     var call__38 = FSpells.GetCount();
-                    NextBtn.Visible = (call__38 - ((FPage + 1) * 8)) > 0;
+                    NextBtn.Visible = call__38 - (FPage + 1) * 8 > 0;
                     PrevBtn.Visible = FPage != 0;
                 }
             }
@@ -421,23 +376,23 @@ namespace Aow.Units.AoWSpellBook
         public void UpdateInfoPages()
         {
             sbyte Player = default;
-            Aow.Units.AoWE.TLeader Leader = default;
+            TLeader Leader = default;
             int I = default;
-            Aow.Units.AoWButton.TAOWButton Button = default;
-            Aow.Units.AoWE.TPlayerMagicControl Control = default;
-            Aow.Units.AoWE.TSpell Spell = default;
+            TAOWButton Button = default;
+            TPlayerMagicControl Control = default;
+            TSpell Spell = default;
             if (ValidateHero())
             {
                 if (FMode == 1)
                 {
-                    Player = unchecked((sbyte)Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
+                    Player = AoWCombatMap.FSeatedPlayer;
                 }
                 else
                 {
-                    Player = unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    Player = AoWHSMap.FSeatedPlayer;
                 }
 
-                var call__39 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__39 = AoWHSMap.FPlayers.GetPlayers(Player);
                 Leader = call__39.FLeader;
                 {
                     I = 0;
@@ -475,7 +430,7 @@ namespace Aow.Units.AoWSpellBook
                         if (I < Leader.GetSphereCount())
                         {
                             Button.Visible = true;
-                            switch (unchecked((int)Leader.GetSpheres(I)) & 127)
+                            switch ((int)Leader.GetSpheres(I) & 127)
                             {
                                 case 1:
                                     Button.ILIndexDown = 28;
@@ -517,18 +472,18 @@ namespace Aow.Units.AoWSpellBook
                 }
 
                 NameLbl.Text = FHero.FHeroName;
-                var call__41 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-                var call__42 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaPoolRStr);
-                ManaPoolLbl.Text = (call__42 + ((AnsiString)": ")) + Aow.Rtl.Rtl.IntToStr(call__41.FMagicControl.FMana);
+                var call__41 = AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__42 = TranslateRStr(ManaPoolRStr);
+                ManaPoolLbl.Text = call__42 + (AnsiString)": " + IntToStr(call__41.FMagicControl.FMana);
                 var call__43 = FHero.GetCastingPoints();
-                var call__44 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastingPointsRStr);
+                var call__44 = TranslateRStr(CastingPointsRStr);
                 var call__45 = FHero.GetCastingPointsMax();
-                CastingPointsLbl.Text = (((call__44 + ((AnsiString)": ")) + Aow.Rtl.Rtl.IntToStr(call__43)) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__45);
+                CastingPointsLbl.Text = call__44 + (AnsiString)": " + IntToStr(call__43) + AnsiString.FromBytes(47) + IntToStr(call__45);
                 ResearchManaPoolLbl.Text = ManaPoolLbl.Text;
-                var call__46 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__46 = AoWHSMap.FPlayers.GetPlayers(Player);
                 var call__47 = call__46.FMagicControl.GetNetPowerToResearch();
-                var call__48 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchPointsRStr);
-                ResearchPointsLbl.Text = (call__48 + ((AnsiString)": ")) + Aow.Rtl.Rtl.IntToStr(call__47);
+                var call__48 = TranslateRStr(ResearchPointsRStr);
+                ResearchPointsLbl.Text = call__48 + (AnsiString)": " + IntToStr(call__47);
                 if (TSet<byte>.WithBounds(0, 255).With(2).With(3).Contains(FMode))
                 {
                     CurrentPointsLbl.Text = (AnsiString)"";
@@ -536,39 +491,39 @@ namespace Aow.Units.AoWSpellBook
                     SpellBookLbl.Visible = false;
                     ResearchBookLbl.Visible = true;
                     CastingPage.Visible = false;
-                    var call__49 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                    var call__49 = AoWHSMap.FPlayers.GetPlayers(Player);
                     Control = call__49.FMagicControl;
                     if (Control.FResearchSpellID != 0)
                     {
                         ResearchPnl.Visible = true;
                         ResearchNone.Visible = false;
-                        var call__50 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
+                        var call__50 = AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
                         Spell = call__50;
-                        var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CurrentlyResearchingRStr);
+                        var call__51 = TranslateRStr(CurrentlyResearchingRStr);
                         ResearchLbl.Text = call__51 + AnsiString.FromBytes(58);
                         ResearchMemo.Items = Spell.FSpellText;
                         ResearchName.Text = Spell.FSpellName;
-                        var call__52 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                        var call__53 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelRStr);
-                        ResearchClass.Text = (((call__52 + ((AnsiString)", ")) + call__53) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell.FSpellLevel);
+                        var call__52 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                        var call__53 = TranslateRStr(LevelRStr);
+                        ResearchClass.Text = call__52 + (AnsiString)", " + call__53 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
                         var call__54 = FHero.CastingMana(Spell);
-                        var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastingCostRStr);
-                        var call__56 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaRStr);
-                        ResearchCost.Text = (((call__55 + ((AnsiString)": ")) + Aow.Rtl.Rtl.IntToStr(call__54)) + AnsiString.FromBytes(32)) + call__56;
+                        var call__55 = TranslateRStr(CastingCostRStr);
+                        var call__56 = TranslateRStr(ManaRStr);
+                        ResearchCost.Text = call__55 + (AnsiString)": " + IntToStr(call__54) + AnsiString.FromBytes(32) + call__56;
                         if (Control.GetResearchTurnsLeft() < 999)
                         {
                             var call__57 = Control.GetResearchTurnsLeft();
-                            var call__58 = Aow.Units.AoWE.AoWE.FmtTurnsLeftStr(call__57);
+                            var call__58 = FmtTurnsLeftStr(call__57);
                             ResearchStatus.Text = call__58;
                         }
                         else
                         {
-                            var call__59 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XTurnsRStr);
-                            var call__60 = Aow.Units.AoWE.AoWE.Format(call__59, [(byte)63]);
+                            var call__59 = TranslateRStr(XTurnsRStr);
+                            var call__60 = AoWE.AoWE.Format(call__59, [(byte)63]);
                             ResearchStatus.Text = call__60;
                         }
 
-                        var call__61 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CancelRStr);
+                        var call__61 = TranslateRStr(CancelRStr);
                         CancelResearchBtn.Text = call__61;
                         ResearchStatus.Visible = true;
                     }
@@ -578,31 +533,31 @@ namespace Aow.Units.AoWSpellBook
                         {
                             ResearchPnl.Visible = true;
                             ResearchNone.Visible = false;
-                            var call__62 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
+                            var call__62 = AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
                             Spell = call__62;
-                            var call__63 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchedRStr);
+                            var call__63 = TranslateRStr(ResearchedRStr);
                             ResearchLbl.Text = call__63 + AnsiString.FromBytes(58);
                             ResearchMemo.Items = Spell.FSpellText;
                             ResearchName.Text = Spell.FSpellName;
-                            var call__64 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                            var call__65 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelRStr);
-                            ResearchClass.Text = (((call__64 + ((AnsiString)", ")) + call__65) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell.FSpellLevel);
-                            var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastingCostRStr);
-                            var call__67 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaRStr);
-                            ResearchCost.Text = (((call__66 + ((AnsiString)": ")) + Aow.Rtl.Rtl.IntToStr(Spell.FBaseManaCost)) + AnsiString.FromBytes(32)) + call__67;
+                            var call__64 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                            var call__65 = TranslateRStr(LevelRStr);
+                            ResearchClass.Text = call__64 + (AnsiString)", " + call__65 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                            var call__66 = TranslateRStr(CastingCostRStr);
+                            var call__67 = TranslateRStr(ManaRStr);
+                            ResearchCost.Text = call__66 + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + call__67;
                             ResearchStatus.Visible = false;
-                            var call__68 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchRStr);
+                            var call__68 = TranslateRStr(ResearchRStr);
                             CancelResearchBtn.Text = call__68;
-                            var call__69 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchNewSpellRStr);
+                            var call__69 = TranslateRStr(ResearchNewSpellRStr);
                             CancelResearchBtn.ToolTipText.Text = call__69;
                         }
                         else
                         {
                             ResearchPnl.Visible = false;
                             ResearchNone.Visible = true;
-                            var call__70 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ResearchRStr);
+                            var call__70 = TranslateRStr(ResearchRStr);
                             CancelResearchBtn.Text = call__70;
-                            var call__71 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CancelSpellResearchRStr);
+                            var call__71 = TranslateRStr(CancelSpellResearchRStr);
                             CancelResearchBtn.ToolTipText.Text = call__71;
                         }
                     }
@@ -612,9 +567,9 @@ namespace Aow.Units.AoWSpellBook
                     if (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode))
                     {
                         var call__72 = FHero.GetCastingPoints();
-                        CurrentPointsLbl.Text = Aow.Rtl.Rtl.IntToStr(call__72);
+                        CurrentPointsLbl.Text = IntToStr(call__72);
                         var call__73 = FHero.GetCastingPointsMax();
-                        CastingPointsMaxLbl.Text = Aow.Rtl.Rtl.IntToStr(call__73);
+                        CastingPointsMaxLbl.Text = IntToStr(call__73);
                         SpellBookLbl.Visible = true;
                         ResearchBookLbl.Visible = false;
                         ResearchPage.Visible = false;
@@ -622,33 +577,33 @@ namespace Aow.Units.AoWSpellBook
                         if (call__74)
                         {
                             NoneCastingLbl.Visible = false;
-                            var call__75 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
+                            var call__75 = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
                             Spell = call__75;
                             CastingSpell.Text = Spell.FSpellName;
-                            var call__76 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                            var call__77 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelRStr);
-                            CastingClass.Text = (((call__76 + ((AnsiString)", ")) + call__77) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell.FSpellLevel);
-                            var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastingCostRStr);
-                            var call__79 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaRStr);
-                            CastingCost.Text = (((call__78 + ((AnsiString)": ")) + Aow.Rtl.Rtl.IntToStr(FHero.FCastingProgress)) + AnsiString.FromBytes(32)) + call__79;
+                            var call__76 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                            var call__77 = TranslateRStr(LevelRStr);
+                            CastingClass.Text = call__76 + (AnsiString)", " + call__77 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                            var call__78 = TranslateRStr(CastingCostRStr);
+                            var call__79 = TranslateRStr(ManaRStr);
+                            CastingCost.Text = call__78 + (AnsiString)": " + IntToStr(FHero.FCastingProgress) + AnsiString.FromBytes(32) + call__79;
                             CastingMemo.Items = Spell.FSpellText;
                             var call__80 = FHero.CastingTurnsLeft();
-                            var call__81 = Aow.Units.AoWE.AoWE.FmtTurnsLeftStr(call__80);
-                            CastingStatus.Text = (AnsiString.FromBytes(40) + call__81) + AnsiString.FromBytes(41);
+                            var call__81 = FmtTurnsLeftStr(call__80);
+                            CastingStatus.Text = AnsiString.FromBytes(40) + call__81 + AnsiString.FromBytes(41);
                             CastingPnl.Visible = true;
                             var call__82 = FHero.CastingReady();
                             if (call__82)
                             {
                                 CastingBtn.Visible = true;
-                                var call__83 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastingReadyRStr);
+                                var call__83 = TranslateRStr(CastingReadyRStr);
                                 CastingStatus.Text = call__83;
                             }
                             else
                             {
                                 CastingBtn.Visible = false;
                                 var call__84 = FHero.CastingTurnsLeft();
-                                var call__85 = Aow.Units.AoWE.AoWE.FmtTurnsLeftStr(call__84);
-                                CastingStatus.Text = (AnsiString.FromBytes(40) + call__85) + AnsiString.FromBytes(41);
+                                var call__85 = FmtTurnsLeftStr(call__84);
+                                CastingStatus.Text = AnsiString.FromBytes(40) + call__85 + AnsiString.FromBytes(41);
                             }
                         }
                         else
@@ -667,39 +622,39 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:638
-        public void ShowSpellEntry(Aow.Units.AoWE.TSpell Spell, Aow.Units.AoWPanel.TAOWPanel Panel, Aow.Units.AoWButton.TAOWButton Button, Aow.Units.AoWLabel.TAOWLabel Name, Aow.Units.AoWLabel.TAOWLabel SpellClass, Aow.Units.AoWLabel.TAOWLabel Cost, Aow.Units.AoWMemo.TAOWMemo Memo, Aow.Units.AoWImage.TAOWImage Icon)
+        public void ShowSpellEntry(TSpell Spell, TAOWPanel Panel, TAOWButton Button, TAOWLabel Name, TAOWLabel SpellClass, TAOWLabel Cost, TAOWMemo Memo, TAOWImage Icon)
         {
-            Aow.Rtl.AnsiString Reason = default;
+            AnsiString Reason = default;
             int Turns = default;
-            Aow.Units.AoWE.TPlayerMagicControl Control = default;
+            TPlayerMagicControl Control = default;
             if (Spell != null)
             {
                 Panel.Visible = true;
                 Name.Text = Spell.FSpellName;
-                var call__86 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelRStr);
-                SpellClass.Text = (((call__86 + ((AnsiString)", ")) + call__87) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell.FSpellLevel);
+                var call__86 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                var call__87 = TranslateRStr(LevelRStr);
+                SpellClass.Text = call__86 + (AnsiString)", " + call__87 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
                 if (FMode == 2)
                 {
-                    if (Spell.FSpellControlTypes == TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal))
+                    if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal))
                     {
-                        var call__88 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GlobalRStr);
-                        SpellClass.Text = (SpellClass.Text + ((AnsiString)", ")) + call__88;
+                        var call__88 = TranslateRStr(GlobalRStr);
+                        SpellClass.Text = SpellClass.Text + (AnsiString)", " + call__88;
                     }
                     else
                     {
-                        if (Spell.FSpellControlTypes == TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctCombat))
+                        if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctCombat))
                         {
-                            var call__89 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CombatRStr);
-                            SpellClass.Text = (SpellClass.Text + ((AnsiString)", ")) + call__89;
+                            var call__89 = TranslateRStr(CombatRStr);
+                            SpellClass.Text = SpellClass.Text + (AnsiString)", " + call__89;
                         }
                         else
                         {
-                            if (Spell.FSpellControlTypes == TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat))
+                            if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat))
                             {
-                                var call__90 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GlobalRStr);
-                                var call__91 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CombatRStr);
-                                SpellClass.Text = (((SpellClass.Text + ((AnsiString)", ")) + call__90) + AnsiString.FromBytes(47)) + call__91;
+                                var call__90 = TranslateRStr(GlobalRStr);
+                                var call__91 = TranslateRStr(CombatRStr);
+                                SpellClass.Text = SpellClass.Text + (AnsiString)", " + call__90 + AnsiString.FromBytes(47) + call__91;
                             }
                         }
                     }
@@ -708,22 +663,22 @@ namespace Aow.Units.AoWSpellBook
                 Memo.Items = Spell.FSpellText;
                 if (FHero == null)
                 {
-                    var call__92 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CostXRStr);
-                    var call__93 = Aow.Units.AoWE.AoWE.Format(call__92, [(int)Spell.FBaseManaCost]);
+                    var call__92 = TranslateRStr(CostXRStr);
+                    var call__93 = AoWE.AoWE.Format(call__92, [Spell.FBaseManaCost]);
                     Cost.Text = call__93;
                 }
                 else
                 {
                     var call__94 = FHero.CastingMana(Spell);
-                    var call__95 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CostXRStr);
-                    var call__96 = Aow.Units.AoWE.AoWE.Format(call__95, [(int)call__94]);
+                    var call__95 = TranslateRStr(CostXRStr);
+                    var call__96 = AoWE.AoWE.Format(call__95, [call__94]);
                     Cost.Text = call__96;
                 }
 
-                bool bool__97 = (FMode == 0);
+                bool bool__97 = FMode == 0;
                 if (bool__97)
                 {
-                    bool bool__98 = !Spell.FSpellControlTypes.Contains(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal);
+                    bool bool__98 = !Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctGlobal);
                     if (!bool__98)
                     {
                         var call__99 = FHero.Casting();
@@ -736,10 +691,10 @@ namespace Aow.Units.AoWSpellBook
                 bool bool__100 = bool__97;
                 if (!bool__100)
                 {
-                    bool bool__101 = (FMode == 1);
+                    bool bool__101 = FMode == 1;
                     if (bool__101)
                     {
-                        bool bool__102 = !Spell.FSpellControlTypes.Contains(Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+                        bool bool__102 = !Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctCombat);
                         if (!bool__102)
                         {
                             var call__103 = FHero.Casting();
@@ -762,11 +717,11 @@ namespace Aow.Units.AoWSpellBook
                 bool bool__106 = bool__100;
                 if (!bool__106)
                 {
-                    bool bool__107 = (FMode == 2);
+                    bool bool__107 = FMode == 2;
                     if (bool__107)
                     {
-                        var call__108 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                        bool__107 = (call__108.FMagicControl.FResearchSpellID != 0);
+                        var call__108 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                        bool__107 = call__108.FMagicControl.FResearchSpellID != 0;
                     }
 
                     bool__106 = bool__107;
@@ -793,9 +748,9 @@ namespace Aow.Units.AoWSpellBook
 
                 if (Spell.FManaUpkeep > 0)
                 {
-                    var call__109 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UpkeepXRStr);
-                    var call__110 = Aow.Units.AoWE.AoWE.Format(call__109, [(int)Spell.FManaUpkeep]);
-                    Cost.Text = (Cost.Text + AnsiString.FromBytes(32)) + call__110;
+                    var call__109 = TranslateRStr(UpkeepXRStr);
+                    var call__110 = AoWE.AoWE.Format(call__109, [Spell.FManaUpkeep]);
+                    Cost.Text = Cost.Text + AnsiString.FromBytes(32) + call__110;
                 }
 
                 if (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode))
@@ -804,37 +759,37 @@ namespace Aow.Units.AoWSpellBook
                     Turns = call__111;
                     if (Turns == 0)
                     {
-                        Reason = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InstantRStr);
+                        Reason = TranslateRStr(InstantRStr);
                     }
                     else
                     {
-                        var call__112 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnsXRStr);
-                        var call__113 = Aow.Units.AoWE.AoWE.Format(call__112, [Aow.Rtl.Rtl.IntToStr(Turns)]);
+                        var call__112 = TranslateRStr(TurnsXRStr);
+                        var call__113 = AoWE.AoWE.Format(call__112, [IntToStr(Turns)]);
                         Reason = call__113;
                     }
 
-                    Cost.Text = (Cost.Text + AnsiString.FromBytes(32)) + Reason;
+                    Cost.Text = Cost.Text + AnsiString.FromBytes(32) + Reason;
                 }
                 else
                 {
-                    if ((FMode == 2) || (FMode == 3))
+                    if (FMode == 2 || FMode == 3)
                     {
-                        var call__114 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                        var call__114 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                         Control = call__114.FMagicControl;
                         var call__115 = Control.GetNetPowerToResearch();
                         var call__116 = Control.ResearchTurns(call__115, Spell.FResearchCost);
                         Turns = call__116;
                         if (Turns < 999)
                         {
-                            var call__117 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnsXRStr);
-                            var call__118 = Aow.Units.AoWE.AoWE.Format(call__117, [Aow.Rtl.Rtl.IntToStr(Turns)]);
-                            Cost.Text = (Cost.Text + AnsiString.FromBytes(32)) + call__118;
+                            var call__117 = TranslateRStr(TurnsXRStr);
+                            var call__118 = AoWE.AoWE.Format(call__117, [IntToStr(Turns)]);
+                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + call__118;
                         }
                         else
                         {
-                            var call__119 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XTurnsRStr);
-                            var call__120 = Aow.Units.AoWE.AoWE.Format(call__119, [(byte)63]);
-                            Cost.Text = (Cost.Text + AnsiString.FromBytes(32)) + call__120;
+                            var call__119 = TranslateRStr(XTurnsRStr);
+                            var call__120 = AoWE.AoWE.Format(call__119, [(byte)63]);
+                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + call__120;
                         }
                     }
                 }
@@ -846,20 +801,20 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:455
-        public void SelectSpell(Aow.Units.AoWE.TSpell Spell)
+        public void SelectSpell(TSpell Spell)
         {
-            Aow.Rtl.AnsiString Reason = default;
+            AnsiString Reason = default;
             if (ValidateHero())
             {
                 switch (FMode)
                 {
                     case 2:
                     case 3:
-                        var call__121 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                        var call__121 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                         var call__122 = call__121.FMagicControl.ResearchSpell(Spell.FSpellID);
                         if (call__122)
                         {
-                            if ((FEvent == null) || (FEvent.FMode != Aow.Units.AoWE.TPlayerMagicEventMode.pmemStartResearch))
+                            if (FEvent == null || FEvent.FMode != TPlayerMagicEventMode.pmemStartResearch)
                             {
                                 FMode = 2;
                                 InfoBtnClick(this);
@@ -873,10 +828,10 @@ namespace Aow.Units.AoWSpellBook
                         break;
                     case 0:
                         var call__123 = FHero.GetCastingPoints();
-                        bool bool__124 = (call__123 >= Spell.FBaseManaCost);
+                        bool bool__124 = call__123 >= Spell.FBaseManaCost;
                         if (!bool__124)
                         {
-                            var call__125 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FHero.FPlayer);
+                            var call__125 = AoWHSMap.FPlayers.GetPlayers(FHero.FPlayer);
                             var call__126 = call__125.FMagicControl.GetCheatEnabled();
                             bool__124 = call__126;
                         }
@@ -890,7 +845,7 @@ namespace Aow.Units.AoWSpellBook
                             }
                             else
                             {
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                AoWHSMap.ShowWarning(Reason);
                             }
                         }
                         else
@@ -902,7 +857,7 @@ namespace Aow.Units.AoWSpellBook
                             }
                             else
                             {
-                                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                AoWHSMap.ShowWarning(Reason);
                             }
                         }
 
@@ -915,7 +870,7 @@ namespace Aow.Units.AoWSpellBook
                         }
                         else
                         {
-                            Aow.Units.AoWTC.AoWTC.AoWCombatMap.ShowWarning(Reason);
+                            AoWCombatMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -930,7 +885,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:415
         public void PlayerChanged(sbyte Player)
         {
-            if (Dlg.Visible && (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer))
+            if (Dlg.Visible && Player == AoWHSMap.FSeatedPlayer)
             {
                 UpdateSpellPages();
                 UpdateInfoPages();
@@ -938,9 +893,9 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:421
-        public void UnitChanged(Aow.Units.AoWE.TAbstractUnit U)
+        public void UnitChanged(TAbstractUnit U)
         {
-            if (Dlg.Visible && ((U == null) || (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode) && (U == FHero))))
+            if (Dlg.Visible && (U == null || (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode) && U == FHero)))
             {
                 UpdateSpellPages();
                 UpdateInfoPages();
@@ -959,7 +914,7 @@ namespace Aow.Units.AoWSpellBook
             GlobalBtn.ILIndexUp = 13;
             CombatBtn.Visible = false;
             UnitBtn.Visible = false;
-            var call__130 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__130 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             if (call__130.FMagicControl.FResearchSpellID != 0)
             {
                 SetPageKind(0);
@@ -970,9 +925,9 @@ namespace Aow.Units.AoWSpellBook
             }
 
             FMode = 2;
-            FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
+            FSpellType = TSpellType.stGlobal;
             FPage = 0;
-            var call__131 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__131 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             FHero = call__131.FLeader;
             UpdateSpellPages();
             UpdateInfoPages();
@@ -980,12 +935,12 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:501
-        public void ShowResearchEvent(Aow.Units.AoWE.TPlayerMagicEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public void ShowResearchEvent(TPlayerMagicEventLog Event, TExecuteDoneEvent Done)
         {
             FEvent = Event;
             FEvent.AddRef();
             FDone = Done;
-            var call__132 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__132 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             if (call__132.FMagicControl.FResearchSpellID == 0)
             {
                 Reset();
@@ -997,14 +952,14 @@ namespace Aow.Units.AoWSpellBook
                 FResearchedSpell = 0;
                 SetPageKind(1);
                 FMode = 2;
-                FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
+                FSpellType = TSpellType.stGlobal;
                 FPage = 0;
-                var call__133 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__133 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 FHero = call__133.FLeader;
                 UpdateSpellPages();
                 UpdateInfoPages();
                 ShowBook();
-                Aow.Units.AoWE.AoWE.AoWHSMap.FTutorialControl.ShowMessage(51, true, true);
+                AoWHSMap.FTutorialControl.ShowMessage(51, true, true);
             }
             else
             {
@@ -1013,21 +968,21 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:518
-        public void ShowResearchedEvent(Aow.Units.AoWE.TPlayerMagicEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public void ShowResearchedEvent(TPlayerMagicEventLog Event, TExecuteDoneEvent Done)
         {
             FEvent = Event;
             FEvent.AddRef();
             FDone = Done;
-            var call__134 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__134 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             if (call__134.FMagicControl.FResearchSpellID == 0)
             {
                 Reset();
                 FResearchedSpell = Event.FSpellID;
                 SetPageKind(0);
                 FMode = 3;
-                FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
+                FSpellType = TSpellType.stGlobal;
                 FPage = 0;
-                var call__135 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__135 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 FHero = call__135.FLeader;
                 UpdateSpellPages();
                 UpdateInfoPages();
@@ -1040,7 +995,7 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:531
-        public void ShowCasting(Aow.Units.AoWE.TActivateAbilityInfo Activation)
+        public void ShowCasting(TActivateAbilityInfo Activation)
         {
             Reset();
             FActivation = Activation;
@@ -1048,9 +1003,9 @@ namespace Aow.Units.AoWSpellBook
             FMode = 0;
             if (ValidateHero())
             {
-                var call__136 = FPlayerPages[Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer];
-                FSpellType = (Aow.Units.AoWE.TSpellType)call__136.A;
-                var call__137 = FPlayerPages[Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer];
+                var call__136 = FPlayerPages[AoWHSMap.FSeatedPlayer];
+                FSpellType = (TSpellType)call__136.A;
+                var call__137 = FPlayerPages[AoWHSMap.FSeatedPlayer];
                 FPage = call__137.B;
                 var call__138 = FHero.Casting();
                 if (call__138)
@@ -1060,29 +1015,29 @@ namespace Aow.Units.AoWSpellBook
                 else
                 {
                     FSpells.Clear();
-                    var call__139 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    call__139.FMagicControl.ListSpells(ref FSpells, TSet<Aow.Units.AoWE.TSpellType>.Of(FSpellType));
+                    var call__139 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                    call__139.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                     var call__140 = FSpells.GetCount();
-                    bool bool__141 = (call__140 == 0);
+                    bool bool__141 = call__140 == 0;
                     if (!bool__141)
                     {
                         var call__142 = FSpells.GetCount();
-                        bool__141 = (call__142 <= (FPage * 8));
+                        bool__141 = call__142 <= FPage * 8;
                     }
 
                     if (bool__141)
                     {
                         FSpells.Clear();
-                        FSpellType = (Aow.Units.AoWE.TSpellType)3;
+                        FSpellType = (TSpellType)3;
                         while (true)
                         {
                             var call__143 = FSpells.GetCount();
-                            if (!((call__143 == 0) && (((int)FSpellType) != 0)))
+                            if (!(call__143 == 0 && (int)FSpellType != 0))
                                 break;
                             {
-                                FSpellType = (Aow.Units.AoWE.TSpellType)(((int)FSpellType) - 1);
-                                var call__144 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                                call__144.FMagicControl.ListSpells(ref FSpells, TSet<Aow.Units.AoWE.TSpellType>.Of(FSpellType));
+                                FSpellType = (TSpellType)((int)FSpellType - 1);
+                                var call__144 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                                call__144.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                             }
                         }
                     }
@@ -1101,7 +1056,7 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:559
-        public void ShowCombatCasting(Aow.Units.AoWE.TActivateAbilityInfo Activation)
+        public void ShowCombatCasting(TActivateAbilityInfo Activation)
         {
             Reset();
             FActivation = Activation;
@@ -1118,23 +1073,23 @@ namespace Aow.Units.AoWSpellBook
                 else
                 {
                     FSpells.Clear();
-                    FSpellType = (Aow.Units.AoWE.TSpellType)3;
+                    FSpellType = (TSpellType)3;
                     while (true)
                     {
                         var call__146 = FSpells.GetCount();
-                        if (!((call__146 == 0) && (((int)FSpellType) != 0)))
+                        if (!(call__146 == 0 && (int)FSpellType != 0))
                             break;
                         {
-                            FSpellType = (Aow.Units.AoWE.TSpellType)(((int)FSpellType) - 1);
-                            var call__147 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer);
-                            call__147.FMagicControl.ListSpells(ref FSpells, TSet<Aow.Units.AoWE.TSpellType>.Of(FSpellType));
+                            FSpellType = (TSpellType)((int)FSpellType - 1);
+                            var call__147 = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer);
+                            call__147.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                         }
                     }
 
                     SetPageKind(1);
                 }
 
-                FSpellType = Aow.Units.AoWE.TSpellType.stCombat;
+                FSpellType = TSpellType.stCombat;
                 FPage = 0;
                 UpdateSpellPages();
                 UpdateInfoPages();
@@ -1149,12 +1104,12 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:197
         public void SpellBookCreate()
         {
-            Aow.Units.Engine.TDoubleItem Defaults = default;
-            var call__148 = new Aow.Units.AoWE.TSpellList();
+            TDoubleItem Defaults = default;
+            var call__148 = new TSpellList();
             FSpells = call__148;
             Defaults.A = 2;
             Defaults.B = 0;
-            var call__149 = new Aow.Units.Engine.TDoubleItemList();
+            var call__149 = new TDoubleItemList();
             FPlayerPages = call__149;
             FPlayerPages.Default = Defaults;
         }
@@ -1175,12 +1130,12 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:214
         public void CancelClick()
         {
-            if ((Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null))
+            if (AoWHSMap.FCombatMap != null && General.FCombatUnit != null)
             {
-                Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.SelectAbility(-1);
+                General.FCombatUnit.SelectAbility(-1);
             }
 
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
@@ -1189,9 +1144,9 @@ namespace Aow.Units.AoWSpellBook
         {
             FPage += 1;
             UpdateSpellPages();
-            Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptLeft);
+            Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
             Dlg.FPageTurn.FSpeed = 25;
-            Aow.Units.Sound.Sound.PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+            PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
         }
 
         // AoWSpellBook.pas:229
@@ -1199,23 +1154,23 @@ namespace Aow.Units.AoWSpellBook
         {
             FPage -= 1;
             UpdateSpellPages();
-            Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptRight);
+            Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
             Dlg.FPageTurn.FSpeed = 25;
-            Aow.Units.Sound.Sound.PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+            PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
         }
 
         // AoWSpellBook.pas:236
-        public void SpellIconDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void SpellIconDraw(TObject Sender, TSurfaceDesc SD)
         {
             int Index = default;
             int X = default;
             int Y = default;
-            Index = (FPage * 8) + (((Aow.Rtl.TComponent)Sender).Tag & 15);
-            bool bool__150 = (Index >= 0);
+            Index = FPage * 8 + (((TComponent)Sender).Tag & 15);
+            bool bool__150 = Index >= 0;
             if (bool__150)
             {
                 var call__151 = FSpells.GetCount();
-                bool__150 = (Index < call__151);
+                bool__150 = Index < call__151;
             }
 
             if (bool__150)
@@ -1224,7 +1179,7 @@ namespace Aow.Units.AoWSpellBook
                 var call__153 = call__152.FCastImages.GetImageSequence(10);
                 if (call__153 != null)
                 {
-                    var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+                    var image = (TAOWImage)Sender;
                     X = image.FAOWWindow.WinLeft;
                     Y = image.FAOWWindow.WinTop;
                     var call__155 = FSpells.GetSpell(Index);
@@ -1234,28 +1189,28 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:249
-        public void SelectSpellBtnClick(Aow.Rtl.TObject Sender)
+        public void SelectSpellBtnClick(TObject Sender)
         {
-            var call__156 = FSpells.GetSpell((FPage * 8) + ((Aow.Rtl.TComponent)Sender).Tag);
+            var call__156 = FSpells.GetSpell(FPage * 8 + ((TComponent)Sender).Tag);
             SelectSpell(call__156);
         }
 
         // AoWSpellBook.pas:254
-        public void GlobalBtnClick(Aow.Rtl.TObject Sender)
+        public void GlobalBtnClick(TObject Sender)
         {
-            if (((FSpellType != Aow.Units.AoWE.TSpellType.stGlobal) || (FPage != 0)) || (FPageKind != 1))
+            if (FSpellType != TSpellType.stGlobal || FPage != 0 || FPageKind != 1)
             {
                 if (FPageKind == 0)
                 {
-                    Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptLeft);
+                    Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
                 }
                 else
                 {
-                    Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptRight);
+                    Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
                 }
 
-                Aow.Units.Sound.Sound.PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
-                FSpellType = Aow.Units.AoWE.TSpellType.stGlobal;
+                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                FSpellType = TSpellType.stGlobal;
                 FPage = 0;
                 UpdateSpellPages();
                 SetPageKind(1);
@@ -1265,19 +1220,19 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:264
         public void UnitBtnClick()
         {
-            if (((FSpellType != Aow.Units.AoWE.TSpellType.stUnit) || (FPage != 0)) || (FPageKind != 1))
+            if (FSpellType != TSpellType.stUnit || FPage != 0 || FPageKind != 1)
             {
-                if ((FPageKind == 0) || (FSpellType == Aow.Units.AoWE.TSpellType.stGlobal))
+                if (FPageKind == 0 || FSpellType == TSpellType.stGlobal)
                 {
-                    Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptLeft);
+                    Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
                 }
                 else
                 {
-                    Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptRight);
+                    Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
                 }
 
-                Aow.Units.Sound.Sound.PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
-                FSpellType = Aow.Units.AoWE.TSpellType.stUnit;
+                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                FSpellType = TSpellType.stUnit;
                 FPage = 0;
                 UpdateSpellPages();
                 SetPageKind(1);
@@ -1287,11 +1242,11 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:275
         public void CombatBtnClick()
         {
-            if (((FSpellType != Aow.Units.AoWE.TSpellType.stCombat) || (FPage != 0)) || (FPageKind != 1))
+            if (FSpellType != TSpellType.stCombat || FPage != 0 || FPageKind != 1)
             {
-                Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptLeft);
-                Aow.Units.Sound.Sound.PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
-                FSpellType = Aow.Units.AoWE.TSpellType.stCombat;
+                Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
+                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                FSpellType = TSpellType.stCombat;
                 FPage = 0;
                 UpdateSpellPages();
                 SetPageKind(1);
@@ -1299,12 +1254,12 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:285
-        public void InfoBtnClick(Aow.Rtl.TObject Sender)
+        public void InfoBtnClick(TObject Sender)
         {
             if (FPageKind != 0)
             {
-                Dlg.StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode.ptRight);
-                Aow.Units.Sound.Sound.PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
+                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
                 SetPageKind(0);
             }
         }
@@ -1312,8 +1267,8 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:295
         public void CastingBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
             if (ValidateHero())
             {
                 switch (FMode)
@@ -1326,12 +1281,12 @@ namespace Aow.Units.AoWSpellBook
                         }
                         else
                         {
-                            Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                            AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
                     case 1:
-                        var call__158 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
+                        var call__158 = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
                         SelectSpell(call__158);
                         break;
                 }
@@ -1341,7 +1296,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:309
         public void CancelCastingBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (ValidateHero())
             {
                 FHero.CancelCasting();
@@ -1349,11 +1304,11 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:315
-        public void FaceDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void FaceDraw(TObject Sender, TSurfaceDesc SD)
         {
-            Aow.Rtl.TRect R = default;
-            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
-            var call__160 = Aow.Rtl.Rtl.Rect(LeftInfoPage.WinLeft + image.WinLeft, LeftInfoPage.WinTop + image.WinTop, (LeftInfoPage.WinLeft + image.WinLeft) + image.WinWidth, (LeftInfoPage.WinTop + image.WinTop) + image.WinHeight);
+            TRect R = default;
+            var image = (TAOWImage)Sender;
+            var call__160 = Rect(LeftInfoPage.WinLeft + image.WinLeft, LeftInfoPage.WinTop + image.WinTop, LeftInfoPage.WinLeft + image.WinLeft + image.WinWidth, LeftInfoPage.WinTop + image.WinTop + image.WinHeight);
             R = call__160;
 
             var call__161 = FHero.GetFace();
@@ -1361,16 +1316,16 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:325
-        public void ResearchIcnDraw(Aow.Units.AoWImage.TAOWImage Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void ResearchIcnDraw(TAOWImage Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TSpell Spell = default;
+            TSpell Spell = default;
             int X = default;
-            var call__162 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-            var call__163 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(call__162.FMagicControl.FResearchSpellID);
+            var call__162 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+            var call__163 = AoWHSSet.FSpellControl.GetSpell(call__162.FMagicControl.FResearchSpellID);
             Spell = call__163;
-            if ((Spell == null) && (FMode == 3))
+            if (Spell == null && FMode == 3)
             {
-                var call__164 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
+                var call__164 = AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
                 Spell = call__164;
             }
 
@@ -1382,16 +1337,16 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:337
-        public void CastingIcnDraw(Aow.Units.AoWImage.TAOWImage Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void CastingIcnDraw(TAOWImage Sender, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TSpell Spell = default;
+            TSpell Spell = default;
             int X = default;
             if (FHero != null)
             {
                 var call__166 = FHero.Casting();
                 if (call__166)
                 {
-                    var call__167 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
+                    var call__167 = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
                     Spell = call__167;
                     if (Spell != null)
                     {
@@ -1405,11 +1360,11 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:352
         public void CancelResearchBtnClick()
         {
-            Aow.Units.AoWE.TPlayerMagicControl Control = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            TPlayerMagicControl Control = default;
+            General.PlayButtonSound(0);
             if (ValidateHero())
             {
-                var call__169 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__169 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 Control = call__169.FMagicControl;
                 if (Control.FResearchSpellID != 0)
                 {
@@ -1425,7 +1380,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:363
         public void Sel1Click()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
         }
 
         // AoWSpellBook.pas:366
@@ -1447,13 +1402,13 @@ namespace Aow.Units.AoWSpellBook
         }
 
         // AoWSpellBook.pas:375
-        public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             if (Key == 27)
             {
-                if ((Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null))
+                if (AoWHSMap.FCombatMap != null && General.FCombatUnit != null)
                 {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.SelectAbility(-1);
+                    General.FCombatUnit.SelectAbility(-1);
                 }
 
                 Dlg.Visible = false;

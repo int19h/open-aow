@@ -10,11 +10,11 @@ public partial class TAoWCombatMapControl
     {
         try
         {
-            if (FOnMapChanged is not null) FOnMapChanged(((Aow.Units.AoWE.MapChangedNotification)sender).Info);
+            if (FOnMapChanged is not null) FOnMapChanged(((MapChangedNotification)sender).Info);
         }
         catch (System.Exception)
         {
-            Aow.Rtl.Rtl.ShowMessage("Exception occurred during MapChanged event (TAoWCombatMapControl)");
+            Rtl.Rtl.ShowMessage("Exception occurred during MapChanged event (TAoWCombatMapControl)");
         }
     }
 }

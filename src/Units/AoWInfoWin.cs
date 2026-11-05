@@ -1,231 +1,165 @@
 // Translated from AoWInfoWin.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWGauge;
-using static Aow.Units.AOWGauge.AOWGauge;
 using Aow.Units.AoWArnoLine;
-using static Aow.Units.AoWArnoLine.AoWArnoLine;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWListBox.AoWListBox;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
 using Aow.Units.Mine;
-using static Aow.Units.Mine.Mine;
 using Aow.Units.PowerNode;
-using static Aow.Units.PowerNode.PowerNode;
 using Aow.Units.Farm;
-using static Aow.Units.Farm.Farm;
 using Aow.Units.Tower;
-using static Aow.Units.Tower.Tower;
 using Aow.Units.Sign;
-using static Aow.Units.Sign.Sign;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.AoWCityScreen;
 using static Aow.Units.AoWCityScreen.AoWCityScreen;
-using Aow.Units.AoWProdScreen;
 using static Aow.Units.AoWProdScreen.AoWProdScreen;
 using Aow.Units.City;
 using static Aow.Units.City.City;
 using Aow.Units.PrdPlace;
-using static Aow.Units.PrdPlace.PrdPlace;
 using Aow.Units.Cave;
-using static Aow.Units.Cave.Cave;
 using Aow.Units.Teleport;
-using static Aow.Units.Teleport.Teleport;
 using Aow.Units.ExploreS;
-using static Aow.Units.ExploreS.ExploreS;
 using Aow.Units.WizardsTower;
-using static Aow.Units.WizardsTower.WizardsTower;
 using Aow.Units.Arena;
-using static Aow.Units.Arena.Arena;
 using Aow.Units.Altar;
-using static Aow.Units.Altar.Altar;
-using Aow.Units.aowHelpWin;
 using static Aow.Units.aowHelpWin.aowHelpWin;
-using Aow.Units.E2CampaignSupport;
 using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
 
 namespace Aow.Units.AoWInfoWin
 {
     // item bag
-    public partial class TIWindow : Aow.Rtl.TDataModule
+    public partial class TIWindow : TDataModule
     {
         public TIWindow(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow InfoWin;
-        public Aow.Units.AoWButton.TAOWButton Min;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWImage.TAOWImage SIcon;
-        public Aow.Units.AoWButton.TAOWButton MainBtn;
-        public Aow.Units.AoWFrame.TAoWFrame CeltFrame;
-        public Aow.Units.AoWArnoLine.TAoWArnoLine StructLine;
-        public Aow.Units.AoWLabel.TAOWLabel StructNameLbl;
-        public Aow.Units.AoWPanel.TAOWPanel ProductionPlacePnl;
-        public Aow.Units.AoWPanel.TAOWPanel NamePnl;
-        public Aow.Units.AoWMemo.TAOWMemo ActiveActionMemo;
-        public Aow.Units.AoWPanel.TAOWPanel SignPnl;
-        public Aow.Units.AoWMemo.TAOWMemo SignText;
-        public Aow.Units.AoWLabel.TAOWLabel SignLbl;
-        public Aow.Units.AoWFrame.TAoWFrame SignTLine;
-        public Aow.Units.AoWImage.TAOWImage SignTDecoL;
-        public Aow.Units.AoWImage.TAOWImage SignTDecoR;
-        public Aow.Units.AoWFrame.TAoWFrame SignBLine;
-        public Aow.Units.AoWImage.TAOWImage SignBDecoL;
-        public Aow.Units.AoWImage.TAOWImage SingBDemoR;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar SignTextSB;
-        public Aow.Units.AoWPanel.TAOWPanel CityPanel;
-        public Aow.Units.AoWLabel.TAOWLabel CityRaceLbl;
-        public Aow.Units.AoWPanel.TAOWPanel CityBorderPnl;
-        public Aow.Units.AoWImage.TAOWImage ProdOrb;
-        public Aow.Units.AoWPanel.TAOWPanel SingleButPnl;
-        public Aow.Units.AoWMemo.TAOWMemo SBmemo;
-        public Aow.Units.AoWPanel.TAOWPanel AltarPnl;
-        public Aow.Units.AOWGauge.TAoWGauge Bar;
-        public Aow.Units.AoWLabel.TAOWLabel ChargeLbl;
-        public Aow.Units.AoWLabel.TAOWLabel GemLbl;
-        public Aow.Units.AoWLabel.TAOWLabel ChargePcntLbl;
-        public Aow.Units.AoWImage.TAOWImage T2GemI;
-        public Aow.Units.AoWImage.TAOWImage T2TurnI;
-        public Aow.Units.AoWLabel.TAOWLabel DayLbl;
-        public Aow.Units.AoWImage.TAOWImage LShield;
-        public Aow.Units.AoWPanel.TAOWPanel NotYoursPnl;
-        public Aow.Units.AoWMemo.TAOWMemo NotYoursMemo;
-        public Aow.Units.AoWLabel.TAOWLabel Ownerlbl;
-        public Aow.Units.AoWLabel.TAOWLabel OwnerRaceLbl;
-        public Aow.Units.AoWLabel.TAOWLabel ProdOrbTurnsLbl;
-        public Aow.Units.AoWLabel.TAOWLabel orLbl;
-        public Aow.Units.AoWPanel.TAOWPanel AltarInfoPnl;
-        public Aow.Units.AoWImage.TAOWImage ProdOrbTime;
-        public Aow.Units.AoWButton.TAOWButton Center;
-        public Aow.Units.AoWPanel.TAOWPanel ConstructionPnl;
-        public Aow.Units.AoWMemo.TAOWMemo ConstructionMemo;
-        public Aow.Units.AoWLabel.TAOWLabel UnderConstructionLbl;
-        public Aow.Units.AoWLabel.TAOWLabel ConstructionDaysLeftLbl;
-        public Aow.Units.AoWPanel.TAOWPanel RazePnl;
-        public Aow.Units.AoWImage.TAOWImage RazeBg;
-        public Aow.Units.AoWButton.TAOWButton RazeBtn;
-        public Aow.Units.AoWLabel.TAOWLabel CivilStatusLbl;
-        public Aow.Units.AoWImage.TAOWImage RaceRelationIcon;
-        public Aow.Units.AoWLabel.TAOWLabel CityIncomeLbl;
-        public Aow.Units.AoWImage.TAOWImage GoldIcn;
-        public Aow.Units.AoWImage.TAOWImage UgradeI;
-        public Aow.Units.AoWLabel.TAOWLabel CityLevelLbl;
-        public Aow.Units.AoWPanel.TAOWPanel InfoPnl;
-        public Aow.Units.AoWPanel.TAOWPanel ProductionPlaceInfoPnl;
-        public Aow.Units.AoWImage.TAOWImage IncomeTypeIcon;
-        public Aow.Units.AoWLabel.TAOWLabel IncomeValueLbl;
-        public Aow.Units.AoWMemo.TAOWMemo ActiveCityActionMemo;
-        public Aow.Units.AoWLabel.TAOWLabel CostToFireLbl;
-        public Aow.Units.AoWLabel.TAOWLabel CurrentActivityLbl;
-        public Aow.Units.AoWLabel.TAOWLabel IncomeLbl;
-        public Aow.Units.AoWLabel.TAOWLabel ProductionWarningLbl;
-        public Aow.Units.AoWLabel.TAOWLabel CurrentActivityWarningLbl;
-        public Aow.Units.AoWPanel.TAOWPanel IncomePnl;
-        public Aow.Units.AoWPanel.TAOWPanel IncomInfoPnl;
-        public Aow.Units.AoWImage.TAOWImage IncomeTypeImage;
-        public Aow.Units.AoWLabel.TAOWLabel IncomeAmountLbl;
-        public Aow.Units.AoWLabel.TAOWLabel IncomeTextLbl;
-        public Aow.Units.AoWMemo.TAOWMemo IncomeMemo;
-        public Aow.Units.AoWPanel.TAOWPanel ItemPnl;
-        public Aow.Units.AoWLabel.TAOWLabel ItemsInBagLbl;
-        public Aow.Units.AoWListBox.TAOWListBox ItembagLB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar ItembagSB;
-        public Aow.Units.AoWMemo.TAOWMemo ItemBagMemo;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar SBSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar NotYoursMemoSB;
-        public Aow.Units.AoWPanel.TAOWPanel ExplorationSitePnl;
-        public Aow.Units.AoWMemo.TAOWMemo ESMemo;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar ESSB;
-        public Aow.Units.AoWLabel.TAOWLabel ESLbl;
-        public Aow.Units.AoWLabel.TAOWLabel ESStatusLbl;
-        public Aow.Units.AoWButton.TAOWButton Help;
-        public Aow.Units.AoWLabel.TAOWLabel PopulationRaceLbl;
-        public Aow.Units.AoWLabel.TAOWLabel PopulationLbl;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.AoWE.TItemHS FItemBag;
+        public TAOWWindow InfoWin;
+        public TAOWButton Min;
+        public TAOWButton Close;
+        public TAOWLabel Title;
+        public TAOWImage SIcon;
+        public TAOWButton MainBtn;
+        public TAoWFrame CeltFrame;
+        public TAoWArnoLine StructLine;
+        public TAOWLabel StructNameLbl;
+        public TAOWPanel ProductionPlacePnl;
+        public TAOWPanel NamePnl;
+        public TAOWMemo ActiveActionMemo;
+        public TAOWPanel SignPnl;
+        public TAOWMemo SignText;
+        public TAOWLabel SignLbl;
+        public TAoWFrame SignTLine;
+        public TAOWImage SignTDecoL;
+        public TAOWImage SignTDecoR;
+        public TAoWFrame SignBLine;
+        public TAOWImage SignBDecoL;
+        public TAOWImage SingBDemoR;
+        public TAOWVScrollBar SignTextSB;
+        public TAOWPanel CityPanel;
+        public TAOWLabel CityRaceLbl;
+        public TAOWPanel CityBorderPnl;
+        public TAOWImage ProdOrb;
+        public TAOWPanel SingleButPnl;
+        public TAOWMemo SBmemo;
+        public TAOWPanel AltarPnl;
+        public TAoWGauge Bar;
+        public TAOWLabel ChargeLbl;
+        public TAOWLabel GemLbl;
+        public TAOWLabel ChargePcntLbl;
+        public TAOWImage T2GemI;
+        public TAOWImage T2TurnI;
+        public TAOWLabel DayLbl;
+        public TAOWImage LShield;
+        public TAOWPanel NotYoursPnl;
+        public TAOWMemo NotYoursMemo;
+        public TAOWLabel Ownerlbl;
+        public TAOWLabel OwnerRaceLbl;
+        public TAOWLabel ProdOrbTurnsLbl;
+        public TAOWLabel orLbl;
+        public TAOWPanel AltarInfoPnl;
+        public TAOWImage ProdOrbTime;
+        public TAOWButton Center;
+        public TAOWPanel ConstructionPnl;
+        public TAOWMemo ConstructionMemo;
+        public TAOWLabel UnderConstructionLbl;
+        public TAOWLabel ConstructionDaysLeftLbl;
+        public TAOWPanel RazePnl;
+        public TAOWImage RazeBg;
+        public TAOWButton RazeBtn;
+        public TAOWLabel CivilStatusLbl;
+        public TAOWImage RaceRelationIcon;
+        public TAOWLabel CityIncomeLbl;
+        public TAOWImage GoldIcn;
+        public TAOWImage UgradeI;
+        public TAOWLabel CityLevelLbl;
+        public TAOWPanel InfoPnl;
+        public TAOWPanel ProductionPlaceInfoPnl;
+        public TAOWImage IncomeTypeIcon;
+        public TAOWLabel IncomeValueLbl;
+        public TAOWMemo ActiveCityActionMemo;
+        public TAOWLabel CostToFireLbl;
+        public TAOWLabel CurrentActivityLbl;
+        public TAOWLabel IncomeLbl;
+        public TAOWLabel ProductionWarningLbl;
+        public TAOWLabel CurrentActivityWarningLbl;
+        public TAOWPanel IncomePnl;
+        public TAOWPanel IncomInfoPnl;
+        public TAOWImage IncomeTypeImage;
+        public TAOWLabel IncomeAmountLbl;
+        public TAOWLabel IncomeTextLbl;
+        public TAOWMemo IncomeMemo;
+        public TAOWPanel ItemPnl;
+        public TAOWLabel ItemsInBagLbl;
+        public TAOWListBox ItembagLB;
+        public TAOWVScrollBar ItembagSB;
+        public TAOWMemo ItemBagMemo;
+        public TAOWVScrollBar SBSB;
+        public TAOWVScrollBar NotYoursMemoSB;
+        public TAOWPanel ExplorationSitePnl;
+        public TAOWMemo ESMemo;
+        public TAOWVScrollBar ESSB;
+        public TAOWLabel ESLbl;
+        public TAOWLabel ESStatusLbl;
+        public TAOWButton Help;
+        public TAOWLabel PopulationRaceLbl;
+        public TAOWLabel PopulationLbl;
+        public TIvTranslator Translator;
+        public TItemHS FItemBag;
         // AoWInfoWin.pas:137
         public void InfoWinResize()
         {
-            this.InfoWin.Alignment.RightOffset = (this.InfoWin.FWinManager.WinWidth - this.InfoWin.WinLeft) - this.InfoWin.WinWidth;
+            this.InfoWin.Alignment.RightOffset = this.InfoWin.FWinManager.WinWidth - this.InfoWin.WinLeft - this.InfoWin.WinWidth;
             this.InfoWin.Alignment.TopOffset = this.InfoWin.WinTop;
         }
 
         // AoWInfoWin.pas:146
         public void MinClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             InfoWin.Visible = false;
         }
 
         // AoWInfoWin.pas:152
-        public void CloseClick(Aow.Rtl.TObject Sender)
+        public void CloseClick(TObject Sender)
         {
             if (Sender != null)
             {
-                Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+                General.PlayButtonSound(0);
             }
 
             InfoWin.Visible = false;
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.StructButton.Visible = false;
+            TBWindow.StructButton.Visible = false;
         }
 
         // AoWInfoWin.pas:159
@@ -241,44 +175,44 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:165
         public void CenterClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FItemBag != null)
             {
                 var itemHS = FItemBag;
                 var call__3 = FItemBag.Yhx;
                 var call__4 = itemHS.Xhx;
-                Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(call__4, call__3, FItemBag.Lhx);
+                AoWHSMap.CenterViewTo(call__4, call__3, FItemBag.Lhx);
 
                 var call__5 = FItemBag.Yhx;
                 var call__6 = FItemBag.Xhx;
-                Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)call__6), unchecked((sbyte)call__5), unchecked((sbyte)FItemBag.Lhx));
+                AoWHSMap.PlayCenterAnimation(call__6, call__5, FItemBag.Lhx);
             }
             else
             {
-                var call__7 = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.Yhx;
-                var call__8 = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.Xhx;
-                Aow.Units.AoWE.AoWE.AoWHSMap.CenterViewTo(call__8, call__7, Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.Lhx);
-                var call__9 = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.Yhx;
-                var call__10 = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.Xhx;
-                Aow.Units.AoWE.AoWE.AoWHSMap.PlayCenterAnimation(unchecked((sbyte)call__10), unchecked((sbyte)call__9), unchecked((sbyte)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.Lhx));
+                var call__7 = General.FStructure.Yhx;
+                var call__8 = General.FStructure.Xhx;
+                AoWHSMap.CenterViewTo(call__8, call__7, General.FStructure.Lhx);
+                var call__9 = General.FStructure.Yhx;
+                var call__10 = General.FStructure.Xhx;
+                AoWHSMap.PlayCenterAnimation(call__10, call__9, General.FStructure.Lhx);
             }
         }
 
         // AoWInfoWin.pas:180
         public void RazeBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure != null)
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
+            if (General.FStructure != null)
             {
-                var call__11 = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.CanRaze(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), ref Reason);
+                var call__11 = General.FStructure.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason);
                 if (call__11)
                 {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.Raze(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                    General.FStructure.Raze(AoWHSMap.FSeatedPlayer);
                 }
                 else
                 {
-                    Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                    AoWHSMap.ShowWarning(Reason);
                 }
             }
         }
@@ -286,71 +220,71 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:190
         public void MainBtnClick()
         {
-            Aow.Units.AoWE.TArmyHS Army = default;
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure != null)
+            TArmyHS Army = default;
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
+            if (General.FStructure != null)
             {
-                if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.City.TCity)
+                if (General.FStructure is TCity)
                 {
-                    Aow.Units.AoWCityScreen.AoWCityScreen.CityScreen.ShowCity((Aow.Units.City.TCity)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure);
+                    CityScreen.ShowCity((TCity)General.FStructure);
                 }
                 else
                 {
-                    if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.PrdPlace.TProductionPlace)
+                    if (General.FStructure is TProductionPlace)
                     {
-                        Aow.Units.AoWProdScreen.AoWProdScreen.ProductionScreen.ShowPlace((Aow.Units.PrdPlace.TProductionPlace)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure);
+                        ProductionScreen.ShowPlace((TProductionPlace)General.FStructure);
                     }
                     else
                     {
-                        if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.Cave.TCave)
+                        if (General.FStructure is TCave)
                         {
-                            ((Aow.Units.Cave.TCave)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).Enter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                            ((TCave)General.FStructure).Enter(AoWHSMap.FSeatedPlayer);
                         }
                         else
                         {
-                            if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.Teleport.TTeleport)
+                            if (General.FStructure is TTeleport)
                             {
-                                ((Aow.Units.Teleport.TTeleport)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).Teleport(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                                ((TTeleport)General.FStructure).Teleport(AoWHSMap.FSeatedPlayer);
                             }
                             else
                             {
-                                if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.ExploreS.TExplorationSite)
+                                if (General.FStructure is TExplorationSite)
                                 {
-                                    ((Aow.Units.ExploreS.TExplorationSite)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).Search();
+                                    ((TExplorationSite)General.FStructure).Search();
                                 }
                                 else
                                 {
-                                    if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.WizardsTower.TWizardsTower)
+                                    if (General.FStructure is TWizardsTower)
                                     {
-                                        ((Aow.Units.WizardsTower.TWizardsTower)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).Enter();
+                                        ((TWizardsTower)General.FStructure).Enter();
                                     }
                                     else
                                     {
-                                        if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.Arena.TArena)
+                                        if (General.FStructure is TArena)
                                         {
-                                            ((Aow.Units.Arena.TArena)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).Enter();
+                                            ((TArena)General.FStructure).Enter();
                                         }
                                         else
                                         {
-                                            if (Aow.Units.AoWWinMan.AoWWinMan.General.FStructure is Aow.Units.Altar.TAltar)
+                                            if (General.FStructure is TAltar)
                                             {
-                                                var call__12 = ((Aow.Units.Altar.TAltar)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).GetTargeting();
+                                                var call__12 = ((TAltar)General.FStructure).GetTargeting();
                                                 if (!call__12)
                                                 {
-                                                    var call__13 = ((Aow.Units.Altar.TAltar)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).CanTarget(ref Reason);
+                                                    var call__13 = ((TAltar)General.FStructure).CanTarget(ref Reason);
                                                     if (call__13)
                                                     {
-                                                        ((Aow.Units.Altar.TAltar)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).Target();
+                                                        ((TAltar)General.FStructure).Target();
                                                     }
                                                     else
                                                     {
-                                                        Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                                                        AoWHSMap.ShowWarning(Reason);
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    ((Aow.Units.Altar.TAltar)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).CancelTargeting();
+                                                    ((TAltar)General.FStructure).CancelTargeting();
                                                 }
                                             }
                                         }
@@ -365,17 +299,17 @@ namespace Aow.Units.AoWInfoWin
             {
                 if (FItemBag != null)
                 {
-                    var call__14 = ((Aow.Units.AoWE.TAoWMapField)FItemBag.Owner).GetArmyHS();
+                    var call__14 = ((TAoWMapField)FItemBag.Owner).GetArmyHS();
                     Army = call__14;
-                    if ((Army != null) && (Army.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer))
+                    if (Army != null && Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
                     {
-                        var call__15 = Army.FArmy.Hero(255, Aow.Units.E2CampaignSupport.E2CampaignSupport.AllHeroTypes);
+                        var call__15 = Army.FArmy.Hero(255, AllHeroTypes);
                         if (call__15 != null)
                         {
-                            var call__16 = Army.FArmy.Hero(255, Aow.Units.E2CampaignSupport.E2CampaignSupport.AllHeroTypes);
-                            Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = call__16;
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
-                            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected = 2;
+                            var call__16 = Army.FArmy.Hero(255, AllHeroTypes);
+                            General.FSelectedUnit = call__16;
+                            AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
+                            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected = 2;
                         }
                     }
                 }
@@ -383,7 +317,7 @@ namespace Aow.Units.AoWInfoWin
         }
 
         // AoWInfoWin.pas:226
-        public void ItembagLBDrawItem(Aow.Rtl.TObject Sender, in Aow.Rtl.TRect DrawRect, int DrawItem, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void ItembagLBDrawItem(TObject Sender, in TRect DrawRect, int DrawItem, in TSurfaceDesc Surface)
         {
             if (FItemBag != null)
             {
@@ -400,7 +334,7 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:233
         public void HelpClick()
         {
-            Aow.Units.aowHelpWin.aowHelpWin.ShowHelp(504);
+            ShowHelp(504);
         }
 
         // AoWInfoWin.pas:236
@@ -413,83 +347,83 @@ namespace Aow.Units.AoWInfoWin
 
     public static partial class AoWInfoWin
     {
-        public static Aow.Units.AoWInfoWin.TIWindow IWindow;
+        public static TIWindow IWindow;
         // AoWInfoWin.pas:616
-        public static void ShowStructureInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TStructure Structure)
+        public static void ShowStructureInfo(TIWindow Dialog, TStructure Structure)
         {
             if (Structure.GetBuilding())
             {
-                Aow.Units.AoWInfoWin.AoWInfoWin.ShowBuildingInfo(Dialog, Structure);
+                ShowBuildingInfo(Dialog, Structure);
             }
             else
             {
                 if (Structure.GetRazed())
                 {
-                    Aow.Units.AoWInfoWin.AoWInfoWin.ShowRazedInfo(Dialog, Structure);
+                    ShowRazedInfo(Dialog, Structure);
                 }
                 else
                 {
-                    if (Structure is Aow.Units.AoWE.TPlayerStructure)
+                    if (Structure is TPlayerStructure)
                     {
-                        if ((((Aow.Units.AoWE.TPlayerStructure)Structure).FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer) || Aow.Units.AoWE.AoWE.AoWEngine.FDebug)
+                        if (((TPlayerStructure)Structure).FPlayer == AoWHSMap.FSeatedPlayer || AoWEngine.FDebug)
                         {
-                            if (Structure is Aow.Units.City.TCity)
+                            if (Structure is TCity)
                             {
-                                if (((Aow.Units.City.TCity)Structure).FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode))
+                                if (((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode))
                                 {
-                                    Aow.Units.AoWInfoWin.AoWInfoWin.ShowWarCityInfo(Dialog, (Aow.Units.City.TCity)Structure);
+                                    ShowWarCityInfo(Dialog, (TCity)Structure);
                                 }
                                 else
                                 {
-                                    Aow.Units.AoWInfoWin.AoWInfoWin.ShowCityInfo(Dialog, (Aow.Units.City.TCity)Structure);
+                                    ShowCityInfo(Dialog, (TCity)Structure);
                                 }
                             }
                             else
                             {
-                                if (Structure is Aow.Units.PrdPlace.TProductionPlace)
+                                if (Structure is TProductionPlace)
                                 {
-                                    if (((Aow.Units.PrdPlace.TProductionPlace)Structure).GetMagicSphere() == Aow.Units.AoWE.TMagicSphere.msNone)
+                                    if (((TProductionPlace)Structure).GetMagicSphere() == TMagicSphere.msNone)
                                     {
-                                        Aow.Units.AoWInfoWin.AoWInfoWin.ShowProductionInfo(Dialog, (Aow.Units.PrdPlace.TProductionPlace)Structure);
+                                        ShowProductionInfo(Dialog, (TProductionPlace)Structure);
                                     }
                                     else
                                     {
-                                        Aow.Units.AoWInfoWin.AoWInfoWin.ShowProductionIncome(Dialog, (Aow.Units.PrdPlace.TProductionPlace)Structure);
+                                        ShowProductionIncome(Dialog, (TProductionPlace)Structure);
                                     }
                                 }
                                 else
                                 {
-                                    if (Structure is Aow.Units.Mine.TMine)
+                                    if (Structure is TMine)
                                     {
-                                        Aow.Units.AoWInfoWin.AoWInfoWin.ShowMineInfo(Dialog, (Aow.Units.Mine.TMine)Structure);
+                                        ShowMineInfo(Dialog, (TMine)Structure);
                                     }
                                     else
                                     {
-                                        if (Structure is Aow.Units.PowerNode.TPowerNode)
+                                        if (Structure is TPowerNode)
                                         {
-                                            Aow.Units.AoWInfoWin.AoWInfoWin.ShowPowerNodeInfo(Dialog, (Aow.Units.PowerNode.TPowerNode)Structure);
+                                            ShowPowerNodeInfo(Dialog, (TPowerNode)Structure);
                                         }
                                         else
                                         {
-                                            if (Structure is Aow.Units.Farm.TFarm)
+                                            if (Structure is TFarm)
                                             {
-                                                Aow.Units.AoWInfoWin.AoWInfoWin.ShowFarmInfo(Dialog, (Aow.Units.Farm.TFarm)Structure);
+                                                ShowFarmInfo(Dialog, (TFarm)Structure);
                                             }
                                             else
                                             {
-                                                if (Structure is Aow.Units.Tower.TTower)
+                                                if (Structure is TTower)
                                                 {
-                                                    Aow.Units.AoWInfoWin.AoWInfoWin.ShowWatchTowerInfo(Dialog, (Aow.Units.Tower.TTower)Structure);
+                                                    ShowWatchTowerInfo(Dialog, (TTower)Structure);
                                                 }
                                                 else
                                                 {
-                                                    if (Structure is Aow.Units.Altar.TAltar)
+                                                    if (Structure is TAltar)
                                                     {
-                                                        Aow.Units.AoWInfoWin.AoWInfoWin.ShowAltarInfo(Dialog, (Aow.Units.Altar.TAltar)Structure);
+                                                        ShowAltarInfo(Dialog, (TAltar)Structure);
                                                     }
                                                     else
                                                     {
-                                                        Aow.Units.AoWInfoWin.AoWInfoWin.ShowGenericInfo(Dialog, Structure);
+                                                        ShowGenericInfo(Dialog, Structure);
                                                     }
                                                 }
                                             }
@@ -500,55 +434,55 @@ namespace Aow.Units.AoWInfoWin
                         }
                         else
                         {
-                            if ((Structure is Aow.Units.City.TCity) && ((Aow.Units.City.TCity)Structure).FMode.Contains(Aow.Units.City.TCityModeElement.cmWarmode))
+                            if (Structure is TCity && ((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode))
                             {
-                                Aow.Units.AoWInfoWin.AoWInfoWin.ShowWarCityInfo(Dialog, (Aow.Units.City.TCity)Structure);
+                                ShowWarCityInfo(Dialog, (TCity)Structure);
                             }
                             else
                             {
-                                Aow.Units.AoWInfoWin.AoWInfoWin.ShowOtherPlayerInfo(Dialog, (Aow.Units.AoWE.TPlayerStructure)Structure);
+                                ShowOtherPlayerInfo(Dialog, (TPlayerStructure)Structure);
                             }
                         }
                     }
                     else
                     {
-                        if (Structure is Aow.Units.Sign.TSign)
+                        if (Structure is TSign)
                         {
-                            Aow.Units.AoWInfoWin.AoWInfoWin.ShowSignInfo(Dialog, (Aow.Units.Sign.TSign)Structure);
+                            ShowSignInfo(Dialog, (TSign)Structure);
                         }
                         else
                         {
-                            if (Structure is Aow.Units.Cave.TCave)
+                            if (Structure is TCave)
                             {
-                                Aow.Units.AoWInfoWin.AoWInfoWin.ShowCaveInfo(Dialog, (Aow.Units.Cave.TCave)Structure);
+                                ShowCaveInfo(Dialog, (TCave)Structure);
                             }
                             else
                             {
-                                if (Structure is Aow.Units.Teleport.TTeleport)
+                                if (Structure is TTeleport)
                                 {
-                                    Aow.Units.AoWInfoWin.AoWInfoWin.ShowTeleportInfo(Dialog, (Aow.Units.Teleport.TTeleport)Structure);
+                                    ShowTeleportInfo(Dialog, (TTeleport)Structure);
                                 }
                                 else
                                 {
-                                    if (Structure is Aow.Units.ExploreS.TExplorationSite)
+                                    if (Structure is TExplorationSite)
                                     {
-                                        Aow.Units.AoWInfoWin.AoWInfoWin.ShowExplorationInfo(Dialog, (Aow.Units.ExploreS.TExplorationSite)Structure);
+                                        ShowExplorationInfo(Dialog, (TExplorationSite)Structure);
                                     }
                                     else
                                     {
-                                        if (Structure is Aow.Units.WizardsTower.TWizardsTower)
+                                        if (Structure is TWizardsTower)
                                         {
-                                            Aow.Units.AoWInfoWin.AoWInfoWin.ShowTowerInfo(Dialog, (Aow.Units.WizardsTower.TWizardsTower)Structure);
+                                            ShowTowerInfo(Dialog, (TWizardsTower)Structure);
                                         }
                                         else
                                         {
-                                            if (Structure is Aow.Units.Arena.TArena)
+                                            if (Structure is TArena)
                                             {
-                                                Aow.Units.AoWInfoWin.AoWInfoWin.ShowArenaInfo(Dialog, (Aow.Units.Arena.TArena)Structure);
+                                                ShowArenaInfo(Dialog, (TArena)Structure);
                                             }
                                             else
                                             {
-                                                Aow.Units.AoWInfoWin.AoWInfoWin.ShowGenericInfo(Dialog, Structure);
+                                                ShowGenericInfo(Dialog, Structure);
                                             }
                                         }
                                     }
@@ -559,22 +493,22 @@ namespace Aow.Units.AoWInfoWin
                 }
             }
 
-            if (!Aow.Units.AoWExeForms.AoWExeForms.TBWindow.StructButton.Visible)
+            if (!TBWindow.StructButton.Visible)
             {
-                Aow.Units.AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible = true;
+                IWindow.InfoWin.Visible = true;
             }
 
-            Aow.Units.AoWExeForms.AoWExeForms.TBWindow.StructButton.Visible = true;
+            TBWindow.StructButton.Visible = true;
         }
 
         // AoWInfoWin.pas:648
-        public static void UpdateStructureInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TStructure Structure)
+        public static void UpdateStructureInfo(TIWindow Dialog, TStructure Structure)
         {
             if (Dialog.InfoWin.Visible)
             {
                 if (Structure == null)
                 {
-                    Structure = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure;
+                    Structure = General.FStructure;
                     if (Structure != null)
                     {
                         var call__19 = Structure.Selected;
@@ -591,38 +525,38 @@ namespace Aow.Units.AoWInfoWin
                     var call__21 = Structure.Selected;
                     if (call__21)
                     {
-                        Aow.Units.AoWInfoWin.AoWInfoWin.ShowStructureInfo(Dialog, Structure);
+                        ShowStructureInfo(Dialog, Structure);
                     }
                 }
             }
         }
 
         // AoWInfoWin.pas:661
-        public static void ShowItemSelection(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TItemHS Items)
+        public static void ShowItemSelection(TIWindow Dialog, TItemHS Items)
         {
             int I = default;
-            Aow.Units.AoWE.TArmyHS Army = default;
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E3Globals.E3Globals.ItemBagRStr);
+            TArmyHS Army = default;
+            ResetStructureInfo(Dialog);
+            var call__23 = TranslateRStr(E3Globals.E3Globals.ItemBagRStr);
             Dialog.Title.Text = call__23;
             Dialog.FItemBag = Items;
             Dialog.ItemPnl.Visible = true;
             Dialog.InfoWin.Visible = true;
             Dialog.StructNameLbl.Text = (AnsiString)"";
-            var call__24 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[35];
+            var call__24 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[35];
             Dialog.StructLine.ImageTop = call__24;
-            var call__25 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[36];
+            var call__25 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[36];
             Dialog.StructLine.ImageMiddle = call__25;
-            var call__26 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[37];
+            var call__26 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[37];
             Dialog.StructLine.ImageBottom = call__26;
-            var call__27 = ((Aow.Units.AoWE.TAoWMapField)Items.Owner).GetArmyHS();
+            var call__27 = ((TAoWMapField)Items.Owner).GetArmyHS();
             Army = call__27;
-            if ((Army != null) && (Army.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer))
+            if (Army != null && Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
             {
                 Dialog.ItemBagMemo.Visible = false;
-                var call__28 = Army.FArmy.Hero(255, Aow.Units.E2CampaignSupport.E2CampaignSupport.AllHeroTypes);
+                var call__28 = Army.FArmy.Hero(255, AllHeroTypes);
                 Dialog.MainBtn.Visible = call__28 != null;
-                var call__29 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PickupRStr);
+                var call__29 = TranslateRStr(PickupRStr);
                 Dialog.MainBtn.Text = call__29;
                 Dialog.ItembagLB.Visible = true;
                 Dialog.ItembagLB.Items.Clear();
@@ -649,16 +583,16 @@ namespace Aow.Units.AoWInfoWin
         }
 
         // AoWInfoWin.pas:692
-        public static void UpdateItemSelection(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TItemHS Items)
+        public static void UpdateItemSelection(TIWindow Dialog, TItemHS Items)
         {
-            if (Dialog.InfoWin.Visible && (Items == Dialog.FItemBag))
+            if (Dialog.InfoWin.Visible && Items == Dialog.FItemBag)
             {
-                Aow.Units.AoWInfoWin.AoWInfoWin.ShowItemSelection(Dialog, Dialog.FItemBag);
+                ShowItemSelection(Dialog, Dialog.FItemBag);
             }
         }
 
         // AoWInfoWin.pas:242
-        public static void ResetStructureInfo(Aow.Units.AoWInfoWin.TIWindow Dialog)
+        public static void ResetStructureInfo(TIWindow Dialog)
         {
             Dialog.StructLine.Visible = true;
             Dialog.StructLine.FSized = false;
@@ -684,12 +618,12 @@ namespace Aow.Units.AoWInfoWin
             Dialog.SBmemo.Items.Clear();
             Dialog.PopulationRaceLbl.Visible = false;
             Dialog.PopulationLbl.Visible = false;
-            var call__32 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StructureRStr);
+            var call__32 = TranslateRStr(StructureRStr);
             Dialog.Title.Text = call__32;
         }
 
         // AoWInfoWin.pas:263
-        public static void SetStructureHeader(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TStructure Structure)
+        public static void SetStructureHeader(TIWindow Dialog, TStructure Structure)
         {
             var call__34 = Structure.GetName();
             Dialog.StructNameLbl.Text = call__34;
@@ -707,144 +641,144 @@ namespace Aow.Units.AoWInfoWin
         }
 
         // AoWInfoWin.pas:278
-        public static void ShowMineInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Mine.TMine Structure)
+        public static void ShowMineInfo(TIWindow Dialog, TMine Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.IncomePnl.Visible = true;
             var call__39 = Structure.GetDescription();
             Dialog.IncomeMemo.Items.Assign(call__39);
             Dialog.IncomeTypeImage.CurrentImage = 31;
             var call__40 = Structure.GetIncome();
-            Dialog.IncomeAmountLbl.Text = Aow.Rtl.Rtl.IntToStr(call__40);
+            Dialog.IncomeAmountLbl.Text = IntToStr(call__40);
             Dialog.RazePnl.Visible = true;
         }
 
         // AoWInfoWin.pas:291
-        public static void ShowPowerNodeInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.PowerNode.TPowerNode Structure)
+        public static void ShowPowerNodeInfo(TIWindow Dialog, TPowerNode Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.IncomePnl.Visible = true;
             var call__42 = Structure.GetDescription();
             Dialog.IncomeMemo.Items.Assign(call__42);
             Dialog.IncomeTypeImage.CurrentImage = 33;
             var call__43 = Structure.GetPower();
-            Dialog.IncomeAmountLbl.Text = Aow.Rtl.Rtl.IntToStr(call__43);
+            Dialog.IncomeAmountLbl.Text = IntToStr(call__43);
             Dialog.RazePnl.Visible = true;
         }
 
         // AoWInfoWin.pas:304
-        public static void ShowProductionIncome(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.PrdPlace.TProductionPlace Structure)
+        public static void ShowProductionIncome(TIWindow Dialog, TProductionPlace Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.IncomePnl.Visible = true;
             var call__45 = Structure.GetDescription();
             Dialog.IncomeMemo.Items.Assign(call__45);
             Dialog.IncomeTypeImage.CurrentImage = 33;
             var call__46 = Structure.GetPower();
-            Dialog.IncomeAmountLbl.Text = Aow.Rtl.Rtl.IntToStr(call__46);
+            Dialog.IncomeAmountLbl.Text = IntToStr(call__46);
             Dialog.RazePnl.Visible = true;
         }
 
         // AoWInfoWin.pas:317
-        public static void ShowFarmInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Farm.TFarm Structure)
+        public static void ShowFarmInfo(TIWindow Dialog, TFarm Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             var call__48 = Structure.GetDescription();
             Dialog.SBmemo.Items.Assign(call__48);
             Dialog.SBmemo.Items.Add((AnsiString)"");
-            var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.IncomeXRStr);
-            var call__50 = Aow.Units.AoWE.AoWE.Format(call__49, [Aow.Rtl.Rtl.IntToStr(Structure.FIncome)]);
+            var call__49 = TranslateRStr(IncomeXRStr);
+            var call__50 = AoWE.AoWE.Format(call__49, [IntToStr(Structure.FIncome)]);
             Dialog.SBmemo.Items.Add(call__50);
             Dialog.RazePnl.Visible = true;
         }
 
         // AoWInfoWin.pas:329
-        public static void ShowSignInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Sign.TSign Structure)
+        public static void ShowSignInfo(TIWindow Dialog, TSign Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
-            Aow.Units.AoWWinMan.AoWWinMan.General.FSign = Structure;
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
+            General.FSign = Structure;
             Dialog.SignPnl.Visible = true;
             Dialog.SignText.Items.Assign(Structure.FText);
         }
 
         // AoWInfoWin.pas:337
-        public static void ShowTeleportInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Teleport.TTeleport Structure)
+        public static void ShowTeleportInfo(TIWindow Dialog, TTeleport Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__52 = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.GetDescription();
+            var call__52 = General.FStructure.GetDescription();
             Dialog.SBmemo.Items.Assign(call__52);
             Dialog.SBmemo.FSized = false;
-            var call__53 = Structure.CanTeleport(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            var call__53 = Structure.CanTeleport(AoWHSMap.FSeatedPlayer);
             Dialog.MainBtn.Visible = call__53;
-            var call__54 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TeleportRStr);
+            var call__54 = TranslateRStr(TeleportRStr);
             Dialog.MainBtn.Text = call__54;
             Dialog.RazePnl.Visible = Dialog.MainBtn.Visible;
         }
 
         // AoWInfoWin.pas:351
-        public static void ShowTowerInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.WizardsTower.TWizardsTower Structure)
+        public static void ShowTowerInfo(TIWindow Dialog, TWizardsTower Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             var call__56 = Structure.GetDescription();
             Dialog.SBmemo.Items.Assign(call__56);
-            var call__57 = Structure.CanEnter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            var call__57 = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
             Dialog.MainBtn.Visible = call__57;
-            var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterRStr);
+            var call__58 = TranslateRStr(EnterRStr);
             Dialog.MainBtn.Text = call__58;
         }
 
         // AoWInfoWin.pas:362
-        public static void ShowArenaInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Arena.TArena Structure)
+        public static void ShowArenaInfo(TIWindow Dialog, TArena Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             var call__60 = Structure.GetDescription();
             Dialog.SBmemo.Items.Assign(call__60);
-            var call__61 = Structure.CanEnter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            var call__61 = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
             Dialog.MainBtn.Visible = call__61;
-            var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterRStr);
+            var call__62 = TranslateRStr(EnterRStr);
             Dialog.MainBtn.Text = call__62;
         }
 
         // AoWInfoWin.pas:373
-        public static void ShowCaveInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Cave.TCave Structure)
+        public static void ShowCaveInfo(TIWindow Dialog, TCave Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             var call__64 = Structure.GetDescription();
             Dialog.SBmemo.Items.Assign(call__64);
-            var call__65 = Structure.CanEnter(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            var call__65 = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
             Dialog.MainBtn.Visible = call__65;
             switch (Structure.FEntrance)
             {
-                case Aow.Units.Cave.TCaveEntrance.ceUp:
-                    var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GoUpRStr);
+                case TCaveEntrance.ceUp:
+                    var call__66 = TranslateRStr(GoUpRStr);
                     Dialog.MainBtn.Text = call__66;
                     break;
-                case Aow.Units.Cave.TCaveEntrance.ceDown:
-                    var call__67 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GoDownRStr);
+                case TCaveEntrance.ceDown:
+                    var call__67 = TranslateRStr(GoDownRStr);
                     Dialog.MainBtn.Text = call__67;
                     break;
             }
         }
 
         // AoWInfoWin.pas:387
-        public static void ShowWatchTowerInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Tower.TTower Structure)
+        public static void ShowWatchTowerInfo(TIWindow Dialog, TTower Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             var call__68 = Structure.GetDescription();
             Dialog.SBmemo.Items.Assign(call__68);
@@ -852,46 +786,46 @@ namespace Aow.Units.AoWInfoWin
         }
 
         // AoWInfoWin.pas:395
-        public static void ShowExplorationInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.ExploreS.TExplorationSite Structure)
+        public static void ShowExplorationInfo(TIWindow Dialog, TExplorationSite Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.ExplorationSitePnl.Visible = true;
-            var call__70 = Aow.Units.AoWWinMan.AoWWinMan.General.FStructure.GetDescription();
+            var call__70 = General.FStructure.GetDescription();
             Dialog.ESMemo.Items.Assign(call__70);
-            var call__71 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StatusRStr);
+            var call__71 = TranslateRStr(StatusRStr);
             Dialog.ESLbl.Text = call__71 + AnsiString.FromBytes(58);
             if (Structure.GetExplored())
             {
-                var call__72 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ExploredRStr);
+                var call__72 = TranslateRStr(ExploredRStr);
                 Dialog.ESStatusLbl.Text = call__72;
             }
             else
             {
-                var call__73 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnexploredRStr);
+                var call__73 = TranslateRStr(UnexploredRStr);
                 Dialog.ESStatusLbl.Text = call__73;
             }
 
-            var call__74 = ((Aow.Units.ExploreS.TExplorationSite)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure).CanSearch(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+            var call__74 = ((TExplorationSite)General.FStructure).CanSearch(AoWHSMap.FSeatedPlayer);
             Dialog.MainBtn.Visible = call__74;
-            var call__75 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.SearchRStr);
+            var call__75 = TranslateRStr(SearchRStr);
             Dialog.MainBtn.Text = call__75;
         }
 
         // AoWInfoWin.pas:410
-        public static void ShowAltarInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.Altar.TAltar Structure)
+        public static void ShowAltarInfo(TIWindow Dialog, TAltar Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.AltarPnl.Visible = true;
             if (Structure.GetTargeting())
             {
-                var call__77 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CancelRStr);
+                var call__77 = TranslateRStr(CancelRStr);
                 Dialog.MainBtn.Text = call__77;
             }
             else
             {
-                var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TargetRStr);
+                var call__78 = TranslateRStr(TargetRStr);
                 Dialog.MainBtn.Text = call__78;
             }
 
@@ -900,19 +834,19 @@ namespace Aow.Units.AoWInfoWin
             Dialog.Bar.Max = call__79;
             Dialog.Bar.Position = Structure.FRechargeDays;
             var call__80 = Structure.GetRechargeDays();
-            Dialog.ChargePcntLbl.Text = Aow.Rtl.Rtl.IntToStr(Aow.Rtl.Rtl.Round(((double)(Structure.FRechargeDays * 100)) / call__80)) + AnsiString.FromBytes(37);
+            Dialog.ChargePcntLbl.Text = IntToStr(Round((double)(Structure.FRechargeDays * 100) / call__80)) + AnsiString.FromBytes(37);
             var call__81 = Structure.GetRechargeDays();
-            Dialog.DayLbl.Text = Aow.Rtl.Rtl.IntToStr(call__81 - Structure.FRechargeDays);
+            Dialog.DayLbl.Text = IntToStr(call__81 - Structure.FRechargeDays);
             var call__82 = Structure.TargetMana();
-            Dialog.GemLbl.Text = Aow.Rtl.Rtl.IntToStr(call__82);
+            Dialog.GemLbl.Text = IntToStr(call__82);
             Dialog.RazePnl.Visible = true;
         }
 
         // AoWInfoWin.pas:427
-        public static void ShowWarCityInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.City.TCity Structure)
+        public static void ShowWarCityInfo(TIWindow Dialog, TCity Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             Dialog.SBmemo.Items.Add((AnsiString)"");
             Dialog.SBmemo.Items.Add((AnsiString)"");
@@ -920,36 +854,36 @@ namespace Aow.Units.AoWInfoWin
             Dialog.SBmemo.Items.Add((AnsiString)"");
             Dialog.SBmemo.Items.Add((AnsiString)"");
             Dialog.SBmemo.Items.Add((AnsiString)"");
-            var call__84 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StatusWarmodeRStr);
+            var call__84 = TranslateRStr(StatusWarmodeRStr);
             Dialog.SBmemo.Items.Add(call__84);
         }
 
         // AoWInfoWin.pas:439
-        public static void ShowCityInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.City.TCity Structure)
+        public static void ShowCityInfo(TIWindow Dialog, TCity Structure)
         {
-            Aow.Units.AoWE.TUnit UnitObject = default;
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
-            var call__86 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterRStr);
+            TUnit UnitObject = default;
+            AnsiString Reason = default;
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
+            var call__86 = TranslateRStr(EnterRStr);
             Dialog.MainBtn.Text = call__86;
             Dialog.MainBtn.Visible = true;
-            Aow.Units.AoWWinMan.AoWWinMan.General.FCity = Structure;
+            General.FCity = Structure;
             Dialog.CityPanel.Visible = true;
             Dialog.ProductionWarningLbl.Visible = false;
             Dialog.ActiveCityActionMemo.Items.Clear();
-            var call__87 = Aow.Units.AoWWinMan.AoWWinMan.General.FCity.GetName();
+            var call__87 = General.FCity.GetName();
             Dialog.StructNameLbl.Text = call__87;
-            var call__88 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesRStr[Aow.Units.AoWWinMan.AoWWinMan.General.FCity.FRace]);
-            var call__89 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceXRStr);
-            var call__90 = Aow.Units.AoWE.AoWE.Format(call__89, [call__88]);
+            var call__88 = TranslateRStr(RaceNamesRStr[General.FCity.FRace]);
+            var call__89 = TranslateRStr(RaceXRStr);
+            var call__90 = AoWE.AoWE.Format(call__89, [call__88]);
             Dialog.CityRaceLbl.Text = call__90;
-            Dialog.CityLevelLbl.Text = Aow.Rtl.Rtl.IntToStr(Structure.FUpgradeLevel);
-            Dialog.CityIncomeLbl.Text = Aow.Rtl.Rtl.IntToStr(Structure.FIncome);
+            Dialog.CityLevelLbl.Text = IntToStr(Structure.FUpgradeLevel);
+            Dialog.CityIncomeLbl.Text = IntToStr(Structure.FIncome);
             var call__91 = Structure.GetCivilStatus();
-            var call__92 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.City.City.TCivilStatusRStr[(int)call__91]);
-            var call__93 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StatusXRStr);
-            var call__94 = Aow.Units.AoWE.AoWE.Format(call__93, [call__92]);
+            var call__92 = TranslateRStr(TCivilStatusRStr[(int)call__91]);
+            var call__93 = TranslateRStr(StatusXRStr);
+            var call__94 = AoWE.AoWE.Format(call__93, [call__92]);
             Dialog.CivilStatusLbl.Text = call__94;
             var call__95 = Structure.FProduction.FQueue.GetCount();
             if (call__95 != 0)
@@ -961,7 +895,7 @@ namespace Aow.Units.AoWInfoWin
                         var call__97 = Structure.FProduction.FQueue.GetItem(0);
                         var call__98 = Structure.FProduction.CreateUnitProduction(call__97.FParameter);
                         UnitObject = call__98;
-                        var call__99 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InstallingRStr);
+                        var call__99 = TranslateRStr(InstallingRStr);
                         Dialog.ActiveCityActionMemo.Items.Add(call__99);
                         var call__100 = UnitObject.GetName();
                         Dialog.ActiveCityActionMemo.Items.Add(call__100);
@@ -972,7 +906,7 @@ namespace Aow.Units.AoWInfoWin
                         var call__102 = Structure.FProduction.CreateUnitProduction(call__101.FParameter);
                         UnitObject = call__102;
                         Dialog.ActiveCityActionMemo.Items.Clear();
-                        var call__103 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProducingRStr);
+                        var call__103 = TranslateRStr(ProducingRStr);
                         Dialog.ActiveCityActionMemo.Items.Add(call__103);
                         var call__104 = UnitObject.GetName();
                         Dialog.ActiveCityActionMemo.Items.Add(call__104);
@@ -985,22 +919,22 @@ namespace Aow.Units.AoWInfoWin
                         break;
                 }
 
-                if (Structure.FProduction.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
+                if (Structure.FProduction.FStatus == TProductionControlStatus.pcsProducing)
                 {
                     if (Structure.FProduction.FSettings.FTurnsLeft != -1)
                     {
-                        var call__107 = Aow.Units.AoWE.AoWE.FmtTurnsLeftStr(Structure.FProduction.FSettings.FTurnsLeft);
+                        var call__107 = FmtTurnsLeftStr(Structure.FProduction.FSettings.FTurnsLeft);
                         Dialog.ActiveCityActionMemo.Items.Add(call__107);
                     }
                     else
                     {
-                        var call__108 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnlimitedRStr);
-                        Dialog.ActiveCityActionMemo.Items.Add(Aow.Rtl.Rtl.LowerCase(call__108));
+                        var call__108 = TranslateRStr(UnlimitedRStr);
+                        Dialog.ActiveCityActionMemo.Items.Add(LowerCase(call__108));
                     }
                 }
                 else
                 {
-                    if (Structure.FProduction.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsWaiting)
+                    if (Structure.FProduction.FStatus == TProductionControlStatus.pcsWaiting)
                     {
                         var call__109 = Structure.FProduction.FQueue.GetItem(0);
                         Structure.FProduction.CanExecuteProduction(call__109, ref Reason);
@@ -1012,39 +946,39 @@ namespace Aow.Units.AoWInfoWin
             else
             {
                 Dialog.ActiveCityActionMemo.Items.Add((AnsiString)"");
-                var call__110 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr);
+                var call__110 = TranslateRStr(ProducingMerchandiseRStr);
                 Dialog.ActiveCityActionMemo.Items.Add(call__110);
             }
 
-            var call__111 = Aow.Units.AoWE.AoWE.AoWHSMap.FRaces.GetRace(Structure.FRace);
-            var call__112 = call__111.GetPlayerRelation(unchecked((sbyte)Structure.FPlayer));
-            Dialog.RaceRelationIcon.CurrentImage = ((int)call__112) + 11;
+            var call__111 = AoWHSMap.FRaces.GetRace(Structure.FRace);
+            var call__112 = call__111.GetPlayerRelation(Structure.FPlayer);
+            Dialog.RaceRelationIcon.CurrentImage = (int)call__112 + 11;
             Dialog.RazePnl.Visible = true;
         }
 
         // AoWInfoWin.pas:496
-        public static void ShowProductionInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.PrdPlace.TProductionPlace Structure)
+        public static void ShowProductionInfo(TIWindow Dialog, TProductionPlace Structure)
         {
-            Aow.Units.AoWE.TUnit UnitObject = default;
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
-            var call__114 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnterRStr);
+            TUnit UnitObject = default;
+            AnsiString Reason = default;
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
+            var call__114 = TranslateRStr(EnterRStr);
             Dialog.MainBtn.Text = call__114;
             Dialog.MainBtn.Visible = true;
-            Aow.Units.AoWWinMan.AoWWinMan.General.FProductionPlace = (Aow.Units.PrdPlace.TProductionPlace)Aow.Units.AoWWinMan.AoWWinMan.General.FStructure;
+            General.FProductionPlace = (TProductionPlace)General.FStructure;
             Dialog.ProductionPlacePnl.Visible = true;
-            Aow.Units.AoWWinMan.AoWWinMan.General.FProductionControl = Aow.Units.AoWWinMan.AoWWinMan.General.FProductionPlace.FProductionControl;
+            General.FProductionControl = General.FProductionPlace.FProductionControl;
             Dialog.CurrentActivityWarningLbl.Visible = false;
             Dialog.ActiveActionMemo.Items.Clear();
             Dialog.IncomeLbl.Visible = true;
             Dialog.IncomeTypeIcon.Visible = true;
             Dialog.IncomeValueLbl.Visible = true;
-            if (Structure.GetMagicSphere() != Aow.Units.AoWE.TMagicSphere.msNone)
+            if (Structure.GetMagicSphere() != TMagicSphere.msNone)
             {
                 Dialog.IncomeTypeIcon.CurrentImage = 33;
                 var call__115 = Structure.GetPower();
-                Dialog.IncomeValueLbl.Text = Aow.Rtl.Rtl.IntToStr(call__115);
+                Dialog.IncomeValueLbl.Text = IntToStr(call__115);
             }
             else
             {
@@ -1052,7 +986,7 @@ namespace Aow.Units.AoWInfoWin
                 {
                     Dialog.IncomeTypeIcon.CurrentImage = 31;
                     var call__116 = Structure.GetIncome();
-                    Dialog.IncomeValueLbl.Text = Aow.Rtl.Rtl.IntToStr(call__116);
+                    Dialog.IncomeValueLbl.Text = IntToStr(call__116);
                 }
                 else
                 {
@@ -1075,7 +1009,7 @@ namespace Aow.Units.AoWInfoWin
                         var call__120 = Structure.FProductionControl.FQueue.GetItem(0);
                         var call__121 = Structure.FProductionControl.CreateUnitProduction(call__120.FParameter);
                         UnitObject = call__121;
-                        var call__122 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.InstallingRStr);
+                        var call__122 = TranslateRStr(InstallingRStr);
                         Dialog.ActiveActionMemo.Items.Add(call__122);
                         var call__123 = UnitObject.GetName();
                         Dialog.ActiveActionMemo.Items.Add(call__123);
@@ -1086,7 +1020,7 @@ namespace Aow.Units.AoWInfoWin
                         var call__125 = Structure.FProductionControl.CreateUnitProduction(call__124.FParameter);
                         UnitObject = call__125;
                         Dialog.ActiveActionMemo.Items.Clear();
-                        var call__126 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProducingRStr);
+                        var call__126 = TranslateRStr(ProducingRStr);
                         Dialog.ActiveActionMemo.Items.Add(call__126);
                         var call__127 = UnitObject.GetName();
                         Dialog.ActiveActionMemo.Items.Add(call__127);
@@ -1099,23 +1033,23 @@ namespace Aow.Units.AoWInfoWin
                         break;
                 }
 
-                if (Structure.FProductionControl.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsProducing)
+                if (Structure.FProductionControl.FStatus == TProductionControlStatus.pcsProducing)
                 {
                     if (Structure.FProductionControl.FSettings.FTurnsLeft != -1)
                     {
-                        var call__130 = Aow.Units.AoWE.AoWE.FmtTurnsLeftStr(Structure.FProductionControl.FSettings.FTurnsLeft);
+                        var call__130 = FmtTurnsLeftStr(Structure.FProductionControl.FSettings.FTurnsLeft);
                         Dialog.ActiveActionMemo.Items.Add(call__130);
                     }
                     else
                     {
                         // { Original writes the city memo in this branch. }
-                        var call__131 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnlimitedRStr);
-                        Dialog.ActiveCityActionMemo.Items.Add(Aow.Rtl.Rtl.LowerCase(call__131));
+                        var call__131 = TranslateRStr(UnlimitedRStr);
+                        Dialog.ActiveCityActionMemo.Items.Add(LowerCase(call__131));
                     }
                 }
                 else
                 {
-                    if (Structure.FProductionControl.FStatus == Aow.Units.AoWE.TProductionControlStatus.pcsWaiting)
+                    if (Structure.FProductionControl.FStatus == TProductionControlStatus.pcsWaiting)
                     {
                         var call__132 = Structure.FProductionControl.FQueue.GetItem(0);
                         Structure.FProductionControl.CanExecuteProduction(call__132, ref Reason);
@@ -1126,23 +1060,23 @@ namespace Aow.Units.AoWInfoWin
             }
             else
             {
-                if (Structure.GetMagicSphere() == Aow.Units.AoWE.TMagicSphere.msNone)
+                if (Structure.GetMagicSphere() == TMagicSphere.msNone)
                 {
                     Dialog.ActiveActionMemo.Items.Add((AnsiString)"");
                     if (Structure.GetBaseIncome() != 0)
                     {
-                        var call__133 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ProducingMerchandiseRStr);
+                        var call__133 = TranslateRStr(ProducingMerchandiseRStr);
                         Dialog.ActiveActionMemo.Items.Add(call__133);
                     }
                     else
                     {
-                        var call__134 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.NoneRStr);
+                        var call__134 = TranslateRStr(NoneRStr);
                         Dialog.ActiveActionMemo.Items.Add(call__134);
                     }
                 }
                 else
                 {
-                    var call__135 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.GeneratingExtraPowerRStr);
+                    var call__135 = TranslateRStr(GeneratingExtraPowerRStr);
                     Dialog.ActiveActionMemo.Items.Add(call__135);
                 }
             }
@@ -1151,29 +1085,29 @@ namespace Aow.Units.AoWInfoWin
         }
 
         // AoWInfoWin.pas:558
-        public static void ShowBuildingInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TStructure Structure)
+        public static void ShowBuildingInfo(TIWindow Dialog, TStructure Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.ConstructionPnl.Visible = true;
-            var call__136 = Aow.Units.AoWE.AoWE.FmtDaysLeftStr(Structure.FBuildingDays);
+            var call__136 = FmtDaysLeftStr(Structure.FBuildingDays);
             Dialog.ConstructionDaysLeftLbl.Text = call__136;
             var call__137 = Structure.GetDescription();
             Dialog.ConstructionMemo.Items.Assign(call__137);
         }
 
         // AoWInfoWin.pas:566
-        public static void ShowRazedInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TStructure Structure)
+        public static void ShowRazedInfo(TIWindow Dialog, TStructure Structure)
         {
-            Aow.Rtl.AnsiString Text = default;
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            AnsiString Text = default;
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            if (Structure is Aow.Units.City.TCity)
+            if (Structure is TCity)
             {
                 var call__139 = Structure.GetName();
-                var call__140 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CityOfXRStr);
-                var call__141 = Aow.Units.AoWE.AoWE.Format(call__140, [call__139]);
+                var call__140 = TranslateRStr(CityOfXRStr);
+                var call__141 = AoWE.AoWE.Format(call__140, [call__139]);
                 Text = call__141;
             }
             else
@@ -1181,24 +1115,24 @@ namespace Aow.Units.AoWInfoWin
                 Text = Structure.GetName();
             }
 
-            var call__142 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TheXliesInRuinsRStr);
-            var call__143 = Aow.Units.AoWE.AoWE.Format(call__142, [Text]);
+            var call__142 = TranslateRStr(TheXliesInRuinsRStr);
+            var call__143 = AoWE.AoWE.Format(call__142, [Text]);
             Dialog.SBmemo.Items.Text = call__143;
             Dialog.SBmemo.Items.Insert(0, (AnsiString)"");
             Dialog.SBmemo.Items.Insert(0, (AnsiString)"");
         }
 
         // AoWInfoWin.pas:581
-        public static void ShowOtherPlayerInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TPlayerStructure Structure)
+        public static void ShowOtherPlayerInfo(TIWindow Dialog, TPlayerStructure Structure)
         {
             int RaceIndex = default;
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.NotYoursPnl.Visible = true;
-            if ((Structure is Aow.Units.City.TCity) && (Structure.FPlayer == 0))
+            if (Structure is TCity && Structure.FPlayer == 0)
             {
                 Dialog.PopulationRaceLbl.Visible = true;
-                var call__145 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[((Aow.Units.City.TCity)Structure).FRace]);
+                var call__145 = TranslateRStr(RaceNamesPluralRStr[((TCity)Structure).FRace]);
                 Dialog.PopulationRaceLbl.Text = call__145;
                 Dialog.PopulationLbl.Visible = true;
                 Dialog.NotYoursMemo.Items.Clear();
@@ -1211,14 +1145,14 @@ namespace Aow.Units.AoWInfoWin
 
             if (Structure.FPlayer != -1)
             {
-                var call__147 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
+                var call__147 = AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
                 RaceIndex = call__147.FPlayerRace;
                 if (RaceIndex == -1)
                 {
                     RaceIndex = 12;
                 }
 
-                var call__148 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RaceNamesPluralRStr[RaceIndex]);
+                var call__148 = TranslateRStr(RaceNamesPluralRStr[RaceIndex]);
                 Dialog.OwnerRaceLbl.Text = call__148;
                 Dialog.OwnerRaceLbl.Visible = true;
                 Dialog.LShield.CurrentImage = RaceIndex + 26;
@@ -1232,10 +1166,10 @@ namespace Aow.Units.AoWInfoWin
         }
 
         // AoWInfoWin.pas:609
-        public static void ShowGenericInfo(Aow.Units.AoWInfoWin.TIWindow Dialog, Aow.Units.AoWE.TStructure Structure)
+        public static void ShowGenericInfo(TIWindow Dialog, TStructure Structure)
         {
-            Aow.Units.AoWInfoWin.AoWInfoWin.ResetStructureInfo(Dialog);
-            Aow.Units.AoWInfoWin.AoWInfoWin.SetStructureHeader(Dialog, Structure);
+            ResetStructureInfo(Dialog);
+            SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             var call__149 = Structure.GetDescription();
             Dialog.SBmemo.Items.Assign(call__149);

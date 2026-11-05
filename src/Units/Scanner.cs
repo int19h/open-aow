@@ -1,44 +1,13 @@
 // Translated from Scanner.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -48,13 +17,13 @@ namespace Aow.Units.Scanner
     // half-row inset, libraries, icons, viewport, change event, update steps, map, frame library,
     // frame index, map dimensions, level, icons drawn, previous size, drawable height, terrain/icon
     // surfaces, update step, incremental
-    public partial class TScanner : Aow.Units.AoWControl.TAOWControl
+    public partial class TScanner : TAOWControl
     {
         public int FHalfRowInset;
-        public Aow.Units.ImageLib.TImageLibrary FTilesImageLib;
-        public Aow.Units.ImageLib.TImageLibrary FHighlightImageLib;
-        public Aow.Units.ImageLib.TImageLibrary FFogImageLib;
-        public Aow.Units.ImageLib.TImageLibrary FObjectsImageLib;
+        public TImageLibrary FTilesImageLib;
+        public TImageLibrary FHighlightImageLib;
+        public TImageLibrary FFogImageLib;
+        public TImageLibrary FObjectsImageLib;
         public int FTTop;
         public int FTHeight;
         public int FTLeft;
@@ -63,20 +32,20 @@ namespace Aow.Units.Scanner
         public bool FBuildings;
         public bool FArmies;
         public bool FNaturals;
-        public Aow.Rtl.TNotifyEvent FOnMapPositionChange;
+        public TNotifyEvent FOnMapPositionChange;
         public int FSteps;
-        public Aow.Units.AoWE.TAbstractAoWHSMap FMap;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
+        public AoWE.TAbstractAoWHSMap FMap;
+        public TInterfaceIL FILFrame;
         public int FILIndexFrame;
         public int FMapWidth;
         public int FMapHeight;
-        public Aow.Units.HSEngine.TMapLevel FLevel;
+        public TMapLevel FLevel;
         public bool FObjectsDrawn;
         public int FPreviousWidth;
         public int FPreviousHeight;
         public int FDrawableHeight;
-        public Aow.Units.GFXE.TSurface FMapSurface;
-        public Aow.Units.GFXE.TSurface FObjectSurface;
+        public TSurface FMapSurface;
+        public TSurface FObjectSurface;
         public int FUpdateStep;
         public bool FIncremental;
         // Scanner.pas:126
@@ -108,7 +77,7 @@ namespace Aow.Units.Scanner
         // Scanner.pas:398
         public override void Validate()
         {
-            Aow.Units.AOWInterfaceImgLib.TInterfaceIL Frame = default;
+            TInterfaceIL Frame = default;
             Frame = FILFrame;
             if (Frame != null)
             {
@@ -116,7 +85,7 @@ namespace Aow.Units.Scanner
                 FILFrame = call__1;
             }
 
-            if ((((((FILFrame != null) && (FTilesImageLib != null)) && (FObjectsImageLib != null)) && (FMap != null)) && (FFogImageLib != null)) && (FHighlightImageLib != null))
+            if (FILFrame != null && FTilesImageLib != null && FObjectsImageLib != null && FMap != null && FFogImageLib != null && FHighlightImageLib != null)
             {
                 FValid = true;
             }
@@ -129,10 +98,10 @@ namespace Aow.Units.Scanner
         {
             int X = default;
             int Y = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
-            if ((((FWinWidth != FPreviousWidth) || (FWinHeight != FPreviousHeight)) && (FWinWidth > 0)) && (FWinHeight > 0))
+            TSurfaceDesc SD = default;
+            if ((FWinWidth != FPreviousWidth || FWinHeight != FPreviousHeight) && FWinWidth > 0 && FWinHeight > 0)
             {
-                FHalfRowInset = (FWinHeight / FMapHeight) / 2;
+                FHalfRowInset = FWinHeight / FMapHeight / 2;
                 FDrawableHeight = FWinHeight - FHalfRowInset;
                 if (FMapSurface != null)
                 {
@@ -182,7 +151,7 @@ namespace Aow.Units.Scanner
         public override void Update()
         {
             base.Update();
-            if (FVisible && (FMapSurface != null))
+            if (FVisible && FMapSurface != null)
             {
                 if (!FIncremental)
                 {
@@ -193,7 +162,7 @@ namespace Aow.Units.Scanner
                 {
                     if (FUpdateStep > -1)
                     {
-                        DrawMap(0, (FMapHeight * FUpdateStep) / FSteps, FMapWidth, (FMapHeight / FSteps) + 1);
+                        DrawMap(0, FMapHeight * FUpdateStep / FSteps, FMapWidth, FMapHeight / FSteps + 1);
                     }
 
                     FUpdateStep += 1;
@@ -202,12 +171,12 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:445
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             int X = default;
             int Y = default;
-            Aow.Rtl.TRect R = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
+            TRect R = default;
+            TSurfaceDesc SD = default;
             try
             {
                 if (FValid && FVisible)
@@ -217,11 +186,11 @@ namespace Aow.Units.Scanner
                         FOnPreDraw(this, SurfDesc);
                     }
 
-                    bool bool__7 = (FMapSurface != null);
+                    bool bool__7 = FMapSurface != null;
                     if (bool__7)
                     {
                         var call__8 = FMapSurface.PixelFormatID;
-                        bool__7 = (call__8 != SurfDesc.PixelFormatID);
+                        bool__7 = call__8 != SurfDesc.PixelFormatID;
                     }
 
                     if (bool__7)
@@ -233,10 +202,10 @@ namespace Aow.Units.Scanner
 
                     if (FMapSurface == null)
                     {
-                        var call__9 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                        var call__9 = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FObjectSurface = call__9;
                         FObjectSurface.Cls(65280);
-                        var call__10 = new Aow.Units.GFXE.TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                        var call__10 = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FMapSurface = call__10;
                         FMapSurface.Lock(ref SD);
                         {
@@ -275,20 +244,20 @@ namespace Aow.Units.Scanner
                         DrawObjects();
                     }
 
-                    var call__16 = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+                    var call__16 = Rect(0, 0, FWinWidth, FWinHeight);
                     R = call__16;
                     SD = SurfDesc;
-                    var call__17 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, (FAOWWindow.FWinLeft + FWinLeft) + FWinWidth, (FAOWWindow.FWinTop + FWinTop) + FWinHeight);
+                    var call__17 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
                     SD.ClipRect = call__17;
                     FMapSurface.Lock(ref SurfDesc);
-                    Aow.Units.GFXE.GFXE.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                    BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                     FMapSurface.Unlock();
                     FObjectSurface.Lock(ref SurfDesc);
-                    Aow.Units.GFXE.GFXE.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
+                    BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
                     FObjectSurface.Unlock();
-                    if ((FMapWidth > 0) && (FMapHeight > 0))
+                    if (FMapWidth > 0 && FMapHeight > 0)
                     {
-                        var call__18 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + ((FTLeft * FWinWidth) / FMapWidth), (FAOWWindow.FWinTop + FWinTop) + ((FTTop * FWinHeight) / FMapHeight), (FTWidth * FWinWidth) / FMapWidth, ((FTHeight + 2) * FWinHeight) / FMapHeight);
+                        var call__18 = Rect(FAOWWindow.FWinLeft + FWinLeft + FTLeft * FWinWidth / FMapWidth, FAOWWindow.FWinTop + FWinTop + FTTop * FWinHeight / FMapHeight, FTWidth * FWinWidth / FMapWidth, (FTHeight + 2) * FWinHeight / FMapHeight);
                         FILFrame.DrawILF(FILIndexFrame, call__18, ref SD);
                     }
 
@@ -300,26 +269,26 @@ namespace Aow.Units.Scanner
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // Scanner.pas:449
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int MapY = default;
             int OldLeft = default;
             int OldTop = default;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FMouseDown = true;
-                X = (((X - FAOWWindow.FWinLeft) - FWinLeft) * FMapWidth) / FWinWidth;
-                MapY = (((Y - FAOWWindow.FWinTop) - FWinTop) * FMapHeight) / FDrawableHeight;
+                X = (X - FAOWWindow.FWinLeft - FWinLeft) * FMapWidth / FWinWidth;
+                MapY = (Y - FAOWWindow.FWinTop - FWinTop) * FMapHeight / FDrawableHeight;
                 OldLeft = FTLeft;
                 OldTop = FTTop;
-                FTLeft = X - (FTWidth / 2);
-                FTTop = MapY - (FTHeight / 2);
-                if ((FTTop != OldTop) || (OldLeft != FTLeft))
+                FTLeft = X - FTWidth / 2;
+                FTTop = MapY - FTHeight / 2;
+                if (FTTop != OldTop || OldLeft != FTLeft)
                 {
                     FDrawn = false;
                     if (FOnMapPositionChange != null)
@@ -331,10 +300,10 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:452
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -347,7 +316,7 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:455
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             int MapX = default;
             int MapY = default;
@@ -355,18 +324,18 @@ namespace Aow.Units.Scanner
             int OldTop = default;
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
-            if ((((X >= (FAOWWindow.FWinLeft + FWinLeft)) && (X <= (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - 1))) && (Y >= (FAOWWindow.FWinTop + FWinTop))) && (Y <= (((FAOWWindow.FWinTop + FWinTop) + FWinHeight) - 1)))
+            if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
             {
                 FHandled = true;
                 if (FMouseDown == true)
                 {
                     OldLeft = FTLeft;
                     OldTop = FTTop;
-                    MapX = (((X - FAOWWindow.FWinLeft) - FWinLeft) * FMapWidth) / FWinWidth;
-                    MapY = (((Y - FAOWWindow.FWinTop) - FWinTop) * FMapHeight) / FDrawableHeight;
-                    FTLeft = MapX - (FTWidth / 2);
-                    FTTop = MapY - (FTHeight / 2);
-                    if ((FTTop != OldTop) || (FTLeft != OldLeft))
+                    MapX = (X - FAOWWindow.FWinLeft - FWinLeft) * FMapWidth / FWinWidth;
+                    MapY = (Y - FAOWWindow.FWinTop - FWinTop) * FMapHeight / FDrawableHeight;
+                    FTLeft = MapX - FTWidth / 2;
+                    FTTop = MapY - FTHeight / 2;
+                    if (FTTop != OldTop || FTLeft != OldLeft)
                     {
                         FDrawn = false;
                         if (FOnMapPositionChange != null)
@@ -384,7 +353,7 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:142
-        public virtual void SetILFrame(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILFrame(TInterfaceIL Value)
         {
             if (Value != FILFrame)
             {
@@ -404,7 +373,7 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:151
-        public void SetObjIL(Aow.Units.ImageLib.TImageLibrary Value)
+        public void SetObjIL(TImageLibrary Value)
         {
             if (Value != FObjectsImageLib)
             {
@@ -447,10 +416,10 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:190
-        public void SetLevel(Aow.Units.HSEngine.TMapLevel Value)
+        public void SetLevel(TMapLevel Value)
         {
             FLevel = Value;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+            if (AoWHSMap.FCombatMap != null)
             {
                 FMapWidth = FLevel.Width - 16;
                 FMapHeight = FLevel.Height - 12;
@@ -465,7 +434,7 @@ namespace Aow.Units.Scanner
         // Scanner.pas:205
         public void SetMapWidth(int A1)
         {
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+            if (AoWHSMap.FCombatMap != null)
             {
                 FMapWidth = A1 - 16;
             }
@@ -478,7 +447,7 @@ namespace Aow.Units.Scanner
         // Scanner.pas:211
         public void SetMapHeight(int A1)
         {
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+            if (AoWHSMap.FCombatMap != null)
             {
                 FMapHeight = A1 - 12;
             }
@@ -493,15 +462,15 @@ namespace Aow.Units.Scanner
         public byte GetTerrain(int A1, int A2)
         {
             byte Result = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+            if (AoWHSMap.FCombatMap != null)
             {
                 var call__19 = FLevel.GetField(A1 + 8, A2 + 6);
-                Result = unchecked((byte)call__19.TerrainType);
+                Result = (byte)call__19.TerrainType;
             }
             else
             {
                 var call__20 = FLevel.GetField(A1 + 6, A2 + 6);
-                Result = unchecked((byte)call__20.TerrainType);
+                Result = (byte)call__20.TerrainType;
             }
 
             return Result;
@@ -516,7 +485,7 @@ namespace Aow.Units.Scanner
         public int GetOverlay(int X, int Y)
         {
             int Result = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+            if (AoWHSMap.FCombatMap != null)
             {
                 var call__21 = FLevel.GetField(X + 8, Y + 6);
                 var call__22 = call__21.GetDecorationType();
@@ -572,16 +541,16 @@ namespace Aow.Units.Scanner
         public byte GetExplored(int X, int Y)
         {
             byte Result = default;
-            Aow.Units.AoWE.TAoWMapField Field = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+            TAoWMapField Field = default;
+            if (AoWHSMap.FCombatMap != null)
             {
                 var call__25 = FLevel.GetField(X + 8, Y + 6);
-                Field = (Aow.Units.AoWE.TAoWMapField)call__25;
+                Field = (TAoWMapField)call__25;
             }
             else
             {
                 var call__26 = FLevel.GetField(X + 6, Y + 6);
-                Field = (Aow.Units.AoWE.TAoWMapField)call__26;
+                Field = (TAoWMapField)call__26;
             }
 
             if (FMap.FExplorationEnabled)
@@ -591,7 +560,7 @@ namespace Aow.Units.Scanner
                 {
                     if (FMap.FFogEnabled)
                     {
-                        if (Unsafe.As<ushort, Aow.Rtl.WordRec>(ref Unsafe.As<int, Aow.Rtl.LongRec>(ref Field.FFieldFlags).Hi).Lo == 0)
+                        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo == 0)
                         {
                             Result = 2;
                         }
@@ -614,7 +583,7 @@ namespace Aow.Units.Scanner
             {
                 if (FMap.FFogEnabled)
                 {
-                    if (Unsafe.As<ushort, Aow.Rtl.WordRec>(ref Unsafe.As<int, Aow.Rtl.LongRec>(ref Field.FFieldFlags).Hi).Lo == 0)
+                    if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo == 0)
                     {
                         Result = 2;
                     }
@@ -641,16 +610,16 @@ namespace Aow.Units.Scanner
         public int GetObject(int X, int Y)
         {
             int Result = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+            if (AoWHSMap.FCombatMap != null)
             {
                 var call__28 = FLevel.GetField(X + 8, Y + 6);
-                var call__29 = ((Aow.Units.AoWE.TAoWMapField)call__28).GetScannerIcon();
+                var call__29 = ((TAoWMapField)call__28).GetScannerIcon();
                 Result = call__29;
             }
             else
             {
                 var call__30 = FLevel.GetField(X + 6, Y + 6);
-                var call__31 = ((Aow.Units.AoWE.TAoWMapField)call__30).GetScannerIcon();
+                var call__31 = ((TAoWMapField)call__30).GetScannerIcon();
                 Result = call__31;
             }
 
@@ -671,21 +640,21 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:295
-        public void SetImgLib(Aow.Units.ImageLib.TImageLibrary Value)
+        public void SetImgLib(TImageLibrary Value)
         {
             FTilesImageLib = Value;
             FValid = false;
         }
 
         // Scanner.pas:301
-        public void SetHimgLib(Aow.Units.ImageLib.TImageLibrary Value)
+        public void SetHimgLib(TImageLibrary Value)
         {
             FHighlightImageLib = Value;
             FValid = false;
         }
 
         // Scanner.pas:307
-        public void SetFogimgLib(Aow.Units.ImageLib.TImageLibrary Value)
+        public void SetFogimgLib(TImageLibrary Value)
         {
             FFogImageLib = Value;
             FValid = false;
@@ -752,14 +721,14 @@ namespace Aow.Units.Scanner
         }
 
         // Scanner.pas:377
-        public void SetMap(Aow.Units.AoWE.TAbstractAoWHSMap Value)
+        public void SetMap(AoWE.TAbstractAoWHSMap Value)
         {
             FMap = Value;
             if (FMap != null)
             {
                 var call__32 = FMap.MapContainer.GetMapLevel(0);
                 FLevel = call__32;
-                if (Aow.Units.AoWE.AoWE.AoWHSMap.FCombatMap != null)
+                if (AoWHSMap.FCombatMap != null)
                 {
                     FMapWidth = FLevel.Width - 16;
                     FMapHeight = FLevel.Height - 12;
@@ -788,10 +757,10 @@ namespace Aow.Units.Scanner
             int YOffset = default;
             int Terrain = default;
             int OverlayIndex = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
+            TSurfaceDesc SD = default;
             try
             {
-                if ((FValid && (FMapSurface != null)) && FVisible)
+                if (FValid && FMapSurface != null && FVisible)
                 {
                     if (X < 0)
                     {
@@ -805,7 +774,7 @@ namespace Aow.Units.Scanner
                         Y = 0;
                     }
 
-                    if (X == ((X / 2) * 2))
+                    if (X == X / 2 * 2)
                     {
                         YOffset = 0;
                     }
@@ -817,39 +786,39 @@ namespace Aow.Units.Scanner
                     var call__33 = FMapSurface.Lock(ref SD);
                     if (call__33 >= 0)
                     {
-                        if (FMapWidth < (Width + X))
+                        if (FMapWidth < Width + X)
                         {
                             Width = FMapWidth - X;
                         }
 
-                        if (FMapHeight < (Y + Height))
+                        if (FMapHeight < Y + Height)
                         {
                             Height = FMapHeight - Y;
                         }
 
                         {
                             MapX = X;
-                            int end__34 = (Width + X) - 1;
+                            int end__34 = Width + X - 1;
                             for (; MapX <= end__34; MapX += 1)
                             {
                                 {
                                     MapY = Y;
-                                    int end__35 = (Y + Height) - 1;
+                                    int end__35 = Y + Height - 1;
                                     for (; MapY <= end__35; MapY += 1)
                                     {
-                                        var call__36 = Aow.Rtl.Rtl.Rect((FWinWidth * MapX) / FMapWidth, ((FDrawableHeight * MapY) / FMapHeight) + YOffset, ((MapX + 1) * FWinWidth) / FMapWidth, (((MapY + 1) * FDrawableHeight) / FMapHeight) + YOffset);
+                                        var call__36 = Rect(FWinWidth * MapX / FMapWidth, FDrawableHeight * MapY / FMapHeight + YOffset, (MapX + 1) * FWinWidth / FMapWidth, (MapY + 1) * FDrawableHeight / FMapHeight + YOffset);
                                         SD.ClipRect = call__36;
                                         Explored = GetExplored(MapX, MapY);
                                         if (Explored == 0)
                                         {
                                             {
-                                                TileX = ((FWinWidth * MapX) / FMapWidth) / FFogImageLib[0].Width;
-                                                int end__37 = (((MapX + 1) * FWinWidth) / FMapWidth) / FFogImageLib[0].Width;
+                                                TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[0].Width;
+                                                int end__37 = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[0].Width;
                                                 for (; TileX <= end__37; TileX += 1)
                                                 {
                                                     {
-                                                        TileY = (((FDrawableHeight * MapY) / FMapHeight) + YOffset) / FFogImageLib[0].Height;
-                                                        int end__38 = ((((MapY + 1) * FDrawableHeight) / FMapHeight) + YOffset) / FFogImageLib[0].Height;
+                                                        TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[0].Height;
+                                                        int end__38 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[0].Height;
                                                         for (; TileY <= end__38; TileY += 1)
                                                         {
                                                             var call__39 = FFogImageLib[0];
@@ -865,7 +834,7 @@ namespace Aow.Units.Scanner
                                         {
                                             Terrain = GetTerrain(MapX, MapY);
                                             Overlay = GetOverlay(MapX, MapY);
-                                            if ((Overlay > 11) || (Overlay == 7))
+                                            if (Overlay > 11 || Overlay == 7)
                                             {
                                                 OverlayIndex = 0;
                                             }
@@ -874,17 +843,17 @@ namespace Aow.Units.Scanner
                                                 OverlayIndex = Overlay + 1;
                                             }
 
-                                            ImageIndex = (OverlayIndex * 16) + Terrain;
+                                            ImageIndex = OverlayIndex * 16 + Terrain;
                                             if (Terrain == 15)
                                             {
                                                 {
-                                                    TileX = ((FWinWidth * MapX) / FMapWidth) / FFogImageLib[0].Width;
-                                                    int end__42 = (((MapX + 1) * FWinWidth) / FMapWidth) / FFogImageLib[0].Width;
+                                                    TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[0].Width;
+                                                    int end__42 = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[0].Width;
                                                     for (; TileX <= end__42; TileX += 1)
                                                     {
                                                         {
-                                                            TileY = (((FDrawableHeight * MapY) / FMapHeight) + YOffset) / FFogImageLib[0].Height;
-                                                            int end__43 = ((((MapY + 1) * FDrawableHeight) / FMapHeight) + YOffset) / FFogImageLib[0].Height;
+                                                            TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[0].Height;
+                                                            int end__43 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[0].Height;
                                                             for (; TileY <= end__43; TileY += 1)
                                                             {
                                                                 var call__44 = FFogImageLib[0];
@@ -898,23 +867,23 @@ namespace Aow.Units.Scanner
                                             }
                                             else
                                             {
-                                                bool bool__47 = (ImageIndex < FTilesImageLib.Count);
+                                                bool bool__47 = ImageIndex < FTilesImageLib.Count;
                                                 if (bool__47)
                                                 {
                                                     var call__48 = FTilesImageLib[ImageIndex];
-                                                    bool__47 = (call__48 != null);
+                                                    bool__47 = call__48 != null;
                                                 }
 
                                                 if (bool__47)
                                                 {
                                                     {
-                                                        TileX = ((FWinWidth * MapX) / FMapWidth) / FTilesImageLib[ImageIndex].Width;
-                                                        int end__49 = (((MapX + 1) * FWinWidth) / FMapWidth) / FTilesImageLib[ImageIndex].Width;
+                                                        TileX = FWinWidth * MapX / FMapWidth / FTilesImageLib[ImageIndex].Width;
+                                                        int end__49 = (MapX + 1) * FWinWidth / FMapWidth / FTilesImageLib[ImageIndex].Width;
                                                         for (; TileX <= end__49; TileX += 1)
                                                         {
                                                             {
-                                                                TileY = (((FDrawableHeight * MapY) / FMapHeight) + YOffset) / FTilesImageLib[ImageIndex].Height;
-                                                                int end__50 = ((((MapY + 1) * FDrawableHeight) / FMapHeight) + YOffset) / FTilesImageLib[ImageIndex].Height;
+                                                                TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FTilesImageLib[ImageIndex].Height;
+                                                                int end__50 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FTilesImageLib[ImageIndex].Height;
                                                                 for (; TileY <= end__50; TileY += 1)
                                                                 {
                                                                     var call__51 = FTilesImageLib[ImageIndex];
@@ -927,11 +896,11 @@ namespace Aow.Units.Scanner
                                                     }
                                                 }
 
-                                                bool bool__54 = ((((Overlay == 0) || (Overlay == 10)) && (FReserved138 == true)) && (MapY < (FMapHeight - 1))) && (MapX > 0);
+                                                bool bool__54 = (Overlay == 0 || Overlay == 10) && FReserved138 == true && MapY < FMapHeight - 1 && MapX > 0;
                                                 if (bool__54)
                                                 {
                                                     var call__55 = GetOverlay(MapX - 1, MapY + 1);
-                                                    bool__54 = (call__55 != Overlay);
+                                                    bool__54 = call__55 != Overlay;
                                                 }
 
                                                 if (bool__54)
@@ -940,11 +909,11 @@ namespace Aow.Units.Scanner
                                                     call__56.ShowClipped(SD.ClipRect.Left, SD.ClipRect.Top, SD);
                                                 }
 
-                                                bool bool__57 = ((((Overlay == 0) || (Overlay == 10)) && (FReserved138 == true)) && (MapY > 0)) && (MapX < (FMapWidth - 1));
+                                                bool bool__57 = (Overlay == 0 || Overlay == 10) && FReserved138 == true && MapY > 0 && MapX < FMapWidth - 1;
                                                 if (bool__57)
                                                 {
                                                     var call__58 = GetOverlay(MapX + 1, MapY - 1);
-                                                    bool__57 = (call__58 != Overlay);
+                                                    bool__57 = call__58 != Overlay;
                                                 }
 
                                                 if (bool__57)
@@ -956,13 +925,13 @@ namespace Aow.Units.Scanner
                                                 if (Explored == 2)
                                                 {
                                                     {
-                                                        TileX = ((FWinWidth * MapX) / FMapWidth) / FFogImageLib[1].Width;
-                                                        int end__60 = (((MapX + 1) * FWinWidth) / FMapWidth) / FFogImageLib[1].Width;
+                                                        TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[1].Width;
+                                                        int end__60 = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[1].Width;
                                                         for (; TileX <= end__60; TileX += 1)
                                                         {
                                                             {
-                                                                TileY = (((FDrawableHeight * MapY) / FMapHeight) + YOffset) / FFogImageLib[1].Height;
-                                                                int end__61 = ((((MapY + 1) * FDrawableHeight) / FMapHeight) + YOffset) / FFogImageLib[1].Height;
+                                                                TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[1].Height;
+                                                                int end__61 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[1].Height;
                                                                 for (; TileY <= end__61; TileY += 1)
                                                                 {
                                                                     var call__62 = FFogImageLib[1];
@@ -998,7 +967,7 @@ namespace Aow.Units.Scanner
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during DrawMap", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during DrawMap", (AnsiString)"Error - " + Name, 0);
             }
         }
 
@@ -1013,7 +982,7 @@ namespace Aow.Units.Scanner
             int X = default;
             int Y = default;
             int Obj = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
+            TSurfaceDesc SD = default;
             if (FObjectSurface != null)
             {
                 FObjectSurface.Cls(65280);
@@ -1031,7 +1000,7 @@ namespace Aow.Units.Scanner
                                 int end__67 = FMapHeight - 1;
                                 for (; Y <= end__67; Y += 1)
                                 {
-                                    if (unchecked((int)GetExplored(X, Y)) == 1)
+                                    if (GetExplored(X, Y) == 1)
                                     {
                                         Obj = GetObject(X, Y);
                                         if (Obj != 0)
@@ -1039,14 +1008,14 @@ namespace Aow.Units.Scanner
                                             Army = Obj & 255;
                                             Natural = Obj & 65280;
                                             Building = Obj & 16711680;
-                                            if ((Building > 0) && FBuildings)
+                                            if (Building > 0 && FBuildings)
                                             {
-                                                ImageIndex = (7 - (((int)(((uint)Building) >> 22)) & 3)) + ((((int)(((uint)Building) >> 16)) & 63) * 6);
-                                                bool bool__68 = (ImageIndex < FObjectsImageLib.Count) && (ImageIndex > -1);
+                                                ImageIndex = 7 - (((int)(((uint)Building) >> 22)) & 3) + (((int)(((uint)Building) >> 16)) & 63) * 6;
+                                                bool bool__68 = ImageIndex < FObjectsImageLib.Count && ImageIndex > -1;
                                                 if (bool__68)
                                                 {
                                                     var call__69 = FObjectsImageLib[ImageIndex];
-                                                    bool__68 = (call__69 != null);
+                                                    bool__68 = call__69 != null;
                                                 }
 
                                                 if (bool__68)
@@ -1054,19 +1023,19 @@ namespace Aow.Units.Scanner
                                                     var call__70 = FObjectsImageLib[ImageIndex];
                                                     var call__71 = FObjectsImageLib[ImageIndex];
                                                     var call__72 = FObjectsImageLib[ImageIndex];
-                                                    call__72.ShowClipped(((FWinWidth / (FMapWidth * 2)) + ((X * FWinWidth) / FMapWidth)) - (call__71.Width / 2), (((FWinHeight / (FMapHeight * 2)) + ((Y * FWinHeight) / FMapHeight)) - (call__70.Height / 2)) + YOffset, SD);
+                                                    call__72.ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - call__71.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - call__70.Height / 2 + YOffset, SD);
                                                 }
                                             }
                                             else
                                             {
-                                                if ((Natural > 0) && FNaturals)
+                                                if (Natural > 0 && FNaturals)
                                                 {
-                                                    ImageIndex = (((int)(((uint)Natural) >> 8)) * 6) + 9;
-                                                    bool bool__73 = (ImageIndex < FObjectsImageLib.Count) && (ImageIndex > -1);
+                                                    ImageIndex = (int)(((uint)Natural) >> 8) * 6 + 9;
+                                                    bool bool__73 = ImageIndex < FObjectsImageLib.Count && ImageIndex > -1;
                                                     if (bool__73)
                                                     {
                                                         var call__74 = FObjectsImageLib[ImageIndex];
-                                                        bool__73 = (call__74 != null);
+                                                        bool__73 = call__74 != null;
                                                     }
 
                                                     if (bool__73)
@@ -1074,19 +1043,19 @@ namespace Aow.Units.Scanner
                                                         var call__75 = FObjectsImageLib[ImageIndex];
                                                         var call__76 = FObjectsImageLib[ImageIndex];
                                                         var call__77 = FObjectsImageLib[ImageIndex];
-                                                        call__77.ShowClipped(((FWinWidth / (FMapWidth * 2)) + ((X * FWinWidth) / FMapWidth)) - (call__76.Width / 2), (((FWinHeight / (FMapHeight * 2)) + ((Y * FWinHeight) / FMapHeight)) - (call__75.Height / 2)) + YOffset, SD);
+                                                        call__77.ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - call__76.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - call__75.Height / 2 + YOffset, SD);
                                                     }
                                                 }
                                             }
 
-                                            if ((Army > 0) && FArmies)
+                                            if (Army > 0 && FArmies)
                                             {
-                                                ImageIndex = (Army * 6) + 8;
-                                                bool bool__78 = (ImageIndex < FObjectsImageLib.Count) && (ImageIndex > -1);
+                                                ImageIndex = Army * 6 + 8;
+                                                bool bool__78 = ImageIndex < FObjectsImageLib.Count && ImageIndex > -1;
                                                 if (bool__78)
                                                 {
                                                     var call__79 = FObjectsImageLib[ImageIndex];
-                                                    bool__78 = (call__79 != null);
+                                                    bool__78 = call__79 != null;
                                                 }
 
                                                 if (bool__78)
@@ -1094,7 +1063,7 @@ namespace Aow.Units.Scanner
                                                     var call__80 = FObjectsImageLib[ImageIndex];
                                                     var call__81 = FObjectsImageLib[ImageIndex];
                                                     var call__82 = FObjectsImageLib[ImageIndex];
-                                                    call__82.ShowClipped(((FWinWidth / (FMapWidth * 2)) + ((X * FWinWidth) / FMapWidth)) - (call__81.Width / 2), (((FWinHeight / (FMapHeight * 2)) + ((Y * FWinHeight) / FMapHeight)) - (call__80.Height / 2)) + YOffset, SD);
+                                                    call__82.ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - call__81.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - call__80.Height / 2 + YOffset, SD);
                                                 }
                                             }
                                         }
@@ -1121,16 +1090,16 @@ namespace Aow.Units.Scanner
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibrary TilesImageLib { get => FTilesImageLib; set => SetImgLib(value); }
+        public TImageLibrary TilesImageLib { get => FTilesImageLib; set => SetImgLib(value); }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibrary HiLightsImageLib { get => FHighlightImageLib; set => SetHimgLib(value); }
+        public TImageLibrary HiLightsImageLib { get => FHighlightImageLib; set => SetHimgLib(value); }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibrary FogImageLib { get => FFogImageLib; set => SetFogimgLib(value); }
+        public TImageLibrary FogImageLib { get => FFogImageLib; set => SetFogimgLib(value); }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibrary ILObjects { get => FObjectsImageLib; set => SetObjIL(value); }
+        public TImageLibrary ILObjects { get => FObjectsImageLib; set => SetObjIL(value); }
 
         [Published]
         public int TileBoxTop { get => FTTop; set => SetTTop(value); }
@@ -1157,13 +1126,13 @@ namespace Aow.Units.Scanner
         public bool Naturals { get => FNaturals; set => SetNaturals(value); }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
+        public TNotifyEvent OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
 
         [Published]
         public int MapDrawSteps { get => FSteps; set => SetSteps(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+        public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
         [Published]
         public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
@@ -1181,7 +1150,7 @@ namespace Aow.Units.Scanner
         // Scanner.pas:458
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Tools", [typeof(Aow.Units.Scanner.TScanner)]);
+            RegisterComponents((AnsiString)"AOW Tools", [typeof(TScanner)]);
         }
 
         public static void Initialize()

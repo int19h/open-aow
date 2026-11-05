@@ -1,40 +1,12 @@
 // Translated from Merchant.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Merchant
 {
-    public partial class TMerchant : Aow.Units.AoWE.TStructure
+    public partial class TMerchant : TStructure
     {
         public TMerchant(TECustomNode owner) : base(owner)
         {
@@ -51,7 +23,7 @@ namespace Aow.Units.Merchant
 
     }
 
-    public partial class TMerchantResource : Aow.Units.AoWE.TStructureResource
+    public partial class TMerchantResource : TStructureResource
     {
         public TMerchantResource(TECustomNode owner) : base(owner)
         {
@@ -76,11 +48,11 @@ namespace Aow.Units.Merchant
 
 
         // Merchant.pas:50
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__1 = Aow.Units.AoWE.AoWE.MerchantRStr;
-            var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
+            AnsiString Result = default;
+            var call__1 = MerchantRStr;
+            var call__2 = TranslateRStr(call__1);
             Result = call__2;
             return Result;
         }
@@ -90,9 +62,9 @@ namespace Aow.Units.Merchant
     public static partial class Merchant
     {
         // Merchant.pas:56
-        public static void RegisterMerchant(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterMerchant(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Merchant.TMerchant>(), Aow.Units.Engine.EClass.Of<Aow.Units.Merchant.TMerchantResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TMerchant>(), EClass.Of<TMerchantResource>()]);
         }
 
         public static void Initialize()

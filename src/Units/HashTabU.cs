@@ -1,10 +1,7 @@
 // Translated from HashTabU.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 namespace Aow.Units.HashTabU
 {
@@ -18,11 +15,11 @@ namespace Aow.Units.HashTabU
         public object Item;
     }
 
-    public partial class THashList : Aow.Rtl.TObject
+    public partial class THashList : TObject
     {
         internal int FCount;
         internal int FCapacity;
-        internal Ptr<Aow.Units.HashTabU.THashItem> FItems;
+        internal Ptr<THashItem> FItems;
         // HashTabU.pas:120
         protected internal void SetCapacity(int NewCapacity)
         {
@@ -39,12 +36,12 @@ namespace Aow.Units.HashTabU
             FCount -= 1;
             if (Index < FCount)
             {
-                Ptr<Aow.Units.HashTabU.THashItem>.Copy(FItems + (Index + 1), FItems + Index, (FCount - Index));
+                Ptr<THashItem>.Copy(FItems + (Index + 1), FItems + Index, FCount - Index);
             }
         }
 
         // HashTabU.pas:136
-        protected internal void Add(Aow.Units.HashTabU.THashItem Item)
+        protected internal void Add(THashItem Item)
         {
             if (FCapacity == FCount)
             {
@@ -73,15 +70,15 @@ namespace Aow.Units.HashTabU
     }
 
     // items keyed by an integer
-    public partial class TIntegerHashList : Aow.Units.HashTabU.THashList
+    public partial class TIntegerHashList : THashList
     {
         // HashTabU.pas:145
         public void Add(object Item, int Key)
         {
-            Aow.Units.HashTabU.THashItem H = default;
+            THashItem H = default;
             if (Find(Key) != null)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"ID already in HashTable");
+                throw Exception.Create((AnsiString)"ID already in HashTable");
             }
 
             H.Key = Key;
@@ -134,7 +131,7 @@ namespace Aow.Units.HashTabU
     }
 
     // the abstract table interface
-    public partial class TIntegerHashTable : Aow.Rtl.TObject
+    public partial class TIntegerHashTable : TObject
     {
         // HashTabU.pas:47
         public virtual void Add(object Item, int Key)
@@ -162,9 +159,9 @@ namespace Aow.Units.HashTabU
     }
 
     // 256 lists selected by the low key byte
-    public partial class TIntegerHashTable256 : Aow.Units.HashTabU.TIntegerHashTable
+    public partial class TIntegerHashTable256 : TIntegerHashTable
     {
-        internal Aow.Units.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 FLists;
+        internal FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 FLists;
         // HashTabU.pas:186
         public TIntegerHashTable256()
         {
@@ -175,7 +172,7 @@ namespace Aow.Units.HashTabU
                 byte end__2 = 255;
                 for (; I <= end__2; I += 1)
                 {
-                    var call__3 = new Aow.Units.HashTabU.TIntegerHashList();
+                    var call__3 = new TIntegerHashList();
                     FLists[I] = call__3;
                 }
             }
@@ -236,11 +233,11 @@ namespace Aow.Units.HashTabU
 
     public struct TStringHashItem
     {
-        public Aow.Rtl.AnsiString Key;
+        public AnsiString Key;
         public object Item;
     }
 
-    public partial class TStringHashList : Aow.Units.HashTabU.THashList
+    public partial class TStringHashList : THashList
     {
         // HashTabU.pas:226
         public override void Clear()
@@ -259,7 +256,7 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:234
-        public object Find(Aow.Rtl.AnsiString Key)
+        public object Find(AnsiString Key)
         {
             object Result = default;
             int I = default;
@@ -270,7 +267,7 @@ namespace Aow.Units.HashTabU
                 do
                 {
                     I -= 1;
-                    if (Aow.Rtl.Rtl.AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
+                    if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
                     {
                         Result = FItems[I].Item;
                         return Result;
@@ -283,12 +280,12 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:251
-        public void Add(object Item, Aow.Rtl.AnsiString Key)
+        public void Add(object Item, AnsiString Key)
         {
-            Aow.Units.HashTabU.THashItem H = default;
+            THashItem H = default;
             if (Find(Key) != null)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"ID already in HashTable");
+                throw Exception.Create((AnsiString)"ID already in HashTable");
             }
 
             H.Key = 0;
@@ -298,7 +295,7 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:262
-        public void Delete(Aow.Rtl.AnsiString Key)
+        public void Delete(AnsiString Key)
         {
             int I = default;
             I = FCount;
@@ -307,7 +304,7 @@ namespace Aow.Units.HashTabU
                 do
                 {
                     I -= 1;
-                    if (Aow.Rtl.Rtl.AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
+                    if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
                     {
                         FItems[I].Key = (AnsiString)"";
                         base.Delete(I);
@@ -321,22 +318,22 @@ namespace Aow.Units.HashTabU
     }
 
     // the abstract table interface
-    public partial class TStringHashTable : Aow.Rtl.TObject
+    public partial class TStringHashTable : TObject
     {
         // HashTabU.pas:84
-        public virtual void Add(object Item, Aow.Rtl.AnsiString Key)
+        public virtual void Add(object Item, AnsiString Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // HashTabU.pas:85
-        public virtual void Delete(Aow.Rtl.AnsiString Key)
+        public virtual void Delete(AnsiString Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // HashTabU.pas:86
-        public virtual object Find(Aow.Rtl.AnsiString Key)
+        public virtual object Find(AnsiString Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -349,9 +346,9 @@ namespace Aow.Units.HashTabU
     }
 
     // 256 lists selected by a hash of the first and the second-to-last character and the length
-    public partial class TStringHashTable256 : Aow.Units.HashTabU.TStringHashTable
+    public partial class TStringHashTable256 : TStringHashTable
     {
-        internal Aow.Units.FixedArray_Aow_Units_HashTabU_TStringHashList_256 FLists;
+        internal FixedArray_Aow_Units_HashTabU_TStringHashList_256 FLists;
         // HashTabU.pas:281
         public TStringHashTable256()
         {
@@ -362,7 +359,7 @@ namespace Aow.Units.HashTabU
                 byte end__8 = 255;
                 for (; I <= end__8; I += 1)
                 {
-                    var call__9 = new Aow.Units.HashTabU.TStringHashList();
+                    var call__9 = new TStringHashList();
                     FLists[I] = call__9;
                 }
             }
@@ -399,19 +396,19 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:304
-        public override void Add(object Item, Aow.Rtl.AnsiString Key)
+        public override void Add(object Item, AnsiString Key)
         {
             int H = default;
             H = Key.Length;
             if (H >= 2)
             {
-                H = ((((int)Key[1]) + ((int)Key[H - 1])) + (H << 4)) & 255;
+                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = (int)Key[1];
+                    H = Key[1];
                 }
             }
 
@@ -419,19 +416,19 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:316
-        public override void Delete(Aow.Rtl.AnsiString Key)
+        public override void Delete(AnsiString Key)
         {
             int H = default;
             H = Key.Length;
             if (H >= 2)
             {
-                H = ((((int)Key[1]) + ((int)Key[H - 1])) + (H << 4)) & 255;
+                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = (int)Key[1];
+                    H = Key[1];
                 }
             }
 
@@ -439,20 +436,20 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:328
-        public override object Find(Aow.Rtl.AnsiString Key)
+        public override object Find(AnsiString Key)
         {
             object Result = default;
             int H = default;
             H = Key.Length;
             if (H >= 2)
             {
-                H = ((((int)Key[1]) + ((int)Key[H - 1])) + (H << 4)) & 255;
+                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = (int)Key[1];
+                    H = Key[1];
                 }
             }
 

@@ -1,36 +1,12 @@
 // Translated from ManaCrystals.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
 using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -50,7 +26,7 @@ namespace Aow.Units.ManaCrystals
     }
 
     // FAmount, FSize
-    public partial class TManaCrystals : Aow.Units.ILTer.TILTerrainMO
+    public partial class TManaCrystals : TILTerrainMO
     {
         public TManaCrystals(TECustomNode owner) : base(owner)
         {
@@ -64,33 +40,33 @@ namespace Aow.Units.ManaCrystals
         public int FAmount;
         public byte FSize;
         // ManaCrystals.pas:83
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FAmount, 5);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FSize, 1), 1, 6);
+            Stream.rwData(Bytes.Of(ref FSize, 1), 1, 6);
         }
 
         // ManaCrystals.pas:73
 
 
         // ManaCrystals.pas:118
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
-            if ((Msg.MsgID == 537001985) && (Aow.Units.AoWE.AoWE.AoWHSMap.FDay == 1))
+            if (Msg.MsgID == 537001985 && AoWHSMap.FDay == 1)
             {
                 GenerateManaCrystalsAmount();
             }
         }
 
         // ManaCrystals.pas:148
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4354)
             {
-                ArmyEntered(Msg.Param[0].As<Aow.Units.AoWE.TArmyHS>());
+                ArmyEntered(Msg.Param[0].As<TArmyHS>());
                 return;
             }
 
@@ -99,14 +75,14 @@ namespace Aow.Units.ManaCrystals
                 var call__1 = FResource.TerrainList.Terrain[Msg.HN];
                 if (call__1 >= 0)
                 {
-                    var query = (Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref;
+                    var query = (AITargetQuery)Msg.Param[0].Ref;
                     var info = new TCrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                     UpdateAITarget(ref info, ref query.Data.Priority);
                     query.Info.Player = info.Player;
                     query.Info.IndependentRelation = info.OtherPlayer;
-                    query.Info.Mode = (Aow.Units.AoWE.TAITargetMode)info.Kind;
+                    query.Info.Mode = (TAITargetMode)info.Kind;
                     // { Original marks the message only when the resulting priority is negative. }
-                    if (((Aow.Units.AoWE.AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
+                    if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
                     {
                         Msg.Result = 1;
                     }
@@ -115,11 +91,11 @@ namespace Aow.Units.ManaCrystals
         }
 
         // ManaCrystals.pas:111
-        public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public override void UpdateMapField(in THSMapFieldInfo Info)
         {
             if (Info.HN == 0)
             {
-                ((Aow.Units.AoWE.TAoWMapField)((System.Object)Info.MapField)).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)((System.Object)Info.MapField)).FFieldFlags | 134217728;
+                ((TAoWMapField)(object)Info.MapField).FFieldFlags = ((TAoWMapField)(object)Info.MapField).FFieldFlags | 134217728;
             }
         }
 
@@ -128,29 +104,29 @@ namespace Aow.Units.ManaCrystals
         {
             if (FSize == 4)
             {
-                var call__2 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(3);
-                FSize = unchecked((byte)(call__2 + 1));
+                var call__2 = AoWHSMap.Random(3);
+                FSize = (byte)(call__2 + 1);
             }
 
             switch (FSize)
             {
                 case 1:
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(25);
+                    var call__3 = AoWHSMap.Random(25);
                     FAmount = call__3 + 25;
                     break;
                 case 2:
-                    var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(25);
+                    var call__4 = AoWHSMap.Random(25);
                     FAmount = call__4 + 50;
                     break;
                 case 3:
-                    var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(50);
+                    var call__5 = AoWHSMap.Random(50);
                     FAmount = call__5 + 100;
                     break;
             }
         }
 
         // ManaCrystals.pas:100
-        public void UpdateAITarget(ref Aow.Units.ManaCrystals.TCrystalAIInfo Info, ref int Priority)
+        public void UpdateAITarget(ref TCrystalAIInfo Info, ref int Priority)
         {
             int P = default;
             switch (Info.Kind)
@@ -158,7 +134,7 @@ namespace Aow.Units.ManaCrystals
                 case 0:
                     if (Info.Player != 0)
                     {
-                        P = (FAmount / 5) + 15;
+                        P = FAmount / 5 + 15;
                         if (Priority < P)
                         {
                             Priority = P;
@@ -170,42 +146,42 @@ namespace Aow.Units.ManaCrystals
         }
 
         // ManaCrystals.pas:125
-        public void ArmyEntered(Aow.Units.AoWE.TArmyHS ArmyHS)
+        public void ArmyEntered(TArmyHS ArmyHS)
         {
-            Aow.Units.EventLog.TLocationTextEventLog Log = default;
-            if (unchecked((byte)ArmyHS.FArmy.FPlayer) == 0)
+            TLocationTextEventLog Log = default;
+            if ((byte)ArmyHS.FArmy.FPlayer == 0)
             {
                 return;
             }
 
-            bool bool__6 = (unchecked((byte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer) == unchecked((byte)ArmyHS.FArmy.FPlayer));
+            bool bool__6 = (byte)AoWHSMap.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
             if (!bool__6)
             {
                 var call__7 = GetLhx();
                 var call__8 = GetYhx();
                 var call__9 = GetXhx();
-                var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)call__9), unchecked((sbyte)call__8), unchecked((sbyte)call__7), 0);
+                var call__10 = AoWHSMap.Watching(call__9, call__8, call__7, 0);
                 bool__6 = call__10;
             }
 
             if (bool__6)
             {
-                Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\EVENTS\\MANA.WAV");
+                PlaySample((AnsiString)"SFX\\EVENTS\\MANA.WAV");
             }
 
-            var player = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(ArmyHS.FArmy.FPlayer));
+            var player = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
             player.FMagicControl.SetMana(player.FMagicControl.FMana + FAmount);
 
-            Log = new Aow.Units.EventLog.TLocationTextEventLog(null);
-            Log.FPlayer = unchecked((sbyte)unchecked((byte)ArmyHS.FArmy.FPlayer));
-            var call__12 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaCrystalsFoundRStr);
-            var call__13 = Aow.Rtl.Rtl.Format(call__12, [Aow.Rtl.Rtl.IntToStr(FAmount)]);
+            Log = new TLocationTextEventLog(null);
+            Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
+            var call__12 = TranslateRStr(ManaCrystalsFoundRStr);
+            var call__13 = Rtl.Rtl.Format(call__12, [IntToStr(FAmount)]);
             Log.FText = call__13;
             var call__14 = GetLhx();
             var call__15 = GetYhx();
             var call__16 = GetXhx();
-            Log.SetLocation(unchecked((sbyte)call__16), unchecked((sbyte)call__15), unchecked((sbyte)call__14));
-            var call__17 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((int)(ArmyHS.FArmy.FPlayer));
+            Log.SetLocation(call__16, call__15, call__14);
+            var call__17 = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
             call__17.FEventLogbook.AddEvent(Log);
             Log.Release();
             Destroy();
@@ -216,7 +192,7 @@ namespace Aow.Units.ManaCrystals
 
     }
 
-    public partial class TManaCrystalsResource : Aow.Units.ILTer.TILTerrainMOR
+    public partial class TManaCrystalsResource : TILTerrainMOR
     {
         public TManaCrystalsResource(TECustomNode owner) : base(owner)
         {}
@@ -233,16 +209,16 @@ namespace Aow.Units.ManaCrystals
         }
 
         // ManaCrystals.pas:165
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaCrystalsRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(ManaCrystalsRStr);
             return Result;
         }
 
     }
 
-    public partial class TCrystalMagic : Aow.Units.AoWE.TPlayerMagicControl
+    public partial class TCrystalMagic : TPlayerMagicControl
     {
         public TCrystalMagic(TECustomNode owner) : base(owner)
         { }
@@ -254,7 +230,7 @@ namespace Aow.Units.ManaCrystals
     public struct TCrystalMapFields
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_165 Reserved;
+        public FixedArray_byte_165 Reserved;
         [FieldOffset(165)]
         public sbyte SeatedPlayer;
     }
@@ -263,7 +239,7 @@ namespace Aow.Units.ManaCrystals
     public struct TCrystalFieldFlags
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_24 Reserved;
+        public FixedArray_byte_24 Reserved;
         [FieldOffset(24)]
         public int Flags;
     }
@@ -271,9 +247,9 @@ namespace Aow.Units.ManaCrystals
     public static partial class ManaCrystals
     {
         // ManaCrystals.pas:174
-        public static void RegisterManaCrystals(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterManaCrystals(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.ManaCrystals.TManaCrystals>(), Aow.Units.Engine.EClass.Of<Aow.Units.ManaCrystals.TManaCrystalsResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TManaCrystals>(), EClass.Of<TManaCrystalsResource>()]);
         }
 
         public static void Initialize()

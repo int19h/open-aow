@@ -1,56 +1,31 @@
 // Translated from HeroCtrl.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.HeroCtrl
 {
     // indices, show level, show status, stream, map, sort, unselect event
-    public partial class THeroControlGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
+    public partial class THeroControlGrid : TCustomImageDrawGrid
     {
-        public Aow.Units.Engine.TIntegerList FIndices;
+        public TIntegerList FIndices;
         public bool FShowLevel;
         public bool FReservedDisplay;
         public bool FShowStatus;
         public bool FUnplacedOnly;
-        public Aow.Rtl.TMemoryStream FStream;
-        public Aow.Units.AoWE.TAoWHSMap FMap;
+        public TMemoryStream FStream;
+        public TAoWHSMap FMap;
         public byte FSort;
-        public Aow.Rtl.TNotifyEvent FOnUnselect;
+        public TNotifyEvent FOnUnselect;
         // HeroCtrl.pas:134
         public override void Destroy()
         {
             /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroCtrl.pas:122
@@ -60,31 +35,31 @@ namespace Aow.Units.HeroCtrl
 
             DefaultColWidth = 155;
             DefaultRowHeight = 46;
-            GrowDirection = Aow.Units.ImageLib.TILGrowDirection.ilVertical;
-            ScrollBars = Aow.Rtl.TScrollStyle.ssVertical;
-            var call__1 = new Aow.Units.Engine.TIntegerList();
+            GrowDirection = TILGrowDirection.ilVertical;
+            ScrollBars = TScrollStyle.ssVertical;
+            var call__1 = new TIntegerList();
             FIndices = call__1;
-            var call__2 = new Aow.Rtl.TMemoryStream();
+            var call__2 = new TMemoryStream();
             FStream = call__2;
             FSort = 0;
         }
 
         // HeroCtrl.pas:263
-        protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
+        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
         {
             /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroCtrl.pas:142
-        protected internal override void MouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroCtrl.pas:156
-        public void SetAoWHSMap(Aow.Units.AoWE.TAoWHSMap Value)
+        public void SetAoWHSMap(TAoWHSMap Value)
         {
             if (Value != FMap)
             {
@@ -106,22 +81,22 @@ namespace Aow.Units.HeroCtrl
         }
 
         // HeroCtrl.pas:175
-        public void HeroControlChanged(Aow.Rtl.TObject Sender)
+        public void HeroControlChanged(TObject Sender)
         {
             UpdateHeroes();
         }
 
         // HeroCtrl.pas:180
-        public void HeroChanged(Aow.Rtl.TObject Sender)
+        public void HeroChanged(TObject Sender)
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroCtrl.pas:186
-        public Aow.Units.AoWE.THero GetHero(int Index)
+        public THero GetHero(int Index)
         {
-            Aow.Units.AoWE.THero Result = default;
+            THero Result = default;
             // { Original checks only the upper bound. }
             if (Index < FIndices.Count)
             {
@@ -138,14 +113,14 @@ namespace Aow.Units.HeroCtrl
         }
 
         // HeroCtrl.pas:193
-        public Aow.Units.AoWE.THero GetSelectedHero()
+        public THero GetSelectedHero()
         {
             /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroCtrl.pas:202
-        public void SetSelectedHero(Aow.Units.AoWE.THero Value)
+        public void SetSelectedHero(THero Value)
         {
             int I = default;
             var call__5 = FMap.FHeroControl.IndexOf(Value);
@@ -175,7 +150,7 @@ namespace Aow.Units.HeroCtrl
         public void UpdateHeroes()
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroCtrl.pas:245
@@ -202,14 +177,14 @@ namespace Aow.Units.HeroCtrl
         public void DeleteHero()
         {
             /* TODO: Implement Grids.Bottom in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroCtrl.pas:379
         public void RemoveFromMap()
         {
             /* TODO: Implement Grids.Top in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         [Published]
@@ -222,57 +197,57 @@ namespace Aow.Units.HeroCtrl
         public bool OnlyFreeHeroes { get => FUnplacedOnly; set => FUnplacedOnly = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
+        public TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
 
         [Published]
         public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
     }
 
-    public partial class TGridMapView : Aow.Rtl.TObject
+    public partial class TGridMapView : TObject
     {
-        public Aow.Units.AoWE.TItemControl ItemControl;
-        public Aow.Units.AoWE.THeroControl HeroControl;
-        public Aow.Units.AoWE.TPlayerList Players;
-        public Aow.Units.Engine.TEventList LeaderEvent;
+        public TItemControl ItemControl;
+        public THeroControl HeroControl;
+        public TPlayerList Players;
+        public TEventList LeaderEvent;
     }
 
     public struct TRawView
     {
-        public Aow.Units.FixedArray_object_512 Fields;
+        public FixedArray_object_512 Fields;
     }
 
     public struct TNodeView
     {
-        public Aow.Units.FixedArray_byte_8 Reserved;
-        public Aow.Rtl.TList Children;
+        public FixedArray_byte_8 Reserved;
+        public TList Children;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 49)]
     public struct TEngineView
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_48 Reserved;
+        public FixedArray_byte_48 Reserved;
         [FieldOffset(48)]
         public byte Status;
     }
 
     public struct THeroView
     {
-        public Aow.Units.FixedArray_byte_96 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_4 Reserved64;
+        public FixedArray_byte_96 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_4 Reserved64;
         public byte Race;
-        public Aow.Units.FixedArray_byte_15 Reserved69;
+        public FixedArray_byte_15 Reserved69;
         public bool Hidden;
     }
 
     public struct TItemView
     {
-        public Aow.Units.FixedArray_byte_24 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_24 Reserved1C;
+        public FixedArray_byte_24 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_24 Reserved1C;
         public byte Kind;
-        public Aow.Units.FixedArray_byte_15 Reserved35;
+        public FixedArray_byte_15 Reserved35;
         public bool Hidden;
     }
 
@@ -281,18 +256,18 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:397
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.HeroCtrl.THeroControlGrid)]);
+            RegisterComponents((AnsiString)"AoW", [typeof(THeroControlGrid)]);
         }
 
-        public static readonly Aow.Rtl.AnsiString GridUsedRStr = (AnsiString)"Used";
+        public static readonly AnsiString GridUsedRStr = (AnsiString)"Used";
 
         // HeroCtrl.pas:110
         public static int HeroControlCompareName(int A, int B)
         {
             int Result = default;
-            var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.FHeroControl.GetHero(B);
-            var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.FHeroControl.GetHero(A);
-            Result = Aow.Rtl.Rtl.CompareText(call__8.FHeroName, call__7.FHeroName);
+            var call__7 = AoWHSMap.FHeroControl.GetHero(B);
+            var call__8 = AoWHSMap.FHeroControl.GetHero(A);
+            Result = CompareText(call__8.FHeroName, call__7.FHeroName);
             return Result;
         }
 
@@ -300,14 +275,14 @@ namespace Aow.Units.HeroCtrl
         public static int HeroControlCompareLevel(int A, int B)
         {
             int Result = default;
-            var call__9 = Aow.Units.AoWE.AoWE.AoWHSMap.FHeroControl.GetHero(A);
-            var call__10 = unchecked((sbyte)call__9.GetLevel());
-            var call__11 = Aow.Units.AoWE.AoWE.AoWHSMap.FHeroControl.GetHero(B);
-            var call__12 = unchecked((sbyte)call__11.GetLevel());
+            var call__9 = AoWHSMap.FHeroControl.GetHero(A);
+            var call__10 = call__9.GetLevel();
+            var call__11 = AoWHSMap.FHeroControl.GetHero(B);
+            var call__12 = call__11.GetLevel();
             Result = call__10 - call__12;
             if (Result == 0)
             {
-                Result = Aow.Units.HeroCtrl.HeroCtrl.HeroControlCompareName(A, B);
+                Result = HeroControlCompareName(A, B);
             }
 
             return Result;

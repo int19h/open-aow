@@ -1,191 +1,140 @@
 // Translated from AoWTCUnit.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AOWGauge;
-using static Aow.Units.AOWGauge.AOWGauge;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWListBox.AoWListBox;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.aowUserDrawBox.aowUserDrawBox;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.E1Resources;
 using static Aow.Units.E1Resources.E1Resources;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.AoWInfoBanner;
 using static Aow.Units.AoWInfoBanner.AoWInfoBanner;
 
 namespace Aow.Units.AoWTCUnit
 {
     // components
-    public partial class TTCUnit : Aow.Rtl.TDataModule
+    public partial class TTCUnit : TDataModule
     {
         public TTCUnit(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow TCUnitWin;
-        public Aow.Units.AoWImage.TAOWImage SIcon;
-        public Aow.Units.AoWButton.TAOWButton Min;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWLabel.TAOWLabel IWTitle;
-        public Aow.Units.AoWImage.TAOWImage UAttackIcon;
-        public Aow.Units.AoWImage.TAOWImage UDefenseIcon;
-        public Aow.Units.AoWImage.TAOWImage UMovesIcon;
-        public Aow.Units.AoWImage.TAOWImage UDamageIcon;
-        public Aow.Units.AoWImage.TAOWImage UResistanceIcon;
-        public Aow.Units.AoWImage.TAOWImage UHitsIcon;
-        public Aow.Units.AoWLabel.TAOWLabel UAttack;
-        public Aow.Units.AoWLabel.TAOWLabel UDefense;
-        public Aow.Units.AoWLabel.TAOWLabel UMoves;
-        public Aow.Units.AoWLabel.TAOWLabel UDamage;
-        public Aow.Units.AoWLabel.TAOWLabel UResistance;
-        public Aow.Units.AoWLabel.TAOWLabel UHits;
-        public Aow.Units.AoWMemo.TAOWMemo UnitName;
-        public Aow.Units.AoWPanel.TAOWPanel UStatPnl;
-        public Aow.Units.AoWListBox.TAOWListBox UAbilLB;
-        public Aow.Units.AoWLabel.TAOWLabel AbilNameLbl;
-        public Aow.Units.AoWPanel.TAOWPanel TCUnitPnl;
-        public Aow.Units.AoWImage.TAOWImage AOWImage1;
-        public Aow.Units.AoWMemo.TAOWMemo AUnitName;
-        public Aow.Units.AoWListBox.TAOWListBox USelAbilLb;
-        public Aow.Units.AoWPanel.TAOWPanel TCAbilPnl;
-        public Aow.Units.AoWImage.TAOWImage AbilAtt;
-        public Aow.Units.AoWLabel.TAOWLabel AbilAttLbl;
-        public Aow.Units.AoWPanel.TAOWPanel AbilStatBox;
-        public Aow.Units.AoWListBox.TAOWListBox AbilStat;
-        public Aow.Units.AoWImage.TAOWImage AbilDam;
-        public Aow.Units.AoWLabel.TAOWLabel AbilDamLbl;
-        public Aow.Units.AoWLabel.TAOWLabel TargetLbl;
-        public Aow.Units.AoWLabel.TAOWLabel TargetULbl;
-        public Aow.Units.AoWPanel.TAOWPanel TargetSelPnl;
-        public Aow.Units.AoWPanel.TAOWPanel NoTargetPnl;
-        public Aow.Units.AoWMemo.TAOWMemo TargetMessage;
-        public Aow.Units.AOWGauge.TAoWGauge UnitHits;
-        public Aow.Units.AOWGauge.TAoWGauge UnitMana;
-        public Aow.Units.AoWImage.TAOWImage CelticCross;
-        public Aow.Units.AoWPanel.TAOWPanel UStatP1;
-        public Aow.Units.AoWPanel.TAOWPanel UStatP2;
-        public Aow.Units.AoWImage.TAOWImage AAttackIcon;
-        public Aow.Units.AoWImage.TAOWImage ADefenseIcon;
-        public Aow.Units.AoWImage.TAOWImage AMovesIcon;
-        public Aow.Units.AoWImage.TAOWImage ADamageIcon;
-        public Aow.Units.AoWImage.TAOWImage AResistanceIcon;
-        public Aow.Units.AoWImage.TAOWImage AHitsIcons;
-        public Aow.Units.AoWLabel.TAOWLabel AAttack;
-        public Aow.Units.AoWLabel.TAOWLabel ADefense;
-        public Aow.Units.AoWLabel.TAOWLabel AMoves;
-        public Aow.Units.AoWLabel.TAOWLabel ADamage;
-        public Aow.Units.AoWLabel.TAOWLabel AResistance;
-        public Aow.Units.AoWLabel.TAOWLabel AHits;
-        public Aow.Units.AoWPanel.TAOWPanel AStatPnl;
-        public Aow.Units.AoWPanel.TAOWPanel AStatP1;
-        public Aow.Units.AoWPanel.TAOWPanel AStatP2;
-        public Aow.Units.AoWButton.TAOWButton Center;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar AbilSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar UAbilSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar AOWVScrollBar1;
-        public Aow.Units.AoWPanel.TAOWPanel AbilFr;
-        public Aow.Units.AoWPanel.TAOWPanel ANameFr;
-        public Aow.Units.AoWPanel.TAOWPanel TargerFr;
-        public Aow.Units.AoWPanel.TAOWPanel TNamePnl;
-        public Aow.Units.AoWPanel.TAOWPanel UnitFr;
-        public Aow.Units.aowUserDrawBox.TaowUserDrawBox UnitBox;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWWindow TCUnitWin;
+        public TAOWImage SIcon;
+        public TAOWButton Min;
+        public TAOWButton Close;
+        public TAOWLabel IWTitle;
+        public TAOWImage UAttackIcon;
+        public TAOWImage UDefenseIcon;
+        public TAOWImage UMovesIcon;
+        public TAOWImage UDamageIcon;
+        public TAOWImage UResistanceIcon;
+        public TAOWImage UHitsIcon;
+        public TAOWLabel UAttack;
+        public TAOWLabel UDefense;
+        public TAOWLabel UMoves;
+        public TAOWLabel UDamage;
+        public TAOWLabel UResistance;
+        public TAOWLabel UHits;
+        public TAOWMemo UnitName;
+        public TAOWPanel UStatPnl;
+        public TAOWListBox UAbilLB;
+        public TAOWLabel AbilNameLbl;
+        public TAOWPanel TCUnitPnl;
+        public TAOWImage AOWImage1;
+        public TAOWMemo AUnitName;
+        public TAOWListBox USelAbilLb;
+        public TAOWPanel TCAbilPnl;
+        public TAOWImage AbilAtt;
+        public TAOWLabel AbilAttLbl;
+        public TAOWPanel AbilStatBox;
+        public TAOWListBox AbilStat;
+        public TAOWImage AbilDam;
+        public TAOWLabel AbilDamLbl;
+        public TAOWLabel TargetLbl;
+        public TAOWLabel TargetULbl;
+        public TAOWPanel TargetSelPnl;
+        public TAOWPanel NoTargetPnl;
+        public TAOWMemo TargetMessage;
+        public TAoWGauge UnitHits;
+        public TAoWGauge UnitMana;
+        public TAOWImage CelticCross;
+        public TAOWPanel UStatP1;
+        public TAOWPanel UStatP2;
+        public TAOWImage AAttackIcon;
+        public TAOWImage ADefenseIcon;
+        public TAOWImage AMovesIcon;
+        public TAOWImage ADamageIcon;
+        public TAOWImage AResistanceIcon;
+        public TAOWImage AHitsIcons;
+        public TAOWLabel AAttack;
+        public TAOWLabel ADefense;
+        public TAOWLabel AMoves;
+        public TAOWLabel ADamage;
+        public TAOWLabel AResistance;
+        public TAOWLabel AHits;
+        public TAOWPanel AStatPnl;
+        public TAOWPanel AStatP1;
+        public TAOWPanel AStatP2;
+        public TAOWButton Center;
+        public TAOWVScrollBar AbilSB;
+        public TAOWVScrollBar UAbilSB;
+        public TAOWVScrollBar AOWVScrollBar1;
+        public TAOWPanel AbilFr;
+        public TAOWPanel ANameFr;
+        public TAOWPanel TargerFr;
+        public TAOWPanel TNamePnl;
+        public TAOWPanel UnitFr;
+        public TaowUserDrawBox UnitBox;
+        public TIvTranslator Translator;
         // AoWTCUnit.pas:106
         public void TCUnitWinResize()
         {
-            this.TCUnitWin.Alignment.RightOffset = (this.TCUnitWin.WinManager.WinWidth - this.TCUnitWin.WinLeft) - this.TCUnitWin.WinWidth;
-            this.TCUnitWin.Alignment.BottomOffset = (this.TCUnitWin.WinManager.WinHeight - this.TCUnitWin.WinTop) - this.TCUnitWin.WinHeight;
+            this.TCUnitWin.Alignment.RightOffset = this.TCUnitWin.WinManager.WinWidth - this.TCUnitWin.WinLeft - this.TCUnitWin.WinWidth;
+            this.TCUnitWin.Alignment.BottomOffset = this.TCUnitWin.WinManager.WinHeight - this.TCUnitWin.WinTop - this.TCUnitWin.WinHeight;
         }
 
         // AoWTCUnit.pas:116
         public void MinClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             TCUnitWin.Visible = false;
         }
 
         // AoWTCUnit.pas:123
-        public void UAbilLBPreDrawItem(Aow.Rtl.TObject Sender, in Aow.Rtl.TRect DrawRect, int DrawItem, ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public void UAbilLBPreDrawItem(TObject Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
         {
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null)
+            if (General.FCombatUnit != null)
             {
-                var call__2 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetPlayer();
-                bool bool__3 = ((call__2 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints > 0)) && (DrawItem < Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FCombatAbilityCount);
+                var call__2 = General.FCombatUnit.FUnit.GetPlayer();
+                bool bool__3 = call__2 == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints > 0 && DrawItem < General.FCombatUnit.FCombatAbilityCount;
                 if (bool__3)
                 {
-                    var call__4 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FAbilities[DrawItem];
-                    var call__5 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(((Aow.Units.AoWTC.TTCAbility)call__4).Ability);
-                    var call__6 = call__5.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                    bool bool__7 = !TSet<Aow.Units.AoWE.TCombatMode>.Of().WithRange(Aow.Units.AoWE.TCombatMode.cmShortRange, Aow.Units.AoWE.TCombatMode.cmLongRange).Contains(call__6);
+                    var call__4 = General.FCombatUnit.FAbilities[DrawItem];
+                    var call__5 = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)call__4).Ability);
+                    var call__6 = call__5.GetCombatMode(General.FCombatUnit.FUnit.FUnit);
+                    bool bool__7 = !TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(call__6);
                     if (bool__7)
                     {
-                        var call__8 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FAbilities[DrawItem];
-                        bool__7 = (((Aow.Units.AoWTC.TTCAbility)call__8).Ability != 52);
+                        var call__8 = General.FCombatUnit.FAbilities[DrawItem];
+                        bool__7 = ((TTCAbility)call__8).Ability != 52;
                     }
 
                     bool bool__9 = bool__7;
                     if (!bool__9)
                     {
-                        var call__10 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit.GetMoves();
-                        bool__9 = (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints == call__10);
+                        var call__10 = General.FCombatUnit.FUnit.FUnit.GetMoves();
+                        bool__9 = General.FCombatUnit.FUnit.FMovePoints == call__10;
                     }
 
                     bool__3 = bool__9;
@@ -203,11 +152,11 @@ namespace Aow.Units.AoWTCUnit
         }
 
         // AoWTCUnit.pas:138
-        public void TCUnitPnlDrawBack(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void TCUnitPnlDrawBack(TObject Sender, TSurfaceDesc SD)
         {
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null)
+            if (General.FCombatUnit != null)
             {
-                Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit.ShowEx(TCUnitPnl.WinLeft - 10, TCUnitPnl.WinTop - 2, SD, Aow.Units.AoWWinMan.AoWWinMan.General.FUnitShowInfo);
+                General.FCombatUnit.FUnit.FUnit.ShowEx(TCUnitPnl.WinLeft - 10, TCUnitPnl.WinTop - 2, SD, General.FUnitShowInfo);
             }
         }
 
@@ -221,28 +170,28 @@ namespace Aow.Units.AoWTCUnit
         }
 
         // AoWTCUnit.pas:152
-        public void UAbilLBMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void UAbilLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            Aow.Units.AoWE.TAbility Ability = default;
+            TAbility Ability = default;
             if (UAbilLB.Selected > -1)
             {
-                if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                if (Button == TMouseButton.mbLeft)
                 {
                     var call__11 = UAbilLB.Items.Objects[UAbilLB.Selected];
-                    var call__12 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.SelectAbility(Aow.Rtl.Rtl.ObjectToInt(call__11));
+                    var call__12 = General.FCombatUnit.SelectAbility(ObjectToInt(call__11));
                     UAbilLB.Selected = call__12;
                 }
                 else
                 {
-                    if ((Button == Aow.Rtl.TMouseButton.mbRight) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null))
+                    if (Button == TMouseButton.mbRight && General.FCombatUnit != null)
                     {
                         var call__13 = UAbilLB.Items.Objects[UAbilLB.Selected];
-                        var call__14 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Rtl.Rtl.ObjectToInt(call__13));
+                        var call__14 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__13));
                         Ability = call__14;
                         if (Ability != null)
                         {
-                            var call__15 = Ability.GetName(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                            Aow.Units.AoWExeForms.AoWExeForms.SetInfoBanner(Aow.Units.AoWInfoBanner.AoWInfoBanner.InfoBanner, call__15, Ability.FDescription);
+                            var call__15 = Ability.GetName(General.FCombatUnit.FUnit.FUnit);
+                            SetInfoBanner(InfoBanner, call__15, Ability.FDescription);
                         }
                     }
                 }
@@ -250,21 +199,21 @@ namespace Aow.Units.AoWTCUnit
         }
 
         // AoWTCUnit.pas:168
-        public void UAbilLBMouseMove(Aow.Rtl.TObject Sender, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void UAbilLBMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
         {
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null)
+            if (General.FCombatUnit != null)
             {
-                var call__16 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.GetPlayer();
-                if (((call__16 == Aow.Units.AoWTC.AoWTC.AoWCombatMap.FSeatedPlayer) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints != 0)) && (UAbilLB.F188 < Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FCombatAbilityCount))
+                var call__16 = General.FCombatUnit.FUnit.GetPlayer();
+                if (call__16 == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints != 0 && UAbilLB.F188 < General.FCombatUnit.FCombatAbilityCount)
                 {
-                    var call__17 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FAbilities[UAbilLB.F188];
-                    var call__18 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(((Aow.Units.AoWTC.TTCAbility)call__17).Ability);
-                    var call__19 = call__18.GetCombatMode(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
-                    bool bool__20 = !TSet<Aow.Units.AoWE.TCombatMode>.Of().WithRange(Aow.Units.AoWE.TCombatMode.cmShortRange, Aow.Units.AoWE.TCombatMode.cmLongRange).Contains(call__19);
+                    var call__17 = General.FCombatUnit.FAbilities[UAbilLB.F188];
+                    var call__18 = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)call__17).Ability);
+                    var call__19 = call__18.GetCombatMode(General.FCombatUnit.FUnit.FUnit);
+                    bool bool__20 = !TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(call__19);
                     if (bool__20)
                     {
-                        var call__21 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FAbilities[UAbilLB.F188];
-                        bool__20 = (((Aow.Units.AoWTC.TTCAbility)call__21).Ability != 52);
+                        var call__21 = General.FCombatUnit.FAbilities[UAbilLB.F188];
+                        bool__20 = ((TTCAbility)call__21).Ability != 52;
                     }
 
                     if (bool__20)
@@ -272,7 +221,7 @@ namespace Aow.Units.AoWTCUnit
                         return;
                     }
 
-                    var tacticalCombatUnit = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit;
+                    var tacticalCombatUnit = General.FCombatUnit.FUnit;
                     var call__23 = tacticalCombatUnit.FUnit.GetMoves();
                     if (call__23 <= tacticalCombatUnit.FMovePoints)
                     {
@@ -285,50 +234,50 @@ namespace Aow.Units.AoWTCUnit
         }
 
         // AoWTCUnit.pas:187
-        public void HeroSMapMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void HeroSMapMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.FSelectedUnit = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit;
-            Aow.Units.AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
+            General.FSelectedUnit = General.FCombatUnit.FUnit.FUnit;
+            AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
         }
 
         // AoWTCUnit.pas:194
         public void CenterClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__24 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.GetLhx();
-            var call__25 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.GetYhx();
-            var call__26 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.GetXhx();
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.CenterViewTo(call__26, call__25, call__24);
-            var call__27 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.GetLhx();
-            var call__28 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.GetYhx();
-            var call__29 = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.GetXhx();
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap.PlayCenterAnimation(unchecked((sbyte)call__29), unchecked((sbyte)call__28), unchecked((sbyte)call__27));
+            General.PlayButtonSound(0);
+            var call__24 = General.FCombatUnit.GetLhx();
+            var call__25 = General.FCombatUnit.GetYhx();
+            var call__26 = General.FCombatUnit.GetXhx();
+            AoWCombatMap.CenterViewTo(call__26, call__25, call__24);
+            var call__27 = General.FCombatUnit.GetLhx();
+            var call__28 = General.FCombatUnit.GetYhx();
+            var call__29 = General.FCombatUnit.GetXhx();
+            AoWCombatMap.PlayCenterAnimation(call__29, call__28, call__27);
         }
 
         // AoWTCUnit.pas:195
         public void CloseClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             TCUnitWin.Visible = false;
         }
     }
 
     public static partial class AoWTCUnit
     {
-        public static Aow.Units.AoWTCUnit.TTCUnit TCUnit;
+        public static TTCUnit TCUnit;
         // AoWTCUnit.pas:197
-        public static void RefreshCombatUnit(Aow.Units.AoWTCUnit.TTCUnit Window)
+        public static void RefreshCombatUnit(TTCUnit Window)
         {
-            Aow.Units.AoWE.TAbilityCombatInfo AbilityInfo = default;
-            Aow.Units.AoWE.TSpellCombatInfo SpellInfo = default;
-            Aow.Units.AoWE.TAbstractUnit U = default;
-            Aow.Units.AoWE.THero Hero = default;
-            if (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit != null)
+            TAbilityCombatInfo AbilityInfo = default;
+            TSpellCombatInfo SpellInfo = default;
+            TAbstractUnit U = default;
+            THero Hero = default;
+            if (General.FCombatUnit != null)
             {
-                U = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit;
-                if (U is Aow.Units.AoWE.THero)
+                U = General.FCombatUnit.FUnit.FUnit;
+                if (U is THero)
                 {
-                    Hero = (Aow.Units.AoWE.THero)U;
+                    Hero = (THero)U;
                 }
                 else
                 {
@@ -338,7 +287,7 @@ namespace Aow.Units.AoWTCUnit
                 if (!Window.TCUnitWin.Visible)
                 {
                     Window.UnitMana.Visible = false;
-                    Aow.Units.AoWExeForms.AoWExeForms.TBWindow.TCUnitBtn.Visible = true;
+                    TBWindow.TCUnitBtn.Visible = true;
                 }
 
                 if (Hero != null)
@@ -366,46 +315,46 @@ namespace Aow.Units.AoWTCUnit
                 Window.UnitFr.FAligned = false;
                 if (U != null)
                 {
-                    if (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FSelectedAbility == -1)
+                    if (General.FCombatUnit.FSelectedAbility == -1)
                     {
                         Window.TCUnitPnl.Visible = true;
                         Window.TCAbilPnl.Visible = false;
                         Window.TargetSelPnl.Visible = false;
                         var call__34 = U.GetHitPoints();
                         var call__35 = U.GetHits();
-                        Window.UHits.Text = (Aow.Rtl.Rtl.IntToStr(call__34) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__35);
+                        Window.UHits.Text = IntToStr(call__34) + AnsiString.FromBytes(47) + IntToStr(call__35);
                         var call__36 = U.GetMoves();
-                        Window.UMoves.Text = (Aow.Rtl.Rtl.IntToStr(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FMovePoints) + AnsiString.FromBytes(47)) + Aow.Rtl.Rtl.IntToStr(call__36);
+                        Window.UMoves.Text = IntToStr(General.FCombatUnit.FUnit.FMovePoints) + AnsiString.FromBytes(47) + IntToStr(call__36);
                         var call__37 = U.GetAttack();
-                        Window.UAttack.Text = Aow.Rtl.Rtl.IntToStr(call__37);
+                        Window.UAttack.Text = IntToStr(call__37);
                         var call__38 = U.GetDamage();
-                        Window.UDamage.Text = Aow.Rtl.Rtl.IntToStr(call__38);
+                        Window.UDamage.Text = IntToStr(call__38);
                         var call__39 = U.GetDefense();
-                        Window.UDefense.Text = Aow.Rtl.Rtl.IntToStr(call__39);
+                        Window.UDefense.Text = IntToStr(call__39);
                         var call__40 = U.GetResistance();
-                        Window.UResistance.Text = Aow.Rtl.Rtl.IntToStr(call__40);
+                        Window.UResistance.Text = IntToStr(call__40);
                         var call__41 = U.GetMoveTypes();
-                        var call__42 = Aow.Units.AoWWinMan.AoWWinMan.General.MTtoInt(call__41);
+                        var call__42 = General.MTtoInt(call__41);
                         Window.UMovesIcon.SetCurrent(call__42);
-                        Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.ListAbilities(Window.UAbilLB.Items, null, null);
+                        General.FCombatUnit.ListAbilities(Window.UAbilLB.Items, null, null);
                         Window.UAbilLB.Selected = -1;
                         Window.UAbilLB.F188 = -1;
                         Window.UAbilLB.ListOffset = 0;
                     }
                     else
                     {
-                        if ((Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FSelectedAbility == 52) && (Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FSelectedSpell > -1))
+                        if (General.FCombatUnit.FSelectedAbility == 52 && General.FCombatUnit.FSelectedSpell > -1)
                         {
                             Window.TCUnitPnl.Visible = false;
                             Window.TCAbilPnl.Visible = true;
                             Window.TargetSelPnl.Visible = false;
-                            var call__43 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FSelectedSpell);
-                            call__43.GetCombatInfo(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit, ref SpellInfo);
-                            var call__44 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FSelectedSpell);
+                            var call__43 = AoWHSSet.FSpellControl.GetSpell(General.FCombatUnit.FSelectedSpell);
+                            call__43.GetCombatInfo(General.FCombatUnit.FUnit.FUnit, ref SpellInfo);
+                            var call__44 = AoWHSSet.FSpellControl.GetSpell(General.FCombatUnit.FSelectedSpell);
                             Window.AbilNameLbl.Text = call__44.FSpellName;
                             if (SpellInfo.Attack > 0)
                             {
-                                Window.AbilAttLbl.Text = Aow.Rtl.Rtl.IntToStr(SpellInfo.Attack);
+                                Window.AbilAttLbl.Text = IntToStr(SpellInfo.Attack);
                             }
                             else
                             {
@@ -414,7 +363,7 @@ namespace Aow.Units.AoWTCUnit
 
                             if (SpellInfo.Damage > 0)
                             {
-                                Window.AbilDamLbl.Text = Aow.Rtl.Rtl.IntToStr(SpellInfo.Damage);
+                                Window.AbilDamLbl.Text = IntToStr(SpellInfo.Damage);
                             }
                             else
                             {
@@ -422,67 +371,67 @@ namespace Aow.Units.AoWTCUnit
                             }
 
                             Window.AbilStat.Items.Clear();
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtFire))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtFire))
                             {
-                                var call__45 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireRStr);
-                                var call__46 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__45 + AnsiString.FromBytes(32)) + call__46);
+                                var call__45 = TranslateRStr(FireRStr);
+                                var call__46 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__45 + AnsiString.FromBytes(32) + call__46);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtCold))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtCold))
                             {
-                                var call__47 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ColdRStr);
-                                var call__48 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__47 + AnsiString.FromBytes(32)) + call__48);
+                                var call__47 = TranslateRStr(ColdRStr);
+                                var call__48 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__47 + AnsiString.FromBytes(32) + call__48);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtLightning))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtLightning))
                             {
-                                var call__49 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LightningRStr);
-                                var call__50 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__49 + AnsiString.FromBytes(32)) + call__50);
+                                var call__49 = TranslateRStr(LightningRStr);
+                                var call__50 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__49 + AnsiString.FromBytes(32) + call__50);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtMagic))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtMagic))
                             {
-                                var call__51 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MagicRStr);
-                                var call__52 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__51 + AnsiString.FromBytes(32)) + call__52);
+                                var call__51 = TranslateRStr(MagicRStr);
+                                var call__52 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__51 + AnsiString.FromBytes(32) + call__52);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtPoison))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtPoison))
                             {
-                                var call__53 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PoisonRStr);
-                                var call__54 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__53 + AnsiString.FromBytes(32)) + call__54);
+                                var call__53 = TranslateRStr(PoisonRStr);
+                                var call__54 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__53 + AnsiString.FromBytes(32) + call__54);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtDeath))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtDeath))
                             {
-                                var call__55 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathRStr);
-                                var call__56 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__55 + AnsiString.FromBytes(32)) + call__56);
+                                var call__55 = TranslateRStr(DeathRStr);
+                                var call__56 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__55 + AnsiString.FromBytes(32) + call__56);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtHoly))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtHoly))
                             {
-                                var call__57 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyRStr);
-                                var call__58 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__57 + AnsiString.FromBytes(32)) + call__58);
+                                var call__57 = TranslateRStr(HolyRStr);
+                                var call__58 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__57 + AnsiString.FromBytes(32) + call__58);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtPhysical))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtPhysical))
                             {
-                                var call__59 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PhysicalRStr);
-                                var call__60 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__59 + AnsiString.FromBytes(32)) + call__60);
+                                var call__59 = TranslateRStr(PhysicalRStr);
+                                var call__60 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__59 + AnsiString.FromBytes(32) + call__60);
                             }
 
-                            if (SpellInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtWall))
+                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtWall))
                             {
-                                var call__61 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WallRStr);
-                                var call__62 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__61 + AnsiString.FromBytes(32)) + call__62);
+                                var call__61 = TranslateRStr(WallRStr);
+                                var call__62 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__61 + AnsiString.FromBytes(32) + call__62);
                             }
                         }
                         else
@@ -490,14 +439,14 @@ namespace Aow.Units.AoWTCUnit
                             Window.TCUnitPnl.Visible = false;
                             Window.TCAbilPnl.Visible = true;
                             Window.TargetSelPnl.Visible = false;
-                            var call__63 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FSelectedAbility);
-                            call__63.GetCombatInfo(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit, ref AbilityInfo);
-                            var call__64 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FSelectedAbility);
-                            var call__65 = call__64.GetName(Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit.FUnit.FUnit);
+                            var call__63 = AoWHSSet.FAbilityControl.GetAbility(General.FCombatUnit.FSelectedAbility);
+                            call__63.GetCombatInfo(General.FCombatUnit.FUnit.FUnit, ref AbilityInfo);
+                            var call__64 = AoWHSSet.FAbilityControl.GetAbility(General.FCombatUnit.FSelectedAbility);
+                            var call__65 = call__64.GetName(General.FCombatUnit.FUnit.FUnit);
                             Window.AbilNameLbl.Text = call__65;
                             if (AbilityInfo.Attack > 0)
                             {
-                                Window.AbilAttLbl.Text = Aow.Rtl.Rtl.IntToStr(AbilityInfo.Attack);
+                                Window.AbilAttLbl.Text = IntToStr(AbilityInfo.Attack);
                             }
                             else
                             {
@@ -506,7 +455,7 @@ namespace Aow.Units.AoWTCUnit
 
                             if (AbilityInfo.Damage > 0)
                             {
-                                Window.AbilDamLbl.Text = Aow.Rtl.Rtl.IntToStr(AbilityInfo.Damage);
+                                Window.AbilDamLbl.Text = IntToStr(AbilityInfo.Damage);
                             }
                             else
                             {
@@ -514,67 +463,67 @@ namespace Aow.Units.AoWTCUnit
                             }
 
                             Window.AbilStat.Items.Clear();
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtFire))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtFire))
                             {
-                                var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireRStr);
-                                var call__67 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__66 + AnsiString.FromBytes(32)) + call__67);
+                                var call__66 = TranslateRStr(FireRStr);
+                                var call__67 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__66 + AnsiString.FromBytes(32) + call__67);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtCold))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtCold))
                             {
-                                var call__68 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ColdRStr);
-                                var call__69 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__68 + AnsiString.FromBytes(32)) + call__69);
+                                var call__68 = TranslateRStr(ColdRStr);
+                                var call__69 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__68 + AnsiString.FromBytes(32) + call__69);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtLightning))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtLightning))
                             {
-                                var call__70 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LightningRStr);
-                                var call__71 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__70 + AnsiString.FromBytes(32)) + call__71);
+                                var call__70 = TranslateRStr(LightningRStr);
+                                var call__71 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__70 + AnsiString.FromBytes(32) + call__71);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtMagic))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtMagic))
                             {
-                                var call__72 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.MagicRStr);
-                                var call__73 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__72 + AnsiString.FromBytes(32)) + call__73);
+                                var call__72 = TranslateRStr(MagicRStr);
+                                var call__73 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__72 + AnsiString.FromBytes(32) + call__73);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtPoison))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtPoison))
                             {
-                                var call__74 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PoisonRStr);
-                                var call__75 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__74 + AnsiString.FromBytes(32)) + call__75);
+                                var call__74 = TranslateRStr(PoisonRStr);
+                                var call__75 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__74 + AnsiString.FromBytes(32) + call__75);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtDeath))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtDeath))
                             {
-                                var call__76 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeathRStr);
-                                var call__77 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__76 + AnsiString.FromBytes(32)) + call__77);
+                                var call__76 = TranslateRStr(DeathRStr);
+                                var call__77 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__76 + AnsiString.FromBytes(32) + call__77);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtHoly))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtHoly))
                             {
-                                var call__78 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyRStr);
-                                var call__79 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__78 + AnsiString.FromBytes(32)) + call__79);
+                                var call__78 = TranslateRStr(HolyRStr);
+                                var call__79 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__78 + AnsiString.FromBytes(32) + call__79);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtPhysical))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtPhysical))
                             {
-                                var call__80 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PhysicalRStr);
-                                var call__81 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__80 + AnsiString.FromBytes(32)) + call__81);
+                                var call__80 = TranslateRStr(PhysicalRStr);
+                                var call__81 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__80 + AnsiString.FromBytes(32) + call__81);
                             }
 
-                            if (AbilityInfo.DamageTypes.Contains(Aow.Units.AoWE.TDamageType.dtWall))
+                            if (AbilityInfo.DamageTypes.Contains(TDamageType.dtWall))
                             {
-                                var call__82 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WallRStr);
-                                var call__83 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.E1Resources.E1Resources.E1DamageRStr);
-                                Window.AbilStat.Items.Add((call__82 + AnsiString.FromBytes(32)) + call__83);
+                                var call__82 = TranslateRStr(WallRStr);
+                                var call__83 = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(call__82 + AnsiString.FromBytes(32) + call__83);
                             }
                         }
                     }
@@ -589,7 +538,7 @@ namespace Aow.Units.AoWTCUnit
                 }
             }
 
-            Aow.Units.AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.Visible = true;
+            TCUnit.TCUnitWin.Visible = true;
         }
     }
 }

@@ -32,7 +32,7 @@ public partial class TMoveControl
         TAoWMapField neighbor = null;
         while (field != null && (field.Xhx != FSourceX || field.Yhx != FSourceY || field.Lhx != FSourceL) && !failed)
         {
-            path.AddXYL((sbyte)field.Xhx, (sbyte)field.Yhx, (sbyte)field.Lhx);
+            path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
             int cost = FOnMovePoint(field, 1);
             bool found = false;
             for (int direction = 1; !found && direction <= 6; direction++)
@@ -52,7 +52,7 @@ public partial class TMoveControl
             else
             {
                 previous = FindSubMoveOrigin(field);
-                if (previous != null && path.IndexOfXYL((sbyte)previous.Xhx, (sbyte)previous.Yhx, (sbyte)previous.Lhx) == -1)
+                if (previous != null && path.IndexOfXYL(previous.Xhx, previous.Yhx, previous.Lhx) == -1)
                 {
                     points = FSettings.GetMovePoints(previous.Xhx, previous.Yhx, previous.Lhx);
                     SetMapL((TMapLevel)previous.Owner);
@@ -60,12 +60,12 @@ public partial class TMoveControl
                 }
             }
             if (previous != null && found)
-                path.List[path.Count - 1].Flag = unchecked((sbyte)(FSettings.GetMovePoints(field.Xhx, field.Yhx, field.Lhx) - points));
+                path.List[path.Count - 1].Flag = (sbyte)(FSettings.GetMovePoints(field.Xhx, field.Yhx, field.Lhx) - points);
             field = previous;
             failed = !found;
         }
         if (failed) path.Clear();
-        else if (field != null && points == 0) path.AddXYL((sbyte)field.Xhx, (sbyte)field.Yhx, (sbyte)field.Lhx);
+        else if (field != null && points == 0) path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
         if (AoWE.AoWHSMap.FAIExecuter.FStatus.Contains(TAIExecuterStatusElement.aesExecuting)) AoWE.AoWHSMap.FAIExecuter.UseProcessTime(path.Count);
     }
 

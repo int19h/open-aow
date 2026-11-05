@@ -1,36 +1,9 @@
 // Translated from FlagEvents.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -38,45 +11,45 @@ namespace Aow.Units.FlagEvents
 {
     // { ot=1 }
     // FTriggerMode, FTriggerPlayers (player 1 is bit 0)
-    public partial class TFlagEvent : Aow.Units.HSEngine.TMapObject
+    public partial class TFlagEvent : TMapObject
     {
         public TFlagEvent(TECustomNode owner) : base(owner)
         {}
 
-        public Aow.Units.FlagEvents.TFlagEventTriggerMode FTriggerMode;
+        public TFlagEventTriggerMode FTriggerMode;
         public int FTriggerPlayers;
         // FlagEvents.pas:98
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FTriggerPlayers, 30);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FTriggerMode, 1), 1, 31);
+            Stream.rwData(Bytes.Of(ref FTriggerMode, 1), 1, 31);
         }
 
         // FlagEvents.pas:157
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
-            if ((Msg.MsgID == 537001987) && (FTriggerMode == Aow.Units.FlagEvents.TFlagEventTriggerMode.etmNewTurn))
+            if (Msg.MsgID == 537001987 && FTriggerMode == TFlagEventTriggerMode.etmNewTurn)
             {
-                UpdateNewTurnTrigger(unchecked((sbyte)((sbyte)Msg.Payload.Value)));
+                UpdateNewTurnTrigger((sbyte)Msg.Payload.Value);
             }
         }
 
         // FlagEvents.pas:164
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
         }
 
         // FlagEvents.pas:150
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
-            if ((Msg.MsgID == 4365) && (FTriggerMode == Aow.Units.FlagEvents.TFlagEventTriggerMode.etmInstant))
+            if (Msg.MsgID == 4365 && FTriggerMode == TFlagEventTriggerMode.etmInstant)
             {
                 UpdateInstantTrigger();
             }
@@ -86,12 +59,12 @@ namespace Aow.Units.FlagEvents
         public override bool CanSelect(int Xhp, int Yhp)
         {
             bool Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+            Result = AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
             return Result;
         }
 
         // FlagEvents.pas:105
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             Result = true;
@@ -110,7 +83,7 @@ namespace Aow.Units.FlagEvents
         public bool GetTriggerPlayer(sbyte Player)
         {
             bool Result = default;
-            Result = (Player > 0) && ((FTriggerPlayers & (1 << (Player - 1))) != 0);
+            Result = Player > 0 && (FTriggerPlayers & (1 << (Player - 1))) != 0;
             return Result;
         }
 
@@ -134,54 +107,54 @@ namespace Aow.Units.FlagEvents
         public void UpdateInstantTrigger()
         {
             sbyte Player = default;
-            var call__1 = ((Aow.Units.AoWE.TAoWMapField)Owner).GetPlayer();
-            Player = unchecked((sbyte)call__1);
-            bool bool__2 = (Player != -1);
+            var call__1 = ((TAoWMapField)Owner).GetPlayer();
+            Player = call__1;
+            bool bool__2 = Player != -1;
             if (bool__2)
             {
-                var call__3 = GetTriggerPlayer(unchecked((sbyte)Player));
+                var call__3 = GetTriggerPlayer(Player);
                 bool__2 = call__3;
             }
 
             bool bool__4 = bool__2;
             if (bool__4)
             {
-                var call__5 = Trigger(unchecked((sbyte)Player));
+                var call__5 = Trigger(Player);
                 bool__4 = call__5;
             }
 
             if (bool__4)
             {
-                SetTriggerPlayer(unchecked((sbyte)Player), false);
+                SetTriggerPlayer(Player, false);
             }
         }
 
         // FlagEvents.pas:143
         public void UpdateNewTurnTrigger(sbyte Player)
         {
-            var call__6 = ((Aow.Units.AoWE.TAoWMapField)Owner).GetPlayer();
-            bool bool__7 = (Player == call__6);
+            var call__6 = ((TAoWMapField)Owner).GetPlayer();
+            bool bool__7 = Player == call__6;
             if (bool__7)
             {
-                var call__8 = GetTriggerPlayer(unchecked((sbyte)Player));
+                var call__8 = GetTriggerPlayer(Player);
                 bool__7 = call__8;
             }
 
             bool bool__9 = bool__7;
             if (bool__9)
             {
-                var call__10 = Trigger(unchecked((sbyte)Player));
+                var call__10 = Trigger(Player);
                 bool__9 = call__10;
             }
 
             if (bool__9)
             {
-                SetTriggerPlayer(unchecked((sbyte)Player), false);
+                SetTriggerPlayer(Player, false);
             }
         }
     }
 
-    public partial class TFlagEventResource : Aow.Units.HSEngine.TMapObjectResource
+    public partial class TFlagEventResource : TMapObjectResource
     {
         public TFlagEventResource(TECustomNode owner) : base(owner)
         {
@@ -201,7 +174,7 @@ namespace Aow.Units.FlagEvents
 
     }
 
-    public partial class TFlagMessageEventLog : Aow.Units.EventLog.THelpMessageEventLog
+    public partial class TFlagMessageEventLog : THelpMessageEventLog
     {
         public TFlagMessageEventLog(TECustomNode owner) : base(owner)
         { }
@@ -209,19 +182,19 @@ namespace Aow.Units.FlagEvents
     }
 
     // FHelpFileName, FMessage
-    public partial class TFlagMessageEvent : Aow.Units.FlagEvents.TFlagEvent
+    public partial class TFlagMessageEvent : TFlagEvent
     {
         public TFlagMessageEvent(TECustomNode owner) : base(owner)
         {
-            var call__11 = new Aow.Rtl.TStringList();
+            var call__11 = new TStringList();
             FMessage = call__11;
         }
 
         // FlagEvents.pas:192
         public new const int ClassID = 132461;
 
-        public Aow.Rtl.AnsiString FHelpFileName;
-        public Aow.Rtl.TStringList FMessage;
+        public AnsiString FHelpFileName;
+        public TStringList FMessage;
         // FlagEvents.pas:186
         public override void Destroy()
         {
@@ -230,7 +203,7 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:197
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 40);
@@ -244,14 +217,14 @@ namespace Aow.Units.FlagEvents
         public override bool Trigger(sbyte Player)
         {
             bool Result = default;
-            Aow.Units.FlagEvents.TFlagMessageEventLog Log = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player)
+            TFlagMessageEventLog Log = default;
+            if (AoWHSMap.FSeatedPlayer == Player)
             {
-                Log = new Aow.Units.FlagEvents.TFlagMessageEventLog(null);
+                Log = new TFlagMessageEventLog(null);
                 Log.FHelpFileName = FHelpFileName;
                 var call__12 = FMessage.Text;
                 Log.FMessage.Text = call__12;
-                Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == Aow.Units.FlagEvents.TFlagEventTriggerMode.etmInstant, null);
+                AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
                 Log.Release();
             }
 
@@ -264,7 +237,7 @@ namespace Aow.Units.FlagEvents
 
     }
 
-    public partial class TFlagMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
+    public partial class TFlagMessageEventResource : TFlagEventResource
     {
         public TFlagMessageEventResource(TECustomNode owner) : base(owner)
         {}
@@ -281,28 +254,28 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:223
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FlagMessageEventRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(FlagMessageEventRStr);
             return Result;
         }
 
     }
 
     // FMessage
-    public partial class TTutorialMessageEvent : Aow.Units.FlagEvents.TFlagEvent
+    public partial class TTutorialMessageEvent : TFlagEvent
     {
         public TTutorialMessageEvent(TECustomNode owner) : base(owner)
         {
-            var call__13 = new Aow.Rtl.TStringList();
+            var call__13 = new TStringList();
             FMessage = call__13;
         }
 
         // FlagEvents.pas:245
         public new const int ClassID = 132459;
 
-        public Aow.Rtl.TStringList FMessage;
+        public TStringList FMessage;
         // FlagEvents.pas:239
         public override void Destroy()
         {
@@ -311,7 +284,7 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:250
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 40);
@@ -324,13 +297,13 @@ namespace Aow.Units.FlagEvents
         public override bool Trigger(sbyte Player)
         {
             bool Result = default;
-            Aow.Units.EventLog.TTutorialMessageEventLog Log = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player)
+            TTutorialMessageEventLog Log = default;
+            if (AoWHSMap.FSeatedPlayer == Player)
             {
-                Log = new Aow.Units.EventLog.TTutorialMessageEventLog(null);
+                Log = new TTutorialMessageEventLog(null);
                 var call__14 = FMessage.Text;
                 Log.FMessage.Text = call__14;
-                Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == Aow.Units.FlagEvents.TFlagEventTriggerMode.etmInstant, null);
+                AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
                 Log.Release();
             }
 
@@ -343,7 +316,7 @@ namespace Aow.Units.FlagEvents
 
     }
 
-    public partial class TTutorialMessageEventResource : Aow.Units.FlagEvents.TFlagEventResource
+    public partial class TTutorialMessageEventResource : TFlagEventResource
     {
         public TTutorialMessageEventResource(TECustomNode owner) : base(owner)
         {}
@@ -360,10 +333,10 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:274
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TutorialMessageEventRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(TutorialMessageEventRStr);
             return Result;
         }
 
@@ -378,9 +351,9 @@ namespace Aow.Units.FlagEvents
     public static partial class FlagEvents
     {
         // FlagEvents.pas:284
-        public static void RegisterFlagEvents(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterFlagEvents(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TFlagMessageEvent>(), Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TFlagMessageEventResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TTutorialMessageEvent>(), Aow.Units.Engine.EClass.Of<Aow.Units.FlagEvents.TTutorialMessageEventResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TFlagMessageEvent>(), EClass.Of<TFlagMessageEventResource>(), EClass.Of<TTutorialMessageEvent>(), EClass.Of<TTutorialMessageEventResource>()]);
         }
 
         public static void Initialize()

@@ -3,6 +3,7 @@ using Aow.Rtl;
 using Aow.Platform;
 using static Aow.Units.DisplayC.TDisplayOptionsElement;
 using static Aow.Units.DisplayC.TDisplayStatusElement;
+using Aow.Units.GFXE;
 
 namespace Aow.Units.DisplayC;
 
@@ -55,7 +56,7 @@ public partial class TCustomDisplay
         if (FOptions.Contains(doAutoResizeBackSurface)) ResizeBackSurfaces(screen.Width, screen.Height);
         FOnResize?.Invoke(this);
     }
-    public virtual void ShowError(AnsiString message) => Aow.Rtl.Rtl.ShowMessage(message);
+    public virtual void ShowError(AnsiString message) => Rtl.Rtl.ShowMessage(message);
     public virtual void StopUpdateFrameLoop() => FStatus = FStatus.Without(dsFrameLoopActive);
     public virtual void PauseFrameUpdateLoop() { FPauseCount++; FStatus = FStatus.With(dsFrameLoopPaused); }
     public virtual void ResumeFrameUpdateLoop()
@@ -73,7 +74,7 @@ public partial class TCustomDisplay
             while (FStatus.Contains(dsFrameLoopActive) && !Terminated())
             {
                 if (!FStatus.Contains(dsFrameLoopPaused)) UpdateFrame();
-                else Aow.Rtl.Rtl.Clock.WaitMilliseconds(1);
+                else Rtl.Rtl.Clock.WaitMilliseconds(1);
                 Host.PumpEvents(EventSink);
             }
         }
@@ -99,14 +100,14 @@ public partial class TCustomDisplay
     {
         if (dc == FActiveDC) return 0;
         var previous = FActiveDC;
-        var saved = new GFXE.TDataSurface[3];
+        var saved = new TDataSurface[3];
         PauseFrameUpdateLoop();
         try
         {
             if (previous is not null && FOptions.Contains(doRestoreSurfacesOnSwap))
                 for (int i = 1; i <= (int)FBufferingScheme; i++)
                 {
-                    saved[i] = new GFXE.TDataSurface(0, 0, 0, null);
+                    saved[i] = new TDataSurface(0, 0, 0, null);
                     saved[i].CaptureSurface(previous.GetSurface(i), default);
                 }
             DeactivateDC();
@@ -151,14 +152,14 @@ public partial class TDisplayCtrl
     private double lastVerticalBlank;
     public override int WaitForVerticalBlank()
     {
-        var clock = Aow.Rtl.Rtl.Clock;
+        var clock = Rtl.Rtl.Clock;
         double target = lastVerticalBlank + FDisplay.FFrameTime;
         clock.WaitUntil(target);
         lastVerticalBlank = clock.ElapsedMilliseconds;
-        FLastVBTime = unchecked((int)lastVerticalBlank);
+        FLastVBTime = (int)lastVerticalBlank;
         return 0;
     }
     public override int Handle() => 0;
     public override TWinControl OutputWnd() => FDisplay;
-    public override void ShowError(AnsiString message) => Aow.Rtl.Rtl.ShowMessage(message);
+    public override void ShowError(AnsiString message) => Rtl.Rtl.ShowMessage(message);
 }

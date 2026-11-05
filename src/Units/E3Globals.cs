@@ -1,126 +1,55 @@
 // Translated from E3Globals.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.aowIntGfxMod;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
-using Aow.Units.FontMod;
-using static Aow.Units.FontMod.FontMod;
-using Aow.Units.AoWItemBanner;
-using static Aow.Units.AoWItemBanner.AoWItemBanner;
-using Aow.Units.AoWSWindow;
-using static Aow.Units.AoWSWindow.AoWSWindow;
-using Aow.Units.AOWMWindow;
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using Aow.Units.AoWTBWindow;
-using static Aow.Units.AoWTBWindow.AoWTBWindow;
-using Aow.Units.AoWPInfoWin;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWin;
-using Aow.Units.AOWControlWin;
-using static Aow.Units.AOWControlWin.AOWControlWin;
 using Aow.Units.AoWUnitSelDlg;
-using static Aow.Units.AoWUnitSelDlg.AoWUnitSelDlg;
-using Aow.Units.AoWUnitWindow;
-using static Aow.Units.AoWUnitWindow.AoWUnitWindow;
-using Aow.Units.AoWTargetSelection;
-using static Aow.Units.AoWTargetSelection.AoWTargetSelection;
 using Aow.Units.AoWArmyInfoDlg;
-using static Aow.Units.AoWArmyInfoDlg.AoWArmyInfoDlg;
 using Aow.Units.AoWDisjunctionDlg;
-using static Aow.Units.AoWDisjunctionDlg.AoWDisjunctionDlg;
-using Aow.Units.AOWChatWin;
-using static Aow.Units.AOWChatWin.AOWChatWin;
-using Aow.Units.AoWTCUnit;
-using static Aow.Units.AoWTCUnit.AoWTCUnit;
-using Aow.Units.AoWTCScanner;
-using static Aow.Units.AoWTCScanner.AoWTCScanner;
 using Aow.Units.AoWInfoWin;
-using static Aow.Units.AoWInfoWin.AoWInfoWin;
-using Aow.Units.AoWRealm;
-using static Aow.Units.AoWRealm.AoWRealm;
 using Aow.Units.AoWMagic;
-using static Aow.Units.AoWMagic.AoWMagic;
 using Aow.Units.AoWEmailSettingsDlg;
-using static Aow.Units.AoWEmailSettingsDlg.AoWEmailSettingsDlg;
 using Aow.Units.AoWEmailGameSettingsDlg;
-using static Aow.Units.AoWEmailGameSettingsDlg.AoWEmailGameSettingsDlg;
-using Aow.Units.AOWTitleWindow;
-using static Aow.Units.AOWTitleWindow.AOWTitleWindow;
-using Aow.Units.AOWDialogWin;
-using static Aow.Units.AOWDialogWin.AOWDialogWin;
-using Aow.Units.AoWProgressDialog;
-using static Aow.Units.AoWProgressDialog.AoWProgressDialog;
-using Aow.Units.AoWWorldMap;
-using static Aow.Units.AoWWorldMap.AoWWorldMap;
 using Aow.Units.AoWTitleScene;
-using static Aow.Units.AoWTitleScene.AoWTitleScene;
 using Aow.Units.AoWVideoDlg;
 using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
-using Aow.Units.AoWSpellBook;
-using static Aow.Units.AoWSpellBook.AoWSpellBook;
-using Aow.Units.AOWMultiWin;
-using static Aow.Units.AOWMultiWin.AOWMultiWin;
-using Aow.Units.AoWResultsWin;
-using static Aow.Units.AoWResultsWin.AoWResultsWin;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.E1Globals;
-using static Aow.Units.E1Globals.E1Globals;
-using Aow.Units.E2Globals;
-using static Aow.Units.E2Globals.E2Globals;
 using Aow.Units.AoWPOP3Dlg;
-using static Aow.Units.AoWPOP3Dlg.AoWPOP3Dlg;
 using Aow.Units.AoWCastUnitSpellDlg;
-using static Aow.Units.AoWCastUnitSpellDlg.AoWCastUnitSpellDlg;
 using Aow.Units.AoWDeformFaceDlg;
-using static Aow.Units.AoWDeformFaceDlg.AoWDeformFaceDlg;
-using Aow.Units.E1Resources;
-using static Aow.Units.E1Resources.E1Resources;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.AoWCheckBox;
-using static Aow.Units.AoWCheckBox.AoWCheckBox;
-using Aow.Units.AoWMessageDlg;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlg;
+using Aow.Platform;
 
 namespace Aow.Units.E3Globals
 {
     public static partial class E3Globals
     {
-        public static Aow.Units.AoWUnitSelDlg.TUnitSelectionDlg UnitSelectionDlg;
-        public static Aow.Units.AoWArmyInfoDlg.TArmyInfoDlg ArmyInfoDlg;
-        public static Aow.Units.AoWDisjunctionDlg.TDisjunctionDlg DisjunctionDlg;
-        public static Aow.Units.AoWEmailSettingsDlg.TEmailSettingsDlg EmailSettingsDlg;
-        public static Aow.Units.AoWEmailGameSettingsDlg.TEmailGameSettingsDlg EmailGameSettingsDlg;
-        public static Aow.Units.AoWPOP3Dlg.TPOP3Dlg POP3Dlg;
-        public static Aow.Units.AoWCastUnitSpellDlg.TCastUnitSpellDlg CastUnitSpellDlg;
-        public static Aow.Units.AoWDeformFaceDlg.TDeformFaceDlg DeformFaceDlg;
+        public static TUnitSelectionDlg UnitSelectionDlg;
+        public static TArmyInfoDlg ArmyInfoDlg;
+        public static TDisjunctionDlg DisjunctionDlg;
+        public static TEmailSettingsDlg EmailSettingsDlg;
+        public static TEmailGameSettingsDlg EmailGameSettingsDlg;
+        public static TPOP3Dlg POP3Dlg;
+        public static TCastUnitSpellDlg CastUnitSpellDlg;
+        public static TDeformFaceDlg DeformFaceDlg;
         // E3Globals.pas:222
-        public static void HideItemSelection(Aow.Units.AoWInfoWin.TIWindow Window)
+        public static void HideItemSelection(TIWindow Window)
         {
             Window.InfoWin.Visible = false;
             Window.FItemBag = null;
         }
 
         // E3Globals.pas:130
-        public static void RefreshMagicWindow(Aow.Units.AoWMagic.TMagicWin Window)
+        public static void RefreshMagicWindow(TMagicWin Window)
         {
-            Aow.Units.AoWE.TPlayerMagicControl Control = default;
+            TPlayerMagicControl Control = default;
             int I = default;
             int Turns = default;
-            Aow.Units.AoWE.TSpell Spell = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer != -1)
+            TSpell Spell = default;
+            if (AoWHSMap.FSeatedPlayer != -1)
             {
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                var call__1 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 Control = call__1.FMagicControl;
                 Window.EnchantmentList.Items.Clear();
                 Window.BindingList.Items.Clear();
@@ -138,7 +67,7 @@ namespace Aow.Units.E3Globals
                         var call__7 = call__6.GetBinding();
                         Window.BindingList.Items.Add(call__7);
                         var call__8 = Control.FEnchantments.GetEnchantments(I);
-                        Window.UpkeepList.Items.Add(Aow.Rtl.Rtl.IntToStr(call__8.FUpkeep));
+                        Window.UpkeepList.Items.Add(IntToStr(call__8.FUpkeep));
                     }
                 }
 
@@ -159,43 +88,43 @@ namespace Aow.Units.E3Globals
                             Window.PowerSourceList.Items.AddObject(call__13, call__14);
                             var call__15 = Control.FPowerSources.GetItems(I);
                             var call__16 = call__15.Power();
-                            Window.PowerValueList.Items.Add(Aow.Rtl.Rtl.IntToStr(call__16));
+                            Window.PowerValueList.Items.Add(IntToStr(call__16));
                         }
                     }
                 }
 
                 var call__17 = Control.GetPower();
-                Window.Power.Text = Aow.Rtl.Rtl.IntToStr(call__17);
+                Window.Power.Text = IntToStr(call__17);
                 var call__18 = Control.GetManaIncome();
                 var call__19 = Control.GetManaUpkeep();
                 var call__20 = Control.GetManaIncome();
                 var call__21 = Control.GetManaUpkeep();
-                Window.NetMana.Text = (((Aow.Rtl.Rtl.IntToStr(call__18) + AnsiString.FromBytes(45)) + Aow.Rtl.Rtl.IntToStr(call__19)) + AnsiString.FromBytes(61)) + Aow.Rtl.Rtl.IntToStr(call__20 - call__21);
+                Window.NetMana.Text = IntToStr(call__18) + AnsiString.FromBytes(45) + IntToStr(call__19) + AnsiString.FromBytes(61) + IntToStr(call__20 - call__21);
                 var call__22 = Control.GetNetPowerToResearch();
-                Window.ResearchPoints.Text = Aow.Rtl.Rtl.IntToStr(call__22);
+                Window.ResearchPoints.Text = IntToStr(call__22);
                 if (Control.FResearchSpellID != 0)
                 {
-                    var call__23 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
+                    var call__23 = AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
                     Spell = call__23;
                     Window.SpellName.Text = Spell.FSpellName;
-                    var call__24 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                    var call__25 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LevelRStr);
-                    Window.SpellClass.Text = (((call__24 + ((AnsiString)", ")) + call__25) + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(Spell.FSpellLevel);
-                    var call__26 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.CastingCostRStr);
-                    var call__27 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ManaRStr);
-                    Window.SpellCost.Text = (((call__26 + ((AnsiString)": ")) + Aow.Rtl.Rtl.IntToStr(Spell.FBaseManaCost)) + AnsiString.FromBytes(32)) + call__27;
-                    var call__28 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                    var call__24 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                    var call__25 = TranslateRStr(LevelRStr);
+                    Window.SpellClass.Text = call__24 + (AnsiString)", " + call__25 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                    var call__26 = TranslateRStr(CastingCostRStr);
+                    var call__27 = TranslateRStr(ManaRStr);
+                    Window.SpellCost.Text = call__26 + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + call__27;
+                    var call__28 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                     var call__29 = call__28.FMagicControl.GetResearchTurnsLeft();
                     Turns = call__29;
                     if (Turns < 999)
                     {
-                        var call__30 = Aow.Units.AoWE.AoWE.FmtTurnsLeftStr(Turns);
+                        var call__30 = FmtTurnsLeftStr(Turns);
                         Window.ResearchTurnsLeft.Text = call__30;
                     }
                     else
                     {
-                        var call__31 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XTurnsRStr);
-                        var call__32 = Aow.Units.AoWE.AoWE.Format(call__31, [(byte)63]);
+                        var call__31 = TranslateRStr(XTurnsRStr);
+                        var call__32 = AoWE.AoWE.Format(call__31, [(byte)63]);
                         Window.ResearchTurnsLeft.Text = call__32;
                     }
 
@@ -214,20 +143,20 @@ namespace Aow.Units.E3Globals
         }
 
         // E3Globals.pas:172
-        public static void MagicPlayerChanged(Aow.Units.AoWMagic.TMagicWin Window, sbyte Player)
+        public static void MagicPlayerChanged(TMagicWin Window, sbyte Player)
         {
-            if (Window.Dlg.Visible && (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer))
+            if (Window.Dlg.Visible && Player == AoWHSMap.FSeatedPlayer)
             {
-                Aow.Units.E3Globals.E3Globals.RefreshMagicWindow(Window);
+                RefreshMagicWindow(Window);
             }
         }
 
         // E3Globals.pas:177
-        public static void RefreshGlobalMagic(Aow.Units.AoWMagic.TMagicWin Window)
+        public static void RefreshGlobalMagic(TMagicWin Window)
         {
-            Aow.Units.AoWE.TGlobalMagicControl Control = default;
+            TGlobalMagicControl Control = default;
             int I = default;
-            Control = Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl;
+            Control = AoWHSMap.FGlobalMagicControl;
             Window.GlobalEnchantmentList.Items.Clear();
             Window.GlobalNameList.Items.Clear();
             Window.GlobalUpkeepList.Items.Clear();
@@ -237,7 +166,7 @@ namespace Aow.Units.E3Globals
                 for (; I <= end__33; I += 1)
                 {
                     var call__34 = Control.FEnchantments.GetEnchantments(I);
-                    var call__35 = call__34.VisibleForPlayer(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                    var call__35 = call__34.VisibleForPlayer(AoWHSMap.FSeatedPlayer);
                     if (call__35)
                     {
                         var call__36 = Control.FEnchantments.GetEnchantments(I);
@@ -245,11 +174,11 @@ namespace Aow.Units.E3Globals
                         var call__38 = Control.FEnchantments.GetEnchantments(I);
                         Window.GlobalEnchantmentList.Items.AddObject(call__37, call__38);
                         var call__39 = Control.FEnchantments.GetEnchantments(I);
-                        var call__40 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__39.FPlayerIndex);
+                        var call__40 = AoWHSMap.FPlayers.GetPlayers(call__39.FPlayerIndex);
                         Window.GlobalNameList.Items.Add(call__40.FLeader.FHeroName);
                         var call__41 = Control.FEnchantments.GetEnchantments(I);
                         var call__42 = call__41.GetUpkeep();
-                        Window.GlobalUpkeepList.Items.Add(Aow.Rtl.Rtl.IntToStr(call__42));
+                        Window.GlobalUpkeepList.Items.Add(IntToStr(call__42));
                     }
                 }
             }
@@ -260,97 +189,97 @@ namespace Aow.Units.E3Globals
         }
 
         // E3Globals.pas:194
-        public static void GlobalMagicChanged(Aow.Units.AoWMagic.TMagicWin Window)
+        public static void GlobalMagicChanged(TMagicWin Window)
         {
             if (Window.Dlg.Visible)
             {
-                Aow.Units.E3Globals.E3Globals.RefreshGlobalMagic(Window);
+                RefreshGlobalMagic(Window);
             }
         }
 
         // E3Globals.pas:109
-        public static void ShowTitleScene(Aow.Units.AoWTitleScene.TTitleScene Scene, bool Music)
+        public static void ShowTitleScene(TTitleScene Scene, bool Music)
         {
             if (Music)
             {
-                bool bool__43 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex == -1);
+                bool bool__43 = SongPlayer.CurrentIndex == -1;
                 if (!bool__43)
                 {
-                    var call__44 = Aow.Units.Sound.Sound.SongPlayer.Songs.Count;
-                    bool__43 = (Aow.Units.Sound.Sound.SongPlayer.CurrentIndex >= call__44);
+                    var call__44 = SongPlayer.Songs.Count;
+                    bool__43 = SongPlayer.CurrentIndex >= call__44;
                 }
 
                 bool bool__45 = bool__43;
                 if (!bool__45)
                 {
-                    var call__46 = Aow.Units.Sound.Sound.SongPlayer.Songs[Aow.Units.Sound.Sound.SongPlayer.CurrentIndex];
-                    bool__45 = (call__46 != ((AnsiString)"SONGS\\TITLE.IT"));
+                    var call__46 = SongPlayer.Songs[SongPlayer.CurrentIndex];
+                    bool__45 = call__46 != (AnsiString)"SONGS\\TITLE.IT";
                 }
 
                 if (bool__45)
                 {
-                    Aow.Units.Sound.Sound.SongPlayer.Songs.Clear();
-                    Aow.Units.Sound.Sound.SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
-                    Aow.Units.Sound.Sound.SongPlayer.Play(0);
+                    SongPlayer.Songs.Clear();
+                    SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
+                    SongPlayer.Play(0);
                 }
             }
 
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
+            General.Manager.OverlayPriority = 0;
             Scene.TitleSceneIL.LoadDiscardableImageData();
-            Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.SetSceneSize(640, 480);
-            Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog, Aow.Units.AoWVideoDlg.TScreenMode.scmTitle);
-            Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.ApplyMode();
-            Aow.Platform.GameHost.MainForm.Display.FrameRate = 30;
-            Aow.Platform.GameHost.MainForm.DXDC.UseVerticalBlank = true;
+            VideoDialog.SetSceneSize(640, 480);
+            SetVideoMode(VideoDialog, TScreenMode.scmTitle);
+            VideoDialog.ApplyMode();
+            GameHost.MainForm.Display.FrameRate = 30;
+            GameHost.MainForm.DXDC.UseVerticalBlank = true;
             Scene.FRedrawBackground = true;
             Scene.FPressedButton = -1;
             Scene.FHoverButton = -1;
-            Scene.FFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            Scene.FCreditsFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
+            Scene.FFont = FontModule.AoW15WhiteGrey;
+            Scene.FCreditsFont = FontModule.AoW15WhiteGrey;
             Scene.Window.WinManager.SetILBIndex(4);
             Scene.Window.Visible = true;
         }
 
         // E3Globals.pas:104
-        public static void SetMainCursor(Aow.Platform.IGameHost Form, int Cursor)
+        public static void SetMainCursor(IGameHost Form, int Cursor)
         {
-            Form.FCursor = unchecked((short)System.Math.Abs(Cursor));
+            Form.FCursor = (short)Math.Abs(Cursor);
         }
 
         // E3Globals.pas:95
-        public static void ShowEmailSettings(Aow.Units.AoWEmailSettingsDlg.TEmailSettingsDlg Dialog)
+        public static void ShowEmailSettings(TEmailSettingsDlg Dialog)
         {
-            var call__47 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetLocalEmailAddress();
+            var call__47 = AoWEngine.FRegistry.GetLocalEmailAddress();
             Dialog.LocalEmailAddressEdit.Text = call__47;
-            var call__48 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetSMTPServer();
+            var call__48 = AoWEngine.FRegistry.GetSMTPServer();
             Dialog.SMTPServerEdit.Text = call__48;
-            var call__49 = Aow.Units.AoWE.AoWE.AoWEngine.FRegistry.GetAttachmentDirectory();
+            var call__49 = AoWEngine.FRegistry.GetAttachmentDirectory();
             Dialog.AttachmentDirectoryEdit.Text = call__49;
             Dialog.Dlg.Visible = true;
         }
 
-        public static readonly Aow.Rtl.AnsiString DisbandUnitRStr = (AnsiString)"Disband this unit?";
-        public static readonly Aow.Rtl.AnsiString ConfirmRStr = (AnsiString)"Confirm";
-        public static readonly Aow.Rtl.AnsiString PartyActionRStr = (AnsiString)"Party Action:";
-        public static readonly Aow.Rtl.AnsiString PatrollingRStr = (AnsiString)"Patrolling";
-        public static readonly Aow.Rtl.AnsiString GuardingRStr = (AnsiString)"Guarding";
-        public static readonly Aow.Rtl.AnsiString ScoutingRStr = (AnsiString)"Scouting";
-        public static readonly Aow.Rtl.AnsiString SeekingRefugeRStr = (AnsiString)"Seeking Refuge";
-        public static readonly Aow.Rtl.AnsiString RaidingRStr = (AnsiString)"Raiding";
-        public static readonly Aow.Rtl.AnsiString HuntingRStr = (AnsiString)"Hunting";
-        public static readonly Aow.Rtl.AnsiString ProtectingRStr = (AnsiString)"Protecting";
-        public static readonly Aow.Rtl.AnsiString FortifiedRStr = (AnsiString)"Fortified";
-        public static readonly Aow.Rtl.AnsiString BerserkRStr = (AnsiString)"Berserk";
-        public static readonly Aow.Rtl.AnsiString WanderingRStr = (AnsiString)"Wandering";
-        public static readonly Aow.Rtl.AnsiString PartyJoinRStr = (AnsiString)"Party Join";
-        public static readonly Aow.Rtl.AnsiString XMadeALevelRStr = (AnsiString)"%s made a level";
-        public static readonly Aow.Rtl.AnsiString XMadeYLevelsRStr = (AnsiString)"%s made %d levels";
-        public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TTacticalCombatAvailabilityRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Never", (AnsiString)"Between Humans", (AnsiString)"Always"]);
-        public static readonly Aow.Rtl.AnsiString IndependentsRStr = (AnsiString)"Independents";
-        public static readonly Aow.Rtl.AnsiString ItemBagRStr = (AnsiString)"Item Bag";
-        public static readonly Aow.Rtl.AnsiString MapSettingsRStr = (AnsiString)"Scenario Info:";
-        public static readonly Aow.Rtl.AnsiString DayLimitXRStr = (AnsiString)"Turn Limit: %s";
-        public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_4 TVictoryConditionRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_4.From([(AnsiString)"None", (AnsiString)"Conquer locations", (AnsiString)"Accumulate gold", (AnsiString)"Accumulate mana"]);
-        public static Aow.Units.FixedArray_Aow_Rtl_AnsiString_3 TPlayerConnectionTypeRStr = Aow.Units.FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Single Computer", (AnsiString)"Internet/Lan", (AnsiString)"Play by email"]);
+        public static readonly AnsiString DisbandUnitRStr = (AnsiString)"Disband this unit?";
+        public static readonly AnsiString ConfirmRStr = (AnsiString)"Confirm";
+        public static readonly AnsiString PartyActionRStr = (AnsiString)"Party Action:";
+        public static readonly AnsiString PatrollingRStr = (AnsiString)"Patrolling";
+        public static readonly AnsiString GuardingRStr = (AnsiString)"Guarding";
+        public static readonly AnsiString ScoutingRStr = (AnsiString)"Scouting";
+        public static readonly AnsiString SeekingRefugeRStr = (AnsiString)"Seeking Refuge";
+        public static readonly AnsiString RaidingRStr = (AnsiString)"Raiding";
+        public static readonly AnsiString HuntingRStr = (AnsiString)"Hunting";
+        public static readonly AnsiString ProtectingRStr = (AnsiString)"Protecting";
+        public static readonly AnsiString FortifiedRStr = (AnsiString)"Fortified";
+        public static readonly AnsiString BerserkRStr = (AnsiString)"Berserk";
+        public static readonly AnsiString WanderingRStr = (AnsiString)"Wandering";
+        public static readonly AnsiString PartyJoinRStr = (AnsiString)"Party Join";
+        public static readonly AnsiString XMadeALevelRStr = (AnsiString)"%s made a level";
+        public static readonly AnsiString XMadeYLevelsRStr = (AnsiString)"%s made %d levels";
+        public static FixedArray_Aow_Rtl_AnsiString_3 TTacticalCombatAvailabilityRStr = FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Never", (AnsiString)"Between Humans", (AnsiString)"Always"]);
+        public static readonly AnsiString IndependentsRStr = (AnsiString)"Independents";
+        public static readonly AnsiString ItemBagRStr = (AnsiString)"Item Bag";
+        public static readonly AnsiString MapSettingsRStr = (AnsiString)"Scenario Info:";
+        public static readonly AnsiString DayLimitXRStr = (AnsiString)"Turn Limit: %s";
+        public static FixedArray_Aow_Rtl_AnsiString_4 TVictoryConditionRStr = FixedArray_Aow_Rtl_AnsiString_4.From([(AnsiString)"None", (AnsiString)"Conquer locations", (AnsiString)"Accumulate gold", (AnsiString)"Accumulate mana"]);
+        public static FixedArray_Aow_Rtl_AnsiString_3 TPlayerConnectionTypeRStr = FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Single Computer", (AnsiString)"Internet/Lan", (AnsiString)"Play by email"]);
     }
 }

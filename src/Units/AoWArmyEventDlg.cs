@@ -1,109 +1,68 @@
 // Translated from AoWArmyEventDlg.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWArmyEventDlg
 {
     // completion callback. army event. frame. visible unit indices
-    public partial class TArmyEventDlg : Aow.Rtl.TDataModule
+    public partial class TArmyEventDlg : TDataModule
     {
         public TArmyEventDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow ArmyEventWin;
-        public Aow.Units.AoWFrame.TAoWFrame BGoldSq;
-        public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        public Aow.Units.AoWLabel.TAOWLabel EventText;
-        public Aow.Units.AoWImage.TAOWImage DamagePic;
-        public Aow.Units.AoWButton.TAOWButton CloseBut;
-        public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        public Aow.Units.AoWImage.TAOWImage DecoL;
-        public Aow.Units.AoWImage.TAOWImage DecoR;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
-        public Aow.Units.AoWE.TArmyEventLog FEvent;
+        public TAOWWindow ArmyEventWin;
+        public TAoWFrame BGoldSq;
+        public TAOWPanel UnitPnl;
+        public TAOWLabel EventText;
+        public TAOWImage DamagePic;
+        public TAOWButton CloseBut;
+        public TAOWImage TitleIcon;
+        public TAOWButton Close;
+        public TAOWLabel Title;
+        public TAoWFrame BCeltL;
+        public TAOWImage DecoL;
+        public TAOWImage DecoR;
+        public TIvTranslator Translator;
+        public TExecuteDoneEvent FOnClose;
+        public TArmyEventLog FEvent;
         public int FFrame;
-        public Aow.Units.Engine.TByteList FUnits;
+        public TByteList FUnits;
         // AoWArmyEventDlg.pas:113
-        public void DrawUnits(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SD)
+        public void DrawUnits(int X, int Y, in TSurfaceDesc SD)
         {
             int Offset = default;
             int I = default;
             var byteList = FUnits;
-            Offset = X - (byteList.Count * 16);
+            Offset = X - byteList.Count * 16;
             {
                 I = 0;
                 int end__2 = byteList.Count - 1;
                 for (; I <= end__2; I += 1)
                 {
-                    DrawUnit(I, (I * 32) + Offset, Y, SD);
+                    DrawUnit(I, I * 32 + Offset, Y, SD);
                 }
             }
         }
 
         // AoWArmyEventDlg.pas:121
-        public void DrawUnit(int Index, int X, int Y, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void DrawUnit(int Index, int X, int Y, TSurfaceDesc SD)
         {
-            Aow.Units.AoWE.TArmyEventLog Event = default;
+            TArmyEventLog Event = default;
             int Frame = default;
-            Aow.Units.AoWE.TP2UnitShowInfo Info = default;
+            TP2UnitShowInfo Info = default;
             Event = FEvent;
             var call__3 = FUnits[Index];
             var call__4 = Event.FDamageValues[call__3];
@@ -112,11 +71,11 @@ namespace Aow.Units.AoWArmyEventDlg
                 // { The original staggers animation by bits of the unit object's address. }
                 var call__5 = FUnits[Index];
                 var call__6 = Event.FArmyView.GetUnit(call__5);
-                Frame = FFrame - (((int)(((uint)Aow.Rtl.Rtl.ObjectToInt(call__6)) >> 3)) & 7);
+                Frame = FFrame - (((int)(((uint)ObjectToInt(call__6)) >> 3)) & 7);
                 Info = default;
-                Info.Frame = ((int)(((uint)Frame) >> 1)) - 1;
+                Info.Frame = (int)(((uint)Frame) >> 1) - 1;
                 Info.Direction = 3;
-                Info.Animation = Aow.Units.AoWE.TUnitAnimation.uaHit;
+                Info.Animation = TUnitAnimation.uaHit;
                 var call__7 = FUnits[Index];
                 var call__8 = Event.FArmyView.GetUnit(call__7);
                 call__8.ShowEx(X, Y, SD, Info);
@@ -130,7 +89,7 @@ namespace Aow.Units.AoWArmyEventDlg
                         var call__12 = FUnits[Index];
                         var call__13 = Event.FArmyView.GetUnit(call__12);
                         var call__14 = call__13.GetUnitGFXResourceIndex();
-                        var call__15 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__14);
+                        var call__15 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__14);
                         call__15.FSFXLibraries[3].Play(0);
                     }
                     else
@@ -138,7 +97,7 @@ namespace Aow.Units.AoWArmyEventDlg
                         var call__16 = FUnits[Index];
                         var call__17 = Event.FArmyView.GetUnit(call__16);
                         var call__18 = call__17.GetUnitGFXResourceIndex();
-                        var call__19 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__18);
+                        var call__19 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__18);
                         call__19.FSFXLibraries[4].Play(0);
                     }
                 }
@@ -149,7 +108,7 @@ namespace Aow.Units.AoWArmyEventDlg
                     var call__21 = Event.FDamageValues[call__20];
                     var call__22 = FUnits[Index];
                     var call__23 = Event.FDamageTypes[call__22];
-                    Aow.Units.AoWE.AoWE.ShowDamageIcon(X, Y + 8, SD, call__21, (Aow.Units.AoWE.TDamageType)call__23);
+                    ShowDamageIcon(X, Y + 8, SD, call__21, (TDamageType)call__23);
                     var call__24 = FUnits[Index];
                     var call__25 = Event.FArmyView.GetUnit(call__24);
                     var call__26 = call__25.GetHitPoints();
@@ -158,8 +117,8 @@ namespace Aow.Units.AoWArmyEventDlg
                     var call__29 = FUnits[Index];
                     var call__30 = Event.FArmyView.GetUnit(call__29);
                     var call__31 = call__30.GetHits();
-                    var call__32 = Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)unchecked((byte)(call__26 - call__28))), unchecked((sbyte)call__31));
-                    Aow.Units.AoWE.AoWE.ShowHitPcnt(X, Y, SD, call__32);
+                    var call__32 = HitPointsToHitPcnt((sbyte)(byte)(call__26 - call__28), call__31);
+                    ShowHitPcnt(X, Y, SD, call__32);
                 }
                 else
                 {
@@ -169,8 +128,8 @@ namespace Aow.Units.AoWArmyEventDlg
                     var call__36 = FUnits[Index];
                     var call__37 = Event.FArmyView.GetUnit(call__36);
                     var call__38 = call__37.GetHitPoints();
-                    var call__39 = Aow.Units.AoWE.AoWE.HitPointsToHitPcnt(unchecked((sbyte)call__38), unchecked((sbyte)call__35));
-                    Aow.Units.AoWE.AoWE.ShowHitPcnt(X, Y, SD, call__39);
+                    var call__39 = HitPointsToHitPcnt(call__38, call__35);
+                    ShowHitPcnt(X, Y, SD, call__39);
                 }
             }
             else
@@ -184,11 +143,11 @@ namespace Aow.Units.AoWArmyEventDlg
         // AoWArmyEventDlg.pas:153
         public void ClearEvent()
         {
-            Aow.Units.AoWE.TArmyEventLog Event = default;
-            Aow.Units.EventLog.TExecuteDoneEvent Notify = default;
+            TArmyEventLog Event = default;
+            TExecuteDoneEvent Notify = default;
             int I = default;
             int Resource = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
+            General.Manager.OverlayPriority = 0;
             {
                 I = 0;
                 int end__42 = FUnits.Count - 1;
@@ -200,7 +159,7 @@ namespace Aow.Units.AoWArmyEventDlg
                     Resource = call__45;
                     if (Resource != -1)
                     {
-                        var call__46 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Resource);
+                        var call__46 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Resource);
                         call__46.Release();
                     }
                 }
@@ -224,7 +183,7 @@ namespace Aow.Units.AoWArmyEventDlg
         // AoWArmyEventDlg.pas:171
         public void ArmyEventDlgCreate()
         {
-            var call__47 = new Aow.Units.Engine.TByteList();
+            var call__47 = new TByteList();
             FUnits = call__47;
         }
 
@@ -237,12 +196,12 @@ namespace Aow.Units.AoWArmyEventDlg
         // AoWArmyEventDlg.pas:181
         public void CloseClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             ArmyEventWin.Visible = false;
         }
 
         // AoWArmyEventDlg.pas:187
-        public void UnitPnlDrawBack(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void UnitPnlDrawBack(TAoWComponent Sender, TSurfaceDesc SD)
         {
             if (FFrame < 1000)
             {
@@ -266,9 +225,9 @@ namespace Aow.Units.AoWArmyEventDlg
         }
 
         // AoWArmyEventDlg.pas:203
-        public void ArmyEventWinKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void ArmyEventWinKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
-            if ((Key == 27) || (Key == 32))
+            if (Key == 27 || Key == 32)
             {
                 ArmyEventWin.Visible = false;
             }
@@ -278,13 +237,13 @@ namespace Aow.Units.AoWArmyEventDlg
     public static partial class AoWArmyEventDlg
     {
         // AoWArmyEventDlg.pas:84
-        public static void ShowArmyEvent(Aow.Units.AoWArmyEventDlg.TArmyEventDlg Dialog, Aow.Units.AoWE.TArmyEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public static void ShowArmyEvent(TArmyEventDlg Dialog, TArmyEventLog Event, TExecuteDoneEvent Done)
         {
-            Aow.Units.AoWE.TArmyEventLog Log = default;
-            Aow.Units.AoWE.TArmyView Army = default;
+            TArmyEventLog Log = default;
+            TArmyView Army = default;
             int I = default;
             int Image = default;
-            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArmyEventDlg.pas", 92);
+            Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArmyEventDlg.pas", 92);
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
@@ -299,23 +258,23 @@ namespace Aow.Units.AoWArmyEventDlg
                 int end__50 = Army.GetCount() - 1;
                 for (; I <= end__50; I += 1)
                 {
-                    var call__51 = Army.GetUnitConcealedForPlayer(I, unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer));
+                    var call__51 = Army.GetUnitConcealedForPlayer(I, AoWHSMap.FSeatedPlayer);
                     bool bool__52 = !call__51;
                     if (!bool__52)
                     {
                         var call__53 = Log.FDamageValues[I];
-                        bool__52 = (call__53 != 0);
+                        bool__52 = call__53 != 0;
                     }
 
                     if (bool__52)
                     {
-                        Dialog.FUnits.Add(unchecked((byte)I));
+                        Dialog.FUnits.Add((byte)I);
                         var call__54 = Log.FArmyView.GetUnit(I);
                         var call__55 = call__54.GetUnitGFXResourceIndex();
                         Image = call__55;
                         if (Image != -1)
                         {
-                            var call__56 = Aow.Units.AoWE.AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image);
+                            var call__56 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image);
                             call__56.AddRef();
                         }
                     }

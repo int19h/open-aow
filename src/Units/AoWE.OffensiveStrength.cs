@@ -20,10 +20,10 @@ public partial class TAbstractUnit
             if (types == default)
                 Rtl.Rtl.Assert(false, $"Ability: {ability.GetName(null)}", @"D:\AoWDev\AoWE\inc\Unit.PAS", 0xE2B4);
             if (types == default) continue;
-            if (FMaxOffensiveStrength < strength) FMaxOffensiveStrength = unchecked((byte)strength);
+            if (FMaxOffensiveStrength < strength) FMaxOffensiveStrength = (byte)strength;
             for (int kind = (int)TDamageType.dtFire; kind <= (int)TDamageType.dtNone; kind++)
                 if (types.Contains((TDamageType)kind) && FOffensiveStrength[kind] < strength)
-                    FOffensiveStrength[kind] = unchecked((byte)strength);
+                    FOffensiveStrength[kind] = (byte)strength;
         }
     }
 }

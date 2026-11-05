@@ -1,4 +1,3 @@
-using System;
 using Aow.Rtl;
 
 namespace Aow.Units.Engine;

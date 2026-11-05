@@ -1,27 +1,15 @@
 // Translated from RndHex.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
 using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
 
 namespace Aow.Units.RndHex
 {
     // { The RndHex unit of HSEPack.dpl: the random hexagon resource (TRndHexagonResource, ClassID
 //   $20154): placing it changes the terrain under the cursor to its terrain type through the map,
 //   which picks one of the hexagons of that terrain; its resource user is created the same way. }
-    public partial class TRndHexagonResource : Aow.Units.Hexagon.THexagonResource
+    public partial class TRndHexagonResource : THexagonResource
     {
         public TRndHexagonResource(TECustomNode owner) : base(owner)
         {}
@@ -29,17 +17,17 @@ namespace Aow.Units.RndHex
         public new const int ClassID = 131412;
 
         // RndHex.pas:38
-        public override Aow.Units.Engine.TEObject CreateResourceUser()
+        public override TEObject CreateResourceUser()
         {
-            Aow.Units.Engine.TEObject Result = default;
+            TEObject Result = default;
             var call__1 = FTerrainList.GetTerrain(0);
-            var call__2 = FEngine.HSSet.HexagonControl.CreateMO(unchecked((sbyte)call__1));
+            var call__2 = FEngine.HSSet.HexagonControl.CreateMO(call__1);
             Result = call__2;
             return Result;
         }
 
         // RndHex.pas:43
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             int Lhx = default;
             int Radius = default;
@@ -49,7 +37,7 @@ namespace Aow.Units.RndHex
             {
                 Lhx = Msg.Data[1];
                 Radius = Msg.Param[1].Value;
-                Aow.Units.HSEngine.HSEngine.HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
+                HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
                 var call__3 = FTerrainList.GetTerrain(0);
                 FEngine.HSMap.ChangeTerrain(null, Xhx, Yhx, Lhx, Radius, call__3);
                 Msg.MsgID = 0;
@@ -63,9 +51,9 @@ namespace Aow.Units.RndHex
         }
 
         // RndHex.pas:33
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Random Hexagon";
             return Result;
         }
@@ -75,9 +63,9 @@ namespace Aow.Units.RndHex
     public static partial class RndHex
     {
         // RndHex.pas:61
-        public static void RegisterRandomHexagon(Aow.Units.Engine.TEngine Engine)
+        public static void RegisterRandomHexagon(TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.RndHex.TRndHexagonResource>()]);
+            Engine.RegisterEClasses([EClass.Of<TRndHexagonResource>()]);
         }
     }
 }

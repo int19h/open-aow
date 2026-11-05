@@ -1,41 +1,16 @@
 // Translated from PoisonC.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.PoisonC
 {
     // FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated
-    public partial class TPoisonCloud : Aow.Units.HSEngine.TMultiHexMO
+    public partial class TPoisonCloud : TMultiHexMO
     {
         public TPoisonCloud(TECustomNode owner) : base(owner)
         {
@@ -51,7 +26,7 @@ namespace Aow.Units.PoisonC
         public byte FDirection;
         public bool FUpdated;
         // PoisonC.pas:149
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 15);
@@ -64,16 +39,16 @@ namespace Aow.Units.PoisonC
 
 
         // PoisonC.pas:275
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
-            if (((Msg.MsgID == 537001986) && (Msg.Value == FPlayer)) && !FUpdated)
+            if (Msg.MsgID == 537001986 && Msg.Value == FPlayer && !FUpdated)
             {
                 UpdateCloud();
                 return;
             }
 
-            if ((Msg.MsgID == 537001987) && (Msg.Value == FPlayer))
+            if (Msg.MsgID == 537001987 && Msg.Value == FPlayer)
             {
                 FUpdated = false;
             }
@@ -96,7 +71,7 @@ namespace Aow.Units.PoisonC
             {
                 var call__1 = GetYhx();
                 var call__2 = GetXhx();
-                UpdateMapFields((Aow.Units.HSEngine.TMapLevel)Owner.Owner, call__2, call__1);
+                UpdateMapFields((TMapLevel)Owner.Owner, call__2, call__1);
             }
 
             return Result;
@@ -105,16 +80,16 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:111
         public override void RemoveFromMap()
         {
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapLevel Level = default;
+            Level = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(Level, FXhx, FYhx);
         }
 
         // PoisonC.pas:182
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
-            if ((Msg.MsgID != 16) || Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (Msg.MsgID != 16 || AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.MapFieldMsgProc(ref Msg);
             }
@@ -124,14 +99,14 @@ namespace Aow.Units.PoisonC
             {
                 if (Msg.MsgID == 4418)
                 {
-                    ArmyPlaced(Msg.Param[0].As<Aow.Units.AoWE.TArmyHS>());
+                    ArmyPlaced(Msg.Param[0].As<TArmyHS>());
                 }
                 else
                 {
                     if (Msg.MsgID == 4384)
                     {
-                        var call__4 = Msg.Param[0].As<Aow.Units.AoWE.TArmyHS>().FArmy.ImmunityTypes(255);
-                        if (!call__4.Contains(Aow.Units.AoWE.TDamageType.dtPoison))
+                        var call__4 = Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255);
+                        if (!call__4.Contains(TDamageType.dtPoison))
                         {
                             Msg.Result = 1;
                         }
@@ -140,7 +115,7 @@ namespace Aow.Units.PoisonC
                     {
                         if (Msg.MsgID == 4432)
                         {
-                            if (((unchecked((byte)Msg.Param[0].Value) == 1) && (Msg.Param[1].Value == 0)) && (Msg.HN == 0))
+                            if ((byte)Msg.Param[0].Value == 1 && Msg.Param[1].Value == 0 && Msg.HN == 0)
                             {
                                 Destroy();
                             }
@@ -151,13 +126,13 @@ namespace Aow.Units.PoisonC
         }
 
         // PoisonC.pas:119
-        public override int CanMoveOver(in Aow.Units.HSEngine.THSSenderInfo Info)
+        public override int CanMoveOver(in THSSenderInfo Info)
         {
             int Result = default;
             var call__5 = FResource.TerrainList.Terrain[Info.HN];
             if (call__5 >= -1)
             {
-                var call__6 = CanDoDamage(((Aow.Units.AoWE.TMoveControl)Info.Sender).FSettings.FUnits);
+                var call__6 = CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits);
                 if (!call__6)
                 {
                     Result = 1;
@@ -182,18 +157,18 @@ namespace Aow.Units.PoisonC
             base.Activate();
             if (FDirection == 0)
             {
-                var call__7 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(6);
-                FDirection = unchecked((byte)(call__7 + 1));
+                var call__7 = AoWHSMap.Random(6);
+                FDirection = (byte)(call__7 + 1);
             }
         }
 
         // PoisonC.pas:83
-        public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public override void UpdateMapField(in THSMapFieldInfo Info)
         {
             var call__8 = FResource.TerrainList.Terrain[Info.HN];
             if (call__8 >= -1)
             {
-                ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags | 8192;
+                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 8192;
             }
         }
 
@@ -204,16 +179,16 @@ namespace Aow.Units.PoisonC
             int Xhx = default;
             int Yhx = default;
             int HN = default;
-            if (FResource.Engine.HSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (FResource.Engine.HSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
-                Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                var call__9 = Aow.Units.HSEngine.HSEngine.dHXtoHN(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, Xhx, Yhx);
+                HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+                var call__9 = dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
                 HN = call__9;
-                bool bool__10 = (HN < FResource.TerrainList.Count);
+                bool bool__10 = HN < FResource.TerrainList.Count;
                 if (bool__10)
                 {
                     var call__11 = FResource.TerrainList.Terrain[HN];
-                    bool__10 = (call__11 >= -1);
+                    bool__10 = call__11 >= -1;
                 }
 
                 Result = bool__10;
@@ -227,39 +202,39 @@ namespace Aow.Units.PoisonC
         }
 
         // PoisonC.pas:95
-        public new void UpdateMapFields(Aow.Units.HSEngine.TMapLevel Level, int Xhx, int Yhx)
+        public new void UpdateMapFields(TMapLevel Level, int Xhx, int Yhx)
         {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
+            THNWalkData Walk = default;
             int Count = default;
             Count = FResource.TerrainList.Count;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
                 var call__12 = GetTerrain(Walk.HN);
-                if (((((call__12 >= -1) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Walk.Y < Level.Height))
+                if (call__12 >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
                     var call__13 = Level.GetField(Walk.X, Walk.Y);
                     call__13.UpdateMapField();
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                WalkToNextHN(ref Walk);
             }
         }
 
         // PoisonC.pas:129
-        public bool CanDoDamage(Aow.Units.AoWE.TUnitList Units)
+        public bool CanDoDamage(TUnitList Units)
         {
             bool Result = default;
             int I = default;
-            Aow.Units.AoWE.TAbstractUnit AUnit = default;
+            TAbstractUnit AUnit = default;
             Result = false;
             I = Units.GetCount();
-            while (!Result && (I != 0))
+            while (!Result && I != 0)
             {
                 I -= 1;
                 AUnit = Units.GetUnit(I);
                 var call__14 = AUnit.GetImmunityTypes();
-                bool bool__15 = !call__14.Contains(Aow.Units.AoWE.TDamageType.dtPoison);
+                bool bool__15 = !call__14.Contains(TDamageType.dtPoison);
                 if (bool__15)
                 {
                     var call__16 = AUnit.GetAbilityEnabled(1);
@@ -273,46 +248,46 @@ namespace Aow.Units.PoisonC
         }
 
         // PoisonC.pas:142
-        public void ArmyPlaced(Aow.Units.AoWE.TArmyHS ArmyHS)
+        public void ArmyPlaced(TArmyHS ArmyHS)
         {
-            bool bool__17 = !Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+            bool bool__17 = !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
             if (bool__17)
             {
-                var call__18 = ((Aow.Units.AoWE.TAoWMapField)ArmyHS.Owner).GetMagicShieldActive();
+                var call__18 = ((TAoWMapField)ArmyHS.Owner).GetMagicShieldActive();
                 bool__17 = !call__18;
             }
 
             if (bool__17)
             {
-                ArmyHS.FArmy.IncommingStorm(Aow.Units.AoWE.TStormType.stPestilence, 0, unchecked((sbyte)ArmyHS.FArmy.FPlayer));
+                ArmyHS.FArmy.IncommingStorm(TStormType.stPestilence, 0, ArmyHS.FArmy.FPlayer);
             }
         }
 
         // PoisonC.pas:158
         public void TriggerDamage()
         {
-            Aow.Units.HSEngine.TMapFieldMsg Msg = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapFieldMsg Msg = default;
+            THNWalkData Walk = default;
+            TMapLevel Level = default;
+            Level = (TMapLevel)Owner.Owner;
             var call__19 = GetYhx();
             var call__20 = GetXhx();
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__20, call__19, 0);
+            InitHNWalk(ref Walk, call__20, call__19, 0);
             Msg.MsgID = 4432;
-            Msg.Param[0] = (int)Aow.Units.AoWE.TStormType.stPestilence;
+            Msg.Param[0] = (int)TStormType.stPestilence;
             Msg.Param[2] = FPlayer;
             ref var walk = ref Walk;
             while (FResource.TerrainList.Count > walk.HN)
             {
                 var call__22 = FResource.TerrainList.GetTerrain(walk.HN);
-                if (((((call__22 >= -1) && (walk.X >= 0)) && (walk.Y >= 0)) && (walk.X < Level.Width)) && (Level.Height > walk.Y))
+                if (call__22 >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && Level.Height > walk.Y)
                 {
                     Msg.Param[1] = walk.Radius;
                     var call__23 = Level.GetField(walk.X, walk.Y);
                     call__23.SendMapFieldMsg(ref Msg);
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                WalkToNextHN(ref Walk);
             }
         }
 
@@ -322,13 +297,13 @@ namespace Aow.Units.PoisonC
             bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapLevel Level = default;
+            Level = (TMapLevel)Owner.Owner;
             var call__24 = GetYhx();
             var call__25 = GetXhx();
-            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(call__25, call__24, Direction, ref Xhx, ref Yhx);
-            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
-            Result = (((Xhx >= 10) && (Yhx >= 10)) && ((Xhx + 10) <= Level.Width)) && ((Yhx + 10) <= Level.Height);
+            CenterHNtoHX(call__25, call__24, Direction, ref Xhx, ref Yhx);
+            CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+            Result = Xhx >= 10 && Yhx >= 10 && Xhx + 10 <= Level.Width && Yhx + 10 <= Level.Height;
             return Result;
         }
 
@@ -337,7 +312,7 @@ namespace Aow.Units.PoisonC
         {
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.Engine.TByteList Directions = default;
+            TByteList Directions = default;
             bool Valid = default;
             int Direction = default;
             int Tries = default;
@@ -355,12 +330,12 @@ namespace Aow.Units.PoisonC
                 if (FDrifting)
                 {
                     Direction = 0;
-                    Directions = new Aow.Units.Engine.TByteList();
+                    Directions = new TByteList();
                     Valid = false;
-                    Directions.Add(unchecked((byte)FDirection));
+                    Directions.Add(FDirection);
                     if (FDirection != 1)
                     {
-                        Directions.Add(unchecked((byte)(FDirection - 1)));
+                        Directions.Add((byte)(FDirection - 1));
                     }
                     else
                     {
@@ -369,22 +344,22 @@ namespace Aow.Units.PoisonC
 
                     if (FDirection != 6)
                     {
-                        Directions.Add(unchecked((byte)(FDirection + 1)));
+                        Directions.Add((byte)(FDirection + 1));
                     }
                     else
                     {
                         Directions.Add(1);
                     }
 
-                    while ((Directions.Count != 0) && !Valid)
+                    while (Directions.Count != 0 && !Valid)
                     {
-                        var call__26 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Directions.Count);
+                        var call__26 = AoWHSMap.Random(Directions.Count);
                         var call__27 = Directions[call__26];
                         Direction = call__27;
                         Valid = ValidMoveDir(Direction);
                         if (!Valid)
                         {
-                            Directions.Remove(unchecked((byte)Direction));
+                            Directions.Remove((byte)Direction);
                         }
                     }
 
@@ -392,9 +367,9 @@ namespace Aow.Units.PoisonC
                     if (!Valid)
                     {
                         Tries = 20;
-                        while (!Valid && (Tries != 0))
+                        while (!Valid && Tries != 0)
                         {
-                            var call__28 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(6);
+                            var call__28 = AoWHSMap.Random(6);
                             Direction = call__28 + 1;
                             Valid = ValidMoveDir(Direction);
                             Tries -= 1;
@@ -405,21 +380,21 @@ namespace Aow.Units.PoisonC
                     {
                         OldXhx = GetXhx();
                         OldYhx = GetYhx();
-                        FDirection = unchecked((byte)Direction);
+                        FDirection = (byte)Direction;
                         Lhx = GetLhx();
                         var call__29 = GetYhx();
                         var call__30 = GetXhx();
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(call__30, call__29, Direction, ref Xhx, ref Yhx);
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+                        CenterHNtoHX(call__30, call__29, Direction, ref Xhx, ref Yhx);
+                        CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
                         Disconnect();
-                        var call__31 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Lhx);
+                        var call__31 = AoWHSMap.MapContainer.GetMapLevel(Lhx);
                         UpdateMapFields(call__31, OldXhx, OldYhx);
-                        FXhx = unchecked((sbyte)Xhx);
-                        FYhx = unchecked((sbyte)Yhx);
-                        var call__32 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
+                        FXhx = (sbyte)Xhx;
+                        FYhx = (sbyte)Yhx;
+                        var call__32 = AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
                         Owner = call__32;
                         Connect();
-                        var call__33 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Lhx);
+                        var call__33 = AoWHSMap.MapContainer.GetMapLevel(Lhx);
                         UpdateMapFields(call__33, Xhx, Yhx);
                     }
                 }
@@ -437,7 +412,7 @@ namespace Aow.Units.PoisonC
 
     }
 
-    public partial class TPoisonCloudResource : Aow.Units.HSEngine.TMultiHexMOR
+    public partial class TPoisonCloudResource : TMultiHexMOR
     {
         public TPoisonCloudResource(TECustomNode owner) : base(owner)
         {}
@@ -454,11 +429,11 @@ namespace Aow.Units.PoisonC
         }
 
         // PoisonC.pas:289
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__34 = Aow.Units.AoWE.AoWE.PoisonCloudRStr;
-            var call__35 = Aow.Units.AoWE.AoWE.TranslateRStr(call__34);
+            AnsiString Result = default;
+            var call__34 = PoisonCloudRStr;
+            var call__35 = TranslateRStr(call__34);
             Result = call__35;
             return Result;
         }
@@ -468,9 +443,9 @@ namespace Aow.Units.PoisonC
     public static partial class PoisonC
     {
         // PoisonC.pas:295
-        public static void RegisterPoisonCloud(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterPoisonCloud(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.PoisonC.TPoisonCloud>(), Aow.Units.Engine.EClass.Of<Aow.Units.PoisonC.TPoisonCloudResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TPoisonCloud>(), EClass.Of<TPoisonCloudResource>()]);
         }
 
         public static void Initialize()

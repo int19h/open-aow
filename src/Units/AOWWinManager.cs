@@ -1,20 +1,10 @@
 // Translated from AOWWinManager.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
 
 namespace Aow.Units.AOWWinManager
 {
@@ -27,10 +17,10 @@ namespace Aow.Units.AOWWinManager
     // FBorderBottom, FOldCursor (the cursor before CheckMouseMove), FDefaultCursor (the cursor when
     // no window claims the mouse), FOnChangeCursor, FILIndexTBack, FILIndexTFore, FDrawOverlay
     // (draw the foreground texture over the windows below the overlay priority)
-    public partial class TAOWWinManager : Aow.Units.AoWComp.TAoWComponent
+    public partial class TAOWWinManager : TAoWComponent
     {
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FForegroundTexture;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FBackgroundTexture;
+        public TInterfaceIL FForegroundTexture;
+        public TInterfaceIL FBackgroundTexture;
         public int FOverlayPriority;
         public int FNewOverlayPriority;
         public int FBorderLeft;
@@ -39,7 +29,7 @@ namespace Aow.Units.AOWWinManager
         public int FBorderBottom;
         public int FOldCursor;
         public int FDefaultCursor;
-        public Aow.Rtl.TNotifyEvent FOnChangeCursor;
+        public TNotifyEvent FOnChangeCursor;
         public int FILIndexTBack;
         public int FILIndexTFore;
         public bool FDrawOverlay;
@@ -80,7 +70,7 @@ namespace Aow.Units.AOWWinManager
         public override void Update()
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             try
             {
                 if (FValid && FVisible)
@@ -96,15 +86,15 @@ namespace Aow.Units.AOWWinManager
                         for (; I <= end__3; I += 1)
                         {
                             var call__4 = FChildren[I];
-                            C = (Aow.Units.AoWComp.TAoWComponent)call__4;
-                            if (C.FVisible && (C.FPriority >= FOverlayPriority))
+                            C = (TAoWComponent)call__4;
+                            if (C.FVisible && C.FPriority >= FOverlayPriority)
                             {
                                 C.Update();
                             }
                         }
                     }
 
-                    if ((!FValid || !FAligned) || !FSized)
+                    if (!FValid || !FAligned || !FSized)
                     {
                         Setup();
                     }
@@ -112,7 +102,7 @@ namespace Aow.Units.AOWWinManager
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Update", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Update", (AnsiString)"Error - " + Name, 0);
             }
         }
 
@@ -121,21 +111,21 @@ namespace Aow.Units.AOWWinManager
 //   (a rectangle from a window only when that window is not below the overlay priority): a
 //   double-buffered window adds it, in its own coordinates, to its blit list, any other window adds
 //   it to its draw list. The window itself is passed as the Sender. }
-        public override void InvalidateRect(int Index, ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
+        public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
-            Aow.Rtl.TRect R = default;
+            TAoWComponent C = default;
+            TRect R = default;
             if (FValid && FVisible)
             {
-                bool bool__5 = (Sender == null);
+                bool bool__5 = Sender == null;
                 if (!bool__5)
                 {
-                    bool bool__6 = (Sender != null) && (Sender is Aow.Units.AoWWinControl.TAOWWindowControl);
+                    bool bool__6 = Sender != null && Sender is TAOWWindowControl;
                     if (bool__6)
                     {
                         var call__7 = FChildren[Index];
-                        bool__6 = (((Aow.Units.AoWComp.TAoWComponent)call__7).FPriority >= FOverlayPriority);
+                        bool__6 = ((TAoWComponent)call__7).FPriority >= FOverlayPriority;
                     }
 
                     bool__5 = bool__6;
@@ -149,12 +139,12 @@ namespace Aow.Units.AOWWinManager
                         for (; I <= end__8; I += 1)
                         {
                             var call__9 = FChildren[I];
-                            C = (Aow.Units.AoWComp.TAoWComponent)call__9;
-                            if (((((((C.FValid && C.FVisible) && ((FWinLeft + C.FWinLeft) <= ARect.Right)) && (((FWinLeft + C.FWinLeft) + C.FWinWidth) >= ARect.Left)) && ((FWinTop + C.FWinTop) <= ARect.Bottom)) && (((FWinTop + C.FWinTop) + C.FWinHeight) >= ARect.Top)) && (ARect.Left <= ARect.Right)) && (ARect.Top <= ARect.Bottom))
+                            C = (TAoWComponent)call__9;
+                            if (C.FValid && C.FVisible && FWinLeft + C.FWinLeft <= ARect.Right && FWinLeft + C.FWinLeft + C.FWinWidth >= ARect.Left && FWinTop + C.FWinTop <= ARect.Bottom && FWinTop + C.FWinTop + C.FWinHeight >= ARect.Top && ARect.Left <= ARect.Right && ARect.Top <= ARect.Bottom)
                             {
                                 if (C.FDoubleBuffered)
                                 {
-                                    var call__10 = Aow.Rtl.Rtl.Rect(ARect.Left - C.FWinLeft, ARect.Top - C.FWinTop, ARect.Right - C.FWinLeft, ARect.Bottom - C.FWinTop);
+                                    var call__10 = Rect(ARect.Left - C.FWinLeft, ARect.Top - C.FWinTop, ARect.Right - C.FWinLeft, ARect.Bottom - C.FWinTop);
                                     R = call__10;
                                     C.AddBltRect(ref R, C);
                                 }
@@ -177,15 +167,15 @@ namespace Aow.Units.AOWWinManager
 //   on to the windows above it, and the foreground texture is drawn again over them when the window
 //   is below the overlay priority. FBackRect holds the window's last place as (Left, Top, Width,
 //   Height). }
-        public override void DrawSurface(Aow.Units.GFXE.TSurface Surface)
+        public override void DrawSurface(TSurface Surface)
         {
             int I = default;
             int J = default;
-            Aow.Units.AoWWinControl.TAOWWindowControl C = default;
-            Aow.Units.AoWComp.TaowRect D = default;
+            TAOWWindowControl C = default;
+            TaowRect D = default;
             bool WasValid = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
-            Aow.Rtl.TRect R = default;
+            TSurfaceDesc SD = default;
+            TRect R = default;
             try
             {
                 Setup();
@@ -198,7 +188,7 @@ namespace Aow.Units.AOWWinManager
                         for (; I <= end__11; I += 1)
                         {
                             var call__12 = FChildren[I];
-                            C = (Aow.Units.AoWWinControl.TAOWWindowControl)call__12;
+                            C = (TAOWWindowControl)call__12;
                             if (C.FValid)
                             {
                                 if (!FDrawn)
@@ -216,13 +206,13 @@ namespace Aow.Units.AOWWinManager
                                 if (C.FHidden == true)
                                 {
                                     C.FHidden = false;
-                                    var call__13 = Aow.Rtl.Rtl.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                                    var call__13 = Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
                                     R = call__13;
                                     AddDrawRect(ref R, C);
                                 }
                                 else
                                 {
-                                    if (((C.FVisible && FDrawn) && (C.FBackRect.Right > 0)) && (C.FBackRect.Bottom > 0))
+                                    if (C.FVisible && FDrawn && C.FBackRect.Right > 0 && C.FBackRect.Bottom > 0)
                                     {
                                         // { the window moved: add the parts of its old place it no longer covers. For a
 //                 masked window the strips are off (original bugs): the third strip of the left
@@ -232,19 +222,19 @@ namespace Aow.Units.AOWWinManager
                                         {
                                             if (C.FMasked)
                                             {
-                                                var call__14 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__14 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__14;
                                                 AddDrawRect(ref R, C);
-                                                var call__15 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
+                                                var call__15 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
                                                 R = call__15;
                                                 AddDrawRect(ref R, C);
-                                                var call__16 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__16 = Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__16;
                                                 AddDrawRect(ref R, C);
                                             }
                                             else
                                             {
-                                                var call__17 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__17 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__17;
                                                 AddDrawRect(ref R, C);
                                             }
@@ -254,63 +244,63 @@ namespace Aow.Units.AOWWinManager
                                         {
                                             if (C.FMasked)
                                             {
-                                                var call__18 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop + C.FFrameTop);
+                                                var call__18 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop + C.FFrameTop);
                                                 R = call__18;
                                                 AddDrawRect(ref R, C);
-                                                var call__19 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__19 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__19;
                                                 AddDrawRect(ref R, C);
-                                                var call__20 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__20 = Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__20;
                                                 AddDrawRect(ref R, C);
                                             }
                                             else
                                             {
-                                                var call__21 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop);
+                                                var call__21 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop);
                                                 R = call__21;
                                                 AddDrawRect(ref R, C);
                                             }
                                         }
 
-                                        if ((C.FBackRect.Left + C.FBackRect.Right) > (C.FWinLeft + C.FWinWidth))
+                                        if (C.FBackRect.Left + C.FBackRect.Right > C.FWinLeft + C.FWinWidth)
                                         {
                                             if (C.FMasked)
                                             {
-                                                var call__22 = Aow.Rtl.Rtl.Rect(C.FWinLeft + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__22 = Rect(C.FWinLeft + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__22;
                                                 AddDrawRect(ref R, C);
-                                                var call__23 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
+                                                var call__23 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
                                                 R = call__23;
                                                 AddDrawRect(ref R, C);
-                                                var call__24 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__24 = Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__24;
                                                 AddDrawRect(ref R, C);
                                             }
                                             else
                                             {
-                                                var call__25 = Aow.Rtl.Rtl.Rect(C.FWinLeft + C.FWinWidth, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__25 = Rect(C.FWinLeft + C.FWinWidth, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__25;
                                                 AddDrawRect(ref R, C);
                                             }
                                         }
 
-                                        if ((C.FBackRect.Top + C.FBackRect.Bottom) > (C.FWinTop + C.FWinHeight))
+                                        if (C.FBackRect.Top + C.FBackRect.Bottom > C.FWinTop + C.FWinHeight)
                                         {
                                             if (C.FMasked)
                                             {
-                                                var call__26 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FWinTop + C.FFrameTop, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__26 = Rect(C.FBackRect.Left, C.FWinTop + C.FFrameTop, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__26;
                                                 AddDrawRect(ref R, C);
-                                                var call__27 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__27 = Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__27;
                                                 AddDrawRect(ref R, C);
-                                                var call__28 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__28 = Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__28;
                                                 AddDrawRect(ref R, C);
                                             }
                                             else
                                             {
-                                                var call__29 = Aow.Rtl.Rtl.Rect(C.FBackRect.Left, C.FWinTop + C.FWinHeight, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                                var call__29 = Rect(C.FBackRect.Left, C.FWinTop + C.FWinHeight, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                                 R = call__29;
                                                 AddDrawRect(ref R, C);
                                             }
@@ -332,9 +322,9 @@ namespace Aow.Units.AOWWinManager
                     if (Surface.Lock(ref SD) >= 0)
                     {
                         Draw(SD);
-                        if (FDrawOverlay && (FOverlayPriority > 0))
+                        if (FDrawOverlay && FOverlayPriority > 0)
                         {
-                            var call__30 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            var call__30 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                             FForegroundTexture.DrawILT(FILIndexTFore, call__30, ref SD);
                         }
 
@@ -351,7 +341,7 @@ namespace Aow.Units.AOWWinManager
                             for (; J <= end__31; J += 1)
                             {
                                 var call__32 = FDrawList[J];
-                                D = (Aow.Units.AoWComp.TaowRect)call__32;
+                                D = (TaowRect)call__32;
                                 if (FWinLeft > D.R.Left)
                                 {
                                     D.R.Left = FWinLeft;
@@ -364,22 +354,22 @@ namespace Aow.Units.AOWWinManager
 
                                 D.R.Right += 1;
                                 D.R.Bottom += 1;
-                                if ((FWinLeft + FWinWidth) < D.R.Right)
+                                if (FWinLeft + FWinWidth < D.R.Right)
                                 {
                                     D.R.Right = FWinLeft + FWinWidth;
                                 }
 
-                                if ((FWinTop + FWinHeight) < D.R.Bottom)
+                                if (FWinTop + FWinHeight < D.R.Bottom)
                                 {
                                     D.R.Bottom = FWinTop + FWinHeight;
                                 }
 
-                                var call__33 = Aow.Rtl.Rtl.Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
+                                var call__33 = Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
                                 SD.ClipRect = call__33;
                                 Draw(SD);
-                                if (FDrawOverlay && (FOverlayPriority > 0))
+                                if (FDrawOverlay && FOverlayPriority > 0)
                                 {
-                                    var call__34 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                                    var call__34 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                                     FForegroundTexture.DrawILT(FILIndexTFore, call__34, ref SD);
                                 }
 
@@ -398,7 +388,7 @@ namespace Aow.Units.AOWWinManager
                     for (; I <= end__35; I += 1)
                     {
                         var call__36 = FChildren[I];
-                        C = (Aow.Units.AoWWinControl.TAOWWindowControl)call__36;
+                        C = (TAOWWindowControl)call__36;
                         C.FHidden = false;
                         if (C.FValid && C.FVisible)
                         {
@@ -411,7 +401,7 @@ namespace Aow.Units.AOWWinManager
                             C.DrawSurface(Surface);
                             if (!WasValid || !C.FSurfaceValid)
                             {
-                                var call__37 = Aow.Rtl.Rtl.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                                var call__37 = Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
                                 R = call__37;
                                 AddBltRect(ref R, C);
                             }
@@ -424,12 +414,12 @@ namespace Aow.Units.AOWWinManager
                                 for (; J <= end__38; J += 1)
                                 {
                                     var call__39 = FBltList[J];
-                                    D = (Aow.Units.AoWComp.TaowRect)call__39;
+                                    D = (TaowRect)call__39;
                                     InvalidateRect(I + 1, ref D.R, null);
                                 }
                             }
 
-                            if (FDrawOverlay && (C.FPriority < FOverlayPriority))
+                            if (FDrawOverlay && C.FPriority < FOverlayPriority)
                             {
                                 if (Surface.Lock(ref SD) >= 0)
                                 {
@@ -439,7 +429,7 @@ namespace Aow.Units.AOWWinManager
                                         for (; J <= end__40; J += 1)
                                         {
                                             var call__41 = FBltList[J];
-                                            D = (Aow.Units.AoWComp.TaowRect)call__41;
+                                            D = (TaowRect)call__41;
                                             if (C.FWinLeft > D.R.Left)
                                             {
                                                 D.R.Left = C.FWinLeft;
@@ -452,19 +442,19 @@ namespace Aow.Units.AOWWinManager
 
                                             D.R.Right += 1;
                                             D.R.Bottom += 1;
-                                            if ((C.FWinLeft + C.FWinWidth) < D.R.Right)
+                                            if (C.FWinLeft + C.FWinWidth < D.R.Right)
                                             {
                                                 D.R.Right = C.FWinLeft + C.FWinWidth;
                                             }
 
-                                            if ((C.FWinTop + C.FWinHeight) < D.R.Bottom)
+                                            if (C.FWinTop + C.FWinHeight < D.R.Bottom)
                                             {
                                                 D.R.Bottom = C.FWinTop + C.FWinHeight;
                                             }
 
-                                            var call__42 = Aow.Rtl.Rtl.Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
+                                            var call__42 = Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
                                             SD.ClipRect = call__42;
-                                            var call__43 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                                            var call__43 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                                             FForegroundTexture.DrawILT(FILIndexTFore, call__43, ref SD);
                                         }
                                     }
@@ -484,15 +474,15 @@ namespace Aow.Units.AOWWinManager
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during DrawSurface", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during DrawSurface", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AOWWinManager.pas:157
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             if (FOverlayPriority > FNewOverlayPriority)
             {
                 {
@@ -501,8 +491,8 @@ namespace Aow.Units.AOWWinManager
                     for (; I <= end__44; I += 1)
                     {
                         var call__45 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__45;
-                        if (((C.FPriority >= FNewOverlayPriority) && (C.FPriority < FOverlayPriority)) && C.FVisible)
+                        C = (TAoWComponent)call__45;
+                        if (C.FPriority >= FNewOverlayPriority && C.FPriority < FOverlayPriority && C.FVisible)
                         {
                             C.FDrawn = false;
                             C.FSurfaceValid = false;
@@ -512,15 +502,15 @@ namespace Aow.Units.AOWWinManager
             }
 
             FOverlayPriority = FNewOverlayPriority;
-            var call__46 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+            var call__46 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
             FBackgroundTexture.DrawILT(FILIndexTBack, call__46, ref SurfDesc);
         }
 
         // AOWWinManager.pas:449
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             bool Redraw = default;
             FHandled = false;
             {
@@ -529,12 +519,12 @@ namespace Aow.Units.AOWWinManager
                 for (; I >= end__47; I -= 1)
                 {
                     var call__48 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__48;
+                    C = (TAoWComponent)call__48;
                     if (C.FPriority >= FOverlayPriority)
                     {
                         Redraw = C.FRedraw;
                         C.FHandled = false;
-                        if ((FHandled == false) || (Redraw == true))
+                        if (!FHandled || Redraw == true)
                         {
                             C.CheckMouseDown(Button, Shift, X, Y);
                         }
@@ -554,10 +544,10 @@ namespace Aow.Units.AOWWinManager
         }
 
         // AOWWinManager.pas:473
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             {
                 I = FChildren.Count - 1;
@@ -565,10 +555,10 @@ namespace Aow.Units.AOWWinManager
                 for (; I >= end__49; I -= 1)
                 {
                     var call__50 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__50;
+                    C = (TAoWComponent)call__50;
                     if (C.FPriority >= FOverlayPriority)
                     {
-                        if ((FHandled == false) || (C.FRedraw == true))
+                        if (!FHandled || C.FRedraw == true)
                         {
                             C.CheckMouseUp(Button, Shift, X, Y);
                         }
@@ -588,10 +578,10 @@ namespace Aow.Units.AOWWinManager
         }
 
         // AOWWinManager.pas:494
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
-            Aow.Units.AoWWinControl.TAOWWindowControl C = default;
+            TAOWWindowControl C = default;
             FHandled = false;
             FOldCursor = FCursor;
             FCursor = FDefaultCursor;
@@ -621,15 +611,15 @@ namespace Aow.Units.AOWWinManager
                 for (; I >= end__51; I -= 1)
                 {
                     var call__52 = FChildren[I];
-                    C = (Aow.Units.AoWWinControl.TAOWWindowControl)call__52;
+                    C = (TAOWWindowControl)call__52;
                     if (C.FPriority >= FOverlayPriority)
                     {
-                        if ((FHandled == false) || (C.FRedraw == true))
+                        if (!FHandled || C.FRedraw == true)
                         {
                             C.CheckMouseMove(Shift, X, Y);
                             if (C.FHandled == true)
                             {
-                                if (FHandled == false)
+                                if (!FHandled)
                                 {
                                     FCursor = C.FCursor;
                                     if (!C.FMouseInside)
@@ -700,7 +690,7 @@ namespace Aow.Units.AOWWinManager
         public override void CheckKeyPress(ref byte Key)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             {
                 I = FChildren.Count - 1;
@@ -708,7 +698,7 @@ namespace Aow.Units.AOWWinManager
                 for (; I >= end__53; I -= 1)
                 {
                     var call__54 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__54;
+                    C = (TAoWComponent)call__54;
                     if (C.FPriority >= FOverlayPriority)
                     {
                         C.CheckKeyPress(ref Key);
@@ -727,10 +717,10 @@ namespace Aow.Units.AOWWinManager
         }
 
         // AOWWinManager.pas:578
-        public override void CheckKeyDown(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public override void CheckKeyDown(ref ushort Key, TSet<TShiftState> Shift)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             {
                 I = FChildren.Count - 1;
@@ -738,8 +728,8 @@ namespace Aow.Units.AOWWinManager
                 for (; I >= end__55; I -= 1)
                 {
                     var call__56 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__56;
-                    if ((!FHandled && (C.FPriority >= FOverlayPriority)) && C.FVisible)
+                    C = (TAoWComponent)call__56;
+                    if (!FHandled && C.FPriority >= FOverlayPriority && C.FVisible)
                     {
                         C.CheckKeyDown(ref Key, Shift);
                         if (C.FHandled == true)
@@ -750,14 +740,14 @@ namespace Aow.Units.AOWWinManager
                 }
             }
 
-            if (!FHandled && (FOnKeyDown != null))
+            if (!FHandled && FOnKeyDown != null)
             {
                 FOnKeyDown(this, ref Key, Shift);
             }
         }
 
         // AOWWinManager.pas:102
-        public virtual void SetILTB(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTB(TInterfaceIL Value)
         {
             if (Value != FBackgroundTexture)
             {
@@ -767,7 +757,7 @@ namespace Aow.Units.AOWWinManager
         }
 
         // AOWWinManager.pas:111
-        public virtual void SetILTF(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTF(TInterfaceIL Value)
         {
             if (Value != FForegroundTexture)
             {
@@ -799,7 +789,7 @@ namespace Aow.Units.AOWWinManager
         // AOWWinManager.pas:138
         public void SetOverPri(int Value)
         {
-            if ((Value != FOverlayPriority) || (Value != FNewOverlayPriority))
+            if (Value != FOverlayPriority || Value != FNewOverlayPriority)
             {
                 FNewOverlayPriority = Value;
                 FDrawn = false;
@@ -823,13 +813,13 @@ namespace Aow.Units.AOWWinManager
         public int Cursor { get => FCursor; set => SetCursor(value); }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnChangeCursor { get => FOnChangeCursor; set => FOnChangeCursor = value; }
+        public TNotifyEvent OnChangeCursor { get => FOnChangeCursor; set => FOnChangeCursor = value; }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL BackgroundTexture { get => FBackgroundTexture; set => SetILTB(value); }
+        public TInterfaceIL BackgroundTexture { get => FBackgroundTexture; set => SetILTB(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ForegroundTexture { get => FForegroundTexture; set => SetILTF(value); }
+        public TInterfaceIL ForegroundTexture { get => FForegroundTexture; set => SetILTF(value); }
 
         [Published]
         public int ILIndexTBack { get => FILIndexTBack; set => SetILBIndex(value); }
@@ -861,7 +851,7 @@ namespace Aow.Units.AOWWinManager
         // AOWWinManager.pas:598
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AOWWinManager.TAOWWinManager)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWWinManager)]);
         }
     }
 }

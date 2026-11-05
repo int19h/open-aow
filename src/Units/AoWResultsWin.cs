@@ -1,71 +1,23 @@
 // Translated from AoWResultsWin.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWCheckBox;
-using static Aow.Units.AoWCheckBox.AoWCheckBox;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
-using Aow.Units.E1Resources;
-using static Aow.Units.E1Resources.E1Resources;
-using Aow.Units.E1Globals;
-using static Aow.Units.E1Globals.E1Globals;
-using Aow.Units.E1GameFlow;
 using static Aow.Units.E1GameFlow.E1GameFlow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
-using Aow.Units.AOWPyreScrn;
 using static Aow.Units.AOWPyreScrn.AOWPyreScrn;
-using Aow.Units.aowIntGfxMod;
 using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
 using Aow.Units.AoWVideoDlg;
 using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
@@ -73,50 +25,50 @@ using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
 namespace Aow.Units.AoWResultsWin
 {
     // player indices, checkbox controls
-    public partial class TResultsWin : Aow.Rtl.TDataModule
+    public partial class TResultsWin : TDataModule
     {
         public TResultsWin(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P1CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P2CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P3CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P4CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P5CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P6CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P7CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P8CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P9CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P10CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P11CB;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox P12CB;
-        public Aow.Units.AoWLabel.TAOWLabel StrLbl;
-        public Aow.Units.AoWLabel.TAOWLabel TurnLbl;
-        public Aow.Units.AoWMemo.TAOWMemo ResNames;
-        public Aow.Units.AoWMemo.TAOWMemo ResValues;
-        public Aow.Units.AoWLabel.TAOWLabel SideLbl;
-        public Aow.Units.AoWImage.TAOWImage Axis;
-        public Aow.Units.AoWButton.TAOWButton ExitBtn;
-        public Aow.Units.AoWImage.TAOWImage FaceGrid;
-        public Aow.Units.AoWButton.TAOWButton LoadBtn;
-        public Aow.Units.AoWButton.TAOWButton ContinueBtn;
-        public Aow.Units.AoWPanel.TAOWPanel ResultsPnl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox StrengthCB;
-        public Aow.Units.AoWPanel.TAOWPanel AgendaPnl;
-        public Aow.Units.AoWLabel.TAOWLabel StrengthLbl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox GoldCB;
-        public Aow.Units.AoWLabel.TAOWLabel GoldLbl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox ArmiesCB;
-        public Aow.Units.AoWLabel.TAOWLabel ArmiesLbl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox HeroesCB;
-        public Aow.Units.AoWLabel.TAOWLabel HeroesLbl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox StructuresCB;
-        public Aow.Units.AoWLabel.TAOWLabel StructuresLbl;
-        public Aow.Units.AoWLabel.TAOWLabel KeyMax;
-        public Aow.Units.AoWLabel.TAOWLabel KeyMin;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox ManaCB;
-        public Aow.Units.AoWLabel.TAOWLabel ManaLbl;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TAOWCheckBox P1CB;
+        public TAOWCheckBox P2CB;
+        public TAOWCheckBox P3CB;
+        public TAOWCheckBox P4CB;
+        public TAOWCheckBox P5CB;
+        public TAOWCheckBox P6CB;
+        public TAOWCheckBox P7CB;
+        public TAOWCheckBox P8CB;
+        public TAOWCheckBox P9CB;
+        public TAOWCheckBox P10CB;
+        public TAOWCheckBox P11CB;
+        public TAOWCheckBox P12CB;
+        public TAOWLabel StrLbl;
+        public TAOWLabel TurnLbl;
+        public TAOWMemo ResNames;
+        public TAOWMemo ResValues;
+        public TAOWLabel SideLbl;
+        public TAOWImage Axis;
+        public TAOWButton ExitBtn;
+        public TAOWImage FaceGrid;
+        public TAOWButton LoadBtn;
+        public TAOWButton ContinueBtn;
+        public TAOWPanel ResultsPnl;
+        public TAOWCheckBox StrengthCB;
+        public TAOWPanel AgendaPnl;
+        public TAOWLabel StrengthLbl;
+        public TAOWCheckBox GoldCB;
+        public TAOWLabel GoldLbl;
+        public TAOWCheckBox ArmiesCB;
+        public TAOWLabel ArmiesLbl;
+        public TAOWCheckBox HeroesCB;
+        public TAOWLabel HeroesLbl;
+        public TAOWCheckBox StructuresCB;
+        public TAOWLabel StructuresLbl;
+        public TAOWLabel KeyMax;
+        public TAOWLabel KeyMin;
+        public TAOWCheckBox ManaCB;
+        public TAOWLabel ManaLbl;
+        public TIvTranslator Translator;
         public int FMaxTurns;
         public int FMaxGold;
         public int FMaxMana;
@@ -125,14 +77,14 @@ namespace Aow.Units.AoWResultsWin
         public int FMaxHeroes;
         public int FMaxStructures;
         public int FMaxStrength;
-        public Aow.Units.Engine.TByteList FPlayers;
-        public Aow.Rtl.TList FControls;
+        public TByteList FPlayers;
+        public TList FControls;
         // AoWResultsWin.pas:93
         public void UpdateSelection()
         {
             int I = default;
             int J = default;
-            Aow.Units.AoWE.TPlayerStatistics Stats = default;
+            TPlayerStatistics Stats = default;
             FMaxTurns = 1;
             FMaxGold = 1;
             FMaxMana = 1;
@@ -147,7 +99,7 @@ namespace Aow.Units.AoWResultsWin
                 for (; I <= end__1; I += 1)
                 {
                     var call__2 = FPlayers[I];
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__2);
+                    var call__3 = AoWHSMap.FPlayers.GetPlayers(call__2);
                     Stats = call__3.FStatistics;
                     var call__4 = Stats.FTurnInfo.GetCount();
                     if (FMaxTurns < call__4)
@@ -209,19 +161,19 @@ namespace Aow.Units.AoWResultsWin
                 }
             }
 
-            var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TurnRStr);
-            TurnLbl.Text = (call__21 + AnsiString.FromBytes(32)) + Aow.Rtl.Rtl.IntToStr(FMaxTurns);
+            var call__21 = TranslateRStr(TurnRStr);
+            TurnLbl.Text = call__21 + AnsiString.FromBytes(32) + IntToStr(FMaxTurns);
         }
 
         // AoWResultsWin.pas:250
-        public void DrawGraphs(in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawGraphs(in TSurfaceDesc Surface)
         {
-            Aow.Rtl.TRect Bounds = default;
+            TRect Bounds = default;
             int I = default;
-            Bounds.Left = (ResultsPnl.WinLeft + Axis.WinLeft) + 5;
-            Bounds.Top = (ResultsPnl.WinTop + Axis.WinTop) + 4;
-            Bounds.Right = (ResultsPnl.WinLeft + Axis.WinLeft) + 338;
-            Bounds.Bottom = (ResultsPnl.WinTop + Axis.WinTop) + 117;
+            Bounds.Left = ResultsPnl.WinLeft + Axis.WinLeft + 5;
+            Bounds.Top = ResultsPnl.WinTop + Axis.WinTop + 4;
+            Bounds.Right = ResultsPnl.WinLeft + Axis.WinLeft + 338;
+            Bounds.Bottom = ResultsPnl.WinTop + Axis.WinTop + 117;
             {
                 I = 0;
                 int end__22 = FPlayers.Count - 1;
@@ -230,44 +182,44 @@ namespace Aow.Units.AoWResultsWin
                     if (GoldCB.Checked)
                     {
                         var call__23 = FPlayers[I];
-                        DrawGold(unchecked((sbyte)call__23), Bounds, Surface);
+                        DrawGold((sbyte)call__23, Bounds, Surface);
                     }
 
                     if (ManaCB.Checked)
                     {
                         var call__24 = FPlayers[I];
-                        DrawMana(unchecked((sbyte)call__24), Bounds, Surface);
+                        DrawMana((sbyte)call__24, Bounds, Surface);
                     }
 
                     if (HeroesCB.Checked)
                     {
                         var call__25 = FPlayers[I];
-                        DrawHeroes(unchecked((sbyte)call__25), Bounds, Surface);
+                        DrawHeroes((sbyte)call__25, Bounds, Surface);
                     }
 
                     if (StructuresCB.Checked)
                     {
                         var call__26 = FPlayers[I];
-                        DrawStructures(unchecked((sbyte)call__26), Bounds, Surface);
+                        DrawStructures((sbyte)call__26, Bounds, Surface);
                     }
 
                     if (ArmiesCB.Checked)
                     {
                         var call__27 = FPlayers[I];
-                        DrawArmies(unchecked((sbyte)call__27), Bounds, Surface);
+                        DrawArmies((sbyte)call__27, Bounds, Surface);
                     }
 
                     if (StrengthCB.Checked)
                     {
                         var call__28 = FPlayers[I];
-                        DrawStrength(unchecked((sbyte)call__28), Bounds, Surface);
+                        DrawStrength((sbyte)call__28, Bounds, Surface);
                     }
                 }
             }
         }
 
         // AoWResultsWin.pas:123
-        public void DrawGraph(Aow.Units.ImageLib.TLibraryImage Image, Aow.Units.Engine.TIntegerList Values, int Turns, int Maximum, in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawGraph(ImageLib.TLibraryImage Image, TIntegerList Values, int Turns, int Maximum, in TRect R, in TSurfaceDesc Surface)
         {
             int Width = default;
             int LastY = default;
@@ -286,14 +238,14 @@ namespace Aow.Units.AoWResultsWin
                 Height = R.Bottom - R.Top;
                 if (Turns >= 2)
                 {
-                    XStep = (float)(((double)Width) / (Turns - 1));
+                    XStep = (float)((double)Width / (Turns - 1));
                 }
                 else
                 {
                     XStep = Width;
                 }
 
-                YStep = (float)(((double)Height) / Maximum);
+                YStep = (float)((double)Height / Maximum);
                 var call__29 = Values[0];
                 LastY = call__29;
                 {
@@ -303,13 +255,13 @@ namespace Aow.Units.AoWResultsWin
                     {
                         var call__31 = Values[I];
                         NextY = call__31;
-                        X1 = Aow.Rtl.Rtl.Round(((double)(I - 1)) * XStep);
+                        X1 = Round((double)(I - 1) * XStep);
                         ;
-                        Y1 = Aow.Rtl.Rtl.Round(((double)LastY) * YStep);
+                        Y1 = Round((double)LastY * YStep);
                         // { Original advances from the rounded previous x coordinate. }
-                        X2 = Aow.Rtl.Rtl.Round(((double)X1) + XStep);
-                        Y2 = Aow.Rtl.Rtl.Round(((double)NextY) * YStep);
-                        Aow.Units.ImageLib.ImageLib.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                        X2 = Round((double)X1 + XStep);
+                        Y2 = Round((double)NextY * YStep);
+                        DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
                         LastY = NextY;
                     }
                 }
@@ -317,25 +269,25 @@ namespace Aow.Units.AoWResultsWin
                 if (Values.Count == 1)
                 {
                     X1 = 0;
-                    NextY = Aow.Rtl.Rtl.Round(((double)LastY) * YStep);
+                    NextY = Round((double)LastY * YStep);
                     Y1 = NextY;
                     X2 = Width - 1;
                     // { Original repeats the rounding and discards its result. }
-                    Y2 = Aow.Rtl.Rtl.Round(((double)LastY) * YStep);
+                    Y2 = Round((double)LastY * YStep);
                     Y2 = NextY;
-                    Aow.Units.ImageLib.ImageLib.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                    DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
                 }
             }
         }
 
         // AoWResultsWin.pas:160
-        public void DrawGold(sbyte Player, in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawGold(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            Aow.Units.Engine.TIntegerList Values = default;
-            Aow.Units.AoWE.TTurnInfo Info = default;
+            TIntegerList Values = default;
+            TTurnInfo Info = default;
             int I = default;
-            Values = new Aow.Units.Engine.TIntegerList();
-            var call__32 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            Values = new TIntegerList();
+            var call__32 = AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__32.FStatistics.FTurnInfo;
             {
                 I = 0;
@@ -347,21 +299,21 @@ namespace Aow.Units.AoWResultsWin
                 }
             }
 
-            var call__35 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__36 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.EndScene[call__35.FPlayerRace + 13];
+            var call__35 = AoWHSMap.FPlayers.GetPlayers(Player);
+            var call__36 = IntGfxMod.EndScene[call__35.FPlayerRace + 13];
             DrawGraph(call__36, Values, FMaxTurns, FMaxGold, R, Surface);
             Values.Free();
-            KeyMax.Text = Aow.Rtl.Rtl.IntToStr(FMaxGold);
+            KeyMax.Text = IntToStr(FMaxGold);
         }
 
         // AoWResultsWin.pas:175
-        public void DrawMana(sbyte Player, in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawMana(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            Aow.Units.Engine.TIntegerList Values = default;
-            Aow.Units.AoWE.TTurnInfo Info = default;
+            TIntegerList Values = default;
+            TTurnInfo Info = default;
             int I = default;
-            Values = new Aow.Units.Engine.TIntegerList();
-            var call__37 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            Values = new TIntegerList();
+            var call__37 = AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__37.FStatistics.FTurnInfo;
             {
                 I = 0;
@@ -373,21 +325,21 @@ namespace Aow.Units.AoWResultsWin
                 }
             }
 
-            var call__40 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__41 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.EndScene[call__40.FPlayerRace + 13];
+            var call__40 = AoWHSMap.FPlayers.GetPlayers(Player);
+            var call__41 = IntGfxMod.EndScene[call__40.FPlayerRace + 13];
             DrawGraph(call__41, Values, FMaxTurns, FMaxMana, R, Surface);
             Values.Free();
-            KeyMax.Text = Aow.Rtl.Rtl.IntToStr(FMaxMana);
+            KeyMax.Text = IntToStr(FMaxMana);
         }
 
         // AoWResultsWin.pas:190
-        public void DrawHeroes(sbyte Player, in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawHeroes(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            Aow.Units.Engine.TIntegerList Values = default;
-            Aow.Units.AoWE.TTurnInfo Info = default;
+            TIntegerList Values = default;
+            TTurnInfo Info = default;
             int I = default;
-            Values = new Aow.Units.Engine.TIntegerList();
-            var call__42 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            Values = new TIntegerList();
+            var call__42 = AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__42.FStatistics.FTurnInfo;
             {
                 I = 0;
@@ -399,21 +351,21 @@ namespace Aow.Units.AoWResultsWin
                 }
             }
 
-            var call__45 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__46 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.EndScene[call__45.FPlayerRace + 13];
+            var call__45 = AoWHSMap.FPlayers.GetPlayers(Player);
+            var call__46 = IntGfxMod.EndScene[call__45.FPlayerRace + 13];
             DrawGraph(call__46, Values, FMaxTurns, FMaxHeroes, R, Surface);
             Values.Free();
-            KeyMax.Text = Aow.Rtl.Rtl.IntToStr(FMaxHeroes);
+            KeyMax.Text = IntToStr(FMaxHeroes);
         }
 
         // AoWResultsWin.pas:205
-        public void DrawArmies(sbyte Player, in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawArmies(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            Aow.Units.Engine.TIntegerList Values = default;
-            Aow.Units.AoWE.TTurnInfo Info = default;
+            TIntegerList Values = default;
+            TTurnInfo Info = default;
             int I = default;
-            Values = new Aow.Units.Engine.TIntegerList();
-            var call__47 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            Values = new TIntegerList();
+            var call__47 = AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__47.FStatistics.FTurnInfo;
             {
                 I = 0;
@@ -425,21 +377,21 @@ namespace Aow.Units.AoWResultsWin
                 }
             }
 
-            var call__50 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__51 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.EndScene[call__50.FPlayerRace + 13];
+            var call__50 = AoWHSMap.FPlayers.GetPlayers(Player);
+            var call__51 = IntGfxMod.EndScene[call__50.FPlayerRace + 13];
             DrawGraph(call__51, Values, FMaxTurns, FMaxArmies, R, Surface);
             Values.Free();
-            KeyMax.Text = Aow.Rtl.Rtl.IntToStr(FMaxArmies);
+            KeyMax.Text = IntToStr(FMaxArmies);
         }
 
         // AoWResultsWin.pas:220
-        public void DrawStructures(sbyte Player, in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawStructures(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            Aow.Units.Engine.TIntegerList Values = default;
-            Aow.Units.AoWE.TTurnInfo Info = default;
+            TIntegerList Values = default;
+            TTurnInfo Info = default;
             int I = default;
-            Values = new Aow.Units.Engine.TIntegerList();
-            var call__52 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            Values = new TIntegerList();
+            var call__52 = AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__52.FStatistics.FTurnInfo;
             {
                 I = 0;
@@ -451,21 +403,21 @@ namespace Aow.Units.AoWResultsWin
                 }
             }
 
-            var call__55 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__56 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.EndScene[call__55.FPlayerRace + 13];
+            var call__55 = AoWHSMap.FPlayers.GetPlayers(Player);
+            var call__56 = IntGfxMod.EndScene[call__55.FPlayerRace + 13];
             DrawGraph(call__56, Values, FMaxTurns, FMaxStructures, R, Surface);
             Values.Free();
-            KeyMax.Text = Aow.Rtl.Rtl.IntToStr(FMaxStructures);
+            KeyMax.Text = IntToStr(FMaxStructures);
         }
 
         // AoWResultsWin.pas:235
-        public void DrawStrength(sbyte Player, in Aow.Rtl.TRect R, in Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void DrawStrength(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            Aow.Units.Engine.TIntegerList Values = default;
-            Aow.Units.AoWE.TTurnInfo Info = default;
+            TIntegerList Values = default;
+            TTurnInfo Info = default;
             int I = default;
-            Values = new Aow.Units.Engine.TIntegerList();
-            var call__57 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+            Values = new TIntegerList();
+            var call__57 = AoWHSMap.FPlayers.GetPlayers(Player);
             Info = call__57.FStatistics.FTurnInfo;
             {
                 I = 0;
@@ -478,20 +430,20 @@ namespace Aow.Units.AoWResultsWin
                 }
             }
 
-            var call__61 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__62 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.EndScene[call__61.FPlayerRace + 13];
+            var call__61 = AoWHSMap.FPlayers.GetPlayers(Player);
+            var call__62 = IntGfxMod.EndScene[call__61.FPlayerRace + 13];
             DrawGraph(call__62, Values, FMaxTurns, FMaxStrength, R, Surface);
             Values.Free();
             // { Original strength graph labels the structures maximum. }
-            KeyMax.Text = Aow.Rtl.Rtl.IntToStr(FMaxStructures);
+            KeyMax.Text = IntToStr(FMaxStructures);
         }
 
         // AoWResultsWin.pas:270
         public void ResultsWinCreate()
         {
-            var call__63 = new Aow.Units.Engine.TByteList();
+            var call__63 = new TByteList();
             FPlayers = call__63;
-            var call__64 = new Aow.Rtl.TList();
+            var call__64 = new TList();
             FControls = call__64;
             FControls.Add(P1CB);
             FControls.Add(P2CB);
@@ -517,26 +469,26 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:294
         public void ContinueBtnClick()
         {
-            Aow.Units.E1GameFlow.E1GameFlow.FinishPyre(Aow.Units.AOWPyreScrn.AOWPyreScrn.PyreScreen);
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWResultsWin.AoWResultsWin.ResultsWin.ResultsPnl.Visible = false;
-            Aow.Units.Sound.Sound.FadeMusicVolume(Aow.Units.AoWExeForms.AoWExeForms.SoundDlg.MusicVolume.Position, 2);
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FGameStatus == Aow.Units.AoWE.TGameStatus.gsTerminated)
+            FinishPyre(PyreScreen);
+            General.PlayButtonSound(0);
+            AoWResultsWin.ResultsWin.ResultsPnl.Visible = false;
+            FadeMusicVolume(SoundDlg.MusicVolume.Position, 2);
+            if (AoWHSMap.FGameStatus == TGameStatus.gsTerminated)
             {
-                if (Aow.Units.AoWE.AoWE.AoWEngine.FCampaign == null)
+                if (AoWEngine.FCampaign == null)
                 {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.ReturnToTitle();
+                    General.ReturnToTitle();
                 }
                 else
                 {
-                    Aow.Units.E1GameFlow.E1GameFlow.ShowCampaignMap(Aow.Units.AoWWorldMap.AoWWorldMap.WorldMap);
+                    ShowCampaignMap(AoWWorldMap.AoWWorldMap.WorldMap);
                 }
             }
             else
             {
-                Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
-                Aow.Units.AoWExeForms.AoWExeForms.SetVideoMode(Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog, Aow.Units.AoWVideoDlg.TScreenMode.scmGame);
-                Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.ApplyMode();
+                E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
+                SetVideoMode(VideoDialog, TScreenMode.scmGame);
+                VideoDialog.ApplyMode();
             }
         }
 
@@ -544,17 +496,17 @@ namespace Aow.Units.AoWResultsWin
         public void ExitBtnClick()
         {
             ResultsPnl.Visible = false;
-            Aow.Units.AoWWinMan.AoWWinMan.General.ReturnToTitle();
+            General.ReturnToTitle();
         }
 
         // AoWResultsWin.pas:319
         public void ResultsPnlUpdate()
         {
-            Aow.Units.AOWPyreScrn.AOWPyreScrn.PyreScreen.DeadPnlUpdate();
+            PyreScreen.DeadPnlUpdate();
         }
 
         // AoWResultsWin.pas:324
-        public void AxisDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void AxisDraw(TObject Sender, TSurfaceDesc Surface)
         {
             DrawGraphs(Surface);
         }
@@ -572,42 +524,42 @@ namespace Aow.Units.AoWResultsWin
         }
 
         // AoWResultsWin.pas:339
-        public void P1CBPreDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void P1CBPreDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            Aow.Rtl.TRect R = default;
-            var component = (Aow.Units.AoWComp.TAoWComponent)Sender;
+            TRect R = default;
+            var component = (TAoWComponent)Sender;
             if (component.Tag < FPlayers.Count)
             {
-                var call__66 = Aow.Rtl.Rtl.Rect((component.WinLeft + ResultsPnl.WinLeft) + 1, (component.WinTop + ResultsPnl.WinTop) + 1, ((component.WinLeft + component.WinWidth) + ResultsPnl.WinLeft) - 1, ((component.WinTop + component.WinHeight) + ResultsPnl.WinTop) - 1);
+                var call__66 = Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
                 R = call__66;
                 var call__67 = FPlayers[component.Tag];
-                var call__68 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__67);
+                var call__68 = AoWHSMap.FPlayers.GetPlayers(call__67);
                 var call__69 = call__68.GetFace();
                 if (call__69 != null)
                 {
                     var call__70 = FPlayers[component.Tag];
-                    var call__71 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__70);
+                    var call__71 = AoWHSMap.FPlayers.GetPlayers(call__70);
                     call__71.FLeader.ShowFace(R, Surface);
                 }
 
                 var call__72 = FPlayers[component.Tag];
-                var call__73 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__72);
-                var call__74 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin[call__73.FPlayerRace + 16];
+                var call__73 = AoWHSMap.FPlayers.GetPlayers(call__72);
+                var call__74 = IntGfxMod.RelWin[call__73.FPlayerRace + 16];
                 call__74.ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
             }
         }
 
         // AoWResultsWin.pas:355
-        public void P1CBChange(Aow.Rtl.TObject Sender)
+        public void P1CBChange(TObject Sender)
         {
-            Aow.Units.AoWCheckBox.TAOWCheckBox Control = default;
-            Control = (Aow.Units.AoWCheckBox.TAOWCheckBox)Sender;
+            TAOWCheckBox Control = default;
+            Control = (TAOWCheckBox)Sender;
             if (Control.Checked)
             {
                 if (FPlayers.Count > Control.Tag)
                 {
                     var call__75 = FPlayers[Control.Tag];
-                    var call__76 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(call__75);
+                    var call__76 = AoWHSMap.FPlayers.GetPlayers(call__75);
                     var call__77 = call__76.GetNameEx();
                     SideLbl.Text = call__77;
                 }
@@ -623,32 +575,32 @@ namespace Aow.Units.AoWResultsWin
 
     public static partial class AoWResultsWin
     {
-        public static Aow.Units.AoWResultsWin.TResultsWin ResultsWin;
+        public static TResultsWin ResultsWin;
         // AoWResultsWin.pas:368
-        public static void ShowResults(Aow.Units.AoWResultsWin.TResultsWin Window)
+        public static void ShowResults(TResultsWin Window)
         {
             int I = default;
-            if (Aow.Units.AoWE.AoWE.AoWEngine.FDemo)
+            if (AoWEngine.FDemo)
             {
-                Aow.Units.Sound.Sound.PlaySongEx((AnsiString)"Songs\\Special\\end2.s3m", 2, 2, true);
+                PlaySongEx((AnsiString)"Songs\\Special\\end2.s3m", 2, 2, true);
             }
             else
             {
-                Aow.Units.Sound.Sound.PlaySongEx((AnsiString)"Songs\\Special\\Sunset.it", 2, 2, true);
+                PlaySongEx((AnsiString)"Songs\\Special\\Sunset.it", 2, 2, true);
             }
 
-            Aow.Units.Sound.Sound.SetMusicVolume(0);
-            Aow.Units.Sound.Sound.FadeMusicVolume(Aow.Units.AoWExeForms.AoWExeForms.SoundDlg.MusicVolume.Position, 1);
+            SetMusicVolume(0);
+            FadeMusicVolume(SoundDlg.MusicVolume.Position, 1);
             Window.FPlayers.Clear();
             {
                 I = 1;
-                int end__78 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.Count - 1;
+                int end__78 = AoWHSMap.FPlayers.Count - 1;
                 for (; I <= end__78; I += 1)
                 {
-                    var call__79 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(I);
-                    if (call__79.FPlayerType != Aow.Units.AoWE.TPlayerType.ptIndependent)
+                    var call__79 = AoWHSMap.FPlayers.GetPlayers(I);
+                    if (call__79.FPlayerType != TPlayerType.ptIndependent)
                     {
-                        Window.FPlayers.Add(unchecked((byte)I));
+                        Window.FPlayers.Add((byte)I);
                     }
                 }
             }
@@ -659,40 +611,40 @@ namespace Aow.Units.AoWResultsWin
                 for (; I <= end__80; I += 1)
                 {
                     var call__81 = Window.FControls[I];
-                    ((Aow.Units.AoWCheckBox.TAOWCheckBox)call__81).Visible = I < Window.FPlayers.Count;
-                    bool bool__82 = (I < Window.FPlayers.Count);
+                    ((TAOWCheckBox)call__81).Visible = I < Window.FPlayers.Count;
+                    bool bool__82 = I < Window.FPlayers.Count;
                     if (bool__82)
                     {
                         var call__83 = Window.FPlayers[I];
-                        bool__82 = (call__83 == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+                        bool__82 = call__83 == AoWHSMap.FSeatedPlayer;
                     }
 
                     var call__84 = Window.FControls[I];
-                    ((Aow.Units.AoWCheckBox.TAOWCheckBox)call__84).Checked = bool__82;
+                    ((TAOWCheckBox)call__84).Checked = bool__82;
                 }
             }
 
-            bool bool__85 = (Aow.Units.AoWE.AoWE.AoWEngine.FCampaign != null);
+            bool bool__85 = AoWEngine.FCampaign != null;
             if (bool__85)
             {
-                var call__86 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                bool__85 = (call__86.FGameOverStatus == Aow.Units.AoWE.TGameOverStatus.goLost);
+                var call__86 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                bool__85 = call__86.FGameOverStatus == TGameOverStatus.goLost;
             }
 
             if (bool__85)
             {
-                var call__87 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ReplayRStr);
+                var call__87 = TranslateRStr(ReplayRStr);
                 Window.ContinueBtn.Text = call__87;
                 Window.ExitBtn.Visible = true;
             }
             else
             {
-                var call__88 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ContinueRStr);
+                var call__88 = TranslateRStr(ContinueRStr);
                 Window.ContinueBtn.Text = call__88;
                 Window.ExitBtn.Visible = false;
             }
 
-            Aow.Units.AoWResultsWin.AoWResultsWin.ResultsWin.ResultsPnl.Visible = true;
+            ResultsWin.ResultsPnl.Visible = true;
         }
     }
 }

@@ -1,34 +1,10 @@
 // Translated from AoWFrame.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.AOWMenuBar;
-using static Aow.Units.AOWMenuBar.AOWMenuBar;
 using Aow.Units.AOWMenu;
-using static Aow.Units.AOWMenu.AOWMenu;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWWinGeneric;
-using static Aow.Units.AoWWinGeneric.AoWWinGeneric;
 
 namespace Aow.Units.AoWFrame
 {
@@ -42,19 +18,19 @@ namespace Aow.Units.AoWFrame
 
     // Fields: FFrameType, FILFrame, FILTexture, FILLine, FILIndexFrame, FILIndexLine,
     // FILIndexTexture, FPopupMenu
-    public partial class TAoWFrame : Aow.Units.AoWControl.TAOWControl
+    public partial class TAoWFrame : TAOWControl
     {
         public TAoWFrame(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWFrame.TFrameType FFrameType;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTexture;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILLine;
+        public TFrameType FFrameType;
+        public TInterfaceIL FILFrame;
+        public TInterfaceIL FILTexture;
+        public TInterfaceIL FILLine;
         public int FILIndexFrame;
         public int FILIndexLine;
         public int FILIndexTexture;
-        public Aow.Units.AOWMenu.TAOWMenu FPopupMenu;
+        public TAOWMenu FPopupMenu;
         // AoWFrame.pas:63
         public override void Validate()
         {
@@ -76,27 +52,27 @@ namespace Aow.Units.AoWFrame
                 FILLine = call__3;
             }
 
-            if ((FILFrame != null) || (FILLine != null))
+            if (FILFrame != null || FILLine != null)
             {
                 FValid = true;
                 if (FILFrame != null)
                 {
                     if (FILTexture != null)
                     {
-                        FFrameType = Aow.Units.AoWFrame.TFrameType.frFilledBox;
+                        FFrameType = TFrameType.frFilledBox;
                     }
                     else
                     {
-                        FFrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox;
+                        FFrameType = TFrameType.frHollowBox;
                     }
                 }
                 else
                 {
                     if (FILLine != null)
                     {
-                        if (FFrameType != Aow.Units.AoWFrame.TFrameType.frHorizLine)
+                        if (FFrameType != TFrameType.frHorizLine)
                         {
-                            FFrameType = Aow.Units.AoWFrame.TFrameType.frVertLine;
+                            FFrameType = TFrameType.frVertLine;
                         }
                     }
                 }
@@ -110,11 +86,11 @@ namespace Aow.Units.AoWFrame
         {
             switch (FFrameType)
             {
-                case Aow.Units.AoWFrame.TFrameType.frFilledBox:
-                case Aow.Units.AoWFrame.TFrameType.frHollowBox:
+                case TFrameType.frFilledBox:
+                case TFrameType.frHollowBox:
                     var call__4 = FILFrame[FILIndexFrame];
                     var call__5 = FILFrame[FILIndexFrame + 5];
-                    if ((call__4.Height + call__5.Height) > FWinHeight)
+                    if (call__4.Height + call__5.Height > FWinHeight)
                     {
                         var call__6 = FILFrame[FILIndexFrame];
                         var call__7 = FILFrame[FILIndexFrame + 5];
@@ -123,7 +99,7 @@ namespace Aow.Units.AoWFrame
 
                     var call__8 = FILFrame[FILIndexFrame];
                     var call__9 = FILFrame[FILIndexFrame + 2];
-                    if ((call__8.Width + call__9.Width) > FWinWidth)
+                    if (call__8.Width + call__9.Width > FWinWidth)
                     {
                         var call__10 = FILFrame[FILIndexFrame];
                         var call__11 = FILFrame[FILIndexFrame + 2];
@@ -131,12 +107,12 @@ namespace Aow.Units.AoWFrame
                     }
 
                     break;
-                case Aow.Units.AoWFrame.TFrameType.frHorizLine:
+                case TFrameType.frHorizLine:
                     var call__12 = FILLine[FILIndexLine];
                     FWinHeight = call__12.Height;
                     var call__13 = FILLine[FILIndexLine];
                     var call__14 = FILLine[FILIndexLine + 2];
-                    if ((call__13.Width + call__14.Width) > FWinWidth)
+                    if (call__13.Width + call__14.Width > FWinWidth)
                     {
                         var call__15 = FILLine[FILIndexLine];
                         var call__16 = FILLine[FILIndexLine + 2];
@@ -144,10 +120,10 @@ namespace Aow.Units.AoWFrame
                     }
 
                     break;
-                case Aow.Units.AoWFrame.TFrameType.frVertLine:
+                case TFrameType.frVertLine:
                     var call__17 = FILLine[FILIndexLine];
                     var call__18 = FILLine[FILIndexLine + 2];
-                    if ((call__17.Height + call__18.Height) > FWinHeight)
+                    if (call__17.Height + call__18.Height > FWinHeight)
                     {
                         var call__19 = FILLine[FILIndexLine];
                         var call__20 = FILLine[FILIndexLine + 2];
@@ -163,7 +139,7 @@ namespace Aow.Units.AoWFrame
         }
 
         // AoWFrame.pas:166
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             try
             {
@@ -176,20 +152,20 @@ namespace Aow.Units.AoWFrame
 
                     switch (FFrameType)
                     {
-                        case Aow.Units.AoWFrame.TFrameType.frVertLine:
-                            var call__22 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        case TFrameType.frVertLine:
+                            var call__22 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILLine.DrawILLv(FILIndexLine, call__22, ref SurfDesc);
                             break;
-                        case Aow.Units.AoWFrame.TFrameType.frHorizLine:
-                            var call__23 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        case TFrameType.frHorizLine:
+                            var call__23 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILLine.DrawILLh(FILIndexLine, call__23, ref SurfDesc);
                             break;
-                        case Aow.Units.AoWFrame.TFrameType.frHollowBox:
-                            var call__24 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        case TFrameType.frHollowBox:
+                            var call__24 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILFrame.DrawILF(FILIndexFrame, call__24, ref SurfDesc);
                             break;
-                        case Aow.Units.AoWFrame.TFrameType.frFilledBox:
-                            var call__25 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        case TFrameType.frFilledBox:
+                            var call__25 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILFrame.DrawILF(FILIndexFrame, call__25, ref SurfDesc);
                             var call__26 = FILFrame[FILIndexFrame + 1];
                             var call__27 = FILFrame[FILIndexFrame + 6];
@@ -197,7 +173,7 @@ namespace Aow.Units.AoWFrame
                             var call__29 = FILFrame[FILIndexFrame + 4];
                             var call__30 = FILFrame[FILIndexFrame + 1];
                             var call__31 = FILFrame[FILIndexFrame + 3];
-                            var call__32 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__31.Width, (FAOWWindow.FWinTop + FWinTop) + call__30.Height, (FWinWidth - call__28.Width) - call__29.Width, (FWinHeight - call__26.Height) - call__27.Height);
+                            var call__32 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__31.Width, FAOWWindow.FWinTop + FWinTop + call__30.Height, FWinWidth - call__28.Width - call__29.Width, FWinHeight - call__26.Height - call__27.Height);
                             FILTexture.DrawILT(FILIndexTexture, call__32, ref SurfDesc);
                             break;
                     }
@@ -210,16 +186,16 @@ namespace Aow.Units.AoWFrame
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWFrame.pas:202
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseDown != null)
@@ -227,7 +203,7 @@ namespace Aow.Units.AoWFrame
                     FOnMouseDown(this, Button, Shift, X, Y);
                 }
 
-                if ((Button == Aow.Rtl.TMouseButton.mbRight) && (FPopupMenu != null))
+                if (Button == TMouseButton.mbRight && FPopupMenu != null)
                 {
                     FPopupMenu.SetPopupOwner(this);
                     FPopupMenu.WinLeft = X;
@@ -236,24 +212,24 @@ namespace Aow.Units.AoWFrame
                     {
                         if (FPopupMenu.FHidden)
                         {
-                            if ((FPopupMenu.FMenuLeft + FPopupMenu.FWinWidth) > FPopupMenu.FWinManager.FWinWidth)
+                            if (FPopupMenu.FMenuLeft + FPopupMenu.FWinWidth > FPopupMenu.FWinManager.FWinWidth)
                             {
                                 FPopupMenu.WinLeft = X - FPopupMenu.FWinWidth;
                             }
 
-                            if ((FPopupMenu.FMenuTop + FPopupMenu.FWinHeight) > FPopupMenu.FWinManager.FWinHeight)
+                            if (FPopupMenu.FMenuTop + FPopupMenu.FWinHeight > FPopupMenu.FWinManager.FWinHeight)
                             {
                                 FPopupMenu.WinTop = Y - FPopupMenu.FWinHeight;
                             }
                         }
                         else
                         {
-                            if ((FPopupMenu.FWinLeft + FPopupMenu.FWinWidth) > FPopupMenu.FWinManager.FWinWidth)
+                            if (FPopupMenu.FWinLeft + FPopupMenu.FWinWidth > FPopupMenu.FWinManager.FWinWidth)
                             {
                                 FPopupMenu.WinLeft = X - FPopupMenu.FWinWidth;
                             }
 
-                            if ((FPopupMenu.FWinTop + FPopupMenu.FWinHeight) > FPopupMenu.FWinManager.FWinHeight)
+                            if (FPopupMenu.FWinTop + FPopupMenu.FWinHeight > FPopupMenu.FWinManager.FWinHeight)
                             {
                                 FPopupMenu.WinTop = Y - FPopupMenu.FWinHeight;
                             }
@@ -266,10 +242,10 @@ namespace Aow.Units.AoWFrame
         }
 
         // AoWFrame.pas:237
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 if (FOnMouseUp != null)
                 {
@@ -279,10 +255,10 @@ namespace Aow.Units.AoWFrame
         }
 
         // AoWFrame.pas:246
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 if (FOnMouseMove != null)
                 {
@@ -298,7 +274,7 @@ namespace Aow.Units.AoWFrame
         }
 
         // AoWFrame.pas:139
-        public virtual void SetILFrame(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILFrame(TInterfaceIL Value)
         {
             if (Value != FILFrame)
             {
@@ -308,7 +284,7 @@ namespace Aow.Units.AoWFrame
         }
 
         // AoWFrame.pas:148
-        public virtual void SetILTexture(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTexture(TInterfaceIL Value)
         {
             if (Value != FILTexture)
             {
@@ -318,7 +294,7 @@ namespace Aow.Units.AoWFrame
         }
 
         // AoWFrame.pas:157
-        public virtual void SetILLine(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILLine(TInterfaceIL Value)
         {
             if (Value != FILLine)
             {
@@ -358,10 +334,10 @@ namespace Aow.Units.AoWFrame
         }
 
         [Published]
-        public Aow.Units.AoWFrame.TFrameType FrameType { get => FFrameType; set => FFrameType = value; }
+        public TFrameType FrameType { get => FFrameType; set => FFrameType = value; }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+        public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
         [Published]
         public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
@@ -373,13 +349,13 @@ namespace Aow.Units.AoWFrame
         public int ILIndexTexture { get => FILIndexTexture; set => SetILTIndex(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
+        public TInterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
+        public TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
 
         [Published]
-        public Aow.Units.AOWMenu.TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+        public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
     }
 
     public static partial class AoWFrame
@@ -387,7 +363,7 @@ namespace Aow.Units.AoWFrame
         // AoWFrame.pas:260
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWFrame.TAoWFrame)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAoWFrame)]);
         }
     }
 }

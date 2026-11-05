@@ -1,46 +1,21 @@
 // Translated from ItemGrid.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.ItemGrid
 {
     // indices, items, stream, show availability, sort
-    public partial class TItemGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
+    public partial class TItemGrid : TCustomImageDrawGrid
     {
-        public Aow.Units.FixedArray_byte_4 FDisplayOptions;
-        public Aow.Units.Engine.TIntegerList FIndices;
-        public Aow.Units.AoWE.TItemList FItems;
-        public Aow.Rtl.TMemoryStream FStream;
+        public FixedArray_byte_4 FDisplayOptions;
+        public TIntegerList FIndices;
+        public TItemList FItems;
+        public TMemoryStream FStream;
         public bool FEditable;
         public bool FShowAvailability;
         public byte FSort;
@@ -48,7 +23,7 @@ namespace Aow.Units.ItemGrid
         public override void Destroy()
         {
             /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemGrid.pas:108
@@ -56,29 +31,29 @@ namespace Aow.Units.ItemGrid
         public TItemGrid(TComponent owner) : base(owner)
         {
             /* TODO: Implement Controls.ControlStyle in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemGrid.pas:190
-        protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
+        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
         {
             /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemGrid.pas:127
         public override void DelCell()
         {
-            if (EditMode.Contains(Aow.Units.ImageLib.TILGridEditModeElement.igDel))
+            if (EditMode.Contains(TILGridEditModeElement.igDel))
             {
                 DeleteItem();
             }
         }
 
         // ItemGrid.pas:132
-        public Aow.Units.AoWE.TItem GetSelectedItem()
+        public TItem GetSelectedItem()
         {
-            Aow.Units.AoWE.TItem Result = default;
+            TItem Result = default;
             int Index = default;
             var call__1 = ImageIndex(Col, Row);
             Index = call__1;
@@ -97,9 +72,9 @@ namespace Aow.Units.ItemGrid
         }
 
         // ItemGrid.pas:142
-        public Aow.Units.AoWE.TItem GetItem(int Index)
+        public TItem GetItem(int Index)
         {
-            Aow.Units.AoWE.TItem Result = default;
+            TItem Result = default;
             // { Original checks only the upper bound. }
             if (Index < FIndices.Count)
             {
@@ -116,7 +91,7 @@ namespace Aow.Units.ItemGrid
         }
 
         // ItemGrid.pas:149
-        public void SetItems(Aow.Units.AoWE.TItemList Value)
+        public void SetItems(TItemList Value)
         {
             FItems = Value;
             UpdateItems();
@@ -126,7 +101,7 @@ namespace Aow.Units.ItemGrid
         public void UpdateItems()
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemGrid.pas:178
@@ -144,31 +119,31 @@ namespace Aow.Units.ItemGrid
         }
 
         // ItemGrid.pas:241
-        public void EditItemDone(Aow.Units.Engine.TEditResult ResultCode, Aow.Units.Engine.TEObject Obj)
+        public void EditItemDone(TEditResult ResultCode, TEObject Obj)
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // ItemGrid.pas:256
         public void CreateNewItem()
         {
-            Aow.Units.AoWE.TItem Item = default;
+            TItem Item = default;
             FStream.Clear();
-            var call__6 = new Aow.Units.AoWE.TItem(FItems);
+            var call__6 = new TItem(FItems);
             Item = call__6;
-            Aow.Units.AoWE.AoWE.AoWEngine.ActivateEObject(Item);
+            AoWEngine.ActivateEObject(Item);
             var call__7 = Item.Editor();
-            call__7.Edit(Item, Aow.Units.AoWE.AoWE.AoWEngine, EditItemDone);
+            call__7.Edit(Item, AoWEngine, EditItemDone);
         }
 
         // ItemGrid.pas:265
-        public void AddItem(Aow.Units.AoWE.TItem Item)
+        public void AddItem(TItem Item)
         {
             if (Item != null)
             {
                 var call__8 = FItems.GetControlStyle();
-                if (call__8.Contains(Aow.Units.Engine.TEControlStyleElement.csArrayMode))
+                if (call__8.Contains(TEControlStyleElement.csArrayMode))
                 {
                     var call__9 = ImageIndex(Col, Row);
                     var call__10 = FItems.GetItem(call__9);
@@ -191,7 +166,7 @@ namespace Aow.Units.ItemGrid
         public void DeleteItem()
         {
             /* TODO: Implement Grids.Bottom in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         [Published]
@@ -201,13 +176,13 @@ namespace Aow.Units.ItemGrid
         public bool EditItemEnabled { get => FEditable; set => FEditable = value; }
     }
 
-    public partial class TItemListView : Aow.Units.Engine.TEChangeNotifyNode
+    public partial class TItemListView : TEChangeNotifyNode
     {
         public TItemListView(TECustomNode owner) : base(owner)
         { }
 
         // ItemGrid.pas:57
-        public virtual Aow.Units.AoWE.TItem GetItem(int Index)
+        public virtual TItem GetItem(int Index)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -217,48 +192,48 @@ namespace Aow.Units.ItemGrid
     public struct TItemStatus
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_28 Reserved;
+        public FixedArray_byte_28 Reserved;
         [FieldOffset(28)]
         public byte Status;
     }
 
     public struct TRawView
     {
-        public Aow.Units.FixedArray_object_512 Fields;
+        public FixedArray_object_512 Fields;
     }
 
     public struct TNodeView
     {
-        public Aow.Units.FixedArray_byte_8 Reserved;
-        public Aow.Rtl.TList Children;
+        public FixedArray_byte_8 Reserved;
+        public TList Children;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 49)]
     public struct TEngineView
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_48 Reserved;
+        public FixedArray_byte_48 Reserved;
         [FieldOffset(48)]
         public byte Status;
     }
 
     public struct THeroView
     {
-        public Aow.Units.FixedArray_byte_96 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_4 Reserved64;
+        public FixedArray_byte_96 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_4 Reserved64;
         public byte Race;
-        public Aow.Units.FixedArray_byte_15 Reserved69;
+        public FixedArray_byte_15 Reserved69;
         public bool Hidden;
     }
 
     public struct TItemView
     {
-        public Aow.Units.FixedArray_byte_24 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_24 Reserved1C;
+        public FixedArray_byte_24 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_24 Reserved1C;
         public byte Kind;
-        public Aow.Units.FixedArray_byte_15 Reserved35;
+        public FixedArray_byte_15 Reserved35;
         public bool Hidden;
     }
 
@@ -267,7 +242,7 @@ namespace Aow.Units.ItemGrid
         // ItemGrid.pas:296
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.ItemGrid.TItemGrid)]);
+            RegisterComponents((AnsiString)"AoW", [typeof(TItemGrid)]);
         }
 
         public static void Initialize()

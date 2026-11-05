@@ -1,64 +1,29 @@
 // Translated from StartMenu.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AOWMenu;
-using static Aow.Units.AOWMenu.AOWMenu;
 using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AOWMenuBar;
-using static Aow.Units.AOWMenuBar.AOWMenuBar;
 
 namespace Aow.Units.StartMenu
 {
     // whole-menu image library
-    public partial class TStartMenu : Aow.Units.AOWMenu.TAOWMenu
+    public partial class TStartMenu : TAOWMenu
     {
         public TStartMenu(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.ImageLib.TImageLibrary FILWholeMenu;
+        public TImageLibrary FILWholeMenu;
         // StartMenu.pas:30
         public override void SetSize()
         {
-            Aow.Units.AOWWinManager.TAOWWinManager M = default;
+            TAOWWinManager M = default;
             base.SetSize();
             FWinHeight = 377;
             M = FWinManager;
-            if ((M != null) && (FOwnerMenuBar != null))
+            if (M != null && FOwnerMenuBar != null)
             {
                 FWinTop = M.FWinHeight - 393;
             }
@@ -69,8 +34,8 @@ namespace Aow.Units.StartMenu
         // StartMenu.pas:41
         public override void SetVisible(bool Value)
         {
-            Aow.Units.AOWWinManager.TAOWWinManager M = default;
-            Aow.Units.AOWMenuBar.TAOWMenuBar B = default;
+            TAOWWinManager M = default;
+            TAOWMenuBar B = default;
             if (Value != FVisible)
             {
                 FVisible = Value;
@@ -79,7 +44,7 @@ namespace Aow.Units.StartMenu
                     FHighlighted = -1;
                     FWinHeight = 377;
                     M = FWinManager;
-                    if ((M != null) && (FOwnerMenuBar != null))
+                    if (M != null && FOwnerMenuBar != null)
                     {
                         FWinTop = M.FWinHeight - 393;
                     }
@@ -118,7 +83,7 @@ namespace Aow.Units.StartMenu
 
             if (FVisible)
             {
-                if ((!FValid || !FAligned) || !FSized)
+                if (!FValid || !FAligned || !FSized)
                 {
                     Setup();
                 }
@@ -131,10 +96,10 @@ namespace Aow.Units.StartMenu
         }
 
         // StartMenu.pas:87
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             int I = default;
-            Aow.Rtl.TRect OldClip = default;
+            TRect OldClip = default;
             try
             {
                 if (FValid && FVisible)
@@ -154,10 +119,10 @@ namespace Aow.Units.StartMenu
                                 if (call__3 > 0)
                                 {
                                     var call__4 = FILFrame[FILIndexFrame + 2];
-                                    if (((FWinLeft + FWinWidth) - call__4.Width) < OldClip.Right)
+                                    if (FWinLeft + FWinWidth - call__4.Width < OldClip.Right)
                                     {
                                         var call__5 = FILFrame[FILIndexFrame + 2];
-                                        SurfDesc.ClipRect.Right = (FWinLeft + FWinWidth) - call__5.Width;
+                                        SurfDesc.ClipRect.Right = FWinLeft + FWinWidth - call__5.Width;
                                     }
 
                                     if (I == FHighlighted)
@@ -168,7 +133,7 @@ namespace Aow.Units.StartMenu
                                     var call__6 = FItems[I];
                                     var call__7 = FILFrame[FILIndexFrame];
                                     var call__8 = FILFrame[FILIndexFrame + 3];
-                                    FAOWFont.SetText((FWinLeft + FBorderWidth) + call__8.Width, ((FWinTop + FBorderHeight) + call__7.Height) + (FItemHeight * I), call__6, SurfDesc);
+                                    FAOWFont.SetText(FWinLeft + FBorderWidth + call__8.Width, FWinTop + FBorderHeight + call__7.Height + FItemHeight * I, call__6, SurfDesc);
                                     if (I == FHighlighted)
                                     {
                                         FAOWFont.Color = FColor;
@@ -178,7 +143,7 @@ namespace Aow.Units.StartMenu
                                     var call__9 = FILFrame[FILIndexFrame + 1];
                                     var call__10 = FILFrame[FILIndexFrame + 1];
                                     var call__11 = FILFrame[FILIndexFrame + 3];
-                                    var call__12 = Aow.Rtl.Rtl.Rect(FWinLeft + call__11.Width, (FWinTop + call__10.Height) + (FItemHeight * I), FWinLeft + FWinWidth, (FWinTop + call__9.Height) + ((I + 1) * FItemHeight));
+                                    var call__12 = Rect(FWinLeft + call__11.Width, FWinTop + call__10.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + call__9.Height + (I + 1) * FItemHeight);
                                     FDrawItemRect = call__12;
                                     if (FOnDrawItem != null)
                                     {
@@ -199,12 +164,12 @@ namespace Aow.Units.StartMenu
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // StartMenu.pas:123
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             if (FValid)
             {
@@ -217,7 +182,7 @@ namespace Aow.Units.StartMenu
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibrary ILWholeMenu { get => FILWholeMenu; set => FILWholeMenu = value; }
+        public TImageLibrary ILWholeMenu { get => FILWholeMenu; set => FILWholeMenu = value; }
     }
 
     public static partial class StartMenu
@@ -225,7 +190,7 @@ namespace Aow.Units.StartMenu
         // StartMenu.pas:133
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Tools", [typeof(Aow.Units.StartMenu.TStartMenu)]);
+            RegisterComponents((AnsiString)"AOW Tools", [typeof(TStartMenu)]);
         }
 
         public static void Initialize()

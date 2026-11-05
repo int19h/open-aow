@@ -1,34 +1,8 @@
 // Translated from Tower.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -40,7 +14,7 @@ namespace Aow.Units.Tower
     }
 
     // FState, bit 0 razed
-    public partial class TTower : Aow.Units.AoWE.TPlayerStructure
+    public partial class TTower : TPlayerStructure
     {
         public TTower(TECustomNode owner) : base(owner)
         {}
@@ -48,24 +22,24 @@ namespace Aow.Units.Tower
         // Tower.pas:55
         public new const int ClassID = 132158;
 
-        public TSet<Aow.Units.Tower.TTowerStateElement> FState;
+        public TSet<TTowerStateElement> FState;
         // Tower.pas:96
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Aow.Rtl.Rtl.RwSet(ref FState, 1, 20, Stream.rwData, 0);
+            RwSet(ref FState, 1, 20, Stream.rwData, 0);
         }
 
         // Tower.pas:102
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             var call__1 = FResource.TerrainList.Terrain[Msg.HN];
-            bool bool__2 = (call__1 >= 0) && (Msg.MsgID == 4387);
+            bool bool__2 = call__1 >= 0 && Msg.MsgID == 4387;
             if (bool__2)
             {
-                var call__3 = Msg.Param[0].As<Aow.Units.HSEngine.TMapField>().FindNoneTransparentHS(typeof(Aow.Units.Tower.TTower));
-                bool__2 = (call__3 == this);
+                var call__3 = Msg.Param[0].As<TMapField>().FindNoneTransparentHS(typeof(TTower));
+                bool__2 = call__3 == this;
             }
 
             bool bool__4 = bool__2;
@@ -93,12 +67,12 @@ namespace Aow.Units.Tower
         {
             if (Value)
             {
-                SetPlayer(unchecked((sbyte)-1));
-                FState = FState + TSet<Aow.Units.Tower.TTowerStateElement>.Of(Aow.Units.Tower.TTowerStateElement.tsRazed);
+                SetPlayer(-1);
+                FState = FState + TSet<TTowerStateElement>.Of(TTowerStateElement.tsRazed);
             }
             else
             {
-                FState = FState - TSet<Aow.Units.Tower.TTowerStateElement>.Of(Aow.Units.Tower.TTowerStateElement.tsRazed);
+                FState = FState - TSet<TTowerStateElement>.Of(TTowerStateElement.tsRazed);
             }
 
             var call__8 = GetTerrainTypeImage(FTerrainType);
@@ -109,19 +83,19 @@ namespace Aow.Units.Tower
         public override bool GetRazed()
         {
             bool Result = default;
-            Result = FState.Contains(Aow.Units.Tower.TTowerStateElement.tsRazed);
+            Result = FState.Contains(TTowerStateElement.tsRazed);
             return Result;
         }
 
         // Tower.pas:73
-        public override void UpdateAITarget(in Aow.Units.AoWE.TAITargetInfo Info, ref Aow.Units.AoWE.TAITargetData Data)
+        public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
             base.UpdateAITarget(Info, ref Data);
-            if (!FState.Contains(Aow.Units.Tower.TTowerStateElement.tsRazed))
+            if (!FState.Contains(TTowerStateElement.tsRazed))
             {
                 switch (Info.Mode)
                 {
-                    case Aow.Units.AoWE.TAITargetMode.tmFortify:
+                    case TAITargetMode.tmFortify:
                         if (Info.Player == FPlayer)
                         {
                             Data.Priority = 50;
@@ -140,14 +114,14 @@ namespace Aow.Units.Tower
             {
                 Result = 12;
                 var call__9 = GetLhx();
-                bool bool__10 = (call__9 != 0);
+                bool bool__10 = call__9 != 0;
                 if (!bool__10)
                 {
-                    bool bool__11 = (FPlayer > 0);
+                    bool bool__11 = FPlayer > 0;
                     if (bool__11)
                     {
-                        var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        bool__11 = ((((byte)call__12.FMagicControl.FEnemyEnchantments.Image) & 8) != 0);
+                        var call__12 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
+                        bool__11 = (((byte)call__12.FMagicControl.FEnemyEnchantments.Image) & 8) != 0;
                     }
 
                     bool__10 = bool__11;
@@ -176,7 +150,7 @@ namespace Aow.Units.Tower
 
     }
 
-    public partial class TTowerResource : Aow.Units.AoWE.TPlayerStructureResource
+    public partial class TTowerResource : TPlayerStructureResource
     {
         public TTowerResource(TECustomNode owner) : base(owner)
         {
@@ -206,37 +180,37 @@ namespace Aow.Units.Tower
 
 
         // Tower.pas:121
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__13 = Aow.Units.AoWE.AoWE.TowerRStr;
-            var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(call__13);
+            AnsiString Result = default;
+            var call__13 = TowerRStr;
+            var call__14 = TranslateRStr(call__13);
             Result = call__14;
             return Result;
         }
 
     }
 
-    public partial class TTowerConstructionControl : Aow.Units.AoWE.TStructureConstructionControl
+    public partial class TTowerConstructionControl : TStructureConstructionControl
     {
         public TTowerConstructionControl(TECustomNode owner) : base(owner)
         { }
 
         // Tower.pas:139
-        public override void GetInfo(Aow.Units.AoWE.TAbstractUnit AUnit, ref Aow.Rtl.AnsiString Text, ref int Gold, ref int Days)
+        public override void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
         {
-            var call__15 = Aow.Units.AoWE.AoWE.TowerRStr;
-            var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(call__15);
-            var call__17 = Aow.Units.AoWE.AoWE.BuildXRStr;
-            var call__18 = Aow.Units.AoWE.AoWE.TranslateRStr(call__17);
-            var call__19 = Aow.Rtl.Rtl.Format(call__18, [call__16]);
+            var call__15 = TowerRStr;
+            var call__16 = TranslateRStr(call__15);
+            var call__17 = BuildXRStr;
+            var call__18 = TranslateRStr(call__17);
+            var call__19 = Rtl.Rtl.Format(call__18, [call__16]);
             Text = call__19;
             Gold = 50;
             Days = 2;
         }
 
         // Tower.pas:146
-        public override bool CanConstruct(Aow.Units.AoWE.TAbstractUnit A1, ref Aow.Rtl.AnsiString A2)
+        public override bool CanConstruct(TAbstractUnit A1, ref AnsiString A2)
         {
             bool Result = default;
             sbyte Xhx = default;
@@ -250,11 +224,11 @@ namespace Aow.Units.Tower
             else
             {
                 Result = false;
-                var call__20 = Aow.Units.AoWE.AoWE.TowerRStr;
-                var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(call__20);
-                var call__22 = Aow.Units.AoWE.AoWE.CannotBuildXInUndergroundRStr;
-                var call__23 = Aow.Units.AoWE.AoWE.TranslateRStr(call__22);
-                var call__24 = Aow.Rtl.Rtl.Format(call__23, [call__21]);
+                var call__20 = TowerRStr;
+                var call__21 = TranslateRStr(call__20);
+                var call__22 = CannotBuildXInUndergroundRStr;
+                var call__23 = TranslateRStr(call__22);
+                var call__24 = Rtl.Rtl.Format(call__23, [call__21]);
                 A2 = call__24;
             }
 
@@ -262,11 +236,11 @@ namespace Aow.Units.Tower
         }
 
         // Tower.pas:133
-        public override Aow.Units.AoWE.TStructureResource StructureResource(Aow.Units.AoWE.TAbstractUnit AUnit)
+        public override TStructureResource StructureResource(TAbstractUnit AUnit)
         {
-            Aow.Units.AoWE.TStructureResource Result = default;
-            var call__25 = Aow.Units.AoWE.AoWE.AoWHSSet.MapObjectResourceList.FindChild(132159);
-            Result = (Aow.Units.AoWE.TStructureResource)call__25;
+            TStructureResource Result = default;
+            var call__25 = AoWHSSet.MapObjectResourceList.FindChild(132159);
+            Result = (TStructureResource)call__25;
             return Result;
         }
 
@@ -283,12 +257,12 @@ namespace Aow.Units.Tower
     public static partial class Tower
     {
         // Tower.pas:159
-        public static void RegisterTower(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterTower(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Tower.TTower>(), Aow.Units.Engine.EClass.Of<Aow.Units.Tower.TTowerResource>()]);
-            var call__26 = new Aow.Units.Tower.TTowerConstructionControl(null);
-            var call__27 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(125);
-            ((Aow.Units.AoWE.TConstructAbility)call__27).RegisterConstructionControl(call__26);
+            AEngine.RegisterEClasses([EClass.Of<TTower>(), EClass.Of<TTowerResource>()]);
+            var call__26 = new TTowerConstructionControl(null);
+            var call__27 = AoWHSSet.FAbilityControl.GetAbility(125);
+            ((TConstructAbility)call__27).RegisterConstructionControl(call__26);
         }
 
         public static void Initialize()

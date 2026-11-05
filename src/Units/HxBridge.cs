@@ -1,48 +1,24 @@
 // Translated from HxBridge.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.HxBridge
 {
     // FTerrain, FDirection (-1 invalid), FSideA, FSideB
-    public partial class THexagonBridge : Aow.Units.HSEngine.TAbstractRoad
+    public partial class THexagonBridge : TAbstractRoad
     {
         public THexagonBridge(TECustomNode owner) : base(owner)
         {
-            FDirection = unchecked((sbyte)-1);
-            var call__1 = new Aow.Units.Engine.TByteList();
+            FDirection = -1;
+            var call__1 = new TByteList();
             FSideA = call__1;
-            var call__2 = new Aow.Units.Engine.TByteList();
+            var call__2 = new TByteList();
             FSideB = call__2;
         }
 
@@ -51,8 +27,8 @@ namespace Aow.Units.HxBridge
 
         public sbyte FTerrain;
         public sbyte FDirection;
-        public Aow.Units.Engine.TByteList FSideA;
-        public Aow.Units.Engine.TByteList FSideB;
+        public TByteList FSideA;
+        public TByteList FSideB;
         // HxBridge.pas:77
         public override void Destroy()
         {
@@ -70,11 +46,11 @@ namespace Aow.Units.HxBridge
             sbyte Result = default;
             if (Index == 0)
             {
-                Result = unchecked((sbyte)FTerrain);
+                Result = FTerrain;
             }
             else
             {
-                Result = unchecked((sbyte)-2);
+                Result = -2;
             }
 
             return Result;
@@ -94,29 +70,29 @@ namespace Aow.Units.HxBridge
             int Result = default;
             int Xhp = default;
             int Yhp = default;
-            var mapField = (Aow.Units.HSEngine.TMapField)Owner;
-            Xhp = (mapField.Xhx * 32) + 8;
-            Yhp = ((mapField.Xhx & 1) * 16) + (mapField.Yhx * 32);
+            var mapField = (TMapField)Owner;
+            Xhp = mapField.Xhx * 32 + 8;
+            Yhp = (mapField.Xhx & 1) * 16 + mapField.Yhx * 32;
 
-            Result = (1744830464 + (Yhp << 13)) + (Xhp + 8);
+            Result = 1744830464 + (Yhp << 13) + (Xhp + 8);
             return Result;
         }
 
         // HxBridge.pas:117
         public override void Connect()
         {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, 1);
+            THNWalkData Walk = default;
+            TMapLevel Level = default;
+            Level = (TMapLevel)Owner.Owner;
+            InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
             while (Walk.Radius <= 1)
             {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Walk.Y < Level.Height))
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
                     var call__4 = Level.GetField(Walk.X, Walk.Y);
                     call__4.AddHS(this, Walk.HN);
                     // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    WalkToNextHN(ref Walk);
                 }
             }
 
@@ -126,18 +102,18 @@ namespace Aow.Units.HxBridge
         // HxBridge.pas:135
         public override void Disconnect()
         {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, 1);
+            THNWalkData Walk = default;
+            TMapLevel Level = default;
+            Level = (TMapLevel)Owner.Owner;
+            InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
             while (Walk.Radius <= 1)
             {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Walk.Y < Level.Height))
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
                     var call__5 = Level.GetField(Walk.X, Walk.Y);
                     call__5.RemoveHS(this);
                     // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    WalkToNextHN(ref Walk);
                 }
             }
 
@@ -145,13 +121,13 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:327
-        public override void ChangeTerrain(in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void ChangeTerrain(in THSTerrainInfo Msg)
         {
             base.ChangeTerrain(Msg);
         }
 
         // HxBridge.pas:321
-        public override void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Msg)
         {
             UpdateTransitions();
             if (FDirection == -1)
@@ -161,25 +137,25 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:186
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             var call__6 = FResource.ImageLibrary[FDirection];
-            call__6.Show((Xhp - XhpSurf) - 23, (Yhp - YhpSurf) - 20, SurfaceDesc);
+            call__6.Show(Xhp - XhpSurf - 23, Yhp - YhpSurf - 20, SurfaceDesc);
         }
 
         // HxBridge.pas:160
-        public override void MoveExclusive(in Aow.Units.HSEngine.THSSenderInfo Info)
+        public override void MoveExclusive(in THSSenderInfo Info)
         {
             int I = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
+            TMapField MapField = default;
             if (Info.HN != 0)
             {
-                var call__7 = FSideA.IndexOf(unchecked((byte)Info.HN));
+                var call__7 = FSideA.IndexOf((byte)Info.HN);
                 if (call__7 != -1)
                 {
                     {
@@ -188,16 +164,16 @@ namespace Aow.Units.HxBridge
                         for (; I <= end__8; I += 1)
                         {
                             var call__9 = FSideB[I];
-                            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, call__9, ref Xhx, ref Yhx);
-                            var call__10 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx);
+                            CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, call__9, ref Xhx, ref Yhx);
+                            var call__10 = AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
                             MapField = call__10;
-                            ((Aow.Units.AoWE.TMoveControl)Info.Sender).ExecuteExternalMove((Aow.Units.AoWE.TAoWMapField)Info.MapField, (Aow.Units.AoWE.TAoWMapField)MapField, ((Aow.Units.AoWE.TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
+                            ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)MapField, ((TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                         }
                     }
                 }
                 else
                 {
-                    var call__11 = FSideB.IndexOf(unchecked((byte)Info.HN));
+                    var call__11 = FSideB.IndexOf((byte)Info.HN);
                     if (call__11 != -1)
                     {
                         {
@@ -206,10 +182,10 @@ namespace Aow.Units.HxBridge
                             for (; I <= end__12; I += 1)
                             {
                                 var call__13 = FSideA[I];
-                                Aow.Units.HSEngine.HSEngine.CenterHNtoHX(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, call__13, ref Xhx, ref Yhx);
-                                var call__14 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((Aow.Units.HSEngine.TMapField)Owner).Lhx);
+                                CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, call__13, ref Xhx, ref Yhx);
+                                var call__14 = AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
                                 MapField = call__14;
-                                ((Aow.Units.AoWE.TMoveControl)Info.Sender).ExecuteExternalMove((Aow.Units.AoWE.TAoWMapField)Info.MapField, (Aow.Units.AoWE.TAoWMapField)MapField, ((Aow.Units.AoWE.TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
+                                ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)MapField, ((TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                             }
                         }
                     }
@@ -225,31 +201,31 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:153
-        public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public override void UpdateMapField(in THSMapFieldInfo Info)
         {
             if (Info.HN != 0)
             {
-                ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags | 32768;
+                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 32768;
             }
         }
 
         // HxBridge.pas:94
-        public override bool LinkToResource(Aow.Units.Engine.TEngine AEngine)
+        public override bool LinkToResource(TEngine AEngine)
         {
             bool Result = default;
             Result = base.LinkToResource(AEngine);
             var call__15 = FResource.TerrainList.Terrain[0];
-            FTerrain = unchecked((sbyte)call__15);
+            FTerrain = call__15;
             return Result;
         }
 
         // HxBridge.pas:200
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
+            TMapField MapField = default;
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-            var call__16 = base.CanPlace(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            var call__16 = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
             bool bool__17 = call__16;
             if (bool__17)
             {
@@ -276,26 +252,26 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:209
-        public override bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.THexagonSprite Road = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
+            THexagonSprite Road = default;
+            TMapField MapField = default;
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-            Road = MapField.FindHS(typeof(Aow.Units.HSEngine.TAbstractRoad));
+            Road = MapField.FindHS(typeof(TAbstractRoad));
             if (Road != null)
             {
                 Road.Destroy();
             }
 
-            Road = (Aow.Units.HSEngine.THexagonSprite)((System.Object)Owner);
+            Road = (THexagonSprite)(object)Owner;
             Owner = MapField;
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
-            FTerrain = unchecked((sbyte)MapField.TerrainType);
+            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+            FTerrain = MapField.TerrainType;
             // { Original bug: refresh the old owner's owner as a map field. }
             if (Road != null)
             {
-                ((Aow.Units.HSEngine.TMapField)Road.Owner).UpdateOverlayType();
+                ((TMapField)Road.Owner).UpdateOverlayType();
             }
 
             MapField.UpdateOverlayType();
@@ -308,39 +284,39 @@ namespace Aow.Units.HxBridge
         // HxBridge.pas:309
         public override void UpdateTransitions()
         {
-            bool bool__23 = (FDirection == -1);
+            bool bool__23 = FDirection == -1;
             if (!bool__23)
             {
-                var call__24 = DirectionValid((Aow.Units.HSEngine.TMapField)Owner, unchecked((sbyte)FDirection));
+                var call__24 = DirectionValid((TMapField)Owner, FDirection);
                 bool__23 = !call__24;
             }
 
             if (bool__23)
             {
-                var call__25 = DirectionValid((Aow.Units.HSEngine.TMapField)Owner, 1);
+                var call__25 = DirectionValid((TMapField)Owner, 1);
                 if (call__25)
                 {
                     FDirection = 1;
                 }
                 else
                 {
-                    var call__26 = DirectionValid((Aow.Units.HSEngine.TMapField)Owner, 2);
+                    var call__26 = DirectionValid((TMapField)Owner, 2);
                     if (call__26)
                     {
                         FDirection = 2;
                     }
                     else
                     {
-                        var call__27 = DirectionValid((Aow.Units.HSEngine.TMapField)Owner, 0);
+                        var call__27 = DirectionValid((TMapField)Owner, 0);
                         if (call__27)
                         {
                             FDirection = 0;
                         }
                         else
                         {
-                            if (Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+                            if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                             {
-                                FDirection = unchecked((sbyte)-1);
+                                FDirection = -1;
                             }
                         }
                     }
@@ -351,26 +327,26 @@ namespace Aow.Units.HxBridge
         }
 
         // HxBridge.pas:229
-        public bool DirectionValid(Aow.Units.HSEngine.TMapField MapField, sbyte Direction)
+        public bool DirectionValid(TMapField MapField, sbyte Direction)
         {
             bool Result = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
+            TMapLevel Level = default;
             int Xhx = default;
             int Yhx = default;
             Result = false;
-            Level = (Aow.Units.HSEngine.TMapLevel)MapField.Owner;
-            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 1, ref Xhx, ref Yhx);
-            if ((((Xhx >= 0) && (Yhx >= 0)) && (Xhx < Level.Width)) && (Yhx < Level.Height))
+            Level = (TMapLevel)MapField.Owner;
+            CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 1, ref Xhx, ref Yhx);
+            if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
             {
                 var call__28 = Level.GetField(Xhx, Yhx);
-                var call__29 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__28.TerrainType));
+                var call__29 = Land(call__28.TerrainType);
                 if (call__29)
                 {
-                    Aow.Units.HSEngine.HSEngine.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 4, ref Xhx, ref Yhx);
-                    if ((((Xhx >= 0) && (Yhx >= 0)) && (Xhx < Level.Width)) && (Yhx < Level.Height))
+                    CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 4, ref Xhx, ref Yhx);
+                    if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
                     {
                         var call__30 = Level.GetField(Xhx, Yhx);
-                        var call__31 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__30.TerrainType));
+                        var call__31 = Land(call__30.TerrainType);
                         Result = call__31;
                     }
                 }
@@ -386,45 +362,45 @@ namespace Aow.Units.HxBridge
             int Yhx = default;
             int X = default;
             int Y = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
+            TMapLevel Level = default;
             FSideB.Clear();
             FSideA.Clear();
             if (FDirection != -1)
             {
-                Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-                Xhx = ((Aow.Units.HSEngine.TMapField)Owner).Xhx;
-                Yhx = ((Aow.Units.HSEngine.TMapField)Owner).Yhx;
+                Level = (TMapLevel)Owner.Owner;
+                Xhx = ((TMapField)Owner).Xhx;
+                Yhx = ((TMapField)Owner).Yhx;
                 // { Original bug: the neighbour lookups here have no bounds checks. }
                 switch (FDirection)
                 {
                     case 0:
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
                         var call__32 = Level.GetField(X, Y);
-                        var call__33 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__32.TerrainType));
+                        var call__33 = Land(call__32.TerrainType);
                         if (!call__33)
                         {
                             FSideB.Add(2);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
                         var call__34 = Level.GetField(X, Y);
-                        var call__35 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__34.TerrainType));
+                        var call__35 = Land(call__34.TerrainType);
                         if (!call__35)
                         {
                             FSideB.Add(3);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
                         var call__36 = Level.GetField(X, Y);
-                        var call__37 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__36.TerrainType));
+                        var call__37 = Land(call__36.TerrainType);
                         if (!call__37)
                         {
                             FSideA.Add(5);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
                         var call__38 = Level.GetField(X, Y);
-                        var call__39 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__38.TerrainType));
+                        var call__39 = Land(call__38.TerrainType);
                         if (!call__39)
                         {
                             FSideA.Add(6);
@@ -432,33 +408,33 @@ namespace Aow.Units.HxBridge
 
                         break;
                     case 1:
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
                         var call__40 = Level.GetField(X, Y);
-                        var call__41 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__40.TerrainType));
+                        var call__41 = Land(call__40.TerrainType);
                         if (!call__41)
                         {
                             FSideB.Add(3);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
                         var call__42 = Level.GetField(X, Y);
-                        var call__43 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__42.TerrainType));
+                        var call__43 = Land(call__42.TerrainType);
                         if (!call__43)
                         {
                             FSideB.Add(4);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
                         var call__44 = Level.GetField(X, Y);
-                        var call__45 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__44.TerrainType));
+                        var call__45 = Land(call__44.TerrainType);
                         if (!call__45)
                         {
                             FSideA.Add(6);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
                         var call__46 = Level.GetField(X, Y);
-                        var call__47 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__46.TerrainType));
+                        var call__47 = Land(call__46.TerrainType);
                         if (!call__47)
                         {
                             FSideA.Add(1);
@@ -466,33 +442,33 @@ namespace Aow.Units.HxBridge
 
                         break;
                     case 2:
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
                         var call__48 = Level.GetField(X, Y);
-                        var call__49 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__48.TerrainType));
+                        var call__49 = Land(call__48.TerrainType);
                         if (!call__49)
                         {
                             FSideB.Add(1);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
                         var call__50 = Level.GetField(X, Y);
-                        var call__51 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__50.TerrainType));
+                        var call__51 = Land(call__50.TerrainType);
                         if (!call__51)
                         {
                             FSideB.Add(2);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
                         var call__52 = Level.GetField(X, Y);
-                        var call__53 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__52.TerrainType));
+                        var call__53 = Land(call__52.TerrainType);
                         if (!call__53)
                         {
                             FSideA.Add(4);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
+                        CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
                         var call__54 = Level.GetField(X, Y);
-                        var call__55 = Aow.Units.AoWE.AoWE.Land(unchecked((sbyte)call__54.TerrainType));
+                        var call__55 = Land(call__54.TerrainType);
                         if (!call__55)
                         {
                             FSideA.Add(5);
@@ -508,7 +484,7 @@ namespace Aow.Units.HxBridge
 
     }
 
-    public partial class THexagonBridgeResource : Aow.Units.HSEngine.TAbstractRoadResource
+    public partial class THexagonBridgeResource : TAbstractRoadResource
     {
         public THexagonBridgeResource(TECustomNode owner) : base(owner)
         {
@@ -533,10 +509,10 @@ namespace Aow.Units.HxBridge
 
 
         // HxBridge.pas:343
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.HSEngine.HSEngine.BridgeStr;
+            AnsiString Result = default;
+            Result = BridgeStr;
             return Result;
         }
 
@@ -546,17 +522,17 @@ namespace Aow.Units.HxBridge
     public struct TBridgeMoveData
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_49 Reserved;
+        public FixedArray_byte_49 Reserved;
         [FieldOffset(49)]
-        public Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16 Costs;
+        public FixedArray_Aow_Units_FixedArray_sbyte_16_16 Costs;
     }
 
     public static partial class HxBridge
     {
         // HxBridge.pas:353
-        public static void RegisterHexagonBridge(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterHexagonBridge(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.HxBridge.THexagonBridge>(), Aow.Units.Engine.EClass.Of<Aow.Units.HxBridge.THexagonBridgeResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<THexagonBridge>(), EClass.Of<THexagonBridgeResource>()]);
         }
 
         public static void Initialize()

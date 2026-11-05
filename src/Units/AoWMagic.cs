@@ -1,148 +1,96 @@
 // Translated from AoWMagic.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
 using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWListBox.AoWListBox;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWTabPanel;
-using static Aow.Units.AoWTabPanel.AoWTabPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.E1GameFlow;
 using static Aow.Units.E1GameFlow.E1GameFlow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.AoWExeForms;
 using static Aow.Units.AoWExeForms.AoWExeForms;
-using Aow.Units.AoWPowerDlg;
-using static Aow.Units.AoWPowerDlg.AoWPowerDlg;
-using Aow.Units.aowHelpWin;
 using static Aow.Units.aowHelpWin.aowHelpWin;
-using Aow.Units.E2GameFlow;
-using static Aow.Units.E2GameFlow.E2GameFlow;
-using Aow.Units.E2Globals;
 using static Aow.Units.E2Globals.E2Globals;
 
 namespace Aow.Units.AoWMagic
 {
     // enchantment sort, global sort, power sort
-    public partial class TMagicWin : Aow.Rtl.TDataModule
+    public partial class TMagicWin : TDataModule
     {
         public TMagicWin(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWLabel.TAOWLabel OWTitle;
-        public Aow.Units.AoWImage.TAOWImage OWTitleIc;
-        public Aow.Units.AoWTabPanel.TAOWTabPanel HeaderTab;
-        public Aow.Units.AoWFrame.TAoWFrame OWRPillar;
-        public Aow.Units.AoWFrame.TAoWFrame OWLPillar;
-        public Aow.Units.AoWPanel.TAOWPanel T1Pnl;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchPoints;
-        public Aow.Units.AoWLabel.TAOWLabel ResLbl;
-        public Aow.Units.AoWPanel.TAOWPanel T2Pnl;
-        public Aow.Units.AoWPanel.TAOWPanel T2LBPnl;
-        public Aow.Units.AoWListBox.TAOWListBox EnchantmentList;
-        public Aow.Units.AoWButton.TAOWButton EnchantmentSortBtn;
-        public Aow.Units.AoWListBox.TAOWListBox UpkeepList;
-        public Aow.Units.AoWButton.TAOWButton UpkeepSortBtn;
-        public Aow.Units.AoWListBox.TAOWListBox BindingList;
-        public Aow.Units.AoWButton.TAOWButton BindingSortBtn;
-        public Aow.Units.AoWPanel.TAOWPanel ResPnl;
-        public Aow.Units.AoWLabel.TAOWLabel NetMana;
-        public Aow.Units.AoWLabel.TAOWLabel NetMamaLbl;
-        public Aow.Units.AoWPanel.TAOWPanel NetManaPnl;
-        public Aow.Units.AoWPanel.TAOWPanel T3Pnl;
-        public Aow.Units.AoWPanel.TAOWPanel T3LBPnl;
-        public Aow.Units.AoWListBox.TAOWListBox GlobalEnchantmentList;
-        public Aow.Units.AoWButton.TAOWButton GlobalEnchantmentSortBtn;
-        public Aow.Units.AoWListBox.TAOWListBox GlobalUpkeepList;
-        public Aow.Units.AoWButton.TAOWButton GlobalUpkeepSortBtn;
-        public Aow.Units.AoWListBox.TAOWListBox GlobalNameList;
-        public Aow.Units.AoWButton.TAOWButton GlobalNameSortBtn;
-        public Aow.Units.AoWPanel.TAOWPanel RightPnl;
-        public Aow.Units.AoWLabel.TAOWLabel SpellName;
-        public Aow.Units.AoWButton.TAOWButton GlobalDispelBtn;
-        public Aow.Units.AoWButton.TAOWButton DispelBtn;
-        public Aow.Units.AoWButton.TAOWButton ResearchBtn;
-        public Aow.Units.AoWLabel.TAOWLabel ResearchTurnsLeft;
-        public Aow.Units.AoWLabel.TAOWLabel SpellClass;
-        public Aow.Units.AoWPanel.TAOWPanel SpellPnl;
-        public Aow.Units.AoWLabel.TAOWLabel SpellCost;
-        public Aow.Units.AoWImage.TAOWImage SpellIcn;
-        public Aow.Units.AoWButton.TAOWButton Minimize;
-        public Aow.Units.AoWButton.TAOWButton ChangePowerBut;
-        public Aow.Units.AoWLabel.TAOWLabel Power;
-        public Aow.Units.AoWLabel.TAOWLabel PowerLbl;
-        public Aow.Units.AoWPanel.TAOWPanel PowePnl;
-        public Aow.Units.AoWPanel.TAOWPanel LeftPnl;
-        public Aow.Units.AoWPanel.TAOWPanel NonePnl;
-        public Aow.Units.AoWLabel.TAOWLabel NoneMsg;
-        public Aow.Units.AoWPanel.TAOWPanel T4Pnl;
-        public Aow.Units.AoWPanel.TAOWPanel T4LBPnl;
-        public Aow.Units.AoWListBox.TAOWListBox PowerValueList;
-        public Aow.Units.AoWButton.TAOWButton PowerValueSortBtn;
-        public Aow.Units.AoWListBox.TAOWListBox PowerSourceList;
-        public Aow.Units.AoWButton.TAOWButton PowerSourceSortBtn;
-        public Aow.Units.AoWPanel.TAOWPanel T2BottonPnl;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar EnchantmentSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar GlobalEnchantmentSB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar PowerSB;
-        public Aow.Units.AoWPanel.TAOWPanel T3BottomPnl;
-        public Aow.Units.AoWPanel.TAOWPanel LeftFr;
-        public Aow.Units.AoWPanel.TAOWPanel T2ButtonPnl;
-        public Aow.Units.AoWPanel.TAOWPanel T3ButtonPnl;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.AoWButton.TAOWButton Help;
+        public TAOWWindow Dlg;
+        public TAOWLabel OWTitle;
+        public TAOWImage OWTitleIc;
+        public TAOWTabPanel HeaderTab;
+        public TAoWFrame OWRPillar;
+        public TAoWFrame OWLPillar;
+        public TAOWPanel T1Pnl;
+        public TAOWLabel ResearchPoints;
+        public TAOWLabel ResLbl;
+        public TAOWPanel T2Pnl;
+        public TAOWPanel T2LBPnl;
+        public TAOWListBox EnchantmentList;
+        public TAOWButton EnchantmentSortBtn;
+        public TAOWListBox UpkeepList;
+        public TAOWButton UpkeepSortBtn;
+        public TAOWListBox BindingList;
+        public TAOWButton BindingSortBtn;
+        public TAOWPanel ResPnl;
+        public TAOWLabel NetMana;
+        public TAOWLabel NetMamaLbl;
+        public TAOWPanel NetManaPnl;
+        public TAOWPanel T3Pnl;
+        public TAOWPanel T3LBPnl;
+        public TAOWListBox GlobalEnchantmentList;
+        public TAOWButton GlobalEnchantmentSortBtn;
+        public TAOWListBox GlobalUpkeepList;
+        public TAOWButton GlobalUpkeepSortBtn;
+        public TAOWListBox GlobalNameList;
+        public TAOWButton GlobalNameSortBtn;
+        public TAOWPanel RightPnl;
+        public TAOWLabel SpellName;
+        public TAOWButton GlobalDispelBtn;
+        public TAOWButton DispelBtn;
+        public TAOWButton ResearchBtn;
+        public TAOWLabel ResearchTurnsLeft;
+        public TAOWLabel SpellClass;
+        public TAOWPanel SpellPnl;
+        public TAOWLabel SpellCost;
+        public TAOWImage SpellIcn;
+        public TAOWButton Minimize;
+        public TAOWButton ChangePowerBut;
+        public TAOWLabel Power;
+        public TAOWLabel PowerLbl;
+        public TAOWPanel PowePnl;
+        public TAOWPanel LeftPnl;
+        public TAOWPanel NonePnl;
+        public TAOWLabel NoneMsg;
+        public TAOWPanel T4Pnl;
+        public TAOWPanel T4LBPnl;
+        public TAOWListBox PowerValueList;
+        public TAOWButton PowerValueSortBtn;
+        public TAOWListBox PowerSourceList;
+        public TAOWButton PowerSourceSortBtn;
+        public TAOWPanel T2BottonPnl;
+        public TAOWVScrollBar EnchantmentSB;
+        public TAOWVScrollBar GlobalEnchantmentSB;
+        public TAOWVScrollBar PowerSB;
+        public TAOWPanel T3BottomPnl;
+        public TAOWPanel LeftFr;
+        public TAOWPanel T2ButtonPnl;
+        public TAOWPanel T3ButtonPnl;
+        public TIvTranslator Translator;
+        public TAOWButton Help;
         public int FEnchantmentSort;
         public int FGlobalEnchantmentSort;
         public int FPowerSort;
@@ -165,8 +113,8 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:142
         public void SelectGlobalEnchantment(int Index)
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWE.TGlobalEnchantment Enchantment = default;
+            AnsiString Reason = default;
+            TGlobalEnchantment Enchantment = default;
             var call__3 = GlobalEnchantmentList.Items.Count;
             if (Index >= call__3)
             {
@@ -180,8 +128,8 @@ namespace Aow.Units.AoWMagic
             if (Index != -1)
             {
                 var call__5 = GlobalEnchantmentList.Items.Objects[Index];
-                Enchantment = (Aow.Units.AoWE.TGlobalEnchantment)call__5;
-                var call__6 = Enchantment.CanRemove(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), ref Reason);
+                Enchantment = (TGlobalEnchantment)call__5;
+                var call__6 = Enchantment.CanRemove(AoWHSMap.FSeatedPlayer, ref Reason);
                 GlobalDispelBtn.Visible = call__6;
             }
             else
@@ -210,22 +158,22 @@ namespace Aow.Units.AoWMagic
             switch (FEnchantmentSort)
             {
                 case 0:
-                    Aow.Units.Engine.Engine.SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                    SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
                     break;
                 case 1:
-                    Aow.Units.Engine.Engine.SortStringsDescending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                    SortStringsDescending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
                     break;
                 case 2:
-                    Aow.Units.Engine.Engine.SortStringsAscending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                    SortStringsAscending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
                     break;
                 case 3:
-                    Aow.Units.Engine.Engine.SortStringsDescending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                    SortStringsDescending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
                     break;
                 case 4:
-                    Aow.Units.Engine.Engine.SortStringsNumericalAscending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                    SortStringsNumericalAscending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
                     break;
                 case 5:
-                    Aow.Units.Engine.Engine.SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                    SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
                     break;
             }
         }
@@ -236,22 +184,22 @@ namespace Aow.Units.AoWMagic
             switch (FGlobalEnchantmentSort)
             {
                 case 0:
-                    Aow.Units.Engine.Engine.SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                    SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
                     break;
                 case 1:
-                    Aow.Units.Engine.Engine.SortStringsDescending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                    SortStringsDescending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
                     break;
                 case 2:
-                    Aow.Units.Engine.Engine.SortStringsAscending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                    SortStringsAscending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                     break;
                 case 3:
-                    Aow.Units.Engine.Engine.SortStringsDescending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                    SortStringsDescending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                     break;
                 case 4:
-                    Aow.Units.Engine.Engine.SortStringsNumericalAscending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                    SortStringsNumericalAscending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                     break;
                 case 5:
-                    Aow.Units.Engine.Engine.SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                    SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                     break;
             }
         }
@@ -262,16 +210,16 @@ namespace Aow.Units.AoWMagic
             switch (FPowerSort)
             {
                 case 0:
-                    Aow.Units.Engine.Engine.SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
+                    SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
                     break;
                 case 1:
-                    Aow.Units.Engine.Engine.SortStringsDescending(PowerSourceList.Items, [PowerValueList.Items]);
+                    SortStringsDescending(PowerSourceList.Items, [PowerValueList.Items]);
                     break;
                 case 2:
-                    Aow.Units.Engine.Engine.SortStringsNumericalAscending(PowerValueList.Items, [PowerSourceList.Items]);
+                    SortStringsNumericalAscending(PowerValueList.Items, [PowerSourceList.Items]);
                     break;
                 case 3:
-                    Aow.Units.Engine.Engine.SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
+                    SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
                     break;
             }
         }
@@ -279,36 +227,36 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:203
         public void EnchantmentListDoubleClick()
         {
-            bool bool__9 = (EnchantmentList.Selected >= 0);
+            bool bool__9 = EnchantmentList.Selected >= 0;
             if (bool__9)
             {
                 var call__10 = EnchantmentList.Items.Count;
-                bool__9 = (EnchantmentList.Selected < call__10);
+                bool__9 = EnchantmentList.Selected < call__10;
             }
 
             if (bool__9)
             {
                 var call__11 = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-                ((Aow.Units.AoWE.TEnchantment)call__11).Select();
+                ((TEnchantment)call__11).Select();
             }
         }
 
         // AoWMagic.pas:210
-        public void EnchantmentListMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void EnchantmentListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            if (Button == Aow.Rtl.TMouseButton.mbRight)
+            if (Button == TMouseButton.mbRight)
             {
-                bool bool__12 = (EnchantmentList.Selected >= 0);
+                bool bool__12 = EnchantmentList.Selected >= 0;
                 if (bool__12)
                 {
                     var call__13 = EnchantmentList.Items.Count;
-                    bool__12 = (EnchantmentList.Selected < call__13);
+                    bool__12 = EnchantmentList.Selected < call__13;
                 }
 
                 if (bool__12)
                 {
                     var call__14 = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-                    ((Aow.Units.AoWE.TEnchantment)call__14).CenterToLocation();
+                    ((TEnchantment)call__14).CenterToLocation();
                 }
             }
         }
@@ -316,19 +264,19 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:218
         public void DispelBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            bool bool__15 = (EnchantmentList.Selected >= 0);
+            General.PlayButtonSound(0);
+            bool bool__15 = EnchantmentList.Selected >= 0;
             if (bool__15)
             {
                 var call__16 = EnchantmentList.Items.Count;
-                bool__15 = (EnchantmentList.Selected < call__16);
+                bool__15 = EnchantmentList.Selected < call__16;
             }
 
             if (bool__15)
             {
                 var call__17 = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-                var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                call__18.FMagicControl.DispelEnchantment((Aow.Units.AoWE.TEnchantment)call__17);
+                var call__18 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                call__18.FMagicControl.DispelEnchantment((TEnchantment)call__17);
             }
         }
 
@@ -353,18 +301,18 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:245
         public void GlobalDispelBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            bool bool__19 = (GlobalEnchantmentList.Selected >= 0);
+            General.PlayButtonSound(0);
+            bool bool__19 = GlobalEnchantmentList.Selected >= 0;
             if (bool__19)
             {
                 var call__20 = GlobalEnchantmentList.Items.Count;
-                bool__19 = (GlobalEnchantmentList.Selected < call__20);
+                bool__19 = GlobalEnchantmentList.Selected < call__20;
             }
 
             if (bool__19)
             {
                 var call__21 = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-                Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.RemoveEnchantment(unchecked((sbyte)Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer), (Aow.Units.AoWE.TGlobalEnchantment)call__21);
+                AoWHSMap.FGlobalMagicControl.RemoveEnchantment(AoWHSMap.FSeatedPlayer, (TGlobalEnchantment)call__21);
             }
         }
 
@@ -401,36 +349,36 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:284
         public void ResearchBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.AoWExeForms.AoWExeForms.SpellBook.ShowResearch();
+            General.PlayButtonSound(0);
+            SpellBook.ShowResearch();
         }
 
         // AoWMagic.pas:290
         public void ChangePowerButClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.E2Globals.E2Globals.PowerDlg.Execute();
+            General.PlayButtonSound(0);
+            PowerDlg.Execute();
         }
 
         // AoWMagic.pas:296
-        public void SpellIcnDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc Surface)
+        public void SpellIcnDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            Aow.Units.AoWE.TPlayerMagicControl Magic = default;
-            Aow.Units.AoWE.TSpell Spell = default;
+            TPlayerMagicControl Magic = default;
+            TSpell Spell = default;
             int X = default;
             int Y = default;
-            var call__22 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__22 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
             Magic = call__22.FMagicControl;
             if (Magic.FResearchSpellID != 0)
             {
-                var call__23 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(Magic.FResearchSpellID);
+                var call__23 = AoWHSSet.FSpellControl.GetSpell(Magic.FResearchSpellID);
                 Spell = call__23;
                 if (Spell != null)
                 {
                     var call__24 = Spell.FCastImages.GetImageSequence(10);
                     if (call__24 != null)
                     {
-                        var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+                        var image = (TAOWImage)Sender;
                         X = image.FAOWWindow.WinLeft;
                         Y = image.FAOWWindow.WinTop + image.WinTop;
                         Spell.FCastImages.Show(10, image.WinLeft + X, Y, 0, Surface);
@@ -442,24 +390,24 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:316
         public void PowerSourceListDoubleClick()
         {
-            bool bool__26 = (PowerSourceList.Selected >= 0);
+            bool bool__26 = PowerSourceList.Selected >= 0;
             if (bool__26)
             {
                 var call__27 = PowerSourceList.Items.Count;
-                bool__26 = (PowerSourceList.Selected < call__27);
+                bool__26 = PowerSourceList.Selected < call__27;
             }
 
             if (bool__26)
             {
                 var call__28 = PowerSourceList.Items.Objects[PowerSourceList.Selected];
-                ((Aow.Units.AoWE.TPowerSource)call__28).Select();
+                ((TPowerSource)call__28).Select();
             }
         }
 
         // AoWMagic.pas:323
-        public void PowerValueListMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void PowerValueListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            if (Button == Aow.Rtl.TMouseButton.mbRight)
+            if (Button == TMouseButton.mbRight)
             {
                 if (PowerSourceList.Selected >= 0)
                 {
@@ -467,7 +415,7 @@ namespace Aow.Units.AoWMagic
                     if (PowerSourceList.Selected < call__29)
                     {
                         var call__30 = PowerSourceList.Items.Objects[PowerSourceList.Selected];
-                        ((Aow.Units.AoWE.TPowerSource)call__30).CenterToLocation();
+                        ((TPowerSource)call__30).CenterToLocation();
                     }
                 }
             }
@@ -499,7 +447,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:354
         public void EnchantmentSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FEnchantmentSort == 0)
             {
                 FEnchantmentSort = 1;
@@ -515,7 +463,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:363
         public void BindingSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FEnchantmentSort == 2)
             {
                 FEnchantmentSort = 3;
@@ -531,7 +479,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:372
         public void UpkeepSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FEnchantmentSort == 4)
             {
                 FEnchantmentSort = 5;
@@ -547,7 +495,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:381
         public void GlobalEnchantmentSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FGlobalEnchantmentSort == 0)
             {
                 FGlobalEnchantmentSort = 1;
@@ -563,7 +511,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:390
         public void GlobalNameSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             // { Original name/upkeep buttons also toggle the enchantment-name order. }
             if (FGlobalEnchantmentSort == 0)
             {
@@ -580,7 +528,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:400
         public void GlobalUpkeepSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             // { Original name/upkeep buttons also toggle the enchantment-name order. }
             if (FGlobalEnchantmentSort == 0)
             {
@@ -597,7 +545,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:410
         public void PowerSourceSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FPowerSort == 0)
             {
                 FPowerSort = 1;
@@ -613,7 +561,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:419
         public void PowerValueSortBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             if (FPowerSort == 2)
             {
                 FPowerSort = 3;
@@ -629,14 +577,14 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:428
         public void HeaderTabChange()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
         }
 
         // AoWMagic.pas:434
         public void DlgResize()
         {
-            this.Dlg.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            this.Dlg.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
+            this.Dlg.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            this.Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
             this.Dlg.Alignment.LeftOffset = this.Dlg.WinLeft;
             this.Dlg.Alignment.TopOffset = this.Dlg.WinTop;
         }
@@ -644,44 +592,44 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:447
         public void DlgShow()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.RegisterDialog(Dlg);
+            General.RegisterDialog(Dlg);
         }
 
         // AoWMagic.pas:453
         public void DlgHide()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.UnregisterDialog(Dlg);
+            General.UnregisterDialog(Dlg);
         }
 
         // AoWMagic.pas:459
         public void HelpClick()
         {
-            Aow.Units.aowHelpWin.aowHelpWin.ShowHelp(506);
+            ShowHelp(506);
         }
 
         // AoWMagic.pas:470
         public void MinimizeClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            Aow.Units.E1GameFlow.E1GameFlow.HideMagic(this);
+            General.PlayButtonSound(0);
+            HideMagic(this);
         }
 
         // AoWMagic.pas:462
-        public void GlobalEnchantmentMouseDown(Aow.Rtl.TObject Sender, Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public void GlobalEnchantmentMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            if (Button == Aow.Rtl.TMouseButton.mbRight)
+            if (Button == TMouseButton.mbRight)
             {
-                bool bool__32 = (GlobalEnchantmentList.Selected >= 0);
+                bool bool__32 = GlobalEnchantmentList.Selected >= 0;
                 if (bool__32)
                 {
                     var call__33 = GlobalEnchantmentList.Items.Count;
-                    bool__32 = (GlobalEnchantmentList.Selected < call__33);
+                    bool__32 = GlobalEnchantmentList.Selected < call__33;
                 }
 
                 if (bool__32)
                 {
                     var call__34 = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-                    ((Aow.Units.AoWE.TGlobalEnchantment)call__34).CenterToLocation();
+                    ((TGlobalEnchantment)call__34).CenterToLocation();
                 }
             }
         }

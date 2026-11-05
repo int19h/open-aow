@@ -1,16 +1,7 @@
 // Translated from Road.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
 
@@ -20,7 +11,7 @@ namespace Aow.Units.Road
 //   from the roads on the six neighbour hexagons (TRoadResource, ClassID $20165). }
     // FTransitions (bit HN-1: a road on the neighbour HN. the pairs 2+6 and 3+5 become bits 7 and
     // 6)
-    public partial class TRoad : Aow.Units.HSEngine.TAbstractRoad
+    public partial class TRoad : TAbstractRoad
     {
         public TRoad(TECustomNode owner) : base(owner)
         {
@@ -34,22 +25,22 @@ namespace Aow.Units.Road
 
 
         // Road.pas:52
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            ((Aow.Units.Road.TRoadResource)FResource).Show(((Xhp - XhpSurf) - 8) - 6, (Yhp - YhpSurf) - 9, SurfaceDesc, this);
+            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            ((TRoadResource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
         }
 
         // Road.pas:60
-        public override bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            Aow.Units.HSEngine.THexagonSprite OldRoad = default;
+            TMapField MapField = default;
+            THexagonSprite OldRoad = default;
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-            OldRoad = MapField.FindOwnedHS(typeof(Aow.Units.HSEngine.TAbstractRoad));
+            OldRoad = MapField.FindOwnedHS(typeof(TAbstractRoad));
             if (OldRoad != null)
             {
                 OldRoad.Destroy();
@@ -67,26 +58,26 @@ namespace Aow.Units.Road
         {
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
+            TMapLevel Level = default;
             int HN = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
+            TMapField MapField = default;
             bool HasRoad = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            Level = (TMapLevel)Owner.Owner;
             FTransitions = 0;
             {
                 HN = 1;
                 byte end__1 = 6;
                 for (; HN <= end__1; HN += 1)
                 {
-                    Aow.Units.HSEngine.HSEngine.HNtoHX(HN, ref Xhx, ref Yhx);
-                    Aow.Units.HSEngine.HSEngine.TranslateHX(0, 0, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
-                    if ((((Xhx >= 0) && (Yhx >= 0)) && (Level.Width > Xhx)) && (Level.Height > Yhx))
+                    HNtoHX(HN, ref Xhx, ref Yhx);
+                    TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+                    if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
                     {
                         MapField = Level.GetField(Xhx, Yhx);
-                        HasRoad = MapField.FindOwnedHS(typeof(Aow.Units.HSEngine.TAbstractRoad)) != null;
+                        HasRoad = MapField.FindOwnedHS(typeof(TAbstractRoad)) != null;
                         if (HasRoad)
                         {
-                            FTransitions = (byte)(((int)FTransitions) + (1 << (HN - 1)));
+                            FTransitions = (byte)(FTransitions + (1 << (HN - 1)));
                         }
                     }
                 }
@@ -94,12 +85,12 @@ namespace Aow.Units.Road
 
             if ((FTransitions & 34) == 34)
             {
-                FTransitions = unchecked((byte)((FTransitions & 221) + 128));
+                FTransitions = (byte)((FTransitions & 221) + 128);
             }
 
             if ((FTransitions & 20) == 20)
             {
-                FTransitions = unchecked((byte)((FTransitions & 235) + 64));
+                FTransitions = (byte)((FTransitions & 235) + 64);
             }
         }
 
@@ -108,22 +99,22 @@ namespace Aow.Units.Road
         {
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
+            TMapLevel Level = default;
             int HN = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            Aow.Units.HSEngine.TAbstractRoad Road = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapField MapField = default;
+            TAbstractRoad Road = default;
+            Level = (TMapLevel)Owner.Owner;
             {
                 HN = 1;
                 byte end__2 = 6;
                 for (; HN <= end__2; HN += 1)
                 {
-                    Aow.Units.HSEngine.HSEngine.HNtoHX(HN, ref Xhx, ref Yhx);
-                    Aow.Units.HSEngine.HSEngine.TranslateHX(0, 0, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
-                    if ((((Xhx >= 0) && (Yhx >= 0)) && (Xhx < Level.Width)) && (Yhx < Level.Height))
+                    HNtoHX(HN, ref Xhx, ref Yhx);
+                    TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+                    if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
                     {
                         MapField = Level.GetField(Xhx, Yhx);
-                        Road = (Aow.Units.HSEngine.TAbstractRoad)MapField.FindChild(131428);
+                        Road = (TAbstractRoad)MapField.FindChild(131428);
                         if (Road != null)
                         {
                             Road.UpdateTransitions();
@@ -138,7 +129,7 @@ namespace Aow.Units.Road
 
     }
 
-    public partial class TRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
+    public partial class TRoadResource : TAbstractRoadResource
     {
         public TRoadResource(TECustomNode owner) : base(owner)
         {}
@@ -155,11 +146,11 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:141
-        public void Show(int Xhp, int Yhp, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc, Aow.Units.Road.TRoad Road)
+        public void Show(int Xhp, int Yhp, in TSurfaceDesc SurfaceDesc, TRoad Road)
         {
             byte Transitions = default;
             byte Base = default;
-            Transitions = unchecked((byte)Road.FTransitions);
+            Transitions = Road.FTransitions;
             Base = 1;
             if (Transitions != 0)
             {
@@ -223,9 +214,9 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:171
-        public override Aow.Units.Engine.EditorClass Editor()
+        public override EditorClass Editor()
         {
-            Aow.Units.Engine.EditorClass Result = default;
+            EditorClass Result = default;
             var call__12 = FEngine.Editors.FindEditor(131429);
             Result = call__12;
             if (Result == null)
@@ -237,9 +228,9 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:131
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Road";
             return Result;
         }
@@ -249,9 +240,9 @@ namespace Aow.Units.Road
     public static partial class Road
     {
         // Road.pas:177
-        public static void RegisterRoad(Aow.Units.Engine.TEngine Engine)
+        public static void RegisterRoad(TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Road.TRoad>(), Aow.Units.Engine.EClass.Of<Aow.Units.Road.TRoadResource>()]);
+            Engine.RegisterEClasses([EClass.Of<TRoad>(), EClass.Of<TRoadResource>()]);
         }
     }
 }

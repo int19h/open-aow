@@ -80,7 +80,7 @@ public partial class TAOWMemo
                         FCurLine++;
                     }
                     if (FLines.Count == FCurLine) FCurLine--;
-                    while (FLines[FCurLine].Length > FCurCol && FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FLines[FCurLine], 1, FCurCol + 1)) + left < x)
+                    while (FLines[FCurLine].Length > FCurCol && FAOWFont.GetTextWidth(Rtl.Rtl.Copy(FLines[FCurLine], 1, FCurCol + 1)) + left < x)
                     {
                         FCurCol++;
                         FRealCol++;

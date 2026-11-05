@@ -1,52 +1,16 @@
 // Translated from House.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.CombatStructure;
-using static Aow.Units.CombatStructure.CombatStructure;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.City;
-using static Aow.Units.City.City;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.House
 {
-    public partial class THouse : Aow.Units.CombatStructure.TCombatStructure
+    public partial class THouse : TCombatStructure
     {
         public THouse(TECustomNode owner) : base(owner)
         {}
@@ -58,19 +22,19 @@ namespace Aow.Units.House
         // House.pas:45
         public override void Activate()
         {
-            Aow.Units.AoWE.TPlayerStructure Structure = default;
+            TPlayerStructure Structure = default;
             base.Activate();
-            if (!Aow.Units.AoWTC.AoWTC.AoWCombatMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (!AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
             {
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetMapLevel(Aow.Units.AoWTC.AoWTC.CombatLLoc);
-                var call__2 = call__1.GetField(Aow.Units.AoWTC.AoWTC.CombatXLoc, Aow.Units.AoWTC.AoWTC.CombatYLoc);
-                var call__3 = call__2.FindNoneTransparentHS(typeof(Aow.Units.AoWE.TPlayerStructure));
-                Structure = (Aow.Units.AoWE.TPlayerStructure)call__3;
+                var call__1 = AoWHSMap.MapContainer.GetMapLevel(CombatLLoc);
+                var call__2 = call__1.GetField(CombatXLoc, CombatYLoc);
+                var call__3 = call__2.FindNoneTransparentHS(typeof(TPlayerStructure));
+                Structure = (TPlayerStructure)call__3;
                 if (Structure != null)
                 {
-                    if (Structure is Aow.Units.City.TCity)
+                    if (Structure is TCity)
                     {
-                        FRace = ((Aow.Units.City.TCity)Structure).FRace;
+                        FRace = ((TCity)Structure).FRace;
                     }
                     else
                     {
@@ -83,7 +47,7 @@ namespace Aow.Units.House
                     }
                     else
                     {
-                        var call__4 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
+                        var call__4 = AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
                         FFlagID = call__4.FPlayerRace;
                     }
 
@@ -97,7 +61,7 @@ namespace Aow.Units.House
 
     }
 
-    public partial class THouseResource : Aow.Units.CombatStructure.TCombatStructureResource
+    public partial class THouseResource : TCombatStructureResource
     {
         public THouseResource(TECustomNode owner) : base(owner)
         {}
@@ -114,9 +78,9 @@ namespace Aow.Units.House
         }
 
         // House.pas:148
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Combat House";
             return Result;
         }
@@ -126,9 +90,9 @@ namespace Aow.Units.House
     public static partial class House
     {
         // House.pas:154
-        public static void RegisterHouse(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterHouse(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.House.THouseResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.House.THouse>()]);
+            AEngine.RegisterEClasses([EClass.Of<THouseResource>(), EClass.Of<THouse>()]);
         }
 
         public static void Initialize()

@@ -1,53 +1,22 @@
 // Translated from CombatILTer.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
 using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.CombatHex;
-using static Aow.Units.CombatHex.CombatHex;
 
 namespace Aow.Units.CombatILTer
 {
-    public partial class TCombatILTerrainShadow : Aow.Units.HSEngine.THexagonSprite
+    public partial class TCombatILTerrainShadow : THexagonSprite
     {
         public TCombatILTerrainShadow(TECustomNode owner) : base(owner)
         {}
 
-        public Aow.Units.CombatILTer.TCombatILTerrain FTerrain;
+        public TCombatILTerrain FTerrain;
         // CombatILTer.pas:82
         public override int GetShowPriority()
         {
@@ -58,7 +27,7 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:96
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             FTerrain.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -67,7 +36,7 @@ namespace Aow.Units.CombatILTer
 
     }
 
-    public partial class TCombatILTerrain : Aow.Units.ILTer.TILTerrainMO
+    public partial class TCombatILTerrain : TILTerrainMO
     {
         public TCombatILTerrain(TECustomNode owner) : base(owner)
         {}
@@ -75,7 +44,7 @@ namespace Aow.Units.CombatILTer
         // CombatILTer.pas:105
         public new const int ClassID = 2228534;
 
-        public Aow.Units.CombatILTer.TCombatILTerrainShadow FShadow;
+        public TCombatILTerrainShadow FShadow;
         // CombatILTer.pas:99
         public override void Destroy()
         {
@@ -84,7 +53,7 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:166
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 135169)
@@ -92,9 +61,9 @@ namespace Aow.Units.CombatILTer
                 var call__2 = FResource.TerrainList.GetTerrain(Msg.HN);
                 if (call__2 >= 0)
                 {
-                    if (Msg.Param[0].Value < ((Aow.Units.CombatILTer.TCombatILTerrainResource)FResource).FDefense)
+                    if (Msg.Param[0].Value < ((TCombatILTerrainResource)FResource).FDefense)
                     {
-                        Msg.Param[0] = ((Aow.Units.CombatILTer.TCombatILTerrainResource)FResource).FDefense;
+                        Msg.Param[0] = ((TCombatILTerrainResource)FResource).FDefense;
                     }
                 }
             }
@@ -115,9 +84,9 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:141
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(TMapObjectStatusElement.moVisible))
             {
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
@@ -129,37 +98,37 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:163
-        public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
         {
-            Aow.Units.HSEngine.TMapObjectResourceList Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources;
+            TMapObjectResourceList Result = default;
+            Result = AoWHSSet.FCombatResources;
             return Result;
         }
 
         // CombatILTer.pas:93
-        public override bool CanPlaceOnHS(Aow.Units.HSEngine.THexagonSprite HS)
+        public override bool CanPlaceOnHS(THexagonSprite HS)
         {
             bool Result = default;
-            Result = base.CanPlaceOnHS(HS) || (HS is Aow.Units.HSEngine.TAbstractRoad);
+            Result = base.CanPlaceOnHS(HS) || HS is TAbstractRoad;
             return Result;
         }
 
         // CombatILTer.pas:108
-        public virtual void ShowShadow(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public virtual void ShowShadow(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
-            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, unchecked((uint)(((Aow.Units.HSEngine.TMapField)Owner).Xhx + (((Aow.Units.HSEngine.TMapField)Owner).Yhx << 4))));
+            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
         }
 
         // CombatILTer.pas:87
         public sbyte GetDefense()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.CombatILTer.TCombatILTerrainResource)FResource).FDefense);
+            Result = ((TCombatILTerrainResource)FResource).FDefense;
             return Result;
         }
 
@@ -167,7 +136,7 @@ namespace Aow.Units.CombatILTer
         public sbyte GetBurnValue()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.CombatILTer.TCombatILTerrainResource)FResource).FBurnValue);
+            Result = ((TCombatILTerrainResource)FResource).FBurnValue;
             return Result;
         }
 
@@ -197,9 +166,9 @@ namespace Aow.Units.CombatILTer
                     DestroyShadow();
                 }
 
-                if ((Aow.Units.AoWE.AoWE.AoWHSMap == null) || Aow.Units.AoWE.AoWE.AoWHSMap.FShowUnitShadows)
+                if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
                 {
-                    var call__5 = new Aow.Units.CombatILTer.TCombatILTerrainShadow(null);
+                    var call__5 = new TCombatILTerrainShadow(null);
                     FShadow = call__5;
                     FShadow.FTerrain = this;
                 }
@@ -208,7 +177,7 @@ namespace Aow.Units.CombatILTer
 
     }
 
-    public partial class TCombatILTerrainResource : Aow.Units.ILTer.TILTerrainMOR
+    public partial class TCombatILTerrainResource : TILTerrainMOR
     {
         public TCombatILTerrainResource(TECustomNode owner) : base(owner)
         {}
@@ -219,7 +188,7 @@ namespace Aow.Units.CombatILTer
         public sbyte FBurnValue;
         public sbyte FDefense;
         // CombatILTer.pas:181
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefense), 20);
@@ -235,16 +204,16 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:178
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Combat ILTerrain";
             return Result;
         }
 
     }
 
-    public partial class TCombatFixedILTerrain : Aow.Units.CombatILTer.TCombatILTerrain
+    public partial class TCombatFixedILTerrain : TCombatILTerrain
     {
         public TCombatFixedILTerrain(TECustomNode owner) : base(owner)
         {}
@@ -253,7 +222,7 @@ namespace Aow.Units.CombatILTer
         public new const int ClassID = 2228536;
 
         // CombatILTer.pas:197
-        public override bool CanChangeTerrain(in Aow.Units.HSEngine.THSSenderInfo Info)
+        public override bool CanChangeTerrain(in THSSenderInfo Info)
         {
             bool Result = default;
             var call__6 = FResource.TerrainList.GetTerrain(Info.HN);
@@ -264,8 +233,8 @@ namespace Aow.Units.CombatILTer
                 if (bool__8)
                 {
                     var call__9 = FResource.TerrainList.GetTerrain(Info.HN);
-                    var call__10 = GetMostFrequentMapFieldTerrainType((Aow.Units.HSEngine.TMapLevel)Owner.Owner, unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)call__9));
-                    bool__8 = (call__10 == Info.MapField.TerrainType);
+                    var call__10 = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, call__9);
+                    bool__8 = call__10 == Info.MapField.TerrainType;
                 }
 
                 Result = bool__8;
@@ -279,7 +248,7 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:206
-        public override void ChangeTerrain(in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public override void ChangeTerrain(in THSTerrainInfo Info)
         {
             var call__11 = FResource.TerrainList.GetTerrain(Info.HN);
             if (call__11 >= 0)
@@ -287,7 +256,7 @@ namespace Aow.Units.CombatILTer
                 var call__12 = ValidTerrainType(Info.TerrainType);
                 if (call__12)
                 {
-                    FTerrainType = unchecked((sbyte)Info.TerrainType);
+                    FTerrainType = Info.TerrainType;
                     var call__13 = GetTerrainTypeImage(Info.TerrainType);
                     FImageIndex = call__13;
                 }
@@ -295,7 +264,7 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:216
-        public override void TerrainChanged(in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public override void TerrainChanged(in THSTerrainInfo Info)
         {
             var call__14 = FResource.TerrainList.GetTerrain(Info.HN);
             if (call__14 >= 0)
@@ -303,28 +272,28 @@ namespace Aow.Units.CombatILTer
                 var call__15 = ValidTerrainType(Info.TerrainType);
                 if (call__15)
                 {
-                    FTerrainType = unchecked((sbyte)Info.TerrainType);
+                    FTerrainType = Info.TerrainType;
                     var call__16 = GetTerrainTypeImage(Info.TerrainType);
                     FImageIndex = call__16;
                 }
                 else
                 {
-                    throw Aow.Rtl.Exception.Create((AnsiString)"TILFixedTerrain Failure");
+                    throw Exception.Create((AnsiString)"TILFixedTerrain Failure");
                 }
             }
         }
 
         // CombatILTer.pas:194
-        public override sbyte ForceTerrainType(Aow.Units.HSEngine.TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
+        public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)-1);
+            Result = -1;
             return Result;
         }
 
     }
 
-    public partial class TCombatFixedILTerrainResource : Aow.Units.CombatILTer.TCombatILTerrainResource
+    public partial class TCombatFixedILTerrainResource : TCombatILTerrainResource
     {
         public TCombatFixedILTerrainResource(TECustomNode owner) : base(owner)
         {}
@@ -341,9 +310,9 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:230
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Combat FixedILTerrain";
             return Result;
         }
@@ -353,9 +322,9 @@ namespace Aow.Units.CombatILTer
     public static partial class CombatILTer
     {
         // CombatILTer.pas:236
-        public static void RegisterCombatILTerrain(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterCombatILTerrain(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatILTer.TCombatILTerrain>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatILTer.TCombatILTerrainResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatILTer.TCombatFixedILTerrain>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatILTer.TCombatFixedILTerrainResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TCombatILTerrain>(), EClass.Of<TCombatILTerrainResource>(), EClass.Of<TCombatFixedILTerrain>(), EClass.Of<TCombatFixedILTerrainResource>()]);
         }
 
         public static void Initialize()

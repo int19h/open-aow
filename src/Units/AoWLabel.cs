@@ -1,37 +1,16 @@
 // Translated from AoWLabel.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWWinGeneric;
-using static Aow.Units.AoWWinGeneric.AoWWinGeneric;
 
 namespace Aow.Units.AoWLabel
 {
     // { The AoWLabel unit of aowInt.dpl: TAOWLabel, a line of text in an image library font; it
 //   sizes itself to its text. }
     // no fields of its own
-    public partial class TAOWLabel : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWLabel : TAOWControl
     {
         public TAOWLabel(TComponent owner) : base(owner)
         { }
@@ -59,7 +38,7 @@ namespace Aow.Units.AoWLabel
         }
 
         // AoWLabel.pas:72
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             try
             {
@@ -80,16 +59,16 @@ namespace Aow.Units.AoWLabel
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWLabel.pas:90
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = FCaptureInput;
                 if (FOnMouseDown != null)
@@ -100,10 +79,10 @@ namespace Aow.Units.AoWLabel
         }
 
         // AoWLabel.pas:103
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = FCaptureInput;
                 if (FOnMouseUp != null)
@@ -114,11 +93,11 @@ namespace Aow.Units.AoWLabel
         }
 
         // AoWLabel.pas:115
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = FCaptureInput;
                 if (FOnMouseMove != null)
@@ -135,7 +114,7 @@ namespace Aow.Units.AoWLabel
         }
 
         // AoWLabel.pas:53
-        public void SetGFont(Aow.Units.ImageLib.TImageLibraryFont Value)
+        public void SetGFont(TImageLibraryFont Value)
         {
             if (Value != FAOWFont)
             {
@@ -145,7 +124,7 @@ namespace Aow.Units.AoWLabel
         }
 
         // AoWLabel.pas:62
-        public void SetGText(Aow.Rtl.AnsiString Value)
+        public void SetGText(AnsiString Value)
         {
             if (FText != Value)
             {
@@ -156,10 +135,10 @@ namespace Aow.Units.AoWLabel
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibraryFont AOWFont { get => FAOWFont; set => SetGFont(value); }
+        public TImageLibraryFont AOWFont { get => FAOWFont; set => SetGFont(value); }
 
         [Published]
-        public Aow.Rtl.AnsiString Text { get => FText; set => SetGText(value); }
+        public AnsiString Text { get => FText; set => SetGText(value); }
     }
 
     public static partial class AoWLabel
@@ -167,7 +146,7 @@ namespace Aow.Units.AoWLabel
         // AoWLabel.pas:133
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWLabel.TAOWLabel)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWLabel)]);
         }
     }
 }

@@ -1,36 +1,9 @@
 // Translated from Farm.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.Crops;
-using static Aow.Units.Crops.Crops;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -43,7 +16,7 @@ namespace Aow.Units.Farm
 
     // { ot=1 }
     // FMode
-    public partial class TFarm : Aow.Units.Crops.TPlayerCropStructure
+    public partial class TFarm : TPlayerCropStructure
     {
         public TFarm(TECustomNode owner) : base(owner)
         {}
@@ -51,16 +24,16 @@ namespace Aow.Units.Farm
         // Farm.pas:54
         public new const int ClassID = 131950;
 
-        public TSet<Aow.Units.Farm.TFarmModeElement> FMode;
+        public TSet<TFarmModeElement> FMode;
         // Farm.pas:81
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Aow.Rtl.Rtl.RwSet(ref FMode, 1, 20, Stream.rwData, 0);
+            RwSet(ref FMode, 1, 20, Stream.rwData, 0);
         }
 
         // Farm.pas:130
-        public override void TerrainChanged(in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public override void TerrainChanged(in THSTerrainInfo Info)
         {
             base.TerrainChanged(Info);
             if (Info.HN == 0)
@@ -74,12 +47,12 @@ namespace Aow.Units.Farm
         {
             if (Value)
             {
-                SetPlayer(unchecked((sbyte)-1));
-                FMode = FMode + TSet<Aow.Units.Farm.TFarmModeElement>.Of(Aow.Units.Farm.TFarmModeElement.fmRazed);
+                SetPlayer(-1);
+                FMode = FMode + TSet<TFarmModeElement>.Of(TFarmModeElement.fmRazed);
             }
             else
             {
-                FMode = FMode - TSet<Aow.Units.Farm.TFarmModeElement>.Of(Aow.Units.Farm.TFarmModeElement.fmRazed);
+                FMode = FMode - TSet<TFarmModeElement>.Of(TFarmModeElement.fmRazed);
             }
 
             UpdateCrops();
@@ -91,24 +64,24 @@ namespace Aow.Units.Farm
         public override bool GetRazed()
         {
             bool Result = default;
-            Result = FMode.Contains(Aow.Units.Farm.TFarmModeElement.fmRazed);
+            Result = FMode.Contains(TFarmModeElement.fmRazed);
             return Result;
         }
 
         // Farm.pas:76
-        public override Aow.Rtl.AnsiString GetCurrentActivityText()
+        public override AnsiString GetCurrentActivityText()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             var call__2 = GetIncome();
-            var call__3 = Aow.Units.AoWE.AoWE.ProducingXIncomeRStr;
-            var call__4 = Aow.Units.AoWE.AoWE.TranslateRStr(call__3);
-            var call__5 = Aow.Rtl.Rtl.Format(call__4, [Aow.Rtl.Rtl.IntToStr(call__2)]);
+            var call__3 = ProducingXIncomeRStr;
+            var call__4 = TranslateRStr(call__3);
+            var call__5 = Rtl.Rtl.Format(call__4, [IntToStr(call__2)]);
             Result = call__5;
             return Result;
         }
 
         // Farm.pas:111
-        public override void UpdateAITarget(in Aow.Units.AoWE.TAITargetInfo Info, ref Aow.Units.AoWE.TAITargetData Data)
+        public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
             int Priority = default;
             var call__6 = GetRazed();
@@ -123,8 +96,8 @@ namespace Aow.Units.Farm
             {
                 switch (Info.Mode)
                 {
-                    case Aow.Units.AoWE.TAITargetMode.tmAttack:
-                        bool bool__9 = (Info.Player != FPlayer);
+                    case TAITargetMode.tmAttack:
+                        bool bool__9 = Info.Player != FPlayer;
                         if (bool__9)
                         {
                             var call__10 = GetRazed();
@@ -140,11 +113,11 @@ namespace Aow.Units.Farm
                             }
                             else
                             {
-                                var call__11 = Aow.Units.AoWE.AoWE.ValidAttackRelation(unchecked((sbyte)Info.Player), unchecked((sbyte)Info.IndependentRelation), unchecked((sbyte)FPlayer), 0);
+                                var call__11 = ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0);
                                 if (call__11)
                                 {
-                                    var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Info.Player);
-                                    Priority = 50 - (call__12.FIncome / 2);
+                                    var call__12 = AoWHSMap.FPlayers.GetPlayers(Info.Player);
+                                    Priority = 50 - call__12.FIncome / 2;
                                     if (Priority < 25)
                                     {
                                         Priority = 25;
@@ -169,10 +142,10 @@ namespace Aow.Units.Farm
         }
 
         // Farm.pas:92
-        public override bool CanPlaceCrop(Aow.Units.HSEngine.TMapField Field)
+        public override bool CanPlaceCrop(TMapField Field)
         {
             bool Result = default;
-            bool bool__13 = (unchecked((short)Field.TerrainType) != 5);
+            bool bool__13 = Field.TerrainType != 5;
             if (bool__13)
             {
                 var call__14 = base.CanPlaceCrop(Field);
@@ -187,7 +160,7 @@ namespace Aow.Units.Farm
         public override bool CropsEnabled()
         {
             bool Result = default;
-            Result = base.CropsEnabled() && (unchecked((short)FTerrainType) != 5);
+            Result = base.CropsEnabled() && FTerrainType != 5;
             return Result;
         }
 
@@ -196,18 +169,18 @@ namespace Aow.Units.Farm
         {
             int Count = default;
             var call__15 = GetEditMode();
-            if (!call__15 && FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
+            if (!call__15 && FStatus.Contains(TMapObjectStatusElement.moActivated))
             {
                 var call__16 = GetRazed();
-                if (call__16 || (unchecked((short)FTerrainType) == 5))
+                if (call__16 || FTerrainType == 5)
                 {
                     Count = 0;
                 }
                 else
                 {
-                    if (Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+                    if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                     {
-                        Count = ((Aow.Units.Farm.TFarmResource)FResource).FCropLocations.Count;
+                        Count = ((TFarmResource)FResource).FCropLocations.Count;
                     }
                     else
                     {
@@ -227,7 +200,7 @@ namespace Aow.Units.Farm
 
     }
 
-    public partial class TFarmResource : Aow.Units.Crops.TPlayerCropStructureResource
+    public partial class TFarmResource : TPlayerCropStructureResource
     {
         public TFarmResource(TECustomNode owner) : base(owner)
         {
@@ -256,11 +229,11 @@ namespace Aow.Units.Farm
 
 
         // Farm.pas:146
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__17 = Aow.Units.AoWE.AoWE.FarmRStr;
-            var call__18 = Aow.Units.AoWE.AoWE.TranslateRStr(call__17);
+            AnsiString Result = default;
+            var call__17 = FarmRStr;
+            var call__18 = TranslateRStr(call__17);
             Result = call__18;
             return Result;
         }
@@ -273,12 +246,12 @@ namespace Aow.Units.Farm
         public static int FarmIncome(sbyte Player)
         {
             int Result = default;
-            Aow.Units.AoWE.TPlayer P = default;
+            TPlayer P = default;
             int I = default;
-            Aow.Units.AoWE.TPlayerStructure Structure = default;
-            if (((Aow.Units.AoWE.TAoWHSMap)Aow.Units.AoWE.AoWE.AoWHSMap) != null)
+            TPlayerStructure Structure = default;
+            if (AoWHSMap != null)
             {
-                var call__19 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
+                var call__19 = AoWHSMap.FPlayers.GetPlayers(Player);
                 P = call__19;
                 Result = 0;
                 {
@@ -289,9 +262,9 @@ namespace Aow.Units.Farm
                         var call__21 = P.FStructures.GetStructure(I);
                         Structure = call__21;
                         var call__22 = Structure.EClass.ClassID;
-                        if ((call__22 == 131950) && (Structure.FPlayer == Player))
+                        if (call__22 == 131950 && Structure.FPlayer == Player)
                         {
-                            Result += ((Aow.Units.Farm.TFarm)Structure).FIncome;
+                            Result += ((TFarm)Structure).FIncome;
                         }
                     }
                 }
@@ -305,9 +278,9 @@ namespace Aow.Units.Farm
         }
 
         // Farm.pas:177
-        public static void RegisterFarm(Aow.Units.Engine.TEngine Engine)
+        public static void RegisterFarm(TEngine Engine)
         {
-            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Farm.TFarm>(), Aow.Units.Engine.EClass.Of<Aow.Units.Farm.TFarmResource>()]);
+            Engine.RegisterEClasses([EClass.Of<TFarm>(), EClass.Of<TFarmResource>()]);
         }
 
         public static void Initialize()

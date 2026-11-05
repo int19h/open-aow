@@ -1,104 +1,63 @@
 // Translated from AoWCampaignSettings.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWComboBox;
-using static Aow.Units.AoWComboBox.AoWComboBox;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
 
 namespace Aow.Units.AoWCampaignSettings
 {
-    public partial class TCampaignSettingsDlg : Aow.Rtl.TDataModule
+    public partial class TCampaignSettingsDlg : TDataModule
     {
         public TCampaignSettingsDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWButton.TAOWButton OKBtn;
-        public Aow.Units.AoWFrame.TAoWFrame BCeltL;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        public Aow.Units.AoWLabel.TAOWLabel DifficultyLevelLbl;
-        public Aow.Units.AoWComboBox.TAOWComboBox DifficultyLevelCB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar CombatResolveModeSB;
-        public Aow.Units.AoWLabel.TAOWLabel TurnModeLbl;
-        public Aow.Units.AoWComboBox.TAOWComboBox TurnModeCB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar AOWVScrollBar1;
-        public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        public Aow.Units.AoWImage.TAOWImage TCeltLineL;
+        public TIvTranslator Translator;
+        public TAOWWindow Dlg;
+        public TAOWButton OKBtn;
+        public TAoWFrame BCeltL;
+        public TAOWLabel Title;
+        public TAOWButton Close;
+        public TAOWImage TitleIcon;
+        public TAOWLabel DifficultyLevelLbl;
+        public TAOWComboBox DifficultyLevelCB;
+        public TAOWVScrollBar CombatResolveModeSB;
+        public TAOWLabel TurnModeLbl;
+        public TAOWComboBox TurnModeCB;
+        public TAOWVScrollBar AOWVScrollBar1;
+        public TAoWFrame AoWFrame1;
+        public TAOWButton CancelBtn;
+        public TAOWImage TCeltLineL;
         // AoWCampaignSettings.pas:45
-        public void DlgShow(Aow.Rtl.TObject Sender)
+        public void DlgShow(TObject Sender)
         {
-            Aow.Units.AoWE.TCampaignDifficultyLevel Level = default;
+            TCampaignDifficultyLevel Level = default;
             DifficultyLevelCB.Items.Clear();
             {
-                int first__4 = (int)((Aow.Units.AoWE.TCampaignDifficultyLevel)0);
-                int end__1 = (int)((Aow.Units.AoWE.TCampaignDifficultyLevel)2);
+                int first__4 = (int)(TCampaignDifficultyLevel)0;
+                int end__1 = (int)(TCampaignDifficultyLevel)2;
                 for (int ordinal__3 = first__4; ordinal__3 <= end__1; ordinal__3++)
                 {
-                    Level = (Aow.Units.AoWE.TCampaignDifficultyLevel)ordinal__3;
-                    var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TCampaignDifficultyLevelRStr[(int)Level]);
-                    DifficultyLevelCB.Items.AddObject(call__2, Aow.Rtl.Rtl.IntToObject((int)Level));
+                    Level = (TCampaignDifficultyLevel)ordinal__3;
+                    var call__2 = TranslateRStr(TCampaignDifficultyLevelRStr[(int)Level]);
+                    DifficultyLevelCB.Items.AddObject(call__2, IntToObject((int)Level));
                 }
             }
 
-            var call__5 = DifficultyLevelCB.Items.IndexOfObject(Aow.Rtl.Rtl.IntToObject((int)Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FDifficultyLevel));
+            var call__5 = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)AoWEngine.FCampaign.FDifficultyLevel));
             DifficultyLevelCB.Selected = call__5;
             TurnModeCB.Items.Clear();
-            var call__6 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayModeRStr[(int)Aow.Units.AoWE.TPlayMode.pmTurn]);
-            TurnModeCB.Items.AddObject(call__6, Aow.Rtl.Rtl.IntToObject((int)Aow.Units.AoWE.TPlayMode.pmTurn));
-            var call__7 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.TPlayModeRStr[(int)Aow.Units.AoWE.TPlayMode.pmSimultaneous]);
-            TurnModeCB.Items.AddObject(call__7, Aow.Rtl.Rtl.IntToObject((int)Aow.Units.AoWE.TPlayMode.pmSimultaneous));
-            var call__8 = TurnModeCB.Items.IndexOfObject(Aow.Rtl.Rtl.IntToObject((int)Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FPlayMode));
+            var call__6 = TranslateRStr(TPlayModeRStr[(int)TPlayMode.pmTurn]);
+            TurnModeCB.Items.AddObject(call__6, IntToObject((int)TPlayMode.pmTurn));
+            var call__7 = TranslateRStr(TPlayModeRStr[(int)TPlayMode.pmSimultaneous]);
+            TurnModeCB.Items.AddObject(call__7, IntToObject((int)TPlayMode.pmSimultaneous));
+            var call__8 = TurnModeCB.Items.IndexOfObject(IntToObject((int)AoWEngine.FCampaign.FPlayMode));
             TurnModeCB.Selected = call__8;
         }
 
@@ -106,9 +65,9 @@ namespace Aow.Units.AoWCampaignSettings
         public void OKBtnClick()
         {
             var call__9 = DifficultyLevelCB.Items.Objects[DifficultyLevelCB.Selected];
-            Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FDifficultyLevel = (Aow.Units.AoWE.TCampaignDifficultyLevel)Aow.Rtl.Rtl.ObjectToInt(call__9);
+            AoWEngine.FCampaign.FDifficultyLevel = (TCampaignDifficultyLevel)ObjectToInt(call__9);
             var call__10 = TurnModeCB.Items.Objects[TurnModeCB.Selected];
-            Aow.Units.AoWE.AoWE.AoWEngine.FCampaign.FPlayMode = (Aow.Units.AoWE.TPlayMode)Aow.Rtl.Rtl.ObjectToInt(call__10);
+            AoWEngine.FCampaign.FPlayMode = (TPlayMode)ObjectToInt(call__10);
             Dlg.Visible = false;
         }
 

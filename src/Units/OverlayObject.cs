@@ -1,40 +1,12 @@
 // Translated from OverlayObject.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
 using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.OverlayObject
 {
-    public partial class TOverlayObject : Aow.Units.ILTer.TFixedILTerrainMO
+    public partial class TOverlayObject : TFixedILTerrainMO
     {
         public TOverlayObject(TECustomNode owner) : base(owner)
         {}
@@ -45,7 +17,7 @@ namespace Aow.Units.OverlayObject
     }
 
     // FOverlayType
-    public partial class TOverlayObjectResource : Aow.Units.ILTer.TFixedILTerrainMOR
+    public partial class TOverlayObjectResource : TFixedILTerrainMOR
     {
         public TOverlayObjectResource(TECustomNode owner) : base(owner)
         {}
@@ -55,7 +27,7 @@ namespace Aow.Units.OverlayObject
 
         public int FOverlayType;
         // OverlayObject.pas:48
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FOverlayType, 40);
@@ -70,11 +42,11 @@ namespace Aow.Units.OverlayObject
         }
 
         // OverlayObject.pas:39
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__1 = Aow.Units.AoWE.AoWE.OverlayObjectRStr;
-            var call__2 = Aow.Units.AoWE.AoWE.TranslateRStr(call__1);
+            AnsiString Result = default;
+            var call__1 = OverlayObjectRStr;
+            var call__2 = TranslateRStr(call__1);
             Result = call__2;
             return Result;
         }
@@ -84,15 +56,15 @@ namespace Aow.Units.OverlayObject
     public static partial class OverlayObject
     {
         // OverlayObject.pas:54
-        public static void RegisterOverlayObject(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterOverlayObject(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.OverlayObject.TOverlayObject>(), Aow.Units.Engine.EClass.Of<Aow.Units.OverlayObject.TOverlayObjectResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TOverlayObject>(), EClass.Of<TOverlayObjectResource>()]);
         }
 
         // OverlayObject.pas:59
-        public static void UnRegisterOverlayObject(Aow.Units.Engine.TEngine AEngine)
+        public static void UnRegisterOverlayObject(TEngine AEngine)
         {
-            AEngine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.OverlayObject.TOverlayObject>(), Aow.Units.Engine.EClass.Of<Aow.Units.OverlayObject.TOverlayObjectResource>()]);
+            AEngine.UnregisterEClasses([EClass.Of<TOverlayObject>(), EClass.Of<TOverlayObjectResource>()]);
         }
 
         public static void Initialize()

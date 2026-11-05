@@ -1,30 +1,11 @@
 // Translated from AoWPanel.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AoWTabPanel;
-using static Aow.Units.AoWTabPanel.AoWTabPanel;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
-using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
 using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
 
 namespace Aow.Units.AoWPanel
 {
@@ -35,12 +16,12 @@ namespace Aow.Units.AoWPanel
 //   visible only while its tab is selected. }
     // Fields: FOrgLeft, FOrgTop (the panel's own position, saved while it is moved by the window's
     // position), FTabPanel, FAOWWindow
-    public partial class TAOWPanel : Aow.Units.AoWBaseWin.TAOWBaseWindow
+    public partial class TAOWPanel : TAOWBaseWindow
     {
         public int FOrgLeft;
         public int FOrgTop;
-        public Aow.Units.AoWTabPanel.TAOWTabPanel FTabPanel;
-        public Aow.Units.AoWBaseWin.TAOWBaseWindow FAOWWindow;
+        public TAOWTabPanel FTabPanel;
+        public TAOWBaseWindow FAOWWindow;
         // AoWPanel.pas:63
         public TAOWPanel(TComponent owner) : base(owner)
         {
@@ -64,18 +45,18 @@ namespace Aow.Units.AoWPanel
 //   MinHeight; the panel uses the window's window manager }
         public override void SetSize()
         {
-            if ((!FVisible && (FTabPanel != null)) && (FTabPanel.FSelected == FOwnerItem))
+            if (!FVisible && FTabPanel != null && FTabPanel.FSelected == FOwnerItem)
             {
                 FVisible = true;
             }
 
             switch (FWindowType)
             {
-                case Aow.Units.AoWWinControl.TWindowType.winNormal:
-                case Aow.Units.AoWWinControl.TWindowType.winHollow:
+                case TWindowType.winNormal:
+                case TWindowType.winHollow:
                     var call__2 = FILFrame[FILIndexFrame];
                     var call__3 = FILFrame[FILIndexFrame + 2];
-                    if ((call__2.Width + call__3.Width) > FWinWidth)
+                    if (call__2.Width + call__3.Width > FWinWidth)
                     {
                         var call__4 = FILFrame[FILIndexFrame];
                         var call__5 = FILFrame[FILIndexFrame + 2];
@@ -84,14 +65,14 @@ namespace Aow.Units.AoWPanel
 
                     var call__6 = FILFrame[FILIndexFrame];
                     var call__7 = FILFrame[FILIndexFrame + 5];
-                    if ((call__6.Height + call__7.Height) > FWinHeight)
+                    if (call__6.Height + call__7.Height > FWinHeight)
                     {
                         var call__8 = FILFrame[FILIndexFrame];
                         var call__9 = FILFrame[FILIndexFrame + 5];
                         FWinHeight = call__8.Height + call__9.Height;
                     }
 
-                    if (FAOWWindow.FWinWidth < (FWinLeft + FWinWidth))
+                    if (FAOWWindow.FWinWidth < FWinLeft + FWinWidth)
                     {
                         FWinLeft = FAOWWindow.FWinWidth - FWinWidth;
                     }
@@ -99,13 +80,13 @@ namespace Aow.Units.AoWPanel
                     if (FWinLeft < 0)
                     {
                         FWinLeft = 0;
-                        if (FAOWWindow.FWinWidth < (FWinLeft + FWinWidth))
+                        if (FAOWWindow.FWinWidth < FWinLeft + FWinWidth)
                         {
                             FWinWidth = FAOWWindow.FWinWidth - FWinLeft;
                         }
                     }
 
-                    if (FAOWWindow.FWinHeight < (FWinTop + FWinHeight))
+                    if (FAOWWindow.FWinHeight < FWinTop + FWinHeight)
                     {
                         FWinTop = FAOWWindow.FWinHeight - FWinHeight;
                     }
@@ -113,16 +94,16 @@ namespace Aow.Units.AoWPanel
                     if (FWinTop < 0)
                     {
                         FWinTop = 0;
-                        if (FAOWWindow.FWinHeight < (FWinTop + FWinHeight))
+                        if (FAOWWindow.FWinHeight < FWinTop + FWinHeight)
                         {
                             FWinHeight = FAOWWindow.FWinHeight - FWinTop;
                         }
                     }
 
                     break;
-                case Aow.Units.AoWWinControl.TWindowType.winBorderless:
-                case Aow.Units.AoWWinControl.TWindowType.winBlank:
-                    if (FAOWWindow.FWinWidth < (FWinLeft + FWinWidth))
+                case TWindowType.winBorderless:
+                case TWindowType.winBlank:
+                    if (FAOWWindow.FWinWidth < FWinLeft + FWinWidth)
                     {
                         FWinLeft = FAOWWindow.FWinWidth - FWinWidth;
                     }
@@ -130,13 +111,13 @@ namespace Aow.Units.AoWPanel
                     if (FWinLeft < 0)
                     {
                         FWinLeft = 0;
-                        if (FAOWWindow.FWinWidth < (FWinLeft + FWinWidth))
+                        if (FAOWWindow.FWinWidth < FWinLeft + FWinWidth)
                         {
                             FWinWidth = FAOWWindow.FWinWidth - FWinLeft;
                         }
                     }
 
-                    if (FAOWWindow.FWinHeight < (FWinTop + FWinHeight))
+                    if (FAOWWindow.FWinHeight < FWinTop + FWinHeight)
                     {
                         FWinTop = FAOWWindow.FWinHeight - FWinHeight;
                     }
@@ -144,7 +125,7 @@ namespace Aow.Units.AoWPanel
                     if (FWinTop < 0)
                     {
                         FWinTop = 0;
-                        if (FAOWWindow.FWinHeight < (FWinTop + FWinHeight))
+                        if (FAOWWindow.FWinHeight < FWinTop + FWinHeight)
                         {
                             FWinHeight = FAOWWindow.FWinHeight - FWinTop;
                         }
@@ -153,12 +134,12 @@ namespace Aow.Units.AoWPanel
                     break;
             }
 
-            if ((FMinWidth > 0) && (FMinWidth > FWinWidth))
+            if (FMinWidth > 0 && FMinWidth > FWinWidth)
             {
                 FWinWidth = FMinWidth;
             }
 
-            if ((FMinHeight > 0) && (FMinHeight > FWinHeight))
+            if (FMinHeight > 0 && FMinHeight > FWinHeight)
             {
                 FWinHeight = FMinHeight;
             }
@@ -169,7 +150,7 @@ namespace Aow.Units.AoWPanel
             }
 
             FSurfaceValid = false;
-            if (FWindowType == Aow.Units.AoWWinControl.TWindowType.winBlank)
+            if (FWindowType == TWindowType.winBlank)
             {
                 FMasked = true;
             }
@@ -209,7 +190,7 @@ namespace Aow.Units.AoWPanel
 
                     FOrgLeft = FWinLeft;
                     FOrgTop = FWinTop;
-                    if (FAOWWindow is Aow.Units.AoWPanel.TAOWPanel)
+                    if (FAOWWindow is TAOWPanel)
                     {
                         FWinLeft += FAOWWindow.FWinLeft;
                         FWinTop += FAOWWindow.FWinTop;
@@ -221,7 +202,7 @@ namespace Aow.Units.AoWPanel
                         for (; I <= end__10; I += 1)
                         {
                             var call__11 = FChildren[I];
-                            ((Aow.Units.AoWComp.TAoWComponent)call__11).Setup();
+                            ((TAoWComponent)call__11).Setup();
                         }
                     }
 
@@ -233,7 +214,7 @@ namespace Aow.Units.AoWPanel
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Setup", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Setup", (AnsiString)"Error - " + Name, 0);
             }
         }
 
@@ -243,12 +224,12 @@ namespace Aow.Units.AoWPanel
         public override void Update()
         {
             int I = default;
-            Aow.Rtl.TRect R = default;
+            TRect R = default;
             if (FVisible)
             {
                 FOrgLeft = FWinLeft;
                 FOrgTop = FWinTop;
-                if (FAOWWindow is Aow.Units.AoWPanel.TAOWPanel)
+                if (FAOWWindow is TAOWPanel)
                 {
                     FWinLeft += FAOWWindow.FWinLeft;
                     FWinTop += FAOWWindow.FWinTop;
@@ -265,22 +246,22 @@ namespace Aow.Units.AoWPanel
                     for (; I <= end__12; I += 1)
                     {
                         var call__13 = FChildren[I];
-                        ((Aow.Units.AoWComp.TAoWComponent)call__13).Update();
+                        ((TAoWComponent)call__13).Update();
                     }
                 }
 
                 FWinLeft = FOrgLeft;
                 FWinTop = FOrgTop;
-                if (((FOldRect.Right > 0) && (FOldRect.Bottom > 0)) && ((((FOldRect.Left != FWinLeft) || (FOldRect.Top != FWinTop)) || (FOldRect.Right != FWinWidth)) || (FOldRect.Bottom != FWinHeight)))
+                if (FOldRect.Right > 0 && FOldRect.Bottom > 0 && (FOldRect.Left != FWinLeft || FOldRect.Top != FWinTop || FOldRect.Right != FWinWidth || FOldRect.Bottom != FWinHeight))
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        var call__14 = Aow.Rtl.Rtl.Rect(FOldRect.Left, FOldRect.Top, (FOldRect.Left + FOldRect.Right) - 1, (FOldRect.Top + FOldRect.Bottom) - 1);
+                        var call__14 = Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
                         R = call__14;
                     }
                     else
                     {
-                        var call__15 = Aow.Rtl.Rtl.Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, ((FAOWOwner.FWinLeft + FOldRect.Left) + FOldRect.Right) - 1, ((FAOWOwner.FWinTop + FOldRect.Top) + FOldRect.Bottom) - 1);
+                        var call__15 = Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
                         R = call__15;
                     }
 
@@ -305,12 +286,12 @@ namespace Aow.Units.AoWPanel
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        var call__16 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, (FWinLeft + FWinWidth) - 1, (FWinTop + FWinHeight) - 1);
+                        var call__16 = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                         R = call__16;
                     }
                     else
                     {
-                        var call__17 = Aow.Rtl.Rtl.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, ((FAOWOwner.FWinLeft + FWinLeft) + FWinWidth) - 1, ((FAOWOwner.FWinTop + FWinTop) + FWinHeight) - 1);
+                        var call__17 = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                         R = call__17;
                     }
 
@@ -327,14 +308,14 @@ namespace Aow.Units.AoWPanel
         // AoWPanel.pas:97
         // { InvalidateRect: the controls from Index on that ARect touches are redrawn (windows are asked to
 //   invalidate the rectangle themselves), then the windows above the panel in its owner }
-        public override void InvalidateRect(int Index, ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
+        public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
         {
             int OldLeft = default;
             int OldTop = default;
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
-            Aow.Rtl.TRect R = default;
-            if ((FValid && FVisible) && (FWindowType != Aow.Units.AoWWinControl.TWindowType.winBlank))
+            TAoWComponent C = default;
+            TRect R = default;
+            if (FValid && FVisible && FWindowType != TWindowType.winBlank)
             {
                 AddDrawRect(ref ARect, Sender);
             }
@@ -349,14 +330,14 @@ namespace Aow.Units.AoWPanel
                 for (; I <= end__18; I += 1)
                 {
                     var call__19 = FChildren[I];
-                    C = (Aow.Units.AoWComp.TAoWComponent)call__19;
+                    C = (TAoWComponent)call__19;
                     if (C.FVisible)
                     {
-                        if ((((((FWinLeft + C.FWinLeft) >= ARect.Left) && ((FWinLeft + C.FWinLeft) <= ARect.Right)) || (((FWinLeft + C.FWinLeft) <= ARect.Left) && (ARect.Left <= ((FWinLeft + C.FWinLeft) + C.FWinWidth)))) && ((((FWinTop + C.FWinTop) >= ARect.Top) && ((FWinTop + C.FWinTop) <= ARect.Bottom)) || (((FWinTop + C.FWinTop) <= ARect.Top) && (ARect.Top <= ((FWinTop + C.FWinTop) + C.FWinHeight))))) && (C != Sender))
+                        if (((FWinLeft + C.FWinLeft >= ARect.Left && FWinLeft + C.FWinLeft <= ARect.Right) || (FWinLeft + C.FWinLeft <= ARect.Left && ARect.Left <= FWinLeft + C.FWinLeft + C.FWinWidth)) && ((FWinTop + C.FWinTop >= ARect.Top && FWinTop + C.FWinTop <= ARect.Bottom) || (FWinTop + C.FWinTop <= ARect.Top && ARect.Top <= FWinTop + C.FWinTop + C.FWinHeight)) && C != Sender)
                         {
-                            if (C is Aow.Units.AoWBaseWin.TAOWBaseWindow)
+                            if (C is TAOWBaseWindow)
                             {
-                                ((Aow.Units.AoWBaseWin.TAOWBaseWindow)C).InvalidateRect(0, ref ARect, this);
+                                ((TAOWBaseWindow)C).InvalidateRect(0, ref ARect, this);
                             }
                             else
                             {
@@ -365,7 +346,7 @@ namespace Aow.Units.AoWPanel
                                     C.FDrawn = false;
                                     if (C.FMasked)
                                     {
-                                        var call__20 = Aow.Rtl.Rtl.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, (FWinLeft + C.FWinLeft) + C.FWinWidth, (FWinTop + C.FWinTop) + C.FWinHeight);
+                                        var call__20 = Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
                                         R = call__20;
                                         AddDrawRect(ref R, this);
                                     }
@@ -387,30 +368,30 @@ namespace Aow.Units.AoWPanel
         }
 
         // AoWPanel.pas:82
-        public override void AddBltRect(ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
+        public override void AddBltRect(ref TRect ARect, TAoWComponent Sender)
         {
             FAOWOwner.AddBltRect(ref ARect, this);
         }
 
         // AoWPanel.pas:87
-        public override void AddDrawRect(ref Aow.Rtl.TRect ARect, Aow.Units.AoWComp.TAoWComponent Sender)
+        public override void AddDrawRect(ref TRect ARect, TAoWComponent Sender)
         {
             if (FMasked)
             {
                 FAOWOwner.AddDrawRect(ref ARect, this);
             }
 
-            if (FWindowType != Aow.Units.AoWWinControl.TWindowType.winBlank)
+            if (FWindowType != TWindowType.winBlank)
             {
                 base.AddDrawRect(ref ARect, Sender);
             }
         }
 
         // AoWPanel.pas:76
-        public override void SetOwner(Aow.Units.AoWComp.TAoWComponent Value)
+        public override void SetOwner(TAoWComponent Value)
         {
             base.SetOwner(Value);
-            FAOWWindow = (Aow.Units.AoWBaseWin.TAOWBaseWindow)FAOWOwner;
+            FAOWWindow = (TAOWBaseWindow)FAOWOwner;
         }
 
         // AoWPanel.pas:191
@@ -450,7 +431,7 @@ namespace Aow.Units.AoWPanel
 
             if (FVisible)
             {
-                if ((!FValid || !FAligned) || !FSized)
+                if (!FValid || !FAligned || !FSized)
                 {
                     Setup();
                 }
@@ -466,22 +447,22 @@ namespace Aow.Units.AoWPanel
         // { Draw: the background (redrawn only in the dirty rectangles once the surface is valid), then
 //   the controls that need it; the rectangles of redrawn controls are passed on to the controls
 //   above them and blitted }
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
-            Aow.Rtl.TRect BltRect = default;
+            TRect BltRect = default;
             int I = default;
             int J = default;
-            Aow.Rtl.TRect OldClip = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
-            Aow.Units.AoWComp.TaowRect D = default;
+            TRect OldClip = default;
+            TAoWComponent C = default;
+            TaowRect D = default;
             void DrawBack()
             {
-                if (FWindowType != Aow.Units.AoWWinControl.TWindowType.winBlank)
+                if (FWindowType != TWindowType.winBlank)
                 {
                     switch (FWindowType)
                     {
-                        case Aow.Units.AoWWinControl.TWindowType.winNormal:
-                            var call__22 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                        case TWindowType.winNormal:
+                            var call__22 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                             FILFrame.DrawILF(FILIndexFrame, call__22, ref SurfDesc);
                             var call__23 = FILFrame[FILIndexFrame + 1];
                             var call__24 = FILFrame[FILIndexFrame + 6];
@@ -489,20 +470,20 @@ namespace Aow.Units.AoWPanel
                             var call__26 = FILFrame[FILIndexFrame + 4];
                             var call__27 = FILFrame[FILIndexFrame + 1];
                             var call__28 = FILFrame[FILIndexFrame + 3];
-                            var call__29 = Aow.Rtl.Rtl.Rect(FWinLeft + call__28.Width, FWinTop + call__27.Height, (FWinWidth - call__25.Width) - call__26.Width, (FWinHeight - call__23.Height) - call__24.Height);
+                            var call__29 = Rect(FWinLeft + call__28.Width, FWinTop + call__27.Height, FWinWidth - call__25.Width - call__26.Width, FWinHeight - call__23.Height - call__24.Height);
                             FILTexture.DrawILT(FILIndexTexture, call__29, ref SurfDesc);
                             break;
-                        case Aow.Units.AoWWinControl.TWindowType.winHollow:
-                            var call__30 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                        case TWindowType.winHollow:
+                            var call__30 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                             FILFrame.DrawILF(FILIndexFrame, call__30, ref SurfDesc);
                             break;
-                        case Aow.Units.AoWWinControl.TWindowType.winBorderless:
-                            var call__31 = Aow.Rtl.Rtl.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                        case TWindowType.winBorderless:
+                            var call__31 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                             FILTexture.DrawILT(FILIndexTexture, call__31, ref SurfDesc);
                             break;
                     }
 
-                    var call__32 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, SurfDesc.ClipRect.Right, SurfDesc.ClipRect.Bottom);
+                    var call__32 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, SurfDesc.ClipRect.Right, SurfDesc.ClipRect.Bottom);
                     BltRect = call__32;
                     FAOWOwner.AddBltRect(ref BltRect, this);
                 }
@@ -516,22 +497,22 @@ namespace Aow.Units.AoWPanel
                     FOrgTop = FWinTop;
                     FWinLeft += FAOWWindow.FWinLeft;
                     FWinTop += FAOWWindow.FWinTop;
-                    if ((FWinLeft < SurfDesc.ClipRect.Right) && (FWinLeft > SurfDesc.ClipRect.Left))
+                    if (FWinLeft < SurfDesc.ClipRect.Right && FWinLeft > SurfDesc.ClipRect.Left)
                     {
                         SurfDesc.ClipRect.Left = FWinLeft;
                     }
 
-                    if ((FWinTop < SurfDesc.ClipRect.Bottom) && (FWinTop > SurfDesc.ClipRect.Top))
+                    if (FWinTop < SurfDesc.ClipRect.Bottom && FWinTop > SurfDesc.ClipRect.Top)
                     {
                         SurfDesc.ClipRect.Top = FWinTop;
                     }
 
-                    if (((FWinLeft + FWinWidth) > SurfDesc.ClipRect.Left) && ((FWinLeft + FWinWidth) < SurfDesc.ClipRect.Right))
+                    if (FWinLeft + FWinWidth > SurfDesc.ClipRect.Left && FWinLeft + FWinWidth < SurfDesc.ClipRect.Right)
                     {
                         SurfDesc.ClipRect.Right = FWinLeft + FWinWidth;
                     }
 
-                    if (((FWinTop + FWinHeight) > SurfDesc.ClipRect.Top) && ((FWinTop + FWinHeight) < SurfDesc.ClipRect.Bottom))
+                    if (FWinTop + FWinHeight > SurfDesc.ClipRect.Top && FWinTop + FWinHeight < SurfDesc.ClipRect.Bottom)
                     {
                         SurfDesc.ClipRect.Bottom = FWinTop + FWinHeight;
                     }
@@ -544,9 +525,9 @@ namespace Aow.Units.AoWPanel
                             for (; J <= end__33; J += 1)
                             {
                                 var call__34 = FDrawList[J];
-                                D = (Aow.Units.AoWComp.TaowRect)call__34;
+                                D = (TaowRect)call__34;
                                 OldClip = SurfDesc.ClipRect;
-                                var call__35 = Aow.Rtl.Rtl.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                var call__35 = Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                 SurfDesc.ClipRect = call__35;
                                 DrawBack();
                                 SurfDesc.ClipRect = OldClip;
@@ -575,13 +556,13 @@ namespace Aow.Units.AoWPanel
                         for (; I <= end__36; I += 1)
                         {
                             var call__37 = FChildren[I];
-                            C = (Aow.Units.AoWComp.TAoWComponent)call__37;
-                            if ((C.FValid && C.FVisible) && (!FDrawn || !C.FDrawn))
+                            C = (TAoWComponent)call__37;
+                            if (C.FValid && C.FVisible && (!FDrawn || !C.FDrawn))
                             {
                                 C.FDrawn = false;
-                                if (!FDrawn && (C is Aow.Units.AoWBaseWin.TAOWBaseWindow))
+                                if (!FDrawn && C is TAOWBaseWindow)
                                 {
-                                    ((Aow.Units.AoWBaseWin.TAOWBaseWindow)C).FSurfaceValid = false;
+                                    ((TAOWBaseWindow)C).FSurfaceValid = false;
                                 }
 
                                 C.Draw(SurfDesc);
@@ -593,7 +574,7 @@ namespace Aow.Units.AoWPanel
                                     for (; J <= end__38; J += 1)
                                     {
                                         var call__39 = FDrawList[J];
-                                        D = (Aow.Units.AoWComp.TaowRect)call__39;
+                                        D = (TaowRect)call__39;
                                         InvalidateRect(I + 1, ref D.R, null);
                                     }
                                 }
@@ -601,12 +582,12 @@ namespace Aow.Units.AoWPanel
                                 FDrawCount = 0;
                                 if (!FDrawn || !C.FFirstDraw)
                                 {
-                                    var call__40 = Aow.Rtl.Rtl.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, (FWinLeft + C.FWinLeft) + C.FWinWidth, (FWinTop + C.FWinTop) + C.FWinHeight);
+                                    var call__40 = Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
                                     BltRect = call__40;
                                     FAOWOwner.AddBltRect(ref BltRect, this);
                                     FWinLeft = FOrgLeft;
                                     FWinTop = FOrgTop;
-                                    var call__41 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + C.FWinLeft, (FAOWWindow.FWinTop + FWinTop) + C.FWinTop, (((FAOWWindow.FWinLeft + FWinLeft) + C.FWinLeft) + C.FWinWidth) - 1, (((FAOWWindow.FWinTop + FWinTop) + C.FWinTop) + C.FWinHeight) - 1);
+                                    var call__41 = Rect(FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft, FAOWWindow.FWinTop + FWinTop + C.FWinTop, FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft + C.FWinWidth - 1, FAOWWindow.FWinTop + FWinTop + C.FWinTop + C.FWinHeight - 1);
                                     BltRect = call__41;
                                     InvalidateRect(I + 1, ref BltRect, C);
                                     FWinLeft += FAOWWindow.FWinLeft;
@@ -630,17 +611,17 @@ namespace Aow.Units.AoWPanel
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWPanel.pas:513
         // { CheckMouseDown: the controls first (from the top), with the panel moved by its window's
 //   position }
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             if (FVisible == true)
             {
@@ -659,9 +640,9 @@ namespace Aow.Units.AoWPanel
                     for (; I >= end__42; I -= 1)
                     {
                         var call__43 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__43;
+                        C = (TAoWComponent)call__43;
                         C.FHandled = false;
-                        if ((((FHandled == false) || C.FRedraw) && (C.FVisible == true)) && C.FCaptureInput)
+                        if ((!FHandled || C.FRedraw) && C.FVisible == true && C.FCaptureInput)
                         {
                             C.CheckMouseDown(Button, Shift, X, Y);
                         }
@@ -678,7 +659,7 @@ namespace Aow.Units.AoWPanel
                     }
                 }
 
-                if ((((X > (FWinLeft - 1)) && (X < (FWinLeft + FWinWidth))) && (Y > (FWinTop - 1))) && (Y < (FWinTop + FWinHeight)))
+                if (X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
                 {
                     FHandled = true;
                     FRedraw = true;
@@ -698,10 +679,10 @@ namespace Aow.Units.AoWPanel
         }
 
         // AoWPanel.pas:558
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             if (FVisible == true)
             {
@@ -720,9 +701,9 @@ namespace Aow.Units.AoWPanel
                     for (; I >= end__44; I -= 1)
                     {
                         var call__45 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__45;
+                        C = (TAoWComponent)call__45;
                         C.FHandled = false;
-                        if ((((FHandled == false) || (C.FRedraw == true)) && (C.FVisible == true)) && C.FCaptureInput)
+                        if ((!FHandled || C.FRedraw == true) && C.FVisible == true && C.FCaptureInput)
                         {
                             C.CheckMouseUp(Button, Shift, X, Y);
                         }
@@ -734,7 +715,7 @@ namespace Aow.Units.AoWPanel
                     }
                 }
 
-                if ((((X > (FWinLeft - 1)) && (X < (FWinLeft + FWinWidth))) && (Y > (FWinTop - 1))) && (Y < (FWinTop + FWinHeight)))
+                if (X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
                 {
                     FHandled = true;
                     FWinLeft = FOrgLeft;
@@ -753,10 +734,10 @@ namespace Aow.Units.AoWPanel
         }
 
         // AoWPanel.pas:600
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             int I = default;
-            Aow.Units.AoWComp.TAoWComponent C = default;
+            TAoWComponent C = default;
             FHandled = false;
             if (FVisible == true)
             {
@@ -775,9 +756,9 @@ namespace Aow.Units.AoWPanel
                     for (; I >= end__46; I -= 1)
                     {
                         var call__47 = FChildren[I];
-                        C = (Aow.Units.AoWComp.TAoWComponent)call__47;
+                        C = (TAoWComponent)call__47;
                         C.FHandled = false;
-                        if (((((FHandled == false) || (C.FRedraw == true)) || (C.FToolTipCount > 0)) && (C.FVisible == true)) && C.FCaptureInput)
+                        if ((!FHandled || C.FRedraw == true || C.FToolTipCount > 0) && C.FVisible == true && C.FCaptureInput)
                         {
                             C.CheckMouseMove(Shift, X, Y);
                         }
@@ -789,7 +770,7 @@ namespace Aow.Units.AoWPanel
                     }
                 }
 
-                if ((((X > (FWinLeft - 1)) && (X < (FWinLeft + FWinWidth))) && (Y > (FWinTop - 1))) && (Y < (FWinTop + FWinHeight)))
+                if (X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
                 {
                     FHandled = true;
                     FWinLeft = FOrgLeft;
@@ -816,11 +797,11 @@ namespace Aow.Units.AoWPanel
         // AoWPanel.pas:145
         // { SetTabPanel moves the panel from the panel list of its old tab panel to the list of the new
 //   one, in priority order }
-        public virtual void SetTabPanel(Aow.Units.AoWTabPanel.TAOWTabPanel Value)
+        public virtual void SetTabPanel(TAOWTabPanel Value)
         {
             int I = default;
             int NewIndex = default;
-            Aow.Units.AoWPanel.TAOWPanel P = default;
+            TAOWPanel P = default;
             if (Value != FTabPanel)
             {
                 if (FTabPanel != null)
@@ -829,7 +810,7 @@ namespace Aow.Units.AoWPanel
                     while (I < FTabPanel.FPanels.Count)
                     {
                         var call__48 = FTabPanel.FPanels[I];
-                        P = (Aow.Units.AoWPanel.TAOWPanel)call__48;
+                        P = (TAOWPanel)call__48;
                         if (P == this)
                         {
                             FTabPanel.FPanels.Delete(I);
@@ -848,7 +829,7 @@ namespace Aow.Units.AoWPanel
                     while (I < FTabPanel.FPanels.Count)
                     {
                         var call__49 = FTabPanel.FPanels[I];
-                        P = (Aow.Units.AoWPanel.TAOWPanel)call__49;
+                        P = (TAOWPanel)call__49;
                         if (P.FPriority > FPriority)
                         {
                             NewIndex = I;
@@ -871,16 +852,16 @@ namespace Aow.Units.AoWPanel
         }
 
         // AoWPanel.pas:228
-        public void SetAOWWindow(Aow.Units.AoWBaseWin.TAOWBaseWindow Value)
+        public void SetAOWWindow(TAOWBaseWindow Value)
         {
             SetOwner(Value);
         }
 
         [Published]
-        public Aow.Units.AoWBaseWin.TAOWBaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
+        public TAOWBaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
 
         [Published]
-        public Aow.Units.AoWTabPanel.TAOWTabPanel TabPanel { get => FTabPanel; set => SetTabPanel(value); }
+        public TAOWTabPanel TabPanel { get => FTabPanel; set => SetTabPanel(value); }
 
         [Published]
         public int OwnerItem { get => FOwnerItem; set => FOwnerItem = value; }
@@ -897,7 +878,7 @@ namespace Aow.Units.AoWPanel
         // AoWPanel.pas:643
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWPanel.TAOWPanel)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWPanel)]);
         }
     }
 }

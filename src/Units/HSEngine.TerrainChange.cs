@@ -19,7 +19,7 @@ public partial class THSMap
             if (InRange())
             {
                 var field = mapLevel.GetField(walk.X, walk.Y);
-                saved.SetTandO(walk.HN, unchecked((ushort)((byte)field.FTerrainType | (byte)field.FOverlayType << 8)));
+                saved.SetTandO(walk.HN, (ushort)((byte)field.FTerrainType | (byte)field.FOverlayType << 8));
                 sbyte value = terrain.GetTerrain(walk.HN);
                 if (value >= 0) field.FTerrainType = value;
                 value = terrain.GetOverlay(walk.HN);
@@ -40,8 +40,8 @@ public partial class THSMap
             {
                 var field = mapLevel.GetField(walk.X, walk.Y);
                 ushort pair = saved.GetTandO(walk.HN);
-                field.FTerrainType = unchecked((sbyte)pair);
-                field.FOverlayType = unchecked((sbyte)(pair >> 8));
+                field.FTerrainType = (sbyte)pair;
+                field.FOverlayType = (sbyte)(pair >> 8);
             }
             HSEngine.WalkToNextHN(ref walk);
         }

@@ -10,7 +10,7 @@ public partial class TSelectedArmy
         var field = (TAoWMapField)map.MapContainer.GetField(mouse.Xhx, mouse.Yhx, map.ViewL);
         bool visible = !map.FFogEnabled || ((field.FFieldFlags >> 16) & 255) != 0;
         if (FCurrentMove != -1 && (!map.FExplorationEnabled || field.GetExplored(map.FSeatedPlayer)) && visible)
-            mouse.CursorMode = field.GetMoveAction((sbyte)GetArmyHS().FArmy.FPlayer) switch
+            mouse.CursorMode = field.GetMoveAction(GetArmyHS().FArmy.FPlayer) switch
             {
                 TMoveAction.maAttack => 258,
                 TMoveAction.maNegotiate => 259,

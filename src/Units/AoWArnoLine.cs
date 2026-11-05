@@ -1,54 +1,19 @@
 // Translated from AoWArnoLine.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
 
 namespace Aow.Units.AoWArnoLine
 {
     // top, middle, bottom, copied line image library
-    public partial class TAoWArnoLine : Aow.Units.AoWControl.TAOWControl
+    public partial class TAoWArnoLine : TAOWControl
     {
-        public Aow.Units.ImageLib.TLibraryImage FImageTop;
-        public Aow.Units.ImageLib.TLibraryImage FImageMiddle;
-        public Aow.Units.ImageLib.TLibraryImage FImageBottom;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FLineLibrary;
+        public ImageLib.TLibraryImage FImageTop;
+        public ImageLib.TLibraryImage FImageMiddle;
+        public ImageLib.TLibraryImage FImageBottom;
+        public TInterfaceIL FLineLibrary;
         // AoWArnoLine.pas:47
         public override void Destroy()
         {
@@ -59,14 +24,14 @@ namespace Aow.Units.AoWArnoLine
         // AoWArnoLine.pas:41
         public TAoWArnoLine(TComponent owner) : base(owner)
         {
-            var call__1 = new Aow.Units.AOWInterfaceImgLib.TInterfaceIL(this);
+            var call__1 = new TInterfaceIL(this);
             FLineLibrary = call__1;
         }
 
         // AoWArnoLine.pas:53
         public override void Validate()
         {
-            if (((FImageTop != null) && (FImageMiddle != null)) && (FImageBottom != null))
+            if (FImageTop != null && FImageMiddle != null && FImageBottom != null)
             {
                 FLineLibrary.Clear();
                 var call__2 = FImageTop.Copy();
@@ -89,9 +54,9 @@ namespace Aow.Units.AoWArnoLine
         }
 
         // AoWArnoLine.pas:99
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
-            Aow.Rtl.TRect OldClip = default;
+            TRect OldClip = default;
             try
             {
                 if (FValid && FVisible)
@@ -107,7 +72,7 @@ namespace Aow.Units.AoWArnoLine
                         SurfDesc.ClipRect.Top = FWinTop;
                     }
 
-                    var call__5 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    var call__5 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                     FLineLibrary.DrawILLv(0, call__5, ref SurfDesc);
                     if (FOnDraw != null)
                     {
@@ -119,12 +84,12 @@ namespace Aow.Units.AoWArnoLine
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWArnoLine.pas:66
-        public void SetITop(Aow.Units.ImageLib.TLibraryImage Value)
+        public void SetITop(ImageLib.TLibraryImage Value)
         {
             if (Value != FImageTop)
             {
@@ -134,7 +99,7 @@ namespace Aow.Units.AoWArnoLine
         }
 
         // AoWArnoLine.pas:75
-        public void SetIMiddle(Aow.Units.ImageLib.TLibraryImage Value)
+        public void SetIMiddle(ImageLib.TLibraryImage Value)
         {
             if (Value != FImageMiddle)
             {
@@ -144,7 +109,7 @@ namespace Aow.Units.AoWArnoLine
         }
 
         // AoWArnoLine.pas:84
-        public void SetIBottom(Aow.Units.ImageLib.TLibraryImage Value)
+        public void SetIBottom(ImageLib.TLibraryImage Value)
         {
             if (Value != FImageBottom)
             {
@@ -154,13 +119,13 @@ namespace Aow.Units.AoWArnoLine
         }
 
         [Published]
-        public Aow.Units.ImageLib.TLibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
+        public ImageLib.TLibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
 
         [Published]
-        public Aow.Units.ImageLib.TLibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
+        public ImageLib.TLibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
 
         [Published]
-        public Aow.Units.ImageLib.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
+        public ImageLib.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
     }
 
     public static partial class AoWArnoLine
@@ -168,7 +133,7 @@ namespace Aow.Units.AoWArnoLine
         // AoWArnoLine.pas:119
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Tools", [typeof(Aow.Units.AoWArnoLine.TAoWArnoLine)]);
+            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAoWArnoLine)]);
         }
 
         public static void Initialize()

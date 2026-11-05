@@ -1,42 +1,17 @@
 // Translated from MoveOnEvents.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.MoveOnEvents
 {
-    public partial class TMoveOnEvent : Aow.Units.HSEngine.TMapObject
+    public partial class TMoveOnEvent : TMapObject
     {
         public TMoveOnEvent(TECustomNode owner) : base(owner)
         {}
@@ -44,7 +19,7 @@ namespace Aow.Units.MoveOnEvents
         public byte FRadius;
         public int FTriggerPlayers;
         // MoveOnEvents.pas:151
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FTriggerPlayers, 30);
@@ -54,20 +29,20 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:193
         public override void Connect()
         {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            THNWalkData Walk = default;
+            TMapLevel MapLevel = default;
+            TMapField MapField = default;
+            if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
-                var mapField = (Aow.Units.HSEngine.TMapField)Owner;
-                MapLevel = (Aow.Units.HSEngine.TMapLevel)mapField.Owner;
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
+                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+                var mapField = (TMapField)Owner;
+                MapLevel = (TMapLevel)mapField.Owner;
+                InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
 
                 ref var walk = ref Walk;
                 while (walk.Radius <= FRadius)
                 {
-                    if ((((walk.X >= 0) && (walk.Y >= 0)) && (walk.X < MapLevel.Width)) && (walk.Y < MapLevel.Height))
+                    if (walk.X >= 0 && walk.Y >= 0 && walk.X < MapLevel.Width && walk.Y < MapLevel.Height)
                     {
                         var call__3 = MapLevel.GetField(walk.X, walk.Y);
                         MapField = call__3;
@@ -79,7 +54,7 @@ namespace Aow.Units.MoveOnEvents
                         MapField.AddHS(this, walk.HN);
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -87,40 +62,40 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:223
         public override void Disconnect()
         {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            THNWalkData Walk = default;
+            TMapLevel MapLevel = default;
+            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
-                MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, ((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, 0);
+                MapLevel = (TMapLevel)Owner.Owner;
+                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+                InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 0);
                 while (Walk.Radius <= FRadius)
                 {
-                    if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.Width)) && (Walk.Y < MapLevel.Height))
+                    if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                     {
                         var call__4 = MapLevel.GetField(Walk.X, Walk.Y);
                         call__4.RemoveHS(this);
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    WalkToNextHN(ref Walk);
                 }
 
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
+                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
                 SetOwner(null);
             }
         }
 
         // MoveOnEvents.pas:168
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
         }
 
         // MoveOnEvents.pas:187
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4354)
@@ -145,12 +120,12 @@ namespace Aow.Units.MoveOnEvents
         public override bool CanSelect(int Xhp, int Yhp)
         {
             bool Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+            Result = AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
             return Result;
         }
 
         // MoveOnEvents.pas:129
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             Result = true;
@@ -166,7 +141,7 @@ namespace Aow.Units.MoveOnEvents
         public bool GetTriggerPlayer(sbyte Player)
         {
             bool Result = default;
-            Result = (Player > 0) && ((FTriggerPlayers & (1 << (Player - 1))) != 0);
+            Result = Player > 0 && (FTriggerPlayers & (1 << (Player - 1))) != 0;
             return Result;
         }
 
@@ -189,7 +164,7 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:244
         public void SetRadius(byte Value)
         {
-            Aow.Units.Engine.TECustomNode MapField = default;
+            TECustomNode MapField = default;
             if (Value > 10)
             {
                 Value = 10;
@@ -197,23 +172,23 @@ namespace Aow.Units.MoveOnEvents
 
             if (Value != FRadius)
             {
-                if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+                if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
                 {
                     MapField = Owner;
                     Disconnect();
-                    FRadius = unchecked((byte)Value);
+                    FRadius = Value;
                     SetOwner(MapField);
                     Connect();
                 }
                 else
                 {
-                    FRadius = unchecked((byte)Value);
+                    FRadius = Value;
                 }
             }
         }
     }
 
-    public partial class TMoveOnEventResource : Aow.Units.HSEngine.TMapObjectResource
+    public partial class TMoveOnEventResource : TMapObjectResource
     {
         public TMoveOnEventResource(TECustomNode owner) : base(owner)
         {
@@ -233,16 +208,16 @@ namespace Aow.Units.MoveOnEvents
 
 
         // MoveOnEvents.pas:272
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"MoveOnEvent";
             return Result;
         }
 
     }
 
-    public partial class TChangeSongMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
+    public partial class TChangeSongMoveOnEvent : TMoveOnEvent
     {
         public TChangeSongMoveOnEvent(TECustomNode owner) : base(owner)
         {}
@@ -250,12 +225,12 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:277
         public new const int ClassID = 132427;
 
-        public Aow.Rtl.AnsiString FSongFileName;
+        public AnsiString FSongFileName;
         // MoveOnEvents.pas:280
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            if (!Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smTextOnly))
+            if (!Stream.StorageMode().Contains(TStorageModeElement.smTextOnly))
             {
                 Stream.rwString(ref FSongFileName, 40);
             }
@@ -265,21 +240,21 @@ namespace Aow.Units.MoveOnEvents
         public override void MovedOnTrigger(sbyte Player)
         {
             // Use the map's seated player.
-            if (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
+            if (Player == AoWHSMap.FSeatedPlayer)
             {
-                var call__5 = Aow.Units.Sound.Sound.PlayingSongFileName();
-                if (Aow.Rtl.Rtl.CompareText(call__5, FSongFileName) != 0)
+                var call__5 = PlayingSongFileName();
+                if (CompareText(call__5, FSongFileName) != 0)
                 {
-                    Aow.Units.Sound.Sound.PlaySongEx(FSongFileName, 2, 0, false);
+                    PlaySongEx(FSongFileName, 2, 0, false);
                 }
             }
 
-            SetTriggerPlayer(unchecked((sbyte)Player), false);
+            SetTriggerPlayer(Player, false);
         }
 
     }
 
-    public partial class TChangeSongMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
+    public partial class TChangeSongMoveOnEventResource : TMoveOnEventResource
     {
         public TChangeSongMoveOnEventResource(TECustomNode owner) : base(owner)
         {}
@@ -296,16 +271,16 @@ namespace Aow.Units.MoveOnEvents
         }
 
         // MoveOnEvents.pas:295
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ChangeSongEventRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(ChangeSongEventRStr);
             return Result;
         }
 
     }
 
-    public partial class TPlaySampleMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
+    public partial class TPlaySampleMoveOnEvent : TMoveOnEvent
     {
         public TPlaySampleMoveOnEvent(TECustomNode owner) : base(owner)
         {}
@@ -313,12 +288,12 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:307
         public new const int ClassID = 132445;
 
-        public Aow.Rtl.AnsiString FSampleFileName;
+        public AnsiString FSampleFileName;
         // MoveOnEvents.pas:310
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            if (!Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smTextOnly))
+            if (!Stream.StorageMode().Contains(TStorageModeElement.smTextOnly))
             {
                 Stream.rwString(ref FSampleFileName, 40);
             }
@@ -327,17 +302,17 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:316
         public override void MovedOnTrigger(sbyte Player)
         {
-            if (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
+            if (Player == AoWHSMap.FSeatedPlayer)
             {
-                Aow.Units.Sound.Sound.PlaySample(FSampleFileName);
+                PlaySample(FSampleFileName);
             }
 
-            SetTriggerPlayer(unchecked((sbyte)Player), false);
+            SetTriggerPlayer(Player, false);
         }
 
     }
 
-    public partial class TPlaySampleMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
+    public partial class TPlaySampleMoveOnEventResource : TMoveOnEventResource
     {
         public TPlaySampleMoveOnEventResource(TECustomNode owner) : base(owner)
         {}
@@ -354,27 +329,27 @@ namespace Aow.Units.MoveOnEvents
         }
 
         // MoveOnEvents.pas:322
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.PlaySampleEventRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(PlaySampleEventRStr);
             return Result;
         }
 
     }
 
-    public partial class TShowMessageMoveOnEvent : Aow.Units.MoveOnEvents.TMoveOnEvent
+    public partial class TShowMessageMoveOnEvent : TMoveOnEvent
     {
         public TShowMessageMoveOnEvent(TECustomNode owner) : base(owner)
         {
-            var call__6 = new Aow.Rtl.TStringList();
+            var call__6 = new TStringList();
             FMessage = call__6;
         }
 
         // MoveOnEvents.pas:346
         public new const int ClassID = 132429;
 
-        public Aow.Rtl.TStringList FMessage;
+        public TStringList FMessage;
         // MoveOnEvents.pas:340
         public override void Destroy()
         {
@@ -383,7 +358,7 @@ namespace Aow.Units.MoveOnEvents
         }
 
         // MoveOnEvents.pas:349
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 40);
@@ -395,17 +370,17 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:355
         public override void MovedOnTrigger(sbyte Player)
         {
-            Aow.Units.EventLog.TShowMessageEventLog Log = default;
-            if (Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer == Player)
+            TShowMessageEventLog Log = default;
+            if (AoWHSMap.FSeatedPlayer == Player)
             {
-                Log = new Aow.Units.EventLog.TShowMessageEventLog(null);
+                Log = new TShowMessageEventLog(null);
                 var call__7 = FMessage.Text;
                 Log.FMessage.Text = call__7;
-                Aow.Units.AoWE.AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, null);
+                AoWHSMap.TriggerExecuteEventLog(Log, false, null);
                 Log.Release();
             }
 
-            SetTriggerPlayer(unchecked((sbyte)Player), false);
+            SetTriggerPlayer(Player, false);
         }
 
         // MoveOnEvents.pas:93
@@ -413,7 +388,7 @@ namespace Aow.Units.MoveOnEvents
 
     }
 
-    public partial class TShowMessageMoveOnEventResource : Aow.Units.MoveOnEvents.TMoveOnEventResource
+    public partial class TShowMessageMoveOnEventResource : TMoveOnEventResource
     {
         public TShowMessageMoveOnEventResource(TECustomNode owner) : base(owner)
         {}
@@ -430,10 +405,10 @@ namespace Aow.Units.MoveOnEvents
         }
 
         // MoveOnEvents.pas:369
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            Result = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ShowMessageEventRStr);
+            AnsiString Result = default;
+            Result = TranslateRStr(ShowMessageEventRStr);
             return Result;
         }
 
@@ -442,11 +417,11 @@ namespace Aow.Units.MoveOnEvents
     public static partial class MoveOnEvents
     {
         // MoveOnEvents.pas:381
-        public static void RegisterMoveOnEvents(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterMoveOnEvents(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MoveOnEvents.TChangeSongMoveOnEventResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.MoveOnEvents.TChangeSongMoveOnEvent>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MoveOnEvents.TPlaySampleMoveOnEventResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.MoveOnEvents.TPlaySampleMoveOnEvent>()]);
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.MoveOnEvents.TShowMessageMoveOnEventResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.MoveOnEvents.TShowMessageMoveOnEvent>()]);
+            AEngine.RegisterEClasses([EClass.Of<TChangeSongMoveOnEventResource>(), EClass.Of<TChangeSongMoveOnEvent>()]);
+            AEngine.RegisterEClasses([EClass.Of<TPlaySampleMoveOnEventResource>(), EClass.Of<TPlaySampleMoveOnEvent>()]);
+            AEngine.RegisterEClasses([EClass.Of<TShowMessageMoveOnEventResource>(), EClass.Of<TShowMessageMoveOnEvent>()]);
         }
 
         public static void Initialize()

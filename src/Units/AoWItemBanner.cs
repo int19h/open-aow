@@ -1,82 +1,43 @@
 // Translated from AoWItemBanner.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AOWMenu;
-using static Aow.Units.AOWMenu.AOWMenu;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWListBox.AoWListBox;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.aowUserDrawBox.aowUserDrawBox;
 
 namespace Aow.Units.AoWItemBanner
 {
-    public partial class TItemBanner : Aow.Rtl.TDataModule
+    public partial class TItemBanner : TDataModule
     {
         public TItemBanner(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWLabel.TAOWLabel ItemNameLbl;
-        public Aow.Units.AOWMenu.TAOWMenu IBannerPopup;
-        public Aow.Units.AoWImage.TAOWImage AttackIcon;
-        public Aow.Units.AoWImage.TAOWImage DefenseIcon;
-        public Aow.Units.AoWImage.TAOWImage DamageIcon;
-        public Aow.Units.AoWImage.TAOWImage ResistanceIcon;
-        public Aow.Units.AoWLabel.TAOWLabel Attack;
-        public Aow.Units.AoWLabel.TAOWLabel Defense;
-        public Aow.Units.AoWLabel.TAOWLabel Damage;
-        public Aow.Units.AoWLabel.TAOWLabel Resistance;
-        public Aow.Units.aowUserDrawBox.TaowUserDrawBox DrawBox;
-        public Aow.Units.AoWListBox.TAOWListBox AbLB;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar AbVSB;
+        public TAOWLabel ItemNameLbl;
+        public TAOWMenu IBannerPopup;
+        public TAOWImage AttackIcon;
+        public TAOWImage DefenseIcon;
+        public TAOWImage DamageIcon;
+        public TAOWImage ResistanceIcon;
+        public TAOWLabel Attack;
+        public TAOWLabel Defense;
+        public TAOWLabel Damage;
+        public TAOWLabel Resistance;
+        public TaowUserDrawBox DrawBox;
+        public TAOWListBox AbLB;
+        public TAOWVScrollBar AbVSB;
         // AoWItemBanner.pas:46
-        public void IBannerPopupShow(Aow.Rtl.TObject Sender)
+        public void IBannerPopupShow(TObject Sender)
         {
-            Aow.Units.AoWE.TItem Item = default;
+            TItem Item = default;
             int X = default;
             int Y = default;
-            var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.FindItem(Aow.Units.AoWItemBanner.AoWItemBanner.ItemID);
+            var call__1 = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
             Item = call__1;
             if (Item != null)
             {
@@ -93,7 +54,7 @@ namespace Aow.Units.AoWItemBanner
                 Y = 100;
                 if (Item.FAttack != 0)
                 {
-                    Attack.Text = Aow.Rtl.Rtl.IntToStr(Item.FAttack);
+                    Attack.Text = IntToStr(Item.FAttack);
                     Attack.Visible = true;
                     AttackIcon.Visible = true;
                     AttackIcon.WinLeft = X + 10;
@@ -110,7 +71,7 @@ namespace Aow.Units.AoWItemBanner
 
                 if (Item.FDamage != 0)
                 {
-                    Damage.Text = Aow.Rtl.Rtl.IntToStr(Item.FDamage);
+                    Damage.Text = IntToStr(Item.FDamage);
                     Damage.Visible = true;
                     DamageIcon.Visible = true;
                     DamageIcon.WinLeft = X + 10;
@@ -127,7 +88,7 @@ namespace Aow.Units.AoWItemBanner
 
                 if (Item.FDefense != 0)
                 {
-                    Defense.Text = Aow.Rtl.Rtl.IntToStr(Item.FDefense);
+                    Defense.Text = IntToStr(Item.FDefense);
                     Defense.Visible = true;
                     DefenseIcon.Visible = true;
                     DefenseIcon.WinLeft = X + 10;
@@ -144,7 +105,7 @@ namespace Aow.Units.AoWItemBanner
 
                 if (Item.FResistance != 0)
                 {
-                    Resistance.Text = Aow.Rtl.Rtl.IntToStr(Item.FResistance);
+                    Resistance.Text = IntToStr(Item.FResistance);
                     Resistance.Visible = true;
                     ResistanceIcon.Visible = true;
                     ResistanceIcon.WinLeft = X + 10;
@@ -173,15 +134,15 @@ namespace Aow.Units.AoWItemBanner
                     {
                         if (Item.GetAbEnabled(X))
                         {
-                            var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(X);
+                            var call__3 = AoWHSSet.FAbilityControl.GetAbility(X);
                             var call__4 = call__3.GetName(Item);
-                            AbLB.Items.AddObject(call__4, Aow.Rtl.Rtl.IntToObject((int)X));
+                            AbLB.Items.AddObject(call__4, IntToObject(X));
                         }
                     }
                 }
 
                 var call__5 = AbLB.Items.Count;
-                IBannerPopup.WinHeight = (call__5 * AbLB.ItemHeight) + (Y + 50);
+                IBannerPopup.WinHeight = call__5 * AbLB.ItemHeight + (Y + 50);
                 if (IBannerPopup.WinHeight > 200)
                 {
                     IBannerPopup.WinHeight = 200;
@@ -194,15 +155,15 @@ namespace Aow.Units.AoWItemBanner
         {
             if (A2 == 1)
             {
-                Aow.Units.AoWItemBanner.AoWItemBanner.ItemBanner.IBannerPopup.Visible = false;
+                AoWItemBanner.ItemBanner.IBannerPopup.Visible = false;
             }
         }
 
         // AoWItemBanner.pas:145
-        public void DrawBoxPreDraw(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public void DrawBoxPreDraw(TObject Sender, TSurfaceDesc SurfDesc)
         {
-            Aow.Units.AoWE.TItem Item = default;
-            var call__6 = Aow.Units.AoWE.AoWE.AoWHSMap.FItemControl.FindItem(Aow.Units.AoWItemBanner.AoWItemBanner.ItemID);
+            TItem Item = default;
+            var call__6 = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
             Item = call__6;
             if (Item != null)
             {
@@ -213,7 +174,7 @@ namespace Aow.Units.AoWItemBanner
 
     public static partial class AoWItemBanner
     {
-        public static Aow.Units.AoWItemBanner.TItemBanner ItemBanner;
+        public static TItemBanner ItemBanner;
         public static int ItemID;
     }
 }

@@ -47,9 +47,9 @@ public partial class TFireMastery
             {
                 var field = (TAoWMapField)level.GetField(x, y);
                 if (field.TerrainType is 7 or 8 or 15 || map.FSeatedPlayer == -1 || map.FExplorationEnabled && !field.GetExplored(map.FSeatedPlayer)) continue;
-                Aow.Rtl.Rtl.RandSeed = field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255) * 65536;
-                if (Aow.Rtl.Rtl.Random(100) >= chance) continue;
-                int delay = Aow.Rtl.Rtl.Random(40);
+                Rtl.Rtl.RandSeed = field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255) * 65536;
+                if (Rtl.Rtl.Random(100) >= chance) continue;
+                int delay = Rtl.Rtl.Random(40);
                 FCastImages.Show(0, xhp, yhp, anim.FFrameCounter - delay, surface);
                 if (anim.FFrameCounter == delay && AoWE.AoWE.AoWEngine.FAnimationDetail != 0)
                     Sound.Sound.PlaySample(AoWE.AoWE.ExplosionSFX[x % 2]);

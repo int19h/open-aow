@@ -37,7 +37,7 @@ public partial class TPlayerMagicControl
                 {
                     var enchantment = Rtl.Rtl.ReferenceFromId<TGlobalEnchantment>(item.D)!;
                     enchantment.AddRef();
-                    enchantment.Remove(unchecked((byte)FPlayer.FPlayerIndex));
+                    enchantment.Remove((byte)FPlayer.FPlayerIndex);
                     enchantment.Release();
                 }
                 list.Delete(0);

@@ -1,3 +1,4 @@
+using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.AoWTBWindow;
@@ -9,7 +10,7 @@ public partial class TTBWindow
     {
         int count = 0;
         for (int i = 0; i < AoWHSMap.FPlayers.GetCount(); i++)
-            if (AoWHSMap.FPlayers.GetPlayers(i).FStatus == AoWE.TPlayerStatus.psPlaying) count++;
+            if (AoWHSMap.FPlayers.GetPlayers(i).FStatus == TPlayerStatus.psPlaying) count++;
         PInd.WinWidth = count * 5 + 4;
         PInd.FAligned = false;
         TBMessEdit.Alignment.RightOffset = PInd.WinWidth + 278;

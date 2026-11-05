@@ -1,5 +1,4 @@
 #nullable disable
-using Aow.Rtl;
 using static Aow.Units.AOWMWindow.AOWMWindow;
 using static Aow.Units.AoWSWindow.AoWSWindow;
 using static Aow.Units.AoWRealm.AoWRealm;
@@ -9,6 +8,8 @@ using static Aow.Units.AoWE.AoWE;
 using static Aow.Units.AoWExeForms.AoWExeForms;
 using static Aow.Units.Sound.Sound;
 using static Aow.Units.E1Resources.E1Resources;
+using Aow.Units.AoWE;
+using Aow.Units.HSEngine;
 
 namespace Aow.Units.AoWWinMan;
 
@@ -23,7 +24,7 @@ public static partial class AoWWinMan
         else if (AoWHSMap.FStartupSongs.Songs.Count != 0)
         {
             for (int i = 0; i < AoWHSMap.FStartupSongs.Songs.Count; i++)
-                if (Aow.Rtl.Rtl.CompareText(AoWHSMap.FStartupSongs.SongNames[i], TranslateRStr(E1FileNotFoundRStr)) != 0)
+                if (Rtl.Rtl.CompareText(AoWHSMap.FStartupSongs.SongNames[i], TranslateRStr(E1FileNotFoundRStr)) != 0)
                     SongPlayer.Songs.Add(AoWHSMap.FStartupSongs.Songs[i]);
         }
         else SongPlayer.Songs.Add("Songs\\Heartwoo.it");
@@ -72,7 +73,7 @@ public static partial class AoWWinMan
         // The original call at targets the indicator sizing routine
         TBWindow.UpdatePlayerIndicator();
         PInfoW.UpdatePlayer();
-        if (AoWHSMap.Status.Contains(HSEngine.THSMapStatusElement.msActivated))
+        if (AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
         {
             var turn = TBWindow.TurnButton;
             if (AoWHSMap.FSeatedPlayer != -1)
@@ -81,7 +82,7 @@ public static partial class AoWWinMan
                 if (turn.FLastPlayer == -1) turn.FLastPlayer = 12;
                 turn.FCurPlayer = turn.FLastPlayer;
                 turn.FAnimationFrame = turn.FCurPlayer * 7;
-                TBWindow.CurP.Visible = AoWHSMap.FPlayMode == AoWE.TPlayMode.pmTurn;
+                TBWindow.CurP.Visible = AoWHSMap.FPlayMode == TPlayMode.pmTurn;
             }
             else
             {

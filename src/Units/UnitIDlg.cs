@@ -1,75 +1,46 @@
 // Translated from UnitIDlg.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.UnitIDlg
 {
-    public partial class TUnitInfoDlg : Aow.Rtl.TForm
+    public partial class TUnitInfoDlg : TForm
     {
-        public Aow.Rtl.TButton OKBtn;
-        public Aow.Rtl.TPanel NamePnl;
-        public Aow.Rtl.TPanel Panel5;
-        public Aow.Rtl.TPanel Panel4;
-        public Aow.Rtl.TMemo AbilitiesMemo;
-        public Aow.Rtl.TPanel Panel3;
-        public Aow.Rtl.TImage Image10;
-        public Aow.Rtl.TImage Image9;
-        public Aow.Rtl.TImage Image8;
-        public Aow.Rtl.TImage Image7;
-        public Aow.Rtl.TImage Image6;
-        public Aow.Rtl.TLabel AttackLbl;
-        public Aow.Rtl.TLabel DefenseLbl;
-        public Aow.Rtl.TLabel DamageLbl;
-        public Aow.Rtl.TLabel ResistanceLbl;
-        public Aow.Rtl.TLabel HitPointLbl;
-        public Aow.Rtl.TPanel Panel1;
-        public Aow.Rtl.TButton CloseBtn;
-        public Aow.Rtl.TPanel AlignmentPnl;
-        public Aow.Rtl.TImage Image1;
-        public Aow.Rtl.TLabel MovesLbl;
-        public Aow.Rtl.TIvTranslator Translator;
+        public TButton OKBtn;
+        public TPanel NamePnl;
+        public TPanel Panel5;
+        public TPanel Panel4;
+        public TMemo AbilitiesMemo;
+        public TPanel Panel3;
+        public TImage Image10;
+        public TImage Image9;
+        public TImage Image8;
+        public TImage Image7;
+        public TImage Image6;
+        public TLabel AttackLbl;
+        public TLabel DefenseLbl;
+        public TLabel DamageLbl;
+        public TLabel ResistanceLbl;
+        public TLabel HitPointLbl;
+        public TPanel Panel1;
+        public TButton CloseBtn;
+        public TPanel AlignmentPnl;
+        public TImage Image1;
+        public TLabel MovesLbl;
+        public TIvTranslator Translator;
         // UnitIDlg.pas:104
-        public int ShowUnit(Aow.Units.AoWE.TAbstractUnit AUnit)
+        public int ShowUnit(TAbstractUnit AUnit)
         {
             /* TODO: Implement StdCtrls.Caption in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // UnitIDlg.pas:120
-        public int ShowUnitResource(Aow.Units.AoWE.TUnitResource Resource)
+        public int ShowUnitResource(TUnitResource Resource)
         {
             /* TODO: Implement StdCtrls.Caption in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // Forms.pas:407
@@ -77,7 +48,7 @@ namespace Aow.Units.UnitIDlg
         { }
     }
 
-    public partial class TUnitView : Aow.Units.AoWE.TAbilityOwner
+    public partial class TUnitView : TAbilityOwner
     {
         public TUnitView(TECustomNode owner) : base(owner)
         { }
@@ -221,13 +192,13 @@ namespace Aow.Units.UnitIDlg
         }
 
         // UnitIDlg.pas:77
-        public virtual Aow.Rtl.AnsiString GetName()
+        public virtual AnsiString GetName()
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // UnitIDlg.pas:78
-        public virtual Aow.Units.AoWE.TAlignment GetAlignment()
+        public virtual TAlignment GetAlignment()
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -235,7 +206,7 @@ namespace Aow.Units.UnitIDlg
 
     public struct TUnitResourceView
     {
-        public Aow.Units.FixedArray_byte_40 Reserved00;
+        public FixedArray_byte_40 Reserved00;
         public byte Alignment;
         public sbyte Attack;
         public sbyte Defense;
@@ -243,8 +214,8 @@ namespace Aow.Units.UnitIDlg
         public sbyte Hits;
         public sbyte Moves;
         public sbyte Resistance;
-        public Aow.Units.FixedArray_byte_9 Reserved2F;
-        public Aow.Units.AoWE.TAbilityOwner AbilityOwner;
+        public FixedArray_byte_9 Reserved2F;
+        public TAbilityOwner AbilityOwner;
     }
 
     public static partial class UnitIDlg

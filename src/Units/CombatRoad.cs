@@ -1,48 +1,17 @@
 // Translated from CombatRoad.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.CombatTerrain;
-using static Aow.Units.CombatTerrain.CombatTerrain;
 
 namespace Aow.Units.CombatRoad
 {
-    public partial class TCombatRoad : Aow.Units.HSEngine.TAbstractRoad
+    public partial class TCombatRoad : TAbstractRoad
     {
         public TCombatRoad(TECustomNode owner) : base(owner)
         {}
@@ -50,26 +19,26 @@ namespace Aow.Units.CombatRoad
         // CombatRoad.pas:51
         public new const int ClassID = 2229506;
 
-        public Aow.Units.FixedArray_byte_7 FImages;
+        public FixedArray_byte_7 FImages;
         // main image, neighbour images
         // CombatRoad.pas:108
-        public override void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Msg)
         {
             if (HN == 0)
             {
-                UpdateTransition(unchecked((byte)Msg.HN));
+                UpdateTransition((byte)Msg.HN);
             }
         }
 
         // CombatRoad.pas:113
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TCustomImageLibrary Images = default;
+            TCustomImageLibrary Images = default;
             int X = default;
             int Y = default;
             int I = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref X, ref Y);
-            X = (X - XhpSurf) - 8;
+            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+            X = X - XhpSurf - 8;
             Y = Y - YhpSurf;
             var call__1 = FResource.ImageSequenceList.GetImageSequence(0);
             Images = call__1.ImageLibrary;
@@ -93,30 +62,30 @@ namespace Aow.Units.CombatRoad
         public override void Activate()
         {
             base.Activate();
-            var call__5 = Aow.Rtl.Rtl.Random(12);
-            FImages[0] = unchecked((byte)(call__5 + 10));
+            var call__5 = Random(12);
+            FImages[0] = (byte)(call__5 + 10);
         }
 
         // CombatRoad.pas:54
-        public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
         {
-            Aow.Units.HSEngine.TMapObjectResourceList Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources;
+            TMapObjectResourceList Result = default;
+            Result = AoWHSSet.FCombatResources;
             return Result;
         }
 
         // CombatRoad.pas:57
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            if ((((((Xhx >= 0) && (Yhx >= 0)) && (Lhx >= 0)) && (Xhx < MapContainer.Width)) && (Yhx < MapContainer.Height)) && (Lhx < MapContainer.LevelCount))
+            if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.Width && Yhx < MapContainer.Height && Lhx < MapContainer.LevelCount)
             {
                 var call__6 = MapContainer.GetField(Xhx, Yhx, Lhx);
-                bool bool__7 = (call__6.OverlayType == 4);
+                bool bool__7 = call__6.OverlayType == 4;
                 if (!bool__7)
                 {
                     var call__8 = MapContainer.GetField(Xhx, Yhx, Lhx);
-                    bool__7 = (call__8.TerrainType == 15);
+                    bool__7 = call__8.TerrainType == 15;
                 }
 
                 Result = !bool__7;
@@ -130,19 +99,19 @@ namespace Aow.Units.CombatRoad
         }
 
         // CombatRoad.pas:66
-        public override bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.THexagonSprite OldRoad = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
+            THexagonSprite OldRoad = default;
+            TMapField MapField = default;
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-            OldRoad = MapField.FindHS(typeof(Aow.Units.HSEngine.TAbstractRoad));
+            OldRoad = MapField.FindHS(typeof(TAbstractRoad));
             if (OldRoad != null)
             {
                 OldRoad.Destroy();
             }
 
-            Result = base.PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             return Result;
         }
 
@@ -155,7 +124,7 @@ namespace Aow.Units.CombatRoad
                 byte end__9 = 6;
                 for (; I <= end__9; I += 1)
                 {
-                    UpdateTransition(unchecked((byte)I));
+                    UpdateTransition((byte)I);
                 }
             }
         }
@@ -163,27 +132,27 @@ namespace Aow.Units.CombatRoad
         // CombatRoad.pas:77
         public void UpdateTransition(byte HN)
         {
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
+            TMapLevel MapLevel = default;
             sbyte Overlay = default;
             int X = default;
             int Y = default;
-            MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, HN, ref X, ref Y);
-            if ((((X >= 0) && (Y >= 0)) && (X < MapLevel.Width)) && (Y < MapLevel.Height))
+            MapLevel = (TMapLevel)Owner.Owner;
+            CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, HN, ref X, ref Y);
+            if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
             {
                 var call__10 = MapLevel.GetField(X, Y);
-                Overlay = unchecked((sbyte)call__10.OverlayType);
+                Overlay = call__10.OverlayType;
                 if (Overlay != 4)
                 {
                     switch (HN)
                     {
                         case 1:
-                            var call__11 = Aow.Rtl.Rtl.Random(2);
-                            FImages[HN] = unchecked((byte)((call__11 * 3) + 1));
+                            var call__11 = Random(2);
+                            FImages[HN] = (byte)(call__11 * 3 + 1);
                             break;
                         case 2:
-                            var call__12 = Aow.Rtl.Rtl.Random(2);
-                            FImages[HN] = unchecked((byte)((call__12 * 3) + 2));
+                            var call__12 = Random(2);
+                            FImages[HN] = (byte)(call__12 * 3 + 2);
                             break;
                         case 3:
                             FImages[HN] = 6;
@@ -195,8 +164,8 @@ namespace Aow.Units.CombatRoad
                             FImages[HN] = 8;
                             break;
                         case 6:
-                            var call__13 = Aow.Rtl.Rtl.Random(2);
-                            FImages[HN] = unchecked((byte)(call__13 * 3));
+                            var call__13 = Random(2);
+                            FImages[HN] = (byte)(call__13 * 3);
                             break;
                     }
                 }
@@ -209,7 +178,7 @@ namespace Aow.Units.CombatRoad
 
     }
 
-    public partial class TCombatRoadResource : Aow.Units.HSEngine.TAbstractRoadResource
+    public partial class TCombatRoadResource : TAbstractRoadResource
     {
         public TCombatRoadResource(TECustomNode owner) : base(owner)
         {}
@@ -218,7 +187,7 @@ namespace Aow.Units.CombatRoad
         public new const int ClassID = 2229507;
 
         // CombatRoad.pas:144
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65621)
@@ -228,15 +197,15 @@ namespace Aow.Units.CombatRoad
         }
 
         // CombatRoad.pas:153
-        public override Aow.Units.ImageLib.TLibraryImage GetCellImage()
+        public override ImageLib.TLibraryImage GetCellImage()
         {
-            Aow.Units.ImageLib.TLibraryImage Result = default;
+            ImageLib.TLibraryImage Result = default;
             Result = null;
-            bool bool__14 = (ImageSequenceList != null) && (ImageSequenceList.Count > 0);
+            bool bool__14 = ImageSequenceList != null && ImageSequenceList.Count > 0;
             if (bool__14)
             {
                 var call__15 = ImageSequenceList.GetImageSequence(0);
-                bool__14 = (call__15 != null);
+                bool__14 = call__15 != null;
             }
 
             if (bool__14)
@@ -263,17 +232,17 @@ namespace Aow.Units.CombatRoad
         }
 
         // CombatRoad.pas:139
-        public override Aow.Units.HSEngine.TRoadControl GetRoadControl()
+        public override TRoadControl GetRoadControl()
         {
-            Aow.Units.HSEngine.TRoadControl Result = default;
-            Result = ((Aow.Units.AoWE.TAoWHSSet)Engine.HSSet).FCombatRoads;
+            TRoadControl Result = default;
+            Result = ((TAoWHSSet)Engine.HSSet).FCombatRoads;
             return Result;
         }
 
         // CombatRoad.pas:136
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Combat Road";
             return Result;
         }
@@ -283,9 +252,9 @@ namespace Aow.Units.CombatRoad
     public static partial class CombatRoad
     {
         // CombatRoad.pas:162
-        public static void RegisterCombatRoad(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterCombatRoad(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatRoad.TCombatRoadResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatRoad.TCombatRoad>()]);
+            AEngine.RegisterEClasses([EClass.Of<TCombatRoadResource>(), EClass.Of<TCombatRoad>()]);
         }
 
         public static void Initialize()

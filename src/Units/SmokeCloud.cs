@@ -1,34 +1,11 @@
 // Translated from SmokeCloud.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
@@ -47,24 +24,24 @@ namespace Aow.Units.SmokeCloud
     }
 
     // FCloud
-    public partial class TSmokeCloudEnchantment : Aow.Units.AoWE.TGlobalEnchantment
+    public partial class TSmokeCloudEnchantment : TGlobalEnchantment
     {
         // SmokeCloud.pas:99
         public new const int ClassID = 135748;
 
-        public Aow.Units.SmokeCloud.TSmokeCloud FCloud;
+        public TSmokeCloud FCloud;
         // SmokeCloud.pas:91
         public TSmokeCloudEnchantment(TECustomNode owner) : base(owner)
         {
-            FEnchantmentMode = TSet<Aow.Units.AoWE.TGlobalEnchantmentModeElement>.FromMask((TSet<Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement>.FromMask((ulong)FEnchantmentMode.Mask) - TSet<Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement>.Of(Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement.ce0, Aow.Units.SmokeCloud.TCloudEnchantmentOptionsElement.ce1)).Mask);
+            FEnchantmentMode = TSet<TGlobalEnchantmentModeElement>.FromMask((TSet<TCloudEnchantmentOptionsElement>.FromMask(FEnchantmentMode.Mask) - TSet<TCloudEnchantmentOptionsElement>.Of(TCloudEnchantmentOptionsElement.ce0, TCloudEnchantmentOptionsElement.ce1)).Mask);
             FDispelMana = 25;
         }
 
         // SmokeCloud.pas:102
-        public override Aow.Rtl.AnsiString GetName()
+        public override AnsiString GetName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__1 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(74);
+            AnsiString Result = default;
+            var call__1 = AoWHSSet.FSpellControl.GetSpell(74);
             Result = call__1.FSpellName;
             return Result;
         }
@@ -73,17 +50,17 @@ namespace Aow.Units.SmokeCloud
         public override bool VisibleForPlayer(sbyte Player)
         {
             bool Result = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
+            THNWalkData Walk = default;
             Result = FPlayerIndex == Player;
             ref var walk = ref Walk;
             var call__3 = FCloud.Yhx;
             var call__4 = FCloud.Xhx;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, call__4, call__3, 0);
-            while (!Result && (walk.Radius <= 3))
+            InitHNWalk(ref Walk, call__4, call__3, 0);
+            while (!Result && walk.Radius <= 3)
             {
-                var call__5 = Aow.Units.AoWE.AoWE.AoWHSMap.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, unchecked((sbyte)Player));
+                var call__5 = AoWHSMap.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, Player);
                 Result = call__5;
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                WalkToNextHN(ref Walk);
             }
 
             return Result;
@@ -93,11 +70,11 @@ namespace Aow.Units.SmokeCloud
 
     // FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated, FVisibleForSeatedPlayer,
     // FEnchantment
-    public partial class TSmokeCloud : Aow.Units.HSEngine.TMultiHexMO
+    public partial class TSmokeCloud : TMultiHexMO
     {
         public TSmokeCloud(TECustomNode owner) : base(owner)
         {
-            var call__6 = new Aow.Units.SmokeCloud.TSmokeCloudEnchantment(null);
+            var call__6 = new TSmokeCloudEnchantment(null);
             FEnchantment = call__6;
             FEnchantment.FCloud = this;
             FVisibleForSeatedPlayer = false;
@@ -113,7 +90,7 @@ namespace Aow.Units.SmokeCloud
         public byte FDirection;
         public bool FUpdated;
         public bool FVisibleForSeatedPlayer;
-        public Aow.Units.SmokeCloud.TSmokeCloudEnchantment FEnchantment;
+        public TSmokeCloudEnchantment FEnchantment;
         // SmokeCloud.pas:181
         public override void Destroy()
         {
@@ -122,7 +99,7 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:206
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 15);
@@ -136,16 +113,16 @@ namespace Aow.Units.SmokeCloud
 
 
         // SmokeCloud.pas:373
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
-            if (((Msg.MsgID == 537001986) && (Msg.Value == FPlayer)) && !FUpdated)
+            if (Msg.MsgID == 537001986 && Msg.Value == FPlayer && !FUpdated)
             {
                 UpdateCloud();
                 return;
             }
 
-            if ((Msg.MsgID == 537001987) && (Msg.Value == FPlayer))
+            if (Msg.MsgID == 537001987 && Msg.Value == FPlayer)
             {
                 FUpdated = false;
             }
@@ -167,9 +144,9 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:300
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            if (FVisibleForSeatedPlayer || Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (FVisibleForSeatedPlayer || AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
@@ -182,7 +159,7 @@ namespace Aow.Units.SmokeCloud
             Result = base.PlaceOnMap();
             if (Result)
             {
-                UpdateMapFields((Aow.Units.HSEngine.TMapLevel)Owner.Owner, FXhx, FYhx);
+                UpdateMapFields((TMapLevel)Owner.Owner, FXhx, FYhx);
             }
 
             return Result;
@@ -191,16 +168,16 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:272
         public override void RemoveFromMap()
         {
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapLevel Level = default;
+            Level = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(Level, FXhx, FYhx);
         }
 
         // SmokeCloud.pas:245
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
-            if ((Msg.MsgID != 16) || Aow.Units.AoWE.AoWE.AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (Msg.MsgID != 16 || AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.MapFieldMsgProc(ref Msg);
             }
@@ -208,7 +185,7 @@ namespace Aow.Units.SmokeCloud
             var call__7 = FResource.TerrainList.Terrain[Msg.HN];
             if (call__7 >= -1)
             {
-                if ((Msg.MsgID == 4392) && FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
+                if (Msg.MsgID == 4392 && FStatus.Contains(TMapObjectStatusElement.moActivated))
                 {
                     Msg.Param[0] = 1;
                 }
@@ -228,19 +205,19 @@ namespace Aow.Units.SmokeCloud
             base.Activate();
             if (FDirection == 0)
             {
-                var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(6);
-                FDirection = unchecked((byte)(call__8 + 1));
+                var call__8 = AoWHSMap.Random(6);
+                FDirection = (byte)(call__8 + 1);
             }
 
             var smokeCloudEnchantment = FEnchantment;
-            if ((smokeCloudEnchantment.FPlayerIndex > 0) && !smokeCloudEnchantment.FEnchantmentStatus.Contains(Aow.Units.AoWE.TGlobalEnchantmentStatusElement.getActivated))
+            if (smokeCloudEnchantment.FPlayerIndex > 0 && !smokeCloudEnchantment.FEnchantmentStatus.Contains(TGlobalEnchantmentStatusElement.getActivated))
             {
-                smokeCloudEnchantment.Activate(unchecked((sbyte)smokeCloudEnchantment.FPlayerIndex));
+                smokeCloudEnchantment.Activate(smokeCloudEnchantment.FPlayerIndex);
             }
 
             var call__10 = Yhx;
             var call__11 = Xhx;
-            UpdateConcealment(unchecked((sbyte)call__11), unchecked((sbyte)call__10), unchecked((sbyte)Lhx));
+            UpdateConcealment(call__11, call__10, Lhx);
             UpdateVisibleForSeatedPlayer();
         }
 
@@ -250,21 +227,21 @@ namespace Aow.Units.SmokeCloud
             base.Deactivate();
             if (FEnchantment.FPlayerIndex > 0)
             {
-                FEnchantment.Deactivate(unchecked((byte)FEnchantment.FPlayerIndex));
+                FEnchantment.Deactivate((byte)FEnchantment.FPlayerIndex);
             }
 
             var call__12 = GetLhx();
             var call__13 = GetYhx();
             var call__14 = GetXhx();
-            UpdateConcealment(unchecked((sbyte)call__14), unchecked((sbyte)call__13), unchecked((sbyte)call__12));
+            UpdateConcealment(call__14, call__13, call__12);
         }
 
         // SmokeCloud.pas:238
-        public override void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public override void UpdateMapField(in THSMapFieldInfo Info)
         {
-            if ((Info.HN > 18) && (Info.HN < 37))
+            if (Info.HN > 18 && Info.HN < 37)
             {
-                ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags = ((Aow.Units.AoWE.TAoWMapField)Info.MapField).FFieldFlags | 16777216;
+                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 16777216;
             }
         }
 
@@ -275,16 +252,16 @@ namespace Aow.Units.SmokeCloud
             int Xhx = default;
             int Yhx = default;
             int HN = default;
-            if (FResource.Engine.HSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (FResource.Engine.HSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
-                Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                var call__15 = Aow.Units.HSEngine.HSEngine.dHXtoHN(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, Xhx, Yhx);
+                HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+                var call__15 = dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
                 HN = call__15;
-                bool bool__16 = (HN < FResource.TerrainList.Count);
+                bool bool__16 = HN < FResource.TerrainList.Count;
                 if (bool__16)
                 {
                     var call__17 = FResource.TerrainList.Terrain[HN];
-                    bool__16 = (call__17 >= -1);
+                    bool__16 = call__17 >= -1;
                 }
 
                 Result = bool__16;
@@ -300,20 +277,20 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:216
         public void UpdateConcealment(sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Aow.Units.AoWE.TAoWMapField MapField = default;
-            Aow.Units.AoWE.TArmyHS ArmyHS = default;
-            var call__18 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.MapLevels[Lhx];
+            THNWalkData Walk = default;
+            TMapLevel Level = default;
+            TAoWMapField MapField = default;
+            TArmyHS ArmyHS = default;
+            var call__18 = AoWHSMap.MapContainer.MapLevels[Lhx];
             Level = call__18;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (FResource.TerrainList.Count > Walk.HN)
             {
                 var call__19 = FResource.TerrainList.Terrain[Walk.HN];
-                if (((((call__19 >= -1) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < Level.Width)) && (Level.Height > Walk.Y))
+                if (call__19 >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
                 {
                     var call__20 = Level.GetField(Walk.X, Walk.Y);
-                    MapField = (Aow.Units.AoWE.TAoWMapField)call__20;
+                    MapField = (TAoWMapField)call__20;
                     ArmyHS = MapField.GetArmyHS();
                     if (ArmyHS != null)
                     {
@@ -321,7 +298,7 @@ namespace Aow.Units.SmokeCloud
                     }
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                WalkToNextHN(ref Walk);
             }
         }
 
@@ -332,12 +309,12 @@ namespace Aow.Units.SmokeCloud
             var call__21 = GetLhx();
             var call__22 = GetYhx();
             var call__23 = GetXhx();
-            var call__24 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)call__23), unchecked((sbyte)call__22), unchecked((sbyte)call__21), 3);
-            Visible = call__24 || (FEnchantment.FPlayerIndex == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            var call__24 = AoWHSMap.Visible(call__23, call__22, call__21, 3);
+            Visible = call__24 || FEnchantment.FPlayerIndex == AoWHSMap.FSeatedPlayer;
             if (FVisibleForSeatedPlayer ^ Visible)
             {
                 FVisibleForSeatedPlayer = Visible;
-                Aow.Units.AoWE.AoWE.AoWHSMap.FGlobalMagicControl.TriggerChangedEvent();
+                AoWHSMap.FGlobalMagicControl.TriggerChangedEvent();
             }
         }
 
@@ -347,13 +324,13 @@ namespace Aow.Units.SmokeCloud
             bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
-            Level = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapLevel Level = default;
+            Level = (TMapLevel)Owner.Owner;
             var call__25 = GetYhx();
             var call__26 = GetXhx();
-            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(call__26, call__25, Direction, ref Xhx, ref Yhx);
-            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
-            Result = (((Xhx >= 10) && (Yhx >= 10)) && (Level.Width >= (Xhx + 10))) && (Level.Height >= (Yhx + 10));
+            CenterHNtoHX(call__26, call__25, Direction, ref Xhx, ref Yhx);
+            CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+            Result = Xhx >= 10 && Yhx >= 10 && Level.Width >= Xhx + 10 && Level.Height >= Yhx + 10;
             return Result;
         }
 
@@ -362,7 +339,7 @@ namespace Aow.Units.SmokeCloud
         {
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.Engine.TByteList Directions = default;
+            TByteList Directions = default;
             bool Valid = default;
             int Direction = default;
             int Tries = default;
@@ -378,12 +355,12 @@ namespace Aow.Units.SmokeCloud
                 if (FDrifting)
                 {
                     Direction = 0;
-                    Directions = new Aow.Units.Engine.TByteList();
+                    Directions = new TByteList();
                     Valid = false;
-                    Directions.Add(unchecked((byte)FDirection));
+                    Directions.Add(FDirection);
                     if (FDirection != 1)
                     {
-                        Directions.Add(unchecked((byte)(FDirection - 1)));
+                        Directions.Add((byte)(FDirection - 1));
                     }
                     else
                     {
@@ -392,22 +369,22 @@ namespace Aow.Units.SmokeCloud
 
                     if (FDirection != 6)
                     {
-                        Directions.Add(unchecked((byte)(FDirection + 1)));
+                        Directions.Add((byte)(FDirection + 1));
                     }
                     else
                     {
                         Directions.Add(1);
                     }
 
-                    while ((Directions.Count != 0) && !Valid)
+                    while (Directions.Count != 0 && !Valid)
                     {
-                        var call__27 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(Directions.Count);
+                        var call__27 = AoWHSMap.Random(Directions.Count);
                         var call__28 = Directions[call__27];
                         Direction = call__28;
                         Valid = ValidMoveDir(Direction);
                         if (!Valid)
                         {
-                            Directions.Remove(unchecked((byte)Direction));
+                            Directions.Remove((byte)Direction);
                         }
                     }
 
@@ -415,9 +392,9 @@ namespace Aow.Units.SmokeCloud
                     if (!Valid)
                     {
                         Tries = 20;
-                        while (!Valid && (Tries != 0))
+                        while (!Valid && Tries != 0)
                         {
-                            var call__29 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(6);
+                            var call__29 = AoWHSMap.Random(6);
                             Direction = call__29 + 1;
                             Valid = ValidMoveDir(Direction);
                             Tries -= 1;
@@ -426,20 +403,20 @@ namespace Aow.Units.SmokeCloud
 
                     if (Valid)
                     {
-                        FDirection = unchecked((byte)Direction);
+                        FDirection = (byte)Direction;
                         Lhx = GetLhx();
                         var call__30 = GetYhx();
                         var call__31 = GetXhx();
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(call__31, call__30, Direction, ref Xhx, ref Yhx);
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+                        CenterHNtoHX(call__31, call__30, Direction, ref Xhx, ref Yhx);
+                        CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
                         Disconnect();
-                        UpdateConcealment(unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)Lhx));
-                        FXhx = unchecked((sbyte)Xhx);
-                        FYhx = unchecked((sbyte)Yhx);
-                        var call__32 = Aow.Units.AoWE.AoWE.AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
+                        UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
+                        FXhx = (sbyte)Xhx;
+                        FYhx = (sbyte)Yhx;
+                        var call__32 = AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
                         Owner = call__32;
                         Connect();
-                        UpdateConcealment(unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)Lhx));
+                        UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
                     }
                 }
             }
@@ -454,7 +431,7 @@ namespace Aow.Units.SmokeCloud
 
     }
 
-    public partial class TSmokeCloudResource : Aow.Units.HSEngine.TMultiHexMOR
+    public partial class TSmokeCloudResource : TMultiHexMOR
     {
         public TSmokeCloudResource(TECustomNode owner) : base(owner)
         {}
@@ -471,11 +448,11 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:388
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__33 = Aow.Units.AoWE.AoWE.SmokeCloudRStr;
-            var call__34 = Aow.Units.AoWE.AoWE.TranslateRStr(call__33);
+            AnsiString Result = default;
+            var call__33 = SmokeCloudRStr;
+            var call__34 = TranslateRStr(call__33);
             Result = call__34;
             return Result;
         }
@@ -484,15 +461,15 @@ namespace Aow.Units.SmokeCloud
 
     public struct TCloudSpellFields
     {
-        public Aow.Units.FixedArray_byte_8 Reserved;
-        public Aow.Rtl.AnsiString Name;
+        public FixedArray_byte_8 Reserved;
+        public AnsiString Name;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 166)]
     public struct TCloudMapFields
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_165 Reserved;
+        public FixedArray_byte_165 Reserved;
         [FieldOffset(165)]
         public byte SeatedPlayer;
     }
@@ -500,9 +477,9 @@ namespace Aow.Units.SmokeCloud
     public static partial class SmokeCloud
     {
         // SmokeCloud.pas:394
-        public static void RegisterSmokeCloud(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterSmokeCloud(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.SmokeCloud.TSmokeCloud>(), Aow.Units.Engine.EClass.Of<Aow.Units.SmokeCloud.TSmokeCloudResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.SmokeCloud.TSmokeCloudEnchantment>()]);
+            AEngine.RegisterEClasses([EClass.Of<TSmokeCloud>(), EClass.Of<TSmokeCloudResource>(), EClass.Of<TSmokeCloudEnchantment>()]);
         }
 
         public static void Initialize()

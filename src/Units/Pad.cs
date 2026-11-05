@@ -1,41 +1,14 @@
 // Translated from Pad.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
 using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.Pad
 {
     // FPadActive
-    public partial class TPad : Aow.Units.ILTer.TFixedILTerrainMO
+    public partial class TPad : TFixedILTerrainMO
     {
         public TPad(TECustomNode owner) : base(owner)
         {
@@ -58,7 +31,7 @@ namespace Aow.Units.Pad
         }
 
         // Pad.pas:58
-        public override sbyte ForceTerrainType(Aow.Units.HSEngine.TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
+        public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
         {
             sbyte Result = default;
             if (MapLevel.Lhx != 0)
@@ -67,7 +40,7 @@ namespace Aow.Units.Pad
             }
             else
             {
-                Result = unchecked((sbyte)-1);
+                Result = -1;
             }
 
             return Result;
@@ -79,7 +52,7 @@ namespace Aow.Units.Pad
     }
 
     // FPadSize
-    public partial class TPadResource : Aow.Units.ILTer.TFixedILTerrainMOR
+    public partial class TPadResource : TFixedILTerrainMOR
     {
         public TPadResource(TECustomNode owner) : base(owner)
         {
@@ -93,9 +66,9 @@ namespace Aow.Units.Pad
         // Pad.pas:69
         public override void Destroy()
         {
-            if ((Engine != null) && !Engine.HSSet.Status.Contains(Aow.Units.HSEngine.THSSetStatusElement.ssDestroying))
+            if (Engine != null && !Engine.HSSet.Status.Contains(THSSetStatusElement.ssDestroying))
             {
-                ((Aow.Units.AoWE.TAoWHSSet)Engine.HSSet).FPadControl.UnregisterPadResource(this, FPadSize);
+                ((TAoWHSSet)Engine.HSSet).FPadControl.UnregisterPadResource(this, FPadSize);
             }
 
             base.Destroy();
@@ -105,9 +78,9 @@ namespace Aow.Units.Pad
 
 
         // Pad.pas:101
-        public override Aow.Units.Engine.EditorClass Editor()
+        public override EditorClass Editor()
         {
-            Aow.Units.Engine.EditorClass Result = default;
+            EditorClass Result = default;
             var call__1 = Engine.Editors.FindEditor(131335);
             Result = call__1;
             if (Result == null)
@@ -119,7 +92,7 @@ namespace Aow.Units.Pad
         }
 
         // Pad.pas:95
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
@@ -149,21 +122,21 @@ namespace Aow.Units.Pad
                     var call__3 = TerrainList.GetTerrain(I);
                     if (call__3 >= -1)
                     {
-                        FPadSize = (byte)(((int)FPadSize) + 1);
+                        FPadSize = (byte)(FPadSize + 1);
                     }
                 }
             }
 
-            ((Aow.Units.AoWE.TAoWHSSet)Engine.HSSet).FPadControl.RegisterPadResource(this, FPadSize);
+            ((TAoWHSSet)Engine.HSSet).FPadControl.RegisterPadResource(this, FPadSize);
         }
 
         // Pad.pas:32
 
 
         // Pad.pas:79
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Pad";
             return Result;
         }
@@ -173,9 +146,9 @@ namespace Aow.Units.Pad
     public static partial class Pad
     {
         // Pad.pas:107
-        public static void RegisterPad(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterPad(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.Pad.TPad>(), Aow.Units.Engine.EClass.Of<Aow.Units.Pad.TPadResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TPad>(), EClass.Of<TPadResource>()]);
         }
 
         public static void Initialize()

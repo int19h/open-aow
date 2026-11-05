@@ -1,52 +1,19 @@
 // Translated from CombatHex.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWHex;
-using static Aow.Units.AoWHex.AoWHex;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.FleeLoc;
-using static Aow.Units.FleeLoc.FleeLoc;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTC;
 
 namespace Aow.Units.CombatHex
 {
-    public partial class TCombatHexagon : Aow.Units.HSEngine.TAbstractHexagon
+    public partial class TCombatHexagon : TAbstractHexagon
     {
         public TCombatHexagon(TECustomNode owner) : base(owner)
         {}
@@ -54,9 +21,9 @@ namespace Aow.Units.CombatHex
         public new const int ClassID = 2229504;
 
         public byte FImageVariant;
-        public Aow.Units.FixedArray_byte_3 FTransitions;
+        public FixedArray_byte_3 FTransitions;
         // CombatHex.pas:174
-        public override void TerrainChanged(in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void TerrainChanged(in THSTerrainInfo Msg)
         {
             if (TSet<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)Msg.TerrainType))
             {
@@ -65,20 +32,20 @@ namespace Aow.Units.CombatHex
                     var call__1 = GetLhx();
                     var call__2 = GetYhx();
                     var call__3 = GetXhx();
-                    ((Aow.Units.AoWE.TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer, unchecked((sbyte)call__3), unchecked((sbyte)call__2), unchecked((sbyte)call__1), unchecked((sbyte)Msg.TerrainType));
+                    ((TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(AoWCombatMap.MapContainer, call__3, call__2, call__1, Msg.TerrainType);
                 }
                 else
                 {
                     var call__4 = GetLhx();
                     var call__5 = GetYhx();
                     var call__6 = GetXhx();
-                    ((Aow.Units.AoWE.TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(Aow.Units.AoWTC.AoWTC.AoWCombatMap.MapContainer, unchecked((sbyte)call__6), unchecked((sbyte)call__5), unchecked((sbyte)call__4), 0);
+                    ((TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(AoWCombatMap.MapContainer, call__6, call__5, call__4, 0);
                 }
             }
         }
 
         // CombatHex.pas:138
-        public override void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
         {
             if (HN == 0)
             {
@@ -98,22 +65,22 @@ namespace Aow.Units.CombatHex
         }
 
         // CombatHex.pas:148
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.ImageLib.TCustomImageLibrary Images = default;
+            TCustomImageLibrary Images = default;
             int Side = default;
-            if (((Aow.Units.HSEngine.TMapField)Owner).OverlayType != 4)
+            if (((TMapField)Owner).OverlayType != 4)
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-                Xhp = (Xhp - XhpSurf) - 8;
+                HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+                Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf;
                 var call__7 = FResource.ImageSequenceList.GetImageSequence(0);
                 Images = call__7.ImageLibrary;
                 var call__8 = Images[FImageVariant];
                 call__8.Show(Xhp, Yhp, SurfaceDesc);
-                Images = ((Aow.Units.CombatHex.TCombatHexagonResource)FResource).FTransitionLibrary;
+                Images = ((TCombatHexagonResource)FResource).FTransitionLibrary;
                 {
                     Side = 1;
                     byte end__9 = 3;
@@ -133,15 +100,15 @@ namespace Aow.Units.CombatHex
         public override void Activate()
         {
             base.Activate();
-            var call__11 = Aow.Rtl.Rtl.Random(12);
-            FImageVariant = unchecked((byte)call__11);
+            var call__11 = Random(12);
+            FImageVariant = (byte)call__11;
         }
 
         // CombatHex.pas:73
-        public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
         {
-            Aow.Units.HSEngine.TMapObjectResourceList Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources;
+            TMapObjectResourceList Result = default;
+            Result = AoWHSSet.FCombatResources;
             return Result;
         }
 
@@ -154,7 +121,7 @@ namespace Aow.Units.CombatHex
                 byte end__12 = 3;
                 for (; Side <= end__12; Side += 1)
                 {
-                    UpdateTransition(unchecked((byte)Side));
+                    UpdateTransition((byte)Side);
                 }
             }
         }
@@ -162,22 +129,22 @@ namespace Aow.Units.CombatHex
         // CombatHex.pas:76
         public void UpdateTransition(byte Side)
         {
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
+            TMapLevel MapLevel = default;
             int ImageIndex = default;
             sbyte NeighbourTerrain = default;
             sbyte TerrainType = default;
             int X = default;
             int Y = default;
-            MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-            Aow.Units.HSEngine.HSEngine.CenterHNtoHX(((Aow.Units.HSEngine.TMapField)Owner).Xhx, ((Aow.Units.HSEngine.TMapField)Owner).Yhx, Aow.Units.CombatHex.CombatHex.TransitionNeighbours[Side - 1], ref X, ref Y);
-            if ((((X >= 0) && (Y >= 0)) && (X < MapLevel.Width)) && (Y < MapLevel.Height))
+            MapLevel = (TMapLevel)Owner.Owner;
+            CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, CombatHex.TransitionNeighbours[Side - 1], ref X, ref Y);
+            if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
             {
                 var call__13 = MapLevel.GetField(X, Y);
-                NeighbourTerrain = unchecked((sbyte)call__13.TerrainType);
+                NeighbourTerrain = call__13.TerrainType;
                 var call__14 = FResource.TerrainList.GetTerrain(0);
-                TerrainType = unchecked((sbyte)call__14);
+                TerrainType = call__14;
                 ImageIndex = -1;
-                if ((NeighbourTerrain != TerrainType) && (NeighbourTerrain != 7))
+                if (NeighbourTerrain != TerrainType && NeighbourTerrain != 7)
                 {
                     if (TerrainType == 0)
                     {
@@ -281,11 +248,11 @@ namespace Aow.Units.CombatHex
 
                 if (ImageIndex != -1)
                 {
-                    ImageIndex = ((Aow.Rtl.Rtl.Random(2) * 3) + (ImageIndex * 6)) + (Side - 1);
-                    var call__15 = ((Aow.Units.CombatHex.TCombatHexagonResource)FResource).FTransitionLibrary.GetSafe(ImageIndex);
+                    ImageIndex = Random(2) * 3 + ImageIndex * 6 + (Side - 1);
+                    var call__15 = ((TCombatHexagonResource)FResource).FTransitionLibrary.GetSafe(ImageIndex);
                     if (call__15 != null)
                     {
-                        FTransitions[Side - 1] = unchecked((byte)ImageIndex);
+                        FTransitions[Side - 1] = (byte)ImageIndex;
                     }
                     else
                     {
@@ -301,18 +268,18 @@ namespace Aow.Units.CombatHex
 
     }
 
-    public partial class TCombatHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
+    public partial class TCombatHexagonResource : TAbstractHexagonResource
     {
         public TCombatHexagonResource(TECustomNode owner) : base(owner)
         {}
 
         public new const int ClassID = 2229505;
 
-        public Aow.Units.ImageLib.TCustomImageLibrary FTransitionLibrary;
+        public TCustomImageLibrary FTransitionLibrary;
         // CombatHex.pas:194
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
-            bool bool__16 = (Msg.MsgID != 65556);
+            bool bool__16 = Msg.MsgID != 65556;
             if (!bool__16)
             {
                 var call__17 = TerrainList.GetTerrain(0);
@@ -331,21 +298,21 @@ namespace Aow.Units.CombatHex
 
             if (Msg.MsgID == 536870920)
             {
-                var call__18 = Aow.Units.AoWE.AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<Aow.Units.ImageLib.TILManagerCategoryElement>.Of(Aow.Units.ImageLib.TILManagerCategoryElement.icDisk), (AnsiString)"TCombat\\Base_Hex\\CTransHx.ILB");
+                var call__18 = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TCombat\\Base_Hex\\CTransHx.ILB");
                 FTransitionLibrary = call__18;
             }
         }
 
         // CombatHex.pas:207
-        public override Aow.Units.ImageLib.TLibraryImage GetCellImage()
+        public override ImageLib.TLibraryImage GetCellImage()
         {
-            Aow.Units.ImageLib.TLibraryImage Result = default;
+            ImageLib.TLibraryImage Result = default;
             Result = null;
-            bool bool__19 = (ImageSequenceList != null) && (ImageSequenceList.Count > 0);
+            bool bool__19 = ImageSequenceList != null && ImageSequenceList.Count > 0;
             if (bool__19)
             {
                 var call__20 = ImageSequenceList.GetImageSequence(0);
-                bool__19 = (call__20 != null);
+                bool__19 = call__20 != null;
             }
 
             if (bool__19)
@@ -372,24 +339,24 @@ namespace Aow.Units.CombatHex
         }
 
         // CombatHex.pas:191
-        public override Aow.Units.HSEngine.THexagonControl GetHexagonControl()
+        public override THexagonControl GetHexagonControl()
         {
-            Aow.Units.HSEngine.THexagonControl Result = default;
-            Result = ((Aow.Units.AoWE.TAoWHSSet)Engine.HSSet).FCombatHexagons;
+            THexagonControl Result = default;
+            Result = ((TAoWHSSet)Engine.HSSet).FCombatHexagons;
             return Result;
         }
 
         // CombatHex.pas:188
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Combat Hexagon";
             return Result;
         }
 
     }
 
-    public partial class TWaterCombatHexagon : Aow.Units.AoWHex.TAoWWaterHexagon
+    public partial class TWaterCombatHexagon : TAoWWaterHexagon
     {
         public TWaterCombatHexagon(TECustomNode owner) : base(owner)
         {}
@@ -398,16 +365,16 @@ namespace Aow.Units.CombatHex
         public new const int ClassID = 2229655;
 
         // CombatHex.pas:216
-        public override Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
         {
-            Aow.Units.HSEngine.TMapObjectResourceList Result = default;
-            Result = Aow.Units.AoWE.AoWE.AoWHSSet.FCombatResources;
+            TMapObjectResourceList Result = default;
+            Result = AoWHSSet.FCombatResources;
             return Result;
         }
 
     }
 
-    public partial class TWaterCombatHexagonResource : Aow.Units.AoWHex.TAoWWaterHexagonResource
+    public partial class TWaterCombatHexagonResource : TAoWWaterHexagonResource
     {
         public TWaterCombatHexagonResource(TECustomNode owner) : base(owner)
         {}
@@ -424,17 +391,17 @@ namespace Aow.Units.CombatHex
         }
 
         // CombatHex.pas:231
-        public override Aow.Units.HSEngine.THexagonControl GetHexagonControl()
+        public override THexagonControl GetHexagonControl()
         {
-            Aow.Units.HSEngine.THexagonControl Result = default;
-            Result = ((Aow.Units.AoWE.TAoWHSSet)Engine.HSSet).FCombatHexagons;
+            THexagonControl Result = default;
+            Result = ((TAoWHSSet)Engine.HSSet).FCombatHexagons;
             return Result;
         }
 
         // CombatHex.pas:225
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Combat Water/Ice hex";
             return Result;
         }
@@ -444,12 +411,12 @@ namespace Aow.Units.CombatHex
     public static partial class CombatHex
     {
         // CombatHex.pas:234
-        public static void RegisterCombatHexagon(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterCombatHexagon(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TCombatHexagonResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TCombatHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TWaterCombatHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.CombatHex.TWaterCombatHexagonResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TCombatHexagonResource>(), EClass.Of<TCombatHexagon>(), EClass.Of<TWaterCombatHexagon>(), EClass.Of<TWaterCombatHexagonResource>()]);
         }
 
-        public static Aow.Units.FixedArray_byte_3 TransitionNeighbours = Aow.Units.FixedArray_byte_3.From([6, 1, 2]);
+        public static FixedArray_byte_3 TransitionNeighbours = FixedArray_byte_3.From([6, 1, 2]);
         public static void Initialize()
         {
         }

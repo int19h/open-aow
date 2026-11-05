@@ -1,6 +1,5 @@
 #nullable disable
 using Aow.Rtl;
-using static Aow.Units.AoWExeForms.AoWExeForms;
 
 namespace Aow.Units.AOWMultiWin;
 
@@ -8,17 +7,17 @@ public partial class TMultiWindow
 {
     public void Execute(AnsiString mapName)
     {
-        var songs = Aow.Units.Sound.Sound.SongPlayer;
+        var songs = Sound.Sound.SongPlayer;
         if (songs.CurrentIndex == -1 || songs.CurrentIndex >= songs.Songs.Count || songs.Songs[songs.CurrentIndex] != "SONGS\\TITLE.IT")
         {
             songs.Songs.Clear();
             songs.Songs.Add("SONGS\\TITLE.IT");
             songs.Play(0);
         }
-        Aow.Units.AoWVideoDlg.AoWVideoDlg.VideoDialog.SetSceneSize(640, 480);
+        AoWVideoDlg.AoWVideoDlg.VideoDialog.SetSceneSize(640, 480);
         FPendingMap = mapName;
-        Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
-        Aow.Units.E2Globals.E2Globals.TitleWindow.TitlePnl.Visible = false;
+        E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
+        E2Globals.E2Globals.TitleWindow.TitlePnl.Visible = false;
         MultiPnl.Visible = GamePanel.Visible = true;
         TCPPnl.Visible = LanPnl.Visible = JoinPnl.Visible = IPXBtn.Visible = PBEMPnl.Visible = false;
         TCPBtn.Visible = true;

@@ -1,41 +1,14 @@
 // Translated from UnitSpells.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.UnitSpells
 {
     // spell ID, mana cost charged after execution
-    public partial class TDispelMagicSpellCA : Aow.Units.AoWE.TDispelMagicCA
+    public partial class TDispelMagicSpellCA : TDispelMagicCA
     {
         // UnitSpells.pas:975
         public new const int ClassID = 131793;
@@ -46,7 +19,7 @@ namespace Aow.Units.UnitSpells
         public int FSpellID;
         public int FManaCost;
         // UnitSpells.pas:980
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FSpellID, 60);
@@ -54,18 +27,18 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:987
-        public override void Execute(Aow.Units.AoWE.TCombat A1)
+        public override void Execute(TCombat A1)
         {
-            Aow.Units.AoWE.TCombatUnit Source = default;
+            TCombatUnit Source = default;
             base.Execute(A1);
-            if ((FManaCost != 0) && A1.FStatus.Contains(Aow.Units.AoWE.TCombatStatusElement.cExecuting))
+            if (FManaCost != 0 && A1.FStatus.Contains(TCombatStatusElement.cExecuting))
             {
-                var call__1 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var call__1 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
                 if (call__1 != null)
                 {
                     var call__2 = A1.FCombatData.FindID(FSourceID);
-                    Source = (Aow.Units.AoWE.TCombatUnit)call__2;
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                    Source = (TCombatUnit)call__2;
+                    var call__3 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
                     call__3.CastingDone(Source.FUnit, FManaCost);
                 }
             }
@@ -75,32 +48,32 @@ namespace Aow.Units.UnitSpells
     }
 
     // inherited multiple targets, target range, dispel resistance, AI value
-    public partial class TDispelMagic : Aow.Units.AoWE.TUnitSpell
+    public partial class TDispelMagic : TUnitSpell
     {
         // UnitSpells.pas:1000
         public TDispelMagic(TECustomNode owner) : base(owner)
         {
-            var call__4 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DispelMagicRStr);
+            var call__4 = TranslateRStr(DispelMagicRStr);
             FSpellName = call__4;
             FSpellID = 8;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msCosmos;
+            FMagicSphere = TMagicSphere.msCosmos;
             FTargetRange = 4;
             FAllowMultipleTargets = true;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:1023
-        public override Aow.Units.AoWE.TCombatAction CreateCA(Aow.Units.AoWE.TCombatObject A1, Aow.Units.AoWE.TCombatObject A2, bool A3)
+        public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            Aow.Units.AoWE.TCombatAction Result = default;
-            Aow.Units.UnitSpells.TDispelMagicSpellCA Action = default;
-            Action = new Aow.Units.UnitSpells.TDispelMagicSpellCA(null);
+            TCombatAction Result = default;
+            TDispelMagicSpellCA Action = default;
+            Action = new TDispelMagicSpellCA(null);
             Action.FSpellID = FSpellID;
-            Action.FSourceID = unchecked((byte)A1.FID);
-            Action.FTargetID = unchecked((byte)A2.FID);
-            var call__5 = GetDispelMana(((Aow.Units.AoWE.TCombatUnit)A1).FUnit);
+            Action.FSourceID = A1.FID;
+            Action.FTargetID = A2.FID;
+            var call__5 = GetDispelMana(((TCombatUnit)A1).FUnit);
             Action.Generate(A1, A2, call__5);
             if (A3)
             {
@@ -112,21 +85,21 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:1074
-        public override void GetCombatInfo(Aow.Units.AoWE.TAbstractUnit Source, ref Aow.Units.AoWE.TSpellCombatInfo Info)
+        public override void GetCombatInfo(TAbstractUnit Source, ref TSpellCombatInfo Info)
         {
             base.GetCombatInfo(Source, ref Info);
-            Info.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttFriend, Aow.Units.AoWE.TCombatTargetTypeElement.cttEnemy);
+            Info.TargetTypes = TSet<TCombatTargetTypeElement>.Of(TCombatTargetTypeElement.cttFriend, TCombatTargetTypeElement.cttEnemy);
         }
 
         // UnitSpells.pas:1068
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
             bool bool__6 = Result;
             if (bool__6)
             {
-                var call__7 = Target.CanDispelEnchantment(unchecked((sbyte)Source.FPlayer));
+                var call__7 = Target.CanDispelEnchantment(Source.FPlayer);
                 bool__6 = call__7;
             }
 
@@ -135,7 +108,7 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:1018
-        public override bool ValidTargetParty(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TArmyHS Party)
+        public override bool ValidTargetParty(TAbstractUnit Source, TArmyHS Party)
         {
             bool Result = default;
             Result = Party.FArmy.FPlayer == Source.FPlayer;
@@ -143,17 +116,17 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:1036
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
             int Count = default;
-            Aow.Units.AoWE.TEnchantmentList Enchantments = default;
+            TEnchantmentList Enchantments = default;
             int I = default;
             int Chance = default;
             if (ValidTargetUnit(Source, Target))
             {
                 Count = 0;
-                Enchantments = new Aow.Units.AoWE.TEnchantmentList(null);
+                Enchantments = new TEnchantmentList(null);
                 Target.ListEnchantments(Enchantments);
                 {
                     I = Enchantments.GetCount() - 1;
@@ -164,7 +137,7 @@ namespace Aow.Units.UnitSpells
                         var call__10 = Enchantments.GetEnchantments(I);
                         var call__11 = call__10.DispelChance(call__9);
                         Chance = call__11;
-                        var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.Random(100);
+                        var call__12 = AoWHSMap.Random(100);
                         if (Chance > call__12)
                         {
                             Count += 1;
@@ -174,18 +147,18 @@ namespace Aow.Units.UnitSpells
                     }
                 }
 
-                if (Source.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer)
+                if (Source.FPlayer == AoWHSMap.FSeatedPlayer)
                 {
                     if (Count > 0)
                     {
-                        var call__14 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.XSpellsSuccessfullyDispelledRStr);
-                        var call__15 = Aow.Rtl.Rtl.Format(call__14, [Aow.Rtl.Rtl.IntToStr(Count)]);
-                        Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__15);
+                        var call__14 = TranslateRStr(XSpellsSuccessfullyDispelledRStr);
+                        var call__15 = Rtl.Rtl.Format(call__14, [IntToStr(Count)]);
+                        AoWHSMap.ShowMessage(call__15);
                     }
                     else
                     {
-                        var call__16 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DispelMagicFailedRStr);
-                        Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(call__16);
+                        var call__16 = TranslateRStr(DispelMagicFailedRStr);
+                        AoWHSMap.ShowMessage(call__16);
                     }
                 }
 
@@ -201,33 +174,33 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:1013
-        public int GetDispelMana(Aow.Units.AoWE.TAbstractUnit Source)
+        public int GetDispelMana(TAbstractUnit Source)
         {
             int Result = default;
-            Result = (Source.GetAbLevel(52) * 15) + 25;
+            Result = Source.GetAbLevel(52) * 15 + 25;
             return Result;
         }
     }
 
-    public partial class THaste : Aow.Units.AoWE.TUnitSpell
+    public partial class THaste : TUnitSpell
     {
         // UnitSpells.pas:215
         public THaste(TECustomNode owner) : base(owner)
         {
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
-            var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HasteRStr);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
+            var call__17 = TranslateRStr(HasteRStr);
             FSpellName = call__17;
             FSpellID = 15;
             FBaseManaCost = 5;
             FManaUpkeep = 2;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msAir;
+            FMagicSphere = TMagicSphere.msAir;
             FTargetRange = 12;
             FUnitDispelResistance = 3;
         }
 
         // UnitSpells.pas:250
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -236,19 +209,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:229
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(152))
                 {
                     var call__18 = Target.GetAbilityData(152);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__18).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__18).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                     Result = true;
                 }
                 else
@@ -265,26 +238,26 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TStoneSkin : Aow.Units.AoWE.TUnitSpell
+    public partial class TStoneSkin : TUnitSpell
     {
         // UnitSpells.pas:256
         public TStoneSkin(TECustomNode owner) : base(owner)
         {
-            var call__19 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.StoneSkinRStr);
+            var call__19 = TranslateRStr(StoneSkinRStr);
             FSpellName = call__19;
             FSpellID = 17;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msEarth;
+            FMagicSphere = TMagicSphere.msEarth;
             FTargetRange = 12;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
             FUnitDispelResistance = 3;
             FAIValue = 200;
             FCastDuration = 5;
         }
 
         // UnitSpells.pas:290
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -293,19 +266,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:271
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(153))
                 {
                     var call__20 = Target.GetAbilityData(153);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__20).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__20).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -320,26 +293,26 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TEnchantWeapon : Aow.Units.AoWE.TUnitSpell
+    public partial class TEnchantWeapon : TUnitSpell
     {
         // UnitSpells.pas:296
         public TEnchantWeapon(TECustomNode owner) : base(owner)
         {
-            var call__21 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.EnchantWeaponRStr);
+            var call__21 = TranslateRStr(EnchantWeaponRStr);
             FSpellName = call__21;
             FSpellID = 16;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msCosmos;
+            FMagicSphere = TMagicSphere.msCosmos;
             FTargetRange = 12;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
             FUnitDispelResistance = 3;
             FAIValue = 225;
             FCastDuration = 5;
         }
 
         // UnitSpells.pas:330
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -362,19 +335,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:311
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(154))
                 {
                     var call__26 = Target.GetAbilityData(154);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__26).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__26).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -389,24 +362,24 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TFreeMovement : Aow.Units.AoWE.TUnitSpell
+    public partial class TFreeMovement : TUnitSpell
     {
         // UnitSpells.pas:386
         public TFreeMovement(TECustomNode owner) : base(owner)
         {
-            var call__27 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FreeMovementRStr);
+            var call__27 = TranslateRStr(FreeMovementRStr);
             FSpellName = call__27;
             FSpellID = 32;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msEarth;
+            FMagicSphere = TMagicSphere.msEarth;
             FTargetRange = 12;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
             FUnitDispelResistance = 4;
         }
 
         // UnitSpells.pas:418
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -443,19 +416,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:399
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(157))
                 {
                     var call__36 = Target.GetAbilityData(157);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__36).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__36).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -470,51 +443,51 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TFury : Aow.Units.AoWE.TUnitSpell
+    public partial class TFury : TUnitSpell
     {
         // UnitSpells.pas:336
         public TFury(TECustomNode owner) : base(owner)
         {
-            var call__37 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FuryRStr);
+            var call__37 = TranslateRStr(FuryRStr);
             FSpellName = call__37;
             FSpellID = 33;
             FAIValue = 175;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msFire;
+            FMagicSphere = TMagicSphere.msFire;
             FTargetRange = 12;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
             FUnitDispelResistance = 3;
         }
 
         // UnitSpells.pas:369
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
-            base.PlayDefaultCastEffects(unchecked((sbyte)Player), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer));
-            bool bool__38 = (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            base.PlayDefaultCastEffects(Player, X, Y, Layer);
+            bool bool__38 = Player == AoWHSMap.FSeatedPlayer;
             if (!bool__38)
             {
-                var call__39 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
+                var call__39 = AoWHSMap.Watching(X, Y, Layer, 0);
                 bool__38 = call__39;
             }
 
             if (bool__38)
             {
-                var call__40 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var call__40 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
                 call__40.FCastSounds.Play(1);
             }
         }
 
         // UnitSpells.pas:376
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
             Result = Result && !Target.GetAbilityEnabled(156);
             if (Result)
             {
-                var call__41 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Target.FPlayer);
-                if ((call__41.FPlayerType != Aow.Units.AoWE.TPlayerType.ptHuman) && (Target is Aow.Units.AoWE.TLeader))
+                var call__41 = AoWHSMap.FPlayers.GetPlayers(Target.FPlayer);
+                if (call__41.FPlayerType != TPlayerType.ptHuman && Target is TLeader)
                 {
                     Result = false;
                 }
@@ -524,19 +497,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:350
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(156))
                 {
                     var call__42 = Target.GetAbilityData(156);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__42).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__42).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -551,23 +524,23 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TRemedy : Aow.Units.AoWE.TUnitSpell
+    public partial class TRemedy : TUnitSpell
     {
         // UnitSpells.pas:424
         public TRemedy(TECustomNode owner) : base(owner)
         {
-            var call__43 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.RemedyRStr);
+            var call__43 = TranslateRStr(RemedyRStr);
             FSpellName = call__43;
             FSpellID = 35;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msCosmos;
+            FMagicSphere = TMagicSphere.msCosmos;
             FTargetRange = 12;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:458
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -576,7 +549,7 @@ namespace Aow.Units.UnitSpells
             {
                 var call__45 = Target.GetHitPoints();
                 var call__46 = Target.GetHits();
-                bool bool__47 = (call__45 != call__46);
+                bool bool__47 = call__45 != call__46;
                 if (!bool__47)
                 {
                     var call__48 = Target.GetAbilityEnabled(96);
@@ -626,7 +599,7 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:436
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
             int HitPoints = default;
@@ -638,7 +611,7 @@ namespace Aow.Units.UnitSpells
                     HitPoints = Target.GetHits();
                 }
 
-                Target.SetHitPoints(unchecked((sbyte)HitPoints));
+                Target.SetHitPoints((sbyte)HitPoints);
                 Target.RemoveAbility(93);
                 Target.RemoveAbility(96);
                 Target.RemoveAbility(108);
@@ -656,23 +629,23 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class THealingWater : Aow.Units.AoWE.TUnitSpell
+    public partial class THealingWater : TUnitSpell
     {
         // UnitSpells.pas:467
         public THealingWater(TECustomNode owner) : base(owner)
         {
-            var call__59 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HealingWaterRStr);
+            var call__59 = TranslateRStr(HealingWaterRStr);
             FSpellName = call__59;
             FSpellID = 55;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msCosmos;
+            FMagicSphere = TMagicSphere.msCosmos;
             FTargetRange = 12;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:491
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -681,7 +654,7 @@ namespace Aow.Units.UnitSpells
             {
                 var call__61 = Target.GetHitPoints();
                 var call__62 = Target.GetHits();
-                bool bool__63 = (call__61 != call__62);
+                bool bool__63 = call__61 != call__62;
                 if (!bool__63)
                 {
                     var call__64 = Target.GetAbilityEnabled(127);
@@ -696,14 +669,14 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:479
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
             if (ValidTargetUnit(Source, Target))
             {
                 Target.RemoveAbility(127);
                 var call__65 = Target.GetHits();
-                Target.SetHitPoints(unchecked((sbyte)call__65));
+                Target.SetHitPoints(call__65);
                 Result = true;
             }
             else
@@ -715,24 +688,24 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class THolyChampion : Aow.Units.AoWE.TUnitSpell
+    public partial class THolyChampion : TUnitSpell
     {
         // UnitSpells.pas:497
         public THolyChampion(TECustomNode owner) : base(owner)
         {
-            var call__66 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.HolyChampionRStr);
+            var call__66 = TranslateRStr(HolyChampionRStr);
             FSpellName = call__66;
             FSpellID = 36;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msLife;
+            FMagicSphere = TMagicSphere.msLife;
             FTargetRange = 12;
             FUnitDispelResistance = 4;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:529
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -753,7 +726,7 @@ namespace Aow.Units.UnitSpells
             bool bool__71 = bool__69;
             if (bool__71)
             {
-                var call__72 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(146);
+                var call__72 = AoWHSSet.FAbilityControl.GetAbility(146);
                 var call__73 = call__72.CanExpand(Target);
                 bool__71 = call__73;
             }
@@ -763,19 +736,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:510
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(160))
                 {
                     var call__74 = Target.GetAbilityData(160);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__74).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__74).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -790,24 +763,24 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TUnholyChampion : Aow.Units.AoWE.TUnitSpell
+    public partial class TUnholyChampion : TUnitSpell
     {
         // UnitSpells.pas:537
         public TUnholyChampion(TECustomNode owner) : base(owner)
         {
-            var call__75 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.UnholyChampionRStr);
+            var call__75 = TranslateRStr(UnholyChampionRStr);
             FSpellName = call__75;
             FSpellID = 37;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msDeath;
+            FMagicSphere = TMagicSphere.msDeath;
             FTargetRange = 12;
             FUnitDispelResistance = 4;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:569
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -828,7 +801,7 @@ namespace Aow.Units.UnitSpells
             bool bool__80 = bool__78;
             if (bool__80)
             {
-                var call__81 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(147);
+                var call__81 = AoWHSSet.FAbilityControl.GetAbility(147);
                 var call__82 = call__81.CanExpand(Target);
                 bool__80 = call__82;
             }
@@ -838,19 +811,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:550
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(161))
                 {
                     var call__83 = Target.GetAbilityData(161);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__83).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__83).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -865,24 +838,24 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TConcealment : Aow.Units.AoWE.TUnitSpell
+    public partial class TConcealment : TUnitSpell
     {
         // UnitSpells.pas:577
         public TConcealment(TECustomNode owner) : base(owner)
         {
-            var call__84 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.ConcealmentRStr);
+            var call__84 = TranslateRStr(ConcealmentRStr);
             FSpellName = call__84;
             FSpellID = 39;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msEarth;
+            FMagicSphere = TMagicSphere.msEarth;
             FTargetRange = 12;
             FUnitDispelResistance = 5;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal);
         }
 
         // UnitSpells.pas:609
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -912,19 +885,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:590
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(162))
                 {
                     var call__91 = Target.GetAbilityData(162);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__91).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__91).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -939,42 +912,42 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TFireAura : Aow.Units.AoWE.TUnitSpell
+    public partial class TFireAura : TUnitSpell
     {
         // UnitSpells.pas:616
         public TFireAura(TECustomNode owner) : base(owner)
         {
-            var call__92 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.FireAuraRStr);
+            var call__92 = TranslateRStr(FireAuraRStr);
             FSpellName = call__92;
             FSpellID = 40;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msFire;
+            FMagicSphere = TMagicSphere.msFire;
             FTargetRange = 12;
             FUnitDispelResistance = 4;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:629
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
-            base.PlayDefaultCastEffects(unchecked((sbyte)Player), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer));
-            bool bool__93 = (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            base.PlayDefaultCastEffects(Player, X, Y, Layer);
+            bool bool__93 = Player == AoWHSMap.FSeatedPlayer;
             if (!bool__93)
             {
-                var call__94 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
+                var call__94 = AoWHSMap.Watching(X, Y, Layer, 0);
                 bool__93 = call__94;
             }
 
             if (bool__93)
             {
-                var call__95 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var call__95 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
                 call__95.FCastSounds.Play(1);
             }
         }
 
         // UnitSpells.pas:655
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -1004,19 +977,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:636
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(163))
                 {
                     var call__102 = Target.GetAbilityData(163);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__102).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__102).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -1031,24 +1004,24 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TWaterWalking : Aow.Units.AoWE.TUnitSpell
+    public partial class TWaterWalking : TUnitSpell
     {
         // UnitSpells.pas:662
         public TWaterWalking(TECustomNode owner) : base(owner)
         {
-            var call__103 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WaterWalkingRStr);
+            var call__103 = TranslateRStr(WaterWalkingRStr);
             FSpellName = call__103;
             FSpellID = 42;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msWater;
+            FMagicSphere = TMagicSphere.msWater;
             FTargetRange = 12;
             FUnitDispelResistance = 6;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:694
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -1092,19 +1065,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:675
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(164))
                 {
                     var call__114 = Target.GetAbilityData(164);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__114).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__114).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -1119,24 +1092,24 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TWindWalking : Aow.Units.AoWE.TUnitSpell
+    public partial class TWindWalking : TUnitSpell
     {
         // UnitSpells.pas:702
         public TWindWalking(TECustomNode owner) : base(owner)
         {
-            var call__115 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.WindWalkingRStr);
+            var call__115 = TranslateRStr(WindWalkingRStr);
             FSpellName = call__115;
             FSpellID = 43;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msAir;
+            FMagicSphere = TMagicSphere.msAir;
             FTargetRange = 12;
             FUnitDispelResistance = 6;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:734
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -1166,19 +1139,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:715
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(165))
                 {
                     var call__122 = Target.GetAbilityData(165);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__122).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__122).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -1193,43 +1166,43 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TLiquidForm : Aow.Units.AoWE.TUnitSpell
+    public partial class TLiquidForm : TUnitSpell
     {
         // UnitSpells.pas:741
         public TLiquidForm(TECustomNode owner) : base(owner)
         {
-            var call__123 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.LiquidFormRStr);
+            var call__123 = TranslateRStr(LiquidFormRStr);
             FSpellName = call__123;
             FSpellID = 49;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msWater;
+            FMagicSphere = TMagicSphere.msWater;
             FAIValue = 300;
             FTargetRange = 12;
             FUnitDispelResistance = 5;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
         }
 
         // UnitSpells.pas:783
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
-            base.PlayDefaultCastEffects(unchecked((sbyte)Player), unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer));
-            bool bool__124 = (Player == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            base.PlayDefaultCastEffects(Player, X, Y, Layer);
+            bool bool__124 = Player == AoWHSMap.FSeatedPlayer;
             if (!bool__124)
             {
-                var call__125 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Layer), 0);
+                var call__125 = AoWHSMap.Watching(X, Y, Layer, 0);
                 bool__124 = call__125;
             }
 
             if (bool__124)
             {
-                var call__126 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var call__126 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
                 call__126.FCastSounds.Play(1);
             }
         }
 
         // UnitSpells.pas:774
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -1274,19 +1247,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:755
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(166))
                 {
                     var call__137 = Target.GetAbilityData(166);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__137).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__137).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -1301,26 +1274,26 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TBless : Aow.Units.AoWE.TUnitSpell
+    public partial class TBless : TUnitSpell
     {
         // UnitSpells.pas:790
         public TBless(TECustomNode owner) : base(owner)
         {
-            var call__138 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.BlessRStr);
+            var call__138 = TranslateRStr(BlessRStr);
             FSpellName = call__138;
             FSpellID = 56;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msWater;
+            FMagicSphere = TMagicSphere.msWater;
             FTargetRange = 12;
             FUnitDispelResistance = 3;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
             FAIValue = 225;
             FCastDuration = 5;
         }
 
         // UnitSpells.pas:824
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -1329,19 +1302,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:805
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(158))
                 {
                     var call__139 = Target.GetAbilityData(158);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__139).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__139).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -1356,26 +1329,26 @@ namespace Aow.Units.UnitSpells
         }
     }
 
-    public partial class TDarkGift : Aow.Units.AoWE.TUnitSpell
+    public partial class TDarkGift : TUnitSpell
     {
         // UnitSpells.pas:830
         public TDarkGift(TECustomNode owner) : base(owner)
         {
-            var call__140 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DarkGiftRStr);
+            var call__140 = TranslateRStr(DarkGiftRStr);
             FSpellName = call__140;
             FSpellID = 77;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msDeath;
+            FMagicSphere = TMagicSphere.msDeath;
             FTargetRange = 12;
             FUnitDispelResistance = 3;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal, Aow.Units.AoWE.TSpellControlTypeElement.sctCombat);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat);
             FAIValue = 225;
             FCastDuration = 5;
         }
 
         // UnitSpells.pas:864
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
@@ -1384,19 +1357,19 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:845
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TUnitEnchantment Enchantment = default;
+            TUnitEnchantment Enchantment = default;
             if (ValidTargetUnit(Source, Target))
             {
                 if (Target.ExpandAbility(169))
                 {
                     var call__141 = Target.GetAbilityData(169);
-                    Enchantment = ((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__141).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)call__141).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
-                    Enchantment.FDispelResistance = unchecked((sbyte)FUnitDispelResistance);
+                    Enchantment.SetSource(Source.FPlayer);
+                    Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -1412,7 +1385,7 @@ namespace Aow.Units.UnitSpells
     }
 
     // replacement face index, target unit ID
-    public partial class TCosmeticSurgerySpellCaster : Aow.Units.AoWE.TSpellCaster
+    public partial class TCosmeticSurgerySpellCaster : TSpellCaster
     {
         public TCosmeticSurgerySpellCaster(TECustomNode owner) : base(owner)
         { }
@@ -1420,7 +1393,7 @@ namespace Aow.Units.UnitSpells
         public int FFaceIndex;
         public int FTargetUnitID;
         // UnitSpells.pas:870
-        public override bool CanCast(ref Aow.Rtl.AnsiString Reason)
+        public override bool CanCast(ref AnsiString Reason)
         {
             bool Result = default;
             Result = base.CanCast(ref Reason);
@@ -1431,17 +1404,17 @@ namespace Aow.Units.UnitSpells
         public override bool Cast()
         {
             bool Result = default;
-            Aow.Units.AoWE.TAbstractUnit Source = default;
-            Aow.Units.AoWE.TAbstractUnit Target = default;
-            Aow.Units.AoWE.TUnitSpellTE Event = default;
-            Aow.Rtl.AnsiString Reason = default;
-            var call__142 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(59);
-            ((Aow.Units.AoWE.TUnitSpell)call__142).ResetTargetSelection();
-            var call__143 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
+            TAbstractUnit Source = default;
+            TAbstractUnit Target = default;
+            TUnitSpellTE Event = default;
+            AnsiString Reason = default;
+            var call__142 = AoWHSSet.FSpellControl.GetSpell(59);
+            ((TUnitSpell)call__142).ResetTargetSelection();
+            var call__143 = AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
             Source = call__143;
-            var call__144 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FTargetUnitID);
+            var call__144 = AoWHSMap.FUnitControl.FindUnit(FTargetUnitID);
             Target = call__144;
-            bool bool__145 = (Source != null) && (Target != null);
+            bool bool__145 = Source != null && Target != null;
             if (bool__145)
             {
                 var call__146 = CanCast(ref Reason);
@@ -1451,20 +1424,20 @@ namespace Aow.Units.UnitSpells
             bool bool__147 = bool__145;
             if (bool__147)
             {
-                var call__148 = Aow.Units.AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer);
+                var call__148 = AoWHSMap.FPlayers.GetPlayers(Source.FPlayer);
                 var call__149 = call__148.GetBusy();
                 bool__147 = !call__149;
             }
 
             if (bool__147)
             {
-                Event = new Aow.Units.AoWE.TUnitSpellTE(null);
-                var call__150 = Aow.Units.AoWE.AoWE.AoWHSSet.FSpellControl.GetSpell(59);
+                Event = new TUnitSpellTE(null);
+                var call__150 = AoWHSSet.FSpellControl.GetSpell(59);
                 Event.Initialize(FCasterSpellID, Source, null, call__150.FBaseManaCost);
                 Event.FTargetUnitIDs.Add(FTargetUnitID);
                 Event.FSpellData[0] = FFaceIndex;
-                Event.FTargetPlayer = unchecked((byte)Target.FPlayer);
-                var call__151 = Aow.Units.AoWE.AoWE.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer);
+                Event.FTargetPlayer = (byte)Target.FPlayer;
+                var call__151 = AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer);
                 call__151.AddEvent(Event);
                 Event.Release();
                 Result = true;
@@ -1479,63 +1452,63 @@ namespace Aow.Units.UnitSpells
 
     }
 
-    public partial class TCosmeticSurgery : Aow.Units.AoWE.TUnitSpell
+    public partial class TCosmeticSurgery : TUnitSpell
     {
         // UnitSpells.pas:901
         public TCosmeticSurgery(TECustomNode owner) : base(owner)
         {
-            var call__152 = Aow.Units.AoWE.AoWE.TranslateRStr(Aow.Units.AoWE.AoWE.DeformFaceRStr);
+            var call__152 = TranslateRStr(DeformFaceRStr);
             FSpellName = call__152;
             FSpellID = 59;
-            FSpellType = Aow.Units.AoWE.TSpellType.stUnit;
+            FSpellType = TSpellType.stUnit;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Units.AoWE.TMagicSphere.msSecret;
+            FMagicSphere = TMagicSphere.msSecret;
             FAllowMultipleTargets = false;
             FUnitDispelResistance = 10;
             FTargetRange = -1;
-            FSpellControlTypes = TSet<Aow.Units.AoWE.TSpellControlTypeElement>.Of(Aow.Units.AoWE.TSpellControlTypeElement.sctGlobal);
+            FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal);
         }
 
         // UnitSpells.pas:968
-        public override void GetCombatInfo(Aow.Units.AoWE.TAbstractUnit Source, ref Aow.Units.AoWE.TSpellCombatInfo Info)
+        public override void GetCombatInfo(TAbstractUnit Source, ref TSpellCombatInfo Info)
         {
             // { The original saves Self and Source as well as Info; this compiler saves only Info. }
             base.GetCombatInfo(Source, ref Info);
-            Info.TargetTypes = TSet<Aow.Units.AoWE.TCombatTargetTypeElement>.Of(Aow.Units.AoWE.TCombatTargetTypeElement.cttEnemy);
+            Info.TargetTypes = TSet<TCombatTargetTypeElement>.Of(TCombatTargetTypeElement.cttEnemy);
         }
 
         // UnitSpells.pas:940
-        public override bool ValidTargetUnit(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target)
+        public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = default;
             Result = base.ValidTargetUnit(Source, Target);
-            Result = Result && TSet<Aow.Units.AoWE.TUnitType>.Of(Aow.Units.AoWE.TUnitType.utHumanoid, Aow.Units.AoWE.TUnitType.utCreature).Contains(Target.GetUnitType());
+            Result = Result && TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(Target.GetUnitType());
             return Result;
         }
 
         // UnitSpells.pas:946
-        public override bool CastSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TUnitList Targets)
+        public override bool CastSpell(TAbstractUnit Source, TUnitList Targets)
         {
             bool Result = default;
-            Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster Caster = default;
+            TCosmeticSurgerySpellCaster Caster = default;
             if (Targets.GetCount() == 1)
             {
-                Caster = new Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster(null);
+                Caster = new TCosmeticSurgerySpellCaster(null);
                 Caster.FCasterSourceID = Source.FUnitID;
                 Caster.FCasterSpellID = FSpellID;
                 var call__153 = Targets.GetUnit(0);
                 Caster.FTargetUnitID = call__153.FUnitID;
-                if (Targets.GetUnit(0) is Aow.Units.AoWE.THero)
+                if (Targets.GetUnit(0) is THero)
                 {
                     var call__154 = Targets.GetUnit(0);
-                    Caster.FFaceIndex = ((Aow.Units.AoWE.THero)call__154).FFaceIndex;
+                    Caster.FFaceIndex = ((THero)call__154).FFaceIndex;
                 }
                 else
                 {
                     Caster.FFaceIndex = 0;
                 }
 
-                Aow.Units.AoWE.AoWE.AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
+                AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
                 Caster.Release();
                 Result = true;
             }
@@ -1548,10 +1521,10 @@ namespace Aow.Units.UnitSpells
         }
 
         // UnitSpells.pas:915
-        public override bool ExecuteSpell(Aow.Units.AoWE.TAbstractUnit Source, Aow.Units.AoWE.TAbstractUnit Target, int Mana, ref Aow.Units.FixedArray_int_2 Data)
+        public override bool ExecuteSpell(TAbstractUnit Source, TAbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result = default;
-            Aow.Units.AoWE.TCosmeticSurgeryEnchantment Enchantment = default;
+            TCosmeticSurgeryEnchantment Enchantment = default;
             bool Expanded = default;
             if (ValidTargetUnit(Source, Target))
             {
@@ -1567,10 +1540,10 @@ namespace Aow.Units.UnitSpells
                 if (Expanded)
                 {
                     var call__155 = Target.GetAbilityData(126);
-                    Enchantment = (Aow.Units.AoWE.TCosmeticSurgeryEnchantment)((Aow.Units.AoWE.TUnitEnchantmentAbilityData)call__155).FEnchantment;
+                    Enchantment = (TCosmeticSurgeryEnchantment)((TUnitEnchantmentAbilityData)call__155).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
                     Enchantment.FFaceIndex = Data[0];
-                    Enchantment.SetSource(unchecked((sbyte)Source.FPlayer));
+                    Enchantment.SetSource(Source.FPlayer);
                 }
 
                 // { Original succeeds even when expansion fails. }
@@ -1588,53 +1561,53 @@ namespace Aow.Units.UnitSpells
     public static partial class UnitSpells
     {
         // UnitSpells.pas:1081
-        public static void RegisterUnitSpells(Aow.Units.AoWE.TAoWEngine Engine)
+        public static void RegisterUnitSpells(TAoWEngine Engine)
         {
-            Aow.Units.AoWE.TSpellControl Control = default;
+            TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
-            Engine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.UnitSpells.TDispelMagicSpellCA>()]);
-            var call__156 = new Aow.Units.UnitSpells.TDispelMagic(null);
+            Engine.RegisterEClasses([EClass.Of<TDispelMagicSpellCA>()]);
+            var call__156 = new TDispelMagic(null);
             Control.RegisterSpell(call__156);
-            var call__157 = new Aow.Units.UnitSpells.THaste(null);
+            var call__157 = new THaste(null);
             Control.RegisterSpell(call__157);
-            var call__158 = new Aow.Units.UnitSpells.TStoneSkin(null);
+            var call__158 = new TStoneSkin(null);
             Control.RegisterSpell(call__158);
-            var call__159 = new Aow.Units.UnitSpells.TEnchantWeapon(null);
+            var call__159 = new TEnchantWeapon(null);
             Control.RegisterSpell(call__159);
-            var call__160 = new Aow.Units.UnitSpells.TFury(null);
+            var call__160 = new TFury(null);
             Control.RegisterSpell(call__160);
-            var call__161 = new Aow.Units.UnitSpells.TFreeMovement(null);
+            var call__161 = new TFreeMovement(null);
             Control.RegisterSpell(call__161);
-            var call__162 = new Aow.Units.UnitSpells.TRemedy(null);
+            var call__162 = new TRemedy(null);
             Control.RegisterSpell(call__162);
-            var call__163 = new Aow.Units.UnitSpells.THolyChampion(null);
+            var call__163 = new THolyChampion(null);
             Control.RegisterSpell(call__163);
-            var call__164 = new Aow.Units.UnitSpells.TUnholyChampion(null);
+            var call__164 = new TUnholyChampion(null);
             Control.RegisterSpell(call__164);
-            var call__165 = new Aow.Units.UnitSpells.TConcealment(null);
+            var call__165 = new TConcealment(null);
             Control.RegisterSpell(call__165);
-            var call__166 = new Aow.Units.UnitSpells.TFireAura(null);
+            var call__166 = new TFireAura(null);
             Control.RegisterSpell(call__166);
-            var call__167 = new Aow.Units.UnitSpells.TWaterWalking(null);
+            var call__167 = new TWaterWalking(null);
             Control.RegisterSpell(call__167);
-            var call__168 = new Aow.Units.UnitSpells.TWindWalking(null);
+            var call__168 = new TWindWalking(null);
             Control.RegisterSpell(call__168);
-            var call__169 = new Aow.Units.UnitSpells.TLiquidForm(null);
+            var call__169 = new TLiquidForm(null);
             Control.RegisterSpell(call__169);
-            var call__170 = new Aow.Units.UnitSpells.THealingWater(null);
+            var call__170 = new THealingWater(null);
             Control.RegisterSpell(call__170);
-            var call__171 = new Aow.Units.UnitSpells.TBless(null);
+            var call__171 = new TBless(null);
             Control.RegisterSpell(call__171);
-            var call__172 = new Aow.Units.UnitSpells.TCosmeticSurgery(null);
+            var call__172 = new TCosmeticSurgery(null);
             Control.RegisterSpell(call__172);
-            var call__173 = new Aow.Units.UnitSpells.TDarkGift(null);
+            var call__173 = new TDarkGift(null);
             Control.RegisterSpell(call__173);
         }
 
         // UnitSpells.pas:1107
-        public static void UnregisterUnitSpells(Aow.Units.AoWE.TAoWEngine Engine)
+        public static void UnregisterUnitSpells(TAoWEngine Engine)
         {
-            Aow.Units.AoWE.TSpellControl Control = default;
+            TSpellControl Control = default;
             Control = Engine.FGameSet.FSpellControl;
             Control.UnregisterSpellID(8);
             Control.UnregisterSpellID(15);
@@ -1654,7 +1627,7 @@ namespace Aow.Units.UnitSpells
             Control.UnregisterSpellID(56);
             Control.UnregisterSpellID(59);
             Control.UnregisterSpellID(77);
-            Engine.UnregisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.UnitSpells.TDispelMagicSpellCA>()]);
+            Engine.UnregisterEClasses([EClass.Of<TDispelMagicSpellCA>()]);
         }
 
         public static void Initialize()

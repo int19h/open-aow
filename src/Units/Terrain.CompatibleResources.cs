@@ -1,4 +1,5 @@
 using Aow.Rtl;
+using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 
 namespace Aow.Units.Terrain;
@@ -11,7 +12,7 @@ public partial class TTerrainMO
         var resources = GetResourceList(FResource.Engine).FChildren;
         for (int i = 0; i < resources.Count; i++)
         {
-            var item = (Engine.TEObject)resources.List[i];
+            var item = (TEObject)resources.List[i];
             if (item.EClass.ClassID != FResource.EClass.ClassID) continue;
             var resource = (TTerrainMOR)item;
             if (resource.FDecorationType == ((TTerrainMOR)FResource).FDecorationType &&
@@ -31,7 +32,7 @@ public partial class TTerrainMO
         var resources = GetResourceList(FResource.Engine).FChildren;
         for (int i = 0; i < resources.Count; i++)
         {
-            var item = (Engine.TEObject)resources.List[i];
+            var item = (TEObject)resources.List[i];
             if (item.EClass.ClassID != FResource.EClass.ClassID) continue;
             var resource = (TTerrainMOR)item;
             if (decorationType != -1 && resource.FDecorationType != decorationType) continue;
@@ -42,7 +43,7 @@ public partial class TTerrainMO
             while (compatible && j != 0)
             {
                 j--;
-                int overlay = unchecked((sbyte)resource.TerrainList.GetOverlay(j));
+                int overlay = resource.TerrainList.GetOverlay(j);
                 compatible = overlay < 0 || overlay == overlayType;
             }
             if (compatible) candidates.Add(resource);

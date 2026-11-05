@@ -1,145 +1,100 @@
 // Translated from AoWArenaDlg.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.Arena;
-using static Aow.Units.Arena.Arena;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWCheckBox;
-using static Aow.Units.AoWCheckBox.AoWCheckBox;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWPanel.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.aowUserDrawBox.aowUserDrawBox;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
-using Aow.Units.E3Globals;
-using static Aow.Units.E3Globals.E3Globals;
 
 namespace Aow.Units.AoWArenaDlg
 {
     // arena event. completion callback
-    public partial class TArenaDlg : Aow.Rtl.TDataModule
+    public partial class TArenaDlg : TDataModule
     {
         public TArenaDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWButton.TAOWButton SelectBtn;
-        public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWPanel.TAOWPanel UnitPnl;
-        public Aow.Units.AoWPanel.TAOWPanel MapViewPnl;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U1;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U2;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U3;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U4;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U5;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U6;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U7;
-        public Aow.Units.AoWCheckBox.TAOWCheckBox U8;
-        public Aow.Units.AoWImage.TAOWImage DecoL;
-        public Aow.Units.AoWImage.TAOWImage DecoR;
-        public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        public Aow.Units.AoWPanel.TAOWPanel SelectionInfoPnl;
-        public Aow.Units.AoWLabel.TAOWLabel SelectionInfoLbl;
-        public Aow.Units.AoWLabel.TAOWLabel SelectionLbl;
-        public Aow.Units.aowUserDrawBox.TaowUserDrawBox MapView;
-        public Aow.Units.AoWImage.TAOWImage InfoSep;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.Arena.TEnterArenaEventLog FEvent;
-        public Aow.Units.EventLog.TExecuteDoneEvent FOnClose;
+        public TAOWButton SelectBtn;
+        public TAOWImage TitleIcon;
+        public TAOWButton Close;
+        public TAOWLabel Title;
+        public TAOWButton CancelBtn;
+        public TAOWWindow Dlg;
+        public TAOWPanel UnitPnl;
+        public TAOWPanel MapViewPnl;
+        public TAOWCheckBox U1;
+        public TAOWCheckBox U2;
+        public TAOWCheckBox U3;
+        public TAOWCheckBox U4;
+        public TAOWCheckBox U5;
+        public TAOWCheckBox U6;
+        public TAOWCheckBox U7;
+        public TAOWCheckBox U8;
+        public TAOWImage DecoL;
+        public TAOWImage DecoR;
+        public TAoWFrame AoWFrame1;
+        public TAOWPanel SelectionInfoPnl;
+        public TAOWLabel SelectionInfoLbl;
+        public TAOWLabel SelectionLbl;
+        public TaowUserDrawBox MapView;
+        public TAOWImage InfoSep;
+        public TIvTranslator Translator;
+        public TEnterArenaEventLog FEvent;
+        public TExecuteDoneEvent FOnClose;
         // AoWArenaDlg.pas:104
-        public void DrawUnit(int Index, int X, int Y, ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
         {
-            Aow.Rtl.TRect SaveRect = default;
-            Aow.Units.AoWE.TP2UnitShowInfo Info = default;
-            Aow.Units.ImageLib.TLibraryImage Img = default;
-            Aow.Units.AoWE.TAbstractUnit U = default;
-            Aow.Units.AoWE.TAlignment Alignment = default;
+            TRect SaveRect = default;
+            TP2UnitShowInfo Info = default;
+            ImageLib.TLibraryImage Img = default;
+            TAbstractUnit U = default;
+            TAlignment Alignment = default;
             var call__1 = FEvent.GetCount();
             if (Index < call__1)
             {
                 var call__2 = FEvent.GetUnit(Index);
                 U = call__2;
                 SaveRect = SD.ClipRect;
-                var call__3 = Aow.Rtl.Rtl.Rect(X + 5, Y + 4, X + 46, Y + 56);
+                var call__3 = Rect(X + 5, Y + 4, X + 46, Y + 56);
                 SD.ClipRect = call__3;
                 Alignment = U.GetAlignment();
-                if (unchecked((byte)Alignment) < Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
+                if ((byte)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
-                    var call__4 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[unchecked((int)Alignment)];
+                    var call__4 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
                     Img = call__4;
-                    Img.ShowClipped((X + 25) - (Img.Width / 2), (Y + 30) - (Img.Height / 2), SD);
+                    Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
                 Info = default;
                 Info.Direction = 3;
-                Info.Overlays = TSet<Aow.Units.AoWE.TUnitOverlayModesElement>.Of(Aow.Units.AoWE.TUnitOverlayModesElement.uoHitPoints, Aow.Units.AoWE.TUnitOverlayModesElement.uoRank);
+                Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
                 U.ShowEx(X - 8, Y - 5, SD, Info);
                 if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
                 {
-                    var call__5 = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                    var call__5 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
                     Img = call__5;
-                    Img.ShowClipped((X + 25) - (Img.Width / 2), (Y + 30) - (Img.Height / 2), SD);
+                    Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
                 SD.ClipRect = SaveRect;
                 if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
                 {
-                    Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age8.Color = 0;
+                    AoWExeForms.AoWExeForms.FontModule.Age8.Color = 0;
                     var call__6 = FEvent.FArena.UnitTrainCost(U);
-                    Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(X + 25, Y + 62, Aow.Rtl.Rtl.IntToStr(call__6), SD);
+                    AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(call__6), SD);
                 }
             }
         }
@@ -147,9 +102,9 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:140
         public void ClearEvent()
         {
-            Aow.Units.Arena.TEnterArenaEventLog Event = default;
-            Aow.Units.EventLog.TExecuteDoneEvent Notify = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 0;
+            TEnterArenaEventLog Event = default;
+            TExecuteDoneEvent Notify = default;
+            General.Manager.OverlayPriority = 0;
             Notify = FOnClose;
             Event = FEvent;
             FOnClose = null;
@@ -168,15 +123,15 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:152
         public void CloseClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
         // AoWArenaDlg.pas:158
         public void SelectBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
             var call__7 = FEvent.Train(ref Reason);
             if (call__7)
             {
@@ -184,21 +139,21 @@ namespace Aow.Units.AoWArenaDlg
             }
             else
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.ShowWarning(Reason);
+                AoWHSMap.ShowWarning(Reason);
             }
         }
 
         // AoWArenaDlg.pas:170
-        public void U1Change(Aow.Rtl.TObject Sender)
+        public void U1Change(TObject Sender)
         {
-            Aow.Rtl.AnsiString Reason = default;
-            if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked)
+            AnsiString Reason = default;
+            if (((TAOWCheckBox)Sender).Checked)
             {
-                FEvent.SetSelection(unchecked((byte)(FEvent.FSelection | (1 << ((Aow.Rtl.TComponent)Sender).Tag))));
+                FEvent.SetSelection((byte)(FEvent.FSelection | (1 << ((TComponent)Sender).Tag)));
             }
             else
             {
-                FEvent.SetSelection(unchecked((byte)(FEvent.FSelection & ~(1 << ((Aow.Rtl.TComponent)Sender).Tag))));
+                FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << ((TComponent)Sender).Tag)));
             }
 
             U1.Checked = (FEvent.FSelection & 1) != 0;
@@ -209,15 +164,15 @@ namespace Aow.Units.AoWArenaDlg
             U6.Checked = (FEvent.FSelection & 32) != 0;
             U7.Checked = (FEvent.FSelection & 64) != 0;
             U8.Checked = (FEvent.FSelection & 128) != 0;
-            if ((FEvent.FTrainable & (1 << ((Aow.Rtl.TComponent)Sender).Tag)) != 0)
+            if ((FEvent.FTrainable & (1 << ((TComponent)Sender).Tag)) != 0)
             {
-                if (((Aow.Units.AoWCheckBox.TAOWCheckBox)Sender).Checked)
+                if (((TAOWCheckBox)Sender).Checked)
                 {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(1);
+                    General.PlayButtonSound(1);
                 }
                 else
                 {
-                    Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(2);
+                    General.PlayButtonSound(2);
                 }
             }
 
@@ -243,9 +198,9 @@ namespace Aow.Units.AoWArenaDlg
         }
 
         // AoWArenaDlg.pas:196
-        public void U1PreDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            var image = (Aow.Units.AoWImage.TAOWImage)Sender;
+            var image = (TAOWImage)Sender;
             DrawUnit(Sender.Tag, UnitPnl.WinLeft + image.WinLeft, UnitPnl.WinTop + image.WinTop, ref SD);
         }
 
@@ -256,23 +211,23 @@ namespace Aow.Units.AoWArenaDlg
         }
 
         // AoWArenaDlg.pas:206
-        public void MapViewDraw(Aow.Units.AoWComp.TAoWComponent Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void MapViewDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
             int X = default;
             int Y = default;
-            Aow.Units.GFXE.TSurfaceDesc MapSD = default;
-            Aow.Rtl.TRect R = default;
+            TSurfaceDesc MapSD = default;
+            TRect R = default;
             int W = default;
             int H = default;
-            var call__11 = Aow.Rtl.Rtl.Rect(Dlg.WinLeft + ((Aow.Units.AoWImage.TAOWImage)Sender).WinLeft, Dlg.WinTop + ((Aow.Units.AoWImage.TAOWImage)Sender).WinTop, (Dlg.WinLeft + ((Aow.Units.AoWImage.TAOWImage)Sender).WinLeft) + ((Aow.Units.AoWImage.TAOWImage)Sender).WinWidth, (Dlg.WinTop + ((Aow.Units.AoWImage.TAOWImage)Sender).WinTop) + ((Aow.Units.AoWImage.TAOWImage)Sender).WinHeight);
+            var call__11 = Rect(Dlg.WinLeft + ((TAOWImage)Sender).WinLeft, Dlg.WinTop + ((TAOWImage)Sender).WinTop, Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + ((TAOWImage)Sender).WinWidth, Dlg.WinTop + ((TAOWImage)Sender).WinTop + ((TAOWImage)Sender).WinHeight);
             R = call__11;
             W = R.Right - R.Left;
             H = R.Bottom - R.Top;
             var call__12 = FEvent.FArena.GetYhx();
             var call__13 = FEvent.FArena.GetXhx();
-            Aow.Units.HSEngine.HSEngine.HXtoHP(call__13, call__12, ref X, ref Y);
-            X = (X + 16) - ((int)(((uint)W) >> 1));
-            Y = (Y + 16) - ((int)(((uint)H) >> 1));
+            HXtoHP(call__13, call__12, ref X, ref Y);
+            X = X + 16 - (int)(((uint)W) >> 1);
+            Y = Y + 16 - (int)(((uint)H) >> 1);
             if (X < 16)
             {
                 X = 16;
@@ -283,19 +238,19 @@ namespace Aow.Units.AoWArenaDlg
                 Y = 16;
             }
 
-            Aow.Units.GFXE.GFXE.CreateSDfromSD(SD, R, ref MapSD);
+            CreateSDfromSD(SD, R, ref MapSD);
             var call__14 = FEvent.FArena.GetLhx();
-            Aow.Units.AoWE.AoWE.AoWHSMap.SetViewPort(X, Y, call__14, R.Right - R.Left, R.Bottom - R.Top);
-            Aow.Units.AoWE.AoWE.AoWHSMap.UpdateStaticScene();
-            Aow.Units.AoWE.AoWE.AoWHSMap.UpdateDynamicScene();
-            Aow.Units.AoWE.AoWE.AoWHSMap.DrawStaticScene(ref MapSD);
-            Aow.Units.AoWE.AoWE.AoWHSMap.DrawDynamicScene(ref MapSD);
+            AoWHSMap.SetViewPort(X, Y, call__14, R.Right - R.Left, R.Bottom - R.Top);
+            AoWHSMap.UpdateStaticScene();
+            AoWHSMap.UpdateDynamicScene();
+            AoWHSMap.DrawStaticScene(ref MapSD);
+            AoWHSMap.DrawDynamicScene(ref MapSD);
         }
 
         // AoWArenaDlg.pas:224
         public void MapViewUpdate()
         {
-            MapView.FDrawn = MapView.FDrawn && ((Aow.Units.AoWE.AoWE.AoWHSMap.Frame & 1) != 0);
+            MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Frame & 1) != 0;
         }
 
         // AoWArenaDlg.pas:229
@@ -304,7 +259,7 @@ namespace Aow.Units.AoWArenaDlg
         }
 
         // AoWArenaDlg.pas:232
-        public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             if (Key == 27)
             {
@@ -316,19 +271,19 @@ namespace Aow.Units.AoWArenaDlg
     public static partial class AoWArenaDlg
     {
         // AoWArenaDlg.pas:90
-        public static void ShowArena(Aow.Units.AoWArenaDlg.TArenaDlg Dialog, Aow.Units.Arena.TEnterArenaEventLog Event, Aow.Units.EventLog.TExecuteDoneEvent Done)
+        public static void ShowArena(TArenaDlg Dialog, TEnterArenaEventLog Event, TExecuteDoneEvent Done)
         {
-            Aow.Rtl.Rtl.Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArenaDlg.pas", 94);
-            Aow.Units.AoWArenaDlg.AoWArenaDlg.ResetArena(Dialog);
+            Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArenaDlg.pas", 94);
+            ResetArena(Dialog);
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
-            Aow.Units.AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
+            General.Manager.OverlayPriority = 49;
             Dialog.Dlg.Visible = true;
         }
 
         // AoWArenaDlg.pas:238
-        public static void ResetArena(Aow.Units.AoWArenaDlg.TArenaDlg Dialog)
+        public static void ResetArena(TArenaDlg Dialog)
         {
             Dialog.U1.Checked = false;
             Dialog.U2.Checked = false;

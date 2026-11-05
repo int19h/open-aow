@@ -1,20 +1,14 @@
 // Translated from HSEngine.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.Engine;
 using static Aow.Units.Engine.Engine;
 using Aow.Units.ImageLib;
 using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
 
 namespace Aow.Units.HSEngine
 {
@@ -94,24 +88,24 @@ namespace Aow.Units.HSEngine
     // one block and freed it with the level. The port allocates each field through the base
     // allocator. The sprites are sorted by their show priority. The first FStaticCount (priority
     // shr 26 <= 15) are the static ones
-    public partial class TMapField : Aow.Units.Engine.TECustomNode
+    public partial class TMapField : TECustomNode
     {
         // HSEngine.pas:1933
         public new const int ClassID = 65793;
 
         public TMapField(TECustomNode owner) : base(owner)
         {
-            FTerrainType = unchecked((sbyte)-1);
-            FOverlayType = unchecked((sbyte)-1);
-            FStatus = TSet<Aow.Units.HSEngine.TMapFieldStatusElement>.Of();
+            FTerrainType = -1;
+            FOverlayType = -1;
+            FStatus = TSet<TMapFieldStatusElement>.Of();
             Resize(3);
         }
 
-        internal Aow.Units.HSEngine.THexagonSprite[] FHSList = [];
+        internal THexagonSprite[] FHSList = [];
         internal byte FCapacity;
         internal byte FCount;
         internal byte FStaticCount;
-        internal TSet<Aow.Units.HSEngine.TMapFieldStatusElement> FStatus;
+        internal TSet<TMapFieldStatusElement> FStatus;
         internal sbyte FXhx;
         internal sbyte FYhx;
         internal sbyte FLhx;
@@ -130,30 +124,30 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1928
-        public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
+        public override TSet<TEControlStyleElement> GetControlStyle()
         {
-            TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
-            Result = TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared);
+            TSet<TEControlStyleElement> Result = default;
+            Result = TSet<TEControlStyleElement>.Of(csStored, csShared);
             return Result;
         }
 
         // HSEngine.pas:1923
-        public override void SetOwner(Aow.Units.Engine.TECustomNode AOwner)
+        public override void SetOwner(TECustomNode AOwner)
         {
             FOwner = AOwner;
         }
 
         // HSEngine.pas:2029
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             int J = default;
             int I = default;
-            Aow.Units.Engine.TEObject HS = default;
-            if ((Stream.StorageMode() & TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.Engine.smText)) == TSet<Aow.Units.Engine.TStorageModeElement>.Of())
+            TEObject HS = default;
+            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(smText)) == TSet<TStorageModeElement>.Of())
             {
-                if (Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smRead))
+                if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
                 {
-                    if (Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smCompare))
+                    if (Stream.StorageMode().Contains(TStorageModeElement.smCompare))
                     {
                         J = 0;
                         {
@@ -195,18 +189,18 @@ namespace Aow.Units.HSEngine
                         for (; J <= end__3; J += 1)
                         {
                             HS = FHSList[J];
-                            bool bool__4 = (HS != null) && (HS.Owner == this);
+                            bool bool__4 = HS != null && HS.Owner == this;
                             if (bool__4)
                             {
                                 var call__5 = HS.GetControlStyle();
-                                bool__4 = !call__5.Contains(Aow.Units.Engine.Engine.csShared);
+                                bool__4 = !call__5.Contains(csShared);
                             }
 
                             bool bool__6 = bool__4;
                             if (bool__6)
                             {
                                 var call__7 = HS.GetControlStyle();
-                                bool__6 = call__7.Contains(Aow.Units.Engine.Engine.csStored);
+                                bool__6 = call__7.Contains(csStored);
                             }
 
                             if (bool__6)
@@ -225,7 +219,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2075
-        public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void MainReadWrite(TEStorageStream Stream)
         {
             ReadWrite(Stream);
         }
@@ -234,12 +228,12 @@ namespace Aow.Units.HSEngine
 
 
         // HSEngine.pas:1943
-        public override Aow.Units.Engine.TEObject GetChild(int Index)
+        public override TEObject GetChild(int Index)
         {
-            Aow.Units.Engine.TEObject Result = default;
+            TEObject Result = default;
             if (Index >= FCount)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"Index out of bounds");
+                throw Exception.Create((AnsiString)"Index out of bounds");
             }
 
             Result = FHSList[Index];
@@ -247,14 +241,14 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1949
-        public override void SetChild(int Index, Aow.Units.Engine.TEObject Child)
+        public override void SetChild(int Index, TEObject Child)
         {
             if (Index >= FCount)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"Index out of bounds");
+                throw Exception.Create((AnsiString)"Index out of bounds");
             }
 
-            FHSList[Index] = (Aow.Units.HSEngine.THexagonSprite)Child;
+            FHSList[Index] = (THexagonSprite)Child;
         }
 
         // HSEngine.pas:1972
@@ -266,34 +260,34 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2226
-        public override int RemoveChild(Aow.Units.Engine.TEObject Child)
+        public override int RemoveChild(TEObject Child)
         {
             int Result = default;
-            Result = RemoveHS((Aow.Units.HSEngine.THexagonSprite)Child);
+            Result = RemoveHS((THexagonSprite)Child);
             return Result;
         }
 
         // HSEngine.pas:2221
-        public override int AddChild(Aow.Units.Engine.TEObject Child)
+        public override int AddChild(TEObject Child)
         {
             int Result = default;
-            Result = AddHS((Aow.Units.HSEngine.THexagonSprite)Child, 0);
+            Result = AddHS((THexagonSprite)Child, 0);
             return Result;
         }
 
         // HSEngine.pas:2154
-        public override Aow.Units.Engine.TEObject FindChild(int AClassID)
+        public override TEObject FindChild(int AClassID)
         {
-            Aow.Units.Engine.TEObject Result = default;
+            TEObject Result = default;
             int I = default;
             I = 0;
             while (true)
             {
-                bool bool__8 = (I < FCount);
+                bool bool__8 = I < FCount;
                 if (bool__8)
                 {
                     var call__9 = FHSList[I].EClass.ClassID;
-                    bool__8 = (call__9 != AClassID);
+                    bool__8 = call__9 != AClassID;
                 }
 
                 if (!bool__8)
@@ -316,18 +310,18 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2211
-        public override Aow.Units.Engine.TEObject FindOwnedChild(int AClassID)
+        public override TEObject FindOwnedChild(int AClassID)
         {
-            Aow.Units.Engine.TEObject Result = default;
+            TEObject Result = default;
             int I = default;
             I = 0;
             while (true)
             {
-                bool bool__10 = (I < FCount);
+                bool bool__10 = I < FCount;
                 if (bool__10)
                 {
                     var call__11 = FHSList[I].EClass.ClassID;
-                    bool__10 = !((call__11 == AClassID) && (FHSList[I].Owner == this));
+                    bool__10 = !(call__11 == AClassID && FHSList[I].Owner == this);
                 }
 
                 if (!bool__10)
@@ -353,7 +347,7 @@ namespace Aow.Units.HSEngine
         public int GetXYL()
         {
             int Result = default;
-            Result = (FXhx + (FYhx << 8)) + (FLhx << 16);
+            Result = FXhx + (FYhx << 8) + (FLhx << 16);
             return Result;
         }
 
@@ -366,12 +360,12 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2163
-        public Aow.Units.HSEngine.THexagonSprite FindHS(System.Type AClass)
+        public THexagonSprite FindHS(Type AClass)
         {
-            Aow.Units.HSEngine.THexagonSprite Result = default;
+            THexagonSprite Result = default;
             int I = default;
             I = 0;
-            while ((I < FCount) && !AClass.IsInstanceOfType(FHSList[I]))
+            while (I < FCount && !AClass.IsInstanceOfType(FHSList[I]))
             {
                 I += 1;
             }
@@ -389,17 +383,17 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2172
-        public Aow.Units.HSEngine.THexagonSprite FindOwnedHS(System.Type AClass)
+        public THexagonSprite FindOwnedHS(Type AClass)
         {
-            Aow.Units.HSEngine.THexagonSprite Result = default;
+            THexagonSprite Result = default;
             int I = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
+            THexagonSprite HS = default;
             I = 0;
             Result = null;
-            while ((I < FCount) && (Result == null))
+            while (I < FCount && Result == null)
             {
                 HS = FHSList[I];
-                if (AClass.IsInstanceOfType(HS) && (HS.Owner == this))
+                if (AClass.IsInstanceOfType(HS) && HS.Owner == this)
                 {
                     Result = HS;
                 }
@@ -411,7 +405,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2300
-        public void CopyDynamicVisibleHS(Aow.Units.HSEngine.TVisibilityList List)
+        public void CopyDynamicVisibleHS(TVisibilityList List)
         {
             int I = default;
             {
@@ -425,7 +419,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2308
-        public void CopyStaticVisibleHS(Aow.Units.HSEngine.TVisibilityList List)
+        public void CopyStaticVisibleHS(TVisibilityList List)
         {
             int I = default;
             {
@@ -478,12 +472,12 @@ namespace Aow.Units.HSEngine
             int I = default;
             int Level = default;
             object DonePtr = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             I = FCount - 1;
             ;
             // { Preserve the original stack slot. }
             Done = false;
-            while (!Done && (I >= 0))
+            while (!Done && I >= 0)
             {
                 var call__16 = FHSList[I].GetLevel();
                 Level = call__16;
@@ -491,7 +485,7 @@ namespace Aow.Units.HSEngine
                 {
                     if (Level >= MinLevel)
                     {
-                        if (FHSList[I].Owner is Aow.Units.HSEngine.TMapField)
+                        if (FHSList[I].Owner is TMapField)
                         {
                             FHSList[I].Destroy();
                         }
@@ -519,11 +513,11 @@ namespace Aow.Units.HSEngine
                 byte end__17 = 0;
                 for (; I >= end__17; I -= 1)
                 {
-                    if (I <= (FCount - 1))
+                    if (I <= FCount - 1)
                     {
                         if (FHSList[I].Owner == this)
                         {
-                            ((Aow.Units.Engine.TEObject)FHSList[I]).Destroy();
+                            FHSList[I].Destroy();
                         }
                     }
                 }
@@ -551,44 +545,44 @@ namespace Aow.Units.HSEngine
         public sbyte GetDecorationType()
         {
             sbyte Result = default;
-            Aow.Units.HSEngine.TMapFieldMsg Msg = default;
+            TMapFieldMsg Msg = default;
             Msg.MsgID = 17;
             Msg.Result = -1;
             SendMapFieldMsg(ref Msg);
-            Result = unchecked((sbyte)Msg.Result.Value);
+            Result = (sbyte)Msg.Result.Value;
             return Result;
         }
 
         // HSEngine.pas:2591
         public void UpdateNeighbourTerrain()
         {
-            Aow.Units.HSEngine.THSTerrainInfo Info = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
+            THSTerrainInfo Info = default;
+            THNWalkData Walk = default;
             int I = default;
             Info.MapField = this;
-            Info.TerrainType = unchecked((sbyte)FTerrainType);
-            Info.OverlayType = unchecked((sbyte)FOverlayType);
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            Info.TerrainType = FTerrainType;
+            Info.OverlayType = FOverlayType;
+            HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             {
                 I = 1;
                 byte end__19 = 6;
                 for (; I <= end__19; I += 1)
                 {
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
-                    if ((((Walk.X >= 0) && (Walk.X < ((Aow.Units.HSEngine.TMapLevel)Owner).FWidth)) && (Walk.Y >= 0)) && (((Aow.Units.HSEngine.TMapLevel)Owner).FHeight > Walk.Y))
+                    HSEngine.WalkToNextHN(ref Walk);
+                    if (Walk.X >= 0 && Walk.X < ((TMapLevel)Owner).FWidth && Walk.Y >= 0 && ((TMapLevel)Owner).FHeight > Walk.Y)
                     {
-                        Info.HN = unchecked((sbyte)Aow.Units.HSEngine.HSEngine.OppositeHTTable[I - 1]);
-                        var call__20 = ((Aow.Units.HSEngine.TMapLevel)Owner).GetField(Walk.X, Walk.Y);
+                        Info.HN = (sbyte)HSEngine.OppositeHTTable[I - 1];
+                        var call__20 = ((TMapLevel)Owner).GetField(Walk.X, Walk.Y);
                         call__20.NeighbourTerrainChanged(ref Info);
                     }
                 }
             }
         }
 
-        public Aow.Units.HSEngine.THexagonSprite[] HSList { get => FHSList; }
+        public THexagonSprite[] HSList { get => FHSList; }
         public byte Capacity { get => FCapacity; }
         public byte StaticCount { get => FStaticCount; }
-        public TSet<Aow.Units.HSEngine.TMapFieldStatusElement> Status { get => FStatus; set => FStatus = value; }
+        public TSet<TMapFieldStatusElement> Status { get => FStatus; set => FStatus = value; }
         public sbyte Xhx { get => FXhx; set => FXhx = value; }
         public sbyte Yhx { get => FYhx; set => FYhx = value; }
         public sbyte Lhx { get => FLhx; set => FLhx = value; }
@@ -596,7 +590,7 @@ namespace Aow.Units.HSEngine
         public sbyte TerrainType { get => FTerrainType; set => FTerrainType = value; }
         public sbyte OverlayType { get => FOverlayType; set => FOverlayType = value; }
 
-        public sealed class HNAccessor(Aow.Units.HSEngine.TMapField target)
+        public sealed class HNAccessor(TMapField target)
         {
             public byte this[int Index] { get => target.GetHN(Index); set => target.SetHN(Index, value); }
         }
@@ -606,7 +600,7 @@ namespace Aow.Units.HSEngine
     }
 
     // FWidth, FHeight, FLevelCount, FMap, FEngine. The levels of a map (the children, TMapLevel)
-    public partial class TMapContainer : Aow.Units.Engine.TENode
+    public partial class TMapContainer : TENode
     {
         // HSEngine.pas:3208
         public new const int ClassID = 65795;
@@ -614,52 +608,52 @@ namespace Aow.Units.HSEngine
         internal int FWidth;
         internal int FHeight;
         internal int FLevelCount;
-        internal Aow.Units.HSEngine.THSMap FMap;
-        internal Aow.Units.Engine.TEngine FEngine;
+        internal THSMap FMap;
+        internal TEngine FEngine;
         // HSEngine.pas:3167
-        public override void SetOwner(Aow.Units.Engine.TECustomNode AOwner)
+        public override void SetOwner(TECustomNode AOwner)
         {
             base.SetOwner(AOwner);
-            FMap = (Aow.Units.HSEngine.THSMap)AOwner;
+            FMap = (THSMap)AOwner;
         }
 
         // HSEngine.pas:3203
-        public override Aow.Units.Engine.TEngine GetEngine()
+        public override TEngine GetEngine()
         {
-            Aow.Units.Engine.TEngine Result = default;
+            TEngine Result = default;
             Result = FEngine;
             return Result;
         }
 
         // HSEngine.pas:3173
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             byte W = default;
             byte H = default;
             byte L = default;
             base.ReadWrite(Stream);
-            if ((Stream.StorageMode() & TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead, Aow.Units.Engine.Engine.smText)) == TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead))
+            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, smText)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
             {
-                FMap = (Aow.Units.HSEngine.THSMap)Owner;
+                FMap = (THSMap)Owner;
                 FEngine = Stream.Engine;
                 FMap.FMapContainer = this;
             }
 
-            W = unchecked((byte)FWidth);
+            W = (byte)FWidth;
             Stream.rwByte(ref W, 3);
             FWidth = W;
-            H = unchecked((byte)FHeight);
+            H = (byte)FHeight;
             Stream.rwByte(ref H, 4);
             FHeight = H;
-            L = unchecked((byte)FLevelCount);
+            L = (byte)FLevelCount;
             Stream.rwByte(ref L, 5);
             FLevelCount = L;
         }
 
         // HSEngine.pas:3197
-        public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void MainReadWrite(TEStorageStream Stream)
         {
-            if (!((Aow.Units.HSEngine.THSMap)Owner).FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msPreviewMode))
+            if (!((THSMap)Owner).FStatus.Contains(THSMapStatusElement.msPreviewMode))
             {
                 base.MainReadWrite(Stream);
             }
@@ -684,7 +678,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3213
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
@@ -702,10 +696,10 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:3249
         public virtual void RemoveLevel(int Index)
         {
-            if ((Index >= 0) && (Index < FChildren.Count))
+            if (Index >= 0 && Index < FChildren.Count)
             {
-                ((Aow.Units.HSEngine.TMapLevel)FChildren.List[Index]).DestroyHS();
-                ((Aow.Units.HSEngine.TMapLevel)FChildren.List[Index]).Free();
+                ((TMapLevel)FChildren.List[Index]).DestroyHS();
+                ((TMapLevel)FChildren.List[Index]).Free();
                 FLevelCount -= 1;
             }
         }
@@ -714,13 +708,13 @@ namespace Aow.Units.HSEngine
         public virtual bool AddLevel(int AClassID)
         {
             bool Result = default;
-            Aow.Units.Engine.EClass LevelClass = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
+            EClass LevelClass = default;
+            TMapLevel Level = default;
             var call__21 = FEngine.GetEClass(AClassID);
             LevelClass = call__21;
             if (LevelClass != null)
             {
-                Level = (Aow.Units.HSEngine.TMapLevel)LevelClass.Create(this);
+                Level = (TMapLevel)LevelClass.Create(this);
                 Level.FLhx = FLevelCount;
                 FEngine.ActivateEObject(Level);
                 Level.CreateMapFieldList(FWidth, FHeight);
@@ -736,11 +730,11 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3277
-        public virtual void New(Aow.Units.HSEngine.TNewHSMapSettings Settings)
+        public virtual void New(TNewHSMapSettings Settings)
         {
-            Aow.Units.Engine.EClass LevelClass = default;
+            EClass LevelClass = default;
             int I = default;
-            Aow.Units.HSEngine.TMapLevel Level = default;
+            TMapLevel Level = default;
             Clear();
             try
             {
@@ -751,7 +745,7 @@ namespace Aow.Units.HSEngine
                     int end__23 = Settings.Levels - 1;
                     for (; I <= end__23; I += 1)
                     {
-                        Level = (Aow.Units.HSEngine.TMapLevel)LevelClass.Create(this);
+                        Level = (TMapLevel)LevelClass.Create(this);
                         Level.FLhx = I;
                         FEngine.ActivateEObject(Level);
                         Level.New(Settings);
@@ -778,16 +772,16 @@ namespace Aow.Units.HSEngine
                 int end__24 = FLevelCount - 1;
                 for (; I <= end__24; I += 1)
                 {
-                    ((Aow.Units.HSEngine.TMapLevel)FChildren.List[I]).UpdateTerrain();
+                    ((TMapLevel)FChildren.List[I]).UpdateTerrain();
                 }
             }
         }
 
         // HSEngine.pas:3224
-        public Aow.Units.HSEngine.TMapLevel GetMapLevel(int Index)
+        public TMapLevel GetMapLevel(int Index)
         {
-            Aow.Units.HSEngine.TMapLevel Result = default;
-            Result = (Aow.Units.HSEngine.TMapLevel)FChildren.List[Index];
+            TMapLevel Result = default;
+            Result = (TMapLevel)FChildren.List[Index];
             return Result;
         }
 
@@ -800,7 +794,7 @@ namespace Aow.Units.HSEngine
                 int end__25 = FLevelCount - 1;
                 for (; I <= end__25; I += 1)
                 {
-                    ((Aow.Units.HSEngine.TMapLevel)FChildren.List[I]).Loaded();
+                    ((TMapLevel)FChildren.List[I]).Loaded();
                 }
             }
         }
@@ -814,7 +808,7 @@ namespace Aow.Units.HSEngine
                 int end__26 = FLevelCount - 1;
                 for (; I <= end__26; I += 1)
                 {
-                    ((Aow.Units.HSEngine.TMapLevel)FChildren.List[I]).Activate();
+                    ((TMapLevel)FChildren.List[I]).Activate();
                 }
             }
         }
@@ -822,11 +816,11 @@ namespace Aow.Units.HSEngine
         public int Width { get => FWidth; }
         public int Height { get => FHeight; }
         public int LevelCount { get => FLevelCount; }
-        public Aow.Units.HSEngine.THSMap Map { get => FMap; }
+        public THSMap Map { get => FMap; }
 
-        public sealed class MapLevelsAccessor(Aow.Units.HSEngine.TMapContainer target)
+        public sealed class MapLevelsAccessor(TMapContainer target)
         {
-            public Aow.Units.HSEngine.TMapLevel this[int Index] { get => target.GetMapLevel(Index); }
+            public TMapLevel this[int Index] { get => target.GetMapLevel(Index); }
         }
 
         public MapLevelsAccessor MapLevels => new MapLevelsAccessor(this);
@@ -835,7 +829,7 @@ namespace Aow.Units.HSEngine
 
     // the sorted list of the visible sprites of a scene (THSMap). a sprite removed from it is made
     // invisible
-    public partial class TVisibilityList : Aow.Units.Engine.TEControlStyleInverseSortNode
+    public partial class TVisibilityList : TEControlStyleInverseSortNode
     {
         public TVisibilityList(TECustomNode owner) : base(owner)
         { }
@@ -847,10 +841,10 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3876
-        public override int RemoveChild(Aow.Units.Engine.TEObject Child)
+        public override int RemoveChild(TEObject Child)
         {
             int Result = default;
-            var hexagonSprite = (Aow.Units.HSEngine.THexagonSprite)Child;
+            var hexagonSprite = (THexagonSprite)Child;
             if (hexagonSprite.GetVisible())
             {
                 hexagonSprite.SetVisible(false);
@@ -878,7 +872,7 @@ namespace Aow.Units.HSEngine
     // FViewHeightHX (the hexagons it covers). Persisted (ReadWrite): 2 FHSSFileName (rwString, not
     // in text streams), 3 FVersion (rwByte of a Shortint copy), 4 FViewXhp, 5 FViewYhp, 6 FViewL
     // (rwInteger). FVersion is a guessed name: nothing but ReadWrite touches it
-    public partial class THSMap : Aow.Units.Engine.TENode
+    public partial class THSMap : TENode
     {
         public new const int ClassID = 66048;
 
@@ -887,61 +881,61 @@ namespace Aow.Units.HSEngine
             var call__33 = CreateMouse();
             FMouse = call__33;
             FMouse.FHSMap = this;
-            var call__34 = new Aow.Units.HSEngine.THexagonSpriteSelection(this);
+            var call__34 = new THexagonSpriteSelection(this);
             FSelection = call__34;
-            FSelection.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__35 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FSelection.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
+            var call__35 = new TVisibilityList(this);
             FStaticVisibleHS = call__35;
-            FStaticVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__36 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
+            var call__36 = new TVisibilityList(this);
             FDynamicVisibleHS = call__36;
-            FDynamicVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__37 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FDynamicVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
+            var call__37 = new TVisibilityList(this);
             FStaticFixedVisibleHS = call__37;
-            FStaticFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__38 = new Aow.Units.HSEngine.TVisibilityList(this);
+            FStaticFixedVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
+            var call__38 = new TVisibilityList(this);
             FDynamicFixedVisibleHS = call__38;
-            FDynamicFixedVisibleHS.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
-            var call__39 = new Aow.Units.Engine.TETimerNode(this);
+            FDynamicFixedVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
+            var call__39 = new TETimerNode(this);
             FTimer = call__39;
-            var call__40 = new Aow.Units.Engine.TEventList();
+            var call__40 = new TEventList();
             FHSChangedEvents = call__40;
-            var call__41 = new Aow.Units.Engine.TEventList();
+            var call__41 = new TEventList();
             FTerrainChangedEvents = call__41;
-            var call__42 = new Aow.Units.Engine.TEventList();
+            var call__42 = new TEventList();
             FViewPortChangedEvents = call__42;
-            var call__43 = new Aow.Units.Engine.TEventList();
+            var call__43 = new TEventList();
             FNewFrameEvents = call__43;
-            var call__44 = new Aow.Units.Engine.TEventList();
+            var call__44 = new TEventList();
             FDestroyEvents = call__44;
         }
 
-        internal Aow.Units.HSEngine.THSMapMouse FMouse;
-        internal Aow.Units.HSEngine.TMapContainer FMapContainer;
-        internal Aow.Units.HSEngine.THSEngine FEngine;
-        internal Aow.Units.HSEngine.THexagonSpriteSelection FSelection;
-        internal Aow.Units.HSEngine.TVisibilityList FStaticVisibleHS;
-        internal Aow.Units.HSEngine.TVisibilityList FDynamicVisibleHS;
-        internal Aow.Units.HSEngine.TVisibilityList FStaticFixedVisibleHS;
-        internal Aow.Units.HSEngine.TVisibilityList FDynamicFixedVisibleHS;
-        internal Aow.Units.Engine.TETimerNode FTimer;
+        internal THSMapMouse FMouse;
+        internal TMapContainer FMapContainer;
+        internal THSEngine FEngine;
+        internal THexagonSpriteSelection FSelection;
+        internal TVisibilityList FStaticVisibleHS;
+        internal TVisibilityList FDynamicVisibleHS;
+        internal TVisibilityList FStaticFixedVisibleHS;
+        internal TVisibilityList FDynamicFixedVisibleHS;
+        internal TETimerNode FTimer;
         internal bool FStaticSceneInvalid;
         internal bool FDynamicSceneInvalid;
         internal int FVersion;
-        internal Aow.Rtl.AnsiString FHSSFileName;
-        internal TSet<Aow.Units.HSEngine.THSMapStatusElement> FStatus;
+        internal AnsiString FHSSFileName;
+        internal TSet<THSMapStatusElement> FStatus;
         internal int FFrame;
-        internal Aow.Units.Engine.TEventList FTerrainChangedEvents;
-        internal Aow.Units.HSEngine.TCenterViewEvent FOnCenterView;
-        internal Aow.Units.HSEngine.TChangeViewEvent FOnChangeView;
-        internal Aow.Units.HSEngine.TViewLevelEvent FOnViewLevel;
-        internal Aow.Units.Engine.TProgressEvent FOnProgress;
+        internal TEventList FTerrainChangedEvents;
+        internal TCenterViewEvent FOnCenterView;
+        internal TChangeViewEvent FOnChangeView;
+        internal TViewLevelEvent FOnViewLevel;
+        internal Engine.TProgressEvent FOnProgress;
         internal int FTerrainChangedLockCounter;
-        internal Aow.Units.Engine.TEventList FNewFrameEvents;
-        internal Aow.Units.Engine.TEventList FViewPortChangedEvents;
-        internal Aow.Units.Engine.TEventList FDestroyEvents;
-        internal Aow.Units.Engine.TEventList FHSChangedEvents;
-        internal Aow.Rtl.AnsiString FFileName;
+        internal TEventList FNewFrameEvents;
+        internal TEventList FViewPortChangedEvents;
+        internal TEventList FDestroyEvents;
+        internal TEventList FHSChangedEvents;
+        internal AnsiString FFileName;
         protected internal int FViewXhp;
         protected internal int FViewYhp;
         protected internal int FViewL;
@@ -954,12 +948,12 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:37
         public override void Destroy()
         {
-            Aow.Units.Engine.TEMsg Msg = default;
+            TEMsg Msg = default;
             LockTerrainChangedEvent();
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msDestroying);
+            FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
             FSelection.FOnSelect.Clear();
             FSelection.FOnDeselect.Clear();
-            FSelection.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared));
+            FSelection.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
             FSelection.UnselectAll();
             FDestroyEvents.TriggerNotifyEvents(this);
             FHSChangedEvents.Clear();
@@ -967,7 +961,7 @@ namespace Aow.Units.HSEngine
             FDynamicVisibleHS.QuickClear();
             FStaticFixedVisibleHS.QuickClear();
             FDynamicFixedVisibleHS.QuickClear();
-            Aow.Units.Engine.Engine.InitMsg(ref Msg, 536936471, this);
+            InitMsg(ref Msg, 536936471, this);
             SendMsg(ref Msg, this);
             FNewFrameEvents.Clear();
             base.Destroy();
@@ -981,42 +975,42 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:76
-        public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
+        public override TSet<TEControlStyleElement> GetControlStyle()
         {
-            TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
-            Result = base.GetControlStyle() + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csReserved2);
+            TSet<TEControlStyleElement> Result = default;
+            Result = base.GetControlStyle() + TSet<TEControlStyleElement>.Of(csReserved2);
             return Result;
         }
 
         // HSMAP.PAS:240
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             sbyte B = default;
             base.ReadWrite(Stream);
-            if ((Stream.StorageMode() & TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead, Aow.Units.Engine.Engine.smPartial)) == TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead, Aow.Units.Engine.Engine.smPartial))
+            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, smPartial)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, smPartial))
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msPreviewMode);
+                FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msPreviewMode);
             }
 
-            if (!Stream.StorageMode().Contains(Aow.Units.Engine.Engine.smText))
+            if (!Stream.StorageMode().Contains(smText))
             {
                 Stream.rwString(ref FHSSFileName, 2);
             }
 
             var call__28 = Stream.StorageMode();
-            bool bool__29 = !call__28.Contains(Aow.Units.Engine.Engine.smPartial);
+            bool bool__29 = !call__28.Contains(smPartial);
             if (bool__29)
             {
                 var call__30 = Stream.StorageMode();
-                bool__29 = call__30.Contains(Aow.Units.Engine.TStorageModeElement.smRead);
+                bool__29 = call__30.Contains(TStorageModeElement.smRead);
             }
 
-            if (bool__29 && (FHSSFileName != ((AnsiString)"")))
+            if (bool__29 && FHSSFileName != (AnsiString)"")
             {
-                ((Aow.Units.HSEngine.THSEngine)Stream.Engine).InitializeHSSet(Stream.Engine.StartupDirectory + FHSSFileName, Stream.OnProgress);
+                ((THSEngine)Stream.Engine).InitializeHSSet(Stream.Engine.StartupDirectory + FHSSFileName, Stream.OnProgress);
             }
 
-            B = unchecked((sbyte)FVersion);
+            B = (sbyte)FVersion;
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref B), 3);
             FVersion = B;
             Stream.rwInteger(ref FViewXhp, 4);
@@ -1025,14 +1019,14 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:261
-        public override void MainReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void MainReadWrite(TEStorageStream Stream)
         {
             base.MainReadWrite(Stream);
-            bool bool__31 = !FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msPreviewMode);
+            bool bool__31 = !FStatus.Contains(THSMapStatusElement.msPreviewMode);
             if (bool__31)
             {
                 var call__32 = Stream.StorageMode();
-                bool__31 = ((call__32 & TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead, Aow.Units.Engine.Engine.smText, Aow.Units.Engine.TStorageModeElement.smSetupCompare)) == TSet<Aow.Units.Engine.TStorageModeElement>.Of(Aow.Units.Engine.TStorageModeElement.smRead));
+                bool__31 = (call__32 & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, smText, TStorageModeElement.smSetupCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead);
             }
 
             if (bool__31)
@@ -1053,11 +1047,11 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:189
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = (Aow.Units.HSEngine.THSEngine)Msg.Engine;
+                FEngine = (THSEngine)Msg.Engine;
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -1068,15 +1062,15 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:71
-        public virtual Aow.Units.HSEngine.THSMapMouse CreateMouse()
+        public virtual THSMapMouse CreateMouse()
         {
-            Aow.Units.HSEngine.THSMapMouse Result = default;
-            Result = new Aow.Units.HSEngine.THSMapMouse();
+            THSMapMouse Result = default;
+            Result = new THSMapMouse();
             return Result;
         }
 
         // HSMAP.PAS:236
-        public virtual void NotifyProgress(in Aow.Units.HSEngine.TMapProgress Progress)
+        public virtual void NotifyProgress(in TMapProgress Progress)
         {
         }
 
@@ -1086,7 +1080,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:141
-        public virtual void TriggerTerrainChangedEvent(in Aow.Rtl.TRect R, sbyte L)
+        public virtual void TriggerTerrainChangedEvent(in TRect R, sbyte L)
         {
             var notification = new TerrainChangedNotification();
             ref var Info = ref notification.Info;
@@ -1098,12 +1092,12 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:705
-        public virtual void DrawStaticHS(ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public virtual void DrawStaticHS(ref TSurfaceDesc SD)
         {
             int I = default;
             if (FStaticSceneInvalid)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"Static scene is invalid, call UpdateStaticScene!");
+                throw Exception.Create((AnsiString)"Static scene is invalid, call UpdateStaticScene!");
             }
 
             {
@@ -1111,18 +1105,18 @@ namespace Aow.Units.HSEngine
                 byte end__46 = 0;
                 for (; I >= end__46; I -= 1)
                 {
-                    ((Aow.Units.HSEngine.THexagonSprite)FStaticVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
+                    ((THexagonSprite)FStaticVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
                 }
             }
         }
 
         // HSMAP.PAS:725
-        public virtual void DrawDynamicHS(ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public virtual void DrawDynamicHS(ref TSurfaceDesc SD)
         {
             int I = default;
             if (FDynamicSceneInvalid)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"Dynamic scene is invalid, call UpdateDynamicScene!");
+                throw Exception.Create((AnsiString)"Dynamic scene is invalid, call UpdateDynamicScene!");
             }
 
             {
@@ -1130,23 +1124,23 @@ namespace Aow.Units.HSEngine
                 byte end__47 = 0;
                 for (; I >= end__47; I -= 1)
                 {
-                    ((Aow.Units.HSEngine.THexagonSprite)FDynamicVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
+                    ((THexagonSprite)FDynamicVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
                 }
             }
         }
 
         // HSMAP.PAS:715
-        public virtual void DrawStaticHSEx(ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public virtual void DrawStaticHSEx(ref TSurfaceDesc SD)
         {
         }
 
         // HSMAP.PAS:735
-        public virtual void DrawDynamicHSEx(ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public virtual void DrawDynamicHSEx(ref TSurfaceDesc SD)
         {
         }
 
         // HSMAP.PAS:273
-        public virtual void FillLevelWithResource(int L, Aow.Units.HSEngine.TMapObjectResource Resource)
+        public virtual void FillLevelWithResource(int L, TMapObjectResource Resource)
         {
             int X = default;
             int Y = default;
@@ -1160,7 +1154,7 @@ namespace Aow.Units.HSEngine
                         int end__49 = FMapContainer.FWidth - 1;
                         for (; X <= end__49; X += 1)
                         {
-                            Resource.PlaceResourceUser(this, unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
+                            Resource.PlaceResourceUser(this, (sbyte)X, (sbyte)Y, (sbyte)L);
                         }
                     }
                 }
@@ -1179,30 +1173,30 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:101
         public virtual void Activate()
         {
-            if (FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msActivated))
+            if (FStatus.Contains(THSMapStatusElement.msActivated))
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"HSMap already activated");
+                throw Exception.Create((AnsiString)"HSMap already activated");
             }
 
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msActivated);
+            FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
         }
 
         // HSMAP.PAS:108
         public virtual void Deactivate()
         {
-            if (!FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msActivated))
+            if (!FStatus.Contains(THSMapStatusElement.msActivated))
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"HSMap wasn't activated");
+                throw Exception.Create((AnsiString)"HSMap wasn't activated");
             }
 
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msActivated);
+            FStatus = FStatus - TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
         }
 
         // HSMAP.PAS:128
         // { Tests OnCenterView instead of OnViewLevel (original slip). }
         public virtual void ViewLevel(int Lhx)
         {
-            if ((FOnCenterView != null) && (Lhx < FMapContainer.FLevelCount))
+            if (FOnCenterView != null && Lhx < FMapContainer.FLevelCount)
             {
                 FOnViewLevel(Lhx);
             }
@@ -1229,21 +1223,21 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:579
         public virtual void GetViewCenter(ref int Xhx, ref int Yhx, ref int Lhx)
         {
-            Aow.Units.HSEngine.HSEngine.HPtoHX(FViewXhp + ((int)(((uint)FViewWidth) >> 1)), FViewYhp + ((int)(((uint)FViewHeight) >> 1)), ref Xhx, ref Yhx);
+            HSEngine.HPtoHX(FViewXhp + (int)(((uint)FViewWidth) >> 1), FViewYhp + (int)(((uint)FViewHeight) >> 1), ref Xhx, ref Yhx);
             Lhx = FViewL;
         }
 
         // HSMAP.PAS:134
         public virtual void MakeVisible(int Xhx, int Yhx, int Lhx, int Radius)
         {
-            if (((((FViewL != Lhx) || ((Xhx - Radius) < FViewXhx)) || ((Xhx + Radius) >= (FViewXhx + FViewWidthHX))) || ((Yhx - Radius) < FViewYhx)) || ((Yhx + Radius) >= (FViewYhx + FViewHeightHX)))
+            if (FViewL != Lhx || Xhx - Radius < FViewXhx || Xhx + Radius >= FViewXhx + FViewWidthHX || Yhx - Radius < FViewYhx || Yhx + Radius >= FViewYhx + FViewHeightHX)
             {
                 CenterViewTo(Xhx, Yhx, Lhx);
             }
         }
 
         // HSMAP.PAS:543
-        public virtual bool CreateNewMap(Aow.Units.HSEngine.TNewHSMapSettings Settings)
+        public virtual bool CreateNewMap(TNewHSMapSettings Settings)
         {
             bool Result = default;
             Clear();
@@ -1252,7 +1246,7 @@ namespace Aow.Units.HSEngine
                 SetHSSFileName(Settings.HSSFileName);
                 FEngine.InitializeHSSet(Settings.HSSFileName, null);
                 var call__51 = FEngine.CreateEObject(Settings.MapContainerClassID, this);
-                FMapContainer = (Aow.Units.HSEngine.TMapContainer)call__51;
+                FMapContainer = (TMapContainer)call__51;
                 FEngine.ActivateEObject(FMapContainer);
                 FMapContainer.New(Settings);
                 Result = true;
@@ -1271,66 +1265,66 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:284
         // { ChangeTerrain, ChangeTerrainEx and ClearTerrain clip the right edge of the changed rectangle
 //   into its Left (original slip). }
-        public virtual int ChangeTerrain(Aow.Units.Engine.TEObject MO, int X, int Y, int L, int Radius, int TerrainType)
+        public virtual int ChangeTerrain(TEObject MO, int X, int Y, int L, int Radius, int TerrainType)
         {
             int Result = default;
-            Aow.Units.Engine.TShortIntList List = default;
+            TShortIntList List = default;
             int Count = default;
-            Aow.Units.HSEngine.TMapField MapF = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Rtl.TRect R = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
+            TMapField MapF = default;
+            THNWalkData Walk = default;
+            TRect R = default;
+            TMapLevel MapLevel = default;
             LockTerrainChangedEvent();
-            List = new Aow.Units.Engine.TShortIntList();
+            List = new TShortIntList();
             var call__52 = FMapContainer.GetMapLevel(L);
             MapLevel = call__52;
             Count = 0;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+            HSEngine.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__53 = MapLevel.GetField(Walk.X, Walk.Y);
                     MapF = call__53;
-                    List[Walk.HN] = unchecked((sbyte)MapF.FTerrainType);
-                    MapF.FTerrainType = unchecked((sbyte)TerrainType);
+                    List[Walk.HN] = MapF.FTerrainType;
+                    MapF.FTerrainType = (sbyte)TerrainType;
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+            HSEngine.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__54 = MapLevel.GetField(Walk.X, Walk.Y);
                     MapF = call__54;
                     if (!MapF.CanChangeTerrainEx(MO))
                     {
                         var call__55 = List[Walk.HN];
-                        MapF.FTerrainType = unchecked((sbyte)call__55);
-                        List[Walk.HN] = unchecked((sbyte)-127);
+                        MapF.FTerrainType = call__55;
+                        List[Walk.HN] = -127;
                     }
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+            HSEngine.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 var call__56 = List[Walk.HN];
-                if (((((call__56 != -127) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (call__56 != -127 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__57 = MapLevel.GetField(Walk.X, Walk.Y);
-                    call__57.FTerrainType = unchecked((sbyte)TerrainType);
+                    call__57.FTerrainType = (sbyte)TerrainType;
                     var call__58 = MapLevel.GetField(Walk.X, Walk.Y);
                     call__58.TerrainChanged();
                     Count += 1;
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
             UnlockTerrainChangedEvent();
@@ -1343,7 +1337,7 @@ namespace Aow.Units.HSEngine
                     R.Left = 0;
                 }
 
-                R.Right = (X + Radius) + 1;
+                R.Right = X + Radius + 1;
                 if (R.Right > MapLevel.FWidth)
                 {
                     R.Left = MapLevel.FWidth;
@@ -1355,13 +1349,13 @@ namespace Aow.Units.HSEngine
                     R.Top = 0;
                 }
 
-                R.Bottom = (Y + Radius) + 1;
+                R.Bottom = Y + Radius + 1;
                 if (R.Bottom > MapLevel.FHeight)
                 {
                     R.Bottom = MapLevel.FHeight;
                 }
 
-                TerrainChanged(R, unchecked((sbyte)L));
+                TerrainChanged(R, (sbyte)L);
             }
 
             Result = Count;
@@ -1369,62 +1363,62 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:357
-        public virtual int ChangeTerrainEx(Aow.Units.Engine.TEObject MO, int X, int Y, int L, int Radius, Aow.Units.HSEngine.TChangeTerrainProc ChangeTerrainProc, Aow.Units.HSEngine.TTerrainChangedProc TerrainChangedProc)
+        public virtual int ChangeTerrainEx(TEObject MO, int X, int Y, int L, int Radius, TChangeTerrainProc ChangeTerrainProc, TTerrainChangedProc TerrainChangedProc)
         {
             int Result = default;
-            Aow.Units.Engine.TShortIntList OrgList = default;
-            Aow.Units.Engine.TShortIntList NewList = default;
-            Aow.Units.Engine.TBitList Changed = default;
+            TShortIntList OrgList = default;
+            TShortIntList NewList = default;
+            TBitList Changed = default;
             int Count = default;
             sbyte TerrainType = default;
             sbyte OverlayType = default;
-            Aow.Units.HSEngine.TMapField MapF = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Rtl.TRect R = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
+            TMapField MapF = default;
+            THNWalkData Walk = default;
+            TRect R = default;
+            TMapLevel MapLevel = default;
             if (ChangeTerrainProc != null)
             {
                 LockTerrainChangedEvent();
-                OrgList = new Aow.Units.Engine.TShortIntList();
-                NewList = new Aow.Units.Engine.TShortIntList();
-                Changed = new Aow.Units.Engine.TBitList();
+                OrgList = new TShortIntList();
+                NewList = new TShortIntList();
+                Changed = new TBitList();
                 var call__59 = FMapContainer.GetMapLevel(L);
                 MapLevel = call__59;
                 Count = 0;
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+                HSEngine.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
-                    if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                    if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                     {
                         var call__60 = MapLevel.GetField(Walk.X, Walk.Y);
                         MapF = call__60;
-                        TerrainType = unchecked((sbyte)MapF.FTerrainType);
-                        OverlayType = unchecked((sbyte)MapF.FOverlayType);
-                        OrgList[Walk.HN * 2] = unchecked((sbyte)TerrainType);
-                        OrgList[(Walk.HN * 2) + 1] = unchecked((sbyte)OverlayType);
+                        TerrainType = MapF.FTerrainType;
+                        OverlayType = MapF.FOverlayType;
+                        OrgList[Walk.HN * 2] = TerrainType;
+                        OrgList[Walk.HN * 2 + 1] = OverlayType;
                         ChangeTerrainProc(MapF, ref TerrainType, ref OverlayType);
-                        MapF.FTerrainType = unchecked((sbyte)TerrainType);
-                        MapF.FOverlayType = unchecked((sbyte)OverlayType);
-                        NewList[Walk.HN * 2] = unchecked((sbyte)TerrainType);
-                        NewList[(Walk.HN * 2) + 1] = unchecked((sbyte)OverlayType);
+                        MapF.FTerrainType = TerrainType;
+                        MapF.FOverlayType = OverlayType;
+                        NewList[Walk.HN * 2] = TerrainType;
+                        NewList[Walk.HN * 2 + 1] = OverlayType;
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    HSEngine.WalkToNextHN(ref Walk);
                 }
 
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+                HSEngine.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
-                    if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                    if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                     {
                         var call__61 = MapLevel.GetField(Walk.X, Walk.Y);
                         MapF = call__61;
                         if (!MapF.CanChangeTerrainEx(MO))
                         {
                             var call__62 = OrgList[Walk.HN * 2];
-                            MapF.FTerrainType = unchecked((sbyte)call__62);
-                            var call__63 = OrgList[(Walk.HN * 2) + 1];
-                            MapF.FOverlayType = unchecked((sbyte)call__63);
+                            MapF.FTerrainType = call__62;
+                            var call__63 = OrgList[Walk.HN * 2 + 1];
+                            MapF.FOverlayType = call__63;
                             Changed[Walk.HN] = false;
                         }
                         else
@@ -1433,23 +1427,23 @@ namespace Aow.Units.HSEngine
                         }
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    HSEngine.WalkToNextHN(ref Walk);
                 }
 
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+                HSEngine.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
-                    if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                    if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                     {
                         var call__64 = Changed[Walk.HN];
                         if (call__64)
                         {
                             var call__65 = NewList[Walk.HN * 2];
                             var call__66 = MapLevel.GetField(Walk.X, Walk.Y);
-                            call__66.FTerrainType = unchecked((sbyte)call__65);
-                            var call__67 = NewList[(Walk.HN * 2) + 1];
+                            call__66.FTerrainType = call__65;
+                            var call__67 = NewList[Walk.HN * 2 + 1];
                             var call__68 = MapLevel.GetField(Walk.X, Walk.Y);
-                            call__68.FOverlayType = unchecked((sbyte)call__67);
+                            call__68.FOverlayType = call__67;
                             var call__69 = MapLevel.GetField(Walk.X, Walk.Y);
                             call__69.TerrainChanged();
                             Count += 1;
@@ -1457,14 +1451,14 @@ namespace Aow.Units.HSEngine
 
                         if (TerrainChangedProc != null)
                         {
-                            var call__70 = OrgList[(Walk.HN * 2) + 1];
+                            var call__70 = OrgList[Walk.HN * 2 + 1];
                             var call__71 = OrgList[Walk.HN * 2];
                             var call__72 = MapLevel.GetField(Walk.X, Walk.Y);
-                            TerrainChangedProc(call__72, unchecked((sbyte)call__71), unchecked((sbyte)call__70));
+                            TerrainChangedProc(call__72, call__71, call__70);
                         }
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    HSEngine.WalkToNextHN(ref Walk);
                 }
 
                 UnlockTerrainChangedEvent();
@@ -1479,7 +1473,7 @@ namespace Aow.Units.HSEngine
                         R.Left = 0;
                     }
 
-                    R.Right = (X + Radius) + 1;
+                    R.Right = X + Radius + 1;
                     if (R.Right > MapLevel.FWidth)
                     {
                         R.Left = MapLevel.FWidth;
@@ -1491,13 +1485,13 @@ namespace Aow.Units.HSEngine
                         R.Top = 0;
                     }
 
-                    R.Bottom = (Y + Radius) + 1;
+                    R.Bottom = Y + Radius + 1;
                     if (R.Bottom > MapLevel.FHeight)
                     {
                         R.Bottom = MapLevel.FHeight;
                     }
 
-                    TerrainChanged(R, unchecked((sbyte)L));
+                    TerrainChanged(R, (sbyte)L);
                 }
 
                 Result = Count;
@@ -1517,10 +1511,10 @@ namespace Aow.Units.HSEngine
             int Y = default;
             int MaxX = default;
             int MaxY = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
+            TMapLevel MapLevel = default;
             ResetVisibleStaticHS();
-            MaxX = (FViewXhx + FViewWidthHX) - 1;
-            MaxY = (FViewYhx + FViewHeightHX) - 1;
+            MaxX = FViewXhx + FViewWidthHX - 1;
+            MaxY = FViewYhx + FViewHeightHX - 1;
             var call__73 = FMapContainer.GetMapLevel(FViewL);
             MapLevel = call__73;
             {
@@ -1546,7 +1540,7 @@ namespace Aow.Units.HSEngine
                 for (; X <= end__77; X += 1)
                 {
                     var call__78 = FStaticFixedVisibleHS.Children[X];
-                    ((Aow.Units.HSEngine.THexagonSprite)call__78).MakeVisible(FStaticVisibleHS);
+                    ((THexagonSprite)call__78).MakeVisible(FStaticVisibleHS);
                 }
             }
 
@@ -1561,10 +1555,10 @@ namespace Aow.Units.HSEngine
             int Y = default;
             int MaxX = default;
             int MaxY = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
+            TMapLevel MapLevel = default;
             ResetVisibleDynamicHS();
-            MaxX = (FViewXhx + FViewWidthHX) - 1;
-            MaxY = (FViewYhx + FViewHeightHX) - 1;
+            MaxX = FViewXhx + FViewWidthHX - 1;
+            MaxY = FViewYhx + FViewHeightHX - 1;
             var call__79 = FMapContainer.GetMapLevel(FViewL);
             MapLevel = call__79;
             {
@@ -1590,7 +1584,7 @@ namespace Aow.Units.HSEngine
                 for (; X <= end__83; X += 1)
                 {
                     var call__84 = FDynamicFixedVisibleHS.Children[X];
-                    ((Aow.Units.HSEngine.THexagonSprite)call__84).MakeVisible(FDynamicVisibleHS);
+                    ((THexagonSprite)call__84).MakeVisible(FDynamicVisibleHS);
                 }
             }
 
@@ -1599,14 +1593,14 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:719
-        public virtual void DrawStaticScene(ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public virtual void DrawStaticScene(ref TSurfaceDesc SD)
         {
             DrawStaticHS(ref SD);
             DrawStaticHSEx(ref SD);
         }
 
         // HSMAP.PAS:739
-        public virtual void DrawDynamicScene(ref Aow.Units.GFXE.TSurfaceDesc SD)
+        public virtual void DrawDynamicScene(ref TSurfaceDesc SD)
         {
             DrawDynamicHS(ref SD);
             DrawDynamicHSEx(ref SD);
@@ -1631,19 +1625,19 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:151
-        public void TerrainChanged(in Aow.Rtl.TRect R, sbyte L)
+        public void TerrainChanged(in TRect R, sbyte L)
         {
             if (FTerrainChangedLockCounter == 0)
             {
-                TriggerTerrainChangedEvent(R, unchecked((sbyte)L));
+                TriggerTerrainChangedEvent(R, L);
             }
         }
 
         // HSMAP.PAS:157
         public void TerrainChangedRad(sbyte X, sbyte Y, sbyte L, int Radius)
         {
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Rtl.TRect R = default;
+            TMapLevel MapLevel = default;
+            TRect R = default;
             var call__85 = FMapContainer.GetMapLevel(L);
             MapLevel = call__85;
             R.Left = X - Radius;
@@ -1652,7 +1646,7 @@ namespace Aow.Units.HSEngine
                 R.Left = 0;
             }
 
-            R.Right = (X + Radius) + 1;
+            R.Right = X + Radius + 1;
             if (R.Right > MapLevel.FWidth)
             {
                 R.Right = MapLevel.FWidth;
@@ -1664,13 +1658,13 @@ namespace Aow.Units.HSEngine
                 R.Top = 0;
             }
 
-            R.Bottom = (Y + Radius) + 1;
+            R.Bottom = Y + Radius + 1;
             if (R.Bottom > MapLevel.FHeight)
             {
                 R.Bottom = MapLevel.FHeight;
             }
 
-            TerrainChanged(R, unchecked((sbyte)L));
+            TerrainChanged(R, L);
         }
 
         // HSMAP.PAS:178
@@ -1684,7 +1678,7 @@ namespace Aow.Units.HSEngine
         {
             if (FTerrainChangedLockCounter == 0)
             {
-                Aow.Units.HSEngine.HSEngine.OriginalAssert((AnsiString)"Invalid TerrainChangedLockCounter", (AnsiString)"D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
+                HSEngine.OriginalAssert((AnsiString)"Invalid TerrainChangedLockCounter", (AnsiString)"D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
             }
 
             FTerrainChangedLockCounter -= 1;
@@ -1693,13 +1687,13 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:198
         public void SetModified()
         {
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msModified);
+            FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msModified);
         }
 
         // HSMAP.PAS:203
         public void ResetModified()
         {
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msModified);
+            FStatus = FStatus - TSet<THSMapStatusElement>.Of(THSMapStatusElement.msModified);
         }
 
         // HSMAP.PAS:208
@@ -1708,7 +1702,7 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int X = default;
             int Y = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(this.FMapContainer.FWidth - 1, this.FMapContainer.FHeight - 1, ref X, ref Y);
+            HSEngine.HXtoHP(this.FMapContainer.FWidth - 1, this.FMapContainer.FHeight - 1, ref X, ref Y);
 
             X += 40;
             Result = X;
@@ -1723,11 +1717,11 @@ namespace Aow.Units.HSEngine
             int X = default;
             if (this.FMapContainer.FHeight > 1)
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(1, this.FMapContainer.FHeight - 1, ref X, ref Y);
+                HSEngine.HXtoHP(1, this.FMapContainer.FHeight - 1, ref X, ref Y);
             }
             else
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(0, this.FMapContainer.FHeight - 1, ref X, ref Y);
+                HSEngine.HXtoHP(0, this.FMapContainer.FHeight - 1, ref X, ref Y);
             }
 
             Y += 32;
@@ -1736,34 +1730,34 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:231
-        public void SetHSSFileName(Aow.Rtl.AnsiString FileName)
+        public void SetHSSFileName(AnsiString FileName)
         {
-            var call__88 = Aow.Rtl.Rtl.ExpandFileName(FileName);
-            var call__89 = Aow.Rtl.Rtl.ExtractRelativePath(FEngine.StartupDirectory, call__88);
+            var call__88 = ExpandFileName(FileName);
+            var call__89 = ExtractRelativePath(FEngine.StartupDirectory, call__88);
             FHSSFileName = call__89;
         }
 
         // HSMAP.PAS:459
         public void ClearTerrain(int X, int Y, int L, int Radius, int TerrainType)
         {
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.TMapFieldMsg Msg = default;
-            Aow.Rtl.TRect R = default;
+            THNWalkData Walk = default;
+            TMapLevel MapLevel = default;
+            TMapFieldMsg Msg = default;
+            TRect R = default;
             LockTerrainChangedEvent();
             var call__90 = FMapContainer.GetMapLevel(L);
             MapLevel = call__90;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+            HSEngine.InitHNWalk(ref Walk, X, Y, 0);
             Msg.MsgID = 16;
             while (Walk.Radius <= Radius)
             {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__91 = MapLevel.GetField(Walk.X, Walk.Y);
                     call__91.SendMapFieldMsg(ref Msg);
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
             if (TerrainType != -1)
@@ -1778,7 +1772,7 @@ namespace Aow.Units.HSEngine
                 R.Left = 0;
             }
 
-            R.Right = (X + Radius) + 1;
+            R.Right = X + Radius + 1;
             if (R.Right > MapLevel.FWidth)
             {
                 R.Left = MapLevel.FWidth;
@@ -1790,29 +1784,29 @@ namespace Aow.Units.HSEngine
                 R.Top = 0;
             }
 
-            R.Bottom = (Y + Radius) + 1;
+            R.Bottom = Y + Radius + 1;
             if (R.Bottom > MapLevel.FHeight)
             {
                 R.Bottom = MapLevel.FHeight;
             }
 
-            TerrainChanged(R, unchecked((sbyte)L));
+            TerrainChanged(R, (sbyte)L);
         }
 
         // HSMAP.PAS:561
-        public bool PlaceHX(Aow.Units.HSEngine.THexagonSprite HS, int Xhx, int Yhx, int L)
+        public bool PlaceHX(THexagonSprite HS, int Xhx, int Yhx, int L)
         {
             bool Result = default;
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             var call__92 = HS.MainPlace(FMapContainer, Xhp, Yhp, L);
             Result = call__92;
             return Result;
         }
 
         // HSMAP.PAS:569
-        public bool Place(Aow.Units.HSEngine.THexagonSprite HS, int Xhp, int Yhp, int L)
+        public bool Place(THexagonSprite HS, int Xhp, int Yhp, int L)
         {
             bool Result = default;
             var call__93 = HS.MainPlace(FMapContainer, Xhp, Yhp, L);
@@ -1821,7 +1815,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:574
-        public void Remove(Aow.Units.HSEngine.THexagonSprite HS)
+        public void Remove(THexagonSprite HS)
         {
             HS.MainRemove();
         }
@@ -1834,7 +1828,7 @@ namespace Aow.Units.HSEngine
             int Y1 = default;
             int X2 = default;
             int Y2 = default;
-            if (((((Xhp != FViewXhp) || (Yhp != FViewYhp)) || (Lhp != FViewL)) || (Width != FViewWidth)) || (Height != FViewHeight))
+            if (Xhp != FViewXhp || Yhp != FViewYhp || Lhp != FViewL || Width != FViewWidth || Height != FViewHeight)
             {
                 ClearViewPort();
                 FViewL = Lhp;
@@ -1842,8 +1836,8 @@ namespace Aow.Units.HSEngine
                 FViewWidth = Width;
                 FViewYhp = Yhp;
                 FViewHeight = Height;
-                Aow.Units.HSEngine.HSEngine.HPtoHX(FViewXhp - 8, FViewYhp - 16, ref X1, ref Y1);
-                Aow.Units.HSEngine.HSEngine.HPtoHX(((FViewXhp + Width) - 1) + 8, ((FViewYhp + Height) - 1) + 16, ref X2, ref Y2);
+                HSEngine.HPtoHX(FViewXhp - 8, FViewYhp - 16, ref X1, ref Y1);
+                HSEngine.HPtoHX(FViewXhp + Width - 1 + 8, FViewYhp + Height - 1 + 16, ref X2, ref Y2);
                 if (X2 >= FMapContainer.FWidth)
                 {
                     X2 = FMapContainer.FWidth - 1;
@@ -1864,8 +1858,8 @@ namespace Aow.Units.HSEngine
                     Y1 = 0;
                 }
 
-                FViewWidthHX = (X2 - X1) + 1;
-                FViewHeightHX = (Y2 - Y1) + 1;
+                FViewWidthHX = X2 - X1 + 1;
+                FViewHeightHX = Y2 - Y1 + 1;
                 FViewXhx = X1;
                 FViewYhx = Y1;
                 Result = true;
@@ -1898,7 +1892,7 @@ namespace Aow.Units.HSEngine
         public bool Viewing(int Xhx, int Yhx, int Lhx)
         {
             bool Result = default;
-            Result = ((((Xhx >= FViewXhx) && (Xhx < (FViewXhx + FViewWidthHX))) && (Yhx >= FViewYhx)) && (Yhx <= (FViewYhx + FViewHeightHX))) && (Lhx == FViewL);
+            Result = Xhx >= FViewXhx && Xhx < FViewXhx + FViewWidthHX && Yhx >= FViewYhx && Yhx <= FViewYhx + FViewHeightHX && Lhx == FViewL;
             return Result;
         }
 
@@ -1914,7 +1908,7 @@ namespace Aow.Units.HSEngine
                     byte end__94 = 0;
                     for (; I >= end__94; I -= 1)
                     {
-                        ((Aow.Units.HSEngine.THexagonSprite)FStaticVisibleHS.FItems[I].Child).SetVisible(false);
+                        ((THexagonSprite)FStaticVisibleHS.FItems[I].Child).SetVisible(false);
                     }
                 }
 
@@ -1923,7 +1917,7 @@ namespace Aow.Units.HSEngine
             }
             catch (System.Exception)
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"Exception during ResetVisibleDynamicHS");
+                throw Exception.Create((AnsiString)"Exception during ResetVisibleDynamicHS");
             }
         }
 
@@ -1938,11 +1932,11 @@ namespace Aow.Units.HSEngine
                 {
                     try
                     {
-                        ((Aow.Units.HSEngine.THexagonSprite)FDynamicVisibleHS.FItems[I].Child).SetVisible(false);
+                        ((THexagonSprite)FDynamicVisibleHS.FItems[I].Child).SetVisible(false);
                     }
                     catch (System.Exception)
                     {
-                        var call__96 = Aow.Rtl.Exception.Create((((AnsiString)"Exception during ResetVisibleDynamicHS (") + ((AnsiString)TObject.ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()))) + AnsiString.FromBytes(41));
+                        var call__96 = Exception.Create((AnsiString)"Exception during ResetVisibleDynamicHS (" + (AnsiString)ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + AnsiString.FromBytes(41));
                         throw call__96;
                     }
                 }
@@ -1955,34 +1949,34 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:745
         public void InvalidateStaticScene(int Xhx, int Yhx, int Lhx)
         {
-            FStaticSceneInvalid = FStaticSceneInvalid || (((((Xhx >= FViewXhx) && (Xhx < (FViewXhx + FViewWidthHX))) && (Yhx >= FViewYhx)) && (Yhx < (FViewYhx + FViewHeightHX))) && (Lhx == FViewL));
+            FStaticSceneInvalid = FStaticSceneInvalid || (Xhx >= FViewXhx && Xhx < FViewXhx + FViewWidthHX && Yhx >= FViewYhx && Yhx < FViewYhx + FViewHeightHX && Lhx == FViewL);
         }
 
-        public Aow.Units.HSEngine.THSMapMouse Mouse { get => FMouse; }
-        public Aow.Units.HSEngine.TMapContainer MapContainer { get => FMapContainer; }
-        public Aow.Units.HSEngine.THSEngine Engine { get => FEngine; }
-        public Aow.Units.HSEngine.THexagonSpriteSelection Selection { get => FSelection; }
-        public Aow.Units.HSEngine.TVisibilityList StaticVisibleHS { get => FStaticVisibleHS; }
-        public Aow.Units.HSEngine.TVisibilityList DynamicVisibleHS { get => FDynamicVisibleHS; }
-        public Aow.Units.HSEngine.TVisibilityList StaticFixedVisibleHS { get => FStaticFixedVisibleHS; }
-        public Aow.Units.HSEngine.TVisibilityList DynamicFixedVisibleHS { get => FDynamicFixedVisibleHS; }
-        public Aow.Units.Engine.TETimerNode Timer { get => FTimer; }
+        public THSMapMouse Mouse { get => FMouse; }
+        public TMapContainer MapContainer { get => FMapContainer; }
+        public THSEngine Engine { get => FEngine; }
+        public THexagonSpriteSelection Selection { get => FSelection; }
+        public TVisibilityList StaticVisibleHS { get => FStaticVisibleHS; }
+        public TVisibilityList DynamicVisibleHS { get => FDynamicVisibleHS; }
+        public TVisibilityList StaticFixedVisibleHS { get => FStaticFixedVisibleHS; }
+        public TVisibilityList DynamicFixedVisibleHS { get => FDynamicFixedVisibleHS; }
+        public TETimerNode Timer { get => FTimer; }
         public bool StaticSceneInvalid { get => FStaticSceneInvalid; set => FStaticSceneInvalid = value; }
         public bool DynamicSceneInvalid { get => FDynamicSceneInvalid; set => FDynamicSceneInvalid = value; }
         public int Version { get => FVersion; set => FVersion = value; }
-        public Aow.Rtl.AnsiString HSSFileName { get => FHSSFileName; set => SetHSSFileName(value); }
-        public TSet<Aow.Units.HSEngine.THSMapStatusElement> Status { get => FStatus; set => FStatus = value; }
+        public AnsiString HSSFileName { get => FHSSFileName; set => SetHSSFileName(value); }
+        public TSet<THSMapStatusElement> Status { get => FStatus; set => FStatus = value; }
         public int Frame { get => FFrame; }
-        public Aow.Units.Engine.TEventList TerrainChangedEvents { get => FTerrainChangedEvents; }
-        public Aow.Units.HSEngine.TCenterViewEvent OnCenterView { get => FOnCenterView; set => FOnCenterView = value; }
-        public Aow.Units.HSEngine.TChangeViewEvent OnChangeView { get => FOnChangeView; set => FOnChangeView = value; }
-        public Aow.Units.HSEngine.TViewLevelEvent OnViewLevel { get => FOnViewLevel; set => FOnViewLevel = value; }
-        public Aow.Units.Engine.TProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
-        public Aow.Units.Engine.TEventList NewFrameEvents { get => FNewFrameEvents; }
-        public Aow.Units.Engine.TEventList ViewPortChangedEvents { get => FViewPortChangedEvents; }
-        public Aow.Units.Engine.TEventList DestroyEvents { get => FDestroyEvents; }
-        public Aow.Units.Engine.TEventList HSChangedEvents { get => FHSChangedEvents; }
-        public Aow.Rtl.AnsiString FileName { get => FFileName; set => FFileName = value; }
+        public TEventList TerrainChangedEvents { get => FTerrainChangedEvents; }
+        public TCenterViewEvent OnCenterView { get => FOnCenterView; set => FOnCenterView = value; }
+        public TChangeViewEvent OnChangeView { get => FOnChangeView; set => FOnChangeView = value; }
+        public TViewLevelEvent OnViewLevel { get => FOnViewLevel; set => FOnViewLevel = value; }
+        public Engine.TProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
+        public TEventList NewFrameEvents { get => FNewFrameEvents; }
+        public TEventList ViewPortChangedEvents { get => FViewPortChangedEvents; }
+        public TEventList DestroyEvents { get => FDestroyEvents; }
+        public TEventList HSChangedEvents { get => FHSChangedEvents; }
+        public AnsiString FileName { get => FFileName; set => FFileName = value; }
         public int ViewXhp { get => FViewXhp; }
         public int ViewYhp { get => FViewYhp; }
         public int ViewL { get => FViewL; }
@@ -2001,20 +1995,20 @@ namespace Aow.Units.HSEngine
     // FOnHSSLoaded, FOnHSSClose. The engine of the hex map: it owns the set (.hss: a 52-byte
     // header, the stored set and a CRC32) and the map (.hsm: a 16-byte header and the stored map,
     // compressed). the event lists are told when a map or a set is loaded or closed
-    public partial class THSEngine : Aow.Units.Engine.TEngine
+    public partial class THSEngine : TEngine
     {
         // HSEngine.pas:4957
         public new const int ClassID = 65537;
 
-        internal TSet<Aow.Units.HSEngine.THSEngineStatusElement> FStatus;
-        protected internal Aow.Units.HSEngine.THSSet FHSSet;
-        protected internal Aow.Units.HSEngine.THSMap FHSMap;
-        internal Aow.Rtl.AnsiString FHSSetSearchPath;
-        internal Aow.Rtl.AnsiString FHSSFileName;
-        internal Aow.Units.Engine.TEventList FOnHSMLoaded;
-        internal Aow.Units.Engine.TEventList FOnHSMClose;
-        internal Aow.Units.Engine.TEventList FOnHSSLoaded;
-        internal Aow.Units.Engine.TEventList FOnHSSClose;
+        internal TSet<THSEngineStatusElement> FStatus;
+        protected internal THSSet FHSSet;
+        protected internal THSMap FHSMap;
+        internal AnsiString FHSSetSearchPath;
+        internal AnsiString FHSSFileName;
+        internal TEventList FOnHSMLoaded;
+        internal TEventList FOnHSMClose;
+        internal TEventList FOnHSSLoaded;
+        internal TEventList FOnHSSClose;
         // HSEngine.pas:4941
         public override void Destroy()
         {
@@ -2034,19 +2028,19 @@ namespace Aow.Units.HSEngine
 
         private protected THSEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
-            var call__97 = new Aow.Units.Engine.TEventList();
+            var call__97 = new TEventList();
             FOnHSMLoaded = call__97;
-            var call__98 = new Aow.Units.Engine.TEventList();
+            var call__98 = new TEventList();
             FOnHSMClose = call__98;
-            var call__99 = new Aow.Units.Engine.TEventList();
+            var call__99 = new TEventList();
             FOnHSSLoaded = call__99;
-            var call__100 = new Aow.Units.Engine.TEventList();
+            var call__100 = new TEventList();
             FOnHSSClose = call__100;
-            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapContainer>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapLevel>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.THSMap>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.THSSet>()]);
-            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapObjectResource>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMultiHexMOR>()]);
-            RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TAbstractHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TAbstractBorderHexagon>(), Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TAbstractRoad>()]);
+            RegisterEClasses([EClass.Of<TMapContainer>(), EClass.Of<TMapLevel>(), EClass.Of<THSMap>(), EClass.Of<THSSet>()]);
+            RegisterEClasses([EClass.Of<TMapObjectResource>(), EClass.Of<TMultiHexMOR>()]);
+            RegisterEClasses([EClass.Of<TAbstractHexagon>(), EClass.Of<TAbstractBorderHexagon>(), EClass.Of<TAbstractRoad>()]);
             var call__101 = RegisterDebugID((AnsiString)"HS-Engine");
-            Aow.Units.HSEngine.HSEngine.HSEngineDID = call__101;
+            HSEngine.HSEngineDID = call__101;
             FHSSFileName = (AnsiString)"noname.hss";
             CreateHSSet();
         }
@@ -2054,21 +2048,21 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:5019
         public virtual void CreateHSSet()
         {
-            var call__102 = new Aow.Units.HSEngine.THSSet(this);
+            var call__102 = new THSSet(this);
             FHSSet = call__102;
         }
 
         // HSEngine.pas:4962
-        public virtual void SetHSMap(Aow.Units.HSEngine.THSMap Value)
+        public virtual void SetHSMap(THSMap Value)
         {
             FHSMap = Value;
         }
 
         // HSEngine.pas:5210
-        public virtual void LoadHSM(Aow.Rtl.AnsiString FileName, bool Edit, Aow.Units.Engine.TProgressEvent AProgress)
+        public virtual void LoadHSM(AnsiString FileName, bool Edit, Engine.TProgressEvent AProgress)
         {
-            Aow.Units.Engine.TCompressStream Stream = default;
-            Aow.Units.HSEngine.THSMHeader Header = default;
+            TCompressStream Stream = default;
+            THSMHeader Header = default;
             if (FHSMap != null)
             {
                 FHSMap.Free();
@@ -2077,22 +2071,22 @@ namespace Aow.Units.HSEngine
 
             try
             {
-                Stream = new Aow.Units.Engine.TCompressStream();
+                Stream = new TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FileName);
-                    Stream.Read(Aow.Rtl.Bytes.Of(ref Header, 16));
+                    Stream.Read(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (Aow.Rtl.Rtl.ArrayEquals<Aow.Units.FixedArray_byte_4, byte>(Header.ID, Aow.Units.HSEngine.HSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
                     {
                         var call__103 = CreateEObject(Header.ClassID, this);
-                        SetHSMap((Aow.Units.HSEngine.THSMap)call__103);
-                        var call__104 = Aow.Rtl.Rtl.ExpandFileName(FileName);
+                        SetHSMap((THSMap)call__103);
+                        var call__104 = ExpandFileName(FileName);
                         FHSMap.FFileName = call__104;
-                        FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                         if (Edit)
                         {
-                            FHSMap.FStatus = FHSMap.FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+                            FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
                         }
 
                         try
@@ -2109,7 +2103,7 @@ namespace Aow.Units.HSEngine
                             SetHSMap(null);
                         }
 
-                        FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                     }
                 }
                 finally
@@ -2123,29 +2117,29 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5137
-        public virtual Aow.Units.HSEngine.THSMap CreatePreviewHSM(Aow.Rtl.AnsiString FileName)
+        public virtual THSMap CreatePreviewHSM(AnsiString FileName)
         {
-            Aow.Units.HSEngine.THSMap Result = default;
-            Aow.Units.Engine.TCompressStream Stream = default;
-            Aow.Rtl.AnsiString FullName = default;
-            Aow.Units.HSEngine.THSMHeader Header = default;
+            THSMap Result = default;
+            TCompressStream Stream = default;
+            AnsiString FullName = default;
+            THSMHeader Header = default;
             Result = null;
-            FullName = Aow.Rtl.Rtl.ExpandFileName(FileName);
+            FullName = ExpandFileName(FileName);
             try
             {
-                Stream = new Aow.Units.Engine.TCompressStream();
+                Stream = new TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FullName);
-                    Stream.Read(Aow.Rtl.Bytes.Of(ref Header, 16));
+                    Stream.Read(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (Aow.Rtl.Rtl.ArrayEquals<Aow.Units.FixedArray_byte_4, byte>(Header.ID, Aow.Units.HSEngine.HSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
                     {
                         var call__105 = CreateEObject(Header.ClassID, this);
-                        Result = (Aow.Units.HSEngine.THSMap)call__105;
-                        var call__106 = Aow.Rtl.Rtl.ExpandFileName(FileName);
+                        Result = (THSMap)call__105;
+                        var call__106 = ExpandFileName(FileName);
                         Result.FFileName = call__106;
-                        FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                         try
                         {
                             ReadPreviewEObject(Stream, Result, null);
@@ -2156,7 +2150,7 @@ namespace Aow.Units.HSEngine
                             Result = null;
                         }
 
-                        FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                     }
                 }
                 finally
@@ -2172,10 +2166,10 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5291
-        public virtual void SaveHSM(Aow.Rtl.AnsiString FileName, Aow.Units.Engine.TProgressEvent AProgress)
+        public virtual void SaveHSM(AnsiString FileName, Engine.TProgressEvent AProgress)
         {
-            Aow.Units.Engine.TCompressStream Stream = default;
-            Aow.Units.HSEngine.THSMHeader Header = default;
+            TCompressStream Stream = default;
+            THSMHeader Header = default;
             if (FHSMap != null)
             {
                 Header = default;
@@ -2183,25 +2177,25 @@ namespace Aow.Units.HSEngine
                 var call__107 = FHSMap.EClass.ClassID;
                 Header.ClassID = call__107;
                 Header.Reserved = 0;
-                Header.ID = Aow.Units.HSEngine.HSEngine.HSMID;
-                Stream = new Aow.Units.Engine.TCompressStream();
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSM);
+                Header.ID = HSEngine.HSMID;
+                Stream = new TCompressStream();
+                FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
                 try
                 {
-                    Stream.Write(Aow.Rtl.Bytes.Of(ref Header, 16));
+                    Stream.Write(Bytes.Of(ref Header, 16));
                     WriteEObject(Stream, FHSMap, AProgress);
                     Stream.SaveToFile(FileName);
                 }
                 finally
                 {
-                    FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSM);
+                    FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
                     Stream.Free();
                 }
             }
         }
 
         // HSEngine.pas:5368
-        public virtual void CloseHSM(Aow.Units.Engine.TProgressEvent AProgress)
+        public virtual void CloseHSM(Engine.TProgressEvent AProgress)
         {
             if (FHSMap != null)
             {
@@ -2221,29 +2215,29 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4967
-        public Aow.Rtl.TStringList GetHSSetFiles(Aow.Rtl.AnsiString Mask)
+        public TStringList GetHSSetFiles(AnsiString Mask)
         {
-            Aow.Rtl.TStringList Result = default;
-            Aow.Rtl.TStringList Files = default;
-            void Search(Aow.Rtl.AnsiString Dir)
+            TStringList Result = default;
+            TStringList Files = default;
+            void Search(AnsiString Dir)
             {
-                Aow.Rtl.TStringList Dirs = default;
-                Aow.Rtl.TFileStream Stream = default;
-                Aow.Units.HSEngine.THSSHeader Header = default;
-                Aow.Rtl.TSearchRec SR = default;
+                TStringList Dirs = default;
+                TFileStream Stream = default;
+                THSSHeader Header = default;
+                TSearchRec SR = default;
                 bool Found = default;
                 int I = default;
-                Found = Aow.Rtl.Rtl.FindFirst(Dir + Mask, 63 & ~16, ref SR) == 0;
+                Found = FindFirst(Dir + Mask, 63 & ~16, ref SR) == 0;
                 while (Found)
                 {
                     Header = default;
-                    var call__108 = new Aow.Rtl.TFileStream(Dir + SR.Name, 0);
+                    var call__108 = new TFileStream(Dir + SR.Name, 0);
                     Stream = call__108;
                     try
                     {
                         try
                         {
-                            Stream.Read(Aow.Rtl.Bytes.Of(ref Header, 52));
+                            Stream.Read(Bytes.Of(ref Header, 52));
                         }
                         finally
                         {
@@ -2256,26 +2250,26 @@ namespace Aow.Units.HSEngine
 
                     if (Header.ID == AnsiString.FromBytes(72, 83, 83, 0))
                     {
-                        Files.Add(((Header.Name + AnsiString.FromBytes(124)) + Dir) + SR.Name);
+                        Files.Add(Header.Name + AnsiString.FromBytes(124) + Dir + SR.Name);
                     }
 
-                    Found = Aow.Rtl.Rtl.FindNext(ref SR) == 0;
+                    Found = FindNext(ref SR) == 0;
                 }
 
-                Aow.Rtl.Rtl.FindClose(ref SR);
-                Dirs = new Aow.Rtl.TStringList();
-                Found = Aow.Rtl.Rtl.FindFirst(Dir + ((AnsiString)"*.*"), 16, ref SR) == 0;
+                FindClose(ref SR);
+                Dirs = new TStringList();
+                Found = FindFirst(Dir + (AnsiString)"*.*", 16, ref SR) == 0;
                 while (Found)
                 {
-                    if ((((SR.Attr & 16) != 0) && (SR.Name != AnsiString.FromBytes(46))) && (SR.Name != ((AnsiString)"..")))
+                    if ((SR.Attr & 16) != 0 && SR.Name != AnsiString.FromBytes(46) && SR.Name != (AnsiString)"..")
                     {
-                        Dirs.Add((Dir + SR.Name) + AnsiString.FromBytes(92));
+                        Dirs.Add(Dir + SR.Name + AnsiString.FromBytes(92));
                     }
 
-                    Found = Aow.Rtl.Rtl.FindNext(ref SR) == 0;
+                    Found = FindNext(ref SR) == 0;
                 }
 
-                Aow.Rtl.Rtl.FindClose(ref SR);
+                FindClose(ref SR);
                 {
                     I = 0;
                     int end__109 = Dirs.Count - 1;
@@ -2289,28 +2283,28 @@ namespace Aow.Units.HSEngine
                 Dirs.Free();
             }
 
-            Files = new Aow.Rtl.TStringList();
+            Files = new TStringList();
             Search(StartupDirectory);
             Result = Files;
             return Result;
         }
 
         // HSEngine.pas:5024
-        public void LoadHSS(Aow.Rtl.AnsiString FileName, bool Edit, Aow.Units.Engine.TProgressEvent AProgress)
+        public void LoadHSS(AnsiString FileName, bool Edit, Engine.TProgressEvent AProgress)
         {
-            Aow.Rtl.TMemoryStream Mem = default;
-            Aow.Rtl.TFileStream F = default;
-            Aow.Units.HSEngine.THSSHeader Header = default;
-            Aow.Units.Engine.TEMsg Msg = default;
+            TMemoryStream Mem = default;
+            TFileStream F = default;
+            THSSHeader Header = default;
+            TEMsg Msg = default;
             int CRC = default;
             FHSSet.Clear();
-            var call__111 = Aow.Rtl.Rtl.ExpandFileName(FileName);
+            var call__111 = ExpandFileName(FileName);
             FHSSFileName = call__111;
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSS);
-            Mem = new Aow.Rtl.TMemoryStream();
+            FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSS);
+            Mem = new TMemoryStream();
             try
             {
-                var call__112 = new Aow.Rtl.TFileStream(FHSSFileName, 32);
+                var call__112 = new TFileStream(FHSSFileName, 32);
                 F = call__112;
                 try
                 {
@@ -2321,62 +2315,62 @@ namespace Aow.Units.HSEngine
                     F.Destroy();
                 }
 
-                Mem.Read(Aow.Rtl.Bytes.Of(ref Header, 52));
+                Mem.Read(Bytes.Of(ref Header, 52));
                 Mem.Position = Header.Size;
                 var call__113 = Mem.Size;
                 CRC = MemoryMarshal.Read<int>(Mem.Memory.AsSpan(call__113 - 4, 4));
-                bool bool__114 = (Header.ID != AnsiString.FromBytes(72, 83, 83, 0));
+                bool bool__114 = Header.ID != AnsiString.FromBytes(72, 83, 83, 0);
                 if (!bool__114)
                 {
                     var call__115 = Mem.Size;
-                    var call__116 = Aow.Units.Engine.Engine.GetCRC32(Mem.Memory, call__115 - 4);
-                    bool__114 = (CRC != call__116);
+                    var call__116 = GetCRC32(Mem.Memory, call__115 - 4);
+                    bool__114 = CRC != call__116;
                 }
 
                 if (bool__114)
                 {
-                    throw Aow.Rtl.Exception.Create((AnsiString)"Invalid HSSET");
+                    throw Exception.Create((AnsiString)"Invalid HSSET");
                 }
 
                 ReadEObject(Mem, FHSSet, AProgress);
                 ActivateEObject(FHSSet);
-                Aow.Units.Engine.Engine.InitMsg(ref Msg, 65556, this);
+                InitMsg(ref Msg, 65556, this);
                 FHSSet.MsgProc(ref Msg, this);
                 ControlNode.MsgProc(ref Msg, this);
                 FOnHSSLoaded.TriggerNotifyEvents(this);
             }
             finally
             {
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSS);
+                FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSS);
                 Mem.Free();
             }
         }
 
         // HSEngine.pas:5060
-        public void SaveHSS(Aow.Rtl.AnsiString FileName, Aow.Units.Engine.TProgressEvent AProgress)
+        public void SaveHSS(AnsiString FileName, Engine.TProgressEvent AProgress)
         {
-            Aow.Rtl.TMemoryStream Mem = default;
-            Aow.Rtl.TFileStream F = default;
+            TMemoryStream Mem = default;
+            TFileStream F = default;
             int CRC = default;
-            Aow.Units.HSEngine.THSSHeader Header = default;
+            THSSHeader Header = default;
             if (FHSSet != null)
             {
                 Header.Size = 52;
                 Header.Name = FHSSet.Name;
                 Header.ID = AnsiString.FromBytes(72, 83, 83, 0);
-                var call__117 = Aow.Rtl.Rtl.ExpandFileName(FileName);
+                var call__117 = ExpandFileName(FileName);
                 FHSSFileName = call__117;
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSS);
-                Mem = new Aow.Rtl.TMemoryStream();
+                FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSS);
+                Mem = new TMemoryStream();
                 try
                 {
-                    Mem.Write(Aow.Rtl.Bytes.Of(ref Header, 52));
+                    Mem.Write(Bytes.Of(ref Header, 52));
                     WriteEObject(Mem, FHSSet, AProgress);
                     var call__118 = Mem.Size;
-                    var call__119 = Aow.Units.Engine.Engine.GetCRC32(Mem.Memory, call__118);
+                    var call__119 = GetCRC32(Mem.Memory, call__118);
                     CRC = call__119;
-                    Mem.Write(Aow.Rtl.Bytes.Of(ref CRC, 4));
-                    var call__120 = new Aow.Rtl.TFileStream(FHSSFileName, 65535);
+                    Mem.Write(Bytes.Of(ref CRC, 4));
+                    var call__120 = new TFileStream(FHSSFileName, 65535);
                     F = call__120;
                     try
                     {
@@ -2389,17 +2383,17 @@ namespace Aow.Units.HSEngine
                 }
                 finally
                 {
-                    FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSS);
+                    FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSS);
                     Mem.Free();
                 }
             }
         }
 
         // HSEngine.pas:5100
-        public void LoadPreviewHSM(Aow.Rtl.AnsiString FileName)
+        public void LoadPreviewHSM(AnsiString FileName)
         {
-            Aow.Units.Engine.TCompressStream Stream = default;
-            Aow.Units.HSEngine.THSMHeader Header = default;
+            TCompressStream Stream = default;
+            THSMHeader Header = default;
             if (FHSMap != null)
             {
                 FHSMap.Free();
@@ -2408,20 +2402,20 @@ namespace Aow.Units.HSEngine
 
             try
             {
-                Stream = new Aow.Units.Engine.TCompressStream();
+                Stream = new TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FileName);
-                    Stream.Read(Aow.Rtl.Bytes.Of(ref Header, 16));
+                    Stream.Read(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (Aow.Rtl.Rtl.ArrayEquals<Aow.Units.FixedArray_byte_4, byte>(Header.ID, Aow.Units.HSEngine.HSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
                     {
                         var call__121 = CreateEObject(Header.ClassID, this);
-                        SetHSMap((Aow.Units.HSEngine.THSMap)call__121);
-                        FHSMap.FStatus = FHSMap.FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msPreviewMode);
-                        var call__122 = Aow.Rtl.Rtl.ExpandFileName(FileName);
+                        SetHSMap((THSMap)call__121);
+                        FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msPreviewMode);
+                        var call__122 = ExpandFileName(FileName);
                         FHSMap.FFileName = call__122;
-                        FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                         try
                         {
                             ReadEObject(Stream, FHSMap, null);
@@ -2432,7 +2426,7 @@ namespace Aow.Units.HSEngine
                             SetHSMap(null);
                         }
 
-                        FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                     }
                 }
                 finally
@@ -2446,31 +2440,31 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5171
-        public Aow.Units.HSEngine.THSMap LoadHSMEx(Aow.Rtl.AnsiString FileName, bool Edit, Aow.Units.Engine.TProgressEvent AProgress)
+        public THSMap LoadHSMEx(AnsiString FileName, bool Edit, Engine.TProgressEvent AProgress)
         {
-            Aow.Units.HSEngine.THSMap Result = default;
-            Aow.Units.Engine.TCompressStream Stream = default;
-            Aow.Rtl.AnsiString FullName = default;
-            Aow.Units.HSEngine.THSMHeader Header = default;
+            THSMap Result = default;
+            TCompressStream Stream = default;
+            AnsiString FullName = default;
+            THSMHeader Header = default;
             Result = null;
-            FullName = Aow.Rtl.Rtl.ExpandFileName(FileName);
+            FullName = ExpandFileName(FileName);
             try
             {
-                Stream = new Aow.Units.Engine.TCompressStream();
+                Stream = new TCompressStream();
                 try
                 {
                     Stream.LoadFromFile(FullName);
-                    Stream.Read(Aow.Rtl.Bytes.Of(ref Header, 16));
+                    Stream.Read(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (Aow.Rtl.Rtl.ArrayEquals<Aow.Units.FixedArray_byte_4, byte>(Header.ID, Aow.Units.HSEngine.HSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
                     {
                         var call__123 = CreateEObject(Header.ClassID, null);
-                        Result = (Aow.Units.HSEngine.THSMap)call__123;
+                        Result = (THSMap)call__123;
                         Result.FFileName = FullName;
-                        FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                         if (Edit)
                         {
-                            Result.FStatus = Result.FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+                            Result.FStatus = Result.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
                         }
 
                         try
@@ -2487,7 +2481,7 @@ namespace Aow.Units.HSEngine
                             Result = null;
                         }
 
-                        FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                     }
                 }
                 finally
@@ -2503,10 +2497,10 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5251
-        public void LoadHSMfromStream(Aow.Rtl.TStream Stream, bool Edit, Aow.Units.Engine.TProgressEvent AProgress)
+        public void LoadHSMfromStream(TStream Stream, bool Edit, Engine.TProgressEvent AProgress)
         {
-            Aow.Units.Engine.TCompressStream CStream = default;
-            Aow.Units.HSEngine.THSMHeader Header = default;
+            TCompressStream CStream = default;
+            THSMHeader Header = default;
             if (FHSMap != null)
             {
                 FHSMap.Free();
@@ -2515,20 +2509,20 @@ namespace Aow.Units.HSEngine
 
             try
             {
-                CStream = new Aow.Units.Engine.TCompressStream();
+                CStream = new TCompressStream();
                 try
                 {
                     CStream.LoadFromStream(Stream);
-                    CStream.Read(Aow.Rtl.Bytes.Of(ref Header, 16));
+                    CStream.Read(Bytes.Of(ref Header, 16));
                     CStream.Position = Header.Size;
-                    if (Aow.Rtl.Rtl.ArrayEquals<Aow.Units.FixedArray_byte_4, byte>(Header.ID, Aow.Units.HSEngine.HSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
                     {
                         var call__124 = CreateEObject(Header.ClassID, this);
-                        SetHSMap((Aow.Units.HSEngine.THSMap)call__124);
-                        FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        SetHSMap((THSMap)call__124);
+                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                         if (Edit)
                         {
-                            FHSMap.FStatus = FHSMap.FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+                            FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
                         }
 
                         try
@@ -2545,7 +2539,7 @@ namespace Aow.Units.HSEngine
                             SetHSMap(null);
                         }
 
-                        FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
                     }
                 }
                 finally
@@ -2559,10 +2553,10 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5316
-        public void SaveHSMtoStream(Aow.Rtl.TStream Stream, Aow.Units.Engine.TProgressEvent AProgress)
+        public void SaveHSMtoStream(TStream Stream, Engine.TProgressEvent AProgress)
         {
-            Aow.Units.Engine.TCompressStream CStream = default;
-            Aow.Units.HSEngine.THSMHeader Header = default;
+            TCompressStream CStream = default;
+            THSMHeader Header = default;
             if (FHSMap != null)
             {
                 Header = default;
@@ -2570,42 +2564,42 @@ namespace Aow.Units.HSEngine
                 var call__125 = FHSMap.EClass.ClassID;
                 Header.ClassID = call__125;
                 Header.Reserved = 0;
-                Header.ID = Aow.Units.HSEngine.HSEngine.HSMID;
-                CStream = new Aow.Units.Engine.TCompressStream();
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSM);
+                Header.ID = HSEngine.HSMID;
+                CStream = new TCompressStream();
+                FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
                 try
                 {
-                    CStream.Write(Aow.Rtl.Bytes.Of(ref Header, 16));
+                    CStream.Write(Bytes.Of(ref Header, 16));
                     WriteEObject(CStream, FHSMap, AProgress);
                     CStream.SaveToStream(Stream);
                 }
                 finally
                 {
-                    FStatus = FStatus - TSet<Aow.Units.HSEngine.THSEngineStatusElement>.Of(Aow.Units.HSEngine.THSEngineStatusElement.esSavingHSM);
+                    FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
                     CStream.Free();
                 }
             }
         }
 
         // HSEngine.pas:5341
-        public void InitializeHSSet(Aow.Rtl.AnsiString FileName, Aow.Units.Engine.TProgressEvent AProgress)
+        public void InitializeHSSet(AnsiString FileName, Engine.TProgressEvent AProgress)
         {
-            Aow.Units.Engine.TEMsg Msg = default;
-            if ((FHSSet == null) || (Aow.Rtl.Rtl.CompareText(FileName, FHSSFileName) != 0))
+            TEMsg Msg = default;
+            if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
             {
                 LoadHSS(FileName, false, AProgress);
             }
             else
             {
-                Aow.Units.Engine.Engine.InitMsg(ref Msg, 65557, this);
+                InitMsg(ref Msg, 65557, this);
                 FHSSet.MsgProc(ref Msg, this);
             }
         }
 
         // HSEngine.pas:5354
-        public Aow.Units.HSEngine.THSMap NewHSM(int AClassID)
+        public THSMap NewHSM(int AClassID)
         {
-            Aow.Units.HSEngine.THSMap Result = default;
+            THSMap Result = default;
             if (FHSMap != null)
             {
                 FHSMap.Free();
@@ -2613,23 +2607,23 @@ namespace Aow.Units.HSEngine
             }
 
             var call__126 = CreateEObject(AClassID, this);
-            SetHSMap((Aow.Units.HSEngine.THSMap)call__126);
-            FHSMap.FStatus = FHSMap.FStatus + TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+            SetHSMap((THSMap)call__126);
+            FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
             ActivateEObject(FHSMap);
             FOnHSMLoaded.TriggerNotifyEvents(FHSMap);
             Result = FHSMap;
             return Result;
         }
 
-        public TSet<Aow.Units.HSEngine.THSEngineStatusElement> Status { get => FStatus; }
-        public Aow.Units.HSEngine.THSSet HSSet { get => FHSSet; }
-        public Aow.Units.HSEngine.THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
-        public Aow.Rtl.AnsiString HSSetSearchPath { get => FHSSetSearchPath; set => FHSSetSearchPath = value; }
-        public Aow.Rtl.AnsiString HSSFileName { get => FHSSFileName; }
-        public Aow.Units.Engine.TEventList OnHSMLoaded { get => FOnHSMLoaded; }
-        public Aow.Units.Engine.TEventList OnHSMClose { get => FOnHSMClose; }
-        public Aow.Units.Engine.TEventList OnHSSLoaded { get => FOnHSSLoaded; }
-        public Aow.Units.Engine.TEventList OnHSSClose { get => FOnHSSClose; }
+        public TSet<THSEngineStatusElement> Status { get => FStatus; }
+        public THSSet HSSet { get => FHSSet; }
+        public THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
+        public AnsiString HSSetSearchPath { get => FHSSetSearchPath; set => FHSSetSearchPath = value; }
+        public AnsiString HSSFileName { get => FHSSFileName; }
+        public TEventList OnHSMLoaded { get => FOnHSMLoaded; }
+        public TEventList OnHSMClose { get => FOnHSMClose; }
+        public TEventList OnHSSLoaded { get => FOnHSSLoaded; }
+        public TEventList OnHSSClose { get => FOnHSSClose; }
 
         // HSEngine.pas:803
         public static THSEngine Create(TECustomNode owner) =>
@@ -2639,7 +2633,7 @@ namespace Aow.Units.HSEngine
 
     // the base of everything placed on the map. Owner is the TMapField the sprite stands on (for
     // the multi-hex sprites the field of the base hexagon)
-    public partial class THexagonSprite : Aow.Units.Engine.TEObject
+    public partial class THexagonSprite : TEObject
     {
         public THexagonSprite(TECustomNode owner) : base(owner)
         { }
@@ -2659,7 +2653,7 @@ namespace Aow.Units.HSEngine
         public virtual sbyte GetTerrain(int HN)
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)-2);
+            Result = -2;
             return Result;
         }
 
@@ -2680,7 +2674,7 @@ namespace Aow.Units.HSEngine
         public virtual sbyte GetOverlay(int HN)
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)-2);
+            Result = -2;
             return Result;
         }
 
@@ -2701,7 +2695,7 @@ namespace Aow.Units.HSEngine
         public virtual byte GetLevel()
         {
             byte Result = default;
-            throw Aow.Rtl.Exception.Create((AnsiString)"No HexagonSprite Level defined");
+            throw Exception.Create((AnsiString)"No HexagonSprite Level defined");
             return Result;
         }
 
@@ -2730,7 +2724,7 @@ namespace Aow.Units.HSEngine
         public virtual sbyte GetXhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner).FXhx);
+            Result = ((TMapField)Owner).FXhx;
             return Result;
         }
 
@@ -2738,7 +2732,7 @@ namespace Aow.Units.HSEngine
         public virtual sbyte GetYhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner).FYhx);
+            Result = ((TMapField)Owner).FYhx;
             return Result;
         }
 
@@ -2746,7 +2740,7 @@ namespace Aow.Units.HSEngine
         public virtual sbyte GetLhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapLevel)((Aow.Units.HSEngine.TMapField)Owner).Owner).FLhx);
+            Result = (sbyte)((TMapLevel)((TMapField)Owner).Owner).FLhx;
             return Result;
         }
 
@@ -2757,7 +2751,7 @@ namespace Aow.Units.HSEngine
             var call__127 = GetXhx();
             var call__128 = GetYhx();
             var call__129 = GetLhx();
-            Result = (call__127 + (call__128 << 8)) + (call__129 << 16);
+            Result = call__127 + (call__128 << 8) + (call__129 << 16);
             return Result;
         }
 
@@ -2793,7 +2787,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:167
-        public virtual bool CanChangeTerrain(in Aow.Units.HSEngine.THSSenderInfo Info)
+        public virtual bool CanChangeTerrain(in THSSenderInfo Info)
         {
             bool Result = default;
             Result = true;
@@ -2801,22 +2795,22 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:172
-        public virtual void ChangeTerrain(in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public virtual void ChangeTerrain(in THSTerrainInfo Info)
         {
         }
 
         // HXSPRITE.PAS:176
-        public virtual void TerrainChanged(in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public virtual void TerrainChanged(in THSTerrainInfo Info)
         {
         }
 
         // HXSPRITE.PAS:180
-        public virtual void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Info)
+        public virtual void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
         {
         }
 
         // HSEngine.pas:881
-        public virtual void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public virtual void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -2837,7 +2831,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:573
-        public virtual bool MainPlace(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public virtual bool MainPlace(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             Result = Place(Map, Xhp, Yhp, Lhx);
@@ -2863,7 +2857,7 @@ namespace Aow.Units.HSEngine
             Deactivate();
             Remove();
             var call__130 = GetVisible();
-            Aow.Rtl.Rtl.Assert(!call__130, (AnsiString)"Hexagon Sprite Still Visible!", "HXSPRITE.PAS", 589);
+            Assert(!call__130, (AnsiString)"Hexagon Sprite Still Visible!", "HXSPRITE.PAS", 589);
         }
 
         // HXSPRITE.PAS:592
@@ -2875,7 +2869,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:184
-        public virtual bool Place(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public virtual bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             Result = PlaceOnMap();
@@ -2898,17 +2892,17 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:26
-        public virtual void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public virtual void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
         }
 
         // HXSPRITE.PAS:30
-        public virtual void CanMoveOn(in Aow.Units.HSEngine.THSMoveOnInfo Info, ref Aow.Units.HSEngine.THSMoveOnResult MoveResult)
+        public virtual void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
         {
         }
 
         // HXSPRITE.PAS:34
-        public virtual int CanMoveOver(in Aow.Units.HSEngine.THSSenderInfo Info)
+        public virtual int CanMoveOver(in THSSenderInfo Info)
         {
             int Result = default;
             Result = 1;
@@ -2916,18 +2910,18 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:39
-        public virtual void MoveExclusive(in Aow.Units.HSEngine.THSSenderInfo Info)
+        public virtual void MoveExclusive(in THSSenderInfo Info)
         {
         }
 
         // HXSPRITE.PAS:63
         public virtual void Changed()
         {
-            Aow.Units.HSEngine.TMapField MapF = default;
-            MapF = (Aow.Units.HSEngine.TMapField)Owner;
+            TMapField MapF = default;
+            MapF = (TMapField)Owner;
             if (MapF != null)
             {
-                ((Aow.Units.HSEngine.THSEngine)((Aow.Units.HSEngine.TMapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEvents.TriggerNotifyEvents(this);
+                ((THSEngine)((TMapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEvents.TriggerNotifyEvents(this);
             }
         }
 
@@ -2946,12 +2940,12 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:22
-        public virtual void UpdateMapField(in Aow.Units.HSEngine.THSMapFieldInfo Info)
+        public virtual void UpdateMapField(in THSMapFieldInfo Info)
         {
         }
 
         // HXSPRITE.PAS:144
-        public virtual void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public virtual void MakeVisible(TVisibilityList VisibilityList)
         {
             if (!GetVisible())
             {
@@ -2964,14 +2958,14 @@ namespace Aow.Units.HSEngine
         // HXSPRITE.PAS:82
         public virtual void GetBaseHX(ref int XYL)
         {
-            XYL = (((Aow.Units.HSEngine.TMapField)Owner).FXhx + (((Aow.Units.HSEngine.TMapField)Owner).FYhx << 8)) + (((Aow.Units.HSEngine.TMapLevel)((Aow.Units.HSEngine.TMapField)Owner).Owner).FLhx << 16);
+            XYL = ((TMapField)Owner).FXhx + (((TMapField)Owner).FYhx << 8) + (((TMapLevel)((TMapField)Owner).Owner).FLhx << 16);
         }
 
         // HXSPRITE.PAS:57
         public virtual bool CanSelect(int Xhp, int Yhp)
         {
             bool Result = default;
-            Result = (Owner != null) && ((Aow.Units.HSEngine.THSEngine)((Aow.Units.HSEngine.TMapLevel)((Aow.Units.HSEngine.TMapField)Owner).Owner).FEngine).FHSMap.FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting);
+            Result = Owner != null && ((THSEngine)((TMapLevel)((TMapField)Owner).Owner).FEngine).FHSMap.FStatus.Contains(THSMapStatusElement.msEditting);
             return Result;
         }
 
@@ -2983,19 +2977,19 @@ namespace Aow.Units.HSEngine
         // HXSPRITE.PAS:111
         public virtual void Unselect()
         {
-            ((Aow.Units.HSEngine.TMapLevel)((Aow.Units.HSEngine.TMapField)Owner).Owner).FMap.FSelection.Unselect(this);
+            ((TMapLevel)((TMapField)Owner).Owner).FMap.FSelection.Unselect(this);
         }
 
         // HXSPRITE.PAS:17
-        public virtual Aow.Rtl.AnsiString EditName()
+        public virtual AnsiString EditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"Hexagon Sprite";
             return Result;
         }
 
         // HXSPRITE.PAS:219
-        public bool PlaceOnMapEx(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public bool PlaceOnMapEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             bool Result = default;
             int X = default;
@@ -3006,9 +3000,9 @@ namespace Aow.Units.HSEngine
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven = default;
-            Aow.Units.HSEngine.TMapLevel MapL = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((Xhp - 8) + 32, Yhp, ref X, ref Y);
+            TMapLevel MapL = default;
+            HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -3019,9 +3013,9 @@ namespace Aow.Units.HSEngine
                 YminEven = Y;
             }
 
-            Y = (Yhp + Height) - 1;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(((Width + Xhp) + 8) - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((((Width + Xhp) + 8) - 1) + 32, Y, ref X, ref Y);
+            Y = Yhp + Height - 1;
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3032,7 +3026,7 @@ namespace Aow.Units.HSEngine
                 YmaxEven = Y;
             }
 
-            if ((((Xmax >= 0) && (Map.Width > Xmin)) && ((YmaxEven >= 0) || (YmaxOdd >= 0))) && ((Map.Height > YminEven) || (Map.Height > YminOdd)))
+            if (Xmax >= 0 && Map.Width > Xmin && (YmaxEven >= 0 || YmaxOdd >= 0) && (Map.Height > YminEven || Map.Height > YminOdd))
             {
                 if (Xmin < 0)
                 {
@@ -3125,7 +3119,7 @@ namespace Aow.Units.HSEngine
                     }
                 }
 
-                ((Aow.Units.HSEngine.TMapField)FOwner).SetHNofHS(this, 0);
+                ((TMapField)FOwner).SetHNofHS(this, 0);
                 Result = true;
             }
             else
@@ -3147,10 +3141,10 @@ namespace Aow.Units.HSEngine
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven = default;
-            Aow.Units.HSEngine.TMapLevel MapL = default;
-            MapL = (Aow.Units.HSEngine.TMapLevel)FOwner.Owner;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((Xhp - 8) + 32, Yhp, ref X, ref Y);
+            TMapLevel MapL = default;
+            MapL = (TMapLevel)FOwner.Owner;
+            HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -3161,9 +3155,9 @@ namespace Aow.Units.HSEngine
                 YminEven = Y;
             }
 
-            Y = (Yhp + Height) - 1;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(((Width + Xhp) + 8) - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((((Width + Xhp) + 8) - 1) + 32, Y, ref X, ref Y);
+            Y = Yhp + Height - 1;
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3174,7 +3168,7 @@ namespace Aow.Units.HSEngine
                 YmaxEven = Y;
             }
 
-            if ((((Xmax >= 0) && (Xmin < MapL.Width)) && ((YmaxEven >= 0) || (YmaxOdd >= 0))) && ((MapL.Height > YminEven) || (MapL.Height > YminOdd)))
+            if (Xmax >= 0 && Xmin < MapL.Width && (YmaxEven >= 0 || YmaxOdd >= 0) && (MapL.Height > YminEven || MapL.Height > YminOdd))
             {
                 if (Xmin < 0)
                 {
@@ -3259,7 +3253,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:362
-        public bool PlaceUserOnMapEx(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public bool PlaceUserOnMapEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             bool Result = default;
             int X = default;
@@ -3270,9 +3264,9 @@ namespace Aow.Units.HSEngine
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven = default;
-            Aow.Units.HSEngine.TMapLevel MapL = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((Xhp - 8) + 32, Yhp, ref X, ref Y);
+            TMapLevel MapL = default;
+            HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -3283,9 +3277,9 @@ namespace Aow.Units.HSEngine
                 YminEven = Y;
             }
 
-            Y = (Yhp + Height) - 1;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(((Width + Xhp) + 8) - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((((Width + Xhp) + 8) - 1) + 32, Y, ref X, ref Y);
+            Y = Yhp + Height - 1;
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3296,7 +3290,7 @@ namespace Aow.Units.HSEngine
                 YmaxEven = Y;
             }
 
-            if ((((Xmax >= 0) && (Map.Width > Xmin)) && ((YmaxEven >= 0) || (YmaxOdd >= 0))) && ((Map.Height > YminEven) || (Map.Height > YminOdd)))
+            if (Xmax >= 0 && Map.Width > Xmin && (YmaxEven >= 0 || YmaxOdd >= 0) && (Map.Height > YminEven || Map.Height > YminOdd))
             {
                 if (Xmin < 0)
                 {
@@ -3388,7 +3382,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:431
-        public void RemoveUserFromMapEx(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public void RemoveUserFromMapEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             int X = default;
             int Y = default;
@@ -3398,10 +3392,10 @@ namespace Aow.Units.HSEngine
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven = default;
-            Aow.Units.HSEngine.TMapLevel MapL = default;
+            TMapLevel MapL = default;
             MapL = Map.GetMapLevel(Lhx);
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((Xhp - 8) + 32, Yhp, ref X, ref Y);
+            HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -3412,9 +3406,9 @@ namespace Aow.Units.HSEngine
                 YminEven = Y;
             }
 
-            Y = (Yhp + Height) - 1;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(((Width + Xhp) + 8) - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((((Width + Xhp) + 8) - 1) + 32, Y, ref X, ref Y);
+            Y = Yhp + Height - 1;
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3425,7 +3419,7 @@ namespace Aow.Units.HSEngine
                 YmaxEven = Y;
             }
 
-            if ((((Xmax >= 0) && (Xmin < MapL.Width)) && ((YmaxEven >= 0) || (YmaxOdd >= 0))) && ((MapL.Height > YminEven) || (MapL.Height > YminOdd)))
+            if (Xmax >= 0 && Xmin < MapL.Width && (YmaxEven >= 0 || YmaxOdd >= 0) && (MapL.Height > YminEven || MapL.Height > YminOdd))
             {
                 if (Xmin < 0)
                 {
@@ -3508,7 +3502,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:497
-        public void SortMapFieldEx(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public void SortMapFieldEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             int X = default;
             int Y = default;
@@ -3518,10 +3512,10 @@ namespace Aow.Units.HSEngine
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven = default;
-            Aow.Units.HSEngine.TMapLevel MapL = default;
+            TMapLevel MapL = default;
             MapL = Map.GetMapLevel(Lhx);
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((Xhp - 8) + 32, Yhp, ref X, ref Y);
+            HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -3532,9 +3526,9 @@ namespace Aow.Units.HSEngine
                 YminEven = Y;
             }
 
-            Y = (Yhp + Height) - 1;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(((Width + Xhp) + 8) - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Units.HSEngine.HSEngine.HPtoHX((((Width + Xhp) + 8) - 1) + 32, Y, ref X, ref Y);
+            Y = Yhp + Height - 1;
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3545,7 +3539,7 @@ namespace Aow.Units.HSEngine
                 YmaxEven = Y;
             }
 
-            if ((((Xmax >= 0) && (Xmin < MapL.Width)) && ((YmaxEven >= 0) || (YmaxOdd >= 0))) && ((MapL.Height > YminEven) || (MapL.Height > YminOdd)))
+            if (Xmax >= 0 && Xmin < MapL.Width && (YmaxEven >= 0 || YmaxOdd >= 0) && (MapL.Height > YminEven || MapL.Height > YminOdd))
             {
                 if (Xmin < 0)
                 {
@@ -3627,7 +3621,7 @@ namespace Aow.Units.HSEngine
             }
         }
 
-        public sealed class TerrainAccessor(Aow.Units.HSEngine.THexagonSprite target)
+        public sealed class TerrainAccessor(THexagonSprite target)
         {
             public sbyte this[int HN] { get => target.GetTerrain(HN); set => target.SetTerrain(HN, value); }
         }
@@ -3635,7 +3629,7 @@ namespace Aow.Units.HSEngine
         public TerrainAccessor Terrain => new TerrainAccessor(this);
         public int TerrainCount { get => GetTerrainCount(); }
 
-        public sealed class OverlayAccessor(Aow.Units.HSEngine.THexagonSprite target)
+        public sealed class OverlayAccessor(THexagonSprite target)
         {
             public sbyte this[int HN] { get => target.GetOverlay(HN); set => target.SetOverlay(HN, value); }
         }
@@ -3653,10 +3647,10 @@ namespace Aow.Units.HSEngine
         public int ShowPriority { get => GetShowPriority(); }
 
         // HXSPRITE.PAS:77
-        public virtual TSet<Aow.Units.HSEngine.TControlModeElement> ControlMode()
+        public virtual TSet<TControlModeElement> ControlMode()
         {
-            TSet<Aow.Units.HSEngine.TControlModeElement> Result = default;
-            Result = TSet<Aow.Units.HSEngine.TControlModeElement>.Of();
+            TSet<TControlModeElement> Result = default;
+            Result = TSet<TControlModeElement>.Of();
             return Result;
         }
 
@@ -3665,20 +3659,20 @@ namespace Aow.Units.HSEngine
 
     // a hexagon sprite drawn from a resource. FResource (the resource. until the object is linked
     // it holds the resource id, persisted as id 1), FStatus
-    public partial class TMapObject : Aow.Units.HSEngine.THexagonSprite
+    public partial class TMapObject : THexagonSprite
     {
         public TMapObject(TECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 65878;
 
-        protected internal Aow.Units.HSEngine.TMapObjectResource FResource;
-        protected internal TSet<Aow.Units.HSEngine.TMapObjectStatusElement> FStatus;
+        protected internal TMapObjectResource FResource;
+        protected internal TSet<TMapObjectStatusElement> FStatus;
         // MAPOBJ.PAS:88
         protected internal bool GetResourceLinked()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moResourceLinked);
+            Result = FStatus.Contains(TMapObjectStatusElement.moResourceLinked);
             return Result;
         }
 
@@ -3687,11 +3681,11 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moResourceLinked);
+                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moResourceLinked);
             }
             else
             {
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moResourceLinked);
+                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moResourceLinked);
             }
         }
 
@@ -3700,10 +3694,10 @@ namespace Aow.Units.HSEngine
         {
             sbyte Result = default;
             var call__158 = FResource.FTerrainList.GetTerrain(Index);
-            Result = unchecked((sbyte)call__158);
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moEditMode) && (Result >= 0))
+            Result = call__158;
+            if (FStatus.Contains(TMapObjectStatusElement.moEditMode) && Result >= 0)
             {
-                Result = unchecked((sbyte)-1);
+                Result = -1;
             }
 
             return Result;
@@ -3712,7 +3706,7 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:145
         public override void SetTerrain(int Index, sbyte Value)
         {
-            FResource.FTerrainList.SetTerrain(Index, unchecked((sbyte)Value));
+            FResource.FTerrainList.SetTerrain(Index, Value);
         }
 
         // MAPOBJ.PAS:150
@@ -3728,10 +3722,10 @@ namespace Aow.Units.HSEngine
         {
             sbyte Result = default;
             var call__159 = FResource.FTerrainList.GetOverlay(Index);
-            Result = unchecked((sbyte)call__159);
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moEditMode) && (Result >= 0))
+            Result = call__159;
+            if (FStatus.Contains(TMapObjectStatusElement.moEditMode) && Result >= 0)
             {
-                Result = unchecked((sbyte)-1);
+                Result = -1;
             }
 
             return Result;
@@ -3740,7 +3734,7 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:162
         public override void SetOverlay(int Index, sbyte Value)
         {
-            FResource.FTerrainList.SetOverlay(Index, unchecked((sbyte)Value));
+            FResource.FTerrainList.SetOverlay(Index, Value);
         }
 
         // MAPOBJ.PAS:167
@@ -3755,7 +3749,7 @@ namespace Aow.Units.HSEngine
         public override byte GetLevel()
         {
             byte Result = default;
-            Result = unchecked((byte)FResource.FLevel);
+            Result = FResource.FLevel;
             return Result;
         }
 
@@ -3764,13 +3758,13 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible);
+                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moVisible);
             }
             else
             {
-                if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible))
+                if (FStatus.Contains(TMapObjectStatusElement.moVisible))
                 {
-                    FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible);
+                    FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moVisible);
                 }
             }
         }
@@ -3779,7 +3773,7 @@ namespace Aow.Units.HSEngine
         public override bool GetVisible()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible);
+            Result = FStatus.Contains(TMapObjectStatusElement.moVisible);
             return Result;
         }
 
@@ -3787,7 +3781,7 @@ namespace Aow.Units.HSEngine
         public override bool GetSelected()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moSelected);
+            Result = FStatus.Contains(TMapObjectStatusElement.moSelected);
             return Result;
         }
 
@@ -3795,8 +3789,8 @@ namespace Aow.Units.HSEngine
         public override sbyte GetXhx()
         {
             sbyte Result = default;
-            Aow.Rtl.Rtl.Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 47);
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner).FXhx);
+            Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 47);
+            Result = ((TMapField)Owner).FXhx;
             return Result;
         }
 
@@ -3804,8 +3798,8 @@ namespace Aow.Units.HSEngine
         public override sbyte GetYhx()
         {
             sbyte Result = default;
-            Aow.Rtl.Rtl.Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 53);
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner).FYhx);
+            Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 53);
+            Result = ((TMapField)Owner).FYhx;
             return Result;
         }
 
@@ -3813,8 +3807,8 @@ namespace Aow.Units.HSEngine
         public override sbyte GetLhx()
         {
             sbyte Result = default;
-            Aow.Rtl.Rtl.Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 59);
-            Result = unchecked((sbyte)((Aow.Units.HSEngine.TMapField)Owner).FLhx);
+            Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 59);
+            Result = ((TMapField)Owner).FLhx;
             return Result;
         }
 
@@ -3822,7 +3816,7 @@ namespace Aow.Units.HSEngine
         public override bool GetEditMode()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moEditMode);
+            Result = FStatus.Contains(TMapObjectStatusElement.moEditMode);
             return Result;
         }
 
@@ -3830,7 +3824,7 @@ namespace Aow.Units.HSEngine
         // { Value is not used: the edit mode is only ever switched on }
         public override void SetEditMode(bool Value)
         {
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moEditMode);
+            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moEditMode);
         }
 
         // MAPOBJ.PAS:214
@@ -3839,39 +3833,39 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).FXhx, ((Aow.Units.HSEngine.TMapField)Owner).FYhx, ref Xhp, ref Yhp);
-            Result = (FResource.FShowPriorityOffset + (Yhp << 13)) + Xhp;
+            HSEngine.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+            Result = FResource.FShowPriorityOffset + (Yhp << 13) + Xhp;
             return Result;
         }
 
         // MAPOBJ.PAS:235
         public override void Connect()
         {
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
+            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
         }
 
         // MAPOBJ.PAS:240
         public override void Disconnect()
         {
             Owner = null;
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
+            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
         }
 
         // MAPOBJ.PAS:222
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.TMapObjectResource R = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).FXhx, ((Aow.Units.HSEngine.TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+            TMapObjectResource R = default;
+            HSEngine.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
             if (FResource.FImageSequenceList == null)
             {
                 var call__160 = FResource.FImageLibrary.Get(0);
-                call__160.Show((Xhp - XhpSurf) - 8, Yhp - YhpSurf, SurfaceDesc);
+                call__160.Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
             }
             else
             {
-                FResource.ShowComplexImage((Xhp - XhpSurf) - 8, Yhp - YhpSurf, SurfaceDesc, 0, unchecked((uint)(((Aow.Units.HSEngine.TMapField)Owner).FXhx + (((Aow.Units.HSEngine.TMapField)Owner).FYhx * 16))));
+                FResource.ShowComplexImage(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc, 0, (uint)(((TMapField)Owner).FXhx + ((TMapField)Owner).FYhx * 16));
             }
         }
 
@@ -3881,28 +3875,28 @@ namespace Aow.Units.HSEngine
             bool Result = default;
             Connect();
             var call__161 = FResource.FTerrainList.GetTerrain(0);
-            bool bool__162 = (call__161 >= 0);
+            bool bool__162 = call__161 >= 0;
             if (!bool__162)
             {
                 var call__163 = FResource.FTerrainList.GetOverlay(0);
-                bool__162 = (call__163 >= 0);
+                bool__162 = call__163 >= 0;
             }
 
             if (bool__162)
             {
-                ((Aow.Units.HSEngine.TMapField)Owner).UpdateTerrain();
+                ((TMapField)Owner).UpdateTerrain();
             }
 
             if (GetLevel() <= 15)
             {
-                var mapField = (Aow.Units.HSEngine.TMapField)Owner;
-                ((Aow.Units.HSEngine.TMapLevel)mapField.Owner).FMap.InvalidateStaticScene(mapField.FXhx, mapField.FYhx, mapField.FLhx);
+                var mapField = (TMapField)Owner;
+                ((TMapLevel)mapField.Owner).FMap.InvalidateStaticScene(mapField.FXhx, mapField.FYhx, mapField.FLhx);
             }
 
             if (!GetEditMode())
             {
-                var mapField2 = (Aow.Units.HSEngine.TMapField)Owner;
-                ((Aow.Units.HSEngine.TMapLevel)mapField2.Owner).FMap.TerrainChangedRad(unchecked((sbyte)mapField2.FXhx), unchecked((sbyte)mapField2.FYhx), unchecked((sbyte)mapField2.FLhx), 0);
+                var mapField2 = (TMapField)Owner;
+                ((TMapLevel)mapField2.Owner).FMap.TerrainChangedRad(mapField2.FXhx, mapField2.FYhx, mapField2.FLhx, 0);
             }
 
             Result = true;
@@ -3912,21 +3906,21 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:266
         public override void RemoveFromMap()
         {
-            Aow.Units.HSEngine.TMapField MapField = default;
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            TMapField MapField = default;
+            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
                 if (Owner != null)
                 {
-                    MapField = (Aow.Units.HSEngine.TMapField)Owner;
+                    MapField = (TMapField)Owner;
                     Disconnect();
-                    if (!((Aow.Units.HSEngine.TMapLevel)MapField.Owner).FMap.FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msDestroying))
+                    if (!((TMapLevel)MapField.Owner).FMap.FStatus.Contains(THSMapStatusElement.msDestroying))
                     {
                         var call__166 = GetTerrain(0);
-                        bool bool__167 = (call__166 >= 0);
+                        bool bool__167 = call__166 >= 0;
                         if (!bool__167)
                         {
                             var call__168 = GetOverlay(0);
-                            bool__167 = (call__168 >= 0);
+                            bool__167 = call__168 >= 0;
                         }
 
                         if (bool__167)
@@ -3935,7 +3929,7 @@ namespace Aow.Units.HSEngine
                         }
 
                         var call__169 = GetLevel();
-                        bool bool__170 = (call__169 <= 15);
+                        bool bool__170 = call__169 <= 15;
                         if (bool__170)
                         {
                             var call__171 = GetVisible();
@@ -3944,40 +3938,40 @@ namespace Aow.Units.HSEngine
 
                         if (bool__170)
                         {
-                            ((Aow.Units.HSEngine.TMapLevel)MapField.Owner).FMap.FStaticSceneInvalid = true;
+                            ((TMapLevel)MapField.Owner).FMap.FStaticSceneInvalid = true;
                         }
                     }
 
                     if (!GetEditMode())
                     {
-                        ((Aow.Units.HSEngine.TMapLevel)MapField.Owner).FMap.TerrainChangedRad(unchecked((sbyte)MapField.FXhx), unchecked((sbyte)MapField.FYhx), unchecked((sbyte)MapField.FLhx), 0);
+                        ((TMapLevel)MapField.Owner).FMap.TerrainChangedRad(MapField.FXhx, MapField.FYhx, MapField.FLhx, 0);
                     }
                 }
 
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
+                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
             }
         }
 
         // MAPOBJ.PAS:341
-        public override bool MainPlace(Aow.Units.HSEngine.TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
+        public override bool MainPlace(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
-                Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+                HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
                 var call__172 = GetEditMode();
                 bool bool__173 = call__172;
                 if (!bool__173)
                 {
-                    var call__174 = CanPlace(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+                    var call__174 = CanPlace(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
                     bool__173 = call__174;
                 }
 
                 if (bool__173)
                 {
-                    Result = PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+                    Result = PlaceHX(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
                     if (Result)
                     {
                         Activate();
@@ -4003,48 +3997,48 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:363
         public override void MainRemove()
         {
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moSelected))
+            if (FStatus.Contains(TMapObjectStatusElement.moSelected))
             {
                 Unselect();
             }
 
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
+            if (FStatus.Contains(TMapObjectStatusElement.moActivated))
             {
                 Deactivate();
             }
 
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
                 Remove();
             }
         }
 
         // MAPOBJ.PAS:206
-        public override bool Place(Aow.Units.HSEngine.TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
+        public override bool Place(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            Result = PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            Result = PlaceHX(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
             return Result;
         }
 
         // MAPOBJ.PAS:291
         public override void Remove()
         {
-            Aow.Units.HSEngine.TMapField MapField = default;
-            MapField = (Aow.Units.HSEngine.TMapField)Owner;
+            TMapField MapField = default;
+            MapField = (TMapField)Owner;
             RemoveFromMap();
             if (GetVisible())
             {
                 if (GetLevel() <= 15)
                 {
-                    ((Aow.Units.HSEngine.TMapLevel)MapField.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
+                    ((TMapLevel)MapField.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
                 }
                 else
                 {
-                    ((Aow.Units.HSEngine.TMapLevel)MapField.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
+                    ((TMapLevel)MapField.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
                 }
 
                 SetVisible(false);
@@ -4061,13 +4055,13 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:373
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 16)
             {
                 var call__175 = GetTerrain(Msg.HN);
-                if ((call__175 >= 0) || (Msg.HN == 0))
+                if (call__175 >= 0 || Msg.HN == 0)
                 {
                     Destroy();
                 }
@@ -4077,22 +4071,22 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:330
         public override void Activate()
         {
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated);
+            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moActivated);
         }
 
         // MAPOBJ.PAS:335
         public override void Deactivate()
         {
             base.Deactivate();
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated);
+            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moActivated);
         }
 
         // MAPOBJ.PAS:117
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(TMapObjectStatusElement.moVisible))
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moVisible);
+                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moVisible);
                 var call__176 = GetShowPriority();
                 VisibilityList.AddSortChild(this, call__176);
             }
@@ -4102,15 +4096,15 @@ namespace Aow.Units.HSEngine
         public override bool CanSelect(int Xhp, int Yhp)
         {
             bool Result = default;
-            bool bool__177 = FResource.FEngine.FHSMap.FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting) && (FResource.FTerrainList.FCount != 0);
+            bool bool__177 = FResource.FEngine.FHSMap.FStatus.Contains(THSMapStatusElement.msEditting) && FResource.FTerrainList.FCount != 0;
             if (bool__177)
             {
                 var call__178 = FResource.FTerrainList.GetTerrain(0);
-                bool bool__179 = (call__178 >= 0);
+                bool bool__179 = call__178 >= 0;
                 if (!bool__179)
                 {
                     var call__180 = FResource.FTerrainList.GetOverlay(0);
-                    bool__179 = (call__180 >= 0);
+                    bool__179 = call__180 >= 0;
                 }
 
                 bool__177 = bool__179;
@@ -4123,21 +4117,21 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:172
         public override void Select()
         {
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moSelected);
+            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moSelected);
         }
 
         // MAPOBJ.PAS:177
         public override void Unselect()
         {
             base.Unselect();
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moSelected);
+            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moSelected);
         }
 
         // MAPOBJ.PAS:21
-        public override Aow.Rtl.AnsiString EditName()
+        public override AnsiString EditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            if (FResource.FName == ((AnsiString)""))
+            AnsiString Result = default;
+            if (FResource.FName == (AnsiString)"")
             {
                 var call__181 = FResource.ResourceEditName();
                 Result = call__181;
@@ -4151,34 +4145,34 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:63
-        public virtual Aow.Units.HSEngine.TMapObjectResourceList GetResourceList(Aow.Units.Engine.TEngine AEngine)
+        public virtual TMapObjectResourceList GetResourceList(TEngine AEngine)
         {
-            Aow.Units.HSEngine.TMapObjectResourceList Result = default;
-            Result = ((Aow.Units.HSEngine.THSEngine)AEngine).FHSSet.FMapObjectResourceList;
+            TMapObjectResourceList Result = default;
+            Result = ((THSEngine)AEngine).FHSSet.FMapObjectResourceList;
             return Result;
         }
 
         // MAPOBJ.PAS:68
-        public virtual void SetResource(Aow.Units.HSEngine.TMapObjectResource Value)
+        public virtual void SetResource(TMapObjectResource Value)
         {
             FResource = Value;
         }
 
         // MAPOBJ.PAS:307
-        public virtual bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            if ((((((Xhx >= 0) && (Yhx >= 0)) && (Lhx >= 0)) && (Xhx < MapContainer.FWidth)) && (Yhx < MapContainer.FHeight)) && (Lhx < MapContainer.FLevelCount))
+            THexagonSprite HS = default;
+            TMapField MapField = default;
+            if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount)
             {
                 MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
                 HS = MapField.GetMaxLevelNoneTransparentHS();
-                bool bool__182 = (HS == null);
+                bool bool__182 = HS == null;
                 if (!bool__182)
                 {
                     var call__183 = HS.GetLevel();
-                    bool__182 = (call__183 < 10);
+                    bool__182 = call__183 < 10;
                 }
 
                 bool bool__184 = bool__182;
@@ -4186,7 +4180,7 @@ namespace Aow.Units.HSEngine
                 {
                     var call__185 = GetOverlay(0);
                     var call__186 = GetTerrain(0);
-                    var call__187 = MapField.CanChangeTerrain(this, unchecked((sbyte)call__186), unchecked((sbyte)call__185));
+                    var call__187 = MapField.CanChangeTerrain(this, call__186, call__185);
                     bool__184 = call__187;
                 }
 
@@ -4201,7 +4195,7 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:324
-        public virtual bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             var call__188 = MapContainer.GetField(Xhx, Yhx, Lhx);
@@ -4210,36 +4204,36 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        public Aow.Units.HSEngine.TMapObjectResource Resource { get => FResource; set => SetResource(value); }
+        public TMapObjectResource Resource { get => FResource; set => SetResource(value); }
         public int ResourceID { get => GetResourceID(); set => SetResourceID(value); }
         public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
-        public TSet<Aow.Units.HSEngine.TMapObjectStatusElement> Status { get => FStatus; }
+        public TSet<TMapObjectStatusElement> Status { get => FStatus; }
 
     }
 
     // the resource of map objects. FEngine (set by the engine activation message),
     // FShowPriorityOffset (id 4), FImageLibrary (id 8), FImageSequenceList (nil without complex
     // images. ids 9, 10), FTerrainList (id 7), FLevel (id 5), FName (id 6)
-    public partial class TMapObjectResource : Aow.Units.Engine.TEResource
+    public partial class TMapObjectResource : TEResource
     {
         public new const int ClassID = 65876;
 
         public TMapObjectResource(TECustomNode owner) : base(owner)
         {
-            var call__190 = new Aow.Units.HSEngine.TTerrainList();
+            var call__190 = new TTerrainList();
             FTerrainList = call__190;
-            var call__191 = new Aow.Units.ImageLib.TImageLibrary(null);
+            var call__191 = new TImageLibrary(null);
             FImageLibrary = call__191;
             SetLevel(26);
         }
 
-        protected internal Aow.Units.HSEngine.THSEngine FEngine;
+        protected internal THSEngine FEngine;
         protected internal int FShowPriorityOffset;
-        protected internal Aow.Units.ImageLib.TImageLibrary FImageLibrary;
-        protected internal Aow.Units.ImageLib.TImageSequenceList FImageSequenceList;
-        protected internal Aow.Units.HSEngine.TTerrainList FTerrainList;
+        protected internal TImageLibrary FImageLibrary;
+        protected internal TImageSequenceList FImageSequenceList;
+        protected internal TTerrainList FTerrainList;
         protected internal byte FLevel;
-        protected internal Aow.Rtl.AnsiString FName;
+        protected internal AnsiString FName;
         // MAPOBJ.PAS:391
         public override void Destroy()
         {
@@ -4262,15 +4256,15 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:400
-        public override Aow.Units.Engine.TEngine GetEngine()
+        public override TEngine GetEngine()
         {
-            Aow.Units.Engine.TEngine Result = default;
+            TEngine Result = default;
             Result = FEngine;
             return Result;
         }
 
         // MAPOBJ.PAS:470
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             bool Complex = default;
             base.ReadWrite(Stream);
@@ -4280,16 +4274,16 @@ namespace Aow.Units.HSEngine
             Stream.rwStreamProc(7, FTerrainList.LoadFromStream, FTerrainList.SaveToStream);
             FImageLibrary.ReduceCount();
             Stream.rwStreamProc(8, FImageLibrary.LoadFromStream, FImageLibrary.SaveToStream);
-            if (!Stream.StorageMode().Contains(Aow.Units.Engine.Engine.smText))
+            if (!Stream.StorageMode().Contains(smText))
             {
-                if (Stream.StorageMode().Contains(Aow.Units.Engine.TStorageModeElement.smRead))
+                if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
                 {
                     Stream.rwBool(ref Complex, 9);
                     if (Complex)
                     {
                         if (FImageSequenceList == null)
                         {
-                            var call__189 = new Aow.Units.ImageLib.TImageSequenceList(null, FImageLibrary);
+                            var call__189 = new TImageSequenceList(null, FImageLibrary);
                             FImageSequenceList = call__189;
                         }
                     }
@@ -4316,12 +4310,12 @@ namespace Aow.Units.HSEngine
 
 
         // MAPOBJ.PAS:620
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FEngine = (Aow.Units.HSEngine.THSEngine)Msg.Engine;
+                FEngine = (THSEngine)Msg.Engine;
                 if (FImageSequenceList != null)
                 {
                     FImageSequenceList.FILManager = FEngine.FHSSet.FImageLibraryManager;
@@ -4345,20 +4339,20 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:450
-        public override Aow.Units.ImageLib.TLibraryImage GetCellImage()
+        public override ImageLib.TLibraryImage GetCellImage()
         {
-            Aow.Units.ImageLib.TLibraryImage Result = default;
+            ImageLib.TLibraryImage Result = default;
             int I = default;
             I = 0;
             Result = null;
-            while ((I != FImageLibrary.Count) && (Result == null))
+            while (I != FImageLibrary.Count && Result == null)
             {
                 var call__192 = FImageLibrary.Get(I);
                 Result = call__192;
                 I += 1;
             }
 
-            if ((Result == null) && (FImageSequenceList != null))
+            if (Result == null && FImageSequenceList != null)
             {
                 var call__193 = FImageSequenceList.GetPreviewImage();
                 Result = call__193;
@@ -4368,22 +4362,22 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:465
-        public override void SetCellImage(Aow.Units.ImageLib.TLibraryImage Value)
+        public override void SetCellImage(ImageLib.TLibraryImage Value)
         {
             FImageLibrary.SetImage(0, Value);
         }
 
         // MAPOBJ.PAS:525
-        public override Aow.Units.Engine.TEObject CreateResourceUser()
+        public override TEObject CreateResourceUser()
         {
-            Aow.Units.Engine.TEObject Result = default;
+            TEObject Result = default;
             int ID = default;
-            Aow.Units.HSEngine.TMapObject MO = default;
+            TMapObject MO = default;
             ID = ResourceUserClassID();
             if (ID != 0)
             {
                 var call__194 = FEngine.CreateEObject(ID, null);
-                MO = (Aow.Units.HSEngine.TMapObject)call__194;
+                MO = (TMapObject)call__194;
                 if (MO != null)
                 {
                     MO.SetResource(this);
@@ -4400,26 +4394,26 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:420
-        public override void Draw(Aow.Rtl.TCanvas Canvas, Aow.Rtl.TRect Rect, Aow.Units.ImageLib.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+        public override void Draw(TCanvas Canvas, TRect Rect, ImageLib.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
             int I = default;
-            Aow.Units.ImageLib.TLibraryImage Image = default;
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
-            Aow.Rtl.TRect DrawRect = default;
+            ImageLib.TLibraryImage Image = default;
+            TImageSequence Sequence = default;
+            TRect DrawRect = default;
             I = 0;
             Image = null;
-            while ((I != FImageLibrary.Count) && (Image == null))
+            while (I != FImageLibrary.Count && Image == null)
             {
                 var call__195 = FImageLibrary.Get(I);
                 Image = call__195;
                 I += 1;
             }
 
-            if ((Image == null) && (FImageSequenceList != null))
+            if (Image == null && FImageSequenceList != null)
             {
                 I = 0;
                 Sequence = null;
-                while ((I != FImageSequenceList.Count) && (Sequence == null))
+                while (I != FImageSequenceList.Count && Sequence == null)
                 {
                     var call__196 = FImageSequenceList.GetImageSequence(I);
                     Sequence = call__196;
@@ -4429,29 +4423,29 @@ namespace Aow.Units.HSEngine
                     }
                 }
 
-                Aow.Units.ImageLib.ImageLib.BltImageSequenceEx(Canvas, Sequence, 0, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
+                BltImageSequenceEx(Canvas, Sequence, 0, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
             }
             else
             {
-                Aow.Units.ImageLib.ImageLib.BltLibraryImage(Canvas, Image, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
+                BltLibraryImage(Canvas, Image, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
             }
         }
 
         // MAPOBJ.PAS:550
         public virtual void SetLevel(byte Value)
         {
-            FLevel = unchecked((byte)Value);
+            FLevel = Value;
             CalcShowPriorityOffset(16, 32, FLevel);
         }
 
         // MAPOBJ.PAS:556
-        public virtual Aow.Units.HSEngine.TMapObject PlaceResourceUser(Aow.Units.HSEngine.THSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual TMapObject PlaceResourceUser(THSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            Aow.Units.HSEngine.TMapObject Result = default;
+            TMapObject Result = default;
             int Xhp = default;
             int Yhp = default;
-            Result = (Aow.Units.HSEngine.TMapObject)CreateResourceUser();
-            Aow.Units.HSEngine.HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            Result = (TMapObject)CreateResourceUser();
+            HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             Xhp += 16;
             Yhp += 16;
             if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
@@ -4470,13 +4464,13 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:507
-        public void ShowComplexImage(int X, int Y, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc, int Index, uint Offset)
+        public void ShowComplexImage(int X, int Y, in TSurfaceDesc SurfaceDesc, int Index, uint Offset)
         {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
+            TImageSequence Sequence = default;
             int Frame = default;
             if (Index < FImageSequenceList.Count)
             {
-                Sequence = (Aow.Units.ImageLib.TImageSequence)FImageSequenceList.List[Index];
+                Sequence = (TImageSequence)FImageSequenceList.List[Index];
             }
             else
             {
@@ -4485,7 +4479,7 @@ namespace Aow.Units.HSEngine
 
             while (Sequence != null)
             {
-                var call__197 = Sequence.GetFrameIndex(FEngine.FHSMap.FFrame, unchecked((int)Offset));
+                var call__197 = Sequence.GetFrameIndex(FEngine.FHSMap.FFrame, (int)Offset);
                 Frame = call__197;
                 if (Frame != -1)
                 {
@@ -4511,7 +4505,7 @@ namespace Aow.Units.HSEngine
                     var call__200 = FTerrainList.GetTerrain(I);
                     if (call__200 >= 0)
                     {
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(X, Y, I, ref Xhx, ref Yhx);
+                        HSEngine.CenterHNtoHX(X, Y, I, ref Xhx, ref Yhx);
                         FEngine.FHSMap.ClearTerrain(Xhx, Yhx, Lhx, 0, -1);
                     }
                 }
@@ -4521,26 +4515,26 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:586
         // { The resource was dropped on the map (message $10005): fill the hexagons in Param[1] rings around
 //   the drop point with its users, clearing the terrain first when Param[2] = 1 }
-        public void EditDropMsg(ref Aow.Units.Engine.TEMsg Msg)
+        public void EditDropMsg(ref TEMsg Msg)
         {
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
+            TMapLevel MapLevel = default;
             int Xhx = default;
             int Yhx = default;
             int Lhx = default;
             int Rad = default;
             bool Clear = default;
             bool Placed = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
+            THNWalkData Walk = default;
             Placed = true;
-            MapLevel = Msg.Param[0].As<Aow.Units.HSEngine.TMapLevel>();
+            MapLevel = Msg.Param[0].As<TMapLevel>();
             Lhx = Msg.Data[1];
             Rad = Msg.Param[1].Value;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
+            HSEngine.HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
             Clear = Msg.Param[2].Value == 1;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.Radius <= Rad)
             {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     if (Clear)
                     {
@@ -4550,14 +4544,14 @@ namespace Aow.Units.HSEngine
                     bool bool__201 = Placed;
                     if (bool__201)
                     {
-                        var call__202 = PlaceResourceUser(FEngine.FHSMap, unchecked((sbyte)Walk.X), unchecked((sbyte)Walk.Y), unchecked((sbyte)Lhx));
-                        bool__201 = (call__202 != null);
+                        var call__202 = PlaceResourceUser(FEngine.FHSMap, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)Lhx);
+                        bool__201 = call__202 != null;
                     }
 
                     Placed = bool__201;
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
             if (Placed)
@@ -4570,42 +4564,42 @@ namespace Aow.Units.HSEngine
             }
         }
 
-        public Aow.Units.HSEngine.THSEngine Engine { get => FEngine; }
+        public THSEngine Engine { get => FEngine; }
         public int ShowPriorityOffset { get => FShowPriorityOffset; set => FShowPriorityOffset = value; }
-        public Aow.Units.ImageLib.TImageLibrary ImageLibrary { get => FImageLibrary; }
-        public Aow.Units.ImageLib.TImageSequenceList ImageSequenceList { get => FImageSequenceList; set => FImageSequenceList = value; }
-        public Aow.Units.HSEngine.TTerrainList TerrainList { get => FTerrainList; }
+        public TImageLibrary ImageLibrary { get => FImageLibrary; }
+        public TImageSequenceList ImageSequenceList { get => FImageSequenceList; set => FImageSequenceList = value; }
+        public TTerrainList TerrainList { get => FTerrainList; }
         public byte Level { get => FLevel; set => SetLevel(value); }
-        public Aow.Rtl.AnsiString Name { get => FName; set => FName = value; }
+        public AnsiString Name { get => FName; set => FName = value; }
 
         // MAPOBJ.PAS:415
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             Result = (AnsiString)"";
             return Result;
         }
 
     }
 
-    public partial class TMapObjectResourceList : Aow.Units.Engine.TEResourceList
+    public partial class TMapObjectResourceList : TEResourceList
     {
         public TMapObjectResourceList(TECustomNode owner) : base(owner)
         { }
 
         // MAPOBJ.PAS:641
-        public Aow.Units.HSEngine.TMapObjectResource GetMOR(int Index)
+        public TMapObjectResource GetMOR(int Index)
         {
-            Aow.Units.HSEngine.TMapObjectResource Result = default;
-            Result = (Aow.Units.HSEngine.TMapObjectResource)FChildren.List[Index];
+            TMapObjectResource Result = default;
+            Result = (TMapObjectResource)FChildren.List[Index];
             return Result;
         }
 
         // MAPOBJ.PAS:646
-        public bool FindMOR(int AClassID, Aow.Units.HSEngine.TTerrainList TerrainList, TSet<Aow.Units.HSEngine.TTerrainCompareModeElement> Mode, ref Aow.Rtl.TList List)
+        public bool FindMOR(int AClassID, TTerrainList TerrainList, TSet<TTerrainCompareModeElement> Mode, ref TList List)
         {
             bool Result = default;
-            Aow.Units.HSEngine.TMapObjectResource R = default;
+            TMapObjectResource R = default;
             int[] I__cell = new int[1];
             ref int I = ref I__cell[0];
             object IndexPtr = default;
@@ -4618,10 +4612,10 @@ namespace Aow.Units.HSEngine
                 int end__203 = FChildren.Count - 1;
                 for (; I <= end__203; I += 1)
                 {
-                    R = (Aow.Units.HSEngine.TMapObjectResource)FChildren.List[I];
+                    R = (TMapObjectResource)FChildren.List[I];
                     if (R.EClass.ClassID == AClassID)
                     {
-                        bool bool__204 = (TerrainList == null);
+                        bool bool__204 = TerrainList == null;
                         if (!bool__204)
                         {
                             var call__205 = R.FTerrainList.CompareTerrain(TerrainList, Mode);
@@ -4640,9 +4634,9 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        public sealed class MORsAccessor(Aow.Units.HSEngine.TMapObjectResourceList target)
+        public sealed class MORsAccessor(TMapObjectResourceList target)
         {
-            public Aow.Units.HSEngine.TMapObjectResource this[int Index] { get => target.GetMOR(Index); }
+            public TMapObjectResource this[int Index] { get => target.GetMOR(Index); }
         }
 
         public MORsAccessor MORs => new MORsAccessor(this);
@@ -4702,7 +4696,7 @@ namespace Aow.Units.HSEngine
     }
 
     // the parameters of a new map (THSMap.CreateNewMap)
-    public partial class TNewHSMapSettings : Aow.Rtl.TObject
+    public partial class TNewHSMapSettings : TObject
     {
 
         public TNewHSMapSettings()
@@ -4722,7 +4716,7 @@ namespace Aow.Units.HSEngine
         public int Width;
         public int Height;
         public int Levels;
-        public Aow.Rtl.AnsiString HSSFileName;
+        public AnsiString HSSFileName;
         public int HSMapClassID;
         public int MapContainerClassID;
         public int MapLevelClassID;
@@ -4733,7 +4727,7 @@ namespace Aow.Units.HSEngine
 
     // terrain and overlay types by hexagon number, two bytes per hexagon (terrain type, overlay
     // type. -2: none)
-    public partial class TTerrainList : Aow.Rtl.TObject
+    public partial class TTerrainList : TObject
     {
         internal int FCount;
         internal byte[] FList = [];
@@ -4745,25 +4739,25 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1417
-        public virtual void Assign(Aow.Units.HSEngine.TTerrainList Source)
+        public virtual void Assign(TTerrainList Source)
         {
             SetCount(Source.FCount);
             Array.Copy(Source.FList, 0, FList, 0, FCount * 2);
         }
 
         // HSEngine.pas:1562
-        public virtual void LoadFromStream(Aow.Rtl.TStream Stream)
+        public virtual void LoadFromStream(TStream Stream)
         {
-            Stream.Read(Aow.Rtl.Bytes.Of(ref FCount, 4));
+            Stream.Read(Bytes.Of(ref FCount, 4));
             SetCount(FCount);
             Stream.Read(FList.AsSpan(0, FCount * 2));
         }
 
         // HSEngine.pas:1569
-        public virtual void SaveToStream(Aow.Rtl.TStream Stream)
+        public virtual void SaveToStream(TStream Stream)
         {
             Pack();
-            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
+            Stream.Write(Bytes.Of(ref FCount, 4));
             Stream.Write(FList.AsSpan(0, FCount * 2));
         }
 
@@ -4773,11 +4767,11 @@ namespace Aow.Units.HSEngine
             sbyte Result = default;
             if (Index < FCount)
             {
-                Result = unchecked((sbyte)MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2, 1)));
+                Result = MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2, 1));
             }
             else
             {
-                Result = unchecked((sbyte)-2);
+                Result = -2;
             }
 
             return Result;
@@ -4792,8 +4786,8 @@ namespace Aow.Units.HSEngine
             }
 
             {
-                sbyte value__206 = unchecked((sbyte)Value);
-                MemoryMarshal.Write<sbyte>(FList.AsSpan(Index * 2, 1), in value__206);
+                sbyte value__206 = Value;
+                MemoryMarshal.Write(FList.AsSpan(Index * 2, 1), in value__206);
             }
         }
 
@@ -4803,7 +4797,7 @@ namespace Aow.Units.HSEngine
             Array.Resize(ref FList, NewCount + NewCount);
             if (NewCount > FCount)
             {
-                Aow.Rtl.Rtl.FillBytes(FList.AsSpan(FCount * 2, (NewCount - FCount) * 2), -2);
+                FillBytes(FList.AsSpan(FCount * 2, (NewCount - FCount) * 2), -2);
             }
 
             FCount = NewCount;
@@ -4815,11 +4809,11 @@ namespace Aow.Units.HSEngine
             sbyte Result = default;
             if (Index < FCount)
             {
-                Result = unchecked((sbyte)MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2 + 1, 1)));
+                Result = MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2 + 1, 1));
             }
             else
             {
-                Result = unchecked((sbyte)-2);
+                Result = -2;
             }
 
             return Result;
@@ -4834,8 +4828,8 @@ namespace Aow.Units.HSEngine
             }
 
             {
-                sbyte value__207 = unchecked((sbyte)Value);
-                MemoryMarshal.Write<sbyte>(FList.AsSpan(Index * 2 + 1, 1), in value__207);
+                sbyte value__207 = Value;
+                MemoryMarshal.Write(FList.AsSpan(Index * 2 + 1, 1), in value__207);
             }
         }
 
@@ -4845,7 +4839,7 @@ namespace Aow.Units.HSEngine
             ushort Result = default;
             if (Index < FCount)
             {
-                Result = unchecked((ushort)MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2)));
+                Result = MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2));
             }
             else
             {
@@ -4864,8 +4858,8 @@ namespace Aow.Units.HSEngine
             }
 
             {
-                ushort value__208 = unchecked((ushort)Value);
-                MemoryMarshal.Write<ushort>(FList.AsSpan(Index * 2, 2), in value__208);
+                ushort value__208 = Value;
+                MemoryMarshal.Write(FList.AsSpan(Index * 2, 2), in value__208);
             }
         }
 
@@ -4873,7 +4867,7 @@ namespace Aow.Units.HSEngine
         public bool GetUsed(int Index)
         {
             bool Result = default;
-            Result = (Index < FCount) && ((MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2)) & 32896) != 32896);
+            Result = Index < FCount && (MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2)) & 32896) != 32896;
             return Result;
         }
 
@@ -4882,7 +4876,7 @@ namespace Aow.Units.HSEngine
         {
             int count = 0;
             for (int i = 0; i < FCount; i++)
-                if (unchecked((sbyte)FList[i * 2 + 0]) > -1) count++;
+                if ((sbyte)FList[i * 2 + 0] > -1) count++;
             return count;
         }
 
@@ -4891,7 +4885,7 @@ namespace Aow.Units.HSEngine
         {
             int count = 0;
             for (int i = 0; i < FCount; i++)
-                if (unchecked((sbyte)FList[i * 2 + 1]) > -1) count++;
+                if ((sbyte)FList[i * 2 + 1] > -1) count++;
             return count;
         }
 
@@ -4902,18 +4896,18 @@ namespace Aow.Units.HSEngine
             NewCount = FCount;
             while (true)
             {
-                bool bool__211 = (NewCount != 0);
+                bool bool__211 = NewCount != 0;
                 if (bool__211)
                 {
                     var call__212 = GetOverlay(NewCount - 1);
-                    bool__211 = (call__212 == -2);
+                    bool__211 = call__212 == -2;
                 }
 
                 bool bool__213 = bool__211;
                 if (bool__213)
                 {
                     var call__214 = GetTerrain(NewCount - 1);
-                    bool__213 = (call__214 == -2);
+                    bool__213 = call__214 == -2;
                 }
 
                 if (!bool__213)
@@ -4930,15 +4924,15 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1516
-        public Aow.Units.Engine.TWordList CreateSurroundingHNTable()
+        public TWordList CreateSurroundingHNTable()
         {
-            Aow.Units.Engine.TWordList Result = default;
+            TWordList Result = default;
             int I = default;
             int HN = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Result = new Aow.Units.Engine.TWordList();
+            THNWalkData Walk = default;
+            Result = new TWordList();
             {
                 I = 0;
                 int end__215 = FCount - 1;
@@ -4946,20 +4940,20 @@ namespace Aow.Units.HSEngine
                 {
                     if (GetTerrain(I) >= 0)
                     {
-                        Aow.Units.HSEngine.HSEngine.HNtoHX(I, ref Xhx, ref Yhx);
-                        Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 1);
+                        HSEngine.HNtoHX(I, ref Xhx, ref Yhx);
+                        HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 1);
                         while (Walk.HN != 7)
                         {
-                            var call__216 = Aow.Units.HSEngine.HSEngine.HXtoHN(Walk.X, Walk.Y);
+                            var call__216 = HSEngine.HXtoHN(Walk.X, Walk.Y);
                             HN = call__216;
-                            bool bool__217 = (HN >= FCount);
+                            bool bool__217 = HN >= FCount;
                             if (!bool__217)
                             {
-                                bool bool__218 = (HN < FCount);
+                                bool bool__218 = HN < FCount;
                                 if (bool__218)
                                 {
                                     var call__219 = GetTerrain(HN);
-                                    bool__218 = (call__219 < 0);
+                                    bool__218 = call__219 < 0;
                                 }
 
                                 bool__217 = bool__218;
@@ -4967,13 +4961,13 @@ namespace Aow.Units.HSEngine
 
                             if (bool__217)
                             {
-                                if (Result.IndexOf(unchecked((ushort)HN)) == -1)
+                                if (Result.IndexOf((ushort)HN) == -1)
                                 {
-                                    Result.Add(unchecked((ushort)HN));
+                                    Result.Add((ushort)HN);
                                 }
                             }
 
-                            Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                            HSEngine.WalkToNextHN(ref Walk);
                         }
                     }
                 }
@@ -4983,7 +4977,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1538
-        public bool CompareTerrain(Aow.Units.HSEngine.TTerrainList List, TSet<Aow.Units.HSEngine.TTerrainCompareModeElement> Mode)
+        public bool CompareTerrain(TTerrainList List, TSet<TTerrainCompareModeElement> Mode)
         {
             bool Result = default;
             int I = default;
@@ -5003,22 +4997,22 @@ namespace Aow.Units.HSEngine
                 N = List.FCount;
             }
 
-            while (Result && (I != N))
+            while (Result && I != N)
             {
                 T1 = GetTerrain(I);
                 T2 = List.GetTerrain(I);
-                if (!((T1 < 0) && (T2 < 0)))
+                if (!(T1 < 0 && T2 < 0))
                 {
-                    Result = ((T1 >= 0) && (T2 >= 0)) && (!Mode.Contains(Aow.Units.HSEngine.TTerrainCompareModeElement.cmSameTerrainType) || (T1 == T2));
+                    Result = T1 >= 0 && T2 >= 0 && (!Mode.Contains(TTerrainCompareModeElement.cmSameTerrainType) || T1 == T2);
                 }
 
                 if (Result)
                 {
                     O1 = GetOverlay(I);
                     O2 = List.GetOverlay(I);
-                    if (!((O1 < 0) && (O2 < 0)))
+                    if (!(O1 < 0 && O2 < 0))
                     {
-                        Result = !Mode.Contains(Aow.Units.HSEngine.TTerrainCompareModeElement.cmSameOverlayType) || (O1 == O2);
+                        Result = !Mode.Contains(TTerrainCompareModeElement.cmSameOverlayType) || O1 == O2;
                     }
                 }
 
@@ -5030,28 +5024,28 @@ namespace Aow.Units.HSEngine
 
         public int Count { get => FCount; set => SetCount(value); }
 
-        public sealed class TerrainAccessor(Aow.Units.HSEngine.TTerrainList target)
+        public sealed class TerrainAccessor(TTerrainList target)
         {
             public sbyte this[int Index] { get => target.GetTerrain(Index); set => target.SetTerrain(Index, value); }
         }
 
         public TerrainAccessor Terrain => new TerrainAccessor(this);
 
-        public sealed class OverlayAccessor(Aow.Units.HSEngine.TTerrainList target)
+        public sealed class OverlayAccessor(TTerrainList target)
         {
             public sbyte this[int Index] { get => target.GetOverlay(Index); set => target.SetOverlay(Index, value); }
         }
 
         public OverlayAccessor Overlay => new OverlayAccessor(this);
 
-        public sealed class TandOAccessor(Aow.Units.HSEngine.TTerrainList target)
+        public sealed class TandOAccessor(TTerrainList target)
         {
             public ushort this[int Index] { get => target.GetTandO(Index); set => target.SetTandO(Index, value); }
         }
 
         public TandOAccessor TandO => new TandOAccessor(this);
 
-        public sealed class UsedAccessor(Aow.Units.HSEngine.TTerrainList target)
+        public sealed class UsedAccessor(TTerrainList target)
         {
             public bool this[int Index] { get => target.GetUsed(Index); }
         }
@@ -5064,7 +5058,7 @@ namespace Aow.Units.HSEngine
     // { THexagonSprite.UpdateMapField (8 bytes) }
     public struct THSMapFieldInfo
     {
-        public Aow.Units.HSEngine.TMapField MapField;
+        public TMapField MapField;
         public sbyte HN;
     }
 
@@ -5072,8 +5066,8 @@ namespace Aow.Units.HSEngine
 //     that asks (the sprite that changes the terrain, the mover) }
     public struct THSSenderInfo
     {
-        public Aow.Rtl.TObject Sender;
-        public Aow.Units.HSEngine.TMapField MapField;
+        public TObject Sender;
+        public TMapField MapField;
         public sbyte HN;
     }
 
@@ -5082,15 +5076,15 @@ namespace Aow.Units.HSEngine
     {
         public sbyte TerrainType;
         public sbyte OverlayType;
-        public Aow.Units.HSEngine.TMapField MapField;
+        public TMapField MapField;
         public sbyte HN;
     }
 
     // { THexagonSprite.CanMoveOn (16 and 12 bytes) }
     public struct THSMoveOnInfo
     {
-        public Aow.Rtl.TObject Sender;
-        public Aow.Units.HSEngine.TMapField MapField;
+        public TObject Sender;
+        public TMapField MapField;
         public int MoveOverCode;
         public sbyte HN;
     }
@@ -5109,15 +5103,15 @@ namespace Aow.Units.HSEngine
     public struct TMapFieldMsg
     {
         public int MsgID;
-        public Aow.Units.HSEngine.TMapField MapField;
-        public Aow.Units.FixedArray_IntOrRef_4 Param;
+        public TMapField MapField;
+        public FixedArray_IntOrRef_4 Param;
         public int HN;
         public IntOrRef Result;
     }
 
     // A map level owns its fields in row order. The fields are its children.
     // Field size and neighbour offsets keep the recovered layout values.
-    public partial class TMapLevel : Aow.Units.Engine.TECustomNode
+    public partial class TMapLevel : TECustomNode
     {
         // HSEngine.pas:2837
         public new const int ClassID = 65794;
@@ -5131,28 +5125,28 @@ namespace Aow.Units.HSEngine
         protected internal int FWidth;
         protected internal int FHeight;
         protected internal int FCount;
-        protected internal Aow.Units.HSEngine.TMapContainer FMapContainer;
-        protected internal Aow.Units.HSEngine.THSMap FMap;
-        protected internal Aow.Units.Engine.TEngine FEngine;
+        protected internal TMapContainer FMapContainer;
+        protected internal THSMap FMap;
+        protected internal TEngine FEngine;
         protected internal int FMapFieldCID;
         protected internal int FFieldSize;
         protected internal int FFieldsSize;
-        public Aow.Units.FixedArray_Aow_Units_FixedArray_int_8_2 FHNOffsets;
+        public FixedArray_Aow_Units_FixedArray_int_8_2 FHNOffsets;
         // HSEngine.pas:2925
-        public override Aow.Units.Engine.TEngine GetEngine()
+        public override TEngine GetEngine()
         {
-            Aow.Units.Engine.TEngine Result = default;
+            TEngine Result = default;
             Result = FEngine;
             return Result;
         }
 
         // HSEngine.pas:2913
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
                 FEngine = Msg.Engine;
-                FMapContainer = (Aow.Units.HSEngine.TMapContainer)Owner;
+                FMapContainer = (TMapContainer)Owner;
                 FMap = FMapContainer.FMap;
             }
             else
@@ -5169,9 +5163,9 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2935
-        public override void SetChild(int Index, Aow.Units.Engine.TEObject Child)
+        public override void SetChild(int Index, TEObject Child)
         {
-            throw Aow.Rtl.Exception.Create((AnsiString)"Cannot set child in TMapLevel");
+            throw Exception.Create((AnsiString)"Cannot set child in TMapLevel");
         }
 
         // HSEngine.pas:2950
@@ -5183,23 +5177,23 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2945
-        public override int RemoveChild(Aow.Units.Engine.TEObject Child)
+        public override int RemoveChild(TEObject Child)
         {
             int Result = default;
-            throw Aow.Rtl.Exception.Create((AnsiString)"Cannot remove from TMapLevel");
+            throw Exception.Create((AnsiString)"Cannot remove from TMapLevel");
             return Result;
         }
 
         // HSEngine.pas:2940
-        public override int AddChild(Aow.Units.Engine.TEObject Child)
+        public override int AddChild(TEObject Child)
         {
             int Result = default;
-            throw Aow.Rtl.Exception.Create((AnsiString)"Cannot add child to TMapLevel");
+            throw Exception.Create((AnsiString)"Cannot add child to TMapLevel");
             return Result;
         }
 
         // HSEngine.pas:3140
-        public virtual void New(Aow.Units.HSEngine.TNewHSMapSettings Settings)
+        public virtual void New(TNewHSMapSettings Settings)
         {
             Clear();
             try
@@ -5214,25 +5208,25 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:2842
-        public virtual Aow.Units.Engine.EClass MapFieldClass()
+        public virtual EClass MapFieldClass()
         {
-            Aow.Units.Engine.EClass Result = default;
-            Result = Aow.Units.Engine.EClass.Of<Aow.Units.HSEngine.TMapField>();
+            EClass Result = default;
+            Result = EClass.Of<TMapField>();
             return Result;
         }
 
         public int Lhx { get => FLhx; set => FLhx = value; }
         public int Width { get => FWidth; }
         public int Height { get => FHeight; }
-        public Aow.Units.HSEngine.TMapContainer MapContainer { get => FMapContainer; }
-        public Aow.Units.HSEngine.THSMap Map { get => FMap; }
+        public TMapContainer MapContainer { get => FMapContainer; }
+        public THSMap Map { get => FMap; }
         public int MapFieldCID { get => FMapFieldCID; set => FMapFieldCID = value; }
         public int FieldSize { get => FFieldSize; }
-        public ReadOnlySpan<Aow.Units.HSEngine.TMapField> Fields => fields;
+        public ReadOnlySpan<TMapField> Fields => fields;
 
-        public sealed class FieldAccessor(Aow.Units.HSEngine.TMapLevel target)
+        public sealed class FieldAccessor(TMapLevel target)
         {
-            public Aow.Units.HSEngine.TMapField this[int X, int Y] { get => target.GetField(X, Y); }
+            public TMapField this[int X, int Y] { get => target.GetField(X, Y); }
         }
 
         public FieldAccessor Field => new FieldAccessor(this);
@@ -5243,20 +5237,20 @@ namespace Aow.Units.HSEngine
     // FLocationHS the sprites selected by location (clicking on a hexagon), FOnSelect, FOnDeselect
     // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
     // the map
-    public partial class THexagonSpriteSelection : Aow.Units.Engine.TEControlStyleNode
+    public partial class THexagonSpriteSelection : TEControlStyleNode
     {
-        internal Aow.Rtl.TList FLocationHS;
-        internal Aow.Units.Engine.TEventList FOnSelect;
-        internal Aow.Units.Engine.TEventList FOnDeselect;
-        internal Aow.Units.HSEngine.THexagonSprite FEventHS;
+        internal TList FLocationHS;
+        internal TEventList FOnSelect;
+        internal TEventList FOnDeselect;
+        internal THexagonSprite FEventHS;
         // HSEngine.pas:3681
         public THexagonSpriteSelection(TECustomNode owner) : base(owner)
         {
-            var call__220 = new Aow.Rtl.TList();
+            var call__220 = new TList();
             FLocationHS = call__220;
-            var call__221 = new Aow.Units.Engine.TEventList();
+            var call__221 = new TEventList();
             FOnSelect = call__221;
-            var call__222 = new Aow.Units.Engine.TEventList();
+            var call__222 = new TEventList();
             FOnDeselect = call__222;
         }
 
@@ -5279,21 +5273,21 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3699
-        public void TriggerDeselectEvent(Aow.Units.HSEngine.THexagonSprite HS)
+        public void TriggerDeselectEvent(THexagonSprite HS)
         {
             FEventHS = HS;
             FOnDeselect.TriggerNotifyEvents(Owner);
         }
 
         // HSEngine.pas:3705
-        public void TriggerSelectEvent(Aow.Units.HSEngine.THexagonSprite HS)
+        public void TriggerSelectEvent(THexagonSprite HS)
         {
             FEventHS = HS;
             FOnSelect.TriggerNotifyEvents(Owner);
         }
 
         // HSEngine.pas:3711
-        public void Unselect(Aow.Units.HSEngine.THexagonSprite HS)
+        public void Unselect(THexagonSprite HS)
         {
             int I = default;
             var call__223 = FChildren.IndexOf(HS);
@@ -5316,7 +5310,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3727
-        public void Select(Aow.Units.HSEngine.THexagonSprite HS)
+        public void Select(THexagonSprite HS)
         {
             FChildren.Add(HS);
             HS.Select();
@@ -5328,28 +5322,28 @@ namespace Aow.Units.HSEngine
         {
             while (FChildren.Count != 0)
             {
-                Unselect((Aow.Units.HSEngine.THexagonSprite)FChildren.List[FChildren.Count - 1]);
+                Unselect((THexagonSprite)FChildren.List[FChildren.Count - 1]);
             }
         }
 
         // HSEngine.pas:3740
-        public Aow.Units.HSEngine.THexagonSprite FindClass(System.Type AClass)
+        public THexagonSprite FindClass(Type AClass)
         {
-            Aow.Units.HSEngine.THexagonSprite Result = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
+            THexagonSprite Result = default;
+            THexagonSprite HS = default;
             int I = default;
             Result = null;
             I = 0;
             while (true)
             {
                 var call__225 = Count;
-                if (!((I != call__225) && (Result == null)))
+                if (!(I != call__225 && Result == null))
                     break;
                 {
-                    HS = (Aow.Units.HSEngine.THexagonSprite)FChildren.List[I];
+                    HS = (THexagonSprite)FChildren.List[I];
                     if (AClass.IsInstanceOfType(HS))
                     {
-                        Result = (Aow.Units.HSEngine.THexagonSprite)FChildren.List[I];
+                        Result = (THexagonSprite)FChildren.List[I];
                     }
 
                     I += 1;
@@ -5360,15 +5354,15 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3756
-        public Aow.Units.HSEngine.THexagonSprite GetHS(int Index)
+        public THexagonSprite GetHS(int Index)
         {
-            Aow.Units.HSEngine.THexagonSprite Result = default;
-            Result = (Aow.Units.HSEngine.THexagonSprite)FChildren.List[Index];
+            THexagonSprite Result = default;
+            Result = (THexagonSprite)FChildren.List[Index];
             return Result;
         }
 
         // HSEngine.pas:3790
-        public void SelectLocationHS(Aow.Units.HSEngine.THexagonSprite HS)
+        public void SelectLocationHS(THexagonSprite HS)
         {
             FLocationHS.Add(HS);
             Select(HS);
@@ -5379,7 +5373,7 @@ namespace Aow.Units.HSEngine
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             SelectLocation(Xhp, Yhp, Lhx);
         }
 
@@ -5389,20 +5383,20 @@ namespace Aow.Units.HSEngine
             while (FLocationHS.Count != 0)
             {
                 var call__226 = FLocationHS.Last();
-                Unselect((Aow.Units.HSEngine.THexagonSprite)call__226);
+                Unselect((THexagonSprite)call__226);
             }
         }
 
-        public sealed class HSAccessor(Aow.Units.HSEngine.THexagonSpriteSelection target)
+        public sealed class HSAccessor(THexagonSpriteSelection target)
         {
-            public Aow.Units.HSEngine.THexagonSprite this[int Index] { get => target.GetHS(Index); }
+            public THexagonSprite this[int Index] { get => target.GetHS(Index); }
         }
 
         public HSAccessor HS => new HSAccessor(this);
-        public Aow.Rtl.TList LocationHS { get => FLocationHS; }
-        public Aow.Units.Engine.TEventList OnSelect { get => FOnSelect; }
-        public Aow.Units.Engine.TEventList OnDeselect { get => FOnDeselect; }
-        public Aow.Units.HSEngine.THexagonSprite EventHS { get => FEventHS; }
+        public TList LocationHS { get => FLocationHS; }
+        public TEventList OnSelect { get => FOnSelect; }
+        public TEventList OnDeselect { get => FOnDeselect; }
+        public THexagonSprite EventHS { get => FEventHS; }
 
     }
 
@@ -5410,39 +5404,39 @@ namespace Aow.Units.HSEngine
     // when outside), FButton, FOnUp, FOnDown, FOnMove, FOnDblClick, FOnCaptureChanged, FCapture
     // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
     // FCursorVisible (and are used by the game only)
-    public partial class THSMapMouse : Aow.Rtl.TObject
+    public partial class THSMapMouse : TObject
     {
 
         public THSMapMouse()
         {
-            var call__227 = new Aow.Units.Engine.TEventList();
+            var call__227 = new TEventList();
             FOnUp = call__227;
-            var call__228 = new Aow.Units.Engine.TEventList();
+            var call__228 = new TEventList();
             FOnDown = call__228;
-            var call__229 = new Aow.Units.Engine.TEventList();
+            var call__229 = new TEventList();
             FOnMove = call__229;
-            var call__230 = new Aow.Units.Engine.TEventList();
+            var call__230 = new TEventList();
             FOnDblClick = call__230;
-            var call__231 = new Aow.Units.Engine.TEventList();
+            var call__231 = new TEventList();
             FOnCaptureChanged = call__231;
             Reset();
         }
 
-        internal Aow.Units.HSEngine.THSMap FHSMap;
+        internal THSMap FHSMap;
         internal int FX;
         internal int FY;
-        internal Aow.Rtl.TMouseButton FButton;
-        internal Aow.Units.Engine.TEventList FOnUp;
-        internal Aow.Units.Engine.TEventList FOnDown;
-        internal Aow.Units.Engine.TEventList FOnMove;
-        internal Aow.Units.Engine.TEventList FOnDblClick;
-        internal Aow.Units.Engine.TEventList FOnCaptureChanged;
-        internal Aow.Rtl.TObject FCapture;
-        internal TSet<Aow.Units.HSEngine.TMouseStatusElement> FStatus;
+        internal TMouseButton FButton;
+        internal TEventList FOnUp;
+        internal TEventList FOnDown;
+        internal TEventList FOnMove;
+        internal TEventList FOnDblClick;
+        internal TEventList FOnCaptureChanged;
+        internal TObject FCapture;
+        internal TSet<TMouseStatusElement> FStatus;
         internal int FCursor;
         internal int FCursorMode;
         internal bool FIgnoreDown;
-        internal TSet<Aow.Rtl.TShiftState> FShift;
+        internal TSet<TShiftState> FShift;
         internal bool FCursorVisible;
         // HSEngine.pas:3475
 
@@ -5477,16 +5471,16 @@ namespace Aow.Units.HSEngine
         {
             bool Result = default;
             Result = true;
-            bool bool__232 = (FCapture == null);
+            bool bool__232 = FCapture == null;
             if (bool__232)
             {
                 var call__233 = GetXhx();
-                bool__232 = (call__233 != -1);
+                bool__232 = call__233 != -1;
             }
 
             if (bool__232)
             {
-                if (FButton == Aow.Rtl.TMouseButton.mbLeft)
+                if (FButton == TMouseButton.mbLeft)
                 {
                     var call__234 = GetYhp();
                     var call__235 = GetXhp();
@@ -5495,7 +5489,7 @@ namespace Aow.Units.HSEngine
                 }
                 else
                 {
-                    if ((FButton == Aow.Rtl.TMouseButton.mbRight) && !FHSMap.FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+                    if (FButton == TMouseButton.mbRight && !FHSMap.FStatus.Contains(THSMapStatusElement.msEditting))
                     {
                         FHSMap.FSelection.UnselectLocation();
                         Result = false;
@@ -5532,11 +5526,11 @@ namespace Aow.Units.HSEngine
 
         // HSEngine.pas:3600
         // { Down and Up set FX twice when the position is outside (an original slip for FY). }
-        public virtual void Down(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public virtual void Down(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             if (!FIgnoreDown)
             {
-                if ((X >= 0) && (Y >= 0))
+                if (X >= 0 && Y >= 0)
                 {
                     FX = X;
                     FY = Y;
@@ -5561,9 +5555,9 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3628
-        public virtual void Up(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public virtual void Up(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            if ((X >= 0) && (Y >= 0))
+            if (X >= 0 && Y >= 0)
             {
                 FX = X;
                 FY = Y;
@@ -5583,20 +5577,20 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3651
-        public virtual void Move(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public virtual void Move(TSet<TShiftState> Shift, int X, int Y)
         {
-            bool bool__236 = (X >= 0) && (Y >= 0);
+            bool bool__236 = X >= 0 && Y >= 0;
             if (bool__236)
             {
                 var call__237 = FHSMap.GetMaxXhp();
-                bool__236 = (X <= call__237);
+                bool__236 = X <= call__237;
             }
 
             bool bool__238 = bool__236;
             if (bool__238)
             {
                 var call__239 = FHSMap.GetMaxYhp();
-                bool__238 = (Y <= call__239);
+                bool__238 = Y <= call__239;
             }
 
             if (bool__238)
@@ -5633,7 +5627,7 @@ namespace Aow.Units.HSEngine
         {
             FX = -2147483648;
             FY = -2147483648;
-            FShift = TSet<Aow.Rtl.TShiftState>.Of();
+            FShift = TSet<TShiftState>.Of();
             FCursor = 0;
             SetCapture(null);
         }
@@ -5646,7 +5640,7 @@ namespace Aow.Units.HSEngine
             {
                 Result = FHSMap.FViewXhp + FX;
                 var call__240 = FHSMap.GetMaxXhp();
-                if ((Result > call__240) || (Result < 0))
+                if (Result > call__240 || Result < 0)
                 {
                     Result = -2147483648;
                 }
@@ -5667,7 +5661,7 @@ namespace Aow.Units.HSEngine
             {
                 Result = FHSMap.FViewYhp + FY;
                 var call__241 = FHSMap.GetMaxYhp();
-                if ((Result > call__241) || (Result < 0))
+                if (Result > call__241 || Result < 0)
                 {
                     Result = -2147483648;
                 }
@@ -5688,8 +5682,8 @@ namespace Aow.Units.HSEngine
             int Y = default;
             if (FX != -2147483648)
             {
-                Aow.Units.HSEngine.HSEngine.HPtoHX(FHSMap.FViewXhp + FX, 0, ref Result, ref Y);
-                if (((Result < 0) || (FHSMap.FMapContainer.FWidth <= Result)) || (FHSMap.FMapContainer.FHeight <= Result))
+                HSEngine.HPtoHX(FHSMap.FViewXhp + FX, 0, ref Result, ref Y);
+                if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
                 {
                     Result = -1;
                 }
@@ -5709,8 +5703,8 @@ namespace Aow.Units.HSEngine
             int X = default;
             if (FY != -2147483648)
             {
-                Aow.Units.HSEngine.HSEngine.HPtoHX(FHSMap.FViewXhp + FX, FHSMap.FViewYhp + FY, ref X, ref Result);
-                if (((Result < 0) || (FHSMap.FMapContainer.FWidth <= Result)) || (FHSMap.FMapContainer.FHeight <= Result))
+                HSEngine.HPtoHX(FHSMap.FViewXhp + FX, FHSMap.FViewYhp + FY, ref X, ref Result);
+                if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
                 {
                     Result = -1;
                 }
@@ -5724,11 +5718,11 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3570
-        public void SetCapture(Aow.Rtl.TObject Value)
+        public void SetCapture(TObject Value)
         {
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMouseStatusElement.msChangingCapture) && (Value != FCapture))
+            if (!FStatus.Contains(TMouseStatusElement.msChangingCapture) && Value != FCapture)
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TMouseStatusElement>.Of(Aow.Units.HSEngine.TMouseStatusElement.msChangingCapture);
+                FStatus = FStatus + TSet<TMouseStatusElement>.Of(TMouseStatusElement.msChangingCapture);
                 FCapture = Value;
                 if (Value == null)
                 {
@@ -5736,25 +5730,25 @@ namespace Aow.Units.HSEngine
                 }
 
                 FOnCaptureChanged.TriggerNotifyEvents(this);
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TMouseStatusElement>.Of(Aow.Units.HSEngine.TMouseStatusElement.msChangingCapture);
+                FStatus = FStatus - TSet<TMouseStatusElement>.Of(TMouseStatusElement.msChangingCapture);
             }
         }
 
-        public Aow.Units.HSEngine.THSMap HSMap { get => FHSMap; }
+        public THSMap HSMap { get => FHSMap; }
         public int X { get => FX; }
         public int Y { get => FY; }
         public int Xhp { get => GetXhp(); }
         public int Yhp { get => GetYhp(); }
         public int Xhx { get => GetXhx(); }
         public int Yhx { get => GetYhx(); }
-        public Aow.Rtl.TMouseButton Button { get => FButton; }
-        public TSet<Aow.Rtl.TShiftState> Shift { get => FShift; }
-        public Aow.Units.Engine.TEventList OnUp { get => FOnUp; }
-        public Aow.Units.Engine.TEventList OnDown { get => FOnDown; }
-        public Aow.Units.Engine.TEventList OnMove { get => FOnMove; }
-        public Aow.Units.Engine.TEventList OnDblClick { get => FOnDblClick; }
-        public Aow.Units.Engine.TEventList OnCaptureChanged { get => FOnCaptureChanged; }
-        public Aow.Rtl.TObject Capture { get => FCapture; set => SetCapture(value); }
+        public TMouseButton Button { get => FButton; }
+        public TSet<TShiftState> Shift { get => FShift; }
+        public TEventList OnUp { get => FOnUp; }
+        public TEventList OnDown { get => FOnDown; }
+        public TEventList OnMove { get => FOnMove; }
+        public TEventList OnDblClick { get => FOnDblClick; }
+        public TEventList OnCaptureChanged { get => FOnCaptureChanged; }
+        public TObject Capture { get => FCapture; set => SetCapture(value); }
         public int Cursor { get => GetCursor(); set => SetCursor(value); }
         public int CursorMode { get => FCursorMode; set => FCursorMode = value; }
         public bool IgnoreDown { get => FIgnoreDown; set => FIgnoreDown = value; }
@@ -5775,15 +5769,15 @@ namespace Aow.Units.HSEngine
         ptDestroying = 5
     }
 
-    public delegate void TChangeTerrainProc(Aow.Units.HSEngine.TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType);
-    public delegate void TTerrainChangedProc(Aow.Units.HSEngine.TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType);
+    public delegate void TChangeTerrainProc(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType);
+    public delegate void TTerrainChangedProc(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType);
     // { The record of THSMap.NotifyProgress (TMapLevel.Loaded fills one): the kind, the percentage
 //     done of the level and the level index. }
     [StructLayout(LayoutKind.Explicit, Size = 12)]
     public struct TMapProgress
     {
         [FieldOffset(0)]
-        public Aow.Units.HSEngine.TMapProgressType ProgressType;
+        public TMapProgressType ProgressType;
         [FieldOffset(4)]
         public int Percent;
         [FieldOffset(8)]
@@ -5792,26 +5786,26 @@ namespace Aow.Units.HSEngine
 
     public struct TTerrainChangedInfo
     {
-        public Aow.Rtl.TRect Rect;
+        public TRect Rect;
         public int Level;
-        public Aow.Units.HSEngine.TMapLevel MapLevel;
+        public TMapLevel MapLevel;
     }
 
     // shows a map on a surface. FStaticSurface (the static scene, kept between frames),
     // FSceneWidth, FSceneHeight, FSceneX, FSceneY, FSceneL, FStaticSurfaceValid, FOnSceneChanged
     // (published), FHSMap. SetHSMap points the map's OnCenterView, OnChangeView and OnViewLevel at
     // CenterScene, ChangeScene and SetSceneL
-    public partial class THSMapViewer : Aow.Rtl.TComponent
+    public partial class THSMapViewer : TComponent
     {
-        internal Aow.Units.GFXE.TSurface FStaticSurface;
+        internal TSurface FStaticSurface;
         internal int FSceneWidth;
         internal int FSceneHeight;
         internal int FSceneX;
         internal int FSceneY;
         internal int FSceneL;
         internal bool FStaticSurfaceValid;
-        internal Aow.Rtl.TNotifyEvent FOnSceneChanged;
-        internal Aow.Units.HSEngine.THSMap FHSMap;
+        internal TNotifyEvent FOnSceneChanged;
+        internal THSMap FHSMap;
         // HSEngine.pas:4670
         public THSMapViewer(TComponent owner) : base(owner)
         {
@@ -5834,7 +5828,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4718
-        public virtual void SetHSMap(Aow.Units.HSEngine.THSMap Value)
+        public virtual void SetHSMap(THSMap Value)
         {
             FHSMap = Value;
             if (FHSMap != null)
@@ -5847,17 +5841,17 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4794
-        public virtual void VerifyStaticSurface(Aow.Units.GFXE.TSurface Surface)
+        public virtual void VerifyStaticSurface(TSurface Surface)
         {
             bool IsDDraw = default;
-            TSet<Aow.Units.GFXE.TDDSCreationFlagsElement> Flags = default;
-            IsDDraw = FStaticSurface is Aow.Units.GFXE.TDDrawSurface;
-            bool bool__242 = (FStaticSurface != null);
+            TSet<TDDSCreationFlagsElement> Flags = default;
+            IsDDraw = FStaticSurface is TDDrawSurface;
+            bool bool__242 = FStaticSurface != null;
             if (bool__242)
             {
                 var call__243 = FStaticSurface.GetPixelFormatID();
                 var call__244 = Surface.GetPixelFormatID();
-                bool__242 = ((call__243 != call__244) || ((Surface is Aow.Units.GFXE.TDDrawSurface) ^ IsDDraw));
+                bool__242 = call__243 != call__244 || (Surface is TDDrawSurface) ^ IsDDraw;
             }
 
             if (bool__242)
@@ -5866,44 +5860,44 @@ namespace Aow.Units.HSEngine
                 FStaticSurface = null;
             }
 
-            bool bool__245 = (FStaticSurface == null);
+            bool bool__245 = FStaticSurface == null;
             if (!bool__245)
             {
                 var call__246 = FStaticSurface.GetWidth();
-                bool__245 = (call__246 != FSceneWidth);
+                bool__245 = call__246 != FSceneWidth;
             }
 
             bool bool__247 = bool__245;
             if (!bool__247)
             {
                 var call__248 = FStaticSurface.GetHeight();
-                bool__247 = (call__248 != FSceneHeight);
+                bool__247 = call__248 != FSceneHeight;
             }
 
             if (bool__247)
             {
                 if (FStaticSurface == null)
                 {
-                    if (Surface is Aow.Units.GFXE.TDDrawSurface)
+                    if (Surface is TDDrawSurface)
                     {
-                        if (((Aow.Units.GFXE.TDDrawSurface)Surface).Status.Contains(Aow.Units.GFXE.TDDrawSurfaceStatusElement.ssVideoMemory))
+                        if (((TDDrawSurface)Surface).Status.Contains(TDDrawSurfaceStatusElement.ssVideoMemory))
                         {
-                            Flags = TSet<Aow.Units.GFXE.TDDSCreationFlagsElement>.Of(Aow.Units.GFXE.TDDSCreationFlagsElement.cfVideoMemory, Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory);
+                            Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfVideoMemory, TDDSCreationFlagsElement.cfSystemMemory);
                         }
                         else
                         {
-                            Flags = TSet<Aow.Units.GFXE.TDDSCreationFlagsElement>.Of(Aow.Units.GFXE.TDDSCreationFlagsElement.cfSystemMemory);
+                            Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfSystemMemory);
                         }
 
-                        var call__249 = new Aow.Units.GFXE.TDDrawSurface();
+                        var call__249 = new TDDrawSurface();
                         FStaticSurface = call__249;
                         var call__250 = Surface.GetPixelFormatID();
-                        ((Aow.Units.GFXE.TDDrawSurface)FStaticSurface).CreateSurface(FSceneWidth, FSceneHeight, call__250, Flags);
+                        ((TDDrawSurface)FStaticSurface).CreateSurface(FSceneWidth, FSceneHeight, call__250, Flags);
                     }
                     else
                     {
                         var call__251 = Surface.GetPixelFormatID();
-                        var call__252 = new Aow.Units.GFXE.TDataSurface(FSceneWidth, FSceneHeight, call__251, null);
+                        var call__252 = new TDataSurface(FSceneWidth, FSceneHeight, call__251, null);
                         FStaticSurface = call__252;
                     }
                 }
@@ -5912,7 +5906,7 @@ namespace Aow.Units.HSEngine
                     FStaticSurface.Resize(FSceneWidth, FSceneHeight);
                 }
 
-                IsDDraw = FStaticSurface is Aow.Units.GFXE.TDDrawSurface;
+                IsDDraw = FStaticSurface is TDDrawSurface;
                 FHSMap.FStaticSceneInvalid = true;
                 FStaticSurfaceValid = false;
             }
@@ -5920,13 +5914,13 @@ namespace Aow.Units.HSEngine
             bool bool__253 = IsDDraw;
             if (bool__253)
             {
-                var call__254 = ((Aow.Units.GFXE.TDDrawSurface)FStaticSurface).Lost();
+                var call__254 = ((TDDrawSurface)FStaticSurface).Lost();
                 bool__253 = call__254;
             }
 
             if (bool__253)
             {
-                ((Aow.Units.GFXE.TDDrawSurface)FStaticSurface).Restore();
+                ((TDDrawSurface)FStaticSurface).Restore();
                 FStaticSurfaceValid = false;
             }
         }
@@ -5940,7 +5934,7 @@ namespace Aow.Units.HSEngine
                 SetSceneY(Yhp);
                 SetSceneL(Lhp);
                 var call__255 = FHSMap.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight);
-                if (call__255 && (FOnSceneChanged != null))
+                if (call__255 && FOnSceneChanged != null)
                 {
                     FOnSceneChanged(this);
                 }
@@ -5954,12 +5948,12 @@ namespace Aow.Units.HSEngine
             int Yhp = default;
             if (FHSMap != null)
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
-                SetSceneX((Xhp + 16) - ((int)(((uint)FSceneWidth) >> 1)));
-                SetSceneY((Yhp + 16) - ((int)(((uint)FSceneHeight) >> 1)));
+                HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+                SetSceneX(Xhp + 16 - (int)(((uint)FSceneWidth) >> 1));
+                SetSceneY(Yhp + 16 - (int)(((uint)FSceneHeight) >> 1));
                 SetSceneL(Lhx);
                 var call__256 = FHSMap.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight);
-                if (call__256 && (FOnSceneChanged != null))
+                if (call__256 && FOnSceneChanged != null)
                 {
                     FOnSceneChanged(this);
                 }
@@ -5996,10 +5990,10 @@ namespace Aow.Units.HSEngine
                 }
 
                 var call__258 = this.FHSMap.GetMaxXhp();
-                if (call__258 < ((FSceneWidth + Value) + 16))
+                if (call__258 < FSceneWidth + Value + 16)
                 {
                     var call__259 = this.FHSMap.GetMaxXhp();
-                    this.FSceneX = (call__259 - FSceneWidth) - 16;
+                    this.FSceneX = call__259 - FSceneWidth - 16;
                 }
                 else
                 {
@@ -6019,10 +6013,10 @@ namespace Aow.Units.HSEngine
                 }
 
                 var call__261 = this.FHSMap.GetMaxYhp();
-                if ((call__261 - 16) < (FSceneHeight + Value))
+                if (call__261 - 16 < FSceneHeight + Value)
                 {
                     var call__262 = this.FHSMap.GetMaxYhp();
-                    this.FSceneY = (call__262 - FSceneHeight) - 16;
+                    this.FSceneY = call__262 - FSceneHeight - 16;
                 }
                 else
                 {
@@ -6034,9 +6028,9 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:4770
         public void SetSceneWidth(int Value)
         {
-            Aow.Units.HSEngine.THSMap M = default;
+            THSMap M = default;
             M = FHSMap;
-            if ((M != null) && (Value > 0))
+            if (M != null && Value > 0)
             {
                 FSceneWidth = Value;
                 SetSceneX(FSceneX);
@@ -6046,9 +6040,9 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:4782
         public void SetSceneHeight(int Value)
         {
-            Aow.Units.HSEngine.THSMap M = default;
+            THSMap M = default;
             M = FHSMap;
-            if ((M != null) && (Value > 0))
+            if (M != null && Value > 0)
             {
                 FSceneHeight = Value;
                 SetSceneY(FSceneY);
@@ -6063,20 +6057,20 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4843
-        public void ShowScene(int X, int Y, Aow.Units.GFXE.TSurface Surface)
+        public void ShowScene(int X, int Y, TSurface Surface)
         {
-            Aow.Units.HSEngine.THSMap M = default;
+            THSMap M = default;
             object MP = default;
-            Aow.Units.GFXE.TSurfaceDesc SD = default;
-            Aow.Rtl.TRect R = default;
+            TSurfaceDesc SD = default;
+            TRect R = default;
             try
             {
                 MP = FHSMap;
                 if (MP != null)
                 {
-                    M = (Aow.Units.HSEngine.THSMap)MP;
+                    M = (THSMap)MP;
                     var call__263 = M.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight);
-                    if (call__263 && (FOnSceneChanged != null))
+                    if (call__263 && FOnSceneChanged != null)
                     {
                         FOnSceneChanged(this);
                     }
@@ -6138,12 +6132,12 @@ namespace Aow.Units.HSEngine
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.ShowMessage((AnsiString)"Exception during MapViewer.ShowScene");
+                ShowMessage((AnsiString)"Exception during MapViewer.ShowScene");
             }
         }
 
-        public Aow.Units.HSEngine.THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
-        public Aow.Units.GFXE.TSurface StaticSurface { get => FStaticSurface; }
+        public THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
+        public TSurface StaticSurface { get => FStaticSurface; }
         public bool StaticSurfaceValid { get => FStaticSurfaceValid; set => FStaticSurfaceValid = value; }
         public int SceneX { get => FSceneX; set => SetSceneX(value); }
         public int SceneY { get => FSceneY; set => SetSceneY(value); }
@@ -6152,7 +6146,7 @@ namespace Aow.Units.HSEngine
         public int SceneHeight { get => FSceneHeight; set => SetSceneHeight(value); }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
+        public TNotifyEvent OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
     }
 
     // FHSEngine, FTries, FResources, FMOClass. The map object resources of one kind
@@ -6160,12 +6154,12 @@ namespace Aow.Units.HSEngine
     // TList of resources per terrain type name of the set (THSSet.TerrainTypes), filled by
     // RegisterResource when a resource is activated. Place and PlaceClass put a random resource of
     // a terrain type on a map field
-    public partial class TMORTerrainControl : Aow.Units.Engine.TEObject
+    public partial class TMORTerrainControl : TEObject
     {
-        internal Aow.Units.HSEngine.THSEngine FHSEngine;
+        internal THSEngine FHSEngine;
         internal int FTries;
-        internal Aow.Rtl.TList FResources;
-        internal System.Type FMOClass;
+        internal TList FResources;
+        internal Type FMOClass;
         // HSEngine.pas:4522
         internal void Initialize()
         {
@@ -6176,7 +6170,7 @@ namespace Aow.Units.HSEngine
                 int end__266 = FHSEngine.FHSSet.TerrainTypes.Count - 1;
                 for (; I <= end__266; I += 1)
                 {
-                    var call__267 = new Aow.Rtl.TList();
+                    var call__267 = new TList();
                     FResources.Add(call__267);
                 }
             }
@@ -6192,19 +6186,19 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4505
-        public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
+        public override TSet<TEControlStyleElement> GetControlStyle()
         {
-            TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
-            Result = TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csShared);
+            TSet<TEControlStyleElement> Result = default;
+            Result = TSet<TEControlStyleElement>.Of(csShared);
             return Result;
         }
 
         // HSEngine.pas:4489
         public TMORTerrainControl(TECustomNode owner) : base(owner)
         {
-            var call__268 = new Aow.Rtl.TList();
+            var call__268 = new TList();
             FResources = call__268;
-            FMOClass = typeof(Aow.Units.HSEngine.TMapObject);
+            FMOClass = typeof(TMapObject);
             FTries = 5;
         }
 
@@ -6220,7 +6214,7 @@ namespace Aow.Units.HSEngine
                     for (; I >= end__269; I -= 1)
                     {
                         var call__270 = FResources[I];
-                        ((Aow.Rtl.TObject)call__270).Free();
+                        ((TObject)call__270).Free();
                         FResources.Delete(I);
                     }
                 }
@@ -6228,33 +6222,33 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4531
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FHSEngine = (Aow.Units.HSEngine.THSEngine)Msg.Engine;
+                FHSEngine = (THSEngine)Msg.Engine;
                 Initialize();
             }
         }
 
         // HSEngine.pas:4585
-        public virtual Aow.Units.HSEngine.TMapObject CreateMO(sbyte TerrainType)
+        public virtual TMapObject CreateMO(sbyte TerrainType)
         {
-            Aow.Units.HSEngine.TMapObject Result = default;
+            TMapObject Result = default;
             int I = default;
-            Aow.Rtl.TList List = default;
+            TList List = default;
             int Count = default;
-            Aow.Units.HSEngine.TMapObjectResource R = default;
+            TMapObjectResource R = default;
             I = TerrainType;
             var call__271 = FResources[I];
-            List = (Aow.Rtl.TList)call__271;
+            List = (TList)call__271;
             Count = List.Count;
             if (Count != 0)
             {
-                var call__272 = Aow.Rtl.Rtl.Random(Count);
-                R = (Aow.Units.HSEngine.TMapObjectResource)List.List[call__272];
-                Result = (Aow.Units.HSEngine.TMapObject)R.CreateResourceUser();
+                var call__272 = Random(Count);
+                R = (TMapObjectResource)List.List[call__272];
+                Result = (TMapObject)R.CreateResourceUser();
             }
             else
             {
@@ -6265,22 +6259,22 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4604
-        public virtual Aow.Units.HSEngine.TMapObject Place(Aow.Units.HSEngine.TMapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType)
+        public virtual TMapObject Place(TMapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType)
         {
-            Aow.Units.HSEngine.TMapObject Result = default;
-            Aow.Rtl.TList List = default;
-            Aow.Units.HSEngine.TMapObjectResource R = default;
-            Aow.Units.HSEngine.TMapField MapF = default;
-            Aow.Units.HSEngine.TMapObject MO = default;
+            TMapObject Result = default;
+            TList List = default;
+            TMapObjectResource R = default;
+            TMapField MapF = default;
+            TMapObject MO = default;
             Result = null;
             var call__273 = FResources[TerrainType];
-            List = (Aow.Rtl.TList)call__273;
+            List = (TList)call__273;
             if (List.Count != 0)
             {
                 R = null;
                 MapF = Container.GetField(X, Y, L);
                 var call__274 = MapF.FindOwnedHS(FMOClass);
-                MO = (Aow.Units.HSEngine.TMapObject)call__274;
+                MO = (TMapObject)call__274;
                 if (MO != null)
                 {
                     var call__275 = MO.FResource.EClass.ClassID;
@@ -6296,11 +6290,11 @@ namespace Aow.Units.HSEngine
 
                 if (R == null)
                 {
-                    var call__277 = Aow.Rtl.Rtl.Random(List.Count);
-                    R = (Aow.Units.HSEngine.TMapObjectResource)List.List[call__277];
+                    var call__277 = Random(List.Count);
+                    R = (TMapObjectResource)List.List[call__277];
                     if (R != null)
                     {
-                        var call__278 = R.PlaceResourceUser(Container.FMap, unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
+                        var call__278 = R.PlaceResourceUser(Container.FMap, X, Y, L);
                         Result = call__278;
                     }
                 }
@@ -6310,25 +6304,25 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4637
-        public virtual Aow.Units.HSEngine.TMapObject PlaceClass(Aow.Units.HSEngine.TMapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType, int AClassID)
+        public virtual TMapObject PlaceClass(TMapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType, int AClassID)
         {
-            Aow.Units.HSEngine.TMapObject Result = default;
-            Aow.Units.HSEngine.TMapObjectResource R = default;
-            Aow.Units.HSEngine.TMapField MapF = default;
-            Aow.Units.HSEngine.TMapObject MO = default;
+            TMapObject Result = default;
+            TMapObjectResource R = default;
+            TMapField MapF = default;
+            TMapObject MO = default;
             Result = null;
             var call__279 = FResources[TerrainType];
-            if (((Aow.Rtl.TList)call__279).Count != 0)
+            if (((TList)call__279).Count != 0)
             {
                 R = null;
                 MapF = Container.GetField(X, Y, L);
                 var call__280 = MapF.FindOwnedHS(FMOClass);
-                MO = (Aow.Units.HSEngine.TMapObject)call__280;
-                bool bool__281 = (MO != null);
+                MO = (TMapObject)call__280;
+                bool bool__281 = MO != null;
                 if (bool__281)
                 {
                     var call__282 = MO.FResource.EClass.ClassID;
-                    bool__281 = (call__282 == AClassID);
+                    bool__281 = call__282 == AClassID;
                 }
 
                 if (bool__281)
@@ -6349,7 +6343,7 @@ namespace Aow.Units.HSEngine
                     R = GetRndResource(TerrainType, AClassID);
                     if (R != null)
                     {
-                        var call__285 = R.PlaceResourceUser(Container.FMap, unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
+                        var call__285 = R.PlaceResourceUser(Container.FMap, X, Y, L);
                         Result = call__285;
                     }
                 }
@@ -6359,21 +6353,21 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4541
-        public Aow.Units.HSEngine.TMapObjectResource GetRndResource(int TerrainType, int AClassID)
+        public TMapObjectResource GetRndResource(int TerrainType, int AClassID)
         {
-            Aow.Units.HSEngine.TMapObjectResource Result = default;
-            Aow.Rtl.TList List = default;
+            TMapObjectResource Result = default;
+            TList List = default;
             int I = default;
             var call__286 = FResources[TerrainType];
-            List = (Aow.Rtl.TList)call__286;
+            List = (TList)call__286;
             if (List.Count != 0)
             {
                 I = 0;
                 Result = null;
-                while ((I != FTries) && (Result == null))
+                while (I != FTries && Result == null)
                 {
-                    var call__287 = Aow.Rtl.Rtl.Random(List.Count);
-                    Result = (Aow.Units.HSEngine.TMapObjectResource)List.List[call__287];
+                    var call__287 = Random(List.Count);
+                    Result = (TMapObjectResource)List.List[call__287];
                     if (Result.EClass.ClassID != AClassID)
                     {
                         Result = null;
@@ -6385,9 +6379,9 @@ namespace Aow.Units.HSEngine
                 if (Result == null)
                 {
                     I = 0;
-                    while ((I != List.Count) && (Result == null))
+                    while (I != List.Count && Result == null)
                     {
-                        Result = (Aow.Units.HSEngine.TMapObjectResource)List.List[I];
+                        Result = (TMapObjectResource)List.List[I];
                         if (Result.EClass.ClassID != AClassID)
                         {
                             Result = null;
@@ -6406,32 +6400,32 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4572
-        public void RegisterResource(Aow.Units.HSEngine.TMapObjectResource Resource)
+        public void RegisterResource(TMapObjectResource Resource)
         {
             sbyte TerrainType = default;
             var call__288 = Resource.FTerrainList.GetTerrain(0);
-            TerrainType = unchecked((sbyte)call__288);
-            if ((TerrainType >= 0) && (TerrainType < FResources.Count))
+            TerrainType = call__288;
+            if (TerrainType >= 0 && TerrainType < FResources.Count)
             {
-                var call__289 = ((Aow.Rtl.TList)FResources.List[TerrainType]).IndexOf(Resource);
-                if ((call__289 != -1) || (Resource == null))
+                var call__289 = ((TList)FResources.List[TerrainType]).IndexOf(Resource);
+                if (call__289 != -1 || Resource == null)
                 {
-                    throw Aow.Rtl.Exception.Create((AnsiString)"Resource double defined (TMORTerrainControl)");
+                    throw Exception.Create((AnsiString)"Resource double defined (TMORTerrainControl)");
                 }
 
-                ((Aow.Rtl.TList)FResources.List[TerrainType]).Add(Resource);
+                ((TList)FResources.List[TerrainType]).Add(Resource);
             }
         }
 
-        public Aow.Units.HSEngine.THSEngine HSEngine { get => FHSEngine; }
+        public THSEngine HSEngine { get => FHSEngine; }
         public int Tries { get => FTries; set => FTries = value; }
-        public Aow.Rtl.TList Resources { get => FResources; }
-        public System.Type MOClass { get => FMOClass; set => FMOClass = value; }
+        public TList Resources { get => FResources; }
+        public Type MOClass { get => FMOClass; set => FMOClass = value; }
 
     }
 
     // the hexagon resources of a set
-    public partial class THexagonControl : Aow.Units.HSEngine.TMORTerrainControl
+    public partial class THexagonControl : TMORTerrainControl
     {
         public THexagonControl(TECustomNode owner) : base(owner)
         { }
@@ -6439,7 +6433,7 @@ namespace Aow.Units.HSEngine
     }
 
     // the road resources of a set
-    public partial class TRoadControl : Aow.Units.HSEngine.TMORTerrainControl
+    public partial class TRoadControl : TMORTerrainControl
     {
         public TRoadControl(TECustomNode owner) : base(owner)
         { }
@@ -6452,7 +6446,7 @@ namespace Aow.Units.HSEngine
     // uses (an.hss file, THSEngine.LoadHSS). ReadWrite stores the name (id 4), the map object
     // resources (5), the resource edit settings (6) and the plug-ins (7). the type name lists are
     // filled by the game (TAoWHSSet.Create) and not stored
-    public partial class THSSet : Aow.Units.Engine.TECustomOwner
+    public partial class THSSet : TECustomOwner
     {
         // HSEngine.pas:3394
         public new const int ClassID = 66049;
@@ -6462,55 +6456,55 @@ namespace Aow.Units.HSEngine
         private protected THSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var call__290 = GetControlStyle();
-            SetControlStyle(call__290 + TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csReserved2));
-            var call__291 = new Aow.Units.Engine.TPlugInControl(null);
+            SetControlStyle(call__290 + TSet<TEControlStyleElement>.Of(csReserved2));
+            var call__291 = new TPlugInControl(null);
             FPlugInControl = call__291;
-            var call__292 = new Aow.Rtl.TStringList();
+            var call__292 = new TStringList();
             FTerrainTypes = call__292;
-            var call__293 = new Aow.Rtl.TStringList();
+            var call__293 = new TStringList();
             FOverlayTypes = call__293;
-            var call__294 = new Aow.Rtl.TStringList();
+            var call__294 = new TStringList();
             FDecorationTypes = call__294;
-            var call__295 = new Aow.Units.HSEngine.THexagonControl(this);
+            var call__295 = new THexagonControl(this);
             FHexagonControl = call__295;
-            FHexagonControl.MOClass = typeof(Aow.Units.HSEngine.TAbstractHexagon);
-            var call__296 = new Aow.Units.HSEngine.TRoadControl(this);
+            FHexagonControl.MOClass = typeof(TAbstractHexagon);
+            var call__296 = new TRoadControl(this);
             FRoadControl = call__296;
-            FRoadControl.MOClass = typeof(Aow.Units.HSEngine.TAbstractRoad);
-            var call__297 = new Aow.Units.HSEngine.TMapObjectResourceList(this);
+            FRoadControl.MOClass = typeof(TAbstractRoad);
+            var call__297 = new TMapObjectResourceList(this);
             FMapObjectResourceList = call__297;
-            FMapObjectResourceList.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
-            var call__298 = new Aow.Units.Engine.TEResourceEditSettings(this);
+            FMapObjectResourceList.SetControlStyle(TSet<TEControlStyleElement>.Of(csStored, csShared));
+            var call__298 = new TEResourceEditSettings(this);
             FResourceEditSettings = call__298;
-            FResourceEditSettings.SetControlStyle(TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
-            var call__299 = new Aow.Units.ImageLib.TImageLibraryManager(null);
+            FResourceEditSettings.SetControlStyle(TSet<TEControlStyleElement>.Of(csStored, csShared));
+            var call__299 = new TImageLibraryManager(null);
             FImageLibraryManager = call__299;
-            var call__300 = new Aow.Units.Sound.TSFXManager(null);
+            var call__300 = new Sound.TSFXManager(null);
             FSFXManager = call__300;
         }
 
-        internal TSet<Aow.Units.HSEngine.THSSetStatusElement> FStatus;
-        internal Aow.Units.HSEngine.THexagonControl FHexagonControl;
-        internal Aow.Units.HSEngine.TRoadControl FRoadControl;
-        internal Aow.Units.Engine.TEngine FActivatedEngine;
-        public Aow.Units.Engine.TEngine ActivatedEngine { get => FActivatedEngine; }
+        internal TSet<THSSetStatusElement> FStatus;
+        internal THexagonControl FHexagonControl;
+        internal TRoadControl FRoadControl;
+        internal TEngine FActivatedEngine;
+        public TEngine ActivatedEngine { get => FActivatedEngine; }
 
-        internal Aow.Units.HSEngine.TMapObjectResourceList FMapObjectResourceList;
-        internal Aow.Units.Engine.TEResourceEditSettings FResourceEditSettings;
-        internal Aow.Units.ImageLib.TImageLibraryManager FImageLibraryManager;
-        internal Aow.Units.Sound.TSFXManager FSFXManager;
-        internal Aow.Units.Engine.TPlugInControl FPlugInControl;
-        internal Aow.Rtl.AnsiString FName;
-        internal Aow.Rtl.TStringList FTerrainTypes;
-        internal Aow.Rtl.TStringList FOverlayTypes;
-        internal Aow.Rtl.TStringList FDecorationTypes;
+        internal TMapObjectResourceList FMapObjectResourceList;
+        internal TEResourceEditSettings FResourceEditSettings;
+        internal TImageLibraryManager FImageLibraryManager;
+        internal Sound.TSFXManager FSFXManager;
+        internal TPlugInControl FPlugInControl;
+        internal AnsiString FName;
+        internal TStringList FTerrainTypes;
+        internal TStringList FOverlayTypes;
+        internal TStringList FDecorationTypes;
         // HSEngine.pas:3368
         public override void Destroy()
         {
-            Aow.Units.Engine.TEMsg Msg = default;
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssDestroying);
-            Aow.Units.Engine.Engine.InitMsg(ref Msg, 66564, this);
-            if ((FActivatedEngine != null) && (FActivatedEngine.ControlNode != null))
+            TEMsg Msg = default;
+            FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssDestroying);
+            InitMsg(ref Msg, 66564, this);
+            if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
             {
                 FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
             }
@@ -6527,17 +6521,17 @@ namespace Aow.Units.HSEngine
             FImageLibraryManager = null;
             FSFXManager.Free();
             FSFXManager = null;
-            Aow.Units.Engine.Engine.InitMsg(ref Msg, 66565, this);
-            if ((FActivatedEngine != null) && (FActivatedEngine.ControlNode != null))
+            InitMsg(ref Msg, 66565, this);
+            if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
             {
                 FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
             }
 
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssDestroying);
+            FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssDestroying);
         }
 
         // HSEngine.pas:3410
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             SetEngine(Stream.Engine);
             FPlugInControl.Engine = Stream.Engine;
@@ -6555,7 +6549,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:3399
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
@@ -6567,36 +6561,36 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:3421
         public void Activate(bool Edit)
         {
-            Aow.Units.Engine.TEMsg Msg = default;
-            Aow.Units.Engine.Engine.InitMsg(ref Msg, 66560, this);
+            TEMsg Msg = default;
+            InitMsg(ref Msg, 66560, this);
             var call__301 = GetEngine();
             call__301.ControlNode.MsgProc(ref Msg, this);
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssActivated);
+            FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssActivated);
             if (Edit)
             {
-                Aow.Units.Engine.Engine.InitMsg(ref Msg, 66562, this);
+                InitMsg(ref Msg, 66562, this);
                 var call__302 = GetEngine();
                 call__302.ControlNode.MsgProc(ref Msg, this);
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssEditting);
+                FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
             }
         }
 
         // HSEngine.pas:3436
         public void DeActivate()
         {
-            Aow.Units.Engine.TEMsg Msg = default;
-            if (FStatus.Contains(Aow.Units.HSEngine.THSSetStatusElement.ssActivated))
+            TEMsg Msg = default;
+            if (FStatus.Contains(THSSetStatusElement.ssActivated))
             {
-                Aow.Units.Engine.Engine.InitMsg(ref Msg, 66561, this);
+                InitMsg(ref Msg, 66561, this);
                 var call__303 = GetEngine();
                 call__303.ControlNode.MsgProc(ref Msg, this);
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssActivated);
-                if (FStatus.Contains(Aow.Units.HSEngine.THSSetStatusElement.ssEditting))
+                FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssActivated);
+                if (FStatus.Contains(THSSetStatusElement.ssEditting))
                 {
-                    Aow.Units.Engine.Engine.InitMsg(ref Msg, 66563, this);
+                    InitMsg(ref Msg, 66563, this);
                     var call__304 = GetEngine();
                     call__304.ControlNode.MsgProc(ref Msg, this);
-                    FStatus = FStatus - TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssEditting);
+                    FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
                 }
             }
         }
@@ -6604,51 +6598,51 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:3454
         public void SetModified()
         {
-            if (FStatus.Contains(Aow.Units.HSEngine.THSSetStatusElement.ssEditting))
+            if (FStatus.Contains(THSSetStatusElement.ssEditting))
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssModified);
+                FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssModified);
             }
         }
 
         // HSEngine.pas:3459
         public void ResetModified()
         {
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssModified);
+            FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssModified);
         }
 
         // HSEngine.pas:3464
         public void SetEditting()
         {
-            FStatus = FStatus + TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssEditting);
+            FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
         }
 
         // HSEngine.pas:3468
         public void ResetEditting()
         {
-            FStatus = FStatus - TSet<Aow.Units.HSEngine.THSSetStatusElement>.Of(Aow.Units.HSEngine.THSSetStatusElement.ssEditting);
+            FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
         }
 
-        public TSet<Aow.Units.HSEngine.THSSetStatusElement> Status { get => FStatus; }
-        public Aow.Units.HSEngine.THexagonControl HexagonControl { get => FHexagonControl; }
-        public Aow.Units.HSEngine.TRoadControl RoadControl { get => FRoadControl; }
-        public Aow.Units.HSEngine.TMapObjectResourceList MapObjectResourceList { get => FMapObjectResourceList; }
-        public Aow.Units.Engine.TEResourceEditSettings ResourceEditSettings { get => FResourceEditSettings; }
-        public Aow.Units.ImageLib.TImageLibraryManager ImageLibraryManager { get => FImageLibraryManager; }
-        public Aow.Units.Sound.TSFXManager SFXManager { get => FSFXManager; }
-        public Aow.Units.Engine.TPlugInControl PlugInControl { get => FPlugInControl; }
-        public Aow.Rtl.AnsiString Name { get => FName; set => FName = value; }
-        public Aow.Rtl.TStringList TerrainTypes { get => FTerrainTypes; }
-        public Aow.Rtl.TStringList OverlayTypes { get => FOverlayTypes; }
-        public Aow.Rtl.TStringList DecorationTypes { get => FDecorationTypes; }
+        public TSet<THSSetStatusElement> Status { get => FStatus; }
+        public THexagonControl HexagonControl { get => FHexagonControl; }
+        public TRoadControl RoadControl { get => FRoadControl; }
+        public TMapObjectResourceList MapObjectResourceList { get => FMapObjectResourceList; }
+        public TEResourceEditSettings ResourceEditSettings { get => FResourceEditSettings; }
+        public TImageLibraryManager ImageLibraryManager { get => FImageLibraryManager; }
+        public Sound.TSFXManager SFXManager { get => FSFXManager; }
+        public TPlugInControl PlugInControl { get => FPlugInControl; }
+        public AnsiString Name { get => FName; set => FName = value; }
+        public TStringList TerrainTypes { get => FTerrainTypes; }
+        public TStringList OverlayTypes { get => FOverlayTypes; }
+        public TStringList DecorationTypes { get => FDecorationTypes; }
 
     }
 
     // FHSEngine. The component that creates the engine (CreateEngine) and keeps it as
     // TEComponent.Engine. OnRegisterClasses and OnUnRegisterClasses are TEComponent's events,
     // called from Loaded and Destroy
-    public partial class THexagonSpriteEngine : Aow.Units.Engine.TEComponent
+    public partial class THexagonSpriteEngine : TEComponent
     {
-        internal Aow.Units.HSEngine.THSEngine FHSEngine;
+        internal THSEngine FHSEngine;
         // HSEngine.pas:5381
         public THexagonSpriteEngine(TComponent owner) : base(owner)
         {
@@ -6660,7 +6654,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5388
-        public virtual void SetHSEngine(Aow.Units.HSEngine.THSEngine Value)
+        public virtual void SetHSEngine(THSEngine Value)
         {
             FHSEngine = Value;
             Engine = FHSEngine;
@@ -6669,12 +6663,12 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:5394
         public virtual void CreateEngine()
         {
-            var call__305 = Aow.Units.HSEngine.THSEngine.Create(null);
+            var call__305 = THSEngine.Create(null);
             SetHSEngine(call__305);
         }
 
         // HSEngine.pas:5399
-        public void SetHSSetSearchPath(Aow.Rtl.AnsiString Value)
+        public void SetHSSetSearchPath(AnsiString Value)
         {
             if (FHSEngine != null)
             {
@@ -6683,9 +6677,9 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5404
-        public Aow.Rtl.AnsiString GetHSSetSearchPath()
+        public AnsiString GetHSSetSearchPath()
         {
-            Aow.Rtl.AnsiString Result = default;
+            AnsiString Result = default;
             if (FHSEngine != null)
             {
                 Result = FHSEngine.FHSSetSearchPath;
@@ -6698,13 +6692,13 @@ namespace Aow.Units.HSEngine
             return Result;
         }
 
-        public Aow.Units.HSEngine.THSEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
-        public Aow.Rtl.AnsiString HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
+        public THSEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
+        public AnsiString HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
     }
 
     // a sprite on one hexagon. FStatus: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
     // Byte: the original sets the bits with or/and, which a set with Include does not give)
-    public partial class TSingleHS : Aow.Units.HSEngine.THexagonSprite
+    public partial class TSingleHS : THexagonSprite
     {
         public TSingleHS(TECustomNode owner) : base(owner)
         {}
@@ -6715,11 +6709,11 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = unchecked((byte)(FStatus | 1));
+                FStatus = (byte)(FStatus | 1);
             }
             else
             {
-                FStatus = unchecked((byte)(FStatus & 254));
+                FStatus = (byte)(FStatus & 254);
             }
         }
 
@@ -6752,11 +6746,11 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = unchecked((byte)(FStatus | 2));
+                FStatus = (byte)(FStatus | 2);
             }
             else
             {
-                FStatus = unchecked((byte)(FStatus & 253));
+                FStatus = (byte)(FStatus & 253);
             }
         }
 
@@ -6766,8 +6760,8 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(((Aow.Units.HSEngine.TMapField)Owner).FXhx, ((Aow.Units.HSEngine.TMapField)Owner).FYhx, ref Xhp, ref Yhp);
-            Result = ((GetLevel() << 26) + ((Yhp + 32) << 13)) + (Xhp + 16);
+            HSEngine.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+            Result = (GetLevel() << 26) + ((Yhp + 32) << 13) + (Xhp + 16);
             return Result;
         }
 
@@ -6783,34 +6777,34 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:749
-        public override bool Place(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            Result = PlaceHX(Map, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            Result = PlaceHX(Map, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
             return Result;
         }
 
         // HXSPRITE.PAS:721
         public override void Remove()
         {
-            Aow.Units.HSEngine.TMapField MapF = default;
+            TMapField MapF = default;
             if (Owner != null)
             {
-                MapF = (Aow.Units.HSEngine.TMapField)Owner;
+                MapF = (TMapField)Owner;
                 RemoveFromMap();
                 if (GetVisible())
                 {
                     if (GetLevel() <= 15)
                     {
-                        ((Aow.Units.HSEngine.TMapLevel)MapF.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
-                        ((Aow.Units.HSEngine.TMapLevel)MapF.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
+                        ((TMapLevel)MapF.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
+                        ((TMapLevel)MapF.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
                     }
                     else
                     {
-                        ((Aow.Units.HSEngine.TMapLevel)MapF.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
+                        ((TMapLevel)MapF.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
                     }
                 }
 
@@ -6821,22 +6815,22 @@ namespace Aow.Units.HSEngine
         // HXSPRITE.PAS:688
         public override void Activate()
         {
-            FStatus = unchecked((byte)(FStatus | 8));
+            FStatus = (byte)(FStatus | 8);
         }
 
         // HXSPRITE.PAS:693
         public override void Deactivate()
         {
             base.Deactivate();
-            FStatus = unchecked((byte)(FStatus & 247));
+            FStatus = (byte)(FStatus & 247);
         }
 
         // HXSPRITE.PAS:651
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
             if ((FStatus & 1) == 0)
             {
-                FStatus = unchecked((byte)(FStatus | 1));
+                FStatus = (byte)(FStatus | 1);
                 var call__306 = GetShowPriority();
                 VisibilityList.AddSortChild(this, call__306);
             }
@@ -6846,33 +6840,33 @@ namespace Aow.Units.HSEngine
         public override void Select()
         {
             base.Select();
-            FStatus = unchecked((byte)(FStatus | 4));
+            FStatus = (byte)(FStatus | 4);
         }
 
         // HXSPRITE.PAS:677
         public override void Unselect()
         {
             base.Unselect();
-            FStatus = unchecked((byte)(FStatus & 251));
+            FStatus = (byte)(FStatus & 251);
         }
 
         // HXSPRITE.PAS:743
-        public virtual bool CanPlace(Aow.Units.HSEngine.TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool CanPlace(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Result = (((((Xhx >= 0) && (Yhx >= 0)) && (Lhx >= 0)) && (Xhx < Map.FWidth)) && (Yhx < Map.FHeight)) && (Lhx < Map.FLevelCount);
+            Result = Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < Map.FWidth && Yhx < Map.FHeight && Lhx < Map.FLevelCount;
             return Result;
         }
 
         // HXSPRITE.PAS:757
-        public virtual bool PlaceHX(Aow.Units.HSEngine.TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool PlaceHX(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             var call__307 = GetEditMode();
             bool bool__308 = call__307;
             if (!bool__308)
             {
-                var call__309 = CanPlace(Map, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+                var call__309 = CanPlace(Map, Xhx, Yhx, Lhx);
                 bool__308 = call__309;
             }
 
@@ -6880,7 +6874,7 @@ namespace Aow.Units.HSEngine
             {
                 Remove();
                 var call__310 = Map.GetField(Xhx, Yhx, Lhx);
-                SetOwner((Aow.Units.Engine.TECustomNode)call__310);
+                SetOwner(call__310);
                 Result = PlaceOnMap();
             }
             else
@@ -6901,7 +6895,7 @@ namespace Aow.Units.HSEngine
     }
 
     // a sprite that is always in the visibility list (not on a field). FStatus: bit 1 visible
-    public partial class TFixedVisibleHS : Aow.Units.HSEngine.THexagonSprite
+    public partial class TFixedVisibleHS : THexagonSprite
     {
         public TFixedVisibleHS(TECustomNode owner) : base(owner)
         { }
@@ -6912,11 +6906,11 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = unchecked((byte)(FStatus | 1));
+                FStatus = (byte)(FStatus | 1);
             }
             else
             {
-                FStatus = unchecked((byte)(FStatus & 254));
+                FStatus = (byte)(FStatus & 254);
             }
         }
 
@@ -6942,31 +6936,31 @@ namespace Aow.Units.HSEngine
             Deactivate();
             Remove();
             var call__311 = GetVisible();
-            Aow.Rtl.Rtl.Assert(!call__311, (AnsiString)"FixedVisibleHS still in VisibilityList!!!", "HXSPRITE.PAS", 795);
+            Assert(!call__311, (AnsiString)"FixedVisibleHS still in VisibilityList!!!", "HXSPRITE.PAS", 795);
         }
 
         // HXSPRITE.PAS:779
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
             if ((FStatus & 1) == 0)
             {
-                FStatus = unchecked((byte)(FStatus | 1));
+                FStatus = (byte)(FStatus | 1);
                 var call__312 = GetShowPriority();
                 VisibilityList.AddSortChild(this, call__312);
             }
         }
     }
 
-    public delegate void TOnShowHSEvent(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc);
+    public delegate void TOnShowHSEvent(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc);
     // FShowPriority, FOnShow (Show calls it). TAbstractAoWHSMap (AoWEPACK) creates two and sets
     // OnShow and ShowPriority
-    public partial class TCustomFixedVisibleHS : Aow.Units.HSEngine.TFixedVisibleHS
+    public partial class TCustomFixedVisibleHS : TFixedVisibleHS
     {
         public TCustomFixedVisibleHS(TECustomNode owner) : base(owner)
         { }
 
         internal int FShowPriority;
-        internal Aow.Units.HSEngine.TOnShowHSEvent FOnShow;
+        internal TOnShowHSEvent FOnShow;
         // HXSPRITE.PAS:800
         public override int GetShowPriority()
         {
@@ -6976,7 +6970,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:805
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             if (FOnShow != null)
             {
@@ -6985,28 +6979,28 @@ namespace Aow.Units.HSEngine
         }
 
         public new int ShowPriority { get => GetShowPriority(); set => FShowPriority = value; }
-        public Aow.Units.HSEngine.TOnShowHSEvent OnShow { get => FOnShow; set => FOnShow = value; }
+        public TOnShowHSEvent OnShow { get => FOnShow; set => FOnShow = value; }
 
     }
 
     // an image of an image library shown at a pixel position. FStatus, FImage, FXhp, FYhp, FLhx,
     // FShowPriority (the top six bits are the level, the rest the offset SetShowPriorityOffset
     // adds). Persisted: 1 FStatus (rwData), 2 FShowPriority, 3 FXhp, 4 FYhp, 5 FLhx (rwByte)
-    public partial class TLibraryImageHS : Aow.Units.HSEngine.THexagonSprite
+    public partial class TLibraryImageHS : THexagonSprite
     {
         public new const int ClassID = 65875;
 
-        internal TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement> FStatus;
-        internal Aow.Units.ImageLib.TLibraryImage FImage;
+        internal TSet<TLibraryImageHSStatusElement> FStatus;
+        internal ImageLib.TLibraryImage FImage;
         internal int FXhp;
         internal int FYhp;
         internal byte FLhx;
         internal int FShowPriority;
         // LibImgHS.PAS:111
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Aow.Rtl.Rtl.RwSet(ref FStatus, 1, 1, Stream.rwData, 0);
+            RwSet(ref FStatus, 1, 1, Stream.rwData, 0);
             Stream.rwInteger(ref FShowPriority, 2);
             Stream.rwInteger(ref FXhp, 3);
             Stream.rwInteger(ref FYhp, 4);
@@ -7018,7 +7012,7 @@ namespace Aow.Units.HSEngine
 //   D:\GEngine\HSENGINE\inc\LibImgHS.PAS) }
         public TLibraryImageHS(TECustomNode owner) : base(owner)
         {
-            FStatus = TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner);
+            FStatus = TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner);
             SetLevel(26);
         }
 
@@ -7026,7 +7020,7 @@ namespace Aow.Units.HSEngine
         public override byte GetLevel()
         {
             byte Result = default;
-            Result = unchecked((byte)((int)(((uint)FShowPriority) >> 26)));
+            Result = (byte)(int)(((uint)FShowPriority) >> 26);
             return Result;
         }
 
@@ -7035,11 +7029,11 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsVisible);
+                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsVisible);
             }
             else
             {
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsVisible);
+                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsVisible);
             }
         }
 
@@ -7047,7 +7041,7 @@ namespace Aow.Units.HSEngine
         public override bool GetVisible()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsVisible);
+            Result = FStatus.Contains(TLibraryImageHSStatusElement.lsVisible);
             return Result;
         }
 
@@ -7055,7 +7049,7 @@ namespace Aow.Units.HSEngine
         public override bool GetEditMode()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsEditMode);
+            Result = FStatus.Contains(TLibraryImageHSStatusElement.lsEditMode);
             return Result;
         }
 
@@ -7064,11 +7058,11 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsEditMode);
+                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsEditMode);
             }
             else
             {
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsEditMode);
+                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsEditMode);
             }
         }
 
@@ -7076,30 +7070,30 @@ namespace Aow.Units.HSEngine
         public override int GetShowPriority()
         {
             int Result = default;
-            Result = ((FYhp << 13) + FXhp) + FShowPriority;
+            Result = (FYhp << 13) + FXhp + FShowPriority;
             return Result;
         }
 
         // LibImgHS.PAS:194
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             FImage.Show(FXhp - XhpSurf, FYhp - YhpSurf, SurfaceDesc);
-            if (FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsDestroyOnShow))
+            if (FStatus.Contains(TLibraryImageHSStatusElement.lsDestroyOnShow))
             {
                 Destroy();
             }
         }
 
         // LibImgHS.PAS:126
-        public override bool Place(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             if (CanPlace(Map, Xhp, Yhp, Lhx))
             {
                 FXhp = Xhp;
                 FYhp = Yhp;
-                FLhx = unchecked((byte)Lhx);
-                if (FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner))
+                FLhx = (byte)Lhx;
+                if (FStatus.Contains(TLibraryImageHSStatusElement.lsMapIsOwner))
                 {
                     var call__313 = PlaceOnMapEx(Map, Xhp, Yhp, Lhx, FImage.Width, FImage.Height);
                     Result = call__313;
@@ -7112,7 +7106,7 @@ namespace Aow.Units.HSEngine
 
                 if (Result)
                 {
-                    FStatus = FStatus + TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsPlacedOnMap);
+                    FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsPlacedOnMap);
                 }
             }
             else
@@ -7126,21 +7120,21 @@ namespace Aow.Units.HSEngine
         // LibImgHS.PAS:152
         public override void Remove()
         {
-            Aow.Units.HSEngine.THSEngine Engine = default;
-            if (FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsPlacedOnMap))
+            THSEngine Engine = default;
+            if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
             {
-                if (FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner))
+                if (FStatus.Contains(TLibraryImageHSStatusElement.lsMapIsOwner))
                 {
                     if (GetVisible())
                     {
                         if (GetLevel() <= 15)
                         {
-                            ((Aow.Units.HSEngine.TMapLevel)Owner.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
-                            ((Aow.Units.HSEngine.TMapLevel)Owner.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
+                            ((TMapLevel)Owner.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
+                            ((TMapLevel)Owner.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
                         }
                         else
                         {
-                            ((Aow.Units.HSEngine.TMapLevel)Owner.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
+                            ((TMapLevel)Owner.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
                         }
 
                         SetVisible(false);
@@ -7150,7 +7144,7 @@ namespace Aow.Units.HSEngine
                 }
                 else
                 {
-                    Engine = (Aow.Units.HSEngine.THSEngine)GetEngine();
+                    Engine = (THSEngine)GetEngine();
                     if (GetVisible())
                     {
                         if (GetLevel() <= 15)
@@ -7169,29 +7163,29 @@ namespace Aow.Units.HSEngine
                     RemoveUserFromMapEx(Engine.FHSMap.FMapContainer, FXhp, FYhp, FLhx, FImage.Width, FImage.Height);
                 }
 
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsPlacedOnMap);
+                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsPlacedOnMap);
             }
         }
 
         // LibImgHS.PAS:31
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsVisible))
+            if (!FStatus.Contains(TLibraryImageHSStatusElement.lsVisible))
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsVisible);
+                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsVisible);
                 var call__315 = GetShowPriority();
                 VisibilityList.AddSortChild(this, call__315);
             }
         }
 
         // LibImgHS.PAS:101
-        public virtual void SetImage(Aow.Units.ImageLib.TLibraryImage Value)
+        public virtual void SetImage(ImageLib.TLibraryImage Value)
         {
-            if (FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsPlacedOnMap))
+            if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
             {
-                if ((Value == null) || ((FImage.Width != Value.Width) || (FImage.Height != Value.Height)))
+                if (Value == null || (FImage.Width != Value.Width || FImage.Height != Value.Height))
                 {
-                    throw Aow.Rtl.Exception.Create((AnsiString)"Cannot change image when placed on map (TLibraryImageHS)");
+                    throw Exception.Create((AnsiString)"Cannot change image when placed on map (TLibraryImageHS)");
                 }
             }
 
@@ -7203,7 +7197,7 @@ namespace Aow.Units.HSEngine
         }
 
         // LibImgHS.PAS:121
-        public virtual bool CanPlace(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public virtual bool CanPlace(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             Result = true;
@@ -7211,13 +7205,13 @@ namespace Aow.Units.HSEngine
         }
 
         // LibImgHS.PAS:144
-        public virtual bool PlaceHX(Aow.Units.HSEngine.TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool PlaceHX(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
-            var call__316 = Place(Map, (((int)(((uint)FImage.Width) >> 2)) + Xhp) + 16, (((int)(((uint)FImage.Height) >> 2)) + Yhp) + 16, Lhx);
+            HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            var call__316 = Place(Map, (int)(((uint)FImage.Width) >> 2) + Xhp + 16, (int)(((uint)FImage.Height) >> 2) + Yhp + 16, Lhx);
             Result = call__316;
             return Result;
         }
@@ -7226,25 +7220,25 @@ namespace Aow.Units.HSEngine
         public bool GetMapIsOwner()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner);
+            Result = FStatus.Contains(TLibraryImageHSStatusElement.lsMapIsOwner);
             return Result;
         }
 
         // LibImgHS.PAS:58
         public void SetMapIsOwner(bool Value)
         {
-            if (FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsPlacedOnMap))
+            if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
             {
-                Aow.Units.HSEngine.HSEngine.OriginalAssert((AnsiString)"Cannot change MapIsOwner when places on map (TLibraryImageHS)", (AnsiString)"D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
+                HSEngine.OriginalAssert((AnsiString)"Cannot change MapIsOwner when places on map (TLibraryImageHS)", (AnsiString)"D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
             }
 
             if (Value)
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner);
+                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner);
             }
             else
             {
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsMapIsOwner);
+                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner);
             }
         }
 
@@ -7252,7 +7246,7 @@ namespace Aow.Units.HSEngine
         public bool GetDestroyOnShow()
         {
             bool Result = default;
-            Result = FStatus.Contains(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsDestroyOnShow);
+            Result = FStatus.Contains(TLibraryImageHSStatusElement.lsDestroyOnShow);
             return Result;
         }
 
@@ -7261,11 +7255,11 @@ namespace Aow.Units.HSEngine
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsDestroyOnShow);
+                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsDestroyOnShow);
             }
             else
             {
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TLibraryImageHSStatusElement>.Of(Aow.Units.HSEngine.TLibraryImageHSStatusElement.lsDestroyOnShow);
+                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsDestroyOnShow);
             }
         }
 
@@ -7279,10 +7273,10 @@ namespace Aow.Units.HSEngine
         public void SetShowPriorityOffset(int OffsetX, int OffsetY)
         {
             // { both offsets are shifted into the Y part (original) }
-            FShowPriority = ((FShowPriority & -67108864) + (OffsetY << 13)) + (OffsetX << 13);
+            FShowPriority = (FShowPriority & -67108864) + (OffsetY << 13) + (OffsetX << 13);
         }
 
-        public Aow.Units.ImageLib.TLibraryImage Image { get => FImage; set => SetImage(value); }
+        public ImageLib.TLibraryImage Image { get => FImage; set => SetImage(value); }
         public bool MapIsOwner { get => GetMapIsOwner(); set => SetMapIsOwner(value); }
         public bool DestroyOnShow { get => GetDestroyOnShow(); set => SetDestroyOnShow(value); }
         public new byte Level { get => GetLevel(); set => SetLevel(value); }
@@ -7291,7 +7285,7 @@ namespace Aow.Units.HSEngine
 
     // a sprite placed at a pixel position. FVisible, FXhp, FYhp, FLhx (HSLib.TLibraryHS reads FXhp
     // and FYhp). Persisted: 4 FXhp, 5 FYhp, 6 FLhx (rwByte)
-    public partial class THPBasedHS : Aow.Units.HSEngine.THexagonSprite
+    public partial class THPBasedHS : THexagonSprite
     {
         public new const int ClassID = 65874;
 
@@ -7299,7 +7293,7 @@ namespace Aow.Units.HSEngine
         {
             FXhp = -2147483648;
             FYhp = -2147483648;
-            FLhx = unchecked((sbyte)-1);
+            FLhx = -1;
         }
 
         protected internal bool FVisible;
@@ -7307,7 +7301,7 @@ namespace Aow.Units.HSEngine
         protected internal int FYhp;
         protected internal sbyte FLhx;
         // HXSPRITE.PAS:622
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FXhp, 4);
@@ -7333,12 +7327,12 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:630
-        public override bool Place(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             FXhp = Xhp;
             FYhp = Yhp;
-            FLhx = unchecked((sbyte)Lhx);
+            FLhx = (sbyte)Lhx;
             Result = true;
             return Result;
         }
@@ -7347,7 +7341,7 @@ namespace Aow.Units.HSEngine
 
     // HSEngine.EMapObjectResourceMissing: TMapObject.ReadWrite raises it when the resource id read
     // from the stream is not in the resource list
-    public partial class EMapObjectResourceMissing : Aow.Rtl.Exception
+    public partial class EMapObjectResourceMissing : Exception
     {
         // SysUtils.pas:174
         public EMapObjectResourceMissing(AnsiString Msg)
@@ -7358,7 +7352,7 @@ namespace Aow.Units.HSEngine
 
     // a map object that covers the hexagons of its terrain list around its main hexagon. FXhx, FYhx
     // (the main hexagon, ids 3 and 4)
-    public partial class TMultiHexMO : Aow.Units.HSEngine.TMapObject
+    public partial class TMultiHexMO : TMapObject
     {
 
         public TMultiHexMO(TECustomNode owner) : base(owner)
@@ -7367,7 +7361,7 @@ namespace Aow.Units.HSEngine
         protected internal sbyte FXhx;
         protected internal sbyte FYhx;
         // MAPOBJ.PAS:923
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 3);
@@ -7378,7 +7372,7 @@ namespace Aow.Units.HSEngine
         public override sbyte GetXhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)FXhx);
+            Result = FXhx;
             return Result;
         }
 
@@ -7386,7 +7380,7 @@ namespace Aow.Units.HSEngine
         public override sbyte GetYhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)FYhx);
+            Result = FYhx;
             return Result;
         }
 
@@ -7405,8 +7399,8 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-            Result = (FResource.FShowPriorityOffset + (Yhp << 13)) + Xhp;
+            HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            Result = FResource.FShowPriorityOffset + (Yhp << 13) + Xhp;
             return Result;
         }
 
@@ -7415,26 +7409,26 @@ namespace Aow.Units.HSEngine
         public override void Connect()
         {
             int Count = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            TMapLevel MapLevel = default;
+            TMapField MapField = default;
+            THNWalkData Walk = default;
+            if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
-                FStatus = FStatus + TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
+                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
                 Count = GetTerrainCount();
-                MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                MapLevel = (TMapLevel)Owner.Owner;
+                HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     var call__318 = GetTerrain(Walk.HN);
-                    bool bool__319 = (call__318 >= -1);
+                    bool bool__319 = call__318 >= -1;
                     if (!bool__319)
                     {
                         var call__320 = GetOverlay(Walk.HN);
-                        bool__319 = (call__320 >= -1);
+                        bool__319 = call__320 >= -1;
                     }
 
-                    if ((((bool__319 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                    if (bool__319 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                     {
                         var call__321 = MapLevel.GetField(Walk.X, Walk.Y);
                         MapField = call__321;
@@ -7446,7 +7440,7 @@ namespace Aow.Units.HSEngine
                         MapField.AddHS(this, Walk.HN);
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    HSEngine.WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -7455,31 +7449,31 @@ namespace Aow.Units.HSEngine
         public override void Disconnect()
         {
             int Count = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            TMapLevel MapLevel = default;
+            THNWalkData Walk = default;
+            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
                 Count = GetTerrainCount();
-                MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-                FStatus = FStatus - TSet<Aow.Units.HSEngine.TMapObjectStatusElement>.Of(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap);
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                MapLevel = (TMapLevel)Owner.Owner;
+                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+                HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     var call__322 = GetTerrain(Walk.HN);
-                    bool bool__323 = (call__322 >= -1);
+                    bool bool__323 = call__322 >= -1;
                     if (!bool__323)
                     {
                         var call__324 = GetOverlay(Walk.HN);
-                        bool__323 = (call__324 >= -1);
+                        bool__323 = call__324 >= -1;
                     }
 
-                    if ((((bool__323 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                    if (bool__323 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                     {
                         var call__325 = MapLevel.GetField(Walk.X, Walk.Y);
                         call__325.RemoveHS(this);
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    HSEngine.WalkToNextHN(ref Walk);
                 }
 
                 Owner = null;
@@ -7487,20 +7481,20 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:930
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.TMapObjectResource R = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            TMapObjectResource R = default;
+            HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             if (FResource.FImageSequenceList == null)
             {
                 var call__326 = FResource.FImageLibrary.Get(0);
-                call__326.Show((Xhp - XhpSurf) + ((Aow.Units.HSEngine.TMultiHexMOR)FResource).FdXImage, (Yhp - YhpSurf) + ((Aow.Units.HSEngine.TMultiHexMOR)FResource).FdYImage, SurfaceDesc);
+                call__326.Show(Xhp - XhpSurf + ((TMultiHexMOR)FResource).FdXImage, Yhp - YhpSurf + ((TMultiHexMOR)FResource).FdYImage, SurfaceDesc);
             }
             else
             {
-                FResource.ShowComplexImage(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc, 0, unchecked((uint)(Xhp + Yhp)));
+                FResource.ShowComplexImage(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc, 0, (uint)(Xhp + Yhp));
             }
         }
 
@@ -7509,39 +7503,39 @@ namespace Aow.Units.HSEngine
         {
             bool Result = default;
             int Count = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            if (!FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            TMapLevel MapLevel = default;
+            THNWalkData Walk = default;
+            if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
                 Connect();
                 Count = GetTerrainCount();
-                MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+                MapLevel = (TMapLevel)Owner.Owner;
                 if (GetLevel() <= 15)
                 {
-                    Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                    HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                     while (Walk.HN < Count)
                     {
                         var call__327 = GetTerrain(Walk.HN);
-                        bool bool__328 = (call__327 >= -1);
+                        bool bool__328 = call__327 >= -1;
                         if (!bool__328)
                         {
                             var call__329 = GetOverlay(Walk.HN);
-                            bool__328 = (call__329 >= -1);
+                            bool__328 = call__329 >= -1;
                         }
 
-                        if ((((bool__328 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                        if (bool__328 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                         {
-                            MapLevel.FMap.InvalidateStaticScene(Walk.X, Walk.Y, ((Aow.Units.HSEngine.TMapField)Owner).FLhx);
+                            MapLevel.FMap.InvalidateStaticScene(Walk.X, Walk.Y, ((TMapField)Owner).FLhx);
                         }
 
-                        Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                        HSEngine.WalkToNextHN(ref Walk);
                     }
                 }
 
                 if (!GetEditMode())
                 {
-                    var call__330 = Aow.Units.HSEngine.HSEngine.HNtoRad(Count);
-                    MapLevel.FMap.TerrainChangedRad(unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)MapLevel.FLhx), call__330);
+                    var call__330 = HSEngine.HNtoRad(Count);
+                    MapLevel.FMap.TerrainChangedRad(FXhx, FYhx, (sbyte)MapLevel.FLhx, call__330);
                 }
             }
 
@@ -7553,30 +7547,30 @@ namespace Aow.Units.HSEngine
         public override void RemoveFromMap()
         {
             int Count = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
+            TMapLevel MapLevel = default;
+            TMapField MapField = default;
             sbyte TerrainType = default;
             sbyte OverlayType = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moPlacedOnMap))
+            THNWalkData Walk = default;
+            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
-                MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+                MapLevel = (TMapLevel)Owner.Owner;
                 Disconnect();
-                if (!MapLevel.FMap.FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msDestroying))
+                if (!MapLevel.FMap.FStatus.Contains(THSMapStatusElement.msDestroying))
                 {
                     Count = GetTerrainCount();
-                    Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                    HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                     while (Walk.HN < Count)
                     {
                         var call__331 = GetTerrain(Walk.HN);
-                        TerrainType = unchecked((sbyte)call__331);
+                        TerrainType = call__331;
                         var call__332 = GetOverlay(Walk.HN);
-                        OverlayType = unchecked((sbyte)call__332);
-                        if ((((((TerrainType >= -1) || (OverlayType >= -1)) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                        OverlayType = call__332;
+                        if ((TerrainType >= -1 || OverlayType >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                         {
                             var call__333 = MapLevel.GetField(Walk.X, Walk.Y);
                             MapField = call__333;
-                            if ((TerrainType >= 0) || (OverlayType >= 0))
+                            if (TerrainType >= 0 || OverlayType >= 0)
                             {
                                 MapField.UpdateTerrain();
                             }
@@ -7587,11 +7581,11 @@ namespace Aow.Units.HSEngine
                             }
                         }
 
-                        Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                        HSEngine.WalkToNextHN(ref Walk);
                     }
 
-                    var call__334 = Aow.Units.HSEngine.HSEngine.HNtoRad(Count);
-                    MapLevel.FMap.TerrainChangedRad(unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)MapLevel.FLhx), call__334);
+                    var call__334 = HSEngine.HNtoRad(Count);
+                    MapLevel.FMap.TerrainChangedRad(FXhx, FYhx, (sbyte)MapLevel.FLhx, call__334);
                 }
             }
         }
@@ -7603,20 +7597,20 @@ namespace Aow.Units.HSEngine
             int Xhx = default;
             int Yhx = default;
             int HN = default;
-            if (FResource.FEngine.FHSMap.FStatus.Contains(Aow.Units.HSEngine.THSMapStatusElement.msEditting))
+            if (FResource.FEngine.FHSMap.FStatus.Contains(THSMapStatusElement.msEditting))
             {
-                Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                var call__335 = Aow.Units.HSEngine.HSEngine.dHXtoHN(((Aow.Units.HSEngine.TMapField)Owner).FXhx, ((Aow.Units.HSEngine.TMapField)Owner).FYhx, Xhx, Yhx);
+                HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+                var call__335 = HSEngine.dHXtoHN(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, Xhx, Yhx);
                 HN = call__335;
-                bool bool__336 = (HN < FResource.FTerrainList.FCount);
+                bool bool__336 = HN < FResource.FTerrainList.FCount;
                 if (bool__336)
                 {
                     var call__337 = FResource.FTerrainList.GetTerrain(HN);
-                    bool bool__338 = (call__337 >= 0);
+                    bool bool__338 = call__337 >= 0;
                     if (!bool__338)
                     {
                         var call__339 = FResource.FTerrainList.GetOverlay(HN);
-                        bool__338 = (call__339 >= 0);
+                        bool__338 = call__339 >= 0;
                     }
 
                     bool__336 = bool__338;
@@ -7633,32 +7627,32 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:1096
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
             int Count = default;
             sbyte TerrainType = default;
             sbyte OverlayType = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
+            THexagonSprite HS = default;
+            THNWalkData Walk = default;
             Result = true;
             Count = FResource.FTerrainList.FCount;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
-            while (Result && (Walk.HN < Count))
+            HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            while (Result && Walk.HN < Count)
             {
                 var call__340 = GetTerrain(Walk.HN);
-                TerrainType = unchecked((sbyte)call__340);
+                TerrainType = call__340;
                 var call__341 = GetOverlay(Walk.HN);
-                OverlayType = unchecked((sbyte)call__341);
-                if ((((((TerrainType >= 0) || (OverlayType >= 0)) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapContainer.FWidth)) && (Walk.Y < MapContainer.FHeight))
+                OverlayType = call__341;
+                if ((TerrainType >= 0 || OverlayType >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapContainer.FWidth && Walk.Y < MapContainer.FHeight)
                 {
                     var call__342 = MapContainer.GetField(Walk.X, Walk.Y, Lhx);
                     var call__343 = call__342.GetMaxLevelNoneTransparentHS();
                     HS = call__343;
-                    Result = (HS == null) || CanPlaceOnHS(HS);
+                    Result = HS == null || CanPlaceOnHS(HS);
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
             bool bool__344 = Result;
@@ -7673,22 +7667,22 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:1138
-        public override bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            FXhx = unchecked((sbyte)Xhx);
-            FYhx = unchecked((sbyte)Yhx);
-            Result = base.PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            FXhx = Xhx;
+            FYhx = Yhx;
+            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             return Result;
         }
 
         // MAPOBJ.PAS:1214
         public virtual void SortMapFields()
         {
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            TMapLevel MapLevel = default;
+            THNWalkData Walk = default;
+            MapLevel = (TMapLevel)Owner.Owner;
+            HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (true)
             {
                 var call__346 = GetTerrainCount();
@@ -7696,11 +7690,11 @@ namespace Aow.Units.HSEngine
                     break;
                 {
                     var call__347 = GetTerrain(Walk.HN);
-                    bool bool__348 = (call__347 >= 0);
+                    bool bool__348 = call__347 >= 0;
                     if (!bool__348)
                     {
                         var call__349 = GetOverlay(Walk.HN);
-                        bool__348 = (((((call__349 >= 0) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight));
+                        bool__348 = call__349 >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight;
                     }
 
                     if (bool__348)
@@ -7710,13 +7704,13 @@ namespace Aow.Units.HSEngine
                         call__350.Sort();
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    HSEngine.WalkToNextHN(ref Walk);
                 }
             }
         }
 
         // MAPOBJ.PAS:1091
-        public virtual bool CanPlaceOnHS(Aow.Units.HSEngine.THexagonSprite HS)
+        public virtual bool CanPlaceOnHS(THexagonSprite HS)
         {
             bool Result = default;
             Result = HS.GetLevel() < 10;
@@ -7725,14 +7719,14 @@ namespace Aow.Units.HSEngine
 
         // MAPOBJ.PAS:1146
         // { The terrain type that most of the fields under the object have (the counts of Default win ties) }
-        public virtual sbyte GetMostFrequentMapFieldTerrainType(Aow.Units.HSEngine.TMapLevel MapLevel, sbyte Xhx, sbyte Yhx, sbyte Default)
+        public virtual sbyte GetMostFrequentMapFieldTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx, sbyte Default)
         {
             sbyte Result = default;
-            Aow.Units.HSEngine.TTerrainList TerrainList = default;
+            TTerrainList TerrainList = default;
             sbyte TerrainType = default;
-            Aow.Units.FixedArray_byte_128 Counts = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            Result = unchecked((sbyte)Default);
+            FixedArray_byte_128 Counts = default;
+            THNWalkData Walk = default;
+            Result = Default;
             TerrainList = FResource.FTerrainList;
             if (Result < 0)
             {
@@ -7740,93 +7734,93 @@ namespace Aow.Units.HSEngine
             }
 
             Counts = default;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN < TerrainList.FCount)
             {
                 var call__351 = TerrainList.GetTerrain(Walk.HN);
-                bool bool__352 = (call__351 >= 0);
+                bool bool__352 = call__351 >= 0;
                 if (!bool__352)
                 {
                     var call__353 = GetOverlay(Walk.HN);
-                    bool__352 = (call__353 >= 0);
+                    bool__352 = call__353 >= 0;
                 }
 
-                if ((((bool__352 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (bool__352 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__354 = MapLevel.GetField(Walk.X, Walk.Y);
-                    TerrainType = unchecked((sbyte)call__354.FTerrainType);
+                    TerrainType = call__354.FTerrainType;
                     if (TerrainType >= 0)
                     {
-                        Counts[TerrainType] = (byte)(((int)Counts[TerrainType]) + 1);
+                        Counts[TerrainType] = (byte)(Counts[TerrainType] + 1);
                         if (Counts[TerrainType] > Counts[Result])
                         {
-                            Result = unchecked((sbyte)TerrainType);
+                            Result = TerrainType;
                         }
                     }
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
-            if ((Default >= 0) && (Counts[Result] == Counts[Default]))
+            if (Default >= 0 && Counts[Result] == Counts[Default])
             {
-                Result = unchecked((sbyte)Default);
+                Result = Default;
             }
 
             return Result;
         }
 
         // MAPOBJ.PAS:1059
-        public void UpdateTerrain(Aow.Units.HSEngine.TMapLevel MapLevel, int Xhx, int Yhx)
+        public void UpdateTerrain(TMapLevel MapLevel, int Xhx, int Yhx)
         {
             int Count = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
+            THNWalkData Walk = default;
             Count = FResource.FTerrainList.FCount;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
                 var call__355 = GetTerrain(Walk.HN);
-                bool bool__356 = (call__355 >= 0);
+                bool bool__356 = call__355 >= 0;
                 if (!bool__356)
                 {
                     var call__357 = GetOverlay(Walk.HN);
-                    bool__356 = (call__357 >= 0);
+                    bool__356 = call__357 >= 0;
                 }
 
-                if ((((bool__356 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (bool__356 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__358 = MapLevel.GetField(Walk.X, Walk.Y);
                     call__358.UpdateTerrain();
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
         }
 
         // MAPOBJ.PAS:1075
-        public void UpdateMapFields(Aow.Units.HSEngine.TMapLevel MapLevel, int Xhx, int Yhx)
+        public void UpdateMapFields(TMapLevel MapLevel, int Xhx, int Yhx)
         {
             int Count = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
+            THNWalkData Walk = default;
             Count = FResource.FTerrainList.FCount;
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
                 var call__359 = GetTerrain(Walk.HN);
-                bool bool__360 = (call__359 >= 0);
+                bool bool__360 = call__359 >= 0;
                 if (!bool__360)
                 {
                     var call__361 = GetOverlay(Walk.HN);
-                    bool__360 = (call__361 >= 0);
+                    bool__360 = call__361 >= 0;
                 }
 
-                if ((((bool__360 && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (bool__360 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__362 = MapLevel.GetField(Walk.X, Walk.Y);
                     call__362.UpdateMapField();
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
         }
 
@@ -7834,46 +7828,46 @@ namespace Aow.Units.HSEngine
         public void OverrideTerrain()
         {
             int Count = default;
-            Aow.Units.HSEngine.TMapLevel MapLevel = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            Aow.Units.FixedArray_sbyte_2 Terrain = default;
-            Aow.Units.HSEngine.THNWalkData Walk = default;
-            MapLevel = (Aow.Units.HSEngine.TMapLevel)Owner.Owner;
+            TMapLevel MapLevel = default;
+            TMapField MapField = default;
+            FixedArray_sbyte_2 Terrain = default;
+            THNWalkData Walk = default;
+            MapLevel = (TMapLevel)Owner.Owner;
             Count = GetTerrainCount();
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
-                if ((((Walk.X >= 0) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight))
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                 {
                     var call__363 = GetTerrain(Walk.HN);
-                    Terrain[0] = unchecked((sbyte)call__363);
+                    Terrain[0] = call__363;
                     var call__364 = GetOverlay(Walk.HN);
-                    Terrain[1] = unchecked((sbyte)call__364);
+                    Terrain[1] = call__364;
                     var call__365 = MapLevel.GetField(Walk.X, Walk.Y);
                     MapField = call__365;
                     if (Terrain[0] >= 0)
                     {
-                        MapField.FTerrainType = unchecked((sbyte)Terrain[0]);
+                        MapField.FTerrainType = Terrain[0];
                     }
 
                     if (Terrain[1] >= 0)
                     {
-                        MapField.FOverlayType = unchecked((sbyte)Terrain[1]);
+                        MapField.FOverlayType = Terrain[1];
                     }
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
 
-            Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
                 var call__366 = GetTerrain(Walk.HN);
-                bool bool__367 = (call__366 >= 0);
+                bool bool__367 = call__366 >= 0;
                 if (!bool__367)
                 {
                     var call__368 = GetOverlay(Walk.HN);
-                    bool__367 = (((((call__368 >= 0) && (Walk.X >= 0)) && (Walk.Y >= 0)) && (Walk.X < MapLevel.FWidth)) && (Walk.Y < MapLevel.FHeight));
+                    bool__367 = call__368 >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight;
                 }
 
                 if (bool__367)
@@ -7883,14 +7877,14 @@ namespace Aow.Units.HSEngine
                     call__369.TerrainChanged();
                 }
 
-                Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                HSEngine.WalkToNextHN(ref Walk);
             }
         }
     }
 
     // FdXImage, FdYImage (the image offset, ids 12 and 13), FdXmainP, FdYmainP (the main point, ids
     // 14 and 15, part of the show priority offset)
-    public partial class TMultiHexMOR : Aow.Units.HSEngine.TMapObjectResource
+    public partial class TMultiHexMOR : TMapObjectResource
     {
         public new const int ClassID = 65877;
 
@@ -7905,7 +7899,7 @@ namespace Aow.Units.HSEngine
         protected internal int FdXmainP;
         protected internal int FdYmainP;
         // MAPOBJ.PAS:1256
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FdXImage, 12);
@@ -7939,7 +7933,7 @@ namespace Aow.Units.HSEngine
     }
 
     // the base of the terrain hexagons
-    public partial class TAbstractHexagon : Aow.Units.HSEngine.TMapObject
+    public partial class TAbstractHexagon : TMapObject
     {
         public new const int ClassID = 65904;
 
@@ -7960,27 +7954,27 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int Xhp = default;
             int Yhp = default;
-            Xhp = (((Aow.Units.HSEngine.TMapField)Owner).FXhx * 32) + 8;
-            Yhp = ((((Aow.Units.HSEngine.TMapField)Owner).FXhx & 1) * 16) + (((Aow.Units.HSEngine.TMapField)Owner).FYhx * 32);
+            Xhp = ((TMapField)Owner).FXhx * 32 + 8;
+            Yhp = (((TMapField)Owner).FXhx & 1) * 16 + ((TMapField)Owner).FYhx * 32;
             Result = Xhp + (Yhp << 13);
             return Result;
         }
 
         // MAPOBJ.PAS:704
-        public override void ChangeTerrain(in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void ChangeTerrain(in THSTerrainInfo Msg)
         {
-            Aow.Units.HSEngine.THexagonControl Control = default;
-            Aow.Units.HSEngine.TMapObjectResource R = default;
-            bool bool__370 = (Msg.HN == 0);
+            THexagonControl Control = default;
+            TMapObjectResource R = default;
+            bool bool__370 = Msg.HN == 0;
             if (bool__370)
             {
                 var call__371 = GetTerrain(0);
-                bool__370 = (call__371 != Msg.TerrainType);
+                bool__370 = call__371 != Msg.TerrainType;
             }
 
             if (bool__370)
             {
-                var call__372 = ((Aow.Units.HSEngine.TAbstractHexagonResource)FResource).GetHexagonControl();
+                var call__372 = ((TAbstractHexagonResource)FResource).GetHexagonControl();
                 Control = call__372;
                 if (Control != null)
                 {
@@ -8001,21 +7995,21 @@ namespace Aow.Units.HSEngine
                         var call__378 = GetLhx();
                         var call__379 = GetYhx();
                         var call__380 = GetXhx();
-                        var call__381 = ((Aow.Units.HSEngine.TAbstractHexagonResource)FResource).GetHexagonControl();
-                        call__381.Place((Aow.Units.HSEngine.TMapContainer)Owner.Owner.Owner, unchecked((sbyte)call__380), unchecked((sbyte)call__379), unchecked((sbyte)call__378), unchecked((sbyte)Msg.TerrainType));
+                        var call__381 = ((TAbstractHexagonResource)FResource).GetHexagonControl();
+                        call__381.Place((TMapContainer)Owner.Owner.Owner, call__380, call__379, call__378, Msg.TerrainType);
                     }
                 }
             }
         }
 
         // MAPOBJ.PAS:728
-        public override void TerrainChanged(in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void TerrainChanged(in THSTerrainInfo Msg)
         {
             ChangeTerrain(Msg);
         }
 
         // MAPOBJ.PAS:762
-        public override void MapFieldMsgProc(ref Aow.Units.HSEngine.TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             if (Msg.MsgID != 16)
             {
@@ -8031,39 +8025,39 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:691
-        public override void SetResource(Aow.Units.HSEngine.TMapObjectResource Value)
+        public override void SetResource(TMapObjectResource Value)
         {
             base.SetResource(Value);
-            if (FStatus.Contains(Aow.Units.HSEngine.TMapObjectStatusElement.moActivated))
+            if (FStatus.Contains(TMapObjectStatusElement.moActivated))
             {
                 UpdateTransitions();
             }
         }
 
         // MAPOBJ.PAS:733
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.TMapField MapField = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
-            if ((((((Xhx >= 0) && (Yhx >= 0)) && (Lhx >= 0)) && (Xhx < MapContainer.FWidth)) && (Yhx < MapContainer.FHeight)) && (Lhx < MapContainer.FLevelCount))
+            TMapField MapField = default;
+            THexagonSprite HS = default;
+            if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount)
             {
                 MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
                 HS = MapField.GetMaxLevelNoneTransparentHS();
-                bool bool__382 = (HS == null);
+                bool bool__382 = HS == null;
                 if (!bool__382)
                 {
                     var call__383 = HS.GetLevel();
-                    bool bool__384 = (call__383 < 10);
+                    bool bool__384 = call__383 < 10;
                     if (!bool__384)
                     {
                         var call__385 = GetOverlay(0);
                         var call__386 = GetTerrain(0);
-                        var call__387 = MapField.CanChangeTerrain(this, unchecked((sbyte)call__386), unchecked((sbyte)call__385));
+                        var call__387 = MapField.CanChangeTerrain(this, call__386, call__385);
                         bool__384 = call__387;
                     }
 
-                    bool__382 = (bool__384 && !(HS is Aow.Units.HSEngine.TAbstractBorderHexagon));
+                    bool__382 = bool__384 && !(HS is TAbstractBorderHexagon);
                 }
 
                 Result = bool__382;
@@ -8077,19 +8071,19 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:750
-        public override bool PlaceHX(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
+            THexagonSprite HS = default;
             var call__388 = MapContainer.GetField(Xhx, Yhx, Lhx);
-            var call__389 = call__388.FindOwnedHS(typeof(Aow.Units.HSEngine.TAbstractHexagon));
+            var call__389 = call__388.FindOwnedHS(typeof(TAbstractHexagon));
             HS = call__389;
             if (HS != null)
             {
                 HS.Destroy();
             }
 
-            Result = base.PlaceHX(MapContainer, unchecked((sbyte)Xhx), unchecked((sbyte)Yhx), unchecked((sbyte)Lhx));
+            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             if (Result)
             {
                 UpdateTransitions();
@@ -8105,7 +8099,7 @@ namespace Aow.Units.HSEngine
 
     }
 
-    public partial class TAbstractHexagonResource : Aow.Units.HSEngine.TMapObjectResource
+    public partial class TAbstractHexagonResource : TMapObjectResource
     {
 
 
@@ -8118,7 +8112,7 @@ namespace Aow.Units.HSEngine
 
 
         // MAPOBJ.PAS:781
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65556)
@@ -8132,16 +8126,16 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:776
-        public virtual Aow.Units.HSEngine.THexagonControl GetHexagonControl()
+        public virtual THexagonControl GetHexagonControl()
         {
-            Aow.Units.HSEngine.THexagonControl Result = default;
+            THexagonControl Result = default;
             Result = FEngine.FHSSet.FHexagonControl;
             return Result;
         }
 
     }
 
-    public partial class TAbstractBorderHexagon : Aow.Units.HSEngine.TAbstractHexagon
+    public partial class TAbstractBorderHexagon : TAbstractHexagon
     {
         public new const int ClassID = 65905;
 
@@ -8150,7 +8144,7 @@ namespace Aow.Units.HSEngine
 
     }
 
-    public partial class TAbstractBorderHexagonResource : Aow.Units.HSEngine.TAbstractHexagonResource
+    public partial class TAbstractBorderHexagonResource : TAbstractHexagonResource
     {
         public TAbstractBorderHexagonResource(TECustomNode owner) : base(owner)
         {}
@@ -8159,7 +8153,7 @@ namespace Aow.Units.HSEngine
     }
 
     // the base of roads and bridges
-    public partial class TAbstractRoad : Aow.Units.HSEngine.TMapObject
+    public partial class TAbstractRoad : TMapObject
     {
         public new const int ClassID = 65906;
 
@@ -8181,27 +8175,27 @@ namespace Aow.Units.HSEngine
             int Result = default;
             int Xhp = default;
             int Yhp = default;
-            Xhp = (((Aow.Units.HSEngine.TMapField)Owner).FXhx * 32) + 8;
-            Yhp = ((((Aow.Units.HSEngine.TMapField)Owner).FXhx & 1) * 16) + (((Aow.Units.HSEngine.TMapField)Owner).FYhx * 32);
+            Xhp = ((TMapField)Owner).FXhx * 32 + 8;
+            Yhp = (((TMapField)Owner).FXhx & 1) * 16 + ((TMapField)Owner).FYhx * 32;
             Result = Xhp + ((Yhp << 13) + 671088640);
             return Result;
         }
 
         // MAPOBJ.PAS:848
-        public override void ChangeTerrain(in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void ChangeTerrain(in THSTerrainInfo Msg)
         {
-            Aow.Units.HSEngine.TMapObjectResource R = default;
-            bool bool__391 = (Msg.HN == 0);
+            TMapObjectResource R = default;
+            bool bool__391 = Msg.HN == 0;
             if (bool__391)
             {
                 var call__392 = GetTerrain(0);
-                bool__391 = (call__392 != Msg.TerrainType);
+                bool__391 = call__392 != Msg.TerrainType;
             }
 
             if (bool__391)
             {
                 var call__393 = FResource.EClass.ClassID;
-                var call__394 = ((Aow.Units.HSEngine.TAbstractRoadResource)FResource).GetRoadControl();
+                var call__394 = ((TAbstractRoadResource)FResource).GetRoadControl();
                 var call__395 = call__394.GetRndResource(Msg.TerrainType, call__393);
                 R = call__395;
                 if (R != null)
@@ -8218,8 +8212,8 @@ namespace Aow.Units.HSEngine
                     var call__399 = GetLhx();
                     var call__400 = GetYhx();
                     var call__401 = GetXhx();
-                    var call__402 = ((Aow.Units.HSEngine.TAbstractRoadResource)FResource).GetRoadControl();
-                    var call__403 = call__402.Place((Aow.Units.HSEngine.TMapContainer)Owner.Owner.Owner, unchecked((sbyte)call__401), unchecked((sbyte)call__400), unchecked((sbyte)call__399), unchecked((sbyte)Msg.TerrainType));
+                    var call__402 = ((TAbstractRoadResource)FResource).GetRoadControl();
+                    var call__403 = call__402.Place((TMapContainer)Owner.Owner.Owner, call__401, call__400, call__399, Msg.TerrainType);
                     if (call__403 == null)
                     {
                         Destroy();
@@ -8229,7 +8223,7 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:843
-        public override void NeighbourTerrainChanged(int HN, in Aow.Units.HSEngine.THSTerrainInfo Msg)
+        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Msg)
         {
             UpdateTransitions();
         }
@@ -8241,16 +8235,16 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:828
-        public override bool CanPlace(Aow.Units.HSEngine.TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = default;
-            Aow.Units.HSEngine.THexagonSprite HS = default;
-            bool bool__404 = (((((Xhx >= 0) && (Yhx >= 0)) && (Lhx >= 0)) && (Xhx < MapContainer.FWidth)) && (Yhx < MapContainer.FHeight)) && (Lhx < MapContainer.FLevelCount);
+            THexagonSprite HS = default;
+            bool bool__404 = Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount;
             if (bool__404)
             {
                 var call__405 = MapContainer.GetField(Xhx, Yhx, Lhx);
                 var call__406 = FResource.FTerrainList.GetTerrain(0);
-                bool__404 = (call__405.FTerrainType == call__406);
+                bool__404 = call__405.FTerrainType == call__406;
             }
 
             if (bool__404)
@@ -8258,7 +8252,7 @@ namespace Aow.Units.HSEngine
                 var call__407 = MapContainer.GetField(Xhx, Yhx, Lhx);
                 var call__408 = call__407.GetMaxLevelNoneTransparentHS();
                 HS = call__408;
-                Result = ((HS == null) || (HS.GetLevel() < 10)) || (HS is Aow.Units.HSEngine.TAbstractRoad);
+                Result = HS == null || HS.GetLevel() < 10 || HS is TAbstractRoad;
             }
             else
             {
@@ -8275,14 +8269,14 @@ namespace Aow.Units.HSEngine
 
     }
 
-    public partial class TAbstractRoadResource : Aow.Units.HSEngine.TMapObjectResource
+    public partial class TAbstractRoadResource : TMapObjectResource
     {
         public TAbstractRoadResource(TECustomNode owner) : base(owner)
         {}
 
 
         // MAPOBJ.PAS:874
-        public override void MsgProc(ref Aow.Units.Engine.TEMsg Msg, Aow.Units.Engine.TEObject Sender)
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65556)
@@ -8298,13 +8292,13 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:883
-        public override Aow.Units.HSEngine.TMapObject PlaceResourceUser(Aow.Units.HSEngine.THSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override TMapObject PlaceResourceUser(THSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            Aow.Units.HSEngine.TMapObject Result = default;
+            TMapObject Result = default;
             int Xhp = default;
             int Yhp = default;
-            Result = (Aow.Units.HSEngine.TMapObject)CreateResourceUser();
-            Aow.Units.HSEngine.HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            Result = (TMapObject)CreateResourceUser();
+            HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             Xhp += 16;
             Yhp += 16;
             if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
@@ -8317,28 +8311,28 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:869
-        public virtual Aow.Units.HSEngine.TRoadControl GetRoadControl()
+        public virtual TRoadControl GetRoadControl()
         {
-            Aow.Units.HSEngine.TRoadControl Result = default;
+            TRoadControl Result = default;
             Result = FEngine.FHSSet.FRoadControl;
             return Result;
         }
     }
 
-    public delegate int TXYLSortCompare(Aow.Units.HSEngine.TXYL Item1, Aow.Units.HSEngine.TXYL Item2);
+    public delegate int TXYLSortCompare(TXYL Item1, TXYL Item2);
     // Engine's value list (Classes.TList adapted to a value type, with a default item for new and
     // out-of-range items and a run-length encoded stream form) for map locations
-    public partial class TXYLList : Aow.Rtl.TPersistent
+    public partial class TXYLList : TPersistent
     {
-        internal Aow.Units.HSEngine.TXYL[] FList = [];
+        internal TXYL[] FList = [];
         internal int FCount;
         internal int FCapacity;
-        internal Aow.Units.HSEngine.TXYL FDefault;
+        internal TXYL FDefault;
         // HSEngine.pas:1673
-        internal Aow.Units.HSEngine.TXYL Get(int Index)
+        internal TXYL Get(int Index)
         {
-            Aow.Units.HSEngine.TXYL Result = default;
-            if ((Index < 0) || (Index >= FCount))
+            TXYL Result = default;
+            if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
             }
@@ -8351,7 +8345,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1746
-        internal void Put(int Index, Aow.Units.HSEngine.TXYL Item)
+        internal void Put(int Index, TXYL Item)
         {
             if (Index < 0)
             {
@@ -8369,7 +8363,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1767
         internal void SetCapacity(int NewCapacity)
         {
-            if ((NewCapacity < FCount) || (NewCapacity > Aow.Units.Engine.Engine.MaxListSize))
+            if (NewCapacity < FCount || NewCapacity > MaxListSize)
             {
                 Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
             }
@@ -8384,7 +8378,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1778
         internal void SetCount(int NewCount)
         {
-            if ((NewCount < 0) || (NewCount > Aow.Units.Engine.Engine.MaxListSize))
+            if (NewCount < 0 || NewCount > MaxListSize)
             {
                 Error((AnsiString)"List count out of bounds (%d)", NewCount);
             }
@@ -8428,9 +8422,9 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1578
         public TXYLList()
         {
-            FDefault.X = unchecked((sbyte)-1);
-            FDefault.Y = unchecked((sbyte)-1);
-            FDefault.L = unchecked((sbyte)-1);
+            FDefault.X = -1;
+            FDefault.Y = -1;
+            FDefault.L = -1;
             FDefault.Flag = 0;
         }
 
@@ -8441,11 +8435,11 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1592
-        public override void Assign(Aow.Rtl.TPersistent Source)
+        public override void Assign(TPersistent Source)
         {
-            if (Source is Aow.Units.HSEngine.TXYLList)
+            if (Source is TXYLList)
             {
-                var xylList = (Aow.Units.HSEngine.TXYLList)Source;
+                var xylList = (TXYLList)Source;
                 this.FCount = xylList.FCount;
                 this.SetCapacity(xylList.FCapacity);
                 Array.Copy(xylList.FList, 0, this.FList, 0, this.FCount);
@@ -8458,7 +8452,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1606
-        public int Add(Aow.Units.HSEngine.TXYL Item)
+        public int Add(TXYL Item)
         {
             int Result = default;
             Result = FCount;
@@ -8482,9 +8476,9 @@ namespace Aow.Units.HSEngine
                 Grow();
             }
 
-            FList[Result].X = unchecked((sbyte)X);
-            FList[Result].Y = unchecked((sbyte)Y);
-            FList[Result].L = unchecked((sbyte)L);
+            FList[Result].X = X;
+            FList[Result].Y = Y;
+            FList[Result].L = L;
             FList[Result].Flag = 0;
             FCount += 1;
             return Result;
@@ -8500,7 +8494,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1631
         public void Delete(int Index)
         {
-            if ((Index < 0) || (Index >= FCount))
+            if (Index < 0 || Index >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index);
             }
@@ -8508,20 +8502,20 @@ namespace Aow.Units.HSEngine
             FCount -= 1;
             if (Index < FCount)
             {
-                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan((Index + 1), (FCount - Index))), MemoryMarshal.AsBytes(FList.AsSpan(Index, (FCount - Index))), (FCount - Index) * 4);
+                Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 4);
             }
         }
 
         // HSEngine.pas:1651
         public void Exchange(int Index1, int Index2)
         {
-            Aow.Units.HSEngine.TXYL Item = default;
-            if ((Index1 < 0) || (Index1 >= FCount))
+            TXYL Item = default;
+            if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
             }
 
-            if ((Index2 < 0) || (Index2 >= FCount))
+            if (Index2 < 0 || Index2 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index2);
             }
@@ -8532,9 +8526,9 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1662
-        public Aow.Units.HSEngine.TXYLList Expand()
+        public TXYLList Expand()
         {
-            Aow.Units.HSEngine.TXYLList Result = default;
+            TXYLList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
@@ -8545,19 +8539,19 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1668
-        public Aow.Units.HSEngine.TXYL First()
+        public TXYL First()
         {
-            Aow.Units.HSEngine.TXYL Result = default;
+            TXYL Result = default;
             Result = Get(0);
             return Result;
         }
 
         // HSEngine.pas:1691
-        public int IndexOf(Aow.Units.HSEngine.TXYL Item)
+        public int IndexOf(TXYL Item)
         {
             int Result = default;
             Result = 0;
-            while ((Result < FCount) && (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FList[Result]) != Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Item)))
+            while (Result < FCount && Unsafe.As<TXYL, int>(ref FList[Result]) != Unsafe.As<TXYL, int>(ref Item))
             {
                 Result += 1;
             }
@@ -8574,11 +8568,11 @@ namespace Aow.Units.HSEngine
         public int IndexOfXY(sbyte X, sbyte Y)
         {
             int Result = default;
-            Aow.Units.HSEngine.TXYL Item = default;
-            Item.X = unchecked((sbyte)X);
-            Item.Y = unchecked((sbyte)Y);
+            TXYL Item = default;
+            Item.X = X;
+            Item.Y = Y;
             Result = 0;
-            while ((Result < FCount) && (FList[Result].XY != Item.XY))
+            while (Result < FCount && FList[Result].XY != Item.XY)
             {
                 Result += 1;
             }
@@ -8596,7 +8590,7 @@ namespace Aow.Units.HSEngine
         {
             int Result = default;
             Result = 0;
-            while ((Result < FCount) && (((FList[Result].X != X) || (FList[Result].Y != Y)) || (FList[Result].L != L)))
+            while (Result < FCount && (FList[Result].X != X || FList[Result].Y != Y || FList[Result].L != L))
             {
                 Result += 1;
             }
@@ -8610,9 +8604,9 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1717
-        public void Insert(int Index, Aow.Units.HSEngine.TXYL Item)
+        public void Insert(int Index, TXYL Item)
         {
-            if ((Index < 0) || (Index > FCount))
+            if (Index < 0 || Index > FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index);
             }
@@ -8624,7 +8618,7 @@ namespace Aow.Units.HSEngine
 
             if (Index < FCount)
             {
-                Aow.Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, (FCount - Index))), MemoryMarshal.AsBytes(FList.AsSpan((Index + 1), (FCount - Index))), (FCount - Index) * 4);
+                Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 4);
             }
 
             FList[Index] = Item;
@@ -8632,9 +8626,9 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1728
-        public Aow.Units.HSEngine.TXYL Last()
+        public TXYL Last()
         {
-            Aow.Units.HSEngine.TXYL Result = default;
+            TXYL Result = default;
             var call__411 = Get(FCount - 1);
             Result = call__411;
             return Result;
@@ -8643,10 +8637,10 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:1733
         public void Move(int CurIndex, int NewIndex)
         {
-            Aow.Units.HSEngine.TXYL Item = default;
+            TXYL Item = default;
             if (CurIndex != NewIndex)
             {
-                if ((NewIndex < 0) || (NewIndex >= FCount))
+                if (NewIndex < 0 || NewIndex >= FCount)
                 {
                     Error((AnsiString)"List index out of bounds (%d)", NewIndex);
                 }
@@ -8658,7 +8652,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1753
-        public int Remove(Aow.Units.HSEngine.TXYL Item)
+        public int Remove(TXYL Item)
         {
             int Result = default;
             Result = IndexOf(Item);
@@ -8680,7 +8674,7 @@ namespace Aow.Units.HSEngine
                 for (; I >= end__412; I -= 1)
                 {
                     var call__413 = this[I];
-                    if (Unsafe.BitCast<Aow.Units.HSEngine.TXYL, int>(call__413) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FDefault))
+                    if (Unsafe.BitCast<TXYL, int>(call__413) == Unsafe.As<TXYL, int>(ref FDefault))
                     {
                         Delete(I);
                     }
@@ -8689,22 +8683,22 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1815
-        public void Sort(Aow.Units.HSEngine.TXYLSortCompare Compare)
+        public void Sort(TXYLSortCompare Compare)
         {
-            if (FList.Length != 0 && (Count > 0))
+            if (FList.Length != 0 && Count > 0)
             {
-                Aow.Units.HSEngine.HSEngine.QuickSortXYL(FList, 0, Count - 1, Compare);
+                HSEngine.QuickSortXYL(FList, 0, Count - 1, Compare);
             }
         }
 
         // HSEngine.pas:1821
-        public bool Compare(Aow.Units.HSEngine.TXYLList List)
+        public bool Compare(TXYLList List)
         {
             bool Result = default;
             Result = List.FCount == FCount;
             if (Result)
             {
-                var call__414 = Aow.Rtl.Rtl.CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
+                var call__414 = CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
                 Result = call__414;
             }
 
@@ -8712,21 +8706,21 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1828
-        public void LoadFromStream(Aow.Rtl.TStream Stream)
+        public void LoadFromStream(TStream Stream)
         {
             int Count = default;
             int Run = default;
-            Aow.Units.HSEngine.TXYL Item = default;
+            TXYL Item = default;
             Clear();
-            Stream.Read(Aow.Rtl.Bytes.Of(ref FDefault, 4));
-            Stream.Read(Aow.Rtl.Bytes.Of(ref Count, 4));
+            Stream.Read(Bytes.Of(ref FDefault, 4));
+            Stream.Read(Bytes.Of(ref Count, 4));
             SetCapacity(Count);
             while (Count != FCount)
             {
-                Stream.Read(Aow.Rtl.Bytes.Of(ref Item, 4));
-                if (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref Item) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FDefault))
+                Stream.Read(Bytes.Of(ref Item, 4));
+                if (Unsafe.As<TXYL, int>(ref Item) == Unsafe.As<TXYL, int>(ref FDefault))
                 {
-                    Stream.Read(Aow.Rtl.Bytes.Of(ref Run, 4));
+                    Stream.Read(Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
                 }
                 else
@@ -8737,7 +8731,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:1850
-        public void SaveToStream(Aow.Rtl.TStream Stream)
+        public void SaveToStream(TStream Stream)
         {
             int I = default;
             int Run = default;
@@ -8747,7 +8741,7 @@ namespace Aow.Units.HSEngine
                 int J = default;
                 Result = 0;
                 J = I;
-                while ((J < FCount) && (Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FList[J]) == Unsafe.As<Aow.Units.HSEngine.TXYL, int>(ref FDefault)))
+                while (J < FCount && Unsafe.As<TXYL, int>(ref FList[J]) == Unsafe.As<TXYL, int>(ref FDefault))
                 {
                     Result += 1;
                     J += 1;
@@ -8757,15 +8751,15 @@ namespace Aow.Units.HSEngine
             }
 
             I = 0;
-            Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 4));
-            Stream.Write(Aow.Rtl.Bytes.Of(ref FCount, 4));
+            Stream.Write(Bytes.Of(ref FDefault, 4));
+            Stream.Write(Bytes.Of(ref FCount, 4));
             while (FCount != I)
             {
                 Run = DefaultRun();
                 if (Run > 0)
                 {
-                    Stream.Write(Aow.Rtl.Bytes.Of(ref FDefault, 4));
-                    Stream.Write(Aow.Rtl.Bytes.Of(ref Run, 4));
+                    Stream.Write(Bytes.Of(ref FDefault, 4));
+                    Stream.Write(Bytes.Of(ref Run, 4));
                     I += Run;
                 }
                 else
@@ -8778,16 +8772,16 @@ namespace Aow.Units.HSEngine
 
         public int Capacity { get => FCapacity; set => SetCapacity(value); }
         public int Count { get => FCount; set => SetCount(value); }
-        public Aow.Units.HSEngine.TXYL Default { get => FDefault; set => FDefault = value; }
+        public TXYL Default { get => FDefault; set => FDefault = value; }
 
-        public Aow.Units.HSEngine.TXYL this[int Index] { get => Get(Index); set => Put(Index, value); }
+        public TXYL this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public Aow.Units.HSEngine.TXYL[] List { get => FList; }
+        public TXYL[] List { get => FList; }
 
         // HSEngine.pas:1640
-        protected internal static void Error(Aow.Rtl.AnsiString Msg, int Data)
+        protected internal static void Error(AnsiString Msg, int Data)
         {
-            throw Aow.Rtl.EListError.CreateFmt(Msg, [(int)Data]);
+            throw EListError.CreateFmt(Msg, [Data]);
         }
 
 
@@ -8809,7 +8803,7 @@ namespace Aow.Units.HSEngine
 
     // The layout of TMapField up to its terrain and overlay types, which THSMap.CanChangeTerrain
     // saves and restores as one Word (the original reads word ptr [MapF])
-    public partial class TMapFieldTandO : Aow.Units.Engine.TECustomNode
+    public partial class TMapFieldTandO : TECustomNode
     {
         public TMapFieldTandO(TECustomNode owner) : base(owner)
         { }
@@ -8828,12 +8822,12 @@ namespace Aow.Units.HSEngine
         [FieldOffset(0)]
         public int Size;
         [FieldOffset(4)]
-        public Aow.Units.FixedArray_byte_5 ID__image;
-        public Aow.Rtl.AnsiString ID { get => Aow.Rtl.Rtl.ReadShortString((ReadOnlySpan<byte>)ID__image); set => Aow.Rtl.Rtl.WriteShortString((Span<byte>)ID__image, value); }
+        public FixedArray_byte_5 ID__image;
+        public AnsiString ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
         [FieldOffset(9)]
-        public Aow.Units.FixedArray_byte_41 Name__image;
-        public Aow.Rtl.AnsiString Name { get => Aow.Rtl.Rtl.ReadShortString((ReadOnlySpan<byte>)Name__image); set => Aow.Rtl.Rtl.WriteShortString((Span<byte>)Name__image, value); }
+        public FixedArray_byte_41 Name__image;
+        public AnsiString Name { get => ReadShortString(Name__image); set => WriteShortString(Name__image, value); }
     }
 
     // { The header of an .hsm file (16 bytes) in front of the stored map, inside the compressed stream }
@@ -8843,7 +8837,7 @@ namespace Aow.Units.HSEngine
         [FieldOffset(0)]
         public int Size;
         [FieldOffset(4)]
-        public Aow.Units.FixedArray_byte_4 ID;
+        public FixedArray_byte_4 ID;
         [FieldOffset(8)]
         public int Reserved;
         [FieldOffset(12)]
@@ -8852,23 +8846,23 @@ namespace Aow.Units.HSEngine
 
     public static partial class HSEngine
     {
-        public static readonly Aow.Rtl.AnsiString TerrainStr = (AnsiString)"Terrain";
-        public static readonly Aow.Rtl.AnsiString BridgeStr = (AnsiString)"Bridge";
-        public static readonly Aow.Rtl.AnsiString UpperIsometricHexagonStr = (AnsiString)"Upper Isometric Hexagon";
-        public static readonly Aow.Rtl.AnsiString LowerIsometricHexagonStr = (AnsiString)"Lower Isometric Hexagon";
-        public static readonly Aow.Rtl.AnsiString InvalidPlaceMentStr = (AnsiString)"Invalid Placement";
-        public static readonly Aow.Rtl.AnsiString HexagonStr = (AnsiString)"Hexagon";
-        public static readonly Aow.Rtl.AnsiString SelectedStr = (AnsiString)"selected";
-        public static readonly Aow.Rtl.AnsiString TransparentStr = (AnsiString)"Transparent";
-        public static readonly Aow.Rtl.AnsiString LoadingStr = (AnsiString)"Loading";
-        public static readonly Aow.Rtl.AnsiString ClosingStr = (AnsiString)"Closing";
-        public static readonly Aow.Rtl.AnsiString SaveChangesToXStr = (AnsiString)"Save changes to %s";
-        public static readonly Aow.Rtl.AnsiString OneMomentPleaseStr = (AnsiString)"One moment please...";
-        public static readonly Aow.Rtl.AnsiString CutStr = (AnsiString)"Cu&t";
-        public static readonly Aow.Rtl.AnsiString PasteStr = (AnsiString)"&Paste";
-        public static readonly Aow.Rtl.AnsiString DeleteStr = (AnsiString)"&Delete";
-        public static readonly Aow.Rtl.AnsiString CopyStr = (AnsiString)"&Copy";
-        public static readonly Aow.Rtl.AnsiString EditStr = (AnsiString)"&Edit";
+        public static readonly AnsiString TerrainStr = (AnsiString)"Terrain";
+        public static readonly AnsiString BridgeStr = (AnsiString)"Bridge";
+        public static readonly AnsiString UpperIsometricHexagonStr = (AnsiString)"Upper Isometric Hexagon";
+        public static readonly AnsiString LowerIsometricHexagonStr = (AnsiString)"Lower Isometric Hexagon";
+        public static readonly AnsiString InvalidPlaceMentStr = (AnsiString)"Invalid Placement";
+        public static readonly AnsiString HexagonStr = (AnsiString)"Hexagon";
+        public static readonly AnsiString SelectedStr = (AnsiString)"selected";
+        public static readonly AnsiString TransparentStr = (AnsiString)"Transparent";
+        public static readonly AnsiString LoadingStr = (AnsiString)"Loading";
+        public static readonly AnsiString ClosingStr = (AnsiString)"Closing";
+        public static readonly AnsiString SaveChangesToXStr = (AnsiString)"Save changes to %s";
+        public static readonly AnsiString OneMomentPleaseStr = (AnsiString)"One moment please...";
+        public static readonly AnsiString CutStr = (AnsiString)"Cu&t";
+        public static readonly AnsiString PasteStr = (AnsiString)"&Paste";
+        public static readonly AnsiString DeleteStr = (AnsiString)"&Delete";
+        public static readonly AnsiString CopyStr = (AnsiString)"&Copy";
+        public static readonly AnsiString EditStr = (AnsiString)"&Edit";
         // HSEngine.pas:3889
         // Group A, third part: the unit routines (code.). HXtoV, HXtoH, HVtoHX, HPtoHX, HPtoHXs and
         // WalkToNextHN are assembler in the original (hand-scheduled code, explicit RETs)
@@ -8884,25 +8878,25 @@ namespace Aow.Units.HSEngine
             int dY = default;
             int Half = default;
             bool Up = default;
-            dX = System.Math.Abs(X1 - X2);
-            dY = System.Math.Abs(Y1 - Y2);
+            dX = Math.Abs(X1 - X2);
+            dY = Math.Abs(Y1 - Y2);
             if (dY >= dX)
             {
-                Up = ((dX & 1) != 0) && ((!((X1 & 1) != 0) && (Y1 < Y2)) || (!((X2 & 1) != 0) && (Y2 < Y1)));
+                Up = (dX & 1) != 0 && ((!((X1 & 1) != 0) && Y1 < Y2) || (!((X2 & 1) != 0) && Y2 < Y1));
                 if (Up)
                 {
-                    Result = ((int)(((uint)(dX + 1)) >> 1)) + dY;
+                    Result = (int)(((uint)(dX + 1)) >> 1) + dY;
                 }
                 else
                 {
-                    Result = ((int)(((uint)dX) >> 1)) + dY;
+                    Result = (int)(((uint)dX) >> 1) + dY;
                 }
             }
             else
             {
                 Result = dX;
                 Half = (int)(((uint)(dX + 1)) >> 1);
-                if (((dX & 1) != 0) && ((!((X1 & 1) != 0) && (Y1 < Y2)) || (!((X2 & 1) != 0) && (Y2 < Y1))))
+                if ((dX & 1) != 0 && ((!((X1 & 1) != 0) && Y1 < Y2) || (!((X2 & 1) != 0) && Y2 < Y1)))
                 {
                     dY += 1;
                 }
@@ -8922,19 +8916,19 @@ namespace Aow.Units.HSEngine
             bool Result = default;
             if (X1 == X2)
             {
-                Result = (Y1 == (Y2 + 1)) || (Y1 == (Y2 - 1));
+                Result = Y1 == Y2 + 1 || Y1 == Y2 - 1;
             }
             else
             {
-                if ((X1 == (X2 - 1)) || (X1 == (X2 + 1)))
+                if (X1 == X2 - 1 || X1 == X2 + 1)
                 {
                     if (!((X1 & 1) != 0))
                     {
-                        Result = (Y1 == Y2) || (Y1 == (Y2 + 1));
+                        Result = Y1 == Y2 || Y1 == Y2 + 1;
                     }
                     else
                     {
-                        Result = (Y1 == Y2) || (Y1 == (Y2 - 1));
+                        Result = Y1 == Y2 || Y1 == Y2 - 1;
                     }
                 }
                 else
@@ -8954,25 +8948,25 @@ namespace Aow.Units.HSEngine
             int dY = default;
             int Half = default;
             bool Up = default;
-            dX = System.Math.Abs(Xhx);
-            dY = System.Math.Abs(Yhx);
+            dX = Math.Abs(Xhx);
+            dY = Math.Abs(Yhx);
             if (dY >= dX)
             {
-                Up = ((dX & 1) != 0) && ((Yhx > 0) || (!((Xhx & 1) != 0) && (Yhx < 0)));
+                Up = (dX & 1) != 0 && (Yhx > 0 || (!((Xhx & 1) != 0) && Yhx < 0));
                 if (Up)
                 {
-                    Result = ((int)(((uint)(dX + 1)) >> 1)) + dY;
+                    Result = (int)(((uint)(dX + 1)) >> 1) + dY;
                 }
                 else
                 {
-                    Result = ((int)(((uint)dX) >> 1)) + dY;
+                    Result = (int)(((uint)dX) >> 1) + dY;
                 }
             }
             else
             {
                 Result = dX;
                 Half = (int)(((uint)(dX + 1)) >> 1);
-                if (((dX & 1) != 0) && ((Yhx > 0) || (!((Xhx & 1) != 0) && (Yhx < 0))))
+                if ((dX & 1) != 0 && (Yhx > 0 || (!((Xhx & 1) != 0) && Yhx < 0)))
                 {
                     dY += 1;
                 }
@@ -8989,8 +8983,8 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:3996
         public static void HXtoHV(int Xhx, int Yhx, ref int H, ref int V)
         {
-            H = Aow.Units.HSEngine.HSEngine.HXtoH(Xhx, Yhx);
-            V = Aow.Units.HSEngine.HSEngine.HXtoV(Xhx, Yhx);
+            H = HXtoH(Xhx, Yhx);
+            V = HXtoV(Xhx, Yhx);
         }
 
         // HSEngine.pas:4004
@@ -9000,12 +8994,12 @@ namespace Aow.Units.HSEngine
             int Result = default;
             if (HN < 37)
             {
-                Result = Aow.Units.HSEngine.HSEngine.HNtoRadTable[HN];
+                Result = HNtoRadTable[HN];
             }
             else
             {
                 // { the original lacks the "div 6" of InvHN and HNtoHX here }
-                Result = ((int)System.Math.Sqrt(((HN - 1) * 12) + 9)) + 3;
+                Result = (int)Math.Sqrt((HN - 1) * 12 + 9) + 3;
             }
 
             return Result;
@@ -9017,11 +9011,11 @@ namespace Aow.Units.HSEngine
             int Result = default;
             if (Rad <= 10)
             {
-                Result = Aow.Units.HSEngine.HSEngine.RadToHNTable[Rad];
+                Result = RadToHNTable[Rad];
             }
             else
             {
-                Result = (((Rad - 1) * Rad) * 3) + 1;
+                Result = (Rad - 1) * Rad * 3 + 1;
             }
 
             return Result;
@@ -9035,13 +9029,13 @@ namespace Aow.Units.HSEngine
             int N = default;
             if (HN < 37)
             {
-                Result = Aow.Units.HSEngine.HSEngine.InvHNTable[HN];
+                Result = InvHNTable[HN];
             }
             else
             {
-                R = (((int)System.Math.Sqrt(((HN - 1) * 12) + 9)) + 3) / 6;
+                R = ((int)Math.Sqrt((HN - 1) * 12 + 9) + 3) / 6;
                 N = R * 6;
-                Result = ((((HN - (((R - 1) * R) * 3)) - 1) + ((int)(((uint)N) >> 1))) % N) + ((((R - 1) * R) * 3) + 1);
+                Result = (HN - (R - 1) * R * 3 - 1 + (int)(((uint)N) >> 1)) % N + ((R - 1) * R * 3 + 1);
             }
 
             return Result;
@@ -9056,10 +9050,10 @@ namespace Aow.Units.HSEngine
             int Pos = default;
             int H = default;
             int V = default;
-            R = Aow.Units.HSEngine.HSEngine.HXtoRad(Xhx, Yhx);
+            R = HXtoRad(Xhx, Yhx);
             if (R != 0)
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHV(Xhx, Yhx, ref H, ref V);
+                HXtoHV(Xhx, Yhx, ref H, ref V);
                 if (R == H)
                 {
                     Side = 0;
@@ -9091,18 +9085,18 @@ namespace Aow.Units.HSEngine
                                 if (R == Xhx)
                                 {
                                     Side = 1;
-                                    Pos = ((Xhx + 1) / 2) + Yhx;
+                                    Pos = (Xhx + 1) / 2 + Yhx;
                                 }
                                 else
                                 {
                                     if (R == -Xhx)
                                     {
                                         Side = 4;
-                                        Pos = -Yhx - (Xhx / 2);
+                                        Pos = -Yhx - Xhx / 2;
                                     }
                                     else
                                     {
-                                        throw Aow.Rtl.Exception.Create((AnsiString)"arithemetic error!");
+                                        throw Exception.Create((AnsiString)"arithemetic error!");
                                     }
                                 }
                             }
@@ -9110,7 +9104,7 @@ namespace Aow.Units.HSEngine
                     }
                 }
 
-                Result = Pos + (((((R - 1) * R) * 3) + 1) + (Side * R));
+                Result = Pos + ((R - 1) * R * 3 + 1 + Side * R);
             }
             else
             {
@@ -9128,36 +9122,36 @@ namespace Aow.Units.HSEngine
             int Pos = default;
             if (HN < 37)
             {
-                Xhx = Aow.Units.HSEngine.HSEngine.HNtoHXTable[HN][0];
-                Yhx = Aow.Units.HSEngine.HSEngine.HNtoHXTable[HN][1];
+                Xhx = HNtoHXTable[HN][0];
+                Yhx = HNtoHXTable[HN][1];
             }
             else
             {
-                R = (((int)System.Math.Sqrt(((HN - 1) * 12) + 9)) + 3) / 6;
-                HN = (HN - (((R - 1) * R) * 3)) - 1;
+                R = ((int)Math.Sqrt((HN - 1) * 12 + 9) + 3) / 6;
+                HN = HN - (R - 1) * R * 3 - 1;
                 Side = HN / R;
                 Pos = HN % R;
                 switch (Side)
                 {
                     case 0:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(R, Pos - R, ref Xhx, ref Yhx);
+                        HVtoHX(R, Pos - R, ref Xhx, ref Yhx);
                         break;
                     case 1:
                         Xhx = R;
-                        Yhx = Pos - ((R + 1) / 2);
+                        Yhx = Pos - (R + 1) / 2;
                         break;
                     case 2:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(-Pos, R, ref Xhx, ref Yhx);
+                        HVtoHX(-Pos, R, ref Xhx, ref Yhx);
                         break;
                     case 3:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(-R, R - Pos, ref Xhx, ref Yhx);
+                        HVtoHX(-R, R - Pos, ref Xhx, ref Yhx);
                         break;
                     case 4:
                         Xhx = -R;
-                        Yhx = -Pos + (R / 2);
+                        Yhx = -Pos + R / 2;
                         break;
                     case 5:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(Pos, -R, ref Xhx, ref Yhx);
+                        HVtoHX(Pos, -R, ref Xhx, ref Yhx);
                         break;
                 }
             }
@@ -9171,31 +9165,31 @@ namespace Aow.Units.HSEngine
             int Pos = default;
             if (HN != 0)
             {
-                R = (((int)System.Math.Sqrt(((HN - 1) * 12) + 9)) + 3) / 6;
-                HN = (HN - (((R - 1) * R) * 3)) - 1;
+                R = ((int)Math.Sqrt((HN - 1) * 12 + 9) + 3) / 6;
+                HN = HN - (R - 1) * R * 3 - 1;
                 Side = HN / R;
                 Pos = HN % R;
                 switch (Side)
                 {
                     case 0:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(R, Pos - R, ref NewXhx, ref NewYhx);
+                        HVtoHX(R, Pos - R, ref NewXhx, ref NewYhx);
                         break;
                     case 1:
                         NewXhx = R;
-                        NewYhx = Pos - ((R + 1) / 2);
+                        NewYhx = Pos - (R + 1) / 2;
                         break;
                     case 2:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(-Pos, R, ref NewXhx, ref NewYhx);
+                        HVtoHX(-Pos, R, ref NewXhx, ref NewYhx);
                         break;
                     case 3:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(-R, R - Pos, ref NewXhx, ref NewYhx);
+                        HVtoHX(-R, R - Pos, ref NewXhx, ref NewYhx);
                         break;
                     case 4:
                         NewXhx = -R;
-                        NewYhx = -Pos + (R / 2);
+                        NewYhx = -Pos + R / 2;
                         break;
                     case 5:
-                        Aow.Units.HSEngine.HSEngine.HVtoHX(Pos, -R, ref NewXhx, ref NewYhx);
+                        HVtoHX(Pos, -R, ref NewXhx, ref NewYhx);
                         break;
                 }
             }
@@ -9205,9 +9199,9 @@ namespace Aow.Units.HSEngine
                 NewYhx = 0;
             }
 
-            if (((Xhx & 1) != 0) && ((NewXhx & 1) != 0))
+            if ((Xhx & 1) != 0 && (NewXhx & 1) != 0)
             {
-                NewYhx = (NewYhx + Yhx) + 1;
+                NewYhx = NewYhx + Yhx + 1;
             }
             else
             {
@@ -9249,9 +9243,9 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:4171
         public static void TranslateZeroHX(int Xhx, int Yhx, int dXhx, int dYhx, ref int NewXhx, ref int NewYhx)
         {
-            if (((Xhx & 1) != 0) && ((dXhx & 1) != 0))
+            if ((Xhx & 1) != 0 && (dXhx & 1) != 0)
             {
-                NewYhx = (dYhx + Yhx) + 1;
+                NewYhx = dYhx + Yhx + 1;
             }
             else
             {
@@ -9265,8 +9259,8 @@ namespace Aow.Units.HSEngine
         public static int dHXtoHN(int X1, int Y1, int X2, int Y2)
         {
             int Result = default;
-            Aow.Units.HSEngine.HSEngine.TranslateHX(X1, Y1, 0, 0, X2, Y2, ref X2, ref Y2);
-            Result = Aow.Units.HSEngine.HSEngine.HXtoHN(X2, Y2);
+            TranslateHX(X1, Y1, 0, 0, X2, Y2, ref X2, ref Y2);
+            Result = HXtoHN(X2, Y2);
             return Result;
         }
 
@@ -9353,24 +9347,24 @@ namespace Aow.Units.HSEngine
         // { Pixel coordinates }
         public static void HXtoHP(int Xhx, int Yhx, ref int Xhp, ref int Yhp)
         {
-            Xhp = (Xhx * 32) + 8;
-            Yhp = (Yhx * 32) + ((Xhx & 1) * 16);
+            Xhp = Xhx * 32 + 8;
+            Yhp = Yhx * 32 + (Xhx & 1) * 16;
         }
 
         // HSEngine.pas:4252
         public static int HPtoHN(int Xhp, int Yhp)
         {
             int Result = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref Xhp, ref Yhp);
-            Result = Aow.Units.HSEngine.HSEngine.HXtoHN(Xhp, Yhp);
+            HPtoHX(Xhp, Yhp, ref Xhp, ref Yhp);
+            Result = HXtoHN(Xhp, Yhp);
             return Result;
         }
 
         // HSEngine.pas:4258
         public static void HNtoHP(int HN, ref int Xhp, ref int Yhp)
         {
-            Aow.Units.HSEngine.HSEngine.HNtoHX(HN, ref Xhp, ref Yhp);
-            Aow.Units.HSEngine.HSEngine.HXtoHP(Xhp, Yhp, ref Xhp, ref Yhp);
+            HNtoHX(HN, ref Xhp, ref Yhp);
+            HXtoHP(Xhp, Yhp, ref Xhp, ref Yhp);
             Xhp -= 8;
         }
 
@@ -9380,7 +9374,7 @@ namespace Aow.Units.HSEngine
         {
             int Result = default;
             int H = default;
-            H = Aow.Units.HSEngine.HSEngine.HXtoH(Xhx, Yhx);
+            H = HXtoH(Xhx, Yhx);
             if (H > 0)
             {
                 if (Xhx < 0)
@@ -9389,7 +9383,7 @@ namespace Aow.Units.HSEngine
                 }
                 else
                 {
-                    if (Aow.Units.HSEngine.HSEngine.HXtoV(Xhx, Yhx) < 0)
+                    if (HXtoV(Xhx, Yhx) < 0)
                     {
                         Result = 1;
                     }
@@ -9409,7 +9403,7 @@ namespace Aow.Units.HSEngine
                     }
                     else
                     {
-                        if (Aow.Units.HSEngine.HSEngine.HXtoV(Xhx, Yhx) > 0)
+                        if (HXtoV(Xhx, Yhx) > 0)
                         {
                             Result = 4;
                         }
@@ -9450,18 +9444,18 @@ namespace Aow.Units.HSEngine
             int dY = default;
             X2 = X2 - X1;
             Y2 = Y2 - Y1;
-            if (((X2 & 1) != 0) && ((X1 & 1) != 0))
+            if ((X2 & 1) != 0 && (X1 & 1) != 0)
             {
                 Y2 -= 1;
             }
 
-            Result = Aow.Units.HSEngine.HSEngine.HXtoHT(X2, Y2);
+            Result = HXtoHT(X2, Y2);
             return Result;
         }
 
         // HSEngine.pas:4310
         // { Walks }
-        public static void GenerateWalkAroundRoute(int Xhx, int Yhx, Aow.Units.HSEngine.TWalkAroundRouteCallBack CallBack)
+        public static void GenerateWalkAroundRoute(int Xhx, int Yhx, TWalkAroundRouteCallBack CallBack)
         {
             int NXhx = default;
             int NYhx = default;
@@ -9474,10 +9468,10 @@ namespace Aow.Units.HSEngine
             NXhx = 65535;
             Found = false;
             HN = 0;
-            while ((!Found && (HN != 6)) && !Cancel)
+            while (!Found && HN != 6 && !Cancel)
             {
                 HN += 1;
-                Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, HN, ref NXhx, ref NYhx);
+                CenterHNtoHX(Xhx, Yhx, HN, ref NXhx, ref NYhx);
                 Found = CallBack(NXhx, NYhx, ref Cancel);
             }
 
@@ -9495,7 +9489,7 @@ namespace Aow.Units.HSEngine
 
                     do
                     {
-                        Aow.Units.HSEngine.HSEngine.CenterHNtoHX(Xhx, Yhx, HN, ref TXhx, ref TYhx);
+                        CenterHNtoHX(Xhx, Yhx, HN, ref TXhx, ref TYhx);
                         HN -= 1;
                         // { the original asks for NXhx, NYhx here, not for the hexagon it just stepped to }
                         Found = CallBack(NXhx, NYhx, ref Cancel);
@@ -9508,7 +9502,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:4346
-        public static void InitHNWalk(ref Aow.Units.HSEngine.THNWalkData Walk, int Xhx, int Yhx, int Radius)
+        public static void InitHNWalk(ref THNWalkData Walk, int Xhx, int Yhx, int Radius)
         {
             if (Radius == 0)
             {
@@ -9517,7 +9511,7 @@ namespace Aow.Units.HSEngine
             }
             else
             {
-                Walk.HN = (((Radius - 1) * Radius) * 3) + 1;
+                Walk.HN = (Radius - 1) * Radius * 3 + 1;
                 Walk.Side = 0;
             }
 
@@ -9534,28 +9528,28 @@ namespace Aow.Units.HSEngine
         // { next side }
         // { next hexagon on the side }
         // { Locations }
-        public static Aow.Units.HSEngine.TXYL PackXYL(sbyte X, sbyte Y, sbyte L)
+        public static TXYL PackXYL(sbyte X, sbyte Y, sbyte L)
         {
-            Aow.Units.HSEngine.TXYL Result = default;
-            Result.X = unchecked((sbyte)X);
-            Result.Y = unchecked((sbyte)Y);
-            Result.L = unchecked((sbyte)L);
+            TXYL Result = default;
+            Result.X = X;
+            Result.Y = Y;
+            Result.L = L;
             Result.Flag = 0;
             return Result;
         }
 
         // HSEngine.pas:4439
-        public static bool LocationsConnected(Aow.Units.HSEngine.TXYLList List)
+        public static bool LocationsConnected(TXYLList List)
         {
             bool Result = default;
-            Aow.Units.HSEngine.TXYLList Locations = default;
+            TXYLList Locations = default;
             int I = default;
-            Aow.Units.HSEngine.TXYL XYL = default;
-            void Connect(Aow.Units.HSEngine.TXYL XYL)
+            TXYL XYL = default;
+            void Connect(TXYL XYL)
             {
-                Aow.Units.HSEngine.THNWalkData Walk = default;
+                THNWalkData Walk = default;
                 int I = default;
-                Aow.Units.HSEngine.HSEngine.InitHNWalk(ref Walk, XYL.X, XYL.Y, 1);
+                InitHNWalk(ref Walk, XYL.X, XYL.Y, 1);
                 while (Walk.Radius <= 1)
                 {
                     {
@@ -9567,8 +9561,8 @@ namespace Aow.Units.HSEngine
                             if (call__416.Flag == 0)
                             {
                                 var call__417 = Locations[I];
-                                var call__418 = Aow.Units.HSEngine.HSEngine.PackXYL(unchecked((sbyte)Walk.X), unchecked((sbyte)Walk.Y), unchecked((sbyte)XYL.L));
-                                if (Unsafe.BitCast<Aow.Units.HSEngine.TXYL, int>(call__417) == Unsafe.BitCast<Aow.Units.HSEngine.TXYL, int>(call__418))
+                                var call__418 = PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, XYL.L);
+                                if (Unsafe.BitCast<TXYL, int>(call__417) == Unsafe.BitCast<TXYL, int>(call__418))
                                 {
                                     Locations.FList[I].Flag = 1;
                                     var call__419 = Locations[I];
@@ -9578,11 +9572,11 @@ namespace Aow.Units.HSEngine
                         }
                     }
 
-                    Aow.Units.HSEngine.HSEngine.WalkToNextHN(ref Walk);
+                    WalkToNextHN(ref Walk);
                 }
             }
 
-            Locations = new Aow.Units.HSEngine.TXYLList();
+            Locations = new TXYLList();
             {
                 I = 0;
                 int end__420 = List.Count - 1;
@@ -9634,40 +9628,40 @@ namespace Aow.Units.HSEngine
         }
 
         // { the signature of a map file (THSEngine.SaveHSM, LoadPreviewHSM) }
-        public static Aow.Units.FixedArray_byte_4 HSMID = Aow.Units.FixedArray_byte_4.From([72, 83, 77, 0]);
+        public static FixedArray_byte_4 HSMID = FixedArray_byte_4.From([72, 83, 77, 0]);
         // { offsets of the neighbours (HN 1..6) by column parity; 7: none }
-        public static Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNtoXYTable = Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([Aow.Units.FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }]), Aow.Units.FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }])]);
-        public static Aow.Units.FixedArray_byte_37 HNtoRadTable = Aow.Units.FixedArray_byte_37.From([0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
+        public static FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNtoXYTable = FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }]), FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+        public static FixedArray_byte_37 HNtoRadTable = FixedArray_byte_37.From([0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
         // { the hexagon number on the opposite side of the centre }
-        public static Aow.Units.FixedArray_byte_37 InvHNTable = Aow.Units.FixedArray_byte_37.From([0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
+        public static FixedArray_byte_37 InvHNTable = FixedArray_byte_37.From([0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
         // { the offsets of the hexagon numbers 0..36 (rings 0..3) from an even column }
-        public static Aow.Units.FixedArray_Aow_Units_FixedArray_int_2_37 HNtoHXTable = Aow.Units.FixedArray_Aow_Units_FixedArray_int_2_37.From([Aow.Units.FixedArray_int_2.From([0, 0]), Aow.Units.FixedArray_int_2.From([0, -1]), Aow.Units.FixedArray_int_2.From([1, -1]), Aow.Units.FixedArray_int_2.From([1, 0]), Aow.Units.FixedArray_int_2.From([0, 1]), Aow.Units.FixedArray_int_2.From([-1, 0]), Aow.Units.FixedArray_int_2.From([-1, -1]), Aow.Units.FixedArray_int_2.From([0, -2]), Aow.Units.FixedArray_int_2.From([1, -2]), Aow.Units.FixedArray_int_2.From([2, -1]), Aow.Units.FixedArray_int_2.From([2, 0]), Aow.Units.FixedArray_int_2.From([2, 1]), Aow.Units.FixedArray_int_2.From([1, 1]), Aow.Units.FixedArray_int_2.From([0, 2]), Aow.Units.FixedArray_int_2.From([-1, 1]), Aow.Units.FixedArray_int_2.From([-2, 1]), Aow.Units.FixedArray_int_2.From([-2, 0]), Aow.Units.FixedArray_int_2.From([-2, -1]), Aow.Units.FixedArray_int_2.From([-1, -2]), Aow.Units.FixedArray_int_2.From([0, -3]), Aow.Units.FixedArray_int_2.From([1, -3]), Aow.Units.FixedArray_int_2.From([2, -2]), Aow.Units.FixedArray_int_2.From([3, -2]), Aow.Units.FixedArray_int_2.From([3, -1]), Aow.Units.FixedArray_int_2.From([3, 0]), Aow.Units.FixedArray_int_2.From([3, 1]), Aow.Units.FixedArray_int_2.From([2, 2]), Aow.Units.FixedArray_int_2.From([1, 2]), Aow.Units.FixedArray_int_2.From([0, 3]), Aow.Units.FixedArray_int_2.From([-1, 2]), Aow.Units.FixedArray_int_2.From([-2, 2]), Aow.Units.FixedArray_int_2.From([-3, 1]), Aow.Units.FixedArray_int_2.From([-3, 0]), Aow.Units.FixedArray_int_2.From([-3, -1]), Aow.Units.FixedArray_int_2.From([-3, -2]), Aow.Units.FixedArray_int_2.From([-2, -2]), Aow.Units.FixedArray_int_2.From([-1, -3])]);
+        public static FixedArray_Aow_Units_FixedArray_int_2_37 HNtoHXTable = FixedArray_Aow_Units_FixedArray_int_2_37.From([FixedArray_int_2.From([0, 0]), FixedArray_int_2.From([0, -1]), FixedArray_int_2.From([1, -1]), FixedArray_int_2.From([1, 0]), FixedArray_int_2.From([0, 1]), FixedArray_int_2.From([-1, 0]), FixedArray_int_2.From([-1, -1]), FixedArray_int_2.From([0, -2]), FixedArray_int_2.From([1, -2]), FixedArray_int_2.From([2, -1]), FixedArray_int_2.From([2, 0]), FixedArray_int_2.From([2, 1]), FixedArray_int_2.From([1, 1]), FixedArray_int_2.From([0, 2]), FixedArray_int_2.From([-1, 1]), FixedArray_int_2.From([-2, 1]), FixedArray_int_2.From([-2, 0]), FixedArray_int_2.From([-2, -1]), FixedArray_int_2.From([-1, -2]), FixedArray_int_2.From([0, -3]), FixedArray_int_2.From([1, -3]), FixedArray_int_2.From([2, -2]), FixedArray_int_2.From([3, -2]), FixedArray_int_2.From([3, -1]), FixedArray_int_2.From([3, 0]), FixedArray_int_2.From([3, 1]), FixedArray_int_2.From([2, 2]), FixedArray_int_2.From([1, 2]), FixedArray_int_2.From([0, 3]), FixedArray_int_2.From([-1, 2]), FixedArray_int_2.From([-2, 2]), FixedArray_int_2.From([-3, 1]), FixedArray_int_2.From([-3, 0]), FixedArray_int_2.From([-3, -1]), FixedArray_int_2.From([-3, -2]), FixedArray_int_2.From([-2, -2]), FixedArray_int_2.From([-1, -3])]);
         // { the number of hexagons inside the rings 0..10 (the first hexagon number of each ring) }
-        public static Aow.Units.FixedArray_int_11 RadToHNTable = Aow.Units.FixedArray_int_11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
+        public static FixedArray_int_11 RadToHNTable = FixedArray_int_11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
         public static int HSEngineDID;
         // HSEngine.pas:5411
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"HS-Engine", [typeof(Aow.Units.HSEngine.THexagonSpriteEngine), typeof(Aow.Units.HSEngine.THSMapViewer)]);
+            RegisterComponents((AnsiString)"HS-Engine", [typeof(THexagonSpriteEngine), typeof(THSMapViewer)]);
         }
 
         // HSEngine.pas:1390
-        public static void OriginalAssert(Aow.Rtl.AnsiString Message, Aow.Rtl.AnsiString Filename, int LineNumber)
+        public static void OriginalAssert(AnsiString Message, AnsiString Filename, int LineNumber)
         {
-            Aow.Rtl.Rtl.Assert(false, Message, Filename.ToString(), LineNumber);
+            Assert(false, Message, Filename.ToString(), LineNumber);
         }
 
         // { the hexagon direction opposite to the directions 1..6 }
-        public static Aow.Units.FixedArray_byte_6 OppositeHTTable = Aow.Units.FixedArray_byte_6.From([4, 5, 6, 1, 2, 3]);
+        public static FixedArray_byte_6 OppositeHTTable = FixedArray_byte_6.From([4, 5, 6, 1, 2, 3]);
         // { the step from side to side of a ring around a centre (WalkToNextHN), by column parity }
-        public static Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNWalkTable = Aow.Units.FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([Aow.Units.FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }]), Aow.Units.FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 1 }, new Aow.Units.HSEngine.XYTableEntry { X = -1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = -1 }, new Aow.Units.HSEngine.XYTableEntry { X = 1, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }, new Aow.Units.HSEngine.XYTableEntry { X = 0, Y = 0 }])]);
+        public static FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNWalkTable = FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]), FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
         // HSEngine.pas:1788
-        public static void QuickSortXYL(Span<Aow.Units.HSEngine.TXYL> SortList, int L, int R, Aow.Units.HSEngine.TXYLSortCompare SCompare)
+        public static void QuickSortXYL(Span<TXYL> SortList, int L, int R, TXYLSortCompare SCompare)
         {
             int I = default;
             int J = default;
-            Aow.Units.HSEngine.TXYL P = default;
-            Aow.Units.HSEngine.TXYL T = default;
+            TXYL P = default;
+            TXYL T = default;
             do
             {
                 I = L;
@@ -9707,7 +9701,7 @@ namespace Aow.Units.HSEngine
                 while (!(I > J));
                 if (L < J)
                 {
-                    Aow.Units.HSEngine.HSEngine.QuickSortXYL(SortList, L, J, SCompare);
+                    QuickSortXYL(SortList, L, J, SCompare);
                 }
 
                 L = I;
@@ -9716,7 +9710,7 @@ namespace Aow.Units.HSEngine
         }
 
         // { copies of a field's sprite list: SendMsg and Loaded call methods that may remove sprites }
-        public static Aow.Units.FixedArray_Aow_Units_HSEngine_THexagonSprite_256 SendMsgList;
-        public static Aow.Units.FixedArray_Aow_Units_HSEngine_THexagonSprite_256 LoadedList;
+        public static FixedArray_Aow_Units_HSEngine_THexagonSprite_256 SendMsgList;
+        public static FixedArray_Aow_Units_HSEngine_THexagonSprite_256 LoadedList;
     }
 }

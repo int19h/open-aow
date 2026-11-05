@@ -1,78 +1,36 @@
 // Translated from AoWMsgReceiveDlg.pas.
-using System;
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWMemo;
-using static Aow.Units.AoWMemo.AoWMemo;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWMsgReceiveDlg
 {
     // done callback, retained event
-    public partial class TMsgReceiveDlg : Aow.Rtl.TDataModule
+    public partial class TMsgReceiveDlg : TDataModule
     {
         public TMsgReceiveDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow MsgReceiveWin;
-        public Aow.Units.AoWMemo.TAOWMemo MessageMemo;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar MessageSB;
-        public Aow.Units.AoWImage.TAOWImage LShield;
-        public Aow.Units.AoWImage.TAOWImage RShield;
-        public Aow.Units.AoWMemo.TAOWMemo HeaderMemo;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.EventLog.TExecuteDoneEvent FDone;
-        public Aow.Units.EventLog.TEventLog FEvent;
+        public TAOWWindow MsgReceiveWin;
+        public TAOWMemo MessageMemo;
+        public TAOWButton Close;
+        public TAOWVScrollBar MessageSB;
+        public TAOWImage LShield;
+        public TAOWImage RShield;
+        public TAOWMemo HeaderMemo;
+        public TIvTranslator Translator;
+        public TExecuteDoneEvent FDone;
+        public TEventLog FEvent;
         // AoWMsgReceiveDlg.pas:54
         public void FinishDialog()
         {
-            Aow.Units.EventLog.TExecuteDoneEvent Done = default;
-            Aow.Units.EventLog.TEventLog Log = default;
+            TExecuteDoneEvent Done = default;
+            TEventLog Log = default;
             Done = FDone;
             Log = FEvent;
             FDone = null;
@@ -91,7 +49,7 @@ namespace Aow.Units.AoWMsgReceiveDlg
         // AoWMsgReceiveDlg.pas:40
         public void CloseClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             MsgReceiveWin.Visible = false;
         }
 

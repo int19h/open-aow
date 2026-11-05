@@ -1,58 +1,25 @@
 // Translated from TurnButton.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
 
 namespace Aow.Units.TurnButton
 {
     // { ot=1 }
     // library, current player, last player, animating, animation phase, frame offset, done event,
     // change event, checked, animation frame
-    public partial class TAOWTurnButton : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWTurnButton : TAOWControl
     {
-        public Aow.Units.ImageLib.TImageLibrary FImageLib;
+        public TImageLibrary FImageLib;
         public int FCurPlayer;
         public int FLastPlayer;
         public bool FAnimating;
         public int FAnimationPhase;
         public int FFrameOffset;
-        public Aow.Rtl.TNotifyEvent FOnAnimDone;
-        public Aow.Rtl.TNotifyEvent FOnPlayerChange;
+        public TNotifyEvent FOnAnimDone;
+        public TNotifyEvent FOnPlayerChange;
         public bool FButtonChecked;
         public int FAnimationFrame;
         // TurnButton.pas:54
@@ -104,7 +71,7 @@ namespace Aow.Units.TurnButton
                     case 1:
                         FAnimationFrame += 1;
                         FDrawn = false;
-                        if (((FLastPlayer * 7) + 5) < FAnimationFrame)
+                        if (FLastPlayer * 7 + 5 < FAnimationFrame)
                         {
                             FAnimationFrame = 0;
                             FAnimationPhase = 2;
@@ -118,7 +85,7 @@ namespace Aow.Units.TurnButton
                         if (FAnimationFrame > 10)
                         {
                             FAnimationPhase = 3;
-                            FAnimationFrame = (FCurPlayer * 7) + 5;
+                            FAnimationFrame = FCurPlayer * 7 + 5;
                             FFrameOffset = 11;
                         }
 
@@ -126,7 +93,7 @@ namespace Aow.Units.TurnButton
                     case 3:
                         FAnimationFrame -= 1;
                         FDrawn = false;
-                        if ((FCurPlayer * 7) > FAnimationFrame)
+                        if (FCurPlayer * 7 > FAnimationFrame)
                         {
                             FAnimationFrame = FCurPlayer * 7;
                             FAnimationPhase = 0;
@@ -145,20 +112,20 @@ namespace Aow.Units.TurnButton
         }
 
         // TurnButton.pas:132
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             try
             {
-                if ((FVisible == true) && (FValid == true))
+                if (FVisible == true && FValid == true)
                 {
                     if (FOnPreDraw != null)
                     {
                         FOnPreDraw(this, SurfDesc);
                     }
 
-                    if (!FAnimating && (FButtonChecked == true))
+                    if (!FAnimating && FButtonChecked == true)
                     {
-                        var call__3 = FImageLib[(FFrameOffset + (FCurPlayer * 7)) + 6];
+                        var call__3 = FImageLib[FFrameOffset + FCurPlayer * 7 + 6];
                         call__3.ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
                     }
                     else
@@ -175,19 +142,19 @@ namespace Aow.Units.TurnButton
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // TurnButton.pas:151
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
-                if ((Button == Aow.Rtl.TMouseButton.mbLeft) && !FAnimating)
+                if (Button == TMouseButton.mbLeft && !FAnimating)
                 {
                     if (FButtonChecked)
                     {
@@ -213,10 +180,10 @@ namespace Aow.Units.TurnButton
         }
 
         // TurnButton.pas:169
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -227,11 +194,11 @@ namespace Aow.Units.TurnButton
         }
 
         // TurnButton.pas:180
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
-            if ((((X >= (FAOWWindow.FWinLeft + FWinLeft)) && (X <= (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - 1))) && (Y >= (FAOWWindow.FWinTop + FWinTop))) && (Y <= (((FAOWWindow.FWinTop + FWinTop) + FWinHeight) - 1)))
+            if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
             {
                 FHandled = true;
                 if (FOnMouseMove != null)
@@ -242,7 +209,7 @@ namespace Aow.Units.TurnButton
         }
 
         // TurnButton.pas:73
-        public virtual void SetILB(Aow.Units.ImageLib.TImageLibrary Value)
+        public virtual void SetILB(TImageLibrary Value)
         {
             if (Value != null)
             {
@@ -255,7 +222,7 @@ namespace Aow.Units.TurnButton
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
+        public TImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
 
         [Published]
         public int CurPlayer { get => FCurPlayer; set => FCurPlayer = value; }
@@ -267,10 +234,10 @@ namespace Aow.Units.TurnButton
         public bool Animating { get => FAnimating; set => FAnimating = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnAnimDone { get => FOnAnimDone; set => FOnAnimDone = value; }
+        public TNotifyEvent OnAnimDone { get => FOnAnimDone; set => FOnAnimDone = value; }
 
         [Published]
-        public new Aow.Rtl.TNotifyEvent OnChange { get => FOnPlayerChange; set => FOnPlayerChange = value; }
+        public new TNotifyEvent OnChange { get => FOnPlayerChange; set => FOnPlayerChange = value; }
 
         [Published]
         public bool Checked { get => FButtonChecked; set => FButtonChecked = value; }
@@ -287,7 +254,7 @@ namespace Aow.Units.TurnButton
         // TurnButton.pas:192
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Tools", [typeof(Aow.Units.TurnButton.TAOWTurnButton)]);
+            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAOWTurnButton)]);
         }
 
         public static void Initialize()

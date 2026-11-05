@@ -1,38 +1,15 @@
 // Translated from Animation.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
 using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
 using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
-using Aow.Units.Pad;
-using static Aow.Units.Pad.Pad;
 
 namespace Aow.Units.Animation
 {
@@ -66,7 +43,7 @@ namespace Aow.Units.Animation
 
     // { ot=1 }
     // hex position, display level, state, frame, dimensions, callbacks, tag, map
-    public partial class TAnimation : Aow.Units.HSEngine.THexagonSprite
+    public partial class TAnimation : THexagonSprite
     {
         public TAnimation(TECustomNode owner) : base(owner)
         {
@@ -80,13 +57,13 @@ namespace Aow.Units.Animation
         public sbyte FYhx;
         public sbyte FLhx;
         public byte FAnimationLevel;
-        public TSet<Aow.Units.Animation.TAnimationStateElement> FState;
+        public TSet<TAnimationStateElement> FState;
         public int FFrameCounter;
-        public Aow.Rtl.TRect FDimensions;
-        public Aow.Units.Animation.TShowAnimationEvent FOnShow;
-        public Aow.Units.Animation.TNewFrameAnimationEvent FOnNewFrame;
+        public TRect FDimensions;
+        public TShowAnimationEvent FOnShow;
+        public TNewFrameAnimationEvent FOnNewFrame;
         public int FTag;
-        public Aow.Units.HSEngine.THSMap FAnimationMap;
+        public THSMap FAnimationMap;
         // Animation.pas:133
         public override void Destroy()
         {
@@ -94,26 +71,26 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:153
-        public override TSet<Aow.Units.Engine.TEControlStyleElement> GetControlStyle()
+        public override TSet<TEControlStyleElement> GetControlStyle()
         {
-            TSet<Aow.Units.Engine.TEControlStyleElement> Result = default;
-            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amSaveable))
+            TSet<TEControlStyleElement> Result = default;
+            if (AnimationControlMode().Contains(TAnimationControlModeElement.amSaveable))
             {
-                Result = TSet<Aow.Units.Engine.TEControlStyleElement>.Of(Aow.Units.Engine.TEControlStyleElement.csSaveLoad);
+                Result = TSet<TEControlStyleElement>.Of(TEControlStyleElement.csSaveLoad);
             }
             else
             {
-                Result = TSet<Aow.Units.Engine.TEControlStyleElement>.Of();
+                Result = TSet<TEControlStyleElement>.Of();
             }
 
             return Result;
         }
 
         // Animation.pas:276
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Stream.rwData(Aow.Rtl.Bytes.Of(ref FDimensions, 16), 16, 10);
+            Stream.rwData(Bytes.Of(ref FDimensions, 16), 16, 10);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 11);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 12);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 13);
@@ -127,7 +104,7 @@ namespace Aow.Units.Animation
         public override byte GetLevel()
         {
             byte Result = default;
-            Result = unchecked((byte)FAnimationLevel);
+            Result = FAnimationLevel;
             return Result;
         }
 
@@ -136,11 +113,11 @@ namespace Aow.Units.Animation
         {
             if (Value)
             {
-                FState = FState + TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asVisible);
+                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asVisible);
             }
             else
             {
-                FState = FState - TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asVisible);
+                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asVisible);
             }
         }
 
@@ -148,7 +125,7 @@ namespace Aow.Units.Animation
         public override bool GetVisible()
         {
             bool Result = default;
-            Result = FState.Contains(Aow.Units.Animation.TAnimationStateElement.asVisible);
+            Result = FState.Contains(TAnimationStateElement.asVisible);
             return Result;
         }
 
@@ -156,7 +133,7 @@ namespace Aow.Units.Animation
         public override bool GetSelected()
         {
             bool Result = default;
-            Result = FState.Contains(Aow.Units.Animation.TAnimationStateElement.asSelected);
+            Result = FState.Contains(TAnimationStateElement.asSelected);
             return Result;
         }
 
@@ -164,7 +141,7 @@ namespace Aow.Units.Animation
         public override sbyte GetXhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)FXhx);
+            Result = FXhx;
             return Result;
         }
 
@@ -172,7 +149,7 @@ namespace Aow.Units.Animation
         public override sbyte GetYhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)FYhx);
+            Result = FYhx;
             return Result;
         }
 
@@ -180,7 +157,7 @@ namespace Aow.Units.Animation
         public override sbyte GetLhx()
         {
             sbyte Result = default;
-            Result = unchecked((sbyte)FLhx);
+            Result = FLhx;
             return Result;
         }
 
@@ -188,7 +165,7 @@ namespace Aow.Units.Animation
         public override bool GetEditMode()
         {
             bool Result = default;
-            Result = FState.Contains(Aow.Units.Animation.TAnimationStateElement.asEditMode);
+            Result = FState.Contains(TAnimationStateElement.asEditMode);
             return Result;
         }
 
@@ -197,11 +174,11 @@ namespace Aow.Units.Animation
         {
             if (Value)
             {
-                FState = FState + TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asEditMode);
+                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asEditMode);
             }
             else
             {
-                FState = FState - TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asEditMode);
+                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asEditMode);
             }
         }
 
@@ -211,8 +188,8 @@ namespace Aow.Units.Animation
             int Result = default;
             int X = default;
             int Y = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
-            Result = ((unchecked((int)FAnimationLevel) << 26) + ((Y + FDimensions.Bottom) << 13)) + X;
+            HXtoHP(FXhx, FYhx, ref X, ref Y);
+            Result = (FAnimationLevel << 26) + ((Y + FDimensions.Bottom) << 13) + X;
             return Result;
         }
 
@@ -221,10 +198,10 @@ namespace Aow.Units.Animation
         {
             int X = default;
             int Y = default;
-            if (!FState.Contains(Aow.Units.Animation.TAnimationStateElement.asPlaced))
+            if (!FState.Contains(TAnimationStateElement.asPlaced))
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
-                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap))
+                HXtoHP(FXhx, FYhx, ref X, ref Y);
+                if (AnimationControlMode().Contains(TAnimationControlModeElement.amOwnedByMap))
                 {
                     PlaceOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
@@ -233,7 +210,7 @@ namespace Aow.Units.Animation
                     PlaceUserOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
 
-                FState = FState + TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asPlaced);
+                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asPlaced);
             }
         }
 
@@ -242,10 +219,10 @@ namespace Aow.Units.Animation
         {
             int X = default;
             int Y = default;
-            if (FState.Contains(Aow.Units.Animation.TAnimationStateElement.asPlaced))
+            if (FState.Contains(TAnimationStateElement.asPlaced))
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
-                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap))
+                HXtoHP(FXhx, FYhx, ref X, ref Y);
+                if (AnimationControlMode().Contains(TAnimationControlModeElement.amOwnedByMap))
                 {
                     RemoveFromMapEx(X + FDimensions.Left, Y + FDimensions.Top, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
@@ -254,12 +231,12 @@ namespace Aow.Units.Animation
                     RemoveUserFromMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
 
-                FState = FState - TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asPlaced);
+                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asPlaced);
             }
         }
 
         // Animation.pas:383
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             if (FOnShow != null)
             {
@@ -268,13 +245,13 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:349
-        public override bool Place(Aow.Units.HSEngine.TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = default;
             int X = default;
             int Y = default;
-            Aow.Units.HSEngine.HSEngine.HPtoHX(Xhp, Yhp, ref X, ref Y);
-            Result = PlaceHX(Map, unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)Lhx));
+            HPtoHX(Xhp, Yhp, ref X, ref Y);
+            Result = PlaceHX(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
             return Result;
         }
 
@@ -301,18 +278,18 @@ namespace Aow.Units.Animation
         public override void Activate()
         {
             base.Activate();
-            FState = FState + TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asActivated);
-            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame))
+            FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asActivated);
+            if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToNewFrame))
             {
                 FAnimationMap.NewFrameEvents.Add(NewFrameEvent);
             }
 
-            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible))
+            if (AnimationControlMode().Contains(TAnimationControlModeElement.amFixedVisible))
             {
                 FAnimationMap.DynamicFixedVisibleHS.AddChild(this);
             }
 
-            if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy))
+            if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToOnDestroy))
             {
                 FAnimationMap.DestroyEvents.Add(DestroyEvent);
             }
@@ -322,21 +299,21 @@ namespace Aow.Units.Animation
         public override void Deactivate()
         {
             base.Deactivate();
-            if (FState.Contains(Aow.Units.Animation.TAnimationStateElement.asActivated))
+            if (FState.Contains(TAnimationStateElement.asActivated))
             {
-                FState = FState - TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asActivated);
-                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible))
+                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asActivated);
+                if (AnimationControlMode().Contains(TAnimationControlModeElement.amFixedVisible))
                 {
                     FAnimationMap.DynamicFixedVisibleHS.RemoveChild(this);
                     FAnimationMap.DynamicVisibleHS.RemoveChild(this);
                 }
 
-                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame))
+                if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToNewFrame))
                 {
                     FAnimationMap.NewFrameEvents.Remove(NewFrameEvent);
                 }
 
-                if (AnimationControlMode().Contains(Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy))
+                if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToOnDestroy))
                 {
                     FAnimationMap.DestroyEvents.Remove(DestroyEvent);
                 }
@@ -344,11 +321,11 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:218
-        public override void MakeVisible(Aow.Units.HSEngine.TVisibilityList VisibilityList)
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
-            if (!FState.Contains(Aow.Units.Animation.TAnimationStateElement.asVisible))
+            if (!FState.Contains(TAnimationStateElement.asVisible))
             {
-                FState = FState + TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asVisible);
+                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asVisible);
                 var call__1 = GetShowPriority();
                 VisibilityList.AddSortChild(this, call__1);
             }
@@ -358,27 +335,27 @@ namespace Aow.Units.Animation
         public override void Select()
         {
             base.Select();
-            FState = FState + TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asSelected);
+            FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asSelected);
         }
 
         // Animation.pas:244
         public override void Unselect()
         {
             base.Unselect();
-            FState = FState - TSet<Aow.Units.Animation.TAnimationStateElement>.Of(Aow.Units.Animation.TAnimationStateElement.asSelected);
+            FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asSelected);
         }
 
         // Animation.pas:286
-        public virtual bool PlaceTE(Aow.Units.Animation.TAnimationTE Event, Aow.Units.NetworkE.TTokenExecuter Executer)
+        public virtual bool PlaceTE(TAnimationTE Event, TTokenExecuter Executer)
         {
             bool Result = default;
-            var call__2 = PlaceHX(FAnimationMap.MapContainer, unchecked((sbyte)FXhx), unchecked((sbyte)FYhx), unchecked((sbyte)FLhx));
+            var call__2 = PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
             Result = call__2;
             return Result;
         }
 
         // Animation.pas:291
-        public virtual bool RemoveTE(Aow.Units.Animation.TAnimationTE Event, Aow.Units.NetworkE.TTokenExecuter Executer)
+        public virtual bool RemoveTE(TAnimationTE Event, TTokenExecuter Executer)
         {
             bool Result = default;
             MainRemove();
@@ -387,7 +364,7 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:297
-        public virtual bool ExecuteTE(Aow.Units.Animation.TAnimationTE Event, Aow.Units.NetworkE.TTokenExecuter Executer)
+        public virtual bool ExecuteTE(TAnimationTE Event, TTokenExecuter Executer)
         {
             bool Result = default;
             Result = false;
@@ -395,10 +372,10 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:308
-        public virtual bool CanPlace(Aow.Units.HSEngine.TMapContainer Map, sbyte X, sbyte Y, sbyte L)
+        public virtual bool CanPlace(TMapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
             bool Result = default;
-            if ((((((X < 0) || (Y < 0)) || (L < 0)) || (X >= Map.Width)) || (Y >= Map.Height)) || (L >= Map.LevelCount))
+            if (X < 0 || Y < 0 || L < 0 || X >= Map.Width || Y >= Map.Height || L >= Map.LevelCount)
             {
                 Result = false;
             }
@@ -411,14 +388,14 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:357
-        public virtual bool PlaceHX(Aow.Units.HSEngine.TMapContainer Map, sbyte X, sbyte Y, sbyte L)
+        public virtual bool PlaceHX(TMapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
             bool Result = default;
             var call__3 = GetEditMode();
             bool bool__4 = call__3;
             if (!bool__4)
             {
-                var call__5 = CanPlace(Map, unchecked((sbyte)X), unchecked((sbyte)Y), unchecked((sbyte)L));
+                var call__5 = CanPlace(Map, X, Y, L);
                 bool__4 = call__5;
             }
 
@@ -426,9 +403,9 @@ namespace Aow.Units.Animation
             {
                 FAnimationMap = Map.Map;
                 Remove();
-                FXhx = unchecked((sbyte)X);
-                FYhx = unchecked((sbyte)Y);
-                FLhx = unchecked((sbyte)L);
+                FXhx = X;
+                FYhx = Y;
+                FLhx = L;
                 Connect();
                 Result = true;
             }
@@ -451,7 +428,7 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:138
-        public void DestroyEvent(Aow.Rtl.TObject Sender)
+        public void DestroyEvent(TObject Sender)
         {
             if (Owner == null)
             {
@@ -460,21 +437,21 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:148
-        public void NewFrameEvent(Aow.Rtl.TObject Sender)
+        public void NewFrameEvent(TObject Sender)
         {
             NewFrame();
         }
 
         // Animation.pas:255
-        public void SetDimensions(Aow.Rtl.TRect R)
+        public void SetDimensions(TRect R)
         {
-            if (!FState.Contains(Aow.Units.Animation.TAnimationStateElement.asPlaced))
+            if (!FState.Contains(TAnimationStateElement.asPlaced))
             {
                 FDimensions = R;
             }
             else
             {
-                throw Aow.Rtl.Exception.Create((AnsiString)"Cannot change dimensions when object is places");
+                throw Exception.Create((AnsiString)"Cannot change dimensions when object is places");
             }
         }
 
@@ -482,10 +459,10 @@ namespace Aow.Units.Animation
 
 
         // Animation.pas:159
-        public virtual TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
+        public virtual TSet<TAnimationControlModeElement> AnimationControlMode()
         {
-            TSet<Aow.Units.Animation.TAnimationControlModeElement> Result = default;
-            Result = TSet<Aow.Units.Animation.TAnimationControlModeElement>.Of(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame, Aow.Units.Animation.TAnimationControlModeElement.amFixedVisible, Aow.Units.Animation.TAnimationControlModeElement.amLinkToOnDestroy);
+            TSet<TAnimationControlModeElement> Result = default;
+            Result = TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amFixedVisible, TAnimationControlModeElement.amLinkToOnDestroy);
             return Result;
         }
 
@@ -493,7 +470,7 @@ namespace Aow.Units.Animation
     }
 
     // state, animation
-    public partial class TAnimationTE : Aow.Units.NetworkE.TTokenEvent
+    public partial class TAnimationTE : TTokenEvent
     {
         public TAnimationTE(TECustomNode owner) : base(owner)
         {}
@@ -501,60 +478,60 @@ namespace Aow.Units.Animation
         // Animation.pas:388
         public new const int ClassID = 135433;
 
-        public Aow.Units.Animation.TAnimationTEState FState;
-        public Aow.Units.Animation.TAnimation FAnimation;
+        public TAnimationTEState FState;
+        public TAnimation FAnimation;
         // Animation.pas:399
-        public override void ReadWrite(Aow.Units.Engine.TEStorageStream Stream)
+        public override void ReadWrite(TEStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwCreateEObject(ref FAnimation, null, 15);
         }
 
         // Animation.pas:405
-        public override Aow.Units.NetworkE.TExecuteResult Execute(Aow.Units.NetworkE.TTokenExecuter TE)
+        public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            Aow.Units.NetworkE.TExecuteResult Result = default;
+            TExecuteResult Result = default;
             Result = base.Execute(TE);
             if (FAnimation != null)
             {
-                if (FState == Aow.Units.Animation.TAnimationTEState.atIdle)
+                if (FState == TAnimationTEState.atIdle)
                 {
                     var call__6 = FAnimation.PlaceTE(this, TE);
                     if (call__6)
                     {
-                        FState = Aow.Units.Animation.TAnimationTEState.atPlaying;
+                        FState = TAnimationTEState.atPlaying;
                     }
                     else
                     {
-                        Result = Aow.Units.NetworkE.TExecuteResult.erDoneHalt;
+                        Result = TExecuteResult.erDoneHalt;
                     }
                 }
 
-                if (FState == Aow.Units.Animation.TAnimationTEState.atPlaying)
+                if (FState == TAnimationTEState.atPlaying)
                 {
                     var call__7 = FAnimation.ExecuteTE(this, TE);
                     if (!call__7)
                     {
                         FAnimation.RemoveTE(this, TE);
-                        FState = Aow.Units.Animation.TAnimationTEState.atDone;
+                        FState = TAnimationTEState.atDone;
                     }
                 }
 
-                if (FState == Aow.Units.Animation.TAnimationTEState.atDone)
+                if (FState == TAnimationTEState.atDone)
                 {
-                    Result = Aow.Units.NetworkE.TExecuteResult.erDone;
+                    Result = TExecuteResult.erDone;
                 }
             }
             else
             {
-                Result = Aow.Units.NetworkE.TExecuteResult.erDone;
+                Result = TExecuteResult.erDone;
             }
 
             return Result;
         }
 
         // Animation.pas:393
-        public void Initialize(Aow.Units.Animation.TAnimation Animation)
+        public void Initialize(TAnimation Animation)
         {
             if (FAnimation != null)
             {
@@ -567,7 +544,7 @@ namespace Aow.Units.Animation
     }
 
     // sequence, pixel offsets, last frame, loop flag
-    public partial class TImageSequenceAnimation : Aow.Units.Animation.TAnimation
+    public partial class TImageSequenceAnimation : TAnimation
     {
         public TImageSequenceAnimation(TECustomNode owner) : base(owner)
         {
@@ -576,7 +553,7 @@ namespace Aow.Units.Animation
             FYhpOffset = 0;
         }
 
-        public Aow.Units.ImageLib.TImageSequence FImageSequence;
+        public TImageSequence FImageSequence;
         public int FXhpOffset;
         public int FYhpOffset;
         public int FFrameCount;
@@ -585,9 +562,9 @@ namespace Aow.Units.Animation
 
 
         // Animation.pas:493
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
+            TImageSequence Sequence = default;
             int X = default;
             int Y = default;
             int Index = default;
@@ -595,9 +572,9 @@ namespace Aow.Units.Animation
             var call__8 = GetLhx();
             if (call__8 == FAnimationMap.ViewL)
             {
-                Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
-                XhpSurf = ((X - XhpSurf) + 16) + FXhpOffset;
-                YhpSurf = ((Y - YhpSurf) + 16) + FYhpOffset;
+                HXtoHP(FXhx, FYhx, ref X, ref Y);
+                XhpSurf = X - XhpSurf + 16 + FXhpOffset;
+                YhpSurf = Y - YhpSurf + 16 + FYhpOffset;
                 if (!FLooped)
                 {
                     Sequence = FImageSequence;
@@ -650,8 +627,8 @@ namespace Aow.Units.Animation
         // Animation.pas:432
         public void UpdateDimensions()
         {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
-            Aow.Rtl.TRect R = default;
+            TImageSequence Sequence = default;
+            TRect R = default;
             FDimensions.Left = 0;
             FDimensions.Right = 0;
             FDimensions.Top = 0;
@@ -660,7 +637,7 @@ namespace Aow.Units.Animation
             while (Sequence != null)
             {
                 Sequence.GetDimensions(ref R);
-                Aow.Rtl.Rtl.UnionRect(ref FDimensions, FDimensions, R);
+                UnionRect(ref FDimensions, FDimensions, R);
                 Sequence = Sequence.Next;
             }
 
@@ -671,9 +648,9 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:454
-        public void SetImageSequence(Aow.Units.ImageLib.TImageSequence Sequence)
+        public void SetImageSequence(TImageSequence Sequence)
         {
-            Aow.Units.ImageLib.TImageSequence Current = default;
+            TImageSequence Current = default;
             int Frames = default;
             FImageSequence = Sequence;
             UpdateDimensions();
@@ -718,26 +695,26 @@ namespace Aow.Units.Animation
     }
 
     // sequence, particle count, radius, lifetime, random start delay, mode
-    public partial class TTwinkleAnimation : Aow.Units.Animation.TAnimation
+    public partial class TTwinkleAnimation : TAnimation
     {
         public TTwinkleAnimation(TECustomNode owner) : base(owner)
         {
             FAnimationLevel = 28;
         }
 
-        public Aow.Units.ImageLib.TImageSequence FImageSequence;
+        public TImageSequence FImageSequence;
         public int FCount;
         public int FRadius;
         public int FDuration;
         public int FStartDelay;
-        public TSet<Aow.Units.Animation.TTwinkleModeElement> FMode;
+        public TSet<TTwinkleModeElement> FMode;
         // Animation.pas:532
 
 
         // Animation.pas:538
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            Aow.Units.ImageLib.TImageSequence Sequence = default;
+            TImageSequence Sequence = default;
             int OldSeed = default;
             int Delay = default;
             int X = default;
@@ -748,46 +725,46 @@ namespace Aow.Units.Animation
             int Radius = default;
             int Angle = default;
             int Index = default;
-            OldSeed = Aow.Rtl.Rtl.RandSeed;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref X, ref Y);
-            XhpSurf = (X - XhpSurf) + 16;
-            YhpSurf = (Y - YhpSurf) + 16;
+            OldSeed = RandSeed;
+            HXtoHP(FXhx, FYhx, ref X, ref Y);
+            XhpSurf = X - XhpSurf + 16;
+            YhpSurf = Y - YhpSurf + 16;
             var call__14 = GetXhx();
             var call__15 = GetYhx();
-            Aow.Rtl.Rtl.RandSeed = (call__14 + Aow.Units.AoWE.AoWE.AoWHSMap.FInitialRandomSeed) + (call__15 * 3);
+            RandSeed = call__14 + AoWHSMap.FInitialRandomSeed + call__15 * 3;
             {
                 I = 0;
                 int end__16 = FCount - 1;
                 for (; I <= end__16; I += 1)
                 {
-                    var call__17 = Aow.Rtl.Rtl.Random(FRadius);
+                    var call__17 = Random(FRadius);
                     Radius = call__17;
-                    Angle = Aow.Rtl.Rtl.Random(360);
-                    var call__18 = Aow.Rtl.Rtl.Random(FStartDelay);
+                    Angle = Random(360);
+                    var call__18 = Random(FStartDelay);
                     Delay = call__18;
-                    if ((FFrameCounter - Delay) >= 0)
+                    if (FFrameCounter - Delay >= 0)
                     {
-                        if (FMode.Contains(Aow.Units.Animation.TTwinkleModeElement.tmExpand))
+                        if (FMode.Contains(TTwinkleModeElement.tmExpand))
                         {
-                            Radius = Aow.Rtl.Rtl.Round(((double)(Radius * FFrameCounter)) / FDuration) + (Radius / 2);
+                            Radius = Round((double)(Radius * FFrameCounter) / FDuration) + Radius / 2;
                         }
 
-                        if (FMode.Contains(Aow.Units.Animation.TTwinkleModeElement.tmExplode))
+                        if (FMode.Contains(TTwinkleModeElement.tmExplode))
                         {
-                            Radius += Aow.Rtl.Rtl.Round((FFrameCounter - Delay) * (FFrameCounter - Delay));
+                            Radius += Round((FFrameCounter - Delay) * (FFrameCounter - Delay));
                         }
 
-                        if (FMode.Contains(Aow.Units.Animation.TTwinkleModeElement.tmImplode))
+                        if (FMode.Contains(TTwinkleModeElement.tmImplode))
                         {
-                            Radius += Aow.Rtl.Rtl.Round(FDuration - (FFrameCounter - Delay));
+                            Radius += Round(FDuration - (FFrameCounter - Delay));
                         }
 
-                        if (FMode.Contains(Aow.Units.Animation.TTwinkleModeElement.tmRotate))
+                        if (FMode.Contains(TTwinkleModeElement.tmRotate))
                         {
                             Angle += FFrameCounter * 4;
                         }
 
-                        Aow.Units.AoWE.AoWE.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
+                        DegreesRadToCo(Angle, Radius, ref DX, ref DY);
                         Sequence = FImageSequence;
                         while (Sequence != null)
                         {
@@ -797,7 +774,7 @@ namespace Aow.Units.Animation
                             if (call__20)
                             {
                                 var call__21 = Sequence.ImageLibrary[Index];
-                                call__21.Show((XhpSurf + Sequence.dXshift) + DX, (YhpSurf + Sequence.dYshift) + DY, SurfaceDesc);
+                                call__21.Show(XhpSurf + Sequence.dXshift + DX, YhpSurf + Sequence.dYshift + DY, SurfaceDesc);
                             }
 
                             Sequence = Sequence.Next;
@@ -806,7 +783,7 @@ namespace Aow.Units.Animation
                 }
             }
 
-            Aow.Rtl.Rtl.RandSeed = OldSeed;
+            RandSeed = OldSeed;
             if (FFrameCounter >= FDuration)
             {
                 Destroy();
@@ -814,7 +791,7 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:575
-        public void Setup(Aow.Units.ImageLib.TImageSequence Sequence, TSet<Aow.Units.Animation.TTwinkleModeElement> Mode, int Count, int Radius, int Duration, int StartDelay)
+        public void Setup(TImageSequence Sequence, TSet<TTwinkleModeElement> Mode, int Count, int Radius, int Duration, int StartDelay)
         {
             FImageSequence = Sequence;
             FCount = Count;
@@ -828,8 +805,8 @@ namespace Aow.Units.Animation
 
     }
 
-    public delegate void TShowAnimationEvent(Aow.Units.Animation.TAnimation Animation, int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc);
-    public delegate void TNewFrameAnimationEvent(Aow.Units.Animation.TAnimation Animation, int FrameCounter);
+    public delegate void TShowAnimationEvent(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc);
+    public delegate void TNewFrameAnimationEvent(TAnimation Animation, int FrameCounter);
     public enum TAnimationTEState : byte
     {
         atIdle = 0,

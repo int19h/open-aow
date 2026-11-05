@@ -1,5 +1,3 @@
-using Aow.Units.HSEngine;
-
 namespace Aow.Units.AoWE;
 
 public partial class TMoveControl
@@ -52,7 +50,7 @@ public partial class TMoveControl
             field = next;
             if ((right ? total <= FMovePointsLimit : total < FMovePointsLimit) && points >= 0)
             {
-                int end = FGapEnds.IndexOfXY((sbyte)field.Xhx, (sbyte)field.Yhx);
+                int end = FGapEnds.IndexOfXY(field.Xhx, field.Yhx);
                 if (end != -1 && end >= index)
                 {
                     index = end;

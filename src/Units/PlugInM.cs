@@ -1,55 +1,51 @@
 // Translated from PlugInM.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 namespace Aow.Units.PlugInM
 {
-    public delegate void TLoadPlugInEvent(Aow.Rtl.TObject Sender, Aow.Rtl.AnsiString FileName);
+    public delegate void TLoadPlugInEvent(TObject Sender, AnsiString FileName);
     // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
     // FPlugInExtension ('dpl'), FOnLoadPlugIn
-    public partial class TPlugInManager : Aow.Rtl.TComponent
+    public partial class TPlugInManager : TComponent
     {
-        internal Aow.Rtl.TStringList FPlugIns;
+        internal TStringList FPlugIns;
         internal bool FPlugInsLoaded;
-        internal Aow.Rtl.AnsiString FPlugInDirectory;
-        internal Aow.Rtl.AnsiString FPlugInExtension;
-        internal Aow.Units.PlugInM.TLoadPlugInEvent FOnLoadPlugIn;
+        internal AnsiString FPlugInDirectory;
+        internal AnsiString FPlugInExtension;
+        internal TLoadPlugInEvent FOnLoadPlugIn;
         // PlugInM.pas:60
-        internal void ExecutePlugInSearch(Aow.Rtl.AnsiString Directory)
+        internal void ExecutePlugInSearch(AnsiString Directory)
         {
-            Aow.Rtl.AnsiString Dir = default;
-            void SearchDir(Aow.Rtl.AnsiString Dir)
+            AnsiString Dir = default;
+            void SearchDir(AnsiString Dir)
             {
-                Aow.Rtl.TSearchRec SR = default;
-                Aow.Rtl.TStringList Dirs = default;
+                TSearchRec SR = default;
+                TStringList Dirs = default;
                 int I = default;
                 bool Found = default;
-                var call__1 = Aow.Rtl.Rtl.FindFirst((Dir + ((AnsiString)"*.")) + FPlugInExtension, 63 - 16, ref SR);
+                var call__1 = FindFirst(Dir + (AnsiString)"*." + FPlugInExtension, 63 - 16, ref SR);
                 Found = call__1 == 0;
                 while (Found)
                 {
                     FPlugIns.Add(Dir + SR.Name);
-                    Found = Aow.Rtl.Rtl.FindNext(ref SR) == 0;
+                    Found = FindNext(ref SR) == 0;
                 }
 
-                Aow.Rtl.Rtl.FindClose(ref SR);
-                Dirs = new Aow.Rtl.TStringList();
-                Found = Aow.Rtl.Rtl.FindFirst(Dir + ((AnsiString)"*.*"), 16, ref SR) == 0;
+                FindClose(ref SR);
+                Dirs = new TStringList();
+                Found = FindFirst(Dir + (AnsiString)"*.*", 16, ref SR) == 0;
                 while (Found)
                 {
-                    if ((((SR.Attr & 16) != 0) && (SR.Name != AnsiString.FromBytes(46))) && (SR.Name != ((AnsiString)"..")))
+                    if ((SR.Attr & 16) != 0 && SR.Name != AnsiString.FromBytes(46) && SR.Name != (AnsiString)"..")
                     {
-                        Dirs.Add((Dir + SR.Name) + AnsiString.FromBytes(92));
+                        Dirs.Add(Dir + SR.Name + AnsiString.FromBytes(92));
                     }
 
-                    Found = Aow.Rtl.Rtl.FindNext(ref SR) == 0;
+                    Found = FindNext(ref SR) == 0;
                 }
 
-                Aow.Rtl.Rtl.FindClose(ref SR);
+                FindClose(ref SR);
                 {
                     I = 0;
                     int end__2 = Dirs.Count - 1;
@@ -70,7 +66,7 @@ namespace Aow.Units.PlugInM
         // PlugInM.pas:46
         public TPlugInManager(TComponent owner) : base(owner)
         {
-            var call__4 = new Aow.Rtl.TStringList();
+            var call__4 = new TStringList();
             FPlugIns = call__4;
             FPlugInExtension = (AnsiString)"dpl";
         }
@@ -84,13 +80,13 @@ namespace Aow.Units.PlugInM
         }
 
         // PlugInM.pas:96
-        public void LoadPlugIns(Aow.Rtl.AnsiString Directory)
+        public void LoadPlugIns(AnsiString Directory)
         {
             int I = default;
             ReleasePlugIns();
-            var call__5 = Aow.Rtl.Rtl.ExpandFileName(Directory);
+            var call__5 = ExpandFileName(Directory);
             FPlugInDirectory = call__5;
-            if ((FPlugInDirectory != ((AnsiString)"")) && (FPlugInDirectory[FPlugInDirectory.Length] != 92))
+            if (FPlugInDirectory != (AnsiString)"" && FPlugInDirectory[FPlugInDirectory.Length] != 92)
             {
                 FPlugInDirectory = FPlugInDirectory + AnsiString.FromBytes(92);
             }
@@ -112,13 +108,13 @@ namespace Aow.Units.PlugInM
                         }
 
                         /* TODO: Implement the native Delphi package loader. */
-                        throw new System.NotImplementedException();
+                        throw new NotImplementedException();
                         FPlugInsLoaded = true;
                     }
                     catch (System.Exception)
                     {
                         var call__8 = stringList[I];
-                        Aow.Rtl.Rtl.ShowMessage(((AnsiString)"Unable to load PlugIn: ") + call__8);
+                        ShowMessage((AnsiString)"Unable to load PlugIn: " + call__8);
                         stringList.Objects[I] = null;
                     }
                 }
@@ -140,14 +136,14 @@ namespace Aow.Units.PlugInM
                         if (call__15 != null)
                         {
                             /* TODO: Implement the native Delphi package loader. */
-                            throw new System.NotImplementedException();
+                            throw new NotImplementedException();
                             this.FPlugIns.Objects[I] = null;
                         }
                     }
                     catch (System.Exception)
                     {
                         var call__14 = this.FPlugIns[I];
-                        Aow.Rtl.Rtl.ShowMessage(((AnsiString)"Could not release PlugIn: ") + call__14);
+                        ShowMessage((AnsiString)"Could not release PlugIn: " + call__14);
                         this.FPlugIns.Objects[I] = null;
                     }
 
@@ -156,19 +152,19 @@ namespace Aow.Units.PlugInM
             }
         }
 
-        public Aow.Rtl.TStringList PlugIns { get => FPlugIns; }
+        public TStringList PlugIns { get => FPlugIns; }
 
         [Published]
         public bool PlugInsLoaded { get => FPlugInsLoaded; }
 
         [Published]
-        public Aow.Rtl.AnsiString PlugInDirectory { get => FPlugInDirectory; }
+        public AnsiString PlugInDirectory { get => FPlugInDirectory; }
 
         [Published]
-        public Aow.Rtl.AnsiString PlugInExtension { get => FPlugInExtension; set => FPlugInExtension = value; }
+        public AnsiString PlugInExtension { get => FPlugInExtension; set => FPlugInExtension = value; }
 
         [Published]
-        public Aow.Units.PlugInM.TLoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
+        public TLoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
     }
 
     public static partial class PlugInM
@@ -176,7 +172,7 @@ namespace Aow.Units.PlugInM
         // PlugInM.pas:141
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"Engine", [typeof(Aow.Units.PlugInM.TPlugInManager)]);
+            RegisterComponents((AnsiString)"Engine", [typeof(TPlugInManager)]);
         }
     }
 }

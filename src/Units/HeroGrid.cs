@@ -1,55 +1,29 @@
 // Translated from HeroGrid.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.HeroGrid
 {
     // indices, heroes, show level, show status, stream, sort
-    public partial class THeroGrid : Aow.Units.ImageLib.TCustomImageDrawGrid
+    public partial class THeroGrid : TCustomImageDrawGrid
     {
-        public Aow.Units.Engine.TIntegerList FIndices;
-        public Aow.Units.AoWE.THeroList FHeroes;
+        public TIntegerList FIndices;
+        public THeroList FHeroes;
         public bool FShowLevel;
         public bool FEditable;
         public bool FShowStatus;
         public bool FUnplacedOnly;
-        public Aow.Rtl.TMemoryStream FStream;
+        public TMemoryStream FStream;
         public byte FSort;
         // HeroGrid.pas:126
         public override void Destroy()
         {
             /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroGrid.pas:114
@@ -59,26 +33,26 @@ namespace Aow.Units.HeroGrid
 
             DefaultColWidth = 155;
             DefaultRowHeight = 46;
-            GrowDirection = Aow.Units.ImageLib.TILGrowDirection.ilVertical;
-            ScrollBars = Aow.Rtl.TScrollStyle.ssVertical;
-            var call__1 = new Aow.Units.Engine.TIntegerList();
+            GrowDirection = TILGrowDirection.ilVertical;
+            ScrollBars = TScrollStyle.ssVertical;
+            var call__1 = new TIntegerList();
             FIndices = call__1;
-            var call__2 = new Aow.Rtl.TMemoryStream();
+            var call__2 = new TMemoryStream();
             FStream = call__2;
             FSort = 1;
         }
 
         // HeroGrid.pas:226
-        protected internal override void DrawCell(int ACol, int ARow, Aow.Rtl.TRect ARect, TSet<Aow.Rtl.TGridDrawState> AState)
+        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
         {
             /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroGrid.pas:134
         public override void DeleteCell()
         {
-            if (EditMode.Contains(Aow.Units.ImageLib.TILGridEditModeElement.igDelete))
+            if (EditMode.Contains(TILGridEditModeElement.igDelete))
             {
                 DeleteSelectedHero();
             }
@@ -87,16 +61,16 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:139
         public override void DelCell()
         {
-            if (EditMode.Contains(Aow.Units.ImageLib.TILGridEditModeElement.igDel))
+            if (EditMode.Contains(TILGridEditModeElement.igDel))
             {
                 DeleteSelectedHero();
             }
         }
 
         // HeroGrid.pas:144
-        public Aow.Units.AoWE.THero GetHero(int Index)
+        public THero GetHero(int Index)
         {
-            Aow.Units.AoWE.THero Result = default;
+            THero Result = default;
             // { Original checks only the upper bound. }
             if (Index < FIndices.Count)
             {
@@ -113,14 +87,14 @@ namespace Aow.Units.HeroGrid
         }
 
         // HeroGrid.pas:151
-        public Aow.Units.AoWE.THero GetSelectedHero()
+        public THero GetSelectedHero()
         {
             /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroGrid.pas:160
-        public void SetSelectedHero(Aow.Units.AoWE.THero Value)
+        public void SetSelectedHero(THero Value)
         {
             int I = default;
             var call__5 = FHeroes.FChildren.IndexOf(Value);
@@ -140,14 +114,14 @@ namespace Aow.Units.HeroGrid
         public void SortHeroes(byte Mode)
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroGrid.pas:183
         public void UpdateHeroes()
         {
             /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         // HeroGrid.pas:202
@@ -163,13 +137,13 @@ namespace Aow.Units.HeroGrid
         }
 
         // HeroGrid.pas:212
-        public void HeroesUpdated(Aow.Rtl.TObject Sender)
+        public void HeroesUpdated(TObject Sender)
         {
             UpdateHeroes();
         }
 
         // HeroGrid.pas:217
-        public void SetHeroes(Aow.Units.AoWE.THeroList Value)
+        public void SetHeroes(THeroList Value)
         {
             if (Value != FHeroes)
             {
@@ -181,7 +155,7 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:308
         public void DeleteHero(int Index)
         {
-            Aow.Units.AoWE.THero Hero = default;
+            THero Hero = default;
             Hero = GetHero(Index);
             if (Hero != null)
             {
@@ -194,7 +168,7 @@ namespace Aow.Units.HeroGrid
         public void DeleteSelectedHero()
         {
             /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         [Published]
@@ -212,41 +186,41 @@ namespace Aow.Units.HeroGrid
 
     public struct TRawView
     {
-        public Aow.Units.FixedArray_object_512 Fields;
+        public FixedArray_object_512 Fields;
     }
 
     public struct TNodeView
     {
-        public Aow.Units.FixedArray_byte_8 Reserved;
-        public Aow.Rtl.TList Children;
+        public FixedArray_byte_8 Reserved;
+        public TList Children;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 49)]
     public struct TEngineView
     {
         [FieldOffset(0)]
-        public Aow.Units.FixedArray_byte_48 Reserved;
+        public FixedArray_byte_48 Reserved;
         [FieldOffset(48)]
         public byte Status;
     }
 
     public struct THeroView
     {
-        public Aow.Units.FixedArray_byte_96 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_4 Reserved64;
+        public FixedArray_byte_96 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_4 Reserved64;
         public byte Race;
-        public Aow.Units.FixedArray_byte_15 Reserved69;
+        public FixedArray_byte_15 Reserved69;
         public bool Hidden;
     }
 
     public struct TItemView
     {
-        public Aow.Units.FixedArray_byte_24 Reserved00;
-        public Aow.Rtl.AnsiString Name;
-        public Aow.Units.FixedArray_byte_24 Reserved1C;
+        public FixedArray_byte_24 Reserved00;
+        public AnsiString Name;
+        public FixedArray_byte_24 Reserved1C;
         public byte Kind;
-        public Aow.Units.FixedArray_byte_15 Reserved35;
+        public FixedArray_byte_15 Reserved35;
         public bool Hidden;
     }
 
@@ -255,25 +229,25 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:325
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AoW", [typeof(Aow.Units.HeroGrid.THeroGrid)]);
+            RegisterComponents((AnsiString)"AoW", [typeof(THeroGrid)]);
         }
 
-        public static readonly Aow.Rtl.AnsiString GridUsedRStr = (AnsiString)"Used";
+        public static readonly AnsiString GridUsedRStr = (AnsiString)"Used";
 
-        public static Aow.Units.AoWE.THeroList SortHeroList;
+        public static THeroList SortHeroList;
         // HeroGrid.pas:102
         public static int HeroGridCompareName(int A, int B)
         {
             int Result = default;
-            var call__7 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
-            var call__8 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
-            Result = Aow.Rtl.Rtl.CompareText(call__8.FHeroName, call__7.FHeroName);
+            var call__7 = SortHeroList.GetHero(B);
+            var call__8 = SortHeroList.GetHero(A);
+            Result = CompareText(call__8.FHeroName, call__7.FHeroName);
             // { Original uses object addresses to break ties. }
             if (Result == 0)
             {
-                var call__9 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
-                var call__10 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
-                Result = Aow.Rtl.Rtl.ObjectToInt(call__9) - Aow.Rtl.Rtl.ObjectToInt(call__10);
+                var call__9 = SortHeroList.GetHero(A);
+                var call__10 = SortHeroList.GetHero(B);
+                Result = ObjectToInt(call__9) - ObjectToInt(call__10);
             }
 
             return Result;
@@ -283,16 +257,16 @@ namespace Aow.Units.HeroGrid
         public static int HeroGridCompareLevel(int A, int B)
         {
             int Result = default;
-            var call__11 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
-            var call__12 = unchecked((sbyte)call__11.GetLevel());
-            var call__13 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
-            var call__14 = unchecked((sbyte)call__13.GetLevel());
+            var call__11 = SortHeroList.GetHero(A);
+            var call__12 = call__11.GetLevel();
+            var call__13 = SortHeroList.GetHero(B);
+            var call__14 = call__13.GetLevel();
             Result = call__12 - call__14;
             if (Result == 0)
             {
-                var call__15 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(A);
-                var call__16 = Aow.Units.HeroGrid.HeroGrid.SortHeroList.GetHero(B);
-                Result = Aow.Rtl.Rtl.ObjectToInt(call__15) - Aow.Rtl.Rtl.ObjectToInt(call__16);
+                var call__15 = SortHeroList.GetHero(A);
+                var call__16 = SortHeroList.GetHero(B);
+                Result = ObjectToInt(call__15) - ObjectToInt(call__16);
             }
 
             return Result;

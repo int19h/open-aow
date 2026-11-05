@@ -1,42 +1,17 @@
 // Translated from BloodShrine.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.Sound;
 using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.Animation;
-using static Aow.Units.Animation.Animation;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
 namespace Aow.Units.BloodShrine
 {
-    public partial class TBloodShrineAnimation : Aow.Units.Animation.TAnimation
+    public partial class TBloodShrineAnimation : TAnimation
     {
         public TBloodShrineAnimation(TECustomNode owner) : base(owner)
         {}
@@ -55,16 +30,16 @@ namespace Aow.Units.BloodShrine
 
 
         // BloodShrine.pas:53
-        public override TSet<Aow.Units.Animation.TAnimationControlModeElement> AnimationControlMode()
+        public override TSet<TAnimationControlModeElement> AnimationControlMode()
         {
-            TSet<Aow.Units.Animation.TAnimationControlModeElement> Result = default;
-            Result = TSet<Aow.Units.Animation.TAnimationControlModeElement>.Of(Aow.Units.Animation.TAnimationControlModeElement.amLinkToNewFrame, Aow.Units.Animation.TAnimationControlModeElement.amOwnedByMap);
+            TSet<TAnimationControlModeElement> Result = default;
+            Result = TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amOwnedByMap);
             return Result;
         }
 
     }
 
-    public partial class TBloodShrine : Aow.Units.AoWE.TStructure
+    public partial class TBloodShrine : TStructure
     {
         public TBloodShrine(TECustomNode owner) : base(owner)
         {
@@ -77,30 +52,30 @@ namespace Aow.Units.BloodShrine
 
 
         // BloodShrine.pas:103
-        public override void ArmyPlaced(Aow.Units.AoWE.TArmyHS A1)
+        public override void ArmyPlaced(TArmyHS A1)
         {
             base.ArmyPlaced(A1);
             ExecuteBloodlust(A1);
         }
 
         // BloodShrine.pas:68
-        public void ShowBlessingAnimation(Aow.Units.Animation.TAnimation Anim, int XhpSurf, int YhpSurf, in Aow.Units.GFXE.TSurfaceDesc SurfaceDesc)
+        public void ShowBlessingAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Units.HSEngine.HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
         }
 
         // BloodShrine.pas:77
-        public void ExecuteBloodlust(Aow.Units.AoWE.TArmyHS ArmyHS)
+        public void ExecuteBloodlust(TArmyHS ArmyHS)
         {
-            Aow.Units.AoWE.TAbstractUnit AUnit = default;
-            Aow.Rtl.TRect R = default;
+            TAbstractUnit AUnit = default;
+            TRect R = default;
             int I = default;
-            Aow.Units.BloodShrine.TBloodShrineAnimation Anim = default;
+            TBloodShrineAnimation Anim = default;
             {
                 I = 0;
                 int end__1 = ArmyHS.FArmy.Count - 1;
@@ -108,41 +83,41 @@ namespace Aow.Units.BloodShrine
                 {
                     var call__2 = ArmyHS.FArmy.GetUnit(I);
                     AUnit = call__2;
-                    var call__3 = Aow.Units.AoWE.AoWE.AoWHSSet.FAbilityControl.GetAbility(168);
+                    var call__3 = AoWHSSet.FAbilityControl.GetAbility(168);
                     call__3.Expand(AUnit);
                 }
             }
 
-            bool bool__4 = (ArmyHS.FArmy.FPlayer == Aow.Units.AoWE.AoWE.AoWHSMap.FSeatedPlayer);
+            bool bool__4 = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
             if (!bool__4)
             {
                 var call__5 = GetLhx();
                 var call__6 = GetYhx();
                 var call__7 = GetXhx();
-                var call__8 = Aow.Units.AoWE.AoWE.AoWHSMap.Watching(unchecked((sbyte)call__7), unchecked((sbyte)call__6), unchecked((sbyte)call__5), 0);
+                var call__8 = AoWHSMap.Watching(call__7, call__6, call__5, 0);
                 bool__4 = call__8;
             }
 
             if (bool__4)
             {
-                Aow.Units.Sound.Sound.PlaySample((AnsiString)"SFX\\ATTACK\\ENCHP02.WAV");
+                PlaySample((AnsiString)"SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var call__9 = GetLhx();
             var call__10 = GetYhx();
             var call__11 = GetXhx();
-            var call__12 = Aow.Units.AoWE.AoWE.AoWHSMap.Visible(unchecked((sbyte)call__11), unchecked((sbyte)call__10), unchecked((sbyte)call__9), 0);
+            var call__12 = AoWHSMap.Visible(call__11, call__10, call__9, 0);
             if (call__12)
             {
-                Anim = new Aow.Units.BloodShrine.TBloodShrineAnimation(null);
-                R = Aow.Rtl.Rtl.Rect(-16, -8, 32, 40);
+                Anim = new TBloodShrineAnimation(null);
+                R = Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowBlessingAnimation;
                 var call__13 = GetLhx();
                 var call__14 = GetYhx();
                 var call__15 = GetXhx();
-                Aow.Units.AoWE.AoWE.AoWHSMap.PlaceHX(Anim, call__15, call__14, call__13);
+                AoWHSMap.PlaceHX(Anim, call__15, call__14, call__13);
             }
         }
 
@@ -151,7 +126,7 @@ namespace Aow.Units.BloodShrine
 
     }
 
-    public partial class TBloodShrineResource : Aow.Units.AoWE.TStructureResource
+    public partial class TBloodShrineResource : TStructureResource
     {
         public TBloodShrineResource(TECustomNode owner) : base(owner)
         {
@@ -177,11 +152,11 @@ namespace Aow.Units.BloodShrine
 
 
         // BloodShrine.pas:119
-        public override Aow.Rtl.AnsiString ResourceEditName()
+        public override AnsiString ResourceEditName()
         {
-            Aow.Rtl.AnsiString Result = default;
-            var call__16 = Aow.Units.AoWE.AoWE.BloodShrineRStr;
-            var call__17 = Aow.Units.AoWE.AoWE.TranslateRStr(call__16);
+            AnsiString Result = default;
+            var call__16 = BloodShrineRStr;
+            var call__17 = TranslateRStr(call__16);
             Result = call__17;
             return Result;
         }
@@ -191,9 +166,9 @@ namespace Aow.Units.BloodShrine
     public static partial class BloodShrine
     {
         // BloodShrine.pas:125
-        public static void RegisterBloodShrine(Aow.Units.Engine.TEngine AEngine)
+        public static void RegisterBloodShrine(TEngine AEngine)
         {
-            AEngine.RegisterEClasses([Aow.Units.Engine.EClass.Of<Aow.Units.BloodShrine.TBloodShrine>(), Aow.Units.Engine.EClass.Of<Aow.Units.BloodShrine.TBloodShrineResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<TBloodShrine>(), EClass.Of<TBloodShrineResource>()]);
         }
 
         public static void Initialize()

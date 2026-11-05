@@ -1,36 +1,7 @@
 // Translated from AoWCheckBox.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
-using Aow.Units.AOWMenuBar;
-using static Aow.Units.AOWMenuBar.AOWMenuBar;
-using Aow.Units.AOWMenu;
-using static Aow.Units.AOWMenu.AOWMenu;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
-using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWWinGeneric;
-using static Aow.Units.AoWWinGeneric.AoWWinGeneric;
 
 namespace Aow.Units.AoWCheckBox
 {
@@ -39,19 +10,19 @@ namespace Aow.Units.AoWCheckBox
 //   on, and its window turns off the other radio buttons of the group (RadioChange). A right
 //   click opens its PopupMenu at the mouse, kept inside the window manager. }
     // Fields: FOnDoubleClick
-    public partial class TAOWCheckBox : Aow.Units.AoWButton.TAOWBaseButton
+    public partial class TAOWCheckBox : TAOWBaseButton
     {
         public TAOWCheckBox(TComponent owner) : base(owner)
         { }
 
-        public Aow.Rtl.TNotifyEvent FOnDoubleClick;
+        public TNotifyEvent FOnDoubleClick;
         // AoWCheckBox.pas:51
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
             FLit = false;
-            if ((((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight))) && (FValid == true)) && (FVisible == true))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
             {
                 FHandled = true;
                 if (FOnMouseDown != null)
@@ -59,7 +30,7 @@ namespace Aow.Units.AoWCheckBox
                     FOnMouseDown(this, Button, Shift, X, Y);
                 }
 
-                if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                if (Button == TMouseButton.mbLeft)
                 {
                     if (FRadioIndex > 0)
                     {
@@ -87,7 +58,7 @@ namespace Aow.Units.AoWCheckBox
                         Checked = !FChecked;
                     }
 
-                    if ((Shift & TSet<Aow.Rtl.TShiftState>.Of(Aow.Rtl.TShiftState.ssDouble)) == TSet<Aow.Rtl.TShiftState>.Of(Aow.Rtl.TShiftState.ssDouble))
+                    if ((Shift & TSet<TShiftState>.Of(TShiftState.ssDouble)) == TSet<TShiftState>.Of(TShiftState.ssDouble))
                     {
                         if (FOnDoubleClick != null)
                         {
@@ -97,19 +68,19 @@ namespace Aow.Units.AoWCheckBox
                 }
                 else
                 {
-                    if ((Button == Aow.Rtl.TMouseButton.mbRight) && (FPopupMenu != null))
+                    if (Button == TMouseButton.mbRight && FPopupMenu != null)
                     {
                         FPopupMenu.WinLeft = X;
                         FPopupMenu.WinTop = Y;
                         FPopupMenu.SetPopupOwner(this);
                         if (FPopupMenu.FWinManager != null)
                         {
-                            if ((FPopupMenu.FWinLeft + FPopupMenu.FWinWidth) > FPopupMenu.FWinManager.FWinWidth)
+                            if (FPopupMenu.FWinLeft + FPopupMenu.FWinWidth > FPopupMenu.FWinManager.FWinWidth)
                             {
                                 FPopupMenu.FWinLeft = X - FPopupMenu.FWinWidth;
                             }
 
-                            if ((FPopupMenu.FWinTop + FPopupMenu.FWinHeight) > FPopupMenu.FWinManager.FWinHeight)
+                            if (FPopupMenu.FWinTop + FPopupMenu.FWinHeight > FPopupMenu.FWinManager.FWinHeight)
                             {
                                 FPopupMenu.FWinTop = Y - FPopupMenu.FWinHeight;
                             }
@@ -122,11 +93,11 @@ namespace Aow.Units.AoWCheckBox
         }
 
         // AoWCheckBox.pas:105
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
             FLit = false;
-            if ((((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight))) && (FValid == true)) && (FVisible == true))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -137,13 +108,13 @@ namespace Aow.Units.AoWCheckBox
         }
 
         // AoWCheckBox.pas:119
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             bool OldLit = default;
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
             OldLit = FLit;
-            if ((((X < (FAOWWindow.FWinLeft + FWinLeft)) || (X > (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - 1))) || (Y < (FAOWWindow.FWinTop + FWinTop))) || (Y > (((FAOWWindow.FWinTop + FWinTop) + FWinHeight) - 1)))
+            if (X < FAOWWindow.FWinLeft + FWinLeft || X > FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 || Y < FAOWWindow.FWinTop + FWinTop || Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
             {
                 FLit = false;
             }
@@ -191,7 +162,7 @@ namespace Aow.Units.AoWCheckBox
         public int RadioIndex { get => FRadioIndex; set => FRadioIndex = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+        public TNotifyEvent OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
     }
 
     public static partial class AoWCheckBox
@@ -199,7 +170,7 @@ namespace Aow.Units.AoWCheckBox
         // AoWCheckBox.pas:141
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWCheckBox.TAOWCheckBox)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWCheckBox)]);
         }
     }
 }

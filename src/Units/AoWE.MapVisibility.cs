@@ -17,7 +17,7 @@ public partial class TAoWMapLevel
         }
     }
 
-    private static byte FogCount(TAoWMapField field) => unchecked((byte)((uint)field.FFieldFlags >> 16));
+    private static byte FogCount(TAoWMapField field) => (byte)((uint)field.FFieldFlags >> 16);
     public bool FogArea(int x, int y, int radius)
     {
         bool result = false;
@@ -25,7 +25,7 @@ public partial class TAoWMapLevel
         {
             byte count = FogCount(field);
             if (count == 1) result = true;
-            field.SetFogCount(unchecked((byte)(count - 1)));
+            field.SetFogCount((byte)(count - 1));
         }
         return result;
     }
@@ -37,7 +37,7 @@ public partial class TAoWMapLevel
         {
             byte count = FogCount(field);
             if (count == 0) result = true;
-            field.SetFogCount(unchecked((byte)(count + 1)));
+            field.SetFogCount((byte)(count + 1));
         }
         return result;
     }
@@ -59,7 +59,7 @@ public partial class TAoWMapLevel
         {
             byte count = FogCount(field);
             if (count == 0) result += TSet<TFogExplorationChangedElement>.Of(TFogExplorationChangedElement.feFog);
-            field.SetFogCount(unchecked((byte)(count + 1)));
+            field.SetFogCount((byte)(count + 1));
             if (Explore(field, player)) result += TSet<TFogExplorationChangedElement>.Of(TFogExplorationChangedElement.feExploration);
         }
         return result;

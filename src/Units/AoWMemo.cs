@@ -1,32 +1,12 @@
 // Translated from AoWMemo.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWVScroll.AoWVScroll;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWTabPanel;
-using static Aow.Units.AoWTabPanel.AoWTabPanel;
 
 namespace Aow.Units.AoWMemo
 {
@@ -37,7 +17,7 @@ namespace Aow.Units.AoWMemo
     }
 
     // the color of a wrapped line. FHasColor, FColor
-    public partial class TColorChange : Aow.Rtl.TObject
+    public partial class TColorChange : TObject
     {
         public bool FHasColor;
         public int FColor;
@@ -53,16 +33,16 @@ namespace Aow.Units.AoWMemo
     // transparent), FILIndexFrame, FILIndexTexture, FDrawIndex, FItemRect (the line being drawn,
     // for OnDrawItem), FLines (the wrapped lines). FRedraw is the focus: the memo takes the keys
     // while it is set
-    public partial class TAOWMemo : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWMemo : TAOWControl
     {
         public int F114;
-        public Aow.Rtl.TStringList FItems;
-        public Aow.Rtl.TList FColorList;
-        public Aow.Units.AoWVScroll.TAOWVScrollBar FVScrollBar;
+        public TStringList FItems;
+        public TList FColorList;
+        public TAOWVScrollBar FVScrollBar;
         public int FNumVisible;
         public int FTopItem;
         public bool FScrollSet;
-        public Aow.Rtl.TNotifyEvent FOnDrawItem;
+        public TNotifyEvent FOnDrawItem;
         public int FScrollWidth;
         public bool FScrollVisible;
         public byte FCursorChar;
@@ -74,26 +54,26 @@ namespace Aow.Units.AoWMemo
         public int FRealCol;
         public int FRealLine;
         public bool FEditable;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILFrame;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILTexture;
+        public TInterfaceIL FILFrame;
+        public TInterfaceIL FILTexture;
         public int FItemHeight;
         public byte FColorChangeChar;
-        public Aow.Units.AoWComp.TaowTextAlign FTextAlign;
+        public TaowTextAlign FTextAlign;
         public bool FNoFrame;
         public int FILIndexFrame;
         public int FILIndexTexture;
         public int FDrawIndex;
-        public Aow.Rtl.TRect FItemRect;
-        public Aow.Rtl.TStringList FLines;
+        public TRect FItemRect;
+        public TStringList FLines;
         // AoWMemo.pas:126
         public TAOWMemo(TComponent owner) : base(owner)
         {
-            var call__1 = new Aow.Rtl.TStringList();
+            var call__1 = new TStringList();
             FLines = call__1;
-            var call__2 = new Aow.Rtl.TStringList();
+            var call__2 = new TStringList();
             FItems = call__2;
             FItems.OnChange = OnChangeText;
-            var call__3 = new Aow.Rtl.TList();
+            var call__3 = new TList();
             FColorList = call__3;
             FNumVisible = 3;
             FCursorChar = 124;
@@ -112,7 +92,7 @@ namespace Aow.Units.AoWMemo
                 for (; I <= end__4; I += 1)
                 {
                     var call__5 = FColorList[I];
-                    ((Aow.Units.AoWMemo.TColorChange)call__5).Free();
+                    ((TColorChange)call__5).Free();
                 }
             }
 
@@ -137,7 +117,7 @@ namespace Aow.Units.AoWMemo
                     FILTexture = call__7;
                 }
 
-                if ((FILFrame != null) && (FILTexture != null))
+                if (FILFrame != null && FILTexture != null)
                 {
                     FNoFrame = false;
                 }
@@ -161,11 +141,11 @@ namespace Aow.Units.AoWMemo
             int Len = default;
             int W = default;
             ReadOnlySpan<byte> text = default;
-            Aow.Rtl.AnsiString S = default;
+            AnsiString S = default;
             int J = default;
             int Start = default;
             int TW = default;
-            Aow.Units.AoWMemo.TColorChange CC = default;
+            TColorChange CC = default;
             if (FItemHeight < 1)
             {
                 FItemHeight = 10;
@@ -176,7 +156,7 @@ namespace Aow.Units.AoWMemo
                 case false:
                     var call__8 = FILFrame[FILIndexFrame];
                     var call__9 = FILFrame[FILIndexFrame + 5];
-                    if ((call__8.Height + call__9.Height) > FWinHeight)
+                    if (call__8.Height + call__9.Height > FWinHeight)
                     {
                         var call__10 = FILFrame[FILIndexFrame];
                         var call__11 = FILFrame[FILIndexFrame + 5];
@@ -192,7 +172,7 @@ namespace Aow.Units.AoWMemo
 
                     var call__14 = FILFrame[FILIndexFrame + 1];
                     var call__15 = FILFrame[FILIndexFrame + 6];
-                    FNumVisible = ((FWinHeight - call__14.Height) - call__15.Height) / FItemHeight;
+                    FNumVisible = (FWinHeight - call__14.Height - call__15.Height) / FItemHeight;
                     var call__16 = FILFrame[FILIndexFrame + 4];
                     FScrollWidth = call__16.Width;
                     FMasked = false;
@@ -216,7 +196,7 @@ namespace Aow.Units.AoWMemo
                 for (; I <= end__17; I += 1)
                 {
                     var call__18 = FColorList[I];
-                    CC = (Aow.Units.AoWMemo.TColorChange)call__18;
+                    CC = (TColorChange)call__18;
                     CC.Free();
                 }
             }
@@ -229,14 +209,14 @@ namespace Aow.Units.AoWMemo
                 for (; I <= end__19; I += 1)
                 {
                     FLines.Add((AnsiString)"");
-                    var call__20 = new Aow.Units.AoWMemo.TColorChange();
+                    var call__20 = new TColorChange();
                     FColorList.Add(call__20);
                     J = 0;
                     Start = 0;
                     if (!FNoFrame)
                     {
                         var call__21 = FILFrame[FILIndexFrame + 3];
-                        W = (call__21.Width + FScrollWidth) + (FBorderWidth * 2);
+                        W = call__21.Width + FScrollWidth + FBorderWidth * 2;
                     }
                     else
                     {
@@ -244,18 +224,18 @@ namespace Aow.Units.AoWMemo
                     }
 
                     var call__22 = FItems[I];
-                    AnsiString item = Aow.Rtl.Rtl.NullTerminatedText(call__22);
-                    text = Aow.Rtl.Rtl.StringBytes(item);
+                    AnsiString item = NullTerminatedText(call__22);
+                    text = StringBytes(item);
                     Len = text.Length;
-                    if ((Len > 6) && (text[0] == FColorChangeChar))
+                    if (Len > 6 && text[0] == FColorChangeChar)
                     {
                         var call__23 = FColorList[FColorList.Count - 1];
-                        CC = (Aow.Units.AoWMemo.TColorChange)call__23;
+                        CC = (TColorChange)call__23;
                         CC.FHasColor = true;
                         try
                         {
                             var call__24 = FItems[I];
-                            CC.FColor = Aow.Rtl.Rtl.StrToInt(AnsiString.FromBytes(36) + Aow.Rtl.Rtl.Copy(call__24, 2, 6));
+                            CC.FColor = StrToInt(AnsiString.FromBytes(36) + Copy(call__24, 2, 6));
                         }
                         catch (System.Exception)
                         {
@@ -267,24 +247,24 @@ namespace Aow.Units.AoWMemo
 
                     while (J < Len)
                     {
-                        if ((text[J] == 32) || (J == (Len - 1)))
+                        if (text[J] == 32 || J == Len - 1)
                         {
-                            S = Aow.Rtl.Rtl.Copy(item, Start + 1, (J + 1) - Start);
+                            S = Copy(item, Start + 1, J + 1 - Start);
                             var call__25 = FAOWFont.GetTextWidth(S);
                             TW = call__25;
-                            if ((W + TW) > FWinWidth)
+                            if (W + TW > FWinWidth)
                             {
                                 FLines.Add(S);
-                                var call__26 = new Aow.Units.AoWMemo.TColorChange();
+                                var call__26 = new TColorChange();
                                 FColorList.Add(call__26);
                                 if (!FNoFrame)
                                 {
                                     var call__27 = FILFrame[FILIndexFrame + 3];
-                                    W = TW + ((call__27.Width + FScrollWidth) + (FBorderWidth * 2));
+                                    W = TW + (call__27.Width + FScrollWidth + FBorderWidth * 2);
                                 }
                                 else
                                 {
-                                    W = TW + (FBorderWidth * 2);
+                                    W = TW + FBorderWidth * 2;
                                 }
                             }
                             else
@@ -305,7 +285,7 @@ namespace Aow.Units.AoWMemo
             }
 
             var call__31 = FLines.Count;
-            if (call__31 < (FTopItem + FNumVisible))
+            if (call__31 < FTopItem + FNumVisible)
             {
                 var call__32 = FLines.Count;
                 FTopItem = call__32 - FNumVisible;
@@ -317,7 +297,7 @@ namespace Aow.Units.AoWMemo
             }
 
             FScrollSet = false;
-            if (FScrollSet == false)
+            if (!FScrollSet)
             {
                 if (!FNoFrame)
                 {
@@ -347,11 +327,11 @@ namespace Aow.Units.AoWMemo
                     FVScrollBar.WinHeight = FWinHeight;
                     FVScrollBar.LargeChange = FNumVisible - 1;
                     FVScrollBar.Visible = FVisible;
-                    bool bool__35 = (FVScrollBar.VanishWhenFull == true);
+                    bool bool__35 = FVScrollBar.VanishWhenFull == true;
                     if (bool__35)
                     {
                         var call__36 = FLines.Count;
-                        bool__35 = ((call__36 - 1) < FNumVisible);
+                        bool__35 = call__36 - 1 < FNumVisible;
                     }
 
                     if (bool__35)
@@ -364,7 +344,7 @@ namespace Aow.Units.AoWMemo
                     }
 
                     FVScrollBar.FSized = false;
-                    FVScrollBar.WinLeft = (FWinLeft + FWinWidth) - FVScrollBar.WinWidth;
+                    FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.WinWidth;
                     FVScrollBar.WinTop = FWinTop;
                     FScrollVisible = FVScrollBar.Visible;
                 }
@@ -381,11 +361,11 @@ namespace Aow.Units.AoWMemo
             base.Update();
             if (FVisible)
             {
-                bool bool__37 = (FVScrollBar != null);
+                bool bool__37 = FVScrollBar != null;
                 if (bool__37)
                 {
                     var call__38 = FLines.Count;
-                    bool__37 = (call__38 > 0);
+                    bool__37 = call__38 > 0;
                 }
 
                 if (bool__37)
@@ -395,7 +375,7 @@ namespace Aow.Units.AoWMemo
                         P = FVScrollBar.Position;
                         FTopItem = P;
                         var call__39 = FLines.Count;
-                        if (call__39 < (P + FNumVisible))
+                        if (call__39 < P + FNumVisible)
                         {
                             var call__40 = FLines.Count;
                             FTopItem = call__40 - FNumVisible;
@@ -417,9 +397,9 @@ namespace Aow.Units.AoWMemo
                     }
                 }
 
-                if ((FEditable && (FBlinkDelay > 0)) && (FRedraw == true))
+                if (FEditable && FBlinkDelay > 0 && FRedraw == true)
                 {
-                    FBlinkCount = (byte)(((int)FBlinkCount) + 1);
+                    FBlinkCount = (byte)(FBlinkCount + 1);
                     if (FBlinkCount > FBlinkDelay)
                     {
                         FDrawn = false;
@@ -458,15 +438,15 @@ namespace Aow.Units.AoWMemo
         // AoWMemo.pas:378
         // { Draw draws the frame and the texture, the visible lines (clipped to the text area) and the
 //   cursor }
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
             int X = default;
             int Y = default;
             int W = default;
-            Aow.Rtl.TRect OldClip = default;
+            TRect OldClip = default;
             int H = default;
             int I = default;
-            Aow.Units.AoWMemo.TColorChange CC = default;
+            TColorChange CC = default;
             try
             {
                 if (FValid && FVisible)
@@ -481,24 +461,24 @@ namespace Aow.Units.AoWMemo
                     switch (FNoFrame)
                     {
                         case false:
-                            var call__41 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var call__41 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILFrame.DrawILF(FILIndexFrame, call__41, ref SurfDesc);
                             var call__42 = FILFrame[FILIndexFrame + 1];
                             var call__43 = FILFrame[FILIndexFrame + 6];
                             var call__44 = FILFrame[FILIndexFrame + 3];
                             var call__45 = FILFrame[FILIndexFrame + 1];
                             var call__46 = FILFrame[FILIndexFrame + 3];
-                            var call__47 = Aow.Rtl.Rtl.Rect((FAOWWindow.FWinLeft + FWinLeft) + call__46.Width, (FAOWWindow.FWinTop + FWinTop) + call__45.Height, (FWinWidth - call__44.Width) - FScrollWidth, (FWinHeight - call__42.Height) - call__43.Height);
+                            var call__47 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__46.Width, FAOWWindow.FWinTop + FWinTop + call__45.Height, FWinWidth - call__44.Width - FScrollWidth, FWinHeight - call__42.Height - call__43.Height);
                             FILTexture.DrawILT(FILIndexTexture, call__47, ref SurfDesc);
                             var call__48 = FILFrame[FILIndexFrame + 3];
-                            X = (FAOWWindow.FWinLeft + FWinLeft) + call__48.Width;
+                            X = FAOWWindow.FWinLeft + FWinLeft + call__48.Width;
                             var call__49 = FILFrame[FILIndexFrame + 1];
-                            Y = (FAOWWindow.FWinTop + FWinTop) + call__49.Height;
+                            Y = FAOWWindow.FWinTop + FWinTop + call__49.Height;
                             var call__50 = FILFrame[FILIndexFrame + 1];
                             var call__51 = FILFrame[FILIndexFrame + 6];
-                            H = (FWinHeight - call__50.Height) - call__51.Height;
+                            H = FWinHeight - call__50.Height - call__51.Height;
                             var call__52 = FILFrame[FILIndexFrame + 3];
-                            W = (FWinWidth - call__52.Width) - FScrollWidth;
+                            W = FWinWidth - call__52.Width - FScrollWidth;
                             break;
                         default:
                             X = FAOWWindow.FWinLeft + FWinLeft;
@@ -508,12 +488,12 @@ namespace Aow.Units.AoWMemo
                             break;
                     }
 
-                    if ((X + W) < OldClip.Right)
+                    if (X + W < OldClip.Right)
                     {
                         SurfDesc.ClipRect.Right = X + W;
                     }
 
-                    if ((Y + H) < OldClip.Bottom)
+                    if (Y + H < OldClip.Bottom)
                     {
                         SurfDesc.ClipRect.Bottom = Y + H;
                     }
@@ -524,10 +504,10 @@ namespace Aow.Units.AoWMemo
                         for (; I <= end__53; I += 1)
                         {
                             var call__54 = FLines.Count;
-                            if ((FTopItem + I) < call__54)
+                            if (FTopItem + I < call__54)
                             {
                                 var call__55 = FColorList[FTopItem + I];
-                                CC = (Aow.Units.AoWMemo.TColorChange)call__55;
+                                CC = (TColorChange)call__55;
                                 if (CC.FHasColor)
                                 {
                                     FAOWFont.Color = CC.FColor;
@@ -535,26 +515,26 @@ namespace Aow.Units.AoWMemo
 
                                 switch (FTextAlign)
                                 {
-                                    case Aow.Units.AoWComp.TaowTextAlign.taLeft:
+                                    case TaowTextAlign.taLeft:
                                         var call__56 = FLines[FTopItem + I];
-                                        FAOWFont.SetText(FBorderWidth + X, (FBorderHeight + Y) + (FItemHeight * I), call__56, SurfDesc);
+                                        FAOWFont.SetText(FBorderWidth + X, FBorderHeight + Y + FItemHeight * I, call__56, SurfDesc);
                                         break;
-                                    case Aow.Units.AoWComp.TaowTextAlign.taRight:
+                                    case TaowTextAlign.taRight:
                                         var call__57 = FLines[FTopItem + I];
                                         var call__58 = FAOWFont.GetTextWidth(call__57);
                                         var call__59 = FLines[FTopItem + I];
-                                        FAOWFont.SetText(((X + W) - FBorderWidth) - call__58, (FBorderHeight + Y) + (FItemHeight * I), call__59, SurfDesc);
+                                        FAOWFont.SetText(X + W - FBorderWidth - call__58, FBorderHeight + Y + FItemHeight * I, call__59, SurfDesc);
                                         break;
                                     default:
                                         var call__60 = FLines[FTopItem + I];
                                         var call__61 = FAOWFont.GetTextWidth(call__60);
                                         var call__62 = FLines[FTopItem + I];
-                                        FAOWFont.SetText((X + (W / 2)) - (call__61 / 2), (FBorderHeight + Y) + (FItemHeight * I), call__62, SurfDesc);
+                                        FAOWFont.SetText(X + W / 2 - call__61 / 2, FBorderHeight + Y + FItemHeight * I, call__62, SurfDesc);
                                         break;
                                 }
 
                                 FDrawIndex = FTopItem + I;
-                                var call__63 = Aow.Rtl.Rtl.Rect(X, Y + (FItemHeight * I), X + W, Y + ((I + 1) * FItemHeight));
+                                var call__63 = Rect(X, Y + FItemHeight * I, X + W, Y + (I + 1) * FItemHeight);
                                 FItemRect = call__63;
                                 if (FItemRect.Bottom > SurfDesc.ClipRect.Bottom)
                                 {
@@ -570,18 +550,18 @@ namespace Aow.Units.AoWMemo
                     }
 
                     SurfDesc.ClipRect = OldClip;
-                    bool bool__64 = ((FCurLine - FTopItem) > -1) && ((FCurLine - FTopItem) < FNumVisible);
+                    bool bool__64 = FCurLine - FTopItem > -1 && FCurLine - FTopItem < FNumVisible;
                     if (bool__64)
                     {
                         var call__65 = FLines.Count;
-                        bool__64 = ((FCurLine - FTopItem) < call__65);
+                        bool__64 = FCurLine - FTopItem < call__65;
                     }
 
-                    if (((bool__64 && (FRedraw == true)) && FEditable) && (FBlink == true))
+                    if (bool__64 && FRedraw == true && FEditable && FBlink == true)
                     {
                         var call__66 = FLines[FCurLine];
-                        var call__67 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(call__66, 1, FCurCol));
-                        FAOWFont.SetText((FBorderWidth + X) + call__67, (FBorderHeight + Y) + ((FCurLine - FTopItem) * FItemHeight), AnsiString.FromBytes(FCursorChar), SurfDesc);
+                        var call__67 = FAOWFont.GetTextWidth(Copy(call__66, 1, FCurCol));
+                        FAOWFont.SetText(FBorderWidth + X + call__67, FBorderHeight + Y + (FCurLine - FTopItem) * FItemHeight, AnsiString.FromBytes(FCursorChar), SurfDesc);
                     }
 
                     if (FOnDraw != null)
@@ -592,16 +572,16 @@ namespace Aow.Units.AoWMemo
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWMemo.pas:497
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseDown != null)
@@ -612,11 +592,11 @@ namespace Aow.Units.AoWMemo
         }
 
         // AoWMemo.pas:610
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
-            if ((((FVisible && (X > ((FAOWWindow.FWinLeft + FWinLeft) - 1))) && (X < (((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - FScrollWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (FVisible && X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - FScrollWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FEditable == true)
@@ -642,7 +622,7 @@ namespace Aow.Units.AoWMemo
             FHandled = FRedraw;
             Changed = false;
             Moved = false;
-            if (((FEditable && (FRedraw == true)) && (FValid == true)) && (FVisible == true))
+            if (FEditable && FRedraw == true && FValid == true && FVisible == true)
             {
                 switch (Key)
                 {
@@ -652,7 +632,7 @@ namespace Aow.Units.AoWMemo
                             var call__68 = FItems[FRealLine];
                             var call__69 = FItems[FRealLine];
                             var call__70 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__70, 1, FRealCol - 1) + Aow.Rtl.Rtl.Copy(call__69, FRealCol + 1, (call__68.Length - FRealCol) + 1);
+                            FItems[FRealLine] = Copy(call__70, 1, FRealCol - 1) + Copy(call__69, FRealCol + 1, call__68.Length - FRealCol + 1);
                             FRealCol -= 1;
                             Changed = true;
                         }
@@ -678,15 +658,15 @@ namespace Aow.Units.AoWMemo
                         {
                             FItems.Insert(FRealLine + 1, (AnsiString)"");
                             var call__75 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__75, 1, FRealCol + 1);
+                            FItems[FRealLine] = Copy(call__75, 1, FRealCol + 1);
                         }
                         else
                         {
                             var call__76 = FItems[FRealLine];
                             var call__77 = FItems[FRealLine];
-                            FItems.Insert(FRealLine + 1, Aow.Rtl.Rtl.Copy(call__77, FRealCol + 1, call__76.Length));
+                            FItems.Insert(FRealLine + 1, Copy(call__77, FRealCol + 1, call__76.Length));
                             var call__78 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__78, 1, FRealCol);
+                            FItems[FRealLine] = Copy(call__78, 1, FRealCol);
                         }
 
                         FRealCol = 0;
@@ -700,21 +680,21 @@ namespace Aow.Units.AoWMemo
                         break;
                     default:
                     {
-                        C = unchecked((byte)Key);
+                        C = Key;
                         var call__79 = FLines[FCurLine];
                         if (call__79.Length == FCurCol)
                         {
                             var call__80 = FItems[FRealLine];
                             var call__81 = FItems[FRealLine];
                             var call__82 = FItems[FRealLine];
-                            FItems[FRealLine] = (Aow.Rtl.Rtl.Copy(call__82, 1, FRealCol + 1) + AnsiString.FromBytes(C)) + Aow.Rtl.Rtl.Copy(call__81, FRealCol + 2, call__80.Length - FRealCol);
+                            FItems[FRealLine] = Copy(call__82, 1, FRealCol + 1) + AnsiString.FromBytes(C) + Copy(call__81, FRealCol + 2, call__80.Length - FRealCol);
                         }
                         else
                         {
                             var call__83 = FItems[FRealLine];
                             var call__84 = FItems[FRealLine];
                             var call__85 = FItems[FRealLine];
-                            FItems[FRealLine] = (Aow.Rtl.Rtl.Copy(call__85, 1, FRealCol) + AnsiString.FromBytes(C)) + Aow.Rtl.Rtl.Copy(call__84, FRealCol + 1, call__83.Length - FRealCol);
+                            FItems[FRealLine] = Copy(call__85, 1, FRealCol) + AnsiString.FromBytes(C) + Copy(call__84, FRealCol + 1, call__83.Length - FRealCol);
                         }
 
                         FRealCol += 1;
@@ -750,14 +730,14 @@ namespace Aow.Units.AoWMemo
 
         // AoWMemo.pas:627
         // { CheckKeyDown moves the cursor with the arrow keys and deletes with Delete }
-        public override void CheckKeyDown(ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public override void CheckKeyDown(ref ushort Key, TSet<TShiftState> Shift)
         {
             bool Changed = default;
             bool Moved = default;
             FHandled = FRedraw;
             Changed = false;
             Moved = false;
-            if (((FEditable && (FRedraw == true)) && (FValid == true)) && (FVisible == true))
+            if (FEditable && FRedraw == true && FValid == true && FVisible == true)
             {
                 switch (Key)
                 {
@@ -815,7 +795,7 @@ namespace Aow.Units.AoWMemo
                         else
                         {
                             var call__91 = FLines.Count;
-                            if ((call__91 - 1) > FCurLine)
+                            if (call__91 - 1 > FCurLine)
                             {
                                 FCurCol = 0;
                                 FCurLine += 1;
@@ -830,7 +810,7 @@ namespace Aow.Units.AoWMemo
                         else
                         {
                             var call__93 = FItems.Count;
-                            if ((call__93 - 1) > FRealLine)
+                            if (call__93 - 1 > FRealLine)
                             {
                                 FRealCol = 0;
                                 FRealLine += 1;
@@ -840,7 +820,7 @@ namespace Aow.Units.AoWMemo
                         break;
                     case 40:
                         var call__94 = FLines.Count;
-                        if ((call__94 - 1) > FCurLine)
+                        if (call__94 - 1 > FCurLine)
                         {
                             FCurLine += 1;
                             var call__95 = FLines[FCurLine];
@@ -861,13 +841,13 @@ namespace Aow.Units.AoWMemo
                             var call__98 = FItems[FRealLine];
                             var call__99 = FItems[FRealLine];
                             var call__100 = FItems[FRealLine];
-                            FItems[FRealLine] = Aow.Rtl.Rtl.Copy(call__100, 1, FRealCol) + Aow.Rtl.Rtl.Copy(call__99, FRealCol + 2, call__98.Length - FRealCol);
+                            FItems[FRealLine] = Copy(call__100, 1, FRealCol) + Copy(call__99, FRealCol + 2, call__98.Length - FRealCol);
                             Changed = true;
                         }
                         else
                         {
                             var call__101 = FItems.Count;
-                            if ((call__101 - 1) > FRealLine)
+                            if (call__101 - 1 > FRealLine)
                             {
                                 var call__102 = FItems[FRealLine];
                                 var call__103 = FItems[FRealLine + 1];
@@ -904,7 +884,7 @@ namespace Aow.Units.AoWMemo
         }
 
         // AoWMemo.pas:340
-        public virtual void SetILFrame(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILFrame(TInterfaceIL Value)
         {
             if (Value != FILFrame)
             {
@@ -914,7 +894,7 @@ namespace Aow.Units.AoWMemo
         }
 
         // AoWMemo.pas:349
-        public virtual void SetILTexture(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILTexture(TInterfaceIL Value)
         {
             if (Value != FILTexture)
             {
@@ -924,7 +904,7 @@ namespace Aow.Units.AoWMemo
         }
 
         // AoWMemo.pas:296
-        public void SetFStrings(Aow.Rtl.TStringList Value)
+        public void SetFStrings(TStringList Value)
         {
             int I = default;
             FLines.Clear();
@@ -949,7 +929,7 @@ namespace Aow.Units.AoWMemo
             }
 
             var call__109 = FLines.Count;
-            if (call__109 < (FTopItem + FNumVisible))
+            if (call__109 < FTopItem + FNumVisible)
             {
                 var call__110 = FLines.Count;
                 FTopItem = call__110 - FNumVisible;
@@ -976,7 +956,7 @@ namespace Aow.Units.AoWMemo
         }
 
         // AoWMemo.pas:325
-        public void SetVScroll(Aow.Units.AoWVScroll.TAOWVScrollBar Value)
+        public void SetVScroll(TAOWVScrollBar Value)
         {
             FVScrollBar = Value;
             if (Value != null)
@@ -1068,11 +1048,11 @@ namespace Aow.Units.AoWMemo
             I = call__119.Length;
             while (true)
             {
-                bool bool__120 = (I < FRealCol);
+                bool bool__120 = I < FRealCol;
                 if (bool__120)
                 {
                     var call__121 = FLines.Count;
-                    bool__120 = (call__121 > FCurLine);
+                    bool__120 = call__121 > FCurLine;
                 }
 
                 if (!bool__120)
@@ -1085,14 +1065,14 @@ namespace Aow.Units.AoWMemo
             }
 
             var call__123 = FLines[FCurLine];
-            FCurCol = (call__123.Length + FRealCol) - I;
+            FCurCol = call__123.Length + FRealCol - I;
         }
 
         // AoWMemo.pas:842
         // { KeyStuff scrolls the cursor into view and shows it }
         public void KeyStuff()
         {
-            if (((FNumVisible + FTopItem) - 1) < FCurLine)
+            if (FNumVisible + FTopItem - 1 < FCurLine)
             {
                 if (FVScrollBar != null)
                 {
@@ -1127,10 +1107,10 @@ namespace Aow.Units.AoWMemo
         public int ListOffset { get => FTopItem; set => SetListOff(value); }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+        public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
         [Published]
-        public Aow.Rtl.TStringList Items { get => FItems; set => SetFStrings(value); }
+        public TStringList Items { get => FItems; set => SetFStrings(value); }
 
         [Published]
         public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -1139,10 +1119,10 @@ namespace Aow.Units.AoWMemo
         public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
 
         [Published]
-        public Aow.Units.AoWVScroll.TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+        public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+        public TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
         [Published]
         public byte CursorChar { get => FCursorChar; set => FCursorChar = value; }
@@ -1154,10 +1134,10 @@ namespace Aow.Units.AoWMemo
         public bool Editable { get => FEditable; set => FEditable = value; }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+        public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
+        public TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
 
         [Published]
         public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
@@ -1172,7 +1152,7 @@ namespace Aow.Units.AoWMemo
         public byte ColorChangeChar { get => FColorChangeChar; set => FColorChangeChar = value; }
 
         [Published]
-        public Aow.Units.AoWComp.TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
+        public TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
     }
 
     public static partial class AoWMemo
@@ -1180,7 +1160,7 @@ namespace Aow.Units.AoWMemo
         // AoWMemo.pas:864
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWMemo.TAOWMemo)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWMemo)]);
         }
     }
 }

@@ -1,30 +1,10 @@
 // Translated from AoWEdit.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.AOWToolTip;
-using static Aow.Units.AOWToolTip.AOWToolTip;
 using Aow.Units.AoWControl;
-using static Aow.Units.AoWControl.AoWControl;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.AOWWinManager.AOWWinManager;
-using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using static Aow.Units.AOWInterfaceImgLib.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using static Aow.Units.AoWWinControl.AoWWinControl;
-using Aow.Units.AoWBaseWin;
-using static Aow.Units.AoWBaseWin.AoWBaseWin;
-using Aow.Units.AoWWinGeneric;
-using static Aow.Units.AoWWinGeneric.AoWWinGeneric;
 
 namespace Aow.Units.AoWEdit
 {
@@ -38,7 +18,7 @@ namespace Aow.Units.AoWEdit
     // FShownChars (the characters from FFirstChar to the end), FFirstChar (the first character
     // shown), FEditable, FILEdit, FOnExit, FOnReturn, FILIndex, FCursorPos (the cursor position
     // counted from FFirstChar). FRedraw is the input focus
-    public partial class TAOWEdit : Aow.Units.AoWControl.TAOWControl
+    public partial class TAOWEdit : TAOWControl
     {
         public int FMaxChars;
         public byte FCursorChar;
@@ -49,9 +29,9 @@ namespace Aow.Units.AoWEdit
         public int FShownChars;
         public int FFirstChar;
         public bool FEditable;
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL FILEdit;
-        public Aow.Rtl.TNotifyEvent FOnExit;
-        public Aow.Rtl.TNotifyEvent FOnReturn;
+        public TInterfaceIL FILEdit;
+        public TNotifyEvent FOnExit;
+        public TNotifyEvent FOnReturn;
         public int FILIndex;
         public int FCursorPos;
         // AoWEdit.pas:79
@@ -71,7 +51,7 @@ namespace Aow.Units.AoWEdit
                 FILEdit = call__1;
             }
 
-            if ((FILEdit != null) && (FAOWFont != null))
+            if (FILEdit != null && FAOWFont != null)
             {
                 FValid = true;
             }
@@ -84,7 +64,7 @@ namespace Aow.Units.AoWEdit
         {
             var call__2 = FILEdit[FILIndex];
             var call__3 = FILEdit[FILIndex + 2];
-            if ((call__2.Width + call__3.Width) > FWinWidth)
+            if (call__2.Width + call__3.Width > FWinWidth)
             {
                 var call__4 = FILEdit[FILIndex];
                 var call__5 = FILEdit[FILIndex + 2];
@@ -99,13 +79,13 @@ namespace Aow.Units.AoWEdit
                 FCursorPos = FText.Length;
             }
 
-            var call__7 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length - FFirstChar));
-            if (call__7 > ((FWinWidth - (2 * FBorderWidth)) - 1))
+            var call__7 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length - FFirstChar));
+            if (call__7 > FWinWidth - 2 * FBorderWidth - 1)
             {
                 while (true)
                 {
-                    var call__8 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
-                    if (!(call__8 > ((FWinWidth - (2 * FBorderWidth)) - 1)))
+                    var call__8 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length));
+                    if (!(call__8 > FWinWidth - 2 * FBorderWidth - 1))
                         break;
                     {
                         FFirstChar += 1;
@@ -113,7 +93,7 @@ namespace Aow.Units.AoWEdit
                 }
             }
 
-            FShownChars = (FText.Length - FFirstChar) + 1;
+            FShownChars = FText.Length - FFirstChar + 1;
             base.SetSize();
         }
 
@@ -121,7 +101,7 @@ namespace Aow.Units.AoWEdit
         public override void Update()
         {
             base.Update();
-            if (((FVisible && FEditable) && (FBlinkDelay > 0)) && (FRedraw == true))
+            if (FVisible && FEditable && FBlinkDelay > 0 && FRedraw == true)
             {
                 FBlinkCount += 1;
                 if (FBlinkCount > FBlinkDelay)
@@ -141,10 +121,10 @@ namespace Aow.Units.AoWEdit
         }
 
         // AoWEdit.pas:155
-        public override void Draw(Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public override void Draw(TSurfaceDesc SurfDesc)
         {
-            Aow.Rtl.AnsiString S = default;
-            Aow.Rtl.TRect OldClip = default;
+            AnsiString S = default;
+            TRect OldClip = default;
             int I = default;
             try
             {
@@ -155,20 +135,20 @@ namespace Aow.Units.AoWEdit
                         FOnPreDraw(this, SurfDesc);
                     }
 
-                    var call__9 = Aow.Rtl.Rtl.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    var call__9 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                     FILEdit.DrawILLh(FILIndex, call__9, ref SurfDesc);
                     OldClip = SurfDesc.ClipRect;
                     var call__10 = FILEdit[FILIndex + 2];
-                    if ((((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - call__10.Width) < OldClip.Right)
+                    if (FAOWWindow.FWinLeft + FWinLeft + FWinWidth - call__10.Width < OldClip.Right)
                     {
                         var call__11 = FILEdit[FILIndex + 2];
-                        SurfDesc.ClipRect.Right = ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth) - call__11.Width;
+                        SurfDesc.ClipRect.Right = FAOWWindow.FWinLeft + FWinLeft + FWinWidth - call__11.Width;
                     }
 
                     FAOWFont.Color = FColor;
                     if (FPassWordChar == 0)
                     {
-                        FAOWFont.SetText((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, Aow.Rtl.Rtl.Copy(FText, FFirstChar, FShownChars), SurfDesc);
+                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, Copy(FText, FFirstChar, FShownChars), SurfDesc);
                     }
                     else
                     {
@@ -182,14 +162,14 @@ namespace Aow.Units.AoWEdit
                             }
                         }
 
-                        FAOWFont.SetText((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, S, SurfDesc);
+                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, S, SurfDesc);
                     }
 
                     SurfDesc.ClipRect = OldClip;
-                    if ((FEditable && (FRedraw == true)) && (FCursorShown == true))
+                    if (FEditable && FRedraw == true && FCursorShown == true)
                     {
-                        var call__13 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FCursorPos));
-                        FAOWFont.SetText(((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth) + call__13, (FAOWWindow.FWinTop + FWinTop) + FBorderHeight, AnsiString.FromBytes(FCursorChar), SurfDesc);
+                        var call__13 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FCursorPos));
+                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + call__13, FAOWWindow.FWinTop + FWinTop + FBorderHeight, AnsiString.FromBytes(FCursorChar), SurfDesc);
                     }
 
                     if (FOnDraw != null)
@@ -200,12 +180,12 @@ namespace Aow.Units.AoWEdit
             }
             catch (System.Exception)
             {
-                Aow.Rtl.Rtl.MessageBox((int)0, (AnsiString)"Exception during Draw", ((AnsiString)"Error - ") + Name, (int)0);
+                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
             }
         }
 
         // AoWEdit.pas:197
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             int W = default;
             int I = default;
@@ -214,29 +194,29 @@ namespace Aow.Units.AoWEdit
             FHandled = false;
             FMouseDown = false;
             OldRedraw = FRedraw;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
-                if ((FValid == true) && (FVisible == true))
+                if (FValid == true && FVisible == true)
                 {
-                    if (Button == Aow.Rtl.TMouseButton.mbLeft)
+                    if (Button == TMouseButton.mbLeft)
                     {
                         if (FEditable == true)
                         {
                             FRedraw = true;
                         }
 
-                        var call__14 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
-                        if (X > (((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth) + call__14))
+                        var call__14 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length));
+                        if (X > FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + call__14)
                         {
                             FFirstChar = 1;
-                            var call__15 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length - FFirstChar));
-                            if (call__15 > ((FWinWidth - (2 * FBorderWidth)) - 1))
+                            var call__15 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length - FFirstChar));
+                            if (call__15 > FWinWidth - 2 * FBorderWidth - 1)
                             {
                                 while (true)
                                 {
-                                    var call__16 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
-                                    if (!(call__16 > ((FWinWidth - (2 * FBorderWidth)) - 1)))
+                                    var call__16 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length));
+                                    if (!(call__16 > FWinWidth - 2 * FBorderWidth - 1))
                                         break;
                                     {
                                         FFirstChar += 1;
@@ -244,17 +224,17 @@ namespace Aow.Units.AoWEdit
                                 }
                             }
 
-                            FCursorPos = (FText.Length - FFirstChar) + 1;
+                            FCursorPos = FText.Length - FFirstChar + 1;
                         }
                         else
                         {
                             I = 0;
-                            var call__17 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, I + 1));
+                            var call__17 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, I + 1));
                             W = call__17;
-                            while ((X > (((FAOWWindow.FWinLeft + FWinLeft) + FBorderWidth) + W)) && (FText.Length > ((I + FFirstChar) - 1)))
+                            while (X > FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + W && FText.Length > I + FFirstChar - 1)
                             {
                                 I += 1;
-                                var call__18 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, I + 1));
+                                var call__18 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, I + 1));
                                 W = call__18;
                             }
 
@@ -293,10 +273,10 @@ namespace Aow.Units.AoWEdit
         }
 
         // AoWEdit.pas:261
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = false;
-            if ((((X > ((FAOWWindow.FWinLeft + FWinLeft) - 1)) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -307,11 +287,11 @@ namespace Aow.Units.AoWEdit
         }
 
         // AoWEdit.pas:273
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
-            if ((((FVisible && (X > ((FAOWWindow.FWinLeft + FWinLeft) - 1))) && (X < ((FAOWWindow.FWinLeft + FWinLeft) + FWinWidth))) && (Y > ((FAOWWindow.FWinTop + FWinTop) - 1))) && (Y < ((FAOWWindow.FWinTop + FWinTop) + FWinHeight)))
+            if (FVisible && X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
                 if (FEditable == true)
@@ -333,7 +313,7 @@ namespace Aow.Units.AoWEdit
             bool Scroll = default;
             FHandled = FRedraw;
             Scroll = true;
-            if (((FEditable && (FRedraw == true)) && (FValid == true)) && (FVisible == true))
+            if (FEditable && FRedraw == true && FValid == true && FVisible == true)
             {
                 FCursorShown = true;
                 switch (Key)
@@ -341,8 +321,8 @@ namespace Aow.Units.AoWEdit
                     case 8:
                         if (FCursorPos > 0)
                         {
-                            FText = Aow.Rtl.Rtl.Copy(FText, 1, (FCursorPos + FFirstChar) - 2) + Aow.Rtl.Rtl.Copy(FText, FCursorPos + FFirstChar, ((FText.Length - FCursorPos) - FFirstChar) + 1);
-                            FCursorPos = (FCursorPos + FFirstChar) - 2;
+                            FText = Copy(FText, 1, FCursorPos + FFirstChar - 2) + Copy(FText, FCursorPos + FFirstChar, FText.Length - FCursorPos - FFirstChar + 1);
+                            FCursorPos = FCursorPos + FFirstChar - 2;
                         }
 
                         FFirstChar = 1;
@@ -362,12 +342,12 @@ namespace Aow.Units.AoWEdit
                         ;
                         break;
                     default:
-                        C = unchecked((byte)Key);
-                        if ((FText.Length < FMaxChars) || (FMaxChars == 0))
+                        C = Key;
+                        if (FText.Length < FMaxChars || FMaxChars == 0)
                         {
-                            FText = (Aow.Rtl.Rtl.Copy(FText, 1, (FFirstChar + FCursorPos) - 1) + AnsiString.FromBytes(C)) + Aow.Rtl.Rtl.Copy(FText, FFirstChar + FCursorPos, ((FText.Length - FCursorPos) - FFirstChar) + 1);
+                            FText = Copy(FText, 1, FFirstChar + FCursorPos - 1) + AnsiString.FromBytes(C) + Copy(FText, FFirstChar + FCursorPos, FText.Length - FCursorPos - FFirstChar + 1);
                             FCursorPos += 1;
-                            FCursorPos = (FCursorPos + FFirstChar) - 1;
+                            FCursorPos = FCursorPos + FFirstChar - 1;
                             FFirstChar = 1;
                         }
 
@@ -378,8 +358,8 @@ namespace Aow.Units.AoWEdit
                 {
                     while (true)
                     {
-                        var call__19 = FAOWFont.GetTextWidth(Aow.Rtl.Rtl.Copy(FText, FFirstChar, FText.Length));
-                        if (!(call__19 > ((FWinWidth - (2 * FBorderWidth)) - 1)))
+                        var call__19 = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length));
+                        if (!(call__19 > FWinWidth - 2 * FBorderWidth - 1))
                             break;
                         {
                             FFirstChar += 1;
@@ -387,7 +367,7 @@ namespace Aow.Units.AoWEdit
                         }
                     }
 
-                    FShownChars = (FText.Length - FFirstChar) + 1;
+                    FShownChars = FText.Length - FFirstChar + 1;
                     if (FCursorPos < 0)
                     {
                         FCursorPos = 0;
@@ -409,7 +389,7 @@ namespace Aow.Units.AoWEdit
         }
 
         // AoWEdit.pas:119
-        public virtual void SetILEdit(Aow.Units.AOWInterfaceImgLib.TInterfaceIL Value)
+        public virtual void SetILEdit(TInterfaceIL Value)
         {
             if (Value != FILEdit)
             {
@@ -419,7 +399,7 @@ namespace Aow.Units.AoWEdit
         }
 
         // AoWEdit.pas:113
-        public void SetGText(Aow.Rtl.AnsiString Value)
+        public void SetGText(AnsiString Value)
         {
             FText = Value;
             FSized = false;
@@ -436,10 +416,10 @@ namespace Aow.Units.AoWEdit
         }
 
         [Published]
-        public Aow.Units.ImageLib.TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+        public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
         [Published]
-        public Aow.Rtl.AnsiString Text { get => FText; set => SetGText(value); }
+        public AnsiString Text { get => FText; set => SetGText(value); }
 
         [Published]
         public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -460,16 +440,16 @@ namespace Aow.Units.AoWEdit
         public bool Editable { get => FEditable; set => FEditable = value; }
 
         [Published]
-        public Aow.Units.AOWInterfaceImgLib.TInterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
+        public TInterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
 
         [Published]
         public int ILIndex { get => FILIndex; set => SetILIndex(value); }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
+        public TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnReturn { get => FOnReturn; set => FOnReturn = value; }
+        public TNotifyEvent OnReturn { get => FOnReturn; set => FOnReturn = value; }
 
         [Published]
         public byte PassWordChar { get => FPassWordChar; set => FPassWordChar = value; }
@@ -480,7 +460,7 @@ namespace Aow.Units.AoWEdit
         // AoWEdit.pas:399
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Interface", [typeof(Aow.Units.AoWEdit.TAOWEdit)]);
+            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWEdit)]);
         }
     }
 }

@@ -1,93 +1,52 @@
 // Translated from AoWDeformFaceDlg.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 using Aow.Units.UnitSpells;
-using static Aow.Units.UnitSpells.UnitSpells;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWComp.AoWComp;
 using Aow.Units.AoWButton;
-using static Aow.Units.AoWButton.AoWButton;
 using Aow.Units.AoWFrame;
-using static Aow.Units.AoWFrame.AoWFrame;
 using Aow.Units.AoWImage;
-using static Aow.Units.AoWImage.AoWImage;
 using Aow.Units.AoWLabel;
-using static Aow.Units.AoWLabel.AoWLabel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.AoWWinMan;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 
 namespace Aow.Units.AoWDeformFaceDlg
 {
     // cosmetic-surgery caster
-    public partial class TDeformFaceDlg : Aow.Rtl.TDataModule
+    public partial class TDeformFaceDlg : TDataModule
     {
         public TDeformFaceDlg(TComponent owner) : base(owner)
         { }
 
-        public Aow.Units.AoWWindow.TAOWWindow Dlg;
-        public Aow.Units.AoWFrame.TAoWFrame FaceFrame;
-        public Aow.Units.AoWButton.TAOWButton CancelBtn;
-        public Aow.Units.AoWImage.TAOWImage TitleIcon;
-        public Aow.Units.AoWLabel.TAOWLabel Title;
-        public Aow.Units.AoWButton.TAOWButton CastBtn;
-        public Aow.Units.AoWLabel.TAOWLabel SelectNewFaceLbl;
-        public Aow.Units.AoWButton.TAOWButton Close;
-        public Aow.Units.AoWFrame.TAoWFrame LeftFace;
-        public Aow.Units.AoWFrame.TAoWFrame RightFace;
-        public Aow.Units.AoWFrame.TAoWFrame AoWFrame1;
-        public Aow.Units.AoWImage.TAOWImage CeltM;
-        public Aow.Units.AoWImage.TAOWImage CeltL;
-        public Aow.Units.AoWImage.TAOWImage CeltR;
-        public Aow.Units.AoWButton.TAOWButton PrevFaceBtn;
-        public Aow.Units.AoWButton.TAOWButton NextFaceBtn;
-        public Aow.Units.AoWLabel.TAOWLabel UnitNameLbl;
-        public Aow.Rtl.TIvTranslator Translator;
-        public Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster FCaster;
+        public TAOWWindow Dlg;
+        public TAoWFrame FaceFrame;
+        public TAOWButton CancelBtn;
+        public TAOWImage TitleIcon;
+        public TAOWLabel Title;
+        public TAOWButton CastBtn;
+        public TAOWLabel SelectNewFaceLbl;
+        public TAOWButton Close;
+        public TAoWFrame LeftFace;
+        public TAoWFrame RightFace;
+        public TAoWFrame AoWFrame1;
+        public TAOWImage CeltM;
+        public TAOWImage CeltL;
+        public TAOWImage CeltR;
+        public TAOWButton PrevFaceBtn;
+        public TAOWButton NextFaceBtn;
+        public TAOWLabel UnitNameLbl;
+        public TIvTranslator Translator;
+        public TCosmeticSurgerySpellCaster FCaster;
         // AoWDeformFaceDlg.pas:127
-        public void Execute(Aow.Units.UnitSpells.TCosmeticSurgerySpellCaster Caster)
+        public void Execute(TCosmeticSurgerySpellCaster Caster)
         {
-            Aow.Units.AoWE.TAbstractUnit U = default;
+            TAbstractUnit U = default;
             FCaster = Caster;
             FCaster.AddRef();
-            var call__1 = Aow.Units.AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FCaster.FTargetUnitID);
+            var call__1 = AoWHSMap.FUnitControl.FindUnit(FCaster.FTargetUnitID);
             U = call__1;
             if (U != null)
             {
@@ -111,15 +70,15 @@ namespace Aow.Units.AoWDeformFaceDlg
         // AoWDeformFaceDlg.pas:55
         public void CancelBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
         // AoWDeformFaceDlg.pas:61
         public void CastBtnClick()
         {
-            Aow.Rtl.AnsiString Reason = default;
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
+            AnsiString Reason = default;
+            General.PlayButtonSound(0);
             var call__3 = FCaster.CanCast(ref Reason);
             if (call__3)
             {
@@ -128,38 +87,38 @@ namespace Aow.Units.AoWDeformFaceDlg
             }
             else
             {
-                Aow.Units.AoWE.AoWE.AoWHSMap.ShowMessage(Reason);
+                AoWHSMap.ShowMessage(Reason);
             }
         }
 
         // AoWDeformFaceDlg.pas:73
-        public void DrawFace(Aow.Rtl.TObject Sender, Aow.Units.GFXE.TSurfaceDesc SD)
+        public void DrawFace(TObject Sender, TSurfaceDesc SD)
         {
-            Aow.Rtl.TRect R = default;
+            TRect R = default;
             int Face = default;
             int Offset = default;
-            Aow.Units.AoWE.TFaceResource Resource = default;
-            Offset = ((Aow.Rtl.TComponent)Sender).Tag;
+            TFaceResource Resource = default;
+            Offset = ((TComponent)Sender).Tag;
             Face = FCaster.FFaceIndex;
             while (Offset < 0)
             {
                 Offset += 1;
-                var call__4 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.PrevFace(Face);
+                var call__4 = AoWHSSet.FFaceResources.PrevFace(Face);
                 Face = call__4;
             }
 
             while (Offset > 0)
             {
                 Offset -= 1;
-                var call__5 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.NextFace(Face);
+                var call__5 = AoWHSSet.FFaceResources.NextFace(Face);
                 Face = call__5;
             }
 
-            var call__6 = Aow.Rtl.Rtl.Rect((Dlg.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft) + 2, Dlg.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop, ((Dlg.WinLeft + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinLeft) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinWidth) - 2, ((Dlg.WinTop + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinTop) + ((Aow.Units.AoWComp.TAoWComponent)Sender).WinHeight) - 2);
+            var call__6 = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
             R = call__6;
             if (Face != -1)
             {
-                var call__7 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.GetFaceResource(Face);
+                var call__7 = AoWHSSet.FFaceResources.GetFaceResource(Face);
                 Resource = call__7;
                 Resource.AddRef();
                 var call__8 = Resource.GetFaceImage();
@@ -171,8 +130,8 @@ namespace Aow.Units.AoWDeformFaceDlg
         // AoWDeformFaceDlg.pas:104
         public void PrevFaceBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__9 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.PrevFace(FCaster.FFaceIndex);
+            General.PlayButtonSound(0);
+            var call__9 = AoWHSSet.FFaceResources.PrevFace(FCaster.FFaceIndex);
             FCaster.FFaceIndex = call__9;
             Dlg.FDrawn = false;
         }
@@ -180,8 +139,8 @@ namespace Aow.Units.AoWDeformFaceDlg
         // AoWDeformFaceDlg.pas:111
         public void NextFaceBtnClick()
         {
-            Aow.Units.AoWWinMan.AoWWinMan.General.PlayButtonSound(0);
-            var call__10 = Aow.Units.AoWE.AoWE.AoWHSSet.FFaceResources.NextFace(FCaster.FFaceIndex);
+            General.PlayButtonSound(0);
+            var call__10 = AoWHSSet.FFaceResources.NextFace(FCaster.FFaceIndex);
             FCaster.FFaceIndex = call__10;
             Dlg.FDrawn = false;
         }
@@ -193,7 +152,7 @@ namespace Aow.Units.AoWDeformFaceDlg
         }
 
         // AoWDeformFaceDlg.pas:142
-        public void DlgKeyDown(Aow.Rtl.TObject Sender, ref ushort Key, TSet<Aow.Rtl.TShiftState> Shift)
+        public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             if (Key == 27)
             {

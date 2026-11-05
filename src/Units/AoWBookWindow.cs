@@ -1,62 +1,27 @@
 // Translated from AoWBookWindow.pas.
-using System;
 using Aow.Rtl;
 using static Aow.Rtl.Rtl;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
-using Aow.Units.PlugInM;
-using static Aow.Units.PlugInM.PlugInM;
 using Aow.Units.GFXE;
 using static Aow.Units.GFXE.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
-using Aow.Units.DisplayC;
-using static Aow.Units.DisplayC.DisplayC;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using Aow.Units.IsoHex;
-using static Aow.Units.IsoHex.IsoHex;
-using Aow.Units.ILTer;
-using static Aow.Units.ILTer.ILTer;
-using Aow.Units.Terrain;
-using static Aow.Units.Terrain.Terrain;
-using Aow.Units.Hexagon;
-using static Aow.Units.Hexagon.Hexagon;
-using Aow.Units.Road;
-using static Aow.Units.Road.Road;
-using Aow.Units.BorderHx;
-using static Aow.Units.BorderHx.BorderHx;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWindow.AoWWindow;
-using Aow.Units.PageTurnCtrl;
-using static Aow.Units.PageTurnCtrl.PageTurnCtrl;
 
 namespace Aow.Units.AoWBookWindow
 {
     // completion event, first frame, previous surface validity, page turn, animating, saved page
     // surface, page-turn mode
-    public partial class TAoWBookWindow : Aow.Units.AoWWindow.TAOWWindow
+    public partial class TAoWBookWindow : TAOWWindow
     {
-        public Aow.Rtl.TNotifyEvent FOnAnimationComplete;
+        public TNotifyEvent FOnAnimationComplete;
         public bool FFirstAnimationFrame;
         public bool FPreviousSurfaceValid;
-        public Aow.Units.PageTurnCtrl.TPageTurnControl FPageTurn;
+        public PageTurnCtrl.TPageTurnControl FPageTurn;
         public bool FAnimating;
-        public Aow.Units.GFXE.TSurface FPageSurface;
-        public Aow.Units.PageTurnCtrl.TPageTurnMode FPageTurnMode;
+        public TSurface FPageSurface;
+        public PageTurnCtrl.TPageTurnMode FPageTurnMode;
         // AoWBookWindow.pas:50
         public override void Destroy()
         {
-            Aow.Units.GFXE.TSurface S = default;
+            TSurface S = default;
             FPageTurn.Free();
             S = FPageSurface;
             if (S != null)
@@ -70,7 +35,7 @@ namespace Aow.Units.AoWBookWindow
         // AoWBookWindow.pas:44
         public TAoWBookWindow(TComponent owner) : base(owner)
         {
-            var call__1 = new Aow.Units.PageTurnCtrl.TPageTurnControl();
+            var call__1 = new PageTurnCtrl.TPageTurnControl();
             FPageTurn = call__1;
         }
 
@@ -97,7 +62,7 @@ namespace Aow.Units.AoWBookWindow
         // AoWBookWindow.pas:59
         public override void SetVisible(bool Value)
         {
-            Aow.Units.GFXE.TSurface S = default;
+            TSurface S = default;
             if (Value != FVisible)
             {
                 FAnimating = false;
@@ -116,7 +81,7 @@ namespace Aow.Units.AoWBookWindow
         }
 
         // AoWBookWindow.pas:113
-        public override void DrawSurface(Aow.Units.GFXE.TSurface Surface)
+        public override void DrawSurface(TSurface Surface)
         {
             FPreviousSurfaceValid = FSurfaceValid;
             base.DrawSurface(Surface);
@@ -127,7 +92,7 @@ namespace Aow.Units.AoWBookWindow
         }
 
         // AoWBookWindow.pas:186
-        public override void CheckMouseDown(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = FAnimating;
             if (!FAnimating)
@@ -136,7 +101,7 @@ namespace Aow.Units.AoWBookWindow
             }
             else
             {
-                if ((((X > (FWinLeft - 1)) && (X < (FWinLeft + FWinWidth))) && (Y > (FWinTop - 1))) && (Y < (FWinTop + FWinHeight)))
+                if (X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
                 {
                     FSurfaceValid = false;
                     FAnimating = false;
@@ -149,7 +114,7 @@ namespace Aow.Units.AoWBookWindow
         }
 
         // AoWBookWindow.pas:199
-        public override void CheckMouseUp(Aow.Rtl.TMouseButton Button, TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = FAnimating;
             if (!FAnimating)
@@ -159,7 +124,7 @@ namespace Aow.Units.AoWBookWindow
         }
 
         // AoWBookWindow.pas:205
-        public override void CheckMouseMove(TSet<Aow.Rtl.TShiftState> Shift, int X, int Y)
+        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
             FHandled = FAnimating;
             if (!FAnimating)
@@ -169,18 +134,18 @@ namespace Aow.Units.AoWBookWindow
         }
 
         // AoWBookWindow.pas:92
-        public void StartAnim(Aow.Units.PageTurnCtrl.TPageTurnMode Mode)
+        public void StartAnim(PageTurnCtrl.TPageTurnMode Mode)
         {
-            Aow.Units.GFXE.TSurfaceDesc Source = default;
-            Aow.Units.GFXE.TSurfaceDesc Dest = default;
-            Aow.Rtl.TRect R = default;
-            if ((FBackSurface != null) && (FPageSurface != null))
+            TSurfaceDesc Source = default;
+            TSurfaceDesc Dest = default;
+            TRect R = default;
+            if (FBackSurface != null && FPageSurface != null)
             {
-                var call__3 = Aow.Rtl.Rtl.Rect(0, 0, FWinWidth, FWinHeight);
+                var call__3 = Rect(0, 0, FWinWidth, FWinHeight);
                 R = call__3;
                 FBackSurface.Lock(ref Source);
                 FPageSurface.Lock(ref Dest);
-                Aow.Units.GFXE.GFXE.BltSDRectClipped(Source, R, Dest, 0, 0);
+                BltSDRectClipped(Source, R, Dest, 0, 0);
                 FPageSurface.Unlock();
                 FBackSurface.Unlock();
                 FPageTurn.SetPageDimensions(271, 368);
@@ -194,7 +159,7 @@ namespace Aow.Units.AoWBookWindow
         }
 
         [Published]
-        public Aow.Rtl.TNotifyEvent OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
+        public TNotifyEvent OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
     }
 
     public static partial class AoWBookWindow
@@ -202,7 +167,7 @@ namespace Aow.Units.AoWBookWindow
         // AoWBookWindow.pas:211
         public static void Register()
         {
-            Aow.Rtl.Rtl.RegisterComponents((AnsiString)"AOW Tools", [typeof(Aow.Units.AoWBookWindow.TAoWBookWindow)]);
+            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAoWBookWindow)]);
         }
 
         public static void Initialize()
