@@ -1,14 +1,14 @@
 // Translated from FastCombatWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWHScroll;
@@ -17,8 +17,9 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using Aow.Units.E3Globals;
 
 namespace Aow.Units.FastCombatWin;
 
@@ -684,7 +685,7 @@ public partial class TFastCombatWindow : TDataModule
     }
 }
 
-public static partial class FastCombatWin
+public static partial class FastCombatWinUnit
 {
     // FastCombatWin.pas:124
     public static void ShowCombatEvent(TFastCombatWindow Dialog, TCombatEventLog Event, TExecuteDoneEvent Done)
@@ -772,7 +773,7 @@ public static partial class FastCombatWin
             // { Original refreshes both side labels inside the party loop. }
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer).FPlayer == 0)
             {
-                var independents = TranslateRStr(E3Globals.E3Globals.IndependentsRStr);
+                var independents = TranslateRStr(E3GlobalsUnit.IndependentsRStr);
                 Dialog.LSideLbl.Text = independents;
             }
             else
@@ -785,7 +786,7 @@ public static partial class FastCombatWin
 
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer).FPlayer == 0)
             {
-                var independents = TranslateRStr(E3Globals.E3Globals.IndependentsRStr);
+                var independents = TranslateRStr(E3GlobalsUnit.IndependentsRStr);
                 Dialog.RSideLbl.Text = independents;
             }
             else

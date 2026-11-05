@@ -7,6 +7,8 @@ using Aow.Units.AowUserWindow;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWLabel;
+using Aow.Units.AoWWinMan;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWTitleScene
 {
@@ -227,12 +229,12 @@ namespace Aow.Units.AoWTitleScene
             Copyright.Loaded();
             Version.Loaded();
             session.Resolve(this);
-            Window.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            LegalNotice.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            StrLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            NameLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age16s;
-            Copyright.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            Version.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8s;
+            Window.WinManager = AoWWinManUnit.General.Manager;
+            LegalNotice.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            StrLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            NameLbl.AOWFont = AoWExeFormsUnit.FontModule.Age16s;
+            Copyright.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            Version.AOWFont = AoWExeFormsUnit.FontModule.Age8s;
             if (session.FireCreateEvents)
                 LayoutOnCreate?.Invoke(this);
         }

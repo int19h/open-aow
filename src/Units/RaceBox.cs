@@ -1,6 +1,6 @@
 // Translated from RaceBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.AoWE;
 
@@ -94,7 +94,7 @@ public struct TRaceView
     public bool Selectable;
 }
 
-public static partial class RaceBox
+public static partial class RaceBoxUnit
 {
     // RaceBox.pas:104
     public static void Register()

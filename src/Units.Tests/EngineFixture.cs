@@ -4,7 +4,7 @@ using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 

@@ -1,15 +1,15 @@
 // Translated from AoWCityScreen.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.City;
-using static Aow.Units.City.City;
+using static Aow.Units.City.CityUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWGauge;
@@ -24,9 +24,11 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.OverviewUnit.OverviewUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.OverviewUnit.OverviewUnitUnit;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWInfoBanner;
 
 namespace Aow.Units.AoWCityScreen;
 
@@ -476,11 +478,11 @@ public partial class TCityScreen : TDataModule
             MigrationRelationLB.Selected = Index;
             MigrateTurns.Text = IntToStr(Item.FTime);
             var raceNames = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-            var format = AoWE.AoWE.Format(TranslateRStr(XRelationMinusYRStr), [raceNames, -15]);
+            var format = AoWEUnit.Format(TranslateRStr(XRelationMinusYRStr), [raceNames, -15]);
             MigrateInfo.Text = format;
             MigrateInfo.Text = MigrateInfo.Text + "   ";
             var raceNamesText = TranslateRStr(RaceNamesRStr[Item.FRace]);
-            var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(XRelationPlusYRStr), [raceNamesText, 10]);
+            var aoWEFormat = AoWEUnit.Format(TranslateRStr(XRelationPlusYRStr), [raceNamesText, 10]);
             MigrateInfo.Text = MigrateInfo.Text + aoWEFormat;
             CityBtn1.Visible = true;
             var migrate = TranslateRStr(MigrateRStr);
@@ -553,7 +555,7 @@ public partial class TCityScreen : TDataModule
                 var upgradeText = TranslateRStr(UpgradeRStr);
                 UpgradeLbl.Text = upgradeText;
                 var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
-                var format = AoWE.AoWE.Format(TranslateRStr(XRelationPlusYRStr), [raceNamesPlural, 5]);
+                var format = AoWEUnit.Format(TranslateRStr(XRelationPlusYRStr), [raceNamesPlural, 5]);
                 UpgradeInfo.Text = format;
                 break;
             case TCityAction.caFortify:
@@ -592,7 +594,7 @@ public partial class TCityScreen : TDataModule
                 var fortifyText = TranslateRStr(FortifyRStr);
                 UpgradeLbl.Text = fortifyText;
                 var raceNames = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(XRelationPlusYRStr), [raceNames, 5]);
+                var aoWEFormat = AoWEUnit.Format(TranslateRStr(XRelationPlusYRStr), [raceNames, 5]);
                 UpgradeInfo.Text = aoWEFormat;
                 break;
             case TCityAction.caMigrate:
@@ -610,7 +612,7 @@ public partial class TCityScreen : TDataModule
                 var lootText = TranslateRStr(LootRStr);
                 UpgradeLbl.Text = lootText;
                 var raceNamesText = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                var format2 = AoWE.AoWE.Format(TranslateRStr(XRelationMinusYRStr), [raceNamesText, -30]);
+                var format2 = AoWEUnit.Format(TranslateRStr(XRelationMinusYRStr), [raceNamesText, -30]);
                 UpgradeInfo.Text = format2;
                 break;
             case TCityAction.caRaze:
@@ -624,7 +626,7 @@ public partial class TCityScreen : TDataModule
                 var razeText = TranslateRStr(RazeRStr);
                 UpgradeLbl.Text = razeText;
                 var raceNames3 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                var format3 = AoWE.AoWE.Format(TranslateRStr(XRelationMinusYRStr), [raceNames3, -30]);
+                var format3 = AoWEUnit.Format(TranslateRStr(XRelationMinusYRStr), [raceNames3, -30]);
                 UpgradeInfo.Text = format3;
                 break;
             case TCityAction.caResearch:
@@ -648,12 +650,12 @@ public partial class TCityScreen : TDataModule
                 UMovesIcon.CurrentImage = mTtoInt;
                 var alignment = U.GetAlignment();
                 var alignmentText = TranslateRStr(TAlignmentRStr[(int)alignment]);
-                var format4 = AoWE.AoWE.Format(TranslateRStr(AlignmentXRStr), [alignmentText]);
+                var format4 = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [alignmentText]);
                 UAlignment.Text = format4;
                 var unitLevel = U.GetUnitLevel();
-                var format5 = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
+                var format5 = AoWEUnit.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
                 var upkeep = U.GetUpkeep();
-                var format6 = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
+                var format6 = AoWEUnit.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
                 ULevel.Text = format5 + " / " + format6;
                 if (AoWEngine.FDebug)
                 {
@@ -673,7 +675,7 @@ public partial class TCityScreen : TDataModule
                     var queue4 = TranslateRStr(QueueRStr);
                     CityBtn2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AoWE.AoWE.Format(TranslateRStr(ProduceXRStr), [name]);
+                    var format7 = AoWEUnit.Format(TranslateRStr(ProduceXRStr), [name]);
                     UnitLbl.Text = format7;
                     var unitProductionGold = FCity.FProduction.UnitProductionGold(FProductionIndex);
                     UCost.Text = IntToStr(unitProductionGold);
@@ -690,7 +692,7 @@ public partial class TCityScreen : TDataModule
                     var queue4 = TranslateRStr(QueueRStr);
                     CityBtn2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AoWE.AoWE.Format(TranslateRStr(InstallXRStr), [name]);
+                    var format7 = AoWEUnit.Format(TranslateRStr(InstallXRStr), [name]);
                     UnitLbl.Text = format7;
                     var unitResearchGold = FCity.FProduction.UnitResearchGold(FProductionIndex);
                     UCost.Text = IntToStr(unitResearchGold);
@@ -728,7 +730,7 @@ public partial class TCityScreen : TDataModule
         var income = TranslateRStr(IncomeRStr);
         IncomeHdr.Items.Add(income);
         var xGold = TranslateRStr(XGoldRStr);
-        var format = AoWE.AoWE.Format(" " + xGold, [IntToStr(FCity.FIncome)]);
+        var format = AoWEUnit.Format(" " + xGold, [IntToStr(FCity.FIncome)]);
         IncomeHdr.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
@@ -1004,7 +1006,7 @@ public partial class TCityScreen : TDataModule
     {
         int Image;
         Image = ActivityImage((TCityAction)((byte)Sender.Tag + 1));
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[Image].Show(ActivityPnl2.WinLeft + Sender.WinLeft + 2, ActivityPnl2.WinTop + Sender.WinTop + 2, SD);
+        aowIntGfxModUnit.IntGfxMod.CityWin[Image].Show(ActivityPnl2.WinLeft + Sender.WinLeft + 2, ActivityPnl2.WinTop + Sender.WinTop + 2, SD);
     }
 
     // AoWCityScreen.pas:354
@@ -1250,7 +1252,7 @@ public partial class TCityScreen : TDataModule
             Info.Looped = false;
             if (!P.FResearched)
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
+                aowIntGfxModUnit.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
                 Info.Direction = 5;
                 if (U != null)
                 {
@@ -1258,11 +1260,11 @@ public partial class TCityScreen : TDataModule
                 }
 
                 var lookupTable = AlphaBlendTable.GetLookupTables(45);
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
+                aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
             }
             else
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
+                aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
                 if (U != null)
                 {
                     U.ShowEx(R.Left - 4, R.Top, SD, Info);
@@ -1276,7 +1278,7 @@ public partial class TCityScreen : TDataModule
         }
         else
         {
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+            aowIntGfxModUnit.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
         }
     }
 
@@ -1577,7 +1579,7 @@ public partial class TCityScreen : TDataModule
             if (A != null)
             {
                 var name = A.GetName(null);
-                SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, name, A.FDescription);
+                SetInfoBanner(AoWInfoBannerUnit.InfoBanner, name, A.FDescription);
             }
         }
     }
@@ -1644,7 +1646,7 @@ public partial class TCityScreen : TDataModule
     }
 }
 
-public static partial class AoWCityScreen
+public static partial class AoWCityScreenUnit
 {
     public static TCityScreen CityScreen;
 }

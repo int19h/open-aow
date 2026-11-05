@@ -11,6 +11,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.aowUserDrawBox;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.TCFCDlg
 {
@@ -570,30 +573,30 @@ namespace Aow.Units.TCFCDlg
             InfoSep.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            DTitle.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            DMessage.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            FightBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            FightBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            CancelBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CancelBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage1.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage2.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            Tactical.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            Automatic.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            TCchk.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            TCchk.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            TCchk.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            FCchk.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            FCchk.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            FCchk.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            MapViewPnl.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            InfoSep.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            DTitle.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            DMessage.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            FightBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            FightBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage1.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage2.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            Tactical.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            Automatic.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            TCchk.ToolTip = AoWWinManUnit.General.ToolTip;
+            TCchk.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            TCchk.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            FCchk.ToolTip = AoWWinManUnit.General.ToolTip;
+            FCchk.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            FCchk.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            MapViewPnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            InfoSep.ImageLib = aowIntGfxModUnit.IntGfxMod.CityWin;
         }
 
         private void Layout_DlgHide_0(TObject p0)

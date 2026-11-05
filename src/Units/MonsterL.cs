@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.ItemExpS;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.MonsterL;
 
@@ -32,7 +32,7 @@ public partial class TMonsterlairResource : TItemExplorationSiteResource
 
 }
 
-public static partial class MonsterL
+public static partial class MonsterLUnit
 {
     // MonsterL.pas:46
     public static void RegisterMonsterlair(TEngine AEngine)

@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.DeathNode;
 
@@ -47,7 +47,7 @@ public partial class TDeathNodeResource : TProductionPlaceResource
 
 }
 
-public static partial class DeathNode
+public static partial class DeathNodeUnit
 {
     // DeathNode.pas:61
     public static void RegisterDeathNode(TEngine AEngine)

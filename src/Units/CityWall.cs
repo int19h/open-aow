@@ -1,19 +1,19 @@
 // Translated from CityWall.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.aowFX;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.CombatILTer;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.City;
 using Aow.Units.Tower;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.ImageLib;
 
 namespace Aow.Units.CityWall;
@@ -653,7 +653,7 @@ public partial class TCityWallDoorResource : TCityWallResource
 
 }
 
-public static partial class CityWall
+public static partial class CityWallUnit
 {
     // CityWall.pas:460
     public static void RegisterCityWall(TEngine AEngine)

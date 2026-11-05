@@ -8,6 +8,9 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWFrame;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWCityRebelDlg
 {
@@ -401,23 +404,23 @@ namespace Aow.Units.AoWCityRebelDlg
             AoWFrame1.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            RebelWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            RebelWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            RebelWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            CenterBut.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CenterBut.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            CloseBut.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CloseBut.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            RebelBG.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt;
-            CityNameLabel.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            AOWLabel2.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            AOWLabel3.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            AoWFrame1.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            RebelWin.WinManager = AoWWinManUnit.General.Manager;
+            RebelWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            RebelWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            CenterBut.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CenterBut.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            CloseBut.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CloseBut.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            RebelBG.ImageLib = aowIntGfxModUnit.IntGfxMod.MiscArt;
+            CityNameLabel.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            AOWLabel2.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            AOWLabel3.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            AoWFrame1.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
         }
 
         private void Layout_RebelWinHide_0(TObject p0)

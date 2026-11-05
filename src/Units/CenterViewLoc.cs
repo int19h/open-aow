@@ -3,8 +3,8 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 
 namespace Aow.Units.CenterViewLoc;
 
@@ -97,7 +97,7 @@ public partial class TCenterViewLocationResource : TMapObjectResource
 
 }
 
-public static partial class CenterViewLoc
+public static partial class CenterViewLocUnit
 {
     // CenterViewLoc.pas:105
     public static void RegisterCenterViewLocation(TEngine AEngine)

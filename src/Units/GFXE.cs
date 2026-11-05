@@ -1,6 +1,6 @@
 // Translated from GFXE.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
@@ -1309,15 +1309,15 @@ public partial class TGFXEPalette : TObject
     // GFXE.pas:11073
     public int Remap(int NewPixelFormatID)
     {
-        int Result = GFXE.GFXE_OK;
+        int Result = GFXEUnit.GFXE_OK;
         if (NewPixelFormatID != PixelFormatID)
         {
             switch (PixelFormatID)
             {
-                case GFXE.pfBGR24:
+                case GFXEUnit.pfBGR24:
                     switch (NewPixelFormatID)
                     {
-                        case GFXE.pfRGB565:
+                        case GFXEUnit.pfRGB565:
                         {
                             for (int I = 0; I <= 255; I++)
                             {
@@ -1327,7 +1327,7 @@ public partial class TGFXEPalette : TObject
                         }
 
                             break;
-                        case GFXE.pfRGB555:
+                        case GFXEUnit.pfRGB555:
                         {
                             for (int I = 0; I <= 255; I++)
                             {
@@ -1337,19 +1337,19 @@ public partial class TGFXEPalette : TObject
                         }
 
                             break;
-                        case GFXE.pfXRGB32:
-                            Result = GFXE.GFXE_OK;
+                        case GFXEUnit.pfXRGB32:
+                            Result = GFXEUnit.GFXE_OK;
                             break;
                         default:
-                            Result = GFXE.GFXE_NOTSUPPORTED;
+                            Result = GFXEUnit.GFXE_NOTSUPPORTED;
                             break;
                     }
 
                     break;
-                case GFXE.pfRGB24:
+                case GFXEUnit.pfRGB24:
                     switch (NewPixelFormatID)
                     {
-                        case GFXE.pfRGB565:
+                        case GFXEUnit.pfRGB565:
                         {
                             for (int I = 0; I <= 255; I++)
                             {
@@ -1359,7 +1359,7 @@ public partial class TGFXEPalette : TObject
                         }
 
                             break;
-                        case GFXE.pfRGB555:
+                        case GFXEUnit.pfRGB555:
                         {
                             for (int I = 0; I <= 255; I++)
                             {
@@ -1369,17 +1369,17 @@ public partial class TGFXEPalette : TObject
                         }
 
                             break;
-                        case GFXE.pfXRGB32:
-                            Result = GFXE.GFXE_OK;
+                        case GFXEUnit.pfXRGB32:
+                            Result = GFXEUnit.GFXE_OK;
                             break;
                         default:
-                            Result = GFXE.GFXE_NOTSUPPORTED;
+                            Result = GFXEUnit.GFXE_NOTSUPPORTED;
                             break;
                     }
 
                     break;
                 default:
-                    Result = GFXE.GFXE_NOTSUPPORTED;
+                    Result = GFXEUnit.GFXE_NOTSUPPORTED;
                     break;
             }
 
@@ -1390,7 +1390,7 @@ public partial class TGFXEPalette : TObject
         }
         else
         {
-            Result = GFXE.GFXE_OK;
+            Result = GFXEUnit.GFXE_OK;
         }
 
         return Result;
@@ -1472,25 +1472,25 @@ public partial class TSurface : TObject
                 // { 8 bit pixels need the palette; 1555 and the TColor ordered 24 bit layout are not handled }
                 switch (SD.PixelFormatID)
                 {
-                    case GFXE.pfRGB555:
+                    case GFXEUnit.pfRGB555:
                         W = MemoryMarshal.Read<ushort>((BytePointer(SD.Data) + (X + X) + Y * SD.Pitch).AsSpan(2));
                         Result = (int)(((uint)(W & 31744)) >> 7) + ((W & 992) << 6) + ((W & 31) << 19);
                         break;
-                    case GFXE.pfRGB565:
+                    case GFXEUnit.pfRGB565:
                         W = MemoryMarshal.Read<ushort>((BytePointer(SD.Data) + (X + X) + Y * SD.Pitch).AsSpan(2));
                         Result = (int)(((uint)(W & 63488)) >> 8) + ((W & 2016) << 5) + ((W & 31) << 19);
                         break;
-                    case GFXE.pfPAL8:
+                    case GFXEUnit.pfPAL8:
                         Assert(SD.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         Index = MemoryMarshal.Read<byte>((BytePointer(SD.Data) + X + Y * SD.Pitch).AsSpan(1));
                         P = Ptr<TPaletteEntry>.To(SD.Palette.Entries, Index).Reinterpret<byte>();
                         Result = P[0] + (P[1] << 8) + (P[2] << 16);
                         break;
-                    case GFXE.pfRGB24:
+                    case GFXEUnit.pfRGB24:
                         P = Ptr<byte>.Unbox((BytePointer(SD.Data) + (X + X + X) + Y * SD.Pitch).Box());
                         Result = P[2] + (P[1] << 8) + (P[0] << 16);
                         break;
-                    case GFXE.pfRGB32:
+                    case GFXEUnit.pfRGB32:
                         V = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X << 2) + Y * SD.Pitch).AsSpan(4));
                         Result = (int)(((uint)(V & 16711680)) >> 16) + (V & 65280) + ((V & 255) << 16);
                         break;
@@ -1626,25 +1626,25 @@ public partial class TSurface : TObject
 
                     S = (BytePointer(SSD.Data) + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
                     D = (BytePointer(DSD.Data) + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
-                    GFXE.BltRect(S, D, SSD.Pitch, DSD.Pitch, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
+                    GFXEUnit.BltRect(S, D, SSD.Pitch, DSD.Pitch, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
                     Unlock();
-                    Result = GFXE.GFXE_OK;
+                    Result = GFXEUnit.GFXE_OK;
                 }
                 else
                 {
-                    Result = GFXE.GFXE_CANNOTLOCK;
+                    Result = GFXEUnit.GFXE_CANNOTLOCK;
                 }
 
                 Dest.Unlock();
             }
             else
             {
-                Result = GFXE.GFXE_CANNOTLOCK;
+                Result = GFXEUnit.GFXE_CANNOTLOCK;
             }
         }
         else
         {
-            Result = GFXE.GFXE_PIXELFORMATNOTSUPPORTED;
+            Result = GFXEUnit.GFXE_PIXELFORMATNOTSUPPORTED;
         }
 
         return Result;
@@ -1729,7 +1729,7 @@ public partial class TSurface : TObject
         }
         else
         {
-            Result = GFXE.GFXE_OK;
+            Result = GFXEUnit.GFXE_OK;
         }
 
         return Result;
@@ -1762,25 +1762,25 @@ public partial class TSurface : TObject
 
                     S = (BytePointer(SSD.Data) + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
                     D = (BytePointer(DSD.Data) + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
-                    GFXE.BltColorKey16(S, D, SSD.Pitch, DSD.Pitch, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
-                    Result = GFXE.GFXE_OK;
+                    GFXEUnit.BltColorKey16(S, D, SSD.Pitch, DSD.Pitch, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
+                    Result = GFXEUnit.GFXE_OK;
                     Unlock();
                 }
                 else
                 {
-                    Result = GFXE.GFXE_CANNOTLOCK;
+                    Result = GFXEUnit.GFXE_CANNOTLOCK;
                 }
 
                 Dest.Unlock();
             }
             else
             {
-                Result = GFXE.GFXE_CANNOTLOCK;
+                Result = GFXEUnit.GFXE_CANNOTLOCK;
             }
         }
         else
         {
-            Result = GFXE.GFXE_PIXELFORMATNOTSUPPORTED;
+            Result = GFXEUnit.GFXE_PIXELFORMATNOTSUPPORTED;
         }
 
         return Result;
@@ -1865,7 +1865,7 @@ public partial class TSurface : TObject
         }
         else
         {
-            Result = GFXE.GFXE_OK;
+            Result = GFXEUnit.GFXE_OK;
         }
 
         return Result;
@@ -1907,17 +1907,17 @@ public partial class TSurface : TObject
         }
         else
         {
-            Result = GFXE.GFXE_NOTSUPPORTED;
+            Result = GFXEUnit.GFXE_NOTSUPPORTED;
         }
 
         return Result;
     }
 
     // GFXE.pas:12225
-    public virtual int Lock(ref TSurfaceDesc SD) => GFXE.GFXE_NOTSUPPORTED;
+    public virtual int Lock(ref TSurfaceDesc SD) => GFXEUnit.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12248
-    public virtual int Unlock() => GFXE.GFXE_NOTSUPPORTED;
+    public virtual int Unlock() => GFXEUnit.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12230
     public virtual int LockEx(ref TSurfaceDesc SD, in TRect R)
@@ -1951,7 +1951,7 @@ public partial class TSurface : TObject
         }
         else
         {
-            Result = GFXE.GFXE_ERROR;
+            Result = GFXEUnit.GFXE_ERROR;
         }
 
         return Result;
@@ -1961,10 +1961,10 @@ public partial class TSurface : TObject
     public virtual int UnlockEx(in TSurfaceDesc SD) => Unlock();
 
     // GFXE.pas:12220
-    public virtual int UpdatePalette() => GFXE.GFXE_NOTSUPPORTED;
+    public virtual int UpdatePalette() => GFXEUnit.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12258
-    public virtual int Resize(int AWidth, int AHeight) => GFXE.GFXE_NOTSUPPORTED;
+    public virtual int Resize(int AWidth, int AHeight) => GFXEUnit.GFXE_NOTSUPPORTED;
 
     public int Width { get => GetWidth(); }
     public int Height { get => GetHeight(); }
@@ -2020,7 +2020,7 @@ public partial class TDataSurface : TSurface
     public override int GetHeight() => FHeight;
 
     // GFXE.pas:12441
-    public override int Unlock() => GFXE.GFXE_OK;
+    public override int Unlock() => GFXEUnit.GFXE_OK;
 
     // GFXE.pas:12446
     public int CaptureSurface(TSurface Surface, Ptr<TRect> R)
@@ -2054,7 +2054,7 @@ public partial class TDataSurface : TSurface
                     SetPalette(SD.Palette);
                     FX = R.Value.Left;
                     FY = R.Value.Top;
-                    GFXE.BltRect((BytePointer(SD.Data) + FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)).Box(), FData, SD.Pitch, FPitch, (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
+                    GFXEUnit.BltRect((BytePointer(SD.Data) + FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)).Box(), FData, SD.Pitch, FPitch, (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
                 }
             }
             catch
@@ -2063,7 +2063,7 @@ public partial class TDataSurface : TSurface
             }
 
             Surface.Unlock();
-            Result = GFXE.GFXE_OK;
+            Result = GFXEUnit.GFXE_OK;
         }
 
         return Result;
@@ -2101,11 +2101,11 @@ public partial class TDataSurface : TSurface
             Size = FPitch * FHeight + 7;
             FMem = FMem.Realloc(Size);
             FData = AlignPointer(FMem + 7, ~7).Box();
-            Result = GFXE.GFXE_OK;
+            Result = GFXEUnit.GFXE_OK;
         }
         else
         {
-            Result = GFXE.GFXE_OK;
+            Result = GFXEUnit.GFXE_OK;
         }
 
         return Result;
@@ -2160,7 +2160,7 @@ public partial class TDIBSurface : TSurface
     {
         TSurfaceDesc SD = default;
         Lock(ref SD);
-        GFXE.SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
+        GFXEUnit.SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
         Unlock();
     }
 
@@ -2182,7 +2182,7 @@ public partial class TDIB08Surface : TSurface
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
     internal TGFXEPalette FPalette;
     // GFXE.pas:6805
-    public override int GetPixelFormatID() => GFXE.pfPAL8;
+    public override int GetPixelFormatID() => GFXEUnit.pfPAL8;
 
     // GFXE.pas:6810
     public override int GetWidth() => FWidth;
@@ -2297,7 +2297,7 @@ public partial class TGDISurface : TSurface
     }
 
     // GFXE.pas:12329
-    public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => GFXE.GFXE_NOTSUPPORTED;
+    public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => GFXEUnit.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12334
     public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect)
@@ -2837,20 +2837,20 @@ public partial class TBMPImageFile : TImageFile, IImageFileClass
     public static new string Description => "Bitmap files (*.bmp)";
 
     // GFXE.pas:9053
-    public static new int GetPixelFormatID(string FileName) => GFXE.GetBMPPixelFormat(FileName);
+    public static new int GetPixelFormatID(string FileName) => GFXEUnit.GetBMPPixelFormat(FileName);
 
     // GFXE.pas:9058
-    public static new TSurface CreateSurface(string FileName) => GFXE.CreateSurfaceFromBMP(FileName);
+    public static new TSurface CreateSurface(string FileName) => GFXEUnit.CreateSurfaceFromBMP(FileName);
 
     // GFXE.pas:9063
-    public static new int LoadToSurfaceDesc(string FileName, ref TSurfaceDesc SD, int X, int Y) => GFXE.LoadBMP(FileName, ref SD, X, Y);
+    public static new int LoadToSurfaceDesc(string FileName, ref TSurfaceDesc SD, int X, int Y) => GFXEUnit.LoadBMP(FileName, ref SD, X, Y);
 
 }
 
 public delegate int Procedure_0(Ptr<TGUID> lpGUID, IDirectDraw lplpDD, IUnknown pUnkOuter);
 public delegate int Procedure_1(object lpCallback, object lpContext);
 public delegate int Procedure_2(int dwFlags, IDirectDrawClipper lplpDDClipper, IUnknown pUnkOuter);
-public static partial class GFXE
+public static partial class GFXEUnit
 {
     // The GFXE unit of Gfxepack.dpl (the graphics engine of Age of Wonders: surfaces, blitters,
     // blend tables, DirectDraw access). The original was D:\GEngine\GFXE\GFXMAIN\GFXE.pas with

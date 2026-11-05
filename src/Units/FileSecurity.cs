@@ -1,8 +1,9 @@
 // Translated from FileSecurity.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using System.Buffers.Binary;
+using Aow.Units.Engine;
 
 namespace Aow.Units.FileSecurity;
 
@@ -32,7 +33,7 @@ public struct TSecurityFooter
     public FixedArray_byte_4 Signature;
 }
 
-public static partial class FileSecurity
+public static partial class FileSecurityUnit
 {
     // FileSecurity.pas:132
     // { FileSecurity, from AoWEPACK.dpl. Security trailers use a $6A-byte data record
@@ -111,7 +112,7 @@ public static partial class FileSecurity
         data = default;
         try
         {
-            using var stream = Rtl.Rtl.Files.Open(fileName, Rtl.Rtl.fmOpenRead | Rtl.Rtl.fmShareDenyWrite);
+            using var stream = Files.Open(fileName, fmOpenRead | fmShareDenyWrite);
             if (stream.Length < 12) return false;
             stream.Seek(-12, SeekOrigin.End);
             Span<byte> footer = stackalloc byte[12];
@@ -124,7 +125,7 @@ public static partial class FileSecurity
             byte[] bytes = new byte[size];
             stream.ReadExactly(bytes);
             bytes.CopyTo(MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref data, 1)));
-            return Engine.Engine.GetCRC32(bytes, size) == BinaryPrimitives.ReadInt32LittleEndian(footer);
+            return EngineUnit.GetCRC32(bytes, size) == BinaryPrimitives.ReadInt32LittleEndian(footer);
         }
         catch (IOException) { return false; }
         catch (UnauthorizedAccessException) { return false; }

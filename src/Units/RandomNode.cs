@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.RandomNode;
 
@@ -39,7 +39,7 @@ public partial class TRandomNodeResource : TProductionPlaceResource
 
 }
 
-public static partial class RandomNode
+public static partial class RandomNodeUnit
 {
     // RandomNode.pas:52
     public static void RegisterRandomNode(TEngine AEngine)

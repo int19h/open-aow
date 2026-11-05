@@ -1,6 +1,6 @@
 // Translated from LeadrGrd.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
@@ -166,7 +166,7 @@ public struct TItemView
     public bool Hidden;
 }
 
-public static partial class LeadrGrd
+public static partial class LeadrGrdUnit
 {
     // LeadrGrd.pas:271
     public static void Register()

@@ -7,8 +7,8 @@ using Aow.Units.AoWTC;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
-using Combat = Aow.Units.AoWTC.AoWTC;
-using Game = Aow.Units.AoWE.AoWE;
+using Combat = Aow.Units.AoWTC.AoWTCUnit;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 

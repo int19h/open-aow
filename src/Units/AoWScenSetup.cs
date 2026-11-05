@@ -1,9 +1,9 @@
 // Translated from AoWScenSetup.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.Sound;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.Sound.SoundUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWSetup;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -18,12 +18,14 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWFileDialog.AoWFileDialog;
-using static Aow.Units.E2GameFlow.E2GameFlow;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
 using Aow.Platform;
+using Aow.Units.E2Globals;
+using Aow.Units.AoWE;
 
 namespace Aow.Units.AoWScenSetup;
 
@@ -231,7 +233,7 @@ public partial class TScenSetup : TDataModule
     {
         byte Availability;
         FSetupControl = Control;
-        E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
+        E2GlobalsUnit.TitleWindow.TitleWin.Visible = true;
         ScenSetupPnl.Visible = true;
         ChatMemo.Items.Clear();
         ChatEdit.Text = "";
@@ -256,7 +258,7 @@ public partial class TScenSetup : TDataModule
             for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
             {
                 Availability = (byte)availabilityOrdinal;
-                var tacticalCombatAvailability = TranslateRStr(AoWE.AoWE.TTacticalCombatAvailabilityRStr[Availability]);
+                var tacticalCombatAvailability = TranslateRStr(AoWEUnit.TTacticalCombatAvailabilityRStr[Availability]);
                 TacticalCombatCB.Items.AddObject(tacticalCombatAvailability, IntToObject(Availability));
             }
         }
@@ -465,7 +467,7 @@ public partial class TScenSetup : TDataModule
     {
         var objectValue = PlayModeCB.Items.Objects[PlayModeCB.Selected];
         FSetupControl.hSetPlayMode((byte)ObjectToInt(objectValue));
-        E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+        E2GlobalsUnit.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWScenSetup.pas:428
@@ -481,7 +483,7 @@ public partial class TScenSetup : TDataModule
             FSetupControl.hSetPlayerID(indexOfRace, Behavior, true);
         }
 
-        E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+        E2GlobalsUnit.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWScenSetup.pas:437
@@ -491,7 +493,7 @@ public partial class TScenSetup : TDataModule
         Control = Sender;
         var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Control.Tag);
         FSetupControl.hSetPlayerBehavior(indexOfRace, (byte)Control.Selected);
-        E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
+        E2GlobalsUnit.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWScenSetup.pas:444
@@ -589,7 +591,7 @@ public partial class TScenSetup : TDataModule
         }
         else
         {
-            var format = AoWE.AoWE.Format(TranslateRStr(XMinutesRStr), [IntToStr(TurnTimeSl.Position)]);
+            var format = AoWEUnit.Format(TranslateRStr(XMinutesRStr), [IntToStr(TurnTimeSl.Position)]);
             TurnTimeVal.Text = format;
         }
     }
@@ -604,7 +606,7 @@ public partial class TScenSetup : TDataModule
         }
         else
         {
-            var format = AoWE.AoWE.Format(LowerCase(TranslateRStr(XTurnsRStr)), [IntToStr(TurnsSl.Position * 10)]);
+            var format = AoWEUnit.Format(LowerCase(TranslateRStr(XTurnsRStr)), [IntToStr(TurnsSl.Position * 10)]);
             TurnsVal.Text = format;
         }
     }
@@ -634,6 +636,6 @@ public partial class TScenSetup : TDataModule
     }
 }
 
-public static partial class AoWScenSetup
+public static partial class AoWScenSetupUnit
 {
 }

@@ -1,9 +1,9 @@
 // Translated from UnitSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.UnitSpells;
 
@@ -121,7 +121,7 @@ public partial class TDispelMagic : TUnitSpell
             {
                 if (Count > 0)
                 {
-                    var format = Rtl.Rtl.Format(TranslateRStr(XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
+                    var format = RtlUnit.Format(TranslateRStr(XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
                     AoWHSMap.ShowMessage(format);
                 }
                 else
@@ -1121,7 +1121,7 @@ public partial class TCosmeticSurgery : TUnitSpell
     }
 }
 
-public static partial class UnitSpells
+public static partial class UnitSpellsUnit
 {
     // UnitSpells.pas:1081
     public static void RegisterUnitSpells(TAoWEngine Engine)

@@ -43,7 +43,7 @@ internal static class Program
             int frames = int.Parse(Value(args, "--frames") ?? "0");
             if (frames < 0) throw new ArgumentOutOfRangeException(nameof(frames));
             using var host = new SdlHost(root, single ?? Value(args, "--user-data"), scale, args.Contains("--fullscreen") ? true : null);
-            Aow.Rtl.Rtl.InstallHost(host);
+            Rtl.RtlUnit.InstallHost(host);
             using var form = TMainForm.Create(host.Display, args.FirstOrDefault(a => Path.GetExtension(a).ToLowerInvariant() is ".asg" or ".acg") ?? "", args.Contains("--mute"), audioOutput: true);
             form.Run(frames);
             Console.WriteLine($"Title scene: presented {form.Display.PresentedFrames} frames, mute={args.Contains("--mute")}");

@@ -1,9 +1,11 @@
 #nullable disable
 using Aow.Rtl;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.E3Globals;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AOWControlWin;
 
@@ -11,7 +13,7 @@ public partial class TControlWin
 {
     // Original AoW.exe loads the three-space string. The recovered UpdateArmy source has one space
     // at all eight labels
-    public static string UnitMoveText(int points) => "   " + Rtl.Rtl.IntToStr(points);
+    public static string UnitMoveText(int points) => "   " + RtlUnit.IntToStr(points);
 
     public void UpdateArmy()
     {
@@ -42,7 +44,7 @@ public partial class TControlWin
             {
                 1 => PatrollingRStr, 2 or 3 => GuardingRStr, 4 => ScoutingRStr,
                 5 => SeekingRefugeRStr, 6 => RaidingRStr, 7 => HuntingRStr,
-                8 => ProtectingRStr, 9 => FortifiedRStr, 10 => E3Globals.E3Globals.BerserkRStr, _ => WanderingRStr
+                8 => ProtectingRStr, 9 => FortifiedRStr, 10 => E3GlobalsUnit.BerserkRStr, _ => WanderingRStr
             });
         }
         else if (readOnly)
@@ -58,8 +60,8 @@ public partial class TControlWin
             PartyIPnl.Visible = false;
             MoveIcon.Visible = true;
             MoveIcon.CurrentImage = General.MTtoInt(army.GetPartyMoves(255));
-            MovesLbl.Text = Rtl.Rtl.IntToStr(army.MovePoints(255));
-            AOWControlWin.ControlWin.CheckEnd();
+            MovesLbl.Text = RtlUnit.IntToStr(army.MovePoints(255));
+            AOWControlWinUnit.ControlWin.CheckEnd();
             PControlPnl.Visible = true;
             PGuard.Checked = army.FUserMode.Contains(TArmyUserModeElement.aumGuard);
         }
@@ -77,7 +79,7 @@ public partial class TControlWin
             checks[i].Visible = !readOnly;
             emptyChecks[i].Visible = readOnly;
         }
-        if (!AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible) ControlWindow.Visible = true;
-        AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible = true;
+        if (!AoWExeFormsUnit.TBWindow.ConButton.Visible) ControlWindow.Visible = true;
+        AoWExeFormsUnit.TBWindow.ConButton.Visible = true;
     }
 }

@@ -1,14 +1,14 @@
 #nullable disable
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Sound.Sound;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Sound.SoundUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using static Aow.Units.AoWTCUnit.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Units.AoWComp;
 namespace Aow.Units.aowTCMapEvents;
 

@@ -1,11 +1,11 @@
 // Translated from IsoHex.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.IsoHex;
 
@@ -273,7 +273,7 @@ public partial class TLowerIsometricHexagonResource : TIsometricHexagonResource
 
 }
 
-public static partial class IsoHex
+public static partial class IsoHexUnit
 {
     // IsoHex.pas:586
     public static void RegisterIsometricHexagon(TEngine Engine)

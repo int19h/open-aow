@@ -1,9 +1,9 @@
 // Translated from AoWEmailGameSettingsDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWSetup;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -14,9 +14,10 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Platform;
+using Aow.Units.AoWMessageDlg;
 
 namespace Aow.Units.AoWEmailGameSettingsDlg;
 
@@ -119,12 +120,12 @@ public partial class TEmailGameSettingsDlg : TDataModule
         }
         else
         {
-            ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
+            ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
+            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
             var pleaseFillInAllSettings = TranslateRStr(PleaseFillInAllSettingsRStr);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
+            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
+            AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
+            AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
         }
     }
 
@@ -219,7 +220,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
         while (Result && I != 0)
         {
             I -= 1;
-            Result = !Rtl.Rtl.IsEmpty(FEmailAddresses[I]);
+            Result = !IsEmpty(FEmailAddresses[I]);
         }
 
         return Result;
@@ -260,16 +261,16 @@ public partial class TEmailGameSettingsDlg : TDataModule
         }
         else
         {
-            ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
+            ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
+            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
             var youNeed2HumanPlayersToPlayAnEmailGame = TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
+            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
+            AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
+            AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
         }
     }
 }
 
-public static partial class AoWEmailGameSettingsDlg
+public static partial class AoWEmailGameSettingsDlgUnit
 {
 }

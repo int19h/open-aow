@@ -30,7 +30,7 @@ public sealed class EngineLeafConstructionTests
 
     private static TEngine CreateEngine()
     {
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+        if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
         return engine;
     }
@@ -76,7 +76,7 @@ public sealed class EngineLeafConstructionTests
             }
             if (direct is TEControlStyleSortNode style)
                 style.SetControlStyle(TSet<TEControlStyleElement>.Of(
-                    Aow.Units.Engine.Engine.csStored, Aow.Units.Engine.Engine.csShared));
+                    EngineUnit.csStored, EngineUnit.csShared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
@@ -109,7 +109,7 @@ public sealed class EngineLeafConstructionTests
             case TEControlStyleSortNode sort:
                 Assert.Equal(0, sort.Count); Assert.Equal(0, Field<int>(sort, "FCapacity")); Assert.Empty(Field<TSortItem[]>(sort, "FItems"));
                 Assert.False(Field<bool>(sort, "FSorted"));
-                Assert.Equal(TSet<TEControlStyleElement>.Of(Aow.Units.Engine.Engine.csStored), sort.GetControlStyle());
+                Assert.Equal(TSet<TEControlStyleElement>.Of(EngineUnit.csStored), sort.GetControlStyle());
                 break;
             case TETimerNode timer:
                 Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);

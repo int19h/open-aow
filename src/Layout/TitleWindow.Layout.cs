@@ -6,6 +6,8 @@ using Aow.Units.AoWWindow;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWPanel;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AOWTitleWindow
 {
@@ -139,10 +141,10 @@ namespace Aow.Units.AOWTitleWindow
             SplashPnl.Loaded();
             DemoIL.Loaded();
             session.Resolve(this);
-            TitleWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            TitleWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TitlePnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleScreen;
-            SplashPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleScreen;
+            TitleWin.WinManager = AoWWinManUnit.General.Manager;
+            TitleWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            TitlePnl.ILTexture = aowIntGfxModUnit.IntGfxMod.TitleScreen;
+            SplashPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.TitleScreen;
         }
 
         private void Layout_SplashPnlUpdate_0(TObject p0)

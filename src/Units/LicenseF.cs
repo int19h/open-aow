@@ -23,7 +23,7 @@ public partial class TLicenseForm : TForm
     }
 }
 
-public static partial class LicenseF
+public static partial class LicenseFUnit
 {
     public static void Initialize()
     {

@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Text.Json;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -33,11 +33,11 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 1) return (TAbstractUnit)meta.Create(owner);
         if (route == 2)
         {
-            if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+            if (EngineUnit.Engines is null) EngineUnit.Initialize();
             var engine = new TEngine(null!);
             try
             {
-                engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
+                engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
                 try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
                 catch (Aow.Rtl.Exception) { }
                 engine.RegisterEClasses([EClass.Of(type)]);
@@ -97,7 +97,7 @@ public sealed partial class AoWERuleConstructionTests
         Game.AoWHSSet = set;
         Type type = typeof(TAbstractUnit).Assembly.GetType("Aow.Units.AoWE." + name)!;
         var meta = EClass.Of(type);
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+        if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
         TEObject source = CreateUnit(type, null!, 0);
         TEObject result = null!;
@@ -105,7 +105,7 @@ public sealed partial class AoWERuleConstructionTests
         using var memory = new TMemoryStream();
         try
         {
-            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
+            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (Aow.Rtl.Exception) { }
             engine.RegisterEClasses([EClass.Of(type)]);

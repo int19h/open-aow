@@ -9,6 +9,9 @@ using Aow.Units.Scanner;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWTCScanner
 {
@@ -238,19 +241,19 @@ namespace Aow.Units.AoWTCScanner
             SMinIcon.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            TCScannerWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            TCScannerWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            TCScannerWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ScannerFr.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Scanner.TilesImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanTiles;
-            Scanner.HiLightsImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanHiLites;
-            Scanner.FogImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanFog;
-            Scanner.ILObjects = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanObj;
-            Scanner.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            STitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            STitleLabel.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            SMinIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            SMinIcon.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
+            TCScannerWin.WinManager = AoWWinManUnit.General.Manager;
+            TCScannerWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            TCScannerWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ScannerFr.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Scanner.TilesImageLib = aowIntGfxModUnit.IntGfxMod.ScanTiles;
+            Scanner.HiLightsImageLib = aowIntGfxModUnit.IntGfxMod.ScanHiLites;
+            Scanner.FogImageLib = aowIntGfxModUnit.IntGfxMod.ScanFog;
+            Scanner.ILObjects = aowIntGfxModUnit.IntGfxMod.ScanObj;
+            Scanner.ILFrame = aowIntGfxModUnit.IntGfxMod.ScanWin;
+            STitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            STitleLabel.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            SMinIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            SMinIcon.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
         }
 
         private void Layout_TCScannerWinDrag_0(TObject p0)

@@ -17,8 +17,8 @@ public partial class TMoveControl
 
     public bool Activate(TMoveControlSettings settings)
     {
-        Rtl.Rtl.Assert(!FStatus.Contains(TMoveControlStatusElement.mcsActivated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
-        Rtl.Rtl.Assert(settings.FSourceX != -1 && settings.FSourceY != -1 && settings.FSourceL != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
+        RtlUnit.Assert(!FStatus.Contains(TMoveControlStatusElement.mcsActivated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
+        RtlUnit.Assert(settings.FSourceX != -1 && settings.FSourceY != -1 && settings.FSourceL != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
         if (settings.FStatus == TMoveControlSettingsStatus.mcssFailed) return false;
         FStatus += TSet<TMoveControlStatusElement>.Of(TMoveControlStatusElement.mcsActivated);
         FSettings = settings;

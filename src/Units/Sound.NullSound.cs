@@ -11,8 +11,8 @@ public sealed class NullSoundSystem : TSoundSystem
 
     public static void Install()
     {
-        Sound.RegisterSoundSystem(Descriptor);
-        Sound.InitializeSoundSystem("Galaxy", default);
+        SoundUnit.RegisterSoundSystem(Descriptor);
+        SoundUnit.InitializeSoundSystem("Galaxy", default);
     }
 
     public static string Name => "Galaxy";
@@ -24,7 +24,7 @@ public sealed class NullSoundSystem : TSoundSystem
     protected internal override bool Deactivate() { FStatus = default; return true; }
     protected internal override void Process()
     {
-        for (int i = Sound.SampleList.Count - 1; i >= 0; i--) ((TSample)Sound.SampleList[i]).Update();
+        for (int i = SoundUnit.SampleList.Count - 1; i >= 0; i--) ((TSample)SoundUnit.SampleList[i]).Update();
     }
     protected internal override int GetMusicVolume() => musicVolume;
     protected internal override int GetSFXVolume() => sfxVolume;

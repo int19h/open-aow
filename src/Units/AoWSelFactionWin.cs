@@ -1,15 +1,16 @@
 // Translated from AoWSelFactionWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.E2GameFlow.E2GameFlow;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWSelFactionWin;
 
@@ -40,7 +41,7 @@ public partial class TSelFactionWin : TDataModule
     // AoWSelFactionWin.pas:63
     public void CloseSelection()
     {
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
+        aowIntGfxModUnit.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
         TitleWindow.TitleWin.Visible = false;
         ShowTitleScene(TitleScene, true);
         FactionPnl.Visible = false;
@@ -51,7 +52,7 @@ public partial class TSelFactionWin : TDataModule
     public void LStartClick(TObject Sender)
     {
         General.PlayButtonSound(0);
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
+        aowIntGfxModUnit.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
         FactionPnl.Visible = false;
         FFade = 0;
         if (Sender == LStart)
@@ -171,9 +172,9 @@ public partial class TSelFactionWin : TDataModule
     public void FactionPnlUpdate()
     {
         TRect R;
-        if (AoWSelFactionWin.SelFactionWin.FFade >= 0)
+        if (AoWSelFactionWinUnit.SelFactionWin.FFade >= 0)
         {
-            AoWSelFactionWin.SelFactionWin.FFade -= 6;
+            AoWSelFactionWinUnit.SelFactionWin.FFade -= 6;
             if (FFade < 6)
             {
                 if (LStart.Visible && !LStart.CaptureInput)
@@ -223,7 +224,7 @@ public partial class TSelFactionWin : TDataModule
     }
 }
 
-public static partial class AoWSelFactionWin
+public static partial class AoWSelFactionWinUnit
 {
     public static TSelFactionWin SelFactionWin;
     // AoWSelFactionWin.pas:215

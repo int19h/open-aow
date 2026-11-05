@@ -1,11 +1,11 @@
 // Translated from AoWArenaDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.Arena;
 using Aow.Units.EventLog;
@@ -17,7 +17,9 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWArenaDlg;
 
@@ -69,9 +71,9 @@ public partial class TArenaDlg : TDataModule
             var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = U.GetAlignment();
-            if ((byte)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
+            if ((byte)Alignment < aowIntGfxModUnit.IntGfxMod.UnitBGs.Count)
             {
-                Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -81,16 +83,16 @@ public partial class TArenaDlg : TDataModule
             U.ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
             {
-                Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
             SD.ClipRect = SaveRect;
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
             {
-                AoWExeForms.AoWExeForms.FontModule.Age8.Color = 0;
+                AoWExeFormsUnit.FontModule.Age8.Color = 0;
                 var unitTrainCost = FEvent.FArena.UnitTrainCost(U);
-                AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
+                AoWExeFormsUnit.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
             }
         }
     }
@@ -260,7 +262,7 @@ public partial class TArenaDlg : TDataModule
     }
 }
 
-public static partial class AoWArenaDlg
+public static partial class AoWArenaDlgUnit
 {
     // AoWArenaDlg.pas:90
     public static void ShowArena(TArenaDlg Dialog, TEnterArenaEventLog Event, TExecuteDoneEvent Done)

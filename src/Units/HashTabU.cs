@@ -1,6 +1,6 @@
 // Translated from HashTabU.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.HashTabU;
@@ -405,6 +405,6 @@ public partial class TStringHashTable256 : TStringHashTable
 
 }
 
-public static partial class HashTabU
+public static partial class HashTabUUnit
 {
 }

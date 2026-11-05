@@ -4,13 +4,13 @@ using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.CombatStructure;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.City;
-using static Aow.Units.AoWTC.AoWTC;
-using static Aow.Rtl.Rtl;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.House;
 
@@ -208,7 +208,7 @@ public partial class THouseResource : TCombatStructureResource
 
 }
 
-public static partial class House
+public static partial class HouseUnit
 {
     // House.pas:154
     public static void RegisterHouse(TEngine AEngine)

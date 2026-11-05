@@ -10,6 +10,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWEdit;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWPasswordDlg
 {
@@ -349,20 +352,20 @@ namespace Aow.Units.AoWPasswordDlg
             PasswordEdit.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TitleLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            OKBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            OKBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            CancelBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CancelBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            PasswordLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            PasswordEdit.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            PasswordEdit.ILEdit = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericE;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            TitleLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            OKBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            OKBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            PasswordLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            PasswordEdit.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            PasswordEdit.ILEdit = aowIntGfxModUnit.IntGfxMod.GenericE;
         }
 
         private void Layout_DlgHide_0(TObject p0)

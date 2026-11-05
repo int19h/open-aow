@@ -28,7 +28,7 @@ public partial class TTurnPlayerControl
 {
     public override void NewDay()
     {
-        var map = AoWE.AoWHSMap;
+        var map = AoWEUnit.AoWHSMap;
         int player = map.FSeatedPlayer;
         if (map.FRequestCombatType) map.FSeatedPlayer = -1;
         base.NewDay();

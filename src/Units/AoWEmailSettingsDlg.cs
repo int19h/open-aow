@@ -7,7 +7,7 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWEmailSettingsDlg;
 
@@ -60,6 +60,6 @@ public partial class TEmailSettingsDlg : TDataModule
     }
 }
 
-public static partial class AoWEmailSettingsDlg
+public static partial class AoWEmailSettingsDlgUnit
 {
 }

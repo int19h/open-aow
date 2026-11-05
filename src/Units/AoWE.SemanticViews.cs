@@ -56,7 +56,7 @@ public partial class TWallCrushingAbility
     }
 }
 
-public static partial class AoWE
+public static partial class AoWEUnit
 {
     public static bool P5DiplomaticExecute(TDiplomaticActionEventLog log, bool immediate, TExecuteTrigger trigger, object data, TExecuteDoneEvent done)
     {

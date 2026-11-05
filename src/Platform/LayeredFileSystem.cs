@@ -145,7 +145,7 @@ public sealed class LayeredFileSystem : IFileSystem
     public Stream Open(string path, int mode)
     {
         string relative = Relative(path);
-        bool create = mode == Aow.Rtl.Rtl.fmCreate;
+        bool create = mode == RtlUnit.fmCreate;
         FileAccess access = create ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, 2 => FileAccess.ReadWrite, _ => throw new ArgumentException("Invalid open mode.") };
         string target;
         if (access == FileAccess.Read) target = ReadLocation(relative) ?? throw new FileNotFoundException(path);
@@ -162,7 +162,7 @@ public sealed class LayeredFileSystem : IFileSystem
             userListings.Clear();
         }
         return new FileStream(target, create ? FileMode.Create : FileMode.Open, access,
-            (mode & 0xF0) == Aow.Rtl.Rtl.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+            (mode & 0xF0) == RtlUnit.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
     }
     public bool FileExists(string path) => ReadLocation(Relative(path)) is { } p && File.Exists(p);
     public bool DirectoryExists(string path) => ReadLocation(Relative(path)) is { } p && Directory.Exists(p);

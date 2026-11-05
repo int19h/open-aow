@@ -1,6 +1,6 @@
 // Translated from PlayerBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 
 namespace Aow.Units.PlayerBox;
@@ -73,7 +73,7 @@ public struct TRaceView
     public bool Selectable;
 }
 
-public static partial class PlayerBox
+public static partial class PlayerBoxUnit
 {
     // PlayerBox.pas:93
     public static void Register()

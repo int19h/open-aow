@@ -120,7 +120,7 @@ public partial class TPadResource : TFixedILTerrainMOR
 
 }
 
-public static partial class Pad
+public static partial class PadUnit
 {
     // Pad.pas:107
     public static void RegisterPad(TEngine AEngine)

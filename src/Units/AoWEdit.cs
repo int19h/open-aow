@@ -1,6 +1,6 @@
 // Translated from AoWEdit.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWControl;
@@ -445,8 +445,8 @@ public partial class TAOWEdit : TAOWControl
             case 46:
                 if (FCursorPos < FText.Length)
                 {
-                    FText = Rtl.Rtl.Copy(FText, 1, FCursorPos + FFirstChar - 1) +
-                        Rtl.Rtl.Copy(FText, FCursorPos + FFirstChar + 1, FText.Length - FCursorPos - FFirstChar);
+                    FText = Copy(FText, 1, FCursorPos + FFirstChar - 1) +
+                        Copy(FText, FCursorPos + FFirstChar + 1, FText.Length - FCursorPos - FFirstChar);
                     FCursorPos += FFirstChar - 1;
                     FFirstChar = 1;
                 }
@@ -462,7 +462,7 @@ public partial class TAOWEdit : TAOWControl
     }
 }
 
-public static partial class AoWEdit
+public static partial class AoWEditUnit
 {
     // AoWEdit.pas:399
     public static void Register()

@@ -72,13 +72,13 @@ public partial class TPicture16
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = (Rtl.Rtl.BytePointer(SD.Data) + L * 2 + SD.Pitch * T).Box();
+                Dst = (RtlUnit.BytePointer(SD.Data) + L * 2 + SD.Pitch * T).Box();
                 RowTable = Ptr<int>.Alloc(W + H);
                 ColTable = (RowTable.Reinterpret<byte>() + H * 4).Reinterpret<int>();
-                XStep = Rtl.Rtl.Round((double)65535 / XScale);
+                XStep = RtlUnit.Round((double)65535 / XScale);
                 if (SX != 0)
                 {
-                    XPos = Rtl.Rtl.Round((double)((double)SX / XScale) * 65535);
+                    XPos = RtlUnit.Round((double)((double)SX / XScale) * 65535);
                 }
                 else
                 {
@@ -97,10 +97,10 @@ public partial class TPicture16
                     XPos += XStep;
                 }
 
-                YStep = Rtl.Rtl.Round((double)65535 / YScale);
+                YStep = RtlUnit.Round((double)65535 / YScale);
                 if (SY != 0)
                 {
-                    YPos = Rtl.Rtl.Round((double)((double)SY / YScale) * 65535);
+                    YPos = RtlUnit.Round((double)((double)SY / YScale) * 65535);
                 }
                 else
                 {
@@ -124,7 +124,7 @@ public partial class TPicture16
 
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        GFXE.GFXE.BltStretched16(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
                     }
                     else
                     {
@@ -133,7 +133,7 @@ public partial class TPicture16
                             throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
-                        GFXE.GFXE.BltStretched16(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
                     }
 
                     if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -157,7 +157,7 @@ public partial class TPicture16
 
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        GFXE.GFXE.BltStretched16(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
                     }
                     else
                     {
@@ -166,7 +166,7 @@ public partial class TPicture16
                             throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
-                        GFXE.GFXE.BltStretched16(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
                     }
                 }
             }
@@ -239,13 +239,13 @@ public partial class TPicture16
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = (Rtl.Rtl.BytePointer(SD.Data) + L * 2 + SD.Pitch * T).Box();
+                Dst = (RtlUnit.BytePointer(SD.Data) + L * 2 + SD.Pitch * T).Box();
                 RowTable = Ptr<int>.Alloc(W + H);
                 ColTable = (RowTable.Reinterpret<byte>() + H * 4).Reinterpret<int>();
-                XStep = Rtl.Rtl.Round((double)65535 / XScale);
+                XStep = RtlUnit.Round((double)65535 / XScale);
                 if (SX != 0)
                 {
-                    XPos = Rtl.Rtl.Round((double)((double)SX / XScale) * 65535);
+                    XPos = RtlUnit.Round((double)((double)SX / XScale) * 65535);
                 }
                 else
                 {
@@ -264,10 +264,10 @@ public partial class TPicture16
                     XPos += XStep;
                 }
 
-                YStep = Rtl.Rtl.Round((double)65535 / YScale);
+                YStep = RtlUnit.Round((double)65535 / YScale);
                 if (SY != 0)
                 {
-                    YPos = Rtl.Rtl.Round((double)((double)SY / YScale) * 65535);
+                    YPos = RtlUnit.Round((double)((double)SY / YScale) * 65535);
                 }
                 else
                 {
@@ -293,11 +293,11 @@ public partial class TPicture16
                     {
                         switch (SD.PixelFormatID)
                         {
-                            case GFXE.GFXE.pfRGB555:
-                                GFXE.GFXE.BlendStretched555(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB555:
+                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
-                            case GFXE.GFXE.pfRGB565:
-                                GFXE.GFXE.BlendStretched565(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB565:
+                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
                         }
                     }
@@ -310,11 +310,11 @@ public partial class TPicture16
 
                         switch (SD.PixelFormatID)
                         {
-                            case GFXE.GFXE.pfRGB555:
-                                GFXE.GFXE.BlendStretched555(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB555:
+                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
-                            case GFXE.GFXE.pfRGB565:
-                                GFXE.GFXE.BlendStretched565(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB565:
+                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
                         }
                     }
@@ -342,11 +342,11 @@ public partial class TPicture16
                     {
                         switch (SD.PixelFormatID)
                         {
-                            case GFXE.GFXE.pfRGB555:
-                                GFXE.GFXE.BlendStretched555(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB555:
+                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
-                            case GFXE.GFXE.pfRGB565:
-                                GFXE.GFXE.BlendStretched565(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB565:
+                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
                         }
                     }
@@ -359,11 +359,11 @@ public partial class TPicture16
 
                         switch (SD.PixelFormatID)
                         {
-                            case GFXE.GFXE.pfRGB555:
-                                GFXE.GFXE.BlendStretched555(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB555:
+                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
-                            case GFXE.GFXE.pfRGB565:
-                                GFXE.GFXE.BlendStretched565(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                            case GFXEUnit.pfRGB565:
+                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
                                 break;
                         }
                     }

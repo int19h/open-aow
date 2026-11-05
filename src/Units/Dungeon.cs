@@ -1,14 +1,14 @@
 // Translated from Dungeon.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.Sound;
 using Aow.Units.NetworkE;
 using Aow.Units.ExploreS;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Dungeon;
 
@@ -191,7 +191,7 @@ public partial class TDungeon : TExplorationSite
         LocationLog = new TLocationTextEventLog(null);
         LocationLog.FPlayer = GetPlayer();
         var name = GetName();
-        LocationLog.FText = Rtl.Rtl.Format(TranslateRStr(XExploredRStr), [name]);
+        LocationLog.FText = RtlUnit.Format(TranslateRStr(XExploredRStr), [name]);
         var lhx = GetLhx();
         var yhx = GetYhx();
         LocationLog.SetLocation(GetXhx(), yhx, lhx);
@@ -218,24 +218,24 @@ public partial class TDungeon : TExplorationSite
             {
                 ArmyLog.FText = TranslateRStr(OnePrisonerLiberatedRStr);
                 var name2 = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
-                var format = Rtl.Rtl.Format(TranslateRStr(AfterLiberationOneUnitJoinedTheForcesOfXRStr), [name2]);
+                var format = RtlUnit.Format(TranslateRStr(AfterLiberationOneUnitJoinedTheForcesOfXRStr), [name2]);
                 ArmyLog.FMessages.Text = format;
             }
             else
             {
                 var count = FPrisoners.Count;
-                ArmyLog.FText = Rtl.Rtl.Format(TranslateRStr(XPrisonersLiberatedRStr), [IntToStr(count)]);
+                ArmyLog.FText = RtlUnit.Format(TranslateRStr(XPrisonersLiberatedRStr), [IntToStr(count)]);
                 var fPrisonersCount = FPrisoners.Count;
                 var name2 = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
-                var format = Rtl.Rtl.Format(TranslateRStr(AfterLiberationXunitsJoinedTheForcesOfYRStr), [fPrisonersCount, name2]);
+                var format = RtlUnit.Format(TranslateRStr(AfterLiberationXunitsJoinedTheForcesOfYRStr), [fPrisonersCount, name2]);
                 ArmyLog.FMessages.Text = format;
             }
         }
         else
         {
-            ArmyLog.FText = Rtl.Rtl.Format(TranslateRStr(XLiberatedRStr), [Hero.FHeroName]);
+            ArmyLog.FText = RtlUnit.Format(TranslateRStr(XLiberatedRStr), [Hero.FHeroName]);
             var name2 = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
-            var format = Rtl.Rtl.Format(TranslateRStr(AfterLiberationXJoinedTheForcesOfYRStr), [Hero.FHeroName, name2]);
+            var format = RtlUnit.Format(TranslateRStr(AfterLiberationXJoinedTheForcesOfYRStr), [Hero.FHeroName, name2]);
             ArmyLog.FMessages.Text = format;
         }
 
@@ -371,7 +371,7 @@ public enum TPrisonersMode : byte
     pmRandom = 4
 }
 
-public static partial class Dungeon
+public static partial class DungeonUnit
 {
     // Dungeon.pas:329
     public static void RegisterDungeon(TEngine Engine)

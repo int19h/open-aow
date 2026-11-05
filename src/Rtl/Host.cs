@@ -29,7 +29,7 @@ public sealed class MemorySettingsStore : ISettingsStore
     public void Write(string key, object value) => values[key] = value;
 }
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     public static bool SuppressRandomize { get; set; }
     public static ISettingsStore? Settings { get; set; }

@@ -34,7 +34,7 @@ public partial class TMainStructureResource : TCombatStructureResource
 
 }
 
-public static partial class MainStructure
+public static partial class MainStructureUnit
 {
     // MainStructure.pas:52
     public static void RegisterMainStructure(TEngine AEngine)

@@ -1,6 +1,6 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 
 namespace Aow.Units.HSEngine;
 
@@ -35,8 +35,8 @@ public partial class TMapLevel
         FHNOffsets = default;
         for (int hn = 1; hn <= 6; hn++)
             for (int parity = 0; parity <= 1; parity++)
-                FHNOffsets[parity][hn] = (HSEngine.HNtoXYTable[parity][hn].X
-                    + HSEngine.HNtoXYTable[parity][hn].Y * width) * FFieldSize;
+                FHNOffsets[parity][hn] = (HSEngineUnit.HNtoXYTable[parity][hn].X
+                    + HSEngineUnit.HNtoXYTable[parity][hn].Y * width) * FFieldSize;
 
     }
 

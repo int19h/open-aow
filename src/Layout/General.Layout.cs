@@ -5,6 +5,8 @@ using Aow.Layout;
 using Aow.Units.AOWWinManager;
 using Aow.Units.AOWToolTip;
 using Aow.Units.AoWComp;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWWinMan
 {
@@ -85,11 +87,11 @@ namespace Aow.Units.AoWWinMan
             Manager.Loaded();
             ToolTip.Loaded();
             session.Resolve(this);
-            Manager.BackgroundTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            Manager.ForegroundTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ToolTip.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            ToolTip.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ToolTip.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
+            Manager.BackgroundTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            Manager.ForegroundTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ToolTip.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            ToolTip.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ToolTip.AOWFont = AoWExeFormsUnit.FontModule.Age8;
             if (session.FireCreateEvents)
                 LayoutOnCreate?.Invoke(this);
         }

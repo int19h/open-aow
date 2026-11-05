@@ -8,10 +8,13 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using Aow.Units.aowMapEvents;
+using Aow.Units.AoWWorldMap;
+using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.AOWDialogWin;
 
@@ -104,8 +107,8 @@ public partial class TDWin : TDataModule
                     if (General.FCity.Raze(AoWHSMap.FSeatedPlayer))
                     {
                         Structure = General.FStructure;
-                        aowMapEvents.aowMapEvents.MapEvents.TheMapStructureDeselected(General.FStructure);
-                        aowMapEvents.aowMapEvents.MapEvents.TheMapStructureSelected(Structure);
+                        aowMapEventsUnit.MapEvents.TheMapStructureDeselected(General.FStructure);
+                        aowMapEventsUnit.MapEvents.TheMapStructureSelected(Structure);
                     }
                 }
                 else
@@ -118,7 +121,7 @@ public partial class TDWin : TDataModule
                 AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).Surrender();
                 break;
             case 5:
-                AoWWorldMap.AoWWorldMap.WorldMap.WorldPnl.Visible = false;
+                AoWWorldMapUnit.WorldMap.WorldPnl.Visible = false;
                 General.ReturnToTitle();
                 break;
             case 6:
@@ -135,7 +138,7 @@ public partial class TDWin : TDataModule
                     {
                         if (General.FSelectedUnit.Disband())
                         {
-                            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
+                            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
                         }
                     }
                     else
@@ -173,6 +176,6 @@ public partial class TDWin : TDataModule
     }
 }
 
-public static partial class AOWDialogWin
+public static partial class AOWDialogWinUnit
 {
 }

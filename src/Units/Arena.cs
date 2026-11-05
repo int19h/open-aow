@@ -1,11 +1,11 @@
 // Translated from Arena.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.NetworkE;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Arena;
 
@@ -87,7 +87,7 @@ public partial class TArena : TStructure
                     }
                     else
                     {
-                        var format = Rtl.Rtl.Format(TranslateRStr(XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
+                        var format = RtlUnit.Format(TranslateRStr(XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
                         AoWHSMap.ShowMessage(format);
                     }
                 }
@@ -414,7 +414,7 @@ public partial class TEnterArenaEventLog : TEventLog
 
         if (Total != 0)
         {
-            Result = Rtl.Rtl.Format(TranslateRStr(TotalCostXRStr), [IntToStr(Total)]);
+            Result = RtlUnit.Format(TranslateRStr(TotalCostXRStr), [IntToStr(Total)]);
         }
         else
         {
@@ -426,7 +426,7 @@ public partial class TEnterArenaEventLog : TEventLog
 
 }
 
-public static partial class Arena
+public static partial class ArenaUnit
 {
     // Arena.pas:318
     public static void RegisterArena(TEngine AEngine)

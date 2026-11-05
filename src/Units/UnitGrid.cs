@@ -1,6 +1,6 @@
 // Translated from UnitGrid.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
@@ -116,7 +116,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     public bool EditEnabled { get => FEditEnabled; set => FEditEnabled = value; }
 }
 
-public static partial class UnitGrid
+public static partial class UnitGridUnit
 {
     // UnitGrid.pas:207
     public static void Register()

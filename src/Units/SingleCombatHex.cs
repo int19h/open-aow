@@ -4,8 +4,8 @@ using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.SingleCombatHex;
 
@@ -70,7 +70,7 @@ public partial class TSingleCombatHexagonResource : TAbstractHexagonResource
 
 }
 
-public static partial class SingleCombatHex
+public static partial class SingleCombatHexUnit
 {
     // SingleCombatHex.pas:82
     public static void RegisterSingleCombatHexagon(TEngine AEngine)

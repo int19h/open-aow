@@ -2,6 +2,6 @@
 
 namespace Aow.Units.E1TacticalSupport;
 
-public static partial class E1TacticalSupport
+public static partial class E1TacticalSupportUnit
 {
 }

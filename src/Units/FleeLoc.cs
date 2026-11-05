@@ -2,13 +2,13 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 
 namespace Aow.Units.FleeLoc;
 
@@ -204,7 +204,7 @@ public partial class TMovementHS : TSingleHS
 
 }
 
-public static partial class FleeLoc
+public static partial class FleeLocUnit
 {
     // FleeLoc.pas:191
     public static void RegisterFleeLocation(TEngine AEngine)

@@ -1,10 +1,10 @@
 // Translated from PowerNode.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.PowerNode;
 
@@ -88,7 +88,7 @@ public partial class TPowerNode : TPlayerStructure
     public override string GetCurrentActivityText()
     {
         var power = GetPower();
-        return Rtl.Rtl.Format(TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
+        return RtlUnit.Format(TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
     }
 
     // PowerNode.pas:96
@@ -223,7 +223,7 @@ public partial class TPowerNodeResource : TPlayerStructureResource
 
 }
 
-public static partial class PowerNode
+public static partial class PowerNodeUnit
 {
     // PowerNode.pas:172
     public static void RegisterPowerNode(TEngine AEngine)

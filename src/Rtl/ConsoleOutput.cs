@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace Aow.Rtl;
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     public static void ConsoleWrite(bool newline, params object[] values) => ConsoleWrite(Console.OpenStandardOutput(), newline, values);
 

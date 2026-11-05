@@ -5,7 +5,7 @@ namespace Aow.Rtl.Tests;
 public sealed class HeadlessServicesTests
 {
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-    private static int RetainObject() => Rtl.ObjectToInt(new TObject());
+    private static int RetainObject() => RtlUnit.ObjectToInt(new TObject());
 
     [Fact]
     public void IntegerReferenceSlotsRetainObjectsUntilFree()
@@ -13,17 +13,17 @@ public sealed class HeadlessServicesTests
         int id = RetainObject();
         GC.Collect();
         GC.WaitForPendingFinalizers();
-        var value = Rtl.ReferenceFromId<TObject>(id);
+        var value = RtlUnit.ReferenceFromId<TObject>(id);
         Assert.NotNull(value);
         value.Free();
-        Assert.Throws<EAccessViolation>(() => Rtl.ReferenceFromId<TObject>(id));
+        Assert.Throws<EAccessViolation>(() => RtlUnit.ReferenceFromId<TObject>(id));
     }
 
     [Theory]
     [InlineData("C:\\file", "C:")]
     [InlineData("\\\\server\\share\\file", "\\\\server\\share")]
     [InlineData("relative\\file", "")]
-    public void DriveExtractionUsesDelphiSeparators(string path, string drive) => Assert.Equal(drive, Rtl.ExtractFileDrive(path));
+    public void DriveExtractionUsesDelphiSeparators(string path, string drive) => Assert.Equal(drive, RtlUnit.ExtractFileDrive(path));
 
     [Fact]
     public void DirectoryChangesStayInsideTheFileService()

@@ -1,20 +1,20 @@
 // Translated from City.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
 using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWReg;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.Crops;
 
 namespace Aow.Units.City;
@@ -51,7 +51,7 @@ public partial class TCityProductionControl : TProductionControl
     {
         if (FStatus == TProductionControlStatus.pcsProducing)
         {
-            switch (City.ProductionIDToCityAction(FQueue.GetItem(0).FProductionID))
+            switch (CityUnit.ProductionIDToCityAction(FQueue.GetItem(0).FProductionID))
             {
                 case TCityAction.caLoot:
                     if (FSettings.FTurnsLeft == FSettings.FTurnsTotal)
@@ -100,7 +100,7 @@ public partial class TCityProductionControl : TProductionControl
         bool Result = base.ExecuteProduction(Item);
         if (Result)
         {
-            switch (City.ProductionIDToCityAction(Item.FProductionID))
+            switch (CityUnit.ProductionIDToCityAction(Item.FProductionID))
             {
                 case TCityAction.caTrade:
                     FSettings.FTurnsTotal = (sbyte)Item.FParameter;
@@ -151,7 +151,7 @@ public partial class TCityProductionControl : TProductionControl
                     Log = new TLocationTextEventLog(null);
                     Log.FPlayer = GetPlayer();
                     var name = FCity.GetName();
-                    Log.FText = Rtl.Rtl.Format(TranslateRStr(CityLootingRStr), [name]);
+                    Log.FText = RtlUnit.Format(TranslateRStr(CityLootingRStr), [name]);
                     var lhx = FCity.GetLhx();
                     var yhx = FCity.GetYhx();
                     Log.SetLocation(FCity.GetXhx(), yhx, lhx);
@@ -196,7 +196,7 @@ public partial class TCityProductionControl : TProductionControl
     public override bool LoopableProduction(TProductionItem Item)
     {
         bool Result = base.LoopableProduction(Item);
-        switch (City.ProductionIDToCityAction(Item.FProductionID))
+        switch (CityUnit.ProductionIDToCityAction(Item.FProductionID))
         {
             case TCityAction.caMigrate:
                 Result = false;
@@ -219,7 +219,7 @@ public partial class TCityProductionControl : TProductionControl
     public override bool LockQueueProduction(TProductionItem Item)
     {
         bool Result = base.LockQueueProduction(Item);
-        switch (City.ProductionIDToCityAction(Item.FProductionID))
+        switch (CityUnit.ProductionIDToCityAction(Item.FProductionID))
         {
             case TCityAction.caMigrate:
                 Result = true;
@@ -271,7 +271,7 @@ public partial class TCityProductionControl : TProductionControl
         Log.FPlayer = City.FPlayer;
         var name = FSettings.FUnit.GetName();
         var fCityName = FCity.GetName();
-        Log.FText = Rtl.Rtl.Format(TranslateRStr(XProducedAtYRStr), [name, fCityName]);
+        Log.FText = RtlUnit.Format(TranslateRStr(XProducedAtYRStr), [name, fCityName]);
         var cityLhx = City.GetLhx();
         var yhx2 = City.GetYhx();
         Log.SetLocation(City.GetXhx(), yhx2, cityLhx);
@@ -292,7 +292,7 @@ public partial class TCityProductionControl : TProductionControl
         var unitProduction = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
         var unitName = AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).GetUnitName();
         var name = FCity.GetName();
-        Log.FText = Rtl.Rtl.Format(TranslateRStr(XInstalledAtYRStr), [unitName, name]);
+        Log.FText = RtlUnit.Format(TranslateRStr(XInstalledAtYRStr), [unitName, name]);
         var lhx = City.GetLhx();
         var yhx = City.GetYhx();
         Log.SetLocation(City.GetXhx(), yhx, lhx);
@@ -329,7 +329,7 @@ public partial class TCityProductionControl : TProductionControl
         base.NewTurn(Player);
         if (FStatus == TProductionControlStatus.pcsProducing && Player == FSettings.FPlayer && FSettings.FTurnsLeft == 0)
         {
-            switch (City.ProductionIDToCityAction(FQueue.GetItem(0).FProductionID))
+            switch (CityUnit.ProductionIDToCityAction(FQueue.GetItem(0).FProductionID))
             {
                 case TCityAction.caTrade:
                     ProductionDone();
@@ -345,7 +345,7 @@ public partial class TCityProductionControl : TProductionControl
                     Log = new TCityProductionEventLog(null);
                     Log.FPlayer = GetPlayer();
                     var name = FCity.GetName();
-                    Log.FText = Rtl.Rtl.Format(TranslateRStr(XUpgradedRStr), [name]);
+                    Log.FText = RtlUnit.Format(TranslateRStr(XUpgradedRStr), [name]);
                     var lhx = FCity.GetLhx();
                     var yhx = FCity.GetYhx();
                     Log.SetLocation(FCity.GetXhx(), yhx, lhx);
@@ -368,7 +368,7 @@ public partial class TCityProductionControl : TProductionControl
                     Log = new TCityProductionEventLog(null);
                     Log.FPlayer = GetPlayer();
                     var fCityName = FCity.GetName();
-                    Log.FText = Rtl.Rtl.Format(TranslateRStr(CityFortifiedRStr), [fCityName]);
+                    Log.FText = RtlUnit.Format(TranslateRStr(CityFortifiedRStr), [fCityName]);
                     var fCityLhx = FCity.GetLhx();
                     var fCityYhx = FCity.GetYhx();
                     Log.SetLocation(FCity.GetXhx(), fCityYhx, fCityLhx);
@@ -387,7 +387,7 @@ public partial class TCityProductionControl : TProductionControl
                     Log = new TCityProductionEventLog(null);
                     Log.FPlayer = GetPlayer();
                     var name2 = FCity.GetName();
-                    Log.FText = Rtl.Rtl.Format(TranslateRStr(CityLootedRStr), [name2, IntToStr(FCity.FIncome * 3)]);
+                    Log.FText = RtlUnit.Format(TranslateRStr(CityLootedRStr), [name2, IntToStr(FCity.FIncome * 3)]);
                     var lhx2 = FCity.GetLhx();
                     var yhx2 = FCity.GetYhx();
                     Log.SetLocation(FCity.GetXhx(), yhx2, lhx2);
@@ -408,7 +408,7 @@ public partial class TCityProductionControl : TProductionControl
                     var name3 = FCity.GetName();
                     var queueParameter = FQueue.GetItem(0);
                     var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[queueParameter.FParameter]);
-                    Log.FText = Rtl.Rtl.Format(TranslateRStr(CityMigratedToRStr), [name3, raceNamesPlural]);
+                    Log.FText = RtlUnit.Format(TranslateRStr(CityMigratedToRStr), [name3, raceNamesPlural]);
                     var lhx3 = FCity.GetLhx();
                     var yhx3 = FCity.GetYhx();
                     Log.SetLocation(FCity.GetXhx(), yhx3, lhx3);
@@ -433,7 +433,7 @@ public partial class TCityProductionControl : TProductionControl
     public override bool CanExecuteProduction(TProductionItem Item, ref string Reason)
     {
         bool Result;
-        switch (City.ProductionIDToCityAction(Item.FProductionID))
+        switch (CityUnit.ProductionIDToCityAction(Item.FProductionID))
         {
             case TCityAction.caTrade:
                 Result = true;
@@ -486,7 +486,7 @@ public partial class TCityProductionControl : TProductionControl
     public override string GetProductionName(TProductionItem Item)
     {
         string Result = base.GetProductionName(Item);
-        switch (City.ProductionIDToCityAction(Item.FProductionID))
+        switch (CityUnit.ProductionIDToCityAction(Item.FProductionID))
         {
             case TCityAction.caTrade:
                 Result = TranslateRStr(ProduceMerchandiseRStr);
@@ -496,7 +496,7 @@ public partial class TCityProductionControl : TProductionControl
                 break;
             case TCityAction.caMigrate:
                 var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[Item.FParameter]);
-                Result = Rtl.Rtl.Format(TranslateRStr(MigrateToXRStr), [raceNamesPlural]);
+                Result = RtlUnit.Format(TranslateRStr(MigrateToXRStr), [raceNamesPlural]);
                 break;
             case TCityAction.caLoot:
                 Result = TranslateRStr(LootRStr);
@@ -513,7 +513,7 @@ public partial class TCityProductionControl : TProductionControl
     public override string GetProductionNameProgressive(TProductionItem Item)
     {
         string Result = base.GetProductionNameProgressive(Item);
-        switch (City.ProductionIDToCityAction(Item.FProductionID))
+        switch (CityUnit.ProductionIDToCityAction(Item.FProductionID))
         {
             case TCityAction.caTrade:
                 Result = TranslateRStr(ProducingMerchandiseRStr);
@@ -523,7 +523,7 @@ public partial class TCityProductionControl : TProductionControl
                 break;
             case TCityAction.caMigrate:
                 var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[Item.FParameter]);
-                Result = Rtl.Rtl.Format(TranslateRStr(MigratingToXRStr), [raceNamesPlural]);
+                Result = RtlUnit.Format(TranslateRStr(MigratingToXRStr), [raceNamesPlural]);
                 break;
             case TCityAction.caLoot:
                 Result = TranslateRStr(LootingRStr);
@@ -752,7 +752,7 @@ public partial class TCityEnchantment : TGlobalEnchantment
     }
 
     // City.pas:2762
-    public override string GetName() => TranslateRStr(City.TCityEnchantmentIDRStr[(int)FEnchantmentID]);
+    public override string GetName() => TranslateRStr(CityUnit.TCityEnchantmentIDRStr[(int)FEnchantmentID]);
 
     // City.pas:2739
     public override TXYL GetLocation()
@@ -1561,7 +1561,7 @@ public partial class TCity : TPlayerCropStructure
         var noname = TranslateRStr(NonameRStr);
         if (CompareText(FName, noname) == 0 || IsEmpty(FName))
         {
-            Messages.Add(TranslateRStr(City.CityWarningRStr) + ": " + TranslateRStr(NoNameSpecifiedRStr));
+            Messages.Add(TranslateRStr(CityUnit.CityWarningRStr) + ": " + TranslateRStr(NoNameSpecifiedRStr));
             Result = false;
         }
 
@@ -1774,7 +1774,7 @@ public partial class TCity : TPlayerCropStructure
             {
                 var cityBattleWon = TranslateRStr(CityBattleWonRStr);
                 var name = GetName();
-                Result = Rtl.Rtl.Format(cityBattleWon, [name]);
+                Result = RtlUnit.Format(cityBattleWon, [name]);
             }
             else
             {
@@ -1782,7 +1782,7 @@ public partial class TCity : TPlayerCropStructure
                 {
                     var cityBattleLost = TranslateRStr(CityBattleLostRStr);
                     var name = GetName();
-                    Result = Rtl.Rtl.Format(cityBattleLost, [name]);
+                    Result = RtlUnit.Format(cityBattleLost, [name]);
                 }
                 else
                 {
@@ -1790,7 +1790,7 @@ public partial class TCity : TPlayerCropStructure
                     {
                         var cityBattleDrawn = TranslateRStr(CityBattleDrawnRStr);
                         var name = GetName();
-                        Result = Rtl.Rtl.Format(cityBattleDrawn, [name]);
+                        Result = RtlUnit.Format(cityBattleDrawn, [name]);
                     }
                 }
             }
@@ -1808,7 +1808,7 @@ public partial class TCity : TPlayerCropStructure
             Log = new TCityProductionEventLog(null);
             Log.FPlayer = NewPlayer;
             var editName = EditName();
-            Log.FText = Rtl.Rtl.Format(TranslateRStr(StructureCapturedRStr), [editName]);
+            Log.FText = RtlUnit.Format(TranslateRStr(StructureCapturedRStr), [editName]);
             Log.FXhx = GetXhx();
             Log.FYhx = GetYhx();
             Log.FLhx = GetLhx();
@@ -2025,7 +2025,7 @@ public partial class TCity : TPlayerCropStructure
         TCityAction Result;
         if (FProduction.FStatus == TProductionControlStatus.pcsProducing)
         {
-            Result = City.ProductionIDToCityAction(FProduction.FQueue.GetItem(0).FProductionID);
+            Result = CityUnit.ProductionIDToCityAction(FProduction.FQueue.GetItem(0).FProductionID);
         }
         else
         {
@@ -2142,15 +2142,15 @@ public partial class TCity : TPlayerCropStructure
     // City.pas:955
     public void ListEnhancementsInfo(TStrings List)
     {
-        List.Add(Rtl.Rtl.Format(TranslateRStr(UpgradeLevelXRStr), [IntToStr(FUpgradeLevel)]));
+        List.Add(RtlUnit.Format(TranslateRStr(UpgradeLevelXRStr), [IntToStr(FUpgradeLevel)]));
         if (FWallType == 1)
         {
-            List.Add(TranslateRStr(City.CityWoodenWallRStr));
+            List.Add(TranslateRStr(CityUnit.CityWoodenWallRStr));
         }
 
         if (FWallType == 2)
         {
-            List.Add(TranslateRStr(City.CityStoneWallRStr));
+            List.Add(TranslateRStr(CityUnit.CityStoneWallRStr));
         }
 
         if (FEnchantments.Contains(TCityEnchantmentID.ceiFountainOfLife))
@@ -2316,7 +2316,7 @@ public partial class TCity : TPlayerCropStructure
                     {
                         FProduction.ExecuteDeleteProductions();
                         Item = new TProductionItem(null);
-                        Item.FProductionID = City.CityActionToProductionID(TCityAction.caMigrate);
+                        Item.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caMigrate);
                         Item.FParameter = Selection.GetItems(BestIndex).FRace;
                         FProduction.ExecuteAddProduction(Item);
                         Item.Free();
@@ -2446,7 +2446,7 @@ public partial class TCity : TPlayerCropStructure
     public int UpgradeCost()
     {
         var size = GetSize();
-        return City.UpgradePrices[size - 1];
+        return CityUnit.UpgradePrices[size - 1];
     }
 
     // City.pas:1351
@@ -2463,7 +2463,7 @@ public partial class TCity : TPlayerCropStructure
             for (int I = 0, last = FProduction.FQueue.Count - 1; I <= last; I++)
             {
                 var queue = FProduction.FQueue.GetItem(I);
-                var cityActionToProductionID = City.CityActionToProductionID(TCityAction.caUpgrade);
+                var cityActionToProductionID = CityUnit.CityActionToProductionID(TCityAction.caUpgrade);
                 if (queue.FProductionID == cityActionToProductionID)
                 {
                     Level += 1;
@@ -2493,7 +2493,7 @@ public partial class TCity : TPlayerCropStructure
         if (CanUpgrade(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Item = new TProductionItem(null);
-            Item.FProductionID = City.CityActionToProductionID(TCityAction.caUpgrade);
+            Item.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caUpgrade);
             FProduction.Produce(Item, Queue);
             Item.Free();
             Result = true;
@@ -2514,11 +2514,11 @@ public partial class TCity : TPlayerCropStructure
         {
             case 0:
                 var size = GetSize();
-                Result = City.WoodWallPrices[size - 1];
+                Result = CityUnit.WoodWallPrices[size - 1];
                 break;
             case 1:
                 var size2 = GetSize();
-                Result = City.StoneWallPrices[size2 - 1];
+                Result = CityUnit.StoneWallPrices[size2 - 1];
                 break;
             default:
                 Result = -1;
@@ -2542,7 +2542,7 @@ public partial class TCity : TPlayerCropStructure
             for (int I = 0, last = FProduction.FQueue.Count - 1; I <= last; I++)
             {
                 var queue = FProduction.FQueue.GetItem(I);
-                var cityActionToProductionID = City.CityActionToProductionID(TCityAction.caFortify);
+                var cityActionToProductionID = CityUnit.CityActionToProductionID(TCityAction.caFortify);
                 if (queue.FProductionID == cityActionToProductionID)
                 {
                     Level += 1;
@@ -2572,7 +2572,7 @@ public partial class TCity : TPlayerCropStructure
         if (CanFortify(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Item = new TProductionItem(null);
-            Item.FProductionID = City.CityActionToProductionID(TCityAction.caFortify);
+            Item.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caFortify);
             FProduction.Produce(Item, Queue);
             Item.Free();
             Result = true;
@@ -2621,7 +2621,7 @@ public partial class TCity : TPlayerCropStructure
         if (CanTrade(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Item = new TProductionItem(null);
-            Item.FProductionID = City.CityActionToProductionID(TCityAction.caTrade);
+            Item.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caTrade);
             if (Queue)
             {
                 Item.FParameter = 1;
@@ -2658,7 +2658,7 @@ public partial class TCity : TPlayerCropStructure
         if (CanLoot(ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Item = new TProductionItem(null);
-            Item.FProductionID = City.CityActionToProductionID(TCityAction.caLoot);
+            Item.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caLoot);
             FProduction.Produce(Item, false);
             Item.Free();
             Result = true;
@@ -2731,13 +2731,13 @@ public partial class TCity : TPlayerCropStructure
         sbyte Player;
         if (FRace != Race)
         {
-            Result = City.RaceInCity(Race, FPlayer);
+            Result = CityUnit.RaceInCity(Race, FPlayer);
             I = AoWHSMap.FPlayers.Count;
             while (I != 1 && !Result)
             {
                 I -= 1;
                 Player = (sbyte)I;
-                Result = AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(Player << 0), FPlayer) == TDiplomaticRelation.drAlliance && City.RaceInCity(Race, Player);
+                Result = AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(Player << 0), FPlayer) == TDiplomaticRelation.drAlliance && CityUnit.RaceInCity(Race, Player);
             }
         }
         else
@@ -2757,7 +2757,7 @@ public partial class TCity : TPlayerCropStructure
         if (CanMigrate(Race, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Item = new TProductionItem(null);
-            Item.FProductionID = City.CityActionToProductionID(TCityAction.caMigrate);
+            Item.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caMigrate);
             Item.FParameter = Race;
             FProduction.Produce(Item, false);
             Item.Free();
@@ -2911,7 +2911,7 @@ public partial class TCity : TPlayerCropStructure
         Values.Add(IntToStr(Income));
         Income += GetCropCount() * 2;
         var cropCount = GetCropCount();
-        Names.Add(Rtl.Rtl.Format(TranslateRStr(XCropFieldsRStr), [IntToStr(cropCount)]));
+        Names.Add(RtlUnit.Format(TranslateRStr(XCropFieldsRStr), [IntToStr(cropCount)]));
         Values.Add(IntToStr(GetCropCount() * 2));
         if (TSet<TCityAction>.Of(TCityAction.caNone, TCityAction.caTrade).Contains(GetActiveAction()))
         {
@@ -2948,19 +2948,19 @@ public partial class TCity : TPlayerCropStructure
         {
             var playerRelation = AoWHSMap.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
             var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
-            List.Add(Rtl.Rtl.Format(TranslateRStr(RaceRelationXRStr), [status]));
+            List.Add(RtlUnit.Format(TranslateRStr(RaceRelationXRStr), [status]));
             if (RaceTerrain[FRace].Penalty.Contains((byte)TerrainType))
             {
                 var terrainPenaltyX = TranslateRStr(TerrainPenaltyXRStr);
                 var terrainType = AoWHSSet.TerrainTypes[TerrainType];
-                List.Add(Rtl.Rtl.Format(terrainPenaltyX, [terrainType]));
+                List.Add(RtlUnit.Format(terrainPenaltyX, [terrainType]));
             }
 
             if (RaceTerrain[FRace].Bonus.Contains((byte)TerrainType))
             {
                 var terrainBonusX = TranslateRStr(TerrainBonusXRStr);
                 var terrainType = AoWHSSet.TerrainTypes[TerrainType];
-                List.Add(Rtl.Rtl.Format(terrainBonusX, [terrainType]));
+                List.Add(RtlUnit.Format(terrainBonusX, [terrainType]));
             }
 
             Predictor = new TCombatPredictor();
@@ -2994,18 +2994,18 @@ public partial class TCity : TPlayerCropStructure
                 if (Predictor.GetSuperiority() / 4 >= 75)
                 {
                     var strong = TranslateRStr(StrongRStr);
-                    List.Add(Rtl.Rtl.Format(TranslateRStr(OccupationForcesXRStr), [strong]));
+                    List.Add(RtlUnit.Format(TranslateRStr(OccupationForcesXRStr), [strong]));
                 }
                 else
                 {
                     var average = TranslateRStr(AverageRStr);
-                    List.Add(Rtl.Rtl.Format(TranslateRStr(OccupationForcesXRStr), [average]));
+                    List.Add(RtlUnit.Format(TranslateRStr(OccupationForcesXRStr), [average]));
                 }
             }
             else
             {
                 var weak = TranslateRStr(WeakRStr);
-                List.Add(Rtl.Rtl.Format(TranslateRStr(OccupationForcesXRStr), [weak]));
+                List.Add(RtlUnit.Format(TranslateRStr(OccupationForcesXRStr), [weak]));
             }
 
             Predictor.Free();
@@ -3241,7 +3241,7 @@ public partial class TCity : TPlayerCropStructure
                         var unitIndex2 = RaceResource.FUnitIndexes[I];
                         var unitResource = AoWHSSet.FUnitResources.GetUnitResource(unitIndex2);
                         var size = GetSize();
-                        UnitLevel = City.UnitLevelToCityLevel(unitResource.FLevel, size);
+                        UnitLevel = CityUnit.UnitLevelToCityLevel(unitResource.FLevel, size);
                         if (UnitLevel != -1 && UnitLevel <= FUpgradeLevel)
                         {
                             Researched = UnitLevel == 1 && !(RaceResource.FSpecialUnitIndexes.Count >= 4 && RaceResource.FUnitIndexes[I] == RaceResource.FSpecialUnitIndexes[3]);
@@ -3252,8 +3252,8 @@ public partial class TCity : TPlayerCropStructure
                 }
             }
 
-            City.SortingCity = this;
-            FProduction.FUnitProductions.FChildren.Sort(City.CompareCityProductions);
+            CityUnit.SortingCity = this;
+            FProduction.FUnitProductions.FChildren.Sort(CityUnit.CompareCityProductions);
         }
     }
 
@@ -3290,18 +3290,18 @@ public partial class TCity : TPlayerCropStructure
     public int GetObtainValue()
     {
         var size = GetSize();
-        int Result = City.UpgradePrices[size - 1] * FUpgradeLevel;
+        int Result = CityUnit.UpgradePrices[size - 1] * FUpgradeLevel;
         if (FWallType == 1)
         {
             var size2 = GetSize();
-            Result += City.WoodWallPrices[size2 - 1];
+            Result += CityUnit.WoodWallPrices[size2 - 1];
         }
 
         if (FWallType == 2)
         {
             var size2 = GetSize();
             var size3 = GetSize();
-            Result = Result + City.WoodWallPrices[size2 - 1] + City.StoneWallPrices[size3 - 1];
+            Result = Result + CityUnit.WoodWallPrices[size2 - 1] + CityUnit.StoneWallPrices[size3 - 1];
         }
 
         return Result;
@@ -3340,7 +3340,7 @@ public partial class TCity : TPlayerCropStructure
             {
                 Value = GetObtainValue() / 4;
                 Relation = (byte)AoWHSMap.FRaces.GetRace(FRace).GetPlayerRelation(Player);
-                Result += City.TCity_JoinAmount__JoinPercent[(int)(TStatus)Relation] * Value / 100;
+                Result += CityUnit.TCity_JoinAmount__JoinPercent[(int)(TStatus)Relation] * Value / 100;
             }
             else
             {
@@ -3376,7 +3376,7 @@ public partial class TCity : TPlayerCropStructure
             {
                 Request.FObject = TNegotiateObject.noCity;
                 var name = GetName();
-                Request.FText = Rtl.Rtl.Format(TranslateRStr(CityJoinHeaderRStr), [name]);
+                Request.FText = RtlUnit.Format(TranslateRStr(CityJoinHeaderRStr), [name]);
                 Request.FGold = Amount;
                 if (Request.FGold == 0)
                 {
@@ -3385,7 +3385,7 @@ public partial class TCity : TPlayerCropStructure
                 }
                 else
                 {
-                    var format = Rtl.Rtl.Format(TranslateRStr(CityTributeJoinRStr), [IntToStr(Request.FGold)]);
+                    var format = RtlUnit.Format(TranslateRStr(CityTributeJoinRStr), [IntToStr(Request.FGold)]);
                     Request.FJoinMessage.Text = format;
                 }
 
@@ -3433,7 +3433,7 @@ public partial class TCity : TPlayerCropStructure
                     Log = new TLocationTextEventLog(null);
                     Log.FPlayer = FPlayer;
                     var name = GetName();
-                    Log.FText = Rtl.Rtl.Format(TranslateRStr(XOverthrownRStr), [name]);
+                    Log.FText = RtlUnit.Format(TranslateRStr(XOverthrownRStr), [name]);
                     var lhx = GetLhx();
                     var yhx = GetYhx();
                     Log.SetLocation(GetXhx(), yhx, lhx);
@@ -3764,11 +3764,11 @@ public partial class TCity : TPlayerCropStructure
     // City.pas:138
     public void GenerateRebelUnits(TUnitList units)
     {
-        int saved = Rtl.Rtl.RandSeed;
-        Rtl.Rtl.RandSeed = GetXhx() * 10 + AoWE.AoWE.AoWHSMap.FInitialRandomSeed + GetYhx();
-        AoWE.AoWE.FillWithRandomUnits(AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace).FUnitIndexes, units, 2, GetSize() * 25, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature));
+        int saved = RandSeed;
+        RandSeed = GetXhx() * 10 + AoWHSMap.FInitialRandomSeed + GetYhx();
+        FillWithRandomUnits(AoWHSSet.FRaceResources.GetRaceResource(FRace).FUnitIndexes, units, 2, GetSize() * 25, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature));
         // The source restores only after a successful fill.
-        Rtl.Rtl.RandSeed = saved;
+        RandSeed = saved;
     }
 }
 
@@ -3880,7 +3880,7 @@ public partial class TCityRebellionEventLog : TEventLog
     }
 
     // City.pas:2689
-    public override string GetText() => Rtl.Rtl.Format(TranslateRStr(CityRebellionRStr), [FCityName]);
+    public override string GetText() => RtlUnit.Format(TranslateRStr(CityRebellionRStr), [FCityName]);
 
     // City.pas:2699
     public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
@@ -4263,7 +4263,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             City = ReferenceFromId<TCity>(Cities[0].A);
             City.FProduction.ExecuteDeleteProductions();
             Production = new TProductionItem(null);
-            Production.FProductionID = Units.City.City.CityActionToProductionID(TCityAction.caUpgrade);
+            Production.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caUpgrade);
             City.FProduction.ExecuteAddProduction(Production);
             Production.Free();
             Player.FAIBudget.BudgetExpenseMade(250, 0, Budget, TBudgetExpenseMode.bemBudget);
@@ -4388,7 +4388,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             var fortifyCost = City.FortifyCost();
             Player.FAIBudget.BudgetExpenseMade(fortifyCost, 0, Budget, TBudgetExpenseMode.bemBudget);
             Production = new TProductionItem(null);
-            Production.FProductionID = Units.City.City.CityActionToProductionID(TCityAction.caFortify);
+            Production.FProductionID = CityUnit.CityActionToProductionID(TCityAction.caFortify);
             City.FProduction.ExecuteAddProduction(Production);
             Production.Free();
 
@@ -4618,7 +4618,7 @@ public enum TDefendersGenerateMode : byte
     dgStrong = 4
 }
 
-public static partial class City
+public static partial class CityUnit
 {
     public static FixedArray_int_5 TCity_JoinAmount__JoinPercent = FixedArray_int_5.From([200, 175, 150, 125, 100]);
     // City.pas:3220

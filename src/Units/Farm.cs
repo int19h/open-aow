@@ -1,11 +1,11 @@
 // Translated from Farm.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.Crops;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Farm;
 
@@ -66,7 +66,7 @@ public partial class TFarm : TPlayerCropStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return Rtl.Rtl.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
     }
 
     // Farm.pas:111
@@ -181,7 +181,7 @@ public partial class TFarmResource : TPlayerCropStructureResource
 
 }
 
-public static partial class Farm
+public static partial class FarmUnit
 {
     // Farm.pas:161
     public static int FarmIncome(sbyte Player)

@@ -4,8 +4,9 @@ using System.Text.Json;
 using Aow.Rtl;
 using Aow.Units;
 using Aow.Units.AoWE;
-using Game = Aow.Units.AoWE.AoWE;
-using Shim = Aow.Rtl.Rtl;
+using Aow.Units.AoWTCReg;
+using Game = Aow.Units.AoWE.AoWEUnit;
+using Shim = Aow.Rtl.RtlUnit;
 
 namespace Aow.Headless;
 
@@ -103,7 +104,7 @@ internal static class Program
             }
             Startup.InitializeAll();
             Aow.Units.Sound.NullSoundSystem.Install();
-            Aow.Units.AoWTCReg.AoWTCReg.RegisterTacticalCombat(Game.AoWEngine);
+            AoWTCRegUnit.RegisterTacticalCombat(Game.AoWEngine);
             gameplay = true;
             Game.AoWEngine.LoadHSM(input, false, null!);
             if (Game.AoWEngine.HSMap is not TAoWHSMap map) throw new InvalidDataException("engine load failed");

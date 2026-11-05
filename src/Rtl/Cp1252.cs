@@ -32,7 +32,7 @@ public static class Cp1252
 
     public static string Normalize(string? value)
     {
-        value = Rtl.RequireString(value);
+        value = RtlUnit.RequireString(value);
         return string.Create(value.Length, value, (chars, text) =>
         {
             for (int i = 0; i < chars.Length; i++) chars[i] = Char(Byte(text[i]));
@@ -50,7 +50,7 @@ public static class Cp1252
 
     public static byte[] Encode(string? value)
     {
-        value = Rtl.RequireString(value);
+        value = RtlUnit.RequireString(value);
         var result = new byte[value.Length];
         for (int i = 0; i < result.Length; i++) result[i] = Byte(value[i]);
         return result;
@@ -58,8 +58,8 @@ public static class Cp1252
 
     public static int Compare(string? a, string? b)
     {
-        a = Rtl.RequireString(a);
-        b = Rtl.RequireString(b);
+        a = RtlUnit.RequireString(a);
+        b = RtlUnit.RequireString(b);
         for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
         {
             int difference = Key(a[i]) - Key(b[i]);

@@ -5,7 +5,7 @@ using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -88,7 +88,7 @@ public sealed partial class SpellConstructionTests
 
     private static TEngine RegisteredEngine(Type type)
     {
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+        if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
         try { engine.RegisterEClasses([EClass.Of(type)]); }
         catch { engine.Destroy(); throw; }

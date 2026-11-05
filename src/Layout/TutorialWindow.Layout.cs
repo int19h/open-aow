@@ -7,6 +7,9 @@ using Aow.Units.AoWComp;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWVScroll;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWTutorialWin
 {
@@ -228,18 +231,18 @@ namespace Aow.Units.AoWTutorialWin
             AbVSB.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt;
-            MessageMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
-            Close.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans;
-            HeaderMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
-            HeaderMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            AbVSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.MiscArt;
+            MessageMemo.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.AOWFont = AoWExeFormsUnit.FontModule.Age10b;
+            Close.ILButton = aowIntGfxModUnit.IntGfxMod.CampaignTrans;
+            HeaderMemo.AOWFont = AoWExeFormsUnit.FontModule.AoW15BlackBrown;
+            HeaderMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            AbVSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
         }
 
         private void Layout_DlgHide_0(TObject p0)

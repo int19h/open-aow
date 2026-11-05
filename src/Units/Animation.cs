@@ -1,6 +1,6 @@
 // Translated from Animation.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
@@ -8,8 +8,8 @@ using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Animation;
 
@@ -729,7 +729,7 @@ public enum TAnimationTEState : byte
     atDone = 2
 }
 
-public static partial class Animation
+public static partial class AnimationUnit
 {
     public static void Initialize()
     {

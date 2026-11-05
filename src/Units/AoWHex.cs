@@ -1,16 +1,16 @@
 // Translated from AoWHex.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.IsoHex;
 using Aow.Units.Hexagon;
 using Aow.Units.BorderHx;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.GFXE;
 
 namespace Aow.Units.AoWHex;
@@ -100,9 +100,9 @@ public partial class TAoWHexagon : THexagon
         int Image;
         Shifted = false;
         FTransitions[Side] = 255;
-        FTransitionSides = (byte)(FTransitionSides & AoWHex.SideClear[Side]);
+        FTransitionSides = (byte)(FTransitionSides & AoWHexUnit.SideClear[Side]);
         MapLevel = (TMapLevel)Owner.Owner;
-        HNtoHX(AoWHex.SideHN[Side], ref NXhx, ref NYhx);
+        HNtoHX(AoWHexUnit.SideHN[Side], ref NXhx, ref NYhx);
         TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, NXhx, NYhx, ref NXhx, ref NYhx);
         if (NXhx >= 0 && NYhx >= 0 && MapLevel.Width > NXhx && MapLevel.Height > NYhx)
         {
@@ -304,11 +304,11 @@ public partial class TAoWWaterHexagon : TLowerIsometricHexagon
     {
         var field = (TMapField)Owner;
         int x = 0, y = 0;
-        HSEngine.HSEngine.HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
+        HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
         x -= xSurface + 8;
         y -= ySurface;
         var library = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        int phase = FrameFixtureInputs.WaterVariantPhase ?? (int)((uint)Rtl.Rtl.ObjectToInt(Owner) >> 3);
+        int phase = FrameFixtureInputs.WaterVariantPhase ?? (int)((uint)ObjectToInt(Owner) >> 3);
         library[((phase + field.Xhx + field.Yhx * 2 + (FSides >> 6)) & 15) + 140].Show(x, y, surface);
         x -= 6;
         y -= 9;
@@ -397,7 +397,7 @@ public struct THexagonResourceFields
     public TCustomImageLibrary TransitionLibrary;
 }
 
-public static partial class AoWHex
+public static partial class AoWHexUnit
 {
     // AoWHex.pas:461
     public static void RegisterAoWHexagon(TEngine AEngine)

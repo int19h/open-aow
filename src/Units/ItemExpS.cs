@@ -1,12 +1,12 @@
 // Translated from ItemExpS.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ExploreS;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.ItemExpS;
 
@@ -123,7 +123,7 @@ public partial class TItemExplorationSite : TExplorationSite
             // { Original parses the formatted text as CSV. }
             var itemsExplored = TranslateRStr(ItemsExploredRStr);
             var resourceEditName = FResource.ResourceEditName();
-            var format = Rtl.Rtl.Format(itemsExplored, [resourceEditName]);
+            var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
             Log.FMessages.CommaText = format;
             Log.Execute(false, TExecuteTrigger.etEvent, null);
             Log.Release();
@@ -206,7 +206,7 @@ public partial class TItemExplorationSiteResource : TExplorationSiteResource
 
 }
 
-public static partial class ItemExpS
+public static partial class ItemExpSUnit
 {
     // ItemExpS.pas:215
     public static void RegisterItemExplorationSite(TEngine Engine)

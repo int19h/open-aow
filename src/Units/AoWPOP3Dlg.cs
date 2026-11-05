@@ -9,8 +9,8 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWPOP3Dlg;
 
@@ -151,6 +151,6 @@ public partial class TPOP3Dlg : TDataModule
     }
 }
 
-public static partial class AoWPOP3Dlg
+public static partial class AoWPOP3DlgUnit
 {
 }

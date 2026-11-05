@@ -1,13 +1,13 @@
 // Translated from ExploreS.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.ExploreS;
 
@@ -485,7 +485,7 @@ public enum TDefendersMode : byte
     dmRandom = 4
 }
 
-public static partial class ExploreS
+public static partial class ExploreSUnit
 {
     // ExploreS.pas:385
     public static void RegisterExplorationSite(TEngine AEngine)

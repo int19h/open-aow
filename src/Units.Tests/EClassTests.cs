@@ -2,7 +2,7 @@ using System.Text.Json;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -56,12 +56,12 @@ public sealed class EClassTests
     [Fact]
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+        if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
         try
         {
             var engines = new List<TEngine> { engine };
-            foreach (var other in Aow.Units.Engine.Engine.Engines!.List.OfType<TEngine>())
+            foreach (var other in EngineUnit.Engines!.List.OfType<TEngine>())
                 if (!ReferenceEquals(other, engine)) engines.Add(other);
             Assert.Contains(EClass.Of<TEControlStyleObject>(), ProductRegistered(engine));
             foreach (var registered in engines)

@@ -2,12 +2,12 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.MagicSanctuary;
 
@@ -160,7 +160,7 @@ public partial class TMagicSanctuaryResource : TStructureResource
 
 }
 
-public static partial class MagicSanctuary
+public static partial class MagicSanctuaryUnit
 {
     // MagicSanctuary.pas:166
     public static void RegisterMagicSanctuary(TEngine AEngine)

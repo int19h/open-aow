@@ -8,6 +8,9 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWImage;
+using Aow.Units.E2Globals;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWSelFactionWin
 {
@@ -501,23 +504,23 @@ namespace Aow.Units.AoWSelFactionWin
             DSphere.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            FactionPnl.AOWWindow = E2Globals.E2Globals.TitleWindow.TitleWin;
-            FactionPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin;
-            TopLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            LText.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            LStart.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            LStart.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            LBack.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            LBack.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            LSphere.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin;
-            DStart.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            DStart.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            DBack.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            DBack.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            LName.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            DText.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            DName.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            DSphere.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin;
+            FactionPnl.AOWWindow = E2GlobalsUnit.TitleWindow.TitleWin;
+            FactionPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.FactionWin;
+            TopLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            LText.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            LStart.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            LStart.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            LBack.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            LBack.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            LSphere.ImageLib = aowIntGfxModUnit.IntGfxMod.FactionWin;
+            DStart.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            DStart.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            DBack.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            DBack.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            LName.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            DText.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            DName.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            DSphere.ImageLib = aowIntGfxModUnit.IntGfxMod.FactionWin;
         }
 
         private void Layout_FactionPnlUpdate_0(TObject p0)

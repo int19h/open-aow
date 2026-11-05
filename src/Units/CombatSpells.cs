@@ -1,10 +1,10 @@
 // Translated from CombatSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.CombatSpells;
 
@@ -530,7 +530,7 @@ public partial class TCombatSpell : TSpell
     }
 
     // CombatSpells.pas:693
-    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Defender, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
     {
         TSet<TDamageType> DamageTypes;
         TSet<TDamageType> Protection;
@@ -543,19 +543,19 @@ public partial class TCombatSpell : TSpell
         int Defense;
         if (WallSituation == TWallSituation.wsNone || FCombatInfo.Range == -1 || FCombatInfo.Range >= 8)
         {
-            Protection = Defender.GetProtectionTypes();
-            Immunity = Defender.GetImmunityTypes();
+            Protection = Target.GetProtectionTypes();
+            Immunity = Target.GetImmunityTypes();
             DamageTypes = FCombatInfo.DamageTypes;
             Damage = FCombatInfo.Damage;
-            Defense = Defender.GetDefense();
+            Defense = Target.GetDefense();
             if (WallSituation == TWallSituation.wsTarget && (TSet<TDamageType>.Of(TDamageType.dtMagic, TDamageType.dtDeath, TDamageType.dtHoly) & FCombatInfo.DamageTypes) == TSet<TDamageType>.Of())
             {
                 Defense += 2;
             }
 
             Values.DamageTypes = DamageTypes;
-            var hitPoints = Defender.GetHitPoints();
-            var resistance = Defender.GetResistance();
+            var hitPoints = Target.GetHitPoints();
+            var resistance = Target.GetResistance();
             var statisticsToLimitedDV = StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, hitPoints, Defense, resistance, Immunity, Protection);
             Values.SourceDamage = statisticsToLimitedDV * FCombatInfo.RepeatCount;
             if (FCombatInfo.Radius > 1)
@@ -591,11 +591,11 @@ public partial class TCombatSpell : TSpell
                     }
                 }
 
-                for (int I = Combat.FSides[(int)Defender.GetSide()].GetCount() - 1; I >= 0; I--)
+                for (int I = Combat.FSides[(int)Target.GetSide()].GetCount() - 1; I >= 0; I--)
                 {
-                    var side = Defender.GetSide();
+                    var side = Target.GetSide();
                     Other = Combat.FSides[(int)side].GetObjects(I);
-                    if (Defender != Other && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Defender.FPosition) >> 4) && Other.fcRoundDistance() <= Distance && DamageTypes - Other.GetImmunityTypes() != TSet<TDamageType>.Of())
+                    if (Target != Other && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Target.FPosition) >> 4) && Other.fcRoundDistance() <= Distance && DamageTypes - Other.GetImmunityTypes() != TSet<TDamageType>.Of())
                     {
                         Count += 1;
                     }
@@ -720,18 +720,18 @@ public partial class TTurnUndead : TCombatSpell
     }
 
     // CombatSpells.pas:922
-    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Defender, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
     {
-        bool condition = Defender is TCombatUnit;
+        bool condition = Target is TCombatUnit;
         if (condition)
         {
-            var unitType = ((TCombatUnit)Defender).FUnit.GetUnitType();
+            var unitType = ((TCombatUnit)Target).FUnit.GetUnitType();
             condition = TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(unitType);
         }
 
-        if (condition && (((TCombatUnit)Defender).FUnit.GetRace() == 11 || ((TCombatUnit)Defender).FUnit.GetAbilityEnabled(129)))
+        if (condition && (((TCombatUnit)Target).FUnit.GetRace() == 11 || ((TCombatUnit)Target).FUnit.GetAbilityEnabled(129)))
         {
-            base.fcGetDamageValueEx(Source, Defender, WallSituation, ref Values);
+            base.fcGetDamageValueEx(Source, Target, WallSituation, ref Values);
         }
         else
         {
@@ -921,21 +921,21 @@ public partial class THighPrayer : TCombatSpell
     }
 
     // CombatSpells.pas:1067
-    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Defender, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
     {
         int Value;
         int Healing;
         TCombatSide Side;
-        TCombatObject Target;
+        TCombatObject Ally;
         Value = 0;
         var side = Source.GetSide();
         Side = Source.FCombat.FSides[(int)side];
         for (int I = Side.GetCount() - 1; I >= 0; I--)
         {
-            Target = Side.GetObjects(I);
-            if (Target.FCombatValue != 0 && Target is TCombatUnit)
+            Ally = Side.GetObjects(I);
+            if (Ally.FCombatValue != 0 && Ally is TCombatUnit)
             {
-                Healing = Target.GetHits() - Target.GetHitPoints();
+                Healing = Ally.GetHits() - Ally.GetHitPoints();
                 if (Healing > 5)
                 {
                     Healing = 5;
@@ -1783,20 +1783,20 @@ public partial class TTerror : TCombatSpell
     }
 
     // CombatSpells.pas:1828
-    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Defender, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
     {
         int Value;
         TCombatSide Side;
-        TCombatObject Target;
+        TCombatObject Opponent;
         Value = 0;
         var opponentSide = Source.GetOpponentSide();
         Side = Source.FCombat.FSides[(int)opponentSide];
         for (int I = Side.GetCount() - 1; I >= 0; I--)
         {
-            Target = Side.GetObjects(I);
-            if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is TCombatUnit && !Target.GetImmunityTypes().Contains(TDamageType.dtDeath))
+            Opponent = Side.GetObjects(I);
+            if (!Opponent.GetAbilityEnabled(108) && Opponent.FCombatValue != 0 && Opponent is TCombatUnit && !Opponent.GetImmunityTypes().Contains(TDamageType.dtDeath))
             {
-                Value += Round((double)HitRoleProbability(6 - Target.GetResistance()) * 100);
+                Value += Round((double)HitRoleProbability(6 - Opponent.GetResistance()) * 100);
             }
         }
 
@@ -1963,9 +1963,9 @@ public partial class TRecallSpirit : TCombatSpell
     }
 
     // CombatSpells.pas:1990
-    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Defender, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
     {
-        if (Defender.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
+        if (Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
         {
             // { Original leaves the other damage-value fields unchanged on success. }
             Values.SourceDamage = 200;
@@ -2051,9 +2051,9 @@ public partial class TAnimateDead : TCombatSpell
     }
 
     // CombatSpells.pas:2061
-    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Defender, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+    public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
     {
-        if (Defender.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
+        if (Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
         {
             // { Original leaves the other damage-value fields unchanged on success. }
             Values.SourceDamage = 200;
@@ -2070,7 +2070,7 @@ public partial class TAnimateDead : TCombatSpell
     }
 }
 
-public static partial class CombatSpells
+public static partial class CombatSpellsUnit
 {
     // CombatSpells.pas:2092
     public static void RegisterCombatSpells(TAoWEngine Engine)

@@ -1,6 +1,6 @@
 // Translated from NetworkE.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using Aow.Units.Engine;
 
@@ -143,7 +143,7 @@ public partial class TPlayerCommunicator : TEObject
 public partial class TTokenEvent : TEObject
 {
     // NetworkE.pas:950
-    public new const int ClassID = NetworkE.CID_TokenEvent;
+    public new const int ClassID = NetworkEUnit.CID_TokenEvent;
 
     public TTokenEvent(TECustomNode owner) : base(owner)
     {
@@ -194,7 +194,7 @@ public partial class TTokenEvent : TEObject
 public partial class TTokenEventList : TEObject
 {
     // NetworkE.pas:995
-    public new const int ClassID = NetworkE.CID_TokenEventList;
+    public new const int ClassID = NetworkEUnit.CID_TokenEventList;
 
     internal TEReferenceNode FList;
     // NetworkE.pas:1000
@@ -275,7 +275,7 @@ public partial class TTokenEventList : TEObject
     // NetworkE.pas:1056
     public void SortOnTokenCounter()
     {
-        FList.FChildren.Sort(NetworkE.CompareTokenCounter);
+        FList.FChildren.Sort(NetworkEUnit.CompareTokenCounter);
     }
 
     // NetworkE.pas:1061
@@ -435,7 +435,7 @@ public partial class TTokenControl : TObject
     {
         if (Local() && !Global() && Events.Count != 0)
         {
-            FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, NetworkE.AllPlayers, Events);
+            FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, NetworkEUnit.AllPlayers, Events);
         }
     }
 
@@ -540,7 +540,7 @@ public partial class TTokenControl : TObject
             while (InOrder && !PassToken && I < FEvents.Count)
             {
                 InOrder = FEvents[I].FTokenCounter == Executer.FTokenCounter + I;
-                PassToken = FEvents[I].EClass.ClassID == NetworkE.CID_PassTokenTE;
+                PassToken = FEvents[I].EClass.ClassID == NetworkEUnit.CID_PassTokenTE;
                 I += 1;
             }
 
@@ -1514,7 +1514,7 @@ public partial class TRemotePCC : TPlayerCommunicationControl
     {
         bool Result;
         int SystemID;
-        if (APlayer == NetworkE.AllPlayers)
+        if (APlayer == NetworkEUnit.AllPlayers)
         {
             SystemID = 0;
         }
@@ -1533,7 +1533,7 @@ public partial class TRemotePCC : TPlayerCommunicationControl
             Result = true;
         }
 
-        if (APlayer == NetworkE.AllPlayers || SystemID == FLocalSystemID)
+        if (APlayer == NetworkEUnit.AllPlayers || SystemID == FLocalSystemID)
         {
             FPackageDataList.Add(Stream);
         }
@@ -1684,7 +1684,7 @@ public partial class TLocalPCC : TPlayerCommunicationControl
 public partial class TTokenPackage : TDataPackage
 {
     // NetworkE.pas:1100
-    public new const int ClassID = NetworkE.CID_TokenPackage;
+    public new const int ClassID = NetworkEUnit.CID_TokenPackage;
 
     internal TTokenEventList FTokenEvents;
     // NetworkE.pas:1105
@@ -1798,7 +1798,7 @@ public partial class TTokenPackageDistributer : TObject
 // ends the turn of the token control that prefetched it
 public partial class TPassTokenTE : TTokenEvent
 {
-    public new const int ClassID = NetworkE.CID_PassTokenTE;
+    public new const int ClassID = NetworkEUnit.CID_PassTokenTE;
 
     public TPassTokenTE(TECustomNode owner) : base(owner)
     { }
@@ -1809,7 +1809,7 @@ public partial class TPassTokenTE : TTokenEvent
 // execution triggers OnSyncError
 public partial class TSyncTE : TTokenEvent
 {
-    public new const int ClassID = NetworkE.CID_SyncTE;
+    public new const int ClassID = NetworkEUnit.CID_SyncTE;
 
     public TSyncTE(TECustomNode owner) : base(owner)
     { }
@@ -1838,7 +1838,7 @@ public partial class TSyncTE : TTokenEvent
 
 }
 
-public static partial class NetworkE
+public static partial class NetworkEUnit
 {
     // The NetworkE unit of Network.dpl (the network message layer of Age of Wonders: the player
     // communication controls that move data packages between the players' systems, and the

@@ -1,10 +1,10 @@
 // Translated from Terrain.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Terrain;
 
@@ -292,7 +292,7 @@ public partial class TTerrainMO : TMultiHexMO
 
 }
 
-public static partial class Terrain
+public static partial class TerrainUnit
 {
     // Terrain.pas:332
     public static void RegisterTerrain(TEngine Engine)

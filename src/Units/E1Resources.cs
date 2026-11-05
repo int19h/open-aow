@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Units.E1Resources;
 
-public static partial class E1Resources
+public static partial class E1ResourcesUnit
 {
     public static readonly string E1DamageRStr = "Damage";
     public static readonly string E1FileNotFoundRStr = "File not found";

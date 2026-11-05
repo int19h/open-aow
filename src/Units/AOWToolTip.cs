@@ -1,6 +1,6 @@
 // Translated from AOWToolTip.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWWinGeneric;
@@ -387,7 +387,7 @@ public partial class TAOWToolTip : TAOWGenericWindow
     public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
 }
 
-public static partial class AOWToolTip
+public static partial class AOWToolTipUnit
 {
     // AOWToolTip.pas:272
     public static void Register()

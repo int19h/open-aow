@@ -1,13 +1,13 @@
 // Translated from AoWSpellBook.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWBookWindow;
 using Aow.Units.AoWButton;
@@ -15,7 +15,8 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWSpellBook;
 
@@ -180,7 +181,7 @@ public partial class TSpellBook : TDataModule
 
         General.Manager.OverlayPriority = 0;
         General.Manager.FDrawOverlay = true;
-        AoWExeForms.AoWExeForms.MagicWin.Dlg.FDrawn = false;
+        AoWExeFormsUnit.MagicWin.Dlg.FDrawn = false;
     }
 
     // AoWSpellBook.pas:405
@@ -262,10 +263,10 @@ public partial class TSpellBook : TDataModule
                     AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ListResearchSpells(ref FSpells, TSet<TSpellType>.Of(TSpellType.stCombat, TSpellType.stUnit, TSpellType.stGlobal));
                     FSpells.SortOnLevel();
                     var spellType = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                    var format = AoWE.AoWE.Format(TranslateRStr(ResearchXspellRStr), [spellType]);
+                    var format = AoWEUnit.Format(TranslateRStr(ResearchXspellRStr), [spellType]);
                     LeftHeader.Text = format;
                     var spellTypeText = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                    var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(ResearchXspellRStr), [spellTypeText]);
+                    var aoWEFormat = AoWEUnit.Format(TranslateRStr(ResearchXspellRStr), [spellTypeText]);
                     RightHeader.Text = aoWEFormat;
                     // { Original overwrites the type-specific headers. }
                     var researchSpell = TranslateRStr(ResearchSpellRStr);
@@ -278,10 +279,10 @@ public partial class TSpellBook : TDataModule
                     AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                     FSpells.SortOnLevel();
                     var spellType3 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                    var format2 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType3]);
+                    var format2 = AoWEUnit.Format(TranslateRStr(CastXSpellRStr), [spellType3]);
                     LeftHeader.Text = format2;
                     var spellType4 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                    var format3 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType4]);
+                    var format3 = AoWEUnit.Format(TranslateRStr(CastXSpellRStr), [spellType4]);
                     RightHeader.Text = format3;
                     break;
                 case 1:
@@ -289,10 +290,10 @@ public partial class TSpellBook : TDataModule
                     AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                     FSpells.SortOnLevel();
                     var spellType5 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                    var format4 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType5]);
+                    var format4 = AoWEUnit.Format(TranslateRStr(CastXSpellRStr), [spellType5]);
                     LeftHeader.Text = format4;
                     var spellType6 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                    var format5 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType6]);
+                    var format5 = AoWEUnit.Format(TranslateRStr(CastXSpellRStr), [spellType6]);
                     RightHeader.Text = format5;
                     break;
             }
@@ -484,7 +485,7 @@ public partial class TSpellBook : TDataModule
                     }
                     else
                     {
-                        var format = AoWE.AoWE.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
+                        var format = AoWEUnit.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
                         ResearchStatus.Text = format;
                     }
 
@@ -620,12 +621,12 @@ public partial class TSpellBook : TDataModule
             Memo.Items = Spell.FSpellText;
             if (FHero == null)
             {
-                Cost.Text = AoWE.AoWE.Format(TranslateRStr(CostXRStr), [Spell.FBaseManaCost]);
+                Cost.Text = AoWEUnit.Format(TranslateRStr(CostXRStr), [Spell.FBaseManaCost]);
             }
             else
             {
                 var castingMana = FHero.CastingMana(Spell);
-                Cost.Text = AoWE.AoWE.Format(TranslateRStr(CostXRStr), [castingMana]);
+                Cost.Text = AoWEUnit.Format(TranslateRStr(CostXRStr), [castingMana]);
             }
 
             if (FMode == 0 && (!Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctGlobal) || FHero.Casting()) || FMode == 1 && (!Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctCombat) || FHero.Casting() || !FHero.CanCastSpellInstantly(Spell.FSpellID, Spell.FBaseManaCost, ref Reason)) || FMode == 2 && AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID != 0)
@@ -649,7 +650,7 @@ public partial class TSpellBook : TDataModule
 
             if (Spell.FManaUpkeep > 0)
             {
-                var format = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [Spell.FManaUpkeep]);
+                var format = AoWEUnit.Format(TranslateRStr(UpkeepXRStr), [Spell.FManaUpkeep]);
                 Cost.Text = Cost.Text + " " + format;
             }
 
@@ -662,7 +663,7 @@ public partial class TSpellBook : TDataModule
                 }
                 else
                 {
-                    Reason = AoWE.AoWE.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
+                    Reason = AoWEUnit.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
                 }
 
                 Cost.Text = Cost.Text + " " + Reason;
@@ -675,12 +676,12 @@ public partial class TSpellBook : TDataModule
                     Turns = Control.ResearchTurns(Control.GetNetPowerToResearch(), Spell.FResearchCost);
                     if (Turns < 999)
                     {
-                        var format = AoWE.AoWE.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
+                        var format = AoWEUnit.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
                         Cost.Text = Cost.Text + " " + format;
                     }
                     else
                     {
-                        var format = AoWE.AoWE.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
+                        var format = AoWEUnit.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
                         Cost.Text = Cost.Text + " " + format;
                     }
                 }
@@ -1243,11 +1244,11 @@ public partial class TSpellBook : TDataModule
     // AoWSpellBook.pas:385. The host surfaces reside in system memory.
     public void ShowBook()
     {
-        AoWWinMan.AoWWinMan.General.Manager.OverlayPriority = 49;
+        General.Manager.OverlayPriority = 49;
         Dlg.Visible = true;
     }
 }
 
-public static partial class AoWSpellBook
+public static partial class AoWSpellBookUnit
 {
 }

@@ -4,7 +4,7 @@ using System.Text.Json;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.EventLog;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 

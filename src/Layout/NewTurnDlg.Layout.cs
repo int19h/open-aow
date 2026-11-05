@@ -7,6 +7,9 @@ using Aow.Units.AoWComp;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWImage;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWNewTurnDialog
 {
@@ -405,22 +408,22 @@ namespace Aow.Units.AoWNewTurnDialog
             TCeltLineR.Loaded();
             FaceFrame.Loaded();
             session.Resolve(this);
-            NewTDlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            NewTDlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            NewTDlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCeltB.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            ClickMsg.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            LShield.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
-            PlayerName.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            TurnMsg.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            PlayerRace.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            Turn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            RShield.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
-            BlueFr.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            BlueFr.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltLineR.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            FaceFrame.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            NewTDlg.WinManager = AoWWinManUnit.General.Manager;
+            NewTDlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            NewTDlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            TCeltB.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            ClickMsg.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            LShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
+            PlayerName.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            TurnMsg.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            PlayerRace.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            Turn.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            RShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
+            BlueFr.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            BlueFr.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltLineR.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            FaceFrame.ImageLib = aowIntGfxModUnit.IntGfxMod.GenericF;
         }
 
         private void Layout_NewTDlgHide_0(TObject p0)

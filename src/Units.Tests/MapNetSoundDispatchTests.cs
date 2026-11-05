@@ -2,7 +2,7 @@ using Aow.Platform;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.Sound;
-using SoundApi = Aow.Units.Sound.Sound;
+using SoundApi = Aow.Units.Sound.SoundUnit;
 using Sample = Aow.Units.Sound.TSample;
 
 namespace Aow.Units.Tests;

@@ -5,7 +5,7 @@ using Aow.Units.AoWVideoDlg;
 
 namespace Aow.Units.E2CampaignSupport;
 
-public static partial class E2CampaignSupport
+public static partial class E2CampaignSupportUnit
 {
     // E2CampaignSupport.pas:17
     // { AoWE.htAll }

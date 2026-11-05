@@ -15,7 +15,7 @@ public partial class TIsometricHexagon
         var field = (TMapField)Owner;
         var level = (TMapLevel)field.Owner;
         THNWalkData walk = default;
-        HSEngine.HSEngine.InitHNWalk(ref walk, field.Xhx, field.Yhx, 1);
+        HSEngineUnit.InitHNWalk(ref walk, field.Xhx, field.Yhx, 1);
         while (walk.HN <= 6)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -32,7 +32,7 @@ public partial class TIsometricHexagon
                 else if ((!water || peerFound) && neighbour.TerrainType != GetTerrain(0))
                     FSides |= (byte)(1 << (walk.HN - 1));
             }
-            HSEngine.HSEngine.WalkToNextHN(ref walk);
+            HSEngineUnit.WalkToNextHN(ref walk);
         }
         if (water || FOpenSides != 0)
         {
@@ -42,7 +42,7 @@ public partial class TIsometricHexagon
         {
             FDynamic.Free();
             FDynamic = null;
-            FSides = (byte)(Rtl.Rtl.Random(4) << 6);
+            FSides = (byte)(RtlUnit.Random(4) << 6);
             FResource.Engine.HSMap.InvalidateStaticScene(field.Xhx, field.Yhx, field.Lhx);
         }
     }

@@ -34,7 +34,7 @@ public partial class TInfoBanner : TDataModule
     }
 }
 
-public static partial class AoWInfoBanner
+public static partial class AoWInfoBannerUnit
 {
     public static TInfoBanner InfoBanner;
 }

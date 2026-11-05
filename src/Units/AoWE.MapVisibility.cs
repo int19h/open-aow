@@ -8,12 +8,12 @@ public partial class TAoWMapLevel
     private IEnumerable<TAoWMapField> Area(int x, int y, int radius)
     {
         THNWalkData walk = default;
-        HSEngine.HSEngine.InitHNWalk(ref walk, x, y, 0);
+        HSEngineUnit.InitHNWalk(ref walk, x, y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < FWidth && walk.Y < FHeight)
                 yield return (TAoWMapField)GetField(walk.X, walk.Y);
-            HSEngine.HSEngine.WalkToNextHN(ref walk);
+            HSEngineUnit.WalkToNextHN(ref walk);
         }
     }
 
@@ -53,7 +53,7 @@ public partial class TAoWMapLevel
 
     public TSet<TFogExplorationChangedElement> UnFogExploreArea(int x, int y, sbyte player, int radius)
     {
-        Rtl.Rtl.Assert(player >= 0, "Invalid Player Index", "AoWHSMap.PAS", 276);
+        RtlUnit.Assert(player >= 0, "Invalid Player Index", "AoWHSMap.PAS", 276);
         TSet<TFogExplorationChangedElement> result = default;
         foreach (var field in Area(x, y, radius))
         {

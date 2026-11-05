@@ -129,8 +129,10 @@ C# records, so that a test can build one by hand.
 
 A Delphi unit becomes one C# file with one namespace, `Aow.Units.<Unit>`. The unit's types become
 types in that namespace. The unit's routines, variables, typed constants and true constants become
-members of `public static partial class <Unit>` in the same namespace. A file that uses another
-unit gets `using Aow.Units.<Other>;` and `using static Aow.Units.<Other>.<Other>;`.
+members of `public static partial class <Unit>Unit` in the same namespace, so the namespace and the
+class have names of their own (`Aow.Units.AoWE.AoWEUnit`). The RTL's class is `Aow.Rtl.RtlUnit`. A
+file that uses another unit gets `using Aow.Units.<Other>;` and
+`using static Aow.Units.<Other>.<Other>Unit;`.
 
 Name resolution across units. Delphi resolves an unqualified name through the `uses` list from the
 last unit to the first. C# reports an ambiguity instead. The resolver knows which declaration Delphi
@@ -831,7 +833,7 @@ deleted. The emitter writes:
 | a new array of `n` strings | `Strings(n)`, every element `""` |
 | `Char` comparisons and ranges | byte comparisons |
 
-The `Rtl` names come out unqualified where they bind and as `Rtl.Rtl.X` where a member of the
+The `Rtl` names come out unqualified where they bind and as `RtlUnit.X` where a member of the
 same name shadows them. The report (section 9) states the string mapping in one line.
 
 A `Format` call passes its `array of const` as `params TVarRec[]`. The shim's `Format` follows the

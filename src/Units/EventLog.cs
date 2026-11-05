@@ -1,13 +1,13 @@
 // Translated from EventLog.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.EventLog;
 
@@ -782,11 +782,11 @@ public partial class TGameOverEventLog : TEventLog
         {
             case TGameOverStatus.goLost:
                 var name = AoWHSMap.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = Rtl.Rtl.Format(TranslateRStr(GameOverDefeatEventLogRStr), [name]);
+                Result = RtlUnit.Format(TranslateRStr(GameOverDefeatEventLogRStr), [name]);
                 break;
             case TGameOverStatus.goWon:
                 var name2 = AoWHSMap.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = Rtl.Rtl.Format(TranslateRStr(GameOverVictoryEventLogRStr), [name2]);
+                Result = RtlUnit.Format(TranslateRStr(GameOverVictoryEventLogRStr), [name2]);
                 break;
         }
 
@@ -957,7 +957,7 @@ public enum TMessageEventLogLayout : byte
     melHeader = 1
 }
 
-public static partial class EventLog
+public static partial class EventLogUnit
 {
     // EventLog.pas:886
     public static void RegisterEventLog(TEngine AEngine)

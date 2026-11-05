@@ -1,11 +1,11 @@
 // Translated from AoWSoundDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Engine.Engine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
 using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.Sound.SoundUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWFrame;
@@ -17,8 +17,8 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
 
 namespace Aow.Units.AoWSoundDlg;
 
@@ -185,7 +185,7 @@ public partial class TSoundDlg : TDataModule
         string Directory;
         TSearchRec Search = default;
         SongLB.Items.Clear();
-        AoWSoundDlg.SongFiles.Clear();
+        AoWSoundDlgUnit.SongFiles.Clear();
         SetCurrentDir(AoWEngine.StartupDirectory + "\\Songs");
         Directory = GetCurrentDir();
         if (Copy(Directory, Directory.Length, 1) == "\\")
@@ -201,7 +201,7 @@ public partial class TSoundDlg : TDataModule
                 {
                     if (UpperCase(Copy(Search.Name, Search.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(Search.Name, Search.Name.Length - 2, 3)) == ".IT")
                     {
-                        AoWSoundDlg.SongFiles.Add("Songs\\" + Search.Name);
+                        AoWSoundDlgUnit.SongFiles.Add("Songs\\" + Search.Name);
                         var songName = GetSongName("Songs\\" + Search.Name);
                         SongLB.Items.Add(songName);
                     }
@@ -211,7 +211,7 @@ public partial class TSoundDlg : TDataModule
         }
 
         FindClose(ref Search);
-        SortStringsAscending(SongLB.Items, [AoWSoundDlg.SongFiles]);
+        SortStringsAscending(SongLB.Items, [AoWSoundDlgUnit.SongFiles]);
         SongLB.Selected = -1;
         SongLB.ListOffset = 0;
         SongSB.Position = 0;
@@ -230,7 +230,7 @@ public partial class TSoundDlg : TDataModule
     public void AddBtnClick(TObject Sender)
     {
         General.PlayButtonSound(0);
-        var songFile = AoWSoundDlg.SongFiles[SongLB.Selected];
+        var songFile = AoWSoundDlgUnit.SongFiles[SongLB.Selected];
         SongPlayer.Songs.Add(songFile);
         SoundSetup();
     }
@@ -238,13 +238,13 @@ public partial class TSoundDlg : TDataModule
     // AoWSoundDlg.pas:218
     public void SoundDlgWindowCreate()
     {
-        AoWSoundDlg.SongFiles = new TStringList();
+        AoWSoundDlgUnit.SongFiles = new TStringList();
     }
 
     // AoWSoundDlg.pas:223
     public void SoundDlgWindowDestroy()
     {
-        AoWSoundDlg.SongFiles.Free();
+        AoWSoundDlgUnit.SongFiles.Free();
     }
 
     // AoWSoundDlg.pas:228
@@ -448,7 +448,7 @@ public partial class TSoundDlg : TDataModule
     }
 }
 
-public static partial class AoWSoundDlg
+public static partial class AoWSoundDlgUnit
 {
     public static TStringList SongFiles;
 }

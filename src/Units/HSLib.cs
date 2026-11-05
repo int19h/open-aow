@@ -1,11 +1,11 @@
 // Translated from HSLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.HSLib;
 
@@ -421,7 +421,7 @@ public partial class TLibraryHS : THPBasedHS
 
 }
 
-public static partial class HSLib
+public static partial class HSLibUnit
 {
     // HSLib.pas:328
     public static void Register()

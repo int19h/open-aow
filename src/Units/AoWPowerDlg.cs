@@ -1,10 +1,10 @@
 // Translated from AoWPowerDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWHScroll;
@@ -12,7 +12,8 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWPowerDlg;
 
@@ -129,7 +130,7 @@ public partial class TPowerDlg : TDataModule
         X = image.AOWWindow.WinLeft;
         Y = image.AOWWindow.WinTop;
         Intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[7].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+        aowIntGfxModUnit.IntGfxMod.MiscArt[7].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
     }
 
     // AoWPowerDlg.pas:128
@@ -142,7 +143,7 @@ public partial class TPowerDlg : TDataModule
         X = image.AOWWindow.WinLeft;
         Y = image.AOWWindow.WinTop;
         Intensity = Round((double)(PowerSlider.Position * 50) / 100);
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[8].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+        aowIntGfxModUnit.IntGfxMod.MiscArt[8].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
     }
 
     // AoWPowerDlg.pas:141
@@ -155,6 +156,6 @@ public partial class TPowerDlg : TDataModule
     }
 }
 
-public static partial class AoWPowerDlg
+public static partial class AoWPowerDlgUnit
 {
 }

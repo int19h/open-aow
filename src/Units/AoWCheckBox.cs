@@ -1,6 +1,6 @@
 // Translated from AoWCheckBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWButton;
 
 namespace Aow.Units.AoWCheckBox;
@@ -165,7 +165,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
     public TNotifyEvent OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
 }
 
-public static partial class AoWCheckBox
+public static partial class AoWCheckBoxUnit
 {
     // AoWCheckBox.pas:141
     public static void Register()

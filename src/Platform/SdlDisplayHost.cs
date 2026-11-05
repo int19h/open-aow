@@ -92,7 +92,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     }
     public IReadOnlyList<(int Width, int Height)> FullscreenSizes
     {
-        get { var desktop = DesktopSize; return GFXE.IntegerScaleSizes(desktop.Width, desktop.Height); }
+        get { var desktop = DesktopSize; return GFXEUnit.IntegerScaleSizes(desktop.Width, desktop.Height); }
     }
     public void ResizeImage(int newWidth, int newHeight)
     {
@@ -147,7 +147,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     public void Present(in TSurfaceDesc backSurface)
     {
         OnThread();
-        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatID != GFXE.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
+        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatID != GFXEUnit.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(backSurface));
         if (backSurface.Width != width || backSurface.Height != height)
         {
@@ -161,7 +161,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         }
         else
         {
-            Ptr<byte> pointer = backSurface.Data is Ptr<byte> direct ? direct : Aow.Rtl.Rtl.BytePointer(backSurface.Data);
+            Ptr<byte> pointer = backSurface.Data is Ptr<byte> direct ? direct : RtlUnit.BytePointer(backSurface.Data);
             for (int y = 0; y < height; y++) (pointer + checked(y * backSurface.Pitch)).AsSpan(rowBytes).CopyTo(upload.AsSpan(y * rowBytes));
         }
         fixed (byte* pixels = upload) Check(SDL_UpdateTexture(texture, null, (nint)pixels, rowBytes));

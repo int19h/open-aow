@@ -1,6 +1,6 @@
 // Translated from aowHelpWin.pas.
 using Aow.Rtl;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -74,7 +74,7 @@ public partial class THelpWindow : TDataModule
             HelpMemo.Items.Delete(0);
         }
 
-        if (HelpMemo.Items.Count > 0 && Rtl.Rtl.IsEmpty(HelpMemo.Items[0]))
+        if (HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(HelpMemo.Items[0]))
         {
             HelpMemo.Items.Delete(0);
         }
@@ -116,7 +116,7 @@ public partial class THelpWindow : TDataModule
     }
 }
 
-public static partial class aowHelpWin
+public static partial class aowHelpWinUnit
 {
     public static THelpWindow HelpWindow;
     // aowHelpWin.pas:82
@@ -145,7 +145,7 @@ public static partial class aowHelpWin
             HelpWindow.HelpMemo.Items.Delete(0);
         }
 
-        if (HelpWindow.HelpMemo.Items.Count > 0 && Rtl.Rtl.IsEmpty(HelpWindow.HelpMemo.Items[0]))
+        if (HelpWindow.HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(HelpWindow.HelpMemo.Items[0]))
         {
             HelpWindow.HelpMemo.Items.Delete(0);
         }

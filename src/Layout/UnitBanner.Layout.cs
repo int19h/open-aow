@@ -8,6 +8,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.AOWMenu;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWVScroll;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWUnitBanner
 {
@@ -492,35 +495,35 @@ namespace Aow.Units.AoWUnitBanner
             AbLB.Loaded();
             AbVSB.Loaded();
             session.Resolve(this);
-            UnitNameLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            AttackIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            AttackIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            DefenseIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            DefenseIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            MovesIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            MovesIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MoveIcons;
-            DamageIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            DamageIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            ResistanceIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            ResistanceIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            HitsIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            HitsIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            Attack.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Defense.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Moves.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Damage.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Resistance.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Hits.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            BannerPopup.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            BannerPopup.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            AbLB.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            AbVSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            UnitNameLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            AttackIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            AttackIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            DefenseIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            DefenseIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            MovesIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            MovesIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.MoveIcons;
+            DamageIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            DamageIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            ResistanceIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            ResistanceIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            HitsIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            HitsIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            Attack.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Defense.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Moves.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Damage.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Resistance.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Hits.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            BannerPopup.WinManager = AoWWinManUnit.General.Manager;
+            BannerPopup.ILFrame = aowIntGfxModUnit.IntGfxMod.Menus;
+            BannerPopup.ILTextureNormal = aowIntGfxModUnit.IntGfxMod.Menus;
+            BannerPopup.ILTextureSelected = aowIntGfxModUnit.IntGfxMod.Menus;
+            BannerPopup.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            AbLB.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            AbVSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
         }
 
         private void Layout_BannerPopupMouseDown_0(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)

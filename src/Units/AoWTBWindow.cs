@@ -1,6 +1,6 @@
 // Translated from AoWTBWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AOWMenuBar;
 using Aow.Units.AoWButton;
@@ -12,17 +12,22 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
 using Aow.Units.TurnButton;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWin;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWTCUnit.AoWTCUnit;
-using static Aow.Units.AoWRealm.AoWRealm;
-using static Aow.Units.aowMapEvents.aowMapEvents;
+using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
+using static Aow.Units.AoWRealm.AoWRealmUnit;
+using static Aow.Units.aowMapEvents.aowMapEventsUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWTC.AoWTC;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.E1Globals.E1Globals;
-using static Aow.Units.E1GameFlow.E1GameFlow;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E1Globals.E1GlobalsUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using Aow.Units.AoWSWindow;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWInfoWin;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWTBWindow;
 
@@ -111,7 +116,7 @@ public partial class TTBWindow : TDataModule
     public void WMButtonClick()
     {
         General.PlayButtonSound(0);
-        AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible = !AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible;
+        AoWSWindowUnit.SWindow.ScannerWindow.Visible = !AoWSWindowUnit.SWindow.ScannerWindow.Visible;
     }
 
     // AoWTBWindow.pas:134
@@ -133,14 +138,14 @@ public partial class TTBWindow : TDataModule
     public void ConButtonClick()
     {
         General.PlayButtonSound(0);
-        AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = !AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
+        AOWControlWinUnit.ControlWin.ControlWindow.Visible = !AOWControlWinUnit.ControlWin.ControlWindow.Visible;
     }
 
     // AoWTBWindow.pas:147
     public void StructButtonClick()
     {
         General.PlayButtonSound(0);
-        AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible = !AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible;
+        AoWInfoWinUnit.IWindow.InfoWin.Visible = !AoWInfoWinUnit.IWindow.InfoWin.Visible;
     }
 
     // AoWTBWindow.pas:153
@@ -154,7 +159,7 @@ public partial class TTBWindow : TDataModule
     public void UnitBtnClick()
     {
         General.PlayButtonSound(0);
-        AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = true;
+        AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = true;
     }
 
     // AoWTBWindow.pas:165
@@ -223,7 +228,7 @@ public partial class TTBWindow : TDataModule
                         Race = 12;
                     }
 
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32].ShowClipped(PInd.WinLeft + 3 + Position * 5, PInd.WinTop + 2, Surface);
+                    aowIntGfxModUnit.IntGfxMod.TBWin[Race + 32].ShowClipped(PInd.WinLeft + 3 + Position * 5, PInd.WinTop + 2, Surface);
                     if (AoWHSMap.FPlayMode == TPlayMode.pmTurn)
                     {
                         if (I == AoWHSMap.FCurrentPlayer)
@@ -236,7 +241,7 @@ public partial class TTBWindow : TDataModule
                     {
                         if (AoWHSMap.FPlayers.GetPlayers(I).FSingleProcessCycle)
                         {
-                            aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[50].ShowClipped(PInd.WinLeft + 2 + Position * 5, PInd.WinTop + 11, Surface);
+                            aowIntGfxModUnit.IntGfxMod.TBWin[50].ShowClipped(PInd.WinLeft + 2 + Position * 5, PInd.WinTop + 11, Surface);
                         }
                     }
 
@@ -302,7 +307,7 @@ public partial class TTBWindow : TDataModule
                 Race = 12;
             }
 
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32].ShowClipped(TCPInd.WinLeft + 3 + Position * 5, TCPInd.WinTop + 2, Surface);
+            aowIntGfxModUnit.IntGfxMod.TBWin[Race + 32].ShowClipped(TCPInd.WinLeft + 3 + Position * 5, TCPInd.WinTop + 2, Surface);
             if (AoWCombatMap.FCombat.FCombatData.FTurnOrder[I] == AoWCombatMap.FCurrentCombatPlayer)
             {
                 TCCurP.WinLeft = TCPInd.WinLeft + 2 + Position * 5;
@@ -529,6 +534,6 @@ public partial class TTBWindow : TDataModule
     }
 }
 
-public static partial class AoWTBWindow
+public static partial class AoWTBWindowUnit
 {
 }

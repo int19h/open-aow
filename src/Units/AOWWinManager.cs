@@ -1,6 +1,6 @@
 // Translated from AOWWinManager.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
@@ -739,7 +739,7 @@ public partial class TAOWWinManager : TAoWComponent
     public bool DrawOverlay { get => FDrawOverlay; set => FDrawOverlay = value; }
 }
 
-public static partial class AOWWinManager
+public static partial class AOWWinManagerUnit
 {
     // AOWWinManager.pas:598
     public static void Register()

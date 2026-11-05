@@ -1,17 +1,18 @@
 // Translated from AOWTitleWindow.pas.
 using Aow.Rtl;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.E2GameFlow.E2GameFlow;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
-using static Aow.Units.AoWSelFactionWin.AoWSelFactionWin;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWSelFactionWin.AoWSelFactionWinUnit;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AOWTitleWindow;
 
@@ -86,11 +87,11 @@ public partial class TTitleWindow : TDataModule
             Surface.Lock(ref SD);
             if (SelFactionWin.FFadeDirection == 0)
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[100 - SelFactionWin.FFade]);
+                aowIntGfxModUnit.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[100 - SelFactionWin.FFade]);
             }
             else
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[SelFactionWin.FFade]);
+                aowIntGfxModUnit.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[SelFactionWin.FFade]);
             }
 
             Surface.Unlock();
@@ -100,7 +101,7 @@ public partial class TTitleWindow : TDataModule
     // AOWTitleWindow.pas:61
     public void TitlePnlDrawBack(TObject Sender, TSurfaceDesc SD)
     {
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[0].Show(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD);
+        aowIntGfxModUnit.IntGfxMod.FactionWin[0].Show(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD);
     }
 
     // AOWTitleWindow.pas:115
@@ -137,6 +138,6 @@ public partial class TTitleWindow : TDataModule
     }
 }
 
-public static partial class AOWTitleWindow
+public static partial class AOWTitleWindowUnit
 {
 }

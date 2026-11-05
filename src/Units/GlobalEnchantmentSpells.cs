@@ -1,16 +1,17 @@
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.Sound;
 
 namespace Aow.Units.GlobalEnchantmentSpells;
 
@@ -248,7 +249,7 @@ public partial class TEnchantedRoadsEnchantment : TGlobalEnchantment
         {
             var xIsAlreadyActive = TranslateRStr(XIsAlreadyActiveRStr);
             var name = GetName();
-            Reason = Rtl.Rtl.Format(xIsAlreadyActive, [name]);
+            Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
             Result = false;
         }
 
@@ -310,7 +311,7 @@ public partial class TEnchantedRoads : TGlobalEnchantmentSpell
 
     public void ShowAnimation(TAnimation anim, int xhpSurface, int yhpSurface, in TSurfaceDesc surface)
     {
-        var map = AoWE.AoWE.AoWHSMap;
+        var map = AoWHSMap;
         var level = map.MapContainer.GetMapLevel(map.ViewL);
         int maxX = map.ViewXhx + map.ViewWidthHX - 1, maxY = map.ViewYhx + map.ViewHeightHX - 1;
         for (int x = map.ViewXhx; x <= maxX; x++)
@@ -367,7 +368,7 @@ public partial class TAirMasteryEnchantment : TGlobalEnchantment
             {
                 var xIsAlreadyActive = TranslateRStr(XIsAlreadyActiveRStr);
                 var name = GetName();
-                Reason = Rtl.Rtl.Format(xIsAlreadyActive, [name]);
+                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 Result = false;
             }
         }
@@ -412,7 +413,7 @@ public partial class TAirMastery : TGlobalEnchantmentSpell
         sbyte L = default;
         TAnimation Anim = default;
         base.ExecuteTE(Event, Source, ExecuteCount);
-        GlobalEnchantmentSpells.NotifySpellSphere(Source.FPlayer, TMagicSphere.msAir);
+        GlobalEnchantmentSpellsUnit.NotifySpellSphere(Source.FPlayer, TMagicSphere.msAir);
         Source.GetLocation(ref X, ref Y, ref L);
         AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
         Anim = new TAnimation(null);
@@ -510,7 +511,7 @@ public partial class TWaterMasteryEnchantment : TGlobalEnchantment
             {
                 var xIsAlreadyActive = TranslateRStr(XIsAlreadyActiveRStr);
                 var name = GetName();
-                Reason = Rtl.Rtl.Format(xIsAlreadyActive, [name]);
+                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 Result = false;
             }
         }
@@ -556,7 +557,7 @@ public partial class TWaterMastery : TGlobalEnchantmentSpell
         // { Original ignores the event step. }
         base.ExecuteTE(Event, Source, 0);
         Source.GetLocation(ref X, ref Y, ref L);
-        GlobalEnchantmentSpells.NotifySpellSphere(Source.FPlayer, TMagicSphere.msWater);
+        GlobalEnchantmentSpellsUnit.NotifySpellSphere(Source.FPlayer, TMagicSphere.msWater);
         AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
         FCastSounds.Play(0);
         AoWHSMap.AddEffect(TworldFXType.fxWaterMastery);
@@ -1125,7 +1126,7 @@ public partial class TFloodEnchantment : TGlobalEnchantment
             if (DaysBeforeActive() != 0)
             {
                 var daysBeforeActive = DaysBeforeActive();
-                Result = Rtl.Rtl.Format(XinYdaysRStr, [Result, daysBeforeActive]);
+                Result = RtlUnit.Format(XinYdaysRStr, [Result, daysBeforeActive]);
             }
         }
 
@@ -1161,7 +1162,7 @@ public partial class TFloodEnchantment : TGlobalEnchantment
         }
         else
         {
-            Reason = Rtl.Rtl.Format(TranslateRStr(XAlreadyRemovedRStr), [FName]);
+            Reason = RtlUnit.Format(TranslateRStr(XAlreadyRemovedRStr), [FName]);
             Result = false;
         }
 
@@ -1357,7 +1358,7 @@ public partial class TLifeMasteryEnchantment : TGlobalEnchantment
             {
                 var xIsAlreadyActive = TranslateRStr(XIsAlreadyActiveRStr);
                 var name = GetName();
-                Reason = Rtl.Rtl.Format(xIsAlreadyActive, [name]);
+                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 Result = false;
             }
         }
@@ -1413,7 +1414,7 @@ public partial class TLifeMastery : TGlobalEnchantmentSpell
         sbyte L = default;
         TTwinkleAnimation Twinkle;
         base.ExecuteTE(Event, Source, ExecuteCount);
-        GlobalEnchantmentSpells.NotifySpellSphere(Source.FPlayer, TMagicSphere.msLife);
+        GlobalEnchantmentSpellsUnit.NotifySpellSphere(Source.FPlayer, TMagicSphere.msLife);
         Source.GetLocation(ref X, ref Y, ref L);
         AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
         Twinkle = new TTwinkleAnimation(null);
@@ -1484,7 +1485,7 @@ public partial class TDeathMasteryEnchantment : TGlobalEnchantment
             {
                 var xIsAlreadyActive = TranslateRStr(XIsAlreadyActiveRStr);
                 var name = GetName();
-                Reason = Rtl.Rtl.Format(xIsAlreadyActive, [name]);
+                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 Result = false;
             }
         }
@@ -1592,7 +1593,7 @@ public partial class TDeathMastery : TGlobalEnchantmentSpell
         sbyte Y = default;
         sbyte L = default;
         base.ExecuteTE(Event, Source, ExecuteCount);
-        GlobalEnchantmentSpells.NotifySpellSphere(Source.FPlayer, TMagicSphere.msDeath);
+        GlobalEnchantmentSpellsUnit.NotifySpellSphere(Source.FPlayer, TMagicSphere.msDeath);
         Source.GetLocation(ref X, ref Y, ref L);
         AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
         var animation = new TAnimation(null);
@@ -1715,7 +1716,7 @@ public partial class TFireMasteryEnchantment : TGlobalEnchantment
         {
             var xIsAlreadyActive = TranslateRStr(XIsAlreadyActiveRStr);
             var name = GetName();
-            Reason = Rtl.Rtl.Format(xIsAlreadyActive, [name]);
+            Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
             Result = false;
         }
         else
@@ -1812,7 +1813,7 @@ public partial class TFireMastery : TGlobalEnchantmentSpell
         if (ExecuteCount == 0)
         {
             Source.GetLocation(ref X, ref Y, ref L);
-            GlobalEnchantmentSpells.NotifySpellSphere(Source.FPlayer, TMagicSphere.msFire);
+            GlobalEnchantmentSpellsUnit.NotifySpellSphere(Source.FPlayer, TMagicSphere.msFire);
             AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
             var animation = new TAnimation(null);
             animation.FAnimationLevel = 27;
@@ -1843,8 +1844,8 @@ public partial class TFireMastery : TGlobalEnchantmentSpell
 
     public void ShowAnimation(TAnimation anim, int xhpSurface, int yhpSurface, in TSurfaceDesc surface)
     {
-        int chance = AoWE.AoWE.AoWEngine.FAnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
-        var map = AoWE.AoWE.AoWHSMap;
+        int chance = AoWEngine.FAnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
+        var map = AoWHSMap;
         var level = map.MapContainer.GetMapLevel(map.ViewL);
         int maxX = map.ViewXhx + map.ViewWidthHX - 1, maxY = map.ViewYhx + map.ViewHeightHX - 1;
         for (int x = map.ViewXhx; x <= maxX; x++)
@@ -1857,12 +1858,12 @@ public partial class TFireMastery : TGlobalEnchantmentSpell
             {
                 var field = (TAoWMapField)level.GetField(x, y);
                 if (field.TerrainType is 7 or 8 or 15 || map.FSeatedPlayer == -1 || map.FExplorationEnabled && !field.GetExplored(map.FSeatedPlayer)) continue;
-                Rtl.Rtl.RandSeed = field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255) * 65536;
-                if (Rtl.Rtl.Random(100) >= chance) continue;
-                int delay = Rtl.Rtl.Random(40);
+                RandSeed = field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255) * 65536;
+                if (Random(100) >= chance) continue;
+                int delay = Random(40);
                 FCastImages.Show(0, xhp, yhp, anim.FFrameCounter - delay, surface);
-                if (anim.FFrameCounter == delay && AoWE.AoWE.AoWEngine.FAnimationDetail != 0)
-                    Sound.Sound.PlaySample(AoWE.AoWE.ExplosionSFX[x % 2]);
+                if (anim.FFrameCounter == delay && AoWEngine.FAnimationDetail != 0)
+                    SoundUnit.PlaySample(ExplosionSFX[x % 2]);
             }
         }
         if (anim.FFrameCounter == 90) anim.Destroy();
@@ -1915,7 +1916,7 @@ public partial class TEarthMasteryEnchantment : TGlobalEnchantment
         {
             if (AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petEarthMastery))
             {
-                Reason = Rtl.Rtl.Format(TranslateRStr(XIsAlreadyActiveRStr), [FName]);
+                Reason = RtlUnit.Format(TranslateRStr(XIsAlreadyActiveRStr), [FName]);
                 Result = false;
             }
         }
@@ -1969,7 +1970,7 @@ public partial class TEarthMastery : TGlobalEnchantmentSpell
         sbyte Y = default;
         sbyte L = default;
         base.ExecuteTE(Event, Source, ExecuteCount);
-        GlobalEnchantmentSpells.NotifySpellSphere(Source.FPlayer, TMagicSphere.msEarth);
+        GlobalEnchantmentSpellsUnit.NotifySpellSphere(Source.FPlayer, TMagicSphere.msEarth);
         Source.GetLocation(ref X, ref Y, ref L);
         AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
         AoWHSMap.AddEffect(TworldFXType.fxEarthMastery);
@@ -2071,7 +2072,7 @@ public partial class TSpellWard : TGlobalEnchantmentSpell
     public override TGlobalEnchantment CreateEnchantment() => new TSpellWardEnchantment(null);
 }
 
-public static partial class GlobalEnchantmentSpells
+public static partial class GlobalEnchantmentSpellsUnit
 {
     // GlobalEnchantmentSpells.pas:1976
     public static void RegisterGlobalEnchantmentSpells(TAoWEngine AEngine)

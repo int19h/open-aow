@@ -55,9 +55,9 @@ public sealed class SystemIoFileSystem : IFileSystem
         }
         return current;
     }
-    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode == Rtl.fmCreate ? FileMode.Create : FileMode.Open,
-        mode == Rtl.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
-        (mode & 0xF0) == Rtl.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode == RtlUnit.fmCreate ? FileMode.Create : FileMode.Open,
+        mode == RtlUnit.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
+        (mode & 0xF0) == RtlUnit.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
     public bool FileExists(string path) => File.Exists(Resolve(path));
     public bool DirectoryExists(string path) => Directory.Exists(Resolve(path));
     private static bool Attempt(Action action) { try { action(); return true; } catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; } }
@@ -119,7 +119,7 @@ public struct TSearchRec
     internal int Index;
 }
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     public static IFileSystem Files { get; set; } = new SystemIoFileSystem();
     public static IClock Clock { get; set; } = new SystemClock();

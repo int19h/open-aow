@@ -1,7 +1,7 @@
 // Translated from AoWReg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Engine.Engine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Engine.EngineUnit;
 
 namespace Aow.Units.AoWReg;
 
@@ -120,12 +120,12 @@ public partial class TAoWRegistry : TRegistry
                     if (ValueExists(Name))
                     {
                         S = ReadString(Name);
-                        Value = AoWReg.StringToRect(S);
+                        Value = AoWRegUnit.StringToRect(S);
                     }
 
                     break;
                 case TReadWriteMode.rwWrite:
-                    S = AoWReg.RectToString(Value);
+                    S = AoWRegUnit.RectToString(Value);
                     WriteString(Name, S);
                     break;
             }
@@ -715,14 +715,14 @@ public partial class TAoWRegistry : TRegistry
         string Result;
         Result = "";
         rwString("Email", "POP3 Password", ref Result, TReadWriteMode.rwRead);
-        Result = AoWReg.TransformPassword(Result, true);
+        Result = AoWRegUnit.TransformPassword(Result, true);
         return Result;
     }
 
     // AoWReg.pas:728
     public void SetPOP3Password(string Value)
     {
-        Value = AoWReg.TransformPassword(Value, true);
+        Value = AoWRegUnit.TransformPassword(Value, true);
         rwString("Email", "POP3 Password", ref Value, TReadWriteMode.rwWrite);
     }
 
@@ -867,7 +867,7 @@ public enum TAoWLanguage : byte
     alItalian = 5
 }
 
-public static partial class AoWReg
+public static partial class AoWRegUnit
 {
     // AoWReg registry settings from AoWEPACK.dpl, recovered against Delphi 3.02
     public static TGUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";

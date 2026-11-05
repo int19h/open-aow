@@ -5,7 +5,7 @@ using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
 using Aow.Units.Storms;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Altar;
 
@@ -252,7 +252,7 @@ public partial class TAltar : TPlayerStructure
             FStorm = CreateStorm();
             FStorm.UpdateTargetSelection(AoWHSMap.FTargetSelection);
             var name = FStorm.Name();
-            var format = Rtl.Rtl.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [name]);
+            var format = RtlUnit.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [name]);
             Selection.FText.Text = format;
             Selection.FTitle = EditName();
             Selection.FCancelText = TranslateRStr(CancelRStr);
@@ -359,7 +359,7 @@ public enum TAltarMode : byte
     amRebuilding = 2
 }
 
-public static partial class Altar
+public static partial class AltarUnit
 {
     // Altar.pas:313
     public static void RegisterAltar(TEngine AEngine)

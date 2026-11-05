@@ -1,10 +1,10 @@
 // Translated from ImageLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.HashTabU;
 using System.Buffers.Binary;
 
@@ -180,7 +180,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     public virtual void ReadImageData(TStream Stream)
     {
         Stream.Read(Bytes.Of(ref FVersion, 1));
-        ImageLib.ReadStringFromStream(ref FFileName, Stream);
+        ImageLibUnit.ReadStringFromStream(ref FFileName, Stream);
         Stream.Read(Bytes.Of(ref FDataWidth, 4));
         Stream.Read(Bytes.Of(ref FDataHeight, 4));
         Stream.Read(Bytes.Of(ref FXshift, 4));
@@ -216,7 +216,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         byte V;
         V = ClassVersion();
         Stream.Write(Bytes.Of(ref V, 1));
-        ImageLib.WriteStringToStream(FFileName, Stream);
+        ImageLibUnit.WriteStringToStream(FFileName, Stream);
         Stream.Write(Bytes.Of(ref FDataWidth, 4));
         Stream.Write(Bytes.Of(ref FDataHeight, 4));
         Stream.Write(Bytes.Of(ref FXshift, 4));
@@ -376,9 +376,9 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         Stream = new TMemoryStream();
         try
         {
-            ImageLib.WriteImageToStream(this, Stream);
+            ImageLibUnit.WriteImageToStream(this, Stream);
             Stream.Position = 0;
-            Result = ImageLib.ReadImageFromStream(Stream, FOwner);
+            Result = ImageLibUnit.ReadImageFromStream(Stream, FOwner);
             Result.SetOwner(null);
         }
         finally
@@ -977,7 +977,7 @@ public partial class TCustomImageLibrary : TComponent
             }
             else
             {
-                Path = ImageLib.BaseImageLibraryPath;
+                Path = ImageLibUnit.BaseImageLibraryPath;
             }
 
             Drive = ExtractFileDrive(FFileName);
@@ -1008,7 +1008,7 @@ public partial class TCustomImageLibrary : TComponent
         }
         else
         {
-            Path = ImageLib.BaseImageLibraryPath;
+            Path = ImageLibUnit.BaseImageLibraryPath;
         }
 
         Value = ExtractRelativePath(Path, Value);
@@ -1176,12 +1176,12 @@ public partial class TCustomImageLibrary : TComponent
                 while (Index != -1)
                 {
                     SubIndex = 0;
-                    Image = ImageLib.ReadImageFromStream(Stream, this);
+                    Image = ImageLibUnit.ReadImageFromStream(Stream, this);
                     while (Image != null)
                     {
                         SetSubImage(Index, SubIndex, Image);
                         SubIndex += 1;
-                        Image = ImageLib.ReadImageFromStream(Stream, this);
+                        Image = ImageLibUnit.ReadImageFromStream(Stream, this);
                     }
 
                     Stream.Read(Bytes.Of(ref Reference, 4));
@@ -1196,7 +1196,7 @@ public partial class TCustomImageLibrary : TComponent
                     Stream.ReadBuffer(Bytes.Of(ref Index, 4));
                     while (Index != -1)
                     {
-                        var readImageFromStream = ImageLib.ReadImageFromStream(Stream, this);
+                        var readImageFromStream = ImageLibUnit.ReadImageFromStream(Stream, this);
                         SetImage(Index, readImageFromStream);
                         Stream.Read(Bytes.Of(ref Reference, 4));
                         SetImageReference(Index, Reference);
@@ -1218,7 +1218,7 @@ public partial class TCustomImageLibrary : TComponent
                 MS.ReadBuffer(Bytes.Of(ref Index, 4));
                 while (Index != -1)
                 {
-                    var readImageFromStreamEx = ImageLib.ReadImageFromStreamEx(MS, Stream, this);
+                    var readImageFromStreamEx = ImageLibUnit.ReadImageFromStreamEx(MS, Stream, this);
                     SetImage(Index, readImageFromStreamEx);
                     MS.Read(Bytes.Of(ref Reference, 4));
                     SetImageReference(Index, Reference);
@@ -1271,7 +1271,7 @@ public partial class TCustomImageLibrary : TComponent
                 if (FImages[I].Image != null || FImages[I].Reference != -1)
                 {
                     Stream.Write(Bytes.Of(ref I, 4));
-                    ImageLib.WriteImageToStreamEx(FImages[I].Image, Stream, Swap);
+                    ImageLibUnit.WriteImageToStreamEx(FImages[I].Image, Stream, Swap);
                     Stream.Write(Bytes.Of(ref FImages[I].Reference, 4));
                 }
             }
@@ -2182,7 +2182,7 @@ public partial class TGrabInfo : TObject
         Stream.Read(Bytes.Of(ref TransparentColor, 4));
         Stream.Read(Bytes.Of(ref FindRectangles, 1));
         Stream.Read(Bytes.Of(ref TransparentPixel, 4));
-        ImageLib.ReadStringFromStream(ref FileName, Stream);
+        ImageLibUnit.ReadStringFromStream(ref FileName, Stream);
         Stream.Read(Bytes.Of(ref FileIndex, 4));
     }
 
@@ -2192,7 +2192,7 @@ public partial class TGrabInfo : TObject
         Stream.Write(Bytes.Of(ref TransparentColor, 4));
         Stream.Write(Bytes.Of(ref FindRectangles, 1));
         Stream.Write(Bytes.Of(ref TransparentPixel, 4));
-        ImageLib.WriteStringToStream(FileName, Stream);
+        ImageLibUnit.WriteStringToStream(FileName, Stream);
         Stream.Write(Bytes.Of(ref FileIndex, 4));
     }
 
@@ -2473,10 +2473,10 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
-            ImageLib.WriteImageToStreamEx(FImages[I], Stream, DataStream);
+            ImageLibUnit.WriteImageToStreamEx(FImages[I], Stream, DataStream);
         }
 
-        ImageLib.WriteImageToStream(null, Stream);
+        ImageLibUnit.WriteImageToStream(null, Stream);
     }
 
     // ImageLib.pas:1416
@@ -2484,10 +2484,10 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
-            ImageLib.WriteImageToStream(FImages[I], Stream);
+            ImageLibUnit.WriteImageToStream(FImages[I], Stream);
         }
 
-        ImageLib.WriteImageToStream(null, Stream);
+        ImageLibUnit.WriteImageToStream(null, Stream);
     }
 
     // ImageLib.pas:1424
@@ -2495,11 +2495,11 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         TLibraryImage Image;
         Clear();
-        Image = ImageLib.ReadImageFromStream(Stream, FOwner);
+        Image = ImageLibUnit.ReadImageFromStream(Stream, FOwner);
         while (Image != null)
         {
             Add(Image);
-            Image = ImageLib.ReadImageFromStream(Stream, FOwner);
+            Image = ImageLibUnit.ReadImageFromStream(Stream, FOwner);
         }
     }
 
@@ -2507,11 +2507,11 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     public override void LoadFromStreamEx(TStream Stream, TStream DataStream)
     {
         TLibraryImage Image;
-        Image = ImageLib.ReadImageFromStreamEx(Stream, DataStream, FOwner);
+        Image = ImageLibUnit.ReadImageFromStreamEx(Stream, DataStream, FOwner);
         while (Image != null)
         {
             Add(Image);
-            Image = ImageLib.ReadImageFromStreamEx(Stream, DataStream, FOwner);
+            Image = ImageLibUnit.ReadImageFromStreamEx(Stream, DataStream, FOwner);
         }
     }
 
@@ -3000,19 +3000,19 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
 
         bool loadedHere = !FDataLoaded;
         if (loadedHere) LoadDiscardableImageData();
-        var source = (Rtl.Rtl.BytePointer(FBits) + srcX + srcY * FPitch).Box();
-        var destination = (Rtl.Rtl.BytePointer(sd.Data) + destX + destY * sd.Pitch).Box();
-        if (sd.PixelFormatID == GFXE.GFXE.pfPAL8)
-            GFXE.GFXE.BltRect(source, destination, FPitch, sd.Pitch, width, height);
+        var source = (BytePointer(FBits) + srcX + srcY * FPitch).Box();
+        var destination = (BytePointer(sd.Data) + destX + destY * sd.Pitch).Box();
+        if (sd.PixelFormatID == pfPAL8)
+            BltRect(source, destination, FPitch, sd.Pitch, width, height);
         else
         {
             if (sd.PixelFormatID != FRemapPalette.PixelFormatID &&
-                RemapToPixelFormat(sd.PixelFormatID) != GFXE.GFXE.GFXE_OK)
+                RemapToPixelFormat(sd.PixelFormatID) != GFXE_OK)
                 throw new Rtl.Exception("Surface pixel format not supported!");
-            if (sd.PixelFormatID == GFXE.GFXE.pfRGB555)
-                GFXE.GFXE.RemapSurface08to555(source, destination, FPitch, sd.Pitch, width, height, FRemapPalette);
-            else if (sd.PixelFormatID == GFXE.GFXE.pfRGB565)
-                GFXE.GFXE.RemapSurface08to565(source, destination, FPitch, sd.Pitch, width, height, FRemapPalette);
+            if (sd.PixelFormatID == pfRGB555)
+                RemapSurface08to555(source, destination, FPitch, sd.Pitch, width, height, FRemapPalette);
+            else if (sd.PixelFormatID == pfRGB565)
+                RemapSurface08to565(source, destination, FPitch, sd.Pitch, width, height, FRemapPalette);
         }
         if (loadedHere && FLoadMode == TLoadMode.lmLoadFreeOnDemand) ReleaseDiscardableImageData();
     }
@@ -3158,7 +3158,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == pfPAL8)
             {
-                ImageLib.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3171,7 +3171,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case pfRGB555:
                     case pfRGB565:
-                        ImageLib.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
+                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
                         break;
                     default:
                         throw Exception.Create("PixelFormat not supported");
@@ -3187,7 +3187,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         {
             if (SD.PixelFormatID == pfPAL8)
             {
-                ImageLib.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3200,7 +3200,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case pfRGB555:
                     case pfRGB565:
-                        ImageLib.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
+                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
                         break;
                     default:
                         throw Exception.Create("PixelFormat not supported");
@@ -4724,11 +4724,11 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case pfRGB565:
-                    ImageLib.RemapRLE555to565(FData, FSpriteHeight, FColorKey);
+                    ImageLibUnit.RemapRLE555to565(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = pfRGB565;
                     break;
                 case pfRGB555:
-                    ImageLib.RemapRLE565to555(FData, FSpriteHeight, FColorKey);
+                    ImageLibUnit.RemapRLE565to555(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = pfRGB555;
                     break;
                 default:
@@ -4751,7 +4751,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                ImageLib.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4760,7 +4760,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw Exception.Create("Surface pixel format not supported!");
                 }
 
-                ImageLib.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
 
             if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -4772,7 +4772,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         {
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                ImageLib.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4781,7 +4781,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw Exception.Create("Surface pixel format not supported!");
                 }
 
-                ImageLib.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
         }
     }
@@ -4801,10 +4801,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case pfRGB565:
-                    ImageLib.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case pfRGB555:
-                    ImageLib.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
 
@@ -4823,10 +4823,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case pfRGB565:
-                    ImageLib.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case pfRGB555:
-                    ImageLib.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
         }
@@ -5261,7 +5261,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
             LoadDiscardableImageData();
         }
 
-        ImageLib.ShowBitMask16(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+        ImageLibUnit.ShowBitMask16(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
     }
 
     public void AllocateMaskData(int AWidth, int AHeight)
@@ -5298,10 +5298,10 @@ public partial class TShadow : TBitMask, ILibraryImageClass
             switch (SD.PixelFormatID)
             {
                 case pfRGB565:
-                    ImageLib.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ImageLibUnit.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 case pfRGB555:
-                    ImageLib.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ImageLibUnit.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
                     throw Exception.Create("Surface format not supported");
@@ -5317,10 +5317,10 @@ public partial class TShadow : TBitMask, ILibraryImageClass
             switch (SD.PixelFormatID)
             {
                 case pfRGB565:
-                    ImageLib.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ImageLibUnit.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 case pfRGB555:
-                    ImageLib.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ImageLibUnit.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
                     throw Exception.Create("Surface format not supported");
@@ -6316,7 +6316,7 @@ public partial class TILManagerList : TStringList
         Stream.Read(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            ImageLib.ReadStringFromStream(ref Name, Stream);
+            ImageLibUnit.ReadStringFromStream(ref Name, Stream);
             IL = new TImageLibrary(null);
             IL.LoadFromStream(Stream);
             AddILManagerObject(Name, IL);
@@ -6333,7 +6333,7 @@ public partial class TILManagerList : TStringList
         int last = Count - 1;
         for (; I <= last; I += 1)
         {
-            ImageLib.WriteStringToStream(Strings[I], Stream);
+            ImageLibUnit.WriteStringToStream(Strings[I], Stream);
             ((TILManagerObject)Objects[I]).FImageLibrary.SaveToStream(Stream);
         }
     }
@@ -7338,7 +7338,7 @@ public partial class TFrameTableList : TPersistent
     {
         if (!FList.IsNull && Count > 0)
         {
-            ImageLib.FrameTableQuickSort(FList, 0, Count - 1, Compare);
+            ImageLibUnit.FrameTableQuickSort(FList, 0, Count - 1, Compare);
         }
     }
 
@@ -7396,7 +7396,7 @@ public partial class TFrameTableList : TPersistent
         {
             if (!TSet<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(Value[I - 1])))
             {
-                Value = Rtl.Rtl.Delete(Value, I, 1);
+                Value = RtlUnit.Delete(Value, I, 1);
             }
         }
 
@@ -7407,7 +7407,7 @@ public partial class TFrameTableList : TPersistent
             if (I != 0)
             {
                 S = Copy(Value, 1, I - 1);
-                Value = Rtl.Rtl.Delete(Value, 1, I);
+                Value = RtlUnit.Delete(Value, 1, I);
             }
             else
             {
@@ -7865,7 +7865,7 @@ public partial class TImageSequence : TObject
     public void SaveToStream(TStream Stream)
     {
         bool HasNext;
-        ImageLib.WriteStringToStream(FImageLibraryName, Stream);
+        ImageLibUnit.WriteStringToStream(FImageLibraryName, Stream);
         Stream.Write(Bytes.Of(ref FLayer, 1));
         Stream.Write(Bytes.Of(ref FSequenceSpeed, 1));
         Stream.Write(Bytes.Of(ref FSequenceMode, 1));
@@ -7890,7 +7890,7 @@ public partial class TImageSequence : TObject
     {
         bool HasNext = default;
         ReleaseIL();
-        ImageLib.ReadStringFromStream(ref FImageLibraryName, Stream);
+        ImageLibUnit.ReadStringFromStream(ref FImageLibraryName, Stream);
         Stream.Read(Bytes.Of(ref FLayer, 1));
         Stream.Read(Bytes.Of(ref FSequenceSpeed, 1));
         Stream.Read(Bytes.Of(ref FSequenceMode, 1));
@@ -7992,7 +7992,7 @@ public partial class TILFilenameProperty : TStringProperty
     }
 }
 
-public static partial class ImageLib
+public static partial class ImageLibUnit
 {
     // ImageLib.pas:5779
     // { Draws Image into Rect of Canvas: bmStretch stretches it over Rect, bmStretchToFit stretches it

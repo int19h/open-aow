@@ -1,8 +1,8 @@
 // Translated from AoWPInfoWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
@@ -13,8 +13,10 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowHelpWin.aowHelpWin;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.AoWPInfoWin;
 
@@ -53,24 +55,24 @@ public partial class TPInfoW : TDataModule
         if (AoWHSMap.FSeatedPlayer > -1)
         {
             var name = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetName();
-            AoWPInfoWin.PInfoW.Player.Text = name;
+            AoWPInfoWinUnit.PInfoW.Player.Text = name;
             if (AoWHSMap.FSeatedPlayer != 0)
             {
                 var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[player.FPlayerRace]);
-                AoWPInfoWin.PInfoW.Race.Text = raceNamesPlural;
+                AoWPInfoWinUnit.PInfoW.Race.Text = raceNamesPlural;
             }
 
             var day = TranslateRStr(DayRStr);
-            AoWPInfoWin.PInfoW.Turn.Text = day + " " + IntToStr(AoWHSMap.FDay);
+            AoWPInfoWinUnit.PInfoW.Turn.Text = day + " " + IntToStr(AoWHSMap.FDay);
             RaceIndex = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FPlayerRace;
             if (RaceIndex == -1)
             {
                 RaceIndex = 12;
             }
 
-            AoWPInfoWin.PInfoW.RShield.CurrentImage = RaceIndex + 13;
-            AoWPInfoWin.PInfoW.PInfoWin.Visible = true;
+            AoWPInfoWinUnit.PInfoW.RShield.CurrentImage = RaceIndex + 13;
+            AoWPInfoWinUnit.PInfoW.PInfoWin.Visible = true;
         }
     }
 
@@ -128,23 +130,23 @@ public partial class TPInfoW : TDataModule
         {
             if (MiddleIcon == -1)
             {
-                var eventIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon];
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left + (36 - eventIcon.Width) / 2, DrawRect.Top + 1, SD);
+                var eventIcon = aowIntGfxModUnit.IntGfxMod.EventIcons[LeftIcon];
+                aowIntGfxModUnit.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left + (36 - eventIcon.Width) / 2, DrawRect.Top + 1, SD);
             }
             else
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left, DrawRect.Top + 1, SD);
+                aowIntGfxModUnit.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left, DrawRect.Top + 1, SD);
             }
         }
 
         if (MiddleIcon > -1)
         {
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[MiddleIcon].ShowClipped(DrawRect.Left + 12, DrawRect.Top + 1, SD);
+            aowIntGfxModUnit.IntGfxMod.EventIcons[MiddleIcon].ShowClipped(DrawRect.Left + 12, DrawRect.Top + 1, SD);
         }
 
         if (RightIcon > -1)
         {
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[RightIcon].ShowClipped(DrawRect.Left + 24, DrawRect.Top + 1, SD);
+            aowIntGfxModUnit.IntGfxMod.EventIcons[RightIcon].ShowClipped(DrawRect.Left + 24, DrawRect.Top + 1, SD);
         }
     }
 
@@ -219,7 +221,7 @@ public partial class TPInfoW : TDataModule
                 switch (Button)
                 {
                     case TMouseButton.mbLeft:
-                        AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
+                        AoWUnitWindowUnit.UnitWindow.ShowUnit();
                         break;
                     case TMouseButton.mbRight:
                         LeaderBtnClick(this);
@@ -236,7 +238,7 @@ public partial class TPInfoW : TDataModule
     }
 }
 
-public static partial class AoWPInfoWin
+public static partial class AoWPInfoWinUnit
 {
     public static TPInfoW PInfoW;
 }

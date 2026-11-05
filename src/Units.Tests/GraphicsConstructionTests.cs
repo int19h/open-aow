@@ -4,7 +4,7 @@ using Aow.Units.DisplayC;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using LibraryImage = Aow.Units.ImageLib.TLibraryImage;
-using G = Aow.Units.GFXE.GFXE;
+using G = Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -346,7 +346,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
         Assert.Equal(G.pfRGB555, sd.PixelFormatID);
-        var data = Aow.Rtl.Rtl.BytePointer(sd.Data);
+        var data = Runtime.BytePointer(sd.Data);
         Assert.Equal((ushort)0x7C00, data.Reinterpret<ushort>().Value);
         copy.Unlock();
         copy.Destroy();

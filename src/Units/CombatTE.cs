@@ -1,19 +1,19 @@
 // Translated from CombatTE.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.Engine;
 using Aow.Units.Sound;
 using Aow.Units.NetworkE;
 using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
+using static Aow.Units.aowFX.aowFXUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.CityWall;
-using static Aow.Units.CombatFire.CombatFire;
+using static Aow.Units.CombatFire.CombatFireUnit;
 using Aow.Units.CombatSpells;
 
 namespace Aow.Units.CombatTE;
@@ -273,19 +273,19 @@ public partial class TCombatMoveTE : TMoveTE
                                 if (FStrike.FDamage > 0)
                                 {
                                     FUnit.FUnitHS.SetAction(TTCAction.caHit);
-                                    CombatTE.MakeHitBlood(FUnit, FStrike.FDamage);
+                                    CombatTEUnit.MakeHitBlood(FUnit, FStrike.FDamage);
                                 }
 
                                 var yhx = FUnit.FUnitHS.Yhx;
                                 HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref X, ref Y);
                                 if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                 {
-                                    CombatTE.MakeDEHSList(X, Y, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
+                                    CombatTEUnit.MakeDEHSList(X, Y, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
                                 }
 
                                 if (FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                 {
-                                    CombatTE.MakeDEHSList(X, Y, FStrike.FEffects.Value, true);
+                                    CombatTEUnit.MakeDEHSList(X, Y, FStrike.FEffects.Value, true);
                                 }
 
                                 FStep = TTokenStep.tokEndStrike;
@@ -670,17 +670,17 @@ public partial class TCMeleeMoveTE : TCombatMoveTE
                             if (FStrike.FDamage > 0)
                             {
                                 FUnit.FUnitHS.SetAction(TTCAction.caHit);
-                                CombatTE.MakeHitBlood(FUnit, FStrike.FDamage);
+                                CombatTEUnit.MakeHitBlood(FUnit, FStrike.FDamage);
                                 var yhx = FUnit.FUnitHS.Yhx;
                                 HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref X, ref Y);
                                 if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                 {
-                                    CombatTE.MakeDEHSList(X + FUnit.FUnitHS.FOffsetX, Y + FUnit.FUnitHS.FOffsetY, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
+                                    CombatTEUnit.MakeDEHSList(X + FUnit.FUnitHS.FOffsetX, Y + FUnit.FUnitHS.FOffsetY, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
                                 }
 
                                 if (FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                 {
-                                    CombatTE.MakeDEHSList(X + FUnit.FUnitHS.FOffsetX, Y + FUnit.FUnitHS.FOffsetY, FStrike.FEffects.Value, true);
+                                    CombatTEUnit.MakeDEHSList(X + FUnit.FUnitHS.FOffsetX, Y + FUnit.FUnitHS.FOffsetY, FStrike.FEffects.Value, true);
                                 }
                             }
 
@@ -694,17 +694,17 @@ public partial class TCMeleeMoveTE : TCombatMoveTE
                                 if (FStrike.FDamage > 0)
                                 {
                                     FPreviousUnit.FUnitHS.SetAction(TTCAction.caHit);
-                                    CombatTE.MakeHitBlood(FPreviousUnit, FStrike.FDamage);
+                                    CombatTEUnit.MakeHitBlood(FPreviousUnit, FStrike.FDamage);
                                     var yhx = FPreviousUnit.FUnitHS.Yhx;
                                     HXtoHP(FPreviousUnit.FUnitHS.Xhx, yhx, ref X, ref Y);
                                     if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                     {
-                                        CombatTE.MakeDEHSList(X, Y, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
+                                        CombatTEUnit.MakeDEHSList(X, Y, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
                                     }
 
                                     if (FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                     {
-                                        CombatTE.MakeDEHSList(X, Y, FStrike.FEffects.Value, true);
+                                        CombatTEUnit.MakeDEHSList(X, Y, FStrike.FEffects.Value, true);
                                     }
                                 }
 
@@ -1142,7 +1142,7 @@ public partial class TCAbTouchMoveTE : TCombatMoveTE
                                                         {
                                                             HS.SetAction(TTCAction.caHit);
                                                             FUnit.FUnitHS.SetAction(TTCAction.caRoundAttackHit);
-                                                            CombatTE.MakeHitBlood(HS.FUnit, FStrike.FDamage);
+                                                            CombatTEUnit.MakeHitBlood(HS.FUnit, FStrike.FDamage);
                                                             AoWCombatMap.FCombat.ExecuteCombatAction(FStrike);
                                                         }
                                                         else
@@ -1321,19 +1321,19 @@ public partial class TCAbTouchMoveTE : TCombatMoveTE
                             if (FStrike.FDamage > 0)
                             {
                                 FUnit.FUnitHS.SetAction(TTCAction.caHit);
-                                CombatTE.MakeHitBlood(FUnit, FStrike.FDamage);
+                                CombatTEUnit.MakeHitBlood(FUnit, FStrike.FDamage);
                             }
 
                             var yhx = FUnit.FUnitHS.Yhx;
                             HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref I, ref X);
                             if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                             {
-                                CombatTE.MakeDEHSList(I + FUnit.FUnitHS.FOffsetX, X + FUnit.FUnitHS.FOffsetY, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
+                                CombatTEUnit.MakeDEHSList(I + FUnit.FUnitHS.FOffsetX, X + FUnit.FUnitHS.FOffsetY, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
                             }
 
                             if (FStrike.FEffects.Value != TSet<TDamageType>.Of())
                             {
-                                CombatTE.MakeDEHSList(I + FUnit.FUnitHS.FOffsetX, X + FUnit.FUnitHS.FOffsetY, FStrike.FEffects.Value, true);
+                                CombatTEUnit.MakeDEHSList(I + FUnit.FUnitHS.FOffsetX, X + FUnit.FUnitHS.FOffsetY, FStrike.FEffects.Value, true);
                             }
 
                             FStep = TTokenStep.tokExeEndStrike;
@@ -1656,12 +1656,12 @@ public partial class TCAbRangedTE : TTokenEvent
                                             HXtoHP(HS.Xhx, yhx, ref I, ref X);
                                             if (((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value != TSet<TDamageType>.Of())
                                             {
-                                                CombatTE.MakeDEHSList(I, X, ((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value, false);
+                                                CombatTEUnit.MakeDEHSList(I, X, ((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value, false);
                                             }
 
                                             if (((TDamageCA)Effect.FCombatAction).FEffects.Value != TSet<TDamageType>.Of())
                                             {
-                                                CombatTE.MakeDEHSList(I, X, ((TDamageCA)Effect.FCombatAction).FEffects.Value, true);
+                                                CombatTEUnit.MakeDEHSList(I, X, ((TDamageCA)Effect.FCombatAction).FEffects.Value, true);
                                             }
 
                                             AoWCombatMap.FCombat.ExecuteCombatAction(Effect.FCombatAction);
@@ -1951,12 +1951,12 @@ public partial class TCAbRangedTE : TTokenEvent
                                                                             HXtoHP(((TTacticalCombatUnit)Effect.FTarget).FUnitHS.Xhx, yhx, ref X, ref Y);
                                                                             if (((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value != TSet<TDamageType>.Of())
                                                                             {
-                                                                                CombatTE.MakeDEHSList(X, Y, ((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value, false);
+                                                                                CombatTEUnit.MakeDEHSList(X, Y, ((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value, false);
                                                                             }
 
                                                                             if (((TDamageCA)Effect.FCombatAction).FEffects.Value != TSet<TDamageType>.Of())
                                                                             {
-                                                                                CombatTE.MakeDEHSList(X, Y, ((TDamageCA)Effect.FCombatAction).FEffects.Value, true);
+                                                                                CombatTEUnit.MakeDEHSList(X, Y, ((TDamageCA)Effect.FCombatAction).FEffects.Value, true);
                                                                             }
                                                                         }
                                                                         else
@@ -1980,7 +1980,7 @@ public partial class TCAbRangedTE : TTokenEvent
                                                                         if (I > 0)
                                                                         {
                                                                             ((TTacticalCombatUnit)Effect.FTarget).FUnitHS.SetAction(TTCAction.caHit);
-                                                                            CombatTE.MakeHitBlood((TTacticalCombatUnit)Effect.FTarget, I);
+                                                                            CombatTEUnit.MakeHitBlood((TTacticalCombatUnit)Effect.FTarget, I);
                                                                             Effect.FCancelled = true;
                                                                         }
                                                                     }
@@ -3058,7 +3058,7 @@ public enum TTokenStep : byte
     tokDelayStrike = 8
 }
 
-public static partial class CombatTE
+public static partial class CombatTEUnit
 {
     // CombatTE.pas:1777
     public static void MakeDEHSList(int X, int Y, TSet<TDamageType> DamageTypes, bool Resisted)

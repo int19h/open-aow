@@ -13,8 +13,8 @@ internal static class PacingVerification
     {
         var host = new NullPresenter();
         var clock = new SdlClock();
-        var savedClock = Aow.Rtl.Rtl.Clock;
-        Aow.Rtl.Rtl.Clock = clock;
+        var savedClock = RtlUnit.Clock;
+        RtlUnit.Clock = clock;
         var display = new TimedDisplay();
         var controller = new TSdlDC(host);
         var times = new List<double>(306);
@@ -53,7 +53,7 @@ internal static class PacingVerification
             process.PriorityClass = processPriority;
             display.Free();
             controller.Free();
-            Aow.Rtl.Rtl.Clock = savedClock;
+            RtlUnit.Clock = savedClock;
         }
         double[] regular = times.Take(300).ToArray();
         double slow = times[300];

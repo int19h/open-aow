@@ -1,14 +1,14 @@
 // Translated from IsoCombatHex.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.IsoHex;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.IsoCombatHex;
 
@@ -171,7 +171,7 @@ public partial class TIsometricCombatHexagonResource : TUpperIsometricHexagonRes
 
 }
 
-public static partial class IsoCombatHex
+public static partial class IsoCombatHexUnit
 {
     // IsoCombatHex.pas:120
     public static void RegisterIsometricCombatHexagon(TEngine AEngine)

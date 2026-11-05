@@ -4,8 +4,10 @@ using Aow.Rtl;
 using Aow.Rtl.Localize;
 using Aow.Units.ImageLib;
 using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using Aow.Units.AoWSWindow;
+using Aow.Units.AoWFileDialog;
 
 namespace Aow.Game;
 
@@ -13,7 +15,7 @@ internal static class LocalizationFrameChecks
 {
     public static void Run(string root, string output, LayoutSession layouts)
     {
-        int language = LocalizationRuntime.ReadLanguage(Aow.Rtl.Rtl.Settings);
+        int language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
         var germanBytes = new SortedSet<byte>();
         foreach (string file in new[] { "AoW", "ResStr", "CustMaps", "Release" })
         {
@@ -38,12 +40,12 @@ internal static class LocalizationFrameChecks
         }
         string undead = TranslateRStr("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
-        string mapCaption = Aow.Units.AoWSWindow.AoWSWindow.SWindow.STitleLabel.Text;
+        string mapCaption = AoWSWindowUnit.SWindow.STitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
         if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
-        var dialogTitle = Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow?.Title?.Text ?? "";
+        var dialogTitle = AoWFileDialogUnit.FileDlgWindow?.Title?.Text ?? "";
         var required = new SortedSet<string>(StringComparer.Ordinal);
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
@@ -62,8 +64,8 @@ internal static class LocalizationFrameChecks
                 {
                     string cased = font.CharCase switch
                     {
-                        TEditCharCase.ecUpperCase => Aow.Rtl.Rtl.UpperCase(text),
-                        TEditCharCase.ecLowerCase => Aow.Rtl.Rtl.LowerCase(text),
+                        TEditCharCase.ecUpperCase => RtlUnit.UpperCase(text),
+                        TEditCharCase.ecLowerCase => RtlUnit.LowerCase(text),
                         _ => text
                     };
                     for (int character = 1; character <= cased.Length; character++)
@@ -91,8 +93,8 @@ internal static class LocalizationFrameChecks
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
         if (language == 1)
         {
-            var left = new TDIB16Surface(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
-            var right = new TDIB16Surface(120, 40, Aow.Units.GFXE.GFXE.pfRGB555);
+            var left = new TDIB16Surface(120, 40, GFXEUnit.pfRGB555);
+            var right = new TDIB16Surface(120, 40, GFXEUnit.pfRGB555);
             try
             {
                 left.Cls(0);
@@ -104,8 +106,8 @@ internal static class LocalizationFrameChecks
                 {
                     FontModule.Age8.SetText(0, 0, undead, l);
                     FontModule.Age8.SetText(0, 0, "Undead", r);
-                    var pixels = Aow.Rtl.Rtl.BytePointer(l.Data).AsSpan(l.Pitch * 40);
-                    if (!pixels.SequenceEqual(Aow.Rtl.Rtl.BytePointer(r.Data).AsSpan(r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
+                    var pixels = RtlUnit.BytePointer(l.Data).AsSpan(l.Pitch * 40);
+                    if (!pixels.SequenceEqual(RtlUnit.BytePointer(r.Data).AsSpan(r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                         throw new InvalidOperationException("English Undead rendering differs");
                 }
                 finally { left.Unlock(); right.Unlock(); }

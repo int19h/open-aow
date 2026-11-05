@@ -1,7 +1,7 @@
 // Translated from RndHex.pas.
 using Aow.Rtl;
 using Aow.Units.Engine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Hexagon;
 
 namespace Aow.Units.RndHex;
@@ -52,7 +52,7 @@ public partial class TRndHexagonResource : THexagonResource
 
 }
 
-public static partial class RndHex
+public static partial class RndHexUnit
 {
     // RndHex.pas:61
     public static void RegisterRandomHexagon(TEngine Engine)

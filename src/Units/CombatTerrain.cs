@@ -1,16 +1,16 @@
 // Translated from CombatTerrain.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Terrain;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 
 namespace Aow.Units.CombatTerrain;
 
@@ -340,7 +340,7 @@ public partial class TCombatTerrainResource : TTerrainMOR
 
 }
 
-public static partial class CombatTerrain
+public static partial class CombatTerrainUnit
 {
     // CombatTerrain.pas:319
     public static void RegisterCombatTerrain(TEngine AEngine)

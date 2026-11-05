@@ -1,19 +1,24 @@
 #nullable disable
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using static Aow.Units.AoWSWindow.AoWSWindow;
-using static Aow.Units.AoWRealm.AoWRealm;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWin;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.Sound.Sound;
-using static Aow.Units.E1Resources.E1Resources;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWSWindow.AoWSWindowUnit;
+using static Aow.Units.AoWRealm.AoWRealmUnit;
+using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.Sound.SoundUnit;
+using static Aow.Units.E1Resources.E1ResourcesUnit;
 using Aow.Units.AoWE;
 using Aow.Units.HSEngine;
+using Aow.Rtl;
+using Aow.Units.E1Globals;
+using Aow.Units.E2Globals;
+using Aow.Units.aowSetupEvents;
+using Aow.Units.aowMapEvents;
 
 namespace Aow.Units.AoWWinMan;
 
-public static partial class AoWWinMan
+public static partial class AoWWinManUnit
 {
     // AoWWinMan.pas:559. The offline transport supplies Connected = false.
     public static void StartGame(TGeneral controller)
@@ -24,18 +29,18 @@ public static partial class AoWWinMan
         else if (AoWHSMap.FStartupSongs.Songs.Count != 0)
         {
             for (int i = 0; i < AoWHSMap.FStartupSongs.Songs.Count; i++)
-                if (Rtl.Rtl.CompareText(AoWHSMap.FStartupSongs.SongNames[i], TranslateRStr(E1FileNotFoundRStr)) != 0)
+                if (RtlUnit.CompareText(AoWHSMap.FStartupSongs.SongNames[i], TranslateRStr(E1FileNotFoundRStr)) != 0)
                     SongPlayer.Songs.Add(AoWHSMap.FStartupSongs.Songs[i]);
         }
         else SongPlayer.Songs.Add("Songs\\Heartwoo.it");
         SongPlayer.Play(0);
         SetMusicVolume(SoundDlg.MusicVolume.Position);
-        var menu = E1Globals.E1Globals.PopupWindows.OverViewsMenu.Items;
+        var menu = E1GlobalsUnit.PopupWindows.OverViewsMenu.Items;
         menu.Clear();
         menu.Add(TranslateRStr(E1BackgroundRStr));
         if (AoWEngine.FCampaign != null) menu.Add(TranslateRStr(E1CampaignRStr));
-        E2Globals.E2Globals.TitleScene.Window.Visible = false;
-        E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
+        E2GlobalsUnit.TitleScene.Window.Visible = false;
+        E2GlobalsUnit.TitleWindow.TitleWin.Visible = false;
         TBWindow.TaskWindow.Visible = true;
         MWindow.MapWindow.Visible = true;
         SWindow.ScannerWindow.Visible = true;
@@ -44,7 +49,7 @@ public static partial class AoWWinMan
         scanner.SetMap(AoWHSMap);
         scanner.SetLevel(AoWHSMap.MapContainer.GetMapLevel(0));
         TBWindow.TurnButton.FButtonChecked = false;
-        TBWindow.ChatBtn.Visible = aowSetupEvents.aowSetupEvents.SetupEvents.DPlay.Connected;
+        TBWindow.ChatBtn.Visible = aowSetupEventsUnit.SetupEvents.DPlay.Connected;
         General.Manager.FAligned = false;
         scanner.FPreviousWidth = 0;
         scanner.FIncremental = false;
@@ -68,8 +73,8 @@ public static partial class AoWWinMan
         MWindow.MapViewer.SceneHeight = MWindow.MapWindow.WinHeight - 24;
         AoWHSMap.Activate();
         RealmWin.Dlg.Visible = false;
-        aowMapEvents.aowMapEvents.MapEvents.TheMapArmyDeselected(null);
-        aowMapEvents.aowMapEvents.MapEvents.TheMapStructureDeselected(null);
+        aowMapEventsUnit.MapEvents.TheMapArmyDeselected(null);
+        aowMapEventsUnit.MapEvents.TheMapStructureDeselected(null);
         // The original call at targets the indicator sizing routine
         TBWindow.UpdatePlayerIndicator();
         PInfoW.UpdatePlayer();

@@ -5,12 +5,14 @@ using Aow.Units.HSEngine;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWTC.AoWTC;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWFileDialog.AoWFileDialog;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
 using Aow.Platform;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWSWindow;
 
 namespace Aow.Units.AOWMWindow;
 
@@ -34,7 +36,7 @@ public partial class TMWindow : TDataModule
     // AOWMWindow.pas:53
     public void MWindowCreate()
     {
-        MapWindow.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+        MapWindow.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
         MapWindow.WinManager = General.Manager;
         FMapAlignWidth = TAOWAlignWidth.awBoth;
         FMapAlignHeight = TAOWAlignHeight.ahBoth;
@@ -80,25 +82,25 @@ public partial class TMWindow : TDataModule
     {
         if (AoWHSMap.FSeatedPlayer != -1)
         {
-            AoWSWindow.AoWSWindow.SWindow.Scanner.SetTWidth(AOWMWindow.MWindow.MapViewer.SceneWidth / 32);
-            AoWSWindow.AoWSWindow.SWindow.Scanner.SetTHeight(AOWMWindow.MWindow.MapViewer.SceneHeight / 32);
-            AoWSWindow.AoWSWindow.SWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
-            AoWSWindow.AoWSWindow.SWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
-            TCScanner.Scanner.SetTWidth(AOWMWindow.MWindow.MapViewer.SceneWidth / 32);
-            TCScanner.Scanner.SetTHeight(AOWMWindow.MWindow.MapViewer.SceneHeight / 32);
-            TCScanner.Scanner.SetTLeft(AOWMWindow.MWindow.MapViewer.SceneX / 32 - 6);
-            TCScanner.Scanner.SetTTop(AOWMWindow.MWindow.MapViewer.SceneY / 32 - 6);
+            AoWSWindowUnit.SWindow.Scanner.SetTWidth(AOWMWindowUnit.MWindow.MapViewer.SceneWidth / 32);
+            AoWSWindowUnit.SWindow.Scanner.SetTHeight(AOWMWindowUnit.MWindow.MapViewer.SceneHeight / 32);
+            AoWSWindowUnit.SWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
+            AoWSWindowUnit.SWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
+            TCScanner.Scanner.SetTWidth(AOWMWindowUnit.MWindow.MapViewer.SceneWidth / 32);
+            TCScanner.Scanner.SetTHeight(AOWMWindowUnit.MWindow.MapViewer.SceneHeight / 32);
+            TCScanner.Scanner.SetTLeft(AOWMWindowUnit.MWindow.MapViewer.SceneX / 32 - 6);
+            TCScanner.Scanner.SetTTop(AOWMWindowUnit.MWindow.MapViewer.SceneY / 32 - 6);
         }
 
         if (AoWHSMap.FCombatMap == null)
         {
-            if (AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL) != AoWSWindow.AoWSWindow.SWindow.Scanner.FLevel)
+            if (AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL) != AoWSWindowUnit.SWindow.Scanner.FLevel)
             {
-                var scanner = AoWSWindow.AoWSWindow.SWindow.Scanner;
+                var scanner = AoWSWindowUnit.SWindow.Scanner;
                 scanner.FUpdateStep = -1;
                 scanner.SetLevel(AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL));
 
-                AoWSWindow.AoWSWindow.SWindow.ScannerTab.SetIndex(MapViewer.SceneL);
+                AoWSWindowUnit.SWindow.ScannerTab.SetIndex(MapViewer.SceneL);
             }
         }
 
@@ -192,26 +194,26 @@ public partial class TMWindow : TDataModule
             switch (K)
             {
                 case 37:
-                    AOWMWindow.MWindow.MapViewer.SceneX = AOWMWindow.MWindow.MapViewer.SceneX - 32;
+                    AOWMWindowUnit.MWindow.MapViewer.SceneX = AOWMWindowUnit.MWindow.MapViewer.SceneX - 32;
                     Sender.FHandled = true;
                     break;
                 case 39:
-                    AOWMWindow.MWindow.MapViewer.SceneX = AOWMWindow.MWindow.MapViewer.SceneX + 32;
+                    AOWMWindowUnit.MWindow.MapViewer.SceneX = AOWMWindowUnit.MWindow.MapViewer.SceneX + 32;
                     Sender.FHandled = true;
                     break;
                 case 38:
-                    AOWMWindow.MWindow.MapViewer.SceneY = AOWMWindow.MWindow.MapViewer.SceneY - 32;
+                    AOWMWindowUnit.MWindow.MapViewer.SceneY = AOWMWindowUnit.MWindow.MapViewer.SceneY - 32;
                     Sender.FHandled = true;
                     break;
                 case 40:
-                    AOWMWindow.MWindow.MapViewer.SceneY = AOWMWindow.MWindow.MapViewer.SceneY + 32;
+                    AOWMWindowUnit.MWindow.MapViewer.SceneY = AOWMWindowUnit.MWindow.MapViewer.SceneY + 32;
                     Sender.FHandled = true;
                     break;
                 case 33:
-                    AOWMWindow.MWindow.MapViewer.SceneL = AOWMWindow.MWindow.MapViewer.SceneL - 1;
+                    AOWMWindowUnit.MWindow.MapViewer.SceneL = AOWMWindowUnit.MWindow.MapViewer.SceneL - 1;
                     break;
                 case 34:
-                    AOWMWindow.MWindow.MapViewer.SceneL = AOWMWindow.MWindow.MapViewer.SceneL + 1;
+                    AOWMWindowUnit.MWindow.MapViewer.SceneL = AOWMWindowUnit.MWindow.MapViewer.SceneL + 1;
                     break;
                 case 77:
                     if (AoWCombatMap != null)
@@ -365,7 +367,7 @@ public partial class TMWindow : TDataModule
     }
 }
 
-public static partial class AOWMWindow
+public static partial class AOWMWindowUnit
 {
     public static TMWindow MWindow;
 }

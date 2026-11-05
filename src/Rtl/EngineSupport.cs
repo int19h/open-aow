@@ -36,7 +36,7 @@ public sealed class TApplication
     public string ExeName { get; set; } = Environment.ProcessPath ?? "";
 }
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     public static object AllocMem(uint count) => Ptr<byte>.Alloc(checked((int)count)).Box();
     public static T? RebindDelegate<T>(Delegate? value) where T : Delegate

@@ -1,19 +1,21 @@
 // Translated from aowTCMapEvents.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Sound.Sound;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.CMapCtrl;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using static Aow.Units.AoWTCUnit.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Units.AoWComp;
-using static Aow.Units.aowMapEvents.aowMapEvents;
+using static Aow.Units.aowMapEvents.aowMapEventsUnit;
+using Aow.Units.AoWSWindow;
+using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.aowTCMapEvents;
 
@@ -30,11 +32,11 @@ public partial class TTCMapEvents : TDataModule
         StopSong();
         SongPlayer.Resume();
         MWindow.MapViewer.HSMap = AoWHSMap;
-        AoWSWindow.AoWSWindow.SWindow.Scanner.SetMap(AoWHSMap);
-        AoWSWindow.AoWSWindow.SWindow.Scanner.FPreviousWidth = 0;
-        AoWSWindow.AoWSWindow.SWindow.Scanner.FIncremental = false;
-        AoWSWindow.AoWSWindow.SWindow.Scanner.FSized = false;
-        AoWSWindow.AoWSWindow.SWindow.Scanner.FUpdateStep = -1;
+        AoWSWindowUnit.SWindow.Scanner.SetMap(AoWHSMap);
+        AoWSWindowUnit.SWindow.Scanner.FPreviousWidth = 0;
+        AoWSWindowUnit.SWindow.Scanner.FIncremental = false;
+        AoWSWindowUnit.SWindow.Scanner.FSized = false;
+        AoWSWindowUnit.SWindow.Scanner.FUpdateStep = -1;
 
         if (FChatHeight > 0)
         {
@@ -98,7 +100,7 @@ public partial class TTCMapEvents : TDataModule
         {
             General.FCombatUnit = null;
             General.FSelectedUnit = null;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
             TBWindow.TCUnitBtn.Visible = false;
             TCUnit.TCUnitWin.Visible = false;
         }
@@ -227,6 +229,6 @@ public partial class TTCMapEvents : TDataModule
     }
 }
 
-public static partial class aowTCMapEvents
+public static partial class aowTCMapEventsUnit
 {
 }

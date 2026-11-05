@@ -9,6 +9,9 @@ using Aow.Units.AoWButton;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWMemo;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.aowHelpWin
 {
@@ -467,30 +470,30 @@ namespace Aow.Units.aowHelpWin
             HelpMemo.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            HelpWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            HelpWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            HelpWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CloseBtn.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            CloseBtn.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            BBarEnd.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            BBarBegin.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            BCloseBut.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            BCloseBut.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            CeltLineR.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            BBar.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            CeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            HelpSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            HelpSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            HelpSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            HelpSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            HeaderMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
-            HeaderMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            HeaderMemo.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            HelpMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            HelpMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            HelpMemo.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            HelpWin.WinManager = AoWWinManUnit.General.Manager;
+            HelpWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            HelpWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CloseBtn.ToolTip = AoWWinManUnit.General.ToolTip;
+            CloseBtn.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            BBarEnd.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            BBarBegin.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            BCloseBut.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            BCloseBut.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            CeltLineR.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            BBar.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            CeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            HelpSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            HelpSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            HelpSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            HelpSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
+            HeaderMemo.AOWFont = AoWExeFormsUnit.FontModule.AoW15BlackBrown;
+            HeaderMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            HeaderMemo.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            HelpMemo.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            HelpMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            HelpMemo.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
         }
 
         private void Layout_HelpWinHide_0(TObject p0)

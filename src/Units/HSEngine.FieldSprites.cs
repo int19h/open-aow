@@ -111,9 +111,9 @@ public partial class TMapField
     public void Loaded()
     {
         int count = FCount;
-        for (int i = 0; i < count; i++) HSEngine.LoadedList[i] = FHSList[i];
+        for (int i = 0; i < count; i++) HSEngineUnit.LoadedList[i] = FHSList[i];
         for (int i = count - 1; i >= 0; i--)
-            if (HSEngine.LoadedList[i].Owner == this && !HSEngine.LoadedList[i].MainLoaded()) HSEngine.LoadedList[i].Free();
+            if (HSEngineUnit.LoadedList[i].Owner == this && !HSEngineUnit.LoadedList[i].MainLoaded()) HSEngineUnit.LoadedList[i].Free();
     }
 
     public virtual void UpdateMapField()

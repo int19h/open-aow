@@ -2,10 +2,10 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Shipyard;
 
@@ -64,7 +64,7 @@ public partial class TShipyardConstructionControl : TStructureConstructionContro
     public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
     {
         var shipyard = TranslateRStr(ShipyardRStr);
-        Text = Rtl.Rtl.Format(TranslateRStr(BuildXRStr), [shipyard]);
+        Text = RtlUnit.Format(TranslateRStr(BuildXRStr), [shipyard]);
         Gold = 50;
         Days = 2;
     }
@@ -129,7 +129,7 @@ public partial class TShipyardConstructionControl : TStructureConstructionContro
 
 }
 
-public static partial class Shipyard
+public static partial class ShipyardUnit
 {
     // Shipyard.pas:125
     public static void RegisterShipyard(TEngine AEngine)

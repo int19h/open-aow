@@ -1,9 +1,9 @@
 // Translated from AOWControlWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
@@ -13,9 +13,11 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowHelpWin.aowHelpWin;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.AOWControlWin;
 
@@ -142,7 +144,7 @@ public partial class TControlWin : TDataModule
         }
 
         ControlWindow.Visible = false;
-        AoWExeForms.AoWExeForms.TBWindow.ConButton.Visible = false;
+        AoWExeFormsUnit.TBWindow.ConButton.Visible = false;
     }
 
     // AOWControlWin.pas:324
@@ -161,7 +163,7 @@ public partial class TControlWin : TDataModule
             General.FSelectedUnit = unit;
             if (Button == TMouseButton.mbLeft)
             {
-                AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
+                AoWUnitWindowUnit.UnitWindow.ShowUnit();
             }
         }
     }
@@ -405,7 +407,7 @@ public partial class TControlWin : TDataModule
     }
 }
 
-public static partial class AOWControlWin
+public static partial class AOWControlWinUnit
 {
     public static TControlWin ControlWin;
 }

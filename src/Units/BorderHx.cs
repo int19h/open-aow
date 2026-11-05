@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.BorderHx;
 
@@ -88,7 +88,7 @@ public partial class TBorderHexagonResource : TAbstractBorderHexagonResource
 
 }
 
-public static partial class BorderHx
+public static partial class BorderHxUnit
 {
     // BorderHx.pas:117
     public static void RegisterBorderHexagon(TEngine Engine)

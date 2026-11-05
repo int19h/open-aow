@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.FireNode;
 
@@ -46,7 +46,7 @@ public partial class TFireNodeResource : TProductionPlaceResource
 
 }
 
-public static partial class FireNode
+public static partial class FireNodeUnit
 {
     // FireNode.pas:59
     public static void RegisterFireNode(TEngine AEngine)

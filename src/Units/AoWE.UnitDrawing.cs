@@ -1,12 +1,12 @@
 #nullable disable
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.AoWE;
 
@@ -41,7 +41,7 @@ public partial class TUnitHS
                 Sequence = (TImageSequence)FUnitGFXResource.FSequences.List[FDirection + 5];
                 if (Sequence != null && GetSelected())
                 {
-                    Index = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    Index = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                     // sound timing gate
                     if (Sequence.SpeedCount == Sequence.SequenceSpeed)
                     {
@@ -59,11 +59,11 @@ public partial class TUnitHS
             Sequence = (TImageSequence)FUnitGFXResource.FSequences.List[FDirection - 1];
         }
 
-        if (!GetSelected() || (AoWE.AoWHSMap.Frame & 6) != 6)
+        if (!GetSelected() || (AoWEUnit.AoWHSMap.Frame & 6) != 6)
         {
             while (Sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                Index = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (Index != -1)
                 {
                     Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
@@ -106,7 +106,7 @@ public partial class TUnitHS
 
         while (Sequence != null)
         {
-            Index = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+            Index = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
             Sequence.ImageLibrary[Index].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
             Sequence = Sequence.Next;
         }
@@ -122,10 +122,10 @@ public partial class TAbstractUnit
         int ResourceIndex;
         int Result = 0;
         ResourceIndex = GetUnitGFXResourceIndex();
-        AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).AddRef();
+        AoWEUnit.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).AddRef();
         if (Info.Animation != TUnitAnimation.uaNone)
         {
-            Sequence = (TImageSequence)AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).FSequences.List[(int)Info.Animation * 6 + Info.Direction - 1];
+            Sequence = (TImageSequence)AoWEUnit.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).FSequences.List[(int)Info.Animation * 6 + Info.Direction - 1];
             if (Sequence != null)
             {
                 if (!Info.Looped)
@@ -138,7 +138,7 @@ public partial class TAbstractUnit
                     }
                     else
                     {
-                        AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).Show(Info.Direction, X + Sequence.dXshift + 16, Y + Sequence.dYshift + 20, SD);
+                        AoWEUnit.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).Show(Info.Direction, X + Sequence.dXshift + 16, Y + Sequence.dYshift + 20, SD);
                     }
 
                     if (TotalFrames - Info.Frame > Result)
@@ -183,11 +183,11 @@ public partial class TAbstractUnit
         {
             if (Info.Looped)
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(96).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(96).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWEUnit.AoWHSMap.Frame, SD);
             }
             else
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(96).FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(96).FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
             }
         }
 
@@ -195,11 +195,11 @@ public partial class TAbstractUnit
         {
             if (Info.Looped)
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(98).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(98).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWEUnit.AoWHSMap.Frame, SD);
             }
             else
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(98).FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(98).FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
             }
         }
 
@@ -207,76 +207,76 @@ public partial class TAbstractUnit
         {
             if (Info.Looped)
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(93).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(93).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWEUnit.AoWHSMap.Frame, SD);
             }
             else
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(93).FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(93).FImageSequences.Show(0, X + 32, Y + 32, 4, SD);
             }
         }
 
         if (Info.Overlays.Contains(TUnitOverlayModesElement.uoHitPoints))
         {
             var hits = GetHits();
-            var hitPointsToHitPcnt = (byte)AoWE.HitPointsToHitPcnt(GetHitPoints(), hits);
-            AoWE.ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
+            var hitPointsToHitPcnt = (byte)AoWEUnit.HitPointsToHitPcnt(GetHitPoints(), hits);
+            AoWEUnit.ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
         }
 
         if (Info.Overlays.Contains(TUnitOverlayModesElement.uoCombat))
         {
             if (GetHitPoints() == 0)
             {
-                AoWE.AoWHSSet.FCombatImages[4].Show(X + 18, Y + 10, SD);
+                AoWEUnit.AoWHSSet.FCombatImages[4].Show(X + 18, Y + 10, SD);
             }
 
             if (GetAbilityEnabled(48))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(48).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(48).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(150))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(150).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(150).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(149))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(149).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(149).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(97))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(97).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(97).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(92))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(92).FImageSequences.ShowLooped(0, X + 32, Y + 35, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(92).FImageSequences.ShowLooped(0, X + 32, Y + 35, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(95))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(95).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(95).FImageSequences.ShowLooped(0, X + 32, Y + 32, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(94))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(94).FImageSequences.ShowLooped(0, X + 32, Y + 35, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(94).FImageSequences.ShowLooped(0, X + 32, Y + 35, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(127))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(127).FImageSequences.ShowLooped(0, X + 32, Y + 35, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(127).FImageSequences.ShowLooped(0, X + 32, Y + 35, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(107))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(107).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(107).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWEUnit.AoWHSMap.Frame, SD);
             }
 
             if (GetAbilityEnabled(34))
             {
-                AoWE.AoWHSSet.FAbilityControl.GetAbility(34).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(34).FImageSequences.ShowLooped(0, X + 32, Y + 40, AoWEUnit.AoWHSMap.Frame, SD);
             }
         }
 
@@ -284,15 +284,15 @@ public partial class TAbstractUnit
         {
             if (Info.Looped)
             {
-                AoWE.AoWHSSet.FImageSequences.ShowLooped(70, X + 32, Y + 40, AoWE.AoWHSMap.Frame, SD);
+                AoWEUnit.AoWHSSet.FImageSequences.ShowLooped(70, X + 32, Y + 40, AoWEUnit.AoWHSMap.Frame, SD);
             }
             else
             {
-                AoWE.AoWHSSet.FImageSequences.Show(70, X + 32, Y + 40, 5, SD);
+                AoWEUnit.AoWHSSet.FImageSequences.Show(70, X + 32, Y + 40, 5, SD);
             }
         }
 
-        AoWE.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).Release();
+        AoWEUnit.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(ResourceIndex).Release();
         return Result;
     }
 }
@@ -307,7 +307,7 @@ public partial class TArmyHS
         int DX = default;
         int DY = default;
         double Part;
-        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0 || !AoWE.AoWHSMap.FFogEnabled)
+        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0 || !AoWEUnit.AoWHSMap.FFogEnabled)
         {
             if (FDirection >= FUnitGFXResource.FSequences.Count)
             {
@@ -365,11 +365,11 @@ public partial class TArmyHS
 
             if (!FArmy.FStatus.Contains(TArmyStatusElement.asConcealed))
             {
-                if (AoWE.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) || AoWE.AoWHSMap.FSeatedPlayer != FArmy.FPlayer || FArmy.Count != FArmy.ConcealedUnitsCount())
+                if (AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) || AoWEUnit.AoWHSMap.FSeatedPlayer != FArmy.FPlayer || FArmy.Count != FArmy.ConcealedUnitsCount())
                 {
                     while (Sequence != null)
                     {
-                        Frame = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        Frame = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (Frame != -1)
                         {
                             Sequence.ImageLibrary[Frame].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FUnitYOffset, SurfaceDesc);
@@ -379,20 +379,20 @@ public partial class TArmyHS
                     }
 
                     ShowEnchantments(XhpSurf, YhpSurf + FUnitYOffset, SurfaceDesc);
-                    if (!FArmy.FStatus.Contains(TArmyStatusElement.asSelected) || (AoWE.AoWHSMap.Frame & 6) != 6)
+                    if (!FArmy.FStatus.Contains(TArmyStatusElement.asSelected) || (AoWEUnit.AoWHSMap.Frame & 6) != 6)
                     {
                         if (FFlagID == 32)
                         {
                             var count = FArmy.Count;
-                            AoWE.AoWHSSet.FFlagControl.FFlags[count + 39].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                            AoWEUnit.AoWHSSet.FFlagControl.FFlags[count + 39].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                         }
                         else
                         {
                             var count = FArmy.Count;
-                            AoWE.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                            AoWEUnit.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                             if (FArmy.FStatus.Contains(TArmyStatusElement.asShowCrown))
                             {
-                                AoWE.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                AoWEUnit.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
                             }
                         }
                     }
@@ -401,7 +401,7 @@ public partial class TArmyHS
                 {
                     while (Sequence != null)
                     {
-                        Frame = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        Frame = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (Frame != -1)
                         {
                             Sequence.ImageLibrary[Frame].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FUnitYOffset, SurfaceDesc);
@@ -413,21 +413,21 @@ public partial class TArmyHS
                     ShowEnchantments(XhpSurf, YhpSurf + FUnitYOffset, SurfaceDesc);
                     if (FArmy.FStatus.Contains(TArmyStatusElement.asSelected))
                     {
-                        if ((AoWE.AoWHSMap.Frame & 6) != 6)
+                        if ((AoWEUnit.AoWHSMap.Frame & 6) != 6)
                         {
                             if (FFlagID != 32)
                             {
                                 var count = FArmy.Count;
-                                AoWE.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[50]);
+                                AoWEUnit.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[50]);
                                 if (FArmy.FStatus.Contains(TArmyStatusElement.asShowCrown))
                                 {
-                                    AoWE.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                    AoWEUnit.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
                                 }
                             }
                             else
                             {
                                 var count = FArmy.Count;
-                                AoWE.AoWHSSet.FFlagControl.FFlags[count + 39].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[50]);
+                                AoWEUnit.AoWHSSet.FFlagControl.FFlags[count + 39].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[50]);
                             }
                         }
                     }
@@ -436,16 +436,16 @@ public partial class TArmyHS
                         if (FFlagID != 32)
                         {
                             var count = FArmy.Count;
-                            AoWE.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[Math.Abs((AoWE.AoWHSMap.Frame << 2) % 60 - 30) + 40]);
+                            AoWEUnit.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[Math.Abs((AoWEUnit.AoWHSMap.Frame << 2) % 60 - 30) + 40]);
                             if (FArmy.FStatus.Contains(TArmyStatusElement.asShowCrown))
                             {
-                                AoWE.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                AoWEUnit.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
                             }
                         }
                         else
                         {
                             var count = FArmy.Count;
-                            AoWE.AoWHSSet.FFlagControl.FFlags[count + 39].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[Math.Abs((AoWE.AoWHSMap.Frame << 2) % 60 - 30) + 40]);
+                            AoWEUnit.AoWHSSet.FFlagControl.FFlags[count + 39].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, AlphaBlendTable.LookupTables[Math.Abs((AoWEUnit.AoWHSMap.Frame << 2) % 60 - 30) + 40]);
                         }
                     }
                 }
@@ -456,7 +456,7 @@ public partial class TArmyHS
                 {
                     while (Sequence != null)
                     {
-                        Frame = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        Frame = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (Frame != -1)
                         {
                             Sequence.ImageLibrary[Frame].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FUnitYOffset, SurfaceDesc);
@@ -465,22 +465,22 @@ public partial class TArmyHS
                         Sequence = Sequence.Next;
                     }
 
-                    if (!FArmy.FStatus.Contains(TArmyStatusElement.asSelected) || (AoWE.AoWHSMap.Frame & 6) != 6)
+                    if (!FArmy.FStatus.Contains(TArmyStatusElement.asSelected) || (AoWEUnit.AoWHSMap.Frame & 6) != 6)
                     {
                         if (FFlagID == 32)
                         {
                             var count = FArmy.Count;
                             var concealedUnitsCount = FArmy.ConcealedUnitsCount();
-                            AoWE.AoWHSSet.FFlagControl.FFlags[count - concealedUnitsCount + 39].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                            AoWEUnit.AoWHSSet.FFlagControl.FFlags[count - concealedUnitsCount + 39].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                         }
                         else
                         {
                             var count = FArmy.Count;
                             var concealedUnitsCount = FArmy.ConcealedUnitsCount();
-                            AoWE.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count - concealedUnitsCount + 29].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                            AoWEUnit.AoWHSSet.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count - concealedUnitsCount + 29].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                             if (FArmy.FStatus.Contains(TArmyStatusElement.asShowCrown))
                             {
-                                AoWE.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                AoWEUnit.AoWHSSet.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
                             }
                         }
                     }
@@ -498,7 +498,7 @@ public partial class TArmyHS
         int DX = default;
         int DY = default;
         int Frame;
-        if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0 || !AoWE.AoWHSMap.FFogEnabled) && !FArmy.FStatus.Contains(TArmyStatusElement.asFullyConcealed))
+        if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0 || !AoWEUnit.AoWHSMap.FFogEnabled) && !FArmy.FStatus.Contains(TArmyStatusElement.asFullyConcealed))
         {
             HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             X = Xhp - X;
@@ -526,7 +526,7 @@ public partial class TArmyHS
 
             while (Sequence != null)
             {
-                Frame = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                Frame = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                 Sequence.ImageLibrary[Frame].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
                 Sequence = Sequence.Next;
             }
@@ -550,7 +550,7 @@ public partial class TArmyHS
 
             if (Sequence != null)
             {
-                Frame = Sequence.GetFrameIndex(AoWE.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                Frame = Sequence.GetFrameIndex(AoWEUnit.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (Sequence.SpeedCount == Sequence.SequenceSpeed)
                 {
                     FUnitGFXResource.FSFXLibraries[1].Play(Frame % 100);

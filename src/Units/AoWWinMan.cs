@@ -1,26 +1,34 @@
 // Translated from AoWWinMan.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Sound.Sound;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.City;
 using Aow.Units.PrdPlace;
 using Aow.Units.Sign;
 using Aow.Units.AOWToolTip;
 using Aow.Units.AOWWinManager;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using static Aow.Units.AoWRealm.AoWRealm;
-using static Aow.Units.E1Resources.E1Resources;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWRealm.AoWRealmUnit;
+using static Aow.Units.E1Resources.E1ResourcesUnit;
 using Aow.Units.AoWListBox;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.E1GameFlow.E1GameFlow;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
 using Aow.Units.AoWWinControl;
+using Aow.Units.AoWSWindow;
+using Aow.Units.E2GameFlow;
+using Aow.Units.AoWPInfoWin;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AoWInfoWin;
+using Aow.Units.AoWTCUnit;
+using Aow.Units.AoWWorldMap;
 
 namespace Aow.Units.AoWWinMan;
 
@@ -62,16 +70,16 @@ public partial class TGeneral : TDataModule
     {
         AoWEngine.CloseHSM(null);
         AoWEngine.CloseCampaign();
-        AoWSWindow.AoWSWindow.SWindow.Scanner.SetMap(null);
+        AoWSWindowUnit.SWindow.Scanner.SetMap(null);
         TCScanner.Scanner.SetMap(null);
         SongPlayer.Stop(false);
         SongPlayer.Songs.Clear();
         SetCurrentDir(AoWEngine.StartupDirectory);
-        AoWWinMan.General.HideWindows();
+        AoWWinManUnit.General.HideWindows();
         TBWindow.TaskWindow.Visible = false;
         TitleWindow.TitleWin.Visible = false;
         TitleScene.ResetScene();
-        E2GameFlow.E2GameFlow.ShowTitleScene(TitleScene, true);
+        E2GameFlowUnit.ShowTitleScene(TitleScene, true);
     }
 
     // AoWWinMan.pas:415
@@ -80,20 +88,20 @@ public partial class TGeneral : TDataModule
         if (!FWindowsHidden)
         {
             FWindowsHidden = true;
-            FInfoVisible = AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible;
-            FRealmVisible = AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
-            FMagicVisible = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible;
+            FInfoVisible = AoWPInfoWinUnit.PInfoW.PInfoWin.Visible;
+            FRealmVisible = AOWControlWinUnit.ControlWin.ControlWindow.Visible;
+            FMagicVisible = AoWUnitWindowUnit.UnitWindow.UnitWin.Visible;
             FUnitVisible = RealmWin.Dlg.Visible;
             FTargetVisible = MagicWin.Dlg.Visible;
-            FScannerVisible = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible;
-            FControlVisible = AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible;
+            FScannerVisible = AoWSWindowUnit.SWindow.ScannerWindow.Visible;
+            FControlVisible = AoWInfoWinUnit.IWindow.InfoWin.Visible;
             FChatVisible = ChatWindow.ChatWin.Visible;
             FMapVisible = MWindow.MapWindow.Visible;
-            for (int I = 0, last = AoWWinMan.General.Manager.FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = AoWWinManUnit.General.Manager.FChildren.Count - 1; I <= last; I++)
             {
-                if ((TAoWComponent)AoWWinMan.General.Manager.FChildren[I] != TBWindow.TaskWindow)
+                if ((TAoWComponent)AoWWinManUnit.General.Manager.FChildren[I] != TBWindow.TaskWindow)
                 {
-                    ((TAoWComponent)AoWWinMan.General.Manager.FChildren[I]).Visible = false;
+                    ((TAoWComponent)AoWWinManUnit.General.Manager.FChildren[I]).Visible = false;
                 }
             }
         }
@@ -105,11 +113,11 @@ public partial class TGeneral : TDataModule
         if (FWindowsHidden)
         {
             FWindowsHidden = false;
-            AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible = FInfoVisible;
-            AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = FRealmVisible;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = FMagicVisible;
-            AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible = FScannerVisible;
-            AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible = FControlVisible;
+            AoWPInfoWinUnit.PInfoW.PInfoWin.Visible = FInfoVisible;
+            AOWControlWinUnit.ControlWin.ControlWindow.Visible = FRealmVisible;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = FMagicVisible;
+            AoWSWindowUnit.SWindow.ScannerWindow.Visible = FScannerVisible;
+            AoWInfoWinUnit.IWindow.InfoWin.Visible = FControlVisible;
             MWindow.MapWindow.Visible = FMapVisible;
             RealmWin.Dlg.Visible = FUnitVisible;
             MagicWin.Dlg.Visible = FTargetVisible;
@@ -121,13 +129,13 @@ public partial class TGeneral : TDataModule
     public void SaveLayout()
     {
         // { Read the saved rectangle through the window pointer cell. }
-        var rect = Rect(AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Alignment.RightOffset, AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Alignment.BottomOffset, AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.WinWidth, AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.WinHeight);
+        var rect = Rect(AoWPInfoWinUnit.PInfoW.PInfoWin.Alignment.RightOffset, AoWPInfoWinUnit.PInfoW.PInfoWin.Alignment.BottomOffset, AoWPInfoWinUnit.PInfoW.PInfoWin.WinWidth, AoWPInfoWinUnit.PInfoW.PInfoWin.WinHeight);
         AoWEngine.FRegistry.SetRectangle(0, rect);
-        var rect2 = Rect(AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Alignment.RightOffset, AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Alignment.TopOffset, AOWControlWin.AOWControlWin.ControlWin.ControlWindow.WinWidth, AOWControlWin.AOWControlWin.ControlWin.ControlWindow.WinHeight);
+        var rect2 = Rect(AOWControlWinUnit.ControlWin.ControlWindow.Alignment.RightOffset, AOWControlWinUnit.ControlWin.ControlWindow.Alignment.TopOffset, AOWControlWinUnit.ControlWin.ControlWindow.WinWidth, AOWControlWinUnit.ControlWin.ControlWindow.WinHeight);
         AoWEngine.FRegistry.SetRectangle(1, rect2);
-        if (AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Alignment.AlignWidth != TAOWAlignWidth.awCenter)
+        if (AoWUnitWindowUnit.UnitWindow.UnitWin.Alignment.AlignWidth != TAOWAlignWidth.awCenter)
         {
-            var rect3 = Rect(AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Alignment.LeftOffset, AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Alignment.TopOffset, AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.WinWidth, AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.WinHeight);
+            var rect3 = Rect(AoWUnitWindowUnit.UnitWindow.UnitWin.Alignment.LeftOffset, AoWUnitWindowUnit.UnitWindow.UnitWin.Alignment.TopOffset, AoWUnitWindowUnit.UnitWindow.UnitWin.WinWidth, AoWUnitWindowUnit.UnitWindow.UnitWin.WinHeight);
             AoWEngine.FRegistry.SetRectangle(2, rect3);
         }
         else
@@ -158,9 +166,9 @@ public partial class TGeneral : TDataModule
             AoWEngine.FRegistry.SetRectangle(13, rect3);
         }
 
-        var rect4 = Rect(AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Alignment.RightOffset, AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Alignment.TopOffset, AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth, AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight);
+        var rect4 = Rect(AoWSWindowUnit.SWindow.ScannerWindow.Alignment.RightOffset, AoWSWindowUnit.SWindow.ScannerWindow.Alignment.TopOffset, AoWSWindowUnit.SWindow.ScannerWindow.WinWidth, AoWSWindowUnit.SWindow.ScannerWindow.WinHeight);
         AoWEngine.FRegistry.SetRectangle(6, rect4);
-        var rect5 = Rect(AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Alignment.RightOffset, AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Alignment.TopOffset, AoWInfoWin.AoWInfoWin.IWindow.InfoWin.WinWidth, AoWInfoWin.AoWInfoWin.IWindow.InfoWin.WinHeight);
+        var rect5 = Rect(AoWInfoWinUnit.IWindow.InfoWin.Alignment.RightOffset, AoWInfoWinUnit.IWindow.InfoWin.Alignment.TopOffset, AoWInfoWinUnit.IWindow.InfoWin.WinWidth, AoWInfoWinUnit.IWindow.InfoWin.WinHeight);
         AoWEngine.FRegistry.SetRectangle(7, rect5);
         if (ChatWindow.ChatWin.Alignment.AlignWidth != TAOWAlignWidth.awBoth)
         {
@@ -186,7 +194,7 @@ public partial class TGeneral : TDataModule
 
         var rect6 = Rect(TCScanner.TCScannerWin.Alignment.RightOffset, TCScanner.TCScannerWin.Alignment.TopOffset, TCScanner.TCScannerWin.WinWidth, TCScanner.TCScannerWin.WinHeight);
         AoWEngine.FRegistry.SetRectangle(12, rect6);
-        var rect7 = Rect(AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.Alignment.RightOffset, AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.Alignment.BottomOffset, AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.WinWidth, AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin.WinHeight);
+        var rect7 = Rect(AoWTCUnitUnit.TCUnit.TCUnitWin.Alignment.RightOffset, AoWTCUnitUnit.TCUnit.TCUnitWin.Alignment.BottomOffset, AoWTCUnitUnit.TCUnit.TCUnitWin.WinWidth, AoWTCUnitUnit.TCUnit.TCUnitWin.WinHeight);
         AoWEngine.FRegistry.SetRectangle(10, rect7);
         if (MWindow.FMapAlignWidth != TAOWAlignWidth.awBoth)
         {
@@ -383,7 +391,7 @@ public partial class TGeneral : TDataModule
             {
                 A = new TTCAbility();
                 A.Ability = I;
-                if (AoWWinMan.General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer && (AoWHSSet.FAbilityControl.GetAbility(I).GetControlType(AoWWinMan.General.FSelectedUnit) & TSet<TAbilityControlTypeElement>.Of(TAbilityControlTypeElement.acAction)) != TSet<TAbilityControlTypeElement>.Of())
+                if (AoWWinManUnit.General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer && (AoWHSSet.FAbilityControl.GetAbility(I).GetControlType(AoWWinManUnit.General.FSelectedUnit) & TSet<TAbilityControlTypeElement>.Of(TAbilityControlTypeElement.acAction)) != TSet<TAbilityControlTypeElement>.Of())
                 {
                     FAbilities.Insert(FActiveAbilityCount, A);
                     FActiveAbilityCount += 1;
@@ -499,18 +507,18 @@ public partial class TGeneral : TDataModule
     // AoWWinMan.pas:231
     public void ResetLayout()
     {
-        var scanner = AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
+        var scanner = AoWSWindowUnit.SWindow.ScannerWindow;
         var scannerAlignment = scanner.Alignment;
         scannerAlignment.TopOffset = 0;
         scannerAlignment.RightOffset = 0;
 
-        if (AoWWinMan.General.Manager.WinHeight > 700)
+        if (AoWWinManUnit.General.Manager.WinHeight > 700)
         {
-            scanner.WinHeight = (AoWWinMan.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight) / 3;
+            scanner.WinHeight = (AoWWinManUnit.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight) / 3;
         }
         else
         {
-            scanner.WinHeight = (AoWWinMan.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight) / 2;
+            scanner.WinHeight = (AoWWinManUnit.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight) / 2;
         }
 
         scanner.WinWidth = scanner.WinHeight * 200 / 216;
@@ -519,7 +527,7 @@ public partial class TGeneral : TDataModule
             scanner.Visible = AoWHSMap.FCombatMap == null && MWindow.MapWindow.Visible;
         }
 
-        var playerInfo = AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin;
+        var playerInfo = AoWPInfoWinUnit.PInfoW.PInfoWin;
         var playerInfoAlignment = playerInfo.Alignment;
         playerInfoAlignment.BottomOffset = 0;
         playerInfoAlignment.RightOffset = 0;
@@ -531,7 +539,7 @@ public partial class TGeneral : TDataModule
             playerInfo.Visible = AoWHSMap.FCombatMap == null && MWindow.MapWindow.Visible;
         }
 
-        var controls = AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
+        var controls = AOWControlWinUnit.ControlWin.ControlWindow;
         var controlsAlignment = controls.Alignment;
         controlsAlignment.TopOffset = scanner.WinHeight;
         controlsAlignment.RightOffset = 0;
@@ -540,7 +548,7 @@ public partial class TGeneral : TDataModule
         controls.WinHeight = scanner.WinHeight;
         controls.Visible = false;
 
-        var info = AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
+        var info = AoWInfoWinUnit.IWindow.InfoWin;
         var infoAlignment = info.Alignment;
         infoAlignment.TopOffset = scanner.WinHeight;
         infoAlignment.RightOffset = 0;
@@ -549,7 +557,7 @@ public partial class TGeneral : TDataModule
         info.WinHeight = scanner.WinHeight;
         info.Visible = false;
 
-        var targetSelection = AoWWorldMap.AoWWorldMap.TargetSelectionDlg.Dlg;
+        var targetSelection = AoWWorldMapUnit.TargetSelectionDlg.Dlg;
         var targetSelectionAlignment = targetSelection.Alignment;
         targetSelectionAlignment.TopOffset = scanner.WinHeight;
         targetSelectionAlignment.RightOffset = 0;
@@ -581,7 +589,7 @@ public partial class TGeneral : TDataModule
         magic.WinHeight = magic.MinHeight;
         magic.Visible = false;
 
-        var unitWindow = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
+        var unitWindow = AoWUnitWindowUnit.UnitWindow.UnitWin;
         var unitWindowAlignment = unitWindow.Alignment;
         unitWindowAlignment.AlignWidth = TAOWAlignWidth.awCenter;
         unitWindowAlignment.AlignHeight = TAOWAlignHeight.ahCenter;
@@ -607,19 +615,19 @@ public partial class TGeneral : TDataModule
         tcScannerAlignment.TopOffset = 0;
         tcScannerAlignment.RightOffset = 0;
 
-        tcScanner.WinHeight = (AoWWinMan.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight) * 170 / 432;
+        tcScanner.WinHeight = (AoWWinManUnit.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight) * 170 / 432;
         tcScanner.WinWidth = tcScanner.WinHeight * 150 / 170;
         if (AoWHSMap != null)
         {
             tcScanner.Visible = AoWHSMap.FCombatMap != null && MWindow.MapWindow.Visible;
         }
 
-        var tcUnit = AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
+        var tcUnit = AoWTCUnitUnit.TCUnit.TCUnitWin;
         var tcUnitAlignment = tcUnit.Alignment;
         tcUnitAlignment.BottomOffset = 0;
         tcUnitAlignment.RightOffset = 0;
 
-        tcUnit.WinHeight = AoWWinMan.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight - tcScanner.WinHeight;
+        tcUnit.WinHeight = AoWWinManUnit.General.Manager.WinHeight - TBWindow.TaskWindow.WinHeight - tcScanner.WinHeight;
         tcUnit.WinWidth = tcScanner.WinWidth;
         tcUnit.Visible = false;
 
@@ -696,15 +704,15 @@ public partial class TGeneral : TDataModule
                     S = ExtractFileDir(Application.ExeName);
                     S = S + "\\Scenario\\Custom";
                     SetCurrentDir(S);
-                    AoWWinMan.LoadGame(this, "Crap.hsm");
-                    AoWWinMan.StartGame(this);
+                    AoWWinManUnit.LoadGame(this, "Crap.hsm");
+                    AoWWinManUnit.StartGame(this);
                     break;
                 case 123:
                     S = ExtractFileDir(Application.ExeName);
                     S = S + "\\Scenario\\Custom";
                     SetCurrentDir(S);
-                    AoWWinMan.LoadGame(this, "demomap.hsm");
-                    AoWWinMan.StartGame(this);
+                    AoWWinManUnit.LoadGame(this, "demomap.hsm");
+                    AoWWinManUnit.StartGame(this);
                     break;
             }
         }
@@ -715,12 +723,12 @@ public partial class TGeneral : TDataModule
     {
         for (int i = 0; i < Manager.FChildren.Count; i++)
             if (Manager.FChildren[i] is TAOWWindowControl window &&
-                window != AOWMWindow.AOWMWindow.MWindow.MapWindow && window.FModal && window.Visible)
+                window != MWindow.MapWindow && window.FModal && window.Visible)
                 window.Visible = false;
     }
 }
 
-public static partial class AoWWinMan
+public static partial class AoWWinManUnit
 {
     public static TGeneral General;
     // AoWWinMan.pas:514
@@ -791,7 +799,7 @@ public static partial class AoWWinMan
             else
             {
                 TitleScene.HideScene();
-                ShowCampaignMap(AoWWorldMap.AoWWorldMap.WorldMap);
+                ShowCampaignMap(AoWWorldMapUnit.WorldMap);
             }
         }
     }

@@ -1,10 +1,10 @@
 // Translated from DisplayC.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.DisplayC;
 
@@ -547,7 +547,7 @@ public partial class TCustomDisplay : TWinControl
         }
         else
         {
-            Result = DisplayC.DCERR_NOTSUPPORTED;
+            Result = DisplayCUnit.DCERR_NOTSUPPORTED;
         }
 
         return Result;
@@ -851,7 +851,7 @@ public partial class TAbstractDC : TComponent
         }
         else
         {
-            Result = DisplayC.DCERR_FAILED;
+            Result = DisplayCUnit.DCERR_FAILED;
         }
 
         return Result;
@@ -989,7 +989,7 @@ public partial class TDisplayCtrl : TAbstractDC
         int Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
         if (Succeeded(Result))
         {
-            Result = DisplayC.DCERR_NOFLIP;
+            Result = DisplayCUnit.DCERR_NOFLIP;
         }
 
         return Result;
@@ -1065,7 +1065,7 @@ public partial class TDisplayCtrl : TAbstractDC
         }
         else
         {
-            Result = DisplayC.DCERR_ACTIVATED;
+            Result = DisplayCUnit.DCERR_ACTIVATED;
         }
 
         return Result;
@@ -1088,17 +1088,17 @@ public partial class TDisplayCtrl : TAbstractDC
         }
         else
         {
-            Result = DisplayC.DCERR_NOTACTIVATED;
+            Result = DisplayCUnit.DCERR_NOTACTIVATED;
         }
 
         return Result;
     }
 
     // DisplayC.pas:762
-    public override int SupportDisplayMode(TCustomDisplay ADisplay) => DisplayC.DCERR_NOTSUPPORTED;
+    public override int SupportDisplayMode(TCustomDisplay ADisplay) => DisplayCUnit.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:767
-    public override int SetPalet(TGFXEPalette Palette) => DisplayC.DCERR_NOTSUPPORTED;
+    public override int SetPalet(TGFXEPalette Palette) => DisplayCUnit.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:772
     public void RealizePalet()
@@ -1114,7 +1114,7 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:780
-    public override int RealizePaletNow() => DisplayC.DCERR_NOTSUPPORTED;
+    public override int RealizePaletNow() => DisplayCUnit.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
@@ -1615,7 +1615,7 @@ public partial class TWindowsDC : TDisplayCtrl
         throw new NotImplementedException();
         if (Result >= 0)
         {
-            Result = DisplayC.DCERR_NOFLIP;
+            Result = DisplayCUnit.DCERR_NOFLIP;
         }
 
         return Result;
@@ -2062,7 +2062,7 @@ public partial class TDDrawDC : TDisplayCtrl
         throw new NotImplementedException();
         if (Succeeded(Result))
         {
-            Result = DisplayC.DCERR_NOFLIP;
+            Result = DisplayCUnit.DCERR_NOFLIP;
         }
 
         return Result;
@@ -2135,12 +2135,12 @@ public partial class TDDrawDC : TDisplayCtrl
                     FLastVBTime = T;
                 }
 
-                Result = DD().WaitForVerticalBlank(DisplayC.DDWAITVB_BLOCKBEGIN, 0);
+                Result = DD().WaitForVerticalBlank(DisplayCUnit.DDWAITVB_BLOCKBEGIN, 0);
                 FLastVBTime = GetElapsedMilliSeconds();
             }
             else
             {
-                Result = DisplayC.DCERR_NOTSUPPORTED;
+                Result = DisplayCUnit.DCERR_NOTSUPPORTED;
             }
         }
         else
@@ -2187,7 +2187,7 @@ public partial class TDDrawDC : TDisplayCtrl
         if (GetStatus().Contains(TDisplayCtrlStatusElement.dsActivated))
         {
             DD().FlipToGDISurface();
-            DD().WaitForVerticalBlank(DisplayC.DDWAITVB_BLOCKBEGIN, 0);
+            DD().WaitForVerticalBlank(DisplayCUnit.DDWAITVB_BLOCKBEGIN, 0);
             FBack2.Free();
             FBack2 = null;
             FBack1.Free();
@@ -2316,7 +2316,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
             {
             }
 
-            Result = FPrimary.Surface.GetFlipStatus(DisplayC.DDGFS_CANFLIP);
+            Result = FPrimary.Surface.GetFlipStatus(DisplayCUnit.DDGFS_CANFLIP);
             if (Succeeded(Result))
             {
                 var surface = GetSurface(Index);
@@ -2330,7 +2330,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
             Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
             if (Succeeded(Result))
             {
-                Result = DisplayC.DCERR_NOFLIP;
+                Result = DisplayCUnit.DCERR_NOFLIP;
             }
         }
 
@@ -2344,7 +2344,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
                     {
                     }
 
-                    Result = FPrimary.Surface.GetFlipStatus(DisplayC.DDGFS_CANFLIP);
+                    Result = FPrimary.Surface.GetFlipStatus(DisplayCUnit.DDGFS_CANFLIP);
                     if (Succeeded(Result))
                     {
                         var surface = GetSurface(Index);
@@ -2358,7 +2358,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
                     Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
                     if (Succeeded(Result))
                     {
-                        Result = DisplayC.DCERR_NOFLIP;
+                        Result = DisplayCUnit.DCERR_NOFLIP;
                     }
                 }
             }
@@ -2620,7 +2620,7 @@ public partial class TWindows08DIBSurface : TSurface
 
 }
 
-public static partial class DisplayC
+public static partial class DisplayCUnit
 {
     // The DisplayC unit of Dcpack.dpl (the display layer of Age of Wonders: the display control
     // TDisplay and the display controllers ("DCs") that put the surfaces of GFXE on the screen,

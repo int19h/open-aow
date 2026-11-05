@@ -1,14 +1,21 @@
 // Translated from E2WindowLayout.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using Aow.Units.AoWSWindow;
+using Aow.Units.AoWPInfoWin;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AoWRealm;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWInfoWin;
+using Aow.Units.AoWTCUnit;
 
 namespace Aow.Units.E2WindowLayout;
 
-public static partial class E2WindowLayout
+public static partial class E2WindowLayoutUnit
 {
     // E2WindowLayout.pas:13
     // The original window placement loader
@@ -16,7 +23,7 @@ public static partial class E2WindowLayout
     {
         TRect R;
         R = AoWEngine.FRegistry.GetRectangle(6);
-        var scanner = AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
+        var scanner = AoWSWindowUnit.SWindow.ScannerWindow;
         if (R.Right != 0)
         {
             scanner.Alignment.TopOffset = R.Top;
@@ -33,7 +40,7 @@ public static partial class E2WindowLayout
         }
 
         R = AoWEngine.FRegistry.GetRectangle(0);
-        var playerInfo = AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin;
+        var playerInfo = AoWPInfoWinUnit.PInfoW.PInfoWin;
         if (R.Right != 0)
         {
             playerInfo.Alignment.BottomOffset = R.Top;
@@ -50,7 +57,7 @@ public static partial class E2WindowLayout
         }
 
         R = AoWEngine.FRegistry.GetRectangle(2);
-        var unitWindow = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
+        var unitWindow = AoWUnitWindowUnit.UnitWindow.UnitWin;
         if (R.Right != 0)
         {
             var alignment = unitWindow.Alignment;
@@ -75,7 +82,7 @@ public static partial class E2WindowLayout
         AoWEngine.FRegistry.GetRectangle(3);
         AoWEngine.FRegistry.GetRectangle(4);
         R = AoWEngine.FRegistry.GetRectangle(5);
-        var realm = AoWRealm.AoWRealm.RealmWin.Dlg;
+        var realm = AoWRealmUnit.RealmWin.Dlg;
         if (R.Right != 0)
         {
             var alignment = realm.Alignment;
@@ -127,7 +134,7 @@ public static partial class E2WindowLayout
         }
 
         R = AoWEngine.FRegistry.GetRectangle(1);
-        var controls = AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
+        var controls = AOWControlWinUnit.ControlWin.ControlWindow;
         if (R.Right != 0)
         {
             controls.Alignment.TopOffset = R.Top;
@@ -144,7 +151,7 @@ public static partial class E2WindowLayout
         }
 
         R = AoWEngine.FRegistry.GetRectangle(7);
-        var info = AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
+        var info = AoWInfoWinUnit.IWindow.InfoWin;
         if (R.Right != 0)
         {
             info.Alignment.TopOffset = R.Top;
@@ -202,7 +209,7 @@ public static partial class E2WindowLayout
         }
 
         R = AoWEngine.FRegistry.GetRectangle(10);
-        var tcUnit = AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
+        var tcUnit = AoWTCUnitUnit.TCUnit.TCUnitWin;
         if (R.Right != 0)
         {
             tcUnit.Alignment.BottomOffset = R.Top;

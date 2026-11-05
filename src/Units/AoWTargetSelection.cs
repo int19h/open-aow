@@ -8,8 +8,8 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWTargetSelection;
 
@@ -48,6 +48,6 @@ public partial class TTargetSelectionDlg : TDataModule
     }
 }
 
-public static partial class AoWTargetSelection
+public static partial class AoWTargetSelectionUnit
 {
 }

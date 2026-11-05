@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.WizardsTower;
 using Aow.Units.EventLog;
@@ -13,7 +13,7 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWWizardsTowerDlg;
 
@@ -126,6 +126,6 @@ public partial class TWizardsTowerDlg : TDataModule
     }
 }
 
-public static partial class AoWWizardsTowerDlg
+public static partial class AoWWizardsTowerDlgUnit
 {
 }

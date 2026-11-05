@@ -1,17 +1,20 @@
 // Translated from aowSetupEvents.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Sound.Sound;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWSetup;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.E2GameFlow.E2GameFlow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlg;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
+using Aow.Units.AoWWinMan;
+using Aow.Units.E2Globals;
+using Aow.Units.AoWLeaderSetup;
 
 namespace Aow.Units.aowSetupEvents;
 
@@ -63,7 +66,7 @@ public partial class TSetupEvents : TDataModule
     {
         SynchronizeDlg.Dlg.Visible = false;
         ScenSetup.CloseSetup();
-        AoWWinMan.AoWWinMan.StartGame(General);
+        AoWWinManUnit.StartGame(General);
         if (DPlay.Connected)
         {
             ClearChat();
@@ -135,7 +138,7 @@ public partial class TSetupEvents : TDataModule
         {
             ScenSetup.ExitGameClick(null);
             ResetMessageDialog(MessageDlg);
-            var warning = TranslateRStr(E2Globals.E2Globals.WarningRStr);
+            var warning = TranslateRStr(E2GlobalsUnit.WarningRStr);
             MessageDlg.TitleLbl.Text = warning;
             MessageDlg.MessageMemo.Items.Add("");
             var youWereEjectedByTheHost = TranslateRStr(YouWereEjectedByTheHostRStr);
@@ -158,14 +161,14 @@ public partial class TSetupEvents : TDataModule
     public void SetupControlCustomizeLeader(TSetupControl Control, TCustomizeLeaderControl Leader)
     {
         ScenSetup.ScenSetupPnl.Visible = false;
-        AoWLeaderSetup.AoWLeaderSetup.LeaderSetupWin.Execute(Leader);
+        AoWLeaderSetupUnit.LeaderSetupWin.Execute(Leader);
     }
 
     // aowSetupEvents.pas:195
     public void SetupControlLoadMap(TSetupControl Control, string FileName)
     {
         var fileName = ExtractFileName(FileName);
-        var format = AoWE.AoWE.Format(TranslateRStr(LoadingXRStr), [fileName]);
+        var format = AoWEUnit.Format(TranslateRStr(LoadingXRStr), [fileName]);
         ProgressDialog.Title.Text = format;
         ProgressDialog.StatusLbl.Text = "";
         ProgressDialog.Bar.Position = 0;
@@ -307,7 +310,7 @@ public partial class TSetupEvents : TDataModule
     }
 }
 
-public static partial class aowSetupEvents
+public static partial class aowSetupEventsUnit
 {
     public static TSetupEvents SetupEvents;
 }

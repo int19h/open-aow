@@ -2,7 +2,7 @@ namespace Aow.Rtl;
 
 /// <summary>
 /// The switches a host reads at entry (strings.md sections 2.2 and 4). <c>AOW_STRICT_STRINGS=1</c> turns
-/// on <see cref="Rtl.StrictStrings"/>, and <c>AOW_EXCEPTION_CENSUS</c> starts the exception census.
+/// on <see cref="RtlUnit.StrictStrings"/>, and <c>AOW_EXCEPTION_CENSUS</c> starts the exception census.
 /// The game hosts also stop at start when the process runs with culture data, because text
 /// comparisons and number formats follow the invariant culture only.
 /// </summary>
@@ -24,6 +24,6 @@ public static class GateSwitches
     public static void Enter(string host, string[] args)
     {
         ExceptionCensus.Start(host, args);
-        if (Environment.GetEnvironmentVariable(StrictStringsVariable) == "1") Rtl.StrictStrings = true;
+        if (Environment.GetEnvironmentVariable(StrictStringsVariable) == "1") RtlUnit.StrictStrings = true;
     }
 }

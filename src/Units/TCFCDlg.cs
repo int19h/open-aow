@@ -1,11 +1,11 @@
 // Translated from TCFCDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
@@ -15,7 +15,7 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.TCFCDlg;
 
@@ -187,6 +187,6 @@ public partial class TTCFCDialog : TDataModule
     }
 }
 
-public static partial class TCFCDlg
+public static partial class TCFCDlgUnit
 {
 }

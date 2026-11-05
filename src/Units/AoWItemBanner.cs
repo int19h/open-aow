@@ -1,9 +1,9 @@
 // Translated from AoWItemBanner.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AOWMenu;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
@@ -37,7 +37,7 @@ public partial class TItemBanner : TDataModule
         TItem Item;
         int X;
         int Y;
-        Item = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
+        Item = AoWHSMap.FItemControl.FindItem(AoWItemBannerUnit.ItemID);
         if (Item != null)
         {
             ItemNameLbl.Text = Item.FOwnerName;
@@ -150,7 +150,7 @@ public partial class TItemBanner : TDataModule
     {
         if (Button == 1)
         {
-            AoWItemBanner.ItemBanner.IBannerPopup.Visible = false;
+            AoWItemBannerUnit.ItemBanner.IBannerPopup.Visible = false;
         }
     }
 
@@ -158,7 +158,7 @@ public partial class TItemBanner : TDataModule
     public void DrawBoxPreDraw(TObject Sender, TSurfaceDesc SurfDesc)
     {
         TItem Item;
-        Item = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
+        Item = AoWHSMap.FItemControl.FindItem(AoWItemBannerUnit.ItemID);
         if (Item != null)
         {
             Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);
@@ -166,7 +166,7 @@ public partial class TItemBanner : TDataModule
     }
 }
 
-public static partial class AoWItemBanner
+public static partial class AoWItemBannerUnit
 {
     public static TItemBanner ItemBanner;
     public static int ItemID;

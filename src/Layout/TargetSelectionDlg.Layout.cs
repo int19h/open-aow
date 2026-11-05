@@ -11,6 +11,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWArnoLine;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWTargetSelection
 {
@@ -498,20 +501,20 @@ namespace Aow.Units.AoWTargetSelection
             TargetLbl.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            CeltFrame.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            SIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            MainBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            MainBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            DefaultMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            HeaderLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            SpellMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            TargetRangeLabel.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            TargetLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            CeltFrame.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            SIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            MainBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            MainBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            DefaultMemo.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            HeaderLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            SpellMemo.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            TargetRangeLabel.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            TargetLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
         }
 
         private void Layout_CloseClick_0(TObject p0)

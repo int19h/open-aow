@@ -1,4 +1,5 @@
 #nullable disable
+using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
@@ -14,11 +15,11 @@ public partial class TUpperIsometricHexagon
         int Xhp = default;
         int Yhp = default;
         int Variant;
-        HSEngine.HSEngine.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
+        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)RtlUnit.ObjectToInt(this) >> 8)) & 3);
         if (Variant == 3)
         {
             Variant = 0;
@@ -144,11 +145,11 @@ public partial class TLowerIsometricHexagon
         int Variant;
         int X;
         int Y;
-        HSEngine.HSEngine.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)Rtl.Rtl.ObjectToInt(this) >> 8)) & 3);
+        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)RtlUnit.ObjectToInt(this) >> 8)) & 3);
         if (Variant == 3)
         {
             Variant = 0;

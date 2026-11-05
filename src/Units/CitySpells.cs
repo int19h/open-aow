@@ -1,20 +1,20 @@
 // Translated from CitySpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.City;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.CitySpells;
 
@@ -222,7 +222,7 @@ public partial class TCityTargetSpell : TSpell
         sbyte L = default;
         TargetSelection.Initialize(Source);
         TargetSelection.FTargetMode = TargetSelection.FTargetMode + TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmValidateDistance, TTargetSelectionModeElement.tmExternalFloater);
-        var format = Rtl.Rtl.Format(TranslateRStr(SelectTargetCityForXOnMapRStr), [FSpellName]);
+        var format = RtlUnit.Format(TranslateRStr(SelectTargetCityForXOnMapRStr), [FSpellName]);
         TargetSelection.FText.Text = format;
         TargetSelection.FTitle = FSpellName;
         TargetSelection.FCancelText = TranslateRStr(CancelRStr);
@@ -1004,7 +1004,7 @@ public partial class TAnarchy : TCityTargetSpell
             TargetCity = ((TCityTargetSpellTE)Event).GetSelectedCity();
             Log = new TLocationTextEventLog(null);
             Log.FPlayer = Source.FPlayer;
-            Log.FText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [FSpellName]);
+            Log.FText = RtlUnit.Format(TranslateRStr(XCastRStr), [FSpellName]);
             var lhx = TargetCity.GetLhx();
             var yhx = TargetCity.GetYhx();
             Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
@@ -1100,7 +1100,7 @@ public partial class TAnimateRuins : TCityTargetSpell
             Log = new TLocationTextEventLog(null);
             Log.FPlayer = Source.FPlayer;
             var animateRuins = TranslateRStr(AnimateRuinsRStr);
-            Log.FText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [animateRuins]);
+            Log.FText = RtlUnit.Format(TranslateRStr(XCastRStr), [animateRuins]);
             var lhx = TargetCity.GetLhx();
             var yhx = TargetCity.GetYhx();
             Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
@@ -1139,7 +1139,7 @@ public partial class TAnimateRuins : TCityTargetSpell
                 {
                     AUnit = new TUnit(null);
                     var random = AoWHSMap.Random(2);
-                    AUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(CitySpells.TAnimateRuins_ExecuteTE__UndeadUnits[random]));
+                    AUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(CitySpellsUnit.TAnimateRuins_ExecuteTE__UndeadUnits[random]));
                     var lhx = TargetCity.GetLhx();
                     var yhx = TargetCity.GetYhx();
                     AUnit.Place(TargetCity.GetXhx(), yhx, lhx, Source.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
@@ -1177,7 +1177,7 @@ public partial class TAnimateRuins : TCityTargetSpell
     }
 }
 
-public static partial class CitySpells
+public static partial class CitySpellsUnit
 {
     public static FixedArray_int_2 TAnimateRuins_ExecuteTE__UndeadUnits = FixedArray_int_2.From([198, 201]);
     // CitySpells.pas:988

@@ -1,6 +1,6 @@
 // Translated from AoWVScroll.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
@@ -971,7 +971,7 @@ public partial class TAOWVScrollBar : TAOWScrollBar
     }
 }
 
-public static partial class AoWVScroll
+public static partial class AoWVScrollUnit
 {
     // AoWVScroll.pas:706
     public static void Register()

@@ -13,6 +13,9 @@ using Aow.Units.AoWButton;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.GFXE;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AOWChatWin
 {
@@ -395,31 +398,31 @@ namespace Aow.Units.AOWChatWin
             ChatSB.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            ChatWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            ChatWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            ChatWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ChatMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            ChatMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            ChatMemo.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ChatEdit.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            ChatEdit.ILEdit = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericE;
-            PlayerList.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            PlayerList.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            PlayerList.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            PlayerList.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            SIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            IWTitle.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            Min.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Min.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            ChatPnl.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            NSBar.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            NSBar.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            NSBar.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            NSBar.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            ChatSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            ChatSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            ChatSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            ChatSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            ChatWin.WinManager = AoWWinManUnit.General.Manager;
+            ChatWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            ChatWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ChatMemo.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            ChatMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            ChatMemo.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ChatEdit.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            ChatEdit.ILEdit = aowIntGfxModUnit.IntGfxMod.GenericE;
+            PlayerList.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            PlayerList.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            PlayerList.ILTextureNormal = aowIntGfxModUnit.IntGfxMod.GenericT;
+            PlayerList.ILTextureSelected = aowIntGfxModUnit.IntGfxMod.Menus;
+            SIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            IWTitle.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            Min.ToolTip = AoWWinManUnit.General.ToolTip;
+            Min.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            ChatPnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            NSBar.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            NSBar.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            NSBar.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            NSBar.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
+            ChatSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            ChatSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            ChatSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            ChatSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
         }
 
         private void Layout_ChatWinHide_0(TObject p0)

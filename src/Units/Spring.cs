@@ -1,14 +1,14 @@
 // Translated from Spring.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Spring;
 
@@ -31,7 +31,7 @@ public partial class TSpringOfLifeAnimation : TAnimation
 
 
     // Spring.pas:59
-    public override TSet<TAnimationControlModeElement> AnimationControlMode() => Spring.SpringMode;
+    public override TSet<TAnimationControlModeElement> AnimationControlMode() => SpringUnit.SpringMode;
 
 }
 
@@ -145,7 +145,7 @@ public struct TSpringAnimationCallback
     public TShowAnimationEvent OnShow;
 }
 
-public static partial class Spring
+public static partial class SpringUnit
 {
     // Spring.pas:132
     public static void RegisterSpringOfLife(TEngine AEngine)

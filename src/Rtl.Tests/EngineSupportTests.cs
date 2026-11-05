@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using R = Aow.Rtl.Rtl;
+using R = Aow.Rtl.RtlUnit;
 
 namespace Aow.Rtl.Tests;
 

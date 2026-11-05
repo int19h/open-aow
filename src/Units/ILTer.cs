@@ -5,7 +5,7 @@ using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.ILTer;
 
@@ -386,7 +386,7 @@ public partial class TFixedILTerrainMOR : TILTerrainMOR
 
 }
 
-public static partial class ILTer
+public static partial class ILTerUnit
 {
     // ILTer.pas:349
     public static void RegisterILTerrain(TEngine Engine)

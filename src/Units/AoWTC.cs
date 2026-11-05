@@ -1,29 +1,29 @@
 // Translated from AoWTC.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.NetworkE;
 using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFX;
+using static Aow.Units.aowFX.aowFXUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.FleeLoc;
 using Aow.Units.CombatTE;
-using static Aow.Units.CombatTE.CombatTE;
+using static Aow.Units.CombatTE.CombatTEUnit;
 using Aow.Units.AoWReg;
 using Aow.Units.CombatTerrain;
 using Aow.Units.HxBridge;
 using Aow.Units.City;
 using Aow.Units.CityWall;
-using static Aow.Units.CombatFire.CombatFire;
+using static Aow.Units.CombatFire.CombatFireUnit;
 
 namespace Aow.Units.AoWTC;
 
@@ -255,7 +255,7 @@ public partial class TCAI : TObject
         {
             Result = false;
             Empty = 0;
-            if (FSide == TCombatSideIndex.csDefender && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && !AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached)
+            if (FSide == TCombatSideIndex.csDefender && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && !AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached)
             {
                 Result = true;
             }
@@ -263,7 +263,7 @@ public partial class TCAI : TObject
             {
                 for (int I = 1; I <= 6; I++)
                 {
-                    if (AoWTC.AoWCombatMap.FPositionStatus[I] == 1)
+                    if (AoWTCUnit.AoWCombatMap.FPositionStatus[I] == 1)
                     {
                         J = I - 1;
                         if (J == 0)
@@ -271,7 +271,7 @@ public partial class TCAI : TObject
                             J = 6;
                         }
 
-                        if (AoWTC.AoWCombatMap.FPositionStatus[J] == 0)
+                        if (AoWTCUnit.AoWCombatMap.FPositionStatus[J] == 0)
                         {
                             Result = true;
                         }
@@ -282,14 +282,14 @@ public partial class TCAI : TObject
                             J = 1;
                         }
 
-                        if (AoWTC.AoWCombatMap.FPositionStatus[J] == 0)
+                        if (AoWTCUnit.AoWCombatMap.FPositionStatus[J] == 0)
                         {
                             Result = true;
                         }
                     }
                     else
                     {
-                        if (AoWTC.AoWCombatMap.FPositionStatus[I] == 0)
+                        if (AoWTCUnit.AoWCombatMap.FPositionStatus[I] == 0)
                         {
                             Empty += 1;
                         }
@@ -390,14 +390,14 @@ public partial class TCAI : TObject
             {
                 for (int I = 0, last = Path.Count - 1; I <= last; I++)
                 {
-                    HS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Path.List[I].X, Path.List[I].Y].FindOwnedChild(2228484);
-                    if (FreeStrikes && (HS == null || HS == U.FUnitHS && I - 1 >= 0 && AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Path.List[I - 1].X, Path.List[I - 1].Y].FindOwnedChild(2228484) == null))
+                    HS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Path.List[I].X, Path.List[I].Y].FindOwnedChild(2228484);
+                    if (FreeStrikes && (HS == null || HS == U.FUnitHS && I - 1 >= 0 && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Path.List[I - 1].X, Path.List[I - 1].Y].FindOwnedChild(2228484) == null))
                     {
                         J = 1;
                         for (; J <= 6; J += 1)
                         {
                             CenterHNtoHX(Path.List[I].X, Path.List[I].Y, J, ref X, ref Y);
-                            HS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                            HS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                             if (HS != null && HS.FUnit != Ignore && HS.FUnit.GetSide() != U.GetSide() && MeleeDamageTypes(HS.FUnit) != TSet<TDamageType>.Of() && !HS.FUnit.GetLocked() && HS.FUnit.GetAbilityEnabled(1) == U.GetAbilityEnabled(1))
                             {
                                 var tcDVtoDEV2 = tcDVtoDEV(StrikeDV(HS.FUnit, U), 0, HS.FUnit, U);
@@ -408,16 +408,16 @@ public partial class TCAI : TObject
 
                     if (I < Path.Count - 1)
                     {
-                        if (AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                        if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
                         {
                             var pathY = Path[I];
                             var pathX = Path[I];
-                            Wall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
+                            Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
                             if (Wall == null)
                             {
                                 var path = Path[I];
                                 var path2 = Path[I];
-                                Wall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
+                                Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
                             }
                         }
                         else
@@ -427,10 +427,10 @@ public partial class TCAI : TObject
 
                         var path3 = Path[I];
                         var path4 = Path[I];
-                        var mapField = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
+                        var mapField = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
                         var path5 = Path[I];
                         var path6 = Path[I];
-                        var fieldItem = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path6.X, path5.Y];
+                        var fieldItem = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path6.X, path5.Y];
                         Path.List[I].Flag = MCS.FMovePointTable[fieldItem.TerrainType][mapField.OverlayType - -1];
                         if (Wall != null)
                         {
@@ -439,16 +439,16 @@ public partial class TCAI : TObject
                             {
                                 var pathY = Path[I];
                                 var pathX = Path[I];
-                                var item = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
+                                var item = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
                                 Path.List[I].Flag = MCS.FMovePointTable[item.TerrainType][-1 - -1];
                             }
                             else
                             {
-                                if ((FSide == TCombatSideIndex.csAttacker || AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached || FIgnoreWalls) && (Wall.FHitPoints == 0 || (FSide == TCombatSideIndex.csDefender && Wall is TCityWallDoor) || AoWTC.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(1) || AoWTC.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(66) || AoWTC.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(36)))
+                                if ((FSide == TCombatSideIndex.csAttacker || AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached || FIgnoreWalls) && (Wall.FHitPoints == 0 || (FSide == TCombatSideIndex.csDefender && Wall is TCityWallDoor) || AoWTCUnit.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(1) || AoWTCUnit.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(66) || AoWTCUnit.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(36)))
                                 {
                                     var pathY = Path[I];
                                     var pathX = Path[I];
-                                    var item2 = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
+                                    var item2 = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
                                     Path.List[I].Flag = MCS.FMovePointTable[item2.TerrainType][-1 - -1];
                                 }
                                 else
@@ -482,11 +482,11 @@ public partial class TCAI : TObject
 
                         var path7 = Path[I];
                         var path8 = Path[I];
-                        if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path8.X, path7.Y].FindOwnedChild(2228484) != null)
+                        if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path8.X, path7.Y].FindOwnedChild(2228484) != null)
                         {
                             var pathY = Path[I];
                             var pathX = Path[I];
-                            var item2 = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
+                            var item2 = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
                             Path.List[I].Flag = MCS.FMovePointTable[item2.TerrainType][-1 - -1];
                         }
                     }
@@ -646,7 +646,7 @@ public partial class TCAI : TObject
         TTacticalCombatUnitHS HS;
         TCityWall Wall;
         TAbilityDamageValues DV = default;
-        HS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+        HS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
         if (HS != null && HS.FUnit != Ignore && (Friendly || HS.FUnit.GetSide() != U.GetSide()))
         {
             if (Ability == 52)
@@ -655,7 +655,7 @@ public partial class TCAI : TObject
             }
             else
             {
-                if (AoWTC.AbilTypes[Ability] == TfxType.fxTouch)
+                if (AoWTCUnit.AbilTypes[Ability] == TfxType.fxTouch)
                 {
                     AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, HS.FUnit, ref DV);
                 }
@@ -731,29 +731,29 @@ public partial class TCAI : TObject
             }
         }
 
-        if (HitWalls && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+        if (HitWalls && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
         {
-            Wall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+            Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
             if (Wall == null)
             {
-                Wall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
+                Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
             }
 
-            if (!AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is TCombatWall) || (Ignore is TCombatWall && IgnoreWall != Wall)))
+            if (!AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is TCombatWall) || (Ignore is TCombatWall && IgnoreWall != Wall)))
             {
                 if (Ability == 52)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, AoWTC.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
+                    AoWHSSet.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
                 }
                 else
                 {
-                    if (AoWTC.AbilTypes[Ability] == TfxType.fxTouch)
+                    if (AoWTCUnit.AbilTypes[Ability] == TfxType.fxTouch)
                     {
-                        AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, AoWTC.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
+                        AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
                     }
                     else
                     {
-                        AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, AoWTC.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
+                        AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
                     }
                 }
 
@@ -766,12 +766,12 @@ public partial class TCAI : TObject
                 {
                     if (U.GetSide() == TCombatSideIndex.csAttacker)
                     {
-                        var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, AoWTC.AoWCombatMap.FCombat.FCombatData.FWall), AoWTC.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
+                        var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall), AoWTCUnit.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
                         Value = Value + multDEV;
                     }
                     else
                     {
-                        var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, AoWTC.AoWCombatMap.FCombat.FCombatData.FWall), AoWTC.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
+                        var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall), AoWTCUnit.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
                         Value = Value - multDEV;
                     }
                 }
@@ -809,11 +809,11 @@ public partial class TCAI : TObject
         TfxType FX;
         if (Ability == 52)
         {
-            FX = AoWTC.SpellTypes[Spell];
+            FX = AoWTCUnit.SpellTypes[Spell];
         }
         else
         {
-            FX = AoWTC.AbilTypes[Ability];
+            FX = AoWTCUnit.AbilTypes[Ability];
         }
 
         switch (FX)
@@ -829,11 +829,11 @@ public partial class TCAI : TObject
                 Obstacles = new TList();
                 if (FX == TfxType.fxBreath)
                 {
-                    AoWTC.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)X1, (short)Y1, (short)X2, (short)Y2, 0, 0, false, ref Path, ref Obstacles);
+                    AoWTCUnit.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)X1, (short)Y1, (short)X2, (short)Y2, 0, 0, false, ref Path, ref Obstacles);
                 }
                 else
                 {
-                    AoWTC.MakeAbilPath(U.GetSide(), (short)Ability, (short)Spell, (short)X1, (short)Y1, (short)X2, (short)Y2, ref Path, ref Obstacles);
+                    AoWTCUnit.MakeAbilPath(U.GetSide(), (short)Ability, (short)Spell, (short)X1, (short)Y1, (short)X2, (short)Y2, ref Path, ref Obstacles);
                 }
 
                 Total = 0;
@@ -904,7 +904,7 @@ public partial class TCAI : TObject
         {
             V = 0;
             var dHXtoHN2 = dHXtoHN(X1, Y1, X2, Y2);
-            CenterHNtoHX(X1, Y1, AoWTC.BreathHN[AoWTC.BreathDirection[dHXtoHN2 - 1] * 12 + I - 12], ref X, ref Y);
+            CenterHNtoHX(X1, Y1, AoWTCUnit.BreathHN[AoWTCUnit.BreathDirection[dHXtoHN2 - 1] * 12 + I - 12], ref X, ref Y);
             EvalHex(Ignore, Ability, Spell, X, Y, ref V, true, true, U, null);
             if (V != 0)
             {
@@ -963,7 +963,7 @@ public partial class TCAI : TObject
         Distance = dHXtoRad(U.FUnitHS.GetXhx(), yhx, X, Y);
         if (U.FMovePoints > 0)
         {
-            AoWTC.AoWCombatMap.FMoveControl.CalculatePath(Settings, (TMovepath)BasePath, (sbyte)X, (sbyte)Y, 0);
+            AoWTCUnit.AoWCombatMap.FMoveControl.CalculatePath(Settings, (TMovepath)BasePath, (sbyte)X, (sbyte)Y, 0);
             PathCost = MakeTerrainPath(Settings, ref BasePath, ref TerrainValue, U, (TTacticalCombatUnit)Target, true, Target is TTacticalCombatUnit && FSide == TCombatSideIndex.csAttacker, 1);
             I = 0;
             int last = BasePath.Count - 1;
@@ -1110,10 +1110,10 @@ public partial class TCAI : TObject
                     case 52:
                         try
                         {
-                            if (!(Target is TCombatWall) || !AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached)
+                            if (!(Target is TCombatWall) || !AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached)
                             {
                                 Spell = ((TTCAbility)Abilities[AbilityIndex]).Spell;
-                                switch (AoWTC.SpellTypes[Spell])
+                                switch (AoWTCUnit.SpellTypes[Spell])
                                 {
                                     case TfxType.fxArrow:
                                     case TfxType.fxRock:
@@ -1389,7 +1389,7 @@ public partial class TCAI : TObject
                                                                 Y = BestValue;
                                                                 break;
                                                             case 112:
-                                                                if (FSide == TCombatSideIndex.csDefender && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                                                                if (FSide == TCombatSideIndex.csDefender && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
                                                                 {
                                                                     Value = -9999;
                                                                 }
@@ -1434,12 +1434,12 @@ public partial class TCAI : TObject
                                                         {
                                                             var path = Path[I];
                                                             var pathX = Path[I];
-                                                            CityWall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                            CityWall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
                                                             if (CityWall == null && FSide == TCombatSideIndex.csAttacker)
                                                             {
                                                                 var path2 = Path[I];
                                                                 var path3 = Path[I];
-                                                                CityWall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
+                                                                CityWall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
                                                             }
 
                                                             if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -1610,7 +1610,7 @@ public partial class TCAI : TObject
 
                         break;
                     default:
-                        switch (AoWTC.AbilTypes[Ability])
+                        switch (AoWTCUnit.AbilTypes[Ability])
                         {
                             case TfxType.fxTouch:
                                 if (Target is TCombatWall || Target is TCombatUnit && ((TTouchAbility)AoWHSSet.FAbilityControl.GetAbility(Ability)).CanTouch(U, Target))
@@ -1720,7 +1720,7 @@ public partial class TCAI : TObject
                                                     }
                                                     else
                                                     {
-                                                        if (Target is TCombatWall && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTC.AoWCombatMap.FRound > 1)
+                                                        if (Target is TCombatWall && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTCUnit.AoWCombatMap.FRound > 1)
                                                         {
                                                             I = 10;
                                                         }
@@ -1868,12 +1868,12 @@ public partial class TCAI : TObject
                                                     {
                                                         var path = Path[I];
                                                         var pathX = Path[I];
-                                                        CityWall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                        CityWall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
                                                         if (CityWall == null && FSide == TCombatSideIndex.csAttacker)
                                                         {
                                                             var path2 = Path[I];
                                                             var path3 = Path[I];
-                                                            CityWall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
+                                                            CityWall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
                                                         }
 
                                                         if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -1995,7 +1995,7 @@ public partial class TCAI : TObject
                                             if (!((UnitSafe(U, U.FUnitHS.GetXhx(), yhx4) < 0 && FNormalUnits != 0) || (PathValue != 0 && Value == 0) || Distance > Range || U.GetMoves() != U.FMovePoints))
                                             {
                                                 FHeroMoves += 1;
-                                                if (Target is TCombatWall && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTC.AoWCombatMap.FRound > 1)
+                                                if (Target is TCombatWall && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTCUnit.AoWCombatMap.FRound > 1)
                                                 {
                                                     I = 10;
                                                 }
@@ -2088,7 +2088,7 @@ public partial class TCAI : TObject
         TSpellCombatInfo SpellInfo = default;
         TCityWall Wall;
         Status = TaiStatus.aiBusy;
-        if (AoWHSMap.FTokenManager.PlayerReady(AoWTC.AoWCombatMap.FCurrentPlayer))
+        if (AoWHSMap.FTokenManager.PlayerReady(AoWTCUnit.AoWCombatMap.FCurrentPlayer))
         {
             switch (CurrentMove)
             {
@@ -2109,7 +2109,7 @@ public partial class TCAI : TObject
 
                         Moves.Clear();
                         Walls.Clear();
-                        var tacticalCombat = AoWTC.AoWCombatMap.FCombat;
+                        var tacticalCombat = AoWTCUnit.AoWCombatMap.FCombat;
                         FSide = (TCombatSideIndex)tacticalCombat.FCombatData.FPlayers.GetPlayers((sbyte)tacticalCombat.FCombatData.FCurrentPlayer).FSideIndex;
                         FNormalUnits = 0;
                         I = 0;
@@ -2124,7 +2124,7 @@ public partial class TCAI : TObject
                                 {
                                     var yhx = ((TTacticalCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
                                     CenterHNtoHX(((TTacticalCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, J, ref K, ref L);
-                                    if (!AoWTC.AoWCombatMap.FExplorationEnabled || ((TAoWMapField)AoWTC.AoWCombatMap.MapContainer.GetField(K, L, 0)).GetExplored(AoWTC.AoWCombatMap.FSeatedPlayer))
+                                    if (!AoWTCUnit.AoWCombatMap.FExplorationEnabled || ((TAoWMapField)AoWTCUnit.AoWCombatMap.MapContainer.GetField(K, L, 0)).GetExplored(AoWTCUnit.AoWCombatMap.FSeatedPlayer))
                                     {
                                         Visible = true;
                                     }
@@ -2174,7 +2174,7 @@ public partial class TCAI : TObject
                         AoWEngine.OutputDebugStr("AI found " + IntToStr(Allies.Count) + " Ally units.");
                         AoWEngine.OutputDebugStr("AI found " + IntToStr(Enemies.Count) + " Enemy units.");
                         FIgnoreWalls = FSide == TCombatSideIndex.csAttacker;
-                        FFlee = FSide == TCombatSideIndex.csAttacker && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && !AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached;
+                        FFlee = FSide == TCombatSideIndex.csAttacker && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && !AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached;
                         FMinMoves = 100;
                         I = 0;
                         int last2 = Units.Count - 1;
@@ -2208,7 +2208,7 @@ public partial class TCAI : TObject
                                                 N = 0;
                                                 for (; N <= 130; N += 1)
                                                 {
-                                                    bool condition = Target.FUnit.FPlayer > 0 && AoWTC.SpellTypes[N] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(Target.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(N) != -1;
+                                                    bool condition = Target.FUnit.FPlayer > 0 && AoWTCUnit.SpellTypes[N] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(Target.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(N) != -1;
                                                     if (condition)
                                                     {
                                                         var spell = AoWHSSet.FSpellControl.GetSpell(N);
@@ -2223,7 +2223,7 @@ public partial class TCAI : TObject
                                                             Value = AoWHSSet.FSpellControl.GetSpell(N).GetCombatDamageValue(Target, U);
                                                             if (Value > 0)
                                                             {
-                                                                if (TSet<TfxType>.Of(TfxType.fxArrow, TfxType.fxRock, TfxType.fxComet, TfxType.fxBreath, TfxType.fxCometBall, TfxType.fxRay).Contains(AoWTC.SpellTypes[N]))
+                                                                if (TSet<TfxType>.Of(TfxType.fxArrow, TfxType.fxRock, TfxType.fxComet, TfxType.fxBreath, TfxType.fxCometBall, TfxType.fxRay).Contains(AoWTCUnit.SpellTypes[N]))
                                                                 {
                                                                     var fUnitHSXhx = Target.FUnitHS.GetXhx();
                                                                     var yhx2 = Target.FUnitHS.GetYhx();
@@ -2246,7 +2246,7 @@ public partial class TCAI : TObject
                                             }
                                             else
                                             {
-                                                if (AoWTC.AbilTypes[L] != TfxType.fxNone && AoWTC.AbilTypes[L] != TfxType.fxTouch)
+                                                if (AoWTCUnit.AbilTypes[L] != TfxType.fxNone && AoWTCUnit.AbilTypes[L] != TfxType.fxTouch)
                                                 {
                                                     AoWHSSet.FAbilityControl.GetAbility(L).GetCombatInfo(Target.FUnit, ref AIInfo);
                                                     if ((((byte)AIInfo.TargetTypes.Image) & 2) != 0)
@@ -2272,7 +2272,7 @@ public partial class TCAI : TObject
                                                             Value = AoWHSSet.FAbilityControl.GetAbility(L).tcGetDamageValue(Target, U);
                                                             if (Value > 0)
                                                             {
-                                                                if (TSet<TfxType>.Of(TfxType.fxArrow, TfxType.fxRock, TfxType.fxComet, TfxType.fxBreath, TfxType.fxCometBall, TfxType.fxRay).Contains(AoWTC.AbilTypes[L]))
+                                                                if (TSet<TfxType>.Of(TfxType.fxArrow, TfxType.fxRock, TfxType.fxComet, TfxType.fxBreath, TfxType.fxCometBall, TfxType.fxRay).Contains(AoWTCUnit.AbilTypes[L]))
                                                                 {
                                                                     var fUnitHSXhx = Target.FUnitHS.GetXhx();
                                                                     var yhx2 = Target.FUnitHS.GetYhx();
@@ -2340,7 +2340,7 @@ public partial class TCAI : TObject
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = U.FUnit.FPlayer > 0 && AoWTC.SpellTypes[K] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                    bool condition = U.FUnit.FPlayer > 0 && AoWTCUnit.SpellTypes[K] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
                                                         var spell = AoWHSSet.FSpellControl.GetSpell(K);
@@ -2361,7 +2361,7 @@ public partial class TCAI : TObject
                                             }
                                             else
                                             {
-                                                if (AoWTC.AbilTypes[J] != TfxType.fxNone)
+                                                if (AoWTCUnit.AbilTypes[J] != TfxType.fxNone)
                                                 {
                                                     AoWHSSet.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
                                                     if ((((byte)AIInfo.TargetTypes.Image) & 2) != 0)
@@ -2389,7 +2389,7 @@ public partial class TCAI : TObject
                                     U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                     Settings.FPlayer = U.GetPlayer();
                                     Settings.FMovePointsMax = 200;
-                                    AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                    AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                 }
 
                                 if (Abilities.Count > 0 || MeleeDamageTypes(U) != TSet<TDamageType>.Of())
@@ -2429,7 +2429,7 @@ public partial class TCAI : TObject
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = AoWTC.SpellTypes[K] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                    bool condition = AoWTCUnit.SpellTypes[K] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
                                                         var spell = AoWHSSet.FSpellControl.GetSpell(K);
@@ -2450,7 +2450,7 @@ public partial class TCAI : TObject
                                             }
                                             else
                                             {
-                                                if (AoWTC.AbilTypes[J] != TfxType.fxNone)
+                                                if (AoWTCUnit.AbilTypes[J] != TfxType.fxNone)
                                                 {
                                                     AoWHSSet.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
                                                     if ((((byte)AIInfo.TargetTypes.Image) & 1) != 0)
@@ -2505,18 +2505,18 @@ public partial class TCAI : TObject
                             CurrentMove += 1;
                             try
                             {
-                                if (AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && AoWTC.AoWCombatMap.FCombat.FCombatData.FWall != null && FSide == TCombatSideIndex.csAttacker)
+                                if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall != null && FSide == TCombatSideIndex.csAttacker)
                                 {
                                     J = 0;
-                                    int last = AoWTC.AoWCombatMap.FWalls.Count - 1;
+                                    int last = AoWTCUnit.AoWCombatMap.FWalls.Count - 1;
                                     for (; J <= last; J += 1)
                                     {
-                                        bool condition = ((TCityWall)AoWTC.AoWCombatMap.FWalls[J]).FHitPoints > 0;
+                                        bool condition = ((TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J]).FHitPoints > 0;
                                         if (condition)
                                         {
-                                            var wall = AoWTC.AoWCombatMap.FWalls[J];
-                                            var wall2 = AoWTC.AoWCombatMap.FWalls[J];
-                                            condition = ((TCityWall)wall).FHitPoints < AoWTC.WallMaxHP[((TCityWall)wall2).FWallType - 1];
+                                            var wall = AoWTCUnit.AoWCombatMap.FWalls[J];
+                                            var wall2 = AoWTCUnit.AoWCombatMap.FWalls[J];
+                                            condition = ((TCityWall)wall).FHitPoints < AoWTCUnit.WallMaxHP[((TCityWall)wall2).FWallType - 1];
                                         }
 
                                         if (condition)
@@ -2525,7 +2525,7 @@ public partial class TCAI : TObject
                                             K = 0;
                                             while (Found && K < Walls.Count)
                                             {
-                                                if (Walls[K] == AoWTC.AoWCombatMap.FWalls[J])
+                                                if (Walls[K] == AoWTCUnit.AoWCombatMap.FWalls[J])
                                                 {
                                                     Found = false;
                                                 }
@@ -2537,14 +2537,14 @@ public partial class TCAI : TObject
 
                                             if (Found)
                                             {
-                                                var wall = AoWTC.AoWCombatMap.FWalls[J];
+                                                var wall = AoWTCUnit.AoWCombatMap.FWalls[J];
                                                 Walls.Add(wall);
                                             }
                                         }
                                     }
                                 }
 
-                                if (AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType == 0 || AoWTC.AoWCombatMap.FCombat.FCombatData.FWall == null || FSide == TCombatSideIndex.csDefender)
+                                if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType == 0 || AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall == null || FSide == TCombatSideIndex.csDefender)
                                 {
                                     CurrentMove += 1;
                                 }
@@ -2598,7 +2598,7 @@ public partial class TCAI : TObject
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = AoWTC.SpellTypes[K] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                    bool condition = AoWTCUnit.SpellTypes[K] != TfxType.fxNone && AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
                                                         var spell = AoWHSSet.FSpellControl.GetSpell(K);
@@ -2621,7 +2621,7 @@ public partial class TCAI : TObject
                                         }
                                         else
                                         {
-                                            if (AoWTC.AbilTypes[J] != TfxType.fxNone)
+                                            if (AoWTCUnit.AbilTypes[J] != TfxType.fxNone)
                                             {
                                                 AoWHSSet.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
                                                 if (AIInfo.DamageTypes.Contains(TDamageType.dtWall))
@@ -2652,7 +2652,7 @@ public partial class TCAI : TObject
                                         U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                         Settings.FPlayer = U.GetPlayer();
                                         Settings.FMovePointsMax = 200;
-                                        AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                     }
 
                                     J = 0;
@@ -2663,7 +2663,7 @@ public partial class TCAI : TObject
                                         if (!(U.FUnit is THero) || FHeroMoves == 0)
                                         {
                                             var yhx = Wall.GetYhx();
-                                            CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints, AoWTC.WallMaxHP[Wall.FWallType - 1] * 2, Settings, U, AoWTC.AoWCombatMap.FCombat.FCombatData.FWall, Abilities, Wall);
+                                            CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints, AoWTCUnit.WallMaxHP[Wall.FWallType - 1] * 2, Settings, U, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall, Abilities, Wall);
                                         }
                                     }
 
@@ -2672,15 +2672,15 @@ public partial class TCAI : TObject
                                         L = 100;
                                         Wall = null;
                                         J = 0;
-                                        int limit = AoWTC.AoWCombatMap.FWalls.Count - 1;
+                                        int limit = AoWTCUnit.AoWCombatMap.FWalls.Count - 1;
                                         for (; J <= limit; J += 1)
                                         {
                                             var yhx = U.FUnitHS.GetYhx();
-                                            var yhx2 = ((TCityWall)AoWTC.AoWCombatMap.FWalls[J]).GetYhx();
-                                            N = dHXtoRad(((TCityWall)AoWTC.AoWCombatMap.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                            if (((TCityWall)AoWTC.AoWCombatMap.FWalls[J]).FHitPoints > 0 && N < L)
+                                            var yhx2 = ((TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J]).GetYhx();
+                                            N = dHXtoRad(((TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
+                                            if (((TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J]).FHitPoints > 0 && N < L)
                                             {
-                                                Wall = (TCityWall)AoWTC.AoWCombatMap.FWalls[J];
+                                                Wall = (TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J];
                                                 L = N;
                                             }
                                         }
@@ -2688,7 +2688,7 @@ public partial class TCAI : TObject
                                         if (Wall != null)
                                         {
                                             var yhx = Wall.GetYhx();
-                                            CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints * 2, AoWTC.WallMaxHP[Wall.FWallType - 1], Settings, U, AoWTC.AoWCombatMap.FCombat.FCombatData.FWall, Abilities, Wall);
+                                            CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints * 2, AoWTCUnit.WallMaxHP[Wall.FWallType - 1], Settings, U, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWall, Abilities, Wall);
                                         }
                                     }
 
@@ -2843,7 +2843,7 @@ public partial class TCAI : TObject
                                     Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee, TCombatMoveModeElement.mmaiMove, TCombatMoveModeElement.mmaiWall);
                                     U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                     Settings.FPlayer = U.GetPlayer();
-                                    AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                    AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                     if (Settings.FPath.Count > 2)
                                     {
                                         Settings.FPath.Delete(0);
@@ -2873,14 +2873,14 @@ public partial class TCAI : TObject
                                 if ((!(U.FUnit is THero) || FHeroMoves == 0 || (U.FUnit is THero && Units.Count == 1)) && U.GetEnabled() && !U.GetLocked() && U.FMovePoints > 0 && (FFlee || U.FCanFlee))
                                 {
                                     J = 0;
-                                    int last2 = AoWTC.AoWCombatMap.FFleeLocations.Count - 1;
+                                    int last2 = AoWTCUnit.AoWCombatMap.FFleeLocations.Count - 1;
                                     for (; J <= last2; J += 1)
                                     {
                                         var yhx = U.FUnitHS.GetYhx();
-                                        var yhx2 = ((THexagonSprite)AoWTC.AoWCombatMap.FFleeLocations[J]).GetYhx();
-                                        var dHXtoRad2 = dHXtoRad(((THexagonSprite)AoWTC.AoWCombatMap.FFleeLocations[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                        var yhx3 = ((THexagonSprite)AoWTC.AoWCombatMap.FFleeLocations[J]).GetYhx();
-                                        CreateMove(TaiMoveType.aiMove, ((THexagonSprite)AoWTC.AoWCombatMap.FFleeLocations[J]).GetXhx(), yhx3, 110000000 - dHXtoRad2 * 10, 0, 0, U, null);
+                                        var yhx2 = ((THexagonSprite)AoWTCUnit.AoWCombatMap.FFleeLocations[J]).GetYhx();
+                                        var dHXtoRad2 = dHXtoRad(((THexagonSprite)AoWTCUnit.AoWCombatMap.FFleeLocations[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
+                                        var yhx3 = ((THexagonSprite)AoWTCUnit.AoWCombatMap.FFleeLocations[J]).GetYhx();
+                                        CreateMove(TaiMoveType.aiMove, ((THexagonSprite)AoWTCUnit.AoWCombatMap.FFleeLocations[J]).GetXhx(), yhx3, 110000000 - dHXtoRad2 * 10, 0, 0, U, null);
                                     }
                                 }
                             }
@@ -2958,7 +2958,7 @@ public partial class TCAI : TObject
                                 case TaiMoveType.aiMoveRanged:
                                 {
                                     var tacticalCombatUnitHS = Move.UnitHS;
-                                    if ((Move.UnitHS.FUnit.FUnit is THero || (FSide == TCombatSideIndex.csAttacker && AoWTC.AoWCombatMap.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
+                                    if ((Move.UnitHS.FUnit.FUnit is THero || (FSide == TCombatSideIndex.csAttacker && AoWTCUnit.AoWCombatMap.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
                                     {
                                         Move.UnitHS.FUnit.FMovePoints = FMinMoves;
                                     }
@@ -2978,9 +2978,9 @@ public partial class TCAI : TObject
                                         Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee);
                                     }
 
-                                    if (AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                                    if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
                                     {
-                                        if (!(AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508) == null && AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) == null))
+                                        if (!(AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508) == null && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) == null))
                                         {
                                             if (!FIgnoreWalls || !ChargeFromPos((int)(((uint)Move.UnitHS.FUnit.FPosition) >> 4)) || FSide == TCombatSideIndex.csAttacker)
                                             {
@@ -2991,17 +2991,17 @@ public partial class TCAI : TObject
 
                                     Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                     Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                    AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                    AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                     if (Settings.FPath.Count < 2 && !Settings.FMoveFlags.Contains(TCombatMoveModeElement.mmaiWall))
                                     {
                                         Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
-                                        AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                     }
 
-                                    Wall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
+                                    Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
                                     if (Wall == null)
                                     {
-                                        Wall = (TCityWall)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510);
+                                        Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510);
                                     }
 
                                     if (Settings.FPath.Count == 2 && Move.MoveType == TaiMoveType.aiMoveRanged && Wall != null)
@@ -3037,11 +3037,11 @@ public partial class TCAI : TObject
                                                     // { Original repeats X. }
                                                     AoWEngine.OutputDebugStr("AI moves to X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                                     Moved = MoveCombatUnit(Move.UnitHS.FUnit, (TMovepath)Path);
-                                                    if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
+                                                    if (Move.UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
                                                     {
                                                         var unitHSYhx = Move.UnitHS.GetYhx();
                                                         var xhx = Move.UnitHS.GetXhx();
-                                                        AoWTC.AoWCombatMap.CenterViewTo(xhx, unitHSYhx, 0);
+                                                        AoWTCUnit.AoWCombatMap.CenterViewTo(xhx, unitHSYhx, 0);
                                                     }
                                                 }
                                                 else
@@ -3065,7 +3065,7 @@ public partial class TCAI : TObject
                                     Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee);
                                     Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                     Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                    AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                    AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                     if (Settings.FPath.Count > 1)
                                     {
                                         Path = Settings.FPath;
@@ -3077,11 +3077,11 @@ public partial class TCAI : TObject
                                                 // { Original repeats X in the debug text. }
                                                 AoWEngine.OutputDebugStr("AI touches at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                                 Moved = Move.UnitHS.MeleeMoveTC((TMovepath)Path);
-                                                if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
+                                                if (Move.UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
                                                 {
                                                     var yhx = Move.UnitHS.GetYhx();
                                                     var xhx = Move.UnitHS.GetXhx();
-                                                    AoWTC.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
+                                                    AoWTCUnit.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
                                                 }
                                             }
                                         }
@@ -3105,7 +3105,7 @@ public partial class TCAI : TObject
                                     Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                     Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
                                     Move.UnitHS.FSelectedAbility = Move.Ability;
-                                    AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                    AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                     if (Settings.FPath.Count > 1)
                                     {
                                         Path = Settings.FPath;
@@ -3118,11 +3118,11 @@ public partial class TCAI : TObject
                                                 // { Original repeats X in the debug text. }
                                                 AoWEngine.OutputDebugStr("AI melees at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                                 Moved = Move.UnitHS.AbTouchMoveTC((TMovepath)Path);
-                                                if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
+                                                if (Move.UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
                                                 {
                                                     var yhx = Move.UnitHS.GetYhx();
                                                     var xhx = Move.UnitHS.GetXhx();
-                                                    AoWTC.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
+                                                    AoWTCUnit.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
                                                 }
                                             }
                                         }
@@ -3136,11 +3136,11 @@ public partial class TCAI : TObject
                                     // { Original repeats X in the debug text. }
                                     AoWEngine.OutputDebugStr("AI ranged at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                     Moved = Move.UnitHS.AbRangedTC(Move.X, Move.Y);
-                                    if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
+                                    if (Move.UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
                                     {
                                         var yhx = Move.UnitHS.GetYhx();
                                         var xhx = Move.UnitHS.GetXhx();
-                                        AoWTC.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
+                                        AoWTCUnit.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
                                     }
 
                                     break;
@@ -3287,12 +3287,12 @@ public partial class TRangedPathHS : TFixedVisibleHS
                 if (FSelection.GetTCUnitHS().FSelectedAbility == 52)
                 {
                     var tcUnitHS = FSelection.GetTCUnitHS();
-                    EffectType = AoWTC.SpellTypes[tcUnitHS.FSelectedSpell];
+                    EffectType = AoWTCUnit.SpellTypes[tcUnitHS.FSelectedSpell];
                 }
                 else
                 {
                     var tcUnitHS = FSelection.GetTCUnitHS();
-                    EffectType = AoWTC.AbilTypes[tcUnitHS.FSelectedAbility];
+                    EffectType = AoWTCUnit.AbilTypes[tcUnitHS.FSelectedAbility];
                 }
 
                 switch (EffectType)
@@ -3308,7 +3308,7 @@ public partial class TRangedPathHS : TFixedVisibleHS
                             var yhx = FSelection.GetTCUnitHS().GetYhx();
                             var dHXtoHN2 = dHXtoHN(FSelection.GetTCUnitHS().GetXhx(), yhx, X, Y);
                             var yhx2 = FSelection.GetTCUnitHS().GetYhx();
-                            CenterHNtoHX(FSelection.GetTCUnitHS().GetXhx(), yhx2, AoWTC.BreathHN[dHXtoHN2 * 12 + I - 12], ref NX, ref NY);
+                            CenterHNtoHX(FSelection.GetTCUnitHS().GetXhx(), yhx2, AoWTCUnit.BreathHN[dHXtoHN2 * 12 + I - 12], ref NX, ref NY);
                             HXtoHP(NX, NY, ref PX, ref PY);
                             FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
                         }
@@ -3475,14 +3475,14 @@ public partial class TfxHS : TFixedVisibleHS
     public override void Activate()
     {
         base.Activate();
-        AoWTC.AoWCombatMap.NewFrameEvents.Add(NewFrame);
+        AoWTCUnit.AoWCombatMap.NewFrameEvents.Add(NewFrame);
         FFrame = -1;
     }
 
     // AoWTC.pas:5208
     public override void Deactivate()
     {
-        AoWTC.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
+        AoWTCUnit.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
         base.Deactivate();
     }
 
@@ -3508,7 +3508,7 @@ public partial class TfxHS : TFixedVisibleHS
         {
             for (int N = 1; N <= Count - 1; N++)
             {
-                Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxCloudPuff);
+                Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxCloudPuff);
                 Effect.FAbilityIndex = FAbilityIndex;
                 Effect.FSpellIndex = FSpellIndex;
                 var xyz = new TXYZ();
@@ -3532,15 +3532,15 @@ public partial class TfxHS : TFixedVisibleHS
             Effect = null;
             var pathY = FPath[FFrame];
             HPtoHX(FPath[FFrame].X, pathY.Y, ref I, ref J);
-            if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].TerrainType == 0)
+            if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].TerrainType == 0)
             {
-                Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxHitWater);
+                Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxHitWater);
             }
             else
             {
-                if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].OverlayType != 8 && AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229508) == null && AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229510) == null)
+                if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].OverlayType != 8 && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229508) == null && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229510) == null)
                 {
-                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxHitGround);
+                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxHitGround);
                 }
             }
 
@@ -3592,7 +3592,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 break;
                         }
 
-                        if (FFrame == 0 && AoWTC.AoWCombatMap.FPlaySounds && FAbilityIndex == 52 && FSpellIndex == 122)
+                        if (FFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds && FAbilityIndex == 52 && FSpellIndex == 122)
                         {
                             AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                         }
@@ -3600,7 +3600,7 @@ public partial class TfxHS : TFixedVisibleHS
                         var count = FPath.Count;
                         if (FFrame >= count - 1)
                         {
-                            if (AoWTC.AoWCombatMap.FPlaySounds)
+                            if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                             {
                                 if (FAbilityIndex == 52)
                                 {
@@ -3622,12 +3622,12 @@ public partial class TfxHS : TFixedVisibleHS
                             var pathY = FPath[FFrame];
                             var pathZ = FPath[FFrame];
                             HPtoHX(FPath[FFrame].X, pathY.Y - pathZ.Z, ref I, ref J);
-                            AoWTC.AoWCombatMap.MakeVisible(I, J, 0, 2);
+                            AoWTCUnit.AoWCombatMap.MakeVisible(I, J, 0, 2);
                         }
 
                         break;
                     case TfxType.fxDecayComet:
-                        if (FFrame == 0 && AoWTC.AoWCombatMap.FPlaySounds && FAbilityIndex == 52)
+                        if (FFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds && FAbilityIndex == 52)
                         {
                             AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                         }
@@ -3635,7 +3635,7 @@ public partial class TfxHS : TFixedVisibleHS
                         var fPathCount = FPath.Count;
                         if (FFrame >= fPathCount - 1)
                         {
-                            if (AoWTC.AoWCombatMap.FPlaySounds)
+                            if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                             {
                                 if (FAbilityIndex == 52)
                                 {
@@ -3653,7 +3653,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                         break;
                     case TfxType.fxAltArrow:
-                        if (FFrame == 0 && AoWTC.AoWCombatMap.FPlaySounds && FAbilityIndex == 52)
+                        if (FFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds && FAbilityIndex == 52)
                         {
                             AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                         }
@@ -3662,7 +3662,7 @@ public partial class TfxHS : TFixedVisibleHS
                         var count2 = FPath.Count;
                         if (FFrame >= count2 - 1)
                         {
-                            if (AoWTC.AoWCombatMap.FPlaySounds)
+                            if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                             {
                                 if (FAbilityIndex == 52)
                                 {
@@ -3684,7 +3684,7 @@ public partial class TfxHS : TFixedVisibleHS
                             var pathY = FPath[FFrame];
                             var pathZ = FPath[FFrame];
                             HPtoHX(FPath[FFrame].X, pathY.Y - pathZ.Z, ref I, ref J);
-                            AoWTC.AoWCombatMap.MakeVisible(I, J, 0, 2);
+                            AoWTCUnit.AoWCombatMap.MakeVisible(I, J, 0, 2);
                         }
 
                         break;
@@ -3693,7 +3693,7 @@ public partial class TfxHS : TFixedVisibleHS
                         var count3 = FPath.Count;
                         if (FFrame >= count3 - 1)
                         {
-                            if (AoWTC.AoWCombatMap.FPlaySounds)
+                            if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                             {
                                 if (FAbilityIndex == 52)
                                 {
@@ -3707,7 +3707,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                             FFrame = FPath.Count - 1;
                             FDone = true;
-                            Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxHailImpact);
+                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxHailImpact);
                             Effect.FAbilityIndex = FAbilityIndex;
                             Effect.FSpellIndex = FSpellIndex;
                             var xyz = new TXYZ();
@@ -3787,7 +3787,7 @@ public partial class TfxHS : TFixedVisibleHS
                         var count5 = FPath.Count;
                         if (FFrame >= count5 - 1)
                         {
-                            if (AoWTC.AoWCombatMap.FPlaySounds)
+                            if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                             {
                                 if (FTarget != null && FAbilityIndex == 52)
                                 {
@@ -3809,7 +3809,7 @@ public partial class TfxHS : TFixedVisibleHS
                         var count6 = FPath.Count;
                         if (FFrame >= count6 - 1)
                         {
-                            if (AoWTC.AoWCombatMap.FPlaySounds)
+                            if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                             {
                                 if (FAbilityIndex == 52)
                                 {
@@ -3844,7 +3844,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     var random = Random(100);
@@ -3860,7 +3860,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(50) + 20) / 10);
@@ -3881,7 +3881,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     var random = Random(100);
@@ -3897,7 +3897,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(50) + 20) / 10);
@@ -3915,7 +3915,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(20) + 20) / 10);
@@ -3951,7 +3951,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(20) + 20) / 10);
@@ -3971,7 +3971,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                                 break;
                             case 3000:
-                                if (AoWTC.AoWCombatMap.FPlaySounds)
+                                if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
@@ -3988,7 +3988,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = FPath.Count - 1;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(25) + 25) / 10);
@@ -4008,7 +4008,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(50) + 50) / 10);
@@ -4036,7 +4036,7 @@ public partial class TfxHS : TFixedVisibleHS
                         switch (FFrame)
                         {
                             case >= 0 and <= 29:
-                                if (FFrame == 0 && AoWTC.AoWCombatMap.FPlaySounds)
+                                if (FFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
@@ -4052,7 +4052,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 I = 1;
                                 for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     var random = Random(360);
@@ -4070,7 +4070,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 I = 1;
                                 for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     var random = Random(360);
@@ -4088,7 +4088,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 I = 1;
                                 for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     var random = Random(360);
@@ -4106,7 +4106,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 I = 1;
                                 for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     var random = Random(360);
@@ -4120,7 +4120,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                                 break;
                             case 150:
-                                if (AoWTC.AoWCombatMap.FPlaySounds)
+                                if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
@@ -4139,7 +4139,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 I = 0;
                                 for (; I <= 359; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     X = -X;
@@ -4158,7 +4158,7 @@ public partial class TfxHS : TFixedVisibleHS
                                         K = 1;
                                         for (; K <= 10; K += 1)
                                         {
-                                            Effect2 = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect2 = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                             Effect2.FAbilityIndex = FAbilityIndex;
                                             Effect2.FSpellIndex = FSpellIndex;
                                             var count7 = Effect.FPath.Count;
@@ -4185,7 +4185,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 for (; I <= 36; I += 1)
                                 {
                                     CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                 }
                             }
 
@@ -4202,7 +4202,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 for (; I <= 36; I += 1)
                                 {
                                     CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                 }
                             }
 
@@ -4218,7 +4218,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 for (; I <= 36; I += 1)
                                 {
                                     CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                 }
                             }
 
@@ -4233,7 +4233,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 for (; I <= 36; I += 1)
                                 {
                                     CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                 }
                             }
 
@@ -4251,7 +4251,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 {
                                     if (FTarget != null && FTarget.GetEnabled())
                                     {
-                                        if (AoWTC.AoWCombatMap.FPlaySounds)
+                                        if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                                         {
                                             if (FAbilityIndex == 52)
                                             {
@@ -4267,7 +4267,7 @@ public partial class TfxHS : TFixedVisibleHS
                                         var path = FPath[count8 - 1];
                                         var count9 = FPath.Count;
                                         HPtoHX(FPath[count9 - 1].X, path.Y, ref J, ref K);
-                                        var mapField = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K];
+                                        var mapField = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K];
                                         ((TTacticalCombatUnit)FTarget).FUnitHS.MoveTo(mapField, 0);
                                         ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetX = 0;
                                         ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetY = 0;
@@ -4278,7 +4278,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 }
                                 else
                                 {
-                                    if (AoWTC.AoWCombatMap.FPlaySounds && (FFrame == FTargetX || FFrame == FTargetY))
+                                    if (AoWTCUnit.AoWCombatMap.FPlaySounds && (FFrame == FTargetX || FFrame == FTargetY))
                                     {
                                         if (FAbilityIndex == 52)
                                         {
@@ -4325,7 +4325,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                                         if (condition)
                                         {
-                                            Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(360);
@@ -4349,7 +4349,7 @@ public partial class TfxHS : TFixedVisibleHS
                         switch (FFrame)
                         {
                             case >= 0 and <= 99:
-                                if (FFrame == 0 && AoWTC.AoWCombatMap.FPlaySounds)
+                                if (FFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
@@ -4369,7 +4369,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J - 1;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(25) + 25) / 10);
@@ -4392,7 +4392,7 @@ public partial class TfxHS : TFixedVisibleHS
                                     case 94:
                                     case 97:
                                     case 99:
-                                        if (AoWTC.AoWCombatMap.FPlaySounds)
+                                        if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                                         {
                                             if (FAbilityIndex == 52)
                                             {
@@ -4410,7 +4410,7 @@ public partial class TfxHS : TFixedVisibleHS
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(50) + 50) / 10);
@@ -4431,10 +4431,10 @@ public partial class TfxHS : TFixedVisibleHS
                                 {
                                     var path = FPath[0];
                                     HPtoHX(FPath[0].X, path.Y, ref I, ref J);
-                                    AoWTC.AoWCombatMap.CenterViewTo(I, J - 3, 0);
+                                    AoWTCUnit.AoWCombatMap.CenterViewTo(I, J - 3, 0);
                                 }
 
-                                if (AoWTC.AoWCombatMap.FPlaySounds)
+                                if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
@@ -4458,7 +4458,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J - 1;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(50) + 25) / 10);
@@ -4475,7 +4475,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(50) + 50) / 10);
@@ -4508,7 +4508,7 @@ public partial class TfxHS : TFixedVisibleHS
                                         int limit = I / 25;
                                         for (; J <= limit; J += 1)
                                         {
-                                            Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(360);
@@ -4531,7 +4531,7 @@ public partial class TfxHS : TFixedVisibleHS
                                         int last = I / 25;
                                         for (; J <= last; J += 1)
                                         {
-                                            Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(360);
@@ -4545,7 +4545,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                                 if (FFrame % 5 == 0 && FFrame < 85)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxDecayComet);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxDecayComet);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     var pathY = FPath[0];
@@ -4578,7 +4578,7 @@ public partial class TfxHS : TFixedVisibleHS
                                     CenterHNtoHX(FTargetX, FTargetY, (FFrame - 50) / 5, ref J, ref K);
                                     // { Original swaps the converted hex coordinates. }
                                     HXtoHP(J, K, ref X, ref Y);
-                                    UnitHS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].FindOwnedChild(2228484);
+                                    UnitHS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].FindOwnedChild(2228484);
                                     if (UnitHS != null && UnitHS.FUnit.GetSide() != FTarget.GetSide())
                                     {
                                         Effect.FTarget = UnitHS.FUnit;
@@ -4702,7 +4702,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                         if (FPath[FFrame].Z == 15)
                         {
-                            if (AoWTC.AoWCombatMap.FPlaySounds)
+                            if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                             {
                                 if (FAbilityIndex == 52)
                                 {
@@ -4717,13 +4717,13 @@ public partial class TfxHS : TFixedVisibleHS
                             var pathY = FPath[FFrame];
                             var pathZ = FPath[FFrame];
                             HPtoHX(FPath[FFrame].X, pathY.Y - pathZ.Z, ref I, ref J);
-                            AoWTC.AoWCombatMap.MakeVisible(I, J, 0, 3);
+                            AoWTCUnit.AoWCombatMap.MakeVisible(I, J, 0, 3);
                         }
 
                         break;
                     case TfxType.fxTouch:
                     case TfxType.fxEffect:
-                        if (FFrame == 0 && AoWTC.AoWCombatMap.FPlaySounds && FAbilityIndex == 65)
+                        if (FFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds && FAbilityIndex == 65)
                         {
                             AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
                         }
@@ -4742,7 +4742,7 @@ public partial class TfxHS : TFixedVisibleHS
                             var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
                             if (FFrame >= totalSequenceFrames - 1)
                             {
-                                if (AoWTC.AoWCombatMap.FPlaySounds)
+                                if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
@@ -4926,29 +4926,29 @@ public partial class TfxHS : TFixedVisibleHS
                             case 0:
                                 var xyz = new TXYZ();
                                 FPath.Add(xyz);
-                                FPath[0].X = AoWTC.AoWCombatMap.ViewXhp;
-                                FPath[0].Y = AoWTC.AoWCombatMap.ViewYhp;
+                                FPath[0].X = AoWTCUnit.AoWCombatMap.ViewXhp;
+                                FPath[0].Y = AoWTCUnit.AoWCombatMap.ViewYhp;
                                 break;
                             case >= 1 and <= 29:
                                 var pathY = FPath[0];
                                 var random = Random(FFrame / 3);
                                 var pathX = FPath[0];
                                 var random2 = Random(FFrame / 3);
-                                AoWTC.AoWCombatMap.ChangeViewTo(pathX.X + random2 - FFrame / 6, pathY.Y + random - FFrame / 6, AoWTC.AoWCombatMap.ViewL);
+                                AoWTCUnit.AoWCombatMap.ChangeViewTo(pathX.X + random2 - FFrame / 6, pathY.Y + random - FFrame / 6, AoWTCUnit.AoWCombatMap.ViewL);
                                 break;
                             case >= 30 and <= 89:
                                 var path = FPath[0];
                                 var random3 = Random(10);
                                 var path2 = FPath[0];
                                 var random4 = Random(10);
-                                AoWTC.AoWCombatMap.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, AoWTC.AoWCombatMap.ViewL);
+                                AoWTCUnit.AoWCombatMap.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, AoWTCUnit.AoWCombatMap.ViewL);
                                 break;
                             case >= 90 and <= 119:
                                 var path3 = FPath[0];
                                 var random5 = Random((119 - FFrame) / 3);
                                 var path4 = FPath[0];
                                 var random6 = Random((119 - FFrame) / 3);
-                                AoWTC.AoWCombatMap.ChangeViewTo(path4.X + random6 - (119 - FFrame) / 6, path3.Y + random5 - (119 - FFrame) / 6, AoWTC.AoWCombatMap.ViewL);
+                                AoWTCUnit.AoWCombatMap.ChangeViewTo(path4.X + random6 - (119 - FFrame) / 6, path3.Y + random5 - (119 - FFrame) / 6, AoWTCUnit.AoWCombatMap.ViewL);
                                 break;
                             case 120:
                                 FFrame = -1;
@@ -5024,14 +5024,14 @@ public partial class TfxHS : TFixedVisibleHS
                             case 95:
                             {
                                 I = 0;
-                                int last = AoWTC.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                int last = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
                                 for (; I <= last; I += 1)
                                 {
-                                    if (AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                    if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
                                     {
-                                        Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                        var yhx = ((TTacticalCombatUnit)AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                        HXtoHP(((TTacticalCombatUnit)AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        var yhx = ((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                                        HXtoHP(((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
                                         J = Random(20) + (J + 6);
                                         K = Random(20) + (K + 6);
                                         MakeLinePath(J, K - 100, J, K, 50, ref Effect.FPath);
@@ -5045,21 +5045,21 @@ public partial class TfxHS : TFixedVisibleHS
                             case 100:
                             {
                                 I = 0;
-                                int last = AoWTC.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                int last = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
                                 for (; I <= last; I += 1)
                                 {
-                                    if (AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                    if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
                                     {
-                                        Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxPrayerGlow);
-                                        var yhx = ((TTacticalCombatUnit)AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                        HXtoHP(((TTacticalCombatUnit)AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxPrayerGlow);
+                                        var yhx = ((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                                        HXtoHP(((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
                                         var xyz = new TXYZ();
                                         Effect.FPath.Add(xyz);
                                         Effect.FPath[0].X = J + 16;
                                         Effect.FPath[0].Y = K + 16;
                                         Effect.FAbilityIndex = FAbilityIndex;
                                         Effect.FSpellIndex = FSpellIndex;
-                                        var combatObject = AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                        var combatObject = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
                                         Effect.FTarget = combatObject;
                                     }
                                 }
@@ -5095,7 +5095,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 FFrame = -1;
                                 if (FTarget != null && FTarget.GetEnabled())
                                 {
-                                    if (AoWTC.AoWCombatMap.FPlaySounds)
+                                    if (AoWTCUnit.AoWCombatMap.FPlaySounds)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
@@ -5118,7 +5118,7 @@ public partial class TfxHS : TFixedVisibleHS
 
                                 break;
                             case >= 0 and <= 99:
-                                if (AoWTC.AoWCombatMap.FPlaySounds && FFrame % 30 == 29)
+                                if (AoWTCUnit.AoWCombatMap.FPlaySounds && FFrame % 30 == 29)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
@@ -5143,7 +5143,7 @@ public partial class TfxHS : TFixedVisibleHS
                                 int last = J - 1;
                                 for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                                     Effect.FAbilityIndex = FAbilityIndex;
                                     Effect.FSpellIndex = FSpellIndex;
                                     Speed = (float)((double)(Random(10) + 10) / 10);
@@ -5204,9 +5204,9 @@ public partial class TCItemHS : TItemHS
         TItemHS ItemHS;
         TECustomNode Items;
         FItems.FOnChanged = null;
-        if (AoWTC.AoWCombatMap.FCombat.FExplorationSite == 1)
+        if (AoWTCUnit.AoWCombatMap.FCombat.FExplorationSite == 1)
         {
-            Items = (TECustomNode)AoWTC.AoWCombatMap.FCombat.FItems;
+            Items = (TECustomNode)AoWTCUnit.AoWCombatMap.FCombat.FItems;
             for (int I = FItems.GetCount() - 1; I >= 0; I--)
             {
                 FItems.GetItem(I).SetOwner(Items);
@@ -5214,11 +5214,11 @@ public partial class TCItemHS : TItemHS
         }
         else
         {
-            ItemHS = (TItemHS)AoWHSMap.MapContainer.GetField(AoWTC.AoWCombatMap.FCombat.FCombatData.FX, AoWTC.AoWCombatMap.FCombat.FCombatData.FY, AoWTC.AoWCombatMap.FCombat.FCombatData.FL).FindOwnedChild(131697);
+            ItemHS = (TItemHS)AoWHSMap.MapContainer.GetField(AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FX, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FY, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FL).FindOwnedChild(131697);
             if (ItemHS == null)
             {
                 ItemHS = new TItemHS(null);
-                AoWHSMap.PlaceHX(ItemHS, AoWTC.AoWCombatMap.FCombat.FCombatData.FX, AoWTC.AoWCombatMap.FCombat.FCombatData.FY, AoWTC.AoWCombatMap.FCombat.FCombatData.FL);
+                AoWHSMap.PlaceHX(ItemHS, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FX, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FY, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FL);
             }
 
             for (int I = FItems.GetCount() - 1; I >= 0; I--)
@@ -5281,11 +5281,11 @@ public partial class TUnitPositionHS : TSingleHS
     {
         TXYL P = default;
         base.Activate();
-        if (AoWTC.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting) && AoWTC.AoWCombatMap.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex))
+        if (AoWTCUnit.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting) && AoWTCUnit.AoWCombatMap.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex))
         {
             var yhx = GetYhx();
             var packXYL = PackXYL(GetXhx(), yhx, 0);
-            AoWTC.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
+            AoWTCUnit.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
             FImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCUNITS.ILB");
             UpdateImageIndex();
         }
@@ -5295,7 +5295,7 @@ public partial class TUnitPositionHS : TSingleHS
             P.Y = GetYhx();
             P.L = 0;
             P.Flag = (sbyte)FDirection;
-            AoWTC.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, P);
+            AoWTCUnit.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, P);
             Destroy();
         }
     }
@@ -5306,12 +5306,12 @@ public partial class TUnitPositionHS : TSingleHS
         if (Activated() && ((TMapLevel)((TMapField)Owner).Owner).Map.Status.Contains(THSMapStatusElement.msEditting))
         {
             AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCUNITS.ILB");
-            var unitPosition = AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
+            var unitPosition = AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
             var xhx = GetXhx();
             bool condition = unitPosition.X == xhx;
             if (condition)
             {
-                var fUnitPositionsUnitPosition = AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
+                var fUnitPositionsUnitPosition = AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
                 var yhx = GetYhx();
                 condition = fUnitPositionsUnitPosition.Y == yhx;
             }
@@ -5319,7 +5319,7 @@ public partial class TUnitPositionHS : TSingleHS
             if (condition)
             {
                 var packXYL = PackXYL(-1, -1, -1);
-                AoWTC.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
+                AoWTCUnit.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
             }
         }
 
@@ -5327,7 +5327,7 @@ public partial class TUnitPositionHS : TSingleHS
     }
 
     // AoWTC.pas:5068
-    public override bool CanPlace(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Map.GetField(Xhx, Yhx, Lhx).FindOwnedChild(2228483) == null && AoWTC.AoWCombatMap.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex);
+    public override bool CanPlace(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Map.GetField(Xhx, Yhx, Lhx).FindOwnedChild(2228483) == null && AoWTCUnit.AoWCombatMap.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex);
 
     // AoWTC.pas:5026
     public void UpdateImageIndex()
@@ -5472,11 +5472,11 @@ public partial class TCCorpseHS : TSingleHS
             {
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
+                if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
                 {
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    AoWTC.AoWCombatMap.MakeVisible(xhx2, yhx2, 0, 5);
+                    AoWTCUnit.AoWCombatMap.MakeVisible(xhx2, yhx2, 0, 5);
                     var yhx3 = GetYhx();
                     HXtoHP(GetXhx(), yhx3, ref X, ref Y);
                     for (int Ring = 1; Ring <= 3; Ring++)
@@ -5486,7 +5486,7 @@ public partial class TCCorpseHS : TSingleHS
                         DY = Random(20) + Ring * 30;
                         for (int I = 0; I <= 17; I++)
                         {
-                            Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                             Effect.FAbilityIndex = 52;
                             Effect.FSpellIndex = Msg.Param[1].Value;
                             DX = -DX;
@@ -5520,14 +5520,14 @@ public partial class TCCorpseHS : TSingleHS
             {
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
+                if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
                 {
                     var yhx2 = GetYhx();
                     HXtoHP(GetXhx(), yhx2, ref X, ref Y);
                     N = Random(6) + 25;
                     for (int I = 1; I <= N - 1; I++)
                     {
-                        Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                         Effect.FAbilityIndex = 52;
                         Effect.FSpellIndex = Msg.Param[1].Value;
                         // { Original uses this smaller value for horizontal speed. }
@@ -5543,13 +5543,13 @@ public partial class TCCorpseHS : TSingleHS
                         case 130:
                             RandSeed = AoWHSMap.Random(16777215);
                             AnimateAction = AoWHSSet.FSpellControl.GetSpell(130).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
-                            AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(AnimateAction);
+                            AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(AnimateAction);
                             AnimateAction.Release();
                             break;
                         case 129:
                             RandSeed = AoWHSMap.Random(16777215);
                             RaiseAction = AoWHSSet.FSpellControl.GetSpell(129).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
-                            AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(RaiseAction);
+                            AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(RaiseAction);
                             RaiseAction.Release();
                             break;
                     }
@@ -5561,7 +5561,7 @@ public partial class TCCorpseHS : TSingleHS
                         UnitHS.SetDirection((byte)(Random(6) + 1));
                         var yhx3 = GetYhx();
                         var xhx2 = GetXhx();
-                        AoWTC.AoWCombatMap.PlaceHX(UnitHS, xhx2, yhx3, 0);
+                        AoWTCUnit.AoWCombatMap.PlaceHX(UnitHS, xhx2, yhx3, 0);
                     }
 
                     this.Free();
@@ -5576,7 +5576,7 @@ public partial class TCCorpseHS : TSingleHS
         base.Activate();
         if (FSequenceIndex > -1)
         {
-            AoWTC.AoWCombatMap.NewFrameEvents.Add(NewFrame);
+            AoWTCUnit.AoWCombatMap.NewFrameEvents.Add(NewFrame);
         }
 
         FUnitGFX.AddRef();
@@ -5586,7 +5586,7 @@ public partial class TCCorpseHS : TSingleHS
     // AoWTC.pas:3966
     public override void Deactivate()
     {
-        AoWTC.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
+        AoWTCUnit.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
         FUnitGFX.Release();
         base.Deactivate();
     }
@@ -5709,13 +5709,13 @@ public partial class TUnitPositionControl : TEObject
         {
             L = Msg.Data[1];
             HPtoHX(Msg.Value, Msg.Data[0], ref X, ref Y);
-            if (AoWTC.AoWCombatMap.MapContainer.GetField(X, Y, L).TerrainType != 15)
+            if (AoWTCUnit.AoWCombatMap.MapContainer.GetField(X, Y, L).TerrainType != 15)
             {
-                HS = (TUnitPositionHS)AoWTC.AoWCombatMap.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
+                HS = (TUnitPositionHS)AoWTCUnit.AoWCombatMap.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
                 if (HS == null)
                 {
                     HS = new TUnitPositionHS(null);
-                    if (!AoWTC.AoWCombatMap.PlaceHX(HS, X, Y, L))
+                    if (!AoWTCUnit.AoWCombatMap.PlaceHX(HS, X, Y, L))
                     {
                         HS.Free();
                         HS = null;
@@ -5847,10 +5847,10 @@ public partial class TTacticalCombatUnit : TCombatUnit
     }
 
     // AoWTC.pas:2612
-    public override void NewTurn(byte Player)
+    public override void NewTurn(byte CombatPlayer)
     {
-        base.NewTurn(Player);
-        if (Player == (byte)FCombatPlayer && GetEnabled())
+        base.NewTurn(CombatPlayer);
+        if (CombatPlayer == (byte)FCombatPlayer && GetEnabled())
         {
             FMovePoints = GetMoves();
         }
@@ -5898,9 +5898,9 @@ public partial class TTacticalCombatUnit : TCombatUnit
 
                     var yhx = FUnitHS.GetYhx();
                     CenterHNtoHX(FUnitHS.GetXhx(), yhx, Direction, ref X, ref Y);
-                    if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 0 && AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 9)
+                    if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 0 && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 9)
                     {
-                        Blood = new TCBloodHS(AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y]);
+                        Blood = new TCBloodHS(AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y]);
                         Blood.Activate();
                         Blood.FOffsetX = Random(32) - 32;
                         Blood.FOffsetY = Random(32) - 32;
@@ -5923,7 +5923,7 @@ public partial class TTacticalCombatUnit : TCombatUnit
                     MakeHitBlood(this, 100);
                     for (int I = 0; I <= 9; I++)
                     {
-                        Effect = AoWTC.AoWCombatMap.AddEffect(TfxType.fxDecayComet);
+                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxDecayComet);
                         Effect.FAbilityIndex = 52;
                         Effect.FSpellIndex = 106;
                         var yhx = FUnitHS.GetYhx();
@@ -5953,19 +5953,19 @@ public partial class TTacticalCombatUnit : TCombatUnit
                 {
                     var yhx = FUnitHS.GetYhx();
                     var xhx = FUnitHS.GetXhx();
-                    bool condition = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].TerrainType != 0;
+                    bool condition = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].TerrainType != 0;
                     if (condition)
                     {
                         var fUnitHSYhx = FUnitHS.GetYhx();
                         var fUnitHSXhx = FUnitHS.GetXhx();
-                        condition = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx].TerrainType != 9;
+                        condition = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx].TerrainType != 9;
                     }
 
                     if (condition)
                     {
                         var fUnitHSYhx = FUnitHS.GetYhx();
                         var fUnitHSXhx = FUnitHS.GetXhx();
-                        Corpse = new TCCorpseHS(AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx]);
+                        Corpse = new TCCorpseHS(AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx]);
                         Corpse.FUnitGFX = FUnitHS.FUnitGFXResource;
                         Sequence = Corpse.FUnitGFX.FSequences.ImageSequences[30];
                         if (Sequence != null)
@@ -6016,7 +6016,7 @@ public partial class TTacticalCombatUnit : TCombatUnit
                 R = Rect(FUnitHS.GetXhx(), yhx3, xhx2 + 1, yhx2 + 1);
                 FUnitHS.Free();
                 FUnitHS = null;
-                AoWTC.AoWCombatMap.TriggerMapChangedEvent(R, 0);
+                AoWTCUnit.AoWCombatMap.TriggerMapChangedEvent(R, 0);
             }
         }
         else
@@ -6063,7 +6063,7 @@ public partial class TTacticalCombatUnit : TCombatUnit
             CreateFire(false, 50, FUnitHS.GetXhx(), yhx);
         }
 
-        AoWTC.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(FUnitHS);
+        AoWTCUnit.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(FUnitHS);
     }
 
     // intf_P3_01.inc:244
@@ -6112,7 +6112,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4364)
         {
-            if (Msg.HN == 0 && (!AoWTC.AoWCombatMap.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0))
+            if (Msg.HN == 0 && (!AoWTCUnit.AoWCombatMap.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0))
             {
                 if (FUnit.GetPlayer() != 0)
                 {
@@ -6144,7 +6144,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                         SetAction(TTCAction.caHit);
                     }
 
-                    AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SelfDestruct);
+                    AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SelfDestruct);
                     SelfDestruct.Release();
                 }
                 else
@@ -6158,7 +6158,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                             SetAction(TTCAction.caHit);
                         }
 
-                        AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                        AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                         SpellDamage.Release();
                     }
                     else
@@ -6172,7 +6172,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                 SetAction(TTCAction.caHit);
                             }
 
-                            AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                            AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                             SpellDamage.Release();
                         }
                         else
@@ -6186,7 +6186,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                     SetAction(TTCAction.caHit);
                                 }
 
-                                AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(RangedDamage);
+                                AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(RangedDamage);
                                 RangedDamage.Release();
                             }
                             else
@@ -6200,7 +6200,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                         SetAction(TTCAction.caHit);
                                     }
 
-                                    AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                    AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                                     SpellDamage.Release();
                                 }
                                 else
@@ -6214,7 +6214,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                             SetAction(TTCAction.caHit);
                                         }
 
-                                        AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(RangedDamage);
+                                        AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(RangedDamage);
                                         RangedDamage.Release();
                                     }
                                     else
@@ -6228,7 +6228,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                                 SetAction(TTCAction.caHit);
                                             }
 
-                                            AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                            AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                                             SpellDamage.Release();
                                         }
                                         else
@@ -6242,7 +6242,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                                     SetAction(TTCAction.caHit);
                                                 }
 
-                                                AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                                                 SpellDamage.Release();
                                             }
                                             else
@@ -6256,7 +6256,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                                         SetAction(TTCAction.caHit);
                                                     }
 
-                                                    AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                    AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                                                     SpellDamage.Release();
                                                 }
                                                 else
@@ -6270,7 +6270,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                                             SetAction(TTCAction.caHit);
                                                         }
 
-                                                        AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                        AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                                                         SpellDamage.Release();
                                                     }
                                                     else
@@ -6284,7 +6284,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                                                 SetAction(TTCAction.caHit);
                                                             }
 
-                                                            AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                            AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                                                             SpellDamage.Release();
                                                         }
                                                         else
@@ -6324,7 +6324,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                                                                     SetAction(TTCAction.caHit);
                                                                                 }
 
-                                                                                AoWTC.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                                                AoWTCUnit.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
                                                                                 SpellDamage.Release();
                                                                             }
                                                                         }
@@ -6360,7 +6360,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
             MoveResult.Done = true;
             var yhx = GetYhx();
             var xhx = GetXhx();
-            Movement = (TMovementHS)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228490);
+            Movement = (TMovementHS)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228490);
             if (Movement != null && Movement.FEnabled)
             {
                 if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == FUnit.GetSide())
@@ -6381,7 +6381,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 return;
             }
 
-            if (!((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmaiMove) && !((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmMoveRanged) && AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() >= 2)
+            if (!((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmaiMove) && !((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmMoveRanged) && AoWTCUnit.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() >= 2)
             {
                 return;
             }
@@ -6474,7 +6474,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
 
             if (((TCombatMoveControl)Info.Sender).FDestinationX >= 0 && ((TCombatMoveControl)Info.Sender).FDestinationY >= 0 && dHXtoRad(X, Y, ((TCombatMoveControl)Info.Sender).FDestinationX, ((TCombatMoveControl)Info.Sender).FDestinationY) <= 1)
             {
-                if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[((TCombatMoveControl)Info.Sender).FDestinationX, ((TCombatMoveControl)Info.Sender).FDestinationY].FindOwnedChild(2228484) != null)
+                if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[((TCombatMoveControl)Info.Sender).FDestinationX, ((TCombatMoveControl)Info.Sender).FDestinationY].FindOwnedChild(2228484) != null)
                 {
                     return;
                 }
@@ -6497,14 +6497,14 @@ public partial class TTacticalCombatUnitHS : TUnitHS
         SetUnitGFXResourceIndex(FUnit.FUnit.GetUnitGFXResourceIndex());
         FAbilities = new TList();
         CreateTCAbList();
-        AoWTC.AoWCombatMap.NewFrameEvents.Add(NewFrame);
-        if (AoWTC.AoWCombatMap.FExplorationEnabled)
+        AoWTCUnit.AoWCombatMap.NewFrameEvents.Add(NewFrame);
+        if (AoWTCUnit.AoWCombatMap.FExplorationEnabled)
         {
             var player = FUnit.GetPlayer();
             var visibilityRange = FUnit.GetVisibilityRange();
             var yhx = GetYhx();
             var xhx = GetXhx();
-            AoWTC.AoWCombatMap.ExploreArea(xhx, yhx, 0, player, visibilityRange);
+            AoWTCUnit.AoWCombatMap.ExploreArea(xhx, yhx, 0, player, visibilityRange);
         }
 
         FActionFrame = -1;
@@ -6515,9 +6515,9 @@ public partial class TTacticalCombatUnitHS : TUnitHS
     // AoWTC.pas:3339
     public override void Deactivate()
     {
-        if (AoWTC.AoWCombatMap != null)
+        if (AoWTCUnit.AoWCombatMap != null)
         {
-            AoWTC.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
+            AoWTCUnit.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
         }
 
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
@@ -6551,15 +6551,15 @@ public partial class TTacticalCombatUnitHS : TUnitHS
         base.Select();
         CreateTCAbList();
         FSelectedAbility = -1;
-        if (AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS() != this)
+        if (AoWTCUnit.AoWCombatMap.FUnitSelection.GetTCUnitHS() != this)
         {
-            AoWTC.AoWCombatMap.FUnitSelection.SetTCUnitHS(this);
+            AoWTCUnit.AoWCombatMap.FUnitSelection.SetTCUnitHS(this);
         }
 
         FUnitGFXResource.FSFXLibraries[0].Play(0);
-        if (AoWTC.AoWCombatMap.FSeatedCombatPlayer == FUnit.FCombatPlayer)
+        if (AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == FUnit.FCombatPlayer)
         {
-            AoWTC.AoWCombatMap.FPlayers.GetPlayers(AoWTC.AoWCombatMap.FSeatedCombatPlayer).FLastUnit = FUnit;
+            AoWTCUnit.AoWCombatMap.FPlayers.GetPlayers(AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer).FLastUnit = FUnit;
         }
     }
 
@@ -6567,11 +6567,11 @@ public partial class TTacticalCombatUnitHS : TUnitHS
     public override void Unselect()
     {
         base.Unselect();
-        if (AoWTC.AoWCombatMap != null)
+        if (AoWTCUnit.AoWCombatMap != null)
         {
-            if (AoWTC.AoWCombatMap.FUnitSelection.GetTCUnitHS() == this)
+            if (AoWTCUnit.AoWCombatMap.FUnitSelection.GetTCUnitHS() == this)
             {
-                AoWTC.AoWCombatMap.FUnitSelection.Unselect();
+                AoWTCUnit.AoWCombatMap.FUnitSelection.Unselect();
             }
         }
     }
@@ -6638,11 +6638,11 @@ public partial class TTacticalCombatUnitHS : TUnitHS
     {
         int Index;
         string Reason = "";
-        AoWTC.AoWCombatMap.FUnitSelection.DeactivateRangedPath();
+        AoWTCUnit.AoWCombatMap.FUnitSelection.DeactivateRangedPath();
         FSelectedAbility = -1;
         int Result = -1;
         Index = -1;
-        if (AoWTC.AoWCombatMap.FCurrentCombatPlayer == AoWTC.AoWCombatMap.FSeatedCombatPlayer)
+        if (AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer)
         {
             for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
             {
@@ -6652,7 +6652,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 }
             }
 
-            if (!FUnit.GetLocked() && FUnit.FMovePoints > 0 && FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FCurrentCombatPlayer && Index < FCombatAbilityCount && Index > -1)
+            if (!FUnit.GetLocked() && FUnit.FMovePoints > 0 && FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer && Index < FCombatAbilityCount && Index > -1)
             {
                 if (AbilityID == 52)
                 {
@@ -6673,22 +6673,22 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                         {
                             if (AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == TCombatMode.cmShortRange)
                             {
-                                AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 4;
+                                AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 4;
                             }
                             else
                             {
                                 if (AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == TCombatMode.cmMediumRange)
                                 {
-                                    AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 8;
+                                    AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 8;
                                 }
                                 else
                                 {
-                                    AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 12;
+                                    AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 12;
                                 }
                             }
 
-                            AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS.FSelection = AoWTC.AoWCombatMap.FUnitSelection;
-                            AoWTC.AoWCombatMap.DynamicFixedVisibleHS.AddChild(AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS);
+                            AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS.FSelection = AoWTCUnit.AoWCombatMap.FUnitSelection;
+                            AoWTCUnit.AoWCombatMap.DynamicFixedVisibleHS.AddChild(AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS);
                             FSelectedAbility = AbilityID;
                             Result = Index;
                         }
@@ -6702,15 +6702,15 @@ public partial class TTacticalCombatUnitHS : TUnitHS
             }
         }
 
-        for (int I = 0, last = AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = AoWTCUnit.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
         {
-            var moveSettings = AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
+            var moveSettings = AoWTCUnit.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
             moveSettings.FPath.Clear();
         }
 
-        AoWTC.AoWCombatMap.FUnitSelection.FRangedPath.Clear();
-        AoWTC.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
-        AoWTC.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(this);
+        AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPath.Clear();
+        AoWTCUnit.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
+        AoWTCUnit.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(this);
         return Result;
     }
 
@@ -6718,33 +6718,33 @@ public partial class TTacticalCombatUnitHS : TUnitHS
     public int SelectSpell(int SpellID)
     {
         TSpellCombatInfo Info = default;
-        AoWTC.AoWCombatMap.FUnitSelection.DeactivateRangedPath();
+        AoWTCUnit.AoWCombatMap.FUnitSelection.DeactivateRangedPath();
         FSelectedSpell = SpellID;
         AoWHSSet.FSpellControl.GetSpell(FSelectedSpell).GetCombatInfo(FUnit.FUnit, ref Info);
         if (Info.Range != 0)
         {
             if (Info.Range == -1)
             {
-                AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 100;
+                AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 100;
             }
             else
             {
-                AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = (ushort)Info.Range;
+                AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = (ushort)Info.Range;
             }
 
-            AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS.FSelection = AoWTC.AoWCombatMap.FUnitSelection;
-            AoWTC.AoWCombatMap.DynamicFixedVisibleHS.AddChild(AoWTC.AoWCombatMap.FUnitSelection.FRangedPathHS);
+            AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS.FSelection = AoWTCUnit.AoWCombatMap.FUnitSelection;
+            AoWTCUnit.AoWCombatMap.DynamicFixedVisibleHS.AddChild(AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPathHS);
         }
 
         int Result = SpellID;
-        for (int I = 0, last = AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = AoWTCUnit.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
         {
-            var moveSettings = AoWTC.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
+            var moveSettings = AoWTCUnit.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
             moveSettings.FPath.Clear();
         }
 
-        AoWTC.AoWCombatMap.FUnitSelection.FRangedPath.Clear();
-        switch (AoWTC.SpellTypes[SpellID])
+        AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPath.Clear();
+        switch (AoWTCUnit.SpellTypes[SpellID])
         {
             case TfxType.fxScreenNESW:
             case TfxType.fxSacredWrath:
@@ -6757,8 +6757,8 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 break;
         }
 
-        AoWTC.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
-        AoWTC.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(this);
+        AoWTCUnit.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
+        AoWTCUnit.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(this);
         return Result;
     }
 
@@ -6960,11 +6960,11 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         TSet<TCombatTargetTypeElement> Targets;
         TSpellCombatInfo SpellInfo = default;
         TAbilityCombatInfo AbilityInfo = default;
-        if (AoWTC.AoWCombatMap.FSeatedCombatPlayer == AoWTC.AoWCombatMap.FCurrentCombatPlayer)
+        if (AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer)
         {
-            if (!AoWTC.AoWCombatMap.FPlayers.GetPlayers(AoWTC.AoWCombatMap.FCurrentCombatPlayer).FAuto)
+            if (!AoWTCUnit.AoWCombatMap.FPlayers.GetPlayers(AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer).FAuto)
             {
-                if (AoWTC.AoWCombatMap.Mouse.Button == TMouseButton.mbRight)
+                if (AoWTCUnit.AoWCombatMap.Mouse.Button == TMouseButton.mbRight)
                 {
                     if (GetTCUnitHS() != null && GetTCUnitHS().FSelectedAbility > -1)
                     {
@@ -6976,32 +6976,32 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 }
                 else
                 {
-                    if (AoWTC.AoWCombatMap.Mouse.Shift.Contains(TShiftState.ssShift))
+                    if (AoWTCUnit.AoWCombatMap.Mouse.Shift.Contains(TShiftState.ssShift))
                     {
                         if (FMoveSettingsList.GetCount() == 1 && FMoveSettingsList.GetMoveSettings(0).FPath.Count != 0)
                         {
                             var pathL = FMoveSettingsList.GetMoveSettings(0).FPath[0];
                             var pathY = FMoveSettingsList.GetMoveSettings(0).FPath[0];
                             var pathX = FMoveSettingsList.GetMoveSettings(0).FPath[0];
-                            if (!ValidMultiMoveSelection((TAoWMapField)AoWTC.AoWCombatMap.MapContainer.GetField(pathX.X, pathY.Y, pathL.L)))
+                            if (!ValidMultiMoveSelection((TAoWMapField)AoWTCUnit.AoWCombatMap.MapContainer.GetField(pathX.X, pathY.Y, pathL.L)))
                             {
                                 return;
                             }
                         }
 
-                        if (AoWTC.AoWCombatMap.Mouse.Xhx != -1)
+                        if (AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1)
                         {
-                            var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                            var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                            UnitHS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL).FindOwnedChild(2228484);
-                            if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedCombatPlayer)
+                            var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                            var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                            UnitHS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL).FindOwnedChild(2228484);
+                            if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer)
                             {
                                 Index = FMoveSettingsList.IndexOfMoveObject(UnitHS);
                                 if (Index == -1)
                                 {
                                     AddUnit(UnitHS);
                                     Update();
-                                    AoWTC.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                                    AoWTCUnit.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
                                     if (UnitHS.FUnit.GetLocked())
                                     {
                                         var indexOfMoveObject = FMoveSettingsList.IndexOfMoveObject(UnitHS);
@@ -7037,21 +7037,21 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     }
                     else
                     {
-                        if (AoWTC.AoWCombatMap.Mouse.Shift.Contains(TShiftState.ssCtrl))
+                        if (AoWTCUnit.AoWCombatMap.Mouse.Shift.Contains(TShiftState.ssCtrl))
                         {
-                            if (FMoveSettingsList.GetCount() > 0 && AoWTC.AoWCombatMap.Mouse.Xhx != -1)
+                            if (FMoveSettingsList.GetCount() > 0 && AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1)
                             {
-                                var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                                UnitHS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL).FindOwnedChild(2228484);
-                                if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedCombatPlayer)
+                                var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                                UnitHS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL).FindOwnedChild(2228484);
+                                if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer)
                                 {
                                     Index = FMoveSettingsList.IndexOfMoveObject(UnitHS);
                                     if (Index == -1)
                                     {
                                         AddUnit(UnitHS);
                                         Update();
-                                        AoWTC.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                                        AoWTCUnit.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
                                         if (UnitHS.FUnit.GetLocked())
                                         {
                                             var indexOfMoveObject = FMoveSettingsList.IndexOfMoveObject(UnitHS);
@@ -7092,13 +7092,13 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                         }
                         else
                         {
-                            if (AoWTC.AoWCombatMap.Mouse.Xhx != -1)
+                            if (AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1)
                             {
                                 if (GetTCUnitHS() != null)
                                 {
-                                    var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                    var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                                    UnitHS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL).FindOwnedChild(2228484);
+                                    var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                    var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                                    UnitHS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL).FindOwnedChild(2228484);
                                     if (GetTCUnitHS().FSelectedAbility == -1)
                                     {
                                         Targets = TSet<TCombatTargetTypeElement>.Of(TCombatTargetTypeElement.cttEnemy);
@@ -7130,8 +7130,8 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                                         var player = GetTCUnitHS().FUnit.GetPlayer();
                                         if (UnitHS.FUnit.GetPlayer() == player && !Targets.Contains(TCombatTargetTypeElement.cttFriend))
                                         {
-                                            AoWTC.AoWCombatMap.Selection.UnselectLocation();
-                                            AoWTC.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                                            AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
+                                            AoWTCUnit.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
                                         }
                                         else
                                         {
@@ -7162,13 +7162,13 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         }
         else
         {
-            var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-            var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-            UnitHS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL).FindOwnedChild(2228484);
-            AoWTC.AoWCombatMap.Selection.UnselectLocation();
-            if (UnitHS != null && AoWTC.AoWCombatMap.Mouse.Button == TMouseButton.mbLeft)
+            var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+            var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+            UnitHS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL).FindOwnedChild(2228484);
+            AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
+            if (UnitHS != null && AoWTCUnit.AoWCombatMap.Mouse.Button == TMouseButton.mbLeft)
             {
-                AoWTC.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                AoWTCUnit.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
             }
         }
     }
@@ -7194,13 +7194,13 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                         var path = FMoveSettingsList.GetMoveSettings(I).FPath[moveSettingPath.FPath.Count - 1];
                         var moveSetting = FMoveSettingsList.GetMoveSettings(I);
                         var pathX = FMoveSettingsList.GetMoveSettings(I).FPath[moveSetting.FPath.Count - 1];
-                        AoWTC.AoWCombatMap.PlaceHX(Movement, pathX.X, path.Y, 0);
+                        AoWTCUnit.AoWCombatMap.PlaceHX(Movement, pathX.X, path.Y, 0);
                         Movement.FEnabled = true;
                         Temporary.Add(Movement);
                         Movement = new TMovementHS(null);
                         var pathY = FMoveSettingsList.GetMoveSettings(I).FPath[0];
                         var path2 = FMoveSettingsList.GetMoveSettings(I).FPath[0];
-                        AoWTC.AoWCombatMap.PlaceHX(Movement, path2.X, pathY.Y, 0);
+                        AoWTCUnit.AoWCombatMap.PlaceHX(Movement, path2.X, pathY.Y, 0);
                         Movement.FEnabled = false;
                         Temporary.Add(Movement);
                     }
@@ -7230,7 +7230,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         FMoveControlSettings.FSelection = 0;
         FMoveControlSettings.SetDestinationPos(X, Y, L);
         UnitHS.FUnit.FUnit.CreateMovePointTable(ref FMoveControlSettings.FMovePointTable);
-        AoWTC.AoWCombatMap.FMoveControl.ProcessMove(FMoveControlSettings);
+        AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(FMoveControlSettings);
         FMoveSettingsList.GetMoveSettings(Index).FPath.Assign(FMoveControlSettings.FPath);
         FMoveSettingsList.GetMoveSettings(Index).FMovePoints = UnitHS.FUnit.FMovePoints;
         var moves = UnitHS.FUnit.GetMoves();
@@ -7241,29 +7241,29 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             {
                 var pathY = FMoveControlSettings.FPath[I];
                 var pathX = FMoveControlSettings.FPath[I];
-                bool condition = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508) != null;
+                bool condition = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508) != null;
                 if (!condition)
                 {
                     var path = FMoveControlSettings.FPath[I];
                     var path2 = FMoveControlSettings.FPath[I];
-                    condition = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510) != null;
+                    condition = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510) != null;
                 }
 
                 if (condition)
                 {
                     var path = FMoveControlSettings.FPath[I];
                     var path2 = FMoveControlSettings.FPath[I];
-                    var mapField = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y];
+                    var mapField = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y];
                     moveSettings.FPath.List[I].Flag = FMoveControlSettings.FMovePointTable[mapField.TerrainType][-1 - -1];
                 }
                 else
                 {
                     var path = FMoveControlSettings.FPath[I];
                     var path2 = FMoveControlSettings.FPath[I];
-                    var item = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y];
+                    var item = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y];
                     var path3 = FMoveControlSettings.FPath[I];
                     var path4 = FMoveControlSettings.FPath[I];
-                    var fieldItem = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
+                    var fieldItem = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
                     moveSettings.FPath.List[I].Flag = FMoveControlSettings.FMovePointTable[fieldItem.TerrainType][item.OverlayType - -1];
                 }
             }
@@ -7291,19 +7291,19 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         TCityWall Wall;
         TSpellCombatInfo SpellInfo = default;
         Record_TCombatUnitSelectionControl_UpdateMoveCursor_AbilityInfo_3187_3 AbilityInfo = default;
-        if (AoWTC.AoWCombatMap == null)
+        if (AoWTCUnit.AoWCombatMap == null)
         {
             return;
         }
 
         UnitHS = GetTCUnitHS();
-        AoWTC.AoWCombatMap.Mouse.CursorMode = 0;
-        if (AoWTC.AoWCombatMap.Mouse.Xhx == -1)
+        AoWTCUnit.AoWCombatMap.Mouse.CursorMode = 0;
+        if (AoWTCUnit.AoWCombatMap.Mouse.Xhx == -1)
         {
             return;
         }
 
-        if (AoWTC.AoWCombatMap.Mouse.Yhx == -1)
+        if (AoWTCUnit.AoWCombatMap.Mouse.Yhx == -1)
         {
             return;
         }
@@ -7313,18 +7313,18 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             return;
         }
 
-        var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-        var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-        Field = (TAoWMapField)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL);
-        if (AoWTC.AoWCombatMap.FExplorationEnabled && !Field.GetExplored(AoWTC.AoWCombatMap.FSeatedPlayer))
+        var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+        var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+        Field = (TAoWMapField)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL);
+        if (AoWTCUnit.AoWCombatMap.FExplorationEnabled && !Field.GetExplored(AoWTCUnit.AoWCombatMap.FSeatedPlayer))
         {
             goto FinishCursor;
         }
 
         TargetHS = (TTacticalCombatUnitHS)Field.FindOwnedChild(2228484);
-        if (UnitHS.FUnit.FCombatPlayer != AoWTC.AoWCombatMap.FSeatedCombatPlayer && TargetHS != null)
+        if (UnitHS.FUnit.FCombatPlayer != AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer && TargetHS != null)
         {
-            AoWTC.AoWCombatMap.Mouse.CursorMode = 257;
+            AoWTCUnit.AoWCombatMap.Mouse.CursorMode = 257;
             goto FinishCursor;
         }
 
@@ -7387,8 +7387,8 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 }
             }
 
-            AoWTC.AoWCombatMap.Mouse.CursorMode = 256;
-            AoWTC.AoWCombatMap.Mouse.Cursor = FCursorImage;
+            AoWTCUnit.AoWCombatMap.Mouse.CursorMode = 256;
+            AoWTCUnit.AoWCombatMap.Mouse.Cursor = FCursorImage;
         }
         else
         {
@@ -7396,47 +7396,47 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             {
                 if (TargetHS.FUnit.GetPlayer() == UnitHS.FUnit.GetPlayer())
                 {
-                    AoWTC.AoWCombatMap.Mouse.CursorMode = 257;
+                    AoWTCUnit.AoWCombatMap.Mouse.CursorMode = 257;
                 }
                 else
                 {
                     if (UnitHS.FUnit.GetAbilityEnabled(1) || !TargetHS.FUnit.GetAbilityEnabled(1))
                     {
-                        AoWTC.AoWCombatMap.Mouse.CursorMode = 258;
+                        AoWTCUnit.AoWCombatMap.Mouse.CursorMode = 258;
                     }
                     else
                     {
                         FCursorImage = 89;
-                        AoWTC.AoWCombatMap.Mouse.CursorMode = 256;
-                        AoWTC.AoWCombatMap.Mouse.Cursor = FCursorImage;
+                        AoWTCUnit.AoWCombatMap.Mouse.CursorMode = 256;
+                        AoWTCUnit.AoWCombatMap.Mouse.Cursor = FCursorImage;
                     }
                 }
             }
         }
 
         FinishCursor:
-            if (AoWTC.AoWCombatMap.Mouse.CursorMode != 0)
+            if (AoWTCUnit.AoWCombatMap.Mouse.CursorMode != 0)
             {
                 return;
             }
 
-        if (UnitHS.FUnit.GetPlayer() == AoWTC.AoWCombatMap.FSeatedPlayer)
+        if (UnitHS.FUnit.GetPlayer() == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
         {
             if (GetMoveTypes().Contains(TMoveType.mtWalking))
             {
-                AoWTC.AoWCombatMap.Mouse.Cursor = 64;
+                AoWTCUnit.AoWCombatMap.Mouse.Cursor = 64;
             }
             else
             {
                 if (GetMoveTypes().Contains(TMoveType.mtSwimming))
                 {
-                    AoWTC.AoWCombatMap.Mouse.Cursor = 66;
+                    AoWTCUnit.AoWCombatMap.Mouse.Cursor = 66;
                 }
                 else
                 {
                     if (GetMoveTypes().Contains(TMoveType.mtFlying))
                     {
-                        AoWTC.AoWCombatMap.Mouse.Cursor = 68;
+                        AoWTCUnit.AoWCombatMap.Mouse.Cursor = 68;
                     }
                 }
             }
@@ -7473,12 +7473,12 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 }
             }
 
-            if (Cost <= 0 || AoWTC.AoWCombatMap.FExplorationEnabled && !Field.GetExplored(AoWTC.AoWCombatMap.FSeatedPlayer))
+            if (Cost <= 0 || AoWTCUnit.AoWCombatMap.FExplorationEnabled && !Field.GetExplored(AoWTCUnit.AoWCombatMap.FSeatedPlayer))
             {
-                AoWTC.AoWCombatMap.Mouse.Cursor = AoWTC.AoWCombatMap.Mouse.Cursor + 1;
+                AoWTCUnit.AoWCombatMap.Mouse.Cursor = AoWTCUnit.AoWCombatMap.Mouse.Cursor + 1;
             }
 
-            AoWTC.AoWCombatMap.Mouse.CursorMode = 256;
+            AoWTCUnit.AoWCombatMap.Mouse.CursorMode = 256;
         }
     }
 
@@ -7491,14 +7491,14 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         if (FCurrentMove != -1 && GetTCUnitHS() != null)
         {
             var tcUnitHS = GetTCUnitHS();
-            AoWTC.AoWCombatMap.Selection.TriggerDeselectEvent(tcUnitHS);
+            AoWTCUnit.AoWCombatMap.Selection.TriggerDeselectEvent(tcUnitHS);
         }
 
         base.SetCurrentMove(Value);
         if (FCurrentMove != -1 && GetTCUnitHS() != null)
         {
             var tcUnitHS = GetTCUnitHS();
-            AoWTC.AoWCombatMap.Selection.TriggerSelectEvent(tcUnitHS);
+            AoWTCUnit.AoWCombatMap.Selection.TriggerSelectEvent(tcUnitHS);
         }
     }
 
@@ -7511,7 +7511,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             GetTCUnitHS().FSelectedAbility = -1;
         }
 
-        AoWTC.AoWCombatMap.Selection.UnselectLocation();
+        AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
         DeactivateMoveSelection();
         base.Unselect();
     }
@@ -7538,7 +7538,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     var path = FMoveSettingsList.GetMoveSettings(0).FPath[1];
                     CenterHNtoHX(FMoveSettingsList.GetMoveSettings(0).FPath[1].X, path.Y, I, ref X, ref Y);
                     HXtoHP(X, Y, ref Xhp, ref Yhp);
-                    FTargetImages[0].Show(Xhp - AoWTC.AoWCombatMap.ViewXhp - 8, Yhp - AoWTC.AoWCombatMap.ViewYhp + 2, Surface);
+                    FTargetImages[0].Show(Xhp - AoWTCUnit.AoWCombatMap.ViewXhp - 8, Yhp - AoWTCUnit.AoWCombatMap.ViewYhp + 2, Surface);
                 }
             }
         }
@@ -7602,7 +7602,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         TRect R;
         Units = new TList();
         R = ((TAbstractAoWHSMapMouse)Sender).FSelectionRectangle;
-        Level = AoWTC.AoWCombatMap.MapContainer.MapLevels[AoWTC.AoWCombatMap.ViewL];
+        Level = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[AoWTCUnit.AoWCombatMap.ViewL];
         HPtoHX(R.Left, R.Top, ref X1, ref Y1);
         HPtoHX(R.Right, R.Bottom, ref X2, ref Y2);
         for (int X = X1 - 1, last = X2 + 1; X <= last; X++)
@@ -7616,7 +7616,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 {
                     Field = Level.Field[X, Y];
                     UnitHS = (TTacticalCombatUnitHS)Field.FindOwnedChild(2228484);
-                    if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedCombatPlayer)
+                    if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer)
                     {
                         Units.Add(UnitHS);
                     }
@@ -7627,12 +7627,12 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         if (Units.Count != 0)
         {
             Clear();
-            AoWTC.AoWCombatMap.Selection.UnselectLocation();
+            AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
             for (int I = 0, last = Units.Count - 1; I <= last; I++)
             {
                 AddUnit((TTacticalCombatUnitHS)Units[I]);
                 var unit = Units[I];
-                AoWTC.AoWCombatMap.Selection.SelectLocationHS((THexagonSprite)unit);
+                AoWTCUnit.AoWCombatMap.Selection.SelectLocationHS((THexagonSprite)unit);
             }
 
             if (Units.Count == 1)
@@ -7653,30 +7653,30 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     // AoWTC.pas:2807
     public void MoveSelectionEvent(TObject Sender)
     {
-        if (AoWTC.AoWCombatMap.FSeatedCombatPlayer == AoWTC.AoWCombatMap.FCurrentCombatPlayer)
+        if (AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer)
         {
-            if (AoWTC.AoWCombatMap.Mouse.Capture != this)
+            if (AoWTCUnit.AoWCombatMap.Mouse.Capture != this)
             {
-                AoWTC.AoWCombatMap.Selection.UnselectLocation();
+                AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
             }
             else
             {
-                if (AoWTC.AoWCombatMap.Mouse.Button == TMouseButton.mbRight)
+                if (AoWTCUnit.AoWCombatMap.Mouse.Button == TMouseButton.mbRight)
                 {
                     if (FRangedPath.Count == 0)
                     {
-                        AoWTC.AoWCombatMap.Selection.UnselectLocation();
+                        AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
                     }
                     else
                     {
                         FRangedPath.Clear();
                         FMouseOverTarget = null;
-                        AoWTC.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
+                        AoWTCUnit.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
                     }
                 }
                 else
                 {
-                    if (AoWTC.AoWCombatMap.Mouse.Capture == this && AoWTC.AoWCombatMap.Mouse.Button == TMouseButton.mbLeft)
+                    if (AoWTCUnit.AoWCombatMap.Mouse.Capture == this && AoWTCUnit.AoWCombatMap.Mouse.Button == TMouseButton.mbLeft)
                     {
                         ExecuteMoveSelection();
                     }
@@ -7704,7 +7704,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
 
         FObstacles.Clear();
         UnitHS = GetTCUnitHS();
-        if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 15)
+        if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 15)
         {
             if (UnitHS.FSelectedAbility == 52)
             {
@@ -7761,13 +7761,13 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     case 30:
                     case >= 86 and <= 90:
                         var unitHSYhx = UnitHS.GetYhx();
-                        CenterHNtoHX(UnitHS.GetXhx(), unitHSYhx, AoWTC.BreathHN[AoWTC.BreathDirection[Direction - 1] * 12 - 12], ref NX, ref NY);
+                        CenterHNtoHX(UnitHS.GetXhx(), unitHSYhx, AoWTCUnit.BreathHN[AoWTCUnit.BreathDirection[Direction - 1] * 12 - 12], ref NX, ref NY);
                         break;
                     case 52:
-                        if (AoWTC.SpellTypes[UnitHS.FSelectedSpell] == TfxType.fxBreath)
+                        if (AoWTCUnit.SpellTypes[UnitHS.FSelectedSpell] == TfxType.fxBreath)
                         {
                             var yhx2 = UnitHS.GetYhx();
-                            CenterHNtoHX(UnitHS.GetXhx(), yhx2, AoWTC.BreathHN[AoWTC.BreathDirection[Direction - 1] * 12 - 12], ref NX, ref NY);
+                            CenterHNtoHX(UnitHS.GetXhx(), yhx2, AoWTCUnit.BreathHN[AoWTCUnit.BreathDirection[Direction - 1] * 12 - 12], ref NX, ref NY);
                         }
 
                         break;
@@ -7777,12 +7777,12 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 var yhx3 = GetTCUnitHS().GetYhx();
                 var side = GetTCUnitHS().FUnit.GetSide();
                 var tcUnitHS = GetTCUnitHS();
-                AoWTC.MakeAbilPath(side, (short)GetTCUnitHS().FSelectedAbility, (short)tcUnitHS.FSelectedSpell, xhx, yhx3, (short)NX, (short)NY, ref FRangedPath, ref FObstacles);
+                AoWTCUnit.MakeAbilPath(side, (short)GetTCUnitHS().FSelectedAbility, (short)tcUnitHS.FSelectedSpell, xhx, yhx3, (short)NX, (short)NY, ref FRangedPath, ref FObstacles);
             }
         }
 
         FRangedPathHS.FSelection = this;
-        AoWTC.AoWCombatMap.DynamicFixedVisibleHS.AddChild(FRangedPathHS);
+        AoWTCUnit.AoWCombatMap.DynamicFixedVisibleHS.AddChild(FRangedPathHS);
     }
 
     // AoWTC.pas:2918
@@ -7803,18 +7803,18 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     {
                         var pathY = moveSettings.FPath[0];
                         var pathX = moveSettings.FPath[0];
-                        Target = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2228484);
+                        Target = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2228484);
                     }
                     else
                     {
                         var pathY = moveSettings.FPath[0];
                         var pathX = moveSettings.FPath[0];
-                        Target = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
+                        Target = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
                         if (Target == null)
                         {
                             var path = moveSettings.FPath[0];
                             var path2 = moveSettings.FPath[0];
-                            Target = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
+                            Target = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
                         }
                     }
 
@@ -7871,7 +7871,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     }
                 }
 
-                AoWTC.AoWCombatMap.Selection.UnselectLocation();
+                AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
                 DeactivateMoveSelection();
                 Clear();
             }
@@ -7897,7 +7897,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             if (condition)
             {
                 var path = FMoveSettingsList.GetMoveSettings(0).FPath[0];
-                var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
+                var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
                 condition = path.X == xhx;
             }
 
@@ -7905,7 +7905,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             if (test)
             {
                 var path = FMoveSettingsList.GetMoveSettings(0).FPath[0];
-                var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
+                var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
                 test = path.Y == yhx;
             }
 
@@ -7928,12 +7928,12 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             {
                 if (!AllPathsValid())
                 {
-                    bool notExplorationEnabled = !AoWTC.AoWCombatMap.FExplorationEnabled;
+                    bool notExplorationEnabled = !AoWTCUnit.AoWCombatMap.FExplorationEnabled;
                     if (!notExplorationEnabled)
                     {
-                        var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                        var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                        notExplorationEnabled = ((TAoWMapField)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL)).GetExplored(AoWTC.AoWCombatMap.FSeatedPlayer);
+                        var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                        var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                        notExplorationEnabled = ((TAoWMapField)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL)).GetExplored(AoWTCUnit.AoWCombatMap.FSeatedPlayer);
                     }
 
                     if (notExplorationEnabled)
@@ -7949,12 +7949,12 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                             {
                                 var yhx = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(B).FMoveObject).GetYhx();
                                 var xhx = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(B).FMoveObject).GetXhx();
-                                var mouseYhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                var dHXtoRad2 = dHXtoRad(AoWTC.AoWCombatMap.Mouse.Xhx, mouseYhx, xhx, yhx);
+                                var mouseYhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                var dHXtoRad2 = dHXtoRad(AoWTCUnit.AoWCombatMap.Mouse.Xhx, mouseYhx, xhx, yhx);
                                 var yhx2 = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(A).FMoveObject).GetYhx();
                                 var xhx2 = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(A).FMoveObject).GetXhx();
-                                var yhx3 = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                if (dHXtoRad2 < dHXtoRad(AoWTC.AoWCombatMap.Mouse.Xhx, yhx3, xhx2, yhx2))
+                                var yhx3 = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                if (dHXtoRad2 < dHXtoRad(AoWTCUnit.AoWCombatMap.Mouse.Xhx, yhx3, xhx2, yhx2))
                                 {
                                     FMoveSettingsList.FChildren.Exchange(A, B);
                                 }
@@ -7967,8 +7967,8 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                         }
                         else
                         {
-                            var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                            CalculateMovePath(0, (sbyte)AoWTC.AoWCombatMap.Mouse.Xhx, (sbyte)yhx, (sbyte)AoWTC.AoWCombatMap.ViewL);
+                            var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                            CalculateMovePath(0, (sbyte)AoWTCUnit.AoWCombatMap.Mouse.Xhx, (sbyte)yhx, (sbyte)AoWTCUnit.AoWCombatMap.ViewL);
                         }
 
                         if (FMoveSettingsList.GetMoveSettings(0).FPath.Count > 1)
@@ -8014,7 +8014,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 if (condition)
                 {
                     var path = moveSettings.FPath[0];
-                    var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
+                    var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
                     condition = path.X == xhx;
                 }
 
@@ -8022,11 +8022,11 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 if (test)
                 {
                     var path = moveSettings.FPath[0];
-                    var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
+                    var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
                     test = path.Y == yhx;
                 }
 
-                if (test && moveSettings.FPath[0].L == AoWTC.AoWCombatMap.ViewL)
+                if (test && moveSettings.FPath[0].L == AoWTCUnit.AoWCombatMap.ViewL)
                 {
                     MoveUnits();
                     return;
@@ -8038,24 +8038,24 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                 }
                 else
                 {
-                    var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                    var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                    CalculateMovePath(FCurrentMove, (sbyte)xhx, (sbyte)yhx, (sbyte)AoWTC.AoWCombatMap.ViewL);
+                    var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                    var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                    CalculateMovePath(FCurrentMove, (sbyte)xhx, (sbyte)yhx, (sbyte)AoWTCUnit.AoWCombatMap.ViewL);
                 }
             }
         }
         else
         {
-            if (GetTCUnitHS().FSelectedAbility == -1 && GetTCUnitHS().GetXhx() == AoWTC.AoWCombatMap.Mouse.Xhx && GetTCUnitHS().GetYhx() == AoWTC.AoWCombatMap.Mouse.Yhx)
+            if (GetTCUnitHS().FSelectedAbility == -1 && GetTCUnitHS().GetXhx() == AoWTCUnit.AoWCombatMap.Mouse.Xhx && GetTCUnitHS().GetYhx() == AoWTCUnit.AoWCombatMap.Mouse.Yhx)
             {
                 var lhx = GetTCUnitHS().GetLhx();
                 var yhx = GetTCUnitHS().GetYhx();
                 var xhx = GetTCUnitHS().GetXhx();
-                AoWTC.AoWCombatMap.Selection.SelectLocationHX(xhx, yhx, lhx);
+                AoWTCUnit.AoWCombatMap.Selection.SelectLocationHX(xhx, yhx, lhx);
                 return;
             }
 
-            if (!GetTCUnitHS().FUnit.GetLocked() && AoWHSMap.FTokenManager.PlayerReady(AoWTC.AoWCombatMap.FCurrentPlayer))
+            if (!GetTCUnitHS().FUnit.GetLocked() && AoWHSMap.FTokenManager.PlayerReady(AoWTCUnit.AoWCombatMap.FCurrentPlayer))
             {
                 UnitHS = GetTCUnitHS();
                 if (AllPathsValid())
@@ -8067,14 +8067,14 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     bool condition = FRangedPath.Count > 0;
                     if (condition)
                     {
-                        var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
+                        var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
                         condition = FTargetX == xhx;
                     }
 
                     bool test = condition;
                     if (test)
                     {
-                        var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
+                        var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
                         test = FTargetY == yhx;
                     }
 
@@ -8088,12 +8088,12 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     }
                     else
                     {
-                        if (UnitHS.FSelectedAbility == -1 && UnitHS.GetXhx() == AoWTC.AoWCombatMap.Mouse.Xhx && UnitHS.GetYhx() == AoWTC.AoWCombatMap.Mouse.Yhx)
+                        if (UnitHS.FSelectedAbility == -1 && UnitHS.GetXhx() == AoWTCUnit.AoWCombatMap.Mouse.Xhx && UnitHS.GetYhx() == AoWTCUnit.AoWCombatMap.Mouse.Yhx)
                         {
                             var lhx = UnitHS.GetLhx();
                             var yhx = UnitHS.GetYhx();
                             var xhx = UnitHS.GetXhx();
-                            AoWTC.AoWCombatMap.Selection.SelectLocationHX(xhx, yhx, lhx);
+                            AoWTCUnit.AoWCombatMap.Selection.SelectLocationHX(xhx, yhx, lhx);
                             return;
                         }
 
@@ -8103,18 +8103,18 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                             {
                                 if (UnitHS.FUnit.FMovePoints > 0 && !UnitHS.FUnit.GetLocked())
                                 {
-                                    if (AoWTC.AoWCombatMap.FExplorationEnabled)
+                                    if (AoWTCUnit.AoWCombatMap.FExplorationEnabled)
                                     {
-                                        var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                        var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                                        if (!((TAoWMapField)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL)).GetExplored(AoWTC.AoWCombatMap.FSeatedPlayer))
+                                        var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                        var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                                        if (!((TAoWMapField)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL)).GetExplored(AoWTCUnit.AoWCombatMap.FSeatedPlayer))
                                         {
                                             return;
                                         }
                                     }
 
-                                    var mouseYhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                    var mouseXhx = AoWTC.AoWCombatMap.Mouse.Xhx;
+                                    var mouseYhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                    var mouseXhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
                                     CalculateMovePath(FCurrentMove, (sbyte)mouseXhx, (sbyte)mouseYhx, 0);
                                 }
                             }
@@ -8122,11 +8122,11 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                             {
                                 if (UnitHS.FSelectedAbility == 52)
                                 {
-                                    EffectType = AoWTC.SpellTypes[UnitHS.FSelectedSpell];
+                                    EffectType = AoWTCUnit.SpellTypes[UnitHS.FSelectedSpell];
                                 }
                                 else
                                 {
-                                    EffectType = AoWTC.AbilTypes[UnitHS.FSelectedAbility];
+                                    EffectType = AoWTCUnit.AbilTypes[UnitHS.FSelectedAbility];
                                 }
 
                                 switch (EffectType)
@@ -8135,11 +8135,11 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                                         UnitHS.SelectAbility(-1);
                                         break;
                                     case TfxType.fxTouch:
-                                        if (AoWTC.AoWCombatMap.FExplorationEnabled)
+                                        if (AoWTCUnit.AoWCombatMap.FExplorationEnabled)
                                         {
-                                            var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                            var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                                            if (!((TAoWMapField)AoWTC.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTC.AoWCombatMap.ViewL)).GetExplored(AoWTC.AoWCombatMap.FSeatedPlayer))
+                                            var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                            var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                                            if (!((TAoWMapField)AoWTCUnit.AoWCombatMap.MapContainer.GetField(xhx, yhx, AoWTCUnit.AoWCombatMap.ViewL)).GetExplored(AoWTCUnit.AoWCombatMap.FSeatedPlayer))
                                             {
                                                 return;
                                             }
@@ -8147,21 +8147,21 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
 
                                         if (!UnitHS.FUnit.GetLocked())
                                         {
-                                            var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                            CalculateMovePath(0, (sbyte)AoWTC.AoWCombatMap.Mouse.Xhx, (sbyte)yhx, 0);
+                                            var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                            CalculateMovePath(0, (sbyte)AoWTCUnit.AoWCombatMap.Mouse.Xhx, (sbyte)yhx, 0);
                                         }
 
                                         break;
                                     default:
                                     {
-                                        var yhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                        CalculateRangedPath((sbyte)AoWTC.AoWCombatMap.Mouse.Xhx, (sbyte)yhx);
+                                        var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                        CalculateRangedPath((sbyte)AoWTCUnit.AoWCombatMap.Mouse.Xhx, (sbyte)yhx);
                                         if (FRangedPath.Count > 0)
                                         {
-                                            var mouseYhx = AoWTC.AoWCombatMap.Mouse.Yhx;
-                                            var xhx = AoWTC.AoWCombatMap.Mouse.Xhx;
-                                            FMouseOverTarget = (THexagonSprite)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, mouseYhx].FindOwnedChild(2228484);
-                                            AoWTC.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
+                                            var mouseYhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                            var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                                            FMouseOverTarget = (THexagonSprite)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, mouseYhx].FindOwnedChild(2228484);
+                                            AoWTCUnit.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
                                         }
                                     }
 
@@ -8188,7 +8188,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     {
         if (!FStatus.Contains(TMoveSelectorStatusElement.mssActivated))
         {
-            Activate(AoWTC.AoWCombatMap);
+            Activate(AoWTCUnit.AoWCombatMap);
         }
     }
 
@@ -8200,7 +8200,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             Deactivate();
             FRangedPath.Clear();
             FMoveSettingsList.Clear();
-            AoWTC.AoWCombatMap.MouseMoveEvent(this);
+            AoWTCUnit.AoWCombatMap.MouseMoveEvent(this);
         }
     }
 
@@ -8223,7 +8223,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             if (FMoveSettingsList.GetCount() <= 1)
             {
                 Clear();
-                if (U != null && U.FUnit.GetPlayer() == AoWTC.AoWCombatMap.FSeatedPlayer)
+                if (U != null && U.FUnit.GetPlayer() == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
                 {
                     ActivateMoveSelection();
                     AddUnit(U);
@@ -8244,10 +8244,10 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     // AoWTC.pas:3325
     public void Select(TTacticalCombatUnitHS U)
     {
-        AoWTC.AoWCombatMap.Selection.UnselectLocation();
+        AoWTCUnit.AoWCombatMap.Selection.UnselectLocation();
         if (U != null)
         {
-            AoWTC.AoWCombatMap.Selection.SelectLocationHS(U);
+            AoWTCUnit.AoWCombatMap.Selection.SelectLocationHS(U);
         }
     }
 
@@ -8256,7 +8256,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     {
         if (FRangedPathHS.FSelection != null)
         {
-            AoWTC.AoWCombatMap.DynamicFixedVisibleHS.RemoveChild(FRangedPathHS);
+            AoWTCUnit.AoWCombatMap.DynamicFixedVisibleHS.RemoveChild(FRangedPathHS);
             FRangedPathHS.FSelection = null;
         }
     }
@@ -8279,9 +8279,9 @@ public partial class TTacticalCombatPlayer : TCombatPlayer
     public void SetAuto(bool Value)
     {
         FAuto = Value;
-        if (AoWTC.AoWCombatMap.FSeatedCombatPlayer == FIndex && AoWTC.AoWCombatMap.FSeatedCombatPlayer == AoWTC.AoWCombatMap.FCurrentCombatPlayer)
+        if (AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == FIndex && AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer)
         {
-            AoWTC.AoWCombatMap.FAI.Reset();
+            AoWTCUnit.AoWCombatMap.FAI.Reset();
         }
     }
 
@@ -8369,7 +8369,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         }
 
         base.Destroy();
-        AoWTC.AoWCombatMap = null;
+        AoWTCUnit.AoWCombatMap = null;
         FUnitPositions.Free();
         FChangeTurnEvents.Free();
         FPlayerChangedEvents.Free();
@@ -8388,7 +8388,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     }
 
     // AoWTC.pas:2189
-    private protected sealed override void InitializeBeforeInherited() => AoWTC.AoWCombatMap = this;
+    private protected sealed override void InitializeBeforeInherited() => AoWTCUnit.AoWCombatMap = this;
 
     // AoWTC.pas:2186
     public TAoWCombatMap(TECustomNode owner) : base(owner)
@@ -8576,7 +8576,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
             {
                 HS = new TCItemHS(null);
                 // { Original bug: a failed placement leaves the new item sprite allocated. }
-                if (AoWTC.AoWCombatMap.PlaceHX(HS, X, Y, L))
+                if (AoWTCUnit.AoWCombatMap.PlaceHX(HS, X, Y, L))
                 {
                     Item.SetOwner(HS.FItems);
                 }
@@ -8623,7 +8623,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     public void MouseMoveEvent(TObject Sender)
     {
         TTacticalCombatUnitHS HS;
-        if (!AoWTC.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting) && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Mouse.Xhx != -1 && Mouse.Yhx != -1 && Mouse.Capture == null)
+        if (!AoWTCUnit.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting) && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Mouse.Xhx != -1 && Mouse.Yhx != -1 && Mouse.Capture == null)
         {
             Mouse.CursorMode = 0;
             var yhx = Mouse.Yhx;
@@ -8669,8 +8669,8 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         AoWHSMap.FTokenManager.TokenExecuter.ActivateTC(FCurrentPlayer);
         if (FPlayers.GetPlayers(FCurrentCombatPlayer).FPlayer == 0)
         {
-            var ind = TranslateRStr(AoWTC.IndRStr);
-            var beginRound = TranslateRStr(AoWTC.BeginRoundRStr);
+            var ind = TranslateRStr(AoWTCUnit.IndRStr);
+            var beginRound = TranslateRStr(AoWTCUnit.BeginRoundRStr);
             ShowMessage(ind + " " + beginRound);
         }
         else
@@ -8678,7 +8678,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
             var player = FPlayers.GetPlayers(FCurrentCombatPlayer);
             var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player.FPlayer);
             var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-            var beginRound = TranslateRStr(AoWTC.BeginRoundRStr);
+            var beginRound = TranslateRStr(AoWTCUnit.BeginRoundRStr);
             ShowMessage(raceNamesPlural + " " + beginRound);
         }
 
@@ -8750,7 +8750,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
                 return Result;
             }
 
-            if (AoWTC.AoWCombatMap.FSeatedCombatPlayer != AoWTC.AoWCombatMap.FCurrentCombatPlayer)
+            if (AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer != AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer)
             {
                 return Result;
             }
@@ -8880,7 +8880,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     // AoWTC.pas:2475
     public void UpdateCursor()
     {
-        if (!((FSeatedPlayer == -1 || AoWHSMap.FTokenManager.PlayerReady(FSeatedPlayer)) && FSeatedPlayer == FCurrentPlayer && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && AoWTC.AoWCombatMap.FSeatedCombatPlayer == AoWTC.AoWCombatMap.FCurrentCombatPlayer))
+        if (!((FSeatedPlayer == -1 || AoWHSMap.FTokenManager.PlayerReady(FSeatedPlayer)) && FSeatedPlayer == FCurrentPlayer && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer))
         {
             Mouse.Cursor = (int)(((uint)Frame) >> 2) % 4 + 6;
         }
@@ -8966,7 +8966,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     public void Surrender(sbyte Mode)
     {
         TCEndCombatTE TE;
-        if (AoWHSMap.FTokenManager.PlayerReady(AoWTC.AoWCombatMap.FCurrentPlayer) && FCurrentCombatPlayer == FSeatedCombatPlayer)
+        if (AoWHSMap.FTokenManager.PlayerReady(AoWTCUnit.AoWCombatMap.FCurrentPlayer) && FCurrentCombatPlayer == FSeatedCombatPlayer)
         {
             FUnitSelection.Unselect();
             TE = CreateTCEndCombatTE();
@@ -9108,7 +9108,7 @@ public partial class TTacticalCombat : TCombat
         if (!ValidateWallCombat())
         {
             SetLogCombatActions(1);
-            SetLogbookHeader(AoWE.AoWE.TranslateRStr(AoWE.AoWE.CannotBreachWallRStr));
+            SetLogbookHeader(TranslateRStr(CannotBreachWallRStr));
             FCombatResult = TCombatResult.crCannotBreachWall;
             Result = FCombatResult;
         }
@@ -9117,7 +9117,7 @@ public partial class TTacticalCombat : TCombat
             if (FSides[(int)TCombatSideIndex.csDefender].GetCount() == FSides[(int)TCombatSideIndex.csDefender].FConquerCount)
             {
                 SetLogCombatActions(1);
-                SetLogbookHeader(AoWE.AoWE.TranslateRStr(AoWE.AoWE.CannotInflictDamageRStr));
+                SetLogbookHeader(TranslateRStr(CannotInflictDamageRStr));
                 FCombatResult = TCombatResult.crCannotInflictDamage;
                 Result = FCombatResult;
             }
@@ -9129,42 +9129,42 @@ public partial class TTacticalCombat : TCombat
                 }
                 else
                 {
-                    AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
+                    AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
                     Generator = new TRndTacHsm();
                     Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
                     Generator.Free();
-                    bool condition = AoWE.AoWE.AoWHSMap.FStartingGame || AoWE.AoWE.AoWHSMap.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, AoWE.AoWE.AoWHSMap.FSeatedPlayer);
-                    AoWTC.AoWCombatMap.FPlaySounds = condition;
-                    if (!AoWTC.AoWCombatMap.FPlaySounds)
+                    bool condition = AoWHSMap.FStartingGame || AoWHSMap.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, AoWHSMap.FSeatedPlayer);
+                    AoWTCUnit.AoWCombatMap.FPlaySounds = condition;
+                    if (!AoWTCUnit.AoWCombatMap.FPlaySounds)
                     {
                         for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
                         {
                             var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                            if (AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == TPlayerType.ptHuman)
+                            if (AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == TPlayerType.ptHuman)
                             {
                                 var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                if (AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(player.FPlayer).GetLocal())
+                                if (AoWHSMap.FPlayers.GetPlayers(player.FPlayer).GetLocal())
                                 {
-                                    AoWTC.AoWCombatMap.FPlaySounds = true;
+                                    AoWTCUnit.AoWCombatMap.FPlaySounds = true;
                                 }
                             }
                         }
                     }
 
-                    AoWTC.AoWCombatMap.FDeselectEvents.TriggerNotifyEvents(this);
+                    AoWTCUnit.AoWCombatMap.FDeselectEvents.TriggerNotifyEvents(this);
                     Seated = -1;
                     for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
                     {
                         if (Seated == -1)
                         {
                             var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                            if (AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == TPlayerType.ptHuman)
+                            if (AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == TPlayerType.ptHuman)
                             {
                                 var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                if (AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != TConnectionMode.cmRemote)
+                                if (AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != TConnectionMode.cmRemote)
                                 {
                                     var player2 = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                    if (AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(player2.FPlayer).FStatus != TPlayerStatus.psTerminated)
+                                    if (AoWHSMap.FPlayers.GetPlayers(player2.FPlayer).FStatus != TPlayerStatus.psTerminated)
                                     {
                                         Seated = I;
                                     }
@@ -9173,13 +9173,13 @@ public partial class TTacticalCombat : TCombat
                         }
                     }
 
-                    AoWTC.AoWCombatMap.SetSeatedCombatPlayer((sbyte)Seated);
-                    AoWTC.AoWCombatMap.CenterViewTo(32, 29, 0);
-                    AoWTC.AoWCombatMap.FCombat.NewRound();
+                    AoWTCUnit.AoWCombatMap.SetSeatedCombatPlayer((sbyte)Seated);
+                    AoWTCUnit.AoWCombatMap.CenterViewTo(32, 29, 0);
+                    AoWTCUnit.AoWCombatMap.FCombat.NewRound();
                     var turnOrder = FCombatData.FTurnOrder[0];
-                    AoWTC.AoWCombatMap.NewTurn((sbyte)turnOrder);
+                    AoWTCUnit.AoWCombatMap.NewTurn((sbyte)turnOrder);
                     Result = TCombatResult.crBusy;
-                    FOnTerminated = AoWTC.AoWCombatMap.EndCombat;
+                    FOnTerminated = AoWTCUnit.AoWCombatMap.EndCombat;
                     SetLogCombatActions(1);
                 }
             }
@@ -9265,7 +9265,7 @@ public partial class TRndTacHsm : TObject
             bool Result = false;
             for (int I = First; I <= Last; I++)
             {
-                CenterHNtoHX(X, Y, AoWTC.clusterChk[I], ref NX, ref NY);
+                CenterHNtoHX(X, Y, AoWTCUnit.clusterChk[I], ref NX, ref NY);
                 Kind = TerrainBuffer[NY * 65 + NX];
                 Result = Result || Kind == 1 || Kind == 2 || Kind == 3 || Kind == 5 || Kind == 6 || Kind == 7 || Kind == 11 || Kind == 14 || Kind == 15 || Kind == 16 || Kind == 17 || Kind == 18 || Kind == 252 || Kind == 253 || Kind == 254;
             }
@@ -9293,9 +9293,9 @@ public partial class TRndTacHsm : TObject
         }
 
         FRandomTerrain = RandomTerrain;
-        AoWTC.CombatXLoc = X;
-        AoWTC.CombatYLoc = Y;
-        AoWTC.CombatLLoc = L;
+        AoWTCUnit.CombatXLoc = X;
+        AoWTCUnit.CombatYLoc = Y;
+        AoWTCUnit.CombatLLoc = L;
         RandSeed = Y * 128 + X + L * 16384 + AoWHSMap.FInitialRandomSeed;
         I = 0;
         for (; I <= 6; I += 1)
@@ -9569,9 +9569,9 @@ public partial class TRndTacHsm : TObject
             AoWHSMap.InitializeCombatMap(Combat, FileName);
         }
 
-        AoWTC.AoWCombatMap.SetCombat(Combat);
-        AoWTC.AoWCombatMap.SetExplorationEnabled(SiteCombat);
-        AoWTC.AoWCombatMap.SetFogEnabled(false);
+        AoWTCUnit.AoWCombatMap.SetCombat(Combat);
+        AoWTCUnit.AoWCombatMap.SetExplorationEnabled(SiteCombat);
+        AoWTCUnit.AoWCombatMap.SetFogEnabled(false);
         if (Combat != null)
         {
             PlaceCombatUnits();
@@ -9579,14 +9579,14 @@ public partial class TRndTacHsm : TObject
 
         if (RandomTerrain)
         {
-            AoWTC.AoWCombatMap.LockMapChangedEvent();
+            AoWTCUnit.AoWCombatMap.LockMapChangedEvent();
             ShapeBuffer = new byte[3770];
             TerrainBuffer = new byte[3770];
             for (int Row = 6; Row <= 52; Row++)
             {
                 for (int Col = 6; Col <= 58; Col++)
                 {
-                    Shape = AoWTC.MapShape[Row * 65 + Col];
+                    Shape = AoWTCUnit.MapShape[Row * 65 + Col];
                     switch (Shape)
                     {
                         case 14:
@@ -9723,7 +9723,7 @@ public partial class TRndTacHsm : TObject
                             break;
                     }
 
-                    if (AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].GetDecorationType() == 9)
+                    if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].GetDecorationType() == 9)
                     {
                         switch (Shape)
                         {
@@ -9758,7 +9758,7 @@ public partial class TRndTacHsm : TObject
                             CenterHNtoHX(X, Y, J, ref K, ref NX);
                             if (AoWHSMap.MapContainer.MapLevels[L].Field[K, NX].FindOwnedChild(131946) == null)
                             {
-                                AoWTC.AoWCombatMap.ClearTerrain(Col, Row, 0, 0, -1);
+                                AoWTCUnit.AoWCombatMap.ClearTerrain(Col, Row, 0, 0, -1);
                             }
                         }
                     }
@@ -9781,7 +9781,7 @@ public partial class TRndTacHsm : TObject
                 {
                     for (int Col = 6; Col <= 58; Col++)
                     {
-                        Shape = AoWTC.MapRoads[Row * 65 + Col];
+                        Shape = AoWTCUnit.MapRoads[Row * 65 + Col];
                         switch (Shape)
                         {
                             case 21:
@@ -9856,7 +9856,7 @@ public partial class TRndTacHsm : TObject
                         {
                             if (FTags[Shape - 1] != 127 && Weights[Shape - 1] == 4)
                             {
-                                AoWHSSet.FCombatRoads.Place(AoWTC.AoWCombatMap.MapContainer, (sbyte)Col, (sbyte)Row, 0, 1);
+                                AoWHSSet.FCombatRoads.Place(AoWTCUnit.AoWCombatMap.MapContainer, (sbyte)Col, (sbyte)Row, 0, 1);
                                 TerrainBuffer[Row * 65 + Col] = 251;
                             }
                         }
@@ -9894,7 +9894,7 @@ public partial class TRndTacHsm : TObject
                         I = 0;
                         for (; I <= 2; I += 1)
                         {
-                            CenterHNtoHX(Col * 2, Row, AoWTC.clusterChk[I], ref J, ref K);
+                            CenterHNtoHX(Col * 2, Row, AoWTCUnit.clusterChk[I], ref J, ref K);
                             Tag = TerrainBuffer[K * 65 + J];
                             if (Tag <= 19)
                             {
@@ -9915,7 +9915,7 @@ public partial class TRndTacHsm : TObject
                             }
                         }
 
-                        HasUnit = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Col * 2, Row].FindChild(2228484) != null;
+                        HasUnit = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Col * 2, Row].FindChild(2228484) != null;
                         if (HasUnit || Blocked(Col * 2, Row, 0, 2))
                         {
                             if ((HasUnit || Blocked(Col * 2, Row, 4, 8)) && (HasUnit || Blocked(Col * 2, Row, 9, 17)))
@@ -10016,7 +10016,7 @@ public partial class TRndTacHsm : TObject
                         I = 0;
                         for (; I <= 2; I += 1)
                         {
-                            CenterHNtoHX(Col * 2 + 1, Row, AoWTC.clusterChk[I], ref J, ref K);
+                            CenterHNtoHX(Col * 2 + 1, Row, AoWTCUnit.clusterChk[I], ref J, ref K);
                             Tag = TerrainBuffer[K * 65 + J];
                             if (Tag <= 19)
                             {
@@ -10037,7 +10037,7 @@ public partial class TRndTacHsm : TObject
                             }
                         }
 
-                        HasUnit = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Col * 2 + 1, Row].FindChild(2228484) != null;
+                        HasUnit = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Col * 2 + 1, Row].FindChild(2228484) != null;
                         if (HasUnit || Blocked(Col * 2 + 1, Row, 0, 2))
                         {
                             if ((HasUnit || Blocked(Col * 2 + 1, Row, 4, 8)) && (HasUnit || Blocked(Col * 2 + 1, Row, 9, 17)))
@@ -10121,17 +10121,17 @@ public partial class TRndTacHsm : TObject
                         J = TerrainBuffer[Row * 65 + Col];
                         if (J == 17)
                         {
-                            AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = 7;
+                            AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = 7;
                         }
                         else
                         {
-                            AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = FTerrain[I - 1];
+                            AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = FTerrain[I - 1];
                             if (J > 0 && J < 19)
                             {
                                 if (FResources[FTerrain[I - 1] * 19 + J].Count > 0)
                                 {
                                     var random = Random(FResources[FTerrain[I - 1] * 19 + J].Count);
-                                    ((TMapObjectResource)FResources[FTerrain[I - 1] * 19 + J][random]).PlaceResourceUser(AoWTC.AoWCombatMap, (sbyte)Col, (sbyte)Row, 0);
+                                    ((TMapObjectResource)FResources[FTerrain[I - 1] * 19 + J][random]).PlaceResourceUser(AoWTCUnit.AoWCombatMap, (sbyte)Col, (sbyte)Row, 0);
                                 }
                             }
                         }
@@ -10143,15 +10143,15 @@ public partial class TRndTacHsm : TObject
             {
                 for (int Col = 6; Col <= 58; Col++)
                 {
-                    AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainChanged();
+                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainChanged();
                 }
             }
 
             TerrainBuffer = default;
-            AoWTC.AoWCombatMap.UnlockMapChangedEvent();
+            AoWTCUnit.AoWCombatMap.UnlockMapChangedEvent();
         }
 
-        return AoWTC.AoWCombatMap;
+        return AoWTCUnit.AoWCombatMap;
     }
 
     // AoWTC.pas:4519
@@ -10175,16 +10175,16 @@ public partial class TRndTacHsm : TObject
         {
             Units.Clear();
             I = 0;
-            int last = AoWTC.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+            int last = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
             for (; I <= last; I += 1)
             {
-                if (AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit)
+                if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit)
                 {
-                    if (AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled())
+                    if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled())
                     {
-                        if ((int)(((uint)AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FPosition) >> 4) == Position)
+                        if ((int)(((uint)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FPosition) >> 4) == Position)
                         {
-                            Units.Add(AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I));
+                            Units.Add(AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I));
                             U = (TTacticalCombatUnit)Units[Units.Count - 1];
                             U.FPositionIndex = (byte)(U.FPosition & 15);
                             U.FPositionGroup = (byte)(int)(((uint)U.FPosition) >> 4);
@@ -10202,7 +10202,7 @@ public partial class TRndTacHsm : TObject
                             {
                                 if (U.GetSide() == TCombatSideIndex.csDefender)
                                 {
-                                    if (AoWHSMap.MapContainer.MapLevels[AoWTC.AoWCombatMap.FCombat.FCombatData.FL].Field[AoWTC.AoWCombatMap.FCombat.FCombatData.FX, AoWTC.AoWCombatMap.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(TCity)) != null)
+                                    if (AoWHSMap.MapContainer.MapLevels[AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FL].Field[AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FX, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(TCity)) != null)
                                     {
                                     }
                                 }
@@ -10214,7 +10214,7 @@ public partial class TRndTacHsm : TObject
                             }
 
                             var side = U.GetSide();
-                            AoWTC.AoWCombatMap.FPositionStatus[U.FPositionGroup] = (byte)side;
+                            AoWTCUnit.AoWCombatMap.FPositionStatus[U.FPositionGroup] = (byte)side;
                         }
                     }
                 }
@@ -10240,21 +10240,21 @@ public partial class TRndTacHsm : TObject
             }
         }
 
-        if (AoWTC.AoWCombatMap.FPositionStatus[0] != 1)
+        if (AoWTCUnit.AoWCombatMap.FPositionStatus[0] != 1)
         {
-            if (AoWHSMap.MapContainer.MapLevels[AoWTC.AoWCombatMap.FCombat.FCombatData.FL].Field[AoWTC.AoWCombatMap.FCombat.FCombatData.FX, AoWTC.AoWCombatMap.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(TCity)) != null && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+            if (AoWHSMap.MapContainer.MapLevels[AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FL].Field[AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FX, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(TCity)) != null && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
             {
                 Position = 1;
                 while (Position < 7)
                 {
-                    if (AoWTC.AoWCombatMap.FPositionStatus[Position] == 1)
+                    if (AoWTCUnit.AoWCombatMap.FPositionStatus[Position] == 1)
                     {
-                        CenterHNtoHX(AoWTC.AoWCombatMap.FCombat.FCombatData.FX, AoWTC.AoWCombatMap.FCombat.FCombatData.FY, Position, ref J, ref Temp);
-                        if (AoWHSMap.MapContainer.MapLevels[AoWTC.AoWCombatMap.FCombat.FCombatData.FL].Field[J, Temp].FindNoneTransparentHS(typeof(TCity)) != null)
+                        CenterHNtoHX(AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FX, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FY, Position, ref J, ref Temp);
+                        if (AoWHSMap.MapContainer.MapLevels[AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FL].Field[J, Temp].FindNoneTransparentHS(typeof(TCity)) != null)
                         {
                             FHomePosition = Position;
-                            AoWTC.AoWCombatMap.FPositionStatus[Position] = (int)TCombatSideIndex.csNeutral;
-                            AoWTC.AoWCombatMap.FPositionStatus[0] = 1;
+                            AoWTCUnit.AoWCombatMap.FPositionStatus[Position] = (int)TCombatSideIndex.csNeutral;
+                            AoWTCUnit.AoWCombatMap.FPositionStatus[0] = 1;
                             Position = 7;
                         }
                     }
@@ -10265,22 +10265,22 @@ public partial class TRndTacHsm : TObject
         }
 
         Position = 0;
-        int last3 = AoWTC.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csAttacker].GetCount() - 1;
+        int last3 = AoWTCUnit.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csAttacker].GetCount() - 1;
         for (; Position <= last3; Position += 1)
         {
-            if (AoWTC.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csAttacker].GetObjects(Position).GetEnabled())
+            if (AoWTCUnit.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csAttacker].GetObjects(Position).GetEnabled())
             {
                 SetupUnit(TCombatSideIndex.csAttacker, Position, ref Direction);
             }
         }
 
         Position = 0;
-        int last4 = AoWTC.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetCount() - 1;
+        int last4 = AoWTCUnit.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetCount() - 1;
         for (; Position <= last4; Position += 1)
         {
-            if (AoWTC.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetObjects(Position) is TCombatUnit)
+            if (AoWTCUnit.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetObjects(Position) is TCombatUnit)
             {
-                if (AoWTC.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetObjects(Position).GetEnabled())
+                if (AoWTCUnit.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetObjects(Position).GetEnabled())
                 {
                     SetupUnit(TCombatSideIndex.csDefender, Position, ref Direction);
                 }
@@ -10299,28 +10299,28 @@ public partial class TRndTacHsm : TObject
             Position = 0;
             while (Position < FItems.GetCount())
             {
-                I = Random(AoWTC.AoWCombatMap.FUnitPositions.FPositions.Count - 16);
+                I = Random(AoWTCUnit.AoWCombatMap.FUnitPositions.FPositions.Count - 16);
                 J = I - 1;
                 if (J < 0)
                 {
-                    J = AoWTC.AoWCombatMap.FUnitPositions.FPositions.Count - 17;
+                    J = AoWTCUnit.AoWCombatMap.FUnitPositions.FPositions.Count - 17;
                 }
 
                 // { Original indexes its eight-slot occupancy array with the position-list index. }
                 while (Used[I] && I != J)
                 {
                     I += 1;
-                    if (I > AoWTC.AoWCombatMap.FUnitPositions.FPositions.Count - 17)
+                    if (I > AoWTCUnit.AoWCombatMap.FUnitPositions.FPositions.Count - 17)
                     {
                         I = 0;
                     }
                 }
 
                 Used[I] = true;
-                J = AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I).X;
-                Temp = AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I).Y;
+                J = AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I).X;
+                Temp = AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I).Y;
                 ItemHS = new TCItemHS(null);
-                if (AoWTC.AoWCombatMap.PlaceHX(ItemHS, J, Temp, 0))
+                if (AoWTCUnit.AoWCombatMap.PlaceHX(ItemHS, J, Temp, 0))
                 {
                     FItems.GetItem(Position).SetOwner(ItemHS.FItems);
                 }
@@ -10345,7 +10345,7 @@ public partial class TRndTacHsm : TObject
         int NX = default;
         int NY = default;
         UnitHS = new TTacticalCombatUnitHS(null);
-        UnitHS.Initialize((TTacticalCombatUnit)AoWTC.AoWCombatMap.FCombat.FSides[(int)Side].GetObjects(Index));
+        UnitHS.Initialize((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FSides[(int)Side].GetObjects(Index));
         if (UnitHS.FUnit.FPositionGroup == FHomePosition)
         {
             UnitHS.FUnit.FPositionGroup = 0;
@@ -10353,8 +10353,8 @@ public partial class TRndTacHsm : TObject
 
         Position = UnitHS.FUnit.FPositionGroup;
         Slot = UnitHS.FUnit.FPositionIndex;
-        X = AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).X;
-        Y = AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).Y;
+        X = AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).X;
+        Y = AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).Y;
         if (Side == TCombatSideIndex.csDefender && FRandomTerrain)
         {
             switch (Position)
@@ -10362,8 +10362,8 @@ public partial class TRndTacHsm : TObject
                 case 0:
                     if (Direction > 0)
                     {
-                        X = AoWTC.DefPosX[(Direction - 1) * 8 + Slot];
-                        Y = AoWTC.DefPosY[(Direction - 1) * 8 + Slot];
+                        X = AoWTCUnit.DefPosX[(Direction - 1) * 8 + Slot];
+                        Y = AoWTCUnit.DefPosY[(Direction - 1) * 8 + Slot];
                         UnitHS.SetDirection((byte)Direction);
                     }
                     else
@@ -10435,7 +10435,7 @@ public partial class TRndTacHsm : TObject
 
         if (!FRandomTerrain)
         {
-            UnitHS.SetDirection((byte)AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).Flag);
+            UnitHS.SetDirection((byte)AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).Flag);
         }
         else
         {
@@ -10466,18 +10466,18 @@ public partial class TRndTacHsm : TObject
         do
         {
             CenterHNtoHX(X, Y, HN, ref NX, ref NY);
-            Slot = AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].OverlayType;
-            TargetHS = (TTacticalCombatUnitHS)AoWTC.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2228484);
+            Slot = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].OverlayType;
+            TargetHS = (TTacticalCombatUnitHS)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2228484);
             HN += 1;
         }
         while (!(Slot != 8 && TargetHS == null));
-        AoWTC.AoWCombatMap.PlaceHX(UnitHS, NX, NY, 0);
-        if (dHXtoHN(AoWTC.AoWCombatMap.FCombat.FCombatData.FX, AoWTC.AoWCombatMap.FCombat.FCombatData.FY, AoWTC.AoWCombatMap.FCombat.FCombatData.FAttackerX, AoWTC.AoWCombatMap.FCombat.FCombatData.FAttackerY) == Position && AoWTC.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX == 0)
+        AoWTCUnit.AoWCombatMap.PlaceHX(UnitHS, NX, NY, 0);
+        if (dHXtoHN(AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FX, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FY, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FAttackerX, AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FAttackerY) == Position && AoWTCUnit.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX == 0)
         {
             var xhx = UnitHS.GetXhx();
-            AoWTC.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX = xhx;
+            AoWTCUnit.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX = xhx;
             var yhx = UnitHS.GetYhx();
-            AoWTC.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastY = yhx;
+            AoWTCUnit.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastY = yhx;
         }
     }
 
@@ -10796,7 +10796,7 @@ public enum TaiMoveType : byte
     aiWallRanged = 7
 }
 
-public static partial class AoWTC
+public static partial class AoWTCUnit
 {
     public static byte TCombatUnitSelectionControl_CalculateMovePath__ClimbFlag = 1;
     // AoWTC.pas:6436

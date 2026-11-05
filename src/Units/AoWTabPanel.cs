@@ -1,6 +1,6 @@
 // Translated from AoWTabPanel.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWControl;
@@ -307,7 +307,7 @@ public partial class TAOWTabPanel : TAOWControl
     public int BorderHeightSelected { get => FBorderHeightSelected; set => FBorderHeightSelected = value; }
 }
 
-public static partial class AoWTabPanel
+public static partial class AoWTabPanelUnit
 {
     // AoWTabPanel.pas:257
     public static void Register()

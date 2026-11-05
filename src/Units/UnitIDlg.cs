@@ -218,7 +218,7 @@ public struct TUnitResourceView
     public TAbilityOwner AbilityOwner;
 }
 
-public static partial class UnitIDlg
+public static partial class UnitIDlgUnit
 {
 
     public static void Initialize()

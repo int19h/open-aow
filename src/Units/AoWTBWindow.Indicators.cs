@@ -1,5 +1,5 @@
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWTBWindow;
 
@@ -20,7 +20,7 @@ public partial class TTBWindow
     // The companion routine at sizes the tactical indicator and message field
     public void UpdateCombatPlayerIndicator()
     {
-        int count = AoWTC.AoWTC.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count;
+        int count = AoWTC.AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count;
         TCPInd.WinWidth = count * 5 + 4;
         TCPInd.FAligned = false;
         TCMsg.Alignment.RightOffset = TCPInd.WinWidth + 278;

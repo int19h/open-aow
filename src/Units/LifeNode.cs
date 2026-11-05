@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.LifeNode;
 
@@ -47,7 +47,7 @@ public partial class TLifeNodeResource : TProductionPlaceResource
 
 }
 
-public static partial class LifeNode
+public static partial class LifeNodeUnit
 {
     // LifeNode.pas:61
     public static void RegisterLifeNode(TEngine AEngine)

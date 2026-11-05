@@ -1,11 +1,11 @@
 // Translated from AoWDisjunctionDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Engine.Engine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWHScroll;
@@ -18,9 +18,9 @@ using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.GlobalSpells;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWDisjunctionDlg;
 
@@ -336,6 +336,6 @@ public partial class TDisjunctionDlg : TDataModule
     }
 }
 
-public static partial class AoWDisjunctionDlg
+public static partial class AoWDisjunctionDlgUnit
 {
 }

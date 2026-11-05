@@ -15,7 +15,7 @@ using Aow.Units.AoWCampaignSettings;
 
 namespace Aow.Units.E2Globals;
 
-public static partial class E2Globals
+public static partial class E2GlobalsUnit
 {
     // { Form references and resource strings accessed by executable E2 routines. }
     public static TGamePlayDlg GamePlayDialog;

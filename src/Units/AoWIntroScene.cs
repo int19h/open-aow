@@ -2,8 +2,8 @@
 using Aow.Rtl;
 using Aow.Units.AowUserWindow;
 using Aow.Units.E2DirectSound;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.E2GameFlow.E2GameFlow;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
 
 namespace Aow.Units.AoWIntroScene;
 
@@ -43,6 +43,6 @@ public partial class TIntroScene : TDataModule
     }
 }
 
-public static partial class AoWIntroScene
+public static partial class AoWIntroSceneUnit
 {
 }

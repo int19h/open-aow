@@ -1,6 +1,6 @@
 // Translated from AoWComp.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using System.ComponentModel;
@@ -1113,6 +1113,6 @@ public partial class TaowRect : TObject
     public TAoWComponent Owner;
 }
 
-public static partial class AoWComp
+public static partial class AoWCompUnit
 {
 }

@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.Altar;
 using Aow.Units.Storms;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AltIce;
 
@@ -43,7 +43,7 @@ public partial class TAltarOfIceResource : TAltarResource
 
 }
 
-public static partial class AltIce
+public static partial class AltIceUnit
 {
     // AltIce.pas:58
     public static void RegisterAltarOfIce(TEngine AEngine)

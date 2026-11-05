@@ -1,10 +1,10 @@
 // Translated from AoWArmyEventDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -13,7 +13,7 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWArmyEventDlg;
 
@@ -207,7 +207,7 @@ public partial class TArmyEventDlg : TDataModule
     }
 }
 
-public static partial class AoWArmyEventDlg
+public static partial class AoWArmyEventDlgUnit
 {
     // AoWArmyEventDlg.pas:84
     public static void ShowArmyEvent(TArmyEventDlg Dialog, TArmyEventLog Event, TExecuteDoneEvent Done)

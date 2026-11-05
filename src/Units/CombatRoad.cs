@@ -1,13 +1,13 @@
 // Translated from CombatRoad.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.CombatRoad;
 
@@ -195,7 +195,7 @@ public partial class TCombatRoadResource : TAbstractRoadResource
 
 }
 
-public static partial class CombatRoad
+public static partial class CombatRoadUnit
 {
     // CombatRoad.pas:162
     public static void RegisterCombatRoad(TEngine AEngine)

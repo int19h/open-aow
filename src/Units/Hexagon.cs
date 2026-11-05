@@ -4,7 +4,7 @@ using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Hexagon;
 
@@ -190,7 +190,7 @@ public partial class THexagonResource : TAbstractHexagonResource
 
 }
 
-public static partial class Hexagon
+public static partial class HexagonUnit
 {
     // Hexagon.pas:168
     public static void RegisterHexagon(TEngine Engine)

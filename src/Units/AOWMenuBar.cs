@@ -1,6 +1,6 @@
 // Translated from AOWMenuBar.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWControl;
@@ -337,7 +337,7 @@ public partial class TAOWMenuBar : TAOWControl
     public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
 }
 
-public static partial class AOWMenuBar
+public static partial class AOWMenuBarUnit
 {
     // AOWMenuBar.pas:282
     public static void Register()

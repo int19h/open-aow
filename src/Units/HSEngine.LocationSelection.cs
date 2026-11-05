@@ -10,7 +10,7 @@ public partial class THexagonSpriteSelection
         int Yhx = default;
         TMapField MapF;
         int I;
-        HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+        HSEngineUnit.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
         if (Xhx >= 0 && ((THSMap)Owner).FMapContainer.FWidth > Xhx && ((THSMap)Owner).FMapContainer.FHeight > Yhx && Yhx >= 0)
         {
             MapF = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
@@ -37,7 +37,7 @@ public partial class THexagonSpriteSelection
         TMapField MapF;
         THexagonSprite HS;
         int I;
-        HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+        HSEngineUnit.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
         MapF = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
         I = FindLocationHSIndex(MapF) - 1;
         HS = null;
@@ -82,7 +82,7 @@ public partial class THexagonSpriteSelection
         if (FLocationHS.Count != 0)
         {
             I = 0;
-            HSEngine.HXtoHP(MapF.FXhx, MapF.FYhx, ref Xhp, ref Yhp);
+            HSEngineUnit.HXtoHP(MapF.FXhx, MapF.FYhx, ref Xhp, ref Yhp);
             while (Result == -1 && I != MapF.Count)
             {
                 HS = MapF.FHSList[I];

@@ -1,8 +1,8 @@
 // Translated from AOWChatWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWEdit;
@@ -13,7 +13,7 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AOWChatWin;
 
@@ -106,6 +106,6 @@ public partial class TChatWindow : TDataModule
     }
 }
 
-public static partial class AOWChatWin
+public static partial class AOWChatWinUnit
 {
 }

@@ -1,12 +1,12 @@
 // Translated from AoWCampaignTransferDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWBookWindow;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
@@ -15,6 +15,9 @@ using Aow.Units.AoWHScroll;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWWorldMap;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWCampaignTransferDlg;
 
@@ -209,9 +212,9 @@ public partial class TCampaignTransferDlg : TDataModule
     {
         TransBookWin.Visible = false;
         PlaySample("Sfx\\Int\\BookClse.wav");
-        var campaign = AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign();
+        var campaign = AoWWorldMapUnit.WorldMap.GetCampaign();
         campaign.FState += 1;
-        AoWWorldMap.AoWWorldMap.WorldMap.UpdateCampaignState();
+        AoWWorldMapUnit.WorldMap.UpdateCampaignState();
     }
 
     // AoWCampaignTransferDlg.pas:181
@@ -220,8 +223,8 @@ public partial class TCampaignTransferDlg : TDataModule
         TransBookWin.Visible = false;
         AoWEngine.FCampaign.ResetNextScenario();
         PlaySample("Sfx\\Int\\BookClse.wav");
-        AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign().FState = 1;
-        AoWWorldMap.AoWWorldMap.WorldMap.UpdateCampaignState();
+        AoWWorldMapUnit.WorldMap.GetCampaign().FState = 1;
+        AoWWorldMapUnit.WorldMap.UpdateCampaignState();
     }
 
     // AoWCampaignTransferDlg.pas:190
@@ -404,18 +407,18 @@ public partial class TCampaignTransferDlg : TDataModule
             R.Left -= 1;
             if (S.FSelectedHeroes.IndexOf(FLeftHero + Sender.Tag) != -1)
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
+                aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
             }
 
             if (((TAOWCheckBox)Sender).FLit)
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
+                aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
             }
 
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
-            AoWExeForms.AoWExeForms.FontModule.Age8.Color = 16777215;
+            aowIntGfxModUnit.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
+            AoWExeFormsUnit.FontModule.Age8.Color = 16777215;
             var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-            AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+            AoWExeFormsUnit.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
         }
     }
 
@@ -440,13 +443,13 @@ public partial class TCampaignTransferDlg : TDataModule
                 R.Left -= 1;
                 if (((TAOWCheckBox)Sender).FLit)
                 {
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
+                    aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
-                AoWExeForms.AoWExeForms.FontModule.Age8.Color = 16777215;
+                aowIntGfxModUnit.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -468,7 +471,7 @@ public partial class TCampaignTransferDlg : TDataModule
                 var checkBox = (TAOWCheckBox)Sender;
                 R = Rect(LUnitPnl.WinLeft + checkBox.WinLeft + 1, LUnitPnl.WinTop + checkBox.WinTop + 2, LUnitPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, LUnitPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4].Show(R.Left + 1, R.Top, SurfDesc);
+                aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left + 1, R.Top, SurfDesc);
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoRank);
                 Info.Animation = TUnitAnimation.uaStandStill;
@@ -477,18 +480,18 @@ public partial class TCampaignTransferDlg : TDataModule
                 Obj.ShowEx(R.Left - 8, R.Top, SurfDesc, Info);
                 if (S.FSelectedUnits.IndexOf(FLeftUnit + Sender.Tag) != -1)
                 {
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
+                    aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
                 }
 
                 if (((TAOWCheckBox)Sender).FLit)
                 {
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
+                    aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
-                AoWExeForms.AoWExeForms.FontModule.Age8.Color = 16777215;
+                aowIntGfxModUnit.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -510,7 +513,7 @@ public partial class TCampaignTransferDlg : TDataModule
                 var checkBox = (TAOWCheckBox)Sender;
                 R = Rect(RUnitPnl.WinLeft + checkBox.WinLeft + 1, RUnitPnl.WinTop + checkBox.WinTop + 2, RUnitPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, RUnitPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4].Show(R.Left + 1, R.Top, SurfDesc);
+                aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left + 1, R.Top, SurfDesc);
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoRank);
                 Info.Animation = TUnitAnimation.uaStandStill;
@@ -519,13 +522,13 @@ public partial class TCampaignTransferDlg : TDataModule
                 Obj.ShowEx(R.Left - 8, R.Top, SurfDesc, Info);
                 if (((TAOWCheckBox)Sender).FLit)
                 {
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
+                    aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
-                AoWExeForms.AoWExeForms.FontModule.Age8.Color = 16777215;
+                aowIntGfxModUnit.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -543,22 +546,22 @@ public partial class TCampaignTransferDlg : TDataModule
             var checkBox = (TAOWCheckBox)Sender;
             R = Rect(LItemPnl.WinLeft + checkBox.WinLeft + 2, LItemPnl.WinTop + checkBox.WinTop + 2, LItemPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, LItemPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
+            aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
             Obj.Show(R.Left + 5, R.Top + 10, SurfDesc);
             if (S.FSelectedItems.IndexOf(FLeftItem + Sender.Tag) != -1)
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
+                aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
             }
 
             if (((TAOWCheckBox)Sender).FLit)
             {
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
+                aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
             }
 
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
-            AoWExeForms.AoWExeForms.FontModule.Age8.Color = 16777215;
+            aowIntGfxModUnit.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
+            AoWExeFormsUnit.FontModule.Age8.Color = 16777215;
             var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-            AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+            AoWExeFormsUnit.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
         }
     }
 
@@ -578,17 +581,17 @@ public partial class TCampaignTransferDlg : TDataModule
                 var checkBox = (TAOWCheckBox)Sender;
                 R = Rect(RItemPnl.WinLeft + checkBox.WinLeft + 2, RItemPnl.WinTop + checkBox.WinTop + 2, RItemPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, RItemPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
+                aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
                 Obj.Show(R.Left + 5, R.Top + 10, SurfDesc);
                 if (((TAOWCheckBox)Sender).FLit)
                 {
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
+                    aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
-                AoWExeForms.AoWExeForms.FontModule.Age8.Color = 16777215;
+                aowIntGfxModUnit.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                AoWExeFormsUnit.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -828,6 +831,6 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 }
 
-public static partial class AoWCampaignTransferDlg
+public static partial class AoWCampaignTransferDlgUnit
 {
 }

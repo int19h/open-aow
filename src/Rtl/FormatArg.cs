@@ -22,7 +22,7 @@ public readonly struct FormatArg : IUnion
     public FormatArg(bool value) { bits = value ? 1 : 0; kind = Case.Boolean; }
     public FormatArg(char value) { bits = value; kind = Case.Char; }
     public FormatArg(double value) { bits = BitConverter.DoubleToInt64Bits(value); kind = Case.Extended; }
-    public FormatArg(string value) { reference = Rtl.RequireString(value); kind = Case.String; }
+    public FormatArg(string value) { reference = RtlUnit.RequireString(value); kind = Case.String; }
     public FormatArg(TObject? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
     public FormatArg(PointerArg value) { bits = value.Value; kind = Case.Pointer; }
 

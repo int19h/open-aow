@@ -11,6 +11,9 @@ using Aow.Units.Scanner;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWSWindow
 {
@@ -427,30 +430,30 @@ namespace Aow.Units.AoWSWindow
             Help.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            ScannerWindow.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            ScannerWindow.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            ScannerWindow.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ScannerFrame.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            ScannerTab.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            ScannerTab.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            ScannerTab.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            BuildingCheck.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            BuildingCheck.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            ArmyCheck.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            ArmyCheck.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            NaturalCheck.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            NaturalCheck.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            Scanner.TilesImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanTiles;
-            Scanner.HiLightsImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanHiLites;
-            Scanner.FogImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanFog;
-            Scanner.ILObjects = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanObj;
-            Scanner.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            STitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            STitleLabel.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            SMinIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            SMinIcon.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            Help.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Help.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
+            ScannerWindow.WinManager = AoWWinManUnit.General.Manager;
+            ScannerWindow.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            ScannerWindow.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ScannerFrame.ILFrame = aowIntGfxModUnit.IntGfxMod.ScanWin;
+            ScannerTab.ToolTip = AoWWinManUnit.General.ToolTip;
+            ScannerTab.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            ScannerTab.ILButton = aowIntGfxModUnit.IntGfxMod.ScanWin;
+            BuildingCheck.ToolTip = AoWWinManUnit.General.ToolTip;
+            BuildingCheck.ILIcon = aowIntGfxModUnit.IntGfxMod.ScanWin;
+            ArmyCheck.ToolTip = AoWWinManUnit.General.ToolTip;
+            ArmyCheck.ILIcon = aowIntGfxModUnit.IntGfxMod.ScanWin;
+            NaturalCheck.ToolTip = AoWWinManUnit.General.ToolTip;
+            NaturalCheck.ILIcon = aowIntGfxModUnit.IntGfxMod.ScanWin;
+            Scanner.TilesImageLib = aowIntGfxModUnit.IntGfxMod.ScanTiles;
+            Scanner.HiLightsImageLib = aowIntGfxModUnit.IntGfxMod.ScanHiLites;
+            Scanner.FogImageLib = aowIntGfxModUnit.IntGfxMod.ScanFog;
+            Scanner.ILObjects = aowIntGfxModUnit.IntGfxMod.ScanObj;
+            Scanner.ILFrame = aowIntGfxModUnit.IntGfxMod.ScanWin;
+            STitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            STitleLabel.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            SMinIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            SMinIcon.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            Help.ToolTip = AoWWinManUnit.General.ToolTip;
+            Help.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
         }
 
         private void Layout_ScannerWindowResize_0(TObject p0)

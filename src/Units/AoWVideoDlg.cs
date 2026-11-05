@@ -1,13 +1,13 @@
 // Translated from AoWVideoDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
@@ -15,7 +15,7 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWVideoDlg;
 
@@ -168,7 +168,7 @@ public partial class TVideoDialog : TDataModule
     public void DlgShow()
     {
         var allowResolutionSwitches = AoWEngine.FRegistry.GetAllowResolutionSwitches();
-        AoWVideoDlg.VideoDialog.ResCB.Checked = allowResolutionSwitches;
+        AoWVideoDlgUnit.VideoDialog.ResCB.Checked = allowResolutionSwitches;
     }
 }
 
@@ -353,7 +353,7 @@ public partial class TWMCampaign : TAoWCampaign
 
 }
 
-public static partial class AoWVideoDlg
+public static partial class AoWVideoDlgUnit
 {
     public static TVideoDialog VideoDialog;
     // AoWVideoDlg.pas:422

@@ -1,12 +1,12 @@
 // Translated from SummonSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
 using Aow.Units.PassiveAb;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.SummonSpells;
 
@@ -464,7 +464,7 @@ public partial class TSummonMermaid : TSummonSpell
     }
 }
 
-public static partial class SummonSpells
+public static partial class SummonSpellsUnit
 {
     // SummonSpells.pas:501
     public static void RegisterSummonSpells(TAoWEngine AEngine)

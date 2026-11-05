@@ -1,7 +1,7 @@
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Images = Aow.Units.ImageLib.ImageLib;
-using G = Aow.Units.GFXE.GFXE;
+using Images = Aow.Units.ImageLib.ImageLibUnit;
+using G = Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.Tests;
 

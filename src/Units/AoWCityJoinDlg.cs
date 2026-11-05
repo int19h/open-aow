@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWArnoLine;
 using Aow.Units.AoWButton;
@@ -11,7 +11,7 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWCityJoinDlg;
 
@@ -130,6 +130,6 @@ public partial class TCityJoinDlg : TDataModule
     }
 }
 
-public static partial class AoWCityJoinDlg
+public static partial class AoWCityJoinDlgUnit
 {
 }

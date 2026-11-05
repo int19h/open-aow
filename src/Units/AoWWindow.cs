@@ -1,6 +1,6 @@
 // Translated from AoWWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWWinControl;
@@ -870,7 +870,7 @@ public partial class TAOWWindow : TAOWGenericWindow
     public bool Dockable { get => FDockable; set => FDockable = value; }
 }
 
-public static partial class AoWWindow
+public static partial class AoWWindowUnit
 {
     // AoWWindow.pas:575
     public static void Register()

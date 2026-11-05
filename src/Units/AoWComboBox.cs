@@ -1,6 +1,6 @@
 // Translated from AoWComboBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWVScroll;
@@ -774,7 +774,7 @@ public partial class TAOWComboBox : TAOWControl
     public TNotifyEvent OnClose { get => FOnClose; set => FOnClose = value; }
 }
 
-public static partial class AoWComboBox
+public static partial class AoWComboBoxUnit
 {
     // AoWComboBox.pas:561
     public static void Register()

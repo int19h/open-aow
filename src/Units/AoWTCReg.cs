@@ -1,26 +1,26 @@
 // Translated from AoWTCReg.pas.
 using Aow.Units.Engine;
-using static Aow.Units.WorkShop.WorkShop;
-using static Aow.Units.Townhall.Townhall;
-using static Aow.Units.House.House;
-using static Aow.Units.SingleCombatHex.SingleCombatHex;
-using static Aow.Units.IsoCombatHex.IsoCombatHex;
-using static Aow.Units.MainStructure.MainStructure;
-using static Aow.Units.CenterViewLoc.CenterViewLoc;
-using static Aow.Units.FleeLoc.FleeLoc;
-using static Aow.Units.CombatHex.CombatHex;
-using static Aow.Units.CombatTE.CombatTE;
-using static Aow.Units.CombatTerrain.CombatTerrain;
-using static Aow.Units.CombatRoad.CombatRoad;
-using static Aow.Units.CombatObstacle.CombatObstacle;
-using static Aow.Units.CombatILTer.CombatILTer;
-using static Aow.Units.CityWall.CityWall;
-using static Aow.Units.CombatFire.CombatFire;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.WorkShop.WorkShopUnit;
+using static Aow.Units.Townhall.TownhallUnit;
+using static Aow.Units.House.HouseUnit;
+using static Aow.Units.SingleCombatHex.SingleCombatHexUnit;
+using static Aow.Units.IsoCombatHex.IsoCombatHexUnit;
+using static Aow.Units.MainStructure.MainStructureUnit;
+using static Aow.Units.CenterViewLoc.CenterViewLocUnit;
+using static Aow.Units.FleeLoc.FleeLocUnit;
+using static Aow.Units.CombatHex.CombatHexUnit;
+using static Aow.Units.CombatTE.CombatTEUnit;
+using static Aow.Units.CombatTerrain.CombatTerrainUnit;
+using static Aow.Units.CombatRoad.CombatRoadUnit;
+using static Aow.Units.CombatObstacle.CombatObstacleUnit;
+using static Aow.Units.CombatILTer.CombatILTerUnit;
+using static Aow.Units.CityWall.CityWallUnit;
+using static Aow.Units.CombatFire.CombatFireUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 
 namespace Aow.Units.AoWTCReg;
 
-public static partial class AoWTCReg
+public static partial class AoWTCRegUnit
 {
     // AoWTCReg.pas:22
     // { AoWTCReg, AoWTCPCK.dpl: register the tactical-combat classes in original order. }

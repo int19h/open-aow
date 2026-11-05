@@ -2,18 +2,20 @@
 using Aow.Rtl;
 using Aow.Units.AOWMenu;
 using Aow.Units.StartMenu;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
 using Aow.Units.AoWSoundDlg;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWFileDialog.AoWFileDialog;
-using static Aow.Units.E3EventDialogs.E3EventDialogs;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.E3EventDialogs.E3EventDialogsUnit;
 using Aow.Platform;
 using Aow.Units.AoWE;
+using Aow.Units.AoWWorldMap;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AoWPWindows;
 
@@ -45,7 +47,7 @@ public partial class TPopupWindows : TDataModule
                 VideoDialog.ShowModes();
                 break;
             case 1:
-                AoWPWindows.ShowSoundSettings(SoundDlg);
+                AoWPWindowsUnit.ShowSoundSettings(SoundDlg);
                 break;
             case 2:
                 GamePlayDialog.GamePlayDlg.Visible = true;
@@ -85,12 +87,12 @@ public partial class TPopupWindows : TDataModule
         {
             case 0:
                 // { Original opens the information book. }
-                ShowInformationBook(AoWWorldMap.AoWWorldMap.WorldMap, null, null);
+                ShowInformationBook(AoWWorldMapUnit.WorldMap, null, null);
                 break;
             case 1:
                 if (AoWEngine.FCampaign != null)
                 {
-                    AoWWorldMap.AoWWorldMap.WorldMap.ShowCampaignHistory();
+                    AoWWorldMapUnit.WorldMap.ShowCampaignHistory();
                 }
 
                 break;
@@ -104,7 +106,7 @@ public partial class TPopupWindows : TDataModule
         {
             case 0:
                 var quitCombat = TranslateRStr(QuitCombatRStr);
-                var confirm = TranslateRStr(E2Globals.E2Globals.ConfirmRStr);
+                var confirm = TranslateRStr(E2GlobalsUnit.ConfirmRStr);
                 DialogWin.Confirm(confirm, quitCombat, 6);
                 break;
         }
@@ -123,22 +125,22 @@ public partial class TPopupWindows : TDataModule
         switch (sender.FSelectedItem)
         {
             case 0:
-                E2Globals.E2Globals.DialogWin.Confirm(
-                    AoWE.AoWE.TranslateRStr(E2Globals.E2Globals.ConfirmRStr),
-                    AoWE.AoWE.TranslateRStr(AoWE.AoWE.SurrenderYourEmpireRStr), 4);
+                DialogWin.Confirm(
+                    TranslateRStr(E2GlobalsUnit.ConfirmRStr),
+                    TranslateRStr(SurrenderYourEmpireRStr), 4);
                 break;
             case 1:
-                AoWE.AoWE.AoWHSMap.ExitGame(TExitGameMode.egmTerminate, null);
+                AoWHSMap.ExitGame(TExitGameMode.egmTerminate, null);
                 break;
             case 2:
-                if (AoWE.AoWE.AoWEngine.FDemo) E2Globals.E2Globals.TitleWindow.ShowExitSplash();
+                if (AoWEngine.FDemo) TitleWindow.ShowExitSplash();
                 else GameHost.MainForm.CloseRequested();
                 break;
         }
     }
 }
 
-public static partial class AoWPWindows
+public static partial class AoWPWindowsUnit
 {
     // AoWPWindows.pas:47
     public static void ShowVideoSettings(TVideoDialog Dialog)

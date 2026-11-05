@@ -1,14 +1,14 @@
 // Translated from AoWHeroUpgradeDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Engine.Engine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWInfoBanner.AoWInfoBanner;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWInfoBanner.AoWInfoBannerUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
@@ -18,7 +18,7 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 
 namespace Aow.Units.AoWHeroUpgradeDlg;
 
@@ -692,6 +692,6 @@ public partial class THeroUpgradeDlg : TDataModule
     }
 }
 
-public static partial class AoWHeroUpgradeDlg
+public static partial class AoWHeroUpgradeDlgUnit
 {
 }

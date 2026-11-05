@@ -25,6 +25,6 @@ public partial class TProgressDialog : TDataModule
     public TIvTranslator Translator;
 }
 
-public static partial class AoWProgressDialog
+public static partial class AoWProgressDialogUnit
 {
 }

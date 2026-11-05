@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.Altar;
 using Aow.Units.Storms;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AltFire;
 
@@ -50,7 +50,7 @@ public partial class TAltarOfFireResource : TAltarResource
 
 }
 
-public static partial class AltFire
+public static partial class AltFireUnit
 {
     // AltFire.pas:64
     public static void RegisterAltarOfFire(TEngine AEngine)

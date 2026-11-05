@@ -1,10 +1,10 @@
 // Translated from Sound.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 
 namespace Aow.Units.Sound;
 
@@ -118,7 +118,7 @@ public partial class TSample : TObject
     protected TSample(ConstructionContext context, TSampleData ASampleData)
     {
         context.Capture(this);
-        Sound.SampleList.Add(this);
+        SoundUnit.SampleList.Add(this);
         FSampleData = ASampleData;
         FSampleData.AddRef();
     }
@@ -147,7 +147,7 @@ public partial class TSample : TObject
         }
 
         FSampleData = null;
-        Sound.SampleList.Remove(this);
+        SoundUnit.SampleList.Remove(this);
         base.Destroy();
     }
 
@@ -233,7 +233,7 @@ public partial class TSampleData : TObject
     {
         context.Capture(this);
         FName = Name;
-        Sound.SampleDataList.Add(this);
+        SoundUnit.SampleDataList.Add(this);
         AddRef();
     }
 
@@ -265,7 +265,7 @@ public partial class TSampleData : TObject
     // Sound.pas:690
     public override void Destroy()
     {
-        Sound.SampleDataList.Remove(this);
+        SoundUnit.SampleDataList.Remove(this);
         base.Destroy();
     }
 
@@ -521,7 +521,7 @@ public partial class TSFXManager : TComponent
             TSearchRec SR = default;
             TStringList Dirs;
             bool Found;
-            Found = FindFirst(FSearchPath + Dir + "*." + Sound.SFXExtension, 63 & ~16, ref SR) == 0;
+            Found = FindFirst(FSearchPath + Dir + "*." + SoundUnit.SFXExtension, 63 & ~16, ref SR) == 0;
             while (Found)
             {
                 FSFX.Add(UpperCase(Dir + SR.Name));
@@ -561,7 +561,7 @@ public partial class TSFXManager : TComponent
         SetCurrentDir(Path);
         Search("");
         SetCurrentDir(OldDir);
-        FSearchPath = UpperCase(ExtractRelativePath(Sound.BaseSoundEnginePath, FSearchPath));
+        FSearchPath = UpperCase(ExtractRelativePath(SoundUnit.BaseSoundEnginePath, FSearchPath));
     }
 
     [Published]
@@ -740,7 +740,7 @@ public partial class TSonglist : TEObject
         {
             try
             {
-                var songName = Sound.GetSongName(FSongs[I]);
+                var songName = SoundUnit.GetSongName(FSongs[I]);
                 FSongNames.Insert(0, songName);
             }
             catch
@@ -782,7 +782,7 @@ public partial class TSonglist : TEObject
             Path = Path + "\\";
         }
 
-        FullPath = Sound.BaseSoundEnginePath + Path;
+        FullPath = SoundUnit.BaseSoundEnginePath + Path;
         FSongs.BeginUpdate();
         Found = FindFirst(FullPath + "*." + Ext, 63 & ~16, ref SR) == 0;
         while (Found)
@@ -826,7 +826,7 @@ public partial class TSongPlayer : TObject
         {
             try
             {
-                var songName = Sound.GetSongName(FSongs[I]);
+                var songName = SoundUnit.GetSongName(FSongs[I]);
                 FSongNames.Insert(0, songName);
             }
             catch
@@ -859,9 +859,9 @@ public partial class TSongPlayer : TObject
             }
             else
             {
-                if (Sound.SoundSystem != null)
+                if (SoundUnit.SoundSystem != null)
                 {
-                    Sound.SoundSystem.StopSong();
+                    SoundUnit.SoundSystem.StopSong();
                 }
 
                 FCurrentIndex = -1;
@@ -891,7 +891,7 @@ public partial class TSongPlayer : TObject
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (Sound.SoundSystem != null && FStatus.Contains(TSongPlayerStatusElement.spPlaying) && !FStatus.Contains(TSongPlayerStatusElement.spPaused) && !Sound.SoundSystem.PlayingSong && Sound.SoundSystem.MusicEnabled)
+        if (SoundUnit.SoundSystem != null && FStatus.Contains(TSongPlayerStatusElement.spPlaying) && !FStatus.Contains(TSongPlayerStatusElement.spPaused) && !SoundUnit.SoundSystem.PlayingSong && SoundUnit.SoundSystem.MusicEnabled)
         {
             FCurrentIndex += 1;
             if (FSongs.Count <= FCurrentIndex)
@@ -915,11 +915,11 @@ public partial class TSongPlayer : TObject
     public bool PlayEx(int Index, int FadeOut, int FadeIn)
     {
         bool Result;
-        if (Sound.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        if (SoundUnit.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
             FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
             var item = FSongs[Index];
-            Result = Sound.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
+            Result = SoundUnit.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
             if (Result)
             {
                 FCurrentIndex = Index;
@@ -947,11 +947,11 @@ public partial class TSongPlayer : TObject
     public bool Play(int Index)
     {
         bool Result;
-        if (Sound.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        if (SoundUnit.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
             FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
             var item = FSongs[Index];
-            Result = Sound.SoundSystem.PlaySongEx(item, 2, 0, false);
+            Result = SoundUnit.SoundSystem.PlaySongEx(item, 2, 0, false);
             if (Result)
             {
                 FCurrentIndex = Index;
@@ -979,11 +979,11 @@ public partial class TSongPlayer : TObject
     public bool Stop(bool StopMusic)
     {
         bool Result;
-        if (Sound.SoundSystem != null)
+        if (SoundUnit.SoundSystem != null)
         {
             if (StopMusic)
             {
-                Result = Sound.SoundSystem.StopSong();
+                Result = SoundUnit.SoundSystem.StopSong();
             }
             else
             {
@@ -1011,11 +1011,11 @@ public partial class TSongPlayer : TObject
                 FBackup.Free();
             }
 
-            FBackup = Sound.BackupSongStatus();
+            FBackup = SoundUnit.BackupSongStatus();
             FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPaused);
             if (StopMusic)
             {
-                Sound.SoundSystem.StopSong();
+                SoundUnit.SoundSystem.StopSong();
             }
         }
 
@@ -1038,7 +1038,7 @@ public partial class TSongPlayer : TObject
                 }
                 else
                 {
-                    Sound.RestoreSongStatus(FBackup);
+                    SoundUnit.RestoreSongStatus(FBackup);
                 }
 
                 FBackup.Free();
@@ -1080,10 +1080,10 @@ public partial class TSFX : TEObject
     }
 
     // Sound.pas:1034
-    public TSample Play() => Sound.PlaySample(FFileName);
+    public TSample Play() => SoundUnit.PlaySample(FFileName);
 
     // Sound.pas:1039
-    public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack) => Sound.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
+    public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack) => SoundUnit.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
 
     public string FileName { get => FFileName; set => FFileName = value; }
 
@@ -1356,7 +1356,7 @@ public partial class TSoundSystemList : TList
 
 }
 
-public static partial class Sound
+public static partial class SoundUnit
 {
     public static string BaseSoundEnginePath = "";
     public static TSongPlayer SongPlayer;

@@ -1,10 +1,10 @@
 // Translated from aowMapEvents.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.HSEngine;
 using Aow.Units.MapCtrl;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.City;
 using Aow.Units.WizardsTower;
@@ -12,22 +12,22 @@ using Aow.Units.Arena;
 using Aow.Units.FlagEvents;
 using Aow.Units.Dungeon;
 using Aow.Units.ItemExpS;
-using static Aow.Units.AoWArmyEventDlg.AoWArmyEventDlg;
+using static Aow.Units.AoWArmyEventDlg.AoWArmyEventDlgUnit;
 using Aow.Units.AoWCityRebelDlg;
 using Aow.Units.AoWMsgReceiveDlg;
 using Aow.Units.AoWTutorialWin;
 using Aow.Units.AoWArmyInfoDlg;
 using Aow.Units.AoWWizardsTowerDlg;
-using static Aow.Units.AoWArenaDlg.AoWArenaDlg;
-using static Aow.Units.FastCombatWin.FastCombatWin;
+using static Aow.Units.AoWArenaDlg.AoWArenaDlgUnit;
+using static Aow.Units.FastCombatWin.FastCombatWinUnit;
 using Aow.Units.AoWPartyJoin;
 using Aow.Units.AoWHeroJoinDlg;
-using static Aow.Units.AoWHeroInfoDlg.AoWHeroInfoDlg;
+using static Aow.Units.AoWHeroInfoDlg.AoWHeroInfoDlgUnit;
 using Aow.Units.AoWHeroUpgradeDlg;
 using Aow.Units.AoWMessageDlg;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlg;
+using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
 using Aow.Units.AoWFileDialog;
-using static Aow.Units.AoWFileDialog.AoWFileDialog;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
 using Aow.Units.AoWPasswordDlg;
 using Aow.Units.AoWMagic;
 using Aow.Units.AoWRelations;
@@ -35,25 +35,34 @@ using Aow.Units.AoWCastUnitSpellDlg;
 using Aow.Units.AoWTargetSelection;
 using Aow.Units.AoWCityJoinDlg;
 using Aow.Units.AoWItemsFoundDlg;
-using static Aow.Units.AoWRealm.AoWRealm;
-using static Aow.Units.AoWInfoWin.AoWInfoWin;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWUnitBanner.AoWUnitBanner;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.E1Globals.E1Globals;
+using static Aow.Units.AoWRealm.AoWRealmUnit;
+using static Aow.Units.AoWInfoWin.AoWInfoWinUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWUnitBanner.AoWUnitBannerUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.E1Globals.E1GlobalsUnit;
 using Aow.Units.PrdPlace;
-using static Aow.Units.AoWCityScreen.AoWCityScreen;
-using static Aow.Units.AoWProdScreen.AoWProdScreen;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
+using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
+using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
 using Aow.Units.GlobalSpells;
 using Aow.Units.UnitSpells;
-using static Aow.Units.E3EventDialogs.E3EventDialogs;
-using static Aow.Units.AoWSMTPDlg.AoWSMTPDlg;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWin;
-using static Aow.Units.aowHelpWin.aowHelpWin;
-using static Aow.Units.AoWUnitWindow.AoWUnitWindow;
+using static Aow.Units.E3EventDialogs.E3EventDialogsUnit;
+using static Aow.Units.AoWSMTPDlg.AoWSMTPDlgUnit;
+using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.AoWUnitWindow.AoWUnitWindowUnit;
 using Aow.Platform;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AOWPyreScrn;
+using Aow.Units.AoWWorldMap;
+using Aow.Units.E2Globals;
+using Aow.Units.AoWSWindow;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AOWMWindow;
+using Aow.Units.aowSetupEvents;
+using Aow.Units.E3Globals;
 
 namespace Aow.Units.aowMapEvents;
 
@@ -125,25 +134,25 @@ public partial class TMapEvents : TDataModule
     {
         General.FAbilities.Clear();
         General.FUnitList = null;
-        AOWControlWin.AOWControlWin.ControlWin.MovesLbl.Text = "";
-        AOWControlWin.AOWControlWin.ControlWin.MoveIcon.Visible = false;
-        AOWControlWin.AOWControlWin.ControlWin.Emp1Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp1Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp2Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp2Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp3Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp3Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp4Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp4Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp5Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp5Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp6Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp6Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp7Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp7Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp8Fr.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.Emp8Chk.Visible = true;
-        AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = false;
+        AOWControlWinUnit.ControlWin.MovesLbl.Text = "";
+        AOWControlWinUnit.ControlWin.MoveIcon.Visible = false;
+        AOWControlWinUnit.ControlWin.Emp1Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp1Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp2Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp2Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp3Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp3Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp4Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp4Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp5Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp5Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp6Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp6Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp7Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp7Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp8Fr.Visible = true;
+        AOWControlWinUnit.ControlWin.Emp8Chk.Visible = true;
+        AOWControlWinUnit.ControlWin.ControlWindow.Visible = false;
         TBWindow.ConButton.Visible = false;
         if (UnitWindow.UnitWin.Visible)
         {
@@ -185,7 +194,7 @@ public partial class TMapEvents : TDataModule
         }
 
         General.FUnitList = Army;
-        AOWControlWin.AOWControlWin.ControlWin.UpdateArmy();
+        AOWControlWinUnit.ControlWin.UpdateArmy();
         if (AoWHSMap.FSeatedPlayer == Army.FPlayer)
         {
             AoWHSMap.FTutorialControl.ShowMessage(63, true, true);
@@ -200,10 +209,10 @@ public partial class TMapEvents : TDataModule
             TBWindow.TurnButton.FLastPlayer = -1;
         }
 
-        var format = AoWE.AoWE.Format(TranslateRStr(DayXRStr), [Day]);
+        var format = AoWEUnit.Format(TranslateRStr(DayXRStr), [Day]);
         PInfoW.Turn.Text = format;
-        aowMapEvents.MapEvents.TheMapGemsChanged(AoWHSMap.FSeatedPlayer);
-        aowMapEvents.MapEvents.TheMapIncomeChanged(AoWHSMap.FSeatedPlayer);
+        aowMapEventsUnit.MapEvents.TheMapGemsChanged(AoWHSMap.FSeatedPlayer);
+        aowMapEventsUnit.MapEvents.TheMapIncomeChanged(AoWHSMap.FSeatedPlayer);
         if (RealmWin.Dlg.Visible)
         {
             RealmWin.UpdateOverview();
@@ -253,7 +262,7 @@ public partial class TMapEvents : TDataModule
             {
                 if (Event is TCityRebellionEventLog)
                 {
-                    aowMapEvents.ShowRebellion(CityRebelDlg, (TCityRebellionEventLog)Event, Done);
+                    aowMapEventsUnit.ShowRebellion(CityRebelDlg, (TCityRebellionEventLog)Event, Done);
                 }
                 else
                 {
@@ -268,7 +277,7 @@ public partial class TMapEvents : TDataModule
                             var negotiateRequestEventLog = (TNegotiateRequestEventLog)Event;
                             if (negotiateRequestEventLog.FObject == TNegotiateObject.noCity)
                             {
-                                aowMapEvents.ShowCityNegotiation(CityJoinDlg, (TNegotiateRequestEventLog)Event, Done);
+                                aowMapEventsUnit.ShowCityNegotiation(CityJoinDlg, (TNegotiateRequestEventLog)Event, Done);
                             }
                             else
                             {
@@ -280,11 +289,11 @@ public partial class TMapEvents : TDataModule
                                         var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
                                         if (ArmyHS.FArmy.Hero(joinSelection, AllHeroTypes) == null)
                                         {
-                                            aowMapEvents.ShowPartyJoin(PartyJoinDlg, (TNegotiateRequestEventLog)Event, Done);
+                                            aowMapEventsUnit.ShowPartyJoin(PartyJoinDlg, (TNegotiateRequestEventLog)Event, Done);
                                         }
                                         else
                                         {
-                                            aowMapEvents.ShowHeroNegotiation(HeroJoinDlg, (TNegotiateRequestEventLog)Event, Done);
+                                            aowMapEventsUnit.ShowHeroNegotiation(HeroJoinDlg, (TNegotiateRequestEventLog)Event, Done);
                                         }
                                     }
                                 }
@@ -296,11 +305,11 @@ public partial class TMapEvents : TDataModule
                             {
                                 if (AoWHSMap.FSeatedPlayer == Event.FPlayer)
                                 {
-                                    AOWPyreScrn.AOWPyreScrn.PyreScreen.ShowGameOver((TGameOverEventLog)Event, Done);
+                                    AOWPyreScrnUnit.PyreScreen.ShowGameOver((TGameOverEventLog)Event, Done);
                                 }
                                 else
                                 {
-                                    aowMapEvents.ShowReceivedMessage(MsgReceiveDlg, Event, Done);
+                                    aowMapEventsUnit.ShowReceivedMessage(MsgReceiveDlg, Event, Done);
                                 }
                             }
                             else
@@ -319,7 +328,7 @@ public partial class TMapEvents : TDataModule
                                     {
                                         if (Event is TShowBookEventLog)
                                         {
-                                            ShowInformationBook(AoWWorldMap.AoWWorldMap.WorldMap, (TShowBookEventLog)Event, Done);
+                                            ShowInformationBook(AoWWorldMapUnit.WorldMap, (TShowBookEventLog)Event, Done);
                                         }
                                         else
                                         {
@@ -332,7 +341,7 @@ public partial class TMapEvents : TDataModule
                                                         SpellBook.ShowResearchedEvent((TPlayerMagicEventLog)Event, Done);
                                                         break;
                                                     case TPlayerMagicEventMode.pmemOutOfMana:
-                                                        aowMapEvents.ShowMagicEvent(MagicWin, (TPlayerMagicEventLog)Event, Done);
+                                                        aowMapEventsUnit.ShowMagicEvent(MagicWin, (TPlayerMagicEventLog)Event, Done);
                                                         break;
                                                     case TPlayerMagicEventMode.pmemStartResearch:
                                                         SpellBook.ShowResearchEvent((TPlayerMagicEventLog)Event, Done);
@@ -343,13 +352,13 @@ public partial class TMapEvents : TDataModule
                                             {
                                                 if (Event is THeroUpgradeEventLog)
                                                 {
-                                                    aowMapEvents.ShowHeroUpgrade(HeroUpgradeDlg, (THeroUpgradeEventLog)Event, Done);
+                                                    aowMapEventsUnit.ShowHeroUpgrade(HeroUpgradeDlg, (THeroUpgradeEventLog)Event, Done);
                                                 }
                                                 else
                                                 {
                                                     if (Event is THeroJoinEventLog)
                                                     {
-                                                        aowMapEvents.ShowHeroJoin(HeroJoinDlg, (THeroJoinEventLog)Event, Done);
+                                                        aowMapEventsUnit.ShowHeroJoin(HeroJoinDlg, (THeroJoinEventLog)Event, Done);
                                                     }
                                                     else
                                                     {
@@ -358,7 +367,7 @@ public partial class TMapEvents : TDataModule
                                                             var armyInfoEventLog = (TArmyInfoEventLog)Event;
                                                             if (armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, AllHeroTypes) == null)
                                                             {
-                                                                aowMapEvents.ShowArmyInfo(ArmyInfoDlg, (TArmyInfoEventLog)Event, Done);
+                                                                aowMapEventsUnit.ShowArmyInfo(ArmyInfoDlg, (TArmyInfoEventLog)Event, Done);
                                                             }
                                                             else
                                                             {
@@ -372,18 +381,18 @@ public partial class TMapEvents : TDataModule
                                                                 UnitObject = AoWHSMap.FUnitControl.FindUnit(((TPrisonersJoinEventLog)Event).FFirstUnitID);
                                                                 if (UnitObject != null && UnitObject is THero)
                                                                 {
-                                                                    aowMapEvents.ShowPrisonerHero(HeroJoinDlg, (TPrisonersJoinEventLog)Event, Done);
+                                                                    aowMapEventsUnit.ShowPrisonerHero(HeroJoinDlg, (TPrisonersJoinEventLog)Event, Done);
                                                                 }
                                                                 else
                                                                 {
-                                                                    aowMapEvents.ShowPrisonersJoin(PartyJoinDlg, (TPrisonersJoinEventLog)Event, Done);
+                                                                    aowMapEventsUnit.ShowPrisonersJoin(PartyJoinDlg, (TPrisonersJoinEventLog)Event, Done);
                                                                 }
                                                             }
                                                             else
                                                             {
                                                                 if (Event is TEnterWizardsTowerEventLog)
                                                                 {
-                                                                    aowMapEvents.ShowTower(WizardsTowerDlg, (TEnterWizardsTowerEventLog)Event, Done);
+                                                                    aowMapEventsUnit.ShowTower(WizardsTowerDlg, (TEnterWizardsTowerEventLog)Event, Done);
                                                                 }
                                                                 else
                                                                 {
@@ -395,19 +404,19 @@ public partial class TMapEvents : TDataModule
                                                                     {
                                                                         if (Event is TMessageEventLog)
                                                                         {
-                                                                            aowMapEvents.ShowMessageEvent(MessageDlg, (TMessageEventLog)Event, Done);
+                                                                            aowMapEventsUnit.ShowMessageEvent(MessageDlg, (TMessageEventLog)Event, Done);
                                                                         }
                                                                         else
                                                                         {
                                                                             if (Event is TTutorialMessageEventLog)
                                                                             {
-                                                                                aowMapEvents.ShowTutorialEvent(E2Globals.E2Globals.TutorialWindow, (TTutorialMessageEventLog)Event, Mode, Done);
+                                                                                aowMapEventsUnit.ShowTutorialEvent(E2GlobalsUnit.TutorialWindow, (TTutorialMessageEventLog)Event, Mode, Done);
                                                                             }
                                                                             else
                                                                             {
                                                                                 if (Event is TFlagMessageEventLog)
                                                                                 {
-                                                                                    aowMapEvents.ShowFlagMessage(E2Globals.E2Globals.TutorialWindow, (TFlagMessageEventLog)Event, Mode, Done);
+                                                                                    aowMapEventsUnit.ShowFlagMessage(E2GlobalsUnit.TutorialWindow, (TFlagMessageEventLog)Event, Mode, Done);
                                                                                 }
                                                                                 else
                                                                                 {
@@ -419,7 +428,7 @@ public partial class TMapEvents : TDataModule
                                                                                     {
                                                                                         if (Event is TSaveGameEventLog)
                                                                                         {
-                                                                                            aowMapEvents.ShowSaveGameEvent(FileDlgWindow, (TSaveGameEventLog)Event, Done);
+                                                                                            aowMapEventsUnit.ShowSaveGameEvent(FileDlgWindow, (TSaveGameEventLog)Event, Done);
                                                                                         }
                                                                                         else
                                                                                         {
@@ -437,13 +446,13 @@ public partial class TMapEvents : TDataModule
                                                                                                 {
                                                                                                     if (Event is TPasswordEventLog)
                                                                                                     {
-                                                                                                        aowMapEvents.ShowPasswordEvent(PasswordDlg, (TPasswordEventLog)Event, Done);
+                                                                                                        aowMapEventsUnit.ShowPasswordEvent(PasswordDlg, (TPasswordEventLog)Event, Done);
                                                                                                     }
                                                                                                     else
                                                                                                     {
                                                                                                         if (Event is TItemExplorationSiteEventLog)
                                                                                                         {
-                                                                                                            aowMapEvents.ShowItemsFound(ItemsFoundDlg, (TItemExplorationSiteEventLog)Event, Done);
+                                                                                                            aowMapEventsUnit.ShowItemsFound(ItemsFoundDlg, (TItemExplorationSiteEventLog)Event, Done);
                                                                                                         }
                                                                                                         else
                                                                                                         {
@@ -633,18 +642,18 @@ public partial class TMapEvents : TDataModule
     // aowMapEvents.pas:362
     public void TheMapMapChanged(ref TMapChangedInfo Info)
     {
-        if (Info.MapLevel == AoWSWindow.AoWSWindow.SWindow.Scanner.FLevel)
+        if (Info.MapLevel == AoWSWindowUnit.SWindow.Scanner.FLevel)
         {
-            AoWSWindow.AoWSWindow.SWindow.Scanner.DrawMap(Info.Bounds.Left - 6, Info.Bounds.Top - 6, Info.Bounds.Right - Info.Bounds.Left, Info.Bounds.Bottom - Info.Bounds.Top);
+            AoWSWindowUnit.SWindow.Scanner.DrawMap(Info.Bounds.Left - 6, Info.Bounds.Top - 6, Info.Bounds.Right - Info.Bounds.Left, Info.Bounds.Bottom - Info.Bounds.Top);
         }
     }
 
     // aowMapEvents.pas:370
     public void TheMapScannerIconsChanged(ref TMapChangedInfo Info)
     {
-        if (Info.MapLevel == AoWSWindow.AoWSWindow.SWindow.Scanner.FLevel)
+        if (Info.MapLevel == AoWSWindowUnit.SWindow.Scanner.FLevel)
         {
-            AoWSWindow.AoWSWindow.SWindow.Scanner.SetObDrawn(false);
+            AoWSWindowUnit.SWindow.Scanner.SetObDrawn(false);
         }
     }
 
@@ -869,7 +878,7 @@ public partial class TMapEvents : TDataModule
     // aowMapEvents.pas:487
     public void TheMapTargetSelectionChange(TTargetSelectionControl Control, TTargetSelectionChange Change)
     {
-        aowMapEvents.ShowTargetSelection(AoWWorldMap.AoWWorldMap.TargetSelectionDlg, Control, Change);
+        aowMapEventsUnit.ShowTargetSelection(AoWWorldMapUnit.TargetSelectionDlg, Control, Change);
     }
 
     // aowMapEvents.pas:490
@@ -896,13 +905,13 @@ public partial class TMapEvents : TDataModule
     {
         if (Caster is TUnitSpellCaster)
         {
-            aowMapEvents.ShowUnitSpellCaster(CastUnitSpellDlg, (TUnitSpellCaster)Caster);
+            aowMapEventsUnit.ShowUnitSpellCaster(CastUnitSpellDlg, (TUnitSpellCaster)Caster);
         }
         else
         {
             if (Caster is TDisjunctionSpellCaster)
             {
-                AoWExeForms.AoWExeForms.DisjunctionDlg.Execute((TDisjunctionSpellCaster)Caster);
+                AoWExeFormsUnit.DisjunctionDlg.Execute((TDisjunctionSpellCaster)Caster);
             }
             else
             {
@@ -926,13 +935,13 @@ public partial class TMapEvents : TDataModule
     // aowMapEvents.pas:512
     public void TheMapRelationsChanged()
     {
-        aowMapEvents.RefreshRelations(RelWindow);
+        aowMapEventsUnit.RefreshRelations(RelWindow);
     }
 
     // aowMapEvents.pas:515
     public void TheMapDiplomaticChange()
     {
-        aowMapEvents.RefreshRelations(RelWindow);
+        aowMapEventsUnit.RefreshRelations(RelWindow);
     }
 
     // aowMapEvents.pas:518
@@ -973,20 +982,20 @@ public partial class TMapEvents : TDataModule
     {
         try
         {
-            AoWWinMan.AoWWinMan.General.SaveLayout();
-            AoWWinMan.AoWWinMan.General.HideWindows();
-            AOWMWindow.AOWMWindow.MWindow.MapViewer.HSMap = null;
-            if (aowSetupEvents.aowSetupEvents.SetupEvents.FLobbyGame)
+            General.SaveLayout();
+            General.HideWindows();
+            AOWMWindowUnit.MWindow.MapViewer.HSMap = null;
+            if (aowSetupEventsUnit.SetupEvents.FLobbyGame)
                 GameHost.MainForm.CloseRequested();
         }
         catch
         {
-            Rtl.Rtl.ShowMessage("Error during close");
+            ShowMessage("Error during close");
         }
     }
 }
 
-public static partial class aowMapEvents
+public static partial class aowMapEventsUnit
 {
     // aowMapEvents.pas:998
     public static void ShowItemsFound(TItemsFoundDlg Dialog, TItemExplorationSiteEventLog Event, TExecuteDoneEvent Done)
@@ -1063,20 +1072,20 @@ public static partial class aowMapEvents
             Dialog.BorderImage.ImageMiddle = Control.FValidTargetImage;
             Dialog.BorderImage.ImageBottom = Control.FInvalidTargetImage;
             General.Manager.OverlayPriority = 49;
-            var window = AOWMWindow.AOWMWindow.MWindow.MapWindow;
+            var window = AOWMWindowUnit.MWindow.MapWindow;
             window.FModal = true;
             window.Priority = 500;
 
-            AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Priority = Dialog.Dlg.Priority;
+            AoWSWindowUnit.SWindow.ScannerWindow.Priority = Dialog.Dlg.Priority;
         }
         else
         {
             if (Change == TTargetSelectionChange.tscDeactivated)
             {
                 Dialog.Dlg.Visible = false;
-                AOWMWindow.AOWMWindow.MWindow.MapWindow.Priority = 0;
-                AOWMWindow.AOWMWindow.MWindow.MapWindow.FModal = false;
-                AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Priority = 10;
+                AOWMWindowUnit.MWindow.MapWindow.Priority = 0;
+                AOWMWindowUnit.MWindow.MapWindow.FModal = false;
+                AoWSWindowUnit.SWindow.ScannerWindow.Priority = 10;
                 General.Manager.OverlayPriority = 0;
             }
         }
@@ -1217,7 +1226,7 @@ public static partial class aowMapEvents
             Dialog.MessageMemo.Items.Delete(0);
         }
 
-        if (Dialog.MessageMemo.Items.Count > 0 && Rtl.Rtl.IsEmpty(Dialog.MessageMemo.Items[0]))
+        if (Dialog.MessageMemo.Items.Count > 0 && IsEmpty(Dialog.MessageMemo.Items[0]))
         {
             Dialog.MessageMemo.Items.Delete(0);
         }
@@ -1266,12 +1275,12 @@ public static partial class aowMapEvents
         if (Tower.FSpellID != 0)
         {
             var buyCost = Dialog.FEvent.FTower.BuyCost();
-            var format = AoWE.AoWE.Format(TranslateRStr(ForXGoldRStr), [IntToStr(buyCost)]);
+            var format = AoWEUnit.Format(TranslateRStr(ForXGoldRStr), [IntToStr(buyCost)]);
             Dialog.PriceLbl.Text = format + ".";
             Spell = AoWHSSet.FSpellControl.GetSpell(Tower.FSpellID);
             Dialog.SpellName.Text = Spell.FSpellName;
             var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-            var level = TranslateRStr(AoWE.AoWE.LevelRStr);
+            var level = TranslateRStr(AoWEUnit.LevelRStr);
             Dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
             var castingCost = TranslateRStr(CastingCostRStr);
             var mana = TranslateRStr(ManaRStr);
@@ -1282,7 +1291,7 @@ public static partial class aowMapEvents
         else
         {
             Dialog.PriceLbl.Text = "";
-            var none = TranslateRStr(AoWE.AoWE.NoneRStr);
+            var none = TranslateRStr(AoWEUnit.NoneRStr);
             Dialog.SpellName.Text = none;
             Dialog.SpellClass.Text = "";
             Dialog.SpellCost.Text = "";
@@ -1332,7 +1341,7 @@ public static partial class aowMapEvents
             Dialog.FFaceUnit = AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
             Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
             var level = ((THero)Dialog.FFaceUnit).GetLevel();
-            var format = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
+            var format = AoWEUnit.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
             Dialog.HeroLevel.Text = format;
             Dialog.HeroName.Text = ((THero)Dialog.FFaceUnit).FHeroName;
             var text = Dialog.FJoinEvent.FJoinMessage.Text;
@@ -1438,16 +1447,16 @@ public static partial class aowMapEvents
             Dialog.RefreshAbilities();
             Dialog.UnitName.Text = Dialog.FHero.FHeroName;
             var level = Dialog.FHero.GetLevel();
-            var levelText = TranslateRStr(AoWE.AoWE.LevelRStr);
+            var levelText = TranslateRStr(AoWEUnit.LevelRStr);
             Dialog.LevelLbl.Text = levelText + " " + IntToStr(level);
             if (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel > 1)
             {
-                var format = AoWE.AoWE.Format(TranslateRStr(E3Globals.E3Globals.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
+                var format = AoWEUnit.Format(TranslateRStr(E3GlobalsUnit.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
                 Dialog.HeaderLbl.Text = format + "!";
             }
             else
             {
-                var format = AoWE.AoWE.Format(TranslateRStr(E3Globals.E3Globals.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
+                var format = AoWEUnit.Format(TranslateRStr(E3GlobalsUnit.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
                 Dialog.HeaderLbl.Text = format + "!";
             }
 

@@ -14,11 +14,11 @@ using Aow.Units.FontMod;
 using Aow.Units.AoWConstructDlg;
 using Aow.Units.AoWDisjunctionDlg;
 using Aow.Units.AoWTCScanner;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWExeForms;
 
-public static partial class AoWExeForms
+public static partial class AoWExeFormsUnit
 {
     // { Shared executable form instances used by E2. These are the original global form
 //   references; no forms are constructed by the byte-match host. }
