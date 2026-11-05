@@ -19,7 +19,9 @@ frame comparison, and how they fit together in one command. The tooling under `t
 | strings checks | text stays one code page 1252 char per byte, no game string is null, and no swallowed error goes unseen | `StringsRewrite --check`, the strict switch, the exception census, the sort dump | section 6 |
 | play | a person plays a scenario | none | `../process.md` |
 
-`python tools/check.py` runs the first four layers in that order and stops at the first failure.
+`python tools/check.py` runs all 13 layers of the gate (`check_support.LAYERS` in the private
+repository), the probes first, the others concurrently and pacing last, prints PASS or FAIL for
+each and fails unless every layer passes.
 It is the command the implementer runs before reporting, and the command the design session runs
 before committing.
 

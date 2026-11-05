@@ -231,8 +231,9 @@ that differ apart.
   string element is `Cp1252.Byte(c)`, and `Ord` of a `byte` is the byte.
 - `UpCase`: ASCII letters only, with a `char` and a `byte` overload.
 - Concatenation is `string +`.
-- `SetString(ref S, P, Len)` decodes `Len` bytes from a `Ptr<byte>`. A null pointer gives `Len`
-  chars `'\0'`, and `Len` at most 0 gives `""`.
+- `SetString(ref S, P, Len)` decodes `Len` bytes from a `Ptr<byte>`, and the overload
+  `SetString(P, Len)` returns the same string. A null pointer gives `Len` chars `'\0'`, and
+  `Len` at most 0 gives `""`.
 - `StrLen`, `StrPas`, `StrCopy`, `StrLComp`, `StrScan` on `Ptr<byte>` with zero termination.
   `StrPas` and `FromPChar` decode up to the first zero byte (section 1.2).
 
@@ -259,7 +260,7 @@ passes through unchanged.
 | `StrToInt(S)` | `Val` semantics: leading spaces skipped, optional `+` or `-`, `$` prefix for hex (not after a sign), digits to the end or to the first `'\0'`, anything else raises `EConvertError` with the message `'%s' is not a valid integer value` |
 | `StrToIntDef(S, def)` | the same, returns `def` on error |
 | `UpperCase`, `LowerCase` | ASCII letters only. Every other char stays |
-| `AnsiUpperCase`, `AnsiLowerCase` | the code page 1252 case tables of `SysUtils.cs`, applied through `Cp1252.Byte` and `Cp1252.Char` to mapped chars, never `ToUpperInvariant`. Lower case adds 32 to 65 to 90, 192 to 214 and 216 to 222 and maps 138, 140, 142 and 159 to 154, 156, 158 and 255. Upper case is the inverse. µ (181) has no case pair in the table and stays. A char outside the table stays |
+| `AnsiUpperCase`, `AnsiLowerCase` | the code page 1252 case tables of `SysUtils.cs` and `StringRoutines.cs`, applied through `Cp1252.Byte` and `Cp1252.Char` to mapped chars, never `ToUpperInvariant`. Lower case adds 32 to 65 to 90, 192 to 214 and 216 to 222 and maps 138, 140, 142 and 159 to 154, 156, 158 and 255. Upper case is the inverse. µ (181) has no case pair in the table and stays. A char outside the table stays |
 | `CompareStr(A, B)` | `Cp1252.Compare`: the difference of the first differing bytes or of the lengths |
 | `CompareText(A, B)` | `CompareStr` after ASCII upper-casing |
 | `AnsiCompareStr`, `AnsiCompareText` | section 3.2 |

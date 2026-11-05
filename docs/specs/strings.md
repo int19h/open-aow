@@ -354,8 +354,9 @@ P4, on a private branch that merges with the pass:
   char to string conversions emit `Cp1252.Text`, literals with `#` codes emit `\u` escapes, `PChar`
   to string conversions emit `Rtl.StrPas` (not `Cp1252.Decode`, which over a `Ptr<byte>` reads past
   the zero terminator, amended 2026-11-05 after the P4 review), string to `PChar` emits a
-  zero-terminated copy through `Ptr<byte>.Unbox`, empty tests emit `Rtl.IsEmpty`, sorts over
-  strings pass `Cp1252.Comparer`, and names come out in the simplified form of 3.1. The 326
+  zero-terminated copy through `Ptr<byte>.Unbox`, empty tests emit `Rtl.IsEmpty`, and names come
+  out in the simplified form of 3.1. The emitter passes no comparer: the one sort over game text,
+  `MldDictionary.Read`, is hand-written and passes `Cp1252.Comparer` by hand. The 326
   transpiler tests update their expected text (328 after the merge). There is no dual mode,
   because the first-stage emission has no consumer once the shim type is gone. Probe `.pas`
   sources and the recorded Delphi outputs do not change.
@@ -370,8 +371,8 @@ Layout (D3). `src/Layout` stays emitter-owned through 9.5-1. The tool skips it. 
 regenerates it with P4's forms generator and copies it whole, with no hand edit. The report compares
 the regenerated files with the tool's output for `src/Layout` (`--out`, 21 rewrites at `d31aa07`),
 every difference explained. Two independent routes to one text cross-check P4. P4 runs the
-comparison once on its own base, and 9.5-1 runs it again on the pass base. Ownership of
-`src/Layout` is revisited after 9.5-1.
+comparison once on its own base, and 9.5-1 runs it again on the pass base. After 9.5-1, brief C11
+made `src/Layout` hand-owned on 2026-11-05, and the forms generator became a reference emitter.
 
 ### 3.4 Permanent enforcement
 

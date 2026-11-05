@@ -817,7 +817,7 @@ deleted. The emitter writes:
 
 | Delphi | C# |
 |---|---|
-| `'text'`, `#13#10`, `'a'#0` | one string literal. Bytes 32 to 126 stay, 0, 9, 10 and 13 become `\0`, `\t`, `\n` and `\r`, and every other byte becomes the `\uNNNN` escape of its code page 1252 char |
+| `'text'`, `#13#10`, `'a'#0` | one string literal. Bytes 32 to 126 stay, except the backslash and the quote, which become `\\` and `\"`. Bytes 0, 9, 10 and 13 become `\0`, `\t`, `\n` and `\r`, and every other byte becomes the `\uNNNN` escape of its code page 1252 char |
 | `S + T` | `S + T`. A Delphi `Char` operand becomes its one-char string (a literal, or `Cp1252.Text(c)`) |
 | `S = T`, `S <> T` | `==`, `!=`. A test against `''` becomes `IsEmpty(S)` or its negation |
 | `S < T` and the other orderings | `Cp1252.Compare(S, T) < 0` and so on |
