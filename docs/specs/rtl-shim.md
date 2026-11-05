@@ -1,10 +1,12 @@
 # RTL shim specification
 
-State: draft, 2026-10-24. The transpiler specification (`transpiler.md`) defines what generated code
+State: draft, 2026-10-24. Sections 1.2, 2.3 and 3 revised on 2026-11-05 for `string` (brief
+9.5-2). The transpiler specification (`transpiler.md`) defines what generated code
 expects from the shim. This document defines the shim: the C# library `src/Rtl/Aow.Rtl.csproj`
 that stands in for the Delphi 3 runtime library (System, SysUtils), the parts of the VCL the
-transpiled code uses (Classes, Windows, Graphics, Controls, Forms, Dialogs, Registry) and the core
-types the transpiler emits (`AnsiString`, `TSet<E>`, `Ptr<T>`, `TObject` with its metaclass). The
+transpiled code uses (Classes, Windows, Graphics, Controls, Forms, Dialogs, Registry), the core
+types the transpiler emits (`TSet<E>`, `Ptr<T>`, `TObject` with its metaclass) and the code page
+1252 table behind the port's `string` text (`Cp1252`). The
 reference for every behavior is the Delphi 3.02 source under `C:\Tools\Delphi3\SOURCE` and, where
 that source is assembly, the probe compiled with the oracle compiler.
 
@@ -58,27 +60,61 @@ for the classes in the metaclass closure of `transpiler.md` 4.4, registered by t
 it there. `TComponent` (section 4.4 of this document) carries the one VCL virtual constructor the
 set calls through a class reference, so its `Meta` has the `Create(TComponent owner)` factory.
 
-### 1.2 AnsiString
+### 1.2 Text: `string` and `Cp1252`
 
-A `readonly struct` that holds a `byte[]` and behaves like a Delphi 3 long string:
+Text is the .NET `string`. Until milestone 9.5 the shim held text in a byte string struct,
+`AnsiString`, and brief 9.5-1 (merged 2026-11-05) deleted it and moved the whole tree to `string`
+in one pass (`strings.md`). Every `char` of a game string is the code page 1252 decoding of exactly
+one byte, so the length and the positions of a string equal those of the Delphi bytes. Host paths
+are the one kind of text outside that image (section 3.4, `strings.md` 2.5).
 
-- Value semantics. Assignment shares the array. Every mutating operation returns a new struct with a
-  new array (`WithChar`, `Resized`, concatenation). This is copy on write without reference counts.
-- `Length` is the array length. The empty string is the default struct (`null` array), and every
-  member treats a `null` array as empty.
-- `this[int i]` returns the byte at 1-based `i`. Out of range throws `ERangeError`. Delphi 3 with
+`Cp1252` (`src/Rtl/Cp1252.cs`) owns the map. The table is frozen, and from 9.7 on it is a format
+contract (`strings.md` 2.1 and 2.7).
+
+| member | semantics |
+|---|---|
+| `Char(byte)` | the 256-entry table. Bytes 0 to 127 and 160 to 255 map to the char of the same code, 128 to 159 to the Windows-1252 chars (0x80 to U+20AC and so on), and the five undefined bytes 129, 141, 143, 144 and 157 to U+0081, U+008D, U+008F, U+0090 and U+009D. It is a bijection onto 256 chars |
+| `Byte(char)` | the inverse of `Char`. Any other char gives 63 (`?`) |
+| `IsMapped(char)` | true exactly for the 256 chars of `Char` |
+| `Text(byte)` | the one-char string of `Char(b)`, from a cache |
+| `Decode(ReadOnlySpan<byte>)` | `Char` per byte, zero bytes included |
+| `Encode(string)` | `Byte` per char into a new `byte[]` |
+| `Normalize(string)` | `Char(Byte(c))` per char, the entry rule for host text that becomes game text |
+| `Compare(string, string)` | per position the byte of each char, then the lengths, as `_LStrCmp` in `SYSTEM.PAS` does. A char outside the table orders after every mapped char, by its code. `Compare(a, b) == 0` holds exactly when `a == b` |
+| `Comparer` | an `IComparer<string>` over `Compare`, for the sorts, searches and sorted collections over game text |
+
+- Value semantics. A `string` is immutable, `==` is ordinal, and inside the image ordinal equality
+  is byte equality because the map is a bijection. A string is a dictionary key as it is. Its hash
+  code varies per process, and no game logic depends on it (`strings.md` 2.1).
+- Indexing is zero-based: the Delphi `S[I]` reads `S[I - 1]`. Out of range throws
+  `IndexOutOfRangeException`, which `Rtl.Wrap` maps to `ERangeError` (section 1.7). Delphi 3 with
   `{$R-}` reads garbage there, and a correct program does not do it.
-- `WithChar(int i, byte c)` returns a copy with the byte replaced.
-- `Resized(int n)` returns a copy of length `n`, padded with zero bytes when longer. Delphi leaves
-  the new bytes undefined.
-- Operators `+`, `==`, `!=`, `<`, `<=`, `>`, `>=`. Comparison is unsigned byte-wise over the common
-  length, then by length. `_LStrCmp` in `SYSTEM.PAS` does exactly that.
-- `implicit operator AnsiString(string)` encodes with code page 1252. Generated literals use it.
-  The transpiler writes bytes above 127 as `\xNN` escapes, so the conversion is exact.
-- `ToString()` decodes with code page 1252, for logs and for the host's file APIs.
-- `FromBytes(params byte[])`, `FromPChar(Ptr<byte>)` (up to the first zero byte), `AsPtr()` (a
-  `Ptr<byte>` over a copy with one trailing zero byte).
-- `GetHashCode` and `Equals` are byte-wise, so an `AnsiString` is a dictionary key.
+- An element is a `char`. A Delphi `Char` stays `byte` in variables, fields, parameters, returns
+  and sets, and it meets a string element through `Cp1252.Byte`, `Cp1252.Char` and `Cp1252.Text`
+  (`strings.md` 2.3).
+- `Rtl.WithChar(s, i, c)` returns a copy with the char at 1-based `i` replaced and throws
+  `ERangeError` out of range. `Rtl.Resized(s, n)` returns a copy of length `n`, padded with `'\0'`
+  when longer, and throws `ERangeError` for a negative `n`. Delphi leaves the new bytes undefined.
+  `Rtl.Strings(n)` returns a string array filled with `""`.
+- Nulls. A game string is never null, and the sources of a null are closed (`strings.md` 2.2). The
+  switch `Rtl.StrictStrings` decides what a null argument does in the routines that read it:
+  `Rtl.Length`, `Rtl.IsEmpty`, the text routines of sections 2.3 and 3.1, the file name routines of
+  section 3.4 (the `Extract*` family, `ChangeFileExt`, `ExpandFileName`), `Cp1252.Encode`,
+  `Normalize` and `Compare`, and the string conversion of `TVarRec`. Off, a null reads as `""`, as
+  Delphi reads nil, and that is the game. On, it throws `NullStringException` (an
+  `InvalidOperationException`). `s.Length` on a null throws `NullReferenceException` in both modes.
+  `GateSwitches.Enter` turns the switch on when the environment variable `AOW_STRICT_STRINGS` is
+  `1`. Game, Headless and the private gate hosts HostChecks and Localization.Tests call it at entry,
+  and the gate sets the variable for every command it starts (`testing.md` section 6). The
+  `Rtl.Tests` and `Units.Tests` projects turn it on in a module initializer.
+- `PChar`. `Ptr<byte>.Unbox(s)` returns a pointer to a zero-terminated encoded copy of `s`, so a
+  write through it does not reach the string. `Rtl.StrPas(p)` and `Rtl.FromPChar(p)` decode up to
+  the first zero byte, and a null pointer reads `""`. `Rtl.StrPasBuffer(span)` does the same over a
+  byte buffer. `Rtl.NullTerminatedText(s)` cuts a string at its first `'\0'`.
+- Bytes exist only at the boundaries of `strings.md` 2.4: a stream writer encodes, a stream reader
+  decodes, `Rtl.ReadShortString` decodes a Pascal length-prefixed image and `Rtl.WriteShortString`
+  encodes and truncates to the image size. A font draws the glyph `Cp1252.Byte(c)` of each char.
+- Generated literals are C# string literals. The sources of `src/Units` are pure ASCII.
 
 ### 1.3 TSet<E>
 
@@ -99,24 +135,28 @@ comparison through `MemoryMarshal.AsBytes` for unmanaged `T`).
 
 `Box()` returns a `PtrBox<T> : TObject` holding the pointer, for the record addresses the source
 passes as `TObject` or `Integer` (`transpiler.md` 4.3, addresses of records). `Ptr<T>.Unbox(object)`
-and `Unbox(IntOrRef)` give the pointer back and throw on any other object. `Bytes.Of(ref T)` is the
+and `Unbox(IntOrRef)` give the pointer back and throw on any other object. `Ptr<byte>.Unbox(string)`
+is the zero-terminated copy of section 1.2. `Bytes.Of(ref T)` is the
 `Span<byte>` over an unmanaged struct for the untyped buffer routines (`GetCRC32`, `Move`,
 `FillChar`, `CompareMem` with `SizeOf`).
 
 ### 1.5 IntOrRef
 
-`struct IntOrRef { int Value; object Ref; }` with implicit conversions from `int`, from `TObject`,
-from `AnsiString` (boxed) and from `PtrBox<T>`, and `T As<T>()`. It is the slot type wherever the
+`struct IntOrRef { int Value; object Ref; }` with implicit conversions from `int`, from `TObject`
+(a `PtrBox<T>` among them) and from `string`, and `T As<T>()`, which reads `""` for a string slot
+that holds no string. It is the slot type wherever the
 source overlays a reference and an integer: `TEMsg.Param`, the collapsed `Engine`, `Obj` and
 `Value` arms of `TEMsg`, `TShowInfo`'s percentage or table, `THashItem.Key` under its string view,
 and `TMapFieldMsg.Param` (`transpiler.md` 4.3). `Value` of a reference is its `InstanceId`, or for
-a boxed string an id from the same counter. `Ref` of an integer is `null`.
+a string an id from the same counter. `Ref` of an integer is `null`.
 
 ### 1.6 TVarRec
 
-The tagged value of `array of const`: `struct TVarRec { VarKind Kind; long Int; double Ext; AnsiString Str; object Obj; bool Bool; byte Chr; }`
-with implicit conversions from `int`, `byte`, `bool`, `double`, `AnsiString`, `TObject` and
-`TObject.Meta`. `Format` reads it.
+The tagged value of `array of const`: `struct TVarRec { VarKind Kind; long Int; double Ext; string Str; object Obj; bool Bool; char Chr; }`,
+where `Str` is a property that reads a null as `""`. Implicit conversions from `int`, `byte` (a
+Delphi `Char`, stored as `Cp1252.Char` of the byte), `bool`, `double`, `string` (which reads the
+null switch of section 1.2), `char`, `TObject` and `Ptr<byte>` (the PChar kind), and
+`TVarRec.Pointer(uint)`. `Format` reads it.
 
 ### 1.7 Exceptions
 
@@ -131,7 +171,7 @@ System.Exception
 ```
 
 `Rtl.Wrap(System.Exception)` maps .NET runtime exceptions as `transpiler.md` section 5.5 lists and
-returns shim exceptions unchanged. `Exception.Message` is an `AnsiString`. Generated exception
+returns shim exceptions unchanged. `Exception.Message` is a `string`. Generated exception
 classes derive from these.
 
 ### 1.8 FixedArray
@@ -171,44 +211,64 @@ control word). `Trunc` is a cast. `Int`, `Frac`, `Abs`, `Sqr`, `Sqrt`, `Sin`, `C
 
 ### 2.3 Strings
 
-Semantics of the string intrinsics, from `SYSTEM.PAS`:
+Semantics of the string intrinsics, from `SYSTEM.PAS`, over `string` (`src/Rtl/StringRoutines.cs`).
+The routines keep their Delphi names and 1-based positions, so the transpiled arithmetic at their
+call sites is unchanged. Only the direct indexer is zero-based (section 1.2). Every routine is
+total over chars outside the table: such a char passes through unchanged and keeps two strings
+that differ apart.
 
 - `Copy(S, Index, Count)`: `Index` below 1 becomes 1, `Index` past the end gives empty, `Count`
-  below 0 becomes 0, `Count` past the end is clipped.
+  at most 0 gives empty, `Count` past the end is clipped.
 - `Delete(S, Index, Count)`: nothing happens for `Index` below 1 or past the end or `Count` at
-  most 0. `Count` is clipped to the end.
+  most 0. `Count` is clipped to the end. A `ref string` overload assigns the result.
 - `Insert(Source, S, Index)`: `Index` below 1 becomes 1, past `Length + 1` becomes `Length + 1`.
-- `Pos(Sub, S)`: 0 for an empty `Sub`, else the 1-based position of the first match or 0.
-- `SetLength(S, N)`: see `Resized`.
-- `Length`, `Chr`, `Ord`, `UpCase` (ASCII only), string concatenation.
-- `SetString(S, P, Len)` builds from a `Ptr<byte>` and a length.
+  A `ref string` overload assigns the result.
+- `Pos(Sub, S)`: 0 for an empty `Sub`, else the 1-based position of the first ordinal match or 0.
+  `AnsiPos` is `Pos`.
+- `SetLength(ref S, N)`: assigns `Rtl.Resized(S, N)` (section 1.2).
+- `Length(S)`: the char count, with a null read by the switch of section 1.2.
+- `Chr(n)` returns the `byte` `n`, because its result lands in Delphi `Char` bytes. `Ord(c)` of a
+  string element is `Cp1252.Byte(c)`, and `Ord` of a `byte` is the byte.
+- `UpCase`: ASCII letters only, with a `char` and a `byte` overload.
+- Concatenation is `string +`.
+- `SetString(ref S, P, Len)` decodes `Len` bytes from a `Ptr<byte>`, and the overload
+  `SetString(P, Len)` returns the same string. A null pointer gives `Len` chars `'\0'`, and
+  `Len` at most 0 gives `""`.
 - `StrLen`, `StrPas`, `StrCopy`, `StrLComp`, `StrScan` on `Ptr<byte>` with zero termination.
+  `StrPas` and `FromPChar` decode up to the first zero byte (section 1.2).
 
 ### 2.4 Memory and misc
 
 `Move`, `FillChar`, `GetMem`, `FreeMem`, `ReallocMem`, `New`, `Dispose` exist only in the typed
-forms the transpiler emits (`transpiler.md` section 5.8). `Assert(bool, AnsiString, string file,
-int line)` throws `EAssertionFailed` with the Delphi message format `"<msg> (<file>, line <n>)"`.
+forms the transpiler emits (`transpiler.md` section 5.8). `Assert(bool, string, string file,
+int line)` throws `EAssertionFailed` with the Delphi message format `"<msg> (<file>, line <n>)"`, and
+`Assertion failed` stands for an empty message.
 `Halt` throws a host-handled `EHalt`. `ParamStr`, `ParamCount` come from the host.
 
 ## 3. SysUtils
 
 ### 3.1 Strings
 
+The routines work on `string`, char for char as Delphi works byte for byte. Every routine that
+takes a string reads a null argument through the switch of section 1.2. A char outside the table
+passes through unchanged.
+
 | routine | semantics |
 |---|---|
-| `IntToStr(int)` | decimal, minus sign for negatives |
-| `IntToHex(int, digits)` | uppercase hex, left padded with zeros to `digits` |
-| `StrToInt(S)` | `Val` semantics: leading spaces skipped, optional `+` or `-`, `$` prefix for hex, digits to the end, anything else raises `EConvertError` with the message `'%s' is not a valid integer value` |
+| `IntToStr(int)` | decimal, minus sign for negatives, invariant culture |
+| `IntToHex(int, digits)` | uppercase hex of the unsigned value, left padded with zeros to `digits` when `digits` is 1 to 15, as `FormatBuf` ignores another precision |
+| `StrToInt(S)` | `Val` semantics: leading spaces skipped, optional `+` or `-`, `$` prefix for hex (not after a sign), digits to the end or to the first `'\0'`, anything else raises `EConvertError` with the message `'%s' is not a valid integer value` |
 | `StrToIntDef(S, def)` | the same, returns `def` on error |
-| `UpperCase`, `LowerCase` | ASCII letters only |
-| `AnsiUpperCase`, `AnsiLowerCase` | code page 1252 letters, including the accented ones, by a fixed table |
-| `CompareStr(A, B)` | byte-wise, returns the difference of the first differing bytes or of the lengths |
+| `UpperCase`, `LowerCase` | ASCII letters only. Every other char stays |
+| `AnsiUpperCase`, `AnsiLowerCase` | the code page 1252 case tables of `SysUtils.cs` and `StringRoutines.cs`, applied through `Cp1252.Byte` and `Cp1252.Char` to mapped chars, never `ToUpperInvariant`. Lower case adds 32 to 65 to 90, 192 to 214 and 216 to 222 and maps 138, 140, 142 and 159 to 154, 156, 158 and 255. Upper case is the inverse. µ (181) has no case pair in the table and stays. A char outside the table stays |
+| `CompareStr(A, B)` | `Cp1252.Compare`: the difference of the first differing bytes or of the lengths |
 | `CompareText(A, B)` | `CompareStr` after ASCII upper-casing |
 | `AnsiCompareStr`, `AnsiCompareText` | section 3.2 |
-| `Trim`, `TrimLeft`, `TrimRight` | remove bytes at most 32 at the ends |
+| `Trim`, `TrimLeft`, `TrimRight` | remove chars at most 32 at the ends. U+00A0 (byte 0xA0) stays, as in Delphi |
 | `Format(fmt, args)` | section 3.3 |
-| `QuotedStr`, `StringOfChar`, `AnsiPos` | as Delphi |
+| `QuotedStr` | doubles every `'` and encloses the result in `'` |
+| `StringOfChar(c, n)` | `n` copies of `c`, `""` for `n` at most 0. A `byte` overload takes a Delphi `Char` through `Cp1252.Char` |
+| `AnsiPos` | `Pos` (section 2.3) |
 | `FloatToStr` | not in the demand list, not implemented until it is |
 
 ### 3.2 Locale comparison
@@ -219,15 +279,18 @@ locale. `TStrings.IndexOf` and the sorted `TStringList` use `AnsiCompareText`. I
 dialog's lists. Equality is what the game logic needs, and Windows equality under
 `NORM_IGNORECASE` means equal after case folding. The shim implements:
 
-- `AnsiCompareText(A, B)`: fold both with the code page 1252 case table (ASCII letters and the
-  accented letters 192 to 222 fold to 224 to 254, except 215 and 247), then compare with a fixed
-  collation: letters and digits by their folded value, every other byte by its value, shorter
-  prefix first.
+- `AnsiCompareText(A, B)`: fold the byte of each mapped char with the lower-case table of
+  section 3.1, then compare with a fixed collation: every byte by its value, except the soft
+  hyphen 173, which collates as 0, and 136 (ˆ), which collates as 94 (`^`). Shorter prefix first.
 - `AnsiCompareStr(A, B)`: the same collation without folding.
+- A char outside the table orders after every mapped char, by its code, as in `Cp1252.Compare`, so
+  two host names that differ stay apart (`HostPathTests`).
 
 This gives the same equality as Windows for code page 1252 and a deterministic order on every
 platform. The order differs from Windows word sort for punctuation and accents, which affects
-only the file dialog. Probe `strings` checks equality against Windows on all 65,536 byte pairs.
+only the file dialog. Probe `strings` checks equality against Windows on all 65,536 byte pairs,
+and `SysUtilsProbeTests` pins the 15,568 pairs whose order differs from Windows in
+`src/Rtl.Tests/AnsiCompareText-order-exceptions.txt`.
 
 ### 3.3 Format
 
@@ -244,7 +307,10 @@ Letters are case-insensitive. The transpile set uses only `%s` (95) and `%d` (6)
 precision. The shim implements the whole integer and string part and raises `EConvertError` for
 the floating point types until the demand list asks for them. `%d` with a precision pads with
 zeros. Width pads with spaces on the left, or on the right with `-`. `%s` of a `TVarRec` holding
-an integer raises `EConvertError`, as Delphi does.
+an integer raises `EConvertError`, as Delphi does. `%s` takes a string (`Str`), a char (`Chr`, with
+no precision cut) or a PChar, which it decodes up to the first zero byte. A string or a char
+argument keeps a char outside the table. The implementation is the shim's own `FormatBuf` port in
+`src/Rtl/StringFormat.cs`, never `string.Format`.
 
 ### 3.4 Files and paths
 
@@ -262,6 +328,12 @@ those bits and `Attr` does not, so read-only and archive files come back whateve
 plain file reports attribute 128. A search that includes directories also returns `.` and `..`.
 The end of an enumeration is code 18, and a pattern with no match returns code 2 (probe `files`,
 2026-10-26). `ExtractFileName` and `ExtractFilePath` of Delphi 3 do not split at `/`, and the shim keeps that.
+
+Paths are `string` with the host's chars (`strings.md` 2.5). `ParamStr`, `GetCurrentDir`,
+`ExpandFileName` and the `FindFirst` names keep a char outside the table, and so does a settings value
+under a path key (`strings.md` 2.5). A path meets the table only at the font (`Cp1252.Byte`, glyph 63)
+and at a stream writer (`Cp1252.Encode`, byte 63). `TSearchRec.Name` is a property that reads a
+null as `""`, because `TSearchRec search = default` skips every initializer.
 
 ### 3.5 Directory enumeration order
 
