@@ -36917,8 +36917,8 @@ namespace Aow.Units.AoWE
                     if (Height > BottomImage.Height)
                     {
                         Y = R.Bottom - BottomImage.Height - MiddleImage.Height;
-                        _ = (Height - BottomImage.Height) / MiddleImage.Height;
-                        for (int I = 0, last = I; I <= last; I++)
+                        int last = (Height - BottomImage.Height) / MiddleImage.Height;
+                        for (int I = 0; I <= last; I++)
                         {
                             MiddleImage.Show(R.Left, Y, SurfaceDesc);
                             Y -= MiddleImage.Height;
