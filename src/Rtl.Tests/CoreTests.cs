@@ -182,7 +182,7 @@ public sealed class CoreTests
     }
 
     [Fact]
-    public void IntOrRefAndVarRecKeepTagsAndIdentity()
+    public void IntOrRefKeepsTagsAndIdentity()
     {
         IntOrRef zero = default;
         Assert.Null(zero.Ref);
@@ -204,16 +204,6 @@ public sealed class CoreTests
         IntOrRef nil = (TObject?)null;
         Assert.Null(nil.Ref);
         Assert.Equal(0, nil.Value);
-        TVarRec integer = 4, chr = (byte)65, boolean = true, floating = 1.25;
-        TVarRec str = "hello", instance = obj;
-        Assert.Equal(VarKind.Integer, integer.Kind); Assert.Equal(4, integer.Int);
-        Assert.Equal(VarKind.Char, chr.Kind); Assert.Equal('A', chr.Chr);
-        TVarRec numericByte = (int)(byte)65;
-        Assert.Equal(VarKind.Integer, numericByte.Kind); Assert.Equal(65, numericByte.Int);
-        Assert.Equal(VarKind.Boolean, boolean.Kind); Assert.True(boolean.Bool);
-        Assert.Equal(VarKind.Extended, floating.Kind); Assert.Equal(1.25, floating.Ext);
-        Assert.Equal(VarKind.String, str.Kind); Assert.Equal("hello", str.Str);
-        Assert.Equal(VarKind.Object, instance.Kind); Assert.Same(obj, instance.Obj);
     }
 
     private enum WideFlag : byte { Low = 0, High = 63 }

@@ -9,12 +9,7 @@ public class Exception : System.Exception
     public int HelpContext { get; set; }
     public Exception(string message = "") : base(message) => Message = message;
     public static Exception Create(string message = "") => new(message);
-    public static Exception CreateFmt(string format, params TVarRec[] args) => new(ExceptionText.Format(format, args));
-}
-
-internal static class ExceptionText
-{
-    internal static string Format(string format, TVarRec[] args) => Rtl.Format(format, args);
+    public static Exception CreateFmt(string format, params ReadOnlySpan<FormatArg> args) => new(Rtl.Format(format, args));
 }
 
 public sealed class EHalt(int exitCode) : System.Exception

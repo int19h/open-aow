@@ -59,9 +59,9 @@ public sealed class SysUtilsProbeTests
     public void FormatFixture()
     {
         var p = new ProbeLines("format");
-        void F(string label, string format, params TVarRec[] args) => p.Fact(label, Format(format, args));
-        void B(string label, string format, params TVarRec[] args) => p.Fact(label, "[" + Format(format, args) + "]");
-        void Error(string label, string format, params TVarRec[] args)
+        void F(string label, string format, params ReadOnlySpan<FormatArg> args) => p.Fact(label, Format(format, args));
+        void B(string label, string format, params ReadOnlySpan<FormatArg> args) => p.Fact(label, "[" + Format(format, args) + "]");
+        void Error(string label, string format, params ReadOnlySpan<FormatArg> args)
         {
             object result; try { result = Format(format, args); } catch (EConvertError e) { result = e.GetType().Name; }
             p.Fact(label, result);
