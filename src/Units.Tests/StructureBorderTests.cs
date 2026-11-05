@@ -57,9 +57,9 @@ public sealed class StructureBorderTests
     [Fact]
     public void BorderTilesQuotientPlusOneMiddleImages()
     {
-        // Top 3 rows, middle tiles of 4 rows, bottom 5 rows, window 20 rows high. The bound is
-        // (20 - 5) div 4 = 3, so the loop draws four middle tiles at rows 11, 7, 3 and -1. The top
-        // image covers the last one, and rows 3 to 14 show three whole middle tiles.
+        // Top 1 row, middle tiles of 4 rows, bottom 5 rows, window 20 rows high. The bound is
+        // (20 - 5) div 4 = 3, so the loop draws four middle tiles at rows 11, 7, 3 and -1. Only the
+        // fourth tile paints rows 1 and 2, so three iterations leave them blank.
         const int height = 20;
         var library = new TImageLibrary(null!);
         var target = new TDIB16Surface(Width, height, G.pfRGB565);
@@ -68,7 +68,7 @@ public sealed class StructureBorderTests
         Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
         try
         {
-            var top = Grab(library, 3, TopColor);
+            var top = Grab(library, 1, TopColor);
             var middle = Grab(library, 4, MiddleColor);
             var bottom = Grab(library, 5, BottomColor);
             var structure = new BorderStructure(top, middle, bottom);
@@ -84,16 +84,18 @@ public sealed class StructureBorderTests
                 Assert.Equal(row, (data + y * sd.Pitch + 2).Reinterpret<ushort>().Value);
                 rows[y] = row;
             }
-            target.Unlock();
+            Assert.Equal(1, rows.Count(row => row == Pixel(TopColor)));
+            Assert.Equal(14, rows.Count(row => row == Pixel(MiddleColor)));
+            Assert.Equal(5, rows.Count(row => row == Pixel(BottomColor)));
             int[] expected = [
-                .. Enumerable.Repeat(Pixel(TopColor), 3),
-                .. Enumerable.Repeat(Pixel(MiddleColor), 12),
+                .. Enumerable.Repeat(Pixel(TopColor), 1),
+                .. Enumerable.Repeat(Pixel(MiddleColor), 14),
                 .. Enumerable.Repeat(Pixel(BottomColor), 5)];
             Assert.Equal(expected, rows);
-            Assert.Equal(3, rows.Count(row => row == Pixel(MiddleColor)) / middle.Height);
         }
         finally
         {
+            target.Unlock();
             target.Destroy();
             library.Destroy();
             Images.LibraryImageClasses.Destroy();

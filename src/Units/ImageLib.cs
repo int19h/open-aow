@@ -1165,9 +1165,11 @@ namespace Aow.Units.ImageLib
                     FPaletteManager.Clear();
                 }
 
-                // The original reads each index with Stream.Read. A short read leaves the index unchanged,
-                // so a truncated file repeats the loop without end. The port reads it with ReadBuffer, which
-                // raises EReadError on a short read. Valid files always end with the -1 terminator.
+                // The original reads each index with Stream.Read. A short read leaves the index without its
+                // terminator, so a truncated file repeats the loop without end. The port reads it with
+                // ReadBuffer, which raises EReadError on a short read. Valid files always end with the -1
+                // terminator. The version 4 path below reads its index region the same way, so a region
+                // without the terminator raises there too.
                 if ((double)Header.Version <= 2)
                 {
                     Stream.ReadBuffer(Bytes.Of(ref Index, 4));
@@ -1213,14 +1215,14 @@ namespace Aow.Units.ImageLib
                     var size = MS.Size;
                     Stream.ReadBuffer(MS.Memory.AsSpan(0, size));
                     FPaletteManager.LoadFromStream(MS);
-                    MS.Read(Bytes.Of(ref Index, 4));
+                    MS.ReadBuffer(Bytes.Of(ref Index, 4));
                     while (Index != -1)
                     {
                         var readImageFromStreamEx = ImageLib.ReadImageFromStreamEx(MS, Stream, this);
                         SetImage(Index, readImageFromStreamEx);
                         MS.Read(Bytes.Of(ref Reference, 4));
                         SetImageReference(Index, Reference);
-                        MS.Read(Bytes.Of(ref Index, 4));
+                        MS.ReadBuffer(Bytes.Of(ref Index, 4));
                     }
                 }
                 finally
