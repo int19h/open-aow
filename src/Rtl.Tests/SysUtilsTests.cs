@@ -76,9 +76,9 @@ public sealed class SysUtilsTests
         Assert.Equal("4294967295", Format("%u", -1));
         Assert.Equal("-2147483648", Format("%D", int.MinValue));
         Assert.Equal("80000000", Format("%X", int.MinValue));
-        Assert.Equal("FFFFFFFF", Format("%p", TVarRec.Pointer(uint.MaxValue)));
-        Assert.Equal("  00000001", Format("%10.2P", TVarRec.Pointer(1)));
-        Assert.Equal("abc", Format("%s", Ptr<byte>.Unbox("abc\0def")));
+        Assert.Equal("FFFFFFFF", Format("%p", new PointerArg(uint.MaxValue)));
+        Assert.Equal("  00000001", Format("%10.2P", new PointerArg(1)));
+        Assert.Equal("abc", Format("%s", StrPas(Ptr<byte>.Unbox("abc\0def"))));
         Assert.Equal("a\0b", Format("%s", "a\0b"));
         Assert.Equal("bc", Format("%*:*s", 1, 2, "bc"));
         Assert.Equal("1", Format("%*d", false, 1));
@@ -86,7 +86,7 @@ public sealed class SysUtilsTests
         Assert.Equal("abcdef", Format("%0:1:s", 7, "abcdef"));
         Assert.Equal("abc", Format("%:s", "abc"));
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<EConvertError>(() => Format(kind, 1.25));
-        foreach (TVarRec arg in new TVarRec[] { true, 1.25, new TObject(), TVarRec.Pointer(0) }) Assert.Throws<EConvertError>(() => Format("%s", arg));
+        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new TObject(), (TObject?)null, new PointerArg(0) }) Assert.Throws<EConvertError>(() => Format("%s", arg));
         Assert.Throws<EConvertError>(() => Format("%p", 1));
         Assert.Throws<EConvertError>(() => Format("%d", (byte)'a'));
         Assert.Throws<EConvertError>(() => Format("%0:1:d", 7, "abcdef"));
