@@ -222,7 +222,7 @@ namespace Aow.Units.AOWMenuBar
                     }
                     else
                     {
-                        if (!F130 || I > -1 && I != FLastSelected)
+                        if (!F130 || (I > -1 && I != FLastSelected))
                         {
                             FSelected = I;
                             FLastSelected = I;

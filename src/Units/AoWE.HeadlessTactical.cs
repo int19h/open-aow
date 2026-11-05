@@ -14,19 +14,19 @@ public partial class TArmyCombatMoveTE
                 FCombatType = TCombatType.ctTactical;
                 HeadlessHooks.TacticalSelections++;
             }
-        TCombatResult CombatResult = default;
-        TAoWMapField Field = default;
-        TAoWMapField Source = default;
+            TCombatResult CombatResult = default;
+            TAoWMapField Field = default;
+            TAoWMapField Source = default;
             sbyte Defender = default;
-        TArmyHS OtherArmyHS = default;
-        TArmyHS ArmyHS = default;
-        TArmyHS MovedArmyHS = default;
+            TArmyHS OtherArmyHS = default;
+            TArmyHS ArmyHS = default;
+            TArmyHS MovedArmyHS = default;
             int I = default;
-        TCombat Combat = default;
-        TMapFieldMsg Msg = default;
-        TUserEventLog Log = default;
-        TImageSequenceAnimation Anim = default;
-        TAbstractUnit AUnit = default;
+            TCombat Combat = default;
+            TMapFieldMsg Msg = default;
+            TUserEventLog Log = default;
+            TImageSequenceAnimation Anim = default;
+            TAbstractUnit AUnit = default;
             var call__6625 = FPath[0];
             var call__6626 = GetMapF(call__6625);
             Field = call__6626;
@@ -78,7 +78,7 @@ public partial class TArmyCombatMoveTE
             }
 
             FArmyHS.CancelMove();
-        AoWE.AoWHSMap.LockGameOverEvent();
+            AoWE.AoWHSMap.LockGameOverEvent();
             if (FCombatType == TCombatType.ctFast)
             {
                 var call__6634 = AoWE.AoWHSMap.CreateCombat(131760);
@@ -123,15 +123,15 @@ public partial class TArmyCombatMoveTE
                 Combat.Finalize();
                 if (Combat is TFastCombat)
                 {
-                AoWE.DistributeCombatEvent(Combat.FLogbook, true);
+                    AoWE.DistributeCombatEvent(Combat.FLogbook, true);
                     if (AoWE.AoWHSMap.FRequestCombatType && AoWE.AoWHSMap.FSeatedPlayer == Defender)
                     {
                         Log = new TUserEventLog(null);
                         Log.FData = this;
-                    AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
+                        AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
                         Log.Release();
-                    AoWE.AoWHSMap.FAIExecuter.Lock();
-                    AoWE.AoWHSMap.LockGameOverEvent();
+                        AoWE.AoWHSMap.FAIExecuter.Lock();
+                        AoWE.AoWHSMap.LockGameOverEvent();
                         FCombatMode = TCombatMoveMode.cmRestoringHotseat;
                     }
                 }
@@ -154,11 +154,11 @@ public partial class TArmyCombatMoveTE
                     var call__6653 = FPath[0];
                     var call__6654 = FPath[0];
                     var call__6655 = FPath[0];
-                AoWE.AoWHSMap.PlaceHX(Anim, call__6655.X, call__6654.Y, call__6653.L);
+                    AoWE.AoWHSMap.PlaceHX(Anim, call__6655.X, call__6654.Y, call__6653.L);
                 }
 
-            AoWE.AoWHSMap.DestroyCombat();
-            AoWE.AoWHSMap.UnlockGameOverEvent();
+                AoWE.AoWHSMap.DestroyCombat();
+                AoWE.AoWHSMap.UnlockGameOverEvent();
                 var call__6656 = FPath[FMoveIndex];
                 var call__6657 = GetMapF(call__6656);
                 var call__6658 = call__6657.FindOwnedChild(131607);
@@ -206,8 +206,8 @@ public partial class TArmyCombatMoveTE
                         var call__6668 = FArmyHS.GetSelected();
                         if (call__6668)
                         {
-                        AoWE.AoWHSMap.Selection.UnselectLocation();
-                        AoWE.AoWHSMap.Selection.SelectLocationHS(ArmyHS);
+                            AoWE.AoWHSMap.Selection.UnselectLocation();
+                            AoWE.AoWHSMap.Selection.SelectLocationHS(ArmyHS);
                         }
 
                         FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving);
@@ -240,7 +240,7 @@ public partial class TArmyCombatMoveTE
             }
             else
             {
-            AoWE.AoWHSMap.UnlockGameOverEvent();
+                AoWE.AoWHSMap.UnlockGameOverEvent();
                 FArmyHS = null;
                 FinishMove();
             }

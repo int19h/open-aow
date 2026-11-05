@@ -335,7 +335,7 @@ namespace Aow.Units.AoWTC
             int Result = default;
             int I = default;
             int Distance = default;
-            if (!(U.FUnit is THero) || Units.Count == 1 && FSide == TCombatSideIndex.csDefender)
+            if (!(U.FUnit is THero) || (Units.Count == 1 && FSide == TCombatSideIndex.csDefender))
             {
                 Result = 0;
             }
@@ -613,7 +613,7 @@ namespace Aow.Units.AoWTC
                                         bool bool__99 = FSide == TCombatSideIndex.csAttacker || AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached || FIgnoreWalls;
                                         if (bool__99)
                                         {
-                                            bool bool__100 = Wall.FHitPoints == 0 || FSide == TCombatSideIndex.csDefender && Wall is TCityWallDoor;
+                                            bool bool__100 = Wall.FHitPoints == 0 || (FSide == TCombatSideIndex.csDefender && Wall is TCityWallDoor);
                                             if (!bool__100)
                                             {
                                                 var call__101 = AoWTC.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(1);
@@ -989,7 +989,7 @@ namespace Aow.Units.AoWTC
                     Wall = (TCityWall)call__175;
                 }
 
-                if (!AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is TCombatWall) || Ignore is TCombatWall && IgnoreWall != Wall))
+                if (!AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is TCombatWall) || (Ignore is TCombatWall && IgnoreWall != Wall)))
                 {
                     if (Ability == 52)
                     {
@@ -1125,7 +1125,7 @@ namespace Aow.Units.AoWTC
                         var call__192 = Path[((TROb)call__191).PathIndex];
                         var call__193 = Obstacles[I];
                         var call__194 = Path[((TROb)call__193).PathIndex];
-                            HPtoHX(call__194.X, call__192.Y, ref X, ref Y);
+                        HPtoHX(call__194.X, call__192.Y, ref X, ref Y);
                         V = 0;
                         EvalHex(Ignore, Ability, Spell, X, Y, ref V, HitWalls, true, U, IgnoreWall);
                         try
@@ -1413,7 +1413,7 @@ namespace Aow.Units.AoWTC
 
                                     if (bool__237)
                                     {
-                                        if (!(SafeValue < 0 && FNormalUnits != 0 || U.FMovePoints <= 0 || Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15))
+                                        if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
                                         {
                                             FHeroMoves += 1;
                                             var call__239 = U.GetMoves();
@@ -1588,7 +1588,7 @@ namespace Aow.Units.AoWTC
                                                                         byte end__264 = 6;
                                                                         for (; I <= end__264; I += 1)
                                                                         {
-                                                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
                                                                             var call__265 = U.FUnitHS.GetYhx();
                                                                             var call__266 = U.FUnitHS.GetXhx();
                                                                             var call__267 = dHXtoRad(call__266, call__265, NX, NY);
@@ -1624,7 +1624,7 @@ namespace Aow.Units.AoWTC
                                                                         {
                                                                             var call__272 = U.FUnitHS.GetYhx();
                                                                             var call__273 = U.FUnitHS.GetXhx();
-                                                                                CenterHNtoHX(call__273, call__272, I, ref NX, ref NY);
+                                                                            CenterHNtoHX(call__273, call__272, I, ref NX, ref NY);
                                                                             EvalHex(null, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
                                                                         }
                                                                     }
@@ -1639,7 +1639,7 @@ namespace Aow.Units.AoWTC
                                                                         byte end__276 = 18;
                                                                         for (; I <= end__276; I += 1)
                                                                         {
-                                                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
                                                                             EvalHex(Target, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
                                                                         }
                                                                     }
@@ -1651,7 +1651,7 @@ namespace Aow.Units.AoWTC
                                                                         byte end__277 = 18;
                                                                         for (; I <= end__277; I += 1)
                                                                         {
-                                                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
                                                                             var call__278 = U.FUnitHS.GetYhx();
                                                                             var call__279 = U.FUnitHS.GetXhx();
                                                                             var call__280 = dHXtoRad(call__279, call__278, NX, NY);
@@ -1666,7 +1666,7 @@ namespace Aow.Units.AoWTC
                                                                                     byte end__283 = 18;
                                                                                     for (; V <= end__283; V += 1)
                                                                                     {
-                                                                                            CenterHNtoHX(NX, NY, V, ref AX, ref AY);
+                                                                                        CenterHNtoHX(NX, NY, V, ref AX, ref AY);
                                                                                         EvalHex(Target, Ability, Spell, AX, AY, ref D, true, true, U, Wall);
                                                                                     }
                                                                                 }
@@ -1703,7 +1703,7 @@ namespace Aow.Units.AoWTC
                                                                         byte end__287 = 6;
                                                                         for (; I <= end__287; I += 1)
                                                                         {
-                                                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
                                                                             var call__288 = U.FUnitHS.GetYhx();
                                                                             var call__289 = U.FUnitHS.GetXhx();
                                                                             var call__290 = dHXtoRad(call__289, call__288, NX, NY);
@@ -1734,7 +1734,7 @@ namespace Aow.Units.AoWTC
                                                                         byte end__291 = 6;
                                                                         for (; I <= end__291; I += 1)
                                                                         {
-                                                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
                                                                             var call__292 = U.FUnitHS.GetYhx();
                                                                             var call__293 = U.FUnitHS.GetXhx();
                                                                             var call__294 = dHXtoRad(call__293, call__292, NX, NY);
@@ -1764,7 +1764,7 @@ namespace Aow.Units.AoWTC
                                                                         byte end__295 = 6;
                                                                         for (; I <= end__295; I += 1)
                                                                         {
-                                                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
                                                                             var call__296 = U.FUnitHS.GetYhx();
                                                                             var call__297 = U.FUnitHS.GetXhx();
                                                                             var call__298 = dHXtoRad(call__297, call__296, NX, NY);
@@ -2057,7 +2057,7 @@ namespace Aow.Units.AoWTC
 
                                                             if (bool__352)
                                                             {
-                                                                if (!(SafeValue < 0 && FNormalUnits != 0 || U.FMovePoints <= 0 || Path.Count <= 1 || Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15))
+                                                                if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
                                                                 {
                                                                     var call__355 = U.GetMoves();
                                                                     var call__356 = MultDEV(PathValue + TerrainValue + Value, call__355, Cost);
@@ -2259,7 +2259,7 @@ namespace Aow.Units.AoWTC
 
                                                             if (bool__385)
                                                             {
-                                                                if (!(SafeValue < 0 && FNormalUnits != 0 || U.FMovePoints <= 0 || Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15))
+                                                                if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
                                                                 {
                                                                     FHeroMoves += 1;
                                                                     var call__387 = U.GetMoves();
@@ -2589,7 +2589,7 @@ namespace Aow.Units.AoWTC
                                                     var call__459 = U.FUnitHS.GetYhx();
                                                     var call__460 = U.FUnitHS.GetXhx();
                                                     var call__461 = UnitSafe(U, call__460, call__459);
-                                                    bool bool__462 = call__461 < 0 && FNormalUnits != 0 || PathValue != 0 && Value == 0 || Distance > Range;
+                                                    bool bool__462 = (call__461 < 0 && FNormalUnits != 0) || (PathValue != 0 && Value == 0) || Distance > Range;
                                                     if (!bool__462)
                                                     {
                                                         var call__463 = U.GetMoves();
@@ -2645,7 +2645,7 @@ namespace Aow.Units.AoWTC
 
                                                         if (bool__468)
                                                         {
-                                                            if (!(SafeValue < 0 && FNormalUnits != 0 || U.FMovePoints <= 0 || Path.Count <= 1 || Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15))
+                                                            if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
                                                             {
                                                                 var call__471 = U.GetMoves();
                                                                 var call__472 = MultDEV(PathValue + TerrainValue + Value, call__471, Cost);
@@ -3733,7 +3733,7 @@ namespace Aow.Units.AoWTC
                                     {
                                         var call__680 = Units[I];
                                         U = (TTacticalCombatUnit)call__680;
-                                        bool bool__681 = !(U.FUnit is THero) || FHeroMoves == 0 || U.FUnit is THero && Units.Count == 1;
+                                        bool bool__681 = !(U.FUnit is THero) || FHeroMoves == 0 || (U.FUnit is THero && Units.Count == 1);
                                         if (bool__681)
                                         {
                                             var call__682 = U.GetEnabled();
@@ -3851,7 +3851,7 @@ namespace Aow.Units.AoWTC
                                     case TaiMoveType.aiMoveRanged:
                                     {
                                         var tacticalCombatUnitHS = Move.UnitHS;
-                                        if ((Move.UnitHS.FUnit.FUnit is THero || FSide == TCombatSideIndex.csAttacker && AoWTC.AoWCombatMap.FRound == 1) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
+                                        if ((Move.UnitHS.FUnit.FUnit is THero || (FSide == TCombatSideIndex.csAttacker && AoWTC.AoWCombatMap.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
                                         {
                                             Move.UnitHS.FUnit.FMovePoints = FMinMoves;
                                         }
@@ -3918,11 +3918,11 @@ namespace Aow.Units.AoWTC
                                         Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                         var call__718 = Move.UnitHS.FUnit.GetPlayer();
                                         Settings.FPlayer = call__718;
-                                            AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                         if (Settings.FPath.Count < 2 && !Settings.FMoveFlags.Contains(TCombatMoveModeElement.mmaiWall))
                                         {
                                             Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
-                                                AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                            AoWTC.AoWCombatMap.FMoveControl.ProcessMove(Settings);
                                         }
 
                                         var call__719 = AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
@@ -3977,15 +3977,15 @@ namespace Aow.Units.AoWTC
                                                             Move.UnitHS.FUnit.FMovePoints = Value;
                                                         }
 
-                                                            // { Original repeats X. }
-                                                            AoWEngine.OutputDebugStr((AnsiString)"AI moves to X: " + IntToStr(Move.X) + (AnsiString)" Y: " + IntToStr(Move.X));
+                                                        // { Original repeats X. }
+                                                        AoWEngine.OutputDebugStr((AnsiString)"AI moves to X: " + IntToStr(Move.X) + (AnsiString)" Y: " + IntToStr(Move.X));
                                                         var call__730 = MoveCombatUnit(Move.UnitHS.FUnit, (TMovepath)Path);
                                                         Moved = call__730;
                                                         if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
                                                         {
                                                             var call__731 = Move.UnitHS.GetYhx();
                                                             var call__732 = Move.UnitHS.GetXhx();
-                                                                AoWTC.AoWCombatMap.CenterViewTo(call__732, call__731, 0);
+                                                            AoWTC.AoWCombatMap.CenterViewTo(call__732, call__731, 0);
                                                         }
                                                     }
                                                     else
@@ -4301,8 +4301,8 @@ namespace Aow.Units.AoWTC
                                 var call__778 = call__777.GetYhx();
                                 var call__779 = FSelection.GetTCUnitHS();
                                 var call__780 = call__779.GetXhx();
-                                    CenterHNtoHX(call__780, call__778, AoWTC.BreathHN[call__776 * 12 + I - 12], ref NX, ref NY);
-                                    HXtoHP(NX, NY, ref PX, ref PY);
+                                CenterHNtoHX(call__780, call__778, AoWTC.BreathHN[call__776 * 12 + I - 12], ref NX, ref NY);
+                                HXtoHP(NX, NY, ref PX, ref PY);
                                 var call__781 = FTargetImages[0];
                                 call__781.ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
                             }
@@ -4333,9 +4333,9 @@ namespace Aow.Units.AoWTC
                                                 var call__786 = FSelection.FRangedPath[call__785 - 1];
                                                 var call__787 = FSelection.FRangedPath.Count;
                                                 var call__788 = FSelection.FRangedPath[call__787 - 1];
-                                                    HPtoHX(call__788.X, call__786.Y, ref X, ref Y);
-                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                    HXtoHP(NX, NY, ref PX, ref PY);
+                                                HPtoHX(call__788.X, call__786.Y, ref X, ref Y);
+                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                HXtoHP(NX, NY, ref PX, ref PY);
                                                 var call__789 = FTargetImages[0];
                                                 call__789.ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
                                             }
@@ -4353,9 +4353,9 @@ namespace Aow.Units.AoWTC
                                                 var call__792 = FSelection.FRangedPath[call__791 - 1];
                                                 var call__793 = FSelection.FRangedPath.Count;
                                                 var call__794 = FSelection.FRangedPath[call__793 - 1];
-                                                    HPtoHX(call__794.X, call__792.Y, ref X, ref Y);
-                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                    HXtoHP(NX, NY, ref PX, ref PY);
+                                                HPtoHX(call__794.X, call__792.Y, ref X, ref Y);
+                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                HXtoHP(NX, NY, ref PX, ref PY);
                                                 var call__795 = FTargetImages[0];
                                                 call__795.ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
                                             }
@@ -4953,7 +4953,7 @@ namespace Aow.Units.AoWTC
                                         var call__915 = Random(100);
                                         var call__916 = Random(5);
                                         var call__917 = Random(100);
-                                            MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(call__917 + K - 50), (short)(call__915 + X - 50), (short)(call__916 + 5), 100, ref Effect.FPath);
+                                        MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(call__917 + K - 50), (short)(call__915 + X - 50), (short)(call__916 + 5), 100, ref Effect.FPath);
                                     }
                                 }
 
@@ -4972,7 +4972,7 @@ namespace Aow.Units.AoWTC
                                         VZ = (float)((double)Random(10) / 10);
                                         Z = 100;
                                         var call__920 = Random(360);
-                                            MakeArcPath(K - 200, X - 100, call__920, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(K - 200, X - 100, call__920, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -4992,7 +4992,7 @@ namespace Aow.Units.AoWTC
                                         var call__923 = Random(100);
                                         var call__924 = Random(5);
                                         var call__925 = Random(100);
-                                            MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(call__925 + K - 50), (short)(call__923 + X - 50), (short)(call__924 + 5), 100, ref Effect.FPath);
+                                        MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(call__925 + K - 50), (short)(call__923 + X - 50), (short)(call__924 + 5), 100, ref Effect.FPath);
                                     }
                                 }
 
@@ -5011,7 +5011,7 @@ namespace Aow.Units.AoWTC
                                         VZ = (float)((double)Random(10) / 10);
                                         Z = 100;
                                         var call__928 = Random(360);
-                                            MakeArcPath(K - 200, X - 100, call__928, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(K - 200, X - 100, call__928, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -5036,7 +5036,7 @@ namespace Aow.Units.AoWTC
                                         var call__935 = FPath.Count;
                                         var call__936 = FPath[call__935 - 1];
                                         var call__937 = Random(360);
-                                            MakeArcPath(call__936.X, call__932.Y - call__934.Z, call__937, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(call__936.X, call__932.Y - call__934.Z, call__937, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -5073,7 +5073,7 @@ namespace Aow.Units.AoWTC
                                         var call__945 = FPath.Count;
                                         var call__946 = FPath[call__945 - 1];
                                         var call__947 = Random(360);
-                                            MakeArcPath(call__946.X, call__942.Y - call__944.Z, call__947, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(call__946.X, call__942.Y - call__944.Z, call__947, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -5110,7 +5110,7 @@ namespace Aow.Units.AoWTC
                                         var call__953 = FPath[I];
                                         var call__954 = Random(360);
                                         var call__955 = FPath[I];
-                                            MakeArcPath(call__955.X, call__952.Y - call__953.Z, call__954, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(call__955.X, call__952.Y - call__953.Z, call__954, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -5135,7 +5135,7 @@ namespace Aow.Units.AoWTC
                                         var call__962 = FPath.Count;
                                         var call__963 = FPath[call__962 - 1];
                                         var call__964 = Random(360);
-                                            MakeArcPath(call__963.X, call__959.Y - call__961.Z, call__964, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(call__963.X, call__959.Y - call__961.Z, call__964, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -5178,7 +5178,7 @@ namespace Aow.Units.AoWTC
                                         var call__972 = Random(2);
                                         var call__973 = Random(10);
                                         var call__974 = Random(10);
-                                            MakeSwarmPath(call__974 + 10, call__973 + FFrame / 4, I % 6 * 60 + FFrame, call__969, call__970.X, call__971.Y, (TSwarmDirection)call__972, ref Effect.FPath);
+                                        MakeSwarmPath(call__974 + 10, call__973 + FFrame / 4, I % 6 * 60 + FFrame, call__969, call__970.X, call__971.Y, (TSwarmDirection)call__972, ref Effect.FPath);
                                     }
                                 }
 
@@ -5199,7 +5199,7 @@ namespace Aow.Units.AoWTC
                                         var call__980 = Random(2);
                                         var call__981 = Random(10);
                                         var call__982 = Random(10);
-                                            MakeSwarmPath(call__982 + 10, call__981 + (60 - FFrame) / 4, I % 6 * 60 + FFrame, call__977, call__978.X, call__979.Y, (TSwarmDirection)call__980, ref Effect.FPath);
+                                        MakeSwarmPath(call__982 + 10, call__981 + (60 - FFrame) / 4, I % 6 * 60 + FFrame, call__977, call__978.X, call__979.Y, (TSwarmDirection)call__980, ref Effect.FPath);
                                     }
                                 }
 
@@ -5220,7 +5220,7 @@ namespace Aow.Units.AoWTC
                                         var call__988 = Random(2);
                                         var call__989 = Random(10);
                                         var call__990 = Random(10);
-                                            MakeSwarmPath(call__990 + 10, call__989 + (FFrame - 60) / 2, I % 6 * 60 + FFrame, call__985, call__986.X, call__987.Y, (TSwarmDirection)call__988, ref Effect.FPath);
+                                        MakeSwarmPath(call__990 + 10, call__989 + (FFrame - 60) / 2, I % 6 * 60 + FFrame, call__985, call__986.X, call__987.Y, (TSwarmDirection)call__988, ref Effect.FPath);
                                     }
                                 }
 
@@ -5241,7 +5241,7 @@ namespace Aow.Units.AoWTC
                                         var call__996 = Random(2);
                                         var call__997 = Random(10);
                                         var call__998 = Random(10);
-                                            MakeSwarmPath(call__998 + 10, call__997 + (120 - FFrame) / 2, I % 6 * 60 + FFrame, call__993, call__994.X, call__995.Y, (TSwarmDirection)call__996, ref Effect.FPath);
+                                        MakeSwarmPath(call__998 + 10, call__997 + (120 - FFrame) / 2, I % 6 * 60 + FFrame, call__993, call__994.X, call__995.Y, (TSwarmDirection)call__996, ref Effect.FPath);
                                     }
                                 }
 
@@ -5284,7 +5284,7 @@ namespace Aow.Units.AoWTC
                                         var call__1010 = FPath[0];
                                         var call__1011 = FPath[0];
                                         var call__1012 = FPath[0];
-                                            MakeLinePath(call__1012.X, call__1011.Y, call__1010.X + Round((double)call__1008 * (call__1009 + X)), call__1006.Y + Round((double)call__1004 * (call__1005 + Y)) / 2, 75, ref Effect.FPath);
+                                        MakeLinePath(call__1012.X, call__1011.Y, call__1010.X + Round((double)call__1008 * (call__1009 + X)), call__1006.Y + Round((double)call__1004 * (call__1005 + Y)) / 2, 75, ref Effect.FPath);
                                         if (I % 10 == 0)
                                         {
                                             {
@@ -5302,7 +5302,7 @@ namespace Aow.Units.AoWTC
                                                     var call__1018 = Effect.FPath[call__1017 - 1];
                                                     var call__1019 = FPath[0];
                                                     var call__1020 = FPath[0];
-                                                        MakeLinePath(call__1020.X, call__1019.Y, call__1018.X, call__1016.Y, K * 5 + 75, ref Effect2.FPath);
+                                                    MakeLinePath(call__1020.X, call__1019.Y, call__1018.X, call__1016.Y, K * 5 + 75, ref Effect2.FPath);
                                                 }
                                             }
                                         }
@@ -5323,7 +5323,7 @@ namespace Aow.Units.AoWTC
                                     byte end__1023 = 36;
                                     for (; I <= end__1023; I += 1)
                                     {
-                                            CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
                                         var call__1024 = AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
                                         var call__1025 = call__1024.Field[J, K];
                                         call__1025.SendMapFieldMsg(ref Msg);
@@ -5344,7 +5344,7 @@ namespace Aow.Units.AoWTC
                                     byte end__1028 = 36;
                                     for (; I <= end__1028; I += 1)
                                     {
-                                            CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
                                         var call__1029 = AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
                                         var call__1030 = call__1029.Field[J, K];
                                         call__1030.SendMapFieldMsg(ref Msg);
@@ -5364,7 +5364,7 @@ namespace Aow.Units.AoWTC
                                     byte end__1033 = 36;
                                     for (; I <= end__1033; I += 1)
                                     {
-                                            CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
                                         var call__1034 = AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
                                         var call__1035 = call__1034.Field[J, K];
                                         call__1035.SendMapFieldMsg(ref Msg);
@@ -5383,7 +5383,7 @@ namespace Aow.Units.AoWTC
                                     byte end__1038 = 36;
                                     for (; I <= end__1038; I += 1)
                                     {
-                                            CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
                                         var call__1039 = AoWTC.AoWCombatMap.MapContainer.MapLevels[0];
                                         var call__1040 = call__1039.Field[J, K];
                                         call__1040.SendMapFieldMsg(ref Msg);
@@ -5558,7 +5558,7 @@ namespace Aow.Units.AoWTC
                                         var call__1081 = Random(50);
                                         VZ = (float)((double)(call__1081 + FFrame) / 10);
                                         Z = 0;
-                                            MakeArcPath(K + 16, X + 16, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(K + 16, X + 16, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -5603,7 +5603,7 @@ namespace Aow.Units.AoWTC
                                                 VZ = (float)((double)(Random(5) + 5) / 10);
                                                 Z = 0;
                                                 var call__1086 = Random(360);
-                                                    MakeArcPath(K + 16, X + 16, call__1086, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                                MakeArcPath(K + 16, X + 16, call__1086, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                             }
                                         }
 
@@ -5654,7 +5654,7 @@ namespace Aow.Units.AoWTC
                                         Gravity = (float)0.5;
                                         VZ = (float)((double)(Random(50) + 100) / 10);
                                         Z = 0;
-                                            MakeArcPath(K, X, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(K, X, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -5673,7 +5673,7 @@ namespace Aow.Units.AoWTC
                                         VZ = (float)((double)(Random(5) + 5) / 10);
                                         Z = 0;
                                         var call__1099 = Random(360);
-                                            MakeArcPath(K, X, call__1099, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(K, X, call__1099, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -6328,10 +6328,10 @@ namespace Aow.Units.AoWTC
                                             var call__1268 = ((TTacticalCombatUnit)call__1267).FUnitHS.GetYhx();
                                             var call__1269 = AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
                                             var call__1270 = ((TTacticalCombatUnit)call__1269).FUnitHS.GetXhx();
-                                                HXtoHP(call__1270, call__1268, ref J, ref K);
+                                            HXtoHP(call__1270, call__1268, ref J, ref K);
                                             J = Random(20) + (J + 6);
                                             K = Random(20) + (K + 6);
-                                                MakeLinePath(J, K - 100, J, K, 50, ref Effect.FPath);
+                                            MakeLinePath(J, K - 100, J, K, 50, ref Effect.FPath);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                         }
@@ -6369,7 +6369,7 @@ namespace Aow.Units.AoWTC
                                             var call__1280 = ((TTacticalCombatUnit)call__1279).FUnitHS.GetYhx();
                                             var call__1281 = AoWTC.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
                                             var call__1282 = ((TTacticalCombatUnit)call__1281).FUnitHS.GetXhx();
-                                                HXtoHP(call__1282, call__1280, ref J, ref K);
+                                            HXtoHP(call__1282, call__1280, ref J, ref K);
                                             var call__1283 = new TXYZ();
                                             Effect.FPath.Add(call__1283);
                                             var call__1284 = Effect.FPath[0];
@@ -6498,7 +6498,7 @@ namespace Aow.Units.AoWTC
                                         Z = 0;
                                         var call__1302 = FPath[0];
                                         var call__1303 = FPath[0];
-                                            MakeArcPath(call__1303.X, call__1302.Y, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        MakeArcPath(call__1303.X, call__1302.Y, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                     }
                                 }
 
@@ -9278,7 +9278,7 @@ namespace Aow.Units.AoWTC
                     Targets = AbilityInfo.Data.TargetTypes;
                 }
 
-                if (TargetHS == null || TargetHS == UnitHS && !Targets.Contains(TCombatTargetTypeElement.cttFriend))
+                if (TargetHS == null || (TargetHS == UnitHS && !Targets.Contains(TCombatTargetTypeElement.cttFriend)))
                 {
                     if (FCursorImage < 85 || FCursorImage > 88)
                     {
@@ -10446,7 +10446,7 @@ namespace Aow.Units.AoWTC
                                                 var call__2047 = call__2046.Field[call__2045, call__2044];
                                                 var call__2048 = call__2047.FindOwnedChild(2228484);
                                                 FMouseOverTarget = (THexagonSprite)call__2048;
-                                                    AoWTC.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
+                                                AoWTC.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
                                             }
                                         }
 
@@ -11956,7 +11956,7 @@ namespace Aow.Units.AoWTC
                         byte end__2254 = 6;
                         for (; I <= end__2254; I += 1)
                         {
-                                CenterHNtoHX(X, Y, I, ref J, ref K);
+                            CenterHNtoHX(X, Y, I, ref J, ref K);
                             var call__2255 = AoWHSMap.MapContainer.MapLevels[L];
                             var call__2256 = call__2255.Field[J, K];
                             var call__2257 = call__2256.FindNoneTransparentHS(typeof(TCity));

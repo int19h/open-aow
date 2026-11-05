@@ -193,7 +193,7 @@ namespace Aow.Units.EventLog
         public virtual bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
         {
             bool Result = default;
-            if (Trigger == TExecuteTrigger.etUser || (Trigger == TExecuteTrigger.etEvent || Trigger == TExecuteTrigger.etNewTurn && AoWHSMap.FRequestCombatType) && AoWHSMap.FSeatedPlayer == FPlayer)
+            if (Trigger == TExecuteTrigger.etUser || ((Trigger == TExecuteTrigger.etEvent || (Trigger == TExecuteTrigger.etNewTurn && AoWHSMap.FRequestCombatType)) && AoWHSMap.FSeatedPlayer == FPlayer))
             {
                 AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
                 Result = true;

@@ -248,11 +248,11 @@ namespace Aow.Units.AoWFileDialog
                             IncludeFile = false;
                             var call__6 = ExtractFileExt(Search.Name);
                             Extension = LowerCase(call__6);
-                            IncludeFile = IncludeFile || FMode == 1 && AoWEngine.FCampaign != null && Extension == (AnsiString)".acg";
-                            IncludeFile = IncludeFile || FMode == 1 && AoWEngine.FCampaign == null && Extension == (AnsiString)".asg";
-                            IncludeFile = IncludeFile || FMode == 0 && (Extension == (AnsiString)".asg" || Extension == (AnsiString)".acg");
+                            IncludeFile = IncludeFile || (FMode == 1 && AoWEngine.FCampaign != null && Extension == (AnsiString)".acg");
+                            IncludeFile = IncludeFile || (FMode == 1 && AoWEngine.FCampaign == null && Extension == (AnsiString)".asg");
+                            IncludeFile = IncludeFile || (FMode == 0 && (Extension == (AnsiString)".asg" || Extension == (AnsiString)".acg"));
                             // { Original accepts .asg in every mode, including map selection. }
-                            IncludeFile = IncludeFile || FMode == 2 && Extension == (AnsiString)".hsm" || Extension == (AnsiString)".asg";
+                            IncludeFile = IncludeFile || (FMode == 2 && Extension == (AnsiString)".hsm") || Extension == (AnsiString)".asg";
                             if (IncludeFile)
                             {
                                 Stamp = new TFileTime();

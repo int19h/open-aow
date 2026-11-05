@@ -1484,7 +1484,7 @@ namespace Aow.Units.CombatTE
                                     }
 
                                     var call__220 = FUnit.GetEnabled();
-                                    if (!call__220 || (FAbilityID == 106 || FAbilityID == 107) && FSuccessful)
+                                    if (!call__220 || ((FAbilityID == 106 || FAbilityID == 107) && FSuccessful))
                                     {
                                         Result = TMoveStatus.msDone;
                                     }
@@ -1930,11 +1930,11 @@ namespace Aow.Units.CombatTE
                                                 byte end__269 = 6;
                                                 for (; I <= end__269; I += 1)
                                                 {
-                                                        CenterHNtoHX(EndX, EndY, I, ref X, ref Y);
+                                                    CenterHNtoHX(EndX, EndY, I, ref X, ref Y);
                                                     var call__270 = AoWCombatMap.MapContainer.MapLevels[0];
                                                     var call__271 = call__270.GetField(X, Y);
                                                     call__271.SendMapFieldMsg(ref Msg);
-                                                        CreateFire(false, 50, X, Y);
+                                                    CreateFire(false, 50, X, Y);
                                                 }
                                             }
 
@@ -2036,7 +2036,7 @@ namespace Aow.Units.CombatTE
                                                         byte end__288 = 6;
                                                         for (; I <= end__288; I += 1)
                                                         {
-                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                            CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                             var call__289 = AoWCombatMap.MapContainer.MapLevels[0];
                                                             var call__290 = call__289.GetField(X, Y);
                                                             call__290.SendMapFieldMsg(ref Msg);
@@ -2054,7 +2054,7 @@ namespace Aow.Units.CombatTE
                                                         byte end__291 = 6;
                                                         for (; I <= end__291; I += 1)
                                                         {
-                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                            CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                             var call__292 = AoWCombatMap.MapContainer.MapLevels[0];
                                                             var call__293 = call__292.GetField(X, Y);
                                                             call__293.SendMapFieldMsg(ref Msg);
@@ -2079,7 +2079,7 @@ namespace Aow.Units.CombatTE
                                                             byte end__294 = 6;
                                                             for (; I <= end__294; I += 1)
                                                             {
-                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                                 var call__295 = AoWCombatMap.MapContainer.MapLevels[0];
                                                                 var call__296 = call__295.GetField(X, Y);
                                                                 call__296.SendMapFieldMsg(ref Msg);
@@ -2104,7 +2104,7 @@ namespace Aow.Units.CombatTE
                                                                 byte end__297 = 6;
                                                                 for (; I <= end__297; I += 1)
                                                                 {
-                                                                        CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                                     var call__298 = AoWCombatMap.MapContainer.MapLevels[0];
                                                                     var call__299 = call__298.GetField(X, Y);
                                                                     call__299.SendMapFieldMsg(ref Msg);
@@ -2121,7 +2121,7 @@ namespace Aow.Units.CombatTE
                                                                 byte end__300 = 18;
                                                                 for (; I <= end__300; I += 1)
                                                                 {
-                                                                        CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                                     var call__301 = AoWCombatMap.MapContainer.MapLevels[0];
                                                                     var call__302 = call__301.GetField(X, Y);
                                                                     call__302.SendMapFieldMsg(ref Msg);
@@ -2138,7 +2138,7 @@ namespace Aow.Units.CombatTE
                                                                 byte end__303 = 36;
                                                                 for (; I <= end__303; I += 1)
                                                                 {
-                                                                        CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                                     var call__304 = AoWCombatMap.MapContainer.MapLevels[0];
                                                                     var call__305 = call__304.GetField(X, Y);
                                                                     call__305.SendMapFieldMsg(ref Msg);
@@ -2176,11 +2176,11 @@ namespace Aow.Units.CombatTE
                                                                     byte end__312 = 18;
                                                                     for (; I <= end__312; I += 1)
                                                                     {
-                                                                            CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                        CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                                         var call__313 = AoWCombatMap.MapContainer.MapLevels[0];
                                                                         var call__314 = call__313.GetField(X, Y);
                                                                         call__314.SendMapFieldMsg(ref Msg);
-                                                                            CreateFire(false, 50, X, Y);
+                                                                        CreateFire(false, 50, X, Y);
                                                                     }
                                                                 }
 
@@ -2265,7 +2265,7 @@ namespace Aow.Units.CombatTE
                                                                             byte end__333 = 6;
                                                                             for (; I <= end__333; I += 1)
                                                                             {
-                                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
                                                                                 var call__334 = AoWCombatMap.MapContainer.MapLevels[0];
                                                                                 var call__335 = call__334.GetField(X, Y);
                                                                                 call__335.SendMapFieldMsg(ref Msg);
@@ -2645,7 +2645,7 @@ namespace Aow.Units.CombatTE
                                 }
                                 else
                                 {
-                                    if (FUnit.FUnitHS.FActionDone || FAbilityID == 52 && FDelay <= 0)
+                                    if (FUnit.FUnitHS.FActionDone || (FAbilityID == 52 && FDelay <= 0))
                                     {
                                         var call__406 = AoWHSMap.Random(3);
                                         FDelay = call__406 + 4;
@@ -3752,7 +3752,7 @@ namespace Aow.Units.CombatTE
             }
             else
             {
-                if (FAbilityID != 52 && AbilTypes[FAbilityID] != TfxType.fxBreath || FStrikeIndex == 0)
+                if ((FAbilityID != 52 && AbilTypes[FAbilityID] != TfxType.fxBreath) || FStrikeIndex == 0)
                 {
                     FUnit.FUnitHS.SetAction(TTCAction.caAbility);
                 }

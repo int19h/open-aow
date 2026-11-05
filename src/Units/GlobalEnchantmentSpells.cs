@@ -1131,7 +1131,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
                                 {
                                     var call__89 = MapLevel.GetField(Walk.X, Walk.Y);
                                     MapF = call__89;
-                                    if (!TSet<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)MapF.OverlayType) || MapF.TerrainType == 0 && MapF.OverlayType == 5)
+                                    if ((!TSet<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)MapF.OverlayType)) || (MapF.TerrainType == 0 && MapF.OverlayType == 5))
                                     {
                                         Index = (FWidth * Walk.Y + Walk.X) * 2;
                                         bool bool__90 = FOriginalTerrain[Index] == 0 && FOriginalTerrain[Index + 1] == 0;

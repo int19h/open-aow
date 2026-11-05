@@ -1949,7 +1949,7 @@ namespace Aow.Units.HSEngine
         // HSMAP.PAS:745
         public void InvalidateStaticScene(int Xhx, int Yhx, int Lhx)
         {
-            FStaticSceneInvalid = FStaticSceneInvalid || Xhx >= FViewXhx && Xhx < FViewXhx + FViewWidthHX && Yhx >= FViewYhx && Yhx < FViewYhx + FViewHeightHX && Lhx == FViewL;
+            FStaticSceneInvalid = FStaticSceneInvalid || (Xhx >= FViewXhx && Xhx < FViewXhx + FViewWidthHX && Yhx >= FViewYhx && Yhx < FViewYhx + FViewHeightHX && Lhx == FViewL);
         }
 
         public THSMapMouse Mouse { get => FMouse; }
@@ -8882,7 +8882,7 @@ namespace Aow.Units.HSEngine
             dY = Math.Abs(Y1 - Y2);
             if (dY >= dX)
             {
-                Up = (dX & 1) != 0 && (!((X1 & 1) != 0) && Y1 < Y2 || !((X2 & 1) != 0) && Y2 < Y1);
+                Up = (dX & 1) != 0 && ((!((X1 & 1) != 0) && Y1 < Y2) || (!((X2 & 1) != 0) && Y2 < Y1));
                 if (Up)
                 {
                     Result = (int)(((uint)(dX + 1)) >> 1) + dY;
@@ -8896,7 +8896,7 @@ namespace Aow.Units.HSEngine
             {
                 Result = dX;
                 Half = (int)(((uint)(dX + 1)) >> 1);
-                if ((dX & 1) != 0 && (!((X1 & 1) != 0) && Y1 < Y2 || !((X2 & 1) != 0) && Y2 < Y1))
+                if ((dX & 1) != 0 && ((!((X1 & 1) != 0) && Y1 < Y2) || (!((X2 & 1) != 0) && Y2 < Y1)))
                 {
                     dY += 1;
                 }
@@ -8952,7 +8952,7 @@ namespace Aow.Units.HSEngine
             dY = Math.Abs(Yhx);
             if (dY >= dX)
             {
-                Up = (dX & 1) != 0 && (Yhx > 0 || !((Xhx & 1) != 0) && Yhx < 0);
+                Up = (dX & 1) != 0 && (Yhx > 0 || (!((Xhx & 1) != 0) && Yhx < 0));
                 if (Up)
                 {
                     Result = (int)(((uint)(dX + 1)) >> 1) + dY;
@@ -8966,7 +8966,7 @@ namespace Aow.Units.HSEngine
             {
                 Result = dX;
                 Half = (int)(((uint)(dX + 1)) >> 1);
-                if ((dX & 1) != 0 && (Yhx > 0 || !((Xhx & 1) != 0) && Yhx < 0))
+                if ((dX & 1) != 0 && (Yhx > 0 || (!((Xhx & 1) != 0) && Yhx < 0)))
                 {
                     dY += 1;
                 }

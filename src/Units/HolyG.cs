@@ -540,7 +540,7 @@ namespace Aow.Units.HolyG
             var call__62 = base.ValidTargetMapF(A1);
             Result = call__62 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)((TAoWMapField)A1).TerrainType);
             // { Original overlay test allows these overlays even when the terrain check failed. }
-            Result = Result && ((TAoWMapField)A1).OverlayType == -1 || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)((TAoWMapField)A1).OverlayType);
+            Result = (Result && ((TAoWMapField)A1).OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)((TAoWMapField)A1).OverlayType);
             Result = Result && ((TAoWMapField)A1).FindNoneTransparentHS(typeof(TStructure)) == null;
             if (Result)
             {
@@ -561,7 +561,7 @@ namespace Aow.Units.HolyG
             var call__63 = base.ValidTargetMapF(A1);
             Result = call__63 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)((TAoWMapField)A1).TerrainType);
             // { Original overlay test allows these overlays even when the terrain check failed. }
-            Result = Result && ((TAoWMapField)A1).OverlayType == -1 || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)((TAoWMapField)A1).OverlayType);
+            Result = (Result && ((TAoWMapField)A1).OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)((TAoWMapField)A1).OverlayType);
             bool bool__64 = Result;
             if (bool__64)
             {

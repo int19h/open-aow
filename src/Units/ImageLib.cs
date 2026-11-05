@@ -3930,7 +3930,7 @@ namespace Aow.Units.ImageLib
                         int end__109 = FHeight - 1;
                         for (; I <= end__109; I += 1)
                         {
-                                Move((BytePointer(SD.Data) + (R.Top + I) * SD.Pitch + R.Left * 2).AsSpan(FWidth * 2), (BytePointer(FData) + FPitch * I).AsSpan(FWidth * 2), FWidth * 2);
+                            Move((BytePointer(SD.Data) + (R.Top + I) * SD.Pitch + R.Left * 2).AsSpan(FWidth * 2), (BytePointer(FData) + FPitch * I).AsSpan(FWidth * 2), FWidth * 2);
                         }
                     }
 
@@ -8293,7 +8293,7 @@ namespace Aow.Units.ImageLib
                             if (Image != null)
                             {
                                 Image.GetVisualDimensions(ref IR);
-                                    UnionRect(ref R, R, IR);
+                                UnionRect(ref R, R, IR);
                             }
                         }
                     }
@@ -8312,7 +8312,7 @@ namespace Aow.Units.ImageLib
                             if (Image != null)
                             {
                                 Image.GetVisualDimensions(ref IR);
-                                    UnionRect(ref R, R, IR);
+                                UnionRect(ref R, R, IR);
                             }
                         }
                     }

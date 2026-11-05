@@ -895,7 +895,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:421
         public void UnitChanged(TAbstractUnit U)
         {
-            if (Dlg.Visible && (U == null || TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode) && U == FHero))
+            if (Dlg.Visible && (U == null || (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode) && U == FHero)))
             {
                 UpdateSpellPages();
                 UpdateInfoPages();

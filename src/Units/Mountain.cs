@@ -131,7 +131,7 @@ namespace Aow.Units.Mountain
                         var call__10 = MapField.GetHNofHS(HS);
                         var call__11 = HS.Resource.TerrainList.Overlay[call__10];
                         OtherOverlay = call__11;
-                        Valid = !(OtherOverlay == 0 && Overlay == 0 || OtherOverlay == 1 && Overlay == 1);
+                        Valid = !((OtherOverlay == 0 && Overlay == 0) || (OtherOverlay == 1 && Overlay == 1));
                     }
 
                     I += 1;

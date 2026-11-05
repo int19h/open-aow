@@ -578,7 +578,7 @@ namespace Aow.Units.PoisonP
             var call__66 = base.ValidTargetSelectionMapF(A1);
             Result = call__66 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence also accepts these overlays without the terrain test. }
-            Result = Result && A1.OverlayType == -1 || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
+            Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
             bool bool__67 = Result;
             if (bool__67)
             {
@@ -613,7 +613,7 @@ namespace Aow.Units.PoisonP
             var call__71 = base.ValidTargetMapF(A1);
             Result = call__71 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence also accepts these overlays without the terrain test. }
-            Result = Result && A1.OverlayType == -1 || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
+            Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
             bool bool__72 = Result;
             if (bool__72)
             {

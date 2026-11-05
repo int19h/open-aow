@@ -11,10 +11,10 @@ public partial class TTacticalCombat
             if (HeadlessHooks.Tactical || FrameFixtureInputs.Tactical)
             {
                 FHostPlayer = 0;
-            HeadlessHooks.TacticalExecutions++;
+                HeadlessHooks.TacticalExecutions++;
             }
-        TCombatResult Result = default;
-        TRndTacHsm Generator = default;
+            TCombatResult Result = default;
+            TRndTacHsm Generator = default;
             int I = default;
             int Seated = default;
             if (!ValidateWallCombat())
@@ -45,7 +45,7 @@ public partial class TTacticalCombat
                     }
                     else
                     {
-                    AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
+                        AoWE.AoWE.AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
                         Generator = new TRndTacHsm();
                         Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
                         Generator.Free();
@@ -56,7 +56,7 @@ public partial class TTacticalCombat
                             bool__1134 = call__1135;
                         }
 
-                    AoWTC.AoWCombatMap.FPlaySounds = bool__1134;
+                        AoWTC.AoWCombatMap.FPlaySounds = bool__1134;
                         if (!AoWTC.AoWCombatMap.FPlaySounds)
                         {
                             {
@@ -73,14 +73,14 @@ public partial class TTacticalCombat
                                         var call__1141 = call__1140.GetLocal();
                                         if (call__1141)
                                         {
-                                        AoWTC.AoWCombatMap.FPlaySounds = true;
+                                            AoWTC.AoWCombatMap.FPlaySounds = true;
                                         }
                                     }
                                 }
                             }
                         }
 
-                    AoWTC.AoWCombatMap.FDeselectEvents.TriggerNotifyEvents(this);
+                        AoWTC.AoWCombatMap.FDeselectEvents.TriggerNotifyEvents(this);
                         Seated = -1;
                         {
                             I = 0;
@@ -109,11 +109,11 @@ public partial class TTacticalCombat
                             }
                         }
 
-                    AoWTC.AoWCombatMap.SetSeatedCombatPlayer((sbyte)Seated);
-                    AoWTC.AoWCombatMap.CenterViewTo(32, 29, 0);
-                    AoWTC.AoWCombatMap.FCombat.NewRound();
+                        AoWTC.AoWCombatMap.SetSeatedCombatPlayer((sbyte)Seated);
+                        AoWTC.AoWCombatMap.CenterViewTo(32, 29, 0);
+                        AoWTC.AoWCombatMap.FCombat.NewRound();
                         var call__1149 = FCombatData.FTurnOrder[0];
-                    AoWTC.AoWCombatMap.NewTurn((sbyte)call__1149);
+                        AoWTC.AoWCombatMap.NewTurn((sbyte)call__1149);
                         Result = TCombatResult.crBusy;
                         FOnTerminated = AoWTC.AoWCombatMap.EndCombat;
                         SetLogCombatActions(1);
@@ -121,7 +121,7 @@ public partial class TTacticalCombat
                 }
             }
 
-        FrameFixtureInputs.TacticalInitialized?.Invoke();
+            FrameFixtureInputs.TacticalInitialized?.Invoke();
             return Result;
         }
 }

@@ -3610,7 +3610,7 @@ namespace Aow.Units.GFXE
                     byte end__81 = 2;
                     for (; I <= end__81; I += 1)
                     {
-                        if ((Masks[Order[I]] < 0 || Masks[Order[I + 1]] < Masks[Order[I]]) && Masks[Order[I + 1]] > 0 || Masks[Order[I]] == 0 && Masks[Order[I + 1]] != 0)
+                        if (((Masks[Order[I]] < 0 || Masks[Order[I + 1]] < Masks[Order[I]]) && Masks[Order[I + 1]] > 0) || (Masks[Order[I]] == 0 && Masks[Order[I + 1]] != 0))
                         {
                             T = Order[I];
                             Order[I] = Order[I + 1];

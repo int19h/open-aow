@@ -932,7 +932,7 @@ namespace Aow.Units.AoWE
                                             var call__80 = Random(50);
                                             VZ = (float)((double)(call__80 + FFrame / 2) * 0.1);
                                             Z = 0;
-                                                MakeArcPath(0, 0, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                            MakeArcPath(0, 0, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                                         }
                                     }
                                 }
@@ -967,7 +967,7 @@ namespace Aow.Units.AoWE
                                     var call__86 = Math.PI;
                                     var call__87 = Math.Cos((double)((double)(I * 12 + FFrame * 5) * call__86) / 180);
                                     var call__88 = Random(10);
-                                        MakeArcPathXY((short)Round((double)call__87 * (RadiusX + call__88)), (short)(Round((double)call__84 * (RadiusY + call__85)) / 2), 0, -150, 100, 10, ref Effect.FPath);
+                                    MakeArcPathXY((short)Round((double)call__87 * (RadiusX + call__88)), (short)(Round((double)call__84 * (RadiusY + call__85)) / 2), 0, -150, 100, 10, ref Effect.FPath);
                                     {
                                         J = 0;
                                         int end__89 = Effect.FPath.Count - 1;
@@ -1034,7 +1034,7 @@ namespace Aow.Units.AoWE
                                     var call__99 = Math.PI;
                                     var call__100 = Math.Sin((double)((double)(I * 12 + RadiusX) * call__99) / 180);
                                     Effect.FY = Round((double)call__100 * FFrame) / 2 + 50;
-                                        MakeLinePath(0, 0, 0, FFrame * 3 - 200, 30, ref Effect.FPath);
+                                    MakeLinePath(0, 0, 0, FFrame * 3 - 200, 30, ref Effect.FPath);
                                 }
                             }
 
@@ -6839,7 +6839,7 @@ namespace Aow.Units.AoWE
             }
 
             Result = bool__590;
-            Result = Result || AoWE.AoWHSMap.FCombat == null && AoWE.AoWHSMap.FPlayMode == TPlayMode.pmTurn && AoWE.AoWHSMap.FCurrentPlayer != FPlayerIndex;
+            Result = Result || (AoWE.AoWHSMap.FCombat == null && AoWE.AoWHSMap.FPlayMode == TPlayMode.pmTurn && AoWE.AoWHSMap.FCurrentPlayer != FPlayerIndex);
             bool bool__592 = Result;
             if (!bool__592)
             {
@@ -9252,7 +9252,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:75
         public void SetFogCount(byte Value)
         {
-            if (Value == 0 && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FFieldFlags).Hi).Lo != 0 || Value != 0 && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FFieldFlags).Hi).Lo == 0)
+            if ((Value == 0 && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FFieldFlags).Hi).Lo != 0) || (Value != 0 && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FFieldFlags).Hi).Lo == 0))
             {
                 Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref FFieldFlags).Hi).Lo = Value;
                 FogChanged();
@@ -12335,7 +12335,7 @@ namespace Aow.Units.AoWE
         public void DefaultStartMap()
         {
             AoWE.AoWHSMap.FPlayers.Update();
-            AoWE.AoWHSMap.FRequestCombatType = AoWE.AoWHSMap.FConnectionType == TPlayerConnectionType.pcEmail || AoWE.AoWHSMap.FConnectionType == TPlayerConnectionType.pcLocal && AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers.Count > 1;
+            AoWE.AoWHSMap.FRequestCombatType = AoWE.AoWHSMap.FConnectionType == TPlayerConnectionType.pcEmail || (AoWE.AoWHSMap.FConnectionType == TPlayerConnectionType.pcLocal && AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers.Count > 1);
             AoWE.AoWHSMap.FShowIndependentMoves = !AoWE.AoWHSMap.FRequestCombatType;
         }
 
@@ -13576,7 +13576,7 @@ namespace Aow.Units.AoWE
             THSMapMouse Mouse = default;
             Mouse = FMap.Mouse;
             Capture = Mouse.Capture;
-            if (Capture != this && Capture != AoWE.AoWHSMap.FTargetSelection || Mouse.Button == TMouseButton.mbRight)
+            if ((Capture != this && Capture != AoWE.AoWHSMap.FTargetSelection) || Mouse.Button == TMouseButton.mbRight)
             {
                 Unselect();
             }
@@ -15645,7 +15645,7 @@ namespace Aow.Units.AoWE
             }
 
             // { Original uses OR between the digit bounds, admitting every key. }
-            if (Key >= 65 && Key <= 90 || Key >= 48 || Key <= 57 || Key == 188 || Key == 190 || Key == 13)
+            if ((Key >= 65 && Key <= 90) || Key >= 48 || Key <= 57 || Key == 188 || Key == 190 || Key == 13)
             {
                 switch (FMode)
                 {
@@ -15972,7 +15972,7 @@ namespace Aow.Units.AoWE
         public bool GetSelectingRectangle()
         {
             bool Result = default;
-            if (FSelectionRectangle.Left == -1 || FSelectionRectangle.Left == FSelectionRectangle.Right && FSelectionRectangle.Top == FSelectionRectangle.Bottom)
+            if (FSelectionRectangle.Left == -1 || (FSelectionRectangle.Left == FSelectionRectangle.Right && FSelectionRectangle.Top == FSelectionRectangle.Bottom))
             {
                 Result = false;
             }
@@ -16796,7 +16796,7 @@ namespace Aow.Units.AoWE
             if (FMessageFrame != 0)
             {
                 FMessageFrame = (byte)(FMessageFrame - 1);
-                if ((FMessageFrame & 16) == 0 && (FMessageFrame & 15) < 7 || (FMessageFrame & 16) == 16 && (FMessageFrame & 15) < 11)
+                if (((FMessageFrame & 16) == 0 && (FMessageFrame & 15) < 7) || ((FMessageFrame & 16) == 16 && (FMessageFrame & 15) < 11))
                 {
                     Info.Text = FMessageText;
                     FMessageFrame = (byte)(FMessageFrame & 240);
@@ -16917,7 +16917,7 @@ namespace Aow.Units.AoWE
                 }
             }
 
-            if (FMapChangedLockCount == 0 && (Result.Contains(TFogExplorationChangedElement.feFog) && FFogEnabled || Result.Contains(TFogExplorationChangedElement.feExploration) && FExplorationEnabled && Player == FSeatedPlayer))
+            if (FMapChangedLockCount == 0 && ((Result.Contains(TFogExplorationChangedElement.feFog) && FFogEnabled) || (Result.Contains(TFogExplorationChangedElement.feExploration) && FExplorationEnabled && Player == FSeatedPlayer)))
             {
                 MapChangedRad(X, Y, Level, Radius);
             }
@@ -23188,7 +23188,7 @@ namespace Aow.Units.AoWE
                 {
                     if (this.FAbilities.List[I] != null)
                     {
-                        if ((((TAbility)this.FAbilities.List[I]).FSelectionTypes & Types) != TSet<TAbilitySelectionType>.Of() || Types == TSet<TAbilitySelectionType>.Of().WithRange(0, (TAbilitySelectionType)9) && ((TAbility)this.FAbilities.List[I]).FSelectionTypes == TSet<TAbilitySelectionType>.Of())
+                        if ((((TAbility)this.FAbilities.List[I]).FSelectionTypes & Types) != TSet<TAbilitySelectionType>.Of() || (Types == TSet<TAbilitySelectionType>.Of().WithRange(0, (TAbilitySelectionType)9) && ((TAbility)this.FAbilities.List[I]).FSelectionTypes == TSet<TAbilitySelectionType>.Of()))
                         {
                             var call__2216 = ((TAbility)this.FAbilities.List[I]).GetName(null);
                             Text.AddObject(call__2216, IntToObject(I));
@@ -28389,7 +28389,7 @@ namespace Aow.Units.AoWE
                     ArmyHS = (TArmyHS)call__2578;
                     if (ArmyHS != null)
                     {
-                        bool bool__2579 = Mode.Contains(TUnitPlaceModeElement.pmCreateNewArmy) || Player != -1 && ArmyHS.FArmy.FPlayer != Player;
+                        bool bool__2579 = Mode.Contains(TUnitPlaceModeElement.pmCreateNewArmy) || (Player != -1 && ArmyHS.FArmy.FPlayer != Player);
                         if (!bool__2579)
                         {
                             var call__2580 = ArmyHS.FArmy.CanAddUnit(this);
@@ -35128,7 +35128,7 @@ namespace Aow.Units.AoWE
             {
                 GetLocation(ref X, ref Y, ref L);
                 Item.GetLocation(ref IX, ref IY, ref IL);
-                if (AoWE.AoWHSMap.FCombatMap != null || X == IX && Y == IY && L == IL)
+                if (AoWE.AoWHSMap.FCombatMap != null || (X == IX && Y == IY && L == IL))
                 {
                     if (TSet<THeroItemPosition>.Of().WithRange(THeroItemPosition.ipAttackSlot, THeroItemPosition.ipRightRingSlot).Contains(Position))
                     {
@@ -40628,7 +40628,7 @@ namespace Aow.Units.AoWE
                         bool bool__3466 = AoWE.alsGood.Contains(Alignment);
                         if (bool__3466)
                         {
-                            bool bool__3467 = !AoWE.alsEvil.Contains(Alignment) || GoodArmy != null && EvilArmy == null || GoodArmy == null && EvilArmy == null;
+                            bool bool__3467 = !AoWE.alsEvil.Contains(Alignment) || (GoodArmy != null && EvilArmy == null) || (GoodArmy == null && EvilArmy == null);
                             if (!bool__3467)
                             {
                                 bool bool__3468 = GoodArmy != null && EvilArmy != null;
@@ -43151,7 +43151,7 @@ namespace Aow.Units.AoWE
                     if (Field.FindOwnedChild(131607) == null)
                     {
                         Player = Field.GetPlayer();
-                        if (Player == -1 || Player == FArmy.FPlayer && Mode.Contains(TArmyPlaceModeElement.apEnableOwnPlayerLocation))
+                        if (Player == -1 || (Player == FArmy.FPlayer && Mode.Contains(TArmyPlaceModeElement.apEnableOwnPlayerLocation)))
                         {
                             Msg.MsgID = 4384;
                             Msg.Param[0] = this;
@@ -59197,7 +59197,7 @@ namespace Aow.Units.AoWE
         public bool Search(TAIGroupControl Control)
         {
             bool Result = default;
-            if (FTargetInfo.Player != -1 && FOnTargetFound != null && FSourceLocation.XYL != 16777215 && (FMovePointsMax > 0 || FMovePointsMin > 0 && FTransporter != null))
+            if (FTargetInfo.Player != -1 && FOnTargetFound != null && FSourceLocation.XYL != 16777215 && (FMovePointsMax > 0 || (FMovePointsMin > 0 && FTransporter != null)))
             {
                 if (FMovePointsMax > 0)
                 {
@@ -59538,7 +59538,7 @@ namespace Aow.Units.AoWE
         public bool CanAdd(TAIMoveExecuterUnit UnitEntry)
         {
             bool Result = default;
-            Result = Unsafe.As<TXYL, int>(ref FLocation) == Unsafe.As<TXYL, int>(ref UnitEntry.FLocation) && Unsafe.As<TXYL, int>(ref FDestination) == Unsafe.As<TXYL, int>(ref UnitEntry.FDestination) && FTransportStatus == UnitEntry.FTransportStatus && (FTransportStatus == TAIMoveExecuterTransportStatus.mtsDone || Unsafe.As<TXYL, int>(ref FBoardingPoint) == Unsafe.As<TXYL, int>(ref UnitEntry.FBoardingPoint) && Unsafe.As<TXYL, int>(ref FArrivalPoint) == Unsafe.As<TXYL, int>(ref UnitEntry.FArrivalPoint) && Unsafe.As<TXYL, int>(ref FTransportSource) == Unsafe.As<TXYL, int>(ref UnitEntry.FTransportSource) && Unsafe.As<TXYL, int>(ref FTransportDestination) == Unsafe.As<TXYL, int>(ref UnitEntry.FTransportDestination));
+            Result = Unsafe.As<TXYL, int>(ref FLocation) == Unsafe.As<TXYL, int>(ref UnitEntry.FLocation) && Unsafe.As<TXYL, int>(ref FDestination) == Unsafe.As<TXYL, int>(ref UnitEntry.FDestination) && FTransportStatus == UnitEntry.FTransportStatus && (FTransportStatus == TAIMoveExecuterTransportStatus.mtsDone || (Unsafe.As<TXYL, int>(ref FBoardingPoint) == Unsafe.As<TXYL, int>(ref UnitEntry.FBoardingPoint) && Unsafe.As<TXYL, int>(ref FArrivalPoint) == Unsafe.As<TXYL, int>(ref UnitEntry.FArrivalPoint) && Unsafe.As<TXYL, int>(ref FTransportSource) == Unsafe.As<TXYL, int>(ref UnitEntry.FTransportSource) && Unsafe.As<TXYL, int>(ref FTransportDestination) == Unsafe.As<TXYL, int>(ref UnitEntry.FTransportDestination)));
             return Result;
         }
 
@@ -60515,7 +60515,7 @@ namespace Aow.Units.AoWE
                         Move = call__5086;
                         if (Move != null)
                         {
-                            if (!FExecuter.FMode.Contains(TAIMoveExecuterModeElement.memSimultaneous) || FExecuter.FMode.Contains(TAIMoveExecuterModeElement.memAttack) && MoveResult == 2)
+                            if (!FExecuter.FMode.Contains(TAIMoveExecuterModeElement.memSimultaneous) || (FExecuter.FMode.Contains(TAIMoveExecuterModeElement.memAttack) && MoveResult == 2))
                             {
                                 FExecuter.ExecuteMoves();
                             }
@@ -68538,7 +68538,7 @@ namespace Aow.Units.AoWE
                         }
                     }
 
-                    if (TSet<TAIGroupRecruitControlMode>.Of(TAIGroupRecruitControlMode.rcmAutoRecruit, TAIGroupRecruitControlMode.rcmForceRecruit).Contains(FMode) || FMode == TAIGroupRecruitControlMode.rcmCompleteRecruitOnly && FComplete)
+                    if (TSet<TAIGroupRecruitControlMode>.Of(TAIGroupRecruitControlMode.rcmAutoRecruit, TAIGroupRecruitControlMode.rcmForceRecruit).Contains(FMode) || (FMode == TAIGroupRecruitControlMode.rcmCompleteRecruitOnly && FComplete))
                     {
                         ExecuteRecruitment();
                     }
@@ -68979,7 +68979,7 @@ namespace Aow.Units.AoWE
                     }
 
                     var call__5899 = FGroups.Count;
-                    if (call__5899 != 0 && FMode == TAIGroupCooperateControlMode.ccmAutoCooperate || FMode == TAIGroupCooperateControlMode.ccmCompleteCooperateOnly && FComplete)
+                    if ((call__5899 != 0 && FMode == TAIGroupCooperateControlMode.ccmAutoCooperate) || (FMode == TAIGroupCooperateControlMode.ccmCompleteCooperateOnly && FComplete))
                     {
                         ExecuteCooperation();
                     }
@@ -69159,7 +69159,7 @@ namespace Aow.Units.AoWE
             TAIGroup Group1 = default;
             TAIGroup Group2 = default;
             ;
-            bool bool__5915 = Group.FGroup.FTransporterID == -1 && (Unsafe.As<TXYL, int>(ref Group.FGroup.FTargetXYL) == Unsafe.As<TXYL, int>(ref FTarget.FLocation) && Group.FGroup.FTargetType == TAIGroupTargetStatus.gtsSetup || TSet<TAIGroupTargetStatus>.Of(TAIGroupTargetStatus.gtsNone, TAIGroupTargetStatus.gtsIdle).Contains(Group.FGroup.FTargetType));
+            bool bool__5915 = Group.FGroup.FTransporterID == -1 && ((Unsafe.As<TXYL, int>(ref Group.FGroup.FTargetXYL) == Unsafe.As<TXYL, int>(ref FTarget.FLocation) && Group.FGroup.FTargetType == TAIGroupTargetStatus.gtsSetup) || TSet<TAIGroupTargetStatus>.Of(TAIGroupTargetStatus.gtsNone, TAIGroupTargetStatus.gtsIdle).Contains(Group.FGroup.FTargetType));
             if (bool__5915)
             {
                 var call__5916 = Group.FGroup.CooperateWithGroup(FControl.FGroup, FTarget);
@@ -69645,7 +69645,7 @@ namespace Aow.Units.AoWE
                         }
 
                         var call__5947 = FProductions.Count;
-                        if (call__5947 != 0 && FMode == TAIGroupProductionControlMode.pcmAutoProduce || FMode == TAIGroupProductionControlMode.pcmCompleteProduceOnly && FComplete)
+                        if ((call__5947 != 0 && FMode == TAIGroupProductionControlMode.pcmAutoProduce) || (FMode == TAIGroupProductionControlMode.pcmCompleteProduceOnly && FComplete))
                         {
                             ExecuteProductions(FGroupID);
                         }
@@ -74028,7 +74028,7 @@ namespace Aow.Units.AoWE
                 FCombatMode = TCombatMoveMode.cmSetupReady;
             }
 
-            if (FCombatMode == TCombatMoveMode.cmRequestingCombatType || FCombatType == TCombatType.ctTactical && FCombatMode == TCombatMoveMode.cmSetupReady)
+            if (FCombatMode == TCombatMoveMode.cmRequestingCombatType || (FCombatType == TCombatType.ctTactical && FCombatMode == TCombatMoveMode.cmSetupReady))
             {
                 Combat = new TCombat(null);
                 var call__6455 = FArmyHS.GetYhx();
@@ -75089,7 +75089,7 @@ namespace Aow.Units.AoWE
                         bool__6597 = call__6598 > 1;
                     }
 
-                    if (bool__6597 || Structure != null && Structure.FPlayer > 0)
+                    if (bool__6597 || (Structure != null && Structure.FPlayer > 0))
                     {
                         AUnit.GetLocation(ref X, ref Y, ref L);
                         AUnit.SetOwner(null);
@@ -77026,7 +77026,7 @@ namespace Aow.Units.AoWE
 
                     ref var Strike = ref FStrikes[I];
                     Strike.Side = Side;
-                    if (I == 0 || I == 1 && Side != A1)
+                    if (I == 0 || (I == 1 && Side != A1))
                     {
                         if (Side == TCombatSideIndex.csAttacker && I == 0 && Source.GetAbilityEnabled(111))
                         {
@@ -77231,7 +77231,7 @@ namespace Aow.Units.AoWE
 
                     ref var Strike = ref FStrikes[I];
                     Strike.Side = Side;
-                    if (I == 0 || I == 1 && Side != A1)
+                    if (I == 0 || (I == 1 && Side != A1))
                     {
                         if (Side == TCombatSideIndex.csAttacker && I == 0 && Source.GetAbilityEnabled(111))
                         {
@@ -89930,7 +89930,7 @@ namespace Aow.Units.AoWE
                         var call__8260 = call__8259.FDiplomaticActions.FindLastAction(TDiplomaticActionType.daOfferPeace, TDiplomaticActionReaction.darNone, FTarget, FSource, -1);
                         Last = call__8260;
                         var call__8261 = IdealPeace.IndexOf((byte)FSource);
-                        if (call__8261 != -1 || Last != null && AoWE.AoWHSMap.FDay - Last.FDay <= 1)
+                        if (call__8261 != -1 || (Last != null && AoWE.AoWHSMap.FDay - Last.FDay <= 1))
                         {
                             var call__8262 = AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget);
                             var call__8263 = call__8262.FAIControl.CanOfferPeace((byte)FSource);

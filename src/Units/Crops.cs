@@ -650,7 +650,7 @@ namespace Aow.Units.Crops
                         bool__49 = call__50 > call__51;
                     }
 
-                    if (bool__49 && !(HS is TAbstractRoad) || Info.OverlayType >= 0 && Info.OverlayType != 4)
+                    if ((bool__49 && !(HS is TAbstractRoad)) || (Info.OverlayType >= 0 && Info.OverlayType != 4))
                     {
                         Destroy();
                     }

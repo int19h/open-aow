@@ -185,7 +185,7 @@ namespace Aow.Units.FleeLoc
             }
             else
             {
-                if (FAlpha > 0 && FAlphaStep < 0 || FAlpha < 50 && FAlphaStep > 0)
+                if ((FAlpha > 0 && FAlphaStep < 0) || (FAlpha < 50 && FAlphaStep > 0))
                 {
                     FAlpha = FAlpha + FAlphaStep;
                 }

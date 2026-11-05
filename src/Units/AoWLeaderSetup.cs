@@ -561,7 +561,7 @@ namespace Aow.Units.AoWLeaderSetup
             ShieldR.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign) || Value > 1;
             MainFaceFr.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign) || Value > 1;
             MainFace.Visible = MainFaceFr.Visible;
-            if (Value == 3 || Value == 2 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of() || Value == 1 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSettings, TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of())
+            if (Value == 3 || (Value == 2 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of()) || (Value == 1 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSettings, TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of()))
             {
                 var call__54 = TranslateRStr(FinishRStr);
                 NextBtn.Text = call__54;

@@ -551,7 +551,7 @@ namespace Aow.Units.UnHolyG
             var call__69 = base.ValidTargetMapF(A1);
             Result = call__69 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence accepts these overlays without the terrain test. }
-            Result = Result && A1.OverlayType == -1 || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
+            Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
             Result = Result && A1.FindNoneTransparentHS(typeof(TStructure)) == null;
             if (Result)
             {
@@ -572,7 +572,7 @@ namespace Aow.Units.UnHolyG
             var call__70 = base.ValidTargetMapF(A1);
             Result = call__70 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence accepts these overlays without the terrain test. }
-            Result = Result && A1.OverlayType == -1 || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
+            Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
             bool bool__71 = Result;
             if (bool__71)
             {

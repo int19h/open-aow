@@ -448,7 +448,7 @@ namespace Aow.Units.AGCPlugins
                     moveControlSettings.FSelection = Control.FSelection;
                     moveControlSettings.FMovePointTable = Control.FMovePointTable;
                     moveControlSettings.FMode = moveControlSettings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmLogProcessedMapFields);
-                        AoWHSMap.FMoveControl.ProcessMove(FMoveSettings);
+                    AoWHSMap.FMoveControl.ProcessMove(FMoveSettings);
                 }
 
                 {

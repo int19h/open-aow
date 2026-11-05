@@ -318,7 +318,7 @@ namespace Aow.Units.CitySpells
             sbyte Y = default;
             sbyte L = default;
             TCity Found = default;
-            Result = FCityTargetMode.Contains(TCityTargetModeElement.ctmOwn) && TargetCity.FPlayer == Source.FPlayer || FCityTargetMode.Contains(TCityTargetModeElement.ctmEnemy) && TargetCity.FPlayer != Source.FPlayer;
+            Result = (FCityTargetMode.Contains(TCityTargetModeElement.ctmOwn) && TargetCity.FPlayer == Source.FPlayer) || (FCityTargetMode.Contains(TCityTargetModeElement.ctmEnemy) && TargetCity.FPlayer != Source.FPlayer);
             bool bool__37 = Result;
             if (bool__37)
             {
