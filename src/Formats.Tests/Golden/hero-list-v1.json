@@ -1,0 +1,13 @@
+{
+  "$format": "OpenAoW",
+  "$version": 1,
+  "$kind": "hero-list",
+  "$container": {
+    "profile": "hero-list",
+    "compression": "none"
+  },
+  "root": {
+    "LibraryTitle": "Old",
+    "Obsolete": 5
+  }
+}

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The port's own save and map formats and the original-format converter (own-formats.md).
+       References only Aow.Rtl. Unit mappings enter with 9.7-3. -->
+  <PropertyGroup>
+    <RootNamespace>Aow.Formats</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="schema.json" LogicalName="Aow.Formats.schema.json" />
+    <EmbeddedResource Include="versions.json" LogicalName="Aow.Formats.versions.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Aow.Formats.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rtl\Aow.Rtl.csproj" />
+  </ItemGroup>
+</Project>
