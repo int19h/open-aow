@@ -1,6 +1,7 @@
 #nullable enable
 using System.Collections;
 using Aow.Rtl;
+using Aow.Units;
 using Aow.Units.ImageLib;
 
 namespace Aow.Layout;
@@ -28,7 +29,7 @@ public sealed class LayoutSession
         if (modules.Values.Contains(root)) throw new InvalidOperationException("Layout already initialized");
         // FileName setters read image headers during loading. The registry must exist before
         // the first resource component is built, including callers that load one module.
-        Aow.Units.Startup.InitializeSelected(["ImageLib"]);
+        Startup.InitializeSelected(["ImageLib"]);
         BeginRead(root);
     }
 
@@ -44,7 +45,9 @@ public sealed class LayoutSession
     // The module failure boundary. Application.CreateForm publishes the global before the
     // constructor runs and clears it when the constructor raises, and the failed module is
     // destroyed with every component it owns. Earlier modules stay as they are. OnCreate runs
-    // inside InitializeComponent, so its failures reach this boundary as well.
+    // inside InitializeComponent, so its failures reach this boundary as well. Delphi 3 differs
+    // here: TDataModule.Create hands an OnCreate exception to Application.HandleException and
+    // keeps the module.
     public void Load<T>(T module, Action<T?> publish) where T : TComponent, ILayoutModule
     {
         publish(module);

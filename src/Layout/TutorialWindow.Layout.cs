@@ -1,8 +1,12 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AoWWindow;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWMemo;
+using Aow.Units.AoWButton;
+using Aow.Units.AoWVScroll;
 
 namespace Aow.Units.AoWTutorialWin
 {
@@ -17,7 +21,7 @@ namespace Aow.Units.AoWTutorialWin
         {
             session.Begin(this);
             Name = "TutorialWindow";
-            Dlg = new Aow.Units.AoWWindow.TAOWWindow(this);
+            Dlg = new TAOWWindow(this);
             session.BeginRead(Dlg);
             Dlg.Name = "Dlg";
             Dlg.Visible = false;
@@ -27,10 +31,10 @@ namespace Aow.Units.AoWTutorialWin
             Dlg.WinWidth = 390;
             Dlg.Masked = true;
             Dlg.OnHide = Layout_DlgHide_0;
-            Dlg.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-            Dlg.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
-            Dlg.Alignment.HeightPercent = (byte)(0);
-            Dlg.Alignment.WidthPercent = (byte)(0);
+            Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+            Dlg.Alignment.HeightPercent = 0;
+            Dlg.Alignment.WidthPercent = 0;
             Dlg.Alignment.LeftOffPercent = 0;
             Dlg.Alignment.RightOffPercent = 0;
             Dlg.Alignment.TopOffPercent = 0;
@@ -61,17 +65,17 @@ namespace Aow.Units.AoWTutorialWin
             Dlg.WinHeight = 262;
             Dlg.Dockable = false;
             session.EndRead(Dlg);
-            MessageMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
+            MessageMemo = new TAOWMemo(this);
             session.BeginRead(MessageMemo);
             MessageMemo.Name = "MessageMemo";
             MessageMemo.Priority = 200;
             MessageMemo.WinLeft = 52;
             MessageMemo.WinTop = 80;
             MessageMemo.CaptureInput = false;
-            MessageMemo.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            MessageMemo.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            MessageMemo.Alignment.HeightPercent = (byte)(0);
-            MessageMemo.Alignment.WidthPercent = (byte)(0);
+            MessageMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            MessageMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            MessageMemo.Alignment.HeightPercent = 0;
+            MessageMemo.Alignment.WidthPercent = 0;
             MessageMemo.Alignment.LeftOffPercent = 0;
             MessageMemo.Alignment.RightOffPercent = 0;
             MessageMemo.Alignment.TopOffPercent = 0;
@@ -86,16 +90,16 @@ namespace Aow.Units.AoWTutorialWin
             MessageMemo.BorderWidth = 15;
             MessageMemo.BorderHeight = 5;
             MessageMemo.TextColor = 1052711;
-            MessageMemo.CursorChar = (byte)124;
-            MessageMemo.BlinkDelay = (byte)(0);
+            MessageMemo.CursorChar = 124;
+            MessageMemo.BlinkDelay = 0;
             MessageMemo.Editable = false;
             MessageMemo.ILIndexFrame = 40;
             MessageMemo.ILIndexTexture = 0;
             MessageMemo.ItemHeight = 17;
-            MessageMemo.ColorChangeChar = (byte)0;
-            MessageMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
+            MessageMemo.ColorChangeChar = 0;
+            MessageMemo.TextAlign = TaowTextAlign.taCenter;
             session.EndRead(MessageMemo);
-            Close = new Aow.Units.AoWButton.TAOWButton(this);
+            Close = new TAOWButton(this);
             session.BeginRead(Close);
             Close.Name = "Close";
             Close.Priority = 0;
@@ -106,10 +110,10 @@ namespace Aow.Units.AoWTutorialWin
                 "Closes the Tutorial Window. You can reopen it by pressing F1 on the keyboard."
             };
             Close.CaptureInput = true;
-            Close.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-            Close.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBottom;
-            Close.Alignment.HeightPercent = (byte)(0);
-            Close.Alignment.WidthPercent = (byte)(0);
+            Close.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            Close.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+            Close.Alignment.HeightPercent = 0;
+            Close.Alignment.WidthPercent = 0;
             Close.Alignment.LeftOffPercent = 0;
             Close.Alignment.RightOffPercent = 0;
             Close.Alignment.TopOffPercent = 0;
@@ -130,17 +134,17 @@ namespace Aow.Units.AoWTutorialWin
             Close.WinWidth = 140;
             Close.OnClick = Layout_CloseClick_1;
             session.EndRead(Close);
-            HeaderMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
+            HeaderMemo = new TAOWMemo(this);
             session.BeginRead(HeaderMemo);
             HeaderMemo.Name = "HeaderMemo";
             HeaderMemo.Priority = 200;
             HeaderMemo.WinLeft = 70;
             HeaderMemo.WinTop = 35;
             HeaderMemo.CaptureInput = false;
-            HeaderMemo.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            HeaderMemo.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            HeaderMemo.Alignment.HeightPercent = (byte)(0);
-            HeaderMemo.Alignment.WidthPercent = (byte)(0);
+            HeaderMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            HeaderMemo.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            HeaderMemo.Alignment.HeightPercent = 0;
+            HeaderMemo.Alignment.WidthPercent = 0;
             HeaderMemo.Alignment.LeftOffPercent = 0;
             HeaderMemo.Alignment.RightOffPercent = 0;
             HeaderMemo.Alignment.TopOffPercent = 0;
@@ -155,16 +159,16 @@ namespace Aow.Units.AoWTutorialWin
             HeaderMemo.BorderWidth = 10;
             HeaderMemo.BorderHeight = 5;
             HeaderMemo.TextColor = 0;
-            HeaderMemo.CursorChar = (byte)124;
-            HeaderMemo.BlinkDelay = (byte)(0);
+            HeaderMemo.CursorChar = 124;
+            HeaderMemo.BlinkDelay = 0;
             HeaderMemo.Editable = false;
             HeaderMemo.ILIndexFrame = 40;
             HeaderMemo.ILIndexTexture = 0;
             HeaderMemo.ItemHeight = 20;
-            HeaderMemo.ColorChangeChar = (byte)0;
-            HeaderMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
+            HeaderMemo.ColorChangeChar = 0;
+            HeaderMemo.TextAlign = TaowTextAlign.taCenter;
             session.EndRead(HeaderMemo);
-            AbVSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            AbVSB = new TAOWVScrollBar(this);
             session.BeginRead(AbVSB);
             AbVSB.Name = "AbVSB";
             AbVSB.Visible = false;
@@ -172,10 +176,10 @@ namespace Aow.Units.AoWTutorialWin
             AbVSB.WinLeft = 325;
             AbVSB.WinTop = 80;
             AbVSB.CaptureInput = true;
-            AbVSB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            AbVSB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            AbVSB.Alignment.HeightPercent = (byte)(0);
-            AbVSB.Alignment.WidthPercent = (byte)(0);
+            AbVSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            AbVSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            AbVSB.Alignment.HeightPercent = 0;
+            AbVSB.Alignment.WidthPercent = 0;
             AbVSB.Alignment.LeftOffPercent = 0;
             AbVSB.Alignment.RightOffPercent = 0;
             AbVSB.Alignment.TopOffPercent = 0;
@@ -201,7 +205,7 @@ namespace Aow.Units.AoWTutorialWin
             AbVSB.ILIndexBack = 47;
             AbVSB.ILIndexTab = 44;
             session.EndRead(AbVSB);
-            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            var created__Translator = new LayoutTIvTranslator(this);
             Translator = created__Translator;
             session.BeginRead(created__Translator);
             created__Translator.Name = "Translator";
@@ -224,18 +228,18 @@ namespace Aow.Units.AoWTutorialWin
             AbVSB.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILTexture = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt;
-            MessageMemo.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            Close.ToolTip = Aow.Units.AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10b;
-            Close.ILButton = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans;
-            HeaderMemo.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
-            HeaderMemo.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            AbVSB.ILIInc = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILIDec = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILTBack = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILLTab = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt;
+            MessageMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
+            Close.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
+            Close.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans;
+            HeaderMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
+            HeaderMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            AbVSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            AbVSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            AbVSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            AbVSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
         }
 
         private void Layout_DlgHide_0(TObject p0)

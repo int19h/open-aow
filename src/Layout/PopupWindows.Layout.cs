@@ -1,8 +1,11 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.StartMenu;
+using Aow.Units.AoWComp;
+using Aow.Units.AOWMenu;
+using Aow.Units.AoWTBWindow;
 
 namespace Aow.Units.AoWPWindows
 {
@@ -17,7 +20,7 @@ namespace Aow.Units.AoWPWindows
         {
             session.Begin(this);
             Name = "PopupWindows";
-            StartMenu = new Aow.Units.StartMenu.TStartMenu(this);
+            StartMenu = new TStartMenu(this);
             session.BeginRead(StartMenu);
             StartMenu.Name = "StartMenu";
             StartMenu.Visible = false;
@@ -26,10 +29,10 @@ namespace Aow.Units.AoWPWindows
             StartMenu.WinTop = 12900;
             StartMenu.WinWidth = 250;
             StartMenu.Masked = true;
-            StartMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            StartMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            StartMenu.Alignment.HeightPercent = (byte)(0);
-            StartMenu.Alignment.WidthPercent = (byte)(0);
+            StartMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            StartMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            StartMenu.Alignment.HeightPercent = 0;
+            StartMenu.Alignment.WidthPercent = 0;
             StartMenu.Alignment.LeftOffPercent = 0;
             StartMenu.Alignment.RightOffPercent = 0;
             StartMenu.Alignment.TopOffPercent = 0;
@@ -64,7 +67,7 @@ namespace Aow.Units.AoWPWindows
             StartMenu.SubMenuShowDelay = 5;
             StartMenu.WinHeight = 0;
             session.EndRead(StartMenu);
-            OverViewsMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            OverViewsMenu = new TAOWMenu(this);
             session.BeginRead(OverViewsMenu);
             OverViewsMenu.Name = "OverViewsMenu";
             OverViewsMenu.Visible = false;
@@ -73,10 +76,10 @@ namespace Aow.Units.AoWPWindows
             OverViewsMenu.WinTop = 0;
             OverViewsMenu.WinWidth = 200;
             OverViewsMenu.Masked = true;
-            OverViewsMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            OverViewsMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            OverViewsMenu.Alignment.HeightPercent = (byte)(0);
-            OverViewsMenu.Alignment.WidthPercent = (byte)(0);
+            OverViewsMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            OverViewsMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            OverViewsMenu.Alignment.HeightPercent = 0;
+            OverViewsMenu.Alignment.WidthPercent = 0;
             OverViewsMenu.Alignment.LeftOffPercent = 0;
             OverViewsMenu.Alignment.RightOffPercent = 0;
             OverViewsMenu.Alignment.TopOffPercent = 0;
@@ -108,7 +111,7 @@ namespace Aow.Units.AoWPWindows
             OverViewsMenu.OnSelect = Layout_OverViewsMenuSelect_0;
             OverViewsMenu.WinHeight = 0;
             session.EndRead(OverViewsMenu);
-            SettingsMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            SettingsMenu = new TAOWMenu(this);
             session.BeginRead(SettingsMenu);
             SettingsMenu.Name = "SettingsMenu";
             SettingsMenu.Visible = false;
@@ -117,10 +120,10 @@ namespace Aow.Units.AoWPWindows
             SettingsMenu.WinTop = 0;
             SettingsMenu.WinWidth = 200;
             SettingsMenu.Masked = true;
-            SettingsMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            SettingsMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            SettingsMenu.Alignment.HeightPercent = (byte)(0);
-            SettingsMenu.Alignment.WidthPercent = (byte)(0);
+            SettingsMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            SettingsMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            SettingsMenu.Alignment.HeightPercent = 0;
+            SettingsMenu.Alignment.WidthPercent = 0;
             SettingsMenu.Alignment.LeftOffPercent = 0;
             SettingsMenu.Alignment.RightOffPercent = 0;
             SettingsMenu.Alignment.TopOffPercent = 0;
@@ -156,7 +159,7 @@ namespace Aow.Units.AoWPWindows
             SettingsMenu.OnSelect = Layout_SettingsMenuSelect_1;
             SettingsMenu.WinHeight = 112;
             session.EndRead(SettingsMenu);
-            EndMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            EndMenu = new TAOWMenu(this);
             session.BeginRead(EndMenu);
             EndMenu.Name = "EndMenu";
             EndMenu.Visible = false;
@@ -165,10 +168,10 @@ namespace Aow.Units.AoWPWindows
             EndMenu.WinTop = 0;
             EndMenu.WinWidth = 200;
             EndMenu.Masked = true;
-            EndMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            EndMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            EndMenu.Alignment.HeightPercent = (byte)(0);
-            EndMenu.Alignment.WidthPercent = (byte)(0);
+            EndMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            EndMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            EndMenu.Alignment.HeightPercent = 0;
+            EndMenu.Alignment.WidthPercent = 0;
             EndMenu.Alignment.LeftOffPercent = 0;
             EndMenu.Alignment.RightOffPercent = 0;
             EndMenu.Alignment.TopOffPercent = 0;
@@ -202,7 +205,7 @@ namespace Aow.Units.AoWPWindows
             EndMenu.OnSelect = Layout_EndMenuSelect_2;
             EndMenu.WinHeight = 92;
             session.EndRead(EndMenu);
-            DiskMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            DiskMenu = new TAOWMenu(this);
             session.BeginRead(DiskMenu);
             DiskMenu.Name = "DiskMenu";
             DiskMenu.Visible = false;
@@ -211,10 +214,10 @@ namespace Aow.Units.AoWPWindows
             DiskMenu.WinTop = 0;
             DiskMenu.WinWidth = 200;
             DiskMenu.Masked = true;
-            DiskMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            DiskMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            DiskMenu.Alignment.HeightPercent = (byte)(0);
-            DiskMenu.Alignment.WidthPercent = (byte)(0);
+            DiskMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            DiskMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            DiskMenu.Alignment.HeightPercent = 0;
+            DiskMenu.Alignment.WidthPercent = 0;
             DiskMenu.Alignment.LeftOffPercent = 0;
             DiskMenu.Alignment.RightOffPercent = 0;
             DiskMenu.Alignment.TopOffPercent = 0;
@@ -247,7 +250,7 @@ namespace Aow.Units.AoWPWindows
             DiskMenu.OnSelect = Layout_DiskMenuSelect_3;
             DiskMenu.WinHeight = 0;
             session.EndRead(DiskMenu);
-            TCStartMenu = new Aow.Units.StartMenu.TStartMenu(this);
+            TCStartMenu = new TStartMenu(this);
             session.BeginRead(TCStartMenu);
             TCStartMenu.Name = "TCStartMenu";
             TCStartMenu.Visible = false;
@@ -256,10 +259,10 @@ namespace Aow.Units.AoWPWindows
             TCStartMenu.WinTop = 1000;
             TCStartMenu.WinWidth = 250;
             TCStartMenu.Masked = true;
-            TCStartMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            TCStartMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            TCStartMenu.Alignment.HeightPercent = (byte)(0);
-            TCStartMenu.Alignment.WidthPercent = (byte)(0);
+            TCStartMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            TCStartMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            TCStartMenu.Alignment.HeightPercent = 0;
+            TCStartMenu.Alignment.WidthPercent = 0;
             TCStartMenu.Alignment.LeftOffPercent = 0;
             TCStartMenu.Alignment.RightOffPercent = 0;
             TCStartMenu.Alignment.TopOffPercent = 0;
@@ -294,7 +297,7 @@ namespace Aow.Units.AoWPWindows
             TCStartMenu.SubMenuShowDelay = 5;
             TCStartMenu.WinHeight = 0;
             session.EndRead(TCStartMenu);
-            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            var created__Translator = new LayoutTIvTranslator(this);
             Translator = created__Translator;
             session.BeginRead(created__Translator);
             created__Translator.Name = "Translator";
@@ -303,7 +306,7 @@ namespace Aow.Units.AoWPWindows
             created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
             created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
             session.EndRead(created__Translator);
-            HelpMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            HelpMenu = new TAOWMenu(this);
             session.BeginRead(HelpMenu);
             HelpMenu.Name = "HelpMenu";
             HelpMenu.Visible = false;
@@ -312,10 +315,10 @@ namespace Aow.Units.AoWPWindows
             HelpMenu.WinTop = 0;
             HelpMenu.WinWidth = 200;
             HelpMenu.Masked = true;
-            HelpMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            HelpMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            HelpMenu.Alignment.HeightPercent = (byte)(0);
-            HelpMenu.Alignment.WidthPercent = (byte)(0);
+            HelpMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            HelpMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            HelpMenu.Alignment.HeightPercent = 0;
+            HelpMenu.Alignment.WidthPercent = 0;
             HelpMenu.Alignment.LeftOffPercent = 0;
             HelpMenu.Alignment.RightOffPercent = 0;
             HelpMenu.Alignment.TopOffPercent = 0;
@@ -349,7 +352,7 @@ namespace Aow.Units.AoWPWindows
             HelpMenu.OnSelect = Layout_HelpMenuSelect_4;
             HelpMenu.WinHeight = 0;
             session.EndRead(HelpMenu);
-            TCOVMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            TCOVMenu = new TAOWMenu(this);
             session.BeginRead(TCOVMenu);
             TCOVMenu.Name = "TCOVMenu";
             TCOVMenu.Visible = false;
@@ -358,10 +361,10 @@ namespace Aow.Units.AoWPWindows
             TCOVMenu.WinTop = 0;
             TCOVMenu.WinWidth = 200;
             TCOVMenu.Masked = true;
-            TCOVMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            TCOVMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            TCOVMenu.Alignment.HeightPercent = (byte)(0);
-            TCOVMenu.Alignment.WidthPercent = (byte)(0);
+            TCOVMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            TCOVMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            TCOVMenu.Alignment.HeightPercent = 0;
+            TCOVMenu.Alignment.WidthPercent = 0;
             TCOVMenu.Alignment.LeftOffPercent = 0;
             TCOVMenu.Alignment.RightOffPercent = 0;
             TCOVMenu.Alignment.TopOffPercent = 0;
@@ -393,7 +396,7 @@ namespace Aow.Units.AoWPWindows
             TCOVMenu.OnSelect = Layout_OverViewsMenuSelect_0;
             TCOVMenu.WinHeight = 0;
             session.EndRead(TCOVMenu);
-            TCDiskMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            TCDiskMenu = new TAOWMenu(this);
             session.BeginRead(TCDiskMenu);
             TCDiskMenu.Name = "TCDiskMenu";
             TCDiskMenu.Visible = false;
@@ -402,10 +405,10 @@ namespace Aow.Units.AoWPWindows
             TCDiskMenu.WinTop = 0;
             TCDiskMenu.WinWidth = 200;
             TCDiskMenu.Masked = true;
-            TCDiskMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            TCDiskMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            TCDiskMenu.Alignment.HeightPercent = (byte)(0);
-            TCDiskMenu.Alignment.WidthPercent = (byte)(0);
+            TCDiskMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            TCDiskMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            TCDiskMenu.Alignment.HeightPercent = 0;
+            TCDiskMenu.Alignment.WidthPercent = 0;
             TCDiskMenu.Alignment.LeftOffPercent = 0;
             TCDiskMenu.Alignment.RightOffPercent = 0;
             TCDiskMenu.Alignment.TopOffPercent = 0;
@@ -437,7 +440,7 @@ namespace Aow.Units.AoWPWindows
             TCDiskMenu.OnSelect = Layout_DiskMenuSelect_3;
             TCDiskMenu.WinHeight = 0;
             session.EndRead(TCDiskMenu);
-            TCHelpMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            TCHelpMenu = new TAOWMenu(this);
             session.BeginRead(TCHelpMenu);
             TCHelpMenu.Name = "TCHelpMenu";
             TCHelpMenu.Visible = false;
@@ -446,10 +449,10 @@ namespace Aow.Units.AoWPWindows
             TCHelpMenu.WinTop = 0;
             TCHelpMenu.WinWidth = 200;
             TCHelpMenu.Masked = true;
-            TCHelpMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            TCHelpMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            TCHelpMenu.Alignment.HeightPercent = (byte)(0);
-            TCHelpMenu.Alignment.WidthPercent = (byte)(0);
+            TCHelpMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            TCHelpMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            TCHelpMenu.Alignment.HeightPercent = 0;
+            TCHelpMenu.Alignment.WidthPercent = 0;
             TCHelpMenu.Alignment.LeftOffPercent = 0;
             TCHelpMenu.Alignment.RightOffPercent = 0;
             TCHelpMenu.Alignment.TopOffPercent = 0;
@@ -483,7 +486,7 @@ namespace Aow.Units.AoWPWindows
             TCHelpMenu.OnSelect = Layout_HelpMenuSelect_4;
             TCHelpMenu.WinHeight = 0;
             session.EndRead(TCHelpMenu);
-            TCSettingsMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            TCSettingsMenu = new TAOWMenu(this);
             session.BeginRead(TCSettingsMenu);
             TCSettingsMenu.Name = "TCSettingsMenu";
             TCSettingsMenu.Visible = false;
@@ -492,10 +495,10 @@ namespace Aow.Units.AoWPWindows
             TCSettingsMenu.WinTop = 0;
             TCSettingsMenu.WinWidth = 200;
             TCSettingsMenu.Masked = true;
-            TCSettingsMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            TCSettingsMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            TCSettingsMenu.Alignment.HeightPercent = (byte)(0);
-            TCSettingsMenu.Alignment.WidthPercent = (byte)(0);
+            TCSettingsMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            TCSettingsMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            TCSettingsMenu.Alignment.HeightPercent = 0;
+            TCSettingsMenu.Alignment.WidthPercent = 0;
             TCSettingsMenu.Alignment.LeftOffPercent = 0;
             TCSettingsMenu.Alignment.RightOffPercent = 0;
             TCSettingsMenu.Alignment.TopOffPercent = 0;
@@ -531,7 +534,7 @@ namespace Aow.Units.AoWPWindows
             TCSettingsMenu.OnSelect = Layout_SettingsMenuSelect_1;
             TCSettingsMenu.WinHeight = 0;
             session.EndRead(TCSettingsMenu);
-            TCEndMenu = new Aow.Units.AOWMenu.TAOWMenu(this);
+            TCEndMenu = new TAOWMenu(this);
             session.BeginRead(TCEndMenu);
             TCEndMenu.Name = "TCEndMenu";
             TCEndMenu.Visible = false;
@@ -540,10 +543,10 @@ namespace Aow.Units.AoWPWindows
             TCEndMenu.WinTop = 0;
             TCEndMenu.WinWidth = 200;
             TCEndMenu.Masked = true;
-            TCEndMenu.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            TCEndMenu.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            TCEndMenu.Alignment.HeightPercent = (byte)(0);
-            TCEndMenu.Alignment.WidthPercent = (byte)(0);
+            TCEndMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            TCEndMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            TCEndMenu.Alignment.HeightPercent = 0;
+            TCEndMenu.Alignment.WidthPercent = 0;
             TCEndMenu.Alignment.LeftOffPercent = 0;
             TCEndMenu.Alignment.RightOffPercent = 0;
             TCEndMenu.Alignment.TopOffPercent = 0;
@@ -601,100 +604,100 @@ namespace Aow.Units.AoWPWindows
             TCSettingsMenu.Loaded();
             TCEndMenu.Loaded();
             session.Resolve(this);
-            StartMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            StartMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
-            StartMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            StartMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            StartMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10b;
-            session.Defer("TBWindow", (Aow.Units.AoWTBWindow.TTBWindow module) => StartMenu.OwnerMenuBar = module.StartMenuBar);
-            StartMenu.ILWholeMenu = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
-            OverViewsMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            OverViewsMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            OverViewsMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            OverViewsMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            OverViewsMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            SettingsMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            SettingsMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            SettingsMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            SettingsMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            SettingsMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            EndMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            EndMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            EndMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            EndMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            EndMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            DiskMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            DiskMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            DiskMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            DiskMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            DiskMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            TCStartMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            TCStartMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
-            TCStartMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCStartMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCStartMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10b;
-            session.Defer("TBWindow", (Aow.Units.AoWTBWindow.TTBWindow module) => TCStartMenu.OwnerMenuBar = module.TCStartBar);
-            TCStartMenu.ILWholeMenu = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
-            HelpMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            HelpMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            HelpMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            HelpMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            HelpMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            TCOVMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            TCOVMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCOVMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCOVMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCOVMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            TCDiskMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            TCDiskMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCDiskMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCDiskMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCDiskMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            TCHelpMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            TCHelpMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCHelpMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCHelpMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCHelpMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            TCSettingsMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            TCSettingsMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCSettingsMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCSettingsMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCSettingsMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            TCEndMenu.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            TCEndMenu.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCEndMenu.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCEndMenu.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            TCEndMenu.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
+            StartMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            StartMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
+            StartMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            StartMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            StartMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
+            session.Defer("TBWindow", (TTBWindow module) => StartMenu.OwnerMenuBar = module.StartMenuBar);
+            StartMenu.ILWholeMenu = aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
+            OverViewsMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            OverViewsMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            OverViewsMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            OverViewsMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            OverViewsMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            SettingsMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            SettingsMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            SettingsMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            SettingsMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            SettingsMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            EndMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            EndMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            EndMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            EndMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            EndMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            DiskMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            DiskMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            DiskMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            DiskMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            DiskMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            TCStartMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            TCStartMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
+            TCStartMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            TCStartMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            TCStartMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
+            session.Defer("TBWindow", (TTBWindow module) => TCStartMenu.OwnerMenuBar = module.TCStartBar);
+            TCStartMenu.ILWholeMenu = aowIntGfxMod.aowIntGfxMod.IntGfxMod.DragonMenu;
+            HelpMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            HelpMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            HelpMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            HelpMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            HelpMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            TCOVMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            TCOVMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCOVMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            TCOVMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCOVMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            TCDiskMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            TCDiskMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCDiskMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            TCDiskMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCDiskMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            TCHelpMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            TCHelpMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCHelpMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            TCHelpMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCHelpMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            TCSettingsMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            TCSettingsMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCSettingsMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            TCSettingsMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCSettingsMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            TCEndMenu.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            TCEndMenu.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCEndMenu.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            TCEndMenu.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            TCEndMenu.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
         }
 
         private void Layout_OverViewsMenuSelect_0(TObject p0)
         {
-            OverViewsMenuSelect((Aow.Units.AOWMenu.TAOWMenu)p0);
+            OverViewsMenuSelect((TAOWMenu)p0);
         }
 
         private void Layout_SettingsMenuSelect_1(TObject p0)
         {
-            SettingsMenuSelect((Aow.Units.AOWMenu.TAOWMenu)p0);
+            SettingsMenuSelect((TAOWMenu)p0);
         }
 
         private void Layout_EndMenuSelect_2(TObject p0)
         {
-            EndMenuSelect((Aow.Units.AOWMenu.TAOWMenu)p0);
+            EndMenuSelect((TAOWMenu)p0);
         }
 
         private void Layout_DiskMenuSelect_3(TObject p0)
         {
-            DiskMenuSelect((Aow.Units.AOWMenu.TAOWMenu)p0);
+            DiskMenuSelect((TAOWMenu)p0);
         }
 
         private void Layout_HelpMenuSelect_4(TObject p0)
         {
-            HelpMenuSelect((Aow.Units.AOWMenu.TAOWMenu)p0);
+            HelpMenuSelect((TAOWMenu)p0);
         }
 
         private void Layout_TCEndMenuSelect_5(TObject p0)
         {
-            TCEndMenuSelect((Aow.Units.AOWMenu.TAOWMenu)p0);
+            TCEndMenuSelect((TAOWMenu)p0);
         }
     }
 }
