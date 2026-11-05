@@ -144,7 +144,7 @@ From the persistence code specifically:
   `zlib` unit, which is a C binding (`../design.md` section 3).
 - `TStrings` with `LoadFromStream` and `SaveToStream` are not used here. `StringsToStream` and
   `StringsFromStream` are Engine routines, transpiled.
-- `Exception.Message` as an `AnsiString`, because `HandleException` passes it to an event.
+- `Exception.Message` as a `string`, because `HandleException` passes it to an event.
 
 ## 4. Milestones
 

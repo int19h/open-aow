@@ -361,12 +361,17 @@ path, and C# assemblies stay desktop only.
 
 ## 7. Open questions
 
-1. Strings. Resolved on 2026-10-26. The first stage keeps the 1-based byte string type throughout
-   the rules, since that is what the oracle and the data files assume. The second stage's
-   destination is .NET strings with code page 1252 bytes only at the data and font boundaries, and
-   the conversion is one pass over the whole tree (`milestones.md` 9.5), not unit by unit, because
+1. Strings. Decided on 2026-10-26 and implemented on 2026-11-05 by brief 9.5-1
+   (`specs/strings.md`): the first stage kept the 1-based byte string type of the shim throughout
+   the rules, since that is what the oracle and the data files assume, and the second stage moved
+   the tree to .NET `string` with one code page 1252 char per byte, so lengths and positions equal
+   the Delphi bytes, and with bytes only at the data and font boundaries (`specs/rtl-shim.md` 1.2).
+   The conversion was one pass over the whole tree (`milestones.md` 9.5), not unit by unit, because
    a tree with both string types needs a conversion at every boundary between a rewritten and an
-   unrewritten unit. The check is the oracle and the frame fixtures after the pass.
+   unrewritten unit. The oracle, the frame fixtures, the exception census and the sort dump held
+   after the pass, and the strings check of the gate keeps the retired shim type, the .NET
+   comparison, case and character class calls on game text and the casts between `char` and
+   `byte` out of the tree (`specs/testing.md` section 6).
 2. Hash table iteration order. Resolved on 2026-10-25. In the first stage the `THashList` classes
    are transpiled, so the order is the original's. In the second stage the comparator compares
    hash-ordered children as sets (section 5), and the oracle tells which orders game logic depends

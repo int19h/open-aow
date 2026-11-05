@@ -176,8 +176,8 @@ Delphi comments are kept at their statements, including the recovery project's n
 | Double, Real, Extended | double | Real is the 6-byte legacy type. `../design.md` accepts the precision change |
 | Boolean, ByteBool, WordBool, LongBool | bool | a cast from an integer, section 7 trap 9 |
 | Char | byte | Delphi 3 `Char` is one byte. The alias `AnsiChar` names it in generated code |
-| string, AnsiString | AnsiString | the shim's byte string struct, section 5.6 |
-| ShortString, string[n] | AnsiString | 4 uses. The length limit is lost and reported |
+| string, AnsiString | string | one code page 1252 char per byte, section 5.6 |
+| ShortString, string[n] | string | 4 uses. The length limit is lost and reported |
 | PChar | Ptr<byte> | section 5.8 |
 | Pointer | object | section 5.8 |
 | TClass, class of T | T.Meta | section 4.4 |
@@ -250,8 +250,9 @@ see the Delphi bytes: a set field is stored as the `byte`, `ushort` or `uint` of
 (`TStormDamageInfo` has two 1-byte sets before its integers, `TAbilityDamageValues` a 2-byte set at
 offset 16) and exposed as a `TSet<E>` property, and a `string[N]` field is stored as an inline array of
 `N + 1` bytes with the Pascal length byte (`TSecurityData.ID` is `string[50]` in a 106-byte packed
-record) and exposed as an `AnsiString` property. The accessors are scaffolding inside the type, not
-in the methods that use it. The layout model implements
+record) and exposed as a `string` property through `Rtl.ReadShortString` and
+`Rtl.WriteShortString`. The accessors are scaffolding inside the type, not in the methods that use
+it. The layout model implements
 the rules the recovery verified with DCC32 probes on 2026-10-25 (`layout.pas` and `enum_*.pas`,
 copied to `tests/probes/from-recovery/`; the same rules head `data/class-layouts.json`):
 
@@ -599,7 +600,7 @@ readonly` for strings, sets, records and arrays. Constant expressions are folded
 a static property that reads and writes the aliased variable. An `absolute` over a variable of a
 different type is an error.
 
-A `resourcestring` (60) becomes a `public static readonly AnsiString` field and an entry in a
+A `resourcestring` (60) becomes a `public static readonly string` field and an entry in a
 generated table `ResourceStrings` keyed by `Unit.Name`, so that the localization layer can replace
 the value at startup (`localization.md`).
 
@@ -808,23 +809,30 @@ them on.
 ### 5.6 Strings and characters
 
 Delphi 3 strings are byte strings with 1-based indexing, value semantics and copy on write. The
-game depends on the bytes: file formats store them, and the bitmap fonts index glyphs by byte. The
-mapping is the shim's `AnsiString` struct, `rtl-shim.md` section on strings. The emitter writes:
+game depends on the bytes: file formats store them, and the bitmap fonts index glyphs by byte.
+Since brief 9.5-P4 (merged in the private repository with 9.5-1, 2026-11-05) the emitter maps a
+Delphi string to the .NET `string` with one code page 1252 char per byte (`strings.md` 2.1,
+`rtl-shim.md` 1.2). Before it, the emitter targeted the shim's byte string struct, which 9.5-1
+deleted. The emitter writes:
 
 | Delphi | C# |
 |---|---|
-| `'text'` | `(AnsiString)"text"` with bytes above 127 as `\xNN` escapes, decoded as code page 1252 by the implicit conversion |
-| `#13#10`, `'a'#0` | `AnsiString.FromBytes(13, 10)`, concatenation |
-| `S + T` | `S + T` |
-| `S = T`, `S < T` and so on | the struct's operators, byte-wise ordinal comparison, shorter prefix first |
-| `S[i]` read | `S[i]` (1-based indexer) |
-| `S[i] := c` | `S = S.WithChar(i, c)` (copy on write) |
+| `'text'`, `#13#10`, `'a'#0` | one string literal. Bytes 32 to 126 stay, except the backslash and the quote, which become `\\` and `\"`. Bytes 0, 9, 10 and 13 become `\0`, `\t`, `\n` and `\r`, and every other byte becomes the `\uNNNN` escape of its code page 1252 char |
+| `S + T` | `S + T`. A Delphi `Char` operand becomes its one-char string (a literal, or `Cp1252.Text(c)`) |
+| `S = T`, `S <> T` | `==`, `!=`. A test against `''` becomes `IsEmpty(S)` or its negation |
+| `S < T` and the other orderings | `Cp1252.Compare(S, T) < 0` and so on |
+| `S[i]` read | `S[i - 1]`, with a constant index or a `+ k` or `- k` offset folded. Where the element meets an integral value it goes through `Cp1252.Byte`, except in a comparison with a constant below 128 |
+| `S[i] := c` | `S = WithChar(S, i, c)`, 1-based |
 | `Length(S)` | `S.Length` |
-| `SetLength(S, n)` | `S = S.Resized(n)` |
-| `Copy`, `Pos`, `Delete`, `Insert`, `UpperCase`, `LowerCase`, `Trim`, `CompareText`, `IntToStr`, `StrToInt`, `Format`, `StrPas`, `StrLComp` | `Rtl.*` functions with Delphi semantics |
-| `PChar(S)` | `S.AsPtr()`, a `Ptr<byte>` over the string's bytes with a terminating zero |
-| `string(P)` from `PChar` | `AnsiString.FromPChar(P)` |
+| `SetLength(S, n)` | `S = Resized(S, n)` |
+| `Copy`, `Pos`, `Delete`, `Insert`, `UpperCase`, `LowerCase`, `Trim`, `CompareText`, `IntToStr`, `StrToInt`, `Format`, `StrPas`, `StrLComp` | the `Rtl` functions with Delphi semantics |
+| `PChar(S)` | `Ptr<byte>.Unbox(S)`, a pointer to a zero-terminated encoded copy |
+| `string(P)` from `PChar` | `StrPas(P)`, which decodes up to the first zero byte |
+| a new array of `n` strings | `Strings(n)`, every element `""` |
 | `Char` comparisons and ranges | byte comparisons |
+
+The `Rtl` names come out unqualified where they bind and as `Rtl.Rtl.X` where a member of the
+same name shadows them. The report (section 9) states the string mapping in one line.
 
 A `Format` call passes its `array of const` as `params TVarRec[]`. The shim's `Format` follows the
 Delphi 3 format string grammar (`rtl-shim.md`).

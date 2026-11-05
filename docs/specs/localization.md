@@ -30,8 +30,15 @@ of the port is written from that format document, not transpiled.
    through. The port keeps the forced behavior as the default and adds a `Language` setting that,
    when it is not English, replaces the two forcing points by overrides with the natural mapping.
    This is a deliberate extension outside the oracle; it changes no save and no English frame.
-4. Strings stay code page 1252 bytes end to end (`rtl-shim.md`), as the dictionaries, the
-   resource strings and the fonts' glyph indices are.
+4. Text is `string` with one code page 1252 char per byte (`strings.md` 2.1, `rtl-shim.md` 1.2),
+   so the dictionaries, the resource strings and the fonts' glyph indices keep their bytes. The
+   dictionaries are bytes on disk, and the reader decodes each string through `Cp1252.Decode`. A
+   dictionary stored as UTF-16 enters through `Cp1252.Normalize`. The order of section 3 is the
+   exact byte comparison through `Cp1252`: the sort of the entries passes `Cp1252.Comparer`, and the
+   binary search calls `Cp1252.Compare`. This differs from UTF-16 ordinal order for the chars of
+   bytes 128 to 159, which the eight files use (`strings.md` 2.4). A test of the `localization`
+   layer asserts that the sorted entries of each file are in `Cp1252.Compare` order. Decided
+   2026-10-26 with `../design.md` open question 1 and implemented by brief 9.5-1 (2026-11-05).
 
 ## 2. The dictionaries
 
