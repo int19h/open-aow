@@ -11,4 +11,7 @@
   <Project Path="src/Rtl/Aow.Rtl.csproj" />
   <Project Path="src/Rtl.Tests/Aow.Rtl.Tests.csproj" />
   <Project Path="src/Units.Tests/Aow.Units.Tests.csproj" />
+  <Project Path="src/Formats/Aow.Formats.csproj" />
+  <Project Path="src/Formats.Tests/Aow.Formats.Tests.csproj" />
+  <Project Path="src/Convert/Aow.Convert.csproj" />
 </Solution>

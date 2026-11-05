@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- aowconv, the strict converter between the original files and the own documents
+       (own-formats.md 3.2). It opens no window and plays no sound. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Aow.Convert</RootNamespace>
+    <AssemblyName>aowconv</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Aow.Formats.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rtl\Aow.Rtl.csproj" />
+    <ProjectReference Include="..\Formats\Aow.Formats.csproj" />
+  </ItemGroup>
+</Project>
