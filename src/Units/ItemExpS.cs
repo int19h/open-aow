@@ -30,8 +30,7 @@ namespace Aow.Units.ItemExpS
     {
         public TItemExplorationSite(TECustomNode owner) : base(owner)
         {
-            var call__1 = new TExplorationSiteItemList(null);
-            FItems = call__1;
+            FItems = new TExplorationSiteItemList(null);
             FItemCount = 2;
         }
 
@@ -84,13 +83,7 @@ namespace Aow.Units.ItemExpS
         }
 
         // ItemExpS.pas:125
-        public override bool GetExplored()
-        {
-            bool Result = default;
-            var call__2 = FItems.Count;
-            Result = call__2 == 0;
-            return Result;
-        }
+        public override bool GetExplored() => FItems.Count == 0;
 
         // ItemExpS.pas:146
         public override void SetupCombat(TCombat A1, TArmyHS A2)
@@ -102,46 +95,36 @@ namespace Aow.Units.ItemExpS
         // ItemExpS.pas:152
         public override void ExecuteSearchDone(TCombatType A1, TCombatResult A2)
         {
-            TArmyHS Army = default;
-            TItemExplorationSiteEventLog Log = default;
-            int I = default;
+            TArmyHS Army;
+            TItemExplorationSiteEventLog Log;
             TItem Item = default;
             if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crNoDefenders).Contains(A2))
             {
-                var call__3 = Owner.FindOwnedChild(131607);
-                Army = (TArmyHS)call__3;
+                Army = (TArmyHS)Owner.FindOwnedChild(131607);
                 Log = new TItemExplorationSiteEventLog(null);
                 Log.FPlayer = Army.FArmy.FPlayer;
-                var call__4 = ItemsFoundRStr;
-                var call__5 = TranslateRStr(call__4);
-                Log.FTitle = call__5;
-                var call__6 = GetXhx();
-                Log.FLocation.X = call__6;
-                var call__7 = GetYhx();
-                Log.FLocation.Y = call__7;
-                var call__8 = GetLhx();
-                Log.FLocation.L = call__8;
+                Log.FTitle = TranslateRStr(ItemsFoundRStr);
+                var xhx = GetXhx();
+                Log.FLocation.X = xhx;
+                var yhx = GetYhx();
+                Log.FLocation.Y = yhx;
+                var lhx = GetLhx();
+                Log.FLocation.L = lhx;
+                for (int I = FItems.Count - 1; I >= 0; I--)
                 {
-                    I = FItems.Count - 1;
-                    byte end__9 = 0;
-                    for (; I >= end__9; I -= 1)
-                    {
-                        var call__10 = FItems.GetItem(I);
-                        Item = call__10;
-                        Log.FItemIDs.Add(Item.FItemID);
-                        var call__11 = GetLhx();
-                        var call__12 = GetYhx();
-                        var call__13 = GetXhx();
-                        Item.PlaceOnMap(AoWHSMap, call__13, call__12, call__11);
-                    }
+                    Item = FItems.GetItem(I);
+                    Log.FItemIDs.Add(Item.FItemID);
+                    var lhx2 = GetLhx();
+                    var yhx2 = GetYhx();
+                    var xhx2 = GetXhx();
+                    Item.PlaceOnMap(AoWHSMap, xhx2, yhx2, lhx2);
                 }
 
                 // { Original parses the formatted text as CSV. }
-                var call__14 = ItemsExploredRStr;
-                var call__15 = TranslateRStr(call__14);
-                var call__16 = FResource.ResourceEditName();
-                var call__17 = Rtl.Rtl.Format(call__15, [call__16]);
-                Log.FMessages.CommaText = call__17;
+                var itemsExplored = TranslateRStr(ItemsExploredRStr);
+                var resourceEditName = FResource.ResourceEditName();
+                var format = Rtl.Rtl.Format(itemsExplored, [resourceEditName]);
+                Log.FMessages.CommaText = format;
                 Log.Execute(false, TExecuteTrigger.etEvent, null);
                 Log.Release();
                 Update();
@@ -151,31 +134,22 @@ namespace Aow.Units.ItemExpS
         // ItemExpS.pas:130
         public virtual void Generate()
         {
-            byte I = default;
-            TItem Item = default;
+            TItem Item;
             if (FItemCount != 0)
             {
-                var call__18 = AoWHSMap.Random(16777215);
-                RandSeed = call__18;
+                RandSeed = AoWHSMap.Random(16777215);
                 if (FItemCount == 4)
                 {
-                    var call__19 = AoWHSMap.Random(3);
-                    FItemCount = (byte)(call__19 + 1);
+                    FItemCount = (byte)(AoWHSMap.Random(3) + 1);
                 }
 
                 FItems.Clear();
+                for (int itemOrdinal = 1, last = FItemCount; itemOrdinal <= last; itemOrdinal++)
                 {
-                    int first__23 = 1;
-                    int end__20 = FItemCount;
-                    for (int ordinal__22 = first__23; ordinal__22 <= end__20; ordinal__22++)
+                    Item = AoWHSMap.FItemControl.GenerateItem(itAll, 0, 65535);
+                    if (Item != null)
                     {
-                        I = (byte)ordinal__22;
-                        var call__21 = AoWHSMap.FItemControl.GenerateItem(itAll, 0, 65535);
-                        Item = call__21;
-                        if (Item != null)
-                        {
-                            Item.Owner = FItems;
-                        }
+                        Item.Owner = FItems;
                     }
                 }
             }
@@ -192,10 +166,8 @@ namespace Aow.Units.ItemExpS
         // ItemExpS.pas:187
         public TItemExplorationSiteEventLog(TECustomNode owner) : base(owner)
         {
-            var call__24 = new TIntegerList();
-            FItemIDs = call__24;
-            var call__25 = new TStringList();
-            FMessages = call__25;
+            FItemIDs = new TIntegerList();
+            FMessages = new TStringList();
         }
 
         // ItemExpS.pas:201

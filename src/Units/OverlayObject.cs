@@ -34,22 +34,10 @@ namespace Aow.Units.OverlayObject
         }
 
         // OverlayObject.pas:45
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131228;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131228;
 
         // OverlayObject.pas:39
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__1 = OverlayObjectRStr;
-            var call__2 = TranslateRStr(call__1);
-            Result = call__2;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(OverlayObjectRStr);
 
     }
 

@@ -27,8 +27,7 @@ namespace Aow.Units.UnitGrid
         public TUnitGrid(TComponent owner) : base(owner)
         {
 
-            var call__1 = new TMemoryStream();
-            FMemoryStream = call__1;
+            FMemoryStream = new TMemoryStream();
             RowCount = 1;
             ColCount = 8;
             DefaultColWidth = 48;
@@ -59,21 +58,13 @@ namespace Aow.Units.UnitGrid
         // UnitGrid.pas:81
         public TAbstractUnit GetUnit(int ACol, int ARow)
         {
-            TAbstractUnit Result = default;
-            int Index = default;
+            TAbstractUnit Result;
+            int Index;
             Index = ImageIndex(ACol, ARow);
             // { Original leaves negative indices unchecked in both getters. }
-            bool bool__2 = FUnits != null;
-            if (bool__2)
+            if (FUnits != null && Index < FUnits.Count)
             {
-                var call__3 = FUnits.Count;
-                bool__2 = Index < call__3;
-            }
-
-            if (bool__2)
-            {
-                var call__4 = FUnits.GetUnit(Index);
-                Result = call__4;
+                Result = FUnits.GetUnit(Index);
             }
             else
             {

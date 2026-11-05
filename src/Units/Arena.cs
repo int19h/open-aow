@@ -14,8 +14,7 @@ namespace Aow.Units.Arena
     {
         public TArenaTE(TECustomNode owner) : base(owner)
         {
-            var call__1 = new TIntegerList();
-            FUnitIDs = call__1;
+            FUnitIDs = new TIntegerList();
         }
 
         // Arena.pas:86
@@ -53,42 +52,28 @@ namespace Aow.Units.Arena
         public new const int ClassID = 133276;
 
         // Arena.pas:212
-        public override TStructureTE CreateTE()
-        {
-            TStructureTE Result = default;
-            Result = new TArenaTE(null);
-            return Result;
-        }
+        public override TStructureTE CreateTE() => new TArenaTE(null);
 
         // Arena.pas:135
         public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
-            TExecuteResult Result = default;
-            int I = default;
-            TAbstractUnit AUnit = default;
+            TAbstractUnit AUnit;
             AnsiString ErrorText = default;
-            Result = base.ExecuteTE(A1, Executer);
+            TExecuteResult Result = base.ExecuteTE(A1, Executer);
             if (A1.FAction == 1)
             {
-                var call__2 = CanTrainUnits((sbyte)A1.FParam, ((TArenaTE)A1).FUnitIDs, ref ErrorText);
-                if (call__2)
+                if (CanTrainUnits((sbyte)A1.FParam, ((TArenaTE)A1).FUnitIDs, ref ErrorText))
                 {
+                    for (int I = 0, last = ((TArenaTE)A1).FUnitIDs.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__3 = ((TArenaTE)A1).FUnitIDs.Count - 1;
-                        for (; I <= end__3; I += 1)
+                        var unitID = ((TArenaTE)A1).FUnitIDs[I];
+                        AUnit = AoWHSMap.FUnitControl.FindUnit(unitID);
+                        if (AUnit != null)
                         {
-                            var call__4 = ((TArenaTE)A1).FUnitIDs[I];
-                            var call__5 = AoWHSMap.FUnitControl.FindUnit(call__4);
-                            AUnit = call__5;
-                            if (AUnit != null)
-                            {
-                                var call__6 = AoWHSMap.FPlayers.GetPlayers(A1.FParam);
-                                var call__7 = UnitTrainCost(AUnit);
-                                var call__8 = AoWHSMap.FPlayers.GetPlayers(A1.FParam);
-                                call__8.SetGems(call__6.FGems - call__7);
-                                ExecuteTrainUnit(AUnit);
-                            }
+                            var player = AoWHSMap.FPlayers.GetPlayers(A1.FParam);
+                            var unitTrainCost = UnitTrainCost(AUnit);
+                            AoWHSMap.FPlayers.GetPlayers(A1.FParam).SetGems(player.FGems - unitTrainCost);
+                            ExecuteTrainUnit(AUnit);
                         }
                     }
 
@@ -97,14 +82,13 @@ namespace Aow.Units.Arena
                         var arenaTE = (TArenaTE)A1;
                         if (arenaTE.FUnitIDs.Count == 1)
                         {
-                            var call__10 = TranslateRStr(OneUnitTrainedRStr);
-                            AoWHSMap.ShowMessage(call__10);
+                            var oneUnitTrained = TranslateRStr(OneUnitTrainedRStr);
+                            AoWHSMap.ShowMessage(oneUnitTrained);
                         }
                         else
                         {
-                            var call__11 = TranslateRStr(XUnitsTrainedRStr);
-                            var call__12 = Rtl.Rtl.Format(call__11, [IntToStr(arenaTE.FUnitIDs.Count)]);
-                            AoWHSMap.ShowMessage(call__12);
+                            var format = Rtl.Rtl.Format(TranslateRStr(XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
+                            AoWHSMap.ShowMessage(format);
                         }
                     }
                 }
@@ -114,23 +98,16 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:98
-        public override bool CanDblClick()
-        {
-            bool Result = default;
-            var call__13 = CanEnter(AoWHSMap.FSeatedPlayer);
-            Result = call__13;
-            return Result;
-        }
+        public override bool CanDblClick() => CanEnter(AoWHSMap.FSeatedPlayer);
 
         // Arena.pas:101
         public int UnitTrainCost(TAbstractUnit AUnit)
         {
-            int Result = default;
+            int Result;
             if (AUnit is THero)
             {
                 // { The original rejects heroes, although ExecuteTrainUnit supports them. }
-                Result = -1;
-                return Result;
+                return -1;
             }
 
             if (AUnit is TUnit)
@@ -138,9 +115,7 @@ namespace Aow.Units.Arena
                 var unit = (TUnit)AUnit;
                 if (unit.GetRank() != TUnitRank.urGold)
                 {
-                    var call__15 = unit.GetNextLevelExperience();
-                    var call__16 = AUnit.GetExperience();
-                    Result = (call__15 - call__16) * 5;
+                    Result = (unit.GetNextLevelExperience() - AUnit.GetExperience()) * 5;
                 }
                 else
                 {
@@ -161,8 +136,7 @@ namespace Aow.Units.Arena
             if (AUnit is THero)
             {
                 var hero = (THero)AUnit;
-                var call__18 = hero.GetNextLevelExperience();
-                hero.SetExperience(call__18);
+                hero.SetExperience(hero.GetNextLevelExperience());
                 hero.Changed();
 
                 return;
@@ -171,8 +145,7 @@ namespace Aow.Units.Arena
             if (AUnit is TUnit)
             {
                 var unit2 = (TUnit)AUnit;
-                var call__20 = unit2.GetNextLevelExperience();
-                unit2.SetExperience(call__20);
+                unit2.SetExperience(unit2.GetNextLevelExperience());
                 unit2.Changed();
             }
         }
@@ -180,11 +153,11 @@ namespace Aow.Units.Arena
         // Arena.pas:159
         public bool CanTrainUnits(sbyte Player, TIntegerList Units, ref AnsiString ErrorText)
         {
-            bool Result = default;
-            int Total = default;
-            int I = default;
-            int Cost = default;
-            TAbstractUnit AUnit = default;
+            bool Result;
+            int Total;
+            int I;
+            int Cost;
+            TAbstractUnit AUnit;
             if (Units.Count != 0)
             {
                 Total = 0;
@@ -193,9 +166,8 @@ namespace Aow.Units.Arena
                 while (Result && I != 0)
                 {
                     I -= 1;
-                    var call__21 = Units[I];
-                    var call__22 = AoWHSMap.FUnitControl.FindUnit(call__21);
-                    AUnit = call__22;
+                    var unit = Units[I];
+                    AUnit = AoWHSMap.FUnitControl.FindUnit(unit);
                     if (AUnit != null)
                     {
                         Cost = UnitTrainCost(AUnit);
@@ -216,8 +188,7 @@ namespace Aow.Units.Arena
 
                 if (Result)
                 {
-                    var call__23 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    if (call__23.FGems >= Total)
+                    if (AoWHSMap.FPlayers.GetPlayers(Player).FGems >= Total)
                     {
                         Result = true;
                     }
@@ -240,27 +211,17 @@ namespace Aow.Units.Arena
         // Arena.pas:194
         public bool TrainUnits(sbyte Player, TIntegerList Units, ref AnsiString ErrorText)
         {
-            bool Result = default;
-            TArenaTE TE = default;
+            bool Result;
+            TArenaTE TE;
             ErrorText = (AnsiString)"";
-            var call__24 = CanTrainUnits(Player, Units, ref ErrorText);
-            bool bool__25 = call__24;
-            if (bool__25)
-            {
-                var call__26 = AoWHSMap.FPlayers.GetPlayers(Player);
-                var call__27 = call__26.GetBusy();
-                bool__25 = !call__27;
-            }
-
-            if (bool__25)
+            if (CanTrainUnits(Player, Units, ref ErrorText) && !AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
             {
                 TE = (TArenaTE)CreateTE();
                 SetupTE(TE);
                 TE.FUnitIDs.Assign(Units);
                 TE.FParam = Player;
                 TE.FAction = 1;
-                var call__28 = AoWHSMap.FTokenManager.GetTokenControl(Player);
-                call__28.AddEvent(TE);
+                AoWHSMap.FTokenManager.GetTokenControl(Player).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -275,10 +236,9 @@ namespace Aow.Units.Arena
         // Arena.pas:215
         public bool CanEnter(sbyte Player)
         {
-            bool Result = default;
-            TArmyHS Army = default;
-            var call__29 = FOwner.FindOwnedChild(131607);
-            Army = (TArmyHS)call__29;
+            bool Result;
+            TArmyHS Army;
+            Army = (TArmyHS)FOwner.FindOwnedChild(131607);
             if (Army == null || Army.FArmy.FPlayer != Player)
             {
                 Result = false;
@@ -295,29 +255,20 @@ namespace Aow.Units.Arena
         public bool Enter()
         {
             bool Result = default;
-            TEnterArenaEventLog Log = default;
-            TArmyHS Army = default;
-            int I = default;
-            var call__30 = CanEnter(AoWHSMap.FSeatedPlayer);
-            if (call__30)
+            TEnterArenaEventLog Log;
+            TArmyHS Army;
+            if (CanEnter(AoWHSMap.FSeatedPlayer))
             {
                 Log = new TEnterArenaEventLog(null);
                 Log.FArena = this;
-                var call__31 = FOwner.FindOwnedChild(131607);
-                Army = (TArmyHS)call__31;
+                Army = (TArmyHS)FOwner.FindOwnedChild(131607);
+                for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__32 = Army.FArmy.Count - 1;
-                    for (; I <= end__32; I += 1)
+                    var unit = Army.FArmy.GetUnit(I);
+                    Log.FUnitIDs.Add(unit.FUnitID);
+                    if (UnitTrainCost(Army.FArmy.GetUnit(I)) != -1)
                     {
-                        var call__33 = Army.FArmy.GetUnit(I);
-                        Log.FUnitIDs.Add(call__33.FUnitID);
-                        var call__34 = Army.FArmy.GetUnit(I);
-                        var call__35 = UnitTrainCost(call__34);
-                        if (call__35 != -1)
-                        {
-                            Log.FTrainable = (byte)(Log.FTrainable | (1 << I));
-                        }
+                        Log.FTrainable = (byte)(Log.FTrainable | (1 << I));
                     }
                 }
 
@@ -349,23 +300,13 @@ namespace Aow.Units.Arena
 
 
         // Arena.pas:256
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 133276;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 133276;
 
         // Arena.pas:45
 
 
         // Arena.pas:250
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(ArenaRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(ArenaRStr);
 
     }
 
@@ -375,8 +316,7 @@ namespace Aow.Units.Arena
         // Arena.pas:259
         public TEnterArenaEventLog(TECustomNode owner) : base(owner)
         {
-            var call__36 = new TIntegerList();
-            FUnitIDs = call__36;
+            FUnitIDs = new TIntegerList();
         }
 
         public TArena FArena;
@@ -391,22 +331,16 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:271
-        public int GetCount()
-        {
-            int Result = default;
-            Result = FUnitIDs.Count;
-            return Result;
-        }
+        public int GetCount() => FUnitIDs.Count;
 
         // Arena.pas:274
         public TAbstractUnit GetUnit(int Index)
         {
-            TAbstractUnit Result = default;
+            TAbstractUnit Result;
             if (Index >= 0 && Index < FUnitIDs.Count)
             {
-                var call__37 = FUnitIDs[Index];
-                var call__38 = AoWHSMap.FUnitControl.FindUnit(call__37);
-                Result = call__38;
+                var unitID = FUnitIDs[Index];
+                Result = AoWHSMap.FUnitControl.FindUnit(unitID);
             }
             else
             {
@@ -425,25 +359,17 @@ namespace Aow.Units.Arena
         // Arena.pas:284
         public bool Train(ref AnsiString ErrorText)
         {
-            bool Result = default;
-            TIntegerList Units = default;
-            int I = default;
+            TIntegerList Units;
             Units = new TIntegerList();
+            for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__39 = FUnitIDs.Count - 1;
-                for (; I <= end__39; I += 1)
+                if (((1 << I) & FSelection) != 0)
                 {
-                    if (((1 << I) & FSelection) != 0)
-                    {
-                        var call__40 = FUnitIDs[I];
-                        Units.Add(call__40);
-                    }
+                    Units.Add(FUnitIDs[I]);
                 }
             }
 
-            var call__41 = FArena.TrainUnits(AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
-            Result = call__41;
+            bool Result = FArena.TrainUnits(AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
             Units.Free();
             return Result;
         }
@@ -451,25 +377,17 @@ namespace Aow.Units.Arena
         // Arena.pas:294
         public bool CanTrain(ref AnsiString ErrorText)
         {
-            bool Result = default;
-            TIntegerList Units = default;
-            int I = default;
+            TIntegerList Units;
             Units = new TIntegerList();
+            for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__42 = FUnitIDs.Count - 1;
-                for (; I <= end__42; I += 1)
+                if (((1 << I) & FSelection) != 0)
                 {
-                    if (((1 << I) & FSelection) != 0)
-                    {
-                        var call__43 = FUnitIDs[I];
-                        Units.Add(call__43);
-                    }
+                    Units.Add(FUnitIDs[I]);
                 }
             }
 
-            var call__44 = FArena.CanTrainUnits(AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
-            Result = call__44;
+            bool Result = FArena.CanTrainUnits(AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
             Units.Free();
             return Result;
         }
@@ -477,35 +395,26 @@ namespace Aow.Units.Arena
         // Arena.pas:304
         public AnsiString GetSelectionInfo()
         {
-            AnsiString Result = default;
-            int Total = default;
-            int I = default;
-            TAbstractUnit AUnit = default;
+            AnsiString Result;
+            int Total;
+            TAbstractUnit AUnit;
             Total = 0;
+            for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__45 = FUnitIDs.Count - 1;
-                for (; I <= end__45; I += 1)
+                if (((1 << I) & FSelection) != 0)
                 {
-                    if (((1 << I) & FSelection) != 0)
+                    var unitID = FUnitIDs[I];
+                    AUnit = AoWHSMap.FUnitControl.FindUnit(unitID);
+                    if (AUnit != null)
                     {
-                        var call__46 = FUnitIDs[I];
-                        var call__47 = AoWHSMap.FUnitControl.FindUnit(call__46);
-                        AUnit = call__47;
-                        if (AUnit != null)
-                        {
-                            var call__48 = FArena.UnitTrainCost(AUnit);
-                            Total += call__48;
-                        }
+                        Total += FArena.UnitTrainCost(AUnit);
                     }
                 }
             }
 
             if (Total != 0)
             {
-                var call__49 = TranslateRStr(TotalCostXRStr);
-                var call__50 = Rtl.Rtl.Format(call__49, [IntToStr(Total)]);
-                Result = call__50;
+                Result = Rtl.Rtl.Format(TranslateRStr(TotalCostXRStr), [IntToStr(Total)]);
             }
             else
             {

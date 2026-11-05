@@ -161,8 +161,8 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:393
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TPlayerMagicEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TPlayerMagicEventLog Event;
             PlaySample((AnsiString)"SFX\\INT\\BOOKCLSE.WAV");
             Done = FDone;
             Event = FEvent;
@@ -186,11 +186,10 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:405
         public bool ValidateHero()
         {
-            bool Result = default;
+            bool Result;
             if (FActivation != null)
             {
-                var call__1 = AoWHSMap.FUnitControl.FindUnit(FActivation.FUnitID);
-                FHero = (THero)call__1;
+                FHero = (THero)AoWHSMap.FUnitControl.FindUnit(FActivation.FUnitID);
                 Result = FHero != null && !FHero.FUnitStatus.Contains(TUnitStatusElement.usKilled);
             }
             else
@@ -238,8 +237,8 @@ namespace Aow.Units.AoWSpellBook
             switch (Kind)
             {
                 case 1:
-                    var call__2 = FSpells.GetCount();
-                    NextBtn.Visible = call__2 - (FPage + 1) * 8 > 0;
+                    var count = FSpells.GetCount();
+                    NextBtn.Visible = count - (FPage + 1) * 8 > 0;
                     PrevBtn.Visible = FPage != 0;
                     break;
                 case 0:
@@ -252,8 +251,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:582
         public void UpdateSpellPages()
         {
-            int I = default;
-            TSpell Spell = default;
+            TSpell Spell;
             if (ValidateHero())
             {
                 switch (FMode)
@@ -261,96 +259,74 @@ namespace Aow.Units.AoWSpellBook
                     case 2:
                     case 3:
                         FSpells.Clear();
-                        var call__3 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                        call__3.FMagicControl.ListResearchSpells(ref FSpells, TSet<TSpellType>.Of(TSpellType.stCombat, TSpellType.stUnit, TSpellType.stGlobal));
+                        AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ListResearchSpells(ref FSpells, TSet<TSpellType>.Of(TSpellType.stCombat, TSpellType.stUnit, TSpellType.stGlobal));
                         FSpells.SortOnLevel();
-                        var call__4 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                        var call__5 = TranslateRStr(ResearchXspellRStr);
-                        var call__6 = AoWE.AoWE.Format(call__5, [call__4]);
-                        LeftHeader.Text = call__6;
-                        var call__7 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                        var call__8 = TranslateRStr(ResearchXspellRStr);
-                        var call__9 = AoWE.AoWE.Format(call__8, [call__7]);
-                        RightHeader.Text = call__9;
+                        var spellType = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var format = AoWE.AoWE.Format(TranslateRStr(ResearchXspellRStr), [spellType]);
+                        LeftHeader.Text = format;
+                        var spellType2 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(ResearchXspellRStr), [spellType2]);
+                        RightHeader.Text = aoWEFormat;
                         // { Original overwrites the type-specific headers. }
-                        var call__10 = TranslateRStr(ResearchSpellRStr);
-                        LeftHeader.Text = call__10;
-                        var call__11 = TranslateRStr(ResearchSpellRStr);
-                        RightHeader.Text = call__11;
+                        var researchSpell = TranslateRStr(ResearchSpellRStr);
+                        LeftHeader.Text = researchSpell;
+                        var researchSpell2 = TranslateRStr(ResearchSpellRStr);
+                        RightHeader.Text = researchSpell2;
                         break;
                     case 0:
                         FSpells.Clear();
-                        var call__12 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                        call__12.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
+                        AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                         FSpells.SortOnLevel();
-                        var call__13 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                        var call__14 = TranslateRStr(CastXSpellRStr);
-                        var call__15 = AoWE.AoWE.Format(call__14, [call__13]);
-                        LeftHeader.Text = call__15;
-                        var call__16 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                        var call__17 = TranslateRStr(CastXSpellRStr);
-                        var call__18 = AoWE.AoWE.Format(call__17, [call__16]);
-                        RightHeader.Text = call__18;
+                        var spellType3 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var format2 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType3]);
+                        LeftHeader.Text = format2;
+                        var spellType4 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var format3 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType4]);
+                        RightHeader.Text = format3;
                         break;
                     case 1:
                         FSpells.Clear();
-                        var call__19 = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer);
-                        call__19.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
+                        AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                         FSpells.SortOnLevel();
-                        var call__20 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                        var call__21 = TranslateRStr(CastXSpellRStr);
-                        var call__22 = AoWE.AoWE.Format(call__21, [call__20]);
-                        LeftHeader.Text = call__22;
-                        var call__23 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
-                        var call__24 = TranslateRStr(CastXSpellRStr);
-                        var call__25 = AoWE.AoWE.Format(call__24, [call__23]);
-                        RightHeader.Text = call__25;
+                        var spellType5 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var format4 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType5]);
+                        LeftHeader.Text = format4;
+                        var spellType6 = TranslateRStr(TSpellTypeRStr[(int)FSpellType]);
+                        var format5 = AoWE.AoWE.Format(TranslateRStr(CastXSpellRStr), [spellType6]);
+                        RightHeader.Text = format5;
                         break;
                 }
 
+                for (int I = FSpells.GetCount() - 1; I >= 0; I--)
                 {
-                    I = FSpells.GetCount() - 1;
-                    byte end__26 = 0;
-                    for (; I >= end__26; I -= 1)
+                    bool condition = FSpells.GetSpell(I).FSpellID >= 100;
+                    if (condition)
                     {
-                        var call__27 = FSpells.GetSpell(I);
-                        bool bool__28 = call__27.FSpellID >= 100;
-                        if (bool__28)
-                        {
-                            var call__29 = FSpells.GetSpell(I);
-                            bool__28 = SpellTypes[call__29.FSpellID] == TfxType.fxNone;
-                        }
+                        var spell = FSpells.GetSpell(I);
+                        condition = SpellTypes[spell.FSpellID] == TfxType.fxNone;
+                    }
 
-                        if (bool__28)
-                        {
-                            FSpells.Delete(I);
-                        }
+                    if (condition)
+                    {
+                        FSpells.Delete(I);
                     }
                 }
 
-                var call__30 = FSpells.GetSpell(FPage * 8);
-                Spell = call__30;
+                Spell = FSpells.GetSpell(FPage * 8);
                 ShowSpellEntry(Spell, S1Pnl, S1Btn, S1Spell, S1Class, S1Cost, S1Memo, S1Icn);
-                var call__31 = FSpells.GetSpell(FPage * 8 + 1);
-                Spell = call__31;
+                Spell = FSpells.GetSpell(FPage * 8 + 1);
                 ShowSpellEntry(Spell, S2Pnl, S2Btn, S2Spell, S2Class, S2Cost, S2Memo, S2Icn);
-                var call__32 = FSpells.GetSpell(FPage * 8 + 2);
-                Spell = call__32;
+                Spell = FSpells.GetSpell(FPage * 8 + 2);
                 ShowSpellEntry(Spell, S3Pnl, S3Btn, S3Spell, S3Class, S3Cost, S3Memo, S3Icn);
-                var call__33 = FSpells.GetSpell(FPage * 8 + 3);
-                Spell = call__33;
+                Spell = FSpells.GetSpell(FPage * 8 + 3);
                 ShowSpellEntry(Spell, S4Pnl, S4Btn, S4Spell, S4Class, S4Cost, S4Memo, S4Icn);
-                var call__34 = FSpells.GetSpell(FPage * 8 + 4);
-                Spell = call__34;
+                Spell = FSpells.GetSpell(FPage * 8 + 4);
                 ShowSpellEntry(Spell, S5Pnl, S5btn, S5Spell, S5Class, S5Cost, S5Memo, S5Icn);
-                var call__35 = FSpells.GetSpell(FPage * 8 + 5);
-                Spell = call__35;
+                Spell = FSpells.GetSpell(FPage * 8 + 5);
                 ShowSpellEntry(Spell, S6Pnl, S6Btn, S6Spell, S6Class, S6Cost, S6Memo, S6Icn);
-                var call__36 = FSpells.GetSpell(FPage * 8 + 6);
-                Spell = call__36;
+                Spell = FSpells.GetSpell(FPage * 8 + 6);
                 ShowSpellEntry(Spell, S7Pnl, S7Btn, S7Spell, S7Class, S7Cost, S7Memo, S7Icn);
-                var call__37 = FSpells.GetSpell(FPage * 8 + 7);
-                Spell = call__37;
+                Spell = FSpells.GetSpell(FPage * 8 + 7);
                 ShowSpellEntry(Spell, S8Pnl, S8Btn, S8Spell, S8Class, S8Cost, S8Memo, S8Icn);
                 if (FMode == 0)
                 {
@@ -361,8 +337,8 @@ namespace Aow.Units.AoWSpellBook
 
                 if (FPageKind == 1)
                 {
-                    var call__38 = FSpells.GetCount();
-                    NextBtn.Visible = call__38 - (FPage + 1) * 8 > 0;
+                    var count = FSpells.GetCount();
+                    NextBtn.Visible = count - (FPage + 1) * 8 > 0;
                     PrevBtn.Visible = FPage != 0;
                 }
             }
@@ -375,12 +351,11 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:691
         public void UpdateInfoPages()
         {
-            sbyte Player = default;
-            TLeader Leader = default;
-            int I = default;
-            TAOWButton Button = default;
-            TPlayerMagicControl Control = default;
-            TSpell Spell = default;
+            sbyte Player;
+            TLeader Leader;
+            TAOWButton Button;
+            TPlayerMagicControl Control;
+            TSpell Spell;
             if (ValidateHero())
             {
                 if (FMode == 1)
@@ -392,98 +367,92 @@ namespace Aow.Units.AoWSpellBook
                     Player = AoWHSMap.FSeatedPlayer;
                 }
 
-                var call__39 = AoWHSMap.FPlayers.GetPlayers(Player);
-                Leader = call__39.FLeader;
+                Leader = AoWHSMap.FPlayers.GetPlayers(Player).FLeader;
+                for (int I = 0; I <= 6; I++)
                 {
-                    I = 0;
-                    byte end__40 = 6;
-                    for (; I <= end__40; I += 1)
+                    switch (I)
                     {
-                        switch (I)
+                        case 0:
+                            Button = Sel1;
+                            break;
+                        case 1:
+                            Button = Sel2;
+                            break;
+                        case 2:
+                            Button = Sel3;
+                            break;
+                        case 3:
+                            Button = Sel4;
+                            break;
+                        case 4:
+                            Button = Sel5;
+                            break;
+                        case 5:
+                            Button = Sel6;
+                            break;
+                        case 6:
+                            Button = Sel7;
+                            break;
+                        default:
+                            Button = null;
+                            break;
+                    }
+
+                    if (I < Leader.GetSphereCount())
+                    {
+                        Button.Visible = true;
+                        switch ((int)Leader.GetSpheres(I) & 127)
                         {
-                            case 0:
-                                Button = Sel1;
-                                break;
                             case 1:
-                                Button = Sel2;
-                                break;
-                            case 2:
-                                Button = Sel3;
-                                break;
-                            case 3:
-                                Button = Sel4;
-                                break;
-                            case 4:
-                                Button = Sel5;
+                                Button.ILIndexDown = 28;
+                                Button.ILIndexLit = 29;
+                                Button.ILIndexUp = 27;
                                 break;
                             case 5:
-                                Button = Sel6;
+                                Button.ILIndexDown = 43;
+                                Button.ILIndexLit = 44;
+                                Button.ILIndexUp = 42;
+                                break;
+                            case 3:
+                                Button.ILIndexDown = 34;
+                                Button.ILIndexLit = 35;
+                                Button.ILIndexUp = 33;
+                                break;
+                            case 4:
+                                Button.ILIndexDown = 37;
+                                Button.ILIndexLit = 38;
+                                Button.ILIndexUp = 36;
                                 break;
                             case 6:
-                                Button = Sel7;
+                                Button.ILIndexDown = 40;
+                                Button.ILIndexLit = 41;
+                                Button.ILIndexUp = 39;
                                 break;
-                            default:
-                                Button = null;
+                            case 2:
+                                Button.ILIndexDown = 31;
+                                Button.ILIndexLit = 32;
+                                Button.ILIndexUp = 30;
                                 break;
                         }
-
-                        if (I < Leader.GetSphereCount())
-                        {
-                            Button.Visible = true;
-                            switch ((int)Leader.GetSpheres(I) & 127)
-                            {
-                                case 1:
-                                    Button.ILIndexDown = 28;
-                                    Button.ILIndexLit = 29;
-                                    Button.ILIndexUp = 27;
-                                    break;
-                                case 5:
-                                    Button.ILIndexDown = 43;
-                                    Button.ILIndexLit = 44;
-                                    Button.ILIndexUp = 42;
-                                    break;
-                                case 3:
-                                    Button.ILIndexDown = 34;
-                                    Button.ILIndexLit = 35;
-                                    Button.ILIndexUp = 33;
-                                    break;
-                                case 4:
-                                    Button.ILIndexDown = 37;
-                                    Button.ILIndexLit = 38;
-                                    Button.ILIndexUp = 36;
-                                    break;
-                                case 6:
-                                    Button.ILIndexDown = 40;
-                                    Button.ILIndexLit = 41;
-                                    Button.ILIndexUp = 39;
-                                    break;
-                                case 2:
-                                    Button.ILIndexDown = 31;
-                                    Button.ILIndexLit = 32;
-                                    Button.ILIndexUp = 30;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Button.Visible = false;
-                        }
+                    }
+                    else
+                    {
+                        Button.Visible = false;
                     }
                 }
 
                 NameLbl.Text = FHero.FHeroName;
-                var call__41 = AoWHSMap.FPlayers.GetPlayers(Player);
-                var call__42 = TranslateRStr(ManaPoolRStr);
-                ManaPoolLbl.Text = call__42 + (AnsiString)": " + IntToStr(call__41.FMagicControl.FMana);
-                var call__43 = FHero.GetCastingPoints();
-                var call__44 = TranslateRStr(CastingPointsRStr);
-                var call__45 = FHero.GetCastingPointsMax();
-                CastingPointsLbl.Text = call__44 + (AnsiString)": " + IntToStr(call__43) + AnsiString.FromBytes(47) + IntToStr(call__45);
+                var player = AoWHSMap.FPlayers.GetPlayers(Player);
+                var manaPool = TranslateRStr(ManaPoolRStr);
+                ManaPoolLbl.Text = manaPool + (AnsiString)": " + IntToStr(player.FMagicControl.FMana);
+                var castingPoints = FHero.GetCastingPoints();
+                var castingPoints2 = TranslateRStr(CastingPointsRStr);
+                var castingPointsMax = FHero.GetCastingPointsMax();
+                CastingPointsLbl.Text = castingPoints2 + (AnsiString)": " + IntToStr(castingPoints) + AnsiString.FromBytes(47) + IntToStr(castingPointsMax);
                 ResearchManaPoolLbl.Text = ManaPoolLbl.Text;
-                var call__46 = AoWHSMap.FPlayers.GetPlayers(Player);
-                var call__47 = call__46.FMagicControl.GetNetPowerToResearch();
-                var call__48 = TranslateRStr(ResearchPointsRStr);
-                ResearchPointsLbl.Text = call__48 + (AnsiString)": " + IntToStr(call__47);
+                var netPowerToResearch = AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetNetPowerToResearch();
+                var researchPoints = TranslateRStr(ResearchPointsRStr);
+                ResearchPointsLbl.Text = researchPoints + (AnsiString)": " + IntToStr(netPowerToResearch);
                 if (TSet<byte>.WithBounds(0, 255).With(2).With(3).Contains(FMode))
                 {
                     CurrentPointsLbl.Text = (AnsiString)"";
@@ -491,40 +460,36 @@ namespace Aow.Units.AoWSpellBook
                     SpellBookLbl.Visible = false;
                     ResearchBookLbl.Visible = true;
                     CastingPage.Visible = false;
-                    var call__49 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    Control = call__49.FMagicControl;
+                    Control = AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl;
                     if (Control.FResearchSpellID != 0)
                     {
                         ResearchPnl.Visible = true;
                         ResearchNone.Visible = false;
-                        var call__50 = AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
-                        Spell = call__50;
-                        var call__51 = TranslateRStr(CurrentlyResearchingRStr);
-                        ResearchLbl.Text = call__51 + AnsiString.FromBytes(58);
+                        Spell = AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
+                        var currentlyResearching = TranslateRStr(CurrentlyResearchingRStr);
+                        ResearchLbl.Text = currentlyResearching + AnsiString.FromBytes(58);
                         ResearchMemo.Items = Spell.FSpellText;
                         ResearchName.Text = Spell.FSpellName;
-                        var call__52 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                        var call__53 = TranslateRStr(LevelRStr);
-                        ResearchClass.Text = call__52 + (AnsiString)", " + call__53 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
-                        var call__54 = FHero.CastingMana(Spell);
-                        var call__55 = TranslateRStr(CastingCostRStr);
-                        var call__56 = TranslateRStr(ManaRStr);
-                        ResearchCost.Text = call__55 + (AnsiString)": " + IntToStr(call__54) + AnsiString.FromBytes(32) + call__56;
+                        var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                        var level = TranslateRStr(LevelRStr);
+                        ResearchClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                        var castingMana = FHero.CastingMana(Spell);
+                        var castingCost = TranslateRStr(CastingCostRStr);
+                        var mana = TranslateRStr(ManaRStr);
+                        ResearchCost.Text = castingCost + (AnsiString)": " + IntToStr(castingMana) + AnsiString.FromBytes(32) + mana;
                         if (Control.GetResearchTurnsLeft() < 999)
                         {
-                            var call__57 = Control.GetResearchTurnsLeft();
-                            var call__58 = FmtTurnsLeftStr(call__57);
-                            ResearchStatus.Text = call__58;
+                            var fmtTurnsLeftStr = FmtTurnsLeftStr(Control.GetResearchTurnsLeft());
+                            ResearchStatus.Text = fmtTurnsLeftStr;
                         }
                         else
                         {
-                            var call__59 = TranslateRStr(XTurnsRStr);
-                            var call__60 = AoWE.AoWE.Format(call__59, [(byte)63]);
-                            ResearchStatus.Text = call__60;
+                            var format = AoWE.AoWE.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
+                            ResearchStatus.Text = format;
                         }
 
-                        var call__61 = TranslateRStr(CancelRStr);
-                        CancelResearchBtn.Text = call__61;
+                        var cancel = TranslateRStr(CancelRStr);
+                        CancelResearchBtn.Text = cancel;
                         ResearchStatus.Visible = true;
                     }
                     else
@@ -533,32 +498,31 @@ namespace Aow.Units.AoWSpellBook
                         {
                             ResearchPnl.Visible = true;
                             ResearchNone.Visible = false;
-                            var call__62 = AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
-                            Spell = call__62;
-                            var call__63 = TranslateRStr(ResearchedRStr);
-                            ResearchLbl.Text = call__63 + AnsiString.FromBytes(58);
+                            Spell = AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
+                            var researched = TranslateRStr(ResearchedRStr);
+                            ResearchLbl.Text = researched + AnsiString.FromBytes(58);
                             ResearchMemo.Items = Spell.FSpellText;
                             ResearchName.Text = Spell.FSpellName;
-                            var call__64 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                            var call__65 = TranslateRStr(LevelRStr);
-                            ResearchClass.Text = call__64 + (AnsiString)", " + call__65 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
-                            var call__66 = TranslateRStr(CastingCostRStr);
-                            var call__67 = TranslateRStr(ManaRStr);
-                            ResearchCost.Text = call__66 + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + call__67;
+                            var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                            var level = TranslateRStr(LevelRStr);
+                            ResearchClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                            var castingCost = TranslateRStr(CastingCostRStr);
+                            var mana = TranslateRStr(ManaRStr);
+                            ResearchCost.Text = castingCost + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + mana;
                             ResearchStatus.Visible = false;
-                            var call__68 = TranslateRStr(ResearchRStr);
-                            CancelResearchBtn.Text = call__68;
-                            var call__69 = TranslateRStr(ResearchNewSpellRStr);
-                            CancelResearchBtn.ToolTipText.Text = call__69;
+                            var research = TranslateRStr(ResearchRStr);
+                            CancelResearchBtn.Text = research;
+                            var researchNewSpell = TranslateRStr(ResearchNewSpellRStr);
+                            CancelResearchBtn.ToolTipText.Text = researchNewSpell;
                         }
                         else
                         {
                             ResearchPnl.Visible = false;
                             ResearchNone.Visible = true;
-                            var call__70 = TranslateRStr(ResearchRStr);
-                            CancelResearchBtn.Text = call__70;
-                            var call__71 = TranslateRStr(CancelSpellResearchRStr);
-                            CancelResearchBtn.ToolTipText.Text = call__71;
+                            var research = TranslateRStr(ResearchRStr);
+                            CancelResearchBtn.Text = research;
+                            var cancelSpellResearch = TranslateRStr(CancelSpellResearchRStr);
+                            CancelResearchBtn.ToolTipText.Text = cancelSpellResearch;
                         }
                     }
                 }
@@ -566,44 +530,39 @@ namespace Aow.Units.AoWSpellBook
                 {
                     if (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode))
                     {
-                        var call__72 = FHero.GetCastingPoints();
-                        CurrentPointsLbl.Text = IntToStr(call__72);
-                        var call__73 = FHero.GetCastingPointsMax();
-                        CastingPointsMaxLbl.Text = IntToStr(call__73);
+                        var fHeroCastingPoints = FHero.GetCastingPoints();
+                        CurrentPointsLbl.Text = IntToStr(fHeroCastingPoints);
+                        var fHeroCastingPointsMax = FHero.GetCastingPointsMax();
+                        CastingPointsMaxLbl.Text = IntToStr(fHeroCastingPointsMax);
                         SpellBookLbl.Visible = true;
                         ResearchBookLbl.Visible = false;
                         ResearchPage.Visible = false;
-                        var call__74 = FHero.Casting();
-                        if (call__74)
+                        if (FHero.Casting())
                         {
                             NoneCastingLbl.Visible = false;
-                            var call__75 = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
-                            Spell = call__75;
+                            Spell = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
                             CastingSpell.Text = Spell.FSpellName;
-                            var call__76 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                            var call__77 = TranslateRStr(LevelRStr);
-                            CastingClass.Text = call__76 + (AnsiString)", " + call__77 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
-                            var call__78 = TranslateRStr(CastingCostRStr);
-                            var call__79 = TranslateRStr(ManaRStr);
-                            CastingCost.Text = call__78 + (AnsiString)": " + IntToStr(FHero.FCastingProgress) + AnsiString.FromBytes(32) + call__79;
+                            var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                            var level = TranslateRStr(LevelRStr);
+                            CastingClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                            var castingCost = TranslateRStr(CastingCostRStr);
+                            var mana = TranslateRStr(ManaRStr);
+                            CastingCost.Text = castingCost + (AnsiString)": " + IntToStr(FHero.FCastingProgress) + AnsiString.FromBytes(32) + mana;
                             CastingMemo.Items = Spell.FSpellText;
-                            var call__80 = FHero.CastingTurnsLeft();
-                            var call__81 = FmtTurnsLeftStr(call__80);
-                            CastingStatus.Text = AnsiString.FromBytes(40) + call__81 + AnsiString.FromBytes(41);
+                            var fmtTurnsLeftStr = FmtTurnsLeftStr(FHero.CastingTurnsLeft());
+                            CastingStatus.Text = AnsiString.FromBytes(40) + fmtTurnsLeftStr + AnsiString.FromBytes(41);
                             CastingPnl.Visible = true;
-                            var call__82 = FHero.CastingReady();
-                            if (call__82)
+                            if (FHero.CastingReady())
                             {
                                 CastingBtn.Visible = true;
-                                var call__83 = TranslateRStr(CastingReadyRStr);
-                                CastingStatus.Text = call__83;
+                                var castingReady = TranslateRStr(CastingReadyRStr);
+                                CastingStatus.Text = castingReady;
                             }
                             else
                             {
                                 CastingBtn.Visible = false;
-                                var call__84 = FHero.CastingTurnsLeft();
-                                var call__85 = FmtTurnsLeftStr(call__84);
-                                CastingStatus.Text = AnsiString.FromBytes(40) + call__85 + AnsiString.FromBytes(41);
+                                var fmtTurnsLeftStr2 = FmtTurnsLeftStr(FHero.CastingTurnsLeft());
+                                CastingStatus.Text = AnsiString.FromBytes(40) + fmtTurnsLeftStr2 + AnsiString.FromBytes(41);
                             }
                         }
                         else
@@ -625,36 +584,34 @@ namespace Aow.Units.AoWSpellBook
         public void ShowSpellEntry(TSpell Spell, TAOWPanel Panel, TAOWButton Button, TAOWLabel Name, TAOWLabel SpellClass, TAOWLabel Cost, TAOWMemo Memo, TAOWImage Icon)
         {
             AnsiString Reason = default;
-            int Turns = default;
-            TPlayerMagicControl Control = default;
+            int Turns;
+            TPlayerMagicControl Control;
             if (Spell != null)
             {
                 Panel.Visible = true;
                 Name.Text = Spell.FSpellName;
-                var call__86 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                var call__87 = TranslateRStr(LevelRStr);
-                SpellClass.Text = call__86 + (AnsiString)", " + call__87 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                SpellClass.Text = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]) + (AnsiString)", " + TranslateRStr(LevelRStr) + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
                 if (FMode == 2)
                 {
                     if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal))
                     {
-                        var call__88 = TranslateRStr(GlobalRStr);
-                        SpellClass.Text = SpellClass.Text + (AnsiString)", " + call__88;
+                        var global = TranslateRStr(GlobalRStr);
+                        SpellClass.Text = SpellClass.Text + (AnsiString)", " + global;
                     }
                     else
                     {
                         if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctCombat))
                         {
-                            var call__89 = TranslateRStr(CombatRStr);
-                            SpellClass.Text = SpellClass.Text + (AnsiString)", " + call__89;
+                            var combat = TranslateRStr(CombatRStr);
+                            SpellClass.Text = SpellClass.Text + (AnsiString)", " + combat;
                         }
                         else
                         {
                             if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal, TSpellControlTypeElement.sctCombat))
                             {
-                                var call__90 = TranslateRStr(GlobalRStr);
-                                var call__91 = TranslateRStr(CombatRStr);
-                                SpellClass.Text = SpellClass.Text + (AnsiString)", " + call__90 + AnsiString.FromBytes(47) + call__91;
+                                var global = TranslateRStr(GlobalRStr);
+                                var combat = TranslateRStr(CombatRStr);
+                                SpellClass.Text = SpellClass.Text + (AnsiString)", " + global + AnsiString.FromBytes(47) + combat;
                             }
                         }
                     }
@@ -663,71 +620,15 @@ namespace Aow.Units.AoWSpellBook
                 Memo.Items = Spell.FSpellText;
                 if (FHero == null)
                 {
-                    var call__92 = TranslateRStr(CostXRStr);
-                    var call__93 = AoWE.AoWE.Format(call__92, [Spell.FBaseManaCost]);
-                    Cost.Text = call__93;
+                    Cost.Text = AoWE.AoWE.Format(TranslateRStr(CostXRStr), [Spell.FBaseManaCost]);
                 }
                 else
                 {
-                    var call__94 = FHero.CastingMana(Spell);
-                    var call__95 = TranslateRStr(CostXRStr);
-                    var call__96 = AoWE.AoWE.Format(call__95, [call__94]);
-                    Cost.Text = call__96;
+                    var castingMana = FHero.CastingMana(Spell);
+                    Cost.Text = AoWE.AoWE.Format(TranslateRStr(CostXRStr), [castingMana]);
                 }
 
-                bool bool__97 = FMode == 0;
-                if (bool__97)
-                {
-                    bool bool__98 = !Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctGlobal);
-                    if (!bool__98)
-                    {
-                        var call__99 = FHero.Casting();
-                        bool__98 = call__99;
-                    }
-
-                    bool__97 = bool__98;
-                }
-
-                bool bool__100 = bool__97;
-                if (!bool__100)
-                {
-                    bool bool__101 = FMode == 1;
-                    if (bool__101)
-                    {
-                        bool bool__102 = !Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctCombat);
-                        if (!bool__102)
-                        {
-                            var call__103 = FHero.Casting();
-                            bool__102 = call__103;
-                        }
-
-                        bool bool__104 = bool__102;
-                        if (!bool__104)
-                        {
-                            var call__105 = FHero.CanCastSpellInstantly(Spell.FSpellID, Spell.FBaseManaCost, ref Reason);
-                            bool__104 = !call__105;
-                        }
-
-                        bool__101 = bool__104;
-                    }
-
-                    bool__100 = bool__101;
-                }
-
-                bool bool__106 = bool__100;
-                if (!bool__106)
-                {
-                    bool bool__107 = FMode == 2;
-                    if (bool__107)
-                    {
-                        var call__108 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                        bool__107 = call__108.FMagicControl.FResearchSpellID != 0;
-                    }
-
-                    bool__106 = bool__107;
-                }
-
-                if (bool__106)
+                if (FMode == 0 && (!Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctGlobal) || FHero.Casting()) || FMode == 1 && (!Spell.FSpellControlTypes.Contains(TSpellControlTypeElement.sctCombat) || FHero.Casting() || !FHero.CanCastSpellInstantly(Spell.FSpellID, Spell.FBaseManaCost, ref Reason)) || FMode == 2 && AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID != 0)
                 {
                     Memo.TextColor = 5000268;
                     Name.TextColor = 5000268;
@@ -748,24 +649,20 @@ namespace Aow.Units.AoWSpellBook
 
                 if (Spell.FManaUpkeep > 0)
                 {
-                    var call__109 = TranslateRStr(UpkeepXRStr);
-                    var call__110 = AoWE.AoWE.Format(call__109, [Spell.FManaUpkeep]);
-                    Cost.Text = Cost.Text + AnsiString.FromBytes(32) + call__110;
+                    var format = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [Spell.FManaUpkeep]);
+                    Cost.Text = Cost.Text + AnsiString.FromBytes(32) + format;
                 }
 
                 if (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode))
                 {
-                    var call__111 = FHero.CastingTurns(Spell);
-                    Turns = call__111;
+                    Turns = FHero.CastingTurns(Spell);
                     if (Turns == 0)
                     {
                         Reason = TranslateRStr(InstantRStr);
                     }
                     else
                     {
-                        var call__112 = TranslateRStr(TurnsXRStr);
-                        var call__113 = AoWE.AoWE.Format(call__112, [IntToStr(Turns)]);
-                        Reason = call__113;
+                        Reason = AoWE.AoWE.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
                     }
 
                     Cost.Text = Cost.Text + AnsiString.FromBytes(32) + Reason;
@@ -774,22 +671,17 @@ namespace Aow.Units.AoWSpellBook
                 {
                     if (FMode == 2 || FMode == 3)
                     {
-                        var call__114 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                        Control = call__114.FMagicControl;
-                        var call__115 = Control.GetNetPowerToResearch();
-                        var call__116 = Control.ResearchTurns(call__115, Spell.FResearchCost);
-                        Turns = call__116;
+                        Control = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl;
+                        Turns = Control.ResearchTurns(Control.GetNetPowerToResearch(), Spell.FResearchCost);
                         if (Turns < 999)
                         {
-                            var call__117 = TranslateRStr(TurnsXRStr);
-                            var call__118 = AoWE.AoWE.Format(call__117, [IntToStr(Turns)]);
-                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + call__118;
+                            var format = AoWE.AoWE.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
+                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + format;
                         }
                         else
                         {
-                            var call__119 = TranslateRStr(XTurnsRStr);
-                            var call__120 = AoWE.AoWE.Format(call__119, [(byte)63]);
-                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + call__120;
+                            var format = AoWE.AoWE.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
+                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + format;
                         }
                     }
                 }
@@ -810,9 +702,7 @@ namespace Aow.Units.AoWSpellBook
                 {
                     case 2:
                     case 3:
-                        var call__121 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                        var call__122 = call__121.FMagicControl.ResearchSpell(Spell.FSpellID);
-                        if (call__122)
+                        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ResearchSpell(Spell.FSpellID))
                         {
                             if (FEvent == null || FEvent.FMode != TPlayerMagicEventMode.pmemStartResearch)
                             {
@@ -827,19 +717,9 @@ namespace Aow.Units.AoWSpellBook
 
                         break;
                     case 0:
-                        var call__123 = FHero.GetCastingPoints();
-                        bool bool__124 = call__123 >= Spell.FBaseManaCost;
-                        if (!bool__124)
+                        if (FHero.GetCastingPoints() >= Spell.FBaseManaCost || AoWHSMap.FPlayers.GetPlayers(FHero.FPlayer).FMagicControl.GetCheatEnabled())
                         {
-                            var call__125 = AoWHSMap.FPlayers.GetPlayers(FHero.FPlayer);
-                            var call__126 = call__125.FMagicControl.GetCheatEnabled();
-                            bool__124 = call__126;
-                        }
-
-                        if (bool__124)
-                        {
-                            var call__127 = FHero.CastSpell(Spell.FSpellID, ref Reason);
-                            if (call__127)
+                            if (FHero.CastSpell(Spell.FSpellID, ref Reason))
                             {
                                 Dlg.Visible = false;
                             }
@@ -850,8 +730,7 @@ namespace Aow.Units.AoWSpellBook
                         }
                         else
                         {
-                            var call__128 = FHero.CastSpell(Spell.FSpellID, ref Reason);
-                            if (call__128)
+                            if (FHero.CastSpell(Spell.FSpellID, ref Reason))
                             {
                                 InfoBtnClick(this);
                             }
@@ -863,8 +742,7 @@ namespace Aow.Units.AoWSpellBook
 
                         break;
                     case 1:
-                        var call__129 = FHero.CastCombatSpell(Spell.FSpellID, ref Reason);
-                        if (call__129)
+                        if (FHero.CastCombatSpell(Spell.FSpellID, ref Reason))
                         {
                             Dlg.Visible = false;
                         }
@@ -914,8 +792,7 @@ namespace Aow.Units.AoWSpellBook
             GlobalBtn.ILIndexUp = 13;
             CombatBtn.Visible = false;
             UnitBtn.Visible = false;
-            var call__130 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (call__130.FMagicControl.FResearchSpellID != 0)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID != 0)
             {
                 SetPageKind(0);
             }
@@ -927,8 +804,7 @@ namespace Aow.Units.AoWSpellBook
             FMode = 2;
             FSpellType = TSpellType.stGlobal;
             FPage = 0;
-            var call__131 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            FHero = call__131.FLeader;
+            FHero = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FLeader;
             UpdateSpellPages();
             UpdateInfoPages();
             ShowBook();
@@ -940,8 +816,7 @@ namespace Aow.Units.AoWSpellBook
             FEvent = Event;
             FEvent.AddRef();
             FDone = Done;
-            var call__132 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (call__132.FMagicControl.FResearchSpellID == 0)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID == 0)
             {
                 Reset();
                 GlobalBtn.ILIndexDown = 14;
@@ -954,8 +829,7 @@ namespace Aow.Units.AoWSpellBook
                 FMode = 2;
                 FSpellType = TSpellType.stGlobal;
                 FPage = 0;
-                var call__133 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                FHero = call__133.FLeader;
+                FHero = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FLeader;
                 UpdateSpellPages();
                 UpdateInfoPages();
                 ShowBook();
@@ -973,8 +847,7 @@ namespace Aow.Units.AoWSpellBook
             FEvent = Event;
             FEvent.AddRef();
             FDone = Done;
-            var call__134 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (call__134.FMagicControl.FResearchSpellID == 0)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID == 0)
             {
                 Reset();
                 FResearchedSpell = Event.FSpellID;
@@ -982,8 +855,7 @@ namespace Aow.Units.AoWSpellBook
                 FMode = 3;
                 FSpellType = TSpellType.stGlobal;
                 FPage = 0;
-                var call__135 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                FHero = call__135.FLeader;
+                FHero = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FLeader;
                 UpdateSpellPages();
                 UpdateInfoPages();
                 ShowBook();
@@ -1003,42 +875,24 @@ namespace Aow.Units.AoWSpellBook
             FMode = 0;
             if (ValidateHero())
             {
-                var call__136 = FPlayerPages[AoWHSMap.FSeatedPlayer];
-                FSpellType = (TSpellType)call__136.A;
-                var call__137 = FPlayerPages[AoWHSMap.FSeatedPlayer];
-                FPage = call__137.B;
-                var call__138 = FHero.Casting();
-                if (call__138)
+                FSpellType = (TSpellType)FPlayerPages[AoWHSMap.FSeatedPlayer].A;
+                FPage = FPlayerPages[AoWHSMap.FSeatedPlayer].B;
+                if (FHero.Casting())
                 {
                     SetPageKind(0);
                 }
                 else
                 {
                     FSpells.Clear();
-                    var call__139 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    call__139.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
-                    var call__140 = FSpells.GetCount();
-                    bool bool__141 = call__140 == 0;
-                    if (!bool__141)
-                    {
-                        var call__142 = FSpells.GetCount();
-                        bool__141 = call__142 <= FPage * 8;
-                    }
-
-                    if (bool__141)
+                    AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
+                    if (FSpells.GetCount() == 0 || FSpells.GetCount() <= FPage * 8)
                     {
                         FSpells.Clear();
                         FSpellType = (TSpellType)3;
-                        while (true)
+                        while (FSpells.GetCount() == 0 && (int)FSpellType != 0)
                         {
-                            var call__143 = FSpells.GetCount();
-                            if (!(call__143 == 0 && (int)FSpellType != 0))
-                                break;
-                            {
-                                FSpellType = (TSpellType)((int)FSpellType - 1);
-                                var call__144 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                                call__144.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
-                            }
+                            FSpellType = (TSpellType)((int)FSpellType - 1);
+                            AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                         }
                     }
 
@@ -1065,8 +919,7 @@ namespace Aow.Units.AoWSpellBook
             if (ValidateHero())
             {
                 GlobalBtn.Visible = true;
-                var call__145 = FHero.Casting();
-                if (call__145)
+                if (FHero.Casting())
                 {
                     SetPageKind(0);
                 }
@@ -1074,16 +927,10 @@ namespace Aow.Units.AoWSpellBook
                 {
                     FSpells.Clear();
                     FSpellType = (TSpellType)3;
-                    while (true)
+                    while (FSpells.GetCount() == 0 && (int)FSpellType != 0)
                     {
-                        var call__146 = FSpells.GetCount();
-                        if (!(call__146 == 0 && (int)FSpellType != 0))
-                            break;
-                        {
-                            FSpellType = (TSpellType)((int)FSpellType - 1);
-                            var call__147 = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer);
-                            call__147.FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
-                        }
+                        FSpellType = (TSpellType)((int)FSpellType - 1);
+                        AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, TSet<TSpellType>.Of(FSpellType));
                     }
 
                     SetPageKind(1);
@@ -1105,12 +952,10 @@ namespace Aow.Units.AoWSpellBook
         public void SpellBookCreate()
         {
             TDoubleItem Defaults = default;
-            var call__148 = new TSpellList();
-            FSpells = call__148;
+            FSpells = new TSpellList();
             Defaults.A = 2;
             Defaults.B = 0;
-            var call__149 = new TDoubleItemList();
-            FPlayerPages = call__149;
+            FPlayerPages = new TDoubleItemList();
             FPlayerPages.Default = Defaults;
         }
 
@@ -1162,28 +1007,18 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:236
         public void SpellIconDraw(TObject Sender, TSurfaceDesc SD)
         {
-            int Index = default;
-            int X = default;
-            int Y = default;
+            int Index;
+            int X;
+            int Y;
             Index = FPage * 8 + (((TComponent)Sender).Tag & 15);
-            bool bool__150 = Index >= 0;
-            if (bool__150)
+            if (Index >= 0 && Index < FSpells.GetCount())
             {
-                var call__151 = FSpells.GetCount();
-                bool__150 = Index < call__151;
-            }
-
-            if (bool__150)
-            {
-                var call__152 = FSpells.GetSpell(Index);
-                var call__153 = call__152.FCastImages.GetImageSequence(10);
-                if (call__153 != null)
+                if (FSpells.GetSpell(Index).FCastImages.GetImageSequence(10) != null)
                 {
                     var image = (TAOWImage)Sender;
                     X = image.FAOWWindow.WinLeft;
                     Y = image.FAOWWindow.WinTop;
-                    var call__155 = FSpells.GetSpell(Index);
-                    call__155.FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
+                    FSpells.GetSpell(Index).FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
                 }
             }
         }
@@ -1191,8 +1026,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:249
         public void SelectSpellBtnClick(TObject Sender)
         {
-            var call__156 = FSpells.GetSpell(FPage * 8 + ((TComponent)Sender).Tag);
-            SelectSpell(call__156);
+            SelectSpell(FSpells.GetSpell(FPage * 8 + ((TComponent)Sender).Tag));
         }
 
         // AoWSpellBook.pas:254
@@ -1274,8 +1108,7 @@ namespace Aow.Units.AoWSpellBook
                 switch (FMode)
                 {
                     case 0:
-                        var call__157 = FHero.CastSpell(FHero.FCastingSpellID, ref Reason);
-                        if (call__157)
+                        if (FHero.CastSpell(FHero.FCastingSpellID, ref Reason))
                         {
                             Dlg.Visible = false;
                         }
@@ -1286,8 +1119,7 @@ namespace Aow.Units.AoWSpellBook
 
                         break;
                     case 1:
-                        var call__158 = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
-                        SelectSpell(call__158);
+                        SelectSpell(AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID));
                         break;
                 }
             }
@@ -1306,27 +1138,23 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:315
         public void FaceDraw(TObject Sender, TSurfaceDesc SD)
         {
-            TRect R = default;
+            TRect R;
             var image = (TAOWImage)Sender;
-            var call__160 = Rect(LeftInfoPage.WinLeft + image.WinLeft, LeftInfoPage.WinTop + image.WinTop, LeftInfoPage.WinLeft + image.WinLeft + image.WinWidth, LeftInfoPage.WinTop + image.WinTop + image.WinHeight);
-            R = call__160;
+            R = Rect(LeftInfoPage.WinLeft + image.WinLeft, LeftInfoPage.WinTop + image.WinTop, LeftInfoPage.WinLeft + image.WinLeft + image.WinWidth, LeftInfoPage.WinTop + image.WinTop + image.WinHeight);
 
-            var call__161 = FHero.GetFace();
-            call__161.ShowStretched(R, SD);
+            FHero.GetFace().ShowStretched(R, SD);
         }
 
         // AoWSpellBook.pas:325
         public void ResearchIcnDraw(TAOWImage Sender, TSurfaceDesc SD)
         {
-            TSpell Spell = default;
-            int X = default;
-            var call__162 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__163 = AoWHSSet.FSpellControl.GetSpell(call__162.FMagicControl.FResearchSpellID);
-            Spell = call__163;
+            TSpell Spell;
+            int X;
+            var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+            Spell = AoWHSSet.FSpellControl.GetSpell(player.FMagicControl.FResearchSpellID);
             if (Spell == null && FMode == 3)
             {
-                var call__164 = AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
-                Spell = call__164;
+                Spell = AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
             }
 
             if (Spell != null)
@@ -1339,15 +1167,13 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:337
         public void CastingIcnDraw(TAOWImage Sender, TSurfaceDesc SD)
         {
-            TSpell Spell = default;
-            int X = default;
+            TSpell Spell;
+            int X;
             if (FHero != null)
             {
-                var call__166 = FHero.Casting();
-                if (call__166)
+                if (FHero.Casting())
                 {
-                    var call__167 = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
-                    Spell = call__167;
+                    Spell = AoWHSSet.FSpellControl.GetSpell(FHero.FCastingSpellID);
                     if (Spell != null)
                     {
                         X = Sender.FAOWWindow.WinLeft;
@@ -1360,12 +1186,11 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:352
         public void CancelResearchBtnClick()
         {
-            TPlayerMagicControl Control = default;
+            TPlayerMagicControl Control;
             General.PlayButtonSound(0);
             if (ValidateHero())
             {
-                var call__169 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                Control = call__169.FMagicControl;
+                Control = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl;
                 if (Control.FResearchSpellID != 0)
                 {
                     Control.ResearchSpell(0);

@@ -29,8 +29,7 @@ namespace Aow.Units.AoWLenLine
         // AoWLenLine.pas:42
         public override void SetSize()
         {
-            var call__1 = FILLine[0];
-            FWinWidth = call__1.Width;
+            FWinWidth = FILLine[0].Width;
             base.SetSize();
         }
 
@@ -41,8 +40,8 @@ namespace Aow.Units.AoWLenLine
             {
                 if (FValid == true && FVisible == true)
                 {
-                    var call__2 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                    FILLine.DrawILLv(0, call__2, ref SurfDesc);
+                    var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    FILLine.DrawILLv(0, rect, ref SurfDesc);
                     if (FOnDraw != null)
                     {
                         FOnDraw(this, SurfDesc);

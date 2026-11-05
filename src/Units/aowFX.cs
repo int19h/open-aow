@@ -26,22 +26,15 @@ namespace Aow.Units.aowFX
         // aowFX.pas:93
         public TXYZList()
         {
-            var call__1 = new TList();
-            FList = call__1;
+            FList = new TList();
         }
 
         // aowFX.pas:98
         public override void Destroy()
         {
-            int I = default;
+            for (int I = 0, last = FList.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__2 = FList.Count - 1;
-                for (; I <= end__2; I += 1)
-                {
-                    var call__3 = GetXYZ(I);
-                    call__3.Free();
-                }
+                GetXYZ(I).Free();
             }
 
             FList.Free();
@@ -51,15 +44,9 @@ namespace Aow.Units.aowFX
         // aowFX.pas:108
         public void Clear()
         {
-            int I = default;
+            for (int I = 0, last = FList.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__4 = FList.Count - 1;
-                for (; I <= end__4; I += 1)
-                {
-                    var call__5 = GetXYZ(I);
-                    call__5.Free();
-                }
+                GetXYZ(I).Free();
             }
 
             FList.Clear();
@@ -74,19 +61,17 @@ namespace Aow.Units.aowFX
         // aowFX.pas:122
         public void Delete(int Index)
         {
-            var call__6 = FList[Index];
-            ((TXYZ)call__6).Free();
+            ((TXYZ)FList[Index]).Free();
             FList.Delete(Index);
         }
 
         // aowFX.pas:128
         public TXYZ GetXYZ(int Index)
         {
-            TXYZ Result = default;
+            TXYZ Result;
             if (Index >= 0 && Index < FList.Count)
             {
-                var call__7 = FList[Index];
-                Result = (TXYZ)call__7;
+                Result = (TXYZ)FList[Index];
             }
             else
             {
@@ -97,12 +82,7 @@ namespace Aow.Units.aowFX
         }
 
         // aowFX.pas:136
-        public int GetCount()
-        {
-            int Result = default;
-            Result = FList.Count;
-            return Result;
-        }
+        public int GetCount() => FList.Count;
 
         public int Count { get => GetCount(); }
 
@@ -134,23 +114,17 @@ namespace Aow.Units.aowFX
         // aowFX.pas:143
         public TfxParticle GetParticle(int Index)
         {
-            TfxParticle Result = default;
-            object P = default;
-            var call__8 = FParticles[Index];
-            P = call__8;
-            Result = (TfxParticle)P;
-            return Result;
+            object P;
+            P = FParticles[Index];
+            return (TfxParticle)P;
         }
 
         // aowFX.pas:151
         public TfxParticleEffect GetEffect(int Index)
         {
-            TfxParticleEffect Result = default;
-            object P = default;
-            var call__9 = FEffects[Index];
-            P = call__9;
-            Result = (TfxParticleEffect)P;
-            return Result;
+            object P;
+            P = FEffects[Index];
+            return (TfxParticleEffect)P;
         }
 
         public sealed class ParticlesAccessor(TfxParticleSystem target)
@@ -174,82 +148,71 @@ namespace Aow.Units.aowFX
         // { paths }
         public static void ScatterPath(ref TXYZList List)
         {
-            int I = default;
-            int RX = default;
-            int RY = default;
-            int DX = default;
-            int DY = default;
-            TXYZ XYZ = default;
+            int RX;
+            int RY;
+            int DX;
+            int DY;
+            TXYZ XYZ;
             DX = 0;
             DY = 0;
+            for (int I = 1, last = List.Count - 2; I <= last; I++)
             {
-                I = 1;
-                int end__10 = List.Count - 2;
-                for (; I <= end__10; I += 1)
+                XYZ = List[I];
+                RX = Random(3);
+                RY = Random(3);
+                if (RX - DX > 1)
                 {
-                    var call__11 = List[I];
-                    XYZ = call__11;
-                    RX = Random(3);
-                    RY = Random(3);
-                    if (RX - DX > 1)
-                    {
-                        RX = DX + 1;
-                    }
-
-                    if (DX - RX > 1)
-                    {
-                        RX = DX - 1;
-                    }
-
-                    if (RY - DY > 1)
-                    {
-                        RY = DY + 1;
-                    }
-
-                    if (DY - RY > 1)
-                    {
-                        RY = DY - 1;
-                    }
-
-                    XYZ.X = XYZ.X + RX - 1;
-                    XYZ.Y = XYZ.Y + RY - 1;
-                    DX = RX;
-                    DY = RY;
+                    RX = DX + 1;
                 }
+
+                if (DX - RX > 1)
+                {
+                    RX = DX - 1;
+                }
+
+                if (RY - DY > 1)
+                {
+                    RY = DY + 1;
+                }
+
+                if (DY - RY > 1)
+                {
+                    RY = DY - 1;
+                }
+
+                XYZ.X = XYZ.X + RX - 1;
+                XYZ.Y = XYZ.Y + RY - 1;
+                DX = RX;
+                DY = RY;
             }
         }
 
         // aowFX.pas:188
         public static void MakeLinePath(int X1, int Y1, int X2, int Y2, int Steps, ref TXYZList List)
         {
-            int I = default;
-            TXYZ XYZ = default;
+            TXYZ XYZ;
             if (Steps < 2)
             {
                 Steps = 2;
             }
 
+            for (int I = 0; I <= Steps - 1; I++)
             {
-                I = 0;
-                int end__12 = Steps - 1;
-                for (; I <= end__12; I += 1)
-                {
-                    XYZ = new TXYZ();
-                    List.Add(XYZ);
-                    XYZ.X = X1 + (X2 - X1) * I / (Steps - 1);
-                    XYZ.Y = Y1 + (Y2 - Y1) * I / (Steps - 1);
-                }
+                XYZ = new TXYZ();
+                List.Add(XYZ);
+                XYZ.X = X1 + (X2 - X1) * I / (Steps - 1);
+                XYZ.Y = Y1 + (Y2 - Y1) * I / (Steps - 1);
             }
         }
 
         // aowFX.pas:204
         public static void MakeSwarmPath(int Step, int Radius, int Phase, int Angle, int X, int Y, TSwarmDirection Direction, ref TXYZList List)
         {
-            int Total = default;
-            int B = default;
-            float Rad = default;
-            float R = default;
-            TXYZ XYZ = default;
+            int Total;
+            int B;
+            float Rad;
+            float R;
+            TXYZ XYZ;
             Total = 0;
             do
             {
@@ -266,10 +229,8 @@ namespace Aow.Units.aowFX
                 }
 
                 XYZ = new TXYZ();
-                var call__13 = Math.Sin(Rad);
-                XYZ.X = Round((double)call__13 * R) + X;
-                var call__14 = Math.Cos(Rad);
-                XYZ.Y = Round((double)call__14 * R) + Y;
+                XYZ.X = Round((double)Math.Sin(Rad) * R) + X;
+                XYZ.Y = Round((double)Math.Cos(Rad) * R) + Y;
                 List.Add(XYZ);
                 switch (Direction)
                 {
@@ -300,15 +261,15 @@ namespace Aow.Units.aowFX
         // aowFX.pas:257
         public static void MakeLightningPath(int X1, int Y1, int X2, int Y2, ref TXYZList List)
         {
-            int NX = default;
-            int NY = default;
-            int CX = default;
-            int CY = default;
-            int Len = default;
-            float Angle = default;
-            float A2 = default;
-            int Dist = default;
-            int Seg = default;
+            int NX;
+            int NY;
+            int CX;
+            int CY;
+            int Len;
+            float Angle;
+            float A2;
+            int Dist;
+            int Seg;
             CX = X1;
             CY = Y1;
             Angle = GetAngle(X1, Y1, X2, Y2);
@@ -320,23 +281,19 @@ namespace Aow.Units.aowFX
             {
                 if ((double)A2 > Angle)
                 {
-                    var call__15 = Random(40);
-                    var call__16 = DegToRad(call__15 + 40);
-                    A2 = (float)((double)Angle - call__16);
+                    A2 = (float)((double)Angle - DegToRad(Random(40) + 40));
                 }
                 else
                 {
-                    var call__17 = Random(40);
-                    var call__18 = DegToRad(call__17 + 40);
-                    A2 = (float)((double)Angle + call__18);
+                    A2 = (float)((double)Angle + DegToRad(Random(40) + 40));
                 }
 
-                var call__19 = Math.Cos(Angle);
-                var call__20 = Math.Cos(A2);
-                NX = X1 - Round((double)call__19 * Dist) - Round((double)call__20 * Seg);
-                var call__21 = Math.Sin(Angle);
-                var call__22 = Math.Sin(A2);
-                NY = Y1 - Round((double)call__21 * Dist) - Round((double)call__22 * Seg);
+                var cos = Math.Cos(Angle);
+                var mathCos = Math.Cos(A2);
+                NX = X1 - Round((double)cos * Dist) - Round((double)mathCos * Seg);
+                var sin = Math.Sin(Angle);
+                var mathSin = Math.Sin(A2);
+                NY = Y1 - Round((double)sin * Dist) - Round((double)mathSin * Seg);
                 MakeLinePath(CX, CY, NX, NY, Seg, ref List);
                 CX = NX;
                 CY = NY;
@@ -346,20 +303,19 @@ namespace Aow.Units.aowFX
             }
 
             MakeLinePath(CX, CY, X2, Y2, Len - Dist, ref List);
-            var call__23 = List.Count;
-            var call__24 = List[call__23 - 1];
-            call__24.Z = 1;
+            var count = List.Count;
+            List[count - 1].Z = 1;
         }
 
         // aowFX.pas:290
         // { sic: Angle is used as radians (Cos(Angle)), but the game passes degrees (Random(360)). }
         public static void MakeArcPath(int X, int Y, int Angle, ref float Z, ref float Speed, ref float VZ, ref float Gravity, ref TXYZList List)
         {
-            float FX = default;
-            float FY = default;
-            float DX = default;
-            float DY = default;
-            TXYZ XYZ = default;
+            float FX;
+            float FY;
+            float DX;
+            float DY;
+            TXYZ XYZ;
             FX = X;
             FY = Y;
             DX = (float)((double)Math.Cos(Angle) * Speed);
@@ -384,11 +340,11 @@ namespace Aow.Units.aowFX
         // aowFX.pas:315
         public static void MakeArcPathXY(short X1, short Y1, short X2, short Y2, short StepSize, short Height, ref TXYZList List)
         {
-            int I = default;
-            int Steps = default;
-            int DX = default;
-            int DY = default;
-            TXYZ XYZ = default;
+            int I;
+            int Steps;
+            int DX;
+            int DY;
+            TXYZ XYZ;
             I = 0;
             DX = Math.Abs(X2 - X1);
             DY = Math.Abs(Y2 - Y1);
@@ -404,9 +360,8 @@ namespace Aow.Units.aowFX
                 List.Add(XYZ);
                 XYZ.X = X1 + (X2 - X1) * I / Steps;
                 XYZ.Y = Y1 + (Y2 - Y1) * I / Steps;
-                var call__25 = Math.PI;
-                var call__26 = Math.Sin((double)((double)I * call__25) / Steps);
-                XYZ.Z = Round((double)call__26 * Height);
+                var pi = Math.PI;
+                XYZ.Z = Round((double)Math.Sin((double)((double)I * pi) / Steps) * Height);
                 I += 1;
             }
         }
@@ -416,7 +371,7 @@ namespace Aow.Units.aowFX
 //   lightning path subtracts it). }
         public static float GetAngle(int X1, int Y1, int X2, int Y2)
         {
-            float Result = default;
+            float Result;
             if (X1 == X2)
             {
                 Result = (float)((double)Math.PI / 2);

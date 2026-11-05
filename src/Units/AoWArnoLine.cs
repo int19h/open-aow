@@ -24,8 +24,7 @@ namespace Aow.Units.AoWArnoLine
         // AoWArnoLine.pas:41
         public TAoWArnoLine(TComponent owner) : base(owner)
         {
-            var call__1 = new TInterfaceIL(this);
-            FLineLibrary = call__1;
+            FLineLibrary = new TInterfaceIL(this);
         }
 
         // AoWArnoLine.pas:53
@@ -34,12 +33,12 @@ namespace Aow.Units.AoWArnoLine
             if (FImageTop != null && FImageMiddle != null && FImageBottom != null)
             {
                 FLineLibrary.Clear();
-                var call__2 = FImageTop.Copy();
-                FLineLibrary.Add(call__2);
-                var call__3 = FImageMiddle.Copy();
-                FLineLibrary.Add(call__3);
-                var call__4 = FImageBottom.Copy();
-                FLineLibrary.Add(call__4);
+                var copy = FImageTop.Copy();
+                FLineLibrary.Add(copy);
+                var fImageMiddleCopy = FImageMiddle.Copy();
+                FLineLibrary.Add(fImageMiddleCopy);
+                var fImageBottomCopy = FImageBottom.Copy();
+                FLineLibrary.Add(fImageBottomCopy);
                 FValid = true;
             }
 
@@ -72,8 +71,8 @@ namespace Aow.Units.AoWArnoLine
                         SurfDesc.ClipRect.Top = FWinTop;
                     }
 
-                    var call__5 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                    FLineLibrary.DrawILLv(0, call__5, ref SurfDesc);
+                    var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    FLineLibrary.DrawILLv(0, rect, ref SurfDesc);
                     if (FOnDraw != null)
                     {
                         FOnDraw(this, SurfDesc);

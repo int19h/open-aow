@@ -69,46 +69,29 @@ namespace Aow.Units.AoWHTMLMemo
         // AoWHTMLMemo.pas:93
         public TaowHTMLMemo(TComponent owner) : base(owner)
         {
-            var call__1 = new TStringList();
-            FLines = call__1;
-            var call__2 = new TStringList();
-            FItems = call__2;
+            FLines = new TStringList();
+            FItems = new TStringList();
             FItems.OnChange = OnChangeText;
-            var call__3 = new TList();
-            FChanges = call__3;
-            var call__4 = new TList();
-            F1EC = call__4;
-            var call__5 = new TList();
-            FFonts = call__5;
-            var call__6 = new TInterfaceIL(this);
-            FImages = call__6;
+            FChanges = new TList();
+            F1EC = new TList();
+            FFonts = new TList();
+            FImages = new TInterfaceIL(this);
         }
 
         // AoWHTMLMemo.pas:105
         public override void Destroy()
         {
-            int I = default;
             FLines.Destroy();
             FItems.Destroy();
             F1EC.Free();
+            for (int I = 0, last = FChanges.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__7 = FChanges.Count - 1;
-                for (; I <= end__7; I += 1)
-                {
-                    var call__8 = FChanges[I];
-                    ((TChangeInfo)call__8).Free();
-                }
+                ((TChangeInfo)FChanges[I]).Free();
             }
 
+            for (int I = 0, last = FFonts.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__9 = FFonts.Count - 1;
-                for (; I <= end__9; I += 1)
-                {
-                    var call__10 = FFonts[I];
-                    ((TImageLibraryFont)call__10).Free();
-                }
+                ((TImageLibraryFont)FFonts[I]).Free();
             }
 
             FFonts.Free();
@@ -129,21 +112,18 @@ namespace Aow.Units.AoWHTMLMemo
 //   window, and sets up the scroll bar }
         public override void SetSize()
         {
-            TChangeInfo CI = default;
-            int H = default;
-            int LineIdx = default;
-            TIntParseMode State = default;
-            int I = default;
-            int J = default;
-            int Last = default;
-            int TextStart = default;
-            int TextEnd = default;
-            int TagStart = default;
-            byte C = default;
-            ReadOnlySpan<byte> text = default;
-            AnsiString S = default;
-            int K = default;
-            int V = default;
+            TChangeInfo CI;
+            int H;
+            int LineIdx;
+            TIntParseMode State;
+            int Last;
+            int TextStart;
+            int TextEnd;
+            int TagStart;
+            byte C;
+            ReadOnlySpan<byte> text;
+            AnsiString S;
+            int V;
             void NewLine()
             {
                 FLines.Add((AnsiString)"");
@@ -153,20 +133,19 @@ namespace Aow.Units.AoWHTMLMemo
 
             void AddText(AnsiString S)
             {
-                int TW = default;
-                int W = default;
-                int Start = default;
-                AnsiString Word = default;
-                int I = default;
-                int Len = default;
+                int TW;
+                int W;
+                int Start;
+                AnsiString Word;
+                int I;
+                int Len;
                 if (FAOWFont != null)
                 {
                     I = 0;
                     Start = 0;
                     Len = S.Length;
-                    var call__11 = FLines[LineIdx];
-                    var call__12 = FAOWFont.GetTextWidth(call__11);
-                    W = call__12 + FBorderWidth * 2 + FScrollWidth;
+                    var line = FLines[LineIdx];
+                    W = FAOWFont.GetTextWidth(line) + FBorderWidth * 2 + FScrollWidth;
                     while (I < Len)
                     {
                         if (S[I] == 32 || I == Len - 1)
@@ -177,19 +156,18 @@ namespace Aow.Units.AoWHTMLMemo
                             }
 
                             Word = Copy(S, Start + 1, I - Start);
-                            var call__13 = FAOWFont.GetTextWidth(Word);
-                            TW = call__13;
+                            TW = FAOWFont.GetTextWidth(Word);
                             if (W + TW > FWinWidth)
                             {
                                 NewLine();
-                                var call__14 = FLines[LineIdx];
-                                FLines[LineIdx] = call__14 + Word;
+                                var line2 = FLines[LineIdx];
+                                FLines[LineIdx] = line2 + Word;
                                 W = FBorderWidth * 2 + FScrollWidth + TW;
                             }
                             else
                             {
-                                var call__15 = FLines[LineIdx];
-                                FLines[LineIdx] = call__15 + Word;
+                                var line2 = FLines[LineIdx];
+                                FLines[LineIdx] = line2 + Word;
                                 W = W + TW;
                             }
 
@@ -203,7 +181,7 @@ namespace Aow.Units.AoWHTMLMemo
 
             void NewChange()
             {
-                TChangeInfo N = default;
+                TChangeInfo N;
                 N = new TChangeInfo();
                 N.FHeight = CI.FHeight;
                 N.FColor = CI.FColor;
@@ -298,27 +276,14 @@ namespace Aow.Units.AoWHTMLMemo
             H = FTextHeight;
             FLines.Clear();
             State = TIntParseMode.pNone;
-            var call__16 = FItems.Count;
-            bool bool__17 = call__16 > 0;
-            if (bool__17)
-            {
-                var call__18 = FItems[0];
-                bool__17 = UpperCase(Copy(call__18, 1, 5)) == (AnsiString)"<INT>";
-            }
-
-            if (bool__17)
+            if (FItems.Count > 0 && UpperCase(Copy(FItems[0], 1, 5)) == (AnsiString)"<INT>")
             {
                 FLines.Add((AnsiString)"");
                 H = FBorderHeight * 2;
                 FImages.Clear();
+                for (int I = 0, last = FChanges.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__19 = FChanges.Count - 1;
-                    for (; I <= end__19; I += 1)
-                    {
-                        var call__20 = FChanges[I];
-                        ((TChangeInfo)call__20).Free();
-                    }
+                    ((TChangeInfo)FChanges[I]).Free();
                 }
 
                 FChanges.Clear();
@@ -332,303 +297,285 @@ namespace Aow.Units.AoWHTMLMemo
                 CI.FSpacing = 0;
                 FChanges.Add(CI);
                 LineIdx = 0;
+                for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__21 = FItems.Count - 1;
-                    for (; I <= end__21; I += 1)
+                    AnsiString item = NullTerminatedText(FItems[I]);
+                    text = StringBytes(item);
+                    Last = text.Length - 1;
+                    TextStart = 0;
+                    TextEnd = -1;
+                    TagStart = 0;
+                    for (int J = 0; J <= Last; J++)
                     {
-                        var call__22 = FItems[I];
-                        AnsiString item = NullTerminatedText(call__22);
-                        text = StringBytes(item);
-                        Last = text.Length - 1;
-                        TextStart = 0;
-                        TextEnd = -1;
-                        TagStart = 0;
-                        {
-                            J = 0;
-                            int end__23 = Last;
-                            for (; J <= end__23; J += 1)
-                            {
-                                C = text[J];
-                                switch (State)
-                                {
-                                    case TIntParseMode.pNone:
-                                        switch (C)
-                                        {
-                                            case 60:
-                                                State = TIntParseMode.pStart;
-                                                TextEnd = J - 1;
-                                                TagStart = J + 1;
-                                                break;
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pStart:
-                                    case TIntParseMode.pInBG:
-                                        switch (C)
-                                        {
-                                            case 62:
-                                                ParseTag(Copy(item, TagStart + 1, J - TagStart));
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                                break;
-                                            case 32:
-                                            case 61:
-                                                ParseTag(Copy(item, TagStart + 1, J - TagStart));
-                                                TagStart = J + 1;
-                                                break;
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pFont:
-                                        if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
-                                        {
-                                            var call__24 = FLines[LineIdx];
-                                            CI.FPos = call__24.Length;
-                                            CI.FLine = LineIdx;
-                                            CI.FFont = Copy(item, TagStart + 1, J - TagStart);
-                                            if (CI.FFont != (AnsiString)"")
-                                            {
-                                                var call__25 = LoadFont(CI.FFont);
-                                                if (!call__25)
-                                                {
-                                                    CI.FFont = (AnsiString)"";
-                                                }
-                                            }
-
-                                            NewChange();
-                                            if (C == 62)
-                                            {
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                            }
-                                            else
-                                            {
-                                                State = TIntParseMode.pStart;
-                                                TagStart = J + 1;
-                                            }
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pItemHeight:
-                                        if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
-                                        {
-                                            var call__26 = FLines[LineIdx];
-                                            CI.FPos = call__26.Length;
-                                            CI.FLine = LineIdx;
-                                            try
-                                            {
-                                                CI.FHeight = StrToInt(Copy(item, TagStart + 1, J - TagStart));
-                                            }
-                                            catch (System.Exception)
-                                            {
-                                            }
-
-                                            NewChange();
-                                            if (C == 62)
-                                            {
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                            }
-                                            else
-                                            {
-                                                State = TIntParseMode.pStart;
-                                                TagStart = J + 1;
-                                            }
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pColor:
-                                        if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
-                                        {
-                                            var call__27 = FLines[LineIdx];
-                                            CI.FPos = call__27.Length;
-                                            CI.FLine = LineIdx;
-                                            if (J - TagStart == 6)
-                                            {
-                                                CI.FColor = 0;
-                                                {
-                                                    K = 0;
-                                                    byte end__28 = 5;
-                                                    for (; K <= end__28; K += 1)
-                                                    {
-                                                        V = text[TagStart + K];
-                                                        if (V < 58)
-                                                        {
-                                                            V = V - 48;
-                                                        }
-                                                        else
-                                                        {
-                                                            V = V - 55;
-                                                        }
-
-                                                        CI.FColor = (CI.FColor << 4) + V;
-                                                    }
-                                                }
-
-                                                NewChange();
-                                            }
-
-                                            if (C == 62)
-                                            {
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                            }
-                                            else
-                                            {
-                                                State = TIntParseMode.pStart;
-                                                TagStart = J + 1;
-                                            }
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pSpace:
-                                        if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
-                                        {
-                                            var call__29 = FLines[LineIdx];
-                                            CI.FPos = call__29.Length;
-                                            CI.FLine = LineIdx;
-                                            try
-                                            {
-                                                CI.FSpacing = StrToInt(Copy(item, TagStart + 1, J - TagStart));
-                                                if (FAOWFont != null)
-                                                {
-                                                    FAOWFont.CharacterDistance = CI.FSpacing;
-                                                }
-                                            }
-                                            catch (System.Exception)
-                                            {
-                                            }
-
-                                            NewChange();
-                                            if (C == 62)
-                                            {
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                            }
-                                            else
-                                            {
-                                                State = TIntParseMode.pStart;
-                                                TagStart = J + 1;
-                                            }
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pAlign:
-                                        if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
-                                        {
-                                            S = UpperCase(Copy(item, TagStart + 1, J - TagStart));
-                                            var call__30 = FLines[LineIdx];
-                                            CI.FPos = call__30.Length;
-                                            CI.FLine = LineIdx;
-                                            if (S == (AnsiString)"RIGHT")
-                                            {
-                                                CI.FAlign = TaowTextAlign.taRight;
-                                            }
-                                            else
-                                            {
-                                                if (S == (AnsiString)"CENTER")
-                                                {
-                                                    CI.FAlign = TaowTextAlign.taCenter;
-                                                }
-                                                else
-                                                {
-                                                    CI.FAlign = TaowTextAlign.taLeft;
-                                                }
-                                            }
-
-                                            NewChange();
-                                            if (C == 62)
-                                            {
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                            }
-                                            else
-                                            {
-                                                State = TIntParseMode.pStart;
-                                                TagStart = J + 1;
-                                            }
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pBG:
-                                        if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
-                                        {
-                                            var call__31 = Application.ExeName;
-                                            var call__32 = ExtractFilePath(call__31);
-                                            var call__33 = FileExists(call__32 + Copy(item, TagStart + 1, J - TagStart));
-                                            if (call__33)
-                                            {
-                                                var call__34 = Application.ExeName;
-                                                var call__35 = ExtractFilePath(call__34);
-                                                FImages.LoadFromFile(call__35 + Copy(item, TagStart + 1, J - TagStart));
-                                            }
-
-                                            FILIndexTexture = 0;
-                                            if (C == 62)
-                                            {
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                            }
-                                            else
-                                            {
-                                                State = TIntParseMode.pInBG;
-                                                TagStart = J + 1;
-                                            }
-                                        }
-
-                                        break;
-                                    case TIntParseMode.pBGIndex:
-                                        if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
-                                        {
-                                            try
-                                            {
-                                                FILIndexTexture = StrToInt(Copy(item, TagStart + 1, J - TagStart));
-                                            }
-                                            catch (System.Exception)
-                                            {
-                                            }
-
-                                            if (C == 62)
-                                            {
-                                                State = TIntParseMode.pNone;
-                                                TextStart = J + 1;
-                                            }
-                                            else
-                                            {
-                                                State = TIntParseMode.pInBG;
-                                                TagStart = J + 1;
-                                            }
-                                        }
-
-                                        break;
-                                }
-
-                                if (TextEnd >= TextStart)
-                                {
-                                    AddText(Copy(item, TextStart + 1, TextEnd - TextStart + 1));
-                                    TextStart = TextEnd;
-                                }
-                            }
-                        }
-
+                        C = text[J];
                         switch (State)
                         {
                             case TIntParseMode.pNone:
-                                if (TextStart <= Last)
+                                switch (C)
                                 {
-                                    AddText(Copy(item, TextStart + 1, Last - TextStart + 1));
+                                    case 60:
+                                        State = TIntParseMode.pStart;
+                                        TextEnd = J - 1;
+                                        TagStart = J + 1;
+                                        break;
                                 }
 
                                 break;
                             case TIntParseMode.pStart:
-                                if (TagStart <= Last)
+                            case TIntParseMode.pInBG:
+                                switch (C)
                                 {
-                                    ParseTag(Copy(item, TagStart + 1, Last - TagStart));
+                                    case 62:
+                                        ParseTag(Copy(item, TagStart + 1, J - TagStart));
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                        break;
+                                    case 32:
+                                    case 61:
+                                        ParseTag(Copy(item, TagStart + 1, J - TagStart));
+                                        TagStart = J + 1;
+                                        break;
+                                }
+
+                                break;
+                            case TIntParseMode.pFont:
+                                if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
+                                {
+                                    var line = FLines[LineIdx];
+                                    CI.FPos = line.Length;
+                                    CI.FLine = LineIdx;
+                                    CI.FFont = Copy(item, TagStart + 1, J - TagStart);
+                                    if (CI.FFont != (AnsiString)"")
+                                    {
+                                        if (!LoadFont(CI.FFont))
+                                        {
+                                            CI.FFont = (AnsiString)"";
+                                        }
+                                    }
+
+                                    NewChange();
+                                    if (C == 62)
+                                    {
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                    }
+                                    else
+                                    {
+                                        State = TIntParseMode.pStart;
+                                        TagStart = J + 1;
+                                    }
+                                }
+
+                                break;
+                            case TIntParseMode.pItemHeight:
+                                if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
+                                {
+                                    var line = FLines[LineIdx];
+                                    CI.FPos = line.Length;
+                                    CI.FLine = LineIdx;
+                                    try
+                                    {
+                                        CI.FHeight = StrToInt(Copy(item, TagStart + 1, J - TagStart));
+                                    }
+                                    catch (System.Exception)
+                                    {
+                                    }
+
+                                    NewChange();
+                                    if (C == 62)
+                                    {
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                    }
+                                    else
+                                    {
+                                        State = TIntParseMode.pStart;
+                                        TagStart = J + 1;
+                                    }
+                                }
+
+                                break;
+                            case TIntParseMode.pColor:
+                                if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
+                                {
+                                    var line = FLines[LineIdx];
+                                    CI.FPos = line.Length;
+                                    CI.FLine = LineIdx;
+                                    if (J - TagStart == 6)
+                                    {
+                                        CI.FColor = 0;
+                                        for (int K = 0; K <= 5; K++)
+                                        {
+                                            V = text[TagStart + K];
+                                            if (V < 58)
+                                            {
+                                                V = V - 48;
+                                            }
+                                            else
+                                            {
+                                                V = V - 55;
+                                            }
+
+                                            CI.FColor = (CI.FColor << 4) + V;
+                                        }
+
+                                        NewChange();
+                                    }
+
+                                    if (C == 62)
+                                    {
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                    }
+                                    else
+                                    {
+                                        State = TIntParseMode.pStart;
+                                        TagStart = J + 1;
+                                    }
+                                }
+
+                                break;
+                            case TIntParseMode.pSpace:
+                                if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
+                                {
+                                    var line = FLines[LineIdx];
+                                    CI.FPos = line.Length;
+                                    CI.FLine = LineIdx;
+                                    try
+                                    {
+                                        CI.FSpacing = StrToInt(Copy(item, TagStart + 1, J - TagStart));
+                                        if (FAOWFont != null)
+                                        {
+                                            FAOWFont.CharacterDistance = CI.FSpacing;
+                                        }
+                                    }
+                                    catch (System.Exception)
+                                    {
+                                    }
+
+                                    NewChange();
+                                    if (C == 62)
+                                    {
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                    }
+                                    else
+                                    {
+                                        State = TIntParseMode.pStart;
+                                        TagStart = J + 1;
+                                    }
+                                }
+
+                                break;
+                            case TIntParseMode.pAlign:
+                                if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
+                                {
+                                    S = UpperCase(Copy(item, TagStart + 1, J - TagStart));
+                                    var line = FLines[LineIdx];
+                                    CI.FPos = line.Length;
+                                    CI.FLine = LineIdx;
+                                    if (S == (AnsiString)"RIGHT")
+                                    {
+                                        CI.FAlign = TaowTextAlign.taRight;
+                                    }
+                                    else
+                                    {
+                                        if (S == (AnsiString)"CENTER")
+                                        {
+                                            CI.FAlign = TaowTextAlign.taCenter;
+                                        }
+                                        else
+                                        {
+                                            CI.FAlign = TaowTextAlign.taLeft;
+                                        }
+                                    }
+
+                                    NewChange();
+                                    if (C == 62)
+                                    {
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                    }
+                                    else
+                                    {
+                                        State = TIntParseMode.pStart;
+                                        TagStart = J + 1;
+                                    }
+                                }
+
+                                break;
+                            case TIntParseMode.pBG:
+                                if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
+                                {
+                                    if (FileExists(ExtractFilePath(Application.ExeName) + Copy(item, TagStart + 1, J - TagStart)))
+                                    {
+                                        var filePath = ExtractFilePath(Application.ExeName);
+                                        FImages.LoadFromFile(filePath + Copy(item, TagStart + 1, J - TagStart));
+                                    }
+
+                                    FILIndexTexture = 0;
+                                    if (C == 62)
+                                    {
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                    }
+                                    else
+                                    {
+                                        State = TIntParseMode.pInBG;
+                                        TagStart = J + 1;
+                                    }
+                                }
+
+                                break;
+                            case TIntParseMode.pBGIndex:
+                                if (TSet<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
+                                {
+                                    try
+                                    {
+                                        FILIndexTexture = StrToInt(Copy(item, TagStart + 1, J - TagStart));
+                                    }
+                                    catch (System.Exception)
+                                    {
+                                    }
+
+                                    if (C == 62)
+                                    {
+                                        State = TIntParseMode.pNone;
+                                        TextStart = J + 1;
+                                    }
+                                    else
+                                    {
+                                        State = TIntParseMode.pInBG;
+                                        TagStart = J + 1;
+                                    }
                                 }
 
                                 break;
                         }
+
+                        if (TextEnd >= TextStart)
+                        {
+                            AddText(Copy(item, TextStart + 1, TextEnd - TextStart + 1));
+                            TextStart = TextEnd;
+                        }
+                    }
+
+                    switch (State)
+                    {
+                        case TIntParseMode.pNone:
+                            if (TextStart <= Last)
+                            {
+                                AddText(Copy(item, TextStart + 1, Last - TextStart + 1));
+                            }
+
+                            break;
+                        case TIntParseMode.pStart:
+                            if (TagStart <= Last)
+                            {
+                                ParseTag(Copy(item, TagStart + 1, Last - TagStart));
+                            }
+
+                            break;
                     }
                 }
 
@@ -680,17 +627,10 @@ namespace Aow.Units.AoWHTMLMemo
         // { Update follows the scroll bar; a masked memo asks its owner to redraw it under the text }
         public override void Update()
         {
-            TRect R = default;
+            TRect R;
             if (FVisible)
             {
-                bool bool__36 = FVScrollBar != null;
-                if (bool__36)
-                {
-                    var call__37 = FLines.Count;
-                    bool__36 = call__37 > 0;
-                }
-
-                if (bool__36)
+                if (FVScrollBar != null && FLines.Count > 0)
                 {
                     if (FVScrollBar.Position != FTopItem)
                     {
@@ -711,13 +651,11 @@ namespace Aow.Units.AoWHTMLMemo
             {
                 if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                 {
-                    var call__38 = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
-                    R = call__38;
+                    R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                 }
                 else
                 {
-                    var call__39 = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
-                    R = call__39;
+                    R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                 }
 
                 FAOWOwner.AddDrawRect(ref R, this);
@@ -745,9 +683,8 @@ namespace Aow.Units.AoWHTMLMemo
 //   of the window (or the whole visible part) from it }
         public override void Draw(TSurfaceDesc SurfDesc)
         {
-            int I = default;
-            int OldLeft = default;
-            int OldTop = default;
+            int OldLeft;
+            int OldTop;
             int Pos = default;
             int LH = default;
             int X = default;
@@ -769,8 +706,7 @@ namespace Aow.Units.AoWHTMLMemo
                     FWinTop = 0;
                     if (FBackSurface != null)
                     {
-                        var call__40 = FBackSurface.PixelFormatID;
-                        if (call__40 != SurfDesc.PixelFormatID)
+                        if (FBackSurface.PixelFormatID != SurfDesc.PixelFormatID)
                         {
                             FBackSurface.Free();
                             FBackSurface = null;
@@ -779,8 +715,7 @@ namespace Aow.Units.AoWHTMLMemo
 
                     if (FBackSurface == null)
                     {
-                        var call__41 = new TDataSurface(FTextWidth, FTextHeight, SurfDesc.PixelFormatID, null);
-                        FBackSurface = call__41;
+                        FBackSurface = new TDataSurface(FTextWidth, FTextHeight, SurfDesc.PixelFormatID, null);
                         FBackDrawn = false;
                     }
 
@@ -802,135 +737,127 @@ namespace Aow.Units.AoWHTMLMemo
                         else
                         {
                             FBackSurface.Lock(ref BackSD);
-                            var call__42 = Rect(0, 0, FTextWidth, FTextHeight);
-                            FImages.DrawILT(FILIndexTexture, call__42, ref BackSD);
+                            var rect = Rect(0, 0, FTextWidth, FTextHeight);
+                            FImages.DrawILT(FILIndexTexture, rect, ref BackSD);
                         }
 
                         Line = 1;
-                        var call__43 = FChanges[0];
-                        CI = (TChangeInfo)call__43;
+                        CI = (TChangeInfo)FChanges[0];
                         Align = TaowTextAlign.taLeft;
                         FontName = (AnsiString)"";
                         X = FBorderWidth;
                         Y = FBorderHeight;
                         LH = 10;
+                        for (int I = 0, last = FLines.Count - 1; I <= last; I++)
                         {
-                            I = 0;
-                            int end__44 = FLines.Count - 1;
-                            for (; I <= end__44; I += 1)
+                            Pos = 0;
+                            switch (Align)
                             {
-                                Pos = 0;
-                                switch (Align)
-                                {
-                                    case TaowTextAlign.taLeft:
-                                        X = FBorderWidth;
-                                        break;
-                                    case TaowTextAlign.taCenter:
-                                        X = 0;
-                                        break;
-                                    case TaowTextAlign.taRight:
-                                        X = FTextWidth - FBorderWidth;
-                                        break;
-                                }
+                                case TaowTextAlign.taLeft:
+                                    X = FBorderWidth;
+                                    break;
+                                case TaowTextAlign.taCenter:
+                                    X = 0;
+                                    break;
+                                case TaowTextAlign.taRight:
+                                    X = FTextWidth - FBorderWidth;
+                                    break;
+                            }
 
-                                while (CI.FLine == I && Line <= FChanges.Count)
-                                {
-                                    if (FontName != (AnsiString)"" && CI.FPos > Pos)
-                                    {
-                                        switch (Align)
-                                        {
-                                            case TaowTextAlign.taLeft:
-                                                var call__45 = FLines[I];
-                                                FAOWFont.SetText(X, Y, Copy(call__45, Pos + 1, CI.FPos - Pos), BackSD);
-                                                var call__46 = FLines[I];
-                                                var call__47 = FAOWFont.GetTextWidth(Copy(call__46, Pos + 1, CI.FPos - Pos));
-                                                X = X + call__47;
-                                                break;
-                                            case TaowTextAlign.taCenter:
-                                                var call__48 = FLines[I];
-                                                var call__49 = FAOWFont.GetTextWidth(Copy(call__48, Pos + 1, CI.FPos - Pos));
-                                                var call__50 = FLines[I];
-                                                FAOWFont.SetText(FTextWidth / 2 - call__49 / 2, Y, Copy(call__50, Pos + 1, CI.FPos - Pos), BackSD);
-                                                break;
-                                            case TaowTextAlign.taRight:
-                                                var call__51 = FLines[I];
-                                                var call__52 = FAOWFont.GetTextWidth(Copy(call__51, Pos + 1, CI.FPos - Pos));
-                                                var call__53 = FLines[I];
-                                                FAOWFont.SetText(X - call__52, Y, Copy(call__53, Pos + 1, CI.FPos - Pos), BackSD);
-                                                var call__54 = FLines[I];
-                                                var call__55 = FAOWFont.GetTextWidth(Copy(call__54, Pos + 1, CI.FPos - Pos));
-                                                X = X - call__55;
-                                                break;
-                                        }
-                                    }
-
-                                    Pos = CI.FPos;
-                                    if (CI.FFont != (AnsiString)"")
-                                    {
-                                        LoadFont(CI.FFont);
-                                    }
-
-                                    FAOWFont.FontColorPaletteIndex = 1;
-                                    FAOWFont.Color = CI.FColor;
-                                    FAOWFont.CharacterDistance = CI.FSpacing;
-                                    FontName = CI.FFont;
-                                    LH = CI.FHeight;
-                                    if (CI.FAlign != Align)
-                                    {
-                                        switch (Align)
-                                        {
-                                            case TaowTextAlign.taLeft:
-                                                X = FBorderWidth;
-                                                break;
-                                            case TaowTextAlign.taCenter:
-                                                X = 0;
-                                                break;
-                                            case TaowTextAlign.taRight:
-                                                X = FTextWidth - FBorderWidth;
-                                                break;
-                                        }
-                                    }
-
-                                    Align = CI.FAlign;
-                                    if (Line < FChanges.Count)
-                                    {
-                                        var call__56 = FChanges[Line];
-                                        CI = (TChangeInfo)call__56;
-                                    }
-
-                                    Line += 1;
-                                }
-
-                                if (FontName != (AnsiString)"")
+                            while (CI.FLine == I && Line <= FChanges.Count)
+                            {
+                                if (FontName != (AnsiString)"" && CI.FPos > Pos)
                                 {
                                     switch (Align)
                                     {
                                         case TaowTextAlign.taLeft:
-                                            var call__57 = FLines[I];
-                                            var call__58 = FLines[I];
-                                            FAOWFont.SetText(X, Y, Copy(call__58, Pos + 1, call__57.Length - Pos), BackSD);
+                                            var line = FLines[I];
+                                            FAOWFont.SetText(X, Y, Copy(line, Pos + 1, CI.FPos - Pos), BackSD);
+                                            var line2 = FLines[I];
+                                            X = X + FAOWFont.GetTextWidth(Copy(line2, Pos + 1, CI.FPos - Pos));
                                             break;
                                         case TaowTextAlign.taCenter:
-                                            var call__59 = FLines[I];
-                                            var call__60 = FLines[I];
-                                            var call__61 = FAOWFont.GetTextWidth(Copy(call__60, Pos + 1, call__59.Length - Pos));
-                                            var call__62 = FLines[I];
-                                            var call__63 = FLines[I];
-                                            FAOWFont.SetText(FTextWidth / 2 - call__61 / 2, Y, Copy(call__63, Pos + 1, call__62.Length - Pos), BackSD);
+                                            var line3 = FLines[I];
+                                            var textWidth = FAOWFont.GetTextWidth(Copy(line3, Pos + 1, CI.FPos - Pos));
+                                            var line4 = FLines[I];
+                                            FAOWFont.SetText(FTextWidth / 2 - textWidth / 2, Y, Copy(line4, Pos + 1, CI.FPos - Pos), BackSD);
                                             break;
                                         case TaowTextAlign.taRight:
-                                            var call__64 = FLines[I];
-                                            var call__65 = FLines[I];
-                                            var call__66 = FAOWFont.GetTextWidth(Copy(call__65, Pos + 1, call__64.Length - Pos));
-                                            var call__67 = FLines[I];
-                                            var call__68 = FLines[I];
-                                            FAOWFont.SetText(X - call__66, Y, Copy(call__68, Pos + 1, call__67.Length - Pos), BackSD);
+                                            var line5 = FLines[I];
+                                            var faowFontTextWidth = FAOWFont.GetTextWidth(Copy(line5, Pos + 1, CI.FPos - Pos));
+                                            var line6 = FLines[I];
+                                            FAOWFont.SetText(X - faowFontTextWidth, Y, Copy(line6, Pos + 1, CI.FPos - Pos), BackSD);
+                                            var line7 = FLines[I];
+                                            X = X - FAOWFont.GetTextWidth(Copy(line7, Pos + 1, CI.FPos - Pos));
                                             break;
                                     }
                                 }
 
-                                Y = Y + LH;
+                                Pos = CI.FPos;
+                                if (CI.FFont != (AnsiString)"")
+                                {
+                                    LoadFont(CI.FFont);
+                                }
+
+                                FAOWFont.FontColorPaletteIndex = 1;
+                                FAOWFont.Color = CI.FColor;
+                                FAOWFont.CharacterDistance = CI.FSpacing;
+                                FontName = CI.FFont;
+                                LH = CI.FHeight;
+                                if (CI.FAlign != Align)
+                                {
+                                    switch (Align)
+                                    {
+                                        case TaowTextAlign.taLeft:
+                                            X = FBorderWidth;
+                                            break;
+                                        case TaowTextAlign.taCenter:
+                                            X = 0;
+                                            break;
+                                        case TaowTextAlign.taRight:
+                                            X = FTextWidth - FBorderWidth;
+                                            break;
+                                    }
+                                }
+
+                                Align = CI.FAlign;
+                                if (Line < FChanges.Count)
+                                {
+                                    CI = (TChangeInfo)FChanges[Line];
+                                }
+
+                                Line += 1;
                             }
+
+                            if (FontName != (AnsiString)"")
+                            {
+                                switch (Align)
+                                {
+                                    case TaowTextAlign.taLeft:
+                                        var lineLength = FLines[I];
+                                        var line = FLines[I];
+                                        FAOWFont.SetText(X, Y, Copy(line, Pos + 1, lineLength.Length - Pos), BackSD);
+                                        break;
+                                    case TaowTextAlign.taCenter:
+                                        var line2 = FLines[I];
+                                        var line3 = FLines[I];
+                                        var textWidth = FAOWFont.GetTextWidth(Copy(line3, Pos + 1, line2.Length - Pos));
+                                        var line4 = FLines[I];
+                                        var line5 = FLines[I];
+                                        FAOWFont.SetText(FTextWidth / 2 - textWidth / 2, Y, Copy(line5, Pos + 1, line4.Length - Pos), BackSD);
+                                        break;
+                                    case TaowTextAlign.taRight:
+                                        var line6 = FLines[I];
+                                        var line7 = FLines[I];
+                                        var faowFontTextWidth = FAOWFont.GetTextWidth(Copy(line7, Pos + 1, line6.Length - Pos));
+                                        var line8 = FLines[I];
+                                        var line9 = FLines[I];
+                                        FAOWFont.SetText(X - faowFontTextWidth, Y, Copy(line9, Pos + 1, line8.Length - Pos), BackSD);
+                                        break;
+                                }
+                            }
+
+                            Y = Y + LH;
                         }
 
                         FBackSurface.Unlock();
@@ -947,50 +874,43 @@ namespace Aow.Units.AoWHTMLMemo
                     FBackSurface.Lock(ref BackSD);
                     if (FSurfaceValid)
                     {
+                        for (int I = 0, last = FDrawCount - 1; I <= last; I++)
                         {
-                            I = 0;
-                            int end__69 = FDrawCount - 1;
-                            for (; I <= end__69; I += 1)
+                            R = (TaowRect)FDrawList[I];
+                            if (FAOWOwner.FWinLeft + FWinLeft > R.R.Left)
                             {
-                                var call__70 = FDrawList[I];
-                                R = (TaowRect)call__70;
-                                if (FAOWOwner.FWinLeft + FWinLeft > R.R.Left)
-                                {
-                                    R.R.Left = FAOWOwner.FWinLeft + FWinLeft;
-                                }
+                                R.R.Left = FAOWOwner.FWinLeft + FWinLeft;
+                            }
 
-                                if (FAOWOwner.FWinTop + FWinTop > R.R.Top)
-                                {
-                                    R.R.Top = FAOWOwner.FWinTop + FWinTop;
-                                }
+                            if (FAOWOwner.FWinTop + FWinTop > R.R.Top)
+                            {
+                                R.R.Top = FAOWOwner.FWinTop + FWinTop;
+                            }
 
-                                if (FAOWOwner.FWinLeft + FWinLeft + FWinWidth < R.R.Right)
-                                {
-                                    R.R.Right = FAOWOwner.FWinLeft + FWinLeft + FWinWidth;
-                                }
+                            if (FAOWOwner.FWinLeft + FWinLeft + FWinWidth < R.R.Right)
+                            {
+                                R.R.Right = FAOWOwner.FWinLeft + FWinLeft + FWinWidth;
+                            }
 
-                                if (FAOWOwner.FWinTop + FWinTop + FWinHeight < R.R.Bottom)
-                                {
-                                    R.R.Bottom = FAOWOwner.FWinTop + FWinTop + FWinHeight;
-                                }
+                            if (FAOWOwner.FWinTop + FWinTop + FWinHeight < R.R.Bottom)
+                            {
+                                R.R.Bottom = FAOWOwner.FWinTop + FWinTop + FWinHeight;
+                            }
 
-                                var call__71 = Rect(R.R.Left - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Top - FAOWOwner.FWinTop - FWinTop, R.R.Right - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Bottom - FAOWOwner.FWinTop - FWinTop);
-                                SrcR = call__71;
-                                if (FMasked)
-                                {
-                                    BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
-                                }
-                                else
-                                {
-                                    BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
-                                }
+                            SrcR = Rect(R.R.Left - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Top - FAOWOwner.FWinTop - FWinTop, R.R.Right - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Bottom - FAOWOwner.FWinTop - FWinTop);
+                            if (FMasked)
+                            {
+                                BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
+                            }
+                            else
+                            {
+                                BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
                             }
                         }
                     }
                     else
                     {
-                        var call__72 = Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
-                        SrcR = call__72;
+                        SrcR = Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
                         if (FMasked)
                         {
                             BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
@@ -1057,14 +977,7 @@ namespace Aow.Units.AoWHTMLMemo
         // AoWHTMLMemo.pas:165
         public void SetFileName(AnsiString Value)
         {
-            bool bool__73 = Value != FFilename;
-            if (bool__73)
-            {
-                var call__74 = FileExists(Value);
-                bool__73 = call__74;
-            }
-
-            if (bool__73)
+            if (Value != FFilename && FileExists(Value))
             {
                 FFilename = Value;
                 FItems.LoadFromFile(FFilename);
@@ -1076,22 +989,16 @@ namespace Aow.Units.AoWHTMLMemo
 //   the first time }
         public bool LoadFont(AnsiString FileName)
         {
-            bool Result = default;
-            TImageLibraryFont Font = default;
-            int I = default;
-            ;
-            var call__75 = Application.ExeName;
-            var call__76 = ExtractFilePath(call__75);
-            FileName = call__76 + FileName;
+            TImageLibraryFont Font;
+            int I;
+            FileName = ExtractFilePath(Application.ExeName) + FileName;
             Font = null;
             I = 0;
             while (I < FFonts.Count && Font == null)
             {
-                var call__77 = FFonts[I];
-                if (((TImageLibraryFont)call__77).FileName == FileName)
+                if (((TImageLibraryFont)FFonts[I]).FileName == FileName)
                 {
-                    var call__78 = FFonts[I];
-                    Font = (TImageLibraryFont)call__78;
+                    Font = (TImageLibraryFont)FFonts[I];
                 }
 
                 I += 1;
@@ -1110,8 +1017,7 @@ namespace Aow.Units.AoWHTMLMemo
                 FAOWFont = Font;
             }
 
-            Result = Font != null;
-            return Result;
+            return Font != null;
         }
 
         public TStringList Items { get => FItems; set => SetFStrings(value); }

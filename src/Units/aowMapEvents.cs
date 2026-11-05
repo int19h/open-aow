@@ -167,29 +167,19 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:150
         public void TheMapArmySelected(TArmy Army)
         {
-            int I = default;
-            int Count = default;
+            int Count;
             Count = 0;
+            for (int I = 0; I <= 7; I++)
             {
-                I = 0;
-                byte end__1 = 7;
-                for (; I <= end__1; I += 1)
-                {
-                    General.FSelectedUnits[I] = -1;
-                }
+                General.FSelectedUnits[I] = -1;
             }
 
+            for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__2 = Army.GetCount() - 1;
-                for (; I <= end__2; I += 1)
+                if (!Army.GetUnitConcealedForPlayer(I, AoWHSMap.FSeatedPlayer))
                 {
-                    var call__3 = Army.GetUnitConcealedForPlayer(I, AoWHSMap.FSeatedPlayer);
-                    if (!call__3)
-                    {
-                        General.FSelectedUnits[Count] = I;
-                        Count += 1;
-                    }
+                    General.FSelectedUnits[Count] = I;
+                    Count += 1;
                 }
             }
 
@@ -209,9 +199,8 @@ namespace Aow.Units.aowMapEvents
                 TBWindow.TurnButton.FLastPlayer = -1;
             }
 
-            var call__4 = TranslateRStr(DayXRStr);
-            var call__5 = AoWE.AoWE.Format(call__4, [Day]);
-            PInfoW.Turn.Text = call__5;
+            var format = AoWE.AoWE.Format(TranslateRStr(DayXRStr), [Day]);
+            PInfoW.Turn.Text = format;
             aowMapEvents.MapEvents.TheMapGemsChanged(AoWHSMap.FSeatedPlayer);
             aowMapEvents.MapEvents.TheMapIncomeChanged(AoWHSMap.FSeatedPlayer);
             if (RealmWin.Dlg.Visible)
@@ -223,14 +212,7 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:187
         public void TheMapEndTurn(sbyte Player, bool Cancelled)
         {
-            bool bool__6 = AoWHSMap.FSeatedPlayer == Player;
-            if (bool__6)
-            {
-                var call__7 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                bool__6 = call__7.FGameOverStatus == TGameOverStatus.goNone;
-            }
-
-            if (bool__6)
+            if (AoWHSMap.FSeatedPlayer == Player && AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FGameOverStatus == TGameOverStatus.goNone)
             {
                 if (Cancelled)
                 {
@@ -291,14 +273,11 @@ namespace Aow.Units.aowMapEvents
                                 {
                                     if (negotiateRequestEventLog.FObject == TNegotiateObject.noArmy)
                                     {
-                                        var call__9 = AoWHSMap.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL);
-                                        var call__10 = call__9.FindOwnedChild(131607);
-                                        ArmyHS = (TArmyHS)call__10;
+                                        ArmyHS = (TArmyHS)AoWHSMap.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
                                         if (ArmyHS != null)
                                         {
-                                            var call__11 = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
-                                            var call__12 = ArmyHS.FArmy.Hero(call__11, AllHeroTypes);
-                                            if (call__12 == null)
+                                            var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
+                                            if (ArmyHS.FArmy.Hero(joinSelection, AllHeroTypes) == null)
                                             {
                                                 aowMapEvents.ShowPartyJoin(PartyJoinDlg, (TNegotiateRequestEventLog)Event, Done);
                                             }
@@ -376,8 +355,7 @@ namespace Aow.Units.aowMapEvents
                                                             if (Event is TArmyInfoEventLog)
                                                             {
                                                                 var armyInfoEventLog = (TArmyInfoEventLog)Event;
-                                                                var call__15 = armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, AllHeroTypes);
-                                                                if (call__15 == null)
+                                                                if (armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, AllHeroTypes) == null)
                                                                 {
                                                                     aowMapEvents.ShowArmyInfo(ArmyInfoDlg, (TArmyInfoEventLog)Event, Done);
                                                                 }
@@ -390,8 +368,7 @@ namespace Aow.Units.aowMapEvents
                                                             {
                                                                 if (Event is TPrisonersJoinEventLog)
                                                                 {
-                                                                    var call__16 = AoWHSMap.FUnitControl.FindUnit(((TPrisonersJoinEventLog)Event).FFirstUnitID);
-                                                                    UnitObject = call__16;
+                                                                    UnitObject = AoWHSMap.FUnitControl.FindUnit(((TPrisonersJoinEventLog)Event).FFirstUnitID);
                                                                     if (UnitObject != null && UnitObject is THero)
                                                                     {
                                                                         aowMapEvents.ShowPrisonerHero(HeroJoinDlg, (TPrisonersJoinEventLog)Event, Done);
@@ -522,7 +499,7 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:290
         public void TheMapGemsChanged(sbyte Player)
         {
-            bool Update = default;
+            bool Update;
             Update = false;
             if (AoWHSMap.FSeatedPlayer == Player)
             {
@@ -547,8 +524,7 @@ namespace Aow.Units.aowMapEvents
                 }
                 else
                 {
-                    var call__17 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    if (call__17.FPlayerType != TPlayerType.ptHuman)
+                    if (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
                     {
                         Update = false;
                     }
@@ -563,8 +539,8 @@ namespace Aow.Units.aowMapEvents
                 }
                 else
                 {
-                    var call__18 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    TBWindow.WGTLbl.Text = IntToStr(call__18.FGems);
+                    var player = AoWHSMap.FPlayers.GetPlayers(Player);
+                    TBWindow.WGTLbl.Text = IntToStr(player.FGems);
                     if (RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected == 0)
                     {
                         RealmWin.UpdateOverview();
@@ -586,8 +562,8 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:323
         public void TheMapIncomeChanged(sbyte Player)
         {
-            bool Update = default;
-            int NetIncome = default;
+            bool Update;
+            int NetIncome;
             Update = false;
             if (AoWHSMap.FSeatedPlayer == Player)
             {
@@ -612,8 +588,7 @@ namespace Aow.Units.aowMapEvents
                 }
                 else
                 {
-                    var call__19 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    if (call__19.FPlayerType != TPlayerType.ptHuman)
+                    if (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
                     {
                         Update = false;
                     }
@@ -625,10 +600,8 @@ namespace Aow.Units.aowMapEvents
                 }
                 else
                 {
-                    var call__20 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    var call__21 = call__20.GetUpkeep();
-                    var call__22 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    NetIncome = call__22.FIncome - call__21;
+                    var upkeep = AoWHSMap.FPlayers.GetPlayers(Player).GetUpkeep();
+                    NetIncome = AoWHSMap.FPlayers.GetPlayers(Player).FIncome - upkeep;
                     if (NetIncome >= 0)
                     {
                         TBWindow.WGSign.Text = AnsiString.FromBytes(43);
@@ -677,8 +650,8 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:375
         public void TheMapPlayerMagicChanged(sbyte Player)
         {
-            bool Update = default;
-            int NetIncome = default;
+            bool Update;
+            int NetIncome;
             MagicPlayerChanged(MagicWin, Player);
             SpellBook.PlayerChanged(Player);
             Update = false;
@@ -705,8 +678,7 @@ namespace Aow.Units.aowMapEvents
                 }
                 else
                 {
-                    var call__23 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    if (call__23.FPlayerType != TPlayerType.ptHuman)
+                    if (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
                     {
                         Update = false;
                     }
@@ -719,13 +691,9 @@ namespace Aow.Units.aowMapEvents
                 }
                 else
                 {
-                    var call__24 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    TBWindow.WMTLbl.Text = IntToStr(call__24.FMagicControl.FMana);
-                    var call__25 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    var call__26 = call__25.FMagicControl.GetManaIncome();
-                    var call__27 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    var call__28 = call__27.FMagicControl.GetManaUpkeep();
-                    NetIncome = call__26 - call__28;
+                    var player = AoWHSMap.FPlayers.GetPlayers(Player);
+                    TBWindow.WMTLbl.Text = IntToStr(player.FMagicControl.FMana);
+                    NetIncome = AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaIncome() - AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaUpkeep();
                     if (NetIncome >= 0)
                     {
                         TBWindow.WMTSign.Text = AnsiString.FromBytes(43);
@@ -787,8 +755,7 @@ namespace Aow.Units.aowMapEvents
                 {
                     if (Player > -1)
                     {
-                        var call__30 = AoWHSMap.FPlayers.GetPlayers(Player);
-                        aowTurnButton.FCurPlayer = call__30.FPlayerRace;
+                        aowTurnButton.FCurPlayer = AoWHSMap.FPlayers.GetPlayers(Player).FPlayerRace;
                     }
                     else
                     {
@@ -978,14 +945,7 @@ namespace Aow.Units.aowMapEvents
                 }
                 else
                 {
-                    bool bool__31 = General.FStructure is TProductionPlace;
-                    if (bool__31)
-                    {
-                        var call__32 = ((TProductionPlace)General.FStructure).CanDblClick();
-                        bool__31 = call__32;
-                    }
-
-                    if (bool__31 && ((TPlayerStructure)General.FStructure).FPlayer == AoWHSMap.FSeatedPlayer)
+                    if (General.FStructure is TProductionPlace && ((TProductionPlace)General.FStructure).CanDblClick() && ((TPlayerStructure)General.FStructure).FPlayer == AoWHSMap.FSeatedPlayer)
                     {
                         ProductionScreen.ShowPlace((TProductionPlace)General.FStructure);
                     }
@@ -1013,15 +973,15 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:998
         public static void ShowItemsFound(TItemsFoundDlg Dialog, TItemExplorationSiteEventLog Event, TExecuteDoneEvent Done)
         {
-            TItemExplorationSiteEventLog Log = default;
+            TItemExplorationSiteEventLog Log;
             Dialog.Reset();
             Dialog.FOnDone = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
             Log = Dialog.FEvent;
             Dialog.TitleLbl.Text = Log.FTitle;
-            var call__34 = Log.FMessages.Text;
-            Dialog.MessageMemo.Items.Text = call__34;
+            var text = Log.FMessages.Text;
+            Dialog.MessageMemo.Items.Text = text;
             Dialog.LeftBtn.Visible = Log.FItemIDs.Count > 5;
             Dialog.RightBtn.Visible = Log.FItemIDs.Count > 5;
             if (Dialog.GetHero() == null)
@@ -1041,25 +1001,23 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:975
         public static void ShowCityNegotiation(TCityJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
         {
-            TNegotiateRequestEventLog Log = default;
-            TCity Town = default;
+            TNegotiateRequestEventLog Log;
+            TCity Town;
             Dialog.FDone = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
             Log = Dialog.FEvent;
-            var call__36 = Log.FJoinMessage.Text;
-            Dialog.Memo.Items.Text = call__36;
+            var text = Log.FJoinMessage.Text;
+            Dialog.Memo.Items.Text = text;
             Dialog.ApproachLbl.Text = Log.FText;
-            var call__37 = AoWHSMap.MapContainer.GetField(Log.FX, Log.FY, Log.FL);
-            var call__38 = call__37.FindNoneTransparentHS(typeof(TCity));
-            Town = (TCity)call__38;
+            Town = (TCity)AoWHSMap.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(TCity));
             Dialog.FRace = Town.FRace;
-            var call__39 = Town.GetTopCityActionImage(TCityAction.caNone);
-            Dialog.CityPicLine.ImageTop = call__39;
-            var call__40 = Town.GetMiddleCityActionImage(TCityAction.caNone);
-            Dialog.CityPicLine.ImageMiddle = call__40;
-            var call__41 = Town.GetBottomCityActionImage(TCityAction.caNone);
-            Dialog.CityPicLine.ImageBottom = call__41;
+            var topCityActionImage = Town.GetTopCityActionImage(TCityAction.caNone);
+            Dialog.CityPicLine.ImageTop = topCityActionImage;
+            var middleCityActionImage = Town.GetMiddleCityActionImage(TCityAction.caNone);
+            Dialog.CityPicLine.ImageMiddle = middleCityActionImage;
+            var bottomCityActionImage = Town.GetBottomCityActionImage(TCityAction.caNone);
+            Dialog.CityPicLine.ImageBottom = bottomCityActionImage;
             Dialog.Dlg.Visible = true;
             AoWHSMap.FTutorialControl.ShowMessage(62, true, true);
         }
@@ -1075,8 +1033,8 @@ namespace Aow.Units.aowMapEvents
                 Dialog.Dlg.Visible = true;
                 if (!Control.FTargetMode.Contains(TTargetSelectionModeElement.tmValidateDistance))
                 {
-                    var call__43 = TranslateRStr(UnlimitedRStr);
-                    Dialog.TargetLbl.Text = LowerCase(call__43);
+                    var unlimited = TranslateRStr(UnlimitedRStr);
+                    Dialog.TargetLbl.Text = LowerCase(unlimited);
                 }
                 else
                 {
@@ -1109,8 +1067,8 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:909
         public static void ShowUnitSpellCaster(TCastUnitSpellDlg Dialog, TUnitSpellCaster Caster)
         {
-            THero Hero = default;
-            TSpell Spell = default;
+            THero Hero;
+            TSpell Spell;
             if (Dialog.FCaster != null)
             {
                 Dialog.FCaster.Release();
@@ -1118,32 +1076,30 @@ namespace Aow.Units.aowMapEvents
 
             Dialog.FCaster = Caster;
             Dialog.FCaster.AddRef();
-            var call__46 = AoWHSMap.FUnitControl.FindUnit(Dialog.FCaster.FCasterSourceID);
-            Hero = (THero)call__46;
+            Hero = (THero)AoWHSMap.FUnitControl.FindUnit(Dialog.FCaster.FCasterSourceID);
             if (Hero != null)
             {
-                var call__47 = Hero.GetName();
-                Dialog.CasterNameLbl.Text = call__47;
-                var call__48 = Hero.GetCastingPoints();
-                var call__49 = TranslateRStr(CastingPointsRStr);
-                var call__50 = Hero.GetCastingPointsMax();
-                Dialog.CastingPointsLbl.Text = call__49 + (AnsiString)": " + IntToStr(call__48) + AnsiString.FromBytes(47) + IntToStr(call__50);
+                var name = Hero.GetName();
+                Dialog.CasterNameLbl.Text = name;
+                var castingPoints = Hero.GetCastingPoints();
+                var castingPoints2 = TranslateRStr(CastingPointsRStr);
+                var castingPointsMax = Hero.GetCastingPointsMax();
+                Dialog.CastingPointsLbl.Text = castingPoints2 + (AnsiString)": " + IntToStr(castingPoints) + AnsiString.FromBytes(47) + IntToStr(castingPointsMax);
             }
 
-            var call__51 = AoWHSSet.FSpellControl.GetSpell(Dialog.FCaster.FCasterSpellID);
-            Spell = call__51;
+            Spell = AoWHSSet.FSpellControl.GetSpell(Dialog.FCaster.FCasterSpellID);
             Dialog.SpellNameLbl.Text = Spell.FSpellName;
             // { Original still uses Hero below if the source-unit lookup failed. }
-            var call__52 = Hero.CastingMana(Spell);
-            var call__53 = TranslateRStr(CastingCostRStr);
-            var call__54 = TranslateRStr(ManaRStr);
-            Dialog.SpellManaLbl.Text = call__53 + (AnsiString)": " + IntToStr(call__52) + AnsiString.FromBytes(32) + call__54;
-            var call__55 = TranslateRStr(UpkeepRStr);
-            var call__56 = TranslateRStr(ManaRStr);
-            Dialog.SpellUpkeepLbl.Text = call__55 + (AnsiString)": " + IntToStr(Spell.FManaUpkeep) + AnsiString.FromBytes(32) + call__56;
-            var call__57 = AoWHSMap.FPlayers.GetPlayers(Hero.FPlayer);
-            var call__58 = TranslateRStr(ManaRStr);
-            Dialog.CastingManaLbl.Text = call__58 + (AnsiString)": " + IntToStr(call__57.FMagicControl.FMana);
+            var castingMana = Hero.CastingMana(Spell);
+            var castingCost = TranslateRStr(CastingCostRStr);
+            var mana = TranslateRStr(ManaRStr);
+            Dialog.SpellManaLbl.Text = castingCost + (AnsiString)": " + IntToStr(castingMana) + AnsiString.FromBytes(32) + mana;
+            var upkeep = TranslateRStr(UpkeepRStr);
+            var mana2 = TranslateRStr(ManaRStr);
+            Dialog.SpellUpkeepLbl.Text = upkeep + (AnsiString)": " + IntToStr(Spell.FManaUpkeep) + AnsiString.FromBytes(32) + mana2;
+            var player = AoWHSMap.FPlayers.GetPlayers(Hero.FPlayer);
+            var mana3 = TranslateRStr(ManaRStr);
+            Dialog.CastingManaLbl.Text = mana3 + (AnsiString)": " + IntToStr(player.FMagicControl.FMana);
             Dialog.U1.Checked = false;
             Dialog.U2.Checked = false;
             Dialog.U3.Checked = false;
@@ -1211,12 +1167,12 @@ namespace Aow.Units.aowMapEvents
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
             Dialog.FDone = Done;
-            var call__62 = Event.GetText();
-            Dialog.HeaderMemo.Items.Text = call__62;
-            var call__63 = ((TGameOverEventLog)Event).FMessage.Text;
-            Dialog.MessageMemo.Items.Text = call__63;
-            var call__64 = AoWHSMap.FPlayers.GetPlayers(Event.FPlayer);
-            Dialog.LShield.CurrentImage = call__64.FPlayerRace + 13;
+            var text = Event.GetText();
+            Dialog.HeaderMemo.Items.Text = text;
+            var fMessageText = ((TGameOverEventLog)Event).FMessage.Text;
+            Dialog.MessageMemo.Items.Text = fMessageText;
+            var player = AoWHSMap.FPlayers.GetPlayers(Event.FPlayer);
+            Dialog.LShield.CurrentImage = player.FPlayerRace + 13;
             Dialog.RShield.CurrentImage = Dialog.LShield.CurrentImage;
             Dialog.MsgReceiveWin.Visible = true;
         }
@@ -1230,30 +1186,20 @@ namespace Aow.Units.aowMapEvents
             Dialog.FEvent.AddRef();
             Dialog.FDone = Done;
             Dialog.HeaderMemo.Items.Clear();
-            var call__66 = Event.FMessage.Count;
-            if (call__66 > 0)
+            if (Event.FMessage.Count > 0)
             {
-                var call__67 = Event.FMessage[0];
-                Dialog.HeaderMemo.Items.Add(call__67);
+                var message = Event.FMessage[0];
+                Dialog.HeaderMemo.Items.Add(message);
             }
 
             Dialog.MessageMemo.Items.Clear();
             Dialog.MessageMemo.Items.AddStrings(Event.FMessage);
-            var call__68 = Dialog.MessageMemo.Items.Count;
-            if (call__68 > 0)
+            if (Dialog.MessageMemo.Items.Count > 0)
             {
                 Dialog.MessageMemo.Items.Delete(0);
             }
 
-            var call__69 = Dialog.MessageMemo.Items.Count;
-            bool bool__70 = call__69 > 0;
-            if (bool__70)
-            {
-                var call__71 = Dialog.MessageMemo.Items[0];
-                bool__70 = call__71 == (AnsiString)"";
-            }
-
-            if (bool__70)
+            if (Dialog.MessageMemo.Items.Count > 0 && Dialog.MessageMemo.Items[0] == (AnsiString)"")
             {
                 Dialog.MessageMemo.Items.Delete(0);
             }
@@ -1279,12 +1225,11 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:594
         public static void ShowArmyInfo(TArmyInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
         {
-            TArmyInfoEventLog Log = default;
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
-            var call__74 = Event.FMessages.Text;
-            Dialog.Message.Items.Text = call__74;
+            var text = Event.FMessages.Text;
+            Dialog.Message.Items.Text = text;
             Dialog.Title.Text = Event.FTitle;
             Dialog.HeaderLbl.Text = Event.FDescription;
             Dialog.Dlg.Visible = true;
@@ -1294,35 +1239,33 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:611
         public static void ShowTower(TWizardsTowerDlg Dialog, TEnterWizardsTowerEventLog Event, TExecuteDoneEvent Done)
         {
-            TWizardsTower Tower = default;
-            TSpell Spell = default;
+            TWizardsTower Tower;
+            TSpell Spell;
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
             Tower = Dialog.FEvent.FTower;
             if (Tower.FSpellID != 0)
             {
-                var call__76 = Dialog.FEvent.FTower.BuyCost();
-                var call__77 = TranslateRStr(ForXGoldRStr);
-                var call__78 = AoWE.AoWE.Format(call__77, [IntToStr(call__76)]);
-                Dialog.PriceLbl.Text = call__78 + AnsiString.FromBytes(46);
-                var call__79 = AoWHSSet.FSpellControl.GetSpell(Tower.FSpellID);
-                Spell = call__79;
+                var buyCost = Dialog.FEvent.FTower.BuyCost();
+                var format = AoWE.AoWE.Format(TranslateRStr(ForXGoldRStr), [IntToStr(buyCost)]);
+                Dialog.PriceLbl.Text = format + AnsiString.FromBytes(46);
+                Spell = AoWHSSet.FSpellControl.GetSpell(Tower.FSpellID);
                 Dialog.SpellName.Text = Spell.FSpellName;
-                var call__80 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                var call__81 = TranslateRStr(AoWE.AoWE.LevelRStr);
-                Dialog.SpellClass.Text = call__80 + (AnsiString)", " + call__81 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
-                var call__82 = TranslateRStr(CastingCostRStr);
-                var call__83 = TranslateRStr(ManaRStr);
-                Dialog.SpellCost.Text = call__82 + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + call__83;
-                var call__84 = Spell.FSpellText.Text;
-                Dialog.ResearchMemo.Items.Text = call__84;
+                var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                var level = TranslateRStr(AoWE.AoWE.LevelRStr);
+                Dialog.SpellClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                var castingCost = TranslateRStr(CastingCostRStr);
+                var mana = TranslateRStr(ManaRStr);
+                Dialog.SpellCost.Text = castingCost + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + mana;
+                var text = Spell.FSpellText.Text;
+                Dialog.ResearchMemo.Items.Text = text;
             }
             else
             {
                 Dialog.PriceLbl.Text = (AnsiString)"";
-                var call__85 = TranslateRStr(AoWE.AoWE.NoneRStr);
-                Dialog.SpellName.Text = call__85;
+                var none = TranslateRStr(AoWE.AoWE.NoneRStr);
+                Dialog.SpellName.Text = none;
                 Dialog.SpellClass.Text = (AnsiString)"";
                 Dialog.SpellCost.Text = (AnsiString)"";
                 Dialog.ResearchMemo.Items.Text = (AnsiString)"";
@@ -1337,8 +1280,8 @@ namespace Aow.Units.aowMapEvents
             Dialog.LeftBtn.Visible = true;
             Dialog.MiddleBtn.Visible = true;
             Dialog.RightBtn.Visible = true;
-            var call__87 = TranslateRStr(PartyJoinRStr);
-            Dialog.Title.Text = call__87;
+            var partyJoin = TranslateRStr(PartyJoinRStr);
+            Dialog.Title.Text = partyJoin;
         }
 
         // aowMapEvents.pas:656
@@ -1347,11 +1290,10 @@ namespace Aow.Units.aowMapEvents
             if (Dialog.ValidateJoin())
             {
                 Dialog.FUnits.Clear();
-                var call__89 = AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
-                Dialog.FFaceUnit = call__89;
+                Dialog.FFaceUnit = AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
                 Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
-                var call__90 = Dialog.FJoinEvent.FJoinMessage.Text;
-                Dialog.JoinMemo.Items.Text = call__90;
+                var text = Dialog.FJoinEvent.FJoinMessage.Text;
+                Dialog.JoinMemo.Items.Text = text;
             }
         }
 
@@ -1369,16 +1311,14 @@ namespace Aow.Units.aowMapEvents
             if (Dialog.ValidateJoin())
             {
                 Dialog.FUnits.Clear();
-                var call__93 = AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
-                Dialog.FFaceUnit = call__93;
+                Dialog.FFaceUnit = AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
                 Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
-                var call__94 = ((THero)Dialog.FFaceUnit).GetLevel();
-                var call__95 = TranslateRStr(LevelXRStr);
-                var call__96 = AoWE.AoWE.Format(call__95, [IntToStr(call__94)]);
-                Dialog.HeroLevel.Text = call__96;
+                var level = ((THero)Dialog.FFaceUnit).GetLevel();
+                var format = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
+                Dialog.HeroLevel.Text = format;
                 Dialog.HeroName.Text = ((THero)Dialog.FFaceUnit).FHeroName;
-                var call__97 = Dialog.FJoinEvent.FJoinMessage.Text;
-                Dialog.JoinMemo.Items.Text = call__97;
+                var text = Dialog.FJoinEvent.FJoinMessage.Text;
+                Dialog.JoinMemo.Items.Text = text;
             }
         }
 
@@ -1390,12 +1330,12 @@ namespace Aow.Units.aowMapEvents
             Dialog.FJoinEvent = Event;
             Dialog.FJoinEvent.AddRef();
             Dialog.FDone = Done;
-            var call__99 = TranslateRStr(AcceptRStr);
-            Dialog.LeftBtn.Text = call__99;
-            var call__100 = TranslateRStr(AttackRStr);
-            Dialog.MiddleBtn.Text = call__100;
-            var call__101 = TranslateRStr(CancelRStr);
-            Dialog.RightBtn.Text = call__101;
+            var accept = TranslateRStr(AcceptRStr);
+            Dialog.LeftBtn.Text = accept;
+            var attack = TranslateRStr(AttackRStr);
+            Dialog.MiddleBtn.Text = attack;
+            var cancel = TranslateRStr(CancelRStr);
+            Dialog.RightBtn.Text = cancel;
             UpdatePartyJoin(Dialog);
             AoWHSMap.FTutorialControl.ShowMessage(70, true, true);
         }
@@ -1405,16 +1345,16 @@ namespace Aow.Units.aowMapEvents
         {
             ResetPartyJoin(Dialog);
             Dialog.Dlg.Visible = true;
-            var call__103 = TranslateRStr(PrisonerLiberationRStr);
-            Dialog.Title.Text = call__103;
+            var prisonerLiberation = TranslateRStr(PrisonerLiberationRStr);
+            Dialog.Title.Text = prisonerLiberation;
             Dialog.FJoinEvent = Event;
             Dialog.FJoinEvent.AddRef();
             Dialog.FDone = Done;
-            var call__104 = TranslateRStr(AcceptRStr);
-            Dialog.LeftBtn.Text = call__104;
+            var accept = TranslateRStr(AcceptRStr);
+            Dialog.LeftBtn.Text = accept;
             Dialog.MiddleBtn.Visible = false;
-            var call__105 = TranslateRStr(RejectRStr);
-            Dialog.RightBtn.Text = call__105;
+            var reject = TranslateRStr(RejectRStr);
+            Dialog.RightBtn.Text = reject;
             UpdatePartyJoin(Dialog);
         }
 
@@ -1425,11 +1365,11 @@ namespace Aow.Units.aowMapEvents
             Dialog.FJoinEvent = Event;
             Dialog.FJoinEvent.AddRef();
             Dialog.FDone = Done;
-            var call__107 = TranslateRStr(AcceptRStr);
-            Dialog.LeftBtn.Text = call__107;
+            var accept = TranslateRStr(AcceptRStr);
+            Dialog.LeftBtn.Text = accept;
             Dialog.MiddleBtn.Visible = false;
-            var call__108 = TranslateRStr(CancelRStr);
-            Dialog.RightBtn.Text = call__108;
+            var cancel = TranslateRStr(CancelRStr);
+            Dialog.RightBtn.Text = cancel;
             UpdateHeroJoin(Dialog);
             Dialog.Dlg.Visible = true;
         }
@@ -1441,12 +1381,12 @@ namespace Aow.Units.aowMapEvents
             Dialog.FJoinEvent = Event;
             Dialog.FJoinEvent.AddRef();
             Dialog.FDone = Done;
-            var call__110 = TranslateRStr(AcceptRStr);
-            Dialog.LeftBtn.Text = call__110;
-            var call__111 = TranslateRStr(AttackRStr);
-            Dialog.MiddleBtn.Text = call__111;
-            var call__112 = TranslateRStr(CancelRStr);
-            Dialog.RightBtn.Text = call__112;
+            var accept = TranslateRStr(AcceptRStr);
+            Dialog.LeftBtn.Text = accept;
+            var attack = TranslateRStr(AttackRStr);
+            Dialog.MiddleBtn.Text = attack;
+            var cancel = TranslateRStr(CancelRStr);
+            Dialog.RightBtn.Text = cancel;
             UpdateHeroJoin(Dialog);
             Dialog.Dlg.Visible = true;
         }
@@ -1458,11 +1398,11 @@ namespace Aow.Units.aowMapEvents
             Dialog.FJoinEvent = Event;
             Dialog.FJoinEvent.AddRef();
             Dialog.FDone = Done;
-            var call__114 = TranslateRStr(AcceptRStr);
-            Dialog.LeftBtn.Text = call__114;
+            var accept = TranslateRStr(AcceptRStr);
+            Dialog.LeftBtn.Text = accept;
             Dialog.MiddleBtn.Visible = false;
-            var call__115 = TranslateRStr(RejectRStr);
-            Dialog.RightBtn.Text = call__115;
+            var reject = TranslateRStr(RejectRStr);
+            Dialog.RightBtn.Text = reject;
             UpdateHeroJoin(Dialog);
             Dialog.Dlg.Visible = true;
         }
@@ -1475,25 +1415,22 @@ namespace Aow.Units.aowMapEvents
             Dialog.FOnClose = Completed;
             if (Dialog.ValidateHero())
             {
-                var call__117 = Dialog.FHero.Copy(AoWEngine);
-                Dialog.FEditedHero = (THero)call__117;
+                Dialog.FEditedHero = (THero)Dialog.FHero.Copy(AoWEngine);
                 Dialog.UpdateStatistics();
                 Dialog.RefreshAbilities();
                 Dialog.UnitName.Text = Dialog.FHero.FHeroName;
-                var call__118 = Dialog.FHero.GetLevel();
-                var call__119 = TranslateRStr(AoWE.AoWE.LevelRStr);
-                Dialog.LevelLbl.Text = call__119 + AnsiString.FromBytes(32) + IntToStr(call__118);
+                var level = Dialog.FHero.GetLevel();
+                var level2 = TranslateRStr(AoWE.AoWE.LevelRStr);
+                Dialog.LevelLbl.Text = level2 + AnsiString.FromBytes(32) + IntToStr(level);
                 if (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel > 1)
                 {
-                    var call__120 = TranslateRStr(E3Globals.E3Globals.XMadeYLevelsRStr);
-                    var call__121 = AoWE.AoWE.Format(call__120, [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
-                    Dialog.HeaderLbl.Text = call__121 + AnsiString.FromBytes(33);
+                    var format = AoWE.AoWE.Format(TranslateRStr(E3Globals.E3Globals.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
+                    Dialog.HeaderLbl.Text = format + AnsiString.FromBytes(33);
                 }
                 else
                 {
-                    var call__122 = TranslateRStr(E3Globals.E3Globals.XMadeALevelRStr);
-                    var call__123 = AoWE.AoWE.Format(call__122, [Dialog.FHero.FHeroName]);
-                    Dialog.HeaderLbl.Text = call__123 + AnsiString.FromBytes(33);
+                    var format = AoWE.AoWE.Format(TranslateRStr(E3Globals.E3Globals.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
+                    Dialog.HeaderLbl.Text = format + AnsiString.FromBytes(33);
                 }
 
                 Dialog.Dlg.Visible = true;
@@ -1503,7 +1440,7 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:811
         public static void ShowMessageEvent(TMessageDlg Dialog, TMessageEventLog Event, TExecuteDoneEvent Done)
         {
-            TMessageEventLog Log = default;
+            TMessageEventLog Log;
             ResetMessageDialog(Dialog);
             Dialog.FDone = Done;
             Dialog.FEvent = Event;
@@ -1513,10 +1450,9 @@ namespace Aow.Units.aowMapEvents
             switch (Log.FLayout)
             {
                 case TMessageEventLogLayout.melNormal:
-                    var call__125 = Log.FMessage.Text;
-                    Dialog.MessageMemo.Items.Text = call__125;
-                    var call__126 = Dialog.MessageMemo.Items.Text;
-                    if (call__126.Length < 80)
+                    var text = Log.FMessage.Text;
+                    Dialog.MessageMemo.Items.Text = text;
+                    if (Dialog.MessageMemo.Items.Text.Length < 80)
                     {
                         Dialog.MessageMemo.Items.Insert(0, (AnsiString)"");
                     }
@@ -1526,8 +1462,8 @@ namespace Aow.Units.aowMapEvents
                     Dialog.MemoPnl.Visible = false;
                     Dialog.HeaderMemoPnl.Visible = true;
                     Dialog.HeaderLbl.Text = Log.FHeader;
-                    var call__127 = Log.FMessage.Text;
-                    Dialog.HeaderMemo.Items.Text = call__127;
+                    var fMessageText = Log.FMessage.Text;
+                    Dialog.HeaderMemo.Items.Text = fMessageText;
                     break;
             }
 
@@ -1571,7 +1507,7 @@ namespace Aow.Units.aowMapEvents
         // aowMapEvents.pas:858
         public static void ShowPasswordEvent(TPasswordDlg Dialog, TPasswordEventLog Event, TExecuteDoneEvent Done)
         {
-            TPasswordEventLog Log = default;
+            TPasswordEventLog Log;
             Dialog.Reset();
             Dialog.FDone = Done;
             Dialog.FPasswordEvent = Event;

@@ -128,8 +128,8 @@ namespace Aow.Units.AoWSMTPDlg
         {
             FFinished = false;
             ProgressBar.Position = 0;
-            var call__1 = TranslateRStr(SendingEmailGameRStr);
-            SendingGameLbl.Text = call__1;
+            var sendingEmailGame = TranslateRStr(SendingEmailGameRStr);
+            SendingGameLbl.Text = sendingEmailGame;
             FailedPnl.Visible = false;
             SendPnl.Visible = true;
             FProgress = 0;
@@ -201,8 +201,8 @@ namespace Aow.Units.AoWSMTPDlg
             {
                 if (FEvent.FSuccess)
                 {
-                    var call__2 = TranslateRStr(GameSuccessfullySentRStr);
-                    SendingGameLbl.Text = call__2;
+                    var gameSuccessfullySent = TranslateRStr(GameSuccessfullySentRStr);
+                    SendingGameLbl.Text = gameSuccessfullySent;
                     ExitBtn.Visible = true;
                 }
                 else

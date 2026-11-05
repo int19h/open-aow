@@ -32,8 +32,7 @@ namespace Aow.Units.LeadrGrd
             DefaultRowHeight = 56;
             GrowDirection = TILGrowDirection.ilVertical;
             ScrollBars = TScrollStyle.ssVertical;
-            var call__1 = new TMemoryStream();
-            FStream = call__1;
+            FStream = new TMemoryStream();
         }
 
         // LeadrGrd.pas:166
@@ -60,20 +59,12 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:134
         public TLeader GetLeader(sbyte Player)
         {
-            TLeader Result = default;
-            TAoWHSMap Map = default;
+            TLeader Result;
+            TAoWHSMap Map;
             Map = FMap;
-            bool bool__2 = Map != null && Player > 0;
-            if (bool__2)
+            if (Map != null && Player > 0 && Map.FPlayers.Count > Player)
             {
-                var call__3 = Map.FPlayers.Count;
-                bool__2 = call__3 > Player;
-            }
-
-            if (bool__2)
-            {
-                var call__4 = FMap.FPlayers.GetPlayers(Player);
-                Result = call__4.FLeader;
+                Result = FMap.FPlayers.GetPlayers(Player).FLeader;
             }
             else
             {
@@ -93,11 +84,10 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:155
         public void SetSelectedLeader(TLeader Value)
         {
-            int I = default;
+            int I;
             if (FMap != null)
             {
-                var call__5 = FMap.FPlayers.RaceToPlayer((sbyte)(byte)Value.FRace);
-                I = call__5;
+                I = FMap.FPlayers.RaceToPlayer((sbyte)(byte)Value.FRace);
                 if (I != -1)
                 {
                     SelectIndex(I - 1);
@@ -108,7 +98,7 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:263
         public void RemoveFromMap()
         {
-            TLeader Leader = default;
+            TLeader Leader;
             Leader = GetSelectedLeader();
             if (Leader != null)
             {

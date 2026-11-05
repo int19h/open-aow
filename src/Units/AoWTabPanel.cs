@@ -27,27 +27,19 @@ namespace Aow.Units.AoWTabPanel
         // AoWTabPanel.pas:62
         public TAOWTabPanel(TComponent owner) : base(owner)
         {
-            var call__1 = new TStringList();
-            FItems = call__1;
+            FItems = new TStringList();
             FItems.OnChange = OnChangeText;
-            var call__2 = new TList();
-            FPanels = call__2;
+            FPanels = new TList();
         }
 
         // AoWTabPanel.pas:70
         public override void Destroy()
         {
-            int I = default;
-            TAOWWindowControl P = default;
+            TAOWWindowControl P;
+            for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__3 = FPanels.Count - 1;
-                for (; I <= end__3; I += 1)
-                {
-                    var call__4 = FPanels[I];
-                    P = (TAOWWindowControl)call__4;
-                    P.DetachMenuBar();
-                }
+                P = (TAOWWindowControl)FPanels[I];
+                P.DetachMenuBar();
             }
 
             FPanels.Destroy();
@@ -60,14 +52,12 @@ namespace Aow.Units.AoWTabPanel
         {
             if (FILButton != null)
             {
-                var call__5 = FILButton.CheckIL(FILIndexUp, 3, this);
-                FILButton = call__5;
+                FILButton = FILButton.CheckIL(FILIndexUp, 3, this);
             }
 
             if (FILButton != null)
             {
-                var call__6 = FILButton.CheckIL(FILIndexDown, 3, this);
-                FILButton = call__6;
+                FILButton = FILButton.CheckIL(FILIndexDown, 3, this);
             }
 
             if (FILButton != null && FAOWFont != null)
@@ -81,24 +71,21 @@ namespace Aow.Units.AoWTabPanel
         // AoWTabPanel.pas:123
         public override void SetSize()
         {
-            var call__7 = FILButton[FILIndexUp];
-            var call__8 = FILButton[FILIndexUp + 2];
-            var call__9 = FItems.Count;
-            if ((call__7.Width + call__8.Width) * call__9 > FWinWidth)
+            var ilButtonWidth = FILButton[FILIndexUp];
+            var ilButton = FILButton[FILIndexUp + 2];
+            var count = FItems.Count;
+            if ((ilButtonWidth.Width + ilButton.Width) * count > FWinWidth)
             {
-                var call__10 = FILButton[FILIndexUp];
-                var call__11 = FILButton[FILIndexUp + 2];
-                var call__12 = FItems.Count;
-                FWinWidth = (call__10.Width + call__11.Width) * call__12;
+                var ilButton2 = FILButton[FILIndexUp];
+                var ilButton3 = FILButton[FILIndexUp + 2];
+                var fItemsCount = FItems.Count;
+                FWinWidth = (ilButton2.Width + ilButton3.Width) * fItemsCount;
             }
 
-            var call__13 = FILButton[FILIndexUp];
-            FWinHeight = call__13.Height;
-            var call__14 = FItems.Count;
-            if (call__14 <= FSelected)
+            FWinHeight = FILButton[FILIndexUp].Height;
+            if (FItems.Count <= FSelected)
             {
-                var call__15 = FItems.Count;
-                FSelected = call__15 - 1;
+                FSelected = FItems.Count - 1;
             }
 
             base.SetSize();
@@ -109,7 +96,6 @@ namespace Aow.Units.AoWTabPanel
 //   with the down image and its text BorderHeightSelected pixels down }
         public override void Draw(TSurfaceDesc SurfDesc)
         {
-            int I = default;
             TRect OldClip = default;
             try
             {
@@ -121,42 +107,38 @@ namespace Aow.Units.AoWTabPanel
                     }
 
                     OldClip = SurfDesc.ClipRect;
+                    for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__16 = FItems.Count - 1;
-                        for (; I <= end__16; I += 1)
+                        if (I != FSelected)
                         {
-                            if (I != FSelected)
+                            var count = FItems.Count;
+                            var fItemsCount = FItems.Count;
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                            FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
+                            if (FAOWFont != null)
                             {
-                                var call__17 = FItems.Count;
-                                var call__18 = FItems.Count;
-                                var call__19 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__18, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__17, FWinHeight);
-                                FILButton.DrawILLh(FILIndexUp, call__19, ref SurfDesc);
-                                if (FAOWFont != null)
-                                {
-                                    FAOWFont.Color = FSelColor;
-                                    var call__20 = FItems[I];
-                                    var call__21 = FAOWFont.GetTextWidth(call__20);
-                                    var call__22 = FItems.Count;
-                                    var call__23 = FItems[I];
-                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * call__22) - call__21 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, call__23, SurfDesc);
-                                }
+                                FAOWFont.Color = FSelColor;
+                                var item = FItems[I];
+                                var textWidth = FAOWFont.GetTextWidth(item);
+                                var count2 = FItems.Count;
+                                var item2 = FItems[I];
+                                FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, item2, SurfDesc);
                             }
-                            else
+                        }
+                        else
+                        {
+                            var count = FItems.Count;
+                            var fItemsCount = FItems.Count;
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                            FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
+                            if (FAOWFont != null)
                             {
-                                var call__24 = FItems.Count;
-                                var call__25 = FItems.Count;
-                                var call__26 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__25, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
-                                FILButton.DrawILLh(FILIndexDown, call__26, ref SurfDesc);
-                                if (FAOWFont != null)
-                                {
-                                    FAOWFont.Color = FColor;
-                                    var call__27 = FItems[I];
-                                    var call__28 = FAOWFont.GetTextWidth(call__27);
-                                    var call__29 = FItems.Count;
-                                    var call__30 = FItems[I];
-                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * call__29) - call__28 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, call__30, SurfDesc);
-                                }
+                                FAOWFont.Color = FColor;
+                                var item = FItems[I];
+                                var textWidth = FAOWFont.GetTextWidth(item);
+                                var count2 = FItems.Count;
+                                var item2 = FItems[I];
+                                FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, item2, SurfDesc);
                             }
                         }
                     }
@@ -184,8 +166,8 @@ namespace Aow.Units.AoWTabPanel
                 FHandled = true;
                 if (Button == TMouseButton.mbLeft)
                 {
-                    var call__31 = FItems.Count;
-                    SetIndex((X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / call__31));
+                    var count = FItems.Count;
+                    SetIndex((X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / count));
                 }
 
                 if (FOnMouseDown != null)
@@ -263,16 +245,11 @@ namespace Aow.Units.AoWTabPanel
         // AoWTabPanel.pas:133
         public void SetFStrings(TStringList Value)
         {
-            int I = default;
             FItems.Clear();
+            for (int I = 0, last = Value.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__32 = Value.Count - 1;
-                for (; I <= end__32; I += 1)
-                {
-                    var call__33 = Value[I];
-                    FItems.Add(call__33);
-                }
+                var valueValue = Value[I];
+                FItems.Add(valueValue);
             }
         }
 
@@ -280,24 +257,19 @@ namespace Aow.Units.AoWTabPanel
         // { SetIndex selects a tab: the panels of the tab are shown, the others hidden }
         public void SetIndex(int Value)
         {
-            int I = default;
             if (Value != FSelected)
             {
                 FSelected = Value;
+                for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__34 = FPanels.Count - 1;
-                    for (; I <= end__34; I += 1)
+                    var component = (TAoWComponent)FPanels[I];
+                    if (component.FOwnerItem == this.FSelected)
                     {
-                        var component = (TAoWComponent)FPanels[I];
-                        if (component.FOwnerItem == this.FSelected)
-                        {
-                            component.SetVisible(true);
-                        }
-                        else
-                        {
-                            component.SetVisible(false);
-                        }
+                        component.SetVisible(true);
+                    }
+                    else
+                    {
+                        component.SetVisible(false);
                     }
                 }
 

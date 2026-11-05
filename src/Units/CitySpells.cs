@@ -56,9 +56,8 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:189
         public override bool Validate(THero A1)
         {
-            bool Result = default;
-            TCity TargetCity = default;
-            Result = base.Validate(A1);
+            TCity TargetCity;
+            bool Result = base.Validate(A1);
             if (Result)
             {
                 TargetCity = GetSelectedCity();
@@ -84,14 +83,7 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:204
-        public TCity GetSelectedCity()
-        {
-            TCity Result = default;
-            var call__1 = AoWHSMap.MapContainer.GetFieldXYL(FTargetLocation.XYL);
-            var call__2 = call__1.FindNoneTransparentHS(typeof(TCity));
-            Result = (TCity)call__2;
-            return Result;
-        }
+        public TCity GetSelectedCity() => (TCity)AoWHSMap.MapContainer.GetFieldXYL(FTargetLocation.XYL).FindNoneTransparentHS(typeof(TCity));
 
         // NetworkE.pas:230
 
@@ -112,7 +104,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:377
         public override bool Activate(TAbstractUnit A1)
         {
-            bool Result = default;
+            bool Result;
             AnsiString Reason = default;
             if (CanActivate(A1, ref Reason))
             {
@@ -136,8 +128,7 @@ namespace Aow.Units.CitySpells
             TAbstractUnit Source = default;
             bool Valid = default;
             TargetSelection = (TTargetSelectionControl)Sender;
-            var call__3 = AoWHSMap.FUnitControl.FindUnit(FSourceID);
-            Source = call__3;
+            Source = AoWHSMap.FUnitControl.FindUnit(FSourceID);
             if (Source != null)
             {
                 switch (TargetSelection.FChange)
@@ -150,8 +141,7 @@ namespace Aow.Units.CitySpells
                         ValidateTarget(TargetSelection, TargetSelection.FTargetX, TargetSelection.FTargetY, TargetSelection.FTargetL, ref Valid);
                         if (Valid)
                         {
-                            var call__4 = TargetSelected(Source, TargetSelection.FTargetX, TargetSelection.FTargetY, TargetSelection.FTargetL);
-                            if (call__4)
+                            if (TargetSelected(Source, TargetSelection.FTargetX, TargetSelection.FTargetY, TargetSelection.FTargetL))
                             {
                                 TargetSelection.FOnChange.Remove(OnTargetSelectionChange);
                                 TargetSelection.Deactivate();
@@ -171,57 +161,44 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:215
         public virtual void PlayDefaultCityEffects(TAbstractUnit Source, TCity TargetCity)
         {
-            TMapLevel Level = default;
-            TImageSequenceAnimation A = default;
+            TMapLevel Level;
+            TImageSequenceAnimation A;
             THNWalkData Walk = default;
-            bool PlaySound = default;
+            bool PlaySound;
             PlaySound = false;
-            var call__5 = TargetCity.GetLhx();
-            var call__6 = AoWHSMap.MapContainer.GetMapLevel(call__5);
-            Level = call__6;
-            var call__7 = TargetCity.GetYhx();
-            var call__8 = TargetCity.GetXhx();
-            InitHNWalk(ref Walk, call__8, call__7, 0);
+            var lhx = TargetCity.GetLhx();
+            Level = AoWHSMap.MapContainer.GetMapLevel(lhx);
+            var yhx = TargetCity.GetYhx();
+            var xhx = TargetCity.GetXhx();
+            InitHNWalk(ref Walk, xhx, yhx, 0);
             while (Walk.HN < ((TStructureResource)TargetCity.Resource).TerrainList.Count)
             {
-                bool bool__9 = Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height;
-                if (bool__9)
+                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height && ((TStructureResource)TargetCity.Resource).TerrainList.Used[Walk.HN])
                 {
-                    var call__10 = ((TStructureResource)TargetCity.Resource).TerrainList.Used[Walk.HN];
-                    bool__9 = call__10;
-                }
-
-                if (bool__9)
-                {
-                    bool bool__11 = Source.FPlayer == AoWHSMap.FSeatedPlayer;
-                    if (!bool__11)
+                    bool condition = Source.FPlayer == AoWHSMap.FSeatedPlayer;
+                    if (!condition)
                     {
-                        var call__12 = TargetCity.GetLhx();
-                        var call__13 = AoWHSMap.TerrainVisible((sbyte)Walk.X, (sbyte)Walk.Y, call__12, 0);
-                        bool__11 = call__13;
+                        var targetCityLhx = TargetCity.GetLhx();
+                        condition = AoWHSMap.TerrainVisible((sbyte)Walk.X, (sbyte)Walk.Y, targetCityLhx, 0);
                     }
 
-                    if (bool__11)
+                    if (condition)
                     {
                         // { Original passes the city layer before the radius. }
                         A = new TImageSequenceAnimation(null);
-                        var call__14 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                        var call__15 = call__14.FCastImages.ImageSequences[0];
-                        A.SetImageSequence(call__15);
-                        var call__16 = Random(5);
-                        A.FFrameCounter = call__16;
+                        A.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0]);
+                        A.FFrameCounter = Random(5);
                         A.FAnimationLevel = 27;
-                        var call__17 = TargetCity.GetLhx();
-                        AoWHSMap.PlaceHX(A, Walk.X, Walk.Y, call__17);
-                        bool bool__18 = Source.FPlayer == AoWHSMap.FSeatedPlayer;
-                        if (!bool__18)
+                        var targetCityLhx = TargetCity.GetLhx();
+                        AoWHSMap.PlaceHX(A, Walk.X, Walk.Y, targetCityLhx);
+                        bool test = Source.FPlayer == AoWHSMap.FSeatedPlayer;
+                        if (!test)
                         {
-                            var call__19 = TargetCity.GetLhx();
-                            var call__20 = AoWHSMap.WatchingTerrain((sbyte)Walk.X, (sbyte)Walk.Y, call__19, 0);
-                            bool__18 = call__20;
+                            var lhx2 = TargetCity.GetLhx();
+                            test = AoWHSMap.WatchingTerrain((sbyte)Walk.X, (sbyte)Walk.Y, lhx2, 0);
                         }
 
-                        if (bool__18)
+                        if (test)
                         {
                             PlaySound = true;
                         }
@@ -233,8 +210,7 @@ namespace Aow.Units.CitySpells
 
             if (PlaySound)
             {
-                var call__21 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__21.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
         }
 
@@ -246,24 +222,13 @@ namespace Aow.Units.CitySpells
             sbyte L = default;
             TargetSelection.Initialize(Source);
             TargetSelection.FTargetMode = TargetSelection.FTargetMode + TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmValidateDistance, TTargetSelectionModeElement.tmExternalFloater);
-            var call__22 = TranslateRStr(SelectTargetCityForXOnMapRStr);
-            var call__23 = Rtl.Rtl.Format(call__22, [FSpellName]);
-            TargetSelection.FText.Text = call__23;
+            var format = Rtl.Rtl.Format(TranslateRStr(SelectTargetCityForXOnMapRStr), [FSpellName]);
+            TargetSelection.FText.Text = format;
             TargetSelection.FTitle = FSpellName;
-            var call__24 = TranslateRStr(CancelRStr);
-            TargetSelection.FCancelText = call__24;
-            var call__25 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-            var call__26 = call__25.FCastImages.ImageSequences[20];
-            var call__27 = call__26.GetPreviewImage();
-            TargetSelection.FSourceImage = call__27;
-            var call__28 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-            var call__29 = call__28.FCastImages.ImageSequences[21];
-            var call__30 = call__29.GetPreviewImage();
-            TargetSelection.FValidTargetImage = call__30;
-            var call__31 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-            var call__32 = call__31.FCastImages.ImageSequences[22];
-            var call__33 = call__32.GetPreviewImage();
-            TargetSelection.FInvalidTargetImage = call__33;
+            TargetSelection.FCancelText = TranslateRStr(CancelRStr);
+            TargetSelection.FSourceImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
+            TargetSelection.FValidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
+            TargetSelection.FInvalidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
             Source.GetLocation(ref X, ref Y, ref L);
             TargetSelection.FSourceX = X;
             TargetSelection.FSourceY = Y;
@@ -282,17 +247,14 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:359
         public virtual bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
         {
-            bool Result = default;
-            TCityTargetSpellTE Event = default;
-            var call__34 = AoWHSMap.FPlayers.GetPlayers(Source.FPlayer);
-            var call__35 = call__34.GetBusy();
-            if (!call__35)
+            bool Result;
+            TCityTargetSpellTE Event;
+            if (!AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
                 Event = CreateTE();
                 if (SetupTE(Event, Source, X, Y, L))
                 {
-                    var call__36 = AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer);
-                    call__36.AddEvent(Event);
+                    AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                     Result = true;
                 }
                 else
@@ -313,26 +275,16 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:248
         public virtual bool ValidTargetCity(TAbstractUnit Source, TCity TargetCity)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TCity Found = default;
-            Result = (FCityTargetMode.Contains(TCityTargetModeElement.ctmOwn) && TargetCity.FPlayer == Source.FPlayer) || (FCityTargetMode.Contains(TCityTargetModeElement.ctmEnemy) && TargetCity.FPlayer != Source.FPlayer);
-            bool bool__37 = Result;
-            if (bool__37)
-            {
-                var call__38 = TargetCity.GetRazed();
-                bool__37 = !call__38 || FCityTargetMode.Contains(TCityTargetModeElement.ctmRazed);
-            }
-
-            Result = bool__37;
+            TCity Found;
+            bool Result = (FCityTargetMode.Contains(TCityTargetModeElement.ctmOwn) && TargetCity.FPlayer == Source.FPlayer) || (FCityTargetMode.Contains(TCityTargetModeElement.ctmEnemy) && TargetCity.FPlayer != Source.FPlayer);
+            Result = Result && (!TargetCity.GetRazed() || FCityTargetMode.Contains(TCityTargetModeElement.ctmRazed));
             if (Result && FCityTargetMode.Contains(TCityTargetModeElement.ctmSkipSource))
             {
                 Source.GetLocation(ref X, ref Y, ref L);
-                var call__39 = AoWHSMap.MapContainer.GetField(X, Y, L);
-                var call__40 = call__39.FindNoneTransparentHS(typeof(TCity));
-                Found = (TCity)call__40;
+                Found = (TCity)AoWHSMap.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(TCity));
                 Result = TargetCity != Found;
             }
 
@@ -340,47 +292,30 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:346
-        public virtual TCityTargetSpellTE CreateTE()
-        {
-            TCityTargetSpellTE Result = default;
-            Result = new TCityTargetSpellTE(null);
-            return Result;
-        }
+        public virtual TCityTargetSpellTE CreateTE() => new TCityTargetSpellTE(null);
 
         // CitySpells.pas:351
         public virtual bool SetupTE(TCityTargetSpellTE Event, TAbstractUnit Source, int X, int Y, int L)
         {
-            bool Result = default;
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            var call__41 = Event.GetSelectedCity();
-            Event.FTargetPlayer = call__41.FPlayer;
-            Result = true;
-            return Result;
+            Event.FTargetPlayer = Event.GetSelectedCity().FPlayer;
+            return true;
         }
 
         // CitySpells.pas:262
         public void ValidateTarget(TTargetSelectionControl TargetSelection, sbyte X, sbyte Y, sbyte L, ref bool Valid)
         {
-            TAbstractUnit Source = default;
-            TMapLevel Level = default;
-            TAoWMapField Field = default;
-            TCity TargetCity = default;
-            var call__42 = AoWHSMap.MapContainer.GetMapLevel(L);
-            Level = call__42;
-            var call__43 = AoWHSMap.FUnitControl.FindUnit(FSourceID);
-            Source = call__43;
+            TAbstractUnit Source;
+            TMapLevel Level;
+            TAoWMapField Field;
+            TCity TargetCity;
+            Level = AoWHSMap.MapContainer.GetMapLevel(L);
+            Source = AoWHSMap.FUnitControl.FindUnit(FSourceID);
             if (Source != null && X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
             {
                 Field = (TAoWMapField)Level.GetField(X, Y);
-                bool bool__44 = !AoWHSMap.FExplorationEnabled;
-                if (!bool__44)
-                {
-                    var call__45 = Field.GetExplored(Source.FPlayer);
-                    bool__44 = call__45;
-                }
-
-                Valid = bool__44;
+                Valid = !AoWHSMap.FExplorationEnabled || Field.GetExplored(Source.FPlayer);
                 if (Valid)
                 {
                     TargetCity = (TCity)Field.FindNoneTransparentHS(typeof(TCity));
@@ -430,24 +365,13 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:407
         public override bool Validate(THero A1)
         {
-            bool Result = default;
             byte Selection = default;
             TArmyHS Army = default;
-            var call__46 = base.Validate(A1);
-            bool bool__47 = call__46;
-            if (bool__47)
-            {
-                var call__48 = FArmyID.Valid();
-                bool__47 = call__48;
-            }
-
-            Result = bool__47;
+            bool Result = base.Validate(A1) && FArmyID.Valid();
             if (Result)
             {
                 FArmyID.RetrieveArmy(ref Army, ref Selection);
-                var call__49 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                var call__50 = ((TTownGate)call__49).ValidTeleportLocation(Army, Selection, FTeleportLocation.X, FTeleportLocation.Y, FTeleportLocation.L);
-                Result = call__50;
+                Result = ((TTownGate)AoWHSSet.FSpellControl.GetSpell(FEventSpellID)).ValidTeleportLocation(Army, Selection, FTeleportLocation.X, FTeleportLocation.Y, FTeleportLocation.L);
             }
 
             return Result;
@@ -463,8 +387,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:421
         public TTownGate(TECustomNode owner) : base(owner)
         {
-            var call__51 = TranslateRStr(TownGateRStr);
-            FSpellName = call__51;
+            FSpellName = TranslateRStr(TownGateRStr);
             FSpellID = 38;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmOwn, TCityTargetModeElement.ctmSkipSource);
             FBaseManaCost = 5;
@@ -475,31 +398,26 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:486
         public override bool ExecuteTE(TSpellTE A1, TAbstractUnit A2, int A3)
         {
-            bool Result = default;
-            bool ShowSource = default;
-            bool ShowTarget = default;
+            bool ShowSource;
+            bool ShowTarget;
             byte Selection = default;
             TArmyHS Army = default;
-            TAoWMapField Field = default;
-            TArmyHS NewArmy = default;
+            TAoWMapField Field;
+            TArmyHS NewArmy;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TImageSequenceAnimation A = default;
+            TImageSequenceAnimation A;
             A2.GetLocation(ref X, ref Y, ref L);
             ((TTownGateTE)A1).FArmyID.RetrieveArmy(ref Army, ref Selection);
-            var call__52 = AoWHSMap.MapContainer.GetFieldXYL(((TTownGateTE)A1).FTeleportLocation.XYL);
-            Field = (TAoWMapField)call__52;
+            Field = (TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(((TTownGateTE)A1).FTeleportLocation.XYL);
             Army.FArmy.ResetDestinationPos();
-            var call__53 = AoWHSMap.FSelectedArmy.GetArmyHS();
-            if (call__53 == Army)
+            if (AoWHSMap.FSelectedArmy.GetArmyHS() == Army)
             {
                 AoWHSMap.FSelectedArmy.Select(Army);
             }
 
-            var call__54 = Army.FArmy.ValidateSelection(Selection);
-            var call__55 = Army.FArmy.ValidateSelection(255);
-            if (call__54 != call__55)
+            if (Army.FArmy.ValidateSelection(Selection) != Army.FArmy.ValidateSelection(255))
             {
                 NewArmy = new TArmyHS(null);
                 NewArmy.FArmy.SetPlayer(Army.FArmy.FPlayer);
@@ -510,8 +428,7 @@ namespace Aow.Units.CitySpells
             {
                 if (Field.GetArmyHS() != null)
                 {
-                    var call__56 = Field.GetArmyHS();
-                    call__56.FArmy.AddUnitSelection(Army.FArmy, Selection);
+                    Field.GetArmyHS().FArmy.AddUnitSelection(Army.FArmy, Selection);
                 }
                 else
                 {
@@ -519,46 +436,24 @@ namespace Aow.Units.CitySpells
                 }
             }
 
-            bool bool__57 = AoWHSMap.FSeatedPlayer == A2.FPlayer;
-            if (!bool__57)
-            {
-                var call__58 = AoWHSMap.Visible(X, Y, L, 0);
-                bool__57 = call__58;
-            }
-
-            ShowSource = bool__57;
-            bool bool__59 = AoWHSMap.FSeatedPlayer == A2.FPlayer;
-            if (!bool__59)
-            {
-                var call__60 = AoWHSMap.Visible(Field.Xhx, Field.Yhx, Field.Lhx, 0);
-                bool__59 = call__60;
-            }
-
-            ShowTarget = bool__59;
+            ShowSource = AoWHSMap.FSeatedPlayer == A2.FPlayer || AoWHSMap.Visible(X, Y, L, 0);
+            ShowTarget = AoWHSMap.FSeatedPlayer == A2.FPlayer || AoWHSMap.Visible(Field.Xhx, Field.Yhx, Field.Lhx, 0);
             if (ShowSource)
             {
-                var call__61 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__62 = call__61.FCastImages.ImageSequences[0];
-                if (call__62 != null)
+                if (AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0] != null)
                 {
                     A = new TImageSequenceAnimation(null);
-                    var call__63 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    var call__64 = call__63.FCastImages.ImageSequences[0];
-                    A.SetImageSequence(call__64);
+                    A.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0]);
                     AoWHSMap.PlaceHX(A, X, Y, L);
                 }
             }
 
             if (ShowTarget)
             {
-                var call__65 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__66 = call__65.FCastImages.ImageSequences[0];
-                if (call__66 != null)
+                if (AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0] != null)
                 {
                     A = new TImageSequenceAnimation(null);
-                    var call__67 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    var call__68 = call__67.FCastImages.ImageSequences[0];
-                    A.SetImageSequence(call__68);
+                    A.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0]);
                     AoWHSMap.PlaceHX(A, Field.Xhx, Field.Yhx, Field.Lhx);
                 }
             }
@@ -569,45 +464,23 @@ namespace Aow.Units.CitySpells
             }
             else
             {
-                var call__69 = AoWHSMap.ValidateObservation(A2.FPlayer, Field.Xhx, Field.Yhx, Field.Lhx, 0);
-                if (!call__69)
+                if (!AoWHSMap.ValidateObservation(A2.FPlayer, Field.Xhx, Field.Yhx, Field.Lhx, 0))
                 {
                     AoWHSMap.ValidateObservation(A2.FPlayer, X, Y, L, 0);
                 }
             }
 
-            bool bool__70 = AoWHSMap.FSeatedPlayer == A2.FPlayer;
-            if (!bool__70)
+            if (AoWHSMap.FSeatedPlayer == A2.FPlayer || AoWHSMap.Watching(X, Y, L, 0) || AoWHSMap.Watching(Field.Xhx, Field.Yhx, Field.Lhx, 0))
             {
-                var call__71 = AoWHSMap.Watching(X, Y, L, 0);
-                bool__70 = call__71;
-            }
-
-            bool bool__72 = bool__70;
-            if (!bool__72)
-            {
-                var call__73 = AoWHSMap.Watching(Field.Xhx, Field.Yhx, Field.Lhx, 0);
-                bool__72 = call__73;
-            }
-
-            if (bool__72)
-            {
-                var call__74 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__74.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             CastingDone(A2, A1.FEventMana);
-            Result = false;
-            return Result;
+            return false;
         }
 
         // CitySpells.pas:540
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
-        {
-            bool Result = default;
-            Result = base.CanActivate(A1, ref A2);
-            return Result;
-        }
+        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2) => base.CanActivate(A1, ref A2);
 
         // CitySpells.pas:545
         public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
@@ -617,38 +490,23 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:445
-        public override TCityTargetSpellTE CreateTE()
-        {
-            TCityTargetSpellTE Result = default;
-            Result = new TTownGateTE(null);
-            return Result;
-        }
+        public override TCityTargetSpellTE CreateTE() => new TTownGateTE(null);
 
         // CitySpells.pas:450
         public override bool SetupTE(TCityTargetSpellTE Event, TAbstractUnit Source, int X, int Y, int L)
         {
-            bool Result = default;
-            byte Selection = default;
-            TArmyHS Army = default;
-            bool Found = default;
-            TMapLevel Level = default;
+            byte Selection;
+            TArmyHS Army;
+            bool Found;
+            TMapLevel Level;
             THNWalkData Walk = default;
-            Result = base.SetupTE(Event, Source, X, Y, L);
+            bool Result = base.SetupTE(Event, Source, X, Y, L);
             if (Result)
             {
-                var call__75 = ((TArmy)Source.Owner).GetArmyHS();
-                Army = call__75;
-                bool bool__76 = Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
-                if (bool__76)
+                Army = ((TArmy)Source.Owner).GetArmyHS();
+                if (Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer && AoWHSMap.FSelectedArmy.GetArmyHS() == Army)
                 {
-                    var call__77 = AoWHSMap.FSelectedArmy.GetArmyHS();
-                    bool__76 = call__77 == Army;
-                }
-
-                if (bool__76)
-                {
-                    var call__78 = AoWHSMap.FSelectedArmy.GetSelection();
-                    Selection = call__78;
+                    Selection = AoWHSMap.FSelectedArmy.GetSelection();
                 }
                 else
                 {
@@ -657,14 +515,12 @@ namespace Aow.Units.CitySpells
 
                 InitHNWalk(ref Walk, X, Y, 0);
                 Found = false;
-                var call__79 = AoWHSMap.MapContainer.GetMapLevel(L);
-                Level = call__79;
+                Level = AoWHSMap.MapContainer.GetMapLevel(L);
                 while (Walk.Radius < 4 && !Found)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                     {
-                        var call__80 = ValidTeleportLocation(Army, Selection, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
-                        Found = call__80;
+                        Found = ValidTeleportLocation(Army, Selection, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
                     }
 
                     if (!Found)
@@ -675,10 +531,10 @@ namespace Aow.Units.CitySpells
 
                 if (Found)
                 {
-                    var call__81 = Army.FArmy.CreateID(Selection);
-                    ((TTownGateTE)Event).FArmyID = call__81;
-                    var call__82 = PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
-                    ((TTownGateTE)Event).FTeleportLocation = call__82;
+                    var id = Army.FArmy.CreateID(Selection);
+                    ((TTownGateTE)Event).FArmyID = id;
+                    var packXYL = PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
+                    ((TTownGateTE)Event).FTeleportLocation = packXYL;
                     Result = true;
                 }
                 else
@@ -693,19 +549,10 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:432
         public bool ValidTeleportLocation(TArmyHS Army, byte Selection, sbyte X, sbyte Y, sbyte L)
         {
-            bool Result = default;
-            TAoWMapField Field = default;
-            var call__83 = AoWHSMap.MapContainer.GetField(X, Y, L);
-            Field = (TAoWMapField)call__83;
-            var call__84 = Field.GetPlayer();
-            bool bool__85 = call__84 != -1;
-            if (bool__85)
-            {
-                var call__86 = Field.GetPlayer();
-                bool__85 = call__86 != Army.FArmy.FPlayer;
-            }
-
-            if (bool__85)
+            bool Result;
+            TAoWMapField Field;
+            Field = (TAoWMapField)AoWHSMap.MapContainer.GetField(X, Y, L);
+            if (Field.GetPlayer() != -1 && Field.GetPlayer() != Army.FArmy.FPlayer)
             {
                 Result = false;
             }
@@ -716,25 +563,9 @@ namespace Aow.Units.CitySpells
 
             if (Result)
             {
-                var call__87 = Army.FArmy.ValidTerrainEx(Selection, Field.TerrainType, Field.OverlayType);
-                Result = call__87;
+                Result = Army.FArmy.ValidTerrainEx(Selection, Field.TerrainType, Field.OverlayType);
                 // { CanAddUnitSelection returns arOK (zero) when the destination accepts the selection. }
-                bool bool__88 = Result;
-                if (bool__88)
-                {
-                    var call__89 = Field.GetArmyHS();
-                    bool bool__90 = call__89 == null;
-                    if (!bool__90)
-                    {
-                        var call__91 = Field.GetArmyHS();
-                        var call__92 = call__91.FArmy.CanAddUnitSelection(Army.FArmy, Selection);
-                        bool__90 = call__92 == TAddUnitsResult.arOK;
-                    }
-
-                    bool__88 = bool__90;
-                }
-
-                Result = bool__88;
+                Result = Result && (Field.GetArmyHS() == null || Field.GetArmyHS().FArmy.CanAddUnitSelection(Army.FArmy, Selection) == TAddUnitsResult.arOK);
             }
 
             return Result;
@@ -771,89 +602,50 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:576
         public override bool ExecuteTE(TSpellTE A1, TAbstractUnit A2, int A3)
         {
-            bool Result = default;
-            TCity TargetCity = default;
-            TCityEnchantment Enchantment = default;
+            TCity TargetCity;
+            TCityEnchantment Enchantment;
             TargetCity = ((TCityTargetSpellTE)A1).GetSelectedCity();
             Enchantment = new TCityEnchantment(null);
             Enchantment.FEnchantmentID = FEnchantmentID;
             Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
-            var call__93 = ((TMapField)TargetCity.Owner).GetXYL();
-            Enchantment.FEnchantmentLocation.XYL = call__93;
+            var xyl = ((TMapField)TargetCity.Owner).GetXYL();
+            Enchantment.FEnchantmentLocation.XYL = xyl;
             Enchantment.FDispelMana = FEnchantmentSpellID;
             Enchantment.FPlayerIndex = A2.FPlayer;
             TargetCity.ActivateEnchantment(Enchantment);
-            var call__94 = A1.GetSource();
-            PlayDefaultCityEffects(call__94, TargetCity);
+            PlayDefaultCityEffects(A1.GetSource(), TargetCity);
             CastingDone(A2, A1.FEventMana);
-            Result = false;
-            return Result;
+            return false;
         }
 
         // CitySpells.pas:594
         public override void AIPrefetchCastSpellActions(TAbstractUnit A1, TAICastSpellActionList A2)
         {
-            bool Valid = default;
-            TAICastSpellAction Action = default;
+            bool Valid;
+            TAICastSpellAction Action;
             AnsiString Reason = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TCity TargetCity = default;
+            TCity TargetCity;
             if (FAIPriority != -1)
             {
                 A1.GetLocation(ref X, ref Y, ref L);
-                var call__95 = AoWHSMap.MapContainer.GetField(X, Y, L);
-                var call__96 = call__95.FindNoneTransparentHS(typeof(TCity));
-                TargetCity = (TCity)call__96;
-                bool bool__97 = TargetCity != null;
-                if (bool__97)
+                TargetCity = (TCity)AoWHSMap.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(TCity));
+                bool condition = TargetCity != null;
+                if (condition)
                 {
-                    var call__98 = TargetCity.AICityEnchantmentUpkeepPriority(FEnchantmentID);
-                    var call__99 = AIRequestCastSpellExpense(A1, FBaseManaCost, FManaUpkeep, call__98);
-                    bool__97 = call__99;
+                    var aiCityEnchantmentUpkeepPriority = TargetCity.AICityEnchantmentUpkeepPriority(FEnchantmentID);
+                    condition = AIRequestCastSpellExpense(A1, FBaseManaCost, FManaUpkeep, aiCityEnchantmentUpkeepPriority);
                 }
 
-                Valid = bool__97;
+                Valid = condition;
                 // { Original uses mana upkeep for mana and city priority for upkeep. }
                 Valid = Valid && ValidTargetCity(A1, TargetCity);
-                bool bool__100 = Valid;
-                if (bool__100)
-                {
-                    var call__101 = ((THero)A1).CanCastSpell(FSpellID, ref Reason);
-                    bool__100 = call__101;
-                }
-
-                Valid = bool__100;
+                Valid = Valid && ((THero)A1).CanCastSpell(FSpellID, ref Reason);
                 if (Valid)
                 {
-                    bool bool__102 = FAICastSituation.Contains(TCityEnchantmentCastSpellSituationElement.ccsLeaderInCity) && A1 is TLeader;
-                    if (!bool__102)
-                    {
-                        bool bool__103 = FAICastSituation.Contains(TCityEnchantmentCastSpellSituationElement.ccs4HexCity);
-                        if (bool__103)
-                        {
-                            var call__104 = TargetCity.GetSize();
-                            bool__103 = call__104 == 4;
-                        }
-
-                        bool__102 = bool__103;
-                    }
-
-                    bool bool__105 = bool__102;
-                    if (!bool__105)
-                    {
-                        bool bool__106 = FAICastSituation.Contains(TCityEnchantmentCastSpellSituationElement.ccs3HexCity);
-                        if (bool__106)
-                        {
-                            var call__107 = TargetCity.GetSize();
-                            bool__106 = call__107 == 3;
-                        }
-
-                        bool__105 = bool__106;
-                    }
-
-                    if (bool__105)
+                    if (FAICastSituation.Contains(TCityEnchantmentCastSpellSituationElement.ccsLeaderInCity) && A1 is TLeader || FAICastSituation.Contains(TCityEnchantmentCastSpellSituationElement.ccs4HexCity) && TargetCity.GetSize() == 4 || FAICastSituation.Contains(TCityEnchantmentCastSpellSituationElement.ccs3HexCity) && TargetCity.GetSize() == 3)
                     {
                         Action = CreateCastSpellAction();
                         SetupCastSpellAction(A1, Action);
@@ -867,36 +659,19 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:623
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
-            bool Result = default;
+            bool Result;
             AnsiString Reason = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TCity TargetCity = default;
+            TCity TargetCity;
             A1.GetLocation(ref X, ref Y, ref L);
-            var call__108 = AoWHSMap.MapContainer.GetField(X, Y, L);
-            var call__109 = call__108.FindNoneTransparentHS(typeof(TCity));
-            TargetCity = (TCity)call__109;
-            bool bool__110 = TargetCity != null;
-            if (bool__110)
-            {
-                var call__111 = ValidTargetCity(A1, TargetCity);
-                bool__110 = call__111;
-            }
-
-            bool bool__112 = bool__110;
-            if (bool__112)
-            {
-                var call__113 = ((THero)A1).CanCastSpell(FSpellID, ref Reason);
-                bool__112 = call__113;
-            }
-
-            if (bool__112)
+            TargetCity = (TCity)AoWHSMap.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(TCity));
+            if (TargetCity != null && ValidTargetCity(A1, TargetCity) && ((THero)A1).CanCastSpell(FSpellID, ref Reason))
             {
                 AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, FAIBudget);
                 var hero = (THero)A1;
-                var call__115 = hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                if (call__115)
+                if (hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
                 {
                     Result = TargetSelected(A1, X, Y, L);
                 }
@@ -922,33 +697,13 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:570
-        public override bool ValidTargetCity(TAbstractUnit Source, TCity TargetCity)
-        {
-            bool Result = default;
-            Result = base.ValidTargetCity(Source, TargetCity);
-            if (Result)
-            {
-                Result = !TargetCity.FEnchantments.Contains(FEnchantmentID);
-            }
-
-            return Result;
-        }
+        public override bool ValidTargetCity(TAbstractUnit Source, TCity TargetCity) => base.ValidTargetCity(Source, TargetCity) && !TargetCity.FEnchantments.Contains(FEnchantmentID);
 
         // CitySpells.pas:560
-        public override TCityTargetSpellTE CreateTE()
-        {
-            TCityTargetSpellTE Result = default;
-            Result = new TCityEnchantmentSpellTE(null);
-            return Result;
-        }
+        public override TCityTargetSpellTE CreateTE() => new TCityEnchantmentSpellTE(null);
 
         // CitySpells.pas:565
-        public override bool SetupTE(TCityTargetSpellTE Event, TAbstractUnit Source, int X, int Y, int L)
-        {
-            bool Result = default;
-            Result = base.SetupTE(Event, Source, X, Y, L);
-            return Result;
-        }
+        public override bool SetupTE(TCityTargetSpellTE Event, TAbstractUnit Source, int X, int Y, int L) => base.SetupTE(Event, Source, X, Y, L);
     }
 
     public partial class TFountainOfLife : TCityEnchantmentSpell
@@ -956,8 +711,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:649
         public TFountainOfLife(TECustomNode owner) : base(owner)
         {
-            var call__116 = TranslateRStr(FountainOfLifeRStr);
-            FSpellName = call__116;
+            FSpellName = TranslateRStr(FountainOfLifeRStr);
             FSpellID = 52;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmOwn);
             FBaseManaCost = 1;
@@ -985,9 +739,7 @@ namespace Aow.Units.CitySpells
                 A.FAnimationLevel = 27;
                 A.FOnShow = ShowFountain;
                 A.FAnimationMap = AoWHSMap;
-                var call__117 = TargetCity.GetXhx();
-                var call__118 = TargetCity.GetYhx();
-                A.FTag = (int)(((uint)(int)call__117) | ((uint)(call__118 << 8)));
+                A.FTag = (int)(((uint)(int)TargetCity.GetXhx()) | ((uint)(TargetCity.GetYhx() << 8)));
                 A.Activate();
             }
 
@@ -997,39 +749,33 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:666
         public void ShowFountain(TAnimation Animation, int X, int Y, in TSurfaceDesc SD)
         {
-            int I = default;
-            int DX = default;
-            int VY = default;
-            int Offset = default;
+            int DX;
+            int VY;
+            int Offset;
             int CY = default;
             int CX = default;
-            int VX = default;
-            int T = default;
-            int DY = default;
+            int VX;
+            int T;
+            int DY;
             HXtoHP(Animation.FTag & 255, (int)(((uint)Animation.FTag) >> 8), ref CX, ref CY);
             CX = CX + 10 - X;
             CY = CY - Y + 10;
             // { Original resets the process-wide random seed for every draw. }
             RandSeed = 0;
+            for (int I = 0; I <= 100; I++)
             {
-                I = 0;
-                byte end__119 = 100;
-                for (; I <= end__119; I += 1)
+                VX = Random(100) - 50;
+                VY = Random(5) + 7;
+                Offset = Round((double)VX * 0.1);
+                T = Random(30);
+                if (T < Animation.FFrameCounter && Animation.FFrameCounter - T < 90)
                 {
-                    VX = Random(100) - 50;
-                    VY = Random(5) + 7;
-                    Offset = Round((double)VX * 0.1);
-                    T = Random(30);
-                    if (T < Animation.FFrameCounter && Animation.FFrameCounter - T < 90)
+                    T = (Animation.FFrameCounter - T) % 30;
+                    DX = Round((double)(T * VX) / 30);
+                    DY = VY * T - Round((double)((double)T * 0.25) * T);
+                    if (T > 0)
                     {
-                        T = (Animation.FFrameCounter - T) % 30;
-                        DX = Round((double)(T * VX) / 30);
-                        DY = VY * T - Round((double)((double)T * 0.25) * T);
-                        if (T > 0)
-                        {
-                            var call__120 = AoWHSSet.FSpellControl.GetSpell(52);
-                            call__120.FCastImages.Show(0, CX + DX + Offset, CY - DY, 0, SD);
-                        }
+                        AoWHSSet.FSpellControl.GetSpell(52).FCastImages.Show(0, CX + DX + Offset, CY - DY, 0, SD);
                     }
                 }
             }
@@ -1046,8 +792,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:710
         public TGoldRush(TECustomNode owner) : base(owner)
         {
-            var call__121 = TranslateRStr(GoldRushRStr);
-            FSpellName = call__121;
+            FSpellName = TranslateRStr(GoldRushRStr);
             FSpellID = 53;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmOwn);
             FBaseManaCost = 1;
@@ -1067,8 +812,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:727
         public TAntiMagicShell(TECustomNode owner) : base(owner)
         {
-            var call__122 = TranslateRStr(AntiMagicShellRStr);
-            FSpellName = call__122;
+            FSpellName = TranslateRStr(AntiMagicShellRStr);
             FSpellID = 54;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmOwn);
             FBaseManaCost = 1;
@@ -1085,20 +829,18 @@ namespace Aow.Units.CitySpells
         public override void PlayDefaultCityEffects(TAbstractUnit Source, TCity TargetCity)
         {
             base.PlayDefaultCityEffects(Source, TargetCity);
-            bool bool__123 = Source.FPlayer == AoWHSMap.FSeatedPlayer;
-            if (!bool__123)
+            bool condition = Source.FPlayer == AoWHSMap.FSeatedPlayer;
+            if (!condition)
             {
-                var call__124 = TargetCity.GetLhx();
-                var call__125 = TargetCity.GetYhx();
-                var call__126 = TargetCity.GetXhx();
-                var call__127 = AoWHSMap.WatchingTerrain(call__126, call__125, call__124, 1);
-                bool__123 = call__127;
+                var lhx = TargetCity.GetLhx();
+                var yhx = TargetCity.GetYhx();
+                var xhx = TargetCity.GetXhx();
+                condition = AoWHSMap.WatchingTerrain(xhx, yhx, lhx, 1);
             }
 
-            if (bool__123)
+            if (condition)
             {
-                var call__128 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__128.FCastSounds.PlayEx(1, -1, false, 30, TSamplePanning.spCenter, null);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.PlayEx(1, -1, false, 30, TSamplePanning.spCenter, null);
             }
         }
     }
@@ -1108,8 +850,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:751
         public TWarmonger(TECustomNode owner) : base(owner)
         {
-            var call__129 = TranslateRStr(WarmongerRStr);
-            FSpellName = call__129;
+            FSpellName = TranslateRStr(WarmongerRStr);
             FSpellID = 58;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmOwn);
             FEnchantmentID = TCityEnchantmentID.ceiWarmonger;
@@ -1125,8 +866,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:764
         public TTownQuake(TECustomNode owner) : base(owner)
         {
-            var call__130 = TranslateRStr(TownQuakeRStr);
-            FSpellName = call__130;
+            FSpellName = TranslateRStr(TownQuakeRStr);
             FSpellID = 71;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmEnemy);
         }
@@ -1134,10 +874,9 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:820
         public override bool ExecuteTE(TSpellTE A1, TAbstractUnit A2, int A3)
         {
-            bool Result = default;
-            TCity TargetCity = default;
-            TArmyHSList Armies = default;
-            int I = default;
+            bool Result;
+            TCity TargetCity;
+            TArmyHSList Armies;
             if (A3 == 0)
             {
                 TargetCity = ((TCityTargetSpellTE)A1).GetSelectedCity();
@@ -1153,21 +892,15 @@ namespace Aow.Units.CitySpells
                     TargetCity = ((TCityTargetSpellTE)A1).GetSelectedCity();
                     TargetCity.StopTownQuake();
                     Armies = new TArmyHSList(null);
-                    var call__131 = AoWHSMap.Random(10);
-                    if (call__131 < 7)
+                    if (AoWHSMap.Random(10) < 7)
                     {
                         TargetCity.SetWallType(0);
                     }
 
                     TargetCity.ListArmies(Armies);
+                    for (int I = 0, last = Armies.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__132 = Armies.Count - 1;
-                        for (; I <= end__132; I += 1)
-                        {
-                            var call__133 = Armies.GetArmyHS(I);
-                            TriggerArmyDamage(A2, call__133);
-                        }
+                        TriggerArmyDamage(A2, Armies.GetArmyHS(I));
                     }
 
                     Armies.Free();
@@ -1186,8 +919,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:812
         public override bool ValidTargetCity(TAbstractUnit Source, TCity TargetCity)
         {
-            bool Result = default;
-            Result = base.ValidTargetCity(Source, TargetCity);
+            bool Result = base.ValidTargetCity(Source, TargetCity);
             if (!Result || TargetCity.FEnchantments.Contains(TCityEnchantmentID.ceiAntiMagicShell))
             {
                 Result = false;
@@ -1203,53 +935,45 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:773
         public void TriggerArmyDamage(TAbstractUnit Source, TArmyHS Army)
         {
-            TArmyEventLog Log = default;
-            bool Damaged = default;
-            int I = default;
-            int Damage = default;
-            TAbstractUnit AUnit = default;
+            TArmyEventLog Log;
+            bool Damaged;
+            int Damage;
+            TAbstractUnit AUnit;
             Log = new TArmyEventLog(null);
-            var call__134 = TranslateRStr(TownQuakeDamageRStr);
-            Log.FArmyText = call__134;
+            Log.FArmyText = TranslateRStr(TownQuakeDamageRStr);
             Log.FPlayer = Source.FPlayer;
-            var call__135 = TranslateRStr(TownQuakeRStr);
-            Log.FArmyMessages.Add(call__135);
+            var townQuake = TranslateRStr(TownQuakeRStr);
+            Log.FArmyMessages.Add(townQuake);
             Log.FArmyIcon = 2;
             Log.FArmyView.Setup(Army.FArmy, 255);
             Army.FArmy.BeginUpdate();
             Damaged = false;
+            for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__136 = Army.FArmy.Count - 1;
-                for (; I <= end__136; I += 1)
+                AUnit = Army.FArmy.GetUnit(I);
+                Damage = AUnit.ExecuteDamageRole(7, 5, TSet<TDamageType>.Of(TDamageType.dtPhysical));
+                if (Damage > AUnit.GetHitPoints())
                 {
-                    var call__137 = Army.FArmy.GetUnit(I);
-                    AUnit = call__137;
-                    Damage = AUnit.ExecuteDamageRole(7, 5, TSet<TDamageType>.Of(TDamageType.dtPhysical));
-                    if (Damage > AUnit.GetHitPoints())
-                    {
-                        Damage = AUnit.GetHitPoints();
-                    }
-
-                    if (Damage > 0)
-                    {
-                        var call__138 = AUnit.GetHitPoints();
-                        AUnit.SetHitPoints((sbyte)(call__138 - Damage));
-                        Damaged = true;
-                    }
-
-                    Log.FDamageValues.Add((byte)Damage);
-                    Log.FDamageTypes.Add(7);
+                    Damage = AUnit.GetHitPoints();
                 }
+
+                if (Damage > 0)
+                {
+                    AUnit.SetHitPoints((sbyte)(AUnit.GetHitPoints() - Damage));
+                    Damaged = true;
+                }
+
+                Log.FDamageValues.Add((byte)Damage);
+                Log.FDamageTypes.Add(7);
             }
 
             if (Damaged)
             {
                 Log.ValidateGameOver();
-                var call__139 = Army.GetYhx();
-                var call__140 = Army.GetLhx();
-                var call__141 = Army.GetXhx();
-                DistributeLocationEventLog(Log, Army.FArmy.FPlayer, call__141, call__139, call__140, true);
+                var yhx = Army.GetYhx();
+                var lhx = Army.GetLhx();
+                var xhx = Army.GetXhx();
+                DistributeLocationEventLog(Log, Army.FArmy.FPlayer, xhx, yhx, lhx, true);
             }
 
             Log.Release();
@@ -1263,8 +987,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:849
         public TAnarchy(TECustomNode owner) : base(owner)
         {
-            var call__142 = TranslateRStr(AnarchyRStr);
-            FSpellName = call__142;
+            FSpellName = TranslateRStr(AnarchyRStr);
             FSpellID = 72;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmEnemy);
         }
@@ -1281,33 +1004,27 @@ namespace Aow.Units.CitySpells
                 TargetCity = ((TCityTargetSpellTE)A1).GetSelectedCity();
                 Log = new TLocationTextEventLog(null);
                 Log.FPlayer = A2.FPlayer;
-                var call__143 = TranslateRStr(XCastRStr);
-                var call__144 = Rtl.Rtl.Format(call__143, [FSpellName]);
-                Log.FText = call__144;
-                var call__145 = TargetCity.GetLhx();
-                var call__146 = TargetCity.GetYhx();
-                var call__147 = TargetCity.GetXhx();
-                Log.SetLocation(call__147, call__146, call__145);
-                var call__148 = AoWHSMap.FPlayers.GetPlayers(TargetCity.FPlayer);
-                call__148.FEventLogbook.AddEvent(Log);
+                Log.FText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [FSpellName]);
+                var lhx = TargetCity.GetLhx();
+                var yhx = TargetCity.GetYhx();
+                Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
+                AoWHSMap.FPlayers.GetPlayers(TargetCity.FPlayer).FEventLogbook.AddEvent(Log);
                 Log.Release();
                 PlayDefaultCityEffects(A2, TargetCity);
                 TargetCity.ValidateObservation(A2.FPlayer);
-                var call__149 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
-                if (call__149 != null)
+                if (TargetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
                 {
                     A = new TImageSequenceAnimation(null);
-                    var call__150 = TargetCity.Resource.ImageSequenceList.ImageSequences[16];
-                    A.SetImageSequence(call__150);
+                    A.SetImageSequence(TargetCity.Resource.ImageSequenceList.ImageSequences[16]);
                     A.SetXhpOffset(A.FXhpOffset - 16);
                     A.SetYhpOffset(A.FYhpOffset - 16);
                     A.FOnShow = ShowAnimation;
                     A.FLooped = true;
                     A.FFrameCount = 120;
-                    var call__151 = TargetCity.GetLhx();
-                    var call__152 = TargetCity.GetYhx();
-                    var call__153 = TargetCity.GetXhx();
-                    AoWHSMap.PlaceHX(A, call__153, call__152, call__151);
+                    var targetCityLhx = TargetCity.GetLhx();
+                    var targetCityYhx = TargetCity.GetYhx();
+                    var xhx = TargetCity.GetXhx();
+                    AoWHSMap.PlaceHX(A, xhx, targetCityYhx, targetCityLhx);
                 }
 
                 Result = true;
@@ -1333,8 +1050,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:858
         public override bool ValidTargetCity(TAbstractUnit Source, TCity TargetCity)
         {
-            bool Result = default;
-            Result = base.ValidTargetCity(Source, TargetCity);
+            bool Result = base.ValidTargetCity(Source, TargetCity);
             if (!Result || TargetCity.FPlayer == 0 || TargetCity.FEnchantments.Contains(TCityEnchantmentID.ceiAntiMagicShell))
             {
                 Result = false;
@@ -1351,11 +1067,10 @@ namespace Aow.Units.CitySpells
         public void ShowAnimation(TAnimation Animation, int X, int Y, in TSurfaceDesc SD)
         {
             var imageSequenceAnimation = (TImageSequenceAnimation)Animation;
-            var call__155 = imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter);
-            if (call__155 == 0 && AoWEngine.FAnimationDetail != 0)
+            if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && AoWEngine.FAnimationDetail != 0)
             {
-                var call__156 = Random(2);
-                PlaySample(ExplosionSFX[call__156]);
+                var random = Random(2);
+                PlaySample(ExplosionSFX[random]);
             }
         }
     }
@@ -1365,8 +1080,7 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:915
         public TAnimateRuins(TECustomNode owner) : base(owner)
         {
-            var call__157 = TranslateRStr(AnimateRuinsRStr);
-            FSpellName = call__157;
+            FSpellName = TranslateRStr(AnimateRuinsRStr);
             FSpellID = 76;
             FCityTargetMode = TSet<TCityTargetModeElement>.Of(TCityTargetModeElement.ctmEnemy, TCityTargetModeElement.ctmRazed);
         }
@@ -1378,7 +1092,6 @@ namespace Aow.Units.CitySpells
             TCity TargetCity = default;
             TLocationTextEventLog Log = default;
             TImageSequenceAnimation A = default;
-            int I = default;
             int Count = default;
             TUnit AUnit = default;
             if (A3 == 0)
@@ -1386,34 +1099,29 @@ namespace Aow.Units.CitySpells
                 TargetCity = ((TCityTargetSpellTE)A1).GetSelectedCity();
                 Log = new TLocationTextEventLog(null);
                 Log.FPlayer = A2.FPlayer;
-                var call__158 = TranslateRStr(AnimateRuinsRStr);
-                var call__159 = TranslateRStr(XCastRStr);
-                var call__160 = Rtl.Rtl.Format(call__159, [call__158]);
-                Log.FText = call__160;
-                var call__161 = TargetCity.GetLhx();
-                var call__162 = TargetCity.GetYhx();
-                var call__163 = TargetCity.GetXhx();
-                Log.SetLocation(call__163, call__162, call__161);
-                var call__164 = TargetCity.GetYhx();
-                var call__165 = TargetCity.GetLhx();
-                var call__166 = TargetCity.GetXhx();
-                DistributeLocationEventLog(Log, A2.FPlayer, call__166, call__164, call__165, false);
+                var animateRuins = TranslateRStr(AnimateRuinsRStr);
+                Log.FText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [animateRuins]);
+                var lhx = TargetCity.GetLhx();
+                var yhx = TargetCity.GetYhx();
+                Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
+                var targetCityYhx = TargetCity.GetYhx();
+                var targetCityLhx = TargetCity.GetLhx();
+                var xhx = TargetCity.GetXhx();
+                DistributeLocationEventLog(Log, A2.FPlayer, xhx, targetCityYhx, targetCityLhx, false);
                 Log.Release();
                 PlayDefaultCityEffects(A2, TargetCity);
                 TargetCity.ValidateObservation(A2.FPlayer);
-                var call__167 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
-                if (call__167 != null)
+                if (TargetCity.Resource.ImageSequenceList.ImageSequences[20] != null)
                 {
                     A = new TImageSequenceAnimation(null);
-                    var call__168 = TargetCity.Resource.ImageSequenceList.ImageSequences[20];
-                    A.SetImageSequence(call__168);
+                    A.SetImageSequence(TargetCity.Resource.ImageSequenceList.ImageSequences[20]);
                     A.SetXhpOffset(A.FXhpOffset - 16);
                     A.SetYhpOffset(A.FYhpOffset - 16);
                     A.FOnShow = ShowAnimation;
-                    var call__169 = TargetCity.GetLhx();
-                    var call__170 = TargetCity.GetYhx();
-                    var call__171 = TargetCity.GetXhx();
-                    AoWHSMap.PlaceHX(A, call__171, call__170, call__169);
+                    var lhx2 = TargetCity.GetLhx();
+                    var yhx2 = TargetCity.GetYhx();
+                    var targetCityXhx = TargetCity.GetXhx();
+                    AoWHSMap.PlaceHX(A, targetCityXhx, yhx2, lhx2);
                 }
 
                 Result = true;
@@ -1423,27 +1131,19 @@ namespace Aow.Units.CitySpells
                 if (A3 == 50)
                 {
                     TargetCity = ((TCityTargetSpellTE)A1).GetSelectedCity();
-                    var call__172 = AoWHSMap.FPlayers.GetPlayers(A2.FPlayer);
-                    TargetCity.SetRace(call__172.FPlayerRace);
+                    TargetCity.SetRace(AoWHSMap.FPlayers.GetPlayers(A2.FPlayer).FPlayerRace);
                     TargetCity.SetRazed(false);
-                    var call__173 = TargetCity.GetSize();
-                    var call__174 = AoWHSMap.Random(call__173 * 2);
-                    Count = call__174 + 1;
+                    var size = TargetCity.GetSize();
+                    Count = AoWHSMap.Random(size * 2) + 1;
+                    for (int I = 0; I <= Count; I++)
                     {
-                        I = 0;
-                        int end__175 = Count;
-                        for (; I <= end__175; I += 1)
-                        {
-                            AUnit = new TUnit(null);
-                            var call__176 = AoWHSMap.Random(2);
-                            var call__177 = AoWHSSet.FUnitResources.GetUnitResource(CitySpells.TAnimateRuins_ExecuteTE__UndeadUnits[call__176]);
-                            AUnit.SetUnitResource(call__177);
-                            var call__178 = TargetCity.GetLhx();
-                            var call__179 = TargetCity.GetYhx();
-                            var call__180 = TargetCity.GetXhx();
-                            AUnit.Place(call__180, call__179, call__178, A2.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
-                            AUnit.Release();
-                        }
+                        AUnit = new TUnit(null);
+                        var random = AoWHSMap.Random(2);
+                        AUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(CitySpells.TAnimateRuins_ExecuteTE__UndeadUnits[random]));
+                        var lhx = TargetCity.GetLhx();
+                        var yhx = TargetCity.GetYhx();
+                        AUnit.Place(TargetCity.GetXhx(), yhx, lhx, A2.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
+                        AUnit.Release();
                     }
 
                     CastingDone(A2, A1.FEventMana);
@@ -1461,21 +1161,18 @@ namespace Aow.Units.CitySpells
         // CitySpells.pas:924
         public override bool ValidTargetCity(TAbstractUnit Source, TCity TargetCity)
         {
-            bool Result = default;
-            Result = base.ValidTargetCity(Source, TargetCity);
-            Result = Result && TargetCity.GetRazed();
-            return Result;
+            bool Result = base.ValidTargetCity(Source, TargetCity);
+            return Result && TargetCity.GetRazed();
         }
 
         // CitySpells.pas:930
         public void ShowAnimation(TAnimation Animation, int X, int Y, in TSurfaceDesc SD)
         {
             var imageSequenceAnimation = (TImageSequenceAnimation)Animation;
-            var call__182 = imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter);
-            if (call__182 == 0 && AoWEngine.FAnimationDetail != 0)
+            if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && AoWEngine.FAnimationDetail != 0)
             {
-                var call__183 = Random(2);
-                PlaySample(ExplosionSFX[call__183]);
+                var random = Random(2);
+                PlaySample(ExplosionSFX[random]);
             }
         }
     }
@@ -1488,22 +1185,14 @@ namespace Aow.Units.CitySpells
         {
             A1.RegisterEClasses([EClass.Of<TCityEnchantmentSpellTE>(), EClass.Of<TCityTargetSpellTE>(), EClass.Of<TTownGateTE>()]);
             var spellControl = A1.FGameSet.FSpellControl;
-            var call__185 = new TAnarchy(null);
-            spellControl.RegisterSpell(call__185);
-            var call__186 = new TTownQuake(null);
-            spellControl.RegisterSpell(call__186);
-            var call__187 = new TTownGate(null);
-            spellControl.RegisterSpell(call__187);
-            var call__188 = new TFountainOfLife(null);
-            spellControl.RegisterSpell(call__188);
-            var call__189 = new TGoldRush(null);
-            spellControl.RegisterSpell(call__189);
-            var call__190 = new TAntiMagicShell(null);
-            spellControl.RegisterSpell(call__190);
-            var call__191 = new TWarmonger(null);
-            spellControl.RegisterSpell(call__191);
-            var call__192 = new TAnimateRuins(null);
-            spellControl.RegisterSpell(call__192);
+            spellControl.RegisterSpell(new TAnarchy(null));
+            spellControl.RegisterSpell(new TTownQuake(null));
+            spellControl.RegisterSpell(new TTownGate(null));
+            spellControl.RegisterSpell(new TFountainOfLife(null));
+            spellControl.RegisterSpell(new TGoldRush(null));
+            spellControl.RegisterSpell(new TAntiMagicShell(null));
+            spellControl.RegisterSpell(new TWarmonger(null));
+            spellControl.RegisterSpell(new TAnimateRuins(null));
         }
 
         // CitySpells.pas:1004

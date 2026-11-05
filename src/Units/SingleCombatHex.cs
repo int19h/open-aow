@@ -22,23 +22,16 @@ namespace Aow.Units.SingleCombatHex
         {
             int X = default;
             int Y = default;
-            TImageSequence Sequence = default;
+            TImageSequence Sequence;
             HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
             X = X - XhpSurf - 8;
             Y = Y - YhpSurf;
-            var call__1 = FResource.ImageSequenceList.GetImageSequence(0);
-            Sequence = call__1;
-            var call__2 = Sequence.ImageLibrary.Get(Sequence.ImageIndex);
-            call__2.Show(X, Y, SurfaceDesc);
+            Sequence = FResource.ImageSequenceList.GetImageSequence(0);
+            Sequence.ImageLibrary.Get(Sequence.ImageIndex).Show(X, Y, SurfaceDesc);
         }
 
         // SingleCombatHex.pas:44
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
-        {
-            TMapObjectResourceList Result = default;
-            Result = AoWHSSet.FCombatResources;
-            return Result;
-        }
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
     }
 
@@ -61,12 +54,7 @@ namespace Aow.Units.SingleCombatHex
         }
 
         // SingleCombatHex.pas:79
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229534;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229534;
 
         // SingleCombatHex.pas:65
         public override void SetLevel(byte Value)
@@ -75,20 +63,10 @@ namespace Aow.Units.SingleCombatHex
         }
 
         // SingleCombatHex.pas:70
-        public override THexagonControl GetHexagonControl()
-        {
-            THexagonControl Result = default;
-            Result = null;
-            return Result;
-        }
+        public override THexagonControl GetHexagonControl() => null;
 
         // SingleCombatHex.pas:62
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat Single Hexagon";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat Single Hexagon";
 
     }
 

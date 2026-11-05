@@ -61,8 +61,7 @@ namespace Aow.Units.AOWDialogWin
         public void AddDebugMessage(AnsiString Text)
         {
             DebugMemo.Items.Add(Text);
-            var call__1 = DebugMemo.Items.Count;
-            if (call__1 > 99)
+            if (DebugMemo.Items.Count > 99)
             {
                 DebugMemo.Items.Delete(0);
             }
@@ -89,23 +88,20 @@ namespace Aow.Units.AOWDialogWin
         public void yesBtnClick(TObject Sender)
         {
             AnsiString Reason = default;
-            TStructure Structure = default;
+            TStructure Structure;
             General.PlayButtonSound(0);
             switch (FAction)
             {
                 case 0:
                 case 1:
-                    ;
                     break;
                 case 2:
                     General.FCity.Loot();
                     break;
                 case 3:
-                    var call__2 = General.FCity.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason);
-                    if (call__2)
+                    if (General.FCity.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason))
                     {
-                        var call__3 = General.FCity.Raze(AoWHSMap.FSeatedPlayer);
-                        if (call__3)
+                        if (General.FCity.Raze(AoWHSMap.FSeatedPlayer))
                         {
                             Structure = General.FStructure;
                             aowMapEvents.aowMapEvents.MapEvents.TheMapStructureDeselected(General.FStructure);
@@ -119,8 +115,7 @@ namespace Aow.Units.AOWDialogWin
 
                     break;
                 case 4:
-                    var call__4 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    call__4.Surrender();
+                    AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).Surrender();
                     break;
                 case 5:
                     AoWWorldMap.AoWWorldMap.WorldMap.WorldPnl.Visible = false;
@@ -136,11 +131,9 @@ namespace Aow.Units.AOWDialogWin
                 case 7:
                     if (General.FSelectedUnit != null)
                     {
-                        var call__5 = General.FSelectedUnit.CanDisband(ref Reason);
-                        if (call__5)
+                        if (General.FSelectedUnit.CanDisband(ref Reason))
                         {
-                            var call__6 = General.FSelectedUnit.Disband();
-                            if (call__6)
+                            if (General.FSelectedUnit.Disband())
                             {
                                 AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
                             }

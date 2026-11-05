@@ -42,10 +42,8 @@ namespace Aow.Units.TurnButton
         // TurnButton.pas:66
         public override void SetSize()
         {
-            var call__1 = FImageLib[0];
-            FWinWidth = call__1.Width;
-            var call__2 = FImageLib[0];
-            FWinHeight = call__2.Height;
+            FWinWidth = FImageLib[0].Width;
+            FWinHeight = FImageLib[0].Height;
             base.SetSize();
         }
 
@@ -125,13 +123,11 @@ namespace Aow.Units.TurnButton
 
                     if (!FAnimating && FButtonChecked == true)
                     {
-                        var call__3 = FImageLib[FFrameOffset + FCurPlayer * 7 + 6];
-                        call__3.ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
+                        FImageLib[FFrameOffset + FCurPlayer * 7 + 6].ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
                     }
                     else
                     {
-                        var call__4 = FImageLib[FFrameOffset + FAnimationFrame];
-                        call__4.ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
+                        FImageLib[FFrameOffset + FAnimationFrame].ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
                     }
 
                     if (FOnDraw != null)

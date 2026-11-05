@@ -18,13 +18,7 @@ namespace Aow.Units.CombatILTer
 
         public TCombatILTerrain FTerrain;
         // CombatILTer.pas:82
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            var call__1 = FTerrain.GetShowPriority();
-            Result = (call__1 & 67108863) - 1677721600;
-            return Result;
-        }
+        public override int GetShowPriority() => (FTerrain.GetShowPriority() & 67108863) - 1677721600;
 
         // CombatILTer.pas:96
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -58,8 +52,7 @@ namespace Aow.Units.CombatILTer
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 135169)
             {
-                var call__2 = FResource.TerrainList.GetTerrain(Msg.HN);
-                if (call__2 >= 0)
+                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
                 {
                     if (Msg.Param[0].Value < ((TCombatILTerrainResource)FResource).FDefense)
                     {
@@ -91,27 +84,17 @@ namespace Aow.Units.CombatILTer
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
                 {
-                    var call__3 = FShadow.GetShowPriority();
-                    VisibilityList.AddSortChild(FShadow, call__3);
+                    var showPriority = FShadow.GetShowPriority();
+                    VisibilityList.AddSortChild(FShadow, showPriority);
                 }
             }
         }
 
         // CombatILTer.pas:163
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
-        {
-            TMapObjectResourceList Result = default;
-            Result = AoWHSSet.FCombatResources;
-            return Result;
-        }
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
         // CombatILTer.pas:93
-        public override bool CanPlaceOnHS(THexagonSprite HS)
-        {
-            bool Result = default;
-            Result = base.CanPlaceOnHS(HS) || HS is TAbstractRoad;
-            return Result;
-        }
+        public override bool CanPlaceOnHS(THexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is TAbstractRoad;
 
         // CombatILTer.pas:108
         public virtual void ShowShadow(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -125,20 +108,10 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:87
-        public sbyte GetDefense()
-        {
-            sbyte Result = default;
-            Result = ((TCombatILTerrainResource)FResource).FDefense;
-            return Result;
-        }
+        public sbyte GetDefense() => ((TCombatILTerrainResource)FResource).FDefense;
 
         // CombatILTer.pas:90
-        public sbyte GetBurnValue()
-        {
-            sbyte Result = default;
-            Result = ((TCombatILTerrainResource)FResource).FBurnValue;
-            return Result;
-        }
+        public sbyte GetBurnValue() => ((TCombatILTerrainResource)FResource).FBurnValue;
 
         // CombatILTer.pas:118
         public void DestroyShadow()
@@ -158,8 +131,7 @@ namespace Aow.Units.CombatILTer
         // CombatILTer.pas:128
         public void CreateShadow()
         {
-            var call__4 = FResource.ImageSequenceList.GetImageSequence(40);
-            if (call__4 != null)
+            if (FResource.ImageSequenceList.GetImageSequence(40) != null)
             {
                 if (FShadow != null)
                 {
@@ -168,8 +140,7 @@ namespace Aow.Units.CombatILTer
 
                 if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
                 {
-                    var call__5 = new TCombatILTerrainShadow(null);
-                    FShadow = call__5;
+                    FShadow = new TCombatILTerrainShadow(null);
                     FShadow.FTerrain = this;
                 }
             }
@@ -196,20 +167,10 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:188
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2228534;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2228534;
 
         // CombatILTer.pas:178
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat ILTerrain";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat ILTerrain";
 
     }
 
@@ -224,20 +185,17 @@ namespace Aow.Units.CombatILTer
         // CombatILTer.pas:197
         public override bool CanChangeTerrain(in THSSenderInfo Info)
         {
-            bool Result = default;
-            var call__6 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__6 >= 0)
+            bool Result;
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__7 = ValidTerrainType(Info.MapField.TerrainType);
-                bool bool__8 = call__7;
-                if (bool__8)
+                bool validTerrainType = ValidTerrainType(Info.MapField.TerrainType);
+                if (validTerrainType)
                 {
-                    var call__9 = FResource.TerrainList.GetTerrain(Info.HN);
-                    var call__10 = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, call__9);
-                    bool__8 = call__10 == Info.MapField.TerrainType;
+                    var terrain = FResource.TerrainList.GetTerrain(Info.HN);
+                    validTerrainType = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
                 }
 
-                Result = bool__8;
+                Result = validTerrainType;
             }
             else
             {
@@ -250,15 +208,12 @@ namespace Aow.Units.CombatILTer
         // CombatILTer.pas:206
         public override void ChangeTerrain(in THSTerrainInfo Info)
         {
-            var call__11 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__11 >= 0)
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__12 = ValidTerrainType(Info.TerrainType);
-                if (call__12)
+                if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
-                    var call__13 = GetTerrainTypeImage(Info.TerrainType);
-                    FImageIndex = call__13;
+                    FImageIndex = GetTerrainTypeImage(Info.TerrainType);
                 }
             }
         }
@@ -266,15 +221,12 @@ namespace Aow.Units.CombatILTer
         // CombatILTer.pas:216
         public override void TerrainChanged(in THSTerrainInfo Info)
         {
-            var call__14 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__14 >= 0)
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__15 = ValidTerrainType(Info.TerrainType);
-                if (call__15)
+                if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
-                    var call__16 = GetTerrainTypeImage(Info.TerrainType);
-                    FImageIndex = call__16;
+                    FImageIndex = GetTerrainTypeImage(Info.TerrainType);
                 }
                 else
                 {
@@ -284,12 +236,7 @@ namespace Aow.Units.CombatILTer
         }
 
         // CombatILTer.pas:194
-        public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
 
     }
 
@@ -302,20 +249,10 @@ namespace Aow.Units.CombatILTer
         public new const int ClassID = 2228537;
 
         // CombatILTer.pas:233
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2228536;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2228536;
 
         // CombatILTer.pas:230
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat FixedILTerrain";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat FixedILTerrain";
 
     }
 

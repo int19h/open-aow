@@ -97,10 +97,8 @@ namespace Aow.Units.AoWGamePlayDlg
                 {
                     FNewPassword = ((TPasswordEventLog)Log).FPassword;
                     Password = new TPasswordEventLog(null);
-                    var call__1 = TranslateRStr(PasswordConfirmationRStr);
-                    Password.FTitle = call__1;
-                    var call__2 = TranslateRStr(ReenterNewPasswordRStr);
-                    Password.FPrompt = call__2;
+                    Password.FTitle = TranslateRStr(PasswordConfirmationRStr);
+                    Password.FPrompt = TranslateRStr(ReenterNewPasswordRStr);
                     AoWHSMap.TriggerExecuteEventLog(Password, true, PasswordConfirmed);
                     Password.Release();
                 }
@@ -116,15 +114,15 @@ namespace Aow.Units.AoWGamePlayDlg
         {
             if (((TPasswordEventLog)Log).FPassword == FNewPassword)
             {
-                var call__3 = Encode(FNewPassword, 0);
-                PasswordEdit.Text = call__3;
+                var encode = Encode(FNewPassword, 0);
+                PasswordEdit.Text = encode;
             }
             else
             {
                 ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                var call__4 = TranslateRStr(ConfirmationFailedRStr);
-                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__4);
+                var confirmationFailed = TranslateRStr(ConfirmationFailedRStr);
+                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(confirmationFailed);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
             }
@@ -144,31 +142,26 @@ namespace Aow.Units.AoWGamePlayDlg
         // AoWGamePlayDlg.pas:100
         public void GamePlayDlgShow(TObject Sender)
         {
-            TCombatResolveMode Mode = default;
-            TSet<TWindowPopupEvent> Events = default;
-            var call__5 = AoWEngine.FRegistry.GetAutoSave();
-            AutoSaveCB.Checked = call__5;
-            var call__6 = AoWEngine.FRegistry.GetSkipIntro();
-            SkipIntroCB.Checked = call__6;
-            var call__7 = AoWEngine.FRegistry.GetMovementSpeed();
-            MovementSpeedCB.Selected = (int)call__7;
+            TCombatResolveMode Mode;
+            TSet<TWindowPopupEvent> Events;
+            var autoSave = AoWEngine.FRegistry.GetAutoSave();
+            AutoSaveCB.Checked = autoSave;
+            var skipIntro = AoWEngine.FRegistry.GetSkipIntro();
+            SkipIntroCB.Checked = skipIntro;
+            var movementSpeed = AoWEngine.FRegistry.GetMovementSpeed();
+            MovementSpeedCB.Selected = (int)movementSpeed;
             CombatResolveModeCB.Items.Clear();
+            for (int modeOrdinal = (int)(TCombatResolveMode)0; modeOrdinal <= (int)(TCombatResolveMode)2; modeOrdinal++)
             {
-                int first__11 = (int)(TCombatResolveMode)0;
-                int end__8 = (int)(TCombatResolveMode)2;
-                for (int ordinal__10 = first__11; ordinal__10 <= end__8; ordinal__10++)
-                {
-                    Mode = (TCombatResolveMode)ordinal__10;
-                    var call__9 = TranslateRStr(TCombatResolveModeRStr[(int)Mode]);
-                    CombatResolveModeCB.Items.AddObject(call__9, IntToObject((int)Mode));
-                }
+                Mode = (TCombatResolveMode)modeOrdinal;
+                var combatResolveMode = TranslateRStr(TCombatResolveModeRStr[(int)Mode]);
+                CombatResolveModeCB.Items.AddObject(combatResolveMode, IntToObject((int)Mode));
             }
 
-            var call__12 = AoWEngine.FRegistry.GetCombatResolveMode();
-            var call__13 = CombatResolveModeCB.Items.IndexOfObject(IntToObject((int)call__12));
-            CombatResolveModeCB.Selected = call__13;
-            var call__14 = AoWEngine.FRegistry.GetClassicWindowPopupEvents();
-            Events = call__14;
+            var fRegistryCombatResolveMode = AoWEngine.FRegistry.GetCombatResolveMode();
+            var indexOfObject = CombatResolveModeCB.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
+            CombatResolveModeCB.Selected = indexOfObject;
+            Events = AoWEngine.FRegistry.GetClassicWindowPopupEvents();
             Classic1CB.Checked = Events.Contains(TWindowPopupEvent.wpCombat);
             Classic2CB.Checked = Events.Contains(TWindowPopupEvent.wpDiplomacy);
             Classic3CB.Checked = Events.Contains(TWindowPopupEvent.wpSpellResearched);
@@ -177,8 +170,7 @@ namespace Aow.Units.AoWGamePlayDlg
             Classic6CB.Checked = Events.Contains(TWindowPopupEvent.wpPartyDamage);
             Classic7CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroUpgrade);
             Classic8CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroJoin);
-            var call__15 = AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents();
-            Events = call__15;
+            Events = AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents();
             Sim1CB.Checked = Events.Contains(TWindowPopupEvent.wpCombat);
             Sim2CB.Checked = Events.Contains(TWindowPopupEvent.wpDiplomacy);
             Sim3CB.Checked = Events.Contains(TWindowPopupEvent.wpSpellResearched);
@@ -187,8 +179,8 @@ namespace Aow.Units.AoWGamePlayDlg
             Sim6CB.Checked = Events.Contains(TWindowPopupEvent.wpPartyDamage);
             Sim7CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroUpgrade);
             Sim8CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroJoin);
-            var call__16 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            PasswordEdit.Text = call__16.FSettings;
+            var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+            PasswordEdit.Text = player.FSettings;
         }
 
         // AoWGamePlayDlg.pas:133
@@ -198,8 +190,7 @@ namespace Aow.Units.AoWGamePlayDlg
             if (AoWHSMap.FPlayMode != TPlayMode.pmTurn || AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork || AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer)
             {
                 Log = new TPasswordEventLog(null);
-                var call__17 = TranslateRStr(EnterNewPasswordRStr);
-                Log.FPrompt = call__17;
+                Log.FPrompt = TranslateRStr(EnterNewPasswordRStr);
                 AoWHSMap.TriggerExecuteEventLog(Log, true, PasswordEntered);
                 Log.Release();
             }
@@ -209,26 +200,22 @@ namespace Aow.Units.AoWGamePlayDlg
         public void OKBtnClick(TObject Sender)
         {
             AnsiString Error = default;
-            TSet<TWindowPopupEvent> Events = default;
+            TSet<TWindowPopupEvent> Events;
             General.PlayButtonSound(0);
-            var call__18 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (call__18.FSettings != PasswordEdit.Text)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FSettings != PasswordEdit.Text)
             {
                 if (AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork)
                 {
-                    var call__19 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    call__19.FSettings = PasswordEdit.Text;
+                    AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FSettings = PasswordEdit.Text;
                 }
                 else
                 {
-                    var call__20 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    var call__21 = call__20.ChangePlayerSettings(PasswordEdit.Text, ref Error);
-                    if (!call__21)
+                    if (!AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref Error))
                     {
                         ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                        var call__22 = TranslateRStr(CouldntChangePasswordRStr);
-                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__22);
+                        var couldntChangePassword = TranslateRStr(CouldntChangePasswordRStr);
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(couldntChangePassword);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
                     }
@@ -238,8 +225,8 @@ namespace Aow.Units.AoWGamePlayDlg
             AoWEngine.FRegistry.SetAutoSave(AutoSaveCB.Checked);
             AoWEngine.FRegistry.SetSkipIntro(SkipIntroCB.Checked);
             AoWEngine.FRegistry.SetMovementSpeed((TMovementSpeed)MovementSpeedCB.Selected);
-            var call__23 = CombatResolveModeCB.Items.Objects[CombatResolveModeCB.Selected];
-            AoWEngine.FRegistry.SetCombatResolveMode((TCombatResolveMode)ObjectToInt(call__23));
+            var objectValue = CombatResolveModeCB.Items.Objects[CombatResolveModeCB.Selected];
+            AoWEngine.FRegistry.SetCombatResolveMode((TCombatResolveMode)ObjectToInt(objectValue));
             Events = TSet<TWindowPopupEvent>.Of();
             if (Classic1CB.Checked)
             {

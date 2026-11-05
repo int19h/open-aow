@@ -110,7 +110,7 @@ namespace Aow.Units.AoWCheckBox
         // AoWCheckBox.pas:119
         public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
-            bool OldLit = default;
+            bool OldLit;
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
             OldLit = FLit;

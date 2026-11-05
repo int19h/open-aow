@@ -52,36 +52,30 @@ namespace Aow.Units.AoWUnitSelDlg
         // AoWUnitSelDlg.pas:66
         public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
         {
-            TRect SaveRect = default;
-            TP2UnitShowInfo Info = default;
-            ImageLib.TLibraryImage Img = default;
-            TAlignment Alignment = default;
-            var call__1 = FEvent.FUnits.GetCount();
-            if (Index < call__1)
+            TRect SaveRect;
+            TP2UnitShowInfo Info;
+            ImageLib.TLibraryImage Img;
+            TAlignment Alignment;
+            if (Index < FEvent.FUnits.GetCount())
             {
                 SaveRect = SD.ClipRect;
-                var call__2 = Rect(X + 5, Y + 4, X + 46, Y + 56);
-                SD.ClipRect = call__2;
-                var call__3 = FEvent.FUnits.GetUnit(Index);
-                var call__4 = call__3.GetAlignment();
-                Alignment = call__4;
+                var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
+                SD.ClipRect = rect;
+                Alignment = FEvent.FUnits.GetUnit(Index).GetAlignment();
                 if ((int)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
                     // { D3 masks the enum index after the original full-byte guard. }
-                    var call__5 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
-                    Img = call__5;
+                    Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
                     Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
                 Info = default;
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
-                var call__6 = FEvent.FUnits.GetUnit(Index);
-                call__6.ShowEx(X - 8, Y - 5, SD, Info);
+                FEvent.FUnits.GetUnit(Index).ShowEx(X - 8, Y - 5, SD, Info);
                 if ((((int)(((uint)FEvent.FSelectable) >> Index)) & 1) == 0)
                 {
-                    var call__7 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
-                    Img = call__7;
+                    Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
                     Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
@@ -118,19 +112,18 @@ namespace Aow.Units.AoWUnitSelDlg
         // AoWUnitSelDlg.pas:186
         public void Execute(TUnitSelectorAAI Request)
         {
-            TAbstractUnit U = default;
+            TAbstractUnit U;
             ResetSelection();
             FEventLog = Request;
             FEventLog.AddRef();
             FEvent = Request.FUnitSelector;
             FEvent.AddRef();
-            var call__8 = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
-            U = call__8;
+            U = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
             if (U != null)
             {
                 SourcePnl.Visible = true;
-                var call__9 = U.GetName();
-                SourceNameLbl.Text = call__9;
+                var name = U.GetName();
+                SourceNameLbl.Text = name;
             }
             else
             {
@@ -169,8 +162,7 @@ namespace Aow.Units.AoWUnitSelDlg
         {
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__10 = FEvent.CanSelect(ref Reason);
-            if (call__10)
+            if (FEvent.CanSelect(ref Reason))
             {
                 FEvent.Select();
                 Dlg.Visible = false;
@@ -223,8 +215,7 @@ namespace Aow.Units.AoWUnitSelDlg
 
             if (FEvent.FSelection != 0)
             {
-                var call__11 = FEvent.CanSelect(ref Reason);
-                if (call__11)
+                if (FEvent.CanSelect(ref Reason))
                 {
                     SelectionInfoLbl.TextColor = 0;
                 }
@@ -250,11 +241,10 @@ namespace Aow.Units.AoWUnitSelDlg
         public void SourceFacePreDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
             TRect R = default;
-            TAbstractUnit U = default;
+            TAbstractUnit U;
             if (FEvent != null)
             {
-                var call__13 = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
-                U = call__13;
+                U = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
                 if (U != null)
                 {
                     R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;
@@ -264,8 +254,7 @@ namespace Aow.Units.AoWUnitSelDlg
 
                     if (U.GetFace() != null)
                     {
-                        var call__15 = U.GetFace();
-                        call__15.ShowStretched(R, SD);
+                        U.GetFace().ShowStretched(R, SD);
                     }
                 }
             }

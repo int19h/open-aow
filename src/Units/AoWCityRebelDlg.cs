@@ -36,8 +36,8 @@ namespace Aow.Units.AoWCityRebelDlg
         // AoWCityRebelDlg.pas:49
         public void ClearEvent()
         {
-            TCityRebellionEventLog Event = default;
-            TExecuteDoneEvent Notify = default;
+            TCityRebellionEventLog Event;
+            TExecuteDoneEvent Notify;
             Notify = FOnClose;
             Event = FEvent;
             FOnClose = null;

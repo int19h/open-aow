@@ -16,7 +16,7 @@ namespace Aow.Units.AowUserWindow
         // AowUserWindow.pas:29
         public override void DrawSurface(TSurface Surface)
         {
-            bool Handled = default;
+            bool Handled;
             Handled = false;
             if (FOnDrawSurfaceEx != null)
             {

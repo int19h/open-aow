@@ -49,8 +49,8 @@ namespace Aow.Units.AoWHeroInfoDlg
         // AoWHeroInfoDlg.pas:99
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TEventLog Event;
             if (FDetailsOpen)
             {
                 FDetailsOpen = false;
@@ -76,21 +76,18 @@ namespace Aow.Units.AoWHeroInfoDlg
         // AoWHeroInfoDlg.pas:118
         public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc Surface)
         {
-            TAlignment Alignment = default;
-            int X = default;
-            int Y = default;
-            TRect OldClip = default;
-            TP2UnitShowInfo Info = default;
-            var call__1 = FArmyInfo.FArmyView.GetCount();
-            if (Index < call__1)
+            TAlignment Alignment;
+            int X;
+            int Y;
+            TRect OldClip;
+            TP2UnitShowInfo Info;
+            if (Index < FArmyInfo.FArmyView.GetCount())
             {
                 OldClip = Surface.ClipRect;
                 Surface.ClipRect = R;
                 X = (R.Right + R.Left) / 2;
                 Y = (R.Top + R.Bottom) / 2;
-                var call__2 = FArmyInfo.FArmyView.GetUnit(Index);
-                var call__3 = call__2.GetAlignment();
-                Alignment = call__3;
+                Alignment = FArmyInfo.FArmyView.GetUnit(Index).GetAlignment();
                 if ((int)Alignment < IntGfxMod.UnitBGs.Count)
                 {
                     var image = IntGfxMod.UnitBGs[(int)Alignment];
@@ -100,8 +97,7 @@ namespace Aow.Units.AoWHeroInfoDlg
                 Info = default;
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
-                var call__5 = FArmyInfo.FArmyView.GetUnit(Index);
-                call__5.ShowEx(X - 33, Y - 35, Surface, Info);
+                FArmyInfo.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
                 if ((((int)(((uint)FArmyInfo.FSelection) >> Index)) & 1) == 0)
                 {
                     var image2 = IntGfxMod.UnitBGs[7];
@@ -123,15 +119,14 @@ namespace Aow.Units.AoWHeroInfoDlg
         public void FaceFramePreDraw(TObject Sender, TSurfaceDesc Surface)
         {
             TRect R = default;
-            THero Hero = default;
-            int I = default;
+            THero Hero;
+            int I;
             R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
             R.Right = this.FaceFrame.WinWidth + R.Left;
             R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
             R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
-            var call__8 = FArmyInfo.FArmyView.Hero(FArmyInfo.FSelection, AllHeroTypes);
-            Hero = call__8;
+            Hero = FArmyInfo.FArmyView.Hero(FArmyInfo.FSelection, AllHeroTypes);
             if (Hero.GetFace() != null)
             {
                 Hero.ShowFace(R, Surface);
@@ -139,27 +134,14 @@ namespace Aow.Units.AoWHeroInfoDlg
             else
             {
                 I = 0;
-                while (true)
+                while (((1 << I) & FArmyInfo.FSelection) == 0 && I != FArmyInfo.FArmyView.GetCount())
                 {
-                    bool bool__9 = ((1 << I) & FArmyInfo.FSelection) == 0;
-                    if (bool__9)
-                    {
-                        var call__10 = FArmyInfo.FArmyView.GetCount();
-                        bool__9 = I != call__10;
-                    }
-
-                    if (!bool__9)
-                        break;
-                    {
-                        I += 1;
-                    }
+                    I += 1;
                 }
 
-                var call__11 = FArmyInfo.FArmyView.GetCount();
-                if (I < call__11)
+                if (I < FArmyInfo.FArmyView.GetCount())
                 {
-                    var call__12 = FArmyInfo.FArmyView.GetUnit(I);
-                    call__12.ShowFace(R, Surface);
+                    FArmyInfo.FArmyView.GetUnit(I).ShowFace(R, Surface);
                 }
             }
         }
@@ -179,12 +161,11 @@ namespace Aow.Units.AoWHeroInfoDlg
         // AoWHeroInfoDlg.pas:189
         public void U1MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            ;
-            var call__14 = FArmyInfo.FArmyView.GetCount();
-            if (((TAoWComponent)Sender).Tag < call__14)
+            var count = FArmyInfo.FArmyView.GetCount();
+            if (((TAoWComponent)Sender).Tag < count)
             {
-                var call__15 = FArmyInfo.FArmyView.GetUnit(((TAoWComponent)Sender).Tag);
-                General.FSelectedUnit = call__15;
+                var unit = FArmyInfo.FArmyView.GetUnit(((TAoWComponent)Sender).Tag);
+                General.FSelectedUnit = unit;
                 if (Button == TMouseButton.mbLeft)
                 {
                     FDetailsOpen = true;
@@ -215,22 +196,20 @@ namespace Aow.Units.AoWHeroInfoDlg
         // AoWHeroInfoDlg.pas:61
         public static void ShowHeroInfo(THeroInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
         {
-            THero Hero = default;
+            THero Hero;
             Assert(Dialog.FArmyInfo == null, (AnsiString)"", "AoWHeroInfoDlg.pas", 80);
             Dialog.FDone = Done;
             Dialog.FArmyInfo = Event;
             Dialog.FArmyInfo.AddRef();
-            var call__17 = Event.FMessages.Text;
-            Dialog.Message.Items.Text = call__17;
-            var call__18 = Dialog.FArmyInfo.FArmyView.Hero(Dialog.FArmyInfo.FSelection, AllHeroTypes);
-            Hero = call__18;
+            var text = Event.FMessages.Text;
+            Dialog.Message.Items.Text = text;
+            Hero = Dialog.FArmyInfo.FArmyView.Hero(Dialog.FArmyInfo.FSelection, AllHeroTypes);
             if (Hero != null)
             {
                 Dialog.HeroName.Text = Hero.FHeroName;
-                var call__19 = Hero.GetLevel();
-                var call__20 = TranslateRStr(LevelXRStr);
-                var call__21 = AoWE.AoWE.Format(call__20, [IntToStr(call__19)]);
-                Dialog.HeroLevel.Text = call__21;
+                var level = Hero.GetLevel();
+                var format = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
+                Dialog.HeroLevel.Text = format;
             }
             else
             {

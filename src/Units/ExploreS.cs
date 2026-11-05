@@ -20,24 +20,8 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:71
         public override bool CanAddUnit(TAbstractUnit AUnit)
         {
-            bool Result = default;
-            Result = base.CanAddUnit(AUnit);
-            bool bool__1 = Result;
-            if (bool__1)
-            {
-                var call__2 = AUnit.GetTransporter();
-                bool__1 = !call__2;
-            }
-
-            bool bool__3 = bool__1;
-            if (bool__3)
-            {
-                var call__4 = AUnit.ValidTerrain(1, 4);
-                bool__3 = call__4;
-            }
-
-            Result = bool__3;
-            return Result;
+            bool Result = base.CanAddUnit(AUnit);
+            return Result && !AUnit.GetTransporter() && AUnit.ValidTerrain(1, 4);
         }
 
         // intf_P2_07.inc:445
@@ -50,8 +34,7 @@ namespace Aow.Units.ExploreS
         public TExplorationSite(TECustomNode owner) : base(owner)
         {
             FDefendersMode = TDefendersMode.dmNormal;
-            var call__5 = new TDefendersArmy(null);
-            FDefenders = call__5;
+            FDefenders = new TDefendersArmy(null);
         }
 
         // ExploreS.pas:90
@@ -101,7 +84,7 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:217
         public override bool CanSelect(int Xhp, int Yhp)
         {
-            bool Result = default;
+            bool Result;
             int Xhx = default;
             int Yhx = default;
             if (!AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
@@ -127,18 +110,16 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:96
         public override int GetTerrainTypeImage(int TerrainType)
         {
-            int Result = default;
-            int Image = default;
-            var call__6 = GetExplored();
-            if (!call__6 || AoWHSMap.FDay == 0)
+            int Result;
+            int Image;
+            if (!GetExplored() || AoWHSMap.FDay == 0)
             {
                 Result = TerrainType;
             }
             else
             {
                 Image = TerrainType + 100;
-                var call__7 = ((TExplorationSiteResource)FResource).ImageSequenceList.ImageSequences[Image << 0];
-                if (call__7 != null)
+                if (((TExplorationSiteResource)FResource).ImageSequenceList.ImageSequences[Image << 0] != null)
                 {
                     Result = Image;
                 }
@@ -154,12 +135,10 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:209
         public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
-            TExecuteResult Result = default;
-            Result = base.ExecuteTE(A1, Executer);
+            TExecuteResult Result = base.ExecuteTE(A1, Executer);
             if (A1.FAction == 0)
             {
-                var call__8 = ExecuteSearch((TCombatType)A1.FParam);
-                if (call__8)
+                if (ExecuteSearch((TCombatType)A1.FParam))
                 {
                     Result = TExecuteResult.erDone;
                 }
@@ -186,33 +165,27 @@ namespace Aow.Units.ExploreS
         public override void Update()
         {
             base.Update();
-            var call__9 = GetTerrainTypeImage(FTerrainType);
-            FImageIndex = call__9;
+            FImageIndex = GetTerrainTypeImage(FTerrainType);
         }
 
         // ExploreS.pas:93
-        public virtual bool GetExplored()
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public virtual bool GetExplored() => true;
 
         // ExploreS.pas:138
         public virtual void SetupCombat(TCombat A1, TArmyHS A2)
         {
             A1.FOnExecuted = CombatExecuted;
-            var call__10 = A2.GetYhx();
-            var call__11 = A2.GetLhx();
-            var call__12 = GetXhx();
-            var call__13 = GetYhx();
-            var call__14 = GetLhx();
-            var call__15 = A2.GetXhx();
-            A1.Setup((byte)A2.FArmy.FPlayer, (byte)A2.FArmy.FIndependentRelation, call__15, call__10, call__11, (byte)FDefenders.FPlayer, (byte)FDefenders.FIndependentRelation, call__12, call__13, call__14, true);
-            var call__16 = GetYhx();
-            var call__17 = GetLhx();
-            var call__18 = GetXhx();
-            A1.AddArmy(A2.FArmy, TCombatSideIndex.csAttacker, call__18, call__16, call__17);
+            var yhx = A2.GetYhx();
+            var lhx = A2.GetLhx();
+            var xhx = GetXhx();
+            var yhx2 = GetYhx();
+            var lhx2 = GetLhx();
+            var a2Xhx = A2.GetXhx();
+            A1.Setup((byte)A2.FArmy.FPlayer, (byte)A2.FArmy.FIndependentRelation, a2Xhx, yhx, lhx, (byte)FDefenders.FPlayer, (byte)FDefenders.FIndependentRelation, xhx, yhx2, lhx2, true);
+            var yhx3 = GetYhx();
+            var lhx3 = GetLhx();
+            var xhx2 = GetXhx();
+            A1.AddArmy(A2.FArmy, TCombatSideIndex.csAttacker, xhx2, yhx3, lhx3);
             A1.AddArmyEx(FDefenders, TCombatSideIndex.csDefender, -1, -1, -1, 1);
             A1.FExplorationSite = 1;
         }
@@ -226,24 +199,15 @@ namespace Aow.Units.ExploreS
         public virtual bool ExecuteSearch(TCombatType A1)
         {
             bool Result = default;
-            TArmyHS ArmyHS = default;
-            TCombat Combat = default;
-            sbyte Player = default;
-            TCombatEventLog Event = default;
-            var call__19 = Owner.FindOwnedChild(131607);
-            ArmyHS = (TArmyHS)call__19;
-            bool bool__20 = ArmyHS != null;
-            if (bool__20)
-            {
-                var call__21 = CanSearch(ArmyHS.FArmy.FPlayer);
-                bool__20 = call__21;
-            }
-
-            if (bool__20)
+            TArmyHS ArmyHS;
+            TCombat Combat;
+            sbyte Player;
+            TCombatEventLog Event;
+            ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
+            if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
             {
                 Player = ArmyHS.FArmy.FPlayer;
-                var call__22 = FDefenders.GetCount();
-                if (call__22 == 0)
+                if (FDefenders.GetCount() == 0)
                 {
                     ExecuteSearchDone(TCombatType.ctFast, TCombatResult.crVictory);
                 }
@@ -252,8 +216,7 @@ namespace Aow.Units.ExploreS
                     if (A1 == TCombatType.ctFast)
                     {
                         AoWHSMap.LockGameOverEvent();
-                        var call__23 = AoWHSMap.CreateCombat(131760);
-                        Combat = call__23;
+                        Combat = AoWHSMap.CreateCombat(131760);
                         SetupCombat(Combat, ArmyHS);
                         Combat.LockExecuted();
                         Combat.Initialize();
@@ -261,20 +224,12 @@ namespace Aow.Units.ExploreS
                         Combat.Execute();
                         Combat.Deactivate();
                         Combat.Finalize();
-                        var call__24 = GetName();
-                        Combat.FLogbook.FFinalData.FHeader = call__24 + AnsiString.FromBytes(32) + Combat.FLogbook.FFinalData.FHeader;
+                        var name = GetName();
+                        Combat.FLogbook.FFinalData.FHeader = name + AnsiString.FromBytes(32) + Combat.FLogbook.FFinalData.FHeader;
                         Event = new TCombatEventLog(null);
                         Event.SetCombatLogbook(Combat.FLogbook);
-                        var call__25 = AoWHSMap.FPlayers.GetPlayers(Player);
-                        call__25.FEventLogbook.AddEvent(Event);
-                        bool bool__26 = AoWHSMap.FSeatedPlayer == Player;
-                        if (bool__26)
-                        {
-                            var call__27 = AoWHSMap.FPlayers.GetPlayers(Player);
-                            bool__26 = call__27.FPlayerType == TPlayerType.ptHuman;
-                        }
-
-                        if (bool__26)
+                        AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                        if (AoWHSMap.FSeatedPlayer == Player && AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
                         {
                             Event.Execute(false, TExecuteTrigger.etEvent, null);
                         }
@@ -286,8 +241,7 @@ namespace Aow.Units.ExploreS
                     }
                     else
                     {
-                        var call__28 = AoWHSMap.CreateCombat(2228496);
-                        Combat = call__28;
+                        Combat = AoWHSMap.CreateCombat(2228496);
                         SetupCombat(Combat, ArmyHS);
                         Combat.Initialize();
                         Combat.Activate();
@@ -295,20 +249,12 @@ namespace Aow.Units.ExploreS
                         {
                             Combat.Deactivate();
                             Combat.Finalize();
-                            var call__29 = GetName();
-                            Combat.FLogbook.FFinalData.FHeader = call__29 + AnsiString.FromBytes(32) + Combat.FLogbook.FFinalData.FHeader;
+                            var name = GetName();
+                            Combat.FLogbook.FFinalData.FHeader = name + AnsiString.FromBytes(32) + Combat.FLogbook.FFinalData.FHeader;
                             Event = new TCombatEventLog(null);
                             Event.SetCombatLogbook(Combat.FLogbook);
-                            var call__30 = AoWHSMap.FPlayers.GetPlayers(Player);
-                            call__30.FEventLogbook.AddEvent(Event);
-                            bool bool__31 = AoWHSMap.FSeatedPlayer == Player;
-                            if (bool__31)
-                            {
-                                var call__32 = AoWHSMap.FPlayers.GetPlayers(Player);
-                                bool__31 = call__32.FPlayerType == TPlayerType.ptHuman;
-                            }
-
-                            if (bool__31)
+                            AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                            if (AoWHSMap.FSeatedPlayer == Player && AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
                             {
                                 Event.Execute(false, TExecuteTrigger.etEvent, null);
                             }
@@ -336,25 +282,16 @@ namespace Aow.Units.ExploreS
             TArmyHS ArmyHS = default;
             TCombatTypeRequestEventLog Request = default;
             TStructureTE TE = default;
-            var call__33 = Owner.FindOwnedChild(131607);
-            ArmyHS = (TArmyHS)call__33;
-            bool bool__34 = ArmyHS != null;
-            if (bool__34)
-            {
-                var call__35 = CanSearch(ArmyHS.FArmy.FPlayer);
-                bool__34 = call__35;
-            }
-
-            if (bool__34)
+            ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
+            if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
             {
                 var playerList = AoWHSMap.FPlayers;
                 if (playerList.FLocalPlayers.Count == 1 || AoWHSMap.FRequestCombatType)
                 {
                     Request = new TCombatTypeRequestEventLog(null);
-                    var call__37 = GetLhx();
-                    var call__38 = GetYhx();
-                    var call__39 = GetXhx();
-                    Request.SetCenterLocation((byte)call__39, (byte)call__38, call__37);
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    Request.SetCenterLocation((byte)GetXhx(), (byte)yhx, lhx);
                     Request.FPlayer = ArmyHS.FArmy.FPlayer;
                     Request.FDefenderPlayer = 0;
                     AoWHSMap.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
@@ -363,16 +300,13 @@ namespace Aow.Units.ExploreS
                 }
                 else
                 {
-                    var call__40 = playerList.GetPlayers(ArmyHS.FArmy.FPlayer);
-                    var call__41 = call__40.GetBusy();
-                    if (!call__41)
+                    if (!playerList.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
                     {
                         TE = CreateTE();
                         SetupTE(TE);
                         TE.FAction = 0;
                         TE.FParam = 1;
-                        var call__42 = AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer);
-                        call__42.AddEvent(TE);
+                        AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
                         TE.Release();
                         Result = true;
                     }
@@ -393,25 +327,20 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:113
         public void CombatExecuted(TCombat A1)
         {
-            TCombatData Data = default;
-            TCombatObject Obj = default;
-            TAbstractUnit AUnit = default;
-            int I = default;
+            TCombatData Data;
+            TCombatObject Obj;
+            TAbstractUnit AUnit;
             Data = A1.FCombatData;
+            for (int I = 0, last = Data.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__43 = Data.GetCount() - 1;
-                for (; I <= end__43; I += 1)
+                Obj = Data.GetObjects(I);
+                if (Obj is TCombatUnit && Obj.GetPlayer() == 0)
                 {
-                    Obj = Data.GetObjects(I);
-                    if (Obj is TCombatUnit && Obj.GetPlayer() == 0)
-                    {
-                        AUnit = ((TCombatUnit)Obj).FUnit;
-                        AUnit.AddRef();
-                        ((TCombatUnit)Obj).SetUnit(null);
-                        FDefenders.AddUnit(AUnit);
-                        AUnit.Release();
-                    }
+                    AUnit = ((TCombatUnit)Obj).FUnit;
+                    AUnit.AddRef();
+                    ((TCombatUnit)Obj).SetUnit(null);
+                    FDefenders.AddUnit(AUnit);
+                    AUnit.Release();
                 }
             }
 
@@ -428,7 +357,7 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:230
         public void RequestCombatTypeCallBack(TEventLog A1)
         {
-            TStructureTE TE = default;
+            TStructureTE TE;
             var combatTypeRequestEventLog = (TCombatTypeRequestEventLog)A1;
             if (combatTypeRequestEventLog.FCombatType != TCombatType.ctNone)
             {
@@ -436,8 +365,7 @@ namespace Aow.Units.ExploreS
                 SetupTE(TE);
                 TE.FAction = 0;
                 TE.FParam = (int)combatTypeRequestEventLog.FCombatType;
-                var call__45 = AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer);
-                call__45.AddEvent(TE);
+                AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
                 TE.Release();
             }
         }
@@ -445,20 +373,18 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:246
         public bool CanSearch(sbyte A1)
         {
-            bool Result = default;
-            TArmyHS ArmyHS = default;
+            bool Result;
+            TArmyHS ArmyHS;
             if (!GetExplored())
             {
-                var call__46 = Owner.FindOwnedChild(131607);
-                ArmyHS = (TArmyHS)call__46;
+                ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
                 if (ArmyHS == null || ArmyHS.FArmy.FPlayer != A1)
                 {
                     Result = false;
                 }
                 else
                 {
-                    Result = true;
-                    return Result;
+                    return true;
                 }
             }
             else
@@ -472,31 +398,23 @@ namespace Aow.Units.ExploreS
         // ExploreS.pas:300
         public void GenerateDefenders()
         {
-            int Collection = default;
-            int I = default;
-            TUnitIndexList List = default;
-            TUnitIndexListCollection Collections = default;
+            int Collection;
+            TUnitIndexList List;
+            TUnitIndexListCollection Collections;
             RandSeed = AoWHSMap.FDefendersSeed;
             if (FDefendersMode == TDefendersMode.dmRandom)
             {
-                var call__47 = Random(3);
-                FDefendersMode = (TDefendersMode)(call__47 + 1);
+                FDefendersMode = (TDefendersMode)(Random(3) + 1);
             }
 
-            var call__48 = ((TExplorationSiteResource)FResource).FDefenderCollections.GetRndCollection();
-            Collection = call__48;
+            Collection = ((TExplorationSiteResource)FResource).FDefenderCollections.GetRndCollection();
             if (Collection != -1)
             {
                 List = new TUnitIndexList();
                 Collections = ((TExplorationSiteResource)FResource).FDefenderCollections;
+                for (int I = Collections.GetCollectionCount(Collection) - 1; I >= 0; I--)
                 {
-                    I = Collections.GetCollectionCount(Collection) - 1;
-                    byte end__49 = 0;
-                    for (; I >= end__49; I -= 1)
-                    {
-                        var call__50 = Collections.GetU(Collection, I);
-                        List.Add(call__50);
-                    }
+                    List.Add(Collections.GetU(Collection, I));
                 }
 
                 try
@@ -522,8 +440,7 @@ namespace Aow.Units.ExploreS
     {
         public TExplorationSiteResource(TECustomNode owner) : base(owner)
         {
-            var call__51 = new TUnitIndexListCollection();
-            FDefenderCollections = call__51;
+            FDefenderCollections = new TUnitIndexListCollection();
             FTerrainBound = false;
         }
 
@@ -549,23 +466,13 @@ namespace Aow.Units.ExploreS
 
 
         // ExploreS.pas:382
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132033;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132033;
 
         // ExploreS.pas:61
 
 
         // ExploreS.pas:370
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"";
 
     }
 

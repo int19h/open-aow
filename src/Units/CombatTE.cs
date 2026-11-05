@@ -30,15 +30,11 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:178
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            TExecuteResult Result = default;
-            int TurnIndex = default;
-            int I = default;
-            bool Found = default;
+            int TurnIndex;
+            bool Found;
             base.Execute(TE);
-            var call__1 = AoWHSMap.Random(16777215);
-            RandSeed = call__1;
-            var call__2 = AoWCombatMap.FCombat.FCombatData.FTurnOrder.IndexOf((byte)AoWCombatMap.FCurrentCombatPlayer);
-            TurnIndex = call__2;
+            RandSeed = AoWHSMap.Random(16777215);
+            TurnIndex = AoWCombatMap.FCombat.FCombatData.FTurnOrder.IndexOf((byte)AoWCombatMap.FCurrentCombatPlayer);
             Found = false;
             while (!Found)
             {
@@ -49,47 +45,26 @@ namespace Aow.Units.CombatTE
                     AoWCombatMap.FCombat.NewRound();
                 }
 
+                for (int I = 0, last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__3 = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                    for (; I <= end__3; I += 1)
+                    bool condition = AoWCombatMap.FCombat.FCombatData.GetObjects(I) != null && AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit;
+                    if (condition)
                     {
-                        var call__4 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                        bool bool__5 = call__4 != null;
-                        if (bool__5)
-                        {
-                            var call__6 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            bool__5 = call__6 is TCombatUnit;
-                        }
+                        var objectValue = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                        var turnOrder = AoWCombatMap.FCombat.FCombatData.FTurnOrder[TurnIndex];
+                        condition = objectValue.FCombatPlayer == turnOrder;
+                    }
 
-                        bool bool__7 = bool__5;
-                        if (bool__7)
-                        {
-                            var call__8 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            var call__9 = AoWCombatMap.FCombat.FCombatData.FTurnOrder[TurnIndex];
-                            bool__7 = call__8.FCombatPlayer == call__9;
-                        }
-
-                        bool bool__10 = bool__7;
-                        if (bool__10)
-                        {
-                            var call__11 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            var call__12 = call__11.GetEnabled();
-                            bool__10 = call__12;
-                        }
-
-                        if (bool__10)
-                        {
-                            Found = true;
-                        }
+                    if (condition && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled())
+                    {
+                        Found = true;
                     }
                 }
             }
 
-            var call__13 = AoWCombatMap.FCombat.FCombatData.FTurnOrder[TurnIndex];
-            AoWCombatMap.NewTurn((sbyte)call__13);
-            Result = TExecuteResult.erDone;
-            return Result;
+            var turnOrder2 = AoWCombatMap.FCombat.FCombatData.FTurnOrder[TurnIndex];
+            AoWCombatMap.NewTurn((sbyte)turnOrder2);
+            return TExecuteResult.erDone;
         }
 
         // NetworkE.pas:230
@@ -108,47 +83,16 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:161
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            TExecuteResult Result = default;
-            int I = default;
             base.Execute(TE);
+            for (int I = 0, last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__14 = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                for (; I <= end__14; I += 1)
+                if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) != null && AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == AoWCombatMap.FCurrentCombatPlayer)
                 {
-                    var call__15 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                    bool bool__16 = call__15 != null;
-                    if (bool__16)
-                    {
-                        var call__17 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                        bool__16 = call__17 is TCombatUnit;
-                    }
-
-                    bool bool__18 = bool__16;
-                    if (bool__18)
-                    {
-                        var call__19 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                        var call__20 = call__19.GetEnabled();
-                        bool__18 = call__20;
-                    }
-
-                    bool bool__21 = bool__18;
-                    if (bool__21)
-                    {
-                        var call__22 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                        bool__21 = call__22.FCombatPlayer == AoWCombatMap.FCurrentCombatPlayer;
-                    }
-
-                    if (bool__21)
-                    {
-                        var call__23 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                        call__23.Surrender();
-                    }
+                    AoWCombatMap.FCombat.FCombatData.GetObjects(I).Surrender();
                 }
             }
 
-            Result = TExecuteResult.erDone;
-            return Result;
+            return TExecuteResult.erDone;
         }
 
         // NetworkE.pas:230
@@ -184,31 +128,22 @@ namespace Aow.Units.CombatTE
         }
 
         // CombatTE.pas:209
-        public override TAoWMapField GetMapF(TXYL Location)
-        {
-            TAoWMapField Result = default;
-            var call__24 = AoWCombatMap.MapContainer.GetField(Location.X, Location.Y, 0);
-            Result = (TAoWMapField)call__24;
-            return Result;
-        }
+        public override TAoWMapField GetMapF(TXYL Location) => (TAoWMapField)AoWCombatMap.MapContainer.GetField(Location.X, Location.Y, 0);
 
         // CombatTE.pas:234
         public override bool Validate()
         {
-            bool Result = default;
-            TAoWMapField MapField = default;
-            int Index = default;
-            TTacticalCombatUnitHS HS = default;
+            bool Result;
+            TAoWMapField MapField;
+            int Index;
+            TTacticalCombatUnitHS HS;
             base.Validate();
             Index = FPath.Count - 1;
-            var call__25 = FPath[Index];
-            var call__26 = GetMapF(call__25);
-            MapField = call__26;
+            MapField = GetMapF(FPath[Index]);
             HS = (TTacticalCombatUnitHS)MapField.FindOwnedChild(2228484);
             if (HS != null)
             {
-                var call__27 = new TList();
-                FObjects = call__27;
+                FObjects = new TList();
                 FUnit = HS.FUnit;
                 Result = true;
             }
@@ -223,9 +158,8 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:299
         public override TMoveStatus DefaultMove()
         {
-            TMoveStatus Result = default;
-            TAoWMapField MapField = default;
-            int Direction = default;
+            TAoWMapField MapField;
+            int Direction;
             int X = default;
             int Y = default;
             void CheckFreeStrike()
@@ -234,71 +168,26 @@ namespace Aow.Units.CombatTE
                 int NX = default;
                 int NY = default;
                 TTacticalCombatUnitHS HS = default;
-                var call__28 = FUnit.GetEnabled();
-                if (call__28 && FFreeStrikeUnit == null)
+                if (FUnit.GetEnabled() && FFreeStrikeUnit == null)
                 {
                     MapField = (TAoWMapField)FUnit.FUnitHS.Owner;
                     HN = FNeighbour + 1;
                     while (HN <= 6)
                     {
-                        var call__29 = FUnit.FUnitHS.Yhx;
-                        var call__30 = FUnit.FUnitHS.Xhx;
-                        CenterHNtoHX(call__30, call__29, HN, ref NX, ref NY);
-                        var call__31 = AoWCombatMap.MapContainer.MapLevels[0];
-                        var call__32 = call__31.GetField(NX, NY);
-                        var call__33 = call__32.FindOwnedChild(2228484);
-                        HS = (TTacticalCombatUnitHS)call__33;
-                        bool bool__34 = HS != null && FPreviousUnit != HS.FUnit;
-                        if (bool__34)
-                        {
-                            var call__35 = HS.FUnit.GetEnabled();
-                            bool__34 = call__35;
-                        }
-
-                        bool bool__36 = bool__34;
-                        if (bool__36)
-                        {
-                            var call__37 = HS.FUnit.GetLocked();
-                            bool__36 = !call__37;
-                        }
-
-                        bool bool__38 = bool__36;
-                        if (bool__38)
-                        {
-                            var call__39 = MeleeDamageTypes(HS.FUnit);
-                            bool__38 = call__39 != TSet<TDamageType>.Of();
-                        }
-
-                        bool bool__40 = bool__38;
-                        if (bool__40)
-                        {
-                            var call__41 = HS.FUnit.GetSide();
-                            var call__42 = FUnit.GetSide();
-                            bool__40 = call__41 != call__42;
-                        }
-
-                        bool bool__43 = bool__40 && HS.FAction == TTCAction.caMove;
-                        if (bool__43)
-                        {
-                            var call__44 = HS.FUnit.GetAbilityEnabled(1);
-                            var call__45 = FUnit.GetAbilityEnabled(1);
-                            bool__43 = call__44 == call__45;
-                        }
-
-                        if (bool__43)
+                        var yhx = FUnit.FUnitHS.Yhx;
+                        CenterHNtoHX(FUnit.FUnitHS.Xhx, yhx, HN, ref NX, ref NY);
+                        HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(NX, NY).FindOwnedChild(2228484);
+                        if (HS != null && FPreviousUnit != HS.FUnit && HS.FUnit.GetEnabled() && !HS.FUnit.GetLocked() && MeleeDamageTypes(HS.FUnit) != TSet<TDamageType>.Of() && HS.FUnit.GetSide() != FUnit.GetSide() && HS.FAction == TTCAction.caMove && HS.FUnit.GetAbilityEnabled(1) == FUnit.GetAbilityEnabled(1))
                         {
                             FNeighbour = (sbyte)HN;
                             FFreeStrikeUnit = HS.FUnit;
+                            NX = 0;
+                            int last = FObjects.Count - 1;
+                            for (; NX <= last; NX += 1)
                             {
-                                NX = 0;
-                                int end__46 = FObjects.Count - 1;
-                                for (; NX <= end__46; NX += 1)
+                                if (FObjects[NX] == FFreeStrikeUnit)
                                 {
-                                    var call__47 = FObjects[NX];
-                                    if (call__47 == FFreeStrikeUnit)
-                                    {
-                                        FFreeStrikeUnit = null;
-                                    }
+                                    FFreeStrikeUnit = null;
                                 }
                             }
 
@@ -323,7 +212,7 @@ namespace Aow.Units.CombatTE
                 }
             }
 
-            Result = TMoveStatus.msMoving;
+            TMoveStatus Result = TMoveStatus.msMoving;
             try
             {
                 if (FFreeStrikeUnit != null)
@@ -336,13 +225,12 @@ namespace Aow.Units.CombatTE
                             {
                                 FUnit.FUnitHS.SetAction(TTCAction.caBusy);
                                 FFreeStrikeUnit.FUnitHS.SetAction(TTCAction.caStepUp);
-                                var call__48 = FFreeStrikeUnit.FUnitHS.Yhx;
-                                var call__49 = FUnit.FUnitHS.Yhx;
-                                var call__50 = FFreeStrikeUnit.FUnitHS.Xhx;
-                                var call__51 = FUnit.FUnitHS.Xhx;
-                                var call__52 = FFreeStrikeUnit.FUnitHS.Xhx;
-                                var call__53 = GetMeleeDirIndex(call__52, call__50 - call__51, call__48 - call__49);
-                                FFreeStrikeUnit.FUnitHS.SetDirection((byte)call__53);
+                                var yhx = FFreeStrikeUnit.FUnitHS.Yhx;
+                                var fUnitHSYhx = FUnit.FUnitHS.Yhx;
+                                var xhx = FFreeStrikeUnit.FUnitHS.Xhx;
+                                var fUnitHSXhx = FUnit.FUnitHS.Xhx;
+                                var meleeDirIndex = GetMeleeDirIndex(FFreeStrikeUnit.FUnitHS.Xhx, xhx - fUnitHSXhx, yhx - fUnitHSYhx);
+                                FFreeStrikeUnit.FUnitHS.SetDirection((byte)meleeDirIndex);
                                 FStep = TTokenStep.tokInitStrike;
                             }
                             catch (System.Exception)
@@ -356,10 +244,8 @@ namespace Aow.Units.CombatTE
                             {
                                 if (FFreeStrikeUnit.FUnitHS.FActionDone)
                                 {
-                                    var call__54 = AoWHSMap.Random(16777215);
-                                    RandSeed = call__54;
-                                    var call__55 = CreateStrikeCA(FFreeStrikeUnit, FUnit, true);
-                                    FStrike = call__55;
+                                    RandSeed = AoWHSMap.Random(16777215);
+                                    FStrike = CreateStrikeCA(FFreeStrikeUnit, FUnit, true);
                                     if (FStrike.FDamage == 0)
                                     {
                                         FFreeStrikeUnit.FUnitHS.SetAction(TTCAction.caMeleeMiss);
@@ -390,9 +276,8 @@ namespace Aow.Units.CombatTE
                                         CombatTE.MakeHitBlood(FUnit, FStrike.FDamage);
                                     }
 
-                                    var call__56 = FUnit.FUnitHS.Yhx;
-                                    var call__57 = FUnit.FUnitHS.Xhx;
-                                    HXtoHP(call__57, call__56, ref X, ref Y);
+                                    var yhx = FUnit.FUnitHS.Yhx;
+                                    HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref X, ref Y);
                                     if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                     {
                                         CombatTE.MakeDEHSList(X, Y, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
@@ -437,15 +322,13 @@ namespace Aow.Units.CombatTE
                             {
                                 if (FFreeStrikeUnit.FUnitHS.FActionDone)
                                 {
-                                    var call__58 = FUnit.GetEnabled();
-                                    if (!call__58)
+                                    if (!FUnit.GetEnabled())
                                     {
                                         Result = TMoveStatus.msDone;
                                     }
                                     else
                                     {
-                                        var call__59 = FUnit.GetLocked();
-                                        if (call__59)
+                                        if (FUnit.GetLocked())
                                         {
                                             FUnit.FUnitHS.CancelMove();
                                             Result = TMoveStatus.msDone;
@@ -478,21 +361,11 @@ namespace Aow.Units.CombatTE
                 }
                 else
                 {
-                    var call__60 = FUnit.GetEnabled();
-                    if (call__60)
+                    if (FUnit.GetEnabled())
                     {
-                        var call__61 = FUnit.FUnitHS.Moving();
-                        if (call__61)
+                        if (FUnit.FUnitHS.Moving())
                         {
-                            var call__62 = FUnit.FUnitHS.MoveNext();
-                            bool bool__63 = call__62 == 100;
-                            if (!bool__63)
-                            {
-                                var call__64 = FUnit.FUnitHS.GetVisible();
-                                bool__63 = !call__64;
-                            }
-
-                            if (bool__63)
+                            if (FUnit.FUnitHS.MoveNext() == 100 || !FUnit.FUnitHS.GetVisible())
                             {
                                 Result = ExecuteDefaultMove();
                                 if (Result == TMoveStatus.msMoving)
@@ -509,34 +382,28 @@ namespace Aow.Units.CombatTE
                         {
                             if (FMoveIndex != 0)
                             {
-                                bool bool__65 = !AoWCombatMap.FExplorationEnabled;
-                                if (!bool__65)
+                                bool notExplorationEnabled = !AoWCombatMap.FExplorationEnabled;
+                                if (!notExplorationEnabled)
                                 {
-                                    var call__66 = FUnit.FUnitHS.Yhx;
-                                    var call__67 = FUnit.FUnitHS.Xhx;
-                                    var call__68 = AoWCombatMap.MapContainer.GetField(call__67, call__66, 0);
-                                    var call__69 = ((TAoWMapField)call__68).GetExplored(AoWCombatMap.FSeatedPlayer);
-                                    bool__65 = call__69;
+                                    var yhx = FUnit.FUnitHS.Yhx;
+                                    var xhx = FUnit.FUnitHS.Xhx;
+                                    notExplorationEnabled = ((TAoWMapField)AoWCombatMap.MapContainer.GetField(xhx, yhx, 0)).GetExplored(AoWCombatMap.FSeatedPlayer);
                                 }
 
-                                if (bool__65)
+                                if (notExplorationEnabled)
                                 {
-                                    var call__70 = FUnit.FUnitHS.Yhx;
-                                    var call__71 = FUnit.FUnitHS.Xhx;
-                                    AoWCombatMap.MakeVisible(call__71, call__70, 0, 3);
+                                    var yhx = FUnit.FUnitHS.Yhx;
+                                    var xhx = FUnit.FUnitHS.Xhx;
+                                    AoWCombatMap.MakeVisible(xhx, yhx, 0, 3);
                                 }
 
-                                var call__72 = GetDirection(FMoveIndex);
-                                Direction = call__72;
-                                var call__73 = FPath[FMoveIndex - 1];
-                                var call__74 = GetMapF(call__73);
-                                MapField = call__74;
+                                Direction = GetDirection(FMoveIndex);
+                                MapField = GetMapF(FPath[FMoveIndex - 1]);
                                 if (MapField.GetPlayer() == -1)
                                 {
                                     if (Direction != 0)
                                     {
-                                        var call__75 = FUnit.FUnitHS.MoveFirst(Direction, false);
-                                        if (call__75 == -1)
+                                        if (FUnit.FUnitHS.MoveFirst(Direction, false) == -1)
                                         {
                                             Result = TMoveStatus.msFailed;
                                         }
@@ -570,15 +437,12 @@ namespace Aow.Units.CombatTE
 
                 if (Result == TMoveStatus.msDone)
                 {
-                    var call__76 = FUnit.GetEnabled();
-                    if (call__76 && FUnit.FCombatPlayer == AoWCombatMap.FCurrentCombatPlayer)
+                    if (FUnit.GetEnabled() && FUnit.FCombatPlayer == AoWCombatMap.FCurrentCombatPlayer)
                     {
-                        var call__77 = FUnit.FUnitHS.Xhx;
-                        var call__78 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                        call__78.FLastX = call__77;
-                        var call__79 = FUnit.FUnitHS.Yhx;
-                        var call__80 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                        call__80.FLastY = call__79;
+                        var xhx = FUnit.FUnitHS.Xhx;
+                        AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastX = xhx;
+                        var yhx = FUnit.FUnitHS.Yhx;
+                        AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastY = yhx;
                     }
                 }
             }
@@ -593,22 +457,16 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:220
         public virtual bool Setup(TTacticalCombatUnit UnitObject, TMovepath Path)
         {
-            bool Result = default;
-            int StartIndex = default;
-            int I = default;
+            bool Result;
+            int StartIndex;
             FPath.Clear();
-            var call__81 = Path.MovePointsToPos(UnitObject.FMovePoints);
-            StartIndex = call__81;
+            StartIndex = Path.MovePointsToPos(UnitObject.FMovePoints);
             if (StartIndex != Path.Count - 1)
             {
+                for (int I = StartIndex, last = Path.Count - 1; I <= last; I++)
                 {
-                    I = StartIndex;
-                    int end__82 = Path.Count - 1;
-                    for (; I <= end__82; I += 1)
-                    {
-                        var call__83 = Path[I];
-                        FPath.Add(call__83);
-                    }
+                    var path = Path[I];
+                    FPath.Add(path);
                 }
 
                 Result = true;
@@ -624,40 +482,28 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:253
         public TMoveStatus ExecuteDefaultMove()
         {
-            TMoveStatus Result = default;
-            TAoWMapField NewField = default;
-            TAoWMapField OldField = default;
-            TRect R = default;
+            TMoveStatus Result;
+            TAoWMapField NewField;
+            TAoWMapField OldField;
+            TRect R;
             Move();
             OldField = (TAoWMapField)FUnit.FUnitHS.Owner;
-            var call__84 = FPath[FMoveIndex];
-            var call__85 = GetMapF(call__84);
-            NewField = call__85;
+            NewField = GetMapF(FPath[FMoveIndex]);
             FUnit.FUnitHS.MoveTo(NewField, 0);
-            var call__86 = NewField.FindChildIndex(FUnit.FUnitHS);
-            if (call__86 != -1)
+            if (NewField.FindChildIndex(FUnit.FUnitHS) != -1)
             {
                 Result = ProcessMove();
-                var call__87 = FPath[FMoveIndex];
-                FUnit.MovedTo(OldField, NewField, call__87.Flag);
-                var call__88 = Rect(OldField.Xhx, OldField.Yhx, OldField.Xhx + 1, OldField.Yhx + 1);
-                AoWCombatMap.TriggerMapChangedEvent(call__88, 0);
-                bool bool__89 = FMoveIndex == 0;
-                if (bool__89)
-                {
-                    var call__90 = NewField.FindChild(2229544);
-                    bool__89 = call__90 != null;
-                }
-
-                if (bool__89 && FUnit.FCombatPlayer != AoWCombatMap.FCombat.FCombatData.FDefenderPlayer)
+                var path = FPath[FMoveIndex];
+                FUnit.MovedTo(OldField, NewField, path.Flag);
+                var rect = Rect(OldField.Xhx, OldField.Yhx, OldField.Xhx + 1, OldField.Yhx + 1);
+                AoWCombatMap.TriggerMapChangedEvent(rect, 0);
+                if (FMoveIndex == 0 && NewField.FindChild(2229544) != null && FUnit.FCombatPlayer != AoWCombatMap.FCombat.FCombatData.FDefenderPlayer)
                 {
                     FUnit.SetStatus(TSet<TCombatObjectStatusElement>.Of(TCombatObjectStatusElement.csFled));
-                    var call__91 = FUnit.FUnitHS.Yhx;
-                    var call__92 = FUnit.FUnitHS.Xhx;
-                    var call__93 = FUnit.FUnitHS.Yhx;
-                    var call__94 = FUnit.FUnitHS.Xhx;
-                    var call__95 = Rect(call__94, call__93, call__92 + 1, call__91 + 1);
-                    R = call__95;
+                    var yhx = FUnit.FUnitHS.Yhx;
+                    var xhx = FUnit.FUnitHS.Xhx;
+                    var fUnitHSYhx = FUnit.FUnitHS.Yhx;
+                    R = Rect(FUnit.FUnitHS.Xhx, fUnitHSYhx, xhx + 1, yhx + 1);
                     FUnit.FUnitHS.Free();
                     AoWCombatMap.TriggerMapChangedEvent(R, 0);
                     FUnit.FUnitHS = null;
@@ -667,36 +513,27 @@ namespace Aow.Units.CombatTE
                 {
                     if (AoWCombatMap.FExplorationEnabled)
                     {
-                        var call__96 = FUnit.GetPlayer();
-                        var call__97 = FUnit.GetVisibilityRange();
-                        var call__98 = FUnit.FUnitHS.Yhx;
-                        var call__99 = FUnit.FUnitHS.Xhx;
-                        AoWCombatMap.ExploreArea(call__99, call__98, 0, call__96, call__97);
-                        var call__100 = FUnit.GetVisibilityRange();
-                        var call__101 = FUnit.FUnitHS.Yhx;
-                        var call__102 = FUnit.FUnitHS.Xhx;
-                        AoWCombatMap.MapChangedRad(call__102, call__101, 0, call__100 + 1);
+                        var player = FUnit.GetPlayer();
+                        var visibilityRange = FUnit.GetVisibilityRange();
+                        var yhx = FUnit.FUnitHS.Yhx;
+                        var xhx = FUnit.FUnitHS.Xhx;
+                        AoWCombatMap.ExploreArea(xhx, yhx, 0, player, visibilityRange);
+                        var fUnitVisibilityRange = FUnit.GetVisibilityRange();
+                        var fUnitHSYhx = FUnit.FUnitHS.Yhx;
+                        var fUnitHSXhx = FUnit.FUnitHS.Xhx;
+                        AoWCombatMap.MapChangedRad(fUnitHSXhx, fUnitHSYhx, 0, fUnitVisibilityRange + 1);
                     }
                     else
                     {
-                        var call__103 = FUnit.FUnitHS.Yhx;
-                        var call__104 = FUnit.FUnitHS.Xhx;
-                        var call__105 = FUnit.FUnitHS.Yhx;
-                        var call__106 = FUnit.FUnitHS.Xhx;
-                        var call__107 = Rect(call__106, call__105, call__104 + 1, call__103 + 1);
-                        AoWCombatMap.TriggerMapChangedEvent(call__107, 0);
+                        var yhx = FUnit.FUnitHS.Yhx;
+                        var xhx = FUnit.FUnitHS.Xhx;
+                        var fUnitHSYhx = FUnit.FUnitHS.Yhx;
+                        var rect2 = Rect(FUnit.FUnitHS.Xhx, fUnitHSYhx, xhx + 1, yhx + 1);
+                        AoWCombatMap.TriggerMapChangedEvent(rect2, 0);
                     }
 
-                    var call__108 = FUnit.GetPlayer();
-                    var call__109 = AoWHSMap.FPlayers.GetPlayers(call__108);
-                    bool bool__110 = call__109.FPlayerType != TPlayerType.ptHuman;
-                    if (!bool__110)
-                    {
-                        var call__111 = AoWCombatMap.FPlayers.GetPlayers(FUnit.FCombatPlayer);
-                        bool__110 = call__111.FAuto;
-                    }
-
-                    if (bool__110)
+                    var fUnitPlayer = FUnit.GetPlayer();
+                    if (AoWHSMap.FPlayers.GetPlayers(fUnitPlayer).FPlayerType != TPlayerType.ptHuman || AoWCombatMap.FPlayers.GetPlayers(FUnit.FCombatPlayer).FAuto)
                     {
                         FUnit.FMovePoints = 0;
                     }
@@ -728,12 +565,11 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:454
         public override TMoveStatus LastMove()
         {
-            TMoveStatus Result = default;
-            TTacticalCombatUnitHS HS = default;
+            TTacticalCombatUnitHS HS;
             int X = default;
             int Y = default;
             TMeleeStrike Strike = default;
-            Result = TMoveStatus.msMoving;
+            TMoveStatus Result = TMoveStatus.msMoving;
             try
             {
                 switch (FStep)
@@ -743,29 +579,24 @@ namespace Aow.Units.CombatTE
                         {
                             Result = TMoveStatus.msMoving;
                             FUnit.FUnitHS.CancelMove();
-                            bool bool__112 = !AoWCombatMap.FExplorationEnabled;
-                            if (!bool__112)
+                            bool notExplorationEnabled = !AoWCombatMap.FExplorationEnabled;
+                            if (!notExplorationEnabled)
                             {
-                                var call__113 = FUnit.FUnitHS.Yhx;
-                                var call__114 = FUnit.FUnitHS.Xhx;
-                                var call__115 = AoWCombatMap.MapContainer.GetField(call__114, call__113, 0);
-                                var call__116 = ((TAoWMapField)call__115).GetExplored(AoWCombatMap.FSeatedPlayer);
-                                bool__112 = call__116;
+                                var yhx = FUnit.FUnitHS.Yhx;
+                                var xhx = FUnit.FUnitHS.Xhx;
+                                notExplorationEnabled = ((TAoWMapField)AoWCombatMap.MapContainer.GetField(xhx, yhx, 0)).GetExplored(AoWCombatMap.FSeatedPlayer);
                             }
 
-                            if (bool__112)
+                            if (notExplorationEnabled)
                             {
-                                var call__117 = FUnit.FUnitHS.Yhx;
-                                var call__118 = FUnit.FUnitHS.Xhx;
-                                AoWCombatMap.MakeVisible(call__118, call__117, 0, 5);
+                                var yhx = FUnit.FUnitHS.Yhx;
+                                var xhx = FUnit.FUnitHS.Xhx;
+                                AoWCombatMap.MakeVisible(xhx, yhx, 0, 5);
                             }
 
-                            var call__119 = FPath[0];
-                            var call__120 = FPath[0];
-                            var call__121 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__122 = call__121.GetField(call__120.X, call__119.Y);
-                            var call__123 = call__122.FindOwnedChild(2228484);
-                            HS = (TTacticalCombatUnitHS)call__123;
+                            var pathY = FPath[0];
+                            var pathX = FPath[0];
+                            HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(pathX.X, pathY.Y).FindOwnedChild(2228484);
                             if (HS == null)
                             {
                                 FPreviousUnit = null;
@@ -781,8 +612,7 @@ namespace Aow.Units.CombatTE
                             }
                             else
                             {
-                                var call__124 = new TMeleeRound();
-                                FMeleeRound = call__124;
+                                FMeleeRound = new TMeleeRound();
                                 FMeleeRound.Calculate(FUnit, FPreviousUnit);
                                 if (FMeleeRound.FCount == 0)
                                 {
@@ -791,13 +621,12 @@ namespace Aow.Units.CombatTE
                                 else
                                 {
                                     FUnit.FUnitHS.SetAction(TTCAction.caStepUp);
-                                    var call__125 = FUnit.FUnitHS.Yhx;
-                                    var call__126 = FPreviousUnit.FUnitHS.Yhx;
-                                    var call__127 = FUnit.FUnitHS.Xhx;
-                                    var call__128 = FPreviousUnit.FUnitHS.Xhx;
-                                    var call__129 = FUnit.FUnitHS.Xhx;
-                                    var call__130 = GetMeleeDirIndex(call__129, call__127 - call__128, call__125 - call__126);
-                                    FUnit.FUnitHS.SetDirection((byte)call__130);
+                                    var yhx = FUnit.FUnitHS.Yhx;
+                                    var fUnitHSYhx = FPreviousUnit.FUnitHS.Yhx;
+                                    var xhx = FUnit.FUnitHS.Xhx;
+                                    var fUnitHSXhx = FPreviousUnit.FUnitHS.Xhx;
+                                    var meleeDirIndex = GetMeleeDirIndex(FUnit.FUnitHS.Xhx, xhx - fUnitHSXhx, yhx - fUnitHSYhx);
+                                    FUnit.FUnitHS.SetDirection((byte)meleeDirIndex);
                                     FPreviousUnit.FUnitHS.SetDirection((byte)(FUnit.FUnitHS.FDirection + 3));
                                     if (FPreviousUnit.FUnitHS.FDirection > 6)
                                     {
@@ -842,9 +671,8 @@ namespace Aow.Units.CombatTE
                                 {
                                     FUnit.FUnitHS.SetAction(TTCAction.caHit);
                                     CombatTE.MakeHitBlood(FUnit, FStrike.FDamage);
-                                    var call__131 = FUnit.FUnitHS.Yhx;
-                                    var call__132 = FUnit.FUnitHS.Xhx;
-                                    HXtoHP(call__132, call__131, ref X, ref Y);
+                                    var yhx = FUnit.FUnitHS.Yhx;
+                                    HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref X, ref Y);
                                     if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                     {
                                         CombatTE.MakeDEHSList(X + FUnit.FUnitHS.FOffsetX, Y + FUnit.FUnitHS.FOffsetY, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
@@ -867,9 +695,8 @@ namespace Aow.Units.CombatTE
                                     {
                                         FPreviousUnit.FUnitHS.SetAction(TTCAction.caHit);
                                         CombatTE.MakeHitBlood(FPreviousUnit, FStrike.FDamage);
-                                        var call__133 = FPreviousUnit.FUnitHS.Yhx;
-                                        var call__134 = FPreviousUnit.FUnitHS.Xhx;
-                                        HXtoHP(call__134, call__133, ref X, ref Y);
+                                        var yhx = FPreviousUnit.FUnitHS.Yhx;
+                                        HXtoHP(FPreviousUnit.FUnitHS.Xhx, yhx, ref X, ref Y);
                                         if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                         {
                                             CombatTE.MakeDEHSList(X, Y, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
@@ -904,8 +731,7 @@ namespace Aow.Units.CombatTE
                                 if (Strike.Side == TCombatSideIndex.csAttacker && FPreviousUnit.FUnitHS.FActionDone)
                                 {
                                     AoWCombatMap.FCombat.ExecuteCombatAction(FStrike);
-                                    var call__135 = FPreviousUnit.GetEnabled();
-                                    if (!call__135)
+                                    if (!FPreviousUnit.GetEnabled())
                                     {
                                         FStep = TTokenStep.tokEnd;
                                         FUnit.FUnitHS.SetAction(TTCAction.caStepBack);
@@ -920,8 +746,7 @@ namespace Aow.Units.CombatTE
                                     if (FUnit.FUnitHS.FActionDone)
                                     {
                                         AoWCombatMap.FCombat.ExecuteCombatAction(FStrike);
-                                        var call__136 = FUnit.GetEnabled();
-                                        if (call__136)
+                                        if (FUnit.GetEnabled())
                                         {
                                             NextStrike();
                                         }
@@ -964,19 +789,16 @@ namespace Aow.Units.CombatTE
                         FStrike.Release();
                     }
 
-                    var call__137 = FUnit.GetEnabled();
-                    if (call__137)
+                    if (FUnit.GetEnabled())
                     {
                         FUnit.FMovePoints = 0;
                         FUnit.FUnitHS.Unselect();
                         if (FUnit.FCombatPlayer == AoWCombatMap.FCurrentCombatPlayer)
                         {
-                            var call__138 = FUnit.FUnitHS.Xhx;
-                            var call__139 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                            call__139.FLastX = call__138;
-                            var call__140 = FUnit.FUnitHS.Yhx;
-                            var call__141 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                            call__141.FLastY = call__140;
+                            var xhx = FUnit.FUnitHS.Xhx;
+                            AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastX = xhx;
+                            var yhx = FUnit.FUnitHS.Yhx;
+                            AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastY = yhx;
                         }
                     }
                 }
@@ -992,7 +814,7 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:577
         public void NextStrike()
         {
-            bool Locked = default;
+            bool Locked;
             TMeleeStrike Strike = default;
             Locked = true;
             while (Locked && FStrikeIndex < FMeleeRound.FCount)
@@ -1000,13 +822,11 @@ namespace Aow.Units.CombatTE
                 FMeleeRound.GetMeleeStrike(FStrikeIndex, ref Strike);
                 if (Strike.Side == TCombatSideIndex.csAttacker)
                 {
-                    var call__142 = FUnit.GetLocked();
-                    Locked = call__142;
+                    Locked = FUnit.GetLocked();
                 }
                 else
                 {
-                    var call__143 = FPreviousUnit.GetLocked();
-                    Locked = call__143;
+                    Locked = FPreviousUnit.GetLocked();
                 }
 
                 if (Locked)
@@ -1036,10 +856,8 @@ namespace Aow.Units.CombatTE
                 FStrike.Release();
             }
 
-            var call__144 = AoWHSMap.Random(16777215);
-            RandSeed = call__144;
-            var call__145 = FMeleeRound.CreateStrikeCA(FStrikeIndex);
-            FStrike = call__145;
+            RandSeed = AoWHSMap.Random(16777215);
+            FStrike = FMeleeRound.CreateStrikeCA(FStrikeIndex);
             FMeleeRound.GetMeleeStrike(FStrikeIndex, ref Strike);
             if (Strike.Side == TCombatSideIndex.csAttacker)
             {
@@ -1105,14 +923,13 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:633
         public override TMoveStatus LastMove()
         {
-            TMoveStatus Result = default;
-            TXYZ Point = default;
+            TXYZ Point;
             int I = default;
             int X = default;
             int Y = default;
-            TTacticalCombatUnitHS HS = default;
+            TTacticalCombatUnitHS HS;
             TMapFieldMsg Msg = default;
-            Result = TMoveStatus.msMoving;
+            TMoveStatus Result = TMoveStatus.msMoving;
             try
             {
                 switch (FStep)
@@ -1124,30 +941,27 @@ namespace Aow.Units.CombatTE
                             FUnit.FUnitHS.CancelMove();
                             FUnit.FUnitHS.Unselect();
                             FUnit.FUnitHS.FSelectedAbility = FAbilityID;
-                            bool bool__146 = !AoWCombatMap.FExplorationEnabled;
-                            if (!bool__146)
+                            bool notExplorationEnabled = !AoWCombatMap.FExplorationEnabled;
+                            if (!notExplorationEnabled)
                             {
-                                var call__147 = FUnit.FUnitHS.Yhx;
-                                var call__148 = FUnit.FUnitHS.Xhx;
-                                var call__149 = AoWCombatMap.MapContainer.GetField(call__148, call__147, 0);
-                                var call__150 = ((TAoWMapField)call__149).GetExplored(AoWCombatMap.FSeatedPlayer);
-                                bool__146 = call__150;
+                                var yhx = FUnit.FUnitHS.Yhx;
+                                var xhx = FUnit.FUnitHS.Xhx;
+                                notExplorationEnabled = ((TAoWMapField)AoWCombatMap.MapContainer.GetField(xhx, yhx, 0)).GetExplored(AoWCombatMap.FSeatedPlayer);
                             }
 
-                            if (bool__146)
+                            if (notExplorationEnabled)
                             {
-                                var call__151 = FUnit.FUnitHS.Yhx;
-                                var call__152 = FUnit.FUnitHS.Xhx;
-                                AoWCombatMap.MakeVisible(call__152, call__151, 0, 5);
+                                var yhx = FUnit.FUnitHS.Yhx;
+                                var xhx = FUnit.FUnitHS.Xhx;
+                                AoWCombatMap.MakeVisible(xhx, yhx, 0, 5);
                             }
 
-                            var call__153 = FUnit.FUnitHS.Yhx;
-                            var call__154 = FPath[0];
-                            var call__155 = FUnit.FUnitHS.Xhx;
-                            var call__156 = FPath[0];
-                            var call__157 = FUnit.FUnitHS.Xhx;
-                            var call__158 = GetMeleeDirIndex(call__157, call__155 - call__156.X, call__153 - call__154.Y);
-                            FUnit.FUnitHS.SetDirection((byte)call__158);
+                            var fUnitHSYhx = FUnit.FUnitHS.Yhx;
+                            var pathY = FPath[0];
+                            var fUnitHSXhx = FUnit.FUnitHS.Xhx;
+                            var pathX = FPath[0];
+                            var meleeDirIndex = GetMeleeDirIndex(FUnit.FUnitHS.Xhx, fUnitHSXhx - pathX.X, fUnitHSYhx - pathY.Y);
+                            FUnit.FUnitHS.SetDirection((byte)meleeDirIndex);
                             if (FAbilityID == 65)
                             {
                                 FStep = TTokenStep.tokInitStrike;
@@ -1162,12 +976,9 @@ namespace Aow.Units.CombatTE
                                 else
                                 {
                                     FUnit.FUnitHS.SetAction(TTCAction.caStepUp);
-                                    var call__159 = FPath[0];
-                                    var call__160 = FPath[0];
-                                    var call__161 = AoWCombatMap.MapContainer.MapLevels[0];
-                                    var call__162 = call__161.GetField(call__160.X, call__159.Y);
-                                    var call__163 = call__162.FindOwnedChild(2228484);
-                                    HS = (TTacticalCombatUnitHS)call__163;
+                                    var path = FPath[0];
+                                    var path2 = FPath[0];
+                                    HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(path2.X, path.Y).FindOwnedChild(2228484);
                                     if (HS == null)
                                     {
                                         FPreviousUnit = null;
@@ -1189,20 +1000,14 @@ namespace Aow.Units.CombatTE
                                     {
                                         if (FAbilityID == 117)
                                         {
-                                            var call__164 = FPath[0];
-                                            var call__165 = FPath[0];
-                                            var call__166 = AoWCombatMap.MapContainer.MapLevels[0];
-                                            var call__167 = call__166.GetField(call__165.X, call__164.Y);
-                                            var call__168 = call__167.FindOwnedChild(2229508);
-                                            FWall = (TCityWall)call__168;
+                                            var path3 = FPath[0];
+                                            var path4 = FPath[0];
+                                            FWall = (TCityWall)AoWCombatMap.MapContainer.MapLevels[0].GetField(path4.X, path3.Y).FindOwnedChild(2229508);
                                             if (FWall == null)
                                             {
-                                                var call__169 = FPath[0];
-                                                var call__170 = FPath[0];
-                                                var call__171 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                var call__172 = call__171.GetField(call__170.X, call__169.Y);
-                                                var call__173 = call__172.FindOwnedChild(2229510);
-                                                FWall = (TCityWall)call__173;
+                                                var path5 = FPath[0];
+                                                var path6 = FPath[0];
+                                                FWall = (TCityWall)AoWCombatMap.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510);
                                             }
 
                                             if (FWall == null && FAbilityID == 117)
@@ -1248,13 +1053,11 @@ namespace Aow.Units.CombatTE
                             {
                                 if (FUnit.FUnitHS.FActionDone)
                                 {
-                                    var call__174 = AoWCombatMap.AddEffect(FEffectType);
-                                    FEffect = call__174;
+                                    FEffect = AoWCombatMap.AddEffect(FEffectType);
                                     FEffect.FAbilityIndex = FAbilityID;
                                     Point = new TXYZ();
-                                    var call__175 = FPreviousUnit.FUnitHS.Yhx;
-                                    var call__176 = FPreviousUnit.FUnitHS.Xhx;
-                                    HXtoHP(call__176, call__175, ref Point.X, ref Point.Y);
+                                    var yhx = FPreviousUnit.FUnitHS.Yhx;
+                                    HXtoHP(FPreviousUnit.FUnitHS.Xhx, yhx, ref Point.X, ref Point.Y);
                                     Point.X += 16;
                                     FEffect.FPath.Add(Point);
                                     FStep = TTokenStep.tokExeStrike;
@@ -1269,21 +1072,18 @@ namespace Aow.Units.CombatTE
                                         case 117:
                                             FStep = TTokenStep.tokEnd;
                                             FDamage = 0;
-                                            var call__177 = AoWHSMap.Random(16777215);
-                                            RandSeed = call__177;
-                                            var call__178 = FWall.GetDefense();
-                                            var call__179 = ExecuteDamageRole(TCDamage[0], TCAttack[0] - call__178);
-                                            FWall.SetHitPoints(FWall.FHitPoints - call__179);
+                                            RandSeed = AoWHSMap.Random(16777215);
+                                            var defense = FWall.GetDefense();
+                                            var executeDamageRole = ExecuteDamageRole(TCDamage[0], TCAttack[0] - defense);
+                                            FWall.SetHitPoints(FWall.FHitPoints - executeDamageRole);
                                             FUnit.FUnitHS.SetAction(TTCAction.caStepBack);
                                             break;
                                         case 65:
-                                            var call__180 = AoWCombatMap.AddEffect(FEffectType);
-                                            FEffect = call__180;
+                                            FEffect = AoWCombatMap.AddEffect(FEffectType);
                                             FEffect.FAbilityIndex = FAbilityID;
                                             Point = new TXYZ();
-                                            var call__181 = FPath[1];
-                                            var call__182 = FPath[1];
-                                            HXtoHP(call__182.X, call__181.Y, ref Point.X, ref Point.Y);
+                                            var path = FPath[1];
+                                            HXtoHP(FPath[1].X, path.Y, ref Point.X, ref Point.Y);
                                             Point.X += 16;
                                             FEffect.FPath.Add(Point);
                                             FStep = TTokenStep.tokExeStrike;
@@ -1303,8 +1103,7 @@ namespace Aow.Units.CombatTE
                         {
                             if (FEffect == null)
                             {
-                                var call__183 = FUnit.GetEnabled();
-                                if (!call__183)
+                                if (!FUnit.GetEnabled())
                                 {
                                     Result = TMoveStatus.msDone;
                                 }
@@ -1322,30 +1121,23 @@ namespace Aow.Units.CombatTE
                                                 if (raDir[FUnit.FUnitHS.FActionFrame] > 0)
                                                 {
                                                     I = (raDir[FUnit.FUnitHS.FActionFrame] + FUnit.FUnitHS.FDirection) % 6 + 1;
-                                                    var call__184 = FPath[1];
-                                                    var call__185 = FPath[1];
-                                                    CenterHNtoHX(call__185.X, call__184.Y, I, ref X, ref Y);
-                                                    var call__186 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                    var call__187 = call__186.GetField(X, Y);
-                                                    var call__188 = call__187.FindOwnedChild(2228484);
-                                                    HS = (TTacticalCombatUnitHS)call__188;
+                                                    var path = FPath[1];
+                                                    CenterHNtoHX(FPath[1].X, path.Y, I, ref X, ref Y);
+                                                    HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
                                                     if (HS == null || HS == FUnit.FUnitHS)
                                                     {
                                                         FPreviousUnit = null;
                                                     }
                                                     else
                                                     {
-                                                        var call__189 = HS.FUnit.GetAbilityEnabled(1);
-                                                        if (call__189)
+                                                        if (HS.FUnit.GetAbilityEnabled(1))
                                                         {
                                                             FPreviousUnit = null;
                                                         }
                                                         else
                                                         {
-                                                            var call__190 = AoWHSMap.Random(16777215);
-                                                            RandSeed = call__190;
-                                                            var call__191 = CreateStrikeCA(FUnit, HS.FUnit, true);
-                                                            FStrike = call__191;
+                                                            RandSeed = AoWHSMap.Random(16777215);
+                                                            FStrike = CreateStrikeCA(FUnit, HS.FUnit, true);
                                                             if (FStrike.FDamage > 0)
                                                             {
                                                                 HS.SetAction(TTCAction.caHit);
@@ -1373,8 +1165,7 @@ namespace Aow.Units.CombatTE
                             {
                                 if (FEffect.FDone)
                                 {
-                                    var call__192 = FUnit.GetEnabled();
-                                    if (!call__192)
+                                    if (!FUnit.GetEnabled())
                                     {
                                         Result = TMoveStatus.msDone;
                                     }
@@ -1383,21 +1174,15 @@ namespace Aow.Units.CombatTE
                                         switch (FAbilityID)
                                         {
                                             case 40:
-                                                var call__193 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__193;
-                                                var call__194 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__195 = ((TEntangleAbility)call__194).CreateEntangleCA(FUnit, FPreviousUnit);
-                                                FEntangleAction = call__195;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FEntangleAction = ((TEntangleAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateEntangleCA(FUnit, FPreviousUnit);
                                                 FSuccessful = FEntangleAction.FSuccessful;
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FEntangleAction);
                                                 FEntangleAction.Release();
                                                 break;
                                             case 27:
-                                                var call__196 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__196;
-                                                var call__197 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__198 = ((TWebAbility)call__197).CreateWebCA(FUnit, FPreviousUnit);
-                                                FWebAction = call__198;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FWebAction = ((TWebAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateWebCA(FUnit, FPreviousUnit);
                                                 FSuccessful = FWebAction.FSuccessful;
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FWebAction);
                                                 FWebAction.Release();
@@ -1405,70 +1190,50 @@ namespace Aow.Units.CombatTE
                                             case 28:
                                             case 29:
                                             case 148:
-                                                var call__199 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__199;
-                                                var call__200 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__201 = ((TCommandAbility)call__200).CreateCommandCA(FUnit, FPreviousUnit);
-                                                FCommandAction = call__201;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FCommandAction = ((TCommandAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateCommandCA(FUnit, FPreviousUnit);
                                                 FSuccessful = FCommandAction.FSuccessful;
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FCommandAction);
                                                 FCommandAction.Release();
                                                 break;
                                             case 38:
-                                                var call__202 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__202;
-                                                var call__203 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__204 = ((TTurnUndeadAbility)call__203).CreateTurnUndeadCA(FUnit, FPreviousUnit);
-                                                FTurnUndeadAction = call__204;
-                                                var call__205 = FTurnUndeadAction.GetSuccessfull();
-                                                FSuccessful = call__205;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FTurnUndeadAction = ((TTurnUndeadAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateTurnUndeadCA(FUnit, FPreviousUnit);
+                                                FSuccessful = FTurnUndeadAction.GetSuccessfull();
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FTurnUndeadAction);
                                                 FTurnUndeadAction.Release();
                                                 break;
                                             case 35:
-                                                var call__206 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__206;
-                                                var call__207 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__208 = ((TInvokeDeathAbility)call__207).CreateCA(FUnit, FPreviousUnit);
-                                                FDeathAction = call__208;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FDeathAction = ((TInvokeDeathAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateCA(FUnit, FPreviousUnit);
                                                 FSuccessful = FDeathAction.FSuccessful;
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FDeathAction);
                                                 FDeathAction.Release();
                                                 break;
                                             case 47:
-                                                var call__209 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__209;
-                                                var call__210 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__211 = ((THealingAbility)call__210).CreateHealingCA(FUnit, FPreviousUnit);
-                                                FHealingAction = call__211;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FHealingAction = ((THealingAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateHealingCA(FUnit, FPreviousUnit);
                                                 FSuccessful = true;
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FHealingAction);
                                                 FHealingAction.Release();
                                                 break;
                                             case 60:
-                                                var call__212 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__212;
-                                                var call__213 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__214 = ((TDispelMagicAbility)call__213).CreateCA(FUnit, FPreviousUnit);
-                                                FDispelAction = call__214;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FDispelAction = ((TDispelMagicAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateCA(FUnit, FPreviousUnit);
                                                 FSuccessful = FDispelAction.FEnchantmentIDs.Count > 0;
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FDispelAction);
                                                 FDispelAction.Release();
                                                 break;
                                             case 106:
                                             case 107:
-                                                var call__215 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__215;
-                                                var call__216 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                var call__217 = ((TPossessAbility)call__216).CreatePossessCA(FUnit, FPreviousUnit);
-                                                FPossessAction = call__217;
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                FPossessAction = ((TPossessAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreatePossessCA(FUnit, FPreviousUnit);
                                                 FSuccessful = FPossessAction.FSuccessful;
                                                 AoWCombatMap.FCombat.ExecuteCombatAction(FPossessAction);
                                                 FPossessAction.Release();
-                                                var call__218 = FUnit.FUnit.GetUnitGFXResourceIndex();
-                                                FUnit.FUnitHS.SetUnitGFXResourceIndex(call__218);
-                                                var call__219 = FPreviousUnit.GetEnabled();
-                                                if (!call__219)
+                                                var unitGFXResourceIndex = FUnit.FUnit.GetUnitGFXResourceIndex();
+                                                FUnit.FUnitHS.SetUnitGFXResourceIndex(unitGFXResourceIndex);
+                                                if (!FPreviousUnit.GetEnabled())
                                                 {
                                                     FUnit.FUnitHS.MoveTo((TMapField)FPreviousUnit.FUnitHS.Owner, 0);
                                                     FUnit.FUnitHS.SetDirection(FPreviousUnit.FUnitHS.FDirection);
@@ -1483,48 +1248,16 @@ namespace Aow.Units.CombatTE
                                         }
                                     }
 
-                                    var call__220 = FUnit.GetEnabled();
-                                    if (!call__220 || ((FAbilityID == 106 || FAbilityID == 107) && FSuccessful))
+                                    if (!FUnit.GetEnabled() || ((FAbilityID == 106 || FAbilityID == 107) && FSuccessful))
                                     {
                                         Result = TMoveStatus.msDone;
                                     }
                                     else
                                     {
-                                        bool bool__221 = !FSuccessful && FPreviousUnit != null;
-                                        if (bool__221)
+                                        if (!FSuccessful && FPreviousUnit != null && FPreviousUnit.GetEnabled() && !FPreviousUnit.GetLocked() && MeleeDamageTypes(FPreviousUnit) != TSet<TDamageType>.Of() && FPreviousUnit.GetSide() != FUnit.GetSide())
                                         {
-                                            var call__222 = FPreviousUnit.GetEnabled();
-                                            bool__221 = call__222;
-                                        }
-
-                                        bool bool__223 = bool__221;
-                                        if (bool__223)
-                                        {
-                                            var call__224 = FPreviousUnit.GetLocked();
-                                            bool__223 = !call__224;
-                                        }
-
-                                        bool bool__225 = bool__223;
-                                        if (bool__225)
-                                        {
-                                            var call__226 = MeleeDamageTypes(FPreviousUnit);
-                                            bool__225 = call__226 != TSet<TDamageType>.Of();
-                                        }
-
-                                        bool bool__227 = bool__225;
-                                        if (bool__227)
-                                        {
-                                            var call__228 = FPreviousUnit.GetSide();
-                                            var call__229 = FUnit.GetSide();
-                                            bool__227 = call__228 != call__229;
-                                        }
-
-                                        if (bool__227)
-                                        {
-                                            var call__230 = AoWHSMap.Random(16777215);
-                                            RandSeed = call__230;
-                                            var call__231 = CreateStrikeCA(FPreviousUnit, FUnit, true);
-                                            FStrike = call__231;
+                                            RandSeed = AoWHSMap.Random(16777215);
+                                            FStrike = CreateStrikeCA(FPreviousUnit, FUnit, true);
                                             if (FStrike.FDamage == 0)
                                             {
                                                 FPreviousUnit.FUnitHS.SetAction(TTCAction.caMeleeMiss);
@@ -1546,8 +1279,7 @@ namespace Aow.Units.CombatTE
                                 }
                                 else
                                 {
-                                    var call__232 = FUnit.GetEnabled();
-                                    if (call__232)
+                                    if (FUnit.GetEnabled())
                                     {
                                         switch (FAbilityID)
                                         {
@@ -1557,19 +1289,13 @@ namespace Aow.Units.CombatTE
                                                     Msg.MsgID = 200704;
                                                     Msg.Param[0] = FUnit;
                                                     Msg.Result = -1;
+                                                    I = 0;
+                                                    for (; I <= 6; I += 1)
                                                     {
-                                                        I = 0;
-                                                        byte end__233 = 6;
-                                                        for (; I <= end__233; I += 1)
-                                                        {
-                                                            var call__234 = FPath[1];
-                                                            var call__235 = FPath[1];
-                                                            CenterHNtoHX(call__235.X, call__234.Y, I, ref X, ref Y);
-                                                            var call__236 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                            var call__237 = call__236.GetField(X, Y);
-                                                            call__237.SendMapFieldMsg(ref Msg);
-                                                            CreateFire(false, 50, X, Y);
-                                                        }
+                                                        var path = FPath[1];
+                                                        CenterHNtoHX(FPath[1].X, path.Y, I, ref X, ref Y);
+                                                        AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                        CreateFire(false, 50, X, Y);
                                                     }
 
                                                     FUnit.FDeathMethod = TTCDeathMethod.dmExplode;
@@ -1598,9 +1324,8 @@ namespace Aow.Units.CombatTE
                                     CombatTE.MakeHitBlood(FUnit, FStrike.FDamage);
                                 }
 
-                                var call__238 = FUnit.FUnitHS.Yhx;
-                                var call__239 = FUnit.FUnitHS.Xhx;
-                                HXtoHP(call__239, call__238, ref I, ref X);
+                                var yhx = FUnit.FUnitHS.Yhx;
+                                HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref I, ref X);
                                 if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != TSet<TDamageType>.Of())
                                 {
                                     CombatTE.MakeDEHSList(I + FUnit.FUnitHS.FOffsetX, X + FUnit.FUnitHS.FOffsetY, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
@@ -1630,8 +1355,7 @@ namespace Aow.Units.CombatTE
                                     AoWCombatMap.FCombat.ExecuteCombatAction(FStrike);
                                 }
 
-                                var call__240 = FUnit.GetEnabled();
-                                if (call__240)
+                                if (FUnit.GetEnabled())
                                 {
                                     FStep = TTokenStep.tokEnd;
                                     FUnit.FUnitHS.SetAction(TTCAction.caStepBack);
@@ -1659,8 +1383,7 @@ namespace Aow.Units.CombatTE
 
                 if (Result == TMoveStatus.msDone)
                 {
-                    var call__241 = FUnit.GetEnabled();
-                    if (call__241)
+                    if (FUnit.GetEnabled())
                     {
                         FUnit.FUnitHS.SetAction(TTCAction.caMove);
                         FUnit.FUnitHS.FSelectedAbility = -1;
@@ -1668,12 +1391,10 @@ namespace Aow.Units.CombatTE
                         FUnit.FUnitHS.Unselect();
                         if (FUnit.FCombatPlayer == AoWCombatMap.FCurrentCombatPlayer)
                         {
-                            var call__242 = FUnit.FUnitHS.Xhx;
-                            var call__243 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                            call__243.FLastX = call__242;
-                            var call__244 = FUnit.FUnitHS.Yhx;
-                            var call__245 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                            call__245.FLastY = call__244;
+                            var xhx = FUnit.FUnitHS.Xhx;
+                            AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastX = xhx;
+                            var yhx = FUnit.FUnitHS.Yhx;
+                            AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastY = yhx;
                         }
                     }
                 }
@@ -1727,7 +1448,6 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:931
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            TExecuteResult Result = default;
             int I = default;
             int X = default;
             int Y = default;
@@ -1737,12 +1457,12 @@ namespace Aow.Units.CombatTE
             int EndX = default;
             int EndY = default;
             TSpellCombatInfo Info = default;
-            TTacticalCombatUnitHS HS = default;
+            TTacticalCombatUnitHS HS;
             TCOozeHS Ooze = default;
             TCombatAction Action = default;
             TMapFieldMsg Msg = default;
             base.Execute(TE);
-            Result = TExecuteResult.erRetry;
+            TExecuteResult Result = TExecuteResult.erRetry;
             try
             {
                 switch (FState)
@@ -1750,10 +1470,7 @@ namespace Aow.Units.CombatTE
                     case 0:
                         try
                         {
-                            var call__246 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__247 = call__246.GetField(FSourceX, FSourceY);
-                            var call__248 = call__247.FindOwnedChild(2228484);
-                            HS = (TTacticalCombatUnitHS)call__248;
+                            HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(FSourceX, FSourceY).FindOwnedChild(2228484);
                             if (HS == null)
                             {
                                 Result = TExecuteResult.erDone;
@@ -1775,25 +1492,22 @@ namespace Aow.Units.CombatTE
 
                                 if (FAbilityID == 52)
                                 {
-                                    var call__249 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                                    call__249.CombatSpellCast(FUnit);
+                                    AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatSpellCast(FUnit);
                                 }
 
-                                bool bool__250 = !AoWCombatMap.FExplorationEnabled;
-                                if (!bool__250)
+                                bool notExplorationEnabled = !AoWCombatMap.FExplorationEnabled;
+                                if (!notExplorationEnabled)
                                 {
-                                    var call__251 = FUnit.FUnitHS.Yhx;
-                                    var call__252 = FUnit.FUnitHS.Xhx;
-                                    var call__253 = AoWCombatMap.MapContainer.GetField(call__252, call__251, 0);
-                                    var call__254 = ((TAoWMapField)call__253).GetExplored(AoWCombatMap.FSeatedPlayer);
-                                    bool__250 = call__254;
+                                    var yhx = FUnit.FUnitHS.Yhx;
+                                    var xhx = FUnit.FUnitHS.Xhx;
+                                    notExplorationEnabled = ((TAoWMapField)AoWCombatMap.MapContainer.GetField(xhx, yhx, 0)).GetExplored(AoWCombatMap.FSeatedPlayer);
                                 }
 
-                                if (bool__250)
+                                if (notExplorationEnabled)
                                 {
-                                    var call__255 = FUnit.FUnitHS.Yhx;
-                                    var call__256 = FUnit.FUnitHS.Xhx;
-                                    AoWCombatMap.MakeVisible(call__256, call__255, 0, 2);
+                                    var yhx = FUnit.FUnitHS.Yhx;
+                                    var xhx = FUnit.FUnitHS.Xhx;
+                                    AoWCombatMap.MakeVisible(xhx, yhx, 0, 2);
                                 }
 
                                 switch (FEffectType)
@@ -1834,15 +1548,12 @@ namespace Aow.Units.CombatTE
                                     default:
                                         if (FAbilityID == 52)
                                         {
-                                            var call__257 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                                            call__257.GetCombatInfo(FUnit.FUnit, ref Info);
+                                            AoWHSSet.FSpellControl.GetSpell(FSpellID).GetCombatInfo(FUnit.FUnit, ref Info);
                                             FStrikeCount = Info.RepeatCount;
                                         }
                                         else
                                         {
-                                            var call__258 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                            var call__259 = ((TRangedAttackAbility)call__258).GetAttackRepeatRA(FUnit.FUnit);
-                                            FStrikeCount = call__259;
+                                            FStrikeCount = ((TRangedAttackAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).GetAttackRepeatRA(FUnit.FUnit);
                                         }
 
                                         break;
@@ -1851,19 +1562,15 @@ namespace Aow.Units.CombatTE
                                 switch (FEffectType)
                                 {
                                     case TfxType.fxTremors:
-                                        var call__260 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                                        var call__261 = call__260.FCastSounds.PlayEx(0, 64, true, 0, TSamplePanning.spCenter, null);
-                                        FSound = call__261;
+                                        FSound = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.PlayEx(0, 64, true, 0, TSamplePanning.spCenter, null);
                                         NextStrike();
                                         break;
                                     case TfxType.fxScreenSwarm:
-                                        var call__262 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                                        var call__263 = call__262.FCastSounds.PlayEx(2, 64, true, 0, TSamplePanning.spCenter, null);
-                                        FSound = call__263;
+                                        FSound = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.PlayEx(2, 64, true, 0, TSamplePanning.spCenter, null);
                                     {
                                         I = 0;
-                                        int end__264 = FStrikeCount - 1;
-                                        for (; I <= end__264; I += 1)
+                                        int last = FStrikeCount - 1;
+                                        for (; I <= last; I += 1)
                                         {
                                             NextStrike();
                                         }
@@ -1893,8 +1600,7 @@ namespace Aow.Units.CombatTE
                             {
                                 EndX = -1;
                                 EndY = -1;
-                                var call__265 = AoWCombatMap.FEffects[EffectIndex];
-                                Effect = (TfxHS)call__265;
+                                Effect = (TfxHS)AoWCombatMap.FEffects[EffectIndex];
                                 if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 117)
                                 {
                                     if (Effect.FEffectType == TfxType.fxRock)
@@ -1903,14 +1609,9 @@ namespace Aow.Units.CombatTE
                                         {
                                             Effect.FEffectType = TfxType.fxFBExplosion;
                                             Effect.FDone = false;
-                                            while (true)
+                                            while (Effect.FPath.Count > 1)
                                             {
-                                                var call__266 = Effect.FPath.Count;
-                                                if (!(call__266 > 1))
-                                                    break;
-                                                {
-                                                    Effect.FPath.Delete(0);
-                                                }
+                                                Effect.FPath.Delete(0);
                                             }
                                         }
                                     }
@@ -1922,18 +1623,14 @@ namespace Aow.Units.CombatTE
                                                 Msg.MsgID = 200707;
                                                 Msg.Param[0] = FUnit;
                                                 Msg.Result = -1;
-                                                var call__267 = Effect.FPath[0];
-                                                var call__268 = Effect.FPath[0];
-                                                HPtoHX(call__268.X, call__267.Y, ref EndX, ref EndY);
+                                                var path = Effect.FPath[0];
+                                                HPtoHX(Effect.FPath[0].X, path.Y, ref EndX, ref EndY);
                                             {
                                                 I = 0;
-                                                byte end__269 = 6;
-                                                for (; I <= end__269; I += 1)
+                                                for (; I <= 6; I += 1)
                                                 {
                                                     CenterHNtoHX(EndX, EndY, I, ref X, ref Y);
-                                                    var call__270 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                    var call__271 = call__270.GetField(X, Y);
-                                                    call__271.SendMapFieldMsg(ref Msg);
+                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                     CreateFire(false, 50, X, Y);
                                                 }
                                             }
@@ -1946,32 +1643,17 @@ namespace Aow.Units.CombatTE
                                 {
                                     if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 107)
                                     {
-                                        bool bool__272 = Effect.FFrame != -1;
-                                        if (bool__272)
+                                        if (Effect.FFrame != -1 && Effect.FPath[Effect.FFrame].Z == 15)
                                         {
-                                            var call__273 = Effect.FPath[Effect.FFrame];
-                                            bool__272 = call__273.Z == 15;
-                                        }
-
-                                        if (bool__272)
-                                        {
-                                            var call__274 = Effect.FPath[Effect.FFrame];
-                                            var call__275 = Effect.FPath[Effect.FFrame];
-                                            HPtoHX(call__275.X, call__274.Y, ref X, ref Y);
-                                            var call__276 = AoWCombatMap.MapContainer.MapLevels[0];
-                                            var call__277 = call__276.GetField(X, Y);
-                                            var call__278 = call__277.FindOwnedChild(2228484);
-                                            HS = (TTacticalCombatUnitHS)call__278;
+                                            var path = Effect.FPath[Effect.FFrame];
+                                            HPtoHX(Effect.FPath[Effect.FFrame].X, path.Y, ref X, ref Y);
+                                            HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
                                             if (HS != null)
                                             {
-                                                var call__279 = AoWHSMap.Random(16777215);
-                                                RandSeed = call__279;
-                                                var call__280 = AoWHSSet.FSpellControl.GetSpell(Effect.FSpellIndex);
-                                                var call__281 = call__280.CreateCA(FUnit, HS.FUnit, false);
-                                                Effect.FCombatAction = call__281;
-                                                var call__282 = HS.Yhx;
-                                                var call__283 = HS.Xhx;
-                                                HXtoHP(call__283, call__282, ref I, ref X);
+                                                RandSeed = AoWHSMap.Random(16777215);
+                                                Effect.FCombatAction = AoWHSSet.FSpellControl.GetSpell(Effect.FSpellIndex).CreateCA(FUnit, HS.FUnit, false);
+                                                var yhx = HS.Yhx;
+                                                HXtoHP(HS.Xhx, yhx, ref I, ref X);
                                                 if (((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value != TSet<TDamageType>.Of())
                                                 {
                                                     CombatTE.MakeDEHSList(I, X, ((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value, false);
@@ -2001,18 +1683,12 @@ namespace Aow.Units.CombatTE
                                                     Msg.Result = -1;
                                                 {
                                                     I = 6;
-                                                    byte end__284 = 59;
-                                                    for (; I <= end__284; I += 1)
+                                                    for (; I <= 59; I += 1)
                                                     {
+                                                        X = 6;
+                                                        for (; X <= 52; X += 1)
                                                         {
-                                                            X = 6;
-                                                            byte end__285 = 52;
-                                                            for (; X <= end__285; X += 1)
-                                                            {
-                                                                var call__286 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                var call__287 = call__286.GetField(I, X);
-                                                                call__287.SendMapFieldMsg(ref Msg);
-                                                            }
+                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(I, X).SendMapFieldMsg(ref Msg);
                                                         }
                                                     }
                                                 }
@@ -2033,13 +1709,10 @@ namespace Aow.Units.CombatTE
                                                         Msg.Result = -1;
                                                     {
                                                         I = 0;
-                                                        byte end__288 = 6;
-                                                        for (; I <= end__288; I += 1)
+                                                        for (; I <= 6; I += 1)
                                                         {
                                                             CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                            var call__289 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                            var call__290 = call__289.GetField(X, Y);
-                                                            call__290.SendMapFieldMsg(ref Msg);
+                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                         }
                                                     }
 
@@ -2051,13 +1724,10 @@ namespace Aow.Units.CombatTE
                                                         Msg.Result = -1;
                                                     {
                                                         I = 0;
-                                                        byte end__291 = 6;
-                                                        for (; I <= end__291; I += 1)
+                                                        for (; I <= 6; I += 1)
                                                         {
                                                             CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                            var call__292 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                            var call__293 = call__292.GetField(X, Y);
-                                                            call__293.SendMapFieldMsg(ref Msg);
+                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                         }
                                                     }
 
@@ -2076,13 +1746,10 @@ namespace Aow.Units.CombatTE
                                                             Msg.Result = -1;
                                                         {
                                                             I = 0;
-                                                            byte end__294 = 6;
-                                                            for (; I <= end__294; I += 1)
+                                                            for (; I <= 6; I += 1)
                                                             {
                                                                 CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                var call__295 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                var call__296 = call__295.GetField(X, Y);
-                                                                call__296.SendMapFieldMsg(ref Msg);
+                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                             }
                                                         }
 
@@ -2101,13 +1768,10 @@ namespace Aow.Units.CombatTE
                                                                 Msg.Result = -1;
                                                             {
                                                                 I = 1;
-                                                                byte end__297 = 6;
-                                                                for (; I <= end__297; I += 1)
+                                                                for (; I <= 6; I += 1)
                                                                 {
                                                                     CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                    var call__298 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                    var call__299 = call__298.GetField(X, Y);
-                                                                    call__299.SendMapFieldMsg(ref Msg);
+                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                                 }
                                                             }
 
@@ -2118,13 +1782,10 @@ namespace Aow.Units.CombatTE
                                                                 Msg.Result = -1;
                                                             {
                                                                 I = 7;
-                                                                byte end__300 = 18;
-                                                                for (; I <= end__300; I += 1)
+                                                                for (; I <= 18; I += 1)
                                                                 {
                                                                     CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                    var call__301 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                    var call__302 = call__301.GetField(X, Y);
-                                                                    call__302.SendMapFieldMsg(ref Msg);
+                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                                 }
                                                             }
 
@@ -2135,13 +1796,10 @@ namespace Aow.Units.CombatTE
                                                                 Msg.Result = -1;
                                                             {
                                                                 I = 19;
-                                                                byte end__303 = 36;
-                                                                for (; I <= end__303; I += 1)
+                                                                for (; I <= 36; I += 1)
                                                                 {
                                                                     CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                    var call__304 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                    var call__305 = call__304.GetField(X, Y);
-                                                                    call__305.SendMapFieldMsg(ref Msg);
+                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                                 }
                                                             }
 
@@ -2155,17 +1813,14 @@ namespace Aow.Units.CombatTE
                                                             switch (Effect.FFrame)
                                                             {
                                                                 case 100:
-                                                                    var call__306 = FUnit.FUnitHS.Yhx;
-                                                                    var call__307 = FUnit.FUnitHS.Xhx;
-                                                                    CreateFire(false, 50, call__307, call__306);
+                                                                    var yhx = FUnit.FUnitHS.Yhx;
+                                                                    CreateFire(false, 50, FUnit.FUnitHS.Xhx, yhx);
                                                                     Msg.MsgID = 200718;
                                                                     Msg.Param[0] = FUnit;
                                                                     Msg.Result = -1;
-                                                                    var call__308 = FUnit.FUnitHS.Yhx;
-                                                                    var call__309 = FUnit.FUnitHS.Xhx;
-                                                                    var call__310 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                    var call__311 = call__310.GetField(call__309, call__308);
-                                                                    call__311.SendMapFieldMsg(ref Msg);
+                                                                    var fUnitHSYhx = FUnit.FUnitHS.Yhx;
+                                                                    var xhx = FUnit.FUnitHS.Xhx;
+                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(xhx, fUnitHSYhx).SendMapFieldMsg(ref Msg);
                                                                     break;
                                                                 case 175:
                                                                     Msg.MsgID = 200718;
@@ -2173,13 +1828,10 @@ namespace Aow.Units.CombatTE
                                                                     Msg.Result = -1;
                                                                 {
                                                                     I = 0;
-                                                                    byte end__312 = 18;
-                                                                    for (; I <= end__312; I += 1)
+                                                                    for (; I <= 18; I += 1)
                                                                     {
                                                                         CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                        var call__313 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                        var call__314 = call__313.GetField(X, Y);
-                                                                        call__314.SendMapFieldMsg(ref Msg);
+                                                                        AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                                         CreateFire(false, 50, X, Y);
                                                                     }
                                                                 }
@@ -2191,60 +1843,22 @@ namespace Aow.Units.CombatTE
                                                         {
                                                             if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 105 && Effect.FTarget != null)
                                                             {
+                                                                I = 0;
+                                                                int last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                                                for (; I <= last; I += 1)
                                                                 {
-                                                                    I = 0;
-                                                                    int end__315 = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                                                                    for (; I <= end__315; I += 1)
+                                                                    if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) != null && AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetSide() != FUnit.GetSide() && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS != null)
                                                                     {
-                                                                        var call__316 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                        bool bool__317 = call__316 != null;
-                                                                        if (bool__317)
+                                                                        RandSeed = AoWHSMap.Random(16777215);
+                                                                        var objectValue = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                                                        Action = AoWHSSet.FSpellControl.GetSpell(FSpellID).CreateCA(FUnit, objectValue, false);
+                                                                        if (((TExclusiveCombatSpellCA)Action).FSucceeded)
                                                                         {
-                                                                            var call__318 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                            bool__317 = call__318 is TCombatUnit;
+                                                                            ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.SetAction(TTCAction.caHit);
                                                                         }
 
-                                                                        bool bool__319 = bool__317;
-                                                                        if (bool__319)
-                                                                        {
-                                                                            var call__320 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                            var call__321 = call__320.GetSide();
-                                                                            var call__322 = FUnit.GetSide();
-                                                                            bool__319 = call__321 != call__322;
-                                                                        }
-
-                                                                        bool bool__323 = bool__319;
-                                                                        if (bool__323)
-                                                                        {
-                                                                            var call__324 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                            var call__325 = call__324.GetEnabled();
-                                                                            bool__323 = call__325;
-                                                                        }
-
-                                                                        bool bool__326 = bool__323;
-                                                                        if (bool__326)
-                                                                        {
-                                                                            var call__327 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                            bool__326 = ((TTacticalCombatUnit)call__327).FUnitHS != null;
-                                                                        }
-
-                                                                        if (bool__326)
-                                                                        {
-                                                                            var call__328 = AoWHSMap.Random(16777215);
-                                                                            RandSeed = call__328;
-                                                                            var call__329 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                            var call__330 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                                                                            var call__331 = call__330.CreateCA(FUnit, call__329, false);
-                                                                            Action = call__331;
-                                                                            if (((TExclusiveCombatSpellCA)Action).FSucceeded)
-                                                                            {
-                                                                                var call__332 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                                ((TTacticalCombatUnit)call__332).FUnitHS.SetAction(TTCAction.caHit);
-                                                                            }
-
-                                                                            AoWCombatMap.FCombat.ExecuteCombatAction(Action);
-                                                                            Action.Release();
-                                                                        }
+                                                                        AoWCombatMap.FCombat.ExecuteCombatAction(Action);
+                                                                        Action.Release();
                                                                     }
                                                                 }
 
@@ -2262,13 +1876,10 @@ namespace Aow.Units.CombatTE
                                                                             Msg.Result = -1;
                                                                         {
                                                                             I = 0;
-                                                                            byte end__333 = 6;
-                                                                            for (; I <= end__333; I += 1)
+                                                                            for (; I <= 6; I += 1)
                                                                             {
                                                                                 CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                                var call__334 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                var call__335 = call__334.GetField(X, Y);
-                                                                                call__335.SendMapFieldMsg(ref Msg);
+                                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
                                                                             }
                                                                         }
 
@@ -2284,26 +1895,15 @@ namespace Aow.Units.CombatTE
                                                                             case 5:
                                                                             {
                                                                                 I = 0;
-                                                                                int end__336 = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                                                                                for (; I <= end__336; I += 1)
+                                                                                int last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                                                                for (; I <= last; I += 1)
                                                                                 {
-                                                                                    var call__337 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                                    bool bool__338 = call__337 is TCombatUnit;
-                                                                                    if (bool__338)
+                                                                                    if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled())
                                                                                     {
-                                                                                        var call__339 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                                        var call__340 = call__339.GetEnabled();
-                                                                                        bool__338 = call__340;
-                                                                                    }
-
-                                                                                    if (bool__338)
-                                                                                    {
-                                                                                        var call__341 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                                                                        HS = ((TTacticalCombatUnit)call__341).FUnitHS;
+                                                                                        HS = ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS;
                                                                                         if (HS != null)
                                                                                         {
-                                                                                            var call__342 = AoWCombatMap.AddEffect(TfxType.fxSWComet);
-                                                                                            ExtraEffect = call__342;
+                                                                                            ExtraEffect = AoWCombatMap.AddEffect(TfxType.fxSWComet);
                                                                                             ExtraEffect.FAbilityIndex = FAbilityID;
                                                                                             ExtraEffect.FSpellIndex = FSpellID;
                                                                                             ExtraEffect.FTarget = HS.FUnit;
@@ -2317,45 +1917,29 @@ namespace Aow.Units.CombatTE
                                                                     }
                                                                     else
                                                                     {
-                                                                        bool bool__343 = Effect.FDone && Effect.FTarget != null;
-                                                                        if (bool__343)
-                                                                        {
-                                                                            var call__344 = Effect.FTarget.GetEnabled();
-                                                                            bool__343 = call__344;
-                                                                        }
-
-                                                                        if (bool__343)
+                                                                        if (Effect.FDone && Effect.FTarget != null && Effect.FTarget.GetEnabled())
                                                                         {
                                                                             I = 0;
-                                                                            var call__345 = AoWHSMap.Random(16777215);
-                                                                            RandSeed = call__345;
+                                                                            RandSeed = AoWHSMap.Random(16777215);
                                                                             if (FAbilityID == 52)
                                                                             {
-                                                                                var call__346 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                                                                                var call__347 = call__346.CreateCA(FUnit, Effect.FTarget, false);
-                                                                                Effect.FCombatAction = call__347;
+                                                                                Effect.FCombatAction = AoWHSSet.FSpellControl.GetSpell(FSpellID).CreateCA(FUnit, Effect.FTarget, false);
                                                                             }
                                                                             else
                                                                             {
                                                                                 if (FAbilityID == 47)
                                                                                 {
-                                                                                    var call__348 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                                                    var call__349 = ((THealingAbility)call__348).CreateHealingCA(FUnit, Effect.FTarget);
-                                                                                    Effect.FCombatAction = call__349;
+                                                                                    Effect.FCombatAction = ((THealingAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateHealingCA(FUnit, Effect.FTarget);
                                                                                 }
                                                                                 else
                                                                                 {
                                                                                     if (FAbilityID == 60)
                                                                                     {
-                                                                                        var call__350 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                                                        var call__351 = ((TDispelMagicAbility)call__350).CreateCA(FUnit, Effect.FTarget);
-                                                                                        Effect.FCombatAction = call__351;
+                                                                                        Effect.FCombatAction = ((TDispelMagicAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateCA(FUnit, Effect.FTarget);
                                                                                     }
                                                                                     else
                                                                                     {
-                                                                                        var call__352 = AoWHSSet.FAbilityControl.GetAbility(FAbilityID);
-                                                                                        var call__353 = ((TRangedAttackAbility)call__352).CreateRangedAttackCA(FUnit, Effect.FTarget, 0);
-                                                                                        Effect.FCombatAction = call__353;
+                                                                                        Effect.FCombatAction = ((TRangedAttackAbility)AoWHSSet.FAbilityControl.GetAbility(FAbilityID)).CreateRangedAttackCA(FUnit, Effect.FTarget, 0);
                                                                                     }
                                                                                 }
                                                                             }
@@ -2363,9 +1947,8 @@ namespace Aow.Units.CombatTE
                                                                             if (Effect.FCombatAction is TDamageCA)
                                                                             {
                                                                                 I = ((TDamageCA)Effect.FCombatAction).FDamage;
-                                                                                var call__354 = ((TTacticalCombatUnit)Effect.FTarget).FUnitHS.Yhx;
-                                                                                var call__355 = ((TTacticalCombatUnit)Effect.FTarget).FUnitHS.Xhx;
-                                                                                HXtoHP(call__355, call__354, ref X, ref Y);
+                                                                                var yhx = ((TTacticalCombatUnit)Effect.FTarget).FUnitHS.Yhx;
+                                                                                HXtoHP(((TTacticalCombatUnit)Effect.FTarget).FUnitHS.Xhx, yhx, ref X, ref Y);
                                                                                 if (((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value != TSet<TDamageType>.Of())
                                                                                 {
                                                                                     CombatTE.MakeDEHSList(X, Y, ((TDamageCA)Effect.FCombatAction).FDamageTypes.Value - ((TDamageCA)Effect.FCombatAction).FEffects.Value, false);
@@ -2404,32 +1987,26 @@ namespace Aow.Units.CombatTE
 
                                                                         if (Effect.FDone)
                                                                         {
-                                                                            var call__356 = Effect.FPath.Count;
-                                                                            var call__357 = Effect.FPath[call__356 - 1];
-                                                                            var call__358 = Effect.FPath.Count;
-                                                                            var call__359 = Effect.FPath[call__358 - 1];
-                                                                            HPtoHX(call__359.X, call__357.Y, ref EndX, ref EndY);
+                                                                            var count = Effect.FPath.Count;
+                                                                            var path = Effect.FPath[count - 1];
+                                                                            var fPathCount = Effect.FPath.Count;
+                                                                            HPtoHX(Effect.FPath[fPathCount - 1].X, path.Y, ref EndX, ref EndY);
                                                                             if (Effect.FCombatAction != null && Effect.FTarget != null)
                                                                             {
                                                                                 AoWCombatMap.FCombat.ExecuteCombatAction(Effect.FCombatAction);
                                                                                 Effect.FCombatAction.Release();
                                                                                 Effect.FCombatAction = null;
-                                                                                var call__360 = Effect.FTarget.GetEnabled();
-                                                                                if (!call__360)
+                                                                                if (!Effect.FTarget.GetEnabled())
                                                                                 {
+                                                                                    I = 0;
+                                                                                    int last = AoWCombatMap.FEffects.Count - 1;
+                                                                                    for (; I <= last; I += 1)
                                                                                     {
-                                                                                        I = 0;
-                                                                                        int end__361 = AoWCombatMap.FEffects.Count - 1;
-                                                                                        for (; I <= end__361; I += 1)
+                                                                                        if (I != EffectIndex)
                                                                                         {
-                                                                                            if (I != EffectIndex)
+                                                                                            if (((TfxHS)AoWCombatMap.FEffects[I]).FTarget == Effect.FTarget)
                                                                                             {
-                                                                                                var call__362 = AoWCombatMap.FEffects[I];
-                                                                                                if (((TfxHS)call__362).FTarget == Effect.FTarget)
-                                                                                                {
-                                                                                                    var call__363 = AoWCombatMap.FEffects[I];
-                                                                                                    ((TfxHS)call__363).FTarget = null;
-                                                                                                }
+                                                                                                ((TfxHS)AoWCombatMap.FEffects[I]).FTarget = null;
                                                                                             }
                                                                                         }
                                                                                     }
@@ -2449,9 +2026,7 @@ namespace Aow.Units.CombatTE
                                                                                                 Msg.Param[0] = FUnit;
                                                                                                 Msg.Param[1] = Effect.FAbilityIndex;
                                                                                                 Msg.Result = -1;
-                                                                                                var call__364 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                var call__365 = call__364.GetField(Effect.FTargetX, Effect.FTargetY);
-                                                                                                call__365.SendMapFieldMsg(ref Msg);
+                                                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(Effect.FTargetX, Effect.FTargetY).SendMapFieldMsg(ref Msg);
                                                                                             }
 
                                                                                             break;
@@ -2459,25 +2034,19 @@ namespace Aow.Units.CombatTE
                                                                                             Msg.MsgID = 200705;
                                                                                             Msg.Param[0] = FUnit;
                                                                                             Msg.Result = -1;
-                                                                                            var call__366 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                            var call__367 = call__366.GetField(EndX, EndY);
-                                                                                            call__367.SendMapFieldMsg(ref Msg);
+                                                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
                                                                                             break;
                                                                                         case 44:
                                                                                             Msg.MsgID = 200706;
                                                                                             Msg.Param[0] = FUnit;
                                                                                             Msg.Result = -1;
-                                                                                            var call__368 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                            var call__369 = call__368.GetField(EndX, EndY);
-                                                                                            call__369.SendMapFieldMsg(ref Msg);
+                                                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
                                                                                             break;
                                                                                         case 31:
                                                                                             Msg.MsgID = 200714;
                                                                                             Msg.Param[0] = FUnit;
                                                                                             Msg.Result = -1;
-                                                                                            var call__370 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                            var call__371 = call__370.GetField(EndX, EndY);
-                                                                                            call__371.SendMapFieldMsg(ref Msg);
+                                                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
                                                                                             CreateFire(false, 100, EndX, EndY);
                                                                                             break;
                                                                                         case 52:
@@ -2490,9 +2059,7 @@ namespace Aow.Units.CombatTE
                                                                                                         Msg.Param[0] = FUnit;
                                                                                                         Msg.Param[1] = Effect.FSpellIndex;
                                                                                                         Msg.Result = -1;
-                                                                                                        var call__372 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                        var call__373 = call__372.GetField(Effect.FTargetX, Effect.FTargetY);
-                                                                                                        call__373.SendMapFieldMsg(ref Msg);
+                                                                                                        AoWCombatMap.MapContainer.MapLevels[0].GetField(Effect.FTargetX, Effect.FTargetY).SendMapFieldMsg(ref Msg);
                                                                                                     }
 
                                                                                                     break;
@@ -2503,70 +2070,10 @@ namespace Aow.Units.CombatTE
                                                                                                             Msg.MsgID = 200710;
                                                                                                             Msg.Param[0] = FUnit;
                                                                                                             Msg.Result = -1;
-                                                                                                            var call__374 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                            var call__375 = call__374.GetField(EndX, EndY);
-                                                                                                            call__375.SendMapFieldMsg(ref Msg);
+                                                                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
                                                                                                             break;
                                                                                                         case 124:
-                                                                                                            var call__376 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                            var call__377 = call__376.GetField(EndX, EndY);
-                                                                                                            bool bool__378 = call__377.TerrainType != 0;
-                                                                                                            if (bool__378)
-                                                                                                            {
-                                                                                                                var call__379 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                                var call__380 = call__379.GetField(EndX, EndY);
-                                                                                                                bool__378 = call__380.TerrainType != 10;
-                                                                                                            }
-
-                                                                                                            bool bool__381 = bool__378;
-                                                                                                            if (bool__381)
-                                                                                                            {
-                                                                                                                var call__382 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                                var call__383 = call__382.GetField(EndX, EndY);
-                                                                                                                bool__381 = call__383.OverlayType != 2;
-                                                                                                            }
-
-                                                                                                            bool bool__384 = bool__381;
-                                                                                                            if (bool__384)
-                                                                                                            {
-                                                                                                                var call__385 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                                var call__386 = call__385.GetField(EndX, EndY);
-                                                                                                                bool__384 = call__386.OverlayType != 11;
-                                                                                                            }
-
-                                                                                                            bool bool__387 = bool__384;
-                                                                                                            if (bool__387)
-                                                                                                            {
-                                                                                                                var call__388 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                                var call__389 = call__388.GetField(EndX, EndY);
-                                                                                                                bool__387 = call__389.OverlayType != 8;
-                                                                                                            }
-
-                                                                                                            bool bool__390 = bool__387;
-                                                                                                            if (bool__390)
-                                                                                                            {
-                                                                                                                var call__391 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                                var call__392 = call__391.GetField(EndX, EndY);
-                                                                                                                bool__390 = call__392.TerrainType != 9;
-                                                                                                            }
-
-                                                                                                            bool bool__393 = bool__390;
-                                                                                                            if (bool__393)
-                                                                                                            {
-                                                                                                                var call__394 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                                var call__395 = call__394.GetField(EndX, EndY);
-                                                                                                                bool__393 = call__395.TerrainType != 15;
-                                                                                                            }
-
-                                                                                                            bool bool__396 = bool__393;
-                                                                                                            if (bool__396)
-                                                                                                            {
-                                                                                                                var call__397 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                                var call__398 = call__397.GetField(EndX, EndY);
-                                                                                                                bool__396 = call__398.TerrainType != 7;
-                                                                                                            }
-
-                                                                                                            if (bool__396)
+                                                                                                            if (AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 0 && AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 10 && AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).OverlayType != 2 && AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).OverlayType != 11 && AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).OverlayType != 8 && AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 9 && AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 15 && AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 7)
                                                                                                             {
                                                                                                                 Ooze = new TCOozeHS(null);
                                                                                                                 AoWCombatMap.PlaceHX(Ooze, EndX, EndY, 0);
@@ -2583,9 +2090,7 @@ namespace Aow.Units.CombatTE
                                                                                                             Msg.MsgID = 200715;
                                                                                                             Msg.Param[0] = FUnit;
                                                                                                             Msg.Result = -1;
-                                                                                                            var call__399 = AoWCombatMap.MapContainer.MapLevels[0];
-                                                                                                            var call__400 = call__399.GetField(EndX, EndY);
-                                                                                                            call__400.SendMapFieldMsg(ref Msg);
+                                                                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
                                                                                                             CreateFire(false, 100, EndX, EndY);
                                                                                                             break;
                                                                                                     }
@@ -2612,23 +2117,9 @@ namespace Aow.Units.CombatTE
                                 EffectIndex += 1;
                             }
 
-                            bool bool__401 = AoWCombatMap.FEffects.Count == 0;
-                            if (bool__401)
+                            if (AoWCombatMap.FEffects.Count == 0 && (FStrikeIndex >= FStrikeCount || !FUnit.GetEnabled()))
                             {
-                                bool bool__402 = FStrikeIndex >= FStrikeCount;
-                                if (!bool__402)
-                                {
-                                    var call__403 = FUnit.GetEnabled();
-                                    bool__402 = !call__403;
-                                }
-
-                                bool__401 = bool__402;
-                            }
-
-                            if (bool__401)
-                            {
-                                var call__404 = FUnit.GetEnabled();
-                                if (call__404)
+                                if (FUnit.GetEnabled())
                                 {
                                     FUnit.FUnitHS.SetAction(TTCAction.caMove);
                                 }
@@ -2636,8 +2127,7 @@ namespace Aow.Units.CombatTE
                                 Result = TExecuteResult.erDone;
                             }
 
-                            var call__405 = FUnit.GetEnabled();
-                            if (call__405)
+                            if (FUnit.GetEnabled())
                             {
                                 if (FEffectType == TfxType.fxBreath)
                                 {
@@ -2647,8 +2137,7 @@ namespace Aow.Units.CombatTE
                                 {
                                     if (FUnit.FUnitHS.FActionDone || (FAbilityID == 52 && FDelay <= 0))
                                     {
-                                        var call__406 = AoWHSMap.Random(3);
-                                        FDelay = call__406 + 4;
+                                        FDelay = AoWHSMap.Random(3) + 4;
                                     }
 
                                     FDelay -= 1;
@@ -2674,26 +2163,17 @@ namespace Aow.Units.CombatTE
                         FSound.Free();
                     }
 
-                    bool bool__407 = FUnit != null;
-                    if (bool__407)
-                    {
-                        var call__408 = FUnit.GetEnabled();
-                        bool__407 = call__408;
-                    }
-
-                    if (bool__407)
+                    if (FUnit != null && FUnit.GetEnabled())
                     {
                         FUnit.FUnitHS.FSelectedAbility = -1;
                         FUnit.FUnitHS.FSelectedSpell = -1;
                         FUnit.FUnitHS.Unselect();
                         if (FUnit.FCombatPlayer == AoWCombatMap.FCurrentCombatPlayer)
                         {
-                            var call__409 = FUnit.FUnitHS.Xhx;
-                            var call__410 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                            call__410.FLastX = call__409;
-                            var call__411 = FUnit.FUnitHS.Yhx;
-                            var call__412 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer);
-                            call__412.FLastY = call__411;
+                            var xhx = FUnit.FUnitHS.Xhx;
+                            AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastX = xhx;
+                            var yhx = FUnit.FUnitHS.Yhx;
+                            AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentCombatPlayer).FLastY = yhx;
                         }
                     }
                 }
@@ -2709,94 +2189,58 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1373
         public void NextStrike()
         {
-            TList Used = default;
-            TTacticalCombatUnit Target = default;
-            TfxHS Effect = default;
-            TfxHS ExtraEffect = default;
-            TTacticalCombatUnitHS HS = default;
-            float A = default;
-            float Sweep = default;
-            float Angle = default;
-            float Radius = default;
+            TList Used;
+            TTacticalCombatUnit Target;
+            TfxHS Effect;
+            TfxHS ExtraEffect;
+            TTacticalCombatUnitHS HS;
+            float A;
+            float Sweep;
+            float Angle;
+            float Radius;
             int X1 = default;
             int Y1 = default;
             int X2 = default;
             int Y2 = default;
             int DX = default;
             int DY = default;
-            int I = default;
+            int I;
             int J = default;
             int K = default;
-            TXYZ Point = default;
-            THexagonSprite HitObject = default;
-            TXYZList Path = default;
-            TList Obstacles = default;
-            TROb Obstacle = default;
-            bool Found = default;
+            TXYZ Point;
+            THexagonSprite HitObject;
+            TXYZList Path;
+            TList Obstacles;
+            TROb Obstacle;
+            bool Found;
             TTacticalCombatUnit FindTarget(int X, int Y)
             {
-                TTacticalCombatUnit Result = default;
-                int I = default;
-                int Distance = default;
-                int BestDistance = default;
-                int J = default;
-                bool Available = default;
-                Result = null;
+                int Distance;
+                int BestDistance;
+                bool Available;
+                TTacticalCombatUnit Result = null;
                 BestDistance = 6;
+                for (int I = 0, last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__413 = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                    for (; I <= end__413; I += 1)
+                    if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetSide() != FUnit.GetSide())
                     {
-                        var call__414 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                        bool bool__415 = call__414 is TCombatUnit;
-                        if (bool__415)
+                        Available = true;
+                        for (int J = 0, lastJ = Used.Count - 1; J <= lastJ; J++)
                         {
-                            var call__416 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            var call__417 = call__416.GetEnabled();
-                            bool__415 = call__417;
-                        }
-
-                        bool bool__418 = bool__415;
-                        if (bool__418)
-                        {
-                            var call__419 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            var call__420 = call__419.GetSide();
-                            var call__421 = FUnit.GetSide();
-                            bool__418 = call__420 != call__421;
-                        }
-
-                        if (bool__418)
-                        {
-                            Available = true;
+                            if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) == Used[J])
                             {
-                                J = 0;
-                                int end__422 = Used.Count - 1;
-                                for (; J <= end__422; J += 1)
-                                {
-                                    var call__423 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                    var call__424 = Used[J];
-                                    if (call__423 == call__424)
-                                    {
-                                        Available = false;
-                                    }
-                                }
+                                Available = false;
                             }
+                        }
 
-                            if (Available)
+                        if (Available)
+                        {
+                            var yhx = ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.Yhx;
+                            Distance = dHXtoRad(X, Y, ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.Xhx, yhx);
+                            if (Distance < BestDistance)
                             {
-                                var call__425 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                var call__426 = ((TTacticalCombatUnit)call__425).FUnitHS.Yhx;
-                                var call__427 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                var call__428 = ((TTacticalCombatUnit)call__427).FUnitHS.Xhx;
-                                var call__429 = dHXtoRad(X, Y, call__428, call__426);
-                                Distance = call__429;
-                                if (Distance < BestDistance)
-                                {
-                                    var call__430 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                    Result = (TTacticalCombatUnit)call__430;
-                                    BestDistance = Distance;
-                                }
+                                Result = (TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                BestDistance = Distance;
                             }
                         }
                     }
@@ -2807,50 +2251,29 @@ namespace Aow.Units.CombatTE
 
             void ChooseTarget()
             {
-                int I = default;
-                int Index = default;
-                int Total = default;
-                int Distance = default;
-                TList Weights = default;
+                int I;
+                int Index;
+                int Total;
+                int Distance;
+                TList Weights;
                 Used = new TList();
                 Weights = new TList();
                 Total = 0;
+                I = 0;
+                int last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                for (; I <= last; I += 1)
                 {
-                    I = 0;
-                    int end__431 = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                    for (; I <= end__431; I += 1)
+                    if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWCombatMap.FCombat.FCombatData.GetObjects(I) != Target)
                     {
-                        var call__432 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                        bool bool__433 = call__432 is TCombatUnit;
-                        if (bool__433)
+                        var yhx = ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.Yhx;
+                        var xhx = ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.Xhx;
+                        Distance = dHXtoRad(FTargetX, FTargetY, xhx, yhx);
+                        if (Distance < 13)
                         {
-                            var call__434 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            var call__435 = call__434.GetEnabled();
-                            bool__433 = call__435;
-                        }
-
-                        bool bool__436 = bool__433;
-                        if (bool__436)
-                        {
-                            var call__437 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            bool__436 = call__437 != Target;
-                        }
-
-                        if (bool__436)
-                        {
-                            var call__438 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            var call__439 = ((TTacticalCombatUnit)call__438).FUnitHS.Yhx;
-                            var call__440 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                            var call__441 = ((TTacticalCombatUnit)call__440).FUnitHS.Xhx;
-                            var call__442 = dHXtoRad(FTargetX, FTargetY, call__441, call__439);
-                            Distance = call__442;
-                            if (Distance < 13)
-                            {
-                                Total = Total + (13 - Distance);
-                                var call__443 = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                Used.Add(call__443);
-                                Weights.Add(IntToObject(13 - Distance));
-                            }
+                            Total = Total + (13 - Distance);
+                            var objectValue = AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                            Used.Add(objectValue);
+                            Weights.Add(IntToObject(13 - Distance));
                         }
                     }
                 }
@@ -2864,19 +2287,15 @@ namespace Aow.Units.CombatTE
 
                 if (Used.Count > 0)
                 {
-                    var call__444 = AoWHSMap.Random(Total);
-                    var call__445 = Weights[0];
-                    I = call__444 - ObjectToInt((TObject)call__445);
+                    I = AoWHSMap.Random(Total) - ObjectToInt((TObject)Weights[0]);
                     Index = 0;
                     while (Index < Used.Count - 1 && I > 0)
                     {
                         Index = Index + 1;
-                        var call__446 = Weights[Index];
-                        I = I - ObjectToInt((TObject)call__446);
+                        I = I - ObjectToInt((TObject)Weights[Index]);
                     }
 
-                    var call__447 = Used[Index];
-                    Target = (TTacticalCombatUnit)call__447;
+                    Target = (TTacticalCombatUnit)Used[Index];
                 }
 
                 Used.Free();
@@ -2888,21 +2307,17 @@ namespace Aow.Units.CombatTE
                 return;
             }
 
-            var call__448 = AoWCombatMap.AddEffect(TfxType.fxNone);
-            Effect = call__448;
+            Effect = AoWCombatMap.AddEffect(TfxType.fxNone);
             Obstacles = new TList();
             switch (FEffectType)
             {
                 case TfxType.fxBreath:
-                    var call__449 = FUnit.FUnitHS.Yhx;
-                    var call__450 = FUnit.FUnitHS.Xhx;
-                    var call__451 = dHXtoHN(call__450, call__449, FTargetX, FTargetY);
-                    var call__452 = FUnit.FUnitHS.Yhx;
-                    var call__453 = FUnit.FUnitHS.Xhx;
-                    CenterHNtoHX(call__453, call__452, BreathHN[BreathDirection[call__451 - 1] * 12 - 3], ref J, ref K);
-                    var call__454 = FUnit.FUnitHS.Yhx;
-                    var call__455 = FUnit.FUnitHS.Xhx;
-                    HXtoHP(call__455, call__454, ref X1, ref Y1);
+                    var yhx = FUnit.FUnitHS.Yhx;
+                    var dHXtoHN2 = dHXtoHN(FUnit.FUnitHS.Xhx, yhx, FTargetX, FTargetY);
+                    var fUnitHSYhx = FUnit.FUnitHS.Yhx;
+                    CenterHNtoHX(FUnit.FUnitHS.Xhx, fUnitHSYhx, BreathHN[BreathDirection[dHXtoHN2 - 1] * 12 - 3], ref J, ref K);
+                    var yhx2 = FUnit.FUnitHS.Yhx;
+                    HXtoHP(FUnit.FUnitHS.Xhx, yhx2, ref X1, ref Y1);
                     HXtoHP(J, K, ref X2, ref Y2);
                     Sweep = FStrikeIndex;
                     if ((double)Sweep > 9)
@@ -2928,9 +2343,9 @@ namespace Aow.Units.CombatTE
 
                     if (Y2 == Y1 || X2 == X1)
                     {
-                        var call__456 = Math.PI;
-                        var call__457 = Math.PI;
-                        Angle = (float)((double)((double)((double)call__456 / 2) - A) + (double)((double)((double)((double)Sweep * 6) - 30) * call__457) / 180);
+                        var pi = Math.PI;
+                        var mathPI = Math.PI;
+                        Angle = (float)((double)((double)((double)pi / 2) - A) + (double)((double)((double)((double)Sweep * 6) - 30) * mathPI) / 180);
                     }
                     else
                     {
@@ -2956,18 +2371,15 @@ namespace Aow.Units.CombatTE
                         DY = Y1 - Y2 - Round((double)Math.Cos(Angle) * Radius);
                     }
 
-                    var call__458 = FUnit.FUnitHS.Xhx;
-                    var call__459 = FUnit.FUnitHS.Yhx;
-                    var call__460 = FUnit.GetSide();
-                    MakeRangedPath(call__460, 50, 20, 50, call__458, call__459, (short)J, (short)K, (short)DX, (short)DY, false, ref Effect.FPath, ref Obstacles);
+                    var xhx = FUnit.FUnitHS.Xhx;
+                    var yhx3 = FUnit.FUnitHS.Yhx;
+                    MakeRangedPath(FUnit.GetSide(), 50, 20, 50, xhx, yhx3, (short)J, (short)K, (short)DX, (short)DY, false, ref Effect.FPath, ref Obstacles);
                     if (FStrikeIndex < 12)
                     {
-                        var call__461 = FUnit.FUnitHS.Yhx;
-                        var call__462 = FUnit.FUnitHS.Xhx;
-                        var call__463 = dHXtoHN(call__462, call__461, FTargetX, FTargetY);
-                        var call__464 = FUnit.FUnitHS.Yhx;
-                        var call__465 = FUnit.FUnitHS.Xhx;
-                        CenterHNtoHX(call__465, call__464, BreathHN[BreathDirection[call__463 - 1] * 12 + BreathHit[FStrikeIndex] - 12], ref Effect.FTargetX, ref Effect.FTargetY);
+                        var yhx4 = FUnit.FUnitHS.Yhx;
+                        var dHXtoHN3 = dHXtoHN(FUnit.FUnitHS.Xhx, yhx4, FTargetX, FTargetY);
+                        var yhx5 = FUnit.FUnitHS.Yhx;
+                        CenterHNtoHX(FUnit.FUnitHS.Xhx, yhx5, BreathHN[BreathDirection[dHXtoHN3 - 1] * 12 + BreathHit[FStrikeIndex] - 12], ref Effect.FTargetX, ref Effect.FTargetY);
                     }
 
                     break;
@@ -2997,14 +2409,14 @@ namespace Aow.Units.CombatTE
                             AoWCombatMap.CenterViewTo(FTargetX + 1, FTargetY - 4, 0);
                             break;
                         case TfxType.fxShockWave:
-                            var call__466 = FUnit.FUnitHS.Yhx;
-                            var call__467 = FUnit.FUnitHS.Xhx;
-                            AoWCombatMap.CenterViewTo(call__467, call__466, 0);
+                            var yhx4 = FUnit.FUnitHS.Yhx;
+                            var fUnitHSXhx = FUnit.FUnitHS.Xhx;
+                            AoWCombatMap.CenterViewTo(fUnitHSXhx, yhx4, 0);
                             break;
                         case TfxType.fxSacFlame:
-                            var call__468 = FUnit.FUnitHS.Yhx;
-                            var call__469 = FUnit.FUnitHS.Xhx;
-                            AoWCombatMap.CenterViewTo(call__469, call__468 - 3, 0);
+                            var yhx5 = FUnit.FUnitHS.Yhx;
+                            var xhx2 = FUnit.FUnitHS.Xhx;
+                            AoWCombatMap.CenterViewTo(xhx2, yhx5 - 3, 0);
                             break;
                         default:
                             AoWCombatMap.CenterViewTo(FTargetX, FTargetY, 0);
@@ -3015,10 +2427,7 @@ namespace Aow.Units.CombatTE
                     Point.X = X2 + 16;
                     Point.Y = Y2 + 16;
                     Effect.FPath.Add(Point);
-                    var call__470 = AoWCombatMap.MapContainer.MapLevels[0];
-                    var call__471 = call__470.GetField(FTargetX, FTargetY);
-                    var call__472 = call__471.FindOwnedChild(2228484);
-                    HS = (TTacticalCombatUnitHS)call__472;
+                    HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
                     if (HS != null)
                     {
                         Effect.FTarget = HS.FUnit;
@@ -3031,99 +2440,46 @@ namespace Aow.Units.CombatTE
                     Point.X = X2 + 16;
                     Point.Y = Y2 + 16;
                     Effect.FPath.Add(Point);
-                    var call__473 = AoWCombatMap.MapContainer.MapLevels[0];
-                    var call__474 = call__473.GetField(FTargetX, FTargetY);
-                    var call__475 = call__474.FindOwnedChild(2228484);
-                    HS = (TTacticalCombatUnitHS)call__475;
+                    HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
                     if (HS != null)
                     {
                         Effect.FTarget = HS.FUnit;
                     }
 
-                    var call__476 = AoWHSMap.Random(37);
-                    I = call__476 + 1;
+                    I = AoWHSMap.Random(37) + 1;
                     Found = false;
                     while (!Found)
                     {
                         CenterHNtoHX(FTargetX, FTargetY, I, ref J, ref K);
-                        bool bool__477 = J > 5 && J < 60 && K > 5 && K < 53;
-                        if (bool__477)
+                        bool condition = J > 5 && J < 60 && K > 5 && K < 53 && AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228484) == null;
+                        if (condition)
                         {
-                            var call__478 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__479 = call__478.GetField(J, K);
-                            var call__480 = call__479.FindOwnedChild(2228484);
-                            bool__477 = call__480 == null;
-                        }
-
-                        bool bool__481 = bool__477;
-                        if (bool__481)
-                        {
-                            var call__482 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__483 = call__482.GetField(J, K);
-                            bool bool__484 = call__483.OverlayType != 8;
-                            if (!bool__484)
+                            bool test = AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).OverlayType != 8;
+                            if (!test)
                             {
-                                var call__485 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__486 = call__485.GetField(J, K);
-                                var call__487 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__488 = call__487.GetField(FTargetX, FTargetY);
-                                bool__484 = call__486.OverlayType == call__488.OverlayType;
+                                var fieldValue = AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K);
+                                var fieldValue2 = AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY);
+                                test = fieldValue.OverlayType == fieldValue2.OverlayType;
                             }
 
-                            bool__481 = bool__484;
+                            condition = test;
                         }
 
-                        bool bool__489 = bool__481;
-                        if (bool__489)
+                        bool passed = condition && AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).TerrainType != 15 && AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).TerrainType != 7;
+                        if (passed)
                         {
-                            var call__490 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__491 = call__490.GetField(J, K);
-                            bool__489 = call__491.TerrainType != 15;
-                        }
-
-                        bool bool__492 = bool__489;
-                        if (bool__492)
-                        {
-                            var call__493 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__494 = call__493.GetField(J, K);
-                            bool__492 = call__494.TerrainType != 7;
-                        }
-
-                        bool bool__495 = bool__492;
-                        if (bool__495)
-                        {
-                            var call__496 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__497 = call__496.GetField(J, K);
-                            bool bool__498 = call__497.TerrainType != 0;
-                            if (bool__498)
+                            bool test = AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).TerrainType != 0 && AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).TerrainType != 10 && AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).TerrainType != 9;
+                            if (!test)
                             {
-                                var call__499 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__500 = call__499.GetField(J, K);
-                                bool__498 = call__500.TerrainType != 10;
+                                var fieldValue = AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K);
+                                var fieldValue2 = AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY);
+                                test = fieldValue.TerrainType == fieldValue2.TerrainType;
                             }
 
-                            bool bool__501 = bool__498;
-                            if (bool__501)
-                            {
-                                var call__502 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__503 = call__502.GetField(J, K);
-                                bool__501 = call__503.TerrainType != 9;
-                            }
-
-                            bool bool__504 = bool__501;
-                            if (!bool__504)
-                            {
-                                var call__505 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__506 = call__505.GetField(J, K);
-                                var call__507 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__508 = call__507.GetField(FTargetX, FTargetY);
-                                bool__504 = call__506.TerrainType == call__508.TerrainType;
-                            }
-
-                            bool__495 = bool__504;
+                            passed = test;
                         }
 
-                        if (bool__495)
+                        if (passed)
                         {
                             Found = true;
                         }
@@ -3137,71 +2493,63 @@ namespace Aow.Units.CombatTE
                     AoWCombatMap.CenterViewTo(FTargetX, FTargetY, 0);
                 {
                     I = 0;
-                    byte end__509 = 29;
-                    for (; I <= end__509; I += 1)
+                    for (; I <= 29; I += 1)
                     {
-                        var call__510 = new TXYZ();
-                        Effect.FPath.Add(call__510);
-                        var call__511 = Effect.FPath[0];
-                        var call__512 = Random(30);
-                        var call__513 = Effect.FPath.Count;
-                        var call__514 = Effect.FPath[call__513 - 1];
-                        call__514.X = call__511.X + call__512 - 15;
-                        var call__515 = Effect.FPath[0];
-                        var call__516 = Random(30);
-                        var call__517 = Effect.FPath.Count;
-                        var call__518 = Effect.FPath[call__517 - 1];
-                        call__518.Y = call__515.Y + call__516 - 15;
+                        var xyz = new TXYZ();
+                        Effect.FPath.Add(xyz);
+                        var pathX = Effect.FPath[0];
+                        var random = Random(30);
+                        var count = Effect.FPath.Count;
+                        Effect.FPath[count - 1].X = pathX.X + random - 15;
+                        var pathY = Effect.FPath[0];
+                        var random2 = Random(30);
+                        var fPathCount = Effect.FPath.Count;
+                        Effect.FPath[fPathCount - 1].Y = pathY.Y + random2 - 15;
                     }
                 }
 
                     J = Random(300);
                     K = Random(300);
-                    var call__519 = Effect.FPath.Count;
-                    var call__520 = Effect.FPath[call__519 - 1];
-                    var call__521 = Effect.FPath.Count;
-                    var call__522 = Effect.FPath[call__521 - 1];
-                    var call__523 = Effect.FPath.Count;
-                    var call__524 = Effect.FPath[call__523 - 1];
-                    var call__525 = Effect.FPath.Count;
-                    var call__526 = Effect.FPath[call__525 - 1];
-                    var call__527 = Effect.FPath.Count;
-                    var call__528 = Effect.FPath[call__527 - 1];
-                    var call__529 = Effect.FPath.Count;
-                    var call__530 = Effect.FPath[call__529 - 1];
-                    MakeArcPathXY((short)call__530.X, (short)(call__524.Y - call__526.Z), (short)(call__528.X + J - 150), (short)(call__520.Y - call__522.Z + K - 150), (short)((Math.Abs(J - 150) + Math.Abs(K - 150)) / 50 + 2), 100, ref Effect.FPath);
-                    var call__531 = Effect.FPath.Count;
-                    Effect.FTargetX = call__531;
+                    var count2 = Effect.FPath.Count;
+                    var path = Effect.FPath[count2 - 1];
+                    var count3 = Effect.FPath.Count;
+                    var pathZ = Effect.FPath[count3 - 1];
+                    var count4 = Effect.FPath.Count;
+                    var path2 = Effect.FPath[count4 - 1];
+                    var count5 = Effect.FPath.Count;
+                    var path3 = Effect.FPath[count5 - 1];
+                    var count6 = Effect.FPath.Count;
+                    var path4 = Effect.FPath[count6 - 1];
+                    var count7 = Effect.FPath.Count;
+                    MakeArcPathXY((short)Effect.FPath[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + J - 150), (short)(path.Y - pathZ.Z + K - 150), (short)((Math.Abs(J - 150) + Math.Abs(K - 150)) / 50 + 2), 100, ref Effect.FPath);
+                    Effect.FTargetX = Effect.FPath.Count;
                     J = Random(200);
                     K = Random(200);
-                    var call__532 = Effect.FPath.Count;
-                    var call__533 = Effect.FPath[call__532 - 1];
-                    var call__534 = Effect.FPath.Count;
-                    var call__535 = Effect.FPath[call__534 - 1];
-                    var call__536 = Effect.FPath.Count;
-                    var call__537 = Effect.FPath[call__536 - 1];
-                    var call__538 = Effect.FPath.Count;
-                    var call__539 = Effect.FPath[call__538 - 1];
-                    var call__540 = Effect.FPath.Count;
-                    var call__541 = Effect.FPath[call__540 - 1];
-                    var call__542 = Effect.FPath.Count;
-                    var call__543 = Effect.FPath[call__542 - 1];
-                    MakeArcPathXY((short)call__543.X, (short)(call__537.Y - call__539.Z), (short)(call__541.X + J - 100), (short)(call__533.Y - call__535.Z + K - 100), (short)((Math.Abs(J - 100) + Math.Abs(K - 100)) / 50 + 3), 100, ref Effect.FPath);
-                    var call__544 = Effect.FPath.Count;
-                    Effect.FTargetY = call__544;
-                    var call__545 = Effect.FPath.Count;
-                    var call__546 = Effect.FPath[call__545 - 1];
-                    var call__547 = Effect.FPath.Count;
-                    var call__548 = Effect.FPath[call__547 - 1];
-                    var call__549 = Effect.FPath.Count;
-                    var call__550 = Effect.FPath[call__549 - 1];
-                    var call__551 = Effect.FPath.Count;
-                    var call__552 = Effect.FPath[call__551 - 1];
-                    var call__553 = Effect.FPath.Count;
-                    var call__554 = Effect.FPath[call__553 - 1];
-                    var call__555 = Effect.FPath.Count;
-                    var call__556 = Effect.FPath[call__555 - 1];
-                    MakeArcPathXY((short)call__556.X, (short)(call__552.Y - call__554.Z), (short)(DX + 16), (short)(DY + 16), (short)((Math.Abs(call__546.Y - call__548.Z - DY) + Math.Abs(call__550.X - DX)) / 50 + 4), 100, ref Effect.FPath);
+                    var count8 = Effect.FPath.Count;
+                    var path5 = Effect.FPath[count8 - 1];
+                    var count9 = Effect.FPath.Count;
+                    var path6 = Effect.FPath[count9 - 1];
+                    var count10 = Effect.FPath.Count;
+                    var path7 = Effect.FPath[count10 - 1];
+                    var count11 = Effect.FPath.Count;
+                    var path8 = Effect.FPath[count11 - 1];
+                    var count12 = Effect.FPath.Count;
+                    var path9 = Effect.FPath[count12 - 1];
+                    var count13 = Effect.FPath.Count;
+                    MakeArcPathXY((short)Effect.FPath[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + J - 100), (short)(path5.Y - path6.Z + K - 100), (short)((Math.Abs(J - 100) + Math.Abs(K - 100)) / 50 + 3), 100, ref Effect.FPath);
+                    Effect.FTargetY = Effect.FPath.Count;
+                    var count14 = Effect.FPath.Count;
+                    var item = Effect.FPath[count14 - 1];
+                    var count15 = Effect.FPath.Count;
+                    var fPathItem = Effect.FPath[count15 - 1];
+                    var count16 = Effect.FPath.Count;
+                    var path10 = Effect.FPath[count16 - 1];
+                    var count17 = Effect.FPath.Count;
+                    var path11 = Effect.FPath[count17 - 1];
+                    var count18 = Effect.FPath.Count;
+                    var path12 = Effect.FPath[count18 - 1];
+                    var count19 = Effect.FPath.Count;
+                    MakeArcPathXY((short)Effect.FPath[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(DX + 16), (short)(DY + 16), (short)((Math.Abs(item.Y - fPathItem.Z - DY) + Math.Abs(path10.X - DX)) / 50 + 4), 100, ref Effect.FPath);
                     break;
                 case TfxType.fxScreenNESW:
                     Point = new TXYZ();
@@ -3245,10 +2593,7 @@ namespace Aow.Units.CombatTE
                             break;
                         default:
                         {
-                            var call__557 = AoWCombatMap.MapContainer.MapLevels[0];
-                            var call__558 = call__557.GetField(DX, DY);
-                            var call__559 = call__558.FindOwnedChild(2228484);
-                            HS = (TTacticalCombatUnitHS)call__559;
+                            HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(DX, DY).FindOwnedChild(2228484);
                             if (HS != null)
                             {
                                 Effect.FTarget = HS.FUnit;
@@ -3260,135 +2605,110 @@ namespace Aow.Units.CombatTE
 
                     break;
                 case TfxType.fxChain:
-                    var call__560 = FUnit.FUnitHS.Yhx;
-                    var call__561 = FUnit.FUnitHS.Xhx;
-                    HXtoHP(call__561, call__560, ref X1, ref Y1);
+                    var yhx6 = FUnit.FUnitHS.Yhx;
+                    HXtoHP(FUnit.FUnitHS.Xhx, yhx6, ref X1, ref Y1);
                     HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
                     MakeLightningPath(X1 + 16, Y1, X2 + 16, Y2, ref Effect.FPath);
-                    var call__562 = Effect.FPath.Count;
-                    var call__563 = Effect.FPath[call__562 - 1];
-                    call__563.Z = 16;
+                    var count20 = Effect.FPath.Count;
+                    Effect.FPath[count20 - 1].Z = 16;
                     I = 3;
                     Used = new TList();
                     Used.Add(FUnit);
-                    var call__564 = AoWCombatMap.MapContainer.MapLevels[0];
-                    var call__565 = call__564.GetField(FTargetX, FTargetY);
-                    var call__566 = call__565.FindOwnedChild(2228484);
-                    HS = (TTacticalCombatUnitHS)call__566;
+                    HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
                     if (HS != null)
                     {
                         Used.Add(HS.FUnit);
                     }
 
-                    var call__567 = FindTarget(FTargetX, FTargetY);
-                    Target = call__567;
+                    Target = FindTarget(FTargetX, FTargetY);
                     while (Target != null && I > 0)
                     {
                         Used.Add(Target);
                         X1 = X2 + 16;
                         Y1 = Y2 + 16;
-                        var call__568 = Target.FUnitHS.Yhx;
-                        var call__569 = Target.FUnitHS.Xhx;
-                        HXtoHP(call__569, call__568, ref X2, ref Y2);
+                        var yhx4 = Target.FUnitHS.Yhx;
+                        HXtoHP(Target.FUnitHS.Xhx, yhx4, ref X2, ref Y2);
                         MakeLightningPath(X1, Y1, X2 + 16, Y2, ref Effect.FPath);
                         I -= 1;
-                        var call__570 = Target.FUnitHS.Yhx;
-                        var call__571 = Target.FUnitHS.Xhx;
-                        var call__572 = FindTarget(call__571, call__570);
-                        Target = call__572;
+                        var yhx5 = Target.FUnitHS.Yhx;
+                        Target = FindTarget(Target.FUnitHS.Xhx, yhx5);
                     }
 
                     Used.Free();
                     break;
                 case TfxType.fxSwarm:
-                    var call__573 = FUnit.FUnitHS.Yhx;
-                    var call__574 = FUnit.FUnitHS.Xhx;
-                    HXtoHP(call__574, call__573, ref X1, ref Y1);
-                    var call__575 = Random(360);
-                    var call__576 = Random(20);
-                    var call__577 = Random(20);
-                    var call__578 = Random(2);
-                    var call__579 = Random(90);
-                    var call__580 = Random(5);
-                    var call__581 = Random(10);
-                    MakeSwarmPath(call__581 + 10, call__580 + 20, call__579, call__575, call__576 + X1 + 6, call__577 + Y1 - 10, (TSwarmDirection)call__578, ref Effect.FPath);
-                    var call__582 = Effect.FPath.Count;
-                    K = call__582 - 1;
+                    var yhx7 = FUnit.FUnitHS.Yhx;
+                    HXtoHP(FUnit.FUnitHS.Xhx, yhx7, ref X1, ref Y1);
+                    var random3 = Random(360);
+                    var random4 = Random(20);
+                    var random5 = Random(20);
+                    var random6 = Random(2);
+                    var random7 = Random(90);
+                    var random8 = Random(5);
+                    MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + X1 + 6, random5 + Y1 - 10, (TSwarmDirection)random6, ref Effect.FPath);
+                    K = Effect.FPath.Count - 1;
                 {
                     I = 0;
-                    byte end__583 = 2;
-                    for (; I <= end__583; I += 1)
+                    for (; I <= 2; I += 1)
                     {
+                        J = 0;
+                        int last = K;
+                        for (; J <= last; J += 1)
                         {
-                            J = 0;
-                            int end__584 = K;
-                            for (; J <= end__584; J += 1)
-                            {
-                                Point = new TXYZ();
-                                var call__585 = Effect.FPath[J];
-                                Point.X = call__585.X;
-                                var call__586 = Effect.FPath[J];
-                                Point.Y = call__586.Y;
-                                Effect.FPath.Add(Point);
-                            }
+                            Point = new TXYZ();
+                            Point.X = Effect.FPath[J].X;
+                            Point.Y = Effect.FPath[J].Y;
+                            Effect.FPath.Add(Point);
                         }
                     }
                 }
 
                     HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
-                    var call__587 = Effect.FPath.Count;
-                    var call__588 = Effect.FPath[call__587 - 1];
-                    var call__589 = Effect.FPath.Count;
-                    var call__590 = Effect.FPath[call__589 - 1];
-                    MakeLinePath(call__590.X, call__588.Y, X2 + 16, Y2, 15, ref Effect.FPath);
+                    var count21 = Effect.FPath.Count;
+                    var path13 = Effect.FPath[count21 - 1];
+                    var count22 = Effect.FPath.Count;
+                    MakeLinePath(Effect.FPath[count22 - 1].X, path13.Y, X2 + 16, Y2, 15, ref Effect.FPath);
                     Path = new TXYZList();
-                    var call__591 = Random(360);
-                    var call__592 = Effect.FPath.Count;
-                    var call__593 = Effect.FPath[call__592 - 1];
-                    var call__594 = Effect.FPath.Count;
-                    var call__595 = Effect.FPath[call__594 - 1];
-                    var call__596 = Random(2);
-                    var call__597 = Random(90);
-                    var call__598 = Random(5);
-                    var call__599 = Random(10);
-                    MakeSwarmPath(call__599 + 10, call__598 + 20, call__597, call__591, call__593.X, call__595.Y, (TSwarmDirection)call__596, ref Path);
-                    var call__600 = Path[0];
-                    var call__601 = Effect.FPath.Count;
-                    var call__602 = Effect.FPath[call__601 - 1];
-                    var call__603 = Effect.FPath.Count;
-                    var call__604 = Effect.FPath[call__603 - 1];
-                    var call__605 = Path[0];
-                    MakeLinePath(call__604.X, call__602.Y, call__605.X, call__600.Y, 5, ref Effect.FPath);
+                    var random9 = Random(360);
+                    var count23 = Effect.FPath.Count;
+                    var path14 = Effect.FPath[count23 - 1];
+                    var count24 = Effect.FPath.Count;
+                    var path15 = Effect.FPath[count24 - 1];
+                    var random10 = Random(2);
+                    var random11 = Random(90);
+                    var random12 = Random(5);
+                    MakeSwarmPath(Random(10) + 10, random12 + 20, random11, random9, path14.X, path15.Y, (TSwarmDirection)random10, ref Path);
+                    var pathItem = Path[0];
+                    var count25 = Effect.FPath.Count;
+                    var path16 = Effect.FPath[count25 - 1];
+                    var count26 = Effect.FPath.Count;
+                    var path17 = Effect.FPath[count26 - 1];
+                    var pathX2 = Path[0];
+                    MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, ref Effect.FPath);
                 {
                     I = 0;
-                    int end__606 = Path.Count - 1;
-                    for (; I <= end__606; I += 1)
+                    int last = Path.Count - 1;
+                    for (; I <= last; I += 1)
                     {
                         // { Original shares the points, then frees Path. }
-                        var call__607 = Path[I];
-                        Effect.FPath.Add(call__607);
+                        var path18 = Path[I];
+                        Effect.FPath.Add(path18);
                     }
                 }
 
-                    var call__608 = Path.Count;
-                    K = call__608 - 1;
+                    K = Path.Count - 1;
                 {
                     I = 0;
-                    byte end__609 = 2;
-                    for (; I <= end__609; I += 1)
+                    for (; I <= 2; I += 1)
                     {
+                        J = 0;
+                        int last = K;
+                        for (; J <= last; J += 1)
                         {
-                            J = 0;
-                            int end__610 = K;
-                            for (; J <= end__610; J += 1)
-                            {
-                                Point = new TXYZ();
-                                var call__611 = Path[J];
-                                Point.X = call__611.X;
-                                var call__612 = Path[J];
-                                Point.Y = call__612.Y;
-                                Effect.FPath.Add(Point);
-                            }
+                            Point = new TXYZ();
+                            Point.X = Path[J].X;
+                            Point.Y = Path[J].Y;
+                            Effect.FPath.Add(Point);
                         }
                     }
                 }
@@ -3396,10 +2716,7 @@ namespace Aow.Units.CombatTE
                     Path.Free();
                     break;
                 case TfxType.fxScreenSwarm:
-                    var call__613 = AoWCombatMap.MapContainer.MapLevels[0];
-                    var call__614 = call__613.GetField(FTargetX, FTargetY);
-                    var call__615 = call__614.FindOwnedChild(2228484);
-                    HS = (TTacticalCombatUnitHS)call__615;
+                    HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
                     if (HS == null)
                     {
                         Target = null;
@@ -3414,10 +2731,8 @@ namespace Aow.Units.CombatTE
                     ChooseTarget();
                     if (Target != null)
                     {
-                        var call__616 = Target.FUnitHS.Xhx;
-                        DX = call__616;
-                        var call__617 = Target.FUnitHS.Yhx;
-                        DY = call__617;
+                        DX = Target.FUnitHS.Xhx;
+                        DY = Target.FUnitHS.Yhx;
                     }
 
                     Effect.FTarget = Target;
@@ -3431,44 +2746,35 @@ namespace Aow.Units.CombatTE
                     Point.X = X2;
                     Point.Y = Y2;
                     Effect.FPath.Add(Point);
-                    var call__618 = Random(360);
-                    var call__619 = Random(20);
-                    var call__620 = Random(20);
-                    var call__621 = Random(2);
-                    var call__622 = Random(90);
-                    var call__623 = Random(10);
-                    var call__624 = Random(10);
-                    MakeSwarmPath(call__624 + 10, call__623 + 25, call__622, call__618, call__619, call__620 - 10, (TSwarmDirection)call__621, ref Effect.FPath);
-                    var call__625 = Effect.FPath.Count;
-                    K = call__625 - 1;
+                    var random13 = Random(360);
+                    var random14 = Random(20);
+                    var random15 = Random(20);
+                    var random16 = Random(2);
+                    var random17 = Random(90);
+                    var random18 = Random(10);
+                    MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (TSwarmDirection)random16, ref Effect.FPath);
+                    K = Effect.FPath.Count - 1;
                 {
                     I = 0;
-                    byte end__626 = 4;
-                    for (; I <= end__626; I += 1)
+                    for (; I <= 4; I += 1)
                     {
+                        J = 1;
+                        int last = K;
+                        for (; J <= last; J += 1)
                         {
-                            J = 1;
-                            int end__627 = K;
-                            for (; J <= end__627; J += 1)
-                            {
-                                Point = new TXYZ();
-                                var call__628 = Effect.FPath[J];
-                                Point.X = call__628.X;
-                                var call__629 = Effect.FPath[J];
-                                Point.Y = call__629.Y;
-                                Effect.FPath.Add(Point);
-                            }
+                            Point = new TXYZ();
+                            Point.X = Effect.FPath[J].X;
+                            Point.Y = Effect.FPath[J].Y;
+                            Effect.FPath.Add(Point);
                         }
                     }
                 }
 
                 {
                     I = 0;
-                    byte end__630 = 49;
-                    for (; I <= end__630; I += 1)
+                    for (; I <= 49; I += 1)
                     {
-                        var call__631 = Effect.FPath[I + 1];
-                        call__631.Z = 100 - I * 2;
+                        Effect.FPath[I + 1].Z = 100 - I * 2;
                     }
                 }
 
@@ -3482,16 +2788,14 @@ namespace Aow.Units.CombatTE
                     break;
                 case TfxType.fxRay:
                     AoWCombatMap.MakeVisible(FTargetX - 3, FTargetY - 3, 0, 3);
-                    var call__632 = FUnit.FUnitHS.Xhx;
-                    var call__633 = FUnit.FUnitHS.Yhx;
-                    var call__634 = FUnit.GetSide();
-                    MakeRangedPath(call__634, 10, 0, 50, call__632, call__633, (short)FTargetX, (short)FTargetY, 0, 0, true, ref Effect.FPath, ref Obstacles);
+                    var xhx3 = FUnit.FUnitHS.Xhx;
+                    var yhx8 = FUnit.FUnitHS.Yhx;
+                    MakeRangedPath(FUnit.GetSide(), 10, 0, 50, xhx3, yhx8, (short)FTargetX, (short)FTargetY, 0, 0, true, ref Effect.FPath, ref Obstacles);
                     break;
                 default:
-                    var call__635 = FUnit.FUnitHS.Xhx;
-                    var call__636 = FUnit.FUnitHS.Yhx;
-                    var call__637 = FUnit.GetSide();
-                    MakeAbilPath(call__637, (short)FAbilityID, (short)FSpellID, call__635, call__636, (short)FTargetX, (short)FTargetY, ref Effect.FPath, ref Obstacles);
+                    var xhx4 = FUnit.FUnitHS.Xhx;
+                    var yhx9 = FUnit.FUnitHS.Yhx;
+                    MakeAbilPath(FUnit.GetSide(), (short)FAbilityID, (short)FSpellID, xhx4, yhx9, (short)FTargetX, (short)FTargetY, ref Effect.FPath, ref Obstacles);
                     break;
             }
 
@@ -3508,10 +2812,7 @@ namespace Aow.Units.CombatTE
                 case TfxType.fxRay:
                 case TfxType.fxSwarm:
                 case TfxType.fxAltArrow:
-                    var call__638 = AoWCombatMap.MapContainer.MapLevels[0];
-                    var call__639 = call__638.GetField(FTargetX, FTargetY);
-                    var call__640 = call__639.FindOwnedChild(2228484);
-                    HS = (TTacticalCombatUnitHS)call__640;
+                    HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
                     if (HS != null)
                     {
                         Effect.FTarget = HS.FUnit;
@@ -3520,84 +2821,43 @@ namespace Aow.Units.CombatTE
                     I = 0;
                     while (I < Obstacles.Count)
                     {
-                        var call__641 = Obstacles[I];
-                        Obstacle = (TROb)call__641;
-                        var call__642 = AoWHSMap.Random(100);
-                        if (call__642 < Obstacle.Chance)
+                        Obstacle = (TROb)Obstacles[I];
+                        if (AoWHSMap.Random(100) < Obstacle.Chance)
                         {
-                            var call__643 = Effect.FPath[Obstacle.PathIndex];
-                            var call__644 = Effect.FPath[Obstacle.PathIndex];
-                            HPtoHX(call__644.X, call__643.Y, ref J, ref K);
+                            var path = Effect.FPath[Obstacle.PathIndex];
+                            HPtoHX(Effect.FPath[Obstacle.PathIndex].X, path.Y, ref J, ref K);
                             if (Effect.FEffectType == TfxType.fxBreath)
                             {
                                 HitObject = null;
                             }
                             else
                             {
-                                var call__645 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__646 = call__645.GetField(J, K);
-                                var call__647 = call__646.FindOwnedChild(2228484);
-                                HitObject = (THexagonSprite)call__647;
+                                HitObject = (THexagonSprite)AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228484);
                             }
 
                             if (HitObject == null)
                             {
-                                var call__648 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__649 = call__648.GetField(J, K);
-                                var call__650 = call__649.FindOwnedChild(2228582);
-                                HitObject = (THexagonSprite)call__650;
+                                HitObject = (THexagonSprite)AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228582);
                             }
 
                             if (HitObject == null)
                             {
-                                var call__651 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__652 = call__651.GetField(J, K);
-                                var call__653 = call__652.FindOwnedChild(2229508);
-                                HitObject = (THexagonSprite)call__653;
+                                HitObject = (THexagonSprite)AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2229508);
                             }
 
                             if (HitObject == null)
                             {
-                                var call__654 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__655 = call__654.GetField(J, K);
-                                var call__656 = call__655.FindOwnedChild(2229510);
-                                HitObject = (THexagonSprite)call__656;
+                                HitObject = (THexagonSprite)AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2229510);
                             }
 
-                            bool bool__657 = HitObject != null;
-                            if (!bool__657)
+                            if (HitObject != null || AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).TerrainType == 15 || AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).TerrainType == 7 || AoWCombatMap.MapContainer.MapLevels[0].GetField(J, K).OverlayType == 8)
                             {
-                                var call__658 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__659 = call__658.GetField(J, K);
-                                bool__657 = call__659.TerrainType == 15;
-                            }
-
-                            bool bool__660 = bool__657;
-                            if (!bool__660)
-                            {
-                                var call__661 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__662 = call__661.GetField(J, K);
-                                bool__660 = call__662.TerrainType == 7;
-                            }
-
-                            bool bool__663 = bool__660;
-                            if (!bool__663)
-                            {
-                                var call__664 = AoWCombatMap.MapContainer.MapLevels[0];
-                                var call__665 = call__664.GetField(J, K);
-                                bool__663 = call__665.OverlayType == 8;
-                            }
-
-                            if (bool__663)
-                            {
+                                J = Obstacle.PathIndex + 1;
+                                int last = Effect.FPath.Count - 1;
+                                for (; J <= last; J += 1)
                                 {
-                                    J = Obstacle.PathIndex + 1;
-                                    int end__666 = Effect.FPath.Count - 1;
-                                    for (; J <= end__666; J += 1)
-                                    {
-                                        var call__667 = Effect.FPath.Count;
-                                        Effect.FPath.Delete(call__667 - 1);
-                                    }
+                                    var count = Effect.FPath.Count;
+                                    Effect.FPath.Delete(count - 1);
                                 }
 
                                 if (!(HitObject is TTacticalCombatUnitHS))
@@ -3654,31 +2914,22 @@ namespace Aow.Units.CombatTE
                                 Effect.FTarget = FUnit;
                                 break;
                             case 115:
-                                var call__668 = AoWHSMap.Random(100);
-                                if (call__668 < 75)
+                                if (AoWHSMap.Random(100) < 75)
                                 {
                                     Effect.FTarget = null;
                                 }
 
                                 break;
                             case 100:
-                                var call__669 = AoWCombatMap.AddEffect(TfxType.fxSFOverlay);
-                                ExtraEffect = call__669;
-                                var call__670 = FUnit.FUnitHS.Yhx;
-                                var call__671 = FUnit.FUnitHS.Xhx;
-                                HXtoHP(call__671, call__670, ref X1, ref Y1);
-                                while (true)
+                                ExtraEffect = AoWCombatMap.AddEffect(TfxType.fxSFOverlay);
+                                var yhx = FUnit.FUnitHS.Yhx;
+                                HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref X1, ref Y1);
+                                while (ExtraEffect.FPath.Count < Effect.FPath.Count)
                                 {
-                                    var call__672 = ExtraEffect.FPath.Count;
-                                    var call__673 = Effect.FPath.Count;
-                                    if (!(call__672 < call__673))
-                                        break;
-                                    {
-                                        Point = new TXYZ();
-                                        Point.X = X1 + 16;
-                                        Point.Y = Y1;
-                                        ExtraEffect.FPath.Add(Point);
-                                    }
+                                    Point = new TXYZ();
+                                    Point.X = X1 + 16;
+                                    Point.Y = Y1;
+                                    ExtraEffect.FPath.Add(Point);
                                 }
 
                                 ExtraEffect.FAbilityIndex = FAbilityID;
@@ -3690,10 +2941,9 @@ namespace Aow.Units.CombatTE
                 }
             }
 
-            var call__674 = FUnit.FUnitHS.Yhx;
-            var call__675 = FUnit.FUnitHS.Xhx;
-            var call__676 = GetRangedDirIndex(FTargetX - call__675, FTargetY - call__674);
-            Effect.FVariant = call__676;
+            var yhx10 = FUnit.FUnitHS.Yhx;
+            var xhx5 = FUnit.FUnitHS.Xhx;
+            Effect.FVariant = GetRangedDirIndex(FTargetX - xhx5, FTargetY - yhx10);
             if (FStrikeIndex == 0)
             {
                 switch (FEffectType)
@@ -3758,14 +3008,11 @@ namespace Aow.Units.CombatTE
                 }
             }
 
+            I = 0;
+            int limit = Obstacles.Count - 1;
+            for (; I <= limit; I += 1)
             {
-                I = 0;
-                int end__677 = Obstacles.Count - 1;
-                for (; I <= end__677; I += 1)
-                {
-                    var call__678 = Obstacles[I];
-                    ((TObject)call__678).Free();
-                }
+                ((TObject)Obstacles[I]).Free();
             }
 
             Obstacles.Free();
@@ -3789,10 +3036,8 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:152
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            TExecuteResult Result = default;
             AoWHSMap.DestroyCombat();
-            Result = TExecuteResult.erDone;
-            return Result;
+            return TExecuteResult.erDone;
         }
 
         // NetworkE.pas:230
@@ -3820,35 +3065,29 @@ namespace Aow.Units.CombatTE
         {
             void MakeEffect(TfxType EffectType)
             {
-                TfxHS Effect = default;
-                int I = default;
-                int Count = default;
+                TfxHS Effect;
+                int Count;
                 float Z = default;
                 float Speed = default;
                 float VZ = default;
                 float Gravity = default;
                 Count = Random(5) + 8;
+                for (int I = 1; I <= Count - 1; I++)
                 {
-                    I = 1;
-                    int end__679 = Count - 1;
-                    for (; I <= end__679; I += 1)
+                    Effect = AoWCombatMap.AddEffect(EffectType);
+                    Speed = (float)((double)(Random(10) + 10) * 0.1);
+                    Gravity = (float)0.5;
+                    if (Resisted || EffectType == TfxType.fxDamMagic)
                     {
-                        var call__680 = AoWCombatMap.AddEffect(EffectType);
-                        Effect = call__680;
-                        Speed = (float)((double)(Random(10) + 10) * 0.1);
-                        Gravity = (float)0.5;
-                        if (Resisted || EffectType == TfxType.fxDamMagic)
-                        {
-                            VZ = (float)((double)(Random(50) + 50) * 0.1);
-                        }
-                        else
-                        {
-                            VZ = (float)((double)(Random(25) + 25) * 0.1);
-                        }
-
-                        Z = 0;
-                        MakeArcPath(X, Y, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                        VZ = (float)((double)(Random(50) + 50) * 0.1);
                     }
+                    else
+                    {
+                        VZ = (float)((double)(Random(25) + 25) * 0.1);
+                    }
+
+                    Z = 0;
+                    MakeArcPath(X, Y, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                 }
             }
 
@@ -3890,25 +3129,13 @@ namespace Aow.Units.CombatTE
         }
 
         // CombatTE.pas:1809
-        public static TCEndCombatTE CreateTCEndCombatTE()
-        {
-            TCEndCombatTE Result = default;
-            Result = new TCEndCombatTE(null);
-            return Result;
-        }
+        public static TCEndCombatTE CreateTCEndCombatTE() => new TCEndCombatTE(null);
 
         // CombatTE.pas:1812
         public static TCEndTurnTE CreateTCEndTurnTE(sbyte Player)
         {
-            TCEndTurnTE Result = default;
-            bool bool__681 = Player != -1;
-            if (bool__681)
-            {
-                var call__682 = AoWHSMap.FTokenManager.PlayerReady(Player);
-                bool__681 = call__682;
-            }
-
-            if (bool__681)
+            TCEndTurnTE Result;
+            if (Player != -1 && AoWHSMap.FTokenManager.PlayerReady(Player))
             {
                 Result = new TCEndTurnTE(null);
             }
@@ -3923,10 +3150,8 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1819
         public static TCEndTurnTE CreateTCCancelEndTurnTE(sbyte Player)
         {
-            TCEndTurnTE Result = default;
-            var call__683 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__684 = call__683.GetBusy();
-            if (!call__684)
+            TCEndTurnTE Result;
+            if (!AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
             {
                 Result = new TCEndTurnTE(null);
             }
@@ -3941,10 +3166,9 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1826
         public static void MakeHitBlood(TTacticalCombatUnit UnitObject, int Damage)
         {
-            TfxHS Effect = default;
-            TXYZ Point = default;
-            var call__685 = AoWCombatMap.AddEffect(TfxType.fxBlood);
-            Effect = call__685;
+            TfxHS Effect;
+            TXYZ Point;
+            Effect = AoWCombatMap.AddEffect(TfxType.fxBlood);
             Point = new TXYZ();
             Effect.FPath.Add(Point);
             switch (Damage)
@@ -3960,29 +3184,24 @@ namespace Aow.Units.CombatTE
                     break;
             }
 
-            var call__686 = UnitObject.FUnit.GetBloodType();
-            switch (call__686)
+            switch (UnitObject.FUnit.GetBloodType())
             {
                 case TBloodType.btNone:
                     Point.Z = Point.Z + 5;
                     break;
             }
 
-            var call__687 = UnitObject.FUnitHS.Yhx;
-            var call__688 = UnitObject.FUnitHS.Xhx;
-            HXtoHP(call__688, call__687, ref Point.X, ref Point.Y);
-            var call__689 = Random(10);
-            Point.X = call__689 + Point.X + 11;
-            var call__690 = UnitObject.FUnit.GetUnitSize();
-            var call__691 = Random(10);
-            Point.Y = call__691 + Point.Y + 9 - (int)call__690 * 10;
+            var yhx = UnitObject.FUnitHS.Yhx;
+            HXtoHP(UnitObject.FUnitHS.Xhx, yhx, ref Point.X, ref Point.Y);
+            Point.X = Random(10) + Point.X + 11;
+            var unitSize = UnitObject.FUnit.GetUnitSize();
+            Point.Y = Random(10) + Point.Y + 9 - (int)unitSize * 10;
         }
 
         // CombatTE.pas:1845
         public static TCMeleeMoveTE CreateTCMeleeMoveTE(TTacticalCombatUnit UnitObject, TMovepath Path)
         {
-            TCMeleeMoveTE Result = default;
-            Result = new TCMeleeMoveTE(null);
+            TCMeleeMoveTE Result = new TCMeleeMoveTE(null);
             if (Result != null)
             {
                 Result.Setup(UnitObject, Path);
@@ -3994,8 +3213,7 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1851
         public static TCAbTouchMoveTE CreateTCAbTouchMoveTE(TTacticalCombatUnit UnitObject, TMovepath Path, int AbilityID)
         {
-            TCAbTouchMoveTE Result = default;
-            Result = new TCAbTouchMoveTE(null);
+            TCAbTouchMoveTE Result = new TCAbTouchMoveTE(null);
             if (Result != null)
             {
                 Result.Setup(UnitObject, Path);
@@ -4008,14 +3226,11 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1861
         public static TCAbRangedTE CreateTCAbRangedTE(TTacticalCombatUnit UnitObject, ushort X, ushort Y, int AbilityID, int SpellID)
         {
-            TCAbRangedTE Result = default;
-            Result = new TCAbRangedTE(null);
+            TCAbRangedTE Result = new TCAbRangedTE(null);
             if (Result != null)
             {
-                var call__692 = UnitObject.FUnitHS.Xhx;
-                Result.FSourceX = (ushort)call__692;
-                var call__693 = UnitObject.FUnitHS.Yhx;
-                Result.FSourceY = (ushort)call__693;
+                Result.FSourceX = (ushort)UnitObject.FUnitHS.Xhx;
+                Result.FSourceY = (ushort)UnitObject.FUnitHS.Yhx;
                 Result.FTargetX = X;
                 Result.FTargetY = Y;
                 Result.FAbilityID = AbilityID;
@@ -4028,8 +3243,7 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1875
         public static TCombatMoveTE CreateCombatMoveTE(TTacticalCombatUnit UnitObject, TMovepath Path)
         {
-            TCombatMoveTE Result = default;
-            Result = new TCombatMoveTE(null);
+            TCombatMoveTE Result = new TCombatMoveTE(null);
             if (Result != null)
             {
                 Result.Setup(UnitObject, Path);
@@ -4041,17 +3255,14 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1881
         public static bool MoveCombatUnit(TTacticalCombatUnit UnitObject, TMovepath Path)
         {
-            bool Result = default;
-            int MovePoints = default;
-            int Cost = default;
-            int Index = default;
-            TCombatMoveTE Event = default;
-            TMovepath NewPath = default;
-            int I = default;
-            Result = false;
-            var call__694 = UnitObject.GetPlayer();
-            var call__695 = AoWHSMap.FTokenManager.PlayerReady(call__694);
-            if (call__695 && Path.Count > 1)
+            int MovePoints;
+            int Cost;
+            int Index;
+            TCombatMoveTE Event;
+            TMovepath NewPath;
+            bool Result = false;
+            var player = UnitObject.GetPlayer();
+            if (AoWHSMap.FTokenManager.PlayerReady(player) && Path.Count > 1)
             {
                 MovePoints = UnitObject.FMovePoints;
                 Cost = 0;
@@ -4059,8 +3270,7 @@ namespace Aow.Units.CombatTE
                 while (Index != 0 && Cost <= MovePoints)
                 {
                     Index = Index - 1;
-                    var call__696 = Path[Index];
-                    Cost = Cost + call__696.Flag;
+                    Cost = Cost + Path[Index].Flag;
                 }
 
                 if (Cost > MovePoints)
@@ -4071,22 +3281,16 @@ namespace Aow.Units.CombatTE
                 if (Index < Path.Count - 1)
                 {
                     NewPath = new TMovepath();
+                    for (int I = Index, last = Path.Count - 1; I <= last; I++)
                     {
-                        I = Index;
-                        int end__697 = Path.Count - 1;
-                        for (; I <= end__697; I += 1)
-                        {
-                            var call__698 = Path[I];
-                            NewPath.Add(call__698);
-                        }
+                        NewPath.Add(Path[I]);
                     }
 
                     Event = CreateCombatMoveTE(UnitObject, NewPath);
                     if (Event != null)
                     {
-                        var call__699 = UnitObject.GetPlayer();
-                        var call__700 = AoWHSMap.FTokenManager.GetTokenControl(call__699);
-                        call__700.AddEvent(Event);
+                        var unitObjectPlayer = UnitObject.GetPlayer();
+                        AoWHSMap.FTokenManager.GetTokenControl(unitObjectPlayer).AddEvent(Event);
                         Event.Release();
                         Result = true;
                     }
@@ -4105,85 +3309,57 @@ namespace Aow.Units.CombatTE
             TMultiMoveTE Multi = default;
             TCombatMoveTE MoveEvent = default;
             TMovepath Path = default;
-            int I = default;
-            int J = default;
-            int K = default;
-            int L = default;
-            var call__701 = Moves.Count;
-            bool bool__702 = call__701 != 0;
-            if (bool__702)
+            bool condition = Moves.Count != 0;
+            if (condition)
             {
-                var call__703 = Moves.GetMoveSettings(0);
-                var call__704 = ((TTacticalCombatUnitHS)call__703.FMoveObject).FUnit.GetPlayer();
-                var call__705 = AoWHSMap.FTokenManager.PlayerReady(call__704);
-                bool__702 = call__705;
+                var player = ((TTacticalCombatUnitHS)Moves.GetMoveSettings(0).FMoveObject).FUnit.GetPlayer();
+                condition = AoWHSMap.FTokenManager.PlayerReady(player);
             }
 
-            if (bool__702)
+            if (condition)
             {
                 Path = new TMovepath();
                 Multi = new TMultiMoveTE(null);
                 Multi.FSimultaneous = false;
                 Moves.CalculateMovePositions(ValidateTCMovePosition);
+                for (int I = 1, last = Moves.Count - 1; I <= last; I++)
                 {
-                    I = 1;
-                    int end__706 = Moves.Count - 1;
-                    for (; I <= end__706; I += 1)
+                    for (int J = 0; J <= I - 1; J++)
                     {
+                        var moveSetting = Moves.GetMoveSettings(J);
+                        var moveSettingPath = Moves.GetMoveSettings(I);
+                        if (moveSetting.FPath.Count > moveSettingPath.FPath.Count)
                         {
-                            J = 0;
-                            int end__707 = I - 1;
-                            for (; J <= end__707; J += 1)
-                            {
-                                var call__708 = Moves.GetMoveSettings(J);
-                                var call__709 = Moves.GetMoveSettings(I);
-                                if (call__708.FPath.Count > call__709.FPath.Count)
-                                {
-                                    Moves.FChildren.Exchange(I, J);
-                                }
-                            }
+                            Moves.FChildren.Exchange(I, J);
                         }
                     }
                 }
 
+                for (int K = 0, last = Moves.Count - 1; K <= last; K++)
                 {
-                    K = 0;
-                    int end__710 = Moves.Count - 1;
-                    for (; K <= end__710; K += 1)
+                    var moveSettings = Moves.GetMoveSettings(K);
+                    if (moveSettings.FMovePos < moveSettings.FPath.Count - 1)
                     {
-                        var moveSettings = Moves.GetMoveSettings(K);
-                        if (moveSettings.FMovePos < moveSettings.FPath.Count - 1)
+                        Path.Clear();
+                        for (int L = moveSettings.FMovePos, lastL = moveSettings.FPath.Count - 1; L <= lastL; L++)
                         {
-                            Path.Clear();
-                            {
-                                L = moveSettings.FMovePos;
-                                int end__712 = moveSettings.FPath.Count - 1;
-                                for (; L <= end__712; L += 1)
-                                {
-                                    var call__713 = moveSettings.FPath[L];
-                                    Path.Add(call__713);
-                                }
-                            }
-
-                            MoveEvent = new TCombatMoveTE(null);
-                            var call__714 = MoveEvent.Setup(((TTacticalCombatUnitHS)moveSettings.FMoveObject).FUnit, Path);
-                            if (call__714)
-                            {
-                                Multi.FEvents.Add(MoveEvent);
-                            }
-
-                            MoveEvent.Release();
+                            Path.Add(moveSettings.FPath[L]);
                         }
+
+                        MoveEvent = new TCombatMoveTE(null);
+                        if (MoveEvent.Setup(((TTacticalCombatUnitHS)moveSettings.FMoveObject).FUnit, Path))
+                        {
+                            Multi.FEvents.Add(MoveEvent);
+                        }
+
+                        MoveEvent.Release();
                     }
                 }
 
-                var call__715 = Multi.FEvents.Count;
-                if (call__715 != 0)
+                if (Multi.FEvents.Count != 0)
                 {
-                    var call__716 = Moves.GetMoveSettings(0);
-                    var call__717 = ((TTacticalCombatUnitHS)call__716.FMoveObject).FUnit.GetPlayer();
-                    var call__718 = AoWHSMap.FTokenManager.GetTokenControl(call__717);
-                    call__718.AddEvent(Multi);
+                    var player = ((TTacticalCombatUnitHS)Moves.GetMoveSettings(0).FMoveObject).FUnit.GetPlayer();
+                    AoWHSMap.FTokenManager.GetTokenControl(player).AddEvent(Multi);
                     Result = true;
                 }
                 else
@@ -4193,14 +3369,10 @@ namespace Aow.Units.CombatTE
 
                 Multi.Release();
                 Path.Free();
+                for (int K = 0, last = AoWCombatMap.FUnitSelection.FMoveSettingsList.Count - 1; K <= last; K++)
                 {
-                    K = 0;
-                    int end__719 = AoWCombatMap.FUnitSelection.FMoveSettingsList.Count - 1;
-                    for (; K <= end__719; K += 1)
-                    {
-                        var moveSettings2 = AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(K);
-                        moveSettings2.FPath.Clear();
-                    }
+                    var moveSettings2 = AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(K);
+                    moveSettings2.FPath.Clear();
                 }
             }
             else
@@ -4220,42 +3392,25 @@ namespace Aow.Units.CombatTE
         // CombatTE.pas:1916
         public static bool ValidateTCMovePosition(TMoveSettingsList Moves, int Index)
         {
-            bool Result = default;
-            int I = default;
-            TMoveSettings Settings = default;
-            Result = true;
+            TMoveSettings Settings;
+            bool Result = true;
             if (Result)
             {
+                for (int I = Moves.Count - 1; I >= 0; I--)
                 {
-                    I = Moves.Count - 1;
-                    byte end__721 = 0;
-                    for (; I >= end__721; I -= 1)
+                    if (I != Index)
                     {
-                        if (I != Index)
+                        Settings = Moves.GetMoveSettings(I);
+                        bool condition = Settings.FValid && Moves.GetMoveSettings(Index).GetMovePrio() >= Settings.GetMovePrio();
+                        if (condition)
                         {
-                            Settings = Moves.GetMoveSettings(I);
-                            bool bool__722 = Settings.FValid;
-                            if (bool__722)
-                            {
-                                var call__723 = Moves.GetMoveSettings(Index);
-                                var call__724 = call__723.GetMovePrio();
-                                var call__725 = Settings.GetMovePrio();
-                                bool__722 = call__724 >= call__725;
-                            }
+                            var moveLoc = Moves.GetMoveSettings(Index).GetMoveLoc();
+                            condition = Settings.GetMoveLoc().XYL == moveLoc.XYL;
+                        }
 
-                            bool bool__726 = bool__722;
-                            if (bool__726)
-                            {
-                                var call__727 = Moves.GetMoveSettings(Index);
-                                var call__728 = call__727.GetMoveLoc();
-                                var call__729 = Settings.GetMoveLoc();
-                                bool__726 = call__729.XYL == call__728.XYL;
-                            }
-
-                            if (bool__726)
-                            {
-                                Result = false;
-                            }
+                        if (condition)
+                        {
+                            Result = false;
                         }
                     }
                 }

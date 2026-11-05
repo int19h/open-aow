@@ -17,15 +17,13 @@ namespace Aow.Units.PlugInM
         // PlugInM.pas:60
         internal void ExecutePlugInSearch(AnsiString Directory)
         {
-            AnsiString Dir = default;
+            AnsiString Dir;
             void SearchDir(AnsiString Dir)
             {
                 TSearchRec SR = default;
-                TStringList Dirs = default;
-                int I = default;
-                bool Found = default;
-                var call__1 = FindFirst(Dir + (AnsiString)"*." + FPlugInExtension, 63 - 16, ref SR);
-                Found = call__1 == 0;
+                TStringList Dirs;
+                bool Found;
+                Found = FindFirst(Dir + (AnsiString)"*." + FPlugInExtension, 63 - 16, ref SR) == 0;
                 while (Found)
                 {
                     FPlugIns.Add(Dir + SR.Name);
@@ -46,14 +44,9 @@ namespace Aow.Units.PlugInM
                 }
 
                 FindClose(ref SR);
+                for (int I = 0, last = Dirs.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__2 = Dirs.Count - 1;
-                    for (; I <= end__2; I += 1)
-                    {
-                        var call__3 = Dirs[I];
-                        SearchDir(call__3);
-                    }
+                    SearchDir(Dirs[I]);
                 }
 
                 Dirs.Free();
@@ -66,8 +59,7 @@ namespace Aow.Units.PlugInM
         // PlugInM.pas:46
         public TPlugInManager(TComponent owner) : base(owner)
         {
-            var call__4 = new TStringList();
-            FPlugIns = call__4;
+            FPlugIns = new TStringList();
             FPlugInExtension = (AnsiString)"dpl";
         }
 
@@ -82,10 +74,8 @@ namespace Aow.Units.PlugInM
         // PlugInM.pas:96
         public void LoadPlugIns(AnsiString Directory)
         {
-            int I = default;
             ReleasePlugIns();
-            var call__5 = ExpandFileName(Directory);
-            FPlugInDirectory = call__5;
+            FPlugInDirectory = ExpandFileName(Directory);
             if (FPlugInDirectory != (AnsiString)"" && FPlugInDirectory[FPlugInDirectory.Length] != 92)
             {
                 FPlugInDirectory = FPlugInDirectory + AnsiString.FromBytes(92);
@@ -94,29 +84,24 @@ namespace Aow.Units.PlugInM
             ExecutePlugInSearch(FPlugInDirectory);
             FPlugInsLoaded = false;
             var stringList = FPlugIns;
+            for (int I = 0, last = stringList.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__7 = stringList.Count - 1;
-                for (; I <= end__7; I += 1)
+                try
                 {
-                    try
+                    if (FOnLoadPlugIn != null)
                     {
-                        if (FOnLoadPlugIn != null)
-                        {
-                            var call__9 = stringList[I];
-                            FOnLoadPlugIn(this, call__9);
-                        }
+                        var stringValue = stringList[I];
+                        FOnLoadPlugIn(this, stringValue);
+                    }
 
-                        /* TODO: Implement the native Delphi package loader. */
-                        throw new NotImplementedException();
-                        FPlugInsLoaded = true;
-                    }
-                    catch (System.Exception)
-                    {
-                        var call__8 = stringList[I];
-                        ShowMessage((AnsiString)"Unable to load PlugIn: " + call__8);
-                        stringList.Objects[I] = null;
-                    }
+                    /* TODO: Implement the native Delphi package loader. */
+                    throw new NotImplementedException();
+                    FPlugInsLoaded = true;
+                }
+                catch (System.Exception)
+                {
+                    ShowMessage((AnsiString)"Unable to load PlugIn: " + stringList[I]);
+                    stringList.Objects[I] = null;
                 }
             }
         }
@@ -124,31 +109,24 @@ namespace Aow.Units.PlugInM
         // PlugInM.pas:120
         public void ReleasePlugIns()
         {
-            int I = default;
+            for (int I = this.FPlugIns.Count - 1; I >= 0; I--)
             {
-                I = this.FPlugIns.Count - 1;
-                byte end__13 = 0;
-                for (; I >= end__13; I -= 1)
+                try
                 {
-                    try
+                    if (this.FPlugIns.Objects[I] != null)
                     {
-                        var call__15 = this.FPlugIns.Objects[I];
-                        if (call__15 != null)
-                        {
-                            /* TODO: Implement the native Delphi package loader. */
-                            throw new NotImplementedException();
-                            this.FPlugIns.Objects[I] = null;
-                        }
-                    }
-                    catch (System.Exception)
-                    {
-                        var call__14 = this.FPlugIns[I];
-                        ShowMessage((AnsiString)"Could not release PlugIn: " + call__14);
+                        /* TODO: Implement the native Delphi package loader. */
+                        throw new NotImplementedException();
                         this.FPlugIns.Objects[I] = null;
                     }
-
-                    this.FPlugIns.Delete(I);
                 }
+                catch (System.Exception)
+                {
+                    ShowMessage((AnsiString)"Could not release PlugIn: " + this.FPlugIns[I]);
+                    this.FPlugIns.Objects[I] = null;
+                }
+
+                this.FPlugIns.Delete(I);
             }
         }
 

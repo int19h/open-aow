@@ -37,43 +37,36 @@ namespace Aow.Units.AoWUnitBanner
         // AoWUnitBanner.pas:53
         public void BannerPopupShow(TObject Sender)
         {
-            int I = default;
-            TTCAbility A = default;
+            TTCAbility A;
             if (General.FSelectedUnit != null)
             {
-                var call__1 = General.FSelectedUnit.GetName();
-                UnitNameLbl.Text = call__1;
+                var name = General.FSelectedUnit.GetName();
+                UnitNameLbl.Text = name;
                 BannerPopup.FAligned = false;
-                var call__2 = General.FSelectedUnit.GetHitPoints();
-                var call__3 = General.FSelectedUnit.GetHits();
-                Hits.Text = IntToStr(call__2) + AnsiString.FromBytes(47) + IntToStr(call__3);
-                var call__4 = General.FSelectedUnit.GetMovePoints();
-                var call__5 = General.FSelectedUnit.GetMoves();
-                Moves.Text = IntToStr(call__4) + AnsiString.FromBytes(47) + IntToStr(call__5);
-                var call__6 = General.FSelectedUnit.GetAttack();
-                Attack.Text = IntToStr(call__6);
-                var call__7 = General.FSelectedUnit.GetDamage();
-                Damage.Text = IntToStr(call__7);
-                var call__8 = General.FSelectedUnit.GetDefense();
-                Defense.Text = IntToStr(call__8);
-                var call__9 = General.FSelectedUnit.GetResistance();
-                Resistance.Text = IntToStr(call__9);
-                var call__10 = General.FSelectedUnit.GetMoveTypes();
-                var call__11 = General.MTtoInt(call__10);
-                MovesIcon.CurrentImage = call__11;
+                var hitPoints = General.FSelectedUnit.GetHitPoints();
+                var hits = General.FSelectedUnit.GetHits();
+                Hits.Text = IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits);
+                var movePoints = General.FSelectedUnit.GetMovePoints();
+                var moves = General.FSelectedUnit.GetMoves();
+                Moves.Text = IntToStr(movePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                var attack = General.FSelectedUnit.GetAttack();
+                Attack.Text = IntToStr(attack);
+                var damage = General.FSelectedUnit.GetDamage();
+                Damage.Text = IntToStr(damage);
+                var defense = General.FSelectedUnit.GetDefense();
+                Defense.Text = IntToStr(defense);
+                var resistance = General.FSelectedUnit.GetResistance();
+                Resistance.Text = IntToStr(resistance);
+                var moveTypes = General.FSelectedUnit.GetMoveTypes();
+                var mTtoInt = General.MTtoInt(moveTypes);
+                MovesIcon.CurrentImage = mTtoInt;
                 AbLB.Items.Clear();
                 General.BuildAbilities();
+                for (int I = 0, last = General.FAbilities.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__12 = General.FAbilities.Count - 1;
-                    for (; I <= end__12; I += 1)
-                    {
-                        var call__13 = General.FAbilities[I];
-                        A = (TTCAbility)call__13;
-                        var call__14 = AoWHSSet.FAbilityControl.GetAbility(A.Ability);
-                        var call__15 = call__14.GetName(General.FSelectedUnit);
-                        AbLB.Items.Add(call__15);
-                    }
+                    A = (TTCAbility)General.FAbilities[I];
+                    var name2 = AoWHSSet.FAbilityControl.GetAbility(A.Ability).GetName(General.FSelectedUnit);
+                    AbLB.Items.Add(name2);
                 }
 
                 AbLB.Selected = -1;
@@ -117,9 +110,8 @@ namespace Aow.Units.AoWUnitBanner
             {
                 if (AbLB.Selected > -1 && AbLB.Selected < General.FActiveAbilityCount)
                 {
-                    var call__17 = General.FAbilities[AbLB.Selected];
-                    var call__18 = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)call__17).Ability);
-                    call__18.Activate(General.FSelectedUnit, ref Reason);
+                    var ability = General.FAbilities[AbLB.Selected];
+                    AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).Activate(General.FSelectedUnit, ref Reason);
                     BannerPopup.Visible = false;
                 }
                 else

@@ -32,14 +32,12 @@ namespace Aow.Units.ItemCtrl
         public TItemControlGrid(TComponent owner) : base(owner)
         {
 
-            var call__1 = new TMemoryStream();
-            FStream = call__1;
+            FStream = new TMemoryStream();
             DefaultColWidth = 155;
             DefaultRowHeight = 46;
             GrowDirection = TILGrowDirection.ilVertical;
             ScrollBars = TScrollStyle.ssVertical;
-            var call__2 = new TIntegerList();
-            FIndices = call__2;
+            FIndices = new TIntegerList();
             FSort = 0;
         }
 
@@ -125,17 +123,14 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:223
         public TItem GetItem(int Index)
         {
-            TItem Result = default;
-            int I = default;
-            TAoWHSMap Map = default;
-            I = Index;
+            TItem Result;
+            TAoWHSMap Map;
             Map = FMap;
             // { Original checks only the upper bound. }
             if (Map != null && Index < FIndices.Count)
             {
-                var call__3 = FIndices[Index];
-                var call__4 = Map.FItemControl.GetItem(call__3);
-                Result = call__4;
+                var indice = FIndices[Index];
+                Result = Map.FItemControl.GetItem(indice);
             }
             else
             {
@@ -258,21 +253,16 @@ namespace Aow.Units.ItemCtrl
         // ItemCtrl.pas:112
         public static int ItemControlCompareName(int A, int B)
         {
-            int Result = default;
-            var call__5 = AoWHSMap.FItemControl.GetItem(B);
-            var call__6 = AoWHSMap.FItemControl.GetItem(A);
-            Result = CompareText(call__6.FOwnerName, call__5.FOwnerName);
-            return Result;
+            var itemControl = AoWHSMap.FItemControl.GetItem(B);
+            return CompareText(AoWHSMap.FItemControl.GetItem(A).FOwnerName, itemControl.FOwnerName);
         }
 
         // ItemCtrl.pas:117
         public static int ItemControlCompareType(int A, int B)
         {
-            int Result = default;
-            var call__7 = AoWHSMap.FItemControl.GetItem(A);
-            var call__8 = AoWHSMap.FItemControl.GetItem(B);
-            Result = call__7.FItemType - call__8.FItemType;
-            return Result;
+            var itemControl = AoWHSMap.FItemControl.GetItem(A);
+            var itemControlItemType = AoWHSMap.FItemControl.GetItem(B);
+            return itemControl.FItemType - itemControlItemType.FItemType;
         }
 
         public static void Initialize()

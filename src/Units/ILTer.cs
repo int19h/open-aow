@@ -32,9 +32,7 @@ namespace Aow.Units.ILTer
         // ILTer.pas:164
         public override sbyte GetTerrain(int Index)
         {
-            sbyte Result = default;
-            var call__1 = FResource.TerrainList.GetTerrain(Index);
-            Result = call__1;
+            sbyte Result = FResource.TerrainList.GetTerrain(Index);
             if (Result >= 0)
             {
                 Result = FTerrainType;
@@ -46,12 +44,10 @@ namespace Aow.Units.ILTer
         // ILTer.pas:131
         public override bool CanChangeTerrain(in THSSenderInfo Info)
         {
-            bool Result = default;
-            var call__2 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__2 >= 0)
+            bool Result;
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__3 = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, FTerrainType);
-                Result = call__3 == Info.MapField.TerrainType;
+                Result = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, FTerrainType) == Info.MapField.TerrainType;
             }
             else
             {
@@ -64,15 +60,12 @@ namespace Aow.Units.ILTer
         // ILTer.pas:152
         public override void ChangeTerrain(in THSTerrainInfo Info)
         {
-            var call__4 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__4 >= 0)
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__5 = ValidTerrainType(Info.TerrainType);
-                if (call__5)
+                if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
-                    var call__6 = GetTerrainTypeImage(Info.TerrainType);
-                    FImageIndex = call__6;
+                    FImageIndex = GetTerrainTypeImage(Info.TerrainType);
                 }
                 else
                 {
@@ -84,15 +77,12 @@ namespace Aow.Units.ILTer
         // ILTer.pas:140
         public override void TerrainChanged(in THSTerrainInfo Info)
         {
-            var call__7 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__7 >= 0)
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__8 = ValidTerrainType(Info.TerrainType);
-                if (call__8)
+                if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
-                    var call__9 = GetTerrainTypeImage(Info.TerrainType);
-                    FImageIndex = call__9;
+                    FImageIndex = GetTerrainTypeImage(Info.TerrainType);
                 }
                 else
                 {
@@ -109,8 +99,7 @@ namespace Aow.Units.ILTer
             HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             if (this.FResource.ImageSequenceList == null)
             {
-                var call__11 = this.FResource.ImageLibrary[FImageIndex];
-                call__11.Show(Xhp - XhpSurf + ((TMultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
+                this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((TMultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
             }
             else
             {
@@ -121,64 +110,47 @@ namespace Aow.Units.ILTer
         // ILTer.pas:184
         public override bool PlaceOnMap()
         {
-            bool Result = default;
-            Result = base.PlaceOnMap();
+            bool Result = base.PlaceOnMap();
             if (Result)
             {
-                var call__12 = GetValidTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx);
-                FTerrainType = call__12;
+                FTerrainType = GetValidTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx);
             }
 
             return Result;
         }
 
         // ILTer.pas:191
-        public override bool Loaded()
-        {
-            bool Result = default;
-            Result = base.PlaceOnMap();
-            return Result;
-        }
+        public override bool Loaded() => base.PlaceOnMap();
 
         // ILTer.pas:255
         public override void Activate()
         {
             base.Activate();
-            var call__13 = GetValidTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx);
-            FTerrainType = call__13;
-            var call__14 = GetTerrainTypeImage(FTerrainType);
-            FImageIndex = call__14;
+            FTerrainType = GetValidTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx);
+            FImageIndex = GetTerrainTypeImage(FTerrainType);
         }
 
         // ILTer.pas:196
         public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            bool CanPlaceHere = default;
-            int Count = default;
-            sbyte TerrainType = default;
-            int I = default;
+            bool CanPlaceHere;
+            int Count;
+            sbyte TerrainType;
             THNWalkData Walk = default;
-            sbyte Overlay = default;
-            THexagonSprite HS = default;
-            TTerrainList TerrainList = default;
+            sbyte Overlay;
+            THexagonSprite HS;
+            TTerrainList TerrainList;
             CanPlaceHere = true;
             Count = FResource.TerrainList.Count;
-            var call__15 = MapContainer.GetMapLevel(Lhx);
-            var call__16 = GetValidTerrainType(call__15, Xhx, Yhx);
-            FTerrainType = call__16;
+            FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
             InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (CanPlaceHere && Walk.HN < Count)
             {
-                var call__17 = GetTerrain(Walk.HN);
-                TerrainType = call__17;
-                var call__18 = GetOverlay(Walk.HN);
-                Overlay = call__18;
+                TerrainType = GetTerrain(Walk.HN);
+                Overlay = GetOverlay(Walk.HN);
                 if ((TerrainType >= 0 || Overlay >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapContainer.Width && Walk.Y < MapContainer.Height)
                 {
-                    var call__19 = MapContainer.GetField(Walk.X, Walk.Y, Lhx);
-                    var call__20 = call__19.GetMaxLevelNoneTransparentHS();
-                    HS = call__20;
+                    HS = MapContainer.GetField(Walk.X, Walk.Y, Lhx).GetMaxLevelNoneTransparentHS();
                     CanPlaceHere = HS == null || CanPlaceOnHS(HS);
                 }
 
@@ -189,48 +161,32 @@ namespace Aow.Units.ILTer
             {
                 TerrainList = new TTerrainList();
                 TerrainList.Assign(FResource.TerrainList);
+                for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__21 = TerrainList.Count - 1;
-                    for (; I <= end__21; I += 1)
+                    if (TerrainList.GetTerrain(I) >= 0)
                     {
-                        if (TerrainList.GetTerrain(I) >= 0)
-                        {
-                            TerrainList.SetTerrain(I, FTerrainType);
-                        }
+                        TerrainList.SetTerrain(I, FTerrainType);
                     }
                 }
 
-                bool bool__22 = CanPlaceHere;
-                if (bool__22)
-                {
-                    var call__23 = MapContainer.Map.CanChangeTerrain(this, Xhx, Yhx, Lhx, TerrainList);
-                    bool__22 = call__23;
-                }
-
-                CanPlaceHere = bool__22;
+                CanPlaceHere = CanPlaceHere && MapContainer.Map.CanChangeTerrain(this, Xhx, Yhx, Lhx, TerrainList);
                 TerrainList.Free();
             }
 
-            Result = CanPlaceHere;
-            return Result;
+            return CanPlaceHere;
         }
 
         // ILTer.pas:236
         public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+            bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             if (Result)
             {
                 Result = false;
-                var call__24 = MapContainer.GetMapLevel(Lhx);
-                var call__25 = GetValidTerrainType(call__24, Xhx, Yhx);
-                FTerrainType = call__25;
+                FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
                 if (FTerrainType >= 0)
                 {
-                    var call__26 = GetTerrainTypeImage(FTerrainType);
-                    FImageIndex = call__26;
+                    FImageIndex = GetTerrainTypeImage(FTerrainType);
                     if (FImageIndex != -1)
                     {
                         if (!GetEditMode())
@@ -249,17 +205,16 @@ namespace Aow.Units.ILTer
         // ILTer.pas:89
         public virtual bool ValidTerrainType(int TerrainType)
         {
-            bool Result = default;
-            int Index = default;
-            TImageSequenceList Sequences = default;
+            bool Result;
+            int Index;
+            TImageSequenceList Sequences;
             if (TerrainType >= 0)
             {
                 Index = GetTerrainTypeImage(TerrainType);
                 Sequences = FResource.ImageSequenceList;
                 if (Sequences == null)
                 {
-                    var call__27 = FResource.ImageLibrary.ImageExist(Index);
-                    Result = call__27;
+                    Result = FResource.ImageLibrary.ImageExist(Index);
                 }
                 else
                 {
@@ -275,27 +230,16 @@ namespace Aow.Units.ILTer
         }
 
         // ILTer.pas:126
-        public virtual int GetTerrainTypeImage(int TerrainType)
-        {
-            int Result = default;
-            Result = TerrainType;
-            return Result;
-        }
+        public virtual int GetTerrainTypeImage(int TerrainType) => TerrainType;
 
         // ILTer.pas:84
-        public virtual sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public virtual sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -2;
 
         // ILTer.pas:107
         public virtual sbyte GetValidTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
         {
-            sbyte Result = default;
-            int Count = default;
-            Result = GetMostFrequentMapFieldTerrainType(MapLevel, Xhx, Yhx, -1);
+            int Count;
+            sbyte Result = GetMostFrequentMapFieldTerrainType(MapLevel, Xhx, Yhx, -1);
             if (!ValidTerrainType(Result))
             {
                 Result = ForceTerrainType(MapLevel, Xhx, Yhx);
@@ -304,8 +248,7 @@ namespace Aow.Units.ILTer
                     if (!ValidTerrainType(Result))
                     {
                         Result = 0;
-                        var call__28 = FResource.Engine.HSSet.TerrainTypes.Count;
-                        Count = call__28;
+                        Count = FResource.Engine.HSSet.TerrainTypes.Count;
                         while (Result < Count && !ValidTerrainType(Result))
                         {
                             Result = (sbyte)(Result + 1);
@@ -344,20 +287,10 @@ namespace Aow.Units.ILTer
         }
 
         // ILTer.pas:274
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131462;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131462;
 
         // ILTer.pas:264
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"ImageLibrary Terrain";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"ImageLibrary Terrain";
 
     }
 
@@ -373,20 +306,17 @@ namespace Aow.Units.ILTer
         // ILTer.pas:295
         public override bool CanChangeTerrain(in THSSenderInfo Info)
         {
-            bool Result = default;
-            var call__29 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__29 >= 0)
+            bool Result;
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__30 = ValidTerrainType(Info.MapField.TerrainType);
-                bool bool__31 = call__30;
-                if (bool__31)
+                bool validTerrainType = ValidTerrainType(Info.MapField.TerrainType);
+                if (validTerrainType)
                 {
-                    var call__32 = FResource.TerrainList.GetTerrain(Info.HN);
-                    var call__33 = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, call__32);
-                    bool__31 = call__33 == Info.MapField.TerrainType;
+                    var terrain = FResource.TerrainList.GetTerrain(Info.HN);
+                    validTerrainType = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
                 }
 
-                Result = bool__31;
+                Result = validTerrainType;
             }
             else
             {
@@ -399,15 +329,12 @@ namespace Aow.Units.ILTer
         // ILTer.pas:305
         public override void ChangeTerrain(in THSTerrainInfo Info)
         {
-            var call__34 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__34 >= 0)
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__35 = ValidTerrainType(Info.TerrainType);
-                if (call__35)
+                if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
-                    var call__36 = GetTerrainTypeImage(Info.TerrainType);
-                    FImageIndex = call__36;
+                    FImageIndex = GetTerrainTypeImage(Info.TerrainType);
                 }
             }
         }
@@ -415,16 +342,13 @@ namespace Aow.Units.ILTer
         // ILTer.pas:315
         public override void TerrainChanged(in THSTerrainInfo Info)
         {
-            var call__37 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__37 >= 0)
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                var call__38 = ValidTerrainType(Info.TerrainType);
-                if (call__38)
+                if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
                     UpdateTerrain((TMapLevel)Owner.Owner, FXhx, FYhx);
-                    var call__39 = GetTerrainTypeImage(Info.TerrainType);
-                    FImageIndex = call__39;
+                    FImageIndex = GetTerrainTypeImage(Info.TerrainType);
                 }
                 else
                 {
@@ -441,12 +365,7 @@ namespace Aow.Units.ILTer
         }
 
         // ILTer.pas:290
-        public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
 
     }
 
@@ -460,20 +379,10 @@ namespace Aow.Units.ILTer
         public new const int ClassID = 131465;
 
         // ILTer.pas:344
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131464;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131464;
 
         // ILTer.pas:334
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Fixed ImageLibrary Terrain";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Fixed ImageLibrary Terrain";
 
     }
 

@@ -19,7 +19,7 @@ namespace Aow.Units.StartMenu
         // StartMenu.pas:30
         public override void SetSize()
         {
-            TAOWWinManager M = default;
+            TAOWWinManager M;
             base.SetSize();
             FWinHeight = 377;
             M = FWinManager;
@@ -98,7 +98,6 @@ namespace Aow.Units.StartMenu
         // StartMenu.pas:87
         public override void Draw(TSurfaceDesc SurfDesc)
         {
-            int I = default;
             TRect OldClip = default;
             try
             {
@@ -108,50 +107,43 @@ namespace Aow.Units.StartMenu
                     {
                         OldClip = SurfDesc.ClipRect;
                         FAOWFont.Color = FColor;
-                        var call__1 = FILWholeMenu[FHighlighted + 1];
-                        call__1.ShowClipped(0, 0, SurfDesc);
+                        FILWholeMenu[FHighlighted + 1].ShowClipped(0, 0, SurfDesc);
+                        for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                         {
-                            I = 0;
-                            int end__2 = FItems.Count - 1;
-                            for (; I <= end__2; I += 1)
+                            if (FItems.Count > 0)
                             {
-                                var call__3 = FItems.Count;
-                                if (call__3 > 0)
+                                var ilFrameWidth = FILFrame[FILIndexFrame + 2];
+                                if (FWinLeft + FWinWidth - ilFrameWidth.Width < OldClip.Right)
                                 {
-                                    var call__4 = FILFrame[FILIndexFrame + 2];
-                                    if (FWinLeft + FWinWidth - call__4.Width < OldClip.Right)
-                                    {
-                                        var call__5 = FILFrame[FILIndexFrame + 2];
-                                        SurfDesc.ClipRect.Right = FWinLeft + FWinWidth - call__5.Width;
-                                    }
-
-                                    if (I == FHighlighted)
-                                    {
-                                        FAOWFont.Color = FSelColor;
-                                    }
-
-                                    var call__6 = FItems[I];
-                                    var call__7 = FILFrame[FILIndexFrame];
-                                    var call__8 = FILFrame[FILIndexFrame + 3];
-                                    FAOWFont.SetText(FWinLeft + FBorderWidth + call__8.Width, FWinTop + FBorderHeight + call__7.Height + FItemHeight * I, call__6, SurfDesc);
-                                    if (I == FHighlighted)
-                                    {
-                                        FAOWFont.Color = FColor;
-                                    }
-
-                                    FDrawItem = I;
-                                    var call__9 = FILFrame[FILIndexFrame + 1];
-                                    var call__10 = FILFrame[FILIndexFrame + 1];
-                                    var call__11 = FILFrame[FILIndexFrame + 3];
-                                    var call__12 = Rect(FWinLeft + call__11.Width, FWinTop + call__10.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + call__9.Height + (I + 1) * FItemHeight);
-                                    FDrawItemRect = call__12;
-                                    if (FOnDrawItem != null)
-                                    {
-                                        FOnDrawItem(this);
-                                    }
-
-                                    SurfDesc.ClipRect = OldClip;
+                                    var ilFrame = FILFrame[FILIndexFrame + 2];
+                                    SurfDesc.ClipRect.Right = FWinLeft + FWinWidth - ilFrame.Width;
                                 }
+
+                                if (I == FHighlighted)
+                                {
+                                    FAOWFont.Color = FSelColor;
+                                }
+
+                                var item = FItems[I];
+                                var ilFrameHeight = FILFrame[FILIndexFrame];
+                                var ilFrame2 = FILFrame[FILIndexFrame + 3];
+                                FAOWFont.SetText(FWinLeft + FBorderWidth + ilFrame2.Width, FWinTop + FBorderHeight + ilFrameHeight.Height + FItemHeight * I, item, SurfDesc);
+                                if (I == FHighlighted)
+                                {
+                                    FAOWFont.Color = FColor;
+                                }
+
+                                FDrawItem = I;
+                                var ilFrame3 = FILFrame[FILIndexFrame + 1];
+                                var ilFrame4 = FILFrame[FILIndexFrame + 1];
+                                var ilFrame5 = FILFrame[FILIndexFrame + 3];
+                                FDrawItemRect = Rect(FWinLeft + ilFrame5.Width, FWinTop + ilFrame4.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame3.Height + (I + 1) * FItemHeight);
+                                if (FOnDrawItem != null)
+                                {
+                                    FOnDrawItem(this);
+                                }
+
+                                SurfDesc.ClipRect = OldClip;
                             }
                         }
                     }
@@ -173,11 +165,11 @@ namespace Aow.Units.StartMenu
         {
             if (FValid)
             {
-                var call__13 = FILFrame[FILIndexFrame + 6];
-                FWinHeight -= call__13.Height;
+                var ilFrameHeight = FILFrame[FILIndexFrame + 6];
+                FWinHeight -= ilFrameHeight.Height;
                 base.CheckMouseDown(Button, Shift, X, Y);
-                var call__14 = FILFrame[FILIndexFrame + 6];
-                FWinHeight += call__14.Height;
+                var ilFrame = FILFrame[FILIndexFrame + 6];
+                FWinHeight += ilFrame.Height;
             }
         }
 

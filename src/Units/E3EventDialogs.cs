@@ -48,8 +48,7 @@ namespace Aow.Units.E3EventDialogs
             Dialog.FEvent = Event;
             Event.AddRef();
 
-            var call__3 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (call__3.FStatus == TPlayerStatus.psPlaying)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStatus == TPlayerStatus.psPlaying)
             {
                 Dialog.ShowRelations(Event.FAction.FTarget);
                 Dialog.SetAction(Event.FAction);
@@ -60,26 +59,22 @@ namespace Aow.Units.E3EventDialogs
                         Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
                         Dialog.RNewActionPnl.Visible = false;
                         Dialog.RMsgRecPnl.Visible = true;
-                        var call__4 = Dialog.FAction.FMessage.Text;
-                        Dialog.RMMemo.Items.Text = call__4;
-                        var call__5 = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FSource);
-                        var call__6 = call__5.GetName();
-                        var call__7 = TranslateRStr(MessageFromXRStr);
-                        var call__8 = AoWE.AoWE.Format(call__7, [call__6]);
-                        Dialog.RMHeaderLbl.Text = call__8;
+                        var text = Dialog.FAction.FMessage.Text;
+                        Dialog.RMMemo.Items.Text = text;
+                        var name = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FSource).GetName();
+                        var format = AoWE.AoWE.Format(TranslateRStr(MessageFromXRStr), [name]);
+                        Dialog.RMHeaderLbl.Text = format;
                         break;
                     case TDiplomaticActionType.daSendMessageAsY:
                         Dialog.HighlightPlayer(Dialog.FAction.FOtherPlayer);
                         Dialog.ShowPlayerInformation(Dialog.FAction.FOtherPlayer);
                         Dialog.RNewActionPnl.Visible = false;
                         Dialog.RMsgRecPnl.Visible = true;
-                        var call__9 = Dialog.FAction.FMessage.Text;
-                        Dialog.RMMemo.Items.Text = call__9;
-                        var call__10 = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FOtherPlayer);
-                        var call__11 = call__10.GetName();
-                        var call__12 = TranslateRStr(MessageFromXRStr);
-                        var call__13 = AoWE.AoWE.Format(call__12, [call__11]);
-                        Dialog.RMHeaderLbl.Text = call__13;
+                        var fMessageText = Dialog.FAction.FMessage.Text;
+                        Dialog.RMMemo.Items.Text = fMessageText;
+                        var name2 = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FOtherPlayer).GetName();
+                        var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(MessageFromXRStr), [name2]);
+                        Dialog.RMHeaderLbl.Text = aoWEFormat;
                         break;
                     case TDiplomaticActionType.daOfferPeace:
                     case TDiplomaticActionType.daProposeAlliance:
@@ -94,8 +89,8 @@ namespace Aow.Units.E3EventDialogs
                             Dialog.RIncomingPnl.Visible = true;
                             Dialog.MBGoldBribeV.Text = IntToStr(Dialog.FAction.FGold);
                             Dialog.MBManaBribeV.Text = IntToStr(Dialog.FAction.FMana);
-                            var call__14 = Dialog.FAction.FMessage.Text;
-                            Dialog.MMemo.Items.Text = call__14;
+                            var text2 = Dialog.FAction.FMessage.Text;
+                            Dialog.MMemo.Items.Text = text2;
                             switch (Dialog.FAction.FActionType)
                             {
                                 case TDiplomaticActionType.daOfferPeace:
@@ -123,8 +118,8 @@ namespace Aow.Units.E3EventDialogs
                                 Dialog.ShowPlayerInformation(Dialog.FAction.FTarget);
                                 Dialog.RNewActionPnl.Visible = false;
                                 Dialog.IncommingInfoPnl.Visible = true;
-                                var call__15 = Dialog.FAction.FMessage.Text;
-                                Dialog.IIMemo.Items.Text = call__15;
+                                var text2 = Dialog.FAction.FMessage.Text;
+                                Dialog.IIMemo.Items.Text = text2;
                                 switch (Dialog.FAction.FActionType)
                                 {
                                     case TDiplomaticActionType.daOfferPeace:
@@ -174,8 +169,8 @@ namespace Aow.Units.E3EventDialogs
                                 Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
                                 Dialog.RNewActionPnl.Visible = false;
                                 Dialog.IncommingInfoPnl.Visible = true;
-                                var call__16 = Dialog.FAction.FMessage.Text;
-                                Dialog.IIMemo.Items.Text = call__16;
+                                var text2 = Dialog.FAction.FMessage.Text;
+                                Dialog.IIMemo.Items.Text = text2;
                                 if (Dialog.FAction.FActionType == TDiplomaticActionType.daDeclareWar)
                                 {
                                     Dialog.IIIcon.CurrentImage = 9;
@@ -201,8 +196,8 @@ namespace Aow.Units.E3EventDialogs
                         Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
                         Dialog.RNewActionPnl.Visible = false;
                         Dialog.IncommingInfoPnl.Visible = true;
-                        var call__17 = Dialog.FAction.FMessage.Text;
-                        Dialog.IIMemo.Items.Text = call__17;
+                        var text3 = Dialog.FAction.FMessage.Text;
+                        Dialog.IIMemo.Items.Text = text3;
                         Dialog.IIIcon.CurrentImage = 46;
                         break;
                 }
@@ -226,76 +221,65 @@ namespace Aow.Units.E3EventDialogs
             Dialog.LabelL.Text = AoWHSMap.FMapName;
             Dialog.MemoL.Items.Clear();
             Dialog.MemoL.Items.AddStrings(AoWHSMap.FDescription);
-            var call__19 = TranslateRStr(MapSettingsRStr);
-            Dialog.LabelR.Text = call__19;
+            var mapSettings = TranslateRStr(MapSettingsRStr);
+            Dialog.LabelR.Text = mapSettings;
             Dialog.MemoR.Items.Clear();
             if (AoWHSMap.FVictoryCondition == 0)
             {
-                var call__20 = TranslateRStr(ConquerTheMapRStr);
-                var call__21 = TranslateRStr(ObjectiveXRStr);
-                var call__22 = AoWE.AoWE.Format(call__21, [call__20]);
-                Dialog.MemoR.Items.Add(call__22);
+                var conquerTheMap = TranslateRStr(ConquerTheMapRStr);
+                var format = AoWE.AoWE.Format(TranslateRStr(ObjectiveXRStr), [conquerTheMap]);
+                Dialog.MemoR.Items.Add(format);
             }
             else
             {
-                var call__23 = TranslateRStr(AoWE.AoWE.TVictoryConditionRStr[(int)AoWHSMap.FVictoryCondition]);
-                var call__24 = TranslateRStr(ObjectiveXRStr);
-                var call__25 = AoWE.AoWE.Format(call__24, [call__23]);
-                Dialog.MemoR.Items.Add(call__25);
+                var victoryCondition = TranslateRStr(AoWE.AoWE.TVictoryConditionRStr[(int)AoWHSMap.FVictoryCondition]);
+                var format = AoWE.AoWE.Format(TranslateRStr(ObjectiveXRStr), [victoryCondition]);
+                Dialog.MemoR.Items.Add(format);
             }
 
             if (AoWHSMap.FDayLimit > 0)
             {
-                var call__26 = TranslateRStr(DayLimitXRStr);
-                var call__27 = AoWE.AoWE.Format(call__26, [IntToStr(AoWHSMap.FDayLimit)]);
-                Dialog.MemoR.Items.Add(call__27);
+                var format = AoWE.AoWE.Format(TranslateRStr(DayLimitXRStr), [IntToStr(AoWHSMap.FDayLimit)]);
+                Dialog.MemoR.Items.Add(format);
             }
 
             if (AoWHSMap.FAlliedVictory)
             {
-                var call__28 = TranslateRStr(EnabledRStr);
-                var call__29 = TranslateRStr(AlliedVictoryXRStr);
-                var call__30 = AoWE.AoWE.Format(call__29, [call__28]);
-                Dialog.MemoR.Items.Add(call__30);
+                var enabled = TranslateRStr(EnabledRStr);
+                var format = AoWE.AoWE.Format(TranslateRStr(AlliedVictoryXRStr), [enabled]);
+                Dialog.MemoR.Items.Add(format);
             }
             else
             {
-                var call__31 = TranslateRStr(DisabledRStr);
-                var call__32 = TranslateRStr(AlliedVictoryXRStr);
-                var call__33 = AoWE.AoWE.Format(call__32, [call__31]);
-                Dialog.MemoR.Items.Add(call__33);
+                var disabled = TranslateRStr(DisabledRStr);
+                var format = AoWE.AoWE.Format(TranslateRStr(AlliedVictoryXRStr), [disabled]);
+                Dialog.MemoR.Items.Add(format);
             }
 
-            var call__34 = AoWHSMap.FPlayers.GetCount();
-            var call__35 = TranslateRStr(PlayersOnMapXRStr);
-            var call__36 = AoWE.AoWE.Format(call__35, [IntToStr(call__34 - 1)]);
-            Dialog.MemoR.Items.Add(call__36);
-            var call__37 = TranslateRStr(MaximumSphereLevelXRStr);
-            var call__38 = AoWE.AoWE.Format(call__37, [IntToStr(AoWHSMap.FSphereCount)]);
-            Dialog.MemoR.Items.Add(call__38);
-            var call__39 = TranslateRStr(MaximumPlayerHeroesXRStr);
-            var call__40 = AoWE.AoWE.Format(call__39, [IntToStr(AoWHSMap.FHeroCountMax)]);
-            Dialog.MemoR.Items.Add(call__40);
+            var count = AoWHSMap.FPlayers.GetCount();
+            var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(PlayersOnMapXRStr), [IntToStr(count - 1)]);
+            Dialog.MemoR.Items.Add(aoWEFormat);
+            var format2 = AoWE.AoWE.Format(TranslateRStr(MaximumSphereLevelXRStr), [IntToStr(AoWHSMap.FSphereCount)]);
+            Dialog.MemoR.Items.Add(format2);
+            var format3 = AoWE.AoWE.Format(TranslateRStr(MaximumPlayerHeroesXRStr), [IntToStr(AoWHSMap.FHeroCountMax)]);
+            Dialog.MemoR.Items.Add(format3);
             if (AoWHSMap.FConnectionType == 0 && AoWHSMap.FRequestCombatType)
             {
-                var call__41 = TranslateRStr(AoWE.AoWE.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
-                var call__42 = TranslateRStr(HotSeatRStr);
-                var call__43 = TranslateRStr(GametypeXRStr);
-                var call__44 = AoWE.AoWE.Format(call__43, [call__41 + AnsiString.FromBytes(47) + call__42]);
-                Dialog.MemoR.Items.Add(call__44);
+                var playerConnectionType = TranslateRStr(AoWE.AoWE.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
+                var hotSeat = TranslateRStr(HotSeatRStr);
+                var format = AoWE.AoWE.Format(TranslateRStr(GametypeXRStr), [playerConnectionType + AnsiString.FromBytes(47) + hotSeat]);
+                Dialog.MemoR.Items.Add(format);
             }
             else
             {
-                var call__45 = TranslateRStr(AoWE.AoWE.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
-                var call__46 = TranslateRStr(GametypeXRStr);
-                var call__47 = AoWE.AoWE.Format(call__46, [call__45]);
-                Dialog.MemoR.Items.Add(call__47);
+                var playerConnectionType = TranslateRStr(AoWE.AoWE.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
+                var format = AoWE.AoWE.Format(TranslateRStr(GametypeXRStr), [playerConnectionType]);
+                Dialog.MemoR.Items.Add(format);
             }
 
-            var call__48 = TranslateRStr(TPlayModeRStr[(int)AoWHSMap.FPlayMode]);
-            var call__49 = TranslateRStr(TurnModeXRStr);
-            var call__50 = AoWE.AoWE.Format(call__49, [call__48]);
-            Dialog.MemoR.Items.Add(call__50);
+            var playMode = TranslateRStr(TPlayModeRStr[(int)AoWHSMap.FPlayMode]);
+            var format4 = AoWE.AoWE.Format(TranslateRStr(TurnModeXRStr), [playMode]);
+            Dialog.MemoR.Items.Add(format4);
             Dialog.PicL.Visible = false;
             Dialog.PicR.Visible = false;
             Dialog.MemoL.Visible = true;
@@ -343,8 +327,7 @@ namespace Aow.Units.E3EventDialogs
                     Event.Select((TCombatType)1);
                 }
 
-                var call__52 = AoWHSMap.FPlayers.GetPlayers(Dialog.FRequest.FPlayer);
-                if (call__52.FPlayerType == TPlayerType.ptHuman)
+                if (AoWHSMap.FPlayers.GetPlayers(Dialog.FRequest.FPlayer).FPlayerType == TPlayerType.ptHuman)
                 {
                     Dialog.CancelBtn.Visible = true;
                     Dialog.FightBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
@@ -370,14 +353,13 @@ namespace Aow.Units.E3EventDialogs
             var smtpEventLog = Dialog.FEvent;
             smtpEventLog.AddRef();
 
-            var call__55 = TranslateRStr(RecipientXRStr);
-            var call__56 = AoWE.AoWE.Format(call__55, [Event.FToAddress]);
-            Dialog.RecipientLbl.Text = call__56;
+            var format = AoWE.AoWE.Format(TranslateRStr(RecipientXRStr), [Event.FToAddress]);
+            Dialog.RecipientLbl.Text = format;
             try
             {
                 Dialog.IMSSMTP.FMessage = Dialog.IMSMessage;
-                var call__57 = AoWEngine.FRegistry.GetSMTPServer();
-                Dialog.IMSSMTP.FHost = call__57;
+                var smtpServer = AoWEngine.FRegistry.GetSMTPServer();
+                Dialog.IMSSMTP.FHost = smtpServer;
                 Dialog.IMSSMTP.WinsockLoaded = true;
                 var tmsMessage = Dialog.IMSMessage;
                 tmsMessage.FEncode = false;

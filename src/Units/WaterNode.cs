@@ -16,12 +16,7 @@ namespace Aow.Units.WaterNode
         public new const int ClassID = 132275;
 
         // WaterNode.pas:40
-        public override TMagicSphere GetMagicSphere()
-        {
-            TMagicSphere Result = default;
-            Result = TMagicSphere.msWater;
-            return Result;
-        }
+        public override TMagicSphere GetMagicSphere() => TMagicSphere.msWater;
 
     }
 
@@ -42,23 +37,13 @@ namespace Aow.Units.WaterNode
 
 
         // WaterNode.pas:58
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132275;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132275;
 
         // WaterNode.pas:27
 
 
         // WaterNode.pas:52
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(WaterNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(WaterNodeRStr);
 
     }
 

@@ -45,12 +45,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:216
-        public virtual bool UpdateStorm()
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool UpdateStorm() => false;
 
         // Storms.pas:221
         public virtual void FinalizeStorm()
@@ -61,26 +56,23 @@ namespace Aow.Units.Storms
         // Storms.pas:226
         public void ShowTargetSelection(TTargetSelectionControl Selection, int HN, int Xs, int Ys, in TSurfaceDesc SurfaceDesc)
         {
-            int Intensity = default;
+            int Intensity;
             HN = HNtoRad(HN);
             Intensity = Math.Abs((AoWHSMap.Frame + HN) % 9 - 4) * 20 + 20;
-            var call__1 = IntensityBlendTable.GetLookupTables(Intensity);
-            var call__2 = Selection.FImageLibrary[0];
-            call__2.ShowBlended(Xs - 8, Ys, SurfaceDesc, call__1);
+            var lookupTable = IntensityBlendTable.GetLookupTables(Intensity);
+            Selection.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, lookupTable);
         }
 
         // Storms.pas:242
         public bool GetBestTarget(sbyte Player, int X, int Y, int L, int Range, ref TXYL Target, ref TStormDamageInfo Info)
         {
-            bool Result = default;
-            TStormDamageInfo Candidate = default;
+            TStormDamageInfo Candidate;
             THNWalkData Walk = default;
-            TMapLevel Level = default;
-            TArmyHS ArmyHS = default;
-            var call__3 = AoWHSMap.MapContainer.MapLevels[L];
-            Level = call__3;
+            TMapLevel Level;
+            TArmyHS ArmyHS;
+            Level = AoWHSMap.MapContainer.MapLevels[L];
             Target.XYL = 16777215;
-            Result = false;
+            bool Result = false;
             Info = default;
             Candidate = default;
             InitHNWalk(ref Walk, X, Y, 0);
@@ -88,24 +80,14 @@ namespace Aow.Units.Storms
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    var call__4 = Level.Field[Walk.X, Walk.Y];
-                    var call__5 = ((TAoWMapField)call__4).GetArmyHS();
-                    ArmyHS = call__5;
-                    bool bool__6 = ArmyHS != null && ArmyHS.FArmy.FPlayer != 0;
-                    if (bool__6)
-                    {
-                        var call__7 = ValidAttackRelation(Player, 0, ArmyHS.FArmy.FPlayer, 0);
-                        bool__6 = call__7;
-                    }
-
-                    if (bool__6)
+                    ArmyHS = ((TAoWMapField)Level.Field[Walk.X, Walk.Y]).GetArmyHS();
+                    if (ArmyHS != null && ArmyHS.FArmy.FPlayer != 0 && ValidAttackRelation(Player, 0, ArmyHS.FArmy.FPlayer, 0))
                     {
                         GetTargetDamageInfo(Player, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L, ref Candidate);
                         if (Info.EnemyDamage - Info.FriendlyDamage < Candidate.EnemyDamage - Candidate.FriendlyDamage)
                         {
                             Info = Candidate;
-                            var call__8 = PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
-                            Target = call__8;
+                            Target = PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
                             Result = true;
                         }
                     }
@@ -138,39 +120,31 @@ namespace Aow.Units.Storms
         {
             int X = default;
             int Y = default;
-            int Frame = default;
+            int Frame;
             Frame = FFrameCounter % FStormImages.Count;
-            var call__9 = GetYhx();
-            var call__10 = GetXhx();
-            HXtoHP(call__10, call__9, ref X, ref Y);
-            var call__11 = FStormImages[Frame];
-            X = X - (int)(((uint)call__11.Width) >> 1) + 10;
-            var call__12 = FStormImages[Frame];
-            Y = Y - (int)(((uint)call__12.Height) >> 1) - 42;
-            var call__13 = FStormImages[Frame];
-            call__13.Show(X - XhpSurf, Y - YhpSurf, SurfaceDesc);
+            var yhx = GetYhx();
+            HXtoHP(GetXhx(), yhx, ref X, ref Y);
+            var stormImageWidth = FStormImages[Frame];
+            X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
+            var stormImageHeight = FStormImages[Frame];
+            Y = Y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
+            FStormImages[Frame].Show(X - XhpSurf, Y - YhpSurf, SurfaceDesc);
         }
 
         // Storms.pas:358
         public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref TStormDamageInfo Info)
         {
-            var call__14 = StormType();
-            RetrieveStormDamageInfo(Player, call__14, X, Y, L, 0, 4, ref Info);
+            RetrieveStormDamageInfo(Player, StormType(), X, Y, L, 0, 4, ref Info);
         }
 
         // Storms.pas:349
         public override void UpdateTargetSelection(TTargetSelectionControl Selection)
         {
-            int I = default;
             base.UpdateTargetSelection(Selection);
             Selection.FHNs.Clear();
+            for (int I = 0, last = RadToHN(5) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__15 = RadToHN(5) - 1;
-                for (; I <= end__15; I += 1)
-                {
-                    Selection.FHNs.Add(0);
-                }
+                Selection.FHNs.Add(0);
             }
         }
 
@@ -179,32 +153,20 @@ namespace Aow.Units.Storms
         {
             TRect R = default;
             base.InitializeStorm(Player, X, Y, L);
-            var call__16 = StormFileName();
-            var call__17 = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), call__16);
-            FStormImages = call__17;
+            var stormFileName = StormFileName();
+            FStormImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), stormFileName);
             if (GetVisible())
             {
                 FStormImages.LoadDiscardableImageData();
             }
 
-            var call__18 = FStormImages[0];
-            R.Left = -(int)(((uint)call__18.Width) >> 1);
-            var call__19 = FStormImages[0];
-            R.Right = (int)(((uint)call__19.Width) >> 1);
-            var call__20 = FStormImages[0];
-            R.Top = -(int)(((uint)call__20.Height) >> 1);
-            var call__21 = FStormImages[0];
-            R.Bottom = (int)(((uint)call__21.Height) >> 1);
+            R.Left = -(int)(((uint)FStormImages[0].Width) >> 1);
+            R.Right = (int)(((uint)FStormImages[0].Width) >> 1);
+            R.Top = -(int)(((uint)FStormImages[0].Height) >> 1);
+            R.Bottom = (int)(((uint)FStormImages[0].Height) >> 1);
             SetDimensions(R);
             AoWHSMap.ValidateTerrainObservation(AoWHSMap.FCurrentPlayer, X, Y, L, 4);
-            bool bool__22 = AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer;
-            if (!bool__22)
-            {
-                var call__23 = AoWHSMap.TerrainVisible(X, Y, L, 4);
-                bool__22 = call__23;
-            }
-
-            if (bool__22)
+            if (AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.TerrainVisible(X, Y, L, 4))
             {
                 PlaySample((AnsiString)"SFX\\ATTACK\\STORMBIG.WAV");
             }
@@ -219,37 +181,37 @@ namespace Aow.Units.Storms
             NewFrame();
             if (FFrameCounter == 8)
             {
-                var call__24 = GetLhx();
-                var call__25 = GetYhx();
-                var call__26 = GetXhx();
-                AoWHSMap.ChangeTerrainEx(null, call__26, call__25, call__24, 1, ChangeStormTerrain, StormTerrainChanged);
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 1, ChangeStormTerrain, StormTerrainChanged);
             }
             else
             {
                 if (FFrameCounter == 12)
                 {
-                    var call__27 = GetLhx();
-                    var call__28 = GetYhx();
-                    var call__29 = GetXhx();
-                    AoWHSMap.ChangeTerrainEx(null, call__29, call__28, call__27, 2, ChangeStormTerrain, StormTerrainChanged);
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 2, ChangeStormTerrain, StormTerrainChanged);
                 }
                 else
                 {
                     if (FFrameCounter == 18)
                     {
-                        var call__30 = GetLhx();
-                        var call__31 = GetYhx();
-                        var call__32 = GetXhx();
-                        AoWHSMap.ChangeTerrainEx(null, call__32, call__31, call__30, 3, ChangeStormTerrain, StormTerrainChanged);
+                        var lhx = GetLhx();
+                        var yhx = GetYhx();
+                        var xhx = GetXhx();
+                        AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 3, ChangeStormTerrain, StormTerrainChanged);
                     }
                     else
                     {
                         if (FFrameCounter == 22)
                         {
-                            var call__33 = GetLhx();
-                            var call__34 = GetYhx();
-                            var call__35 = GetXhx();
-                            AoWHSMap.ChangeTerrainEx(null, call__35, call__34, call__33, 4, ChangeStormTerrain, StormTerrainChanged);
+                            var lhx = GetLhx();
+                            var yhx = GetYhx();
+                            var xhx = GetXhx();
+                            AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 4, ChangeStormTerrain, StormTerrainChanged);
                         }
                     }
                 }
@@ -257,11 +219,10 @@ namespace Aow.Units.Storms
 
             if (FStormImages.Count == FFrameCounter)
             {
-                var call__36 = GetLhx();
-                var call__37 = GetYhx();
-                var call__38 = GetXhx();
-                var call__39 = StormType();
-                TriggerStormDamage(call__39, call__38, call__37, call__36, 0, 4, AoWHSMap.FCurrentPlayer);
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                TriggerStormDamage(StormType(), xhx, yhx, lhx, 0, 4, AoWHSMap.FCurrentPlayer);
                 Result = false;
             }
             else
@@ -276,8 +237,8 @@ namespace Aow.Units.Storms
         public override void FinalizeStorm()
         {
             FStormImages.ReleaseDiscardableImageData();
-            var call__40 = StormFileName();
-            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), call__40);
+            var stormFileName = StormFileName();
+            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), stormFileName);
             base.FinalizeStorm();
         }
 
@@ -292,20 +253,10 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:294
-        public virtual AnsiString StormFileName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"";
-            return Result;
-        }
+        public virtual AnsiString StormFileName() => (AnsiString)"";
 
         // Storms.pas:299
-        public virtual TStormType StormType()
-        {
-            TStormType Result = default;
-            Result = TStormType.stNone;
-            return Result;
-        }
+        public virtual TStormType StormType() => TStormType.stNone;
     }
 
     public partial class TIceStorm : TBlastStorm
@@ -319,7 +270,7 @@ namespace Aow.Units.Storms
         // Storms.pas:390
         public override void ChangeStormTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
-            TFrozenWaterHS Ice = default;
+            TFrozenWaterHS Ice;
             // { Original sends terrain 13 to the default branch before the ice refresh test. }
             if (TerrainType == 0)
             {
@@ -338,8 +289,7 @@ namespace Aow.Units.Storms
                         Ice = (TFrozenWaterHS)MapF.FindOwnedHS(typeof(TFrozenWaterHS));
                         if (Ice != null)
                         {
-                            var call__41 = AoWHSMap.Random(11);
-                            Ice.FDaysRemaining = (sbyte)(3 + (call__41 - 5) / 5);
+                            Ice.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Random(11) - 5) / 5);
                             Ice.FCasterPlayer = FPlayer;
                         }
                     }
@@ -350,7 +300,7 @@ namespace Aow.Units.Storms
         // Storms.pas:373
         public override void StormTerrainChanged(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
         {
-            TFrozenWaterHS Ice = default;
+            TFrozenWaterHS Ice;
             if (TSet<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)OriginalTerrainType))
             {
                 Ice = (TFrozenWaterHS)MapF.FindOwnedHS(typeof(TFrozenWaterHS));
@@ -360,38 +310,22 @@ namespace Aow.Units.Storms
                     AoWHSMap.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
                 }
 
-                var call__42 = AoWHSMap.Random(11);
-                Ice.FDaysRemaining = (sbyte)(3 + (call__42 - 5) / 5);
+                Ice.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Random(11) - 5) / 5);
                 Ice.FCasterPlayer = FPlayer;
             }
         }
 
         // Storms.pas:409
-        public override AnsiString StormFileName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"EFFECTS\\STORM1.ILB";
-            return Result;
-        }
+        public override AnsiString StormFileName() => (AnsiString)"EFFECTS\\STORM1.ILB";
 
         // Storms.pas:414
-        public override TStormType StormType()
-        {
-            TStormType Result = default;
-            Result = TStormType.stIce;
-            return Result;
-        }
+        public override TStormType StormType() => TStormType.stIce;
 
         // Animation.pas:43
 
 
         // Storms.pas:368
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(IceStormRStr);
-            return Result;
-        }
+        public override AnsiString Name() => TranslateRStr(IceStormRStr);
 
     }
 
@@ -413,31 +347,16 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:507
-        public override AnsiString StormFileName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"EFFECTS\\STORMD.ILB";
-            return Result;
-        }
+        public override AnsiString StormFileName() => (AnsiString)"EFFECTS\\STORMD.ILB";
 
         // Storms.pas:512
-        public override TStormType StormType()
-        {
-            TStormType Result = default;
-            Result = TStormType.stDeath;
-            return Result;
-        }
+        public override TStormType StormType() => TStormType.stDeath;
 
         // Animation.pas:43
 
 
         // Storms.pas:497
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(DeathStormRStr);
-            return Result;
-        }
+        public override AnsiString Name() => TranslateRStr(DeathStormRStr);
 
     }
 
@@ -459,31 +378,16 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:624
-        public override AnsiString StormFileName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"EFFECTS\\STORMLGT.ILB";
-            return Result;
-        }
+        public override AnsiString StormFileName() => (AnsiString)"EFFECTS\\STORMLGT.ILB";
 
         // Storms.pas:629
-        public override TStormType StormType()
-        {
-            TStormType Result = default;
-            Result = TStormType.stHoly;
-            return Result;
-        }
+        public override TStormType StormType() => TStormType.stHoly;
 
         // Animation.pas:43
 
 
         // Storms.pas:613
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(DivineStormRStr);
-            return Result;
-        }
+        public override AnsiString Name() => TranslateRStr(DivineStormRStr);
 
     }
 
@@ -501,20 +405,17 @@ namespace Aow.Units.Storms
         {
             int X = default;
             int Y = default;
-            int Frame = default;
+            int Frame;
             Frame = FFrameCounter % FStormImages.Count;
-            var call__43 = FStormImages[Frame];
-            if (call__43 != null)
+            if (FStormImages[Frame] != null)
             {
-                var call__44 = GetYhx();
-                var call__45 = GetXhx();
-                HXtoHP(call__45, call__44, ref X, ref Y);
-                var call__46 = FStormImages[Frame];
-                X = X - (int)(((uint)call__46.Width) >> 1) + 20;
-                var call__47 = FStormImages[Frame];
-                Y = Y - call__47.Height + 32 + 40;
-                var call__48 = FStormImages[Frame];
-                call__48.Show(X - XhpSurf, Y - YhpSurf, SurfaceDesc);
+                var yhx = GetYhx();
+                HXtoHP(GetXhx(), yhx, ref X, ref Y);
+                var stormImageWidth = FStormImages[Frame];
+                X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
+                var stormImageHeight = FStormImages[Frame];
+                Y = Y - stormImageHeight.Height + 32 + 40;
+                FStormImages[Frame].Show(X - XhpSurf, Y - YhpSurf, SurfaceDesc);
             }
         }
 
@@ -527,16 +428,11 @@ namespace Aow.Units.Storms
         // Storms.pas:478
         public override void UpdateTargetSelection(TTargetSelectionControl Selection)
         {
-            int I = default;
             base.UpdateTargetSelection(Selection);
             // { Original adds to the map selection, without clearing its existing hexes. }
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__49 = RadToHN(2) - 1;
-                for (; I <= end__49; I += 1)
-                {
-                    AoWHSMap.FTargetSelection.FHNs.Add(0);
-                }
+                AoWHSMap.FTargetSelection.FHNs.Add(0);
             }
         }
 
@@ -545,19 +441,15 @@ namespace Aow.Units.Storms
         {
             TRect R = default;
             base.InitializeStorm(Player, X, Y, L);
-            var call__50 = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"EFFECTS\\LIGHTN.ILB");
-            FStormImages = call__50;
+            FStormImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"EFFECTS\\LIGHTN.ILB");
             if (GetVisible())
             {
                 FStormImages.LoadDiscardableImageData();
             }
 
-            var call__51 = FStormImages[0];
-            R.Left = -(int)(((uint)call__51.Width) >> 1);
-            var call__52 = FStormImages[0];
-            R.Right = (int)(((uint)call__52.Width) >> 1);
-            var call__53 = FStormImages[0];
-            R.Top = -call__53.Height + 32;
+            R.Left = -(int)(((uint)FStormImages[0].Width) >> 1);
+            R.Right = (int)(((uint)FStormImages[0].Width) >> 1);
+            R.Top = -FStormImages[0].Height + 32;
             R.Bottom = 32;
             SetDimensions(R);
             AoWHSMap.ValidateTerrainObservation(AoWHSMap.FCurrentPlayer, X, Y, L, 2);
@@ -567,20 +459,18 @@ namespace Aow.Units.Storms
         // Storms.pas:466
         public override bool UpdateStorm()
         {
-            bool Result = default;
+            bool Result;
             NewFrame();
-            var call__54 = FStormImages.GetSafe(FFrameCounter);
-            if (call__54 != null)
+            if (FStormImages.GetSafe(FFrameCounter) != null)
             {
                 PlaySample((AnsiString)"SFX\\ATTACK\\LIGHTNG.WAV");
             }
 
             if (FStormImages.Count == FFrameCounter)
             {
-                var call__55 = GetLhx();
-                var call__56 = GetYhx();
-                var call__57 = GetXhx();
-                TriggerStormDamage(TStormType.stLightning, call__57, call__56, call__55, 0, 1, AoWHSMap.FCurrentPlayer);
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                TriggerStormDamage(TStormType.stLightning, GetXhx(), yhx, lhx, 0, 1, AoWHSMap.FCurrentPlayer);
                 Result = false;
             }
             else
@@ -603,12 +493,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:424
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(LightningStormRStr);
-            return Result;
-        }
+        public override AnsiString Name() => TranslateRStr(LightningStormRStr);
 
     }
 
@@ -625,30 +510,19 @@ namespace Aow.Units.Storms
         {
             int X = default;
             int Y = default;
-            int Frame = default;
-            TImageSequence Sequence = default;
-            var call__58 = GetYhx();
-            var call__59 = GetXhx();
-            HXtoHP(call__59, call__58, ref X, ref Y);
+            int Frame;
+            TImageSequence Sequence;
+            var yhx = GetYhx();
+            HXtoHP(GetXhx(), yhx, ref X, ref Y);
             X = X - XhpSurf + 8;
             Y = Y - YhpSurf;
-            var call__60 = AoWHSSet.FImageSequences.ImageSequences[0];
-            Sequence = call__60;
+            Sequence = AoWHSSet.FImageSequences.ImageSequences[0];
             while (Sequence != null)
             {
-                var call__61 = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-                Frame = call__61;
-                bool bool__62 = Frame != -1;
-                if (bool__62)
+                Frame = Sequence.GetUnloopedFrameIndex(FFrameCounter);
+                if (Frame != -1 && Sequence.ImageLibrary.ImageExist(Frame))
                 {
-                    var call__63 = Sequence.ImageLibrary.ImageExist(Frame);
-                    bool__62 = call__63;
-                }
-
-                if (bool__62)
-                {
-                    var call__64 = Sequence.ImageLibrary[Frame];
-                    call__64.Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                    Sequence.ImageLibrary[Frame].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
                 }
 
                 Sequence = Sequence.Next;
@@ -664,16 +538,11 @@ namespace Aow.Units.Storms
         // Storms.pas:594
         public override void UpdateTargetSelection(TTargetSelectionControl Selection)
         {
-            int I = default;
             base.UpdateTargetSelection(Selection);
             // { Original adds to the map selection, without clearing its existing hexes. }
+            for (int I = 0, last = RadToHN(3) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__65 = RadToHN(3) - 1;
-                for (; I <= end__65; I += 1)
-                {
-                    AoWHSMap.FTargetSelection.FHNs.Add(0);
-                }
+                AoWHSMap.FTargetSelection.FHNs.Add(0);
             }
         }
 
@@ -700,42 +569,38 @@ namespace Aow.Units.Storms
             NewFrame();
             if (FFrameCounter == 20)
             {
-                var call__66 = GetLhx();
-                var call__67 = GetYhx();
-                var call__68 = GetXhx();
-                TriggerStormDamage(TStormType.stFire, call__68, call__67, call__66, 0, 2, AoWHSMap.FCurrentPlayer);
-                var call__69 = GetLhx();
-                var call__70 = GetYhx();
-                var call__71 = GetXhx();
-                AoWHSMap.ChangeTerrainEx(this, call__71, call__70, call__69, 2, ChangeStormTerrain, null);
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                TriggerStormDamage(TStormType.stFire, GetXhx(), yhx, lhx, 0, 2, AoWHSMap.FCurrentPlayer);
+                var lhx2 = GetLhx();
+                var yhx2 = GetYhx();
+                var xhx = GetXhx();
+                AoWHSMap.ChangeTerrainEx(this, xhx, yhx2, lhx2, 2, ChangeStormTerrain, null);
             }
 
-            var call__72 = AoWHSSet.FImageSequences.ImageSequences[0];
-            Sequence = call__72;
+            Sequence = AoWHSSet.FImageSequences.ImageSequences[0];
             Frame = -1;
             while (Sequence != null && Frame == -1)
             {
-                var call__73 = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-                Frame = call__73;
+                Frame = Sequence.GetUnloopedFrameIndex(FFrameCounter);
                 Sequence = Sequence.Next;
             }
 
             if (Frame == 1)
             {
-                bool bool__74 = AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer;
-                if (!bool__74)
+                bool condition = AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer;
+                if (!condition)
                 {
-                    var call__75 = GetLhx();
-                    var call__76 = GetYhx();
-                    var call__77 = GetXhx();
-                    var call__78 = AoWHSMap.TerrainVisible(call__77, call__76, call__75, 2);
-                    bool__74 = call__78;
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    condition = AoWHSMap.TerrainVisible(xhx, yhx, lhx, 2);
                 }
 
-                if (bool__74)
+                if (condition)
                 {
-                    var call__79 = Random(2);
-                    PlaySample(ExplosionSFX[call__79]);
+                    var random = Random(2);
+                    PlaySample(ExplosionSFX[random]);
                 }
             }
 
@@ -770,12 +635,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:522
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(FireStormRStr);
-            return Result;
-        }
+        public override AnsiString Name() => TranslateRStr(FireStormRStr);
 
     }
 
@@ -793,28 +653,18 @@ namespace Aow.Units.Storms
         {
             int X = default;
             int Y = default;
-            int Frame = default;
-            int Blend = default;
-            TImageSequence Sequence = default;
-            var call__80 = GetYhx();
-            var call__81 = GetXhx();
-            HXtoHP(call__81, call__80, ref X, ref Y);
+            int Frame;
+            int Blend;
+            TImageSequence Sequence;
+            var yhx = GetYhx();
+            HXtoHP(GetXhx(), yhx, ref X, ref Y);
             X = X - XhpSurf + 8;
             Y = Y - YhpSurf;
-            var call__82 = FCloudResource.ImageSequenceList.ImageSequences[0];
-            Sequence = call__82;
+            Sequence = FCloudResource.ImageSequenceList.ImageSequences[0];
             while (Sequence != null)
             {
-                var call__83 = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-                Frame = call__83;
-                bool bool__84 = Frame != -1;
-                if (bool__84)
-                {
-                    var call__85 = Sequence.ImageLibrary.ImageExist(Frame);
-                    bool__84 = call__85;
-                }
-
-                if (bool__84)
+                Frame = Sequence.GetUnloopedFrameIndex(FFrameCounter);
+                if (Frame != -1 && Sequence.ImageLibrary.ImageExist(Frame))
                 {
                     Blend = Sequence.GetTotalSequenceFrames();
                     if (Blend != 0)
@@ -826,8 +676,7 @@ namespace Aow.Units.Storms
                         Blend = 100;
                     }
 
-                    var call__86 = Sequence.ImageLibrary[Frame];
-                    call__86.ShowBlended(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc, ShadowBlendTable.LookupTables[Blend]);
+                    Sequence.ImageLibrary[Frame].ShowBlended(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc, ShadowBlendTable.LookupTables[Blend]);
                 }
 
                 Sequence = Sequence.Next;
@@ -843,16 +692,11 @@ namespace Aow.Units.Storms
         // Storms.pas:716
         public override void UpdateTargetSelection(TTargetSelectionControl Selection)
         {
-            int I = default;
             base.UpdateTargetSelection(Selection);
             // { Original adds to the map selection without clearing its existing hexes. }
+            for (int I = 0, last = RadToHN(3) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__87 = RadToHN(3) - 1;
-                for (; I <= end__87; I += 1)
-                {
-                    AoWHSMap.FTargetSelection.FHNs.Add(0);
-                }
+                AoWHSMap.FTargetSelection.FHNs.Add(0);
             }
         }
 
@@ -860,8 +704,7 @@ namespace Aow.Units.Storms
         public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
         {
             TRect R = default;
-            var call__88 = AoWHSSet.MapObjectResourceList.FindChild(135744);
-            FCloudResource = (TPoisonCloudResource)call__88;
+            FCloudResource = (TPoisonCloudResource)AoWHSSet.MapObjectResourceList.FindChild(135744);
             base.InitializeStorm(Player, X, Y, L);
             R.Left = -80;
             R.Right = 96;
@@ -869,17 +712,9 @@ namespace Aow.Units.Storms
             R.Bottom = 96;
             SetDimensions(R);
             AoWHSMap.ValidateTerrainObservation(AoWHSMap.FCurrentPlayer, X, Y, L, 2);
-            bool bool__89 = AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer;
-            if (!bool__89)
+            if (AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.TerrainVisible(X, Y, L, 2))
             {
-                var call__90 = AoWHSMap.TerrainVisible(X, Y, L, 2);
-                bool__89 = call__90;
-            }
-
-            if (bool__89)
-            {
-                var call__91 = AoWHSSet.FSpellControl.GetSpell(9);
-                call__91.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(9).FCastSounds.Play(0);
             }
 
             PlaceHX(AoWHSMap.MapContainer, X, Y, L);
@@ -888,32 +723,28 @@ namespace Aow.Units.Storms
         // Storms.pas:690
         public override bool UpdateStorm()
         {
-            bool Result = default;
-            TImageSequence Sequence = default;
-            int Frame = default;
-            TPoisonCloud Cloud = default;
+            bool Result;
+            TImageSequence Sequence;
+            int Frame;
+            TPoisonCloud Cloud;
             NewFrame();
-            var call__92 = FCloudResource.ImageSequenceList.ImageSequences[0];
-            Sequence = call__92;
+            Sequence = FCloudResource.ImageSequenceList.ImageSequences[0];
             Frame = -1;
             while (Sequence != null && Frame == -1)
             {
-                var call__93 = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-                Frame = call__93;
+                Frame = Sequence.GetUnloopedFrameIndex(FFrameCounter);
                 Sequence = Sequence.Next;
             }
 
             if (Frame == -1)
             {
-                var call__94 = FCloudResource.CreateResourceUser();
-                Cloud = (TPoisonCloud)call__94;
+                Cloud = (TPoisonCloud)FCloudResource.CreateResourceUser();
                 Cloud.FTurnsRemaining = 3;
                 Cloud.FPlayer = AoWHSMap.FCurrentPlayer;
-                var call__95 = GetLhx();
-                var call__96 = GetYhx();
-                var call__97 = GetXhx();
-                var call__98 = AoWHSMap.PlaceHX(Cloud, call__97, call__96, call__95);
-                if (call__98)
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                if (AoWHSMap.PlaceHX(Cloud, xhx, yhx, lhx))
                 {
                     Cloud.TriggerDamage();
                 }
@@ -942,12 +773,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:639
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(PestilenceStormRStr);
-            return Result;
-        }
+        public override AnsiString Name() => TranslateRStr(PestilenceStormRStr);
 
     }
 
@@ -976,20 +802,16 @@ namespace Aow.Units.Storms
         // Storms.pas:743
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
+            bool Result;
             base.Process(A1, A2);
             if (A2 == 0)
             {
-                var call__99 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                var call__100 = ((TStormSpell)call__99).CreateStorm();
-                FStorm = call__100;
+                FStorm = ((TStormSpell)AoWHSSet.FSpellControl.GetSpell(FEventSpellID)).CreateStorm();
                 FStorm.InitializeStorm(A1.FPlayer, FX, FY, FL);
-                var call__101 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                call__101.CastingDone(A1, FEventMana);
+                AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, FEventMana);
             }
 
-            var call__102 = FStorm.UpdateStorm();
-            if (!call__102)
+            if (!FStorm.UpdateStorm())
             {
                 FStorm.FinalizeStorm();
                 FStorm.Free();
@@ -1023,10 +845,9 @@ namespace Aow.Units.Storms
         // Storms.pas:888
         public override void AIPrefetchCastSpellActions(TAbstractUnit A1, TAICastSpellActionList A2)
         {
-            int Priority = default;
-            TAICastSpellAction Action = default;
-            var call__103 = AIRequestCastSpellExpense(A1, FBaseManaCost, 0, 0);
-            if (call__103)
+            int Priority;
+            TAICastSpellAction Action;
+            if (AIRequestCastSpellExpense(A1, FBaseManaCost, 0, 0))
             {
                 Priority = AICastSpellPriority(A1);
                 if (Priority != -1)
@@ -1042,24 +863,22 @@ namespace Aow.Units.Storms
         // Storms.pas:906
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
-            bool Result = default;
+            bool Result;
             AnsiString Reason = default;
             TXYL Target = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TStorm Storm = default;
+            TStorm Storm;
             TStormDamageInfo Info = default;
             if (AICastSpellPriority(A1) != -1)
             {
                 AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, 0);
-                var call__104 = ((THero)A1).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                if (call__104)
+                if (((THero)A1).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
                 {
                     A1.GetLocation(ref X, ref Y, ref L);
                     Storm = CreateStorm();
-                    var call__105 = Storm.GetBestTarget(A1.FPlayer, X, Y, L, 12, ref Target, ref Info);
-                    if (call__105)
+                    if (Storm.GetBestTarget(A1.FPlayer, X, Y, L, 12, ref Target, ref Info))
                     {
                         ExecuteStormSpell(A1, Target.X, Target.Y, Target.L);
                         Result = true;
@@ -1095,11 +914,10 @@ namespace Aow.Units.Storms
         // Storms.pas:809
         public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            Result = base.CanActivate(A1, ref A2);
+            bool Result = base.CanActivate(A1, ref A2);
             if (Result)
             {
                 A1.GetLocation(ref X, ref Y, ref L);
@@ -1128,35 +946,23 @@ namespace Aow.Units.Storms
                 FSource = A1;
                 A1.GetLocation(ref X, ref Y, ref L);
                 Selection = AoWHSMap.FTargetSelection;
-                var call__106 = CreateStorm();
-                FTargetStorm = call__106;
+                FTargetStorm = CreateStorm();
                 Selection.Initialize(this);
                 Selection.FTargetMode = Selection.FTargetMode + TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmValidateDistance, TTargetSelectionModeElement.tmExternalFloater);
                 Selection.FSourceX = X;
                 Selection.FSourceY = Y;
                 Selection.FSourceL = L;
                 AoWHSMap.MakeVisible(X, Y, L, 5);
-                var call__107 = FTargetStorm.Name();
-                var call__108 = TranslateRStr(SelectTargetLocationForXOnMapRStr);
-                var call__109 = Rtl.Rtl.Format(call__108, [call__107]);
-                Selection.FText.Text = call__109;
+                var name = FTargetStorm.Name();
+                var format = Rtl.Rtl.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [name]);
+                Selection.FText.Text = format;
                 Selection.FTitle = FSpellName;
-                var call__110 = TranslateRStr(CancelRStr);
-                Selection.FCancelText = call__110;
+                Selection.FCancelText = TranslateRStr(CancelRStr);
                 Selection.FRange = 12;
                 Selection.FOnChange.Add(OnTargetSelectionChange);
-                var call__111 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__112 = call__111.FCastImages.ImageSequences[20];
-                var call__113 = call__112.GetPreviewImage();
-                Selection.FSourceImage = call__113;
-                var call__114 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__115 = call__114.FCastImages.ImageSequences[21];
-                var call__116 = call__115.GetPreviewImage();
-                Selection.FValidTargetImage = call__116;
-                var call__117 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var call__118 = call__117.FCastImages.ImageSequences[22];
-                var call__119 = call__118.GetPreviewImage();
-                Selection.FInvalidTargetImage = call__119;
+                Selection.FSourceImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
+                Selection.FValidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
+                Selection.FInvalidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
                 Selection.Activate();
                 FTargetStorm.UpdateTargetSelection(AoWHSMap.FTargetSelection);
                 Result = true;
@@ -1178,19 +984,16 @@ namespace Aow.Units.Storms
         // Storms.pas:768
         public virtual bool ExecuteStormSpell(TAbstractUnit Source, sbyte X, sbyte Y, sbyte L)
         {
-            bool Result = default;
-            TStormSpellTE TE = default;
-            var call__120 = AoWHSMap.FPlayers.GetPlayers(Source.FPlayer);
-            var call__121 = call__120.GetBusy();
-            if (!call__121)
+            bool Result;
+            TStormSpellTE TE;
+            if (!AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
                 TE = new TStormSpellTE(null);
                 TE.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 TE.FX = X;
                 TE.FY = Y;
                 TE.FL = L;
-                var call__122 = AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer);
-                call__122.AddEvent(TE);
+                AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -1205,15 +1008,15 @@ namespace Aow.Units.Storms
         // Storms.pas:860
         public virtual int AICastSpellPriority(TAbstractUnit Source)
         {
-            int Result = default;
+            int Result;
             TXYL Target = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             AnsiString Reason = default;
-            TStorm Storm = default;
+            TStorm Storm;
             TStormDamageInfo Info = default;
-            int Damage = default;
+            int Damage;
             if (CanActivate(Source, ref Reason))
             {
                 Result = -1;
@@ -1221,8 +1024,7 @@ namespace Aow.Units.Storms
                 if (L == 0)
                 {
                     Storm = CreateStorm();
-                    var call__123 = Storm.GetBestTarget(Source.FPlayer, X, Y, L, 12, ref Target, ref Info);
-                    if (call__123)
+                    if (Storm.GetBestTarget(Source.FPlayer, X, Y, L, 12, ref Target, ref Info))
                     {
                         Damage = Info.EnemyDamage - Info.FriendlyDamage;
                         if ((double)((double)FBaseManaCost * 0.75) < Damage)
@@ -1256,8 +1058,7 @@ namespace Aow.Units.Storms
                     break;
                 case TTargetSelectionChange.tscSelected:
                     Selection.FOnChange.Remove(OnTargetSelectionChange);
-                    var call__124 = ExecuteStormSpell(FSource, Selection.FTargetX, Selection.FTargetY, Selection.FTargetL);
-                    if (call__124)
+                    if (ExecuteStormSpell(FSource, Selection.FTargetX, Selection.FTargetY, Selection.FTargetL))
                     {
                         Selection.Deactivate();
                     }
@@ -1274,8 +1075,7 @@ namespace Aow.Units.Storms
         // Storms.pas:939
         public TFireStormSpell(TECustomNode owner) : base(owner)
         {
-            var call__125 = TranslateRStr(FireStormRStr);
-            FSpellName = call__125;
+            FSpellName = TranslateRStr(FireStormRStr);
             FSpellID = 3;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -1283,12 +1083,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:949
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TFireStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TFireStorm(null);
     }
 
     public partial class TDivineStormSpell : TStormSpell
@@ -1296,8 +1091,7 @@ namespace Aow.Units.Storms
         // Storms.pas:954
         public TDivineStormSpell(TECustomNode owner) : base(owner)
         {
-            var call__126 = TranslateRStr(DivineStormRStr);
-            FSpellName = call__126;
+            FSpellName = TranslateRStr(DivineStormRStr);
             FSpellID = 6;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -1305,12 +1099,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:964
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TDivineStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TDivineStorm(null);
     }
 
     public partial class TDeathStormSpell : TStormSpell
@@ -1318,8 +1107,7 @@ namespace Aow.Units.Storms
         // Storms.pas:969
         public TDeathStormSpell(TECustomNode owner) : base(owner)
         {
-            var call__127 = TranslateRStr(DeathStormRStr);
-            FSpellName = call__127;
+            FSpellName = TranslateRStr(DeathStormRStr);
             FSpellID = 5;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -1327,12 +1115,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:979
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TDeathStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TDeathStorm(null);
     }
 
     public partial class TIceStormSpell : TStormSpell
@@ -1340,8 +1123,7 @@ namespace Aow.Units.Storms
         // Storms.pas:984
         public TIceStormSpell(TECustomNode owner) : base(owner)
         {
-            var call__128 = TranslateRStr(IceStormRStr);
-            FSpellName = call__128;
+            FSpellName = TranslateRStr(IceStormRStr);
             FSpellID = 4;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -1349,12 +1131,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:994
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TIceStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TIceStorm(null);
     }
 
     public partial class TLightningStormSpell : TStormSpell
@@ -1362,8 +1139,7 @@ namespace Aow.Units.Storms
         // Storms.pas:1014
         public TLightningStormSpell(TECustomNode owner) : base(owner)
         {
-            var call__129 = TranslateRStr(LightningStormRStr);
-            FSpellName = call__129;
+            FSpellName = TranslateRStr(LightningStormRStr);
             FSpellID = 7;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -1371,12 +1147,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:1024
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TLightningStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TLightningStorm(null);
     }
 
     public partial class TPestilenceStormSpell : TStormSpell
@@ -1384,8 +1155,7 @@ namespace Aow.Units.Storms
         // Storms.pas:999
         public TPestilenceStormSpell(TECustomNode owner) : base(owner)
         {
-            var call__130 = TranslateRStr(PestilenceRStr);
-            FSpellName = call__130;
+            FSpellName = TranslateRStr(PestilenceRStr);
             FSpellID = 9;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -1393,12 +1163,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:1009
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TPestilenceStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TPestilenceStorm(null);
     }
 
     public static partial class Storms
@@ -1406,27 +1171,21 @@ namespace Aow.Units.Storms
         // Storms.pas:1029
         public static void RegisterStorms(TEngine AEngine)
         {
-            TSpellControl Spells = default;
+            TSpellControl Spells;
             AEngine.RegisterEClasses([EClass.Of<TIceStorm>(), EClass.Of<TDeathStorm>(), EClass.Of<TDivineStorm>(), EClass.Of<TFireStorm>(), EClass.Of<TLightningStorm>(), EClass.Of<TPestilenceStorm>(), EClass.Of<TStormSpellTE>()]);
             Spells = ((TAoWEngine)AEngine).FGameSet.FSpellControl;
-            var call__131 = new TFireStormSpell(null);
-            Spells.RegisterSpell(call__131);
-            var call__132 = new TDeathStormSpell(null);
-            Spells.RegisterSpell(call__132);
-            var call__133 = new TDivineStormSpell(null);
-            Spells.RegisterSpell(call__133);
-            var call__134 = new TLightningStormSpell(null);
-            Spells.RegisterSpell(call__134);
-            var call__135 = new TIceStormSpell(null);
-            Spells.RegisterSpell(call__135);
-            var call__136 = new TPestilenceStormSpell(null);
-            Spells.RegisterSpell(call__136);
+            Spells.RegisterSpell(new TFireStormSpell(null));
+            Spells.RegisterSpell(new TDeathStormSpell(null));
+            Spells.RegisterSpell(new TDivineStormSpell(null));
+            Spells.RegisterSpell(new TLightningStormSpell(null));
+            Spells.RegisterSpell(new TIceStormSpell(null));
+            Spells.RegisterSpell(new TPestilenceStormSpell(null));
         }
 
         // Storms.pas:1044
         public static void UnRegisterStorms(TEngine AEngine)
         {
-            TSpellControl Spells = default;
+            TSpellControl Spells;
             Spells = ((TAoWEngine)AEngine).FGameSet.FSpellControl;
             Spells.UnregisterSpellID(3);
             Spells.UnregisterSpellID(5);

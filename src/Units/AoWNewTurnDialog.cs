@@ -38,8 +38,8 @@ namespace Aow.Units.AoWNewTurnDialog
         // AoWNewTurnDialog.pas:50
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TNewTurnEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TNewTurnEventLog Event;
             General.Manager.OverlayPriority = 0;
             if (FNewTurn == null)
             {
@@ -68,8 +68,8 @@ namespace Aow.Units.AoWNewTurnDialog
         // AoWNewTurnDialog.pas:69
         public void ShowNewTurn(TNewTurnEventLog Event, TExecuteDoneEvent Done)
         {
-            sbyte Race = default;
-            int Day = default;
+            sbyte Race;
+            int Day;
             switch (Event.FMode)
             {
                 case TNewTurnEventLogMode.ntDialog:
@@ -83,14 +83,13 @@ namespace Aow.Units.AoWNewTurnDialog
                     FNewTurn = Event;
                     FNewTurn.AddRef();
                     TurnMsg.Text = Event.FText;
-                    var call__1 = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer);
-                    var call__2 = call__1.GetName();
-                    PlayerName.Text = call__2;
+                    var name = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer).GetName();
+                    PlayerName.Text = name;
                     if (Event.FTurnPlayer != 0)
                     {
-                        var call__3 = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer);
-                        var call__4 = TranslateRStr(RaceNamesPluralRStr[call__3.FPlayerRace]);
-                        PlayerRace.Text = call__4;
+                        var player = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer);
+                        var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[player.FPlayerRace]);
+                        PlayerRace.Text = raceNamesPlural;
                     }
                     else
                     {
@@ -106,10 +105,9 @@ namespace Aow.Units.AoWNewTurnDialog
                         Day = 1;
                     }
 
-                    var call__5 = TranslateRStr(DayRStr);
-                    Turn.Text = call__5 + AnsiString.FromBytes(32) + IntToStr(Day);
-                    var call__6 = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer);
-                    Race = call__6.FPlayerRace;
+                    var day = TranslateRStr(DayRStr);
+                    Turn.Text = day + AnsiString.FromBytes(32) + IntToStr(Day);
+                    Race = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer).FPlayerRace;
                     if (Race == -1)
                     {
                         Race = 12;
@@ -121,13 +119,13 @@ namespace Aow.Units.AoWNewTurnDialog
                     NewTDlg.Visible = true;
                     if (FNewTurn.FDialogStyle.Contains(TNewTurnEventLogDialogStyleElement.nsCloseable))
                     {
-                        var call__7 = TranslateRStr(ClickToBeginRStr);
-                        ClickMsg.Text = call__7;
+                        var clickToBegin = TranslateRStr(ClickToBeginRStr);
+                        ClickMsg.Text = clickToBegin;
                     }
                     else
                     {
-                        var call__8 = TranslateRStr(HiddenmovementPleaseWaitRStr);
-                        ClickMsg.Text = call__8;
+                        var hiddenmovementPleaseWait = TranslateRStr(HiddenmovementPleaseWaitRStr);
+                        ClickMsg.Text = hiddenmovementPleaseWait;
                     }
 
                     break;
@@ -158,27 +156,21 @@ namespace Aow.Units.AoWNewTurnDialog
         // AoWNewTurnDialog.pas:116
         public void FaceFramePreDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            TRect R = default;
+            TRect R;
             if (AoWCombatMap != null)
             {
-                var call__9 = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer);
-                if (call__9.FLeader != null)
+                if (AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer).FLeader != null)
                 {
-                    var call__10 = Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                    R = call__10;
-                    var call__11 = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer);
-                    call__11.FLeader.ShowFace(R, Surface);
+                    R = Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
+                    AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer).FLeader.ShowFace(R, Surface);
                 }
             }
             else
             {
-                var call__12 = AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer);
-                if (call__12.FLeader != null)
+                if (AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader != null)
                 {
-                    var call__13 = Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                    R = call__13;
-                    var call__14 = AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer);
-                    call__14.FLeader.ShowFace(R, Surface);
+                    R = Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
+                    AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader.ShowFace(R, Surface);
                 }
             }
         }

@@ -43,15 +43,14 @@ namespace Aow.Units.AoWDeformFaceDlg
         // AoWDeformFaceDlg.pas:127
         public void Execute(TCosmeticSurgerySpellCaster Caster)
         {
-            TAbstractUnit U = default;
+            TAbstractUnit U;
             FCaster = Caster;
             FCaster.AddRef();
-            var call__1 = AoWHSMap.FUnitControl.FindUnit(FCaster.FTargetUnitID);
-            U = call__1;
+            U = AoWHSMap.FUnitControl.FindUnit(FCaster.FTargetUnitID);
             if (U != null)
             {
-                var call__2 = U.GetName();
-                UnitNameLbl.Text = call__2;
+                var name = U.GetName();
+                UnitNameLbl.Text = name;
                 Dlg.Visible = true;
             }
             else
@@ -79,8 +78,7 @@ namespace Aow.Units.AoWDeformFaceDlg
         {
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__3 = FCaster.CanCast(ref Reason);
-            if (call__3)
+            if (FCaster.CanCast(ref Reason))
             {
                 FCaster.Cast();
                 Dlg.Visible = false;
@@ -94,35 +92,30 @@ namespace Aow.Units.AoWDeformFaceDlg
         // AoWDeformFaceDlg.pas:73
         public void DrawFace(TObject Sender, TSurfaceDesc SD)
         {
-            TRect R = default;
-            int Face = default;
-            int Offset = default;
-            TFaceResource Resource = default;
+            TRect R;
+            int Face;
+            int Offset;
+            TFaceResource Resource;
             Offset = ((TComponent)Sender).Tag;
             Face = FCaster.FFaceIndex;
             while (Offset < 0)
             {
                 Offset += 1;
-                var call__4 = AoWHSSet.FFaceResources.PrevFace(Face);
-                Face = call__4;
+                Face = AoWHSSet.FFaceResources.PrevFace(Face);
             }
 
             while (Offset > 0)
             {
                 Offset -= 1;
-                var call__5 = AoWHSSet.FFaceResources.NextFace(Face);
-                Face = call__5;
+                Face = AoWHSSet.FFaceResources.NextFace(Face);
             }
 
-            var call__6 = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
-            R = call__6;
+            R = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
             if (Face != -1)
             {
-                var call__7 = AoWHSSet.FFaceResources.GetFaceResource(Face);
-                Resource = call__7;
+                Resource = AoWHSSet.FFaceResources.GetFaceResource(Face);
                 Resource.AddRef();
-                var call__8 = Resource.GetFaceImage();
-                call__8.ShowStretched(R, SD);
+                Resource.GetFaceImage().ShowStretched(R, SD);
                 Resource.Release();
             }
         }
@@ -131,8 +124,8 @@ namespace Aow.Units.AoWDeformFaceDlg
         public void PrevFaceBtnClick()
         {
             General.PlayButtonSound(0);
-            var call__9 = AoWHSSet.FFaceResources.PrevFace(FCaster.FFaceIndex);
-            FCaster.FFaceIndex = call__9;
+            var prevFace = AoWHSSet.FFaceResources.PrevFace(FCaster.FFaceIndex);
+            FCaster.FFaceIndex = prevFace;
             Dlg.FDrawn = false;
         }
 
@@ -140,8 +133,8 @@ namespace Aow.Units.AoWDeformFaceDlg
         public void NextFaceBtnClick()
         {
             General.PlayButtonSound(0);
-            var call__10 = AoWHSSet.FFaceResources.NextFace(FCaster.FFaceIndex);
-            FCaster.FFaceIndex = call__10;
+            var nextFace = AoWHSSet.FFaceResources.NextFace(FCaster.FFaceIndex);
+            FCaster.FFaceIndex = nextFace;
             Dlg.FDrawn = false;
         }
 

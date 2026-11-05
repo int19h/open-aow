@@ -30,25 +30,21 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:459
         public override void Execute(TCombat A1)
         {
-            TCombatObject Source = default;
+            TCombatObject Source;
             base.Execute(A1);
             if (FManaCost != 0 && A1.FStatus.Contains(TCombatStatusElement.cExecuting))
             {
-                var call__1 = A1.FCombatData.FindID(FSourceID);
-                Source = call__1;
-                var call__2 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__2.CombatCastingDone(Source, FManaCost);
+                Source = A1.FCombatData.FindID(FSourceID);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
         // CombatSpells.pas:471
         public override bool Play(TCombatViewer A1)
         {
-            bool Result = default;
             if (A1.FTime == 0)
             {
-                var call__3 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__3.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (A1.FDelay == A1.FTime)
@@ -56,8 +52,7 @@ namespace Aow.Units.CombatSpells
                 Execute(A1.FCombat);
             }
 
-            Result = A1.FDelay * 2 > A1.FTime;
-            return Result;
+            return A1.FDelay * 2 > A1.FTime;
         }
 
         // CombatSpells.pas:479
@@ -66,15 +61,14 @@ namespace Aow.Units.CombatSpells
             base.ShowObject(A1, A2, A3, A4, A5, A6, A7);
             if (A2.FID == FSourceID)
             {
-                var call__4 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, call__4.FSpellName, A7);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, spell.FSpellName, A7);
             }
             else
             {
                 if (A2.FID == FTargetID)
                 {
-                    var call__5 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__5.FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
+                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
                 }
             }
         }
@@ -86,15 +80,14 @@ namespace Aow.Units.CombatSpells
             base.ShowObject(A1, A2, A3, A4, A5, A6, A7);
             if (A2.FID == FSourceID)
             {
-                var call__6 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, call__6.FSpellName, A7);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, spell.FSpellName, A7);
             }
             else
             {
                 if (A2.FID == FTargetID)
                 {
-                    var call__7 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__7.FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
+                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
                 }
             }
         }
@@ -127,24 +120,20 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:512
         public override void Execute(TCombat A1)
         {
-            TCombatObject Source = default;
+            TCombatObject Source;
             if (FManaCost != 0 && A1.FStatus.Contains(TCombatStatusElement.cExecuting))
             {
-                var call__9 = A1.FCombatData.FindID(FSourceID);
-                Source = call__9;
-                var call__10 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__10.CombatCastingDone(Source, FManaCost);
+                Source = A1.FCombatData.FindID(FSourceID);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
         // CombatSpells.pas:524
         public override bool Play(TCombatViewer A1)
         {
-            bool Result = default;
             if (A1.FTime == 0)
             {
-                var call__11 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__11.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (A1.FDelay == A1.FTime)
@@ -152,8 +141,7 @@ namespace Aow.Units.CombatSpells
                 Execute(A1.FCombat);
             }
 
-            Result = A1.FDelay * 3 > A1.FTime;
-            return Result;
+            return A1.FDelay * 3 > A1.FTime;
         }
 
         // CombatSpells.pas:532
@@ -170,15 +158,14 @@ namespace Aow.Units.CombatSpells
 
             if (A2.FID == FSourceID)
             {
-                var call__12 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, call__12.FSpellName, A7);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, spell.FSpellName, A7);
             }
             else
             {
                 if (A2.FID == FTargetID)
                 {
-                    var call__13 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__13.FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
+                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
                 }
             }
         }
@@ -190,15 +177,14 @@ namespace Aow.Units.CombatSpells
             base.ShowObject(A1, A2, A3, A4, A5, A6, A7);
             if (A2.FID == FSourceID)
             {
-                var call__14 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, call__14.FSpellName, A7);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, spell.FSpellName, A7);
             }
             else
             {
                 if (A2.FID == FTargetID)
                 {
-                    var call__15 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__15.FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
+                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
                 }
             }
         }
@@ -233,31 +219,26 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:557
         public TMultiTargetCombatSpellCA(TECustomNode owner) : base(owner)
         {
-            var call__16 = new TByteList();
-            FTargetIDs = call__16;
+            FTargetIDs = new TByteList();
         }
 
         // CombatSpells.pas:579
         public override void Execute(TCombat A1)
         {
-            TCombatObject Source = default;
+            TCombatObject Source;
             if (FManaCost != 0 && A1.FStatus.Contains(TCombatStatusElement.cExecuting))
             {
-                var call__18 = A1.FCombatData.FindID(FSourceID);
-                Source = call__18;
-                var call__19 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__19.CombatCastingDone(Source, FManaCost);
+                Source = A1.FCombatData.FindID(FSourceID);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
         // CombatSpells.pas:591
         public override bool Play(TCombatViewer A1)
         {
-            bool Result = default;
             if (A1.FTime == 0)
             {
-                var call__20 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                call__20.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (A1.FDelay == A1.FTime)
@@ -265,8 +246,7 @@ namespace Aow.Units.CombatSpells
                 Execute(A1.FCombat);
             }
 
-            Result = A1.FDelay * 5 > A1.FTime;
-            return Result;
+            return A1.FDelay * 5 > A1.FTime;
         }
 
         // CombatSpells.pas:599
@@ -283,16 +263,14 @@ namespace Aow.Units.CombatSpells
 
             if (A2.FID == FSourceID)
             {
-                var call__21 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, call__21.FSpellName, A7);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, spell.FSpellName, A7);
             }
             else
             {
-                var call__22 = FTargetIDs.IndexOf(A2.FID);
-                if (call__22 != -1)
+                if (FTargetIDs.IndexOf(A2.FID) != -1)
                 {
-                    var call__23 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__23.FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
+                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
                 }
             }
         }
@@ -304,16 +282,14 @@ namespace Aow.Units.CombatSpells
             base.ShowObject(A1, A2, A3, A4, A5, A6, A7);
             if (A2.FID == FSourceID)
             {
-                var call__24 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, call__24.FSpellName, A7);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                AoWEngine.FCombatFont.SetTextCentered(A5 + 32, A6 + 32 + 8, spell.FSpellName, A7);
             }
             else
             {
-                var call__25 = FTargetIDs.IndexOf(A2.FID);
-                if (call__25 != -1)
+                if (FTargetIDs.IndexOf(A2.FID) != -1)
                 {
-                    var call__26 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                    call__26.FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
+                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, A5 + 32, A6 + 32, A1.FTime, A7);
                 }
             }
         }
@@ -321,9 +297,8 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:624
         public override void ShowFightingObjects(TCombatViewer A1, int A2, int A3, int A4, in TSurfaceDesc A5)
         {
-            TCombatObject Source = default;
-            var call__27 = A1.FCombat.FCombatData.FindID(FSourceID);
-            Source = call__27;
+            TCombatObject Source;
+            Source = A1.FCombat.FCombatData.FindID(FSourceID);
             A1.DefaultShowFightingObjects(null, Source, A2, A3, A4, A5);
         }
 
@@ -348,19 +323,16 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:655
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TCombatSpellCA Action = default;
+            TCombatSpellCA Action;
             Action = new TCombatSpellCA(null);
             Action.FSpellID = FSpellID;
             Action.GenerateEx(A1, A2, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, FDamageMode);
             if (A3)
             {
-                var call__28 = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
-                Action.FManaCost = call__28;
+                Action.FManaCost = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:643
@@ -372,50 +344,47 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:648
         public override int GetCombatDamageValue(TCombatObject A1, TCombatObject A2)
         {
-            int Result = default;
-            var call__29 = A2.GetHitPoints();
-            var call__30 = A2.GetDefense();
-            var call__31 = A2.GetResistance();
-            var call__32 = A2.GetImmunityTypes();
-            var call__33 = A2.GetProtectionTypes();
-            var call__34 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, call__29, call__30, call__31, call__32, call__33);
-            Result = call__34 * FCombatInfo.RepeatCount;
-            return Result;
+            var hitPoints = A2.GetHitPoints();
+            var defense = A2.GetDefense();
+            var resistance = A2.GetResistance();
+            var immunityTypes = A2.GetImmunityTypes();
+            var protectionTypes = A2.GetProtectionTypes();
+            return StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes) * FCombatInfo.RepeatCount;
         }
 
         // CombatSpells.pas:668
         public override void GetCombatDamageValueEx(TCombatObject A1, TCombatObject A2, ref TAbilityDamageValues A3)
         {
-            TSet<TDamageType> Protection = default;
-            TSet<TDamageType> Immunity = default;
+            TSet<TDamageType> Protection;
+            TSet<TDamageType> Immunity;
             Protection = A2.GetProtectionTypes();
             Immunity = A2.GetImmunityTypes();
             A3.DamageTypes = FCombatInfo.DamageTypes;
-            var call__35 = A2.GetHitPoints();
-            var call__36 = A2.GetDefense();
-            var call__37 = A2.GetResistance();
-            var call__38 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, call__35, call__36, call__37, Immunity, Protection);
-            A3.SourceDamage = call__38 * FCombatInfo.RepeatCount;
+            var hitPoints = A2.GetHitPoints();
+            var defense = A2.GetDefense();
+            var resistance = A2.GetResistance();
+            var statisticsToLimitedDV = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, Immunity, Protection);
+            A3.SourceDamage = statisticsToLimitedDV * FCombatInfo.RepeatCount;
             // { Original recomputes the value, using resistance in place of defense for mode 1. }
             if (FDamageMode == 1)
             {
-                var call__39 = A2.GetHitPoints();
-                var call__40 = A2.GetResistance();
-                var call__41 = A2.GetResistance();
-                var call__42 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, call__39, call__40, call__41, Immunity, Protection);
-                A3.SourceDamage = call__42 * FCombatInfo.RepeatCount;
+                var a2HitPoints = A2.GetHitPoints();
+                var a2Resistance = A2.GetResistance();
+                var resistance2 = A2.GetResistance();
+                var statisticsToLimitedDV2 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, a2HitPoints, a2Resistance, resistance2, Immunity, Protection);
+                A3.SourceDamage = statisticsToLimitedDV2 * FCombatInfo.RepeatCount;
             }
             else
             {
-                var call__43 = A2.GetHitPoints();
-                var call__44 = A2.GetDefense();
-                var call__45 = A2.GetResistance();
-                var call__46 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, call__43, call__44, call__45, Immunity, Protection);
-                A3.SourceDamage = call__46 * FCombatInfo.RepeatCount;
+                var a2HitPoints = A2.GetHitPoints();
+                var a2Defense = A2.GetDefense();
+                var a2Resistance = A2.GetResistance();
+                var statisticsToLimitedDV2 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, a2HitPoints, a2Defense, a2Resistance, Immunity, Protection);
+                A3.SourceDamage = statisticsToLimitedDV2 * FCombatInfo.RepeatCount;
             }
 
-            var call__47 = StatisticsToMaxDamage(FCombatInfo.Damage, FCombatInfo.DamageTypes, Protection, Immunity);
-            A3.SourceCost = call__47 * FCombatInfo.RepeatCount;
+            var statisticsToMaxDamage = StatisticsToMaxDamage(FCombatInfo.Damage, FCombatInfo.DamageTypes, Protection, Immunity);
+            A3.SourceCost = statisticsToMaxDamage * FCombatInfo.RepeatCount;
             A3.TargetDamage = 0;
             A3.TargetCost = 0;
         }
@@ -423,25 +392,16 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:754
         public override void fcPrefetchCombatCommands(TFastCombatCommandList A1)
         {
-            TAbstractUnit Hero = default;
-            int Distance = default;
-            int I = default;
+            TAbstractUnit Hero;
+            int Distance;
             AnsiString Reason = default;
-            TCombatObject Target = default;
-            TSpellCC Command = default;
+            TCombatObject Target;
+            TSpellCC Command;
             TAbilityDamageValues Values = default;
             Hero = ((TCombatUnit)A1.FSource).FUnit;
-            bool bool__48 = Hero is THero;
-            if (bool__48)
+            if (Hero is THero && ((THero)Hero).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
             {
-                var call__49 = ((THero)Hero).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                bool__48 = call__49;
-            }
-
-            if (bool__48)
-            {
-                var call__50 = A1.FCombat.GetRoundDistance();
-                Distance = call__50;
+                Distance = A1.FCombat.GetRoundDistance();
                 if (FCombatInfo.Range == -1)
                 {
                     Distance += 8;
@@ -461,36 +421,21 @@ namespace Aow.Units.CombatSpells
                     }
                 }
 
+                for (int I = 0, last = A1.FTargetSide.GetCount() - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__51 = A1.FTargetSide.GetCount() - 1;
-                    for (; I <= end__51; I += 1)
+                    Target = A1.FTargetSide.GetObjects(I);
+                    if (Target.GetEnabled() && Target.fcRoundDistance() <= Distance)
                     {
-                        var call__52 = A1.FTargetSide.GetObjects(I);
-                        Target = call__52;
-                        var call__53 = Target.GetEnabled();
-                        bool bool__54 = call__53;
-                        if (bool__54)
+                        var wallSituation = ((TFastCombat)A1.FSource.FCombat).GetWallSituation(A1.FSource, Target);
+                        fcGetDamageValueEx(A1.FSource, Target, wallSituation, ref Values);
+                        if (Values.SourceDamage != 0)
                         {
-                            var call__55 = Target.fcRoundDistance();
-                            bool__54 = call__55 <= Distance;
-                        }
-
-                        if (bool__54)
-                        {
-                            var call__56 = ((TFastCombat)A1.FSource.FCombat).GetWallSituation(A1.FSource, Target);
-                            fcGetDamageValueEx(A1.FSource, Target, call__56, ref Values);
-                            if (Values.SourceDamage != 0)
-                            {
-                                Command = new TSpellCC(52);
-                                var call__57 = A1.FTargetSide.GetObjects(I);
-                                Command.FTarget = call__57;
-                                Command.FMoveCost = 1;
-                                Command.FSpellID = FSpellID;
-                                var call__58 = DVtoDEV(Values.SourceDamage, Values.TargetDamage, A1.FSource, Target);
-                                Command.FExpectedDV = call__58;
-                                A1.Add(Command);
-                            }
+                            Command = new TSpellCC(52);
+                            Command.FTarget = A1.FTargetSide.GetObjects(I);
+                            Command.FMoveCost = 1;
+                            Command.FSpellID = FSpellID;
+                            Command.FExpectedDV = DVtoDEV(Values.SourceDamage, Values.TargetDamage, A1.FSource, Target);
+                            A1.Add(Command);
                         }
                     }
                 }
@@ -500,28 +445,21 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:791
         public override bool fcExecuteCombatCommand(TCombatObject A1, TFastCombatCommand A2)
         {
-            bool Result = default;
-            int I = default;
-            int J = default;
-            int Count = default;
-            TCombatAction Action = default;
-            TCombatObject Other = default;
-            int Distance = default;
-            TCombatObject Target = default;
-            TList Targets = default;
-            TFastCombat Combat = default;
+            int Count;
+            TCombatAction Action;
+            TCombatObject Other;
+            int Distance;
+            TCombatObject Target;
+            TList Targets;
+            TFastCombat Combat;
             Target = A2.FTarget;
+            for (int I = 0, last = FCombatInfo.RepeatCount - 1; I <= last; I++)
             {
-                I = 0;
-                int end__59 = FCombatInfo.RepeatCount - 1;
-                for (; I <= end__59; I += 1)
+                if (!Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
                 {
-                    if (!Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
-                    {
-                        Action = CreateCA(A1, Target, I == 0);
-                        A1.FCombat.ExecuteCombatAction(Action);
-                        Action.Release();
-                    }
+                    Action = CreateCA(A1, Target, I == 0);
+                    A1.FCombat.ExecuteCombatAction(Action);
+                    Action.Release();
                 }
             }
 
@@ -549,61 +487,35 @@ namespace Aow.Units.CombatSpells
                     }
                 }
 
+                for (int I = Combat.FSides[(int)Target.GetSide()].GetCount() - 1; I >= 0; I--)
                 {
-                    I = Combat.FSides[(int)Target.GetSide()].GetCount() - 1;
-                    byte end__60 = 0;
-                    for (; I >= end__60; I -= 1)
+                    var side = Target.GetSide();
+                    Other = Combat.FSides[(int)side].GetObjects(I);
+                    bool condition = Other != Target && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Target.FPosition) >> 4) && Distance >= Other.fcRoundDistance();
+                    if (condition)
                     {
-                        var call__61 = Target.GetSide();
-                        var call__62 = Combat.FSides[(int)call__61].GetObjects(I);
-                        Other = call__62;
-                        bool bool__63 = Other != Target;
-                        if (bool__63)
-                        {
-                            var call__64 = Other.GetEnabled();
-                            bool__63 = call__64;
-                        }
+                        var immunityTypes = Other.GetImmunityTypes();
+                        condition = FCombatInfo.DamageTypes - immunityTypes != TSet<TDamageType>.Of();
+                    }
 
-                        bool bool__65 = bool__63 && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Target.FPosition) >> 4);
-                        if (bool__65)
-                        {
-                            var call__66 = Other.fcRoundDistance();
-                            bool__65 = Distance >= call__66;
-                        }
-
-                        bool bool__67 = bool__65;
-                        if (bool__67)
-                        {
-                            var call__68 = Other.GetImmunityTypes();
-                            bool__67 = FCombatInfo.DamageTypes - call__68 != TSet<TDamageType>.Of();
-                        }
-
-                        if (bool__67)
-                        {
-                            Targets.Add(Other);
-                        }
+                    if (condition)
+                    {
+                        Targets.Add(Other);
                     }
                 }
 
                 // { Original shifts Random(4) by two, so this adds no random extra targets. }
-                var call__69 = AoWHSMap.Random(4);
-                Count = (int)(((uint)call__69) >> 2) + FCombatInfo.Radius;
+                Count = (int)(((uint)AoWHSMap.Random(4)) >> 2) + FCombatInfo.Radius;
                 while (Count != 0 && Targets.Count != 0)
                 {
-                    var call__70 = AoWHSMap.Random(Targets.Count);
-                    var call__71 = Targets[call__70];
-                    Other = (TCombatObject)call__71;
+                    Other = (TCombatObject)Targets[AoWHSMap.Random(Targets.Count)];
+                    for (int J = 0, last = FCombatInfo.RepeatCount - 1; J <= last; J++)
                     {
-                        J = 0;
-                        int end__72 = FCombatInfo.RepeatCount - 1;
-                        for (; J <= end__72; J += 1)
+                        if (!Other.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
                         {
-                            if (!Other.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
-                            {
-                                Action = CreateCA(A1, Other, false);
-                                A1.FCombat.ExecuteCombatAction(Action);
-                                Action.Release();
-                            }
+                            Action = CreateCA(A1, Other, false);
+                            A1.FCombat.ExecuteCombatAction(Action);
+                            Action.Release();
                         }
                     }
 
@@ -614,23 +526,21 @@ namespace Aow.Units.CombatSpells
                 Targets.Free();
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
         // CombatSpells.pas:693
         public override void fcGetDamageValueEx(TCombatObject A1, TCombatObject A2, TWallSituation A3, ref TAbilityDamageValues A4)
         {
-            TSet<TDamageType> DamageTypes = default;
-            TSet<TDamageType> Protection = default;
-            TSet<TDamageType> Immunity = default;
-            int Count = default;
-            int I = default;
-            int Distance = default;
-            TCombatObject Other = default;
-            TFastCombat Combat = default;
-            int Damage = default;
-            int Defense = default;
+            TSet<TDamageType> DamageTypes;
+            TSet<TDamageType> Protection;
+            TSet<TDamageType> Immunity;
+            int Count;
+            int Distance;
+            TCombatObject Other;
+            TFastCombat Combat;
+            int Damage;
+            int Defense;
             if (A3 == TWallSituation.wsNone || FCombatInfo.Range == -1 || FCombatInfo.Range >= 8)
             {
                 Protection = A2.GetProtectionTypes();
@@ -644,17 +554,17 @@ namespace Aow.Units.CombatSpells
                 }
 
                 A4.DamageTypes = DamageTypes;
-                var call__74 = A2.GetHitPoints();
-                var call__75 = A2.GetResistance();
-                var call__76 = StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, call__74, Defense, call__75, Immunity, Protection);
-                A4.SourceDamage = call__76 * FCombatInfo.RepeatCount;
+                var hitPoints = A2.GetHitPoints();
+                var resistance = A2.GetResistance();
+                var statisticsToLimitedDV = StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, hitPoints, Defense, resistance, Immunity, Protection);
+                A4.SourceDamage = statisticsToLimitedDV * FCombatInfo.RepeatCount;
                 if (FCombatInfo.Radius > 1)
                 {
                     A4.SourceDamage = (int)(((uint)(A4.SourceDamage * FCombatInfo.Radius)) >> 1);
                 }
 
-                var call__77 = StatisticsToMaxDamage(Damage, DamageTypes, Protection, Immunity);
-                A4.SourceCost = call__77 * FCombatInfo.RepeatCount;
+                var statisticsToMaxDamage = StatisticsToMaxDamage(Damage, DamageTypes, Protection, Immunity);
+                A4.SourceCost = statisticsToMaxDamage * FCombatInfo.RepeatCount;
                 A4.TargetDamage = 0;
                 A4.TargetCost = 0;
                 if (A4.SourceDamage != 0 && FCombatInfo.Radius > 1)
@@ -681,39 +591,13 @@ namespace Aow.Units.CombatSpells
                         }
                     }
 
+                    for (int I = Combat.FSides[(int)A2.GetSide()].GetCount() - 1; I >= 0; I--)
                     {
-                        I = Combat.FSides[(int)A2.GetSide()].GetCount() - 1;
-                        byte end__78 = 0;
-                        for (; I >= end__78; I -= 1)
+                        var side = A2.GetSide();
+                        Other = Combat.FSides[(int)side].GetObjects(I);
+                        if (A2 != Other && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)A2.FPosition) >> 4) && Other.fcRoundDistance() <= Distance && DamageTypes - Other.GetImmunityTypes() != TSet<TDamageType>.Of())
                         {
-                            var call__79 = A2.GetSide();
-                            var call__80 = Combat.FSides[(int)call__79].GetObjects(I);
-                            Other = call__80;
-                            bool bool__81 = A2 != Other;
-                            if (bool__81)
-                            {
-                                var call__82 = Other.GetEnabled();
-                                bool__81 = call__82;
-                            }
-
-                            bool bool__83 = bool__81 && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)A2.FPosition) >> 4);
-                            if (bool__83)
-                            {
-                                var call__84 = Other.fcRoundDistance();
-                                bool__83 = call__84 <= Distance;
-                            }
-
-                            bool bool__85 = bool__83;
-                            if (bool__85)
-                            {
-                                var call__86 = Other.GetImmunityTypes();
-                                bool__85 = DamageTypes - call__86 != TSet<TDamageType>.Of();
-                            }
-
-                            if (bool__85)
-                            {
-                                Count += 1;
-                            }
+                            Count += 1;
                         }
                     }
 
@@ -745,8 +629,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:845
         public TSolarFlare(TECustomNode owner) : base(owner)
         {
-            var call__87 = TranslateRStr(SolarFlareRStr);
-            FSpellName = call__87;
+            FSpellName = TranslateRStr(SolarFlareRStr);
             FSpellID = 100;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -768,22 +651,18 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:867
         public override void Execute(TCombat A1)
         {
-            TCombatObject Source = default;
-            TCombatUnit Target = default;
-            TUnitEnchantmentAbilityData Data = default;
+            TCombatObject Source;
+            TCombatUnit Target;
+            TUnitEnchantmentAbilityData Data;
             base.Execute(A1);
             if (FDamage != 0)
             {
-                var call__89 = A1.FCombatData.FindID(FSourceID);
-                Source = call__89;
-                var call__90 = A1.FCombatData.FindID(FTargetID);
-                Target = (TCombatUnit)call__90;
+                Source = A1.FCombatData.FindID(FSourceID);
+                Target = (TCombatUnit)A1.FCombatData.FindID(FTargetID);
                 if (!Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
                 {
-                    var call__91 = AoWHSSet.FAbilityControl.GetAbility(34);
-                    call__91.Expand(Target.FUnit);
-                    var call__92 = Target.FUnit.GetAbilityData(34);
-                    Data = (TUnitEnchantmentAbilityData)call__92;
+                    AoWHSSet.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
+                    Data = (TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(34);
                     if (Data != null)
                     {
                         Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
@@ -801,8 +680,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:888
         public TTurnUndead(TECustomNode owner) : base(owner)
         {
-            var call__93 = TranslateRStr(TurnUndeadRStr);
-            FSpellName = call__93;
+            FSpellName = TranslateRStr(TurnUndeadRStr);
             FSpellID = 101;
             FDamageMode = 1;
             ref var spellCombatInfo = ref FCombatInfo;
@@ -816,8 +694,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:905
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TTurnUndeadSpellCA Action = default;
+            TTurnUndeadSpellCA Action;
             Action = new TTurnUndeadSpellCA(null);
             Action.FSpellID = FSpellID;
             Action.FSourceID = A1.FID;
@@ -827,61 +704,32 @@ namespace Aow.Units.CombatSpells
                 Action.FManaCost = FBaseManaCost;
             }
 
-            bool bool__95 = A2 is TCombatUnit;
-            if (bool__95)
+            bool condition = A2 is TCombatUnit;
+            if (condition)
             {
-                var call__96 = ((TCombatUnit)A2).FUnit.GetUnitType();
-                bool__95 = TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(call__96);
+                var unitType = ((TCombatUnit)A2).FUnit.GetUnitType();
+                condition = TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(unitType);
             }
 
-            bool bool__97 = bool__95;
-            if (bool__97)
-            {
-                var call__98 = ((TCombatUnit)A2).FUnit.GetRace();
-                bool bool__99 = call__98 == 11;
-                if (!bool__99)
-                {
-                    var call__100 = ((TCombatUnit)A2).FUnit.GetAbilityEnabled(129);
-                    bool__99 = call__100;
-                }
-
-                bool__97 = bool__99;
-            }
-
-            if (bool__97)
+            if (condition && (((TCombatUnit)A2).FUnit.GetRace() == 11 || ((TCombatUnit)A2).FUnit.GetAbilityEnabled(129)))
             {
                 Action.GenerateEx(A1, A2, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, FDamageMode);
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:922
         public override void fcGetDamageValueEx(TCombatObject A1, TCombatObject A2, TWallSituation A3, ref TAbilityDamageValues A4)
         {
-            bool bool__101 = A2 is TCombatUnit;
-            if (bool__101)
+            bool condition = A2 is TCombatUnit;
+            if (condition)
             {
-                var call__102 = ((TCombatUnit)A2).FUnit.GetUnitType();
-                bool__101 = TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(call__102);
+                var unitType = ((TCombatUnit)A2).FUnit.GetUnitType();
+                condition = TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(unitType);
             }
 
-            bool bool__103 = bool__101;
-            if (bool__103)
-            {
-                var call__104 = ((TCombatUnit)A2).FUnit.GetRace();
-                bool bool__105 = call__104 == 11;
-                if (!bool__105)
-                {
-                    var call__106 = ((TCombatUnit)A2).FUnit.GetAbilityEnabled(129);
-                    bool__105 = call__106;
-                }
-
-                bool__103 = bool__105;
-            }
-
-            if (bool__103)
+            if (condition && (((TCombatUnit)A2).FUnit.GetRace() == 11 || ((TCombatUnit)A2).FUnit.GetAbilityEnabled(129)))
             {
                 base.fcGetDamageValueEx(A1, A2, A3, ref A4);
             }
@@ -907,47 +755,34 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:943
         public override void Execute(TCombat A1)
         {
-            int I = default;
-            TCombatObject Target = default;
+            TCombatObject Target;
             base.Execute(A1);
+            for (int I = FTargetIDs.Count - 1; I >= 0; I--)
             {
-                I = FTargetIDs.Count - 1;
-                byte end__107 = 0;
-                for (; I >= end__107; I -= 1)
-                {
-                    var call__108 = FTargetIDs[I];
-                    var call__109 = A1.FCombatData.FindID(call__108);
-                    Target = call__109;
-                    var call__110 = Target.GetHitPoints();
-                    Target.SetHitPoints((byte)(call__110 + 5));
-                    var call__111 = AoWHSSet.FAbilityControl.GetAbility(100);
-                    call__111.Expand(((TCombatUnit)Target).FUnit);
-                }
+                var targetID = FTargetIDs[I];
+                Target = A1.FCombatData.FindID(targetID);
+                Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
+                AoWHSSet.FAbilityControl.GetAbility(100).Expand(((TCombatUnit)Target).FUnit);
             }
         }
 
         // CombatSpells.pas:958
         public void Generate(TCombatObject A1)
         {
-            int I = default;
-            TCombatSide Side = default;
-            TCombatObject Target = default;
+            TCombatSide Side;
+            TCombatObject Target;
             FSpellID = 102;
             FSourceID = A1.FID;
             var combat = A1.FCombat;
-            var call__113 = A1.GetSide();
-            Side = combat.FSides[(int)call__113];
+            var side = A1.GetSide();
+            Side = combat.FSides[(int)side];
 
+            for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
-                I = Side.GetCount() - 1;
-                byte end__114 = 0;
-                for (; I >= end__114; I -= 1)
+                Target = Side.GetObjects(I);
+                if (Target is TCombatUnit && !Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
                 {
-                    Target = Side.GetObjects(I);
-                    if (Target is TCombatUnit && !Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
-                    {
-                        FTargetIDs.Add(Target.FID);
-                    }
+                    FTargetIDs.Add(Target.FID);
                 }
             }
         }
@@ -966,16 +801,13 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:982
         public override void Execute(TCombat A1)
         {
-            TCombatObject Target = default;
+            TCombatObject Target;
             base.Execute(A1);
             if (FSucceeded)
             {
-                var call__115 = A1.FCombatData.FindID(FTargetID);
-                Target = call__115;
-                var call__116 = Target.GetHitPoints();
-                Target.SetHitPoints((byte)(call__116 + 5));
-                var call__117 = AoWHSSet.FAbilityControl.GetAbility(100);
-                call__117.Expand(((TCombatUnit)Target).FUnit);
+                Target = A1.FCombatData.FindID(FTargetID);
+                Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
+                AoWHSSet.FAbilityControl.GetAbility(100).Expand(((TCombatUnit)Target).FUnit);
             }
         }
 
@@ -988,8 +820,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:996
         public THighPrayer(TECustomNode owner) : base(owner)
         {
-            var call__118 = TranslateRStr(HighPrayerRStr);
-            FSpellName = call__118;
+            FSpellName = TranslateRStr(HighPrayerRStr);
             FSpellID = 102;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1003,8 +834,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1013
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TTacticalCombatHighPrayerCA Action = default;
+            TTacticalCombatHighPrayerCA Action;
             Action = new TTacticalCombatHighPrayerCA(null);
             Action.FSucceeded = true;
             Action.FSourceID = A1.FID;
@@ -1015,18 +845,15 @@ namespace Aow.Units.CombatSpells
                 Action.FManaCost = FBaseManaCost;
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:1104
         public override void tcGetDamageValueEx(TCombatObject A1, TCombatObject A2, ref TAbilityDamageValues A3)
         {
-            int Healing = default;
-            int Value = default;
-            var call__120 = A2.GetHits();
-            var call__121 = A2.GetHitPoints();
-            Healing = call__120 - call__121;
+            int Healing;
+            int Value;
+            Healing = A2.GetHits() - A2.GetHitPoints();
             if (Healing > 5)
             {
                 Healing = 5;
@@ -1054,27 +881,19 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1026
         public override void fcPrefetchCombatCommands(TFastCombatCommandList A1)
         {
-            int I = default;
-            TCombatSide Side = default;
-            TCombatObject Target = default;
-            int Value = default;
-            TSpellCC Command = default;
+            TCombatSide Side;
+            TCombatObject Target;
+            int Value;
+            TSpellCC Command;
             Value = 0;
-            var call__122 = A1.FSource.GetSide();
-            Side = A1.FCombat.FSides[(int)call__122];
+            var side = A1.FSource.GetSide();
+            Side = A1.FCombat.FSides[(int)side];
+            for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
-                I = Side.GetCount() - 1;
-                byte end__123 = 0;
-                for (; I >= end__123; I -= 1)
+                Target = Side.GetObjects(I);
+                if (Target.FCombatValue != 0 && Target is TCombatUnit)
                 {
-                    Target = Side.GetObjects(I);
-                    if (Target.FCombatValue != 0 && Target is TCombatUnit)
-                    {
-                        var call__124 = Target.GetHits();
-                        var call__125 = Target.GetHitPoints();
-                        var call__126 = DVtoDEV((call__124 - call__125) * 100, 0, A1.FSource, Target);
-                        Value += call__126;
-                    }
+                    Value += DVtoDEV((Target.GetHits() - Target.GetHitPoints()) * 100, 0, A1.FSource, Target);
                 }
             }
 
@@ -1092,47 +911,37 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1054
         public override bool fcExecuteCombatCommand(TCombatObject A1, TFastCombatCommand A2)
         {
-            bool Result = default;
-            TFastCombatHighPrayerCA Action = default;
+            TFastCombatHighPrayerCA Action;
             Action = new TFastCombatHighPrayerCA(null);
             Action.Generate(A1);
-            var call__127 = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
-            Action.FManaCost = call__127;
+            Action.FManaCost = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
             A1.FCombat.ExecuteCombatAction(Action);
             Action.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // CombatSpells.pas:1067
         public override void fcGetDamageValueEx(TCombatObject A1, TCombatObject A2, TWallSituation A3, ref TAbilityDamageValues A4)
         {
-            int I = default;
-            int Value = default;
-            int Healing = default;
-            TCombatSide Side = default;
-            TCombatObject Target = default;
+            int Value;
+            int Healing;
+            TCombatSide Side;
+            TCombatObject Target;
             Value = 0;
-            var call__128 = A1.GetSide();
-            Side = A1.FCombat.FSides[(int)call__128];
+            var side = A1.GetSide();
+            Side = A1.FCombat.FSides[(int)side];
+            for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
-                I = Side.GetCount() - 1;
-                byte end__129 = 0;
-                for (; I >= end__129; I -= 1)
+                Target = Side.GetObjects(I);
+                if (Target.FCombatValue != 0 && Target is TCombatUnit)
                 {
-                    Target = Side.GetObjects(I);
-                    if (Target.FCombatValue != 0 && Target is TCombatUnit)
+                    Healing = Target.GetHits() - Target.GetHitPoints();
+                    if (Healing > 5)
                     {
-                        var call__130 = Target.GetHits();
-                        var call__131 = Target.GetHitPoints();
-                        Healing = call__130 - call__131;
-                        if (Healing > 5)
-                        {
-                            Healing = 5;
-                        }
-
-                        Value += Healing * 100;
+                        Healing = 5;
                     }
+
+                    Value += Healing * 100;
                 }
             }
 
@@ -1161,8 +970,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1130
         public TDeathRay(TECustomNode owner) : base(owner)
         {
-            var call__132 = TranslateRStr(DeathRayRStr);
-            FSpellName = call__132;
+            FSpellName = TranslateRStr(DeathRayRStr);
             FSpellID = 103;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1179,8 +987,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1146
         public TDiseaseCloud(TECustomNode owner) : base(owner)
         {
-            var call__134 = TranslateRStr(DiseaseCloudRStr);
-            FSpellName = call__134;
+            FSpellName = TranslateRStr(DiseaseCloudRStr);
             FSpellID = 104;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1202,41 +1009,25 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1168
         public override void Execute(TCombat A1)
         {
-            TCombatObject Source = default;
-            TCombatUnit Target = default;
-            int I = default;
+            TCombatObject Source;
+            TCombatUnit Target;
             base.Execute(A1);
             if (FSucceeded)
             {
-                var call__136 = A1.FCombatData.FindID(FSourceID);
-                Source = call__136;
-                var call__137 = A1.FCombatData.FindID(FTargetID);
-                Target = (TCombatUnit)call__137;
-                var call__138 = Source.GetExperience();
-                var call__139 = Target.GetLevel();
-                Source.SetExperience(call__138 + call__139);
+                Source = A1.FCombatData.FindID(FSourceID);
+                Target = (TCombatUnit)A1.FCombatData.FindID(FTargetID);
+                Source.SetExperience(Source.GetExperience() + Target.GetLevel());
+                for (int I = 0; I <= 2; I++)
                 {
-                    I = 0;
-                    byte end__140 = 2;
-                    for (; I <= end__140; I += 1)
-                    {
-                        var call__141 = AoWHSSet.FAbilityControl.GetAbility(CommandAbilityIDs[I]);
-                        ((TCommandAbility)call__141).ResetCommandedUnits(Target);
-                    }
+                    ((TCommandAbility)AoWHSSet.FAbilityControl.GetAbility(CommandAbilityIDs[I])).ResetCommandedUnits(Target);
                 }
 
+                for (int I = 0; I <= 2; I++)
                 {
-                    I = 0;
-                    byte end__142 = 2;
-                    for (; I <= end__142; I += 1)
-                    {
-                        var call__143 = AoWHSSet.FAbilityControl.GetAbility(CommandAbilityIDs[I]);
-                        ((TCommandAbility)call__143).Uncommand(Target);
-                    }
+                    ((TCommandAbility)AoWHSSet.FAbilityControl.GetAbility(CommandAbilityIDs[I])).Uncommand(Target);
                 }
 
-                var call__144 = AoWHSSet.FAbilityControl.GetAbility(131);
-                call__144.Expand(Target.FUnit);
+                AoWHSSet.FAbilityControl.GetAbility(131).Expand(Target.FUnit);
                 Target.SetCombatPlayer((byte)Source.FCombatPlayer);
             }
         }
@@ -1250,8 +1041,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1190
         public TMindDecay(TECustomNode owner) : base(owner)
         {
-            var call__145 = TranslateRStr(MindDecayRStr);
-            FSpellName = call__145;
+            FSpellName = TranslateRStr(MindDecayRStr);
             FSpellID = 106;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
@@ -1265,8 +1055,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1207
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TMindDecayCA Action = default;
+            TMindDecayCA Action;
             Action = new TMindDecayCA(null);
             Action.FSourceID = A1.FID;
             Action.FTargetID = A2.FID;
@@ -1276,36 +1065,13 @@ namespace Aow.Units.CombatSpells
                 Action.FManaCost = FBaseManaCost;
             }
 
-            bool bool__147 = A2 is TCombatUnit;
-            if (bool__147)
+            if (A2 is TCombatUnit && ((TCombatUnit)A2).FUnit.GetUnitType() != TUnitType.utMachine && ((TCombatUnit)A2).FUnit.GetRace() != 11 && !((TCombatUnit)A2).FUnit.GetAbilityEnabled(129) && !(((TCombatUnit)A2).FUnit is TLeader))
             {
-                var call__148 = ((TCombatUnit)A2).FUnit.GetUnitType();
-                bool__147 = call__148 != TUnitType.utMachine;
+                var resistance = A2.GetResistance();
+                Action.FSucceeded = HitRole(FCombatInfo.Attack - resistance);
             }
 
-            bool bool__149 = bool__147;
-            if (bool__149)
-            {
-                var call__150 = ((TCombatUnit)A2).FUnit.GetRace();
-                bool__149 = call__150 != 11;
-            }
-
-            bool bool__151 = bool__149;
-            if (bool__151)
-            {
-                var call__152 = ((TCombatUnit)A2).FUnit.GetAbilityEnabled(129);
-                bool__151 = !call__152;
-            }
-
-            if (bool__151 && !(((TCombatUnit)A2).FUnit is TLeader))
-            {
-                var call__153 = A2.GetResistance();
-                var call__154 = HitRole(FCombatInfo.Attack - call__153);
-                Action.FSucceeded = call__154;
-            }
-
-            Result = Action;
-            return Result;
+            return Action;
         }
     }
 
@@ -1315,8 +1081,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1224
         public TChainLightning(TECustomNode owner) : base(owner)
         {
-            var call__155 = TranslateRStr(ChainLightningRStr);
-            FSpellName = call__155;
+            FSpellName = TranslateRStr(ChainLightningRStr);
             FSpellID = 107;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1334,8 +1099,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1241
         public TColdBreath(TECustomNode owner) : base(owner)
         {
-            var call__157 = TranslateRStr(ColdBreathRStr);
-            FSpellName = call__157;
+            FSpellName = TranslateRStr(ColdBreathRStr);
             FSpellID = 108;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1357,24 +1121,19 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1263
         public override void Execute(TCombat A1)
         {
-            TCombatUnit Target = default;
-            TCombatObject Source = default;
-            TUnitEnchantment Enchantment = default;
+            TCombatUnit Target;
+            TCombatObject Source;
+            TUnitEnchantment Enchantment;
             base.Execute(A1);
             if (FSucceeded)
             {
-                var call__159 = A1.FCombatData.FindID(FTargetID);
-                Target = (TCombatUnit)call__159;
-                var call__160 = A1.FCombatData.FindID(FSourceID);
-                Source = call__160;
-                var call__161 = Target.FUnit.ExpandAbility(132);
-                if (call__161)
+                Target = (TCombatUnit)A1.FCombatData.FindID(FTargetID);
+                Source = A1.FCombatData.FindID(FSourceID);
+                if (Target.FUnit.ExpandAbility(132))
                 {
-                    var call__162 = Target.FUnit.GetAbilityData(132);
-                    Enchantment = ((TUnitEnchantmentAbilityData)call__162).FEnchantment;
+                    Enchantment = ((TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(132)).FEnchantment;
                     Enchantment.SetUpkeep(0);
-                    var call__163 = Source.GetPlayer();
-                    Enchantment.SetSource(call__163);
+                    Enchantment.SetSource(Source.GetPlayer());
                 }
             }
         }
@@ -1388,8 +1147,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1284
         public TSlow(TECustomNode owner) : base(owner)
         {
-            var call__164 = TranslateRStr(SlowRStr);
-            FSpellName = call__164;
+            FSpellName = TranslateRStr(SlowRStr);
             FSpellID = 110;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1402,8 +1160,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1313
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TSlowCA Action = default;
+            TSlowCA Action;
             Action = new TSlowCA(null);
             Action.FSourceID = A1.FID;
             Action.FTargetID = A2.FID;
@@ -1415,13 +1172,11 @@ namespace Aow.Units.CombatSpells
 
             if (!A2.GetAbilityEnabled(132))
             {
-                var call__166 = A2.GetResistance();
-                var call__167 = HitRole(FCombatInfo.Attack - call__166);
-                Action.FSucceeded = call__167;
+                var resistance = A2.GetResistance();
+                Action.FSucceeded = HitRole(FCombatInfo.Attack - resistance);
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:1300
@@ -1447,20 +1202,16 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1334
         public override void Execute(TCombat A1)
         {
-            TCombatObject Source = default;
-            TCombatUnit Target = default;
-            TUnitEnchantmentAbilityData Data = default;
+            TCombatObject Source;
+            TCombatUnit Target;
+            TUnitEnchantmentAbilityData Data;
             base.Execute(A1);
             if (FSucceeded)
             {
-                var call__169 = A1.FCombatData.FindID(FSourceID);
-                Source = call__169;
-                var call__170 = A1.FCombatData.FindID(FTargetID);
-                Target = (TCombatUnit)call__170;
-                var call__171 = AoWHSSet.FAbilityControl.GetAbility(94);
-                call__171.Expand(Target.FUnit);
-                var call__172 = Target.FUnit.GetAbilityData(94);
-                Data = (TUnitEnchantmentAbilityData)call__172;
+                Source = A1.FCombatData.FindID(FSourceID);
+                Target = (TCombatUnit)A1.FCombatData.FindID(FTargetID);
+                AoWHSSet.FAbilityControl.GetAbility(94).Expand(Target.FUnit);
+                Data = (TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(94);
                 if (Data != null)
                 {
                     Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
@@ -1477,8 +1228,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1352
         public TEntangle(TECustomNode owner) : base(owner)
         {
-            var call__173 = TranslateRStr(EntangleRStr);
-            FSpellName = call__173;
+            FSpellName = TranslateRStr(EntangleRStr);
             FSpellID = 111;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 7;
@@ -1491,8 +1241,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1368
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TEntangleSpellCA Action = default;
+            TEntangleSpellCA Action;
             Action = new TEntangleSpellCA(null);
             Action.FSourceID = A1.FID;
             Action.FTargetID = A2.FID;
@@ -1502,44 +1251,26 @@ namespace Aow.Units.CombatSpells
                 Action.FManaCost = FBaseManaCost;
             }
 
-            var call__175 = A2.GetAbilityEnabled(1);
-            bool bool__176 = !call__175;
-            if (bool__176)
+            if (!A2.GetAbilityEnabled(1) && !A2.GetAbilityEnabled(94))
             {
-                var call__177 = A2.GetAbilityEnabled(94);
-                bool__176 = !call__177;
+                var resistance = A2.GetResistance();
+                Action.FSucceeded = HitRole(FCombatInfo.Attack - resistance);
             }
 
-            if (bool__176)
-            {
-                var call__178 = A2.GetResistance();
-                var call__179 = HitRole(FCombatInfo.Attack - call__178);
-                Action.FSucceeded = call__179;
-            }
-
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:1383
         public override void GetCombatDamageValueEx(TCombatObject A1, TCombatObject A2, ref TAbilityDamageValues A3)
         {
-            var call__180 = A2.GetAbilityEnabled(1);
-            bool bool__181 = !call__180;
-            if (bool__181)
+            if (!A2.GetAbilityEnabled(1) && !A2.GetAbilityEnabled(94))
             {
-                var call__182 = A2.GetAbilityEnabled(94);
-                bool__181 = !call__182;
-            }
-
-            if (bool__181)
-            {
-                var call__183 = A2.GetResistance();
-                var call__184 = HitRoleProbability(FCombatInfo.Attack - call__183);
-                var call__185 = A2.GetHitPoints();
-                A3.SourceDamage = Round((double)(call__185 * 100) * call__184);
-                var call__186 = A2.GetHitPoints();
-                A3.SourceCost = call__186;
+                var resistance = A2.GetResistance();
+                var hitRoleProbability = HitRoleProbability(FCombatInfo.Attack - resistance);
+                var hitPoints = A2.GetHitPoints();
+                A3.SourceDamage = Round((double)(hitPoints * 100) * hitRoleProbability);
+                var a2HitPoints = A2.GetHitPoints();
+                A3.SourceCost = a2HitPoints;
                 A3.TargetDamage = 0;
                 A3.TargetCost = 0;
                 A3.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtNone);
@@ -1580,8 +1311,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1421
         public TCallFlames(TECustomNode owner) : base(owner)
         {
-            var call__188 = TranslateRStr(CallFlamesRStr);
-            FSpellName = call__188;
+            FSpellName = TranslateRStr(CallFlamesRStr);
             FSpellID = 113;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1599,8 +1329,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1438
         public TFireBreath(TECustomNode owner) : base(owner)
         {
-            var call__190 = TranslateRStr(FireBreathRStr);
-            FSpellName = call__190;
+            FSpellName = TranslateRStr(FireBreathRStr);
             FSpellID = 114;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1618,8 +1347,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1455
         public TSwarm(TECustomNode owner) : base(owner)
         {
-            var call__192 = TranslateRStr(SwarmRStr);
-            FSpellName = call__192;
+            FSpellName = TranslateRStr(SwarmRStr);
             FSpellID = 115;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1637,8 +1365,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1472
         public TGreatHail(TECustomNode owner) : base(owner)
         {
-            var call__194 = TranslateRStr(GreatHailRStr);
-            FSpellName = call__194;
+            FSpellName = TranslateRStr(GreatHailRStr);
             FSpellID = 116;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
@@ -1656,8 +1383,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1489
         public TFireBall(TECustomNode owner) : base(owner)
         {
-            var call__196 = TranslateRStr(FireBallRStr);
-            FSpellName = call__196;
+            FSpellName = TranslateRStr(FireBallRStr);
             FSpellID = 117;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1674,8 +1400,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1505
         public TGeyser(TECustomNode owner) : base(owner)
         {
-            var call__198 = TranslateRStr(GeyserRStr);
-            FSpellName = call__198;
+            FSpellName = TranslateRStr(GeyserRStr);
             FSpellID = 118;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1689,19 +1414,10 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1522
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TCombatSpellCA Action = default;
+            TCombatSpellCA Action;
             Action = new TCombatSpellCA(null);
             Action.FSpellID = FSpellID;
-            var call__200 = A2.GetAbilityEnabled(1);
-            bool bool__201 = call__200;
-            if (!bool__201)
-            {
-                var call__202 = A2.GetAbilityEnabled(59);
-                bool__201 = call__202;
-            }
-
-            if (bool__201)
+            if (A2.GetAbilityEnabled(1) || A2.GetAbilityEnabled(59))
             {
                 Action.Generate(A1, A2, FCombatInfo.Attack, (sbyte)(FCombatInfo.Damage / 2), FCombatInfo.DamageTypes);
             }
@@ -1712,12 +1428,10 @@ namespace Aow.Units.CombatSpells
 
             if (A3)
             {
-                var call__203 = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
-                Action.FManaCost = call__203;
+                Action.FManaCost = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
     }
 
@@ -1727,8 +1441,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1537
         public TIceShards(TECustomNode owner) : base(owner)
         {
-            var call__204 = TranslateRStr(IceShardsRStr);
-            FSpellName = call__204;
+            FSpellName = TranslateRStr(IceShardsRStr);
             FSpellID = 119;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1745,8 +1458,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1553
         public TFrostBeams(TECustomNode owner) : base(owner)
         {
-            var call__206 = TranslateRStr(FrostBeamsRStr);
-            FSpellName = call__206;
+            FSpellName = TranslateRStr(FrostBeamsRStr);
             FSpellID = 120;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1764,8 +1476,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1570
         public TVaporize(TECustomNode owner) : base(owner)
         {
-            var call__208 = TranslateRStr(VaporizeRStr);
-            FSpellName = call__208;
+            FSpellName = TranslateRStr(VaporizeRStr);
             FSpellID = 121;
             FDamageMode = 1;
             ref var spellCombatInfo = ref FCombatInfo;
@@ -1783,8 +1494,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1603
         public TFlamingArrow(TECustomNode owner) : base(owner)
         {
-            var call__210 = TranslateRStr(FlamingArrowRStr);
-            FSpellName = call__210;
+            FSpellName = TranslateRStr(FlamingArrowRStr);
             FSpellID = 123;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1801,8 +1511,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1587
         public TStoning(TECustomNode owner) : base(owner)
         {
-            var call__212 = TranslateRStr(StoningRStr);
-            FSpellName = call__212;
+            FSpellName = TranslateRStr(StoningRStr);
             FSpellID = 122;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
@@ -1819,8 +1528,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1619
         public TOoze(TECustomNode owner) : base(owner)
         {
-            var call__214 = TranslateRStr(OozeRStr);
-            FSpellName = call__214;
+            FSpellName = TranslateRStr(OozeRStr);
             FSpellID = 124;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
@@ -1833,14 +1541,12 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1635
         public override void GetCombatDamageValueEx(TCombatObject A1, TCombatObject A2, ref TAbilityDamageValues A3)
         {
-            TSet<TDamageType> Protection = default;
-            TSet<TDamageType> Immunity = default;
-            Protection = A2.GetProtectionTypes();
-            Immunity = A2.GetImmunityTypes();
+            A2.GetProtectionTypes();
+            A2.GetImmunityTypes();
             A3.DamageTypes = FCombatInfo.DamageTypes;
-            var call__216 = A2.GetResistance();
-            var call__217 = HitRoleProbability(FCombatInfo.Attack - call__216);
-            A3.SourceDamage = Round((double)call__217 * 200);
+            var resistance = A2.GetResistance();
+            var hitRoleProbability = HitRoleProbability(FCombatInfo.Attack - resistance);
+            A3.SourceDamage = Round((double)hitRoleProbability * 200);
             A3.SourceCost = 200;
             A3.TargetDamage = 0;
             A3.TargetCost = 0;
@@ -1853,8 +1559,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1649
         public TSacredWrath(TECustomNode owner) : base(owner)
         {
-            var call__218 = TranslateRStr(SacredWrathRStr);
-            FSpellName = call__218;
+            FSpellName = TranslateRStr(SacredWrathRStr);
             FSpellID = 125;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1877,81 +1582,33 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1672
         public override void Execute(TCombat A1)
         {
-            int I = default;
-            TCombatUnit Target = default;
+            TCombatUnit Target;
             base.Execute(A1);
+            for (int I = FTargetIDs.Count - 1; I >= 0; I--)
             {
-                I = FTargetIDs.Count - 1;
-                byte end__220 = 0;
-                for (; I >= end__220; I -= 1)
-                {
-                    var call__221 = FTargetIDs[I];
-                    var call__222 = A1.FCombatData.FindID(call__221);
-                    Target = (TCombatUnit)call__222;
-                    var call__223 = AoWHSSet.FAbilityControl.GetAbility(108);
-                    call__223.Expand(Target.FUnit);
-                }
+                var targetID = FTargetIDs[I];
+                Target = (TCombatUnit)A1.FCombatData.FindID(targetID);
+                AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
             }
         }
 
         // CombatSpells.pas:1686
         public void Generate(TCombatObject A1)
         {
-            int I = default;
-            TCombatSide Side = default;
-            TCombatObject Target = default;
+            TCombatSide Side;
+            TCombatObject Target;
             FSpellID = 105;
             FSourceID = A1.FID;
             var combat = A1.FCombat;
-            var call__225 = A1.GetOpponentSide();
-            Side = combat.FSides[(int)call__225];
+            var opponentSide = A1.GetOpponentSide();
+            Side = combat.FSides[(int)opponentSide];
 
+            for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
-                I = Side.GetCount() - 1;
-                byte end__226 = 0;
-                for (; I >= end__226; I -= 1)
+                Target = Side.GetObjects(I);
+                if (!Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed) && !Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is TCombatUnit && !Target.GetImmunityTypes().Contains(TDamageType.dtDeath) && ((TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine && HitRole(6 - Target.GetResistance()))
                 {
-                    Target = Side.GetObjects(I);
-                    bool bool__227 = !Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed);
-                    if (bool__227)
-                    {
-                        var call__228 = Target.GetAbilityEnabled(108);
-                        bool__227 = !call__228;
-                    }
-
-                    bool bool__229 = bool__227;
-                    if (bool__229)
-                    {
-                        var call__230 = Target.GetAbilityEnabled(67);
-                        bool__229 = !call__230;
-                    }
-
-                    bool bool__231 = bool__229 && Target is TCombatUnit;
-                    if (bool__231)
-                    {
-                        var call__232 = Target.GetImmunityTypes();
-                        bool__231 = !call__232.Contains(TDamageType.dtDeath);
-                    }
-
-                    bool bool__233 = bool__231;
-                    if (bool__233)
-                    {
-                        var call__234 = ((TCombatUnit)Target).FUnit.GetUnitType();
-                        bool__233 = call__234 != TUnitType.utMachine;
-                    }
-
-                    bool bool__235 = bool__233;
-                    if (bool__235)
-                    {
-                        var call__236 = Target.GetResistance();
-                        var call__237 = HitRole(6 - call__236);
-                        bool__235 = call__237;
-                    }
-
-                    if (bool__235)
-                    {
-                        FTargetIDs.Add(Target.FID);
-                    }
+                    FTargetIDs.Add(Target.FID);
                 }
             }
         }
@@ -1985,32 +1642,26 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1723
         public override void Execute(TCombat A1)
         {
-            TCombatUnit Target = default;
-            TCombatUnit Source = default;
+            TCombatUnit Target;
+            TCombatUnit Source;
             if (FSucceeded)
             {
-                var call__238 = A1.FCombatData.FindID(FTargetID);
-                Target = (TCombatUnit)call__238;
-                var call__239 = AoWHSSet.FAbilityControl.GetAbility(108);
-                call__239.Expand(Target.FUnit);
+                Target = (TCombatUnit)A1.FCombatData.FindID(FTargetID);
+                AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
             }
 
             if (FManaCost != 0 && A1.FStatus.Contains(TCombatStatusElement.cExecuting))
             {
-                var call__240 = A1.FCombatData.FindID(FSourceID);
-                Source = (TCombatUnit)call__240;
-                var call__241 = AoWHSSet.FSpellControl.GetSpell(105);
-                call__241.CastingDone(Source.FUnit, FManaCost);
+                Source = (TCombatUnit)A1.FCombatData.FindID(FSourceID);
+                AoWHSSet.FSpellControl.GetSpell(105).CastingDone(Source.FUnit, FManaCost);
             }
         }
 
         // CombatSpells.pas:1740
         public override bool Play(TCombatViewer A1)
         {
-            bool Result = default;
             Execute(A1.FCombat);
-            Result = false;
-            return Result;
+            return false;
         }
 
         // CombatSpells.pas:1747
@@ -2019,33 +1670,9 @@ namespace Aow.Units.CombatSpells
             FSucceeded = false;
             FSourceID = A1.FID;
             FTargetID = A2.FID;
-            var call__242 = A2.GetAbilityEnabled(108);
-            bool bool__243 = !call__242;
-            if (bool__243)
+            if (!A2.GetAbilityEnabled(108) && !A2.GetAbilityEnabled(67) && A2 is TCombatUnit && !A2.GetImmunityTypes().Contains(TDamageType.dtDeath) && ((TCombatUnit)A2).FUnit.GetUnitType() != TUnitType.utMachine)
             {
-                var call__244 = A2.GetAbilityEnabled(67);
-                bool__243 = !call__244;
-            }
-
-            bool bool__245 = bool__243 && A2 is TCombatUnit;
-            if (bool__245)
-            {
-                var call__246 = A2.GetImmunityTypes();
-                bool__245 = !call__246.Contains(TDamageType.dtDeath);
-            }
-
-            bool bool__247 = bool__245;
-            if (bool__247)
-            {
-                var call__248 = ((TCombatUnit)A2).FUnit.GetUnitType();
-                bool__247 = call__248 != TUnitType.utMachine;
-            }
-
-            if (bool__247)
-            {
-                var call__249 = A2.GetResistance();
-                var call__250 = HitRole(6 - call__249);
-                FSucceeded = call__250;
+                FSucceeded = HitRole(6 - A2.GetResistance());
             }
         }
 
@@ -2058,8 +1685,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1759
         public TTerror(TECustomNode owner) : base(owner)
         {
-            var call__251 = TranslateRStr(TerrorRStr);
-            FSpellName = call__251;
+            FSpellName = TranslateRStr(TerrorRStr);
             FSpellID = 105;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -2072,37 +1698,24 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1775
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TTacticalCombatTerrorCA Action = default;
+            TTacticalCombatTerrorCA Action;
             Action = new TTacticalCombatTerrorCA(null);
             Action.Generate(A1, A2);
             if (A3)
             {
-                var call__253 = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
-                Action.FManaCost = call__253;
+                Action.FManaCost = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:1862
         public override void tcGetDamageValueEx(TCombatObject A1, TCombatObject A2, ref TAbilityDamageValues A3)
         {
-            int Value = default;
-            var call__254 = A2.GetAbilityEnabled(108);
-            bool bool__255 = !call__254 && A2.FCombatValue != 0 && A2 is TCombatUnit;
-            if (bool__255)
+            int Value;
+            if (!A2.GetAbilityEnabled(108) && A2.FCombatValue != 0 && A2 is TCombatUnit && !A2.GetImmunityTypes().Contains(TDamageType.dtDeath))
             {
-                var call__256 = A2.GetImmunityTypes();
-                bool__255 = !call__256.Contains(TDamageType.dtDeath);
-            }
-
-            if (bool__255)
-            {
-                var call__257 = A2.GetResistance();
-                var call__258 = HitRoleProbability(6 - call__257);
-                Value = Round((double)call__258 * 100);
+                Value = Round((double)HitRoleProbability(6 - A2.GetResistance()) * 100);
             }
             else
             {
@@ -2130,32 +1743,19 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1786
         public override void fcPrefetchCombatCommands(TFastCombatCommandList A1)
         {
-            int I = default;
-            TCombatSide Side = default;
-            TCombatObject Target = default;
-            int Value = default;
-            TSpellCC Command = default;
+            TCombatSide Side;
+            TCombatObject Target;
+            int Value;
+            TSpellCC Command;
             Value = 0;
-            var call__259 = A1.FSource.GetOpponentSide();
-            Side = A1.FCombat.FSides[(int)call__259];
+            var opponentSide = A1.FSource.GetOpponentSide();
+            Side = A1.FCombat.FSides[(int)opponentSide];
+            for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
-                I = Side.GetCount() - 1;
-                byte end__260 = 0;
-                for (; I >= end__260; I -= 1)
+                Target = Side.GetObjects(I);
+                if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is TCombatUnit && !Target.GetImmunityTypes().Contains(TDamageType.dtDeath))
                 {
-                    Target = Side.GetObjects(I);
-                    var call__261 = Target.GetAbilityEnabled(108);
-                    bool bool__262 = !call__261 && Target.FCombatValue != 0 && Target is TCombatUnit;
-                    if (bool__262)
-                    {
-                        var call__263 = Target.GetImmunityTypes();
-                        bool__262 = !call__263.Contains(TDamageType.dtDeath);
-                    }
-
-                    if (bool__262)
-                    {
-                        Value += Target.GetTargetPriority();
-                    }
+                    Value += Target.GetTargetPriority();
                 }
             }
 
@@ -2173,48 +1773,30 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1815
         public override bool fcExecuteCombatCommand(TCombatObject A1, TFastCombatCommand A2)
         {
-            bool Result = default;
-            TFastCombatTerrorCA Action = default;
+            TFastCombatTerrorCA Action;
             Action = new TFastCombatTerrorCA(null);
             Action.Generate(A1);
-            var call__264 = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
-            Action.FManaCost = call__264;
+            Action.FManaCost = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
             A1.FCombat.ExecuteCombatAction(Action);
             Action.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // CombatSpells.pas:1828
         public override void fcGetDamageValueEx(TCombatObject A1, TCombatObject A2, TWallSituation A3, ref TAbilityDamageValues A4)
         {
-            int I = default;
-            int Value = default;
-            TCombatSide Side = default;
-            TCombatObject Target = default;
+            int Value;
+            TCombatSide Side;
+            TCombatObject Target;
             Value = 0;
-            var call__265 = A1.GetOpponentSide();
-            Side = A1.FCombat.FSides[(int)call__265];
+            var opponentSide = A1.GetOpponentSide();
+            Side = A1.FCombat.FSides[(int)opponentSide];
+            for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
-                I = Side.GetCount() - 1;
-                byte end__266 = 0;
-                for (; I >= end__266; I -= 1)
+                Target = Side.GetObjects(I);
+                if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is TCombatUnit && !Target.GetImmunityTypes().Contains(TDamageType.dtDeath))
                 {
-                    Target = Side.GetObjects(I);
-                    var call__267 = Target.GetAbilityEnabled(108);
-                    bool bool__268 = !call__267 && Target.FCombatValue != 0 && Target is TCombatUnit;
-                    if (bool__268)
-                    {
-                        var call__269 = Target.GetImmunityTypes();
-                        bool__268 = !call__269.Contains(TDamageType.dtDeath);
-                    }
-
-                    if (bool__268)
-                    {
-                        var call__270 = Target.GetResistance();
-                        var call__271 = HitRoleProbability(6 - call__270);
-                        Value += Round((double)call__271 * 100);
-                    }
+                    Value += Round((double)HitRoleProbability(6 - Target.GetResistance()) * 100);
                 }
             }
 
@@ -2243,8 +1825,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1889
         public TWindsOfFury(TECustomNode owner) : base(owner)
         {
-            var call__272 = TranslateRStr(WindsOfFuryRStr);
-            FSpellName = call__272;
+            FSpellName = TranslateRStr(WindsOfFuryRStr);
             FSpellID = 126;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -2257,19 +1838,10 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1904
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TCombatSpellCA Action = default;
+            TCombatSpellCA Action;
             Action = new TCombatSpellCA(null);
             Action.FSpellID = FSpellID;
-            var call__274 = A2.GetAbilityEnabled(1);
-            bool bool__275 = call__274;
-            if (!bool__275)
-            {
-                var call__276 = A2.GetAbilityEnabled(59);
-                bool__275 = call__276;
-            }
-
-            if (bool__275)
+            if (A2.GetAbilityEnabled(1) || A2.GetAbilityEnabled(59))
             {
                 Action.Generate(A1, A2, (sbyte)(FCombatInfo.Attack + 2), FCombatInfo.Damage, FCombatInfo.DamageTypes);
             }
@@ -2280,12 +1852,10 @@ namespace Aow.Units.CombatSpells
 
             if (A3)
             {
-                var call__277 = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
-                Action.FManaCost = call__277;
+                Action.FManaCost = ((THero)((TCombatUnit)A1).FUnit).CastingMana(this);
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
     }
 
@@ -2295,8 +1865,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1919
         public TShockwave(TECustomNode owner) : base(owner)
         {
-            var call__278 = TranslateRStr(ShockwaveRStr);
-            FSpellName = call__278;
+            FSpellName = TranslateRStr(ShockwaveRStr);
             FSpellID = 127;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -2313,8 +1882,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1934
         public TSacrificialFlame(TECustomNode owner) : base(owner)
         {
-            var call__280 = TranslateRStr(SacrificialFlameRStr);
-            FSpellName = call__280;
+            FSpellName = TranslateRStr(SacrificialFlameRStr);
             FSpellID = 128;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -2338,19 +1906,16 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1953
         public override void Execute(TCombat A1)
         {
-            TCombatUnit Source = default;
-            TCombatUnit Target = default;
-            TUnit NewUnit = default;
+            TCombatUnit Source;
+            TCombatUnit Target;
+            TUnit NewUnit;
             base.Execute(A1);
             if (FSucceeded)
             {
-                var call__282 = A1.FCombatData.FindID(FSourceID);
-                Source = (TCombatUnit)call__282;
-                var call__283 = A1.FCombatData.FindID(FTargetID);
-                Target = (TCombatUnit)call__283;
+                Source = (TCombatUnit)A1.FCombatData.FindID(FSourceID);
+                Target = (TCombatUnit)A1.FCombatData.FindID(FTargetID);
                 NewUnit = new TUnit(null);
-                var call__284 = AoWHSSet.FUnitResources.GetUnitResource(130);
-                NewUnit.SetUnitResource(call__284);
+                NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(130));
                 NewUnit.SetPlayer(Source.FUnit.FPlayer);
                 NewUnit.ExpandAbility(130);
                 NewUnit.Activate();
@@ -2370,8 +1935,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:1975
         public TRecallSpirit(TECustomNode owner) : base(owner)
         {
-            var call__285 = TranslateRStr(RecallSpiritRStr);
-            FSpellName = call__285;
+            FSpellName = TranslateRStr(RecallSpiritRStr);
             FSpellID = 129;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
@@ -2384,8 +1948,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:2008
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TRecallSpiritCA Action = default;
+            TRecallSpiritCA Action;
             Action = new TRecallSpiritCA(null);
             Action.FSourceID = A1.FID;
             Action.FTargetID = A2.FID;
@@ -2396,8 +1959,7 @@ namespace Aow.Units.CombatSpells
                 Action.FManaCost = FBaseManaCost;
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:1990
@@ -2432,19 +1994,16 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:2024
         public override void Execute(TCombat A1)
         {
-            TCombatUnit Source = default;
-            TCombatUnit Target = default;
-            TUnit NewUnit = default;
+            TCombatUnit Source;
+            TCombatUnit Target;
+            TUnit NewUnit;
             base.Execute(A1);
             if (FSucceeded)
             {
-                var call__287 = A1.FCombatData.FindID(FSourceID);
-                Source = (TCombatUnit)call__287;
-                var call__288 = A1.FCombatData.FindID(FTargetID);
-                Target = (TCombatUnit)call__288;
+                Source = (TCombatUnit)A1.FCombatData.FindID(FSourceID);
+                Target = (TCombatUnit)A1.FCombatData.FindID(FTargetID);
                 NewUnit = new TUnit(null);
-                var call__289 = AoWHSSet.FUnitResources.GetUnitResource(201);
-                NewUnit.SetUnitResource(call__289);
+                NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(201));
                 NewUnit.SetPlayer(Source.FUnit.FPlayer);
                 NewUnit.ExpandAbility(130);
                 NewUnit.Activate();
@@ -2464,8 +2023,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:2046
         public TAnimateDead(TECustomNode owner) : base(owner)
         {
-            var call__290 = TranslateRStr(AnimateDeadRStr);
-            FSpellName = call__290;
+            FSpellName = TranslateRStr(AnimateDeadRStr);
             FSpellID = 130;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
@@ -2478,8 +2036,7 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:2079
         public override TCombatAction CreateCA(TCombatObject A1, TCombatObject A2, bool A3)
         {
-            TCombatAction Result = default;
-            TAnimateDeadCA Action = default;
+            TAnimateDeadCA Action;
             Action = new TAnimateDeadCA(null);
             Action.FSourceID = A1.FID;
             Action.FTargetID = A2.FID;
@@ -2490,8 +2047,7 @@ namespace Aow.Units.CombatSpells
                 Action.FManaCost = FBaseManaCost;
             }
 
-            Result = Action;
-            return Result;
+            return Action;
         }
 
         // CombatSpells.pas:2061
@@ -2519,75 +2075,45 @@ namespace Aow.Units.CombatSpells
         // CombatSpells.pas:2092
         public static void RegisterCombatSpells(TAoWEngine Engine)
         {
-            TSpellControl Control = default;
+            TSpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
             Engine.RegisterEClasses([EClass.Of<TCombatSpellCA>(), EClass.Of<TFastCombatTerrorCA>(), EClass.Of<TTacticalCombatTerrorCA>(), EClass.Of<TRecallSpiritCA>(), EClass.Of<TAnimateDeadCA>(), EClass.Of<TFastCombatHighPrayerCA>(), EClass.Of<TTacticalCombatHighPrayerCA>(), EClass.Of<TEntangleSpellCA>(), EClass.Of<TMindDecayCA>(), EClass.Of<TTurnUndeadSpellCA>(), EClass.Of<TSlowCA>()]);
-            var call__292 = new TSolarFlare(null);
-            Control.RegisterSpell(call__292);
-            var call__293 = new TTurnUndead(null);
-            Control.RegisterSpell(call__293);
-            var call__294 = new THighPrayer(null);
-            Control.RegisterSpell(call__294);
-            var call__295 = new TDeathRay(null);
-            Control.RegisterSpell(call__295);
-            var call__296 = new TDiseaseCloud(null);
-            Control.RegisterSpell(call__296);
-            var call__297 = new TTerror(null);
-            Control.RegisterSpell(call__297);
-            var call__298 = new TMindDecay(null);
-            Control.RegisterSpell(call__298);
-            var call__299 = new TChainLightning(null);
-            Control.RegisterSpell(call__299);
-            var call__300 = new TColdBreath(null);
-            Control.RegisterSpell(call__300);
-            var call__301 = new TSlow(null);
-            Control.RegisterSpell(call__301);
-            var call__302 = new TEntangle(null);
-            Control.RegisterSpell(call__302);
-            var call__303 = new TTremors(null);
-            Control.RegisterSpell(call__303);
-            var call__304 = new TCallFlames(null);
-            Control.RegisterSpell(call__304);
-            var call__305 = new TFireBreath(null);
-            Control.RegisterSpell(call__305);
-            var call__306 = new TSwarm(null);
-            Control.RegisterSpell(call__306);
-            var call__307 = new TGreatHail(null);
-            Control.RegisterSpell(call__307);
-            var call__308 = new TFireBall(null);
-            Control.RegisterSpell(call__308);
-            var call__309 = new TGeyser(null);
-            Control.RegisterSpell(call__309);
-            var call__310 = new TIceShards(null);
-            Control.RegisterSpell(call__310);
-            var call__311 = new TFrostBeams(null);
-            Control.RegisterSpell(call__311);
-            var call__312 = new TVaporize(null);
-            Control.RegisterSpell(call__312);
-            var call__313 = new TStoning(null);
-            Control.RegisterSpell(call__313);
-            var call__314 = new TFlamingArrow(null);
-            Control.RegisterSpell(call__314);
-            var call__315 = new TOoze(null);
-            Control.RegisterSpell(call__315);
-            var call__316 = new TSacredWrath(null);
-            Control.RegisterSpell(call__316);
-            var call__317 = new TAnimateDead(null);
-            Control.RegisterSpell(call__317);
-            var call__318 = new TRecallSpirit(null);
-            Control.RegisterSpell(call__318);
-            var call__319 = new TWindsOfFury(null);
-            Control.RegisterSpell(call__319);
-            var call__320 = new TShockwave(null);
-            Control.RegisterSpell(call__320);
-            var call__321 = new TSacrificialFlame(null);
-            Control.RegisterSpell(call__321);
+            Control.RegisterSpell(new TSolarFlare(null));
+            Control.RegisterSpell(new TTurnUndead(null));
+            Control.RegisterSpell(new THighPrayer(null));
+            Control.RegisterSpell(new TDeathRay(null));
+            Control.RegisterSpell(new TDiseaseCloud(null));
+            Control.RegisterSpell(new TTerror(null));
+            Control.RegisterSpell(new TMindDecay(null));
+            Control.RegisterSpell(new TChainLightning(null));
+            Control.RegisterSpell(new TColdBreath(null));
+            Control.RegisterSpell(new TSlow(null));
+            Control.RegisterSpell(new TEntangle(null));
+            Control.RegisterSpell(new TTremors(null));
+            Control.RegisterSpell(new TCallFlames(null));
+            Control.RegisterSpell(new TFireBreath(null));
+            Control.RegisterSpell(new TSwarm(null));
+            Control.RegisterSpell(new TGreatHail(null));
+            Control.RegisterSpell(new TFireBall(null));
+            Control.RegisterSpell(new TGeyser(null));
+            Control.RegisterSpell(new TIceShards(null));
+            Control.RegisterSpell(new TFrostBeams(null));
+            Control.RegisterSpell(new TVaporize(null));
+            Control.RegisterSpell(new TStoning(null));
+            Control.RegisterSpell(new TFlamingArrow(null));
+            Control.RegisterSpell(new TOoze(null));
+            Control.RegisterSpell(new TSacredWrath(null));
+            Control.RegisterSpell(new TAnimateDead(null));
+            Control.RegisterSpell(new TRecallSpirit(null));
+            Control.RegisterSpell(new TWindsOfFury(null));
+            Control.RegisterSpell(new TShockwave(null));
+            Control.RegisterSpell(new TSacrificialFlame(null));
         }
 
         // CombatSpells.pas:2130
         public static void UnregisterCombatSpells(TAoWEngine Engine)
         {
-            TSpellControl Control = default;
+            TSpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
             Engine.UnregisterEClasses([EClass.Of<TCombatSpellCA>(), EClass.Of<TFastCombatTerrorCA>(), EClass.Of<TTacticalCombatTerrorCA>(), EClass.Of<TRecallSpiritCA>(), EClass.Of<TAnimateDeadCA>(), EClass.Of<TFastCombatHighPrayerCA>(), EClass.Of<TTacticalCombatHighPrayerCA>(), EClass.Of<TEntangleSpellCA>(), EClass.Of<TMindDecayCA>(), EClass.Of<TTurnUndeadSpellCA>(), EClass.Of<TSlowCA>()]);
             Control.UnregisterSpellID(100);

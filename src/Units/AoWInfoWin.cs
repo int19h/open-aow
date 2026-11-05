@@ -179,22 +179,22 @@ namespace Aow.Units.AoWInfoWin
             if (FItemBag != null)
             {
                 var itemHS = FItemBag;
-                var call__3 = FItemBag.Yhx;
-                var call__4 = itemHS.Xhx;
-                AoWHSMap.CenterViewTo(call__4, call__3, FItemBag.Lhx);
+                var yhx = FItemBag.Yhx;
+                var xhx = itemHS.Xhx;
+                AoWHSMap.CenterViewTo(xhx, yhx, FItemBag.Lhx);
 
-                var call__5 = FItemBag.Yhx;
-                var call__6 = FItemBag.Xhx;
-                AoWHSMap.PlayCenterAnimation(call__6, call__5, FItemBag.Lhx);
+                var fItemBagYhx = FItemBag.Yhx;
+                var fItemBagXhx = FItemBag.Xhx;
+                AoWHSMap.PlayCenterAnimation(fItemBagXhx, fItemBagYhx, FItemBag.Lhx);
             }
             else
             {
-                var call__7 = General.FStructure.Yhx;
-                var call__8 = General.FStructure.Xhx;
-                AoWHSMap.CenterViewTo(call__8, call__7, General.FStructure.Lhx);
-                var call__9 = General.FStructure.Yhx;
-                var call__10 = General.FStructure.Xhx;
-                AoWHSMap.PlayCenterAnimation(call__10, call__9, General.FStructure.Lhx);
+                var yhx = General.FStructure.Yhx;
+                var xhx = General.FStructure.Xhx;
+                AoWHSMap.CenterViewTo(xhx, yhx, General.FStructure.Lhx);
+                var fStructureYhx = General.FStructure.Yhx;
+                var fStructureXhx = General.FStructure.Xhx;
+                AoWHSMap.PlayCenterAnimation(fStructureXhx, fStructureYhx, General.FStructure.Lhx);
             }
         }
 
@@ -205,8 +205,7 @@ namespace Aow.Units.AoWInfoWin
             General.PlayButtonSound(0);
             if (General.FStructure != null)
             {
-                var call__11 = General.FStructure.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason);
-                if (call__11)
+                if (General.FStructure.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason))
                 {
                     General.FStructure.Raze(AoWHSMap.FSeatedPlayer);
                 }
@@ -220,7 +219,7 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:190
         public void MainBtnClick()
         {
-            TArmyHS Army = default;
+            TArmyHS Army;
             AnsiString Reason = default;
             General.PlayButtonSound(0);
             if (General.FStructure != null)
@@ -269,11 +268,9 @@ namespace Aow.Units.AoWInfoWin
                                         {
                                             if (General.FStructure is TAltar)
                                             {
-                                                var call__12 = ((TAltar)General.FStructure).GetTargeting();
-                                                if (!call__12)
+                                                if (!((TAltar)General.FStructure).GetTargeting())
                                                 {
-                                                    var call__13 = ((TAltar)General.FStructure).CanTarget(ref Reason);
-                                                    if (call__13)
+                                                    if (((TAltar)General.FStructure).CanTarget(ref Reason))
                                                     {
                                                         ((TAltar)General.FStructure).Target();
                                                     }
@@ -299,15 +296,13 @@ namespace Aow.Units.AoWInfoWin
             {
                 if (FItemBag != null)
                 {
-                    var call__14 = ((TAoWMapField)FItemBag.Owner).GetArmyHS();
-                    Army = call__14;
+                    Army = ((TAoWMapField)FItemBag.Owner).GetArmyHS();
                     if (Army != null && Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
                     {
-                        var call__15 = Army.FArmy.Hero(255, AllHeroTypes);
-                        if (call__15 != null)
+                        if (Army.FArmy.Hero(255, AllHeroTypes) != null)
                         {
-                            var call__16 = Army.FArmy.Hero(255, AllHeroTypes);
-                            General.FSelectedUnit = call__16;
+                            var hero = Army.FArmy.Hero(255, AllHeroTypes);
+                            General.FSelectedUnit = hero;
                             AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
                             AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected = 2;
                         }
@@ -322,11 +317,9 @@ namespace Aow.Units.AoWInfoWin
             if (FItemBag != null)
             {
                 // { Original uses the scroll offset for every row. }
-                var call__17 = FItemBag.FItems.Count;
-                if (call__17 > ItembagLB.ListOffset)
+                if (FItemBag.FItems.Count > ItembagLB.ListOffset)
                 {
-                    var call__18 = FItemBag.FItems.GetItem(ItembagLB.ListOffset);
-                    call__18.Show(DrawRect.Left + 10, DrawRect.Top + 10, Surface);
+                    FItemBag.FItems.GetItem(ItembagLB.ListOffset).Show(DrawRect.Left + 10, DrawRect.Top + 10, Surface);
                 }
             }
         }
@@ -511,9 +504,7 @@ namespace Aow.Units.AoWInfoWin
                     Structure = General.FStructure;
                     if (Structure != null)
                     {
-                        var call__19 = Structure.Selected;
-                        var call__20 = !call__19;
-                        if (call__20)
+                        if (!Structure.Selected)
                         {
                             Structure = null;
                         }
@@ -522,8 +513,7 @@ namespace Aow.Units.AoWInfoWin
 
                 if (Structure != null)
                 {
-                    var call__21 = Structure.Selected;
-                    if (call__21)
+                    if (Structure.Selected)
                     {
                         ShowStructureInfo(Dialog, Structure);
                     }
@@ -534,40 +524,34 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:661
         public static void ShowItemSelection(TIWindow Dialog, TItemHS Items)
         {
-            int I = default;
-            TArmyHS Army = default;
+            TArmyHS Army;
             ResetStructureInfo(Dialog);
-            var call__23 = TranslateRStr(E3Globals.E3Globals.ItemBagRStr);
-            Dialog.Title.Text = call__23;
+            var itemBag = TranslateRStr(E3Globals.E3Globals.ItemBagRStr);
+            Dialog.Title.Text = itemBag;
             Dialog.FItemBag = Items;
             Dialog.ItemPnl.Visible = true;
             Dialog.InfoWin.Visible = true;
             Dialog.StructNameLbl.Text = (AnsiString)"";
-            var call__24 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[35];
-            Dialog.StructLine.ImageTop = call__24;
-            var call__25 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[36];
-            Dialog.StructLine.ImageMiddle = call__25;
-            var call__26 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[37];
-            Dialog.StructLine.ImageBottom = call__26;
-            var call__27 = ((TAoWMapField)Items.Owner).GetArmyHS();
-            Army = call__27;
+            var miscArt = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[35];
+            Dialog.StructLine.ImageTop = miscArt;
+            var miscArt2 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[36];
+            Dialog.StructLine.ImageMiddle = miscArt2;
+            var miscArt3 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[37];
+            Dialog.StructLine.ImageBottom = miscArt3;
+            Army = ((TAoWMapField)Items.Owner).GetArmyHS();
             if (Army != null && Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
             {
                 Dialog.ItemBagMemo.Visible = false;
-                var call__28 = Army.FArmy.Hero(255, AllHeroTypes);
-                Dialog.MainBtn.Visible = call__28 != null;
-                var call__29 = TranslateRStr(PickupRStr);
-                Dialog.MainBtn.Text = call__29;
+                var hero = Army.FArmy.Hero(255, AllHeroTypes);
+                Dialog.MainBtn.Visible = hero != null;
+                var pickup = TranslateRStr(PickupRStr);
+                Dialog.MainBtn.Text = pickup;
                 Dialog.ItembagLB.Visible = true;
                 Dialog.ItembagLB.Items.Clear();
                 Dialog.ItembagSB.Visible = true;
+                for (int I = 0, last = Items.FItems.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__30 = Items.FItems.Count - 1;
-                    for (; I <= end__30; I += 1)
-                    {
-                        Dialog.ItembagLB.Items.Add((AnsiString)"");
-                    }
+                    Dialog.ItembagLB.Items.Add((AnsiString)"");
                 }
 
                 Dialog.ItemsInBagLbl.Visible = true;
@@ -618,23 +602,23 @@ namespace Aow.Units.AoWInfoWin
             Dialog.SBmemo.Items.Clear();
             Dialog.PopulationRaceLbl.Visible = false;
             Dialog.PopulationLbl.Visible = false;
-            var call__32 = TranslateRStr(StructureRStr);
-            Dialog.Title.Text = call__32;
+            var structure = TranslateRStr(StructureRStr);
+            Dialog.Title.Text = structure;
         }
 
         // AoWInfoWin.pas:263
         public static void SetStructureHeader(TIWindow Dialog, TStructure Structure)
         {
-            var call__34 = Structure.GetName();
-            Dialog.StructNameLbl.Text = call__34;
+            var name = Structure.GetName();
+            Dialog.StructNameLbl.Text = name;
             if (Structure.GetBottomBorderImage() != null)
             {
-                var call__35 = Structure.GetTopBorderImage();
-                Dialog.StructLine.ImageTop = call__35;
-                var call__36 = Structure.GetMiddleBorderImage();
-                Dialog.StructLine.ImageMiddle = call__36;
-                var call__37 = Structure.GetBottomBorderImage();
-                Dialog.StructLine.ImageBottom = call__37;
+                var topBorderImage = Structure.GetTopBorderImage();
+                Dialog.StructLine.ImageTop = topBorderImage;
+                var middleBorderImage = Structure.GetMiddleBorderImage();
+                Dialog.StructLine.ImageMiddle = middleBorderImage;
+                var bottomBorderImage = Structure.GetBottomBorderImage();
+                Dialog.StructLine.ImageBottom = bottomBorderImage;
             }
 
             Dialog.StructLine.Visible = true;
@@ -646,11 +630,11 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.IncomePnl.Visible = true;
-            var call__39 = Structure.GetDescription();
-            Dialog.IncomeMemo.Items.Assign(call__39);
+            var description = Structure.GetDescription();
+            Dialog.IncomeMemo.Items.Assign(description);
             Dialog.IncomeTypeImage.CurrentImage = 31;
-            var call__40 = Structure.GetIncome();
-            Dialog.IncomeAmountLbl.Text = IntToStr(call__40);
+            var income = Structure.GetIncome();
+            Dialog.IncomeAmountLbl.Text = IntToStr(income);
             Dialog.RazePnl.Visible = true;
         }
 
@@ -660,11 +644,11 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.IncomePnl.Visible = true;
-            var call__42 = Structure.GetDescription();
-            Dialog.IncomeMemo.Items.Assign(call__42);
+            var description = Structure.GetDescription();
+            Dialog.IncomeMemo.Items.Assign(description);
             Dialog.IncomeTypeImage.CurrentImage = 33;
-            var call__43 = Structure.GetPower();
-            Dialog.IncomeAmountLbl.Text = IntToStr(call__43);
+            var power = Structure.GetPower();
+            Dialog.IncomeAmountLbl.Text = IntToStr(power);
             Dialog.RazePnl.Visible = true;
         }
 
@@ -674,11 +658,11 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.IncomePnl.Visible = true;
-            var call__45 = Structure.GetDescription();
-            Dialog.IncomeMemo.Items.Assign(call__45);
+            var description = Structure.GetDescription();
+            Dialog.IncomeMemo.Items.Assign(description);
             Dialog.IncomeTypeImage.CurrentImage = 33;
-            var call__46 = Structure.GetPower();
-            Dialog.IncomeAmountLbl.Text = IntToStr(call__46);
+            var power = Structure.GetPower();
+            Dialog.IncomeAmountLbl.Text = IntToStr(power);
             Dialog.RazePnl.Visible = true;
         }
 
@@ -688,12 +672,11 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__48 = Structure.GetDescription();
-            Dialog.SBmemo.Items.Assign(call__48);
+            var description = Structure.GetDescription();
+            Dialog.SBmemo.Items.Assign(description);
             Dialog.SBmemo.Items.Add((AnsiString)"");
-            var call__49 = TranslateRStr(IncomeXRStr);
-            var call__50 = AoWE.AoWE.Format(call__49, [IntToStr(Structure.FIncome)]);
-            Dialog.SBmemo.Items.Add(call__50);
+            var format = AoWE.AoWE.Format(TranslateRStr(IncomeXRStr), [IntToStr(Structure.FIncome)]);
+            Dialog.SBmemo.Items.Add(format);
             Dialog.RazePnl.Visible = true;
         }
 
@@ -713,13 +696,13 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__52 = General.FStructure.GetDescription();
-            Dialog.SBmemo.Items.Assign(call__52);
+            var description = General.FStructure.GetDescription();
+            Dialog.SBmemo.Items.Assign(description);
             Dialog.SBmemo.FSized = false;
-            var call__53 = Structure.CanTeleport(AoWHSMap.FSeatedPlayer);
-            Dialog.MainBtn.Visible = call__53;
-            var call__54 = TranslateRStr(TeleportRStr);
-            Dialog.MainBtn.Text = call__54;
+            var canTeleport = Structure.CanTeleport(AoWHSMap.FSeatedPlayer);
+            Dialog.MainBtn.Visible = canTeleport;
+            var teleport = TranslateRStr(TeleportRStr);
+            Dialog.MainBtn.Text = teleport;
             Dialog.RazePnl.Visible = Dialog.MainBtn.Visible;
         }
 
@@ -729,12 +712,12 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__56 = Structure.GetDescription();
-            Dialog.SBmemo.Items.Assign(call__56);
-            var call__57 = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
-            Dialog.MainBtn.Visible = call__57;
-            var call__58 = TranslateRStr(EnterRStr);
-            Dialog.MainBtn.Text = call__58;
+            var description = Structure.GetDescription();
+            Dialog.SBmemo.Items.Assign(description);
+            var canEnter = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
+            Dialog.MainBtn.Visible = canEnter;
+            var enter = TranslateRStr(EnterRStr);
+            Dialog.MainBtn.Text = enter;
         }
 
         // AoWInfoWin.pas:362
@@ -743,12 +726,12 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__60 = Structure.GetDescription();
-            Dialog.SBmemo.Items.Assign(call__60);
-            var call__61 = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
-            Dialog.MainBtn.Visible = call__61;
-            var call__62 = TranslateRStr(EnterRStr);
-            Dialog.MainBtn.Text = call__62;
+            var description = Structure.GetDescription();
+            Dialog.SBmemo.Items.Assign(description);
+            var canEnter = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
+            Dialog.MainBtn.Visible = canEnter;
+            var enter = TranslateRStr(EnterRStr);
+            Dialog.MainBtn.Text = enter;
         }
 
         // AoWInfoWin.pas:373
@@ -757,19 +740,19 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__64 = Structure.GetDescription();
-            Dialog.SBmemo.Items.Assign(call__64);
-            var call__65 = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
-            Dialog.MainBtn.Visible = call__65;
+            var description = Structure.GetDescription();
+            Dialog.SBmemo.Items.Assign(description);
+            var canEnter = Structure.CanEnter(AoWHSMap.FSeatedPlayer);
+            Dialog.MainBtn.Visible = canEnter;
             switch (Structure.FEntrance)
             {
                 case TCaveEntrance.ceUp:
-                    var call__66 = TranslateRStr(GoUpRStr);
-                    Dialog.MainBtn.Text = call__66;
+                    var goUp = TranslateRStr(GoUpRStr);
+                    Dialog.MainBtn.Text = goUp;
                     break;
                 case TCaveEntrance.ceDown:
-                    var call__67 = TranslateRStr(GoDownRStr);
-                    Dialog.MainBtn.Text = call__67;
+                    var goDown = TranslateRStr(GoDownRStr);
+                    Dialog.MainBtn.Text = goDown;
                     break;
             }
         }
@@ -780,8 +763,8 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__68 = Structure.GetDescription();
-            Dialog.SBmemo.Items.Assign(call__68);
+            var description = Structure.GetDescription();
+            Dialog.SBmemo.Items.Assign(description);
             Dialog.RazePnl.Visible = true;
         }
 
@@ -791,25 +774,25 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.ExplorationSitePnl.Visible = true;
-            var call__70 = General.FStructure.GetDescription();
-            Dialog.ESMemo.Items.Assign(call__70);
-            var call__71 = TranslateRStr(StatusRStr);
-            Dialog.ESLbl.Text = call__71 + AnsiString.FromBytes(58);
+            var description = General.FStructure.GetDescription();
+            Dialog.ESMemo.Items.Assign(description);
+            var status = TranslateRStr(StatusRStr);
+            Dialog.ESLbl.Text = status + AnsiString.FromBytes(58);
             if (Structure.GetExplored())
             {
-                var call__72 = TranslateRStr(ExploredRStr);
-                Dialog.ESStatusLbl.Text = call__72;
+                var explored = TranslateRStr(ExploredRStr);
+                Dialog.ESStatusLbl.Text = explored;
             }
             else
             {
-                var call__73 = TranslateRStr(UnexploredRStr);
-                Dialog.ESStatusLbl.Text = call__73;
+                var unexplored = TranslateRStr(UnexploredRStr);
+                Dialog.ESStatusLbl.Text = unexplored;
             }
 
-            var call__74 = ((TExplorationSite)General.FStructure).CanSearch(AoWHSMap.FSeatedPlayer);
-            Dialog.MainBtn.Visible = call__74;
-            var call__75 = TranslateRStr(SearchRStr);
-            Dialog.MainBtn.Text = call__75;
+            var canSearch = ((TExplorationSite)General.FStructure).CanSearch(AoWHSMap.FSeatedPlayer);
+            Dialog.MainBtn.Visible = canSearch;
+            var search = TranslateRStr(SearchRStr);
+            Dialog.MainBtn.Text = search;
         }
 
         // AoWInfoWin.pas:410
@@ -820,25 +803,25 @@ namespace Aow.Units.AoWInfoWin
             Dialog.AltarPnl.Visible = true;
             if (Structure.GetTargeting())
             {
-                var call__77 = TranslateRStr(CancelRStr);
-                Dialog.MainBtn.Text = call__77;
+                var cancel = TranslateRStr(CancelRStr);
+                Dialog.MainBtn.Text = cancel;
             }
             else
             {
-                var call__78 = TranslateRStr(TargetRStr);
-                Dialog.MainBtn.Text = call__78;
+                var target = TranslateRStr(TargetRStr);
+                Dialog.MainBtn.Text = target;
             }
 
             Dialog.MainBtn.Visible = true;
-            var call__79 = Structure.GetRechargeDays();
-            Dialog.Bar.Max = call__79;
+            var rechargeDays = Structure.GetRechargeDays();
+            Dialog.Bar.Max = rechargeDays;
             Dialog.Bar.Position = Structure.FRechargeDays;
-            var call__80 = Structure.GetRechargeDays();
-            Dialog.ChargePcntLbl.Text = IntToStr(Round((double)(Structure.FRechargeDays * 100) / call__80)) + AnsiString.FromBytes(37);
-            var call__81 = Structure.GetRechargeDays();
-            Dialog.DayLbl.Text = IntToStr(call__81 - Structure.FRechargeDays);
-            var call__82 = Structure.TargetMana();
-            Dialog.GemLbl.Text = IntToStr(call__82);
+            var structureRechargeDays = Structure.GetRechargeDays();
+            Dialog.ChargePcntLbl.Text = IntToStr(Round((double)(Structure.FRechargeDays * 100) / structureRechargeDays)) + AnsiString.FromBytes(37);
+            var rechargeDays2 = Structure.GetRechargeDays();
+            Dialog.DayLbl.Text = IntToStr(rechargeDays2 - Structure.FRechargeDays);
+            var targetMana = Structure.TargetMana();
+            Dialog.GemLbl.Text = IntToStr(targetMana);
             Dialog.RazePnl.Visible = true;
         }
 
@@ -854,68 +837,61 @@ namespace Aow.Units.AoWInfoWin
             Dialog.SBmemo.Items.Add((AnsiString)"");
             Dialog.SBmemo.Items.Add((AnsiString)"");
             Dialog.SBmemo.Items.Add((AnsiString)"");
-            var call__84 = TranslateRStr(StatusWarmodeRStr);
-            Dialog.SBmemo.Items.Add(call__84);
+            var statusWarmode = TranslateRStr(StatusWarmodeRStr);
+            Dialog.SBmemo.Items.Add(statusWarmode);
         }
 
         // AoWInfoWin.pas:439
         public static void ShowCityInfo(TIWindow Dialog, TCity Structure)
         {
-            TUnit UnitObject = default;
+            TUnit UnitObject;
             AnsiString Reason = default;
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
-            var call__86 = TranslateRStr(EnterRStr);
-            Dialog.MainBtn.Text = call__86;
+            var enter = TranslateRStr(EnterRStr);
+            Dialog.MainBtn.Text = enter;
             Dialog.MainBtn.Visible = true;
             General.FCity = Structure;
             Dialog.CityPanel.Visible = true;
             Dialog.ProductionWarningLbl.Visible = false;
             Dialog.ActiveCityActionMemo.Items.Clear();
-            var call__87 = General.FCity.GetName();
-            Dialog.StructNameLbl.Text = call__87;
-            var call__88 = TranslateRStr(RaceNamesRStr[General.FCity.FRace]);
-            var call__89 = TranslateRStr(RaceXRStr);
-            var call__90 = AoWE.AoWE.Format(call__89, [call__88]);
-            Dialog.CityRaceLbl.Text = call__90;
+            var name = General.FCity.GetName();
+            Dialog.StructNameLbl.Text = name;
+            var raceNames = TranslateRStr(RaceNamesRStr[General.FCity.FRace]);
+            var format = AoWE.AoWE.Format(TranslateRStr(RaceXRStr), [raceNames]);
+            Dialog.CityRaceLbl.Text = format;
             Dialog.CityLevelLbl.Text = IntToStr(Structure.FUpgradeLevel);
             Dialog.CityIncomeLbl.Text = IntToStr(Structure.FIncome);
-            var call__91 = Structure.GetCivilStatus();
-            var call__92 = TranslateRStr(TCivilStatusRStr[(int)call__91]);
-            var call__93 = TranslateRStr(StatusXRStr);
-            var call__94 = AoWE.AoWE.Format(call__93, [call__92]);
-            Dialog.CivilStatusLbl.Text = call__94;
-            var call__95 = Structure.FProduction.FQueue.GetCount();
-            if (call__95 != 0)
+            var civilStatus = Structure.GetCivilStatus();
+            var civilStatus2 = TranslateRStr(TCivilStatusRStr[(int)civilStatus]);
+            var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(StatusXRStr), [civilStatus2]);
+            Dialog.CivilStatusLbl.Text = aoWEFormat;
+            if (Structure.FProduction.FQueue.GetCount() != 0)
             {
-                var call__96 = Structure.FProduction.FQueue.GetItem(0);
-                switch (call__96.FProductionID)
+                switch (Structure.FProduction.FQueue.GetItem(0).FProductionID)
                 {
                     case 2:
-                        var call__97 = Structure.FProduction.FQueue.GetItem(0);
-                        var call__98 = Structure.FProduction.CreateUnitProduction(call__97.FParameter);
-                        UnitObject = call__98;
-                        var call__99 = TranslateRStr(InstallingRStr);
-                        Dialog.ActiveCityActionMemo.Items.Add(call__99);
-                        var call__100 = UnitObject.GetName();
-                        Dialog.ActiveCityActionMemo.Items.Add(call__100);
+                        var queueParameter = Structure.FProduction.FQueue.GetItem(0);
+                        UnitObject = Structure.FProduction.CreateUnitProduction(queueParameter.FParameter);
+                        var installing = TranslateRStr(InstallingRStr);
+                        Dialog.ActiveCityActionMemo.Items.Add(installing);
+                        var unitObjectName = UnitObject.GetName();
+                        Dialog.ActiveCityActionMemo.Items.Add(unitObjectName);
                         UnitObject.Release();
                         break;
                     case 1:
-                        var call__101 = Structure.FProduction.FQueue.GetItem(0);
-                        var call__102 = Structure.FProduction.CreateUnitProduction(call__101.FParameter);
-                        UnitObject = call__102;
+                        var queue = Structure.FProduction.FQueue.GetItem(0);
+                        UnitObject = Structure.FProduction.CreateUnitProduction(queue.FParameter);
                         Dialog.ActiveCityActionMemo.Items.Clear();
-                        var call__103 = TranslateRStr(ProducingRStr);
-                        Dialog.ActiveCityActionMemo.Items.Add(call__103);
-                        var call__104 = UnitObject.GetName();
-                        Dialog.ActiveCityActionMemo.Items.Add(call__104);
+                        var producing = TranslateRStr(ProducingRStr);
+                        Dialog.ActiveCityActionMemo.Items.Add(producing);
+                        var name2 = UnitObject.GetName();
+                        Dialog.ActiveCityActionMemo.Items.Add(name2);
                         UnitObject.Release();
                         break;
                     default:
-                        var call__105 = Structure.FProduction.FQueue.GetItem(0);
-                        var call__106 = call__105.GetNameProgressive();
-                        Dialog.ActiveCityActionMemo.Items.Text = call__106;
+                        var nameProgressive = Structure.FProduction.FQueue.GetItem(0).GetNameProgressive();
+                        Dialog.ActiveCityActionMemo.Items.Text = nameProgressive;
                         break;
                 }
 
@@ -923,21 +899,21 @@ namespace Aow.Units.AoWInfoWin
                 {
                     if (Structure.FProduction.FSettings.FTurnsLeft != -1)
                     {
-                        var call__107 = FmtTurnsLeftStr(Structure.FProduction.FSettings.FTurnsLeft);
-                        Dialog.ActiveCityActionMemo.Items.Add(call__107);
+                        var fmtTurnsLeftStr = FmtTurnsLeftStr(Structure.FProduction.FSettings.FTurnsLeft);
+                        Dialog.ActiveCityActionMemo.Items.Add(fmtTurnsLeftStr);
                     }
                     else
                     {
-                        var call__108 = TranslateRStr(UnlimitedRStr);
-                        Dialog.ActiveCityActionMemo.Items.Add(LowerCase(call__108));
+                        var unlimited = TranslateRStr(UnlimitedRStr);
+                        Dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                     }
                 }
                 else
                 {
                     if (Structure.FProduction.FStatus == TProductionControlStatus.pcsWaiting)
                     {
-                        var call__109 = Structure.FProduction.FQueue.GetItem(0);
-                        Structure.FProduction.CanExecuteProduction(call__109, ref Reason);
+                        var queue = Structure.FProduction.FQueue.GetItem(0);
+                        Structure.FProduction.CanExecuteProduction(queue, ref Reason);
                         Dialog.ProductionWarningLbl.Text = Reason;
                         Dialog.ProductionWarningLbl.Visible = true;
                     }
@@ -946,25 +922,24 @@ namespace Aow.Units.AoWInfoWin
             else
             {
                 Dialog.ActiveCityActionMemo.Items.Add((AnsiString)"");
-                var call__110 = TranslateRStr(ProducingMerchandiseRStr);
-                Dialog.ActiveCityActionMemo.Items.Add(call__110);
+                var producingMerchandise = TranslateRStr(ProducingMerchandiseRStr);
+                Dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
             }
 
-            var call__111 = AoWHSMap.FRaces.GetRace(Structure.FRace);
-            var call__112 = call__111.GetPlayerRelation(Structure.FPlayer);
-            Dialog.RaceRelationIcon.CurrentImage = (int)call__112 + 11;
+            var playerRelation = AoWHSMap.FRaces.GetRace(Structure.FRace).GetPlayerRelation(Structure.FPlayer);
+            Dialog.RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
             Dialog.RazePnl.Visible = true;
         }
 
         // AoWInfoWin.pas:496
         public static void ShowProductionInfo(TIWindow Dialog, TProductionPlace Structure)
         {
-            TUnit UnitObject = default;
+            TUnit UnitObject;
             AnsiString Reason = default;
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
-            var call__114 = TranslateRStr(EnterRStr);
-            Dialog.MainBtn.Text = call__114;
+            var enter = TranslateRStr(EnterRStr);
+            Dialog.MainBtn.Text = enter;
             Dialog.MainBtn.Visible = true;
             General.FProductionPlace = (TProductionPlace)General.FStructure;
             Dialog.ProductionPlacePnl.Visible = true;
@@ -977,16 +952,16 @@ namespace Aow.Units.AoWInfoWin
             if (Structure.GetMagicSphere() != TMagicSphere.msNone)
             {
                 Dialog.IncomeTypeIcon.CurrentImage = 33;
-                var call__115 = Structure.GetPower();
-                Dialog.IncomeValueLbl.Text = IntToStr(call__115);
+                var power = Structure.GetPower();
+                Dialog.IncomeValueLbl.Text = IntToStr(power);
             }
             else
             {
                 if (Structure.GetBaseIncome() != 0)
                 {
                     Dialog.IncomeTypeIcon.CurrentImage = 31;
-                    var call__116 = Structure.GetIncome();
-                    Dialog.IncomeValueLbl.Text = IntToStr(call__116);
+                    var income = Structure.GetIncome();
+                    Dialog.IncomeValueLbl.Text = IntToStr(income);
                 }
                 else
                 {
@@ -997,39 +972,34 @@ namespace Aow.Units.AoWInfoWin
             }
 
             Dialog.ProductionPlacePnl.Visible = true;
-            var call__117 = Structure.GetName();
-            Dialog.StructNameLbl.Text = call__117;
-            var call__118 = Structure.FProductionControl.FQueue.GetCount();
-            if (call__118 != 0)
+            var name = Structure.GetName();
+            Dialog.StructNameLbl.Text = name;
+            if (Structure.FProductionControl.FQueue.GetCount() != 0)
             {
-                var call__119 = Structure.FProductionControl.FQueue.GetItem(0);
-                switch (call__119.FProductionID)
+                switch (Structure.FProductionControl.FQueue.GetItem(0).FProductionID)
                 {
                     case 2:
-                        var call__120 = Structure.FProductionControl.FQueue.GetItem(0);
-                        var call__121 = Structure.FProductionControl.CreateUnitProduction(call__120.FParameter);
-                        UnitObject = call__121;
-                        var call__122 = TranslateRStr(InstallingRStr);
-                        Dialog.ActiveActionMemo.Items.Add(call__122);
-                        var call__123 = UnitObject.GetName();
-                        Dialog.ActiveActionMemo.Items.Add(call__123);
+                        var queueParameter = Structure.FProductionControl.FQueue.GetItem(0);
+                        UnitObject = Structure.FProductionControl.CreateUnitProduction(queueParameter.FParameter);
+                        var installing = TranslateRStr(InstallingRStr);
+                        Dialog.ActiveActionMemo.Items.Add(installing);
+                        var unitObjectName = UnitObject.GetName();
+                        Dialog.ActiveActionMemo.Items.Add(unitObjectName);
                         UnitObject.Release();
                         break;
                     case 1:
-                        var call__124 = Structure.FProductionControl.FQueue.GetItem(0);
-                        var call__125 = Structure.FProductionControl.CreateUnitProduction(call__124.FParameter);
-                        UnitObject = call__125;
+                        var queue = Structure.FProductionControl.FQueue.GetItem(0);
+                        UnitObject = Structure.FProductionControl.CreateUnitProduction(queue.FParameter);
                         Dialog.ActiveActionMemo.Items.Clear();
-                        var call__126 = TranslateRStr(ProducingRStr);
-                        Dialog.ActiveActionMemo.Items.Add(call__126);
-                        var call__127 = UnitObject.GetName();
-                        Dialog.ActiveActionMemo.Items.Add(call__127);
+                        var producing = TranslateRStr(ProducingRStr);
+                        Dialog.ActiveActionMemo.Items.Add(producing);
+                        var name2 = UnitObject.GetName();
+                        Dialog.ActiveActionMemo.Items.Add(name2);
                         UnitObject.Release();
                         break;
                     default:
-                        var call__128 = Structure.FProductionControl.FQueue.GetItem(0);
-                        var call__129 = call__128.GetNameProgressive();
-                        Dialog.ActiveActionMemo.Items.Text = call__129;
+                        var nameProgressive = Structure.FProductionControl.FQueue.GetItem(0).GetNameProgressive();
+                        Dialog.ActiveActionMemo.Items.Text = nameProgressive;
                         break;
                 }
 
@@ -1037,22 +1007,22 @@ namespace Aow.Units.AoWInfoWin
                 {
                     if (Structure.FProductionControl.FSettings.FTurnsLeft != -1)
                     {
-                        var call__130 = FmtTurnsLeftStr(Structure.FProductionControl.FSettings.FTurnsLeft);
-                        Dialog.ActiveActionMemo.Items.Add(call__130);
+                        var fmtTurnsLeftStr = FmtTurnsLeftStr(Structure.FProductionControl.FSettings.FTurnsLeft);
+                        Dialog.ActiveActionMemo.Items.Add(fmtTurnsLeftStr);
                     }
                     else
                     {
                         // { Original writes the city memo in this branch. }
-                        var call__131 = TranslateRStr(UnlimitedRStr);
-                        Dialog.ActiveCityActionMemo.Items.Add(LowerCase(call__131));
+                        var unlimited = TranslateRStr(UnlimitedRStr);
+                        Dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                     }
                 }
                 else
                 {
                     if (Structure.FProductionControl.FStatus == TProductionControlStatus.pcsWaiting)
                     {
-                        var call__132 = Structure.FProductionControl.FQueue.GetItem(0);
-                        Structure.FProductionControl.CanExecuteProduction(call__132, ref Reason);
+                        var queue = Structure.FProductionControl.FQueue.GetItem(0);
+                        Structure.FProductionControl.CanExecuteProduction(queue, ref Reason);
                         Dialog.CurrentActivityWarningLbl.Text = Reason;
                         Dialog.CurrentActivityWarningLbl.Visible = true;
                     }
@@ -1065,19 +1035,19 @@ namespace Aow.Units.AoWInfoWin
                     Dialog.ActiveActionMemo.Items.Add((AnsiString)"");
                     if (Structure.GetBaseIncome() != 0)
                     {
-                        var call__133 = TranslateRStr(ProducingMerchandiseRStr);
-                        Dialog.ActiveActionMemo.Items.Add(call__133);
+                        var producingMerchandise = TranslateRStr(ProducingMerchandiseRStr);
+                        Dialog.ActiveActionMemo.Items.Add(producingMerchandise);
                     }
                     else
                     {
-                        var call__134 = TranslateRStr(NoneRStr);
-                        Dialog.ActiveActionMemo.Items.Add(call__134);
+                        var none = TranslateRStr(NoneRStr);
+                        Dialog.ActiveActionMemo.Items.Add(none);
                     }
                 }
                 else
                 {
-                    var call__135 = TranslateRStr(GeneratingExtraPowerRStr);
-                    Dialog.ActiveActionMemo.Items.Add(call__135);
+                    var generatingExtraPower = TranslateRStr(GeneratingExtraPowerRStr);
+                    Dialog.ActiveActionMemo.Items.Add(generatingExtraPower);
                 }
             }
 
@@ -1090,34 +1060,31 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.ConstructionPnl.Visible = true;
-            var call__136 = FmtDaysLeftStr(Structure.FBuildingDays);
-            Dialog.ConstructionDaysLeftLbl.Text = call__136;
-            var call__137 = Structure.GetDescription();
-            Dialog.ConstructionMemo.Items.Assign(call__137);
+            var fmtDaysLeftStr = FmtDaysLeftStr(Structure.FBuildingDays);
+            Dialog.ConstructionDaysLeftLbl.Text = fmtDaysLeftStr;
+            var description = Structure.GetDescription();
+            Dialog.ConstructionMemo.Items.Assign(description);
         }
 
         // AoWInfoWin.pas:566
         public static void ShowRazedInfo(TIWindow Dialog, TStructure Structure)
         {
-            AnsiString Text = default;
+            AnsiString Text;
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
             if (Structure is TCity)
             {
-                var call__139 = Structure.GetName();
-                var call__140 = TranslateRStr(CityOfXRStr);
-                var call__141 = AoWE.AoWE.Format(call__140, [call__139]);
-                Text = call__141;
+                var name = Structure.GetName();
+                Text = AoWE.AoWE.Format(TranslateRStr(CityOfXRStr), [name]);
             }
             else
             {
                 Text = Structure.GetName();
             }
 
-            var call__142 = TranslateRStr(TheXliesInRuinsRStr);
-            var call__143 = AoWE.AoWE.Format(call__142, [Text]);
-            Dialog.SBmemo.Items.Text = call__143;
+            var format = AoWE.AoWE.Format(TranslateRStr(TheXliesInRuinsRStr), [Text]);
+            Dialog.SBmemo.Items.Text = format;
             Dialog.SBmemo.Items.Insert(0, (AnsiString)"");
             Dialog.SBmemo.Items.Insert(0, (AnsiString)"");
         }
@@ -1125,35 +1092,34 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:581
         public static void ShowOtherPlayerInfo(TIWindow Dialog, TPlayerStructure Structure)
         {
-            int RaceIndex = default;
+            int RaceIndex;
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.NotYoursPnl.Visible = true;
             if (Structure is TCity && Structure.FPlayer == 0)
             {
                 Dialog.PopulationRaceLbl.Visible = true;
-                var call__145 = TranslateRStr(RaceNamesPluralRStr[((TCity)Structure).FRace]);
-                Dialog.PopulationRaceLbl.Text = call__145;
+                var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[((TCity)Structure).FRace]);
+                Dialog.PopulationRaceLbl.Text = raceNamesPlural;
                 Dialog.PopulationLbl.Visible = true;
                 Dialog.NotYoursMemo.Items.Clear();
             }
             else
             {
-                var call__146 = Structure.GetDescription();
-                Dialog.NotYoursMemo.Items.Assign(call__146);
+                var description = Structure.GetDescription();
+                Dialog.NotYoursMemo.Items.Assign(description);
             }
 
             if (Structure.FPlayer != -1)
             {
-                var call__147 = AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
-                RaceIndex = call__147.FPlayerRace;
+                RaceIndex = AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
                 if (RaceIndex == -1)
                 {
                     RaceIndex = 12;
                 }
 
-                var call__148 = TranslateRStr(RaceNamesPluralRStr[RaceIndex]);
-                Dialog.OwnerRaceLbl.Text = call__148;
+                var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[RaceIndex]);
+                Dialog.OwnerRaceLbl.Text = raceNamesPlural;
                 Dialog.OwnerRaceLbl.Visible = true;
                 Dialog.LShield.CurrentImage = RaceIndex + 26;
                 Dialog.LShield.Visible = true;
@@ -1171,8 +1137,8 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            var call__149 = Structure.GetDescription();
-            Dialog.SBmemo.Items.Assign(call__149);
+            var description = Structure.GetDescription();
+            Dialog.SBmemo.Items.Assign(description);
         }
     }
 }

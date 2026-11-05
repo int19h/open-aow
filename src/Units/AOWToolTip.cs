@@ -29,10 +29,8 @@ namespace Aow.Units.AOWToolTip
         // AOWToolTip.pas:62
         public TAOWToolTip(TComponent owner) : base(owner)
         {
-            var call__1 = new TStringList();
-            FLines = call__1;
-            var call__2 = new TStringList();
-            FItems = call__2;
+            FLines = new TStringList();
+            FItems = new TStringList();
             FItems.OnChange = OnChangeText;
             FShowDuration = 100;
             FItemHeight = 10;
@@ -51,14 +49,12 @@ namespace Aow.Units.AOWToolTip
         {
             if (FILFrame != null)
             {
-                var call__3 = FILFrame.CheckIL(FILIndexFrame, 8, this);
-                FILFrame = call__3;
+                FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
             }
 
             if (FILTexture != null)
             {
-                var call__4 = FILTexture.CheckIL(FILIndexTexture, 1, this);
-                FILTexture = call__4;
+                FILTexture = FILTexture.CheckIL(FILIndexTexture, 1, this);
             }
 
             if (FAOWOwner != null && FILFrame != null && FILTexture != null && FAOWFont != null)
@@ -77,10 +73,10 @@ namespace Aow.Units.AOWToolTip
 //   top left corner twice (original bugs). }
         public override void SetSize()
         {
-            int I = default;
-            int W = default;
-            bool Moved = default;
-            bool Done = default;
+            int I;
+            int W;
+            bool Moved;
+            bool Done;
             if (FOwnerItem != 0)
             {
                 FWinWidth = FOwnerItem;
@@ -90,138 +86,116 @@ namespace Aow.Units.AOWToolTip
                 FOwnerItem = FWinWidth;
             }
 
-            var call__5 = FILFrame[FILIndexFrame];
-            var call__6 = FILFrame[FILIndexFrame + 5];
-            if (call__5.Height + call__6.Height > FWinHeight)
+            var ilFrameHeight = FILFrame[FILIndexFrame];
+            var ilFrame = FILFrame[FILIndexFrame + 5];
+            if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
             {
-                var call__7 = FILFrame[FILIndexFrame];
-                var call__8 = FILFrame[FILIndexFrame + 5];
-                FWinHeight = call__7.Height + call__8.Height;
+                var ilFrame2 = FILFrame[FILIndexFrame];
+                var ilFrame3 = FILFrame[FILIndexFrame + 5];
+                FWinHeight = ilFrame2.Height + ilFrame3.Height;
             }
 
-            var call__9 = FILFrame[FILIndexFrame];
-            var call__10 = FILFrame[FILIndexFrame + 2];
-            if (call__9.Width + call__10.Width > FWinWidth)
+            var ilFrameWidth = FILFrame[FILIndexFrame];
+            var ilFrame4 = FILFrame[FILIndexFrame + 2];
+            if (ilFrameWidth.Width + ilFrame4.Width > FWinWidth)
             {
-                var call__11 = FILFrame[FILIndexFrame];
-                var call__12 = FILFrame[FILIndexFrame];
-                FWinWidth = call__11.Width + call__12.Width;
+                var ilFrame2 = FILFrame[FILIndexFrame];
+                var ilFrame3 = FILFrame[FILIndexFrame];
+                FWinWidth = ilFrame2.Width + ilFrame3.Width;
             }
 
             FLines.Clear();
+            I = 0;
+            int last = FItems.Count - 1;
+            for (; I <= last; I += 1)
             {
-                I = 0;
-                int end__13 = FItems.Count - 1;
-                for (; I <= end__13; I += 1)
-                {
-                    var call__14 = FItems[I];
-                    FLines.Add(call__14);
-                }
+                var item = FItems[I];
+                FLines.Add(item);
             }
 
-            var call__15 = FLines.Count;
-            if (call__15 > 0)
+            if (FLines.Count > 0)
             {
                 I = 0;
-                while (true)
+                while (I < FLines.Count)
                 {
-                    var call__16 = FLines.Count;
-                    if (!(I < call__16))
-                        break;
+                    Moved = false;
+                    Done = true;
+                    while (true)
                     {
-                        Moved = false;
-                        Done = true;
-                        while (true)
+                        bool notDone = !Done;
+                        if (!notDone)
                         {
-                            bool bool__17 = !Done;
-                            if (!bool__17)
-                            {
-                                var call__18 = FLines[I];
-                                var call__19 = FAOWFont.GetTextWidth(call__18);
-                                var call__20 = FILFrame[3];
-                                var call__21 = FILFrame[4];
-                                bool__17 = call__19 > FWinWidth - call__20.Width - call__21.Width - FBorderWidth * 2;
-                            }
-
-                            bool bool__22 = bool__17;
-                            if (bool__22)
-                            {
-                                var call__23 = FLines[I];
-                                bool__22 = call__23.Length > 1;
-                            }
-
-                            if (!bool__22)
-                                break;
-                            {
-                                Done = false;
-                                var call__24 = FLines.Count;
-                                if (I < call__24 - 1)
-                                {
-                                    if (Moved == true)
-                                    {
-                                        var call__25 = FLines[I];
-                                        var call__26 = FLines[I];
-                                        var call__27 = FLines[I + 1];
-                                        FLines[I + 1] = Copy(call__26, call__25.Length, 1) + call__27;
-                                    }
-                                    else
-                                    {
-                                        var call__28 = FLines[I];
-                                        var call__29 = FLines[I];
-                                        FLines.Insert(I + 1, Copy(call__29, call__28.Length, 1));
-                                    }
-                                }
-                                else
-                                {
-                                    var call__30 = FLines[I];
-                                    var call__31 = FLines[I];
-                                    FLines.Add(Copy(call__31, call__30.Length, 1));
-                                }
-
-                                var call__32 = FLines[I];
-                                var call__33 = FLines[I];
-                                FLines[I] = Copy(call__33, 1, call__32.Length - 1);
-                                Moved = true;
-                                var call__34 = FLines[I];
-                                var call__35 = FLines[I];
-                                if (Copy(call__35, call__34.Length, 1) == AnsiString.FromBytes(32))
-                                {
-                                    Done = true;
-                                }
-                            }
+                            var line = FLines[I];
+                            var textWidth = FAOWFont.GetTextWidth(line);
+                            var ilFrame2 = FILFrame[3];
+                            var ilFrame3 = FILFrame[4];
+                            notDone = textWidth > FWinWidth - ilFrame2.Width - ilFrame3.Width - FBorderWidth * 2;
                         }
 
-                        I += 1;
+                        if (!(notDone && FLines[I].Length > 1))
+                            break;
+                        Done = false;
+                        if (I < FLines.Count - 1)
+                        {
+                            if (Moved == true)
+                            {
+                                var lineLength = FLines[I];
+                                var line = FLines[I];
+                                var line2 = FLines[I + 1];
+                                FLines[I + 1] = Copy(line, lineLength.Length, 1) + line2;
+                            }
+                            else
+                            {
+                                var lineLength = FLines[I];
+                                var line = FLines[I];
+                                FLines.Insert(I + 1, Copy(line, lineLength.Length, 1));
+                            }
+                        }
+                        else
+                        {
+                            var lineLength = FLines[I];
+                            var line = FLines[I];
+                            FLines.Add(Copy(line, lineLength.Length, 1));
+                        }
+
+                        var line3 = FLines[I];
+                        var line4 = FLines[I];
+                        FLines[I] = Copy(line4, 1, line3.Length - 1);
+                        Moved = true;
+                        var line5 = FLines[I];
+                        if (Copy(FLines[I], line5.Length, 1) == AnsiString.FromBytes(32))
+                        {
+                            Done = true;
+                        }
                     }
+
+                    I += 1;
                 }
 
-                var call__36 = FILFrame[FILIndexFrame + 1];
-                var call__37 = FILFrame[FILIndexFrame + 6];
-                var call__38 = FLines.Count;
-                FWinHeight = call__36.Height + call__37.Height + FBorderHeight * 2 + call__38 * FItemHeight;
-                var call__39 = FLines[0];
-                var call__40 = FAOWFont.GetTextWidth(call__39);
-                W = call__40;
-                var call__41 = FILFrame[FILIndexFrame];
-                var call__42 = FILFrame[FILIndexFrame + 2];
-                if (W < FWinWidth - call__41.Width - call__42.Width - FBorderWidth * 2)
+                var ilFrame5 = FILFrame[FILIndexFrame + 1];
+                var ilFrame6 = FILFrame[FILIndexFrame + 6];
+                var count = FLines.Count;
+                FWinHeight = ilFrame5.Height + ilFrame6.Height + FBorderHeight * 2 + count * FItemHeight;
+                var line6 = FLines[0];
+                W = FAOWFont.GetTextWidth(line6);
+                var ilFrame7 = FILFrame[FILIndexFrame];
+                var ilFrame8 = FILFrame[FILIndexFrame + 2];
+                if (W < FWinWidth - ilFrame7.Width - ilFrame8.Width - FBorderWidth * 2)
                 {
-                    var call__43 = FILFrame[FILIndexFrame];
-                    var call__44 = FILFrame[FILIndexFrame + 2];
-                    FWinWidth = W + call__43.Width + call__44.Width + FBorderWidth * 2;
+                    var ilFrame2 = FILFrame[FILIndexFrame];
+                    var ilFrame3 = FILFrame[FILIndexFrame + 2];
+                    FWinWidth = W + ilFrame2.Width + ilFrame3.Width + FBorderWidth * 2;
                 }
             }
 
             if (FMasked)
             {
-                var call__45 = FILFrame[FILIndexFrame + 3];
-                FFrameLeft = call__45.Width;
-                var call__46 = FILFrame[FILIndexFrame + 4];
-                FFrameRight = FWinWidth - call__46.Width;
-                var call__47 = FILFrame[FILIndexFrame + 1];
-                FFrameTop = call__47.Height;
-                var call__48 = FILFrame[FILIndexFrame + 6];
-                FFrameBottom = FWinHeight - call__48.Height;
+                FFrameLeft = FILFrame[FILIndexFrame + 3].Width;
+                var ilFrame2 = FILFrame[FILIndexFrame + 4];
+                FFrameRight = FWinWidth - ilFrame2.Width;
+                FFrameTop = FILFrame[FILIndexFrame + 1].Height;
+                var ilFrame3 = FILFrame[FILIndexFrame + 6];
+                FFrameBottom = FWinHeight - ilFrame3.Height;
             }
 
             FWinLeft = FControlRect.Right;
@@ -247,7 +221,7 @@ namespace Aow.Units.AOWToolTip
         // AOWToolTip.pas:162
         public override void Update()
         {
-            bool B = default;
+            bool B;
             B = FDoubleBuffered;
             FDoubleBuffered = false;
             base.Update();
@@ -307,67 +281,52 @@ namespace Aow.Units.AOWToolTip
         // AOWToolTip.pas:223
         public override void Draw(TSurfaceDesc SurfDesc)
         {
-            int I = default;
-            TRect OldClip = default;
+            TRect OldClip;
             try
             {
                 if (FValid && FVisible)
                 {
-                    var call__49 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                    FILFrame.DrawILF(FILIndexFrame, call__49, ref SurfDesc);
-                    var call__50 = FILFrame[FILIndexFrame + 1];
-                    var call__51 = FILFrame[FILIndexFrame + 6];
-                    var call__52 = FILFrame[FILIndexFrame + 3];
-                    var call__53 = FILFrame[FILIndexFrame + 4];
-                    var call__54 = FILFrame[FILIndexFrame + 1];
-                    var call__55 = FILFrame[FILIndexFrame + 3];
-                    var call__56 = Rect(FWinLeft + call__55.Width, FWinTop + call__54.Height, FWinWidth - call__52.Width - call__53.Width, FWinHeight - call__50.Height - call__51.Height);
-                    FILTexture.DrawILT(FILIndexTexture, call__56, ref SurfDesc);
+                    var rect = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
+                    var ilFrameHeight = FILFrame[FILIndexFrame + 1];
+                    var ilFrame = FILFrame[FILIndexFrame + 6];
+                    var ilFrameWidth = FILFrame[FILIndexFrame + 3];
+                    var ilFrame2 = FILFrame[FILIndexFrame + 4];
+                    var ilFrame3 = FILFrame[FILIndexFrame + 1];
+                    var ilFrame4 = FILFrame[FILIndexFrame + 3];
+                    var rect2 = Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                    FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                     FAOWFont.Color = FColor;
                     OldClip = SurfDesc.ClipRect;
-                    var call__57 = FLines.Count;
-                    if (call__57 > 0)
+                    if (FLines.Count > 0)
                     {
+                        for (int I = 0, last = FLines.Count - 1; I <= last; I++)
                         {
-                            I = 0;
-                            int end__58 = FLines.Count - 1;
-                            for (; I <= end__58; I += 1)
+                            var ilFrame5 = FILFrame[FILIndexFrame + 4];
+                            if (FWinLeft + FWinWidth - ilFrame5.Width < OldClip.Right)
                             {
-                                var call__59 = FILFrame[FILIndexFrame + 4];
-                                if (FWinLeft + FWinWidth - call__59.Width < OldClip.Right)
-                                {
-                                    var call__60 = FILFrame[FILIndexFrame + 4];
-                                    SurfDesc.ClipRect.Right = FWinLeft + FWinWidth - call__60.Width;
-                                }
-
-                                var call__61 = FLines.Count;
-                                bool bool__62 = I < call__61;
-                                if (bool__62)
-                                {
-                                    var call__63 = FLines.Count;
-                                    bool__62 = call__63 > 0;
-                                }
-
-                                if (bool__62)
-                                {
-                                    var call__64 = FLines[I];
-                                    var call__65 = FILFrame[FILIndexFrame];
-                                    var call__66 = FILFrame[FILIndexFrame + 3];
-                                    FAOWFont.SetText(FWinLeft + FBorderWidth + call__66.Width, FWinTop + FBorderHeight + call__65.Height + FItemHeight * I, call__64, SurfDesc);
-                                    FItemIndex = I;
-                                    var call__67 = FILFrame[FILIndexFrame + 1];
-                                    var call__68 = FILFrame[FILIndexFrame + 1];
-                                    var call__69 = FILFrame[FILIndexFrame + 3];
-                                    var call__70 = Rect(FWinLeft + call__69.Width, FWinTop + call__68.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + call__67.Height + (I + 1) * FItemHeight);
-                                    FItemRect = call__70;
-                                    if (FOnDrawItem != null)
-                                    {
-                                        FOnDrawItem(this);
-                                    }
-                                }
-
-                                SurfDesc.ClipRect = OldClip;
+                                var ilFrame6 = FILFrame[FILIndexFrame + 4];
+                                SurfDesc.ClipRect.Right = FWinLeft + FWinWidth - ilFrame6.Width;
                             }
+
+                            if (I < FLines.Count && FLines.Count > 0)
+                            {
+                                var line = FLines[I];
+                                var ilFrame6 = FILFrame[FILIndexFrame];
+                                var ilFrame7 = FILFrame[FILIndexFrame + 3];
+                                FAOWFont.SetText(FWinLeft + FBorderWidth + ilFrame7.Width, FWinTop + FBorderHeight + ilFrame6.Height + FItemHeight * I, line, SurfDesc);
+                                FItemIndex = I;
+                                var ilFrame8 = FILFrame[FILIndexFrame + 1];
+                                var ilFrame9 = FILFrame[FILIndexFrame + 1];
+                                var item = FILFrame[FILIndexFrame + 3];
+                                FItemRect = Rect(FWinLeft + item.Width, FWinTop + ilFrame9.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame8.Height + (I + 1) * FItemHeight);
+                                if (FOnDrawItem != null)
+                                {
+                                    FOnDrawItem(this);
+                                }
+                            }
+
+                            SurfDesc.ClipRect = OldClip;
                         }
                     }
 
@@ -393,19 +352,14 @@ namespace Aow.Units.AOWToolTip
         // AOWToolTip.pas:172
         public void SetFStrings(TStringList Value)
         {
-            int I = default;
             FLines.Clear();
             FItems.Clear();
+            for (int I = 0, last = Value.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__71 = Value.Count - 1;
-                for (; I <= end__71; I += 1)
-                {
-                    var call__72 = Value[I];
-                    FLines.Add(call__72);
-                    var call__73 = Value[I];
-                    FItems.Add(call__73);
-                }
+                var valueValue = Value[I];
+                FLines.Add(valueValue);
+                var valueValue2 = Value[I];
+                FItems.Add(valueValue2);
             }
 
             FSized = false;

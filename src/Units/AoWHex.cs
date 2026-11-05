@@ -23,19 +23,11 @@ namespace Aow.Units.AoWHex
         // AoWHex.pas:119
         public override void ChangeTerrain(in THSTerrainInfo Msg)
         {
-            TMapObjectResource R = default;
-            bool bool__1 = Msg.HN == 0;
-            if (bool__1)
+            TMapObjectResource R;
+            if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
             {
-                var call__2 = GetTerrain(0);
-                bool__1 = call__2 != Msg.TerrainType;
-            }
-
-            if (bool__1)
-            {
-                var call__3 = FResource.EClass.ClassID;
-                var call__4 = AoWHSSet.HexagonControl.GetRndResource(Msg.TerrainType, call__3);
-                R = call__4;
+                var classID = FResource.EClass.ClassID;
+                R = AoWHSSet.HexagonControl.GetRndResource(Msg.TerrainType, classID);
                 if (R != null)
                 {
                     SetResource(R);
@@ -44,10 +36,10 @@ namespace Aow.Units.AoWHex
                 }
                 else
                 {
-                    var call__5 = GetLhx();
-                    var call__6 = GetYhx();
-                    var call__7 = GetXhx();
-                    FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, call__7, call__6, call__5, Msg.TerrainType);
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
                 }
             }
         }
@@ -59,17 +51,17 @@ namespace Aow.Units.AoWHex
             {
                 if (Msg.TerrainType != 14)
                 {
-                    var call__8 = GetLhx();
-                    var call__9 = GetYhx();
-                    var call__10 = GetXhx();
-                    FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, call__10, call__9, call__8, Msg.TerrainType);
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
                 }
                 else
                 {
-                    var call__11 = GetLhx();
-                    var call__12 = GetYhx();
-                    var call__13 = GetXhx();
-                    FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, call__13, call__12, call__11, 0);
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, xhx, yhx, lhx, 0);
                 }
             }
         }
@@ -97,14 +89,14 @@ namespace Aow.Units.AoWHex
         // AoWHex.pas:150
         public override void UpdateTransition(byte Side)
         {
-            bool Shifted = default;
+            bool Shifted;
             int NXhx = default;
             int NYhx = default;
-            TMapLevel MapLevel = default;
-            int NeighbourTerrain = default;
-            int OwnTerrain = default;
-            TCustomImageLibrary IL = default;
-            int Image = default;
+            TMapLevel MapLevel;
+            int NeighbourTerrain;
+            int OwnTerrain;
+            TCustomImageLibrary IL;
+            int Image;
             Shifted = false;
             FTransitions[Side] = 255;
             FTransitionSides = (byte)(FTransitionSides & AoWHex.SideClear[Side]);
@@ -113,8 +105,7 @@ namespace Aow.Units.AoWHex
             TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, NXhx, NYhx, ref NXhx, ref NYhx);
             if (NXhx >= 0 && NYhx >= 0 && MapLevel.Width > NXhx && MapLevel.Height > NYhx)
             {
-                var call__14 = MapLevel.GetField(NXhx, NYhx);
-                NeighbourTerrain = call__14.TerrainType;
+                NeighbourTerrain = MapLevel.GetField(NXhx, NYhx).TerrainType;
                 OwnTerrain = GetTerrain(0);
                 if (OwnTerrain != NeighbourTerrain && OwnTerrain >= 0 && NeighbourTerrain >= 0 && NeighbourTerrain != 8 && NeighbourTerrain != 7 && NeighbourTerrain != 15 && OwnTerrain != 15)
                 {
@@ -122,8 +113,8 @@ namespace Aow.Units.AoWHex
                     {
                         if (NeighbourTerrain == 10 || NeighbourTerrain == 13)
                         {
-                            var call__15 = Random(3);
-                            FTransitions[Side] = (byte)(call__15 * 3 + (Side + 182));
+                            var random = Random(3);
+                            FTransitions[Side] = (byte)(random * 3 + (Side + 182));
                         }
                         else
                         {
@@ -140,8 +131,8 @@ namespace Aow.Units.AoWHex
                         {
                             if (OwnTerrain == 10 || OwnTerrain == 13)
                             {
-                                var call__16 = Random(3);
-                                FTransitions[Side] = (byte)(call__16 * 3 + (Side + 182));
+                                var random = Random(3);
+                                FTransitions[Side] = (byte)(random * 3 + (Side + 182));
                             }
                             else
                             {
@@ -218,8 +209,8 @@ namespace Aow.Units.AoWHex
                                                     }
                                                     else
                                                     {
-                                                        var call__17 = Random(3);
-                                                        FTransitions[Side] = (byte)(call__17 * 3 + ((byte)(OwnTerrain << 4) + Side + 6));
+                                                        var random = Random(3);
+                                                        FTransitions[Side] = (byte)(random * 3 + ((byte)(OwnTerrain << 4) + Side + 6));
                                                     }
                                                 }
                                             }
@@ -238,8 +229,7 @@ namespace Aow.Units.AoWHex
                 Image = FTransitions[Side];
                 if (Image < IL.Count)
                 {
-                    var call__18 = IL[Image];
-                    if (call__18 != null)
+                    if (IL[Image] != null)
                     {
                         FTransitionSides = (byte)(FTransitionSides + (1 << Side));
                         if (Shifted)
@@ -262,8 +252,8 @@ namespace Aow.Units.AoWHex
         {
             if (Msg.MsgID == 65556)
             {
-                var call__19 = FTerrainList.Terrain[0];
-                if (TSet<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)call__19))
+                var terrain = FTerrainList.Terrain[0];
+                if (TSet<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)terrain))
                 {
                     return;
                 }
@@ -293,10 +283,9 @@ namespace Aow.Units.AoWHex
     {
         public TAoWWaterHexagon(TECustomNode owner) : base(owner)
         {
-            var call__20 = Random(20);
-            FAnimationFrame = (sbyte)(-1 - call__20);
-            var call__21 = Random(4);
-            this.FSides = (byte)(this.FSides | (call__21 << 6));
+            FAnimationFrame = (sbyte)(-1 - Random(20));
+            var random = Random(4);
+            this.FSides = (byte)(this.FSides | (random << 6));
         }
 
         // AoWHex.pas:275
@@ -327,25 +316,13 @@ namespace Aow.Units.AoWHex
 
 
         // AoWHex.pas:458
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132925;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132925;
 
         // AoWHex.pas:58
 
 
         // AoWHex.pas:455
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__22 = WaterHexagonRStr;
-            var call__23 = TranslateRStr(call__22);
-            Result = call__23;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(WaterHexagonRStr);
 
     }
 

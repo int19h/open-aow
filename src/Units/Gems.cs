@@ -81,23 +81,19 @@ namespace Aow.Units.Gems
         {
             if (FGenerateMode == TGemsGenerateMode.gmRandom)
             {
-                var call__1 = AoWHSMap.Random(3);
-                FGenerateMode = (TGemsGenerateMode)(call__1 + 1);
+                FGenerateMode = (TGemsGenerateMode)(AoWHSMap.Random(3) + 1);
             }
 
             switch (FGenerateMode)
             {
                 case TGemsGenerateMode.gmLow:
-                    var call__2 = AoWHSMap.Random(25);
-                    FAmount = call__2 + 25;
+                    FAmount = AoWHSMap.Random(25) + 25;
                     break;
                 case TGemsGenerateMode.gmNormal:
-                    var call__3 = AoWHSMap.Random(25);
-                    FAmount = call__3 + 50;
+                    FAmount = AoWHSMap.Random(25) + 50;
                     break;
                 case TGemsGenerateMode.gmHigh:
-                    var call__4 = AoWHSMap.Random(50);
-                    FAmount = call__4 + 100;
+                    FAmount = AoWHSMap.Random(50) + 100;
                     break;
             }
         }
@@ -105,7 +101,7 @@ namespace Aow.Units.Gems
         // Gems.pas:74
         public void UpdateAITarget(ref TAITargetInfo Info, ref int Priority)
         {
-            int Value = default;
+            int Value;
             switch (Info.Mode)
             {
                 case >= TAITargetMode.tmAttack and <= TAITargetMode.tmAttack:
@@ -125,20 +121,19 @@ namespace Aow.Units.Gems
         // Gems.pas:99
         public void ArmyEntered(TArmyHS ArmyHS)
         {
-            TLocationTextEventLog Event = default;
+            TLocationTextEventLog Event;
             if (ArmyHS.FArmy.FPlayer != 0)
             {
-                bool bool__5 = AoWHSMap.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
-                if (!bool__5)
+                bool condition = AoWHSMap.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
+                if (!condition)
                 {
-                    var call__6 = GetLhx();
-                    var call__7 = GetYhx();
-                    var call__8 = GetXhx();
-                    var call__9 = AoWHSMap.Watching(call__8, call__7, call__6, 0);
-                    bool__5 = call__9;
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
                 }
 
-                if (bool__5)
+                if (condition)
                 {
                     PlaySample((AnsiString)"SFX\\EVENTS\\GOLD.WAV");
                 }
@@ -148,16 +143,11 @@ namespace Aow.Units.Gems
 
                 Event = new TLocationTextEventLog(null);
                 Event.FPlayer = ArmyHS.FArmy.FPlayer;
-                var call__11 = GoldFoundRStr;
-                var call__12 = TranslateRStr(call__11);
-                var call__13 = Rtl.Rtl.Format(call__12, [IntToStr(FAmount)]);
-                Event.FText = call__13;
-                var call__14 = GetLhx();
-                var call__15 = GetYhx();
-                var call__16 = GetXhx();
-                Event.SetLocation(call__16, call__15, call__14);
-                var call__17 = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-                call__17.FEventLogbook.AddEvent(Event);
+                Event.FText = Rtl.Rtl.Format(TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
+                var lhx2 = GetLhx();
+                var yhx2 = GetYhx();
+                Event.SetLocation(GetXhx(), yhx2, lhx2);
+                AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
                 Event.Release();
                 Destroy();
             }
@@ -177,22 +167,10 @@ namespace Aow.Units.Gems
         public new const int ClassID = 132015;
 
         // Gems.pas:140
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132014;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132014;
 
         // Gems.pas:134
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__18 = GoldRStr;
-            var call__19 = TranslateRStr(call__18);
-            Result = call__19;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(GoldRStr);
 
     }
 

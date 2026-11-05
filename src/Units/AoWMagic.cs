@@ -97,11 +97,9 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:133
         public void SelectEnchantment(int Index)
         {
-            var call__1 = EnchantmentList.Items.Count;
-            if (Index >= call__1)
+            if (Index >= EnchantmentList.Items.Count)
             {
-                var call__2 = EnchantmentList.Items.Count;
-                Index = call__2 - 1;
+                Index = EnchantmentList.Items.Count - 1;
             }
 
             EnchantmentList.Selected = Index;
@@ -114,12 +112,10 @@ namespace Aow.Units.AoWMagic
         public void SelectGlobalEnchantment(int Index)
         {
             AnsiString Reason = default;
-            TGlobalEnchantment Enchantment = default;
-            var call__3 = GlobalEnchantmentList.Items.Count;
-            if (Index >= call__3)
+            TGlobalEnchantment Enchantment;
+            if (Index >= GlobalEnchantmentList.Items.Count)
             {
-                var call__4 = GlobalEnchantmentList.Items.Count;
-                Index = call__4 - 1;
+                Index = GlobalEnchantmentList.Items.Count - 1;
             }
 
             GlobalEnchantmentList.Selected = Index;
@@ -127,10 +123,9 @@ namespace Aow.Units.AoWMagic
             GlobalUpkeepList.Selected = Index;
             if (Index != -1)
             {
-                var call__5 = GlobalEnchantmentList.Items.Objects[Index];
-                Enchantment = (TGlobalEnchantment)call__5;
-                var call__6 = Enchantment.CanRemove(AoWHSMap.FSeatedPlayer, ref Reason);
-                GlobalDispelBtn.Visible = call__6;
+                Enchantment = (TGlobalEnchantment)GlobalEnchantmentList.Items.Objects[Index];
+                var canRemove = Enchantment.CanRemove(AoWHSMap.FSeatedPlayer, ref Reason);
+                GlobalDispelBtn.Visible = canRemove;
             }
             else
             {
@@ -141,11 +136,9 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:160
         public void SelectPowerSource(int Index)
         {
-            var call__7 = PowerSourceList.Items.Count;
-            if (Index >= call__7)
+            if (Index >= PowerSourceList.Items.Count)
             {
-                var call__8 = PowerSourceList.Items.Count;
-                Index = call__8 - 1;
+                Index = PowerSourceList.Items.Count - 1;
             }
 
             PowerSourceList.Selected = Index;
@@ -227,17 +220,16 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:203
         public void EnchantmentListDoubleClick()
         {
-            bool bool__9 = EnchantmentList.Selected >= 0;
-            if (bool__9)
+            bool condition = EnchantmentList.Selected >= 0;
+            if (condition)
             {
-                var call__10 = EnchantmentList.Items.Count;
-                bool__9 = EnchantmentList.Selected < call__10;
+                var count = EnchantmentList.Items.Count;
+                condition = EnchantmentList.Selected < count;
             }
 
-            if (bool__9)
+            if (condition)
             {
-                var call__11 = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-                ((TEnchantment)call__11).Select();
+                ((TEnchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).Select();
             }
         }
 
@@ -246,17 +238,16 @@ namespace Aow.Units.AoWMagic
         {
             if (Button == TMouseButton.mbRight)
             {
-                bool bool__12 = EnchantmentList.Selected >= 0;
-                if (bool__12)
+                bool condition = EnchantmentList.Selected >= 0;
+                if (condition)
                 {
-                    var call__13 = EnchantmentList.Items.Count;
-                    bool__12 = EnchantmentList.Selected < call__13;
+                    var count = EnchantmentList.Items.Count;
+                    condition = EnchantmentList.Selected < count;
                 }
 
-                if (bool__12)
+                if (condition)
                 {
-                    var call__14 = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-                    ((TEnchantment)call__14).CenterToLocation();
+                    ((TEnchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).CenterToLocation();
                 }
             }
         }
@@ -265,18 +256,17 @@ namespace Aow.Units.AoWMagic
         public void DispelBtnClick()
         {
             General.PlayButtonSound(0);
-            bool bool__15 = EnchantmentList.Selected >= 0;
-            if (bool__15)
+            bool condition = EnchantmentList.Selected >= 0;
+            if (condition)
             {
-                var call__16 = EnchantmentList.Items.Count;
-                bool__15 = EnchantmentList.Selected < call__16;
+                var count = EnchantmentList.Items.Count;
+                condition = EnchantmentList.Selected < count;
             }
 
-            if (bool__15)
+            if (condition)
             {
-                var call__17 = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-                var call__18 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                call__18.FMagicControl.DispelEnchantment((TEnchantment)call__17);
+                var objectValue = EnchantmentList.Items.Objects[EnchantmentList.Selected];
+                AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.DispelEnchantment((TEnchantment)objectValue);
             }
         }
 
@@ -302,17 +292,17 @@ namespace Aow.Units.AoWMagic
         public void GlobalDispelBtnClick()
         {
             General.PlayButtonSound(0);
-            bool bool__19 = GlobalEnchantmentList.Selected >= 0;
-            if (bool__19)
+            bool condition = GlobalEnchantmentList.Selected >= 0;
+            if (condition)
             {
-                var call__20 = GlobalEnchantmentList.Items.Count;
-                bool__19 = GlobalEnchantmentList.Selected < call__20;
+                var count = GlobalEnchantmentList.Items.Count;
+                condition = GlobalEnchantmentList.Selected < count;
             }
 
-            if (bool__19)
+            if (condition)
             {
-                var call__21 = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-                AoWHSMap.FGlobalMagicControl.RemoveEnchantment(AoWHSMap.FSeatedPlayer, (TGlobalEnchantment)call__21);
+                var objectValue = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
+                AoWHSMap.FGlobalMagicControl.RemoveEnchantment(AoWHSMap.FSeatedPlayer, (TGlobalEnchantment)objectValue);
             }
         }
 
@@ -363,20 +353,17 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:296
         public void SpellIcnDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            TPlayerMagicControl Magic = default;
-            TSpell Spell = default;
-            int X = default;
-            int Y = default;
-            var call__22 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            Magic = call__22.FMagicControl;
+            TPlayerMagicControl Magic;
+            TSpell Spell;
+            int X;
+            int Y;
+            Magic = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl;
             if (Magic.FResearchSpellID != 0)
             {
-                var call__23 = AoWHSSet.FSpellControl.GetSpell(Magic.FResearchSpellID);
-                Spell = call__23;
+                Spell = AoWHSSet.FSpellControl.GetSpell(Magic.FResearchSpellID);
                 if (Spell != null)
                 {
-                    var call__24 = Spell.FCastImages.GetImageSequence(10);
-                    if (call__24 != null)
+                    if (Spell.FCastImages.GetImageSequence(10) != null)
                     {
                         var image = (TAOWImage)Sender;
                         X = image.FAOWWindow.WinLeft;
@@ -390,17 +377,16 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:316
         public void PowerSourceListDoubleClick()
         {
-            bool bool__26 = PowerSourceList.Selected >= 0;
-            if (bool__26)
+            bool condition = PowerSourceList.Selected >= 0;
+            if (condition)
             {
-                var call__27 = PowerSourceList.Items.Count;
-                bool__26 = PowerSourceList.Selected < call__27;
+                var count = PowerSourceList.Items.Count;
+                condition = PowerSourceList.Selected < count;
             }
 
-            if (bool__26)
+            if (condition)
             {
-                var call__28 = PowerSourceList.Items.Objects[PowerSourceList.Selected];
-                ((TPowerSource)call__28).Select();
+                ((TPowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).Select();
             }
         }
 
@@ -411,11 +397,10 @@ namespace Aow.Units.AoWMagic
             {
                 if (PowerSourceList.Selected >= 0)
                 {
-                    var call__29 = PowerSourceList.Items.Count;
-                    if (PowerSourceList.Selected < call__29)
+                    var count = PowerSourceList.Items.Count;
+                    if (PowerSourceList.Selected < count)
                     {
-                        var call__30 = PowerSourceList.Items.Objects[PowerSourceList.Selected];
-                        ((TPowerSource)call__30).CenterToLocation();
+                        ((TPowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).CenterToLocation();
                     }
                 }
             }
@@ -619,17 +604,16 @@ namespace Aow.Units.AoWMagic
         {
             if (Button == TMouseButton.mbRight)
             {
-                bool bool__32 = GlobalEnchantmentList.Selected >= 0;
-                if (bool__32)
+                bool condition = GlobalEnchantmentList.Selected >= 0;
+                if (condition)
                 {
-                    var call__33 = GlobalEnchantmentList.Items.Count;
-                    bool__32 = GlobalEnchantmentList.Selected < call__33;
+                    var count = GlobalEnchantmentList.Items.Count;
+                    condition = GlobalEnchantmentList.Selected < count;
                 }
 
-                if (bool__32)
+                if (condition)
                 {
-                    var call__34 = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-                    ((TGlobalEnchantment)call__34).CenterToLocation();
+                    ((TGlobalEnchantment)GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected]).CenterToLocation();
                 }
             }
         }

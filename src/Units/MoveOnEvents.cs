@@ -30,8 +30,8 @@ namespace Aow.Units.MoveOnEvents
         public override void Connect()
         {
             THNWalkData Walk = default;
-            TMapLevel MapLevel = default;
-            TMapField MapField = default;
+            TMapLevel MapLevel;
+            TMapField MapField;
             if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
                 FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
@@ -44,8 +44,7 @@ namespace Aow.Units.MoveOnEvents
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < MapLevel.Width && walk.Y < MapLevel.Height)
                     {
-                        var call__3 = MapLevel.GetField(walk.X, walk.Y);
-                        MapField = call__3;
+                        MapField = MapLevel.GetField(walk.X, walk.Y);
                         if (MapField == Owner)
                         {
                             MapField.RemoveHS(this);
@@ -63,7 +62,7 @@ namespace Aow.Units.MoveOnEvents
         public override void Disconnect()
         {
             THNWalkData Walk = default;
-            TMapLevel MapLevel = default;
+            TMapLevel MapLevel;
             if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
             {
                 MapLevel = (TMapLevel)Owner.Owner;
@@ -73,8 +72,7 @@ namespace Aow.Units.MoveOnEvents
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                     {
-                        var call__4 = MapLevel.GetField(Walk.X, Walk.Y);
-                        call__4.RemoveHS(this);
+                        MapLevel.GetField(Walk.X, Walk.Y).RemoveHS(this);
                     }
 
                     WalkToNextHN(ref Walk);
@@ -117,20 +115,10 @@ namespace Aow.Units.MoveOnEvents
         }
 
         // MoveOnEvents.pas:134
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
 
         // MoveOnEvents.pas:129
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // MoveOnEvents.pas:173
         public virtual void MovedOnTrigger(sbyte Player)
@@ -138,12 +126,7 @@ namespace Aow.Units.MoveOnEvents
         }
 
         // MoveOnEvents.pas:139
-        public bool GetTriggerPlayer(sbyte Player)
-        {
-            bool Result = default;
-            Result = Player > 0 && (FTriggerPlayers & (1 << (Player - 1))) != 0;
-            return Result;
-        }
+        public bool GetTriggerPlayer(sbyte Player) => Player > 0 && (FTriggerPlayers & (1 << (Player - 1))) != 0;
 
         // MoveOnEvents.pas:144
         public void SetTriggerPlayer(sbyte Player, bool Value)
@@ -164,7 +147,7 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:244
         public void SetRadius(byte Value)
         {
-            TECustomNode MapField = default;
+            TECustomNode MapField;
             if (Value > 10)
             {
                 Value = 10;
@@ -208,12 +191,7 @@ namespace Aow.Units.MoveOnEvents
 
 
         // MoveOnEvents.pas:272
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"MoveOnEvent";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"MoveOnEvent";
 
     }
 
@@ -242,8 +220,7 @@ namespace Aow.Units.MoveOnEvents
             // Use the map's seated player.
             if (Player == AoWHSMap.FSeatedPlayer)
             {
-                var call__5 = PlayingSongFileName();
-                if (CompareText(call__5, FSongFileName) != 0)
+                if (CompareText(PlayingSongFileName(), FSongFileName) != 0)
                 {
                     PlaySongEx(FSongFileName, 2, 0, false);
                 }
@@ -263,20 +240,10 @@ namespace Aow.Units.MoveOnEvents
         public new const int ClassID = 132428;
 
         // MoveOnEvents.pas:304
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132427;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132427;
 
         // MoveOnEvents.pas:295
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(ChangeSongEventRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(ChangeSongEventRStr);
 
     }
 
@@ -321,20 +288,10 @@ namespace Aow.Units.MoveOnEvents
         public new const int ClassID = 132446;
 
         // MoveOnEvents.pas:331
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132445;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132445;
 
         // MoveOnEvents.pas:322
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(PlaySampleEventRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(PlaySampleEventRStr);
 
     }
 
@@ -342,8 +299,7 @@ namespace Aow.Units.MoveOnEvents
     {
         public TShowMessageMoveOnEvent(TECustomNode owner) : base(owner)
         {
-            var call__6 = new TStringList();
-            FMessage = call__6;
+            FMessage = new TStringList();
         }
 
         // MoveOnEvents.pas:346
@@ -370,12 +326,12 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:355
         public override void MovedOnTrigger(sbyte Player)
         {
-            TShowMessageEventLog Log = default;
+            TShowMessageEventLog Log;
             if (AoWHSMap.FSeatedPlayer == Player)
             {
                 Log = new TShowMessageEventLog(null);
-                var call__7 = FMessage.Text;
-                Log.FMessage.Text = call__7;
+                var text = FMessage.Text;
+                Log.FMessage.Text = text;
                 AoWHSMap.TriggerExecuteEventLog(Log, false, null);
                 Log.Release();
             }
@@ -397,20 +353,10 @@ namespace Aow.Units.MoveOnEvents
         public new const int ClassID = 132430;
 
         // MoveOnEvents.pas:378
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132429;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132429;
 
         // MoveOnEvents.pas:369
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(ShowMessageEventRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(ShowMessageEventRStr);
 
     }
 

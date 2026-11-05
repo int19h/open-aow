@@ -38,38 +38,32 @@ namespace Aow.Units.AoWButton
         {
             if (FILButton != null)
             {
-                var call__1 = FILButton.CheckIL(FILIndexUp, 3, this);
-                FILButton = call__1;
+                FILButton = FILButton.CheckIL(FILIndexUp, 3, this);
             }
 
             if (FILButton != null)
             {
-                var call__2 = FILButton.CheckIL(FILIndexDown, 3, this);
-                FILButton = call__2;
+                FILButton = FILButton.CheckIL(FILIndexDown, 3, this);
             }
 
             if (FILButton != null && FILIndexLit != FILIndexUp)
             {
-                var call__3 = FILButton.CheckIL(FILIndexLit, 3, this);
-                FILButton = call__3;
+                FILButton = FILButton.CheckIL(FILIndexLit, 3, this);
             }
 
             if (FILIcon != null)
             {
-                var call__4 = FILIcon.CheckIL(FILIndexUp, 1, this);
-                FILIcon = call__4;
+                FILIcon = FILIcon.CheckIL(FILIndexUp, 1, this);
             }
 
             if (FILIcon != null)
             {
-                var call__5 = FILIcon.CheckIL(FILIndexDown, 1, this);
-                FILIcon = call__5;
+                FILIcon = FILIcon.CheckIL(FILIndexDown, 1, this);
             }
 
             if (FILIcon != null && FILIndexLit != FILIndexUp)
             {
-                var call__6 = FILIcon.CheckIL(FILIndexLit, 1, this);
-                FILIcon = call__6;
+                FILIcon = FILIcon.CheckIL(FILIndexLit, 1, this);
             }
 
             if (FILButton != null)
@@ -95,23 +89,20 @@ namespace Aow.Units.AoWButton
             switch (FButtonType)
             {
                 case TButtonType.btText:
-                    var call__7 = FILButton[FILIndexUp];
-                    var call__8 = FILButton[FILIndexUp + 2];
-                    if (call__7.Width + call__8.Width > FWinWidth)
+                    var ilButtonWidth = FILButton[FILIndexUp];
+                    var ilButton = FILButton[FILIndexUp + 2];
+                    if (ilButtonWidth.Width + ilButton.Width > FWinWidth)
                     {
-                        var call__9 = FILButton[FILIndexUp];
-                        var call__10 = FILButton[FILIndexUp + 2];
-                        FWinWidth = call__9.Width + call__10.Width;
+                        var ilButton2 = FILButton[FILIndexUp];
+                        var ilButton3 = FILButton[FILIndexUp + 2];
+                        FWinWidth = ilButton2.Width + ilButton3.Width;
                     }
 
-                    var call__11 = FILButton[FILIndexUp];
-                    FWinHeight = call__11.Height;
+                    FWinHeight = FILButton[FILIndexUp].Height;
                     break;
                 case TButtonType.btIcon:
-                    var call__12 = FILIcon[FILIndexUp];
-                    FWinWidth = call__12.Width;
-                    var call__13 = FILIcon[FILIndexUp];
-                    FWinHeight = call__13.Height;
+                    FWinWidth = FILIcon[FILIndexUp].Width;
+                    FWinHeight = FILIcon[FILIndexUp].Height;
                     break;
             }
 
@@ -145,20 +136,20 @@ namespace Aow.Units.AoWButton
                     {
                         if (FButtonType == TButtonType.btText)
                         {
-                            var call__14 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILButton.DrawILLh(FILIndexDown, call__14, ref SurfDesc);
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
                         }
                         else
                         {
-                            var call__15 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILIcon.DrawILI(FILIndexDown, call__15, ref SurfDesc);
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILIcon.DrawILI(FILIndexDown, rect, ref SurfDesc);
                         }
 
                         if (FAOWFont != null)
                         {
                             FAOWFont.Color = FSelColor;
-                            var call__16 = FAOWFont.GetTextWidth(FText);
-                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - call__16 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, FText, SurfDesc);
+                            var textWidth = FAOWFont.GetTextWidth(FText);
+                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, FText, SurfDesc);
                         }
                     }
                     else
@@ -167,34 +158,34 @@ namespace Aow.Units.AoWButton
                         {
                             if (FLit)
                             {
-                                var call__17 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                                FILButton.DrawILLh(FILIndexLit, call__17, ref SurfDesc);
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILButton.DrawILLh(FILIndexLit, rect, ref SurfDesc);
                             }
                             else
                             {
-                                var call__18 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                                FILButton.DrawILLh(FILIndexUp, call__18, ref SurfDesc);
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
                             }
                         }
                         else
                         {
                             if (FLit)
                             {
-                                var call__19 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                                FILIcon.DrawILI(FILIndexLit, call__19, ref SurfDesc);
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILIcon.DrawILI(FILIndexLit, rect, ref SurfDesc);
                             }
                             else
                             {
-                                var call__20 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                                FILIcon.DrawILI(FILIndexUp, call__20, ref SurfDesc);
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                                FILIcon.DrawILI(FILIndexUp, rect, ref SurfDesc);
                             }
                         }
 
                         if (FAOWFont != null)
                         {
                             FAOWFont.Color = FColor;
-                            var call__21 = FAOWFont.GetTextWidth(FText);
-                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - call__21 / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, FText, SurfDesc);
+                            var textWidth = FAOWFont.GetTextWidth(FText);
+                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, FText, SurfDesc);
                         }
                     }
 
@@ -370,8 +361,8 @@ namespace Aow.Units.AoWButton
         // AoWButton.pas:284
         public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
-            bool OldChecked = default;
-            bool OldLit = default;
+            bool OldChecked;
+            bool OldLit;
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
             OldChecked = FChecked;

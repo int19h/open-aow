@@ -85,7 +85,7 @@ namespace Aow.Units.DisplayC
         // { The value at X, Y, clipped to 2. }
         public int GetVal(byte X, byte Y)
         {
-            int Result = default;
+            int Result;
             if (X < FWidth && Y < FHeight)
             {
                 Result = (FData + X + Y * FWidth).Value;
@@ -221,7 +221,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1552
         internal void CMWantSpecialKey(ref TWMKey Message)
         {
-            ;
             if (Message.CharCode == 37 || Message.CharCode == 39 || Message.CharCode == 38 || Message.CharCode == 40)
             {
                 Message.Result = 1;
@@ -231,7 +230,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1560
         internal void CMKeyUP(ref TWMKey Message)
         {
-            ;
             if (Message.CharCode == 37 || Message.CharCode == 39 || Message.CharCode == 38 || Message.CharCode == 40)
             {
                 Message.Result = 0;
@@ -384,7 +382,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1541
         public virtual TAbstractDC GetDC(int Index)
         {
-            TAbstractDC Result = default;
+            TAbstractDC Result;
             switch (Index)
             {
                 case -1:
@@ -421,31 +419,16 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1492
         public virtual void ResizeBackSurfaces(int AWidth, int AHeight)
         {
-            int I = default;
             FBackSurfaceWidth = AWidth;
             FBackSurfaceHeight = AHeight;
             if (!ComponentState.Contains(TComponentState.csDesigning) && FActiveDC != null && FBufferingScheme != TBufferingScheme.bsSingle)
             {
-                var call__1 = FActiveDC.GetSurface(1);
-                var call__2 = call__1.Width;
-                bool bool__3 = call__2 != AWidth;
-                if (!bool__3)
-                {
-                    var call__4 = FActiveDC.GetSurface(1);
-                    var call__5 = call__4.Height;
-                    bool__3 = call__5 != AHeight;
-                }
-
-                if (bool__3)
+                if (FActiveDC.GetSurface(1).Width != AWidth || FActiveDC.GetSurface(1).Height != AHeight)
                 {
                     FActiveDC.ResizeBackSurfaces(FBackSurfaceWidth, FBackSurfaceHeight);
+                    for (int I = 1, last = (int)FBufferingScheme; I <= last; I++)
                     {
-                        I = 1;
-                        int end__6 = (int)FBufferingScheme;
-                        for (; I <= end__6; I += 1)
-                        {
-                            SurfaceDataLost(I);
-                        }
+                        SurfaceDataLost(I);
                     }
                 }
             }
@@ -477,18 +460,11 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1630
         public virtual int ExecuteBltSurfaceEvent()
         {
-            int Result = default;
+            int Result;
             try
             {
                 Result = 0;
-                bool bool__7 = FActiveDC != null;
-                if (bool__7)
-                {
-                    var call__8 = FActiveDC.GetStatus();
-                    bool__7 = call__8.Contains(TDisplayCtrlStatusElement.dsVisible);
-                }
-
-                if (bool__7)
+                if (FActiveDC != null && FActiveDC.GetStatus().Contains(TDisplayCtrlStatusElement.dsVisible))
                 {
                     if (FOnBltSurface != null)
                     {
@@ -500,16 +476,13 @@ namespace Aow.Units.DisplayC
                         switch (FBackSurfaceControlMode)
                         {
                             case TBackSurfaceControlMode.bmPageFlipping:
-                                var call__9 = FActiveDC.FlipSurface(FSurfaceIndex);
-                                Result = call__9;
+                                Result = FActiveDC.FlipSurface(FSurfaceIndex);
                                 break;
                             case TBackSurfaceControlMode.bmBltSurface:
-                                var call__10 = FActiveDC.BltSurface(FSurfaceIndex);
-                                Result = call__10;
+                                Result = FActiveDC.BltSurface(FSurfaceIndex);
                                 break;
                             case TBackSurfaceControlMode.bmBltInvalidatedSurface:
-                                var call__11 = FActiveDC.BltInvalidatedSurface(FSurfaceIndex);
-                                Result = call__11;
+                                Result = FActiveDC.BltInvalidatedSurface(FSurfaceIndex);
                                 break;
                         }
                     }
@@ -567,7 +540,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1669
         public int SupportDC(TAbstractDC DC)
         {
-            int Result = default;
+            int Result;
             if (DC != null)
             {
                 Result = DC.SupportDisplayMode(this);
@@ -583,15 +556,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1755
         public int DeactivateDC()
         {
-            int Result = default;
-            bool bool__12 = FActiveDC != null;
-            if (bool__12)
-            {
-                var call__13 = FActiveDC.GetStatus();
-                bool__12 = call__13.Contains(TDisplayCtrlStatusElement.dsActivated);
-            }
-
-            if (bool__12)
+            if (FActiveDC != null && FActiveDC.GetStatus().Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 if (FOnDeactivateDC != null)
                 {
@@ -602,8 +567,7 @@ namespace Aow.Units.DisplayC
                 FActiveDC = null;
             }
 
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         public new int Cursor { get => GetCursor(); set => SetCursor(value); }
@@ -676,12 +640,7 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:554
-        public virtual TSurface GetSurface(int Index)
-        {
-            TSurface Result = default;
-            Result = null;
-            return Result;
-        }
+        public virtual TSurface GetSurface(int Index) => null;
 
         // DisplayC.pas:81
         public virtual int GetSurfaceCount()
@@ -791,19 +750,15 @@ namespace Aow.Units.DisplayC
 //   the marks count down, so a block is blitted once per back surface. }
         public virtual int BltInvalidatedSurface(int Index)
         {
-            int Result = default;
-            TMatrix M = default;
+            int Result;
+            TMatrix M;
             int BW = default;
             int BH = default;
-            int X = default;
             int PX2 = default;
             int PY2 = default;
             int BlkW = default;
             int BlkH = default;
-            int I = default;
-            int J = default;
-            int Y = default;
-            int V = default;
+            int V;
             TRect ClipR = default;
             TRect[] SrcR__cell = new TRect[1];
             ref TRect SrcR = ref SrcR__cell[0];
@@ -812,116 +767,79 @@ namespace Aow.Units.DisplayC
             if (GetInvMatrix() != null)
             {
                 Result = 0;
-                var call__14 = GetInvMatrix();
-                var call__15 = GetInvMatrix();
-                var call__16 = new TMatrix(call__15.Width, call__14.Height);
-                M = call__16;
+                var invMatrix = GetInvMatrix();
+                M = new TMatrix(GetInvMatrix().Width, invMatrix.Height);
+                for (int I = 0, last = GetInvMatrix().Width - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__17 = GetInvMatrix().Width - 1;
-                    for (; I <= end__17; I += 1)
+                    for (int J = 0, lastJ = GetInvMatrix().Height - 1; J <= lastJ; J++)
                     {
+                        if (GetInvMatrix().GetVal((byte)I, (byte)J) != 0)
                         {
-                            J = 0;
-                            int end__18 = GetInvMatrix().Height - 1;
-                            for (; J <= end__18; J += 1)
-                            {
-                                var call__19 = GetInvMatrix();
-                                var call__20 = call__19.GetVal((byte)I, (byte)J);
-                                if (call__20 != 0)
-                                {
-                                    M.SetVal((byte)I, (byte)J, 1);
-                                }
-                            }
+                            M.SetVal((byte)I, (byte)J, 1);
                         }
                     }
                 }
 
                 ClipR.Left = 0;
-                var call__21 = GetSurface(1);
-                var call__22 = call__21.Width;
-                ClipR.Right = call__22;
+                ClipR.Right = GetSurface(1).Width;
                 ClipR.Top = 0;
-                var call__23 = GetSurface(1);
-                var call__24 = call__23.Height;
-                ClipR.Bottom = call__24;
+                ClipR.Bottom = GetSurface(1).Height;
+                for (int J = 0, lastJ = M.Height - 1; J <= lastJ; J++)
                 {
-                    J = 0;
-                    int end__25 = M.Height - 1;
-                    for (; J <= end__25; J += 1)
+                    for (int I = 0, last = M.Width - 1; I <= last; I++)
                     {
+                        if (Result >= 0)
                         {
-                            I = 0;
-                            int end__26 = M.Width - 1;
-                            for (; I <= end__26; I += 1)
+                            V = GetInvMatrix().GetVal((byte)I, (byte)J);
+                            if (V != 0)
                             {
-                                if (Result >= 0)
+                                GetInvMatrix().SetVal((byte)I, (byte)J, (byte)(V - 1));
+                            }
+
+                            if (M.GetVal((byte)I, (byte)J) != 0)
+                            {
+                                GetInvBlockSize(I, J, M, ref BW, ref BH);
+                                GetPixPosofBlock(I, J, ClipR, ref SrcR.Left, ref SrcR.Top, ref BlkW, ref BlkH);
+                                if (BW > 1 || BH > 1)
                                 {
-                                    var call__27 = GetInvMatrix();
-                                    var call__28 = call__27.GetVal((byte)I, (byte)J);
-                                    V = call__28;
-                                    if (V != 0)
+                                    GetPixPosofBlock(I + BW - 1, J + BH - 1, ClipR, ref PX2, ref PY2, ref BlkW, ref BlkH);
+                                    SrcR.Right = PX2 + BlkW;
+                                    SrcR.Bottom = PY2 + BlkH;
+                                }
+                                else
+                                {
+                                    SrcR.Right = SrcR.Left + BlkW;
+                                    SrcR.Bottom = SrcR.Top + BlkH;
+                                }
+
+                                var primarySurfaceRgn = GetPrimarySurfaceRgn();
+                                GetPixPosofBlock(I, J, primarySurfaceRgn.Value, ref DstR.Left, ref DstR.Top, ref BlkW, ref BlkH);
+                                var primarySurfaceRgn2 = GetPrimarySurfaceRgn();
+                                DstR.Left += primarySurfaceRgn2.Value.Left;
+                                var primarySurfaceRgn3 = GetPrimarySurfaceRgn();
+                                DstR.Top += primarySurfaceRgn3.Value.Top;
+                                if (BW > 1 || BH > 1)
+                                {
+                                    var primarySurfaceRgn4 = GetPrimarySurfaceRgn();
+                                    GetPixPosofBlock(I + BW - 1, J + BH - 1, primarySurfaceRgn4.Value, ref PX2, ref PY2, ref BlkW, ref BlkH);
+                                    var primarySurfaceRgn5 = GetPrimarySurfaceRgn();
+                                    DstR.Right = PX2 + BlkW + primarySurfaceRgn5.Value.Left;
+                                    var primarySurfaceRgn6 = GetPrimarySurfaceRgn();
+                                    DstR.Bottom = PY2 + BlkH + primarySurfaceRgn6.Value.Top;
+                                }
+                                else
+                                {
+                                    DstR.Right = DstR.Left + BlkW;
+                                    DstR.Bottom = DstR.Top + BlkH;
+                                }
+
+                                var surface = GetSurface(0);
+                                Result = GetSurface(Index).BltStretch(surface, Ptr<TRect>.To(SrcR__cell, 0), Ptr<TRect>.To(DstR__cell, 0));
+                                for (int X = 0, lastX = BW - 1; X <= lastX; X++)
+                                {
+                                    for (int Y = 0, lastY = BH - 1; Y <= lastY; Y++)
                                     {
-                                        var call__29 = GetInvMatrix();
-                                        call__29.SetVal((byte)I, (byte)J, (byte)(V - 1));
-                                    }
-
-                                    if (M.GetVal((byte)I, (byte)J) != 0)
-                                    {
-                                        GetInvBlockSize(I, J, M, ref BW, ref BH);
-                                        GetPixPosofBlock(I, J, ClipR, ref SrcR.Left, ref SrcR.Top, ref BlkW, ref BlkH);
-                                        if (BW > 1 || BH > 1)
-                                        {
-                                            GetPixPosofBlock(I + BW - 1, J + BH - 1, ClipR, ref PX2, ref PY2, ref BlkW, ref BlkH);
-                                            SrcR.Right = PX2 + BlkW;
-                                            SrcR.Bottom = PY2 + BlkH;
-                                        }
-                                        else
-                                        {
-                                            SrcR.Right = SrcR.Left + BlkW;
-                                            SrcR.Bottom = SrcR.Top + BlkH;
-                                        }
-
-                                        var call__30 = GetPrimarySurfaceRgn();
-                                        GetPixPosofBlock(I, J, call__30.Value, ref DstR.Left, ref DstR.Top, ref BlkW, ref BlkH);
-                                        var call__31 = GetPrimarySurfaceRgn();
-                                        DstR.Left += call__31.Value.Left;
-                                        var call__32 = GetPrimarySurfaceRgn();
-                                        DstR.Top += call__32.Value.Top;
-                                        if (BW > 1 || BH > 1)
-                                        {
-                                            var call__33 = GetPrimarySurfaceRgn();
-                                            GetPixPosofBlock(I + BW - 1, J + BH - 1, call__33.Value, ref PX2, ref PY2, ref BlkW, ref BlkH);
-                                            var call__34 = GetPrimarySurfaceRgn();
-                                            DstR.Right = PX2 + BlkW + call__34.Value.Left;
-                                            var call__35 = GetPrimarySurfaceRgn();
-                                            DstR.Bottom = PY2 + BlkH + call__35.Value.Top;
-                                        }
-                                        else
-                                        {
-                                            DstR.Right = DstR.Left + BlkW;
-                                            DstR.Bottom = DstR.Top + BlkH;
-                                        }
-
-                                        var call__36 = GetSurface(0);
-                                        var call__37 = GetSurface(Index);
-                                        var call__38 = call__37.BltStretch(call__36, Ptr<TRect>.To(SrcR__cell, 0), Ptr<TRect>.To(DstR__cell, 0));
-                                        Result = call__38;
-                                        {
-                                            X = 0;
-                                            int end__39 = BW - 1;
-                                            for (; X <= end__39; X += 1)
-                                            {
-                                                {
-                                                    Y = 0;
-                                                    int end__40 = BH - 1;
-                                                    for (; Y <= end__40; Y += 1)
-                                                    {
-                                                        M.SetVal((byte)(I + X), (byte)(J + Y), 0);
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        M.SetVal((byte)(I + X), (byte)(J + Y), 0);
                                     }
                                 }
                             }
@@ -1016,8 +934,7 @@ namespace Aow.Units.DisplayC
 
         public TDisplayCtrl(TComponent owner) : base(owner)
         {
-            var call__41 = new TMatrix(4, 4);
-            FInvMatrix = call__41;
+            FInvMatrix = new TMatrix(4, 4);
         }
 
         // DisplayC.pas:1031
@@ -1038,25 +955,19 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:634
-        public override TMatrix GetInvMatrix()
-        {
-            TMatrix Result = default;
-            Result = FInvMatrix;
-            return Result;
-        }
+        public override TMatrix GetInvMatrix() => FInvMatrix;
 
         // DisplayC.pas:639
         public override int GetSurfaceCount()
         {
-            int Result = default;
+            int Result;
             if (GetDisplay() == null)
             {
                 Result = 0;
             }
             else
             {
-                var call__42 = GetDisplay();
-                Result = (int)call__42.FBufferingScheme;
+                Result = (int)GetDisplay().FBufferingScheme;
             }
 
             return Result;
@@ -1065,24 +976,17 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:647
         public override int BltSurface(int Index)
         {
-            int Result = default;
-            var call__43 = GetPrimarySurfaceRgn();
-            var call__44 = GetSurface(0);
-            var call__45 = GetSurface(Index);
-            var call__46 = call__45.BltStretch(call__44, default, call__43);
-            Result = call__46;
-            return Result;
+            var primarySurfaceRgn = GetPrimarySurfaceRgn();
+            var surface = GetSurface(0);
+            return GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
         }
 
         // DisplayC.pas:652
         public override int FlipSurface(int Index)
         {
-            int Result = default;
-            var call__47 = GetPrimarySurfaceRgn();
-            var call__48 = GetSurface(0);
-            var call__49 = GetSurface(Index);
-            var call__50 = call__49.BltStretch(call__48, default, call__47);
-            Result = call__50;
+            var primarySurfaceRgn = GetPrimarySurfaceRgn();
+            var surface = GetSurface(0);
+            int Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
             if (Succeeded(Result))
             {
                 Result = DisplayC.DCERR_NOFLIP;
@@ -1115,26 +1019,15 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:685
-        public override TSet<TDisplayCtrlStatusElement> GetStatus()
-        {
-            TSet<TDisplayCtrlStatusElement> Result = default;
-            Result = FStatus;
-            return Result;
-        }
+        public override TSet<TDisplayCtrlStatusElement> GetStatus() => FStatus;
 
         // DisplayC.pas:690
-        public override int GetHPalette()
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public override int GetHPalette() => 0;
 
         // DisplayC.pas:695
         public override bool WndProc(ref TMessage Message)
         {
-            bool Result = default;
-            Result = true;
+            bool Result = true;
             if (Message.Msg == 133)
             {
                 Result = false;
@@ -1151,12 +1044,7 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:710
-        public override TCustomDisplay GetDisplay()
-        {
-            TCustomDisplay Result = default;
-            Result = FDisplay;
-            return Result;
-        }
+        public override TCustomDisplay GetDisplay() => FDisplay;
 
         // DisplayC.pas:720
         public override void WindowRecreated()
@@ -1166,7 +1054,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:734
         public override int Activate(TCustomDisplay ADisplay)
         {
-            int Result = default;
+            int Result;
             if (!FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 FDisplay = ADisplay;
@@ -1186,7 +1074,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:748
         public override int Deactivate()
         {
-            int Result = default;
+            int Result;
             if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 FStatus = FStatus - TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsActivated);
@@ -1207,20 +1095,10 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:762
-        public override int SupportDisplayMode(TCustomDisplay ADisplay)
-        {
-            int Result = default;
-            Result = DisplayC.DCERR_NOTSUPPORTED;
-            return Result;
-        }
+        public override int SupportDisplayMode(TCustomDisplay ADisplay) => DisplayC.DCERR_NOTSUPPORTED;
 
         // DisplayC.pas:767
-        public override int SetPalet(TGFXEPalette Palette)
-        {
-            int Result = default;
-            Result = DisplayC.DCERR_NOTSUPPORTED;
-            return Result;
-        }
+        public override int SetPalet(TGFXEPalette Palette) => DisplayC.DCERR_NOTSUPPORTED;
 
         // DisplayC.pas:772
         public void RealizePalet()
@@ -1236,12 +1114,7 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:780
-        public override int RealizePaletNow()
-        {
-            int Result = default;
-            Result = DisplayC.DCERR_NOTSUPPORTED;
-            return Result;
-        }
+        public override int RealizePaletNow() => DisplayC.DCERR_NOTSUPPORTED;
 
         // DisplayC.pas:787
         // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
@@ -1255,28 +1128,19 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:830
         public override int Hide()
         {
-            int Result = default;
             FStatus = FStatus - TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsVisible);
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         // DisplayC.pas:836
         public override int Show()
         {
-            int Result = default;
             FStatus = FStatus + TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsVisible);
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         // DisplayC.pas:842
-        public override TGFXEPalette GetPalette()
-        {
-            TGFXEPalette Result = default;
-            Result = null;
-            return Result;
-        }
+        public override TGFXEPalette GetPalette() => null;
 
         // DisplayC.pas:873
         public override void InitInvMatrix(byte AWidth, byte AHeight)
@@ -1286,30 +1150,19 @@ namespace Aow.Units.DisplayC
                 FInvMatrix.Destroy();
             }
 
-            var call__51 = new TMatrix(AWidth, AHeight);
-            FInvMatrix = call__51;
+            FInvMatrix = new TMatrix(AWidth, AHeight);
         }
 
         // DisplayC.pas:880
         public override void InvalidateAll()
         {
-            int I = default;
-            int J = default;
             if (FInvMatrix != null)
             {
+                for (int I = 0, last = this.FInvMatrix.Width - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__53 = this.FInvMatrix.Width - 1;
-                    for (; I <= end__53; I += 1)
+                    for (int J = 0, lastJ = this.FInvMatrix.Height - 1; J <= lastJ; J++)
                     {
-                        {
-                            J = 0;
-                            int end__54 = this.FInvMatrix.Height - 1;
-                            for (; J <= end__54; J += 1)
-                            {
-                                this.FInvMatrix.SetVal((byte)I, (byte)J, 1);
-                            }
-                        }
+                        this.FInvMatrix.SetVal((byte)I, (byte)J, 1);
                     }
                 }
             }
@@ -1321,19 +1174,19 @@ namespace Aow.Units.DisplayC
 //   height); BW and BH get its size in blocks, the result is its area. }
         public override int GetInvBlockSize(int X, int Y, TMatrix Matrix, ref int BW, ref int BH)
         {
-            int Result = default;
-            int Size1 = default;
-            int Size2 = default;
-            int W1 = default;
-            int H2 = default;
-            int W2 = default;
-            int H1 = default;
-            Ptr<byte> P = default;
-            Ptr<byte> Q = default;
-            int N = default;
-            int L = default;
-            int Off = default;
-            bool Ok = default;
+            int Result;
+            int Size1;
+            int Size2;
+            int W1;
+            int H2;
+            int W2;
+            int H1;
+            Ptr<byte> P;
+            Ptr<byte> Q;
+            int N;
+            int L;
+            int Off;
+            bool Ok;
             P = Matrix.FData + X + Matrix.FWidth * Y;
             if (P.Value != 0)
             {
@@ -1411,8 +1264,8 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:964
         public override void GetPixPosofBlock(int BX, int BY, TRect R, ref int PX, ref int PY, ref int BW, ref int BH)
         {
-            int W = default;
-            int H = default;
+            int W;
+            int H;
             W = (R.Right - R.Left + FInvMatrix.FWidth - 1) / FInvMatrix.FWidth;
             H = (R.Bottom - R.Top + FInvMatrix.FHeight - 1) / FInvMatrix.FHeight;
             PX = W * BX;
@@ -1424,8 +1277,8 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:976
         public override void GetBlockPosofPix(int PX, int PY, TRect R, ref int BX, ref int BY)
         {
-            int W = default;
-            int H = default;
+            int W;
+            int H;
             W = (R.Right - R.Left + 1 + FInvMatrix.FWidth - 1) / FInvMatrix.FWidth;
             H = (R.Bottom - R.Top + 1 + FInvMatrix.FHeight - 1) / FInvMatrix.FHeight;
             BX = (PX - R.Left) / W;
@@ -1441,19 +1294,15 @@ namespace Aow.Units.DisplayC
             int BX2 = default;
             int BY1 = default;
             int BY2 = default;
-            TMatrix M = default;
+            TMatrix M;
             TRect R = default;
             if (FInvMatrix != null)
             {
                 M = FInvMatrix;
                 R.Left = 0;
-                var call__55 = GetSurface(1);
-                var call__56 = call__55.Width;
-                R.Right = call__56;
+                R.Right = GetSurface(1).Width;
                 R.Top = 0;
-                var call__57 = GetSurface(1);
-                var call__58 = call__57.Height;
-                R.Bottom = call__58;
+                R.Bottom = GetSurface(1).Height;
                 GetBlockPosofPix(X, Y, R, ref BX1, ref BY1);
                 GetBlockPosofPix(X + W, Y + H, R, ref BX2, ref BY2);
                 if (M.FWidth > BX1 && M.FHeight > BY1 && BY2 >= 0 && BY1 >= 0)
@@ -1478,19 +1327,15 @@ namespace Aow.Units.DisplayC
                         BY2 = M.FHeight - 1;
                     }
 
+                    X = BX1;
+                    int last = BX2;
+                    for (; X <= last; X += 1)
                     {
-                        X = BX1;
-                        int end__59 = BX2;
-                        for (; X <= end__59; X += 1)
+                        Y = BY1;
+                        int limit = BY2;
+                        for (; Y <= limit; Y += 1)
                         {
-                            {
-                                Y = BY1;
-                                int end__60 = BY2;
-                                for (; Y <= end__60; Y += 1)
-                                {
-                                    M.SetVal((byte)X, (byte)Y, Value);
-                                }
-                            }
+                            M.SetVal((byte)X, (byte)Y, Value);
                         }
                     }
                 }
@@ -1504,18 +1349,13 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:1043
-        public int GetCurrentFrameRate()
-        {
-            int Result = default;
-            Result = FDisplay.FCurrentFrameRate;
-            return Result;
-        }
+        public int GetCurrentFrameRate() => FDisplay.FCurrentFrameRate;
 
         // DisplayC.pas:1049
         // { Counts frames; every 5 frames the frame rate is measured. }
         public override void NewFrame()
         {
-            int T = default;
+            int T;
             if (FFrameCount >= 5)
             {
                 T = GetElapsedMilliSeconds();
@@ -1756,17 +1596,12 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:1939
-        public override int SupportDisplayMode(TCustomDisplay ADisplay)
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public override int SupportDisplayMode(TCustomDisplay ADisplay) => 0;
 
         // DisplayC.pas:1944
         public override int BltSurface(int Index)
         {
-            int Result = default;
+            int Result;
             /* TODO: Implement cell or array backing for this address. */
             throw new NotImplementedException();
             return Result;
@@ -1775,7 +1610,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:1949
         public override int FlipSurface(int Index)
         {
-            int Result = default;
+            int Result;
             /* TODO: Implement cell or array backing for this address. */
             throw new NotImplementedException();
             if (Result >= 0)
@@ -1790,10 +1625,7 @@ namespace Aow.Units.DisplayC
         // { In a window every block is a block of its own. }
         public override int GetInvBlockSize(int X, int Y, TMatrix Matrix, ref int BW, ref int BH)
         {
-            int Result = default;
-            var call__65 = GetInvMatrix();
-            var call__66 = call__65.GetVal((byte)X, (byte)Y);
-            if (call__66 != 0)
+            if (GetInvMatrix().GetVal((byte)X, (byte)Y) != 0)
             {
                 BW = 1;
                 BH = 1;
@@ -1804,8 +1636,7 @@ namespace Aow.Units.DisplayC
                 BH = 0;
             }
 
-            Result = BW * BH;
-            return Result;
+            return BW * BH;
         }
 
         // DisplayC.pas:1972
@@ -1833,8 +1664,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2165
         public TWindows08DC(TComponent owner) : base(owner)
         {
-            var call__67 = new TGFXEPalette();
-            FPalette = call__67;
+            FPalette = new TGFXEPalette();
             FPalette.PixelFormatID = pfRGB24;
         }
 
@@ -1846,25 +1676,15 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:2178
-        public override TGFXEPalette GetPalette()
-        {
-            TGFXEPalette Result = default;
-            Result = FPalette;
-            return Result;
-        }
+        public override TGFXEPalette GetPalette() => FPalette;
 
         // DisplayC.pas:2183
-        public override int GetHPalette()
-        {
-            int Result = default;
-            Result = FHPalette;
-            return Result;
-        }
+        public override int GetHPalette() => FHPalette;
 
         // DisplayC.pas:2188
         public override TSurface GetSurface(int Index)
         {
-            TSurface Result = default;
+            TSurface Result;
             switch (Index)
             {
                 case 0:
@@ -1887,7 +1707,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2199
         public override int Deactivate()
         {
-            int Result = default;
             if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 FBack1.Free();
@@ -1897,8 +1716,7 @@ namespace Aow.Units.DisplayC
             }
 
             ReleaseHPalette();
-            Result = base.Deactivate();
-            return Result;
+            return base.Deactivate();
         }
 
         // DisplayC.pas:2212
@@ -1974,7 +1792,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2320
         public override TSurface GetSurface(int Index)
         {
-            TSurface Result = default;
+            TSurface Result;
             switch (Index)
             {
                 case 0:
@@ -1997,7 +1815,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2331
         public override int Deactivate()
         {
-            int Result = default;
             if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 FBack1.Free();
@@ -2006,8 +1823,7 @@ namespace Aow.Units.DisplayC
                 FBack2 = null;
             }
 
-            Result = base.Deactivate();
-            return Result;
+            return base.Deactivate();
         }
 
         // DisplayC.pas:2351
@@ -2034,7 +1850,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2390
         public override TSurface GetSurface(int Index)
         {
-            TSurface Result = default;
+            TSurface Result;
             switch (Index)
             {
                 case 0:
@@ -2057,7 +1873,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2401
         public override int Deactivate()
         {
-            int Result = default;
             if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 FBack1.Free();
@@ -2066,8 +1881,7 @@ namespace Aow.Units.DisplayC
                 FBack2 = null;
             }
 
-            Result = base.Deactivate();
-            return Result;
+            return base.Deactivate();
         }
 
         // DisplayC.pas:2413
@@ -2090,7 +1904,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2435
         public override TSurface GetSurface(int Index)
         {
-            TSurface Result = default;
+            TSurface Result;
             switch (Index)
             {
                 case 0:
@@ -2113,7 +1927,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2446
         public override int Deactivate()
         {
-            int Result = default;
             if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 FBack1.Free();
@@ -2122,8 +1935,7 @@ namespace Aow.Units.DisplayC
                 FBack2 = null;
             }
 
-            Result = base.Deactivate();
-            return Result;
+            return base.Deactivate();
         }
 
         // DisplayC.pas:2458
@@ -2141,7 +1953,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2480
         public int SetDDSurface(IDirectDrawSurface ASurface, TSet<TDDrawSurfaceStatusElement> AStatus)
         {
-            int Result = default;
+            int Result;
             TDDSurfaceDesc DDSD = default;
             if (FSurface != null)
             {
@@ -2154,15 +1966,13 @@ namespace Aow.Units.DisplayC
             {
                 DDSD = default;
                 DDSD.dwSize = 108;
-                var call__68 = FSurface.Lock(default, ref DDSD, DDLOCK_WAIT, 0);
-                Result = call__68;
+                Result = FSurface.Lock(default, ref DDSD, DDLOCK_WAIT, 0);
                 if (Succeeded(Result))
                 {
                     FWidth = DDSD.dwWidth;
                     FHeight = DDSD.dwHeight;
                     ref var ddPixelFormat = ref DDSD.ddpfPixelFormat;
-                    var call__70 = MASKtoPFID(ddPixelFormat.dwRGBBitCount, ddPixelFormat.dwRBitMask, ddPixelFormat.dwGBitMask, ddPixelFormat.dwBBitMask, ddPixelFormat.dwRGBAlphaBitMask);
-                    FPixelFormatID = call__70;
+                    FPixelFormatID = MASKtoPFID(ddPixelFormat.dwRGBBitCount, ddPixelFormat.dwRBitMask, ddPixelFormat.dwGBitMask, ddPixelFormat.dwBBitMask, ddPixelFormat.dwRGBAlphaBitMask);
 
                     FSurface.Unlock(null);
                     FStatus = AStatus;
@@ -2204,19 +2014,10 @@ namespace Aow.Units.DisplayC
         // { Restores the lost surfaces and tells the display which surfaces lost their contents. }
         public int VerifyLostSurfaces()
         {
-            int Result = default;
-            Result = 0;
-            bool bool__71 = FPrimary != null;
-            if (bool__71)
+            int Result = 0;
+            if (FPrimary != null && FPrimary.Lost())
             {
-                var call__72 = FPrimary.Lost();
-                bool__71 = call__72;
-            }
-
-            if (bool__71)
-            {
-                var call__73 = FPrimary.Restore();
-                Result = call__73;
+                Result = FPrimary.Restore();
                 if (Succeeded(Result))
                 {
                     FDisplay.SurfaceDataLost(0);
@@ -2232,36 +2033,18 @@ namespace Aow.Units.DisplayC
                 }
             }
 
-            var call__74 = Succeeded(Result);
-            bool bool__75 = call__74 && FBack1 != null;
-            if (bool__75)
+            if (Succeeded(Result) && FBack1 != null && FBack1.Lost())
             {
-                var call__76 = FBack1.Lost();
-                bool__75 = call__76;
-            }
-
-            if (bool__75)
-            {
-                var call__77 = FBack1.Restore();
-                Result = call__77;
+                Result = FBack1.Restore();
                 if (Succeeded(Result))
                 {
                     FDisplay.SurfaceDataLost(1);
                 }
             }
 
-            var call__78 = Succeeded(Result);
-            bool bool__79 = call__78 && FBack2 != null;
-            if (bool__79)
+            if (Succeeded(Result) && FBack2 != null && FBack2.Lost())
             {
-                var call__80 = FBack2.Lost();
-                bool__79 = call__80;
-            }
-
-            if (bool__79)
-            {
-                var call__81 = FBack2.Restore();
-                Result = call__81;
+                Result = FBack2.Restore();
                 if (Succeeded(Result))
                 {
                     FDisplay.SurfaceDataLost(2);
@@ -2274,7 +2057,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2549
         public override int FlipSurface(int Index)
         {
-            int Result = default;
+            int Result;
             /* TODO: Implement cell or array backing for this address. */
             throw new NotImplementedException();
             if (Succeeded(Result))
@@ -2288,7 +2071,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2556
         public override int BltSurface(int Index)
         {
-            int Result = default;
+            int Result;
             /* TODO: Implement cell or array backing for this address. */
             throw new NotImplementedException();
             return Result;
@@ -2297,7 +2080,7 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2561
         public override TSurface GetSurface(int Index)
         {
-            TSurface Result = default;
+            TSurface Result;
             switch (Index)
             {
                 case 0:
@@ -2320,11 +2103,11 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2572
         public override int WaitForVerticalBlank()
         {
-            int Result = default;
-            int Wait = default;
-            int Target = default;
-            int T = default;
-            int D = default;
+            int Result;
+            int Wait;
+            int Target;
+            int T;
+            int D;
             if (FUseVerticalBlank)
             {
                 if (DD() != null)
@@ -2352,11 +2135,8 @@ namespace Aow.Units.DisplayC
                         FLastVBTime = T;
                     }
 
-                    var call__86 = DD();
-                    var call__87 = call__86.WaitForVerticalBlank(DisplayC.DDWAITVB_BLOCKBEGIN, 0);
-                    Result = call__87;
-                    var call__88 = GetElapsedMilliSeconds();
-                    FLastVBTime = call__88;
+                    Result = DD().WaitForVerticalBlank(DisplayC.DDWAITVB_BLOCKBEGIN, 0);
+                    FLastVBTime = GetElapsedMilliSeconds();
                 }
                 else
                 {
@@ -2404,13 +2184,10 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2655
         public override int Deactivate()
         {
-            int Result = default;
             if (GetStatus().Contains(TDisplayCtrlStatusElement.dsActivated))
             {
-                var call__89 = DD();
-                call__89.FlipToGDISurface();
-                var call__90 = DD();
-                call__90.WaitForVerticalBlank(DisplayC.DDWAITVB_BLOCKBEGIN, 0);
+                DD().FlipToGDISurface();
+                DD().WaitForVerticalBlank(DisplayC.DDWAITVB_BLOCKBEGIN, 0);
                 FBack2.Free();
                 FBack2 = null;
                 FBack1.Free();
@@ -2419,8 +2196,7 @@ namespace Aow.Units.DisplayC
                 FPrimary = null;
             }
 
-            Result = base.Deactivate();
-            return Result;
+            return base.Deactivate();
         }
 
         [Published]
@@ -2509,13 +2285,7 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:2773
-        public override TWinControl OutputWnd()
-        {
-            TWinControl Result = default;
-            var call__91 = GetDisplay();
-            Result = call__91.FFSWinControl;
-            return Result;
-        }
+        public override TWinControl OutputWnd() => GetDisplay().FFSWinControl;
 
         // DisplayC.pas:2778
         public override int Handle()
@@ -2532,52 +2302,32 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:2800
-        public int SetDisplayMode(int AWidth, int AHeight, int ABitDepth)
-        {
-            int Result = default;
-            var call__92 = DD();
-            var call__93 = call__92.SetDisplayMode(AWidth, AHeight, ABitDepth, 0, 0);
-            Result = call__93;
-            return Result;
-        }
+        public int SetDisplayMode(int AWidth, int AHeight, int ABitDepth) => DD().SetDisplayMode(AWidth, AHeight, ABitDepth, 0, 0);
 
         // DisplayC.pas:2807
         // { Flips to surface Index when it is attached to the primary surface (ssComplex), else blits
 //   it; once more after restoring lost surfaces. }
         public override int FlipSurface(int Index)
         {
-            int Result = default;
-            var call__94 = GetSurface(Index);
-            if (((TDDrawSurface)call__94).Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
+            int Result;
+            if (((TDDrawSurface)GetSurface(Index)).Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
             {
-                while (true)
+                while (!(FPrimary.Surface.GetFlipStatus(DDGFS_ISFLIPDONE) != DDERR_WASSTILLDRAWING))
                 {
-                    {
-                    }
-
-                    {
-                        var call__95 = FPrimary.Surface.GetFlipStatus(DDGFS_ISFLIPDONE);
-                        if (call__95 != DDERR_WASSTILLDRAWING)
-                            break;
-                    }
                 }
 
-                var call__97 = FPrimary.Surface.GetFlipStatus(DisplayC.DDGFS_CANFLIP);
-                Result = call__97;
+                Result = FPrimary.Surface.GetFlipStatus(DisplayC.DDGFS_CANFLIP);
                 if (Succeeded(Result))
                 {
-                    var call__98 = GetSurface(Index);
-                    var call__99 = FPrimary.Surface.Flip(((TDDrawSurface)call__98).Surface, 0);
-                    Result = call__99;
+                    var surface = GetSurface(Index);
+                    Result = FPrimary.Surface.Flip(((TDDrawSurface)surface).Surface, 0);
                 }
             }
             else
             {
-                var call__100 = GetPrimarySurfaceRgn();
-                var call__101 = GetSurface(0);
-                var call__102 = GetSurface(Index);
-                var call__103 = call__102.BltStretch(call__101, default, call__100);
-                Result = call__103;
+                var primarySurfaceRgn = GetPrimarySurfaceRgn();
+                var surface = GetSurface(0);
+                Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
                 if (Succeeded(Result))
                 {
                     Result = DisplayC.DCERR_NOFLIP;
@@ -2586,41 +2336,26 @@ namespace Aow.Units.DisplayC
 
             if (Result == DDERR_SURFACELOST)
             {
-                var call__104 = VerifyLostSurfaces();
-                var call__105 = Succeeded(call__104);
-                if (call__105)
+                if (Succeeded(VerifyLostSurfaces()))
                 {
-                    var call__106 = GetSurface(Index);
-                    if (((TDDrawSurface)call__106).Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
+                    if (((TDDrawSurface)GetSurface(Index)).Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
                     {
-                        while (true)
+                        while (!(FPrimary.Surface.GetFlipStatus(DDGFS_ISFLIPDONE) != DDERR_WASSTILLDRAWING))
                         {
-                            {
-                            }
-
-                            {
-                                var call__107 = FPrimary.Surface.GetFlipStatus(DDGFS_ISFLIPDONE);
-                                if (call__107 != DDERR_WASSTILLDRAWING)
-                                    break;
-                            }
                         }
 
-                        var call__109 = FPrimary.Surface.GetFlipStatus(DisplayC.DDGFS_CANFLIP);
-                        Result = call__109;
+                        Result = FPrimary.Surface.GetFlipStatus(DisplayC.DDGFS_CANFLIP);
                         if (Succeeded(Result))
                         {
-                            var call__110 = GetSurface(Index);
-                            var call__111 = FPrimary.Surface.Flip(((TDDrawSurface)call__110).Surface, 0);
-                            Result = call__111;
+                            var surface = GetSurface(Index);
+                            Result = FPrimary.Surface.Flip(((TDDrawSurface)surface).Surface, 0);
                         }
                     }
                     else
                     {
-                        var call__112 = GetPrimarySurfaceRgn();
-                        var call__113 = GetSurface(0);
-                        var call__114 = GetSurface(Index);
-                        var call__115 = call__114.BltStretch(call__113, default, call__112);
-                        Result = call__115;
+                        var primarySurfaceRgn = GetPrimarySurfaceRgn();
+                        var surface = GetSurface(0);
+                        Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
                         if (Succeeded(Result))
                         {
                             Result = DisplayC.DCERR_NOFLIP;
@@ -2646,35 +2381,18 @@ namespace Aow.Units.DisplayC
         // { Bug kept from the original: the result of CreateSurfaces is ignored, the result is 0. }
         public override int ResizeBackSurfaces(int AWidth, int AHeight)
         {
-            int Result = default;
-            int I = default;
-            Result = 0;
+            int Result = 0;
             InvalidateAll();
-            var call__116 = GetDisplay();
-            if (call__116.FBufferingScheme != TBufferingScheme.bsSingle)
+            if (GetDisplay().FBufferingScheme != TBufferingScheme.bsSingle)
             {
-                var call__117 = FBack1.Width;
-                bool bool__118 = AWidth != call__117;
-                if (!bool__118)
-                {
-                    var call__119 = FBack1.Height;
-                    bool__118 = AHeight != call__119;
-                }
-
-                if (bool__118)
+                if (AWidth != FBack1.Width || AHeight != FBack1.Height)
                 {
                     CreateSurfaces();
-                    var call__120 = GetDisplay();
-                    if (call__120.FOnSurfaceDataLost != null)
+                    if (GetDisplay().FOnSurfaceDataLost != null)
                     {
+                        for (int I = 1, last = (int)GetDisplay().FBufferingScheme; I <= last; I++)
                         {
-                            I = 1;
-                            int end__121 = (int)GetDisplay().FBufferingScheme;
-                            for (; I <= end__121; I += 1)
-                            {
-                                var call__122 = GetDisplay();
-                                call__122.FOnSurfaceDataLost(this, I);
-                            }
+                            GetDisplay().FOnSurfaceDataLost(this, I);
                         }
                     }
                 }
@@ -2707,7 +2425,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:3093
         public override int Deactivate()
         {
-            int Result = default;
             if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
             {
                 Hide();
@@ -2715,8 +2432,7 @@ namespace Aow.Units.DisplayC
                 UnHookMainWindow();
             }
 
-            Result = base.Deactivate();
-            return Result;
+            return base.Deactivate();
         }
 
         [Published]
@@ -2744,36 +2460,20 @@ namespace Aow.Units.DisplayC
         // { A 1555 surface is drawn on as 555. }
         public override int CreateSurfaces()
         {
-            int Result = default;
-            Result = base.CreateSurfaces();
+            int Result = base.CreateSurfaces();
             if (Result >= 0)
             {
-                var call__123 = FPrimary.PixelFormatID;
-                if (call__123 == pfARGB1555)
+                if (FPrimary.PixelFormatID == pfARGB1555)
                 {
                     FPrimary.FPixelFormatID = pfRGB555;
                 }
 
-                bool bool__124 = FBack1 != null;
-                if (bool__124)
-                {
-                    var call__125 = FBack1.PixelFormatID;
-                    bool__124 = call__125 == pfARGB1555;
-                }
-
-                if (bool__124)
+                if (FBack1 != null && FBack1.PixelFormatID == pfARGB1555)
                 {
                     FBack1.FPixelFormatID = pfRGB555;
                 }
 
-                bool bool__126 = FBack2 != null;
-                if (bool__126)
-                {
-                    var call__127 = FBack2.PixelFormatID;
-                    bool__126 = call__127 == pfARGB1555;
-                }
-
-                if (bool__126)
+                if (FBack2 != null && FBack2.PixelFormatID == pfARGB1555)
                 {
                     FBack2.FPixelFormatID = pfRGB555;
                 }
@@ -2833,20 +2533,10 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:2024
-        public override int GetWidth()
-        {
-            int Result = default;
-            Result = FWidth;
-            return Result;
-        }
+        public override int GetWidth() => FWidth;
 
         // DisplayC.pas:2029
-        public override int GetHeight()
-        {
-            int Result = default;
-            Result = FHeight;
-            return Result;
-        }
+        public override int GetHeight() => FHeight;
 
         // DisplayC.pas:2036
         // { Copies SrcRect to the top left of DestRect (no stretching); a GDI surface that cannot be
@@ -2867,7 +2557,6 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:2104
         public override int Lock(ref TSurfaceDesc SD)
         {
-            int Result = default;
             SD = default;
             SD.Width = FWidth;
             SD.Height = FHeight;
@@ -2880,25 +2569,17 @@ namespace Aow.Units.DisplayC
             SD.Pitch = FPitch;
             SD.Palette = FOwner.FPalette;
             SD.Data = (BytePointer(FBits) + Math.Abs(FHeight * FPitch) + FPitch).Box();
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         // DisplayC.pas:2121
-        public override int Unlock()
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public override int Unlock() => 0;
 
         // DisplayC.pas:2126
         public override int UpdatePalette()
         {
-            int Result = default;
             FOwner.UpdatePalette();
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         // DisplayC.pas:2134
@@ -2906,20 +2587,16 @@ namespace Aow.Units.DisplayC
 //   count, so nothing happens). }
         public override int Cls(int Color)
         {
-            int Result = default;
-            int C = default;
-            var call__128 = FOwner.FPalette.GetNearestColor(Color);
-            C = call__128;
+            FOwner.FPalette.GetNearestColor(Color);
             /* TODO: Implement the pointer byte image. */
             throw new NotImplementedException();
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         // DisplayC.pas:2143
         public override int Resize(int AWidth, int AHeight)
         {
-            int Result = default;
+            int Result;
             if (AWidth != FWidth || AHeight != FHeight)
             {
                 FWidth = AWidth;

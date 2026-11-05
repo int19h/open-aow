@@ -16,12 +16,7 @@ namespace Aow.Units.EarthNode
         public new const int ClassID = 132302;
 
         // EarthNode.pas:39
-        public override TMagicSphere GetMagicSphere()
-        {
-            TMagicSphere Result = default;
-            Result = TMagicSphere.msEarth;
-            return Result;
-        }
+        public override TMagicSphere GetMagicSphere() => TMagicSphere.msEarth;
 
     }
 
@@ -41,23 +36,13 @@ namespace Aow.Units.EarthNode
 
 
         // EarthNode.pas:56
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132302;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132302;
 
         // EarthNode.pas:26
 
 
         // EarthNode.pas:50
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(EarthNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(EarthNodeRStr);
 
     }
 

@@ -33,38 +33,19 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:67
         public void UpdateChatPlayers()
         {
-            int I = default;
             ChatWindow.PlayerList.Items.Clear();
-            var call__1 = TranslateRStr(AllPlayersRStr);
-            ChatWindow.PlayerList.Items.AddObject(call__1, null);
+            var allPlayers = TranslateRStr(AllPlayersRStr);
+            ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
             if (AoWHSMap != null)
             {
+                for (int I = 1, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
                 {
-                    I = 1;
-                    int end__2 = AoWHSMap.FPlayers.Count - 1;
-                    for (; I <= end__2; I += 1)
+                    if (I != AoWHSMap.FSeatedPlayer && AoWHSMap.FPlayers.GetPlayers(I).FStatus != TPlayerStatus.psTerminated && AoWHSMap.FPlayerCommunicator.PCC.Players[I].ConnectionMode == TConnectionMode.cmRemote)
                     {
-                        bool bool__3 = I != AoWHSMap.FSeatedPlayer;
-                        if (bool__3)
-                        {
-                            var call__4 = AoWHSMap.FPlayers.GetPlayers(I);
-                            bool__3 = call__4.FStatus != TPlayerStatus.psTerminated;
-                        }
-
-                        bool bool__5 = bool__3;
-                        if (bool__5)
-                        {
-                            var call__6 = AoWHSMap.FPlayerCommunicator.PCC.Players[I];
-                            bool__5 = call__6.ConnectionMode == TConnectionMode.cmRemote;
-                        }
-
-                        if (bool__5)
-                        {
-                            var call__7 = AoWHSMap.FPlayerCommunicator.PCC.Players[I];
-                            var call__8 = AoWHSMap.FPlayers.GetPlayers(I);
-                            ChatWindow.PlayerList.Items.AddObject(call__8.FLeader.FHeroName, IntToObject(call__7.SystemID));
-                            ChatWindow.PlayerList.Selected = 0;
-                        }
+                        var player = AoWHSMap.FPlayerCommunicator.PCC.Players[I];
+                        var playerLeader = AoWHSMap.FPlayers.GetPlayers(I);
+                        ChatWindow.PlayerList.Items.AddObject(playerLeader.FLeader.FHeroName, IntToObject(player.SystemID));
+                        ChatWindow.PlayerList.Selected = 0;
                     }
                 }
             }
@@ -154,11 +135,11 @@ namespace Aow.Units.aowSetupEvents
             {
                 ScenSetup.ExitGameClick(null);
                 ResetMessageDialog(MessageDlg);
-                var call__9 = TranslateRStr(E2Globals.E2Globals.WarningRStr);
-                MessageDlg.TitleLbl.Text = call__9;
+                var warning = TranslateRStr(E2Globals.E2Globals.WarningRStr);
+                MessageDlg.TitleLbl.Text = warning;
                 MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                var call__10 = TranslateRStr(YouWereEjectedByTheHostRStr);
-                MessageDlg.MessageMemo.Items.Add(call__10);
+                var youWereEjectedByTheHost = TranslateRStr(YouWereEjectedByTheHostRStr);
+                MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
                 MessageDlg.OKPnl.Visible = true;
                 MessageDlg.Dlg.Visible = true;
             }
@@ -183,10 +164,9 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:195
         public void SetupControlLoadMap(TSetupControl Control, AnsiString FileName)
         {
-            var call__11 = ExtractFileName(FileName);
-            var call__12 = TranslateRStr(LoadingXRStr);
-            var call__13 = AoWE.AoWE.Format(call__12, [call__11]);
-            ProgressDialog.Title.Text = call__13;
+            var fileName = ExtractFileName(FileName);
+            var format = AoWE.AoWE.Format(TranslateRStr(LoadingXRStr), [fileName]);
+            ProgressDialog.Title.Text = format;
             ProgressDialog.StatusLbl.Text = (AnsiString)"";
             ProgressDialog.Bar.Position = 0;
             ProgressDialog.Bar.Max = 100;
@@ -199,12 +179,11 @@ namespace Aow.Units.aowSetupEvents
                 FadeMusicVolume(0, 1);
             }
 
-            var call__14 = Control.FStream.Size;
-            if (call__14 != 0)
+            if (Control.FStream.Size != 0)
             {
                 AoWEngine.LoadHSMfromStream(Control.FStream, false, General.MapProgress);
-                var call__15 = ExtractFileName(FileName);
-                AoWHSMap.FileName = AoWEngine.StartupDirectory + (AnsiString)"Scenario\\" + call__15;
+                var fileName2 = ExtractFileName(FileName);
+                AoWHSMap.FileName = AoWEngine.StartupDirectory + (AnsiString)"Scenario\\" + fileName2;
             }
             else
             {
@@ -300,11 +279,10 @@ namespace Aow.Units.aowSetupEvents
         // aowSetupEvents.pas:299
         public void DPlayDestroyPlayer(int ID, int NumPlayers)
         {
-            sbyte Player = default;
+            sbyte Player;
             if (ScenSetup.FSetupControl != null)
             {
-                var call__16 = ScenSetup.FSetupControl.GetHost();
-                if (call__16)
+                if (ScenSetup.FSetupControl.GetHost())
                 {
                     ScenSetup.FSetupControl.hDisconnectPlayer(ID);
                 }
@@ -312,15 +290,12 @@ namespace Aow.Units.aowSetupEvents
 
             if (AoWHSMap != null && AoWHSMap.FPlayerCommunicator.PCC != null)
             {
-                var call__17 = AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
-                Player = (sbyte)call__17;
+                Player = (sbyte)AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
                 if (Player != -1)
                 {
-                    var call__18 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    if (call__18 != null)
+                    if (AoWHSMap.FPlayers.GetPlayers(Player) != null)
                     {
-                        var call__19 = AoWHSMap.FPlayers.GetPlayers(Player);
-                        if (call__19.FStatus == TPlayerStatus.psPlaying)
+                        if (AoWHSMap.FPlayers.GetPlayers(Player).FStatus == TPlayerStatus.psPlaying)
                         {
                             AoWHSMap.PlayerDisconnected(Player);
                         }

@@ -66,16 +66,16 @@ namespace Aow.Units.AoWExeForms
             Dialog.MessageMemo.Items.Clear();
             Dialog.MemoPnl.Visible = true;
             Dialog.HeaderMemoPnl.Visible = false;
-            var call__1 = TranslateRStr(MessageRStr);
-            Dialog.TitleLbl.Text = call__1;
+            var message = TranslateRStr(MessageRStr);
+            Dialog.TitleLbl.Text = message;
         }
 
         // AoWExeForms.pas:63
         public static void SetInfoBanner(TInfoBanner Banner, AnsiString Caption, TStrings Description)
         {
             Banner.HeaderLbl.Text = Caption;
-            var call__2 = Description.Text;
-            Banner.InfoMemo.Items.Text = call__2;
+            var text = Description.Text;
+            Banner.InfoMemo.Items.Text = text;
         }
     }
 }

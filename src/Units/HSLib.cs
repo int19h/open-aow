@@ -18,19 +18,13 @@ namespace Aow.Units.HSLib
         // HSLib.pas:292
         internal void SetEngine(THexagonSpriteEngine Value)
         {
-            int I = default;
             if (!ComponentState.Contains(TComponentState.csDesigning) && Value != FEngine)
             {
                 FEngine = Value;
                 FHSEngine = FEngine.HSEngine;
+                for (int I = FList.Count - 1; I >= 0; I--)
                 {
-                    I = FList.Count - 1;
-                    byte end__1 = 0;
-                    for (; I >= end__1; I -= 1)
-                    {
-                        var call__2 = FList[I];
-                        ((TLibraryHS)call__2).Remove();
-                    }
+                    ((TLibraryHS)FList[I]).Remove();
                 }
             }
         }
@@ -38,8 +32,7 @@ namespace Aow.Units.HSLib
         // HSLib.pas:279
         public THSLibrary(TComponent owner) : base(owner)
         {
-            var call__3 = new TList();
-            FList = call__3;
+            FList = new TList();
         }
 
         // HSLib.pas:285
@@ -53,15 +46,9 @@ namespace Aow.Units.HSLib
         // HSLib.pas:304
         public void ClearList()
         {
-            int I = default;
+            for (int I = FList.Count - 1; I >= 0; I--)
             {
-                I = FList.Count - 1;
-                byte end__4 = 0;
-                for (; I >= end__4; I -= 1)
-                {
-                    var call__5 = FList[I];
-                    ((TLibraryHS)call__5).Destroy();
-                }
+                ((TLibraryHS)FList[I]).Destroy();
             }
 
             FList.Clear();
@@ -76,15 +63,12 @@ namespace Aow.Units.HSLib
         // HSLib.pas:317
         public TLibraryHS CreateHS(int Index)
         {
-            TLibraryHS Result = default;
-            TLibraryHS HS = default;
+            TLibraryHS HS;
             HS = new TLibraryHS(null);
-            var call__6 = this[Index];
-            HS.SetImage(call__6);
+            HS.SetImage(this[Index]);
             HS.FLibrary = this;
             FList.Add(HS);
-            Result = HS;
-            return Result;
+            return HS;
         }
 
         [Published]
@@ -123,20 +107,10 @@ namespace Aow.Units.HSLib
         }
 
         // HSLib.pas:92
-        public override byte GetLevel()
-        {
-            byte Result = default;
-            Result = FLevel;
-            return Result;
-        }
+        public override byte GetLevel() => FLevel;
 
         // HSLib.pas:97
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            Result = (FLevel << 26) + (FYhp << 13) + FXhp;
-            return Result;
-        }
+        public override int GetShowPriority() => (FLevel << 26) + (FYhp << 13) + FXhp;
 
         // HSLib.pas:102
         public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -147,7 +121,7 @@ namespace Aow.Units.HSLib
         // HSLib.pas:107
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            int Xhp = default;
+            int Xhp;
             Xhp = FXhp;
             if (Xhp != -2147483648)
             {
@@ -161,28 +135,13 @@ namespace Aow.Units.HSLib
         }
 
         // HSLib.pas:116
-        public override sbyte GetXhx()
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetXhx() => -1;
 
         // HSLib.pas:121
-        public override sbyte GetYhx()
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetYhx() => -1;
 
         // HSLib.pas:126
-        public override sbyte GetLhx()
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetLhx() => -1;
 
         // HSLib.pas:132
         // { Original bug: the right edge of the image is taken 8 pixels short for the second column. }
@@ -192,10 +151,10 @@ namespace Aow.Units.HSLib
             int J = default;
             int XMin = default;
             int OddYMin = default;
-            int EvenYMin = default;
+            int EvenYMin;
             int XMax = default;
             int OddYMax = default;
-            int EvenYMax = default;
+            int EvenYMax;
             if (FXhp != -2147483648)
             {
                 HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
@@ -253,32 +212,25 @@ namespace Aow.Units.HSLib
                     OddYMax = FMapContainer.Height - 1;
                 }
 
+                I = XMin;
+                int last = XMax;
+                for (; I <= last; I += 1)
                 {
-                    I = XMin;
-                    int end__7 = XMax;
-                    for (; I <= end__7; I += 1)
+                    if (!((I & 1) != 0))
                     {
-                        if (!((I & 1) != 0))
+                        J = EvenYMin;
+                        for (; J <= EvenYMax; J += 1)
                         {
-                            {
-                                J = EvenYMin;
-                                int end__8 = EvenYMax;
-                                for (; J <= end__8; J += 1)
-                                {
-                                    FMapContainer.RemoveHS(I, J, FLhx, this);
-                                }
-                            }
+                            FMapContainer.RemoveHS(I, J, FLhx, this);
                         }
-                        else
+                    }
+                    else
+                    {
+                        J = OddYMin;
+                        int limit = OddYMax;
+                        for (; J <= limit; J += 1)
                         {
-                            {
-                                J = OddYMin;
-                                int end__9 = OddYMax;
-                                for (; J <= end__9; J += 1)
-                                {
-                                    FMapContainer.RemoveHS(I, J, FLhx, this);
-                                }
-                            }
+                            FMapContainer.RemoveHS(I, J, FLhx, this);
                         }
                     }
                 }
@@ -305,7 +257,7 @@ namespace Aow.Units.HSLib
         // HSLib.pas:186
         public void SetImage(ImageLib.TLibraryImage Value)
         {
-            int Xhp = default;
+            int Xhp;
             if (FXhp != -2147483648)
             {
                 Xhp = FXhp;
@@ -327,15 +279,14 @@ namespace Aow.Units.HSLib
         // HSLib.pas:203
         public override bool Place(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
         {
-            bool Result = default;
             int I = default;
             int J = default;
             int XMin = default;
             int OddYMin = default;
-            int EvenYMin = default;
+            int EvenYMin;
             int XMax = default;
             int OddYMax = default;
-            int EvenYMax = default;
+            int EvenYMax;
             if (FXhp != -2147483648)
             {
                 Remove();
@@ -402,65 +353,52 @@ namespace Aow.Units.HSLib
                     OddYMax = MapContainer.Height - 1;
                 }
 
+                I = XMin;
+                int last = XMax;
+                for (; I <= last; I += 1)
                 {
-                    I = XMin;
-                    int end__10 = XMax;
-                    for (; I <= end__10; I += 1)
+                    if (!((I & 1) != 0))
                     {
-                        if (!((I & 1) != 0))
+                        J = EvenYMin;
+                        for (; J <= EvenYMax; J += 1)
                         {
-                            {
-                                J = EvenYMin;
-                                int end__11 = EvenYMax;
-                                for (; J <= end__11; J += 1)
-                                {
-                                    MapContainer.InsertHS(I, J, FLhx, this, 0);
-                                }
-                            }
+                            MapContainer.InsertHS(I, J, FLhx, this, 0);
                         }
-                        else
+                    }
+                    else
+                    {
+                        J = OddYMin;
+                        int limit = OddYMax;
+                        for (; J <= limit; J += 1)
                         {
-                            {
-                                J = OddYMin;
-                                int end__12 = OddYMax;
-                                for (; J <= end__12; J += 1)
-                                {
-                                    MapContainer.InsertHS(I, J, FLhx, this, 0);
-                                }
-                            }
+                            MapContainer.InsertHS(I, J, FLhx, this, 0);
                         }
                     }
                 }
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
         // HSLib.pas:251
         public bool PlaceEx(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx, byte Level)
         {
-            bool Result = default;
             FLevel = Level;
-            Result = Place(MapContainer, Xhp, Yhp, Lhx);
-            return Result;
+            return Place(MapContainer, Xhp, Yhp, Lhx);
         }
 
         // HSLib.pas:257
         public bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
             int Xhp = default;
             int Yhp = default;
             HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
-            Result = Place(MapContainer, Xhp - 8, Yhp, Lhx);
-            return Result;
+            return Place(MapContainer, Xhp - 8, Yhp, Lhx);
         }
 
         // HSLib.pas:265
         public bool PlaceHXEx(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx, sbyte Level, bool Center)
         {
-            bool Result = default;
             int Xhp = default;
             int Yhp = default;
             if (Level != -1)
@@ -471,8 +409,7 @@ namespace Aow.Units.HSLib
             HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp + 16 - (int)(((uint)FImage.Width) >> 1);
             Yhp = Yhp + 16 - (int)(((uint)FImage.Height) >> 1);
-            Result = Place(MapContainer, Xhp, Yhp, Lhx);
-            return Result;
+            return Place(MapContainer, Xhp, Yhp, Lhx);
         }
 
         public TMapContainer MapContainer { get => FMapContainer; }

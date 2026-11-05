@@ -53,15 +53,13 @@ namespace Aow.Units.ItemGrid
         // ItemGrid.pas:132
         public TItem GetSelectedItem()
         {
-            TItem Result = default;
-            int Index = default;
-            var call__1 = ImageIndex(Col, Row);
-            Index = call__1;
+            TItem Result;
+            int Index;
+            Index = ImageIndex(Col, Row);
             if (Index < FIndices.Count)
             {
-                var call__2 = FIndices[Index];
-                var call__3 = FItems.GetItem(call__2);
-                Result = call__3;
+                var indice = FIndices[Index];
+                Result = FItems.GetItem(indice);
             }
             else
             {
@@ -74,13 +72,12 @@ namespace Aow.Units.ItemGrid
         // ItemGrid.pas:142
         public TItem GetItem(int Index)
         {
-            TItem Result = default;
+            TItem Result;
             // { Original checks only the upper bound. }
             if (Index < FIndices.Count)
             {
-                var call__4 = FIndices[Index];
-                var call__5 = FItems.GetItem(call__4);
-                Result = call__5;
+                var indice = FIndices[Index];
+                Result = FItems.GetItem(indice);
             }
             else
             {
@@ -130,11 +127,9 @@ namespace Aow.Units.ItemGrid
         {
             TItem Item = default;
             FStream.Clear();
-            var call__6 = new TItem(FItems);
-            Item = call__6;
+            Item = new TItem(FItems);
             AoWEngine.ActivateEObject(Item);
-            var call__7 = Item.Editor();
-            call__7.Edit(Item, AoWEngine, EditItemDone);
+            Item.Editor().Edit(Item, AoWEngine, EditItemDone);
         }
 
         // ItemGrid.pas:265
@@ -142,15 +137,13 @@ namespace Aow.Units.ItemGrid
         {
             if (Item != null)
             {
-                var call__8 = FItems.GetControlStyle();
-                if (call__8.Contains(TEControlStyleElement.csArrayMode))
+                if (FItems.GetControlStyle().Contains(TEControlStyleElement.csArrayMode))
                 {
-                    var call__9 = ImageIndex(Col, Row);
-                    var call__10 = FItems.GetItem(call__9);
-                    if (call__10 == null)
+                    var imageIndex = ImageIndex(Col, Row);
+                    if (FItems.GetItem(imageIndex) == null)
                     {
-                        var call__11 = ImageIndex(Col, Row);
-                        Item.SetArrayOwner(FItems, call__11);
+                        var imageIndex2 = ImageIndex(Col, Row);
+                        Item.SetArrayOwner(FItems, imageIndex2);
                     }
                 }
                 else

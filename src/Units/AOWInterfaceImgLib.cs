@@ -22,9 +22,7 @@ namespace Aow.Units.AOWInterfaceImgLib
 //   message box that names the library and the component (Sender) that needs them }
         public TInterfaceIL CheckIL(int Index, int Count, TComponent Sender)
         {
-            TInterfaceIL Result = default;
-            int I = default;
-            Result = this;
+            TInterfaceIL Result = this;
             if (Index + Count > this.Count)
             {
                 Result = null;
@@ -32,16 +30,12 @@ namespace Aow.Units.AOWInterfaceImgLib
             }
             else
             {
+                for (int I = Index; I <= Index + Count - 1; I++)
                 {
-                    I = Index;
-                    int end__1 = Index + Count - 1;
-                    for (; I <= end__1; I += 1)
+                    if (!ImageExist(I))
                     {
-                        if (!ImageExist(I))
-                        {
-                            MessageBox(0, Name + AnsiString.FromBytes(32, 73, 109, 97, 103, 101, 32, 35, 32) + IntToStr(I) + (AnsiString)" is invalid", (AnsiString)"Error - " + Sender.Name, 0);
-                            Result = null;
-                        }
+                        MessageBox(0, Name + AnsiString.FromBytes(32, 73, 109, 97, 103, 101, 32, 35, 32) + IntToStr(I) + (AnsiString)" is invalid", (AnsiString)"Error - " + Sender.Name, 0);
+                        Result = null;
                     }
                 }
             }
@@ -55,10 +49,9 @@ namespace Aow.Units.AOWInterfaceImgLib
 //   the bottom right corner }
         public void DrawILF(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
         {
-            int I = default;
-            int ClipRight = default;
-            int ClipBottom = default;
-            TRect OldClip = default;
+            int ClipRight;
+            int ClipBottom;
+            TRect OldClip;
             OldClip = SurfDesc.ClipRect;
             if (R.Left + R.Right > SurfDesc.ClipRect.Right)
             {
@@ -78,72 +71,56 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__2 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__2;
-            var call__3 = this[Index];
-            call__3.ShowClipped(R.Left, R.Top, SurfDesc);
-            var call__4 = this[Index + 5];
-            var call__5 = this[Index + 5];
-            call__5.ShowClipped(R.Left, R.Top + R.Bottom - call__4.Height, SurfDesc);
-            var call__6 = this[Index + 4];
-            if (R.Left + R.Right - call__6.Width < OldClip.Right)
+            var rect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect;
+            this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
+            var item = this[Index + 5];
+            this[Index + 5].ShowClipped(R.Left, R.Top + R.Bottom - item.Height, SurfDesc);
+            var item2 = this[Index + 4];
+            if (R.Left + R.Right - item2.Width < OldClip.Right)
             {
-                var call__7 = this[Index + 4];
-                SurfDesc.ClipRect.Right = R.Left + R.Right - call__7.Width;
+                var item3 = this[Index + 4];
+                SurfDesc.ClipRect.Right = R.Left + R.Right - item3.Width;
             }
 
+            for (int I = 0, last = (R.Right - this[Index].Width - this[Index + 2].Width) / this[Index + 1].Width; I <= last; I++)
             {
-                I = 0;
-                int end__8 = (R.Right - this[Index].Width - this[Index + 2].Width) / this[Index + 1].Width;
-                for (; I <= end__8; I += 1)
-                {
-                    var call__9 = this[Index];
-                    var call__10 = this[Index + 1];
-                    var call__11 = this[Index + 1];
-                    call__11.ShowClipped(R.Left + call__9.Width + call__10.Width * I, R.Top, SurfDesc);
-                    var call__12 = this[Index + 5];
-                    var call__13 = this[Index + 6];
-                    var call__14 = this[Index + 6];
-                    var call__15 = this[Index + 6];
-                    call__15.ShowClipped(R.Left + call__12.Width + call__13.Width * I, R.Top + R.Bottom - call__14.Height, SurfDesc);
-                }
+                var item3 = this[Index];
+                var item4 = this[Index + 1];
+                this[Index + 1].ShowClipped(R.Left + item3.Width + item4.Width * I, R.Top, SurfDesc);
+                var item5 = this[Index + 5];
+                var item6 = this[Index + 6];
+                var item7 = this[Index + 6];
+                this[Index + 6].ShowClipped(R.Left + item5.Width + item6.Width * I, R.Top + R.Bottom - item7.Height, SurfDesc);
             }
 
-            var call__16 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__16;
-            var call__17 = this[Index + 6];
-            if (R.Top + R.Bottom - call__17.Height < OldClip.Bottom)
+            var rect2 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect2;
+            var item8 = this[Index + 6];
+            if (R.Top + R.Bottom - item8.Height < OldClip.Bottom)
             {
-                var call__18 = this[Index + 6];
-                SurfDesc.ClipRect.Bottom = R.Top + R.Bottom - call__18.Height;
+                var item3 = this[Index + 6];
+                SurfDesc.ClipRect.Bottom = R.Top + R.Bottom - item3.Height;
             }
 
+            for (int I = 0, last = (R.Bottom - this[Index].Height - this[Index + 5].Height) / this[Index + 3].Height; I <= last; I++)
             {
-                I = 0;
-                int end__19 = (R.Bottom - this[Index].Height - this[Index + 5].Height) / this[Index + 3].Height;
-                for (; I <= end__19; I += 1)
-                {
-                    var call__20 = this[Index];
-                    var call__21 = this[Index + 3];
-                    var call__22 = this[Index + 3];
-                    call__22.ShowClipped(R.Left, R.Top + call__20.Height + call__21.Height * I, SurfDesc);
-                    var call__23 = this[Index + 2];
-                    var call__24 = this[Index + 4];
-                    var call__25 = this[Index + 4];
-                    var call__26 = this[Index + 4];
-                    call__26.ShowClipped(R.Left + R.Right - call__25.Width, R.Top + call__23.Height + call__24.Height * I, SurfDesc);
-                }
+                var item3 = this[Index];
+                var item4 = this[Index + 3];
+                this[Index + 3].ShowClipped(R.Left, R.Top + item3.Height + item4.Height * I, SurfDesc);
+                var item5 = this[Index + 2];
+                var item6 = this[Index + 4];
+                var item7 = this[Index + 4];
+                this[Index + 4].ShowClipped(R.Left + R.Right - item7.Width, R.Top + item5.Height + item6.Height * I, SurfDesc);
             }
 
-            var call__27 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__27;
-            var call__28 = this[Index + 2];
-            var call__29 = this[Index + 2];
-            call__29.ShowClipped(R.Left + R.Right - call__28.Width, R.Top, SurfDesc);
-            var call__30 = this[Index + 7];
-            var call__31 = this[Index + 7];
-            var call__32 = this[Index + 7];
-            call__32.ShowClipped(R.Left + R.Right - call__31.Width, R.Top + R.Bottom - call__30.Height, SurfDesc);
+            var rect3 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect3;
+            var item9 = this[Index + 2];
+            this[Index + 2].ShowClipped(R.Left + R.Right - item9.Width, R.Top, SurfDesc);
+            var item10 = this[Index + 7];
+            var item11 = this[Index + 7];
+            this[Index + 7].ShowClipped(R.Left + R.Right - item11.Width, R.Top + R.Bottom - item10.Height, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
 
@@ -151,11 +128,9 @@ namespace Aow.Units.AOWInterfaceImgLib
         // { DrawILT tiles image Index over R }
         public void DrawILT(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
         {
-            int I = default;
-            int J = default;
-            int ClipRight = default;
-            int ClipBottom = default;
-            TRect OldClip = default;
+            int ClipRight;
+            int ClipBottom;
+            TRect OldClip;
             OldClip = SurfDesc.ClipRect;
             if (R.Left + R.Right > SurfDesc.ClipRect.Right)
             {
@@ -175,8 +150,8 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__33 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__33;
+            var rect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect;
             if (R.Left + R.Right < OldClip.Right)
             {
                 SurfDesc.ClipRect.Right = R.Left + R.Right;
@@ -187,22 +162,13 @@ namespace Aow.Units.AOWInterfaceImgLib
                 SurfDesc.ClipRect.Bottom = R.Top + R.Bottom;
             }
 
+            for (int J = 0, last = R.Bottom / this[Index].Height; J <= last; J++)
             {
-                J = 0;
-                int end__34 = R.Bottom / this[Index].Height;
-                for (; J <= end__34; J += 1)
+                for (int I = 0, lastI = R.Right / this[Index].Width; I <= lastI; I++)
                 {
-                    {
-                        I = 0;
-                        int end__35 = R.Right / this[Index].Width;
-                        for (; I <= end__35; I += 1)
-                        {
-                            var call__36 = this[Index];
-                            var call__37 = this[Index];
-                            var call__38 = this[Index];
-                            call__38.ShowClipped(R.Left + call__37.Width * I, R.Top + call__36.Height * J, SurfDesc);
-                        }
-                    }
+                    var item = this[Index];
+                    var item2 = this[Index];
+                    this[Index].ShowClipped(R.Left + item2.Width * I, R.Top + item.Height * J, SurfDesc);
                 }
             }
 
@@ -213,9 +179,9 @@ namespace Aow.Units.AOWInterfaceImgLib
         // { DrawILI draws image Index at the top left corner of R, clipped to R }
         public void DrawILI(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
         {
-            int ClipRight = default;
-            int ClipBottom = default;
-            TRect OldClip = default;
+            int ClipRight;
+            int ClipBottom;
+            TRect OldClip;
             OldClip = SurfDesc.ClipRect;
             if (R.Left + R.Right > SurfDesc.ClipRect.Right)
             {
@@ -235,10 +201,9 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__39 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__39;
-            var call__40 = this[Index];
-            call__40.ShowClipped(R.Left, R.Top, SurfDesc);
+            var rect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect;
+            this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
 
@@ -247,10 +212,9 @@ namespace Aow.Units.AOWInterfaceImgLib
 //   +2 the right end }
         public void DrawILLh(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
         {
-            int I = default;
-            int ClipRight = default;
-            int ClipBottom = default;
-            TRect OldClip = default;
+            int ClipRight;
+            int ClipBottom;
+            TRect OldClip;
             OldClip = SurfDesc.ClipRect;
             if (R.Left + R.Right > SurfDesc.ClipRect.Right)
             {
@@ -270,34 +234,27 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__41 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__41;
-            var call__42 = this[Index];
-            call__42.ShowClipped(R.Left, R.Top, SurfDesc);
-            var call__43 = this[Index + 2];
-            if (R.Left + R.Right - call__43.Width < OldClip.Right)
+            var rect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect;
+            this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
+            var item = this[Index + 2];
+            if (R.Left + R.Right - item.Width < OldClip.Right)
             {
-                var call__44 = this[Index + 2];
-                SurfDesc.ClipRect.Right = R.Left + R.Right - call__44.Width;
+                var item2 = this[Index + 2];
+                SurfDesc.ClipRect.Right = R.Left + R.Right - item2.Width;
             }
 
+            for (int I = 0, last = (R.Right - this[Index].Width - this[Index + 2].Width) / this[Index + 1].Width; I <= last; I++)
             {
-                I = 0;
-                int end__45 = (R.Right - this[Index].Width - this[Index + 2].Width) / this[Index + 1].Width;
-                for (; I <= end__45; I += 1)
-                {
-                    var call__46 = this[Index];
-                    var call__47 = this[Index + 1];
-                    var call__48 = this[Index + 1];
-                    call__48.ShowClipped(R.Left + call__46.Width + call__47.Width * I, R.Top, SurfDesc);
-                }
+                var item2 = this[Index];
+                var item3 = this[Index + 1];
+                this[Index + 1].ShowClipped(R.Left + item2.Width + item3.Width * I, R.Top, SurfDesc);
             }
 
-            var call__49 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__49;
-            var call__50 = this[Index + 2];
-            var call__51 = this[Index + 2];
-            call__51.ShowClipped(R.Left + R.Right - call__50.Width, R.Top, SurfDesc);
+            var rect2 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect2;
+            var item4 = this[Index + 2];
+            this[Index + 2].ShowClipped(R.Left + R.Right - item4.Width, R.Top, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
 
@@ -306,10 +263,9 @@ namespace Aow.Units.AOWInterfaceImgLib
 //   the bottom end }
         public void DrawILLv(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
         {
-            int I = default;
-            int ClipRight = default;
-            int ClipBottom = default;
-            TRect OldClip = default;
+            int ClipRight;
+            int ClipBottom;
+            TRect OldClip;
             OldClip = SurfDesc.ClipRect;
             if (R.Left + R.Right > SurfDesc.ClipRect.Right)
             {
@@ -329,34 +285,27 @@ namespace Aow.Units.AOWInterfaceImgLib
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__52 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__52;
-            var call__53 = this[Index];
-            call__53.ShowClipped(R.Left, R.Top, SurfDesc);
-            var call__54 = this[Index + 2];
-            if (R.Top + R.Bottom - call__54.Height < OldClip.Bottom)
+            var rect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect;
+            this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
+            var item = this[Index + 2];
+            if (R.Top + R.Bottom - item.Height < OldClip.Bottom)
             {
-                var call__55 = this[Index + 2];
-                SurfDesc.ClipRect.Bottom = R.Top + R.Bottom - call__55.Height;
+                var item2 = this[Index + 2];
+                SurfDesc.ClipRect.Bottom = R.Top + R.Bottom - item2.Height;
             }
 
+            for (int I = 0, last = (R.Bottom - this[Index].Height - this[Index + 2].Height) / this[Index + 1].Height; I <= last; I++)
             {
-                I = 0;
-                int end__56 = (R.Bottom - this[Index].Height - this[Index + 2].Height) / this[Index + 1].Height;
-                for (; I <= end__56; I += 1)
-                {
-                    var call__57 = this[Index];
-                    var call__58 = this[Index + 1];
-                    var call__59 = this[Index + 1];
-                    call__59.ShowClipped(R.Left, R.Top + call__57.Height + call__58.Height * I, SurfDesc);
-                }
+                var item2 = this[Index];
+                var item3 = this[Index + 1];
+                this[Index + 1].ShowClipped(R.Left, R.Top + item2.Height + item3.Height * I, SurfDesc);
             }
 
-            var call__60 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__60;
-            var call__61 = this[Index + 2];
-            var call__62 = this[Index + 2];
-            call__62.ShowClipped(R.Left, R.Top + R.Bottom - call__61.Height, SurfDesc);
+            var rect2 = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect2;
+            var item4 = this[Index + 2];
+            this[Index + 2].ShowClipped(R.Left, R.Top + R.Bottom - item4.Height, SurfDesc);
             SurfDesc.ClipRect = OldClip;
         }
     }

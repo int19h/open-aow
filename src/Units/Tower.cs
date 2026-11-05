@@ -34,29 +34,7 @@ namespace Aow.Units.Tower
         public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
-            var call__1 = FResource.TerrainList.Terrain[Msg.HN];
-            bool bool__2 = call__1 >= 0 && Msg.MsgID == 4387;
-            if (bool__2)
-            {
-                var call__3 = Msg.Param[0].As<TMapField>().FindNoneTransparentHS(typeof(TTower));
-                bool__2 = call__3 == this;
-            }
-
-            bool bool__4 = bool__2;
-            if (bool__4)
-            {
-                var call__5 = GetBuilding();
-                bool__4 = !call__5;
-            }
-
-            bool bool__6 = bool__4;
-            if (bool__6)
-            {
-                var call__7 = GetRazed();
-                bool__6 = !call__7;
-            }
-
-            if (bool__6)
+            if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && Msg.MsgID == 4387 && Msg.Param[0].As<TMapField>().FindNoneTransparentHS(typeof(TTower)) == this && !GetBuilding() && !GetRazed())
             {
                 Msg.Result = 2;
             }
@@ -75,17 +53,11 @@ namespace Aow.Units.Tower
                 FState = FState - TSet<TTowerStateElement>.Of(TTowerStateElement.tsRazed);
             }
 
-            var call__8 = GetTerrainTypeImage(FTerrainType);
-            FImageIndex = call__8;
+            FImageIndex = GetTerrainTypeImage(FTerrainType);
         }
 
         // Tower.pas:82
-        public override bool GetRazed()
-        {
-            bool Result = default;
-            Result = FState.Contains(TTowerStateElement.tsRazed);
-            return Result;
-        }
+        public override bool GetRazed() => FState.Contains(TTowerStateElement.tsRazed);
 
         // Tower.pas:73
         public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
@@ -109,25 +81,11 @@ namespace Aow.Units.Tower
         // Tower.pas:58
         public override int VisibilityRange()
         {
-            int Result = default;
+            int Result;
             if (!GetBuilding())
             {
                 Result = 12;
-                var call__9 = GetLhx();
-                bool bool__10 = call__9 != 0;
-                if (!bool__10)
-                {
-                    bool bool__11 = FPlayer > 0;
-                    if (bool__11)
-                    {
-                        var call__12 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        bool__11 = (((byte)call__12.FMagicControl.FEnemyEnchantments.Image) & 8) != 0;
-                    }
-
-                    bool__10 = bool__11;
-                }
-
-                if (bool__10)
+                if (GetLhx() != 0 || FPlayer > 0 && (((byte)AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
                 {
                     Result = (int)(((uint)(Result + 1)) >> 1);
                 }
@@ -141,12 +99,7 @@ namespace Aow.Units.Tower
         }
 
         // Tower.pas:70
-        public override int GetDefaultAITargetPriority()
-        {
-            int Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override int GetDefaultAITargetPriority() => 1;
 
     }
 
@@ -169,25 +122,13 @@ namespace Aow.Units.Tower
 
 
         // Tower.pas:127
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132158;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132158;
 
         // Tower.pas:35
 
 
         // Tower.pas:121
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__13 = TowerRStr;
-            var call__14 = TranslateRStr(call__13);
-            Result = call__14;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(TowerRStr);
 
     }
 
@@ -199,12 +140,8 @@ namespace Aow.Units.Tower
         // Tower.pas:139
         public override void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
         {
-            var call__15 = TowerRStr;
-            var call__16 = TranslateRStr(call__15);
-            var call__17 = BuildXRStr;
-            var call__18 = TranslateRStr(call__17);
-            var call__19 = Rtl.Rtl.Format(call__18, [call__16]);
-            Text = call__19;
+            var tower = TranslateRStr(TowerRStr);
+            Text = Rtl.Rtl.Format(TranslateRStr(BuildXRStr), [tower]);
             Gold = 50;
             Days = 2;
         }
@@ -212,7 +149,7 @@ namespace Aow.Units.Tower
         // Tower.pas:146
         public override bool CanConstruct(TAbstractUnit A1, ref AnsiString A2)
         {
-            bool Result = default;
+            bool Result;
             sbyte Xhx = default;
             sbyte Yhx = default;
             sbyte Lhx = default;
@@ -224,33 +161,18 @@ namespace Aow.Units.Tower
             else
             {
                 Result = false;
-                var call__20 = TowerRStr;
-                var call__21 = TranslateRStr(call__20);
-                var call__22 = CannotBuildXInUndergroundRStr;
-                var call__23 = TranslateRStr(call__22);
-                var call__24 = Rtl.Rtl.Format(call__23, [call__21]);
-                A2 = call__24;
+                var tower = TranslateRStr(TowerRStr);
+                A2 = Rtl.Rtl.Format(TranslateRStr(CannotBuildXInUndergroundRStr), [tower]);
             }
 
             return Result;
         }
 
         // Tower.pas:133
-        public override TStructureResource StructureResource(TAbstractUnit AUnit)
-        {
-            TStructureResource Result = default;
-            var call__25 = AoWHSSet.MapObjectResourceList.FindChild(132159);
-            Result = (TStructureResource)call__25;
-            return Result;
-        }
+        public override TStructureResource StructureResource(TAbstractUnit AUnit) => (TStructureResource)AoWHSSet.MapObjectResourceList.FindChild(132159);
 
         // Tower.pas:130
-        public override int ID()
-        {
-            int Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override int ID() => 3;
 
     }
 
@@ -260,9 +182,8 @@ namespace Aow.Units.Tower
         public static void RegisterTower(TEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<TTower>(), EClass.Of<TTowerResource>()]);
-            var call__26 = new TTowerConstructionControl(null);
-            var call__27 = AoWHSSet.FAbilityControl.GetAbility(125);
-            ((TConstructAbility)call__27).RegisterConstructionControl(call__26);
+            var towerConstructionControl = new TTowerConstructionControl(null);
+            ((TConstructAbility)AoWHSSet.FAbilityControl.GetAbility(125)).RegisterConstructionControl(towerConstructionControl);
         }
 
         public static void Initialize()

@@ -34,72 +34,58 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:159
         public TSummonSpellTE(TECustomNode owner) : base(owner)
         {
-            var call__1 = new TUnitIndexList();
-            FUnitIndices = call__1;
+            FUnitIndices = new TUnitIndexList();
         }
 
         // SummonSpells.pas:182
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
-            bool Done = default;
+            bool Done;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            int I = default;
-            TUnit U = default;
-            TArmyHS Army = default;
-            TUnitEnchantment Enchantment = default;
-            TAIGroup Group = default;
-            TImageSequenceAnimation Anim = default;
+            TUnit U;
+            TArmyHS Army;
+            TUnitEnchantment Enchantment;
+            TAIGroup Group;
+            TImageSequenceAnimation Anim;
             base.Process(A1, A2);
             Done = false;
             A1.GetLocation(ref X, ref Y, ref L);
+            for (int I = 0, last = FUnitIndices.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__2 = FUnitIndices.Count - 1;
-                for (; I <= end__2; I += 1)
+                U = new TUnit(null);
+                var unitIndice = FUnitIndices[I];
+                U.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(unitIndice));
+                Army = U.Place(X, Y, L, A1.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
+                if (Army != null)
                 {
-                    U = new TUnit(null);
-                    var call__3 = FUnitIndices[I];
-                    var call__4 = AoWHSSet.FUnitResources.GetUnitResource(call__3);
-                    U.SetUnitResource(call__4);
-                    var call__5 = U.Place(X, Y, L, A1.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
-                    Army = call__5;
-                    if (Army != null)
+                    var yhx = Army.GetYhx();
+                    var xhx = Army.GetXhx();
+                    if (dHXtoRad(X, Y, xhx, yhx) <= 2)
                     {
-                        var call__6 = Army.GetYhx();
-                        var call__7 = Army.GetXhx();
-                        var call__8 = dHXtoRad(X, Y, call__7, call__6);
-                        if (call__8 <= 2)
+                        if (U.ExpandAbility(155))
                         {
-                            if (U.ExpandAbility(155))
+                            Enchantment = ((TUnitEnchantmentAbilityData)U.GetAbilityData(155)).FEnchantment;
+                            Enchantment.SetUpkeep(AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FManaUpkeep);
+                            Enchantment.SetSource(A1.FPlayer);
+                            Enchantment.FDispelResistance = (sbyte)((TSummonSpell)AoWHSSet.FSpellControl.GetSpell(FEventSpellID)).GetDispelResistance(U);
+                            Group = A1.FGroup;
+                            if (Group != null)
                             {
-                                var call__9 = U.GetAbilityData(155);
-                                Enchantment = ((TUnitEnchantmentAbilityData)call__9).FEnchantment;
-                                var call__10 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                                Enchantment.SetUpkeep(call__10.FManaUpkeep);
-                                Enchantment.SetSource(A1.FPlayer);
-                                var call__11 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                                var call__12 = ((TSummonSpell)call__11).GetDispelResistance(U);
-                                Enchantment.FDispelResistance = (sbyte)call__12;
-                                Group = A1.FGroup;
-                                if (Group != null)
-                                {
-                                    Group.AddUnit(U);
-                                }
+                                Group.AddUnit(U);
                             }
+                        }
 
-                            Done = true;
-                        }
-                        else
-                        {
-                            U.SetOwner(null);
-                        }
+                        Done = true;
                     }
-
-                    U.Release();
+                    else
+                    {
+                        U.SetOwner(null);
+                    }
                 }
+
+                U.Release();
             }
 
             if (Done)
@@ -110,50 +96,34 @@ namespace Aow.Units.SummonSpells
                 }
 
                 AoWHSMap.ValidateObservation(A1.FPlayer, X, Y, L, 0);
-                var call__13 = AoWHSMap.Visible(X, Y, L, 0);
-                if (call__13)
+                if (AoWHSMap.Visible(X, Y, L, 0))
                 {
-                    var call__14 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                    var call__15 = call__14.FCastImages.ImageSequences[0];
-                    if (call__15 != null)
+                    if (AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
                     {
                         Anim = new TImageSequenceAnimation(null);
-                        var call__16 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                        var call__17 = call__16.FCastImages.ImageSequences[0];
-                        Anim.SetImageSequence(call__17);
+                        Anim.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
                         AoWHSMap.PlaceHX(Anim, X, Y, L);
                     }
 
-                    bool bool__18 = A1.FPlayer == AoWHSMap.FSeatedPlayer;
-                    if (!bool__18)
+                    if (A1.FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(X, Y, L, 0))
                     {
-                        var call__19 = AoWHSMap.Watching(X, Y, L, 0);
-                        bool__18 = call__19;
-                    }
-
-                    if (bool__18)
-                    {
-                        var call__20 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                        call__20.FCastSounds.Play(0);
+                        AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
                     }
                 }
 
-                var call__21 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                var call__22 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                call__22.CastingDone(A1, call__21.FBaseManaCost);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
+                AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, spell.FBaseManaCost);
             }
             else
             {
                 if (A1.FPlayer == AoWHSMap.FSeatedPlayer)
                 {
-                    var call__23 = NoSummonLocationFoundRStr;
-                    var call__24 = TranslateRStr(call__23);
-                    AoWHSMap.ShowMessage(call__24);
+                    var noSummonLocationFound = TranslateRStr(NoSummonLocationFoundRStr);
+                    AoWHSMap.ShowMessage(noSummonLocationFound);
                 }
             }
 
-            Result = false;
-            return Result;
+            return false;
         }
 
         // SummonSpells.pas:34
@@ -177,8 +147,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:241
         public TSummonSpell(TECustomNode owner) : base(owner)
         {
-            var call__25 = new TUnitIndexList();
-            FUnitIndices = call__25;
+            FUnitIndices = new TUnitIndexList();
             FSpellType = TSpellType.stGlobal;
             FAIBasePriority = -1;
         }
@@ -186,22 +155,14 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:288
         public override void AIPrefetchCastSpellActions(TAbstractUnit A1, TAICastSpellActionList A2)
         {
-            bool CanCast = default;
-            TAICastSpellAction Action = default;
+            bool CanCast;
+            TAICastSpellAction Action;
             AnsiString Reason = default;
             if (FAIBasePriority != -1)
             {
-                var call__26 = GetAIUpkeepPriority();
-                var call__27 = AIRequestCastSpellExpense(A1, FBaseManaCost, FManaUpkeep, call__26);
-                CanCast = call__27;
-                bool bool__28 = CanCast;
-                if (bool__28)
-                {
-                    var call__29 = ((THero)A1).CanCastSpell(FSpellID, ref Reason);
-                    bool__28 = call__29;
-                }
-
-                CanCast = bool__28;
+                var aiUpkeepPriority = GetAIUpkeepPriority();
+                CanCast = AIRequestCastSpellExpense(A1, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
+                CanCast = CanCast && ((THero)A1).CanCastSpell(FSpellID, ref Reason);
                 if (CanCast)
                 {
                     Action = CreateCastSpellAction();
@@ -215,16 +176,14 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:308
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
-            bool Result = default;
+            bool Result;
             AnsiString Reason = default;
             var hero = (THero)A1;
-            var call__31 = hero.CanCastSpell(FSpellID, ref Reason);
-            if (call__31)
+            if (hero.CanCastSpell(FSpellID, ref Reason))
             {
-                var call__32 = GetAIUpkeepPriority();
-                AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, call__32);
-                var call__33 = hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason);
-                if (call__33)
+                var aiUpkeepPriority = GetAIUpkeepPriority();
+                AICastSpellExpenseMade(A1, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
+                if (hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
                 {
                     Result = this.Activate(A1);
                 }
@@ -252,16 +211,15 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:266
         public override bool Activate(TAbstractUnit A1)
         {
-            bool Result = default;
-            TSummonSpellTE Event = default;
+            bool Result;
+            TSummonSpellTE Event;
             AnsiString Reason = default;
             if (CanActivate(A1, ref Reason))
             {
                 Event = new TSummonSpellTE(null);
                 Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
                 SetupSummonSpellTE(Event);
-                var call__34 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-                call__34.AddEvent(Event);
+                AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -276,20 +234,16 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:261
         public virtual void SetupSummonSpellTE(TSummonSpellTE Event)
         {
-            var call__35 = Random(FUnitIndices.Count);
-            var call__36 = FUnitIndices[call__35];
-            Event.FUnitIndices.Add(call__36);
+            var random = Random(FUnitIndices.Count);
+            var unitIndice = FUnitIndices[random];
+            Event.FUnitIndices.Add(unitIndice);
         }
 
         // SummonSpells.pas:283
         public int GetAIUpkeepPriority()
         {
-            int Result = default;
-            var call__37 = FUnitIndices[0];
-            var call__38 = AoWHSSet.FAbilityControl.GetAbility(155);
-            var call__39 = ((TSummonedAbility)call__38).UnitIndexToAIUpkeepPriority(call__37);
-            Result = call__39;
-            return Result;
+            var unitIndice = FUnitIndices[0];
+            return ((TSummonedAbility)AoWHSSet.FAbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndice);
         }
     }
 
@@ -298,9 +252,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:328
         public TSummonSyron(TECustomNode owner) : base(owner)
         {
-            var call__40 = SummonSyronRStr;
-            var call__41 = TranslateRStr(call__40);
-            FSpellName = call__41;
+            FSpellName = TranslateRStr(SummonSyronRStr);
             FSpellID = 24;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -316,9 +268,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:341
         public TSummonFrog(TECustomNode owner) : base(owner)
         {
-            var call__42 = SummonFrogRStr;
-            var call__43 = TranslateRStr(call__42);
-            FSpellName = call__43;
+            FSpellName = TranslateRStr(SummonFrogRStr);
             FSpellID = 22;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -334,9 +284,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:354
         public TSummonBoar(TECustomNode owner) : base(owner)
         {
-            var call__44 = SummonBoarRStr;
-            var call__45 = TranslateRStr(call__44);
-            FSpellName = call__45;
+            FSpellName = TranslateRStr(SummonBoarRStr);
             FSpellID = 31;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -351,9 +299,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:366
         public TSummonAirElemental(TECustomNode owner) : base(owner)
         {
-            var call__46 = SummonAirElementalRStr;
-            var call__47 = TranslateRStr(call__46);
-            FSpellName = call__47;
+            FSpellName = TranslateRStr(SummonAirElementalRStr);
             FSpellID = 27;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -369,9 +315,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:379
         public TSummonEarthElemental(TECustomNode owner) : base(owner)
         {
-            var call__48 = SummonEarthElementalRStr;
-            var call__49 = TranslateRStr(call__48);
-            FSpellName = call__49;
+            FSpellName = TranslateRStr(SummonEarthElementalRStr);
             FSpellID = 28;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -387,9 +331,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:392
         public TSummonFireElemental(TECustomNode owner) : base(owner)
         {
-            var call__50 = SummonFireElementalRStr;
-            var call__51 = TranslateRStr(call__50);
-            FSpellName = call__51;
+            FSpellName = TranslateRStr(SummonFireElementalRStr);
             FSpellID = 29;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -405,9 +347,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:405
         public TSummonWaterElemental(TECustomNode owner) : base(owner)
         {
-            var call__52 = SummonWaterElementalRStr;
-            var call__53 = TranslateRStr(call__52);
-            FSpellName = call__53;
+            FSpellName = TranslateRStr(SummonWaterElementalRStr);
             FSpellID = 30;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -423,9 +363,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:418
         public TSummonGoldDragon(TECustomNode owner) : base(owner)
         {
-            var call__54 = SummonGoldDragonRStr;
-            var call__55 = TranslateRStr(call__54);
-            FSpellName = call__55;
+            FSpellName = TranslateRStr(SummonGoldDragonRStr);
             FSpellID = 25;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -441,9 +379,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:431
         public TSummonBlackDragon(TECustomNode owner) : base(owner)
         {
-            var call__56 = SummonBlackDragonRStr;
-            var call__57 = TranslateRStr(call__56);
-            FSpellName = call__57;
+            FSpellName = TranslateRStr(SummonBlackDragonRStr);
             FSpellID = 26;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -459,9 +395,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:444
         public TSummonGreatEagle(TECustomNode owner) : base(owner)
         {
-            var call__58 = SummonGreatEagleRStr;
-            var call__59 = TranslateRStr(call__58);
-            FSpellName = call__59;
+            FSpellName = TranslateRStr(SummonGreatEagleRStr);
             FSpellID = 23;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -477,9 +411,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:457
         public TSummonFireSprite(TECustomNode owner) : base(owner)
         {
-            var call__60 = SummonFireSpriteRStr;
-            var call__61 = TranslateRStr(call__60);
-            FSpellName = call__61;
+            FSpellName = TranslateRStr(SummonFireSpriteRStr);
             FSpellID = 21;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -495,9 +427,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:475
         public TSummonBlackSpider(TECustomNode owner) : base(owner)
         {
-            var call__62 = SummonBlackSpiderRStr;
-            var call__63 = TranslateRStr(call__62);
-            FSpellName = call__63;
+            FSpellName = TranslateRStr(SummonBlackSpiderRStr);
             FSpellID = 20;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -519,9 +449,7 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:488
         public TSummonMermaid(TECustomNode owner) : base(owner)
         {
-            var call__64 = SummonMermaidRStr;
-            var call__65 = TranslateRStr(call__64);
-            FSpellName = call__65;
+            FSpellName = TranslateRStr(SummonMermaidRStr);
             FSpellID = 78;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -537,41 +465,28 @@ namespace Aow.Units.SummonSpells
         // SummonSpells.pas:501
         public static void RegisterSummonSpells(TAoWEngine AEngine)
         {
-            TSpellControl Control = default;
+            TSpellControl Control;
             Control = AEngine.FGameSet.FSpellControl;
             AEngine.RegisterEClasses([EClass.Of<TSummonSpellTE>()]);
-            var call__66 = new TSummonSyron(null);
-            Control.RegisterSpell(call__66);
-            var call__67 = new TSummonFrog(null);
-            Control.RegisterSpell(call__67);
-            var call__68 = new TSummonBoar(null);
-            Control.RegisterSpell(call__68);
-            var call__69 = new TSummonAirElemental(null);
-            Control.RegisterSpell(call__69);
-            var call__70 = new TSummonEarthElemental(null);
-            Control.RegisterSpell(call__70);
-            var call__71 = new TSummonFireElemental(null);
-            Control.RegisterSpell(call__71);
-            var call__72 = new TSummonWaterElemental(null);
-            Control.RegisterSpell(call__72);
-            var call__73 = new TSummonGoldDragon(null);
-            Control.RegisterSpell(call__73);
-            var call__74 = new TSummonBlackDragon(null);
-            Control.RegisterSpell(call__74);
-            var call__75 = new TSummonGreatEagle(null);
-            Control.RegisterSpell(call__75);
-            var call__76 = new TSummonFireSprite(null);
-            Control.RegisterSpell(call__76);
-            var call__77 = new TSummonBlackSpider(null);
-            Control.RegisterSpell(call__77);
-            var call__78 = new TSummonMermaid(null);
-            Control.RegisterSpell(call__78);
+            Control.RegisterSpell(new TSummonSyron(null));
+            Control.RegisterSpell(new TSummonFrog(null));
+            Control.RegisterSpell(new TSummonBoar(null));
+            Control.RegisterSpell(new TSummonAirElemental(null));
+            Control.RegisterSpell(new TSummonEarthElemental(null));
+            Control.RegisterSpell(new TSummonFireElemental(null));
+            Control.RegisterSpell(new TSummonWaterElemental(null));
+            Control.RegisterSpell(new TSummonGoldDragon(null));
+            Control.RegisterSpell(new TSummonBlackDragon(null));
+            Control.RegisterSpell(new TSummonGreatEagle(null));
+            Control.RegisterSpell(new TSummonFireSprite(null));
+            Control.RegisterSpell(new TSummonBlackSpider(null));
+            Control.RegisterSpell(new TSummonMermaid(null));
         }
 
         // SummonSpells.pas:522
         public static void UnregisterSummonSpells(TAoWEngine AEngine)
         {
-            TSpellControl Control = default;
+            TSpellControl Control;
             Control = AEngine.FGameSet.FSpellControl;
             AEngine.UnregisterEClasses([EClass.Of<TSummonSpellTE>()]);
             Control.UnregisterSpellID(24);

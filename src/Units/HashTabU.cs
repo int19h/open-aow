@@ -89,7 +89,7 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:155
         public new void Delete(int Key)
         {
-            int I = default;
+            int I;
             I = FCount;
             if (I != 0)
             {
@@ -109,23 +109,15 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:171
         public object Find(int Key)
         {
-            object Result = default;
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__1 = 0;
-                for (; I >= end__1; I -= 1)
+                if (Key == FItems[I].Key.Value)
                 {
-                    if (Key == FItems[I].Key.Value)
-                    {
-                        Result = FItems[I].Item;
-                        return Result;
-                    }
+                    return FItems[I].Item;
                 }
             }
 
-            Result = null;
-            return Result;
+            return null;
         }
 
     }
@@ -165,30 +157,19 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:186
         public TIntegerHashTable256()
         {
-            int I = default;
-            ;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__2 = 255;
-                for (; I <= end__2; I += 1)
-                {
-                    var call__3 = new TIntegerHashList();
-                    FLists[I] = call__3;
-                }
+                var integerHashList = new TIntegerHashList();
+                FLists[I] = integerHashList;
             }
         }
 
         // HashTabU.pas:194
         public override void Destroy()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__4 = 255;
-                for (; I <= end__4; I += 1)
-                {
-                    FLists[I].Free();
-                }
+                FLists[I].Free();
             }
 
             base.Destroy();
@@ -197,14 +178,9 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:202
         public override void Clear()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__5 = 255;
-                for (; I <= end__5; I += 1)
-                {
-                    FLists[I].Clear();
-                }
+                FLists[I].Clear();
             }
         }
 
@@ -221,13 +197,7 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:219
-        public override object Find(int Key)
-        {
-            object Result = default;
-            var call__6 = FLists[Key & 255].Find(Key);
-            Result = call__6;
-            return Result;
-        }
+        public override object Find(int Key) => FLists[Key & 255].Find(Key);
 
     }
 
@@ -242,14 +212,9 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:226
         public override void Clear()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__7 = 0;
-                for (; I >= end__7; I -= 1)
-                {
-                    FItems[I].Key = (AnsiString)"";
-                }
+                FItems[I].Key = (AnsiString)"";
             }
 
             base.Clear();
@@ -258,9 +223,8 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:234
         public object Find(AnsiString Key)
         {
-            object Result = default;
-            int I = default;
-            Result = null;
+            int I;
+            object Result = null;
             I = FCount;
             if (I != 0)
             {
@@ -269,8 +233,7 @@ namespace Aow.Units.HashTabU
                     I -= 1;
                     if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
                     {
-                        Result = FItems[I].Item;
-                        return Result;
+                        return FItems[I].Item;
                     }
                 }
                 while (!(I == 0));
@@ -297,7 +260,7 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:262
         public void Delete(AnsiString Key)
         {
-            int I = default;
+            int I;
             I = FCount;
             if (I != 0)
             {
@@ -352,30 +315,19 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:281
         public TStringHashTable256()
         {
-            int I = default;
-            ;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__8 = 255;
-                for (; I <= end__8; I += 1)
-                {
-                    var call__9 = new TStringHashList();
-                    FLists[I] = call__9;
-                }
+                var stringHashList = new TStringHashList();
+                FLists[I] = stringHashList;
             }
         }
 
         // HashTabU.pas:289
         public override void Destroy()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__10 = 255;
-                for (; I <= end__10; I += 1)
-                {
-                    FLists[I].Free();
-                }
+                FLists[I].Free();
             }
 
             base.Destroy();
@@ -384,21 +336,16 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:297
         public override void Clear()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__11 = 255;
-                for (; I <= end__11; I += 1)
-                {
-                    FLists[I].Clear();
-                }
+                FLists[I].Clear();
             }
         }
 
         // HashTabU.pas:304
         public override void Add(object Item, AnsiString Key)
         {
-            int H = default;
+            int H;
             H = Key.Length;
             if (H >= 2)
             {
@@ -418,7 +365,7 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:316
         public override void Delete(AnsiString Key)
         {
-            int H = default;
+            int H;
             H = Key.Length;
             if (H >= 2)
             {
@@ -438,8 +385,7 @@ namespace Aow.Units.HashTabU
         // HashTabU.pas:328
         public override object Find(AnsiString Key)
         {
-            object Result = default;
-            int H = default;
+            int H;
             H = Key.Length;
             if (H >= 2)
             {
@@ -453,9 +399,7 @@ namespace Aow.Units.HashTabU
                 }
             }
 
-            var call__12 = FLists[H].Find(Key);
-            Result = call__12;
-            return Result;
+            return FLists[H].Find(Key);
         }
 
     }

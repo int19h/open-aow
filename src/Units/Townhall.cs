@@ -24,20 +24,10 @@ namespace Aow.Units.Townhall
         public new const int ClassID = 2229521;
 
         // Townhall.pas:45
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229520;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229520;
 
         // Townhall.pas:42
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat Townhall";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat Townhall";
 
     }
 

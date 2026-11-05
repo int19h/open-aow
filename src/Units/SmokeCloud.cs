@@ -38,28 +38,20 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:102
-        public override AnsiString GetName()
-        {
-            AnsiString Result = default;
-            var call__1 = AoWHSSet.FSpellControl.GetSpell(74);
-            Result = call__1.FSpellName;
-            return Result;
-        }
+        public override AnsiString GetName() => AoWHSSet.FSpellControl.GetSpell(74).FSpellName;
 
         // SmokeCloud.pas:156
         public override bool VisibleForPlayer(sbyte Player)
         {
-            bool Result = default;
             THNWalkData Walk = default;
-            Result = FPlayerIndex == Player;
+            bool Result = FPlayerIndex == Player;
             ref var walk = ref Walk;
-            var call__3 = FCloud.Yhx;
-            var call__4 = FCloud.Xhx;
-            InitHNWalk(ref Walk, call__4, call__3, 0);
+            var yhx = FCloud.Yhx;
+            var xhx = FCloud.Xhx;
+            InitHNWalk(ref Walk, xhx, yhx, 0);
             while (!Result && walk.Radius <= 3)
             {
-                var call__5 = AoWHSMap.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, Player);
-                Result = call__5;
+                Result = AoWHSMap.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, Player);
                 WalkToNextHN(ref Walk);
             }
 
@@ -74,8 +66,7 @@ namespace Aow.Units.SmokeCloud
     {
         public TSmokeCloud(TECustomNode owner) : base(owner)
         {
-            var call__6 = new TSmokeCloudEnchantment(null);
-            FEnchantment = call__6;
+            FEnchantment = new TSmokeCloudEnchantment(null);
             FEnchantment.FCloud = this;
             FVisibleForSeatedPlayer = false;
             FDrifting = false;
@@ -136,12 +127,7 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:190
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            Result = base.GetShowPriority() + 201326592;
-            return Result;
-        }
+        public override int GetShowPriority() => base.GetShowPriority() + 201326592;
 
         // SmokeCloud.pas:300
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -155,8 +141,7 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:266
         public override bool PlaceOnMap()
         {
-            bool Result = default;
-            Result = base.PlaceOnMap();
+            bool Result = base.PlaceOnMap();
             if (Result)
             {
                 UpdateMapFields((TMapLevel)Owner.Owner, FXhx, FYhx);
@@ -168,7 +153,7 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:272
         public override void RemoveFromMap()
         {
-            TMapLevel Level = default;
+            TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(Level, FXhx, FYhx);
@@ -182,8 +167,7 @@ namespace Aow.Units.SmokeCloud
                 base.MapFieldMsgProc(ref Msg);
             }
 
-            var call__7 = FResource.TerrainList.Terrain[Msg.HN];
-            if (call__7 >= -1)
+            if (FResource.TerrainList.Terrain[Msg.HN] >= -1)
             {
                 if (Msg.MsgID == 4392 && FStatus.Contains(TMapObjectStatusElement.moActivated))
                 {
@@ -205,8 +189,7 @@ namespace Aow.Units.SmokeCloud
             base.Activate();
             if (FDirection == 0)
             {
-                var call__8 = AoWHSMap.Random(6);
-                FDirection = (byte)(call__8 + 1);
+                FDirection = (byte)(AoWHSMap.Random(6) + 1);
             }
 
             var smokeCloudEnchantment = FEnchantment;
@@ -215,9 +198,8 @@ namespace Aow.Units.SmokeCloud
                 smokeCloudEnchantment.Activate(smokeCloudEnchantment.FPlayerIndex);
             }
 
-            var call__10 = Yhx;
-            var call__11 = Xhx;
-            UpdateConcealment(call__11, call__10, Lhx);
+            var yhx = Yhx;
+            UpdateConcealment(Xhx, yhx, Lhx);
             UpdateVisibleForSeatedPlayer();
         }
 
@@ -230,10 +212,9 @@ namespace Aow.Units.SmokeCloud
                 FEnchantment.Deactivate((byte)FEnchantment.FPlayerIndex);
             }
 
-            var call__12 = GetLhx();
-            var call__13 = GetYhx();
-            var call__14 = GetXhx();
-            UpdateConcealment(call__14, call__13, call__12);
+            var lhx = GetLhx();
+            var yhx = GetYhx();
+            UpdateConcealment(GetXhx(), yhx, lhx);
         }
 
         // SmokeCloud.pas:238
@@ -248,23 +229,15 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:193
         public override bool CanSelect(int Xhp, int Yhp)
         {
-            bool Result = default;
+            bool Result;
             int Xhx = default;
             int Yhx = default;
-            int HN = default;
+            int HN;
             if (FResource.Engine.HSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                var call__15 = dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
-                HN = call__15;
-                bool bool__16 = HN < FResource.TerrainList.Count;
-                if (bool__16)
-                {
-                    var call__17 = FResource.TerrainList.Terrain[HN];
-                    bool__16 = call__17 >= -1;
-                }
-
-                Result = bool__16;
+                HN = dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
+                Result = HN < FResource.TerrainList.Count && FResource.TerrainList.Terrain[HN] >= -1;
             }
             else
             {
@@ -278,19 +251,16 @@ namespace Aow.Units.SmokeCloud
         public void UpdateConcealment(sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             THNWalkData Walk = default;
-            TMapLevel Level = default;
-            TAoWMapField MapField = default;
-            TArmyHS ArmyHS = default;
-            var call__18 = AoWHSMap.MapContainer.MapLevels[Lhx];
-            Level = call__18;
+            TMapLevel Level;
+            TAoWMapField MapField;
+            TArmyHS ArmyHS;
+            Level = AoWHSMap.MapContainer.MapLevels[Lhx];
             InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (FResource.TerrainList.Count > Walk.HN)
             {
-                var call__19 = FResource.TerrainList.Terrain[Walk.HN];
-                if (call__19 >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
+                if (FResource.TerrainList.Terrain[Walk.HN] >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
                 {
-                    var call__20 = Level.GetField(Walk.X, Walk.Y);
-                    MapField = (TAoWMapField)call__20;
+                    MapField = (TAoWMapField)Level.GetField(Walk.X, Walk.Y);
                     ArmyHS = MapField.GetArmyHS();
                     if (ArmyHS != null)
                     {
@@ -305,12 +275,11 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:253
         public void UpdateVisibleForSeatedPlayer()
         {
-            bool Visible = default;
-            var call__21 = GetLhx();
-            var call__22 = GetYhx();
-            var call__23 = GetXhx();
-            var call__24 = AoWHSMap.Visible(call__23, call__22, call__21, 3);
-            Visible = call__24 || FEnchantment.FPlayerIndex == AoWHSMap.FSeatedPlayer;
+            bool Visible;
+            var lhx = GetLhx();
+            var yhx = GetYhx();
+            var xhx = GetXhx();
+            Visible = AoWHSMap.Visible(xhx, yhx, lhx, 3) || FEnchantment.FPlayerIndex == AoWHSMap.FSeatedPlayer;
             if (FVisibleForSeatedPlayer ^ Visible)
             {
                 FVisibleForSeatedPlayer = Visible;
@@ -321,17 +290,14 @@ namespace Aow.Units.SmokeCloud
         // SmokeCloud.pas:306
         public bool ValidMoveDir(int Direction)
         {
-            bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            TMapLevel Level = default;
+            TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
-            var call__25 = GetYhx();
-            var call__26 = GetXhx();
-            CenterHNtoHX(call__26, call__25, Direction, ref Xhx, ref Yhx);
+            var yhx = GetYhx();
+            CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
             CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
-            Result = Xhx >= 10 && Yhx >= 10 && Level.Width >= Xhx + 10 && Level.Height >= Yhx + 10;
-            return Result;
+            return Xhx >= 10 && Yhx >= 10 && Level.Width >= Xhx + 10 && Level.Height >= Yhx + 10;
         }
 
         // SmokeCloud.pas:317
@@ -339,11 +305,11 @@ namespace Aow.Units.SmokeCloud
         {
             int Xhx = default;
             int Yhx = default;
-            TByteList Directions = default;
-            bool Valid = default;
-            int Direction = default;
-            int Tries = default;
-            int Lhx = default;
+            TByteList Directions;
+            bool Valid;
+            int Direction;
+            int Tries;
+            int Lhx;
             if (FTurnsRemaining != 1)
             {
                 FUpdated = true;
@@ -378,9 +344,7 @@ namespace Aow.Units.SmokeCloud
 
                     while (Directions.Count != 0 && !Valid)
                     {
-                        var call__27 = AoWHSMap.Random(Directions.Count);
-                        var call__28 = Directions[call__27];
-                        Direction = call__28;
+                        Direction = Directions[AoWHSMap.Random(Directions.Count)];
                         Valid = ValidMoveDir(Direction);
                         if (!Valid)
                         {
@@ -394,8 +358,7 @@ namespace Aow.Units.SmokeCloud
                         Tries = 20;
                         while (!Valid && Tries != 0)
                         {
-                            var call__29 = AoWHSMap.Random(6);
-                            Direction = call__29 + 1;
+                            Direction = AoWHSMap.Random(6) + 1;
                             Valid = ValidMoveDir(Direction);
                             Tries -= 1;
                         }
@@ -405,16 +368,14 @@ namespace Aow.Units.SmokeCloud
                     {
                         FDirection = (byte)Direction;
                         Lhx = GetLhx();
-                        var call__30 = GetYhx();
-                        var call__31 = GetXhx();
-                        CenterHNtoHX(call__31, call__30, Direction, ref Xhx, ref Yhx);
+                        var yhx = GetYhx();
+                        CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
                         CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
                         Disconnect();
                         UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
                         FXhx = (sbyte)Xhx;
                         FYhx = (sbyte)Yhx;
-                        var call__32 = AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
-                        Owner = call__32;
+                        Owner = AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
                         Connect();
                         UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
                     }
@@ -440,22 +401,10 @@ namespace Aow.Units.SmokeCloud
         public new const int ClassID = 135747;
 
         // SmokeCloud.pas:391
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 135746;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 135746;
 
         // SmokeCloud.pas:388
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__33 = SmokeCloudRStr;
-            var call__34 = TranslateRStr(call__33);
-            Result = call__34;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(SmokeCloudRStr);
 
     }
 

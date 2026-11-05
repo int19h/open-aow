@@ -43,89 +43,69 @@ namespace Aow.Units.E3Globals
         // E3Globals.pas:130
         public static void RefreshMagicWindow(TMagicWin Window)
         {
-            TPlayerMagicControl Control = default;
-            int I = default;
-            int Turns = default;
-            TSpell Spell = default;
+            TPlayerMagicControl Control;
+            int Turns;
+            TSpell Spell;
             if (AoWHSMap.FSeatedPlayer != -1)
             {
-                var call__1 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                Control = call__1.FMagicControl;
+                Control = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl;
                 Window.EnchantmentList.Items.Clear();
                 Window.BindingList.Items.Clear();
                 Window.UpkeepList.Items.Clear();
+                for (int I = 0, last = Control.FEnchantments.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__2 = Control.FEnchantments.Count - 1;
-                    for (; I <= end__2; I += 1)
-                    {
-                        var call__3 = Control.FEnchantments.GetEnchantments(I);
-                        var call__4 = call__3.GetName();
-                        var call__5 = Control.FEnchantments.GetEnchantments(I);
-                        Window.EnchantmentList.Items.AddObject(call__4, call__5);
-                        var call__6 = Control.FEnchantments.GetEnchantments(I);
-                        var call__7 = call__6.GetBinding();
-                        Window.BindingList.Items.Add(call__7);
-                        var call__8 = Control.FEnchantments.GetEnchantments(I);
-                        Window.UpkeepList.Items.Add(IntToStr(call__8.FUpkeep));
-                    }
+                    var name = Control.FEnchantments.GetEnchantments(I).GetName();
+                    var enchantment = Control.FEnchantments.GetEnchantments(I);
+                    Window.EnchantmentList.Items.AddObject(name, enchantment);
+                    var binding = Control.FEnchantments.GetEnchantments(I).GetBinding();
+                    Window.BindingList.Items.Add(binding);
+                    var enchantmentUpkeep = Control.FEnchantments.GetEnchantments(I);
+                    Window.UpkeepList.Items.Add(IntToStr(enchantmentUpkeep.FUpkeep));
                 }
 
                 Window.PowerSourceList.Items.Clear();
                 Window.PowerValueList.Items.Clear();
+                for (int I = 0, last = Control.FPowerSources.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__9 = Control.FPowerSources.Count - 1;
-                    for (; I <= end__9; I += 1)
+                    if (Control.FPowerSources.GetItems(I).Power() > 0)
                     {
-                        var call__10 = Control.FPowerSources.GetItems(I);
-                        var call__11 = call__10.Power();
-                        if (call__11 > 0)
-                        {
-                            var call__12 = Control.FPowerSources.GetItems(I);
-                            var call__13 = call__12.Name();
-                            var call__14 = Control.FPowerSources.GetItems(I);
-                            Window.PowerSourceList.Items.AddObject(call__13, call__14);
-                            var call__15 = Control.FPowerSources.GetItems(I);
-                            var call__16 = call__15.Power();
-                            Window.PowerValueList.Items.Add(IntToStr(call__16));
-                        }
+                        var name = Control.FPowerSources.GetItems(I).Name();
+                        var item = Control.FPowerSources.GetItems(I);
+                        Window.PowerSourceList.Items.AddObject(name, item);
+                        var power = Control.FPowerSources.GetItems(I).Power();
+                        Window.PowerValueList.Items.Add(IntToStr(power));
                     }
                 }
 
-                var call__17 = Control.GetPower();
-                Window.Power.Text = IntToStr(call__17);
-                var call__18 = Control.GetManaIncome();
-                var call__19 = Control.GetManaUpkeep();
-                var call__20 = Control.GetManaIncome();
-                var call__21 = Control.GetManaUpkeep();
-                Window.NetMana.Text = IntToStr(call__18) + AnsiString.FromBytes(45) + IntToStr(call__19) + AnsiString.FromBytes(61) + IntToStr(call__20 - call__21);
-                var call__22 = Control.GetNetPowerToResearch();
-                Window.ResearchPoints.Text = IntToStr(call__22);
+                var controlPower = Control.GetPower();
+                Window.Power.Text = IntToStr(controlPower);
+                var manaIncome = Control.GetManaIncome();
+                var manaUpkeep = Control.GetManaUpkeep();
+                var controlManaIncome = Control.GetManaIncome();
+                var controlManaUpkeep = Control.GetManaUpkeep();
+                Window.NetMana.Text = IntToStr(manaIncome) + AnsiString.FromBytes(45) + IntToStr(manaUpkeep) + AnsiString.FromBytes(61) + IntToStr(controlManaIncome - controlManaUpkeep);
+                var netPowerToResearch = Control.GetNetPowerToResearch();
+                Window.ResearchPoints.Text = IntToStr(netPowerToResearch);
                 if (Control.FResearchSpellID != 0)
                 {
-                    var call__23 = AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
-                    Spell = call__23;
+                    Spell = AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
                     Window.SpellName.Text = Spell.FSpellName;
-                    var call__24 = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                    var call__25 = TranslateRStr(LevelRStr);
-                    Window.SpellClass.Text = call__24 + (AnsiString)", " + call__25 + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
-                    var call__26 = TranslateRStr(CastingCostRStr);
-                    var call__27 = TranslateRStr(ManaRStr);
-                    Window.SpellCost.Text = call__26 + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + call__27;
-                    var call__28 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    var call__29 = call__28.FMagicControl.GetResearchTurnsLeft();
-                    Turns = call__29;
+                    var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                    var level = TranslateRStr(LevelRStr);
+                    Window.SpellClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                    var castingCost = TranslateRStr(CastingCostRStr);
+                    var mana = TranslateRStr(ManaRStr);
+                    Window.SpellCost.Text = castingCost + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + mana;
+                    Turns = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
                     if (Turns < 999)
                     {
-                        var call__30 = FmtTurnsLeftStr(Turns);
-                        Window.ResearchTurnsLeft.Text = call__30;
+                        var fmtTurnsLeftStr = FmtTurnsLeftStr(Turns);
+                        Window.ResearchTurnsLeft.Text = fmtTurnsLeftStr;
                     }
                     else
                     {
-                        var call__31 = TranslateRStr(XTurnsRStr);
-                        var call__32 = AoWE.AoWE.Format(call__31, [(byte)63]);
-                        Window.ResearchTurnsLeft.Text = call__32;
+                        var format = AoWE.AoWE.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
+                        Window.ResearchTurnsLeft.Text = format;
                     }
 
                     Window.SpellPnl.Visible = true;
@@ -154,32 +134,23 @@ namespace Aow.Units.E3Globals
         // E3Globals.pas:177
         public static void RefreshGlobalMagic(TMagicWin Window)
         {
-            TGlobalMagicControl Control = default;
-            int I = default;
+            TGlobalMagicControl Control;
             Control = AoWHSMap.FGlobalMagicControl;
             Window.GlobalEnchantmentList.Items.Clear();
             Window.GlobalNameList.Items.Clear();
             Window.GlobalUpkeepList.Items.Clear();
+            for (int I = 0, last = Control.FEnchantments.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__33 = Control.FEnchantments.Count - 1;
-                for (; I <= end__33; I += 1)
+                if (Control.FEnchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.FSeatedPlayer))
                 {
-                    var call__34 = Control.FEnchantments.GetEnchantments(I);
-                    var call__35 = call__34.VisibleForPlayer(AoWHSMap.FSeatedPlayer);
-                    if (call__35)
-                    {
-                        var call__36 = Control.FEnchantments.GetEnchantments(I);
-                        var call__37 = call__36.GetName();
-                        var call__38 = Control.FEnchantments.GetEnchantments(I);
-                        Window.GlobalEnchantmentList.Items.AddObject(call__37, call__38);
-                        var call__39 = Control.FEnchantments.GetEnchantments(I);
-                        var call__40 = AoWHSMap.FPlayers.GetPlayers(call__39.FPlayerIndex);
-                        Window.GlobalNameList.Items.Add(call__40.FLeader.FHeroName);
-                        var call__41 = Control.FEnchantments.GetEnchantments(I);
-                        var call__42 = call__41.GetUpkeep();
-                        Window.GlobalUpkeepList.Items.Add(IntToStr(call__42));
-                    }
+                    var name = Control.FEnchantments.GetEnchantments(I).GetName();
+                    var enchantment = Control.FEnchantments.GetEnchantments(I);
+                    Window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
+                    var enchantmentPlayerIndex = Control.FEnchantments.GetEnchantments(I);
+                    var player = AoWHSMap.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
+                    Window.GlobalNameList.Items.Add(player.FLeader.FHeroName);
+                    var upkeep = Control.FEnchantments.GetEnchantments(I).GetUpkeep();
+                    Window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));
                 }
             }
 
@@ -202,21 +173,14 @@ namespace Aow.Units.E3Globals
         {
             if (Music)
             {
-                bool bool__43 = SongPlayer.CurrentIndex == -1;
-                if (!bool__43)
+                bool condition = SongPlayer.CurrentIndex == -1;
+                if (!condition)
                 {
-                    var call__44 = SongPlayer.Songs.Count;
-                    bool__43 = SongPlayer.CurrentIndex >= call__44;
+                    var count = SongPlayer.Songs.Count;
+                    condition = SongPlayer.CurrentIndex >= count;
                 }
 
-                bool bool__45 = bool__43;
-                if (!bool__45)
-                {
-                    var call__46 = SongPlayer.Songs[SongPlayer.CurrentIndex];
-                    bool__45 = call__46 != (AnsiString)"SONGS\\TITLE.IT";
-                }
-
-                if (bool__45)
+                if (condition || SongPlayer.Songs[SongPlayer.CurrentIndex] != (AnsiString)"SONGS\\TITLE.IT")
                 {
                     SongPlayer.Songs.Clear();
                     SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
@@ -249,12 +213,12 @@ namespace Aow.Units.E3Globals
         // E3Globals.pas:95
         public static void ShowEmailSettings(TEmailSettingsDlg Dialog)
         {
-            var call__47 = AoWEngine.FRegistry.GetLocalEmailAddress();
-            Dialog.LocalEmailAddressEdit.Text = call__47;
-            var call__48 = AoWEngine.FRegistry.GetSMTPServer();
-            Dialog.SMTPServerEdit.Text = call__48;
-            var call__49 = AoWEngine.FRegistry.GetAttachmentDirectory();
-            Dialog.AttachmentDirectoryEdit.Text = call__49;
+            var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+            Dialog.LocalEmailAddressEdit.Text = localEmailAddress;
+            var smtpServer = AoWEngine.FRegistry.GetSMTPServer();
+            Dialog.SMTPServerEdit.Text = smtpServer;
+            var attachmentDirectory = AoWEngine.FRegistry.GetAttachmentDirectory();
+            Dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
             Dialog.Dlg.Visible = true;
         }
 

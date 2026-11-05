@@ -25,8 +25,8 @@ namespace Aow.Units.AoWTutorialWin
         // AoWTutorialWin.pas:51
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TEventLog Log = default;
+            TExecuteDoneEvent Done;
+            TEventLog Log;
             Done = FDone;
             Log = FEvent;
             FDone = null;

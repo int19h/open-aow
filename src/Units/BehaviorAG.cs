@@ -15,10 +15,8 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:137
         public override bool CooperateWithGroup(TAIGroup Group, TAIGroupControlTarget Target)
         {
-            bool Result = default;
-            Result = base.CooperateWithGroup(Group, Target);
-            Result = Result || Group.GroupClass.Behavior == TGroupBehavior.gbFortify;
-            return Result;
+            bool Result = base.CooperateWithGroup(Group, Target);
+            return Result || Group.GroupClass.Behavior == TGroupBehavior.gbFortify;
         }
     }
 
@@ -36,8 +34,7 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:144
         public TAbstractBehaviorAGC(TECustomNode owner) : base(owner)
         {
-            var call__1 = new TAIGroupTargetSelector(null);
-            FTargetSelector = call__1;
+            FTargetSelector = new TAIGroupTargetSelector(null);
         }
 
     }
@@ -55,12 +52,7 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:735
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TSkirmishAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TSkirmishAGC>();
 
         // BehaviorAG.pas:732
         public static new TGroupBehavior Behavior => TGroupBehavior.gbSkirmish;
@@ -75,8 +67,8 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:738
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder = default;
-            TAIGroup Group = default;
+            TAIGroupTargetFinder Finder;
+            TAIGroup Group;
             switch (FState)
             {
                 case 0:
@@ -85,8 +77,8 @@ namespace Aow.Units.BehaviorAG
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
-                        var call__2 = FindAvailableTransporter();
-                        Finder.FSelector.SetTransporter(call__2);
+                        var availableTransporter = FindAvailableTransporter();
+                        Finder.FSelector.SetTransporter(availableTransporter);
                     }
                     else
                     {
@@ -98,8 +90,7 @@ namespace Aow.Units.BehaviorAG
                     FState += 1;
                     break;
                 case 1:
-                    var call__3 = FTargets.Count;
-                    if (call__3 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargetSelector.Setup(this);
                         FTargetSelector.FSuperiority = 3;
@@ -133,8 +124,8 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 5:
-                    var call__4 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(call__4.FPlayerType))
+                    var player = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
+                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
                     }
@@ -150,10 +141,8 @@ namespace Aow.Units.BehaviorAG
                         FGroup.DeleteUnit(FGroup.FTransporter);
                     }
 
-                    var call__5 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                    var call__6 = call__5.FAIControl.GetRandomGroupBehavior();
-                    var call__7 = AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, 0, call__6);
-                    Group = call__7;
+                    var randomGroupBehavior = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
+                    Group = AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, 0, randomGroupBehavior);
                     Group.AddUnits(FGroup);
                     Group.Release();
                     Done();
@@ -175,12 +164,7 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:169
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TNormalAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TNormalAGC>();
 
         // BehaviorAG.pas:166
         public static new TGroupBehavior Behavior => TGroupBehavior.gbNormal;
@@ -195,12 +179,12 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:172
         public override void ProcessStates()
         {
-            TAIGroupDefenseControl Defense = default;
-            TAIGroupTargetFinder Finder = default;
-            TAIRecruitmentGroupFinder Recruitment = default;
-            TAIProductionLocationFinder Production = default;
-            TAIGroupRazeControl Raze = default;
-            TAIGroupDefendTargetSelector Defend = default;
+            TAIGroupDefenseControl Defense;
+            TAIGroupTargetFinder Finder;
+            TAIRecruitmentGroupFinder Recruitment;
+            TAIProductionLocationFinder Production;
+            TAIGroupRazeControl Raze;
+            TAIGroupDefendTargetSelector Defend;
             switch (FState)
             {
                 case 0:
@@ -211,16 +195,15 @@ namespace Aow.Units.BehaviorAG
                     FState += 1;
                     break;
                 case 1:
-                    var call__8 = FGroup.Count;
-                    if (call__8 > 0)
+                    if (FGroup.Count > 0)
                     {
                         FTargets.Clear();
                         Finder = new TAIGroupTargetFinder(null);
                         Finder.Setup(this);
                         if (FGroup.FTransporter == null)
                         {
-                            var call__9 = FindAvailableTransporter();
-                            Finder.FSelector.SetTransporter(call__9);
+                            var availableTransporter = FindAvailableTransporter();
+                            Finder.FSelector.SetTransporter(availableTransporter);
                         }
                         else
                         {
@@ -238,8 +221,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 2:
-                    var call__10 = FTargets.Count;
-                    if (call__10 != 0)
+                    if (FTargets.Count != 0)
                     {
                         Recruitment = new TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
@@ -254,8 +236,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 3:
-                    var call__11 = FTargets.Count;
-                    if (call__11 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
                         Production = new TAIProductionLocationFinder(null);
@@ -271,8 +252,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 4:
-                    var call__12 = FTargets.Count;
-                    if (call__12 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargetSelector.Setup(this);
                         FTargetSelector.FSuperiority = (float)1.5;
@@ -312,8 +292,8 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 6:
-                    var call__13 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(call__13.FPlayerType))
+                    var player = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
+                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
                     }
@@ -356,12 +336,7 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:283
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TDefenderAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TDefenderAGC>();
 
         // BehaviorAG.pas:280
         public static new TGroupBehavior Behavior => TGroupBehavior.gbDefensive;
@@ -376,12 +351,12 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:286
         public override void ProcessStates()
         {
-            TAIGroupDefenseControl Defense = default;
-            TAIGroupTargetFinder Finder = default;
-            TAIRecruitmentGroupFinder Recruitment = default;
-            TAIProductionLocationFinder Production = default;
-            TAIGroupRazeControl Raze = default;
-            TAIGroupDefendTargetSelector Defend = default;
+            TAIGroupDefenseControl Defense;
+            TAIGroupTargetFinder Finder;
+            TAIRecruitmentGroupFinder Recruitment;
+            TAIProductionLocationFinder Production;
+            TAIGroupRazeControl Raze;
+            TAIGroupDefendTargetSelector Defend;
             switch (FState)
             {
                 case 0:
@@ -397,8 +372,8 @@ namespace Aow.Units.BehaviorAG
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
-                        var call__14 = FindAvailableTransporter();
-                        Finder.FSelector.SetTransporter(call__14);
+                        var availableTransporter = FindAvailableTransporter();
+                        Finder.FSelector.SetTransporter(availableTransporter);
                     }
                     else
                     {
@@ -410,8 +385,7 @@ namespace Aow.Units.BehaviorAG
                     FState += 1;
                     break;
                 case 2:
-                    var call__15 = FTargets.Count;
-                    if (call__15 != 0)
+                    if (FTargets.Count != 0)
                     {
                         Recruitment = new TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
@@ -426,8 +400,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 3:
-                    var call__16 = FTargets.Count;
-                    if (call__16 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
                         Production = new TAIProductionLocationFinder(null);
@@ -443,8 +416,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 4:
-                    var call__17 = FTargets.Count;
-                    if (call__17 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargetSelector.Setup(this);
                         FTargetSelector.FBattleFieldFactor = (float)1.7;
@@ -485,8 +457,8 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 6:
-                    var call__18 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(call__18.FPlayerType))
+                    var player = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
+                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
                     }
@@ -529,12 +501,7 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:396
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TAggressorAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TAggressorAGC>();
 
         // BehaviorAG.pas:393
         public static new TGroupBehavior Behavior => TGroupBehavior.gbAggressive;
@@ -549,12 +516,12 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:399
         public override void ProcessStates()
         {
-            TAIGroupDefenseControl Defense = default;
-            TAIGroupTargetFinder Finder = default;
-            TAIRecruitmentGroupFinder Recruitment = default;
-            TAIProductionLocationFinder Production = default;
-            TAIGroupRazeControl Raze = default;
-            TAIGroupWanderControl Wander = default;
+            TAIGroupDefenseControl Defense;
+            TAIGroupTargetFinder Finder;
+            TAIRecruitmentGroupFinder Recruitment;
+            TAIProductionLocationFinder Production;
+            TAIGroupRazeControl Raze;
+            TAIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
@@ -570,8 +537,8 @@ namespace Aow.Units.BehaviorAG
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
-                        var call__19 = FindAvailableTransporter();
-                        Finder.FSelector.SetTransporter(call__19);
+                        var availableTransporter = FindAvailableTransporter();
+                        Finder.FSelector.SetTransporter(availableTransporter);
                     }
                     else
                     {
@@ -583,8 +550,7 @@ namespace Aow.Units.BehaviorAG
                     FState += 1;
                     break;
                 case 2:
-                    var call__20 = FTargets.Count;
-                    if (call__20 != 0)
+                    if (FTargets.Count != 0)
                     {
                         Recruitment = new TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
@@ -599,8 +565,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 3:
-                    var call__21 = FTargets.Count;
-                    if (call__21 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
                         Production = new TAIProductionLocationFinder(null);
@@ -616,8 +581,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 4:
-                    var call__22 = FTargets.Count;
-                    if (call__22 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargetSelector.Setup(this);
                         FTargetSelector.FPathStrengthFactor = (float)0.75;
@@ -656,8 +620,8 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 6:
-                    var call__23 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(call__23.FPlayerType))
+                    var player = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
+                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
                     }
@@ -701,12 +665,7 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:508
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TExpanderAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TExpanderAGC>();
 
         // BehaviorAG.pas:505
         public static new TGroupBehavior Behavior => TGroupBehavior.gbExpand;
@@ -721,12 +680,12 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:511
         public override void ProcessStates()
         {
-            TAIGroupDefenseControl Defense = default;
-            TAIGroupTargetFinder Finder = default;
-            TAIRecruitmentGroupFinder Recruitment = default;
-            TAIProductionLocationFinder Production = default;
-            TAIGroupRazeControl Raze = default;
-            TAIGroupWanderControl Wander = default;
+            TAIGroupDefenseControl Defense;
+            TAIGroupTargetFinder Finder;
+            TAIRecruitmentGroupFinder Recruitment;
+            TAIProductionLocationFinder Production;
+            TAIGroupRazeControl Raze;
+            TAIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
@@ -742,8 +701,8 @@ namespace Aow.Units.BehaviorAG
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
-                        var call__24 = FindAvailableTransporter();
-                        Finder.FSelector.SetTransporter(call__24);
+                        var availableTransporter = FindAvailableTransporter();
+                        Finder.FSelector.SetTransporter(availableTransporter);
                     }
                     else
                     {
@@ -755,8 +714,7 @@ namespace Aow.Units.BehaviorAG
                     FState += 1;
                     break;
                 case 2:
-                    var call__25 = FTargets.Count;
-                    if (call__25 != 0)
+                    if (FTargets.Count != 0)
                     {
                         Recruitment = new TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
@@ -771,8 +729,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 3:
-                    var call__26 = FTargets.Count;
-                    if (call__26 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
                         Production = new TAIProductionLocationFinder(null);
@@ -788,8 +745,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 4:
-                    var call__27 = FTargets.Count;
-                    if (call__27 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargetSelector.Setup(this);
                         FTargetSelector.FMoveDayFactor = (float)0.05;
@@ -830,8 +786,8 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 6:
-                    var call__28 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(call__28.FPlayerType))
+                    var player = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
+                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
                     }
@@ -875,12 +831,7 @@ namespace Aow.Units.BehaviorAG
         }
 
         // BehaviorAG.pas:622
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TScorcherAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TScorcherAGC>();
 
         // BehaviorAG.pas:619
         public static new TGroupBehavior Behavior => TGroupBehavior.gbScorch;
@@ -895,12 +846,12 @@ namespace Aow.Units.BehaviorAG
         // BehaviorAG.pas:625
         public override void ProcessStates()
         {
-            TAIGroupDefenseControl Defense = default;
-            TAIGroupTargetFinder Finder = default;
-            TAIRecruitmentGroupFinder Recruitment = default;
-            TAIProductionLocationFinder Production = default;
-            TAIGroupRazeControl Raze = default;
-            TAIGroupWanderControl Wander = default;
+            TAIGroupDefenseControl Defense;
+            TAIGroupTargetFinder Finder;
+            TAIRecruitmentGroupFinder Recruitment;
+            TAIProductionLocationFinder Production;
+            TAIGroupRazeControl Raze;
+            TAIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
@@ -916,8 +867,8 @@ namespace Aow.Units.BehaviorAG
                     Finder.Setup(this);
                     if (FGroup.FTransporter == null)
                     {
-                        var call__29 = FindAvailableTransporter();
-                        Finder.FSelector.SetTransporter(call__29);
+                        var availableTransporter = FindAvailableTransporter();
+                        Finder.FSelector.SetTransporter(availableTransporter);
                     }
                     else
                     {
@@ -929,8 +880,7 @@ namespace Aow.Units.BehaviorAG
                     FState += 1;
                     break;
                 case 2:
-                    var call__30 = FTargets.Count;
-                    if (call__30 != 0)
+                    if (FTargets.Count != 0)
                     {
                         Recruitment = new TAIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
@@ -945,8 +895,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 3:
-                    var call__31 = FTargets.Count;
-                    if (call__31 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
                         Production = new TAIProductionLocationFinder(null);
@@ -962,8 +911,7 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 4:
-                    var call__32 = FTargets.Count;
-                    if (call__32 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargetSelector.Setup(this);
                         FTargetSelector.FSuperiority = (float)1.75;
@@ -1003,8 +951,8 @@ namespace Aow.Units.BehaviorAG
 
                     break;
                 case 6:
-                    var call__33 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(call__33.FPlayerType))
+                    var player = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
+                    if (TSet<TPlayerType>.Of(TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
                     }

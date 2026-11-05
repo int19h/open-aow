@@ -29,8 +29,8 @@ namespace Aow.Units.AoWMsgReceiveDlg
         // AoWMsgReceiveDlg.pas:54
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TEventLog Log = default;
+            TExecuteDoneEvent Done;
+            TEventLog Log;
             Done = FDone;
             Log = FEvent;
             FDone = null;

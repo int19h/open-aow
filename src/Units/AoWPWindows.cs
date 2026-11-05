@@ -101,9 +101,9 @@ namespace Aow.Units.AoWPWindows
             switch (Sender.FSelectedItem)
             {
                 case 0:
-                    var call__1 = TranslateRStr(QuitCombatRStr);
-                    var call__2 = TranslateRStr(E2Globals.E2Globals.ConfirmRStr);
-                    DialogWin.Confirm(call__2, call__1, 6);
+                    var quitCombat = TranslateRStr(QuitCombatRStr);
+                    var confirm = TranslateRStr(E2Globals.E2Globals.ConfirmRStr);
+                    DialogWin.Confirm(confirm, quitCombat, 6);
                     break;
             }
         }

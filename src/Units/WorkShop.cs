@@ -24,20 +24,10 @@ namespace Aow.Units.WorkShop
         public new const int ClassID = 2229513;
 
         // WorkShop.pas:45
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229512;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229512;
 
         // WorkShop.pas:42
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat Workshop";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat Workshop";
 
     }
 

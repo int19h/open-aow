@@ -25,20 +25,10 @@ namespace Aow.Units.Pyramid
         public new const int ClassID = 131983;
 
         // Pyramid.pas:43
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131982;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131982;
 
         // Pyramid.pas:37
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(PyramidRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(PyramidRStr);
 
     }
 

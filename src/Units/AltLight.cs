@@ -16,12 +16,7 @@ namespace Aow.Units.AltLight
         public new const int ClassID = 131645;
 
         // AltLight.pas:39
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TLightningStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TLightningStorm(null);
 
     }
 
@@ -38,23 +33,13 @@ namespace Aow.Units.AltLight
 
 
         // AltLight.pas:55
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131645;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131645;
 
         // AltLight.pas:26
 
 
         // AltLight.pas:49
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(AltarOfLightningRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfLightningRStr);
 
     }
 

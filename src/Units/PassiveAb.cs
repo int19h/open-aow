@@ -54,8 +54,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:484
         public THolyChampionAbility(TECustomNode owner) : base(owner)
         {
-            var call__1 = TranslateRStr(HolyChampionRStr);
-            FAbilityName = call__1;
+            FAbilityName = TranslateRStr(HolyChampionRStr);
             FAbilityID = 146;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
         }
@@ -63,8 +62,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:492
         public override bool CanExpand(TAbilityOwner A1)
         {
-            bool Result = default;
-            Result = base.CanExpand(A1);
+            bool Result = base.CanExpand(A1);
             if (Result && A1 is TAbstractUnit)
             {
                 Result = alsPureGood.Contains(((TAbstractUnit)A1).GetAlignment());
@@ -80,8 +78,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:499
         public TUnholyChampionAbility(TECustomNode owner) : base(owner)
         {
-            var call__2 = TranslateRStr(UnholyChampionRStr);
-            FAbilityName = call__2;
+            FAbilityName = TranslateRStr(UnholyChampionRStr);
             FAbilityID = 147;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
         }
@@ -89,8 +86,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:507
         public override bool CanExpand(TAbilityOwner A1)
         {
-            bool Result = default;
-            Result = base.CanExpand(A1);
+            bool Result = base.CanExpand(A1);
             if (Result && A1 is TAbstractUnit)
             {
                 Result = alsPureEvil.Contains(((TAbstractUnit)A1).GetAlignment());
@@ -106,8 +102,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:514
         public TNaturesBlessingAbility(TECustomNode owner) : base(owner)
         {
-            var call__3 = TranslateRStr(NaturesBlessingRStr);
-            FAbilityName = call__3;
+            FAbilityName = TranslateRStr(NaturesBlessingRStr);
             FAbilityID = 99;
             FAbilityType = TAbilityType.atEnchantment;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
@@ -115,39 +110,22 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:524
-        public override sbyte GetAttack(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetAttack(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:529
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:534
-        public override sbyte GetResistance(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetResistance(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:539
         public override bool Expand(TAbilityOwner A1)
         {
-            bool Result = default;
-            Result = base.Expand(A1);
+            bool Result = base.Expand(A1);
             if (A1 is TAbstractUnit)
             {
                 var unit = (TAbstractUnit)A1;
-                var call__5 = unit.GetHits();
-                unit.SetHitPoints(call__5);
+                unit.SetHitPoints(unit.GetHits());
             }
 
             return Result;
@@ -160,8 +138,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1267
         public THighPrayerBlessingAbility(TECustomNode owner) : base(owner)
         {
-            var call__6 = TranslateRStr(HighPrayerBlessingRStr);
-            FAbilityName = call__6;
+            FAbilityName = TranslateRStr(HighPrayerBlessingRStr);
             FAbilityID = 100;
             FAbilityType = TAbilityType.atEnhancement;
             FDurationMode = TDurationMode.dmEntireCombat;
@@ -169,20 +146,10 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1277
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:1282
-        public override sbyte GetResistance(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetResistance(TAbilityOwner A1) => 1;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode. duration data
@@ -192,8 +159,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:703
         public TCrusaderAbility(TECustomNode owner) : base(owner)
         {
-            var call__7 = TranslateRStr(CrusaderRStr);
-            FAbilityName = call__7;
+            FAbilityName = TranslateRStr(CrusaderRStr);
             FAbilityID = 101;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmDay;
@@ -203,11 +169,10 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:724
         public override void NewTurn(TAbilityOwner A1, sbyte A2)
         {
-            TDurationAbilityData Data = default;
+            TDurationAbilityData Data;
             if (FDurationMode == TDurationMode.dmDay)
             {
-                var call__8 = A1.GetAbilityData(FAbilityID);
-                Data = (TDurationAbilityData)call__8;
+                Data = (TDurationAbilityData)A1.GetAbilityData(FAbilityID);
                 if (Data != null && Data.FDuration != 0 && Data.FPlayerIndex == A2)
                 {
                     Data.FDuration = (byte)(Data.FDuration - 1);
@@ -218,19 +183,13 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:713
         public override bool Remove(TAbilityOwner A1)
         {
-            bool Result = default;
-            Result = base.Remove(A1);
+            bool Result = base.Remove(A1);
             ((TAbstractUnit)A1).Killed();
             return Result;
         }
 
         // PassiveAb.pas:719
-        public override int GetTotalDuration()
-        {
-            int Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override int GetTotalDuration() => 3;
     }
 
     // inherited name, ability ID, selection types, ability type. duration mode
@@ -239,8 +198,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:546
         public TBloodlustAbility(TECustomNode owner) : base(owner)
         {
-            var call__9 = TranslateRStr(BloodlustRStr);
-            FAbilityName = call__9;
+            FAbilityName = TranslateRStr(BloodlustRStr);
             FAbilityID = 168;
             FAbilityType = TAbilityType.atEnchantment;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
@@ -248,28 +206,13 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:556
-        public override sbyte GetAttack(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetAttack(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:561
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -1;
 
         // PassiveAb.pas:566
-        public override sbyte GetDamage(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 2;
-            return Result;
-        }
+        public override sbyte GetDamage(TAbilityOwner A1) => 2;
     }
 
     // inherited name, ability ID, selection types, ability type. duration mode
@@ -278,8 +221,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:571
         public TPoisonedAbility(TECustomNode owner) : base(owner)
         {
-            var call__10 = TranslateRStr(PoisonedRStr);
-            FAbilityName = call__10;
+            FAbilityName = TranslateRStr(PoisonedRStr);
             FAbilityID = 96;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmDay;
@@ -287,36 +229,16 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:581
-        public override sbyte GetAttack(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetAttack(TAbilityOwner A1) => -1;
 
         // PassiveAb.pas:586
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -1;
 
         // PassiveAb.pas:591
-        public override sbyte GetResistance(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetResistance(TAbilityOwner A1) => -1;
 
         // PassiveAb.pas:596
-        public override sbyte GetDamage(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetDamage(TAbilityOwner A1) => -1;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode
@@ -325,8 +247,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:844
         public TDecayAbility(TECustomNode owner) : base(owner)
         {
-            var call__11 = TranslateRStr(DecayRStr);
-            FAbilityName = call__11;
+            FAbilityName = TranslateRStr(DecayRStr);
             FAbilityID = 131;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmEntireCombat;
@@ -336,10 +257,8 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:855
         public override void NewCombatTurn(TCombatObject A1, sbyte A2)
         {
-            TDurationAbilityData Data = default;
-            var call__13 = A1.GetAbilityOwner();
-            var call__14 = call__13.GetAbilityData(FAbilityID);
-            Data = (TDurationAbilityData)call__14;
+            TDurationAbilityData Data;
+            Data = (TDurationAbilityData)A1.GetAbilityOwner().GetAbilityData(FAbilityID);
             if (Data != null && Data.FPlayerIndex == A2)
             {
                 if (A1.GetAbilityOwner() is TAbstractUnit)
@@ -362,8 +281,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:736
         public TWebbedAbility(TECustomNode owner) : base(owner)
         {
-            var call__15 = TranslateRStr(WebbedRStr);
-            FAbilityName = call__15;
+            FAbilityName = TranslateRStr(WebbedRStr);
             FAbilityID = 97;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmCombatTurn;
@@ -371,20 +289,10 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:751
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:746
-        public override int GetTotalDuration()
-        {
-            int Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override int GetTotalDuration() => 3;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode
@@ -393,8 +301,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:793
         public TStunnedAbility(TECustomNode owner) : base(owner)
         {
-            var call__16 = TranslateRStr(StunnedRStr);
-            FAbilityName = call__16;
+            FAbilityName = TranslateRStr(StunnedRStr);
             FAbilityID = 92;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmCombatTurn;
@@ -402,20 +309,10 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:810
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:804
-        public override int GetTotalDuration()
-        {
-            int Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override int GetTotalDuration() => 1;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode
@@ -424,8 +321,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:756
         public TBurningAbility(TECustomNode owner) : base(owner)
         {
-            var call__17 = TranslateRStr(BurningRStr);
-            FAbilityName = call__17;
+            FAbilityName = TranslateRStr(BurningRStr);
             FAbilityID = 127;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmCombatTurn;
@@ -435,10 +331,8 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:773
         public override void NewCombatTurn(TCombatObject A1, sbyte A2)
         {
-            TDurationAbilityData Data = default;
-            var call__18 = A1.GetAbilityOwner();
-            var call__19 = call__18.GetAbilityData(FAbilityID);
-            Data = (TDurationAbilityData)call__19;
+            TDurationAbilityData Data;
+            Data = (TDurationAbilityData)A1.GetAbilityOwner().GetAbilityData(FAbilityID);
             if (Data != null)
             {
                 if (Data.FDuration != 0 && Data.FPlayerIndex == A2)
@@ -446,16 +340,13 @@ namespace Aow.Units.PassiveAb
                     Data.FDuration = (byte)(Data.FDuration - 1);
                     if (Data.FDuration == 0)
                     {
-                        var call__20 = A1.GetAbilityOwner();
-                        call__20.RemoveAbility(FAbilityID);
+                        A1.GetAbilityOwner().RemoveAbility(FAbilityID);
                     }
 
                     if (A1.GetAbilityOwner() is TAbstractUnit)
                     {
                         var unit = (TAbstractUnit)A1.GetAbilityOwner();
-                        var call__22 = unit.GetResistance();
-                        var call__23 = HitRole(4 - call__22);
-                        if (call__23)
+                        if (HitRole(4 - unit.GetResistance()))
                         {
                             A1.ExecuteDamage(1);
                         }
@@ -464,18 +355,12 @@ namespace Aow.Units.PassiveAb
             }
             else
             {
-                var call__24 = A1.GetAbilityOwner();
-                call__24.RemoveAbility(FAbilityID);
+                A1.GetAbilityOwner().RemoveAbility(FAbilityID);
             }
         }
 
         // PassiveAb.pas:767
-        public override int GetTotalDuration()
-        {
-            int Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override int GetTotalDuration() => 3;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode
@@ -484,8 +369,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:952
         public TVertigoAbility(TECustomNode owner) : base(owner)
         {
-            var call__25 = TranslateRStr(VertigoRStr);
-            FAbilityName = call__25;
+            FAbilityName = TranslateRStr(VertigoRStr);
             FAbilityID = 98;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmDay;
@@ -493,28 +377,13 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:969
-        public override sbyte GetAttack(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetAttack(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:975
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:963
-        public override int GetTotalDuration()
-        {
-            int Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override int GetTotalDuration() => 3;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode
@@ -523,36 +392,24 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:981
         public TCursedAbility(TECustomNode owner) : base(owner)
         {
-            var call__26 = TranslateRStr(CursedRStr);
-            FAbilityName = call__26;
+            FAbilityName = TranslateRStr(CursedRStr);
             FAbilityID = 93;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
             FDurationMode = TDurationMode.dmDay;
         }
 
         // PassiveAb.pas:1009
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:1015
-        public override sbyte GetResistance(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetResistance(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:991
         public override AnsiString GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result = default;
-            TDurationAbilityData Data = default;
-            var call__27 = A1.GetAbilityData(FAbilityID);
-            Data = (TDurationAbilityData)call__27;
+            AnsiString Result;
+            TDurationAbilityData Data;
+            Data = (TDurationAbilityData)A1.GetAbilityData(FAbilityID);
             if (Data != null && Data.FSource == 1)
             {
                 Result = TranslateRStr(DeathMasteryRStr);
@@ -566,12 +423,7 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1003
-        public override int GetTotalDuration()
-        {
-            int Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override int GetTotalDuration() => 3;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode
@@ -580,8 +432,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:816
         public THolyFear(TECustomNode owner) : base(owner)
         {
-            var call__28 = TranslateRStr(HolyFearRStr);
-            FAbilityName = call__28;
+            FAbilityName = TranslateRStr(HolyFearRStr);
             FAbilityID = 53;
             FAbilityType = TAbilityType.atHandicap;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
@@ -591,7 +442,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:833
         public override AnsiString GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             // { Original assumes the ability data exists. }
             var durationAbilityData = (TDurationAbilityData)A1.GetAbilityData(FAbilityID);
             if (durationAbilityData.FSource == 1)
@@ -607,12 +458,7 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:827
-        public override int GetTotalDuration()
-        {
-            int Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override int GetTotalDuration() => 3;
     }
 
     // inherited name, ability ID, selection types, ability type, duration mode
@@ -621,8 +467,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:874
         public TPanickedAbility(TECustomNode owner) : base(owner)
         {
-            var call__30 = TranslateRStr(PanickedRStr);
-            FAbilityName = call__30;
+            FAbilityName = TranslateRStr(PanickedRStr);
             FAbilityID = 108;
             FAbilityType = TAbilityType.atHandicap;
             FDurationMode = TDurationMode.dmEntireCombat;
@@ -632,8 +477,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:885
         public override bool Expand(TAbilityOwner A1)
         {
-            bool Result = default;
-            Result = base.Expand(A1);
+            bool Result = base.Expand(A1);
             if (A1 is TAbstractUnit)
             {
                 ((TAbstractUnit)A1).Changed();
@@ -649,19 +493,13 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:922
         public TWallClimbingAbility(TECustomNode owner) : base(owner)
         {
-            var call__31 = TranslateRStr(WallClimbingRStr);
-            FAbilityName = call__31;
+            FAbilityName = TranslateRStr(WallClimbingRStr);
             FAbilityID = 36;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
         }
 
         // PassiveAb.pas:931
-        public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner A1)
-        {
-            TSet<TWallCombatFeaturesElement> Result = default;
-            Result = TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
-            return Result;
-        }
+        public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner A1) => TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
     }
 
     // inherited name, ability ID, selection types, ability type
@@ -670,19 +508,13 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:937
         public TPassWallAbility(TECustomNode owner) : base(owner)
         {
-            var call__32 = TranslateRStr(PassWallRStr);
-            FAbilityName = call__32;
+            FAbilityName = TranslateRStr(PassWallRStr);
             FAbilityID = 66;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem);
         }
 
         // PassiveAb.pas:946
-        public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner A1)
-        {
-            TSet<TWallCombatFeaturesElement> Result = default;
-            Result = TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
-            return Result;
-        }
+        public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner A1) => TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
     }
 
     // inherited name, ability ID, selection types, ability type
@@ -691,8 +523,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:892
         public TResurrectedAbility(TECustomNode owner) : base(owner)
         {
-            var call__33 = TranslateRStr(ResurrectedRStr);
-            FAbilityName = call__33;
+            FAbilityName = TranslateRStr(ResurrectedRStr);
             FAbilityID = 128;
             FAbilityType = TAbilityType.atHandicap;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
@@ -705,8 +536,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:902
         public TAnimatedAbility(TECustomNode owner) : base(owner)
         {
-            var call__34 = TranslateRStr(AnimatedRStr);
-            FAbilityName = call__34;
+            FAbilityName = TranslateRStr(AnimatedRStr);
             FAbilityID = 129;
             FAbilityType = TAbilityType.atHandicap;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
@@ -719,8 +549,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:912
         public TCombatResurrectedAbility(TECustomNode owner) : base(owner)
         {
-            var call__35 = TranslateRStr(ResurrectedRStr);
-            FAbilityName = call__35;
+            FAbilityName = TranslateRStr(ResurrectedRStr);
             FAbilityID = 130;
             FAbilityType = TAbilityType.atHandicap;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
@@ -733,8 +562,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1384
         public TMarksmanshipAbility(TECustomNode owner) : base(owner)
         {
-            var call__36 = TranslateRStr(MarksmanshipRStr);
-            FAbilityName = call__36;
+            FAbilityName = TranslateRStr(MarksmanshipRStr);
             FAbilityType = TAbilityType.atEnhancement;
             FAbilityID = 32;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
@@ -785,17 +613,12 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1417
-        public override TSet<TMoveType> GetMoveTypes(TAbilityOwner A1)
-        {
-            TSet<TMoveType> Result = default;
-            Result = FMoveTypes;
-            return Result;
-        }
+        public override TSet<TMoveType> GetMoveTypes(TAbilityOwner A1) => FMoveTypes;
 
         // PassiveAb.pas:1422
         public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner A1)
         {
-            TSet<TWallCombatFeaturesElement> Result = default;
+            TSet<TWallCombatFeaturesElement> Result;
             if (FAbilityID == 1)
             {
                 Result = TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
@@ -823,7 +646,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1440
         public override TSet<TMoveType> GetMoveTypes(TAbilityOwner A1)
         {
-            TSet<TMoveType> Result = default;
+            TSet<TMoveType> Result;
             if (FImmunityTypes.Contains(TDamageType.dtFire))
             {
                 Result = TSet<TMoveType>.Of(TMoveType.mtLavaCrossing);
@@ -837,12 +660,7 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1435
-        public override TSet<TDamageType> GetImmunityTypes(TAbilityOwner A1)
-        {
-            TSet<TDamageType> Result = default;
-            Result = FImmunityTypes;
-            return Result;
-        }
+        public override TSet<TDamageType> GetImmunityTypes(TAbilityOwner A1) => FImmunityTypes;
     }
 
     // (FProtectionTypes.)
@@ -857,12 +675,7 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1453
-        public override TSet<TDamageType> GetProtectionTypes(TAbilityOwner A1)
-        {
-            TSet<TDamageType> Result = default;
-            Result = FProtectionTypes;
-            return Result;
-        }
+        public override TSet<TDamageType> GetProtectionTypes(TAbilityOwner A1) => FProtectionTypes;
     }
 
     // inherited name, ability ID, selection types, ability type
@@ -871,41 +684,24 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:620
         public TEntangledAbility(TECustomNode owner) : base(owner)
         {
-            var call__37 = TranslateRStr(EntangledRStr);
-            FAbilityName = call__37;
+            FAbilityName = TranslateRStr(EntangledRStr);
             FAbilityID = 94;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
         }
 
         // PassiveAb.pas:638
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:628
-        public override TDurationMode GetDurationMode()
-        {
-            TDurationMode Result = default;
-            Result = TDurationMode.dmCombatTurn;
-            return Result;
-        }
+        public override TDurationMode GetDurationMode() => TDurationMode.dmCombatTurn;
 
         // PassiveAb.pas:633
-        public override sbyte GetTotalDuration()
-        {
-            sbyte Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override sbyte GetTotalDuration() => 3;
 
         // PassiveAb.pas:643
         public override TUnitEnchantment CreateEnchantment()
         {
-            TUnitEnchantment Result = default;
-            Result = base.CreateEnchantment();
+            TUnitEnchantment Result = base.CreateEnchantment();
             Result.FDispelResistance = 3;
             return Result;
         }
@@ -917,42 +713,25 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:649
         public TFrozenAbility(TECustomNode owner) : base(owner)
         {
-            var call__38 = TranslateRStr(FrozenRStr);
-            FAbilityName = call__38;
+            FAbilityName = TranslateRStr(FrozenRStr);
             FAbilityID = 95;
             FAbilityType = TAbilityType.atEnchantment;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
         }
 
         // PassiveAb.pas:674
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -2;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:658
-        public override TDurationMode GetDurationMode()
-        {
-            TDurationMode Result = default;
-            Result = TDurationMode.dmCombatTurn;
-            return Result;
-        }
+        public override TDurationMode GetDurationMode() => TDurationMode.dmCombatTurn;
 
         // PassiveAb.pas:663
-        public override sbyte GetTotalDuration()
-        {
-            sbyte Result = default;
-            Result = 2;
-            return Result;
-        }
+        public override sbyte GetTotalDuration() => 2;
 
         // PassiveAb.pas:668
         public override TUnitEnchantment CreateEnchantment()
         {
-            TUnitEnchantment Result = default;
-            Result = base.CreateEnchantment();
+            TUnitEnchantment Result = base.CreateEnchantment();
             Result.FDispelResistance = 3;
             return Result;
         }
@@ -964,33 +743,21 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:679
         public TTurnedUndeadAbility(TECustomNode owner) : base(owner)
         {
-            var call__39 = TranslateRStr(TurnedUndeadRStr);
-            FAbilityName = call__39;
+            FAbilityName = TranslateRStr(TurnedUndeadRStr);
             FAbilityID = 34;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
         }
 
         // PassiveAb.pas:693
-        public override TDurationMode GetDurationMode()
-        {
-            TDurationMode Result = default;
-            Result = TDurationMode.dmCombatTurn;
-            return Result;
-        }
+        public override TDurationMode GetDurationMode() => TDurationMode.dmCombatTurn;
 
         // PassiveAb.pas:698
-        public override sbyte GetTotalDuration()
-        {
-            sbyte Result = default;
-            Result = 3;
-            return Result;
-        }
+        public override sbyte GetTotalDuration() => 3;
 
         // PassiveAb.pas:687
         public override TUnitEnchantment CreateEnchantment()
         {
-            TUnitEnchantment Result = default;
-            Result = base.CreateEnchantment();
+            TUnitEnchantment Result = base.CreateEnchantment();
             Result.FDispelResistance = 4;
             return Result;
         }
@@ -1002,8 +769,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1021
         public THasteAbility(TECustomNode owner) : base(owner)
         {
-            var call__40 = TranslateRStr(HasteRStr);
-            FAbilityName = call__40;
+            FAbilityName = TranslateRStr(HasteRStr);
             FAbilityID = 152;
         }
     }
@@ -1014,23 +780,17 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1029
         public TStoneSkinAbility(TECustomNode owner) : base(owner)
         {
-            var call__41 = TranslateRStr(StoneSkinRStr);
-            FAbilityName = call__41;
+            FAbilityName = TranslateRStr(StoneSkinRStr);
             FAbilityID = 153;
         }
 
         // PassiveAb.pas:1048
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 2;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => 2;
 
         // PassiveAb.pas:1037
         public override AnsiString GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             // { Original assumes the ability data and enchantment exist. }
             var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
             if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
@@ -1052,32 +812,20 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1073
         public TEnchantedWeaponAbility(TECustomNode owner) : base(owner)
         {
-            var call__43 = TranslateRStr(EnchantedWeaponRStr);
-            FAbilityName = call__43;
+            FAbilityName = TranslateRStr(EnchantedWeaponRStr);
             FAbilityID = 154;
         }
 
         // PassiveAb.pas:1081
-        public override sbyte GetAttack(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetAttack(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:1087
-        public override sbyte GetDamage(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetDamage(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:1093
         public override int GetAIUpkeepPriority(TAbilityOwner A1)
         {
-            int Result = default;
-            Result = ((TAbstractUnit)A1).GetUnitLevel() + 225;
+            int Result = ((TAbstractUnit)A1).GetUnitLevel() + 225;
             if (A1 is TLeader)
             {
                 Result += 50;
@@ -1093,16 +841,14 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1100
         public TSummonedAbility(TECustomNode owner) : base(owner)
         {
-            var call__44 = TranslateRStr(SummonedRStr);
-            FAbilityName = call__44;
+            FAbilityName = TranslateRStr(SummonedRStr);
             FAbilityID = 155;
         }
 
         // PassiveAb.pas:1122
         public override bool Remove(TAbilityOwner A1)
         {
-            bool Result = default;
-            Result = base.Remove(A1);
+            bool Result = base.Remove(A1);
             if (Result)
             {
                 var unit = (TAbstractUnit)A1;
@@ -1116,7 +862,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1134
         public override int GetAIUpkeepPriority(TAbilityOwner A1)
         {
-            int Result = default;
+            int Result;
             switch (((TAbstractUnit)A1).GetUnitLevel())
             {
                 case 1:
@@ -1142,7 +888,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1108
         public int GetDefaultManaUpkeep(TAbstractUnit AUnit)
         {
-            int Result = default;
+            int Result;
             if (AUnit is TUnit)
             {
                 Result = (AUnit.GetUnitLevel() + 1) * 2;
@@ -1158,7 +904,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1115
         public int GetDefaultDispelResistance(TAbstractUnit AUnit)
         {
-            int Result = default;
+            int Result;
             if (AUnit is TUnit)
             {
                 Result = AUnit.GetUnitLevel() + 3;
@@ -1174,9 +920,8 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1147
         public int UnitIndexToAIUpkeepPriority(int A1)
         {
-            int Result = default;
-            var call__46 = AoWHSSet.FUnitResources.GetUnitResource(A1);
-            switch (call__46.FLevel)
+            int Result;
+            switch (AoWHSSet.FUnitResources.GetUnitResource(A1).FLevel)
             {
                 case 1:
                     Result = 250;
@@ -1205,32 +950,20 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1160
         public TFuryAbility(TECustomNode owner) : base(owner)
         {
-            var call__47 = TranslateRStr(FuryRStr);
-            FAbilityName = call__47;
+            FAbilityName = TranslateRStr(FuryRStr);
             FAbilityID = 156;
         }
 
         // PassiveAb.pas:1168
-        public override sbyte GetAttack(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 2;
-            return Result;
-        }
+        public override sbyte GetAttack(TAbilityOwner A1) => 2;
 
         // PassiveAb.pas:1174
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = -1;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => -1;
 
         // PassiveAb.pas:1180
         public override int GetAIUpkeepPriority(TAbilityOwner A1)
         {
-            int Result = default;
-            Result = ((TAbstractUnit)A1).GetUnitLevel() + 200;
+            int Result = ((TAbstractUnit)A1).GetUnitLevel() + 200;
             if (A1 is TLeader)
             {
                 Result -= 50;
@@ -1246,8 +979,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1187
         public TFreeMovementAbility(TECustomNode owner) : base(owner)
         {
-            var call__48 = TranslateRStr(FreeMovementRStr);
-            FAbilityName = call__48;
+            FAbilityName = TranslateRStr(FreeMovementRStr);
             FAbilityID = 157;
         }
     }
@@ -1258,8 +990,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1195
         public THolyChampionEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__49 = TranslateRStr(HolyChampionRStr);
-            FAbilityName = call__49;
+            FAbilityName = TranslateRStr(HolyChampionRStr);
             FAbilityID = 160;
         }
     }
@@ -1270,8 +1001,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1203
         public TUnholyChampionEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__50 = TranslateRStr(UnholyChampionRStr);
-            FAbilityName = call__50;
+            FAbilityName = TranslateRStr(UnholyChampionRStr);
             FAbilityID = 161;
         }
     }
@@ -1282,8 +1012,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1287
         public TConcealmentEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__51 = TranslateRStr(ConcealmentRStr);
-            FAbilityName = call__51;
+            FAbilityName = TranslateRStr(ConcealmentRStr);
             FAbilityID = 162;
         }
     }
@@ -1294,19 +1023,17 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1294
         public TFireAuraEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__52 = TranslateRStr(FireAuraRStr);
-            FAbilityName = call__52;
+            FAbilityName = TranslateRStr(FireAuraRStr);
             FAbilityID = 163;
         }
 
         // PassiveAb.pas:1301
         public override bool Remove(TAbilityOwner A1)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            Result = base.Remove(A1);
+            bool Result = base.Remove(A1);
             if (Result && A1.Owner is TArmy)
             {
                 ((TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
@@ -1327,19 +1054,17 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1315
         public TWaterWalkingEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__54 = TranslateRStr(WaterWalkingRStr);
-            FAbilityName = call__54;
+            FAbilityName = TranslateRStr(WaterWalkingRStr);
             FAbilityID = 164;
         }
 
         // PassiveAb.pas:1322
         public override bool Remove(TAbilityOwner A1)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            Result = base.Remove(A1);
+            bool Result = base.Remove(A1);
             if (Result && A1.Owner is TArmy)
             {
                 ((TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
@@ -1360,19 +1085,17 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1336
         public TWindWalkingEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__56 = TranslateRStr(WindWalkingRStr);
-            FAbilityName = call__56;
+            FAbilityName = TranslateRStr(WindWalkingRStr);
             FAbilityID = 165;
         }
 
         // PassiveAb.pas:1343
         public override bool Remove(TAbilityOwner A1)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            Result = base.Remove(A1);
+            bool Result = base.Remove(A1);
             if (Result && A1.Owner is TArmy)
             {
                 ((TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
@@ -1393,19 +1116,17 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1357
         public TLiquidFormEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__58 = TranslateRStr(LiquidFormRStr);
-            FAbilityName = call__58;
+            FAbilityName = TranslateRStr(LiquidFormRStr);
             FAbilityID = 166;
         }
 
         // PassiveAb.pas:1364
         public override bool Remove(TAbilityOwner A1)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            Result = base.Remove(A1);
+            bool Result = base.Remove(A1);
             if (Result && A1.Owner is TArmy)
             {
                 ((TAbstractUnit)A1).GetLocation(ref X, ref Y, ref L);
@@ -1422,8 +1143,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1378
         public override int GetAIUpkeepPriority(TAbilityOwner A1)
         {
-            int Result = default;
-            Result = ((TAbstractUnit)A1).GetUnitLevel() + 300;
+            int Result = ((TAbstractUnit)A1).GetUnitLevel() + 300;
             if (A1 is TLeader)
             {
                 Result += 50;
@@ -1439,31 +1159,20 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1211
         public TBlessedEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__60 = TranslateRStr(BlessedRStr);
-            FAbilityName = call__60;
+            FAbilityName = TranslateRStr(BlessedRStr);
             FAbilityID = 158;
         }
 
         // PassiveAb.pas:1219
-        public override sbyte GetDefense(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetDefense(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:1225
-        public override sbyte GetResistance(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetResistance(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:1231
         public override AnsiString GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             // { Original assumes the ability data and enchantment exist. }
             var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
             if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
@@ -1481,8 +1190,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1242
         public override int GetAIUpkeepPriority(TAbilityOwner A1)
         {
-            int Result = default;
-            Result = ((TAbstractUnit)A1).GetUnitLevel() + 200;
+            int Result = ((TAbstractUnit)A1).GetUnitLevel() + 200;
             if (A1 is TLeader)
             {
                 Result += 50;
@@ -1498,24 +1206,17 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1249
         public TDarkGiftEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__62 = TranslateRStr(DarkGiftRStr);
-            FAbilityName = call__62;
+            FAbilityName = TranslateRStr(DarkGiftRStr);
             FAbilityID = 169;
         }
 
         // PassiveAb.pas:1256
-        public override sbyte GetDamage(TAbilityOwner A1)
-        {
-            sbyte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override sbyte GetDamage(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:1261
         public override int GetAIUpkeepPriority(TAbilityOwner A1)
         {
-            int Result = default;
-            Result = ((TAbstractUnit)A1).GetUnitLevel() + 200;
+            int Result = ((TAbstractUnit)A1).GetUnitLevel() + 200;
             if (A1 is TLeader)
             {
                 Result += 50;
@@ -1531,15 +1232,14 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1054
         public TFireProtectionEnchantment(TECustomNode owner) : base(owner)
         {
-            var call__63 = TranslateRStr(FireProtectionRStr);
-            FAbilityName = call__63;
+            FAbilityName = TranslateRStr(FireProtectionRStr);
             FAbilityID = 167;
         }
 
         // PassiveAb.pas:1062
         public override AnsiString GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             // { Original assumes the ability data and enchantment exist. }
             var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
             if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
@@ -1561,8 +1261,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:601
         public TSlowEnchantmentAbility(TECustomNode owner) : base(owner)
         {
-            var call__65 = TranslateRStr(SlowRStr);
-            FAbilityName = call__65;
+            FAbilityName = TranslateRStr(SlowRStr);
             FAbilityID = 132;
             FSelectionTypes = TSet<TAbilitySelectionType>.Of();
         }
@@ -1570,15 +1269,13 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:615
         public override void CombatDone(TCombatObject A1)
         {
-            var call__66 = A1.GetAbilityOwner();
-            call__66.RemoveAbility(FAbilityID);
+            A1.GetAbilityOwner().RemoveAbility(FAbilityID);
         }
 
         // PassiveAb.pas:609
         public override TUnitEnchantment CreateEnchantment()
         {
-            TUnitEnchantment Result = default;
-            Result = base.CreateEnchantment();
+            TUnitEnchantment Result = base.CreateEnchantment();
             Result.FDispelResistance = 3;
             return Result;
         }
@@ -1589,230 +1286,95 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1504
         public static void RegisterPassiveAbilities(TAbilityControl Control)
         {
-            var call__67 = TranslateRStr(FireImmunityRStr);
-            var call__68 = CreateImmunityAbility(7, call__67, TSet<TDamageType>.Of(TDamageType.dtFire));
-            Control.RegisterAbility(call__68);
-            var call__69 = TranslateRStr(ColdImmunityRStr);
-            var call__70 = CreateImmunityAbility(8, call__69, TSet<TDamageType>.Of(TDamageType.dtCold));
-            Control.RegisterAbility(call__70);
-            var call__71 = TranslateRStr(LightningImmunityRStr);
-            var call__72 = CreateImmunityAbility(9, call__71, TSet<TDamageType>.Of(TDamageType.dtLightning));
-            Control.RegisterAbility(call__72);
-            var call__73 = TranslateRStr(PoisonImmunityRStr);
-            var call__74 = CreateImmunityAbility(10, call__73, TSet<TDamageType>.Of(TDamageType.dtPoison));
-            Control.RegisterAbility(call__74);
-            var call__75 = TranslateRStr(DeathImmunityRStr);
-            var call__76 = CreateImmunityAbility(11, call__75, TSet<TDamageType>.Of(TDamageType.dtDeath));
-            Control.RegisterAbility(call__76);
-            var call__77 = TranslateRStr(HolyImmunityRStr);
-            var call__78 = CreateImmunityAbility(12, call__77, TSet<TDamageType>.Of(TDamageType.dtHoly));
-            Control.RegisterAbility(call__78);
-            var call__79 = TranslateRStr(PhysicalImmunityRStr);
-            var call__80 = CreateImmunityAbility(13, call__79, TSet<TDamageType>.Of(TDamageType.dtPhysical));
-            Control.RegisterAbility(call__80);
-            var call__81 = TranslateRStr(MagicImmunityRStr);
-            var call__82 = CreateImmunityAbility(6, call__81, TSet<TDamageType>.Of(TDamageType.dtMagic));
-            Control.RegisterAbility(call__82);
-            var call__83 = TranslateRStr(FireProtectionRStr);
-            var call__84 = CreateProtectionAbility(71, call__83, TSet<TDamageType>.Of(TDamageType.dtFire), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__84);
-            var call__85 = TranslateRStr(ColdProtectionRStr);
-            var call__86 = CreateProtectionAbility(76, call__85, TSet<TDamageType>.Of(TDamageType.dtCold), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__86);
-            var call__87 = TranslateRStr(LightningProtectionRStr);
-            var call__88 = CreateProtectionAbility(74, call__87, TSet<TDamageType>.Of(TDamageType.dtLightning), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__88);
-            var call__89 = TranslateRStr(PoisonProtectionRStr);
-            var call__90 = CreateProtectionAbility(73, call__89, TSet<TDamageType>.Of(TDamageType.dtPoison), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__90);
-            var call__91 = TranslateRStr(DeathProtectionRStr);
-            var call__92 = CreateProtectionAbility(70, call__91, TSet<TDamageType>.Of(TDamageType.dtDeath), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__92);
-            var call__93 = TranslateRStr(HolyProtectionRStr);
-            var call__94 = CreateProtectionAbility(72, call__93, TSet<TDamageType>.Of(TDamageType.dtHoly), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__94);
-            var call__95 = TranslateRStr(PhysicalProtectionRStr);
-            var call__96 = CreateProtectionAbility(77, call__95, TSet<TDamageType>.Of(TDamageType.dtPhysical), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__96);
-            var call__97 = TranslateRStr(MagicProtectionRStr);
-            var call__98 = CreateProtectionAbility(75, call__97, TSet<TDamageType>.Of(TDamageType.dtMagic), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__98);
-            var call__99 = TranslateRStr(WalkingRStr);
-            var call__100 = CreateMovementAbility(0, call__99, TSet<TMoveType>.Of(TMoveType.mtWalking));
-            Control.RegisterAbility(call__100);
-            var call__101 = TranslateRStr(FlyingRStr);
-            var call__102 = CreateMovementAbility(1, call__101, TSet<TMoveType>.Of(TMoveType.mtFlying));
-            Control.RegisterAbility(call__102);
-            var call__103 = TranslateRStr(SwimmingRStr);
-            var call__104 = CreateMovementAbility(2, call__103, TSet<TMoveType>.Of(TMoveType.mtSwimming));
-            Control.RegisterAbility(call__104);
-            var call__105 = TranslateRStr(ForestryRStr);
-            var call__106 = CreateMovementAbility(3, call__105, TSet<TMoveType>.Of(TMoveType.mtForestry));
-            Control.RegisterAbility(call__106);
-            var call__107 = TranslateRStr(CaveCrawlingRStr);
-            var call__108 = CreateMovementAbility(4, call__107, TSet<TMoveType>.Of(TMoveType.mtCaveCrawling));
-            Control.RegisterAbility(call__108);
-            var call__109 = TranslateRStr(MountaineeringRStr);
-            var call__110 = CreateMovementAbility(5, call__109, TSet<TMoveType>.Of(TMoveType.mtMountaineering));
-            Control.RegisterAbility(call__110);
-            var call__111 = TranslateRStr(SailingRStr);
-            var call__112 = CreateMovementAbility(23, call__111, TSet<TMoveType>.Of(TMoveType.mtSwimming));
-            Control.RegisterAbility(call__112);
-            var call__113 = TranslateRStr(TunnelingRStr);
-            var call__114 = CreateMovementAbility(42, call__113, TSet<TMoveType>.Of(TMoveType.mtTunneling));
-            Control.RegisterAbility(call__114);
-            var call__115 = TranslateRStr(FloatingRStr);
-            var call__116 = CreateMovementAbility(59, call__115, TSet<TMoveType>.Of(TMoveType.mtFlying));
-            Control.RegisterAbility(call__116);
-            var call__117 = TranslateRStr(TrailOfDarknessRStr);
-            var call__118 = CreateEnhancementAbility(26, call__117, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__118);
-            var call__119 = TranslateRStr(NightVisionRStr);
-            var call__120 = CreateEnhancementAbility(39, call__119, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__120);
-            var call__121 = TranslateRStr(IgnitionRStr);
-            var call__122 = CreateEnhancementAbility(43, call__121, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__122);
-            var call__123 = TranslateRStr(RegenerationRStr);
-            var call__124 = CreateEnhancementAbility(49, call__123, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__124);
-            var call__125 = TranslateRStr(CauseFearRStr);
-            var call__126 = CreateEnhancementAbility(51, call__125, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__126);
-            var call__127 = TranslateRStr(InvisibilityRStr);
-            var call__128 = CreateEnhancementAbility(54, call__127, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__128);
-            var call__129 = TranslateRStr(DragonRStr);
-            var call__130 = CreateEnhancementAbility(63, call__129, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit));
-            Control.RegisterAbility(call__130);
-            var call__131 = TranslateRStr(BardsSkillsRStr);
-            var call__132 = CreateEnhancementAbility(37, call__131, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astEditor));
-            Control.RegisterAbility(call__132);
-            var call__133 = TranslateRStr(TrueVisionRStr);
-            var call__134 = CreateEnhancementAbility(41, call__133, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor));
-            Control.RegisterAbility(call__134);
-            var call__135 = TranslateRStr(FearlessRStr);
-            var call__136 = CreateEnhancementAbility(67, call__135, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__136);
-            var call__137 = TranslateRStr(PathOfDecayRStr);
-            var call__138 = CreateEnhancementAbility(68, call__137, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__138);
-            var call__139 = TranslateRStr(PathOfLifeRStr);
-            var call__140 = CreateEnhancementAbility(69, call__139, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__140);
-            var call__141 = TranslateRStr(PathOfFrostRStr);
-            var call__142 = CreateEnhancementAbility(109, call__141, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__142);
-            var call__143 = new TVisionAbility(null);
-            Control.RegisterAbility(call__143);
-            var call__144 = new THolyChampionAbility(null);
-            Control.RegisterAbility(call__144);
-            var call__145 = new TUnholyChampionAbility(null);
-            Control.RegisterAbility(call__145);
-            var call__146 = new TWallClimbingAbility(null);
-            Control.RegisterAbility(call__146);
-            var call__147 = new TPassWallAbility(null);
-            Control.RegisterAbility(call__147);
-            var call__148 = new TCursedAbility(null);
-            Control.RegisterAbility(call__148);
-            var call__149 = new TResurrectedAbility(null);
-            Control.RegisterAbility(call__149);
-            var call__150 = new TAnimatedAbility(null);
-            Control.RegisterAbility(call__150);
-            var call__151 = new TCombatResurrectedAbility(null);
-            Control.RegisterAbility(call__151);
-            var call__152 = new TMarksmanshipAbility(null);
-            Control.RegisterAbility(call__152);
-            var call__153 = new TSlowEnchantmentAbility(null);
-            Control.RegisterAbility(call__153);
-            var call__154 = new TWebbedAbility(null);
-            Control.RegisterAbility(call__154);
-            var call__155 = new TVertigoAbility(null);
-            Control.RegisterAbility(call__155);
-            var call__156 = new TPoisonedAbility(null);
-            Control.RegisterAbility(call__156);
-            var call__157 = new TEntangledAbility(null);
-            Control.RegisterAbility(call__157);
-            var call__158 = new TFrozenAbility(null);
-            Control.RegisterAbility(call__158);
-            var call__159 = new TStunnedAbility(null);
-            Control.RegisterAbility(call__159);
-            var call__160 = new TNaturesBlessingAbility(null);
-            Control.RegisterAbility(call__160);
-            var call__161 = new TBloodlustAbility(null);
-            Control.RegisterAbility(call__161);
-            var call__162 = new TTurnedUndeadAbility(null);
-            Control.RegisterAbility(call__162);
-            var call__163 = new THolyFear(null);
-            Control.RegisterAbility(call__163);
-            var call__164 = new THasteAbility(null);
-            Control.RegisterAbility(call__164);
-            var call__165 = new TStoneSkinAbility(null);
-            Control.RegisterAbility(call__165);
-            var call__166 = new TEnchantedWeaponAbility(null);
-            Control.RegisterAbility(call__166);
-            var call__167 = new TSummonedAbility(null);
-            Control.RegisterAbility(call__167);
-            var call__168 = new TFuryAbility(null);
-            Control.RegisterAbility(call__168);
-            var call__169 = new TFreeMovementAbility(null);
-            Control.RegisterAbility(call__169);
-            var call__170 = new THolyChampionEnchantment(null);
-            Control.RegisterAbility(call__170);
-            var call__171 = new TUnholyChampionEnchantment(null);
-            Control.RegisterAbility(call__171);
-            var call__172 = new TConcealmentEnchantment(null);
-            Control.RegisterAbility(call__172);
-            var call__173 = new TFireAuraEnchantment(null);
-            Control.RegisterAbility(call__173);
-            var call__174 = new TWaterWalkingEnchantment(null);
-            Control.RegisterAbility(call__174);
-            var call__175 = new TWindWalkingEnchantment(null);
-            Control.RegisterAbility(call__175);
-            var call__176 = new TLiquidFormEnchantment(null);
-            Control.RegisterAbility(call__176);
-            var call__177 = new TBlessedEnchantment(null);
-            Control.RegisterAbility(call__177);
-            var call__178 = new TCosmeticSurgeryAbility(null);
-            Control.RegisterAbility(call__178);
-            var call__179 = new TBurningAbility(null);
-            Control.RegisterAbility(call__179);
-            var call__180 = new TFireProtectionEnchantment(null);
-            Control.RegisterAbility(call__180);
-            var call__181 = new TPanickedAbility(null);
-            Control.RegisterAbility(call__181);
-            var call__182 = new TDecayAbility(null);
-            Control.RegisterAbility(call__182);
-            var call__183 = new THighPrayerBlessingAbility(null);
-            Control.RegisterAbility(call__183);
-            var call__184 = new TDarkGiftEnchantment(null);
-            Control.RegisterAbility(call__184);
-            var call__185 = new TCrusaderAbility(null);
-            Control.RegisterAbility(call__185);
-            var call__186 = TranslateRStr(SteppeConcealmentRStr);
-            var call__187 = CreateEnhancementAbility(138, call__186, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__187);
-            var call__188 = TranslateRStr(UndergroundConcealmentRStr);
-            var call__189 = CreateEnhancementAbility(139, call__188, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__189);
-            var call__190 = TranslateRStr(GrassConcealmentRStr);
-            var call__191 = CreateEnhancementAbility(140, call__190, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__191);
-            var call__192 = TranslateRStr(SnowConcealmentRStr);
-            var call__193 = CreateEnhancementAbility(141, call__192, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__193);
-            var call__194 = TranslateRStr(DesertConcealmentRStr);
-            var call__195 = CreateEnhancementAbility(142, call__194, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__195);
-            var call__196 = TranslateRStr(WastelandConcealmentRStr);
-            var call__197 = CreateEnhancementAbility(143, call__196, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__197);
-            var call__198 = TranslateRStr(WaterConcealmentRStr);
-            var call__199 = CreateEnhancementAbility(144, call__198, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem));
-            Control.RegisterAbility(call__199);
-            var call__200 = TranslateRStr(ConcealmentRStr);
-            var call__201 = CreateEnhancementAbility(145, call__200, TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor));
-            Control.RegisterAbility(call__201);
+            Control.RegisterAbility(CreateImmunityAbility(7, TranslateRStr(FireImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtFire)));
+            Control.RegisterAbility(CreateImmunityAbility(8, TranslateRStr(ColdImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtCold)));
+            Control.RegisterAbility(CreateImmunityAbility(9, TranslateRStr(LightningImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtLightning)));
+            Control.RegisterAbility(CreateImmunityAbility(10, TranslateRStr(PoisonImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtPoison)));
+            Control.RegisterAbility(CreateImmunityAbility(11, TranslateRStr(DeathImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtDeath)));
+            Control.RegisterAbility(CreateImmunityAbility(12, TranslateRStr(HolyImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtHoly)));
+            Control.RegisterAbility(CreateImmunityAbility(13, TranslateRStr(PhysicalImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtPhysical)));
+            Control.RegisterAbility(CreateImmunityAbility(6, TranslateRStr(MagicImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtMagic)));
+            Control.RegisterAbility(CreateProtectionAbility(71, TranslateRStr(FireProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtFire), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateProtectionAbility(76, TranslateRStr(ColdProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtCold), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateProtectionAbility(74, TranslateRStr(LightningProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtLightning), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateProtectionAbility(73, TranslateRStr(PoisonProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtPoison), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateProtectionAbility(70, TranslateRStr(DeathProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtDeath), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateProtectionAbility(72, TranslateRStr(HolyProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtHoly), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateProtectionAbility(77, TranslateRStr(PhysicalProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtPhysical), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateProtectionAbility(75, TranslateRStr(MagicProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtMagic), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateMovementAbility(0, TranslateRStr(WalkingRStr), TSet<TMoveType>.Of(TMoveType.mtWalking)));
+            Control.RegisterAbility(CreateMovementAbility(1, TranslateRStr(FlyingRStr), TSet<TMoveType>.Of(TMoveType.mtFlying)));
+            Control.RegisterAbility(CreateMovementAbility(2, TranslateRStr(SwimmingRStr), TSet<TMoveType>.Of(TMoveType.mtSwimming)));
+            Control.RegisterAbility(CreateMovementAbility(3, TranslateRStr(ForestryRStr), TSet<TMoveType>.Of(TMoveType.mtForestry)));
+            Control.RegisterAbility(CreateMovementAbility(4, TranslateRStr(CaveCrawlingRStr), TSet<TMoveType>.Of(TMoveType.mtCaveCrawling)));
+            Control.RegisterAbility(CreateMovementAbility(5, TranslateRStr(MountaineeringRStr), TSet<TMoveType>.Of(TMoveType.mtMountaineering)));
+            Control.RegisterAbility(CreateMovementAbility(23, TranslateRStr(SailingRStr), TSet<TMoveType>.Of(TMoveType.mtSwimming)));
+            Control.RegisterAbility(CreateMovementAbility(42, TranslateRStr(TunnelingRStr), TSet<TMoveType>.Of(TMoveType.mtTunneling)));
+            Control.RegisterAbility(CreateMovementAbility(59, TranslateRStr(FloatingRStr), TSet<TMoveType>.Of(TMoveType.mtFlying)));
+            Control.RegisterAbility(CreateEnhancementAbility(26, TranslateRStr(TrailOfDarknessRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(39, TranslateRStr(NightVisionRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(43, TranslateRStr(IgnitionRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(49, TranslateRStr(RegenerationRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(51, TranslateRStr(CauseFearRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(54, TranslateRStr(InvisibilityRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(63, TranslateRStr(DragonRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit)));
+            Control.RegisterAbility(CreateEnhancementAbility(37, TranslateRStr(BardsSkillsRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astEditor)));
+            Control.RegisterAbility(CreateEnhancementAbility(41, TranslateRStr(TrueVisionRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor)));
+            Control.RegisterAbility(CreateEnhancementAbility(67, TranslateRStr(FearlessRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(68, TranslateRStr(PathOfDecayRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(69, TranslateRStr(PathOfLifeRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(109, TranslateRStr(PathOfFrostRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(new TVisionAbility(null));
+            Control.RegisterAbility(new THolyChampionAbility(null));
+            Control.RegisterAbility(new TUnholyChampionAbility(null));
+            Control.RegisterAbility(new TWallClimbingAbility(null));
+            Control.RegisterAbility(new TPassWallAbility(null));
+            Control.RegisterAbility(new TCursedAbility(null));
+            Control.RegisterAbility(new TResurrectedAbility(null));
+            Control.RegisterAbility(new TAnimatedAbility(null));
+            Control.RegisterAbility(new TCombatResurrectedAbility(null));
+            Control.RegisterAbility(new TMarksmanshipAbility(null));
+            Control.RegisterAbility(new TSlowEnchantmentAbility(null));
+            Control.RegisterAbility(new TWebbedAbility(null));
+            Control.RegisterAbility(new TVertigoAbility(null));
+            Control.RegisterAbility(new TPoisonedAbility(null));
+            Control.RegisterAbility(new TEntangledAbility(null));
+            Control.RegisterAbility(new TFrozenAbility(null));
+            Control.RegisterAbility(new TStunnedAbility(null));
+            Control.RegisterAbility(new TNaturesBlessingAbility(null));
+            Control.RegisterAbility(new TBloodlustAbility(null));
+            Control.RegisterAbility(new TTurnedUndeadAbility(null));
+            Control.RegisterAbility(new THolyFear(null));
+            Control.RegisterAbility(new THasteAbility(null));
+            Control.RegisterAbility(new TStoneSkinAbility(null));
+            Control.RegisterAbility(new TEnchantedWeaponAbility(null));
+            Control.RegisterAbility(new TSummonedAbility(null));
+            Control.RegisterAbility(new TFuryAbility(null));
+            Control.RegisterAbility(new TFreeMovementAbility(null));
+            Control.RegisterAbility(new THolyChampionEnchantment(null));
+            Control.RegisterAbility(new TUnholyChampionEnchantment(null));
+            Control.RegisterAbility(new TConcealmentEnchantment(null));
+            Control.RegisterAbility(new TFireAuraEnchantment(null));
+            Control.RegisterAbility(new TWaterWalkingEnchantment(null));
+            Control.RegisterAbility(new TWindWalkingEnchantment(null));
+            Control.RegisterAbility(new TLiquidFormEnchantment(null));
+            Control.RegisterAbility(new TBlessedEnchantment(null));
+            Control.RegisterAbility(new TCosmeticSurgeryAbility(null));
+            Control.RegisterAbility(new TBurningAbility(null));
+            Control.RegisterAbility(new TFireProtectionEnchantment(null));
+            Control.RegisterAbility(new TPanickedAbility(null));
+            Control.RegisterAbility(new TDecayAbility(null));
+            Control.RegisterAbility(new THighPrayerBlessingAbility(null));
+            Control.RegisterAbility(new TDarkGiftEnchantment(null));
+            Control.RegisterAbility(new TCrusaderAbility(null));
+            Control.RegisterAbility(CreateEnhancementAbility(138, TranslateRStr(SteppeConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(139, TranslateRStr(UndergroundConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(140, TranslateRStr(GrassConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(141, TranslateRStr(SnowConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(142, TranslateRStr(DesertConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(143, TranslateRStr(WastelandConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(144, TranslateRStr(WaterConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+            Control.RegisterAbility(CreateEnhancementAbility(145, TranslateRStr(ConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor)));
         }
 
         // PassiveAb.pas:1597
@@ -1912,8 +1474,7 @@ namespace Aow.Units.PassiveAb
         // PassiveAb.pas:1458
         public static TMovementAbility CreateMovementAbility(int ID, AnsiString Name, TSet<TMoveType> MoveTypes)
         {
-            TMovementAbility Result = default;
-            TMovementAbility Ability = default;
+            TMovementAbility Ability;
             Ability = new TMovementAbility(null);
             Ability.FAbilityID = ID;
             Ability.FAbilityName = Name;
@@ -1923,15 +1484,13 @@ namespace Aow.Units.PassiveAb
                 Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astEditor);
             }
 
-            Result = Ability;
-            return Result;
+            return Ability;
         }
 
         // PassiveAb.pas:1472
         public static TImmunityAbility CreateImmunityAbility(int ID, AnsiString Name, TSet<TDamageType> DamageTypes)
         {
-            TImmunityAbility Result = default;
-            TImmunityAbility Ability = default;
+            TImmunityAbility Ability;
             Ability = new TImmunityAbility(null);
             Ability.FAbilityID = ID;
             Ability.FAbilityName = Name;
@@ -1957,22 +1516,19 @@ namespace Aow.Units.PassiveAb
                 Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astTorsoItem);
             }
 
-            Result = Ability;
-            return Result;
+            return Ability;
         }
 
         // PassiveAb.pas:1491
         public static TProtectionAbility CreateProtectionAbility(int ID, AnsiString Name, TSet<TDamageType> DamageTypes, TSet<TAbilitySelectionType> SelectionTypes)
         {
-            TProtectionAbility Result = default;
-            TProtectionAbility Ability = default;
+            TProtectionAbility Ability;
             Ability = new TProtectionAbility(null);
             Ability.FAbilityID = ID;
             Ability.FAbilityName = Name;
             Ability.FProtectionTypes = DamageTypes;
             Ability.FSelectionTypes = SelectionTypes;
-            Result = Ability;
-            return Result;
+            return Ability;
         }
 
         public static void Initialize()

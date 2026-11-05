@@ -17,8 +17,7 @@ namespace Aow.Units.Crops
         public TPlayerCropStructure(TECustomNode owner) : base(owner)
         {
             FChangingCrops = false;
-            var call__1 = new TPlayerStructureIncomeSource(null);
-            FIncomeSource = call__1;
+            FIncomeSource = new TPlayerStructureIncomeSource(null);
             FIncomeSource.Setup(this);
         }
 
@@ -61,13 +60,12 @@ namespace Aow.Units.Crops
         // Crops.pas:357
         public override void Activate()
         {
-            sbyte Player = default;
+            sbyte Player;
             base.Activate();
             Player = FPlayer;
             if (Player != -1)
             {
-                var call__2 = AoWHSMap.FPlayers.GetPlayers(Player);
-                call__2.RegisterIncomeSource(FIncomeSource);
+                AoWHSMap.FPlayers.GetPlayers(Player).RegisterIncomeSource(FIncomeSource);
             }
 
             if (!GetEditMode())
@@ -80,12 +78,11 @@ namespace Aow.Units.Crops
         // Crops.pas:372
         public override void Deactivate()
         {
-            sbyte Player = default;
+            sbyte Player;
             Player = FPlayer;
             if (Player != -1)
             {
-                var call__3 = AoWHSMap.FPlayers.GetPlayers(Player);
-                call__3.UnregisterIncomeSource(FIncomeSource);
+                AoWHSMap.FPlayers.GetPlayers(Player).UnregisterIncomeSource(FIncomeSource);
             }
 
             base.Deactivate();
@@ -94,15 +91,14 @@ namespace Aow.Units.Crops
         // Crops.pas:560
         public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            TMapLevel MapLevel = default;
-            int I = default;
-            int HN = default;
+            TMapLevel MapLevel;
+            int I;
+            int HN;
             int X = default;
             int Y = default;
             int NX = default;
             int NY = default;
-            Result = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
+            bool Result = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
             if (Result && !GetEditMode())
             {
                 MapLevel = MapContainer.GetMapLevel(Lhx);
@@ -118,9 +114,7 @@ namespace Aow.Units.Crops
                     {
                         if (NX >= 0 && NX < MapLevel.Width && NY >= 0 && NY < MapLevel.Height)
                         {
-                            var call__4 = MapLevel.GetField(NX, NY);
-                            var call__5 = call__4.FindNoneTransparentHS(typeof(TPlayerCropStructure));
-                            Result = call__5 == null;
+                            Result = MapLevel.GetField(NX, NY).FindNoneTransparentHS(typeof(TPlayerCropStructure)) == null;
                         }
 
                         HN += 1;
@@ -135,8 +129,7 @@ namespace Aow.Units.Crops
         // Crops.pas:586
         public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+            bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             if (Result)
             {
                 if (!GetEditMode())
@@ -168,16 +161,14 @@ namespace Aow.Units.Crops
             {
                 if (FPlayer != -1)
                 {
-                    var call__6 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__6.UnregisterIncomeSource(FIncomeSource);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
                 }
 
                 base.SetPlayer(Player);
                 UpdateCrops();
                 if (FPlayer != -1)
                 {
-                    var call__7 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__7.RegisterIncomeSource(FIncomeSource);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
                 }
             }
         }
@@ -185,20 +176,13 @@ namespace Aow.Units.Crops
         // Crops.pas:440
         public virtual bool CanPlaceCrop(TMapField Field)
         {
-            bool Result = default;
-            TArmyHS Army = default;
-            THexagonSprite HS = default;
+            bool Result;
+            TArmyHS Army;
+            THexagonSprite HS;
             if (!GetRazed())
             {
                 Army = (TArmyHS)Field.FindOwnedChild(131607);
-                bool bool__8 = Army == null;
-                if (!bool__8)
-                {
-                    var call__9 = AoWHSMap.FPlayers.GetDiplomaticRelation(Army.FArmy.FPlayer, FPlayer);
-                    bool__8 = call__9 != TDiplomaticRelation.drWar;
-                }
-
-                Result = bool__8;
+                Result = Army == null || AoWHSMap.FPlayers.GetDiplomaticRelation(Army.FArmy.FPlayer, FPlayer) != TDiplomaticRelation.drWar;
                 if (Result)
                 {
                     HS = Field.GetMaxLevelNoneTransparentHS();
@@ -207,20 +191,7 @@ namespace Aow.Units.Crops
 
                 if (Result)
                 {
-                    bool bool__10 = TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)Field.TerrainType);
-                    if (!bool__10)
-                    {
-                        bool bool__11 = Field.TerrainType == 5;
-                        if (bool__11)
-                        {
-                            var call__12 = GetRace();
-                            bool__11 = call__12 == 11;
-                        }
-
-                        bool__10 = bool__11;
-                    }
-
-                    Result = bool__10;
+                    Result = TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)Field.TerrainType) || Field.TerrainType == 5 && GetRace() == 11;
                 }
             }
             else
@@ -232,47 +203,23 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:320
-        public virtual bool CropsEnabled()
-        {
-            bool Result = default;
-            var call__13 = GetRazed();
-            bool bool__14 = !call__13;
-            if (bool__14)
-            {
-                var call__15 = GetBuilding();
-                bool__14 = !call__15;
-            }
-
-            Result = bool__14;
-            return Result;
-        }
+        public virtual bool CropsEnabled() => !GetRazed() && !GetBuilding();
 
         // Crops.pas:314
         public virtual void RegrowCrops()
         {
-            var call__16 = GetCropCount();
-            if (call__16 < ((TPlayerCropStructureResource)FResource).FCropLocations.Count)
+            if (GetCropCount() < ((TPlayerCropStructureResource)FResource).FCropLocations.Count)
             {
-                var call__17 = GetCropCount();
-                SetCropCount(call__17 + 1);
+                SetCropCount(GetCropCount() + 1);
             }
         }
 
         // Crops.pas:332
         public virtual void UpdateIncome()
         {
-            var call__18 = GetRazed();
-            bool bool__19 = !call__18;
-            if (bool__19)
+            if (!GetRazed() && !GetBuilding())
             {
-                var call__20 = GetBuilding();
-                bool__19 = !call__20;
-            }
-
-            if (bool__19)
-            {
-                var call__21 = GetCropCount();
-                SetIncome((byte)(call__21 * 2));
+                SetIncome((byte)(GetCropCount() * 2));
             }
             else
             {
@@ -283,8 +230,7 @@ namespace Aow.Units.Crops
         // Crops.pas:401
         public virtual void UpdateCrops()
         {
-            var call__22 = GetEditMode();
-            if (!call__22 && FStatus.Contains(TMapObjectStatusElement.moActivated))
+            if (!GetEditMode() && FStatus.Contains(TMapObjectStatusElement.moActivated))
             {
                 if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                 {
@@ -302,11 +248,10 @@ namespace Aow.Units.Crops
         // Crops.pas:413
         public virtual sbyte GetRace()
         {
-            sbyte Result = default;
+            sbyte Result;
             if (FPlayer > 0)
             {
-                var call__23 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                Result = call__23.FPlayerRace;
+                Result = AoWHSMap.FPlayers.GetPlayers(FPlayer).FPlayerRace;
             }
             else
             {
@@ -325,30 +270,26 @@ namespace Aow.Units.Crops
         // Crops.pas:290
         public virtual void CropTrampled(sbyte Player)
         {
-            int Race = default;
+            int Race;
             if (Player != FPlayer && FPlayer > 0 && Player > 0)
             {
-                var call__24 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                Race = call__24.FPlayerRace;
-                var call__25 = AoWHSMap.FRaces.GetRace(Race);
-                var call__26 = call__25.GetPlayerRelationValue(Player);
-                var call__27 = AoWHSMap.FRaces.GetRace(Race);
-                call__27.SetPlayerRelationValue(Player, call__26 - -5);
+                Race = AoWHSMap.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+                var playerRelationValue = AoWHSMap.FRaces.GetRace(Race).GetPlayerRelationValue(Player);
+                AoWHSMap.FRaces.GetRace(Race).SetPlayerRelationValue(Player, playerRelationValue - -5);
             }
         }
 
         // Crops.pas:302
         public void SetIncome(byte A1)
         {
-            sbyte Player = default;
+            sbyte Player;
             if (A1 != this.FIncome && this.FStatus.Contains(TMapObjectStatusElement.moActivated))
             {
                 this.FIncome = A1;
                 Player = this.FPlayer;
                 if (Player != -1)
                 {
-                    var call__29 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    call__29.UpdateIncome();
+                    AoWHSMap.FPlayers.GetPlayers(Player).UpdateIncome();
                 }
             }
         }
@@ -356,27 +297,20 @@ namespace Aow.Units.Crops
         // Crops.pas:382
         public void UpdateCropSettings()
         {
-            TMapLevel MapLevel = default;
-            int I = default;
+            TMapLevel MapLevel;
             int X = default;
             int Y = default;
-            TCrop Crop = default;
+            TCrop Crop;
             MapLevel = (TMapLevel)Owner.Owner;
+            for (int I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
             {
-                I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1;
-                byte end__30 = 0;
-                for (; I >= end__30; I -= 1)
+                CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
+                if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
                 {
-                    CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
-                    if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
+                    Crop = (TCrop)MapLevel.GetField(X, Y).FindOwnedChild(131946);
+                    if (Crop != null)
                     {
-                        var call__31 = MapLevel.GetField(X, Y);
-                        var call__32 = call__31.FindOwnedChild(131946);
-                        Crop = (TCrop)call__32;
-                        if (Crop != null)
-                        {
-                            Crop.UpdateSettings();
-                        }
+                        Crop.UpdateSettings();
                     }
                 }
             }
@@ -385,31 +319,23 @@ namespace Aow.Units.Crops
         // Crops.pas:420
         public int GetCropCount()
         {
-            int Result = default;
-            TMapLevel MapLevel = default;
-            int I = default;
+            TMapLevel MapLevel;
             int X = default;
             int Y = default;
-            TCrop Crop = default;
-            Result = 0;
+            TCrop Crop;
+            int Result = 0;
             MapLevel = (TMapLevel)Owner.Owner;
+            for (int I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
             {
-                I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1;
-                byte end__33 = 0;
-                for (; I >= end__33; I -= 1)
+                CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
+                if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
                 {
-                    CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
-                    if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
+                    Crop = (TCrop)MapLevel.GetField(X, Y).FindChild(131946);
+                    if (Crop != null)
                     {
-                        var call__34 = MapLevel.GetField(X, Y);
-                        var call__35 = call__34.FindChild(131946);
-                        Crop = (TCrop)call__35;
-                        if (Crop != null)
+                        if (Crop.FCropOwner == this)
                         {
-                            if (Crop.FCropOwner == this)
-                            {
-                                Result += 1;
-                            }
+                            Result += 1;
                         }
                     }
                 }
@@ -421,15 +347,15 @@ namespace Aow.Units.Crops
         // Crops.pas:463
         public void SetCropCount(int A1)
         {
-            TMapLevel MapLevel = default;
-            int I = default;
-            TCropResource Resource = default;
-            TMapField Field = default;
+            TMapLevel MapLevel;
+            int I;
+            TCropResource Resource;
+            TMapField Field;
             int X = default;
             int Y = default;
-            TList Crops = default;
-            TCrop Crop = default;
-            TWordList Locations = default;
+            TList Crops;
+            TCrop Crop;
+            TWordList Locations;
             if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap) && !FChangingCrops)
             {
                 FChangingCrops = true;
@@ -437,46 +363,40 @@ namespace Aow.Units.Crops
                 Crops = new TList();
                 Locations = new TWordList();
                 Locations.Assign(((TPlayerCropStructureResource)FResource).FCropLocations);
+                I = Locations.Count - 1;
+                for (; I >= 0; I -= 1)
                 {
-                    I = Locations.Count - 1;
-                    byte end__36 = 0;
-                    for (; I >= end__36; I -= 1)
+                    CenterHNtoHX(FXhx, FYhx, Locations.List[I], ref X, ref Y);
+                    if (X >= 0 && X < MapLevel.Width && Y >= 0 && Y < MapLevel.Height)
                     {
-                        CenterHNtoHX(FXhx, FYhx, Locations.List[I], ref X, ref Y);
-                        if (X >= 0 && X < MapLevel.Width && Y >= 0 && Y < MapLevel.Height)
+                        Field = MapLevel.GetField(X, Y);
+                        Crop = (TCrop)Field.FindOwnedChild(131946);
+                        if (Crop != null || !CanPlaceCrop(Field))
                         {
-                            Field = MapLevel.GetField(X, Y);
-                            Crop = (TCrop)Field.FindOwnedChild(131946);
-                            if (Crop != null || !CanPlaceCrop(Field))
+                            if (Crop != null && Crop.FCropOwner == this)
                             {
-                                if (Crop != null && Crop.FCropOwner == this)
-                                {
-                                    Crops.Add(Crop);
-                                }
-
-                                Locations.Delete(I);
+                                Crops.Add(Crop);
                             }
-                        }
-                        else
-                        {
+
                             Locations.Delete(I);
                         }
+                    }
+                    else
+                    {
+                        Locations.Delete(I);
                     }
                 }
 
                 if (Crops.Count < A1)
                 {
-                    var call__37 = FResource.Engine.HSSet.MapObjectResourceList.FindChild(131947);
-                    Resource = (TCropResource)call__37;
+                    Resource = (TCropResource)FResource.Engine.HSSet.MapObjectResourceList.FindChild(131947);
                     if (Resource != null)
                     {
                         while (Crops.Count != A1 && Locations.Count != 0)
                         {
-                            var call__38 = AoWHSMap.Random(Locations.Count);
-                            I = call__38;
+                            I = AoWHSMap.Random(Locations.Count);
                             CenterHNtoHX(FXhx, FYhx, Locations.List[I], ref X, ref Y);
-                            var call__39 = Resource.PlaceCrop((sbyte)X, (sbyte)Y, (sbyte)MapLevel.Lhx, this);
-                            Crop = call__39;
+                            Crop = Resource.PlaceCrop((sbyte)X, (sbyte)Y, (sbyte)MapLevel.Lhx, this);
                             if (Crop != null)
                             {
                                 Crops.Add(Crop);
@@ -493,10 +413,8 @@ namespace Aow.Units.Crops
                     {
                         while (Crops.Count != A1 && Crops.Count != 0)
                         {
-                            var call__40 = AoWHSMap.Random(Crops.Count);
-                            I = call__40;
-                            var call__41 = Crops[I];
-                            ((TCrop)call__41).Destroy();
+                            I = AoWHSMap.Random(Crops.Count);
+                            ((TCrop)Crops[I]).Destroy();
                             Crops.Delete(I);
                         }
                     }
@@ -513,32 +431,25 @@ namespace Aow.Units.Crops
         // Crops.pas:540
         public void LinkToCrops()
         {
-            TMapLevel MapLevel = default;
-            int I = default;
+            TMapLevel MapLevel;
             int X = default;
             int Y = default;
-            TCrop Crop = default;
+            TCrop Crop;
             if (GetEditMode())
             {
                 return;
             }
 
             MapLevel = (TMapLevel)Owner.Owner;
+            for (int I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
             {
-                I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1;
-                byte end__42 = 0;
-                for (; I >= end__42; I -= 1)
+                CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
+                if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
                 {
-                    CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
-                    if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
+                    Crop = (TCrop)MapLevel.GetField(X, Y).FindChild(131946);
+                    if (Crop != null)
                     {
-                        var call__43 = MapLevel.GetField(X, Y);
-                        var call__44 = call__43.FindChild(131946);
-                        Crop = (TCrop)call__44;
-                        if (Crop != null)
-                        {
-                            Crop.SetCropOwner(this);
-                        }
+                        Crop.SetCropOwner(this);
                     }
                 }
             }
@@ -578,18 +489,12 @@ namespace Aow.Units.Crops
                     FCropLocations.Free();
                 }
 
-                var call__45 = TerrainList.CreateSurroundingHNTable();
-                FCropLocations = call__45;
+                FCropLocations = TerrainList.CreateSurroundingHNTable();
             }
         }
 
         // Crops.pas:602
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131918;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131918;
 
     }
 
@@ -626,7 +531,7 @@ namespace Aow.Units.Crops
         // Crops.pas:203
         public override void TerrainChanged(in THSTerrainInfo Info)
         {
-            THexagonSprite HS = default;
+            THexagonSprite HS;
             if (Info.HN != 0)
             {
                 return;
@@ -634,23 +539,12 @@ namespace Aow.Units.Crops
 
             if (FStatus.Contains(TMapObjectStatusElement.moActivated))
             {
-                var call__46 = ValidTerrainType(Info.TerrainType);
-                if (call__46)
+                if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
-                    var call__47 = GetTerrainTypeImage(Info.TerrainType);
-                    FImageIndex = call__47;
-                    var call__48 = Info.MapField.GetMaxLevelNoneTransparentHS();
-                    HS = call__48;
-                    bool bool__49 = HS != null;
-                    if (bool__49)
-                    {
-                        var call__50 = HS.GetLevel();
-                        var call__51 = GetLevel();
-                        bool__49 = call__50 > call__51;
-                    }
-
-                    if ((bool__49 && !(HS is TAbstractRoad)) || (Info.OverlayType >= 0 && Info.OverlayType != 4))
+                    FImageIndex = GetTerrainTypeImage(Info.TerrainType);
+                    HS = Info.MapField.GetMaxLevelNoneTransparentHS();
+                    if ((HS != null && HS.GetLevel() > GetLevel() && !(HS is TAbstractRoad)) || (Info.OverlayType >= 0 && Info.OverlayType != 4))
                     {
                         Destroy();
                     }
@@ -701,52 +595,23 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:200
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => false;
 
         // Crops.pas:234
         public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            TMapField Field = default;
-            THexagonSprite HS = default;
+            TMapField Field;
+            THexagonSprite HS;
             Field = MapContainer.GetField(Xhx, Yhx, Lhx);
             HS = Field.GetMaxLevelNoneTransparentHS();
-            var call__53 = Field.FindOwnedHS(typeof(TFire));
-            bool bool__54 = call__53 == null;
-            if (bool__54)
-            {
-                bool bool__55 = HS == null;
-                if (!bool__55)
-                {
-                    var call__56 = HS.GetLevel();
-                    bool__55 = call__56 < 10;
-                }
-
-                bool__54 = bool__55 || HS is TAbstractRoad;
-            }
-
-            Result = bool__54;
-            return Result;
+            return Field.FindOwnedHS(typeof(TFire)) == null && (HS == null || HS.GetLevel() < 10 || HS is TAbstractRoad);
         }
 
         // Crops.pas:228
         public override int GetTerrainTypeImage(int TerrainType)
         {
-            int Result = default;
-            Result = TerrainType;
-            bool bool__57 = FCropOwner != null;
-            if (bool__57)
-            {
-                var call__58 = FCropOwner.GetRace();
-                bool__57 = call__58 == 11;
-            }
-
-            if (bool__57)
+            int Result = TerrainType;
+            if (FCropOwner != null && FCropOwner.GetRace() == 11)
             {
                 Result += 30;
             }
@@ -764,12 +629,10 @@ namespace Aow.Units.Crops
         // Crops.pas:128
         public void UpdateSettings()
         {
-            int Index = default;
-            var call__59 = GetTerrainTypeImage(TerrainType);
-            Index = call__59;
+            int Index;
+            Index = GetTerrainTypeImage(TerrainType);
             this.FImageIndex = Index;
-            var call__60 = FResource.ImageLibrary.ImageExist(Index);
-            if (!call__60)
+            if (!FResource.ImageLibrary.ImageExist(Index))
             {
                 Destroy();
             }
@@ -778,15 +641,13 @@ namespace Aow.Units.Crops
         // Crops.pas:136
         public void EndTurn(sbyte Player)
         {
-            sbyte PlayerIndex = default;
-            TArmyHS Army = default;
-            var call__61 = ((TAoWMapField)Owner).GetArmyHS();
-            Army = call__61;
+            sbyte PlayerIndex;
+            TArmyHS Army;
+            Army = ((TAoWMapField)Owner).GetArmyHS();
             PlayerIndex = Player;
             if (Army != null && Army.FArmy.FPlayer == PlayerIndex && FCropOwner.FPlayer > 0 && PlayerIndex != FCropOwner.FPlayer)
             {
-                var call__62 = AoWHSMap.FPlayers.GetDiplomaticRelation(FCropOwner.FPlayer, PlayerIndex);
-                if (call__62 == TDiplomaticRelation.drWar)
+                if (AoWHSMap.FPlayers.GetDiplomaticRelation(FCropOwner.FPlayer, PlayerIndex) == TDiplomaticRelation.drWar)
                 {
                     FCropOwner.CropTrampled(PlayerIndex);
                     Destroy();
@@ -797,8 +658,8 @@ namespace Aow.Units.Crops
         // Crops.pas:163
         public void LinkToCropOwner()
         {
-            TPlayerCropStructure Found = default;
-            TMapLevel MapLevel = default;
+            TPlayerCropStructure Found;
+            TMapLevel MapLevel;
             THNWalkData Walk = default;
             Found = null;
             MapLevel = (TMapLevel)Owner.Owner;
@@ -807,9 +668,7 @@ namespace Aow.Units.Crops
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
-                    var call__63 = MapLevel.GetField(Walk.X, Walk.Y);
-                    var call__64 = call__63.FindNoneTransparentHS(typeof(TPlayerCropStructure));
-                    Found = (TPlayerCropStructure)call__64;
+                    Found = (TPlayerCropStructure)MapLevel.GetField(Walk.X, Walk.Y).FindNoneTransparentHS(typeof(TPlayerCropStructure));
                 }
 
                 WalkToNextHN(ref Walk);
@@ -832,12 +691,7 @@ namespace Aow.Units.Crops
         public new const int ClassID = 131947;
 
         // Crops.pas:251
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131946;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131946;
 
         // Crops.pas:248
         public override void SetLevel(byte Value)
@@ -848,13 +702,11 @@ namespace Aow.Units.Crops
         // Crops.pas:257
         public TCrop PlaceCrop(sbyte X, sbyte Y, sbyte L, TPlayerCropStructure CropOwner)
         {
-            TCrop Result = default;
-            Result = new TCrop(null);
+            TCrop Result = new TCrop(null);
             Result.SetResource(this);
             Result.ResourceLinked = true;
             Result.FCropOwner = CropOwner;
-            var call__65 = AoWHSMap.PlaceHX(Result, X, Y, L);
-            if (!call__65)
+            if (!AoWHSMap.PlaceHX(Result, X, Y, L))
             {
                 Result.Free();
                 Result = null;
@@ -864,12 +716,7 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:254
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(CropRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(CropRStr);
 
     }
 

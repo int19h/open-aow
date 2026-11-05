@@ -81,50 +81,42 @@ namespace Aow.Units.AoWVScroll
         {
             if (FILIInc != null)
             {
-                var call__1 = FILIInc.CheckIL(FILIndexIncUp, 1, this);
-                FILIInc = call__1;
+                FILIInc = FILIInc.CheckIL(FILIndexIncUp, 1, this);
             }
 
             if (FILIInc != null)
             {
-                var call__2 = FILIInc.CheckIL(FILIndexIncDown, 1, this);
-                FILIInc = call__2;
+                FILIInc = FILIInc.CheckIL(FILIndexIncDown, 1, this);
             }
 
             if (FILIDec != null)
             {
-                var call__3 = FILIDec.CheckIL(FILIndexDecUp, 1, this);
-                FILIDec = call__3;
+                FILIDec = FILIDec.CheckIL(FILIndexDecUp, 1, this);
             }
 
             if (FILIDec != null)
             {
-                var call__4 = FILIDec.CheckIL(FILIndexDecDown, 1, this);
-                FILIDec = call__4;
+                FILIDec = FILIDec.CheckIL(FILIndexDecDown, 1, this);
             }
 
             if (FILTBack != null)
             {
-                var call__5 = FILTBack.CheckIL(FILIndexBack, 1, this);
-                FILTBack = call__5;
+                FILTBack = FILTBack.CheckIL(FILIndexBack, 1, this);
             }
 
             if (FILLBack != null)
             {
-                var call__6 = FILLBack.CheckIL(FILIndexBack, 3, this);
-                FILLBack = call__6;
+                FILLBack = FILLBack.CheckIL(FILIndexBack, 3, this);
             }
 
             if (FILITab != null)
             {
-                var call__7 = FILITab.CheckIL(FILIndexTab, 3, this);
-                FILITab = call__7;
+                FILITab = FILITab.CheckIL(FILIndexTab, 3, this);
             }
 
             if (FILLTab != null)
             {
-                var call__8 = FILLTab.CheckIL(FILIndexTab, 3, this);
-                FILLTab = call__8;
+                FILLTab = FILLTab.CheckIL(FILIndexTab, 3, this);
             }
 
             if (FILITab != null)
@@ -533,20 +525,19 @@ namespace Aow.Units.AoWVScroll
             switch (FScrollType)
             {
                 case TaowScrollType.stScroll:
-                    var call__9 = FILTBack[FILIndexBack];
-                    FWinWidth = call__9.Width;
-                    var call__10 = FILIDec[FILIndexDecUp];
-                    var call__11 = FILIInc[FILIndexIncUp];
-                    if (call__10.Height + call__11.Height > FWinHeight)
+                    FWinWidth = FILTBack[FILIndexBack].Width;
+                    var iliDecHeight = FILIDec[FILIndexDecUp];
+                    var iliIncHeight = FILIInc[FILIndexIncUp];
+                    if (iliDecHeight.Height + iliIncHeight.Height > FWinHeight)
                     {
-                        var call__12 = FILIDec[FILIndexDecUp];
-                        var call__13 = FILIInc[FILIndexIncUp];
-                        FWinHeight = call__12.Height + call__13.Height;
+                        var iliDec = FILIDec[FILIndexDecUp];
+                        var iliInc = FILIInc[FILIndexIncUp];
+                        FWinHeight = iliDec.Height + iliInc.Height;
                     }
 
-                    var call__14 = FILIDec[FILIndexDecUp];
-                    var call__15 = FILIInc[FILIndexIncUp];
-                    F130 = FWinHeight - call__14.Height - call__15.Height;
+                    var iliDec2 = FILIDec[FILIndexDecUp];
+                    var iliInc2 = FILIInc[FILIndexIncUp];
+                    F130 = FWinHeight - iliDec2.Height - iliInc2.Height;
                     if (F130 < 1)
                     {
                         F130 = 1;
@@ -556,17 +547,16 @@ namespace Aow.Units.AoWVScroll
                     switch (FTabType)
                     {
                         case TaowTabType.ttIcon:
-                            var call__16 = FILITab[FILIndexTab];
-                            F134 = call__16.Height;
+                            F134 = FILITab[FILIndexTab].Height;
                             break;
                         case TaowTabType.ttBar:
-                            var call__17 = FILLTab[FILIndexTab];
-                            var call__18 = FILLTab[FILIndexTab + 2];
-                            if (F134 < call__17.Height + call__18.Height)
+                            var illTabHeight = FILLTab[FILIndexTab];
+                            var illTab = FILLTab[FILIndexTab + 2];
+                            if (F134 < illTabHeight.Height + illTab.Height)
                             {
-                                var call__19 = FILLTab[FILIndexTab];
-                                var call__20 = FILLTab[FILIndexTab + 2];
-                                F134 = call__19.Height + call__20.Height;
+                                var illTab2 = FILLTab[FILIndexTab];
+                                var illTab3 = FILLTab[FILIndexTab + 2];
+                                F134 = illTab2.Height + illTab3.Height;
                             }
 
                             break;
@@ -574,24 +564,22 @@ namespace Aow.Units.AoWVScroll
 
                     break;
                 case TaowScrollType.stSlider:
-                    var call__21 = FILLBack[FILIndexBack];
-                    FWinWidth = call__21.Width;
+                    FWinWidth = FILLBack[FILIndexBack].Width;
                     F130 = FWinHeight;
                     F134 = F130 * FNumberVisible / F14C;
                     switch (FTabType)
                     {
                         case TaowTabType.ttIcon:
-                            var call__22 = FILITab[FILIndexTab];
-                            F134 = call__22.Height;
+                            F134 = FILITab[FILIndexTab].Height;
                             break;
                         case TaowTabType.ttBar:
-                            var call__23 = FILLTab[FILIndexTab];
-                            var call__24 = FILLTab[FILIndexTab + 2];
-                            if (F134 < call__23.Height + call__24.Height)
+                            var illTabHeight = FILLTab[FILIndexTab];
+                            var illTab = FILLTab[FILIndexTab + 2];
+                            if (F134 < illTabHeight.Height + illTab.Height)
                             {
-                                var call__25 = FILLTab[FILIndexTab];
-                                var call__26 = FILLTab[FILIndexTab + 2];
-                                F134 = call__25.Height + call__26.Height;
+                                var illTab2 = FILLTab[FILIndexTab];
+                                var illTab3 = FILLTab[FILIndexTab + 2];
+                                F134 = illTab2.Height + illTab3.Height;
                             }
 
                             break;
@@ -599,11 +587,10 @@ namespace Aow.Units.AoWVScroll
 
                     break;
                 case TaowScrollType.stIncDec:
-                    var call__27 = FILIDec[FILIndexDecUp];
-                    FWinWidth = call__27.Width;
-                    var call__28 = FILIDec[FILIndexDecUp];
-                    var call__29 = FILIInc[FILIndexIncUp];
-                    FWinHeight = call__28.Height + call__29.Height;
+                    FWinWidth = FILIDec[FILIndexDecUp].Width;
+                    var iliDec3 = FILIDec[FILIndexDecUp];
+                    var iliInc3 = FILIInc[FILIndexIncUp];
+                    FWinHeight = iliDec3.Height + iliInc3.Height;
                     break;
             }
 
@@ -635,36 +622,36 @@ namespace Aow.Units.AoWVScroll
                         case TaowScrollType.stScroll:
                             if (F151 == 4 && F150 > 0)
                             {
-                                var call__30 = FILIInc[FILIndexIncDown];
-                                var call__31 = FILIInc[FILIndexIncDown];
-                                var call__32 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - call__31.Height, FWinWidth, call__30.Height);
-                                FILIInc.DrawILT(FILIndexIncDown, call__32, ref SurfDesc);
+                                var iliIncHeight = FILIInc[FILIndexIncDown];
+                                var iliInc = FILIInc[FILIndexIncDown];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - iliInc.Height, FWinWidth, iliIncHeight.Height);
+                                FILIInc.DrawILT(FILIndexIncDown, rect, ref SurfDesc);
                             }
                             else
                             {
-                                var call__33 = FILIInc[FILIndexIncUp];
-                                var call__34 = FILIInc[FILIndexIncDown];
-                                var call__35 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - call__34.Height, FWinWidth, call__33.Height);
-                                FILIInc.DrawILT(FILIndexIncUp, call__35, ref SurfDesc);
+                                var iliInc = FILIInc[FILIndexIncUp];
+                                var iliIncHeight = FILIInc[FILIndexIncDown];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - iliIncHeight.Height, FWinWidth, iliInc.Height);
+                                FILIInc.DrawILT(FILIndexIncUp, rect, ref SurfDesc);
                             }
 
                             if (F151 == 1 && F150 > 0)
                             {
-                                var call__36 = FILIDec[FILIndexDecDown];
-                                var call__37 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, call__36.Height);
-                                FILIDec.DrawILT(FILIndexDecDown, call__37, ref SurfDesc);
+                                var iliDec = FILIDec[FILIndexDecDown];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
+                                FILIDec.DrawILT(FILIndexDecDown, rect, ref SurfDesc);
                             }
                             else
                             {
-                                var call__38 = FILIDec[FILIndexDecUp];
-                                var call__39 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, call__38.Height);
-                                FILIDec.DrawILT(FILIndexDecUp, call__39, ref SurfDesc);
+                                var iliDec = FILIDec[FILIndexDecUp];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
+                                FILIDec.DrawILT(FILIndexDecUp, rect, ref SurfDesc);
                             }
 
-                            var call__40 = FILTBack[FILIndexBack];
-                            var call__41 = FILIDec[FILIndexDecUp];
-                            var call__42 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + call__41.Height, call__40.Width, F130);
-                            FILTBack.DrawILT(FILIndexBack, call__42, ref SurfDesc);
+                            var iltBack = FILTBack[FILIndexBack];
+                            var iliDecHeight = FILIDec[FILIndexDecUp];
+                            var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + iliDecHeight.Height, iltBack.Width, F130);
+                            FILTBack.DrawILT(FILIndexBack, rect2, ref SurfDesc);
                             TabPos = F130 * FPosition / F14C;
                             if (F134 + TabPos > F130)
                             {
@@ -674,21 +661,21 @@ namespace Aow.Units.AoWVScroll
                             switch (FTabType)
                             {
                                 case TaowTabType.ttIcon:
-                                    var call__43 = FILIDec[FILIndexDecUp];
-                                    var call__44 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + call__43.Height + TabPos, FWinWidth, F134);
-                                    FILITab.DrawILT(FILIndexTab, call__44, ref SurfDesc);
+                                    var iliDec = FILIDec[FILIndexDecUp];
+                                    var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + iliDec.Height + TabPos, FWinWidth, F134);
+                                    FILITab.DrawILT(FILIndexTab, rect, ref SurfDesc);
                                     break;
                                 case TaowTabType.ttBar:
-                                    var call__45 = FILIDec[FILIndexDecUp];
-                                    var call__46 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + call__45.Height + TabPos, FWinWidth, F134);
-                                    FILLTab.DrawILLv(FILIndexTab, call__46, ref SurfDesc);
+                                    var iliDec2 = FILIDec[FILIndexDecUp];
+                                    var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + iliDec2.Height + TabPos, FWinWidth, F134);
+                                    FILLTab.DrawILLv(FILIndexTab, rect3, ref SurfDesc);
                                     break;
                             }
 
                             break;
                         case TaowScrollType.stSlider:
-                            var call__47 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILLBack.DrawILLv(FILIndexBack, call__47, ref SurfDesc);
+                            var rect4 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILLBack.DrawILLv(FILIndexBack, rect4, ref SurfDesc);
                             TabPos = F130 * FPosition / F14C;
                             if (F134 + TabPos > F130)
                             {
@@ -698,12 +685,12 @@ namespace Aow.Units.AoWVScroll
                             switch (FTabType)
                             {
                                 case TaowTabType.ttIcon:
-                                    var call__48 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + TabPos, FWinWidth, F134);
-                                    FILITab.DrawILT(FILIndexTab, call__48, ref SurfDesc);
+                                    var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + TabPos, FWinWidth, F134);
+                                    FILITab.DrawILT(FILIndexTab, rect, ref SurfDesc);
                                     break;
                                 case TaowTabType.ttBar:
-                                    var call__49 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + TabPos, FWinWidth, F134);
-                                    FILLTab.DrawILLv(FILIndexTab, call__49, ref SurfDesc);
+                                    var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + TabPos, FWinWidth, F134);
+                                    FILLTab.DrawILLv(FILIndexTab, rect3, ref SurfDesc);
                                     break;
                             }
 
@@ -711,30 +698,30 @@ namespace Aow.Units.AoWVScroll
                         case TaowScrollType.stIncDec:
                             if (F151 == 4 && F150 > 0)
                             {
-                                var call__50 = FILIInc[FILIndexIncDown];
-                                var call__51 = FILIInc[FILIndexIncDown];
-                                var call__52 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - call__51.Height, FWinWidth, call__50.Height);
-                                FILIInc.DrawILT(FILIndexIncDown, call__52, ref SurfDesc);
+                                var iliIncHeight = FILIInc[FILIndexIncDown];
+                                var iliInc = FILIInc[FILIndexIncDown];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - iliInc.Height, FWinWidth, iliIncHeight.Height);
+                                FILIInc.DrawILT(FILIndexIncDown, rect, ref SurfDesc);
                             }
                             else
                             {
-                                var call__53 = FILIInc[FILIndexIncUp];
-                                var call__54 = FILIInc[FILIndexIncDown];
-                                var call__55 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - call__54.Height, FWinWidth, call__53.Height);
-                                FILIInc.DrawILT(FILIndexIncUp, call__55, ref SurfDesc);
+                                var iliInc = FILIInc[FILIndexIncUp];
+                                var iliIncHeight = FILIInc[FILIndexIncDown];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight - iliIncHeight.Height, FWinWidth, iliInc.Height);
+                                FILIInc.DrawILT(FILIndexIncUp, rect, ref SurfDesc);
                             }
 
                             if (F151 == 1 && F150 > 0)
                             {
-                                var call__56 = FILIDec[FILIndexDecDown];
-                                var call__57 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, call__56.Height);
-                                FILIDec.DrawILT(FILIndexDecDown, call__57, ref SurfDesc);
+                                var iliDec = FILIDec[FILIndexDecDown];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
+                                FILIDec.DrawILT(FILIndexDecDown, rect, ref SurfDesc);
                             }
                             else
                             {
-                                var call__58 = FILIDec[FILIndexDecUp];
-                                var call__59 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, call__58.Height);
-                                FILIDec.DrawILT(FILIndexDecUp, call__59, ref SurfDesc);
+                                var iliDec = FILIDec[FILIndexDecUp];
+                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
+                                FILIDec.DrawILT(FILIndexDecUp, rect, ref SurfDesc);
                             }
 
                             break;
@@ -776,8 +763,8 @@ namespace Aow.Units.AoWVScroll
 
                     if (FScrollType != TaowScrollType.stSlider)
                     {
-                        var call__60 = FILIDec[FILIndexDecUp];
-                        if (Y < FAOWWindow.FWinTop + FWinTop + call__60.Height - 1)
+                        var iliDec = FILIDec[FILIndexDecUp];
+                        if (Y < FAOWWindow.FWinTop + FWinTop + iliDec.Height - 1)
                         {
                             F151 = 1;
                             FPosition = FPosition - FSmallChange;
@@ -793,8 +780,8 @@ namespace Aow.Units.AoWVScroll
                             }
                         }
 
-                        var call__61 = FILIInc[FILIndexIncUp];
-                        if (Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - call__61.Height)
+                        var iliInc = FILIInc[FILIndexIncUp];
+                        if (Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - iliInc.Height)
                         {
                             F151 = 4;
                             FPosition = FPosition + FSmallChange;
@@ -816,18 +803,18 @@ namespace Aow.Units.AoWVScroll
                         switch (FScrollType)
                         {
                             case TaowScrollType.stScroll:
-                                var call__62 = FILIDec[FILIndexDecUp];
-                                bool bool__63 = Y > FAOWWindow.FWinTop + FWinTop + call__62.Height;
-                                if (bool__63)
+                                var iliDecHeight = FILIDec[FILIndexDecUp];
+                                bool condition = Y > FAOWWindow.FWinTop + FWinTop + iliDecHeight.Height;
+                                if (condition)
                                 {
-                                    var call__64 = FILIInc[FILIndexIncUp];
-                                    bool__63 = Y < FAOWWindow.FWinTop + FWinTop + TabPos + call__64.Height;
+                                    var iliInc = FILIInc[FILIndexIncUp];
+                                    condition = Y < FAOWWindow.FWinTop + FWinTop + TabPos + iliInc.Height;
                                 }
 
-                                if (bool__63)
+                                if (condition)
                                 {
-                                    var call__65 = FILIDec[FILIndexDecUp];
-                                    F154 = (Y - FAOWWindow.FWinTop - FWinTop - call__65.Height) * F14C / F130 + FMin;
+                                    var iliDec = FILIDec[FILIndexDecUp];
+                                    F154 = (Y - FAOWWindow.FWinTop - FWinTop - iliDec.Height) * F14C / F130 + FMin;
                                     F151 = 2;
                                     FPosition = FPosition - FLargeChange;
                                     if (FMin > FPosition)
@@ -842,18 +829,18 @@ namespace Aow.Units.AoWVScroll
                                     }
                                 }
 
-                                var call__66 = FILIDec[FILIndexDecUp];
-                                bool bool__67 = Y > FAOWWindow.FWinTop + FWinTop + call__66.Height + TabPos + F134;
-                                if (bool__67)
+                                var iliDec2 = FILIDec[FILIndexDecUp];
+                                bool test = Y > FAOWWindow.FWinTop + FWinTop + iliDec2.Height + TabPos + F134;
+                                if (test)
                                 {
-                                    var call__68 = FILIInc[FILIndexIncUp];
-                                    bool__67 = Y < FAOWWindow.FWinTop + FWinTop + FWinHeight - call__68.Height;
+                                    var iliInc = FILIInc[FILIndexIncUp];
+                                    test = Y < FAOWWindow.FWinTop + FWinTop + FWinHeight - iliInc.Height;
                                 }
 
-                                if (bool__67)
+                                if (test)
                                 {
-                                    var call__69 = FILIDec[FILIndexDecUp];
-                                    F154 = (Y - FAOWWindow.FWinTop - FWinTop - call__69.Height) * F14C / F130 + FMin;
+                                    var iliDec = FILIDec[FILIndexDecUp];
+                                    F154 = (Y - FAOWWindow.FWinTop - FWinTop - iliDec.Height) * F14C / F130 + FMin;
                                     F151 = 3;
                                     FPosition = FPosition + FLargeChange;
                                     if (FMax + 1 - FNumberVisible < FPosition)

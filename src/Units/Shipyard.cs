@@ -24,12 +24,7 @@ namespace Aow.Units.Shipyard
         }
 
         // Shipyard.pas:52
-        public override int GetBaseIncome()
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public override int GetBaseIncome() => 0;
 
     }
 
@@ -50,23 +45,13 @@ namespace Aow.Units.Shipyard
 
 
         // Shipyard.pas:75
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132286;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132286;
 
         // Shipyard.pas:29
 
 
         // Shipyard.pas:69
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(ShipyardRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(ShipyardRStr);
 
     }
 
@@ -78,10 +63,8 @@ namespace Aow.Units.Shipyard
         // Shipyard.pas:93
         public override void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
         {
-            var call__1 = TranslateRStr(ShipyardRStr);
-            var call__2 = TranslateRStr(BuildXRStr);
-            var call__3 = Rtl.Rtl.Format(call__2, [call__1]);
-            Text = call__3;
+            var shipyard = TranslateRStr(ShipyardRStr);
+            Text = Rtl.Rtl.Format(TranslateRStr(BuildXRStr), [shipyard]);
             Gold = 50;
             Days = 2;
         }
@@ -89,26 +72,24 @@ namespace Aow.Units.Shipyard
         // Shipyard.pas:100
         public override bool ValidateLocation(TAbstractUnit AUnit, ref AnsiString Reason)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TMapLevel MapLevel = default;
+            TMapLevel MapLevel;
             THNWalkData Walk = default;
-            Result = base.ValidateLocation(AUnit, ref Reason);
+            bool Result = base.ValidateLocation(AUnit, ref Reason);
             if (Result)
             {
                 Result = false;
                 AUnit.GetLocation(ref X, ref Y, ref L);
-                var call__4 = AoWHSMap.MapContainer.GetMapLevel(L);
-                MapLevel = call__4;
+                MapLevel = AoWHSMap.MapContainer.GetMapLevel(L);
                 InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.HN < 7 && !Result)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                     {
-                        var call__5 = MapLevel.GetField(Walk.X, Walk.Y);
-                        Result = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)call__5.TerrainType);
+                        var fieldValue = MapLevel.GetField(Walk.X, Walk.Y);
+                        Result = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
                     }
 
                     WalkToNextHN(ref Walk);
@@ -126,32 +107,25 @@ namespace Aow.Units.Shipyard
         // Shipyard.pas:81
         public override TStructureResource StructureResource(TAbstractUnit AUnit)
         {
-            TStructureResource Result = default;
+            TStructureResource Result;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             AUnit.GetLocation(ref X, ref Y, ref L);
             if (L == 0)
             {
-                var call__6 = AoWHSSet.MapObjectResourceList.FindResource(60);
-                Result = (TStructureResource)call__6;
+                Result = (TStructureResource)AoWHSSet.MapObjectResourceList.FindResource(60);
             }
             else
             {
-                var call__7 = AoWHSSet.MapObjectResourceList.FindResource(107);
-                Result = (TStructureResource)call__7;
+                Result = (TStructureResource)AoWHSSet.MapObjectResourceList.FindResource(107);
             }
 
             return Result;
         }
 
         // Shipyard.pas:78
-        public override int ID()
-        {
-            int Result = default;
-            Result = 4;
-            return Result;
-        }
+        public override int ID() => 4;
 
     }
 
@@ -161,9 +135,8 @@ namespace Aow.Units.Shipyard
         public static void RegisterShipyard(TEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<TShipyard>(), EClass.Of<TShipyardResource>()]);
-            var call__8 = new TShipyardConstructionControl(null);
-            var call__9 = AoWHSSet.FAbilityControl.GetAbility(125);
-            ((TConstructAbility)call__9).RegisterConstructionControl(call__8);
+            var shipyardConstructionControl = new TShipyardConstructionControl(null);
+            ((TConstructAbility)AoWHSSet.FAbilityControl.GetAbility(125)).RegisterConstructionControl(shipyardConstructionControl);
         }
 
         public static void Initialize()

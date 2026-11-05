@@ -25,28 +25,21 @@ namespace Aow.Units.MagicSanctuary
 
 
         // MagicSanctuary.pas:73
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            var call__1 = FStructure.GetShowPriority();
-            Result = call__1 + 134217728;
-            return Result;
-        }
+        public override int GetShowPriority() => FStructure.GetShowPriority() + 134217728;
 
         // MagicSanctuary.pas:78
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence = default;
-            int FrameIndex = default;
-            int Blend = default;
+            TImageSequence Sequence;
+            int FrameIndex;
+            int Blend;
             int Xhp = default;
             int Yhp = default;
-            int FramesLeft = default;
+            int FramesLeft;
             HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
-            var call__2 = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
-            Sequence = call__2;
+            Sequence = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
             if (Sequence != null)
             {
                 Blend = 50;
@@ -68,8 +61,7 @@ namespace Aow.Units.MagicSanctuary
                 }
 
                 FrameIndex = Sequence.GetFrameIndex(0, 0);
-                var call__3 = Sequence.ImageLibrary[FrameIndex];
-                call__3.ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, IntensityBlendTable.LookupTables[Blend]);
+                Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, IntensityBlendTable.LookupTables[Blend]);
             }
         }
 
@@ -88,8 +80,7 @@ namespace Aow.Units.MagicSanctuary
     {
         public TMagicSanctuary(TECustomNode owner) : base(owner)
         {
-            var call__4 = new TMagicSanctuaryOverlayHS(null);
-            FOverlayHS = call__4;
+            FOverlayHS = new TMagicSanctuaryOverlayHS(null);
             FOverlayHS.FStructure = this;
         }
 
@@ -112,8 +103,7 @@ namespace Aow.Units.MagicSanctuary
         public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
-            var call__5 = FResource.TerrainList.GetTerrain(Msg.HN);
-            if (call__5 >= 0)
+            if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
             {
                 if (Msg.MsgID == 4393)
                 {
@@ -160,25 +150,13 @@ namespace Aow.Units.MagicSanctuary
 
 
         // MagicSanctuary.pas:163
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 133274;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 133274;
 
         // MagicSanctuary.pas:43
 
 
         // MagicSanctuary.pas:157
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__6 = MagicSanctuaryRStr;
-            var call__7 = TranslateRStr(call__6);
-            Result = call__7;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(MagicSanctuaryRStr);
 
     }
 

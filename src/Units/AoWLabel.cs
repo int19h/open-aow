@@ -30,10 +30,8 @@ namespace Aow.Units.AoWLabel
         // AoWLabel.pas:46
         public override void SetSize()
         {
-            var call__1 = FAOWFont.GetTextWidth(FText);
-            FWinWidth = call__1;
-            var call__2 = FAOWFont.GetTextHeight(FText);
-            FWinHeight = call__2;
+            FWinWidth = FAOWFont.GetTextWidth(FText);
+            FWinHeight = FAOWFont.GetTextHeight(FText);
             base.SetSize();
         }
 

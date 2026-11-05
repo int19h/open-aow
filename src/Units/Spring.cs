@@ -73,50 +73,40 @@ namespace Aow.Units.Spring
         {
             TSpringOfLifeAnimation Anim = default;
             TRect R = default;
-            int I = default;
-            object Spill = default;
             // { Keep the parameter in its original stack slot. }
-            ;
+            for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__1 = ArmyHS.FArmy.Count - 1;
-                for (; I <= end__1; I += 1)
-                {
-                    var call__2 = ArmyHS.FArmy.GetUnit(I);
-                    call__2.ExpandAbility(99);
-                }
+                ArmyHS.FArmy.GetUnit(I).ExpandAbility(99);
             }
 
-            bool bool__3 = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
-            if (!bool__3)
+            bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
+            if (!condition)
             {
-                var call__4 = GetLhx();
-                var call__5 = GetYhx();
-                var call__6 = GetXhx();
-                var call__7 = AoWHSMap.Watching(call__6, call__5, call__4, 0);
-                bool__3 = call__7;
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
             }
 
-            if (bool__3)
+            if (condition)
             {
                 PlaySample((AnsiString)"SFX\\ATTACK\\ENCHP02.WAV");
             }
 
-            var call__8 = GetLhx();
-            var call__9 = GetYhx();
-            var call__10 = GetXhx();
-            var call__11 = AoWHSMap.Visible(call__10, call__9, call__8, 0);
-            if (call__11)
+            var lhx2 = GetLhx();
+            var yhx2 = GetYhx();
+            var xhx2 = GetXhx();
+            if (AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new TSpringOfLifeAnimation(null);
                 R = Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowBlessingAnimation;
-                var call__12 = GetLhx();
-                var call__13 = GetYhx();
-                var call__14 = GetXhx();
-                AoWHSMap.PlaceHX(Anim, call__14, call__13, call__12);
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 
@@ -139,25 +129,13 @@ namespace Aow.Units.Spring
 
 
         // Spring.pas:129
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131328;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131328;
 
         // Spring.pas:37
 
 
         // Spring.pas:126
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__15 = SpringOfLifeRStr;
-            var call__16 = TranslateRStr(call__15);
-            Result = call__16;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(SpringOfLifeRStr);
 
     }
 

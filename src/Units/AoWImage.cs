@@ -27,14 +27,12 @@ namespace Aow.Units.AoWImage
         {
             if (FWinWidth == 0)
             {
-                var call__1 = FImageLib[FCurrentImage];
-                FWinWidth = call__1.Width;
+                FWinWidth = FImageLib[FCurrentImage].Width;
             }
 
             if (FWinHeight == 0)
             {
-                var call__2 = FImageLib[FCurrentImage];
-                FWinHeight = call__2.Height;
+                FWinHeight = FImageLib[FCurrentImage].Height;
             }
 
             base.SetSize();
@@ -43,7 +41,7 @@ namespace Aow.Units.AoWImage
         // AoWImage.pas:145
         public override void Update()
         {
-            int I = default;
+            int I;
             if (FVisible && FAnimate == true)
             {
                 if (FFrameCount > 0)

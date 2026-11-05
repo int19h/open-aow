@@ -58,18 +58,14 @@ namespace Aow.Units.AoWItemsFoundDlg
         // AoWItemsFoundDlg.pas:80
         public THero GetHero()
         {
-            THero Result = default;
-            TArmyHS Army = default;
-            Result = null;
+            TArmyHS Army;
+            THero Result = null;
             if (FEvent != null)
             {
-                var call__1 = AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FEvent.FLocation));
-                var call__2 = ((TAoWMapField)call__1).GetArmyHS();
-                Army = call__2;
+                Army = ((TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FEvent.FLocation))).GetArmyHS();
                 if (Army != null && Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
                 {
-                    var call__3 = Army.FArmy.Hero(255, AllHeroTypes);
-                    Result = call__3;
+                    Result = Army.FArmy.Hero(255, AllHeroTypes);
                 }
             }
 
@@ -79,8 +75,8 @@ namespace Aow.Units.AoWItemsFoundDlg
         // AoWItemsFoundDlg.pas:66
         public void Finish()
         {
-            TExecuteDoneEvent Done = default;
-            TItemExplorationSiteEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TItemExplorationSiteEventLog Event;
             Dlg.Visible = false;
             Done = FOnDone;
             Event = FEvent;
@@ -120,16 +116,15 @@ namespace Aow.Units.AoWItemsFoundDlg
         // AoWItemsFoundDlg.pas:95
         public void Gnd3Draw(TObject Sender, TSurfaceDesc SD)
         {
-            TItemExplorationSiteEventLog Event = default;
-            TItem Item = default;
+            TItemExplorationSiteEventLog Event;
+            TItem Item;
             Event = FEvent;
             if (Event != null)
             {
                 if (((TComponent)Sender).Tag + FItemOffset < Event.FItemIDs.Count)
                 {
-                    var call__4 = FEvent.FItemIDs[((TComponent)Sender).Tag + FItemOffset];
-                    var call__5 = AoWHSMap.FItemControl.FindItem(call__4);
-                    Item = call__5;
+                    var itemID = FEvent.FItemIDs[((TComponent)Sender).Tag + FItemOffset];
+                    Item = AoWHSMap.FItemControl.FindItem(itemID);
                     if (Item != null)
                     {
                         Item.Show(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, SD);
@@ -141,8 +136,8 @@ namespace Aow.Units.AoWItemsFoundDlg
         // AoWItemsFoundDlg.pas:110
         public void PickupBtnClick()
         {
-            THero Hero = default;
-            TTutorialMessageEventLog Event = default;
+            THero Hero;
+            TTutorialMessageEventLog Event;
             Hero = GetHero();
             if (Hero != null)
             {
@@ -152,13 +147,11 @@ namespace Aow.Units.AoWItemsFoundDlg
                 if (AoWHSMap.FGameType == TGameType.gtTutorial)
                 {
                     Event = new TTutorialMessageEventLog(null);
-                    var call__6 = TranslateRStr(TutorialRStr);
-                    Event.FHelpFileName = call__6;
-                    var call__7 = AoWHSMap.FTextControl.FindID(55);
-                    if (call__7 != null)
+                    Event.FHelpFileName = TranslateRStr(TutorialRStr);
+                    if (AoWHSMap.FTextControl.FindID(55) != null)
                     {
-                        var call__8 = AoWHSMap.FTextControl.FindID(55);
-                        Event.FMessage.Assign(call__8.FText);
+                        var id = AoWHSMap.FTextControl.FindID(55);
+                        Event.FMessage.Assign(id.FText);
                         AoWHSMap.TriggerExecuteEventLog(Event, true, null);
                     }
 
@@ -172,17 +165,16 @@ namespace Aow.Units.AoWItemsFoundDlg
         // AoWItemsFoundDlg.pas:136
         public void Gnd3MouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TItem Item = default;
-            TAOWCheckBox Box = default;
+            TItem Item;
+            TAOWCheckBox Box;
             Box = Sender;
             if (Button == TMouseButton.mbRight)
             {
                 Box.PopupMenu = null;
                 if (FItemOffset + Box.Tag < FEvent.FItemIDs.Count)
                 {
-                    var call__9 = FEvent.FItemIDs[FItemOffset + Box.Tag];
-                    var call__10 = AoWHSMap.FItemControl.FindItem(call__9);
-                    Item = call__10;
+                    var itemID = FEvent.FItemIDs[FItemOffset + Box.Tag];
+                    Item = AoWHSMap.FItemControl.FindItem(itemID);
                     if (Item != null)
                     {
                         Box.PopupMenu = ItemBanner.IBannerPopup;

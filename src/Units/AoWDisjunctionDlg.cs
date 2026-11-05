@@ -73,39 +73,26 @@ namespace Aow.Units.AoWDisjunctionDlg
         // AoWDisjunctionDlg.pas:189
         public void UpdateEnchantments()
         {
-            TGlobalMagicControl Magic = default;
-            int I = default;
+            TGlobalMagicControl Magic;
             AnsiString Reason = default;
             Magic = AoWHSMap.FGlobalMagicControl;
             EnchantmentList.Items.Clear();
             OwnerList.Items.Clear();
+            for (int I = 0, last = Magic.FEnchantments.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__1 = Magic.FEnchantments.Count - 1;
-                for (; I <= end__1; I += 1)
+                if (Magic.FEnchantments.GetEnchantments(I).FPlayerIndex != AoWHSMap.FSeatedPlayer)
                 {
-                    var call__2 = Magic.FEnchantments.GetEnchantments(I);
-                    if (call__2.FPlayerIndex != AoWHSMap.FSeatedPlayer)
+                    if (Magic.FEnchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.FSeatedPlayer))
                     {
-                        var call__3 = Magic.FEnchantments.GetEnchantments(I);
-                        var call__4 = call__3.VisibleForPlayer(AoWHSMap.FSeatedPlayer);
-                        if (call__4)
+                        if (Magic.FEnchantments.GetEnchantments(I).CanDispel(AoWHSMap.FSeatedPlayer, ref Reason))
                         {
-                            var call__5 = Magic.FEnchantments.GetEnchantments(I);
-                            var call__6 = call__5.CanDispel(AoWHSMap.FSeatedPlayer, ref Reason);
-                            if (call__6)
-                            {
-                                var call__7 = Magic.FEnchantments.GetEnchantments(I);
-                                var call__8 = call__7.GetName();
-                                Reason = call__8;
-                                var call__9 = Magic.FEnchantments.GetEnchantments(I);
-                                var call__10 = call__9.GetName();
-                                var call__11 = Magic.FEnchantments.GetEnchantments(I);
-                                EnchantmentList.Items.AddObject(call__10, IntToObject(call__11.FEnchantmentID));
-                                var call__12 = Magic.FEnchantments.GetEnchantments(I);
-                                var call__13 = AoWHSMap.FPlayers.GetPlayers(call__12.FPlayerIndex);
-                                OwnerList.Items.Add(call__13.FLeader.FHeroName);
-                            }
+                            Reason = Magic.FEnchantments.GetEnchantments(I).GetName();
+                            var name = Magic.FEnchantments.GetEnchantments(I).GetName();
+                            var enchantmentEnchantmentID = Magic.FEnchantments.GetEnchantments(I);
+                            EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentID.FEnchantmentID));
+                            var enchantmentPlayerIndex = Magic.FEnchantments.GetEnchantments(I);
+                            var player = AoWHSMap.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
+                            OwnerList.Items.Add(player.FLeader.FHeroName);
                         }
                     }
                 }
@@ -138,8 +125,7 @@ namespace Aow.Units.AoWDisjunctionDlg
         // AoWDisjunctionDlg.pas:222
         public void UpdateChance()
         {
-            var call__14 = FCaster.GetEnoughMana();
-            if (call__14)
+            if (FCaster.GetEnoughMana())
             {
                 DisjunctionMana.TextColor = 12632256;
             }
@@ -148,37 +134,29 @@ namespace Aow.Units.AoWDisjunctionDlg
                 DisjunctionMana.TextColor = 255;
             }
 
-            var call__15 = AoWHSSet.FSpellControl.GetSpell(51);
-            var call__16 = FCaster.GetMana();
-            var call__17 = AoWHSSet.FSpellControl.GetSpell(51);
-            var call__18 = FCaster.GetMana();
-            DisjunctionMana.Text = IntToStr(call__15.FBaseManaCost) + AnsiString.FromBytes(43) + IntToStr(call__16) + AnsiString.FromBytes(61) + IntToStr(call__17.FBaseManaCost + call__18);
+            var spell = AoWHSSet.FSpellControl.GetSpell(51);
+            var mana = FCaster.GetMana();
+            var fSpellControlSpell = AoWHSSet.FSpellControl.GetSpell(51);
+            var fCasterMana = FCaster.GetMana();
+            DisjunctionMana.Text = IntToStr(spell.FBaseManaCost) + AnsiString.FromBytes(43) + IntToStr(mana) + AnsiString.FromBytes(61) + IntToStr(fSpellControlSpell.FBaseManaCost + fCasterMana);
             DisjunctionChance.Text = IntToStr(FCaster.FDispelChance) + AnsiString.FromBytes(37);
-            var call__19 = FCaster.GetDispelChanceMax();
-            ChanceSlider.Max = call__19;
+            var dispelChanceMax = FCaster.GetDispelChanceMax();
+            ChanceSlider.Max = dispelChanceMax;
             ChanceSlider.Position = FCaster.FDispelChance;
         }
 
         // AoWDisjunctionDlg.pas:233
         public void SelectEnchantment(int Index)
         {
-            TGlobalEnchantment Enchantment = default;
-            TXYL Location = default;
-            bool bool__20 = Index >= 0;
-            if (bool__20)
-            {
-                var call__21 = EnchantmentList.Items.Count;
-                bool__20 = Index < call__21;
-            }
-
-            if (bool__20)
+            TGlobalEnchantment Enchantment;
+            TXYL Location;
+            if (Index >= 0 && Index < EnchantmentList.Items.Count)
             {
                 EnchantmentList.Selected = Index;
                 OwnerList.Selected = Index;
-                var call__22 = EnchantmentList.Items.Objects[Index];
-                FCaster.SetEnchantmentID(ObjectToInt(call__22));
-                var call__23 = FCaster.SelectedEnchantment();
-                Enchantment = call__23;
+                var objectValue = EnchantmentList.Items.Objects[Index];
+                FCaster.SetEnchantmentID(ObjectToInt(objectValue));
+                Enchantment = FCaster.SelectedEnchantment();
                 if (Enchantment != null)
                 {
                     Location = Enchantment.GetLocation();
@@ -193,8 +171,7 @@ namespace Aow.Units.AoWDisjunctionDlg
 
                 if (FMapX == -1)
                 {
-                    var call__24 = FCaster.GetSource();
-                    call__24.GetLocation(ref FMapX, ref FMapY, ref FMapL);
+                    FCaster.GetSource().GetLocation(ref FMapX, ref FMapY, ref FMapL);
                 }
 
                 UpdateChance();
@@ -232,11 +209,9 @@ namespace Aow.Units.AoWDisjunctionDlg
         public void CastBtnClick()
         {
             AnsiString Reason = default;
-            var call__25 = FCaster.CanCast(ref Reason);
-            if (call__25)
+            if (FCaster.CanCast(ref Reason))
             {
-                var call__26 = FCaster.Cast();
-                if (call__26)
+                if (FCaster.Cast())
                 {
                     Dlg.Visible = false;
                 }
@@ -326,11 +301,10 @@ namespace Aow.Units.AoWDisjunctionDlg
             int X = default;
             int Y = default;
             TSurfaceDesc MapSD = default;
-            TRect R = default;
-            int W = default;
-            int H = default;
-            var call__27 = Rect(Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + 1, Dlg.WinTop + ((TAOWImage)Sender).WinTop + 1, Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + ((TAOWImage)Sender).WinWidth - 2, Dlg.WinTop + ((TAOWImage)Sender).WinTop + ((TAOWImage)Sender).WinHeight - 2);
-            R = call__27;
+            TRect R;
+            int W;
+            int H;
+            R = Rect(Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + 1, Dlg.WinTop + ((TAOWImage)Sender).WinTop + 1, Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + ((TAOWImage)Sender).WinWidth - 2, Dlg.WinTop + ((TAOWImage)Sender).WinTop + ((TAOWImage)Sender).WinHeight - 2);
             W = R.Right - R.Left;
             H = R.Bottom - R.Top;
             HXtoHP(FMapX, FMapY, ref X, ref Y);

@@ -18,8 +18,7 @@ namespace Aow.Units.PowerNode
     {
         public TPowerNode(TECustomNode owner) : base(owner)
         {
-            var call__1 = new TPlayerStructurePowerSource(null);
-            FPowerSource = call__1;
+            FPowerSource = new TPlayerStructurePowerSource(null);
             FPowerSource.Setup(this);
         }
 
@@ -51,8 +50,7 @@ namespace Aow.Units.PowerNode
             base.Activate();
             if (FPlayer != -1)
             {
-                var call__2 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                call__2.FMagicControl.RegisterPowerSource(FPowerSource);
+                AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
             }
         }
 
@@ -61,8 +59,7 @@ namespace Aow.Units.PowerNode
         {
             if (FPlayer != -1)
             {
-                var call__3 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                call__3.FMagicControl.UnregisterPowerSource(FPowerSource);
+                AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
             }
 
             base.Deactivate();
@@ -81,44 +78,27 @@ namespace Aow.Units.PowerNode
                 FState = FState - TSet<TPowerNodeStateElement>.Of(TPowerNodeStateElement.pnsRazed);
             }
 
-            var call__4 = GetTerrainTypeImage(FTerrainType);
-            FImageIndex = call__4;
+            FImageIndex = GetTerrainTypeImage(FTerrainType);
         }
 
         // PowerNode.pas:73
-        public override bool GetRazed()
-        {
-            bool Result = default;
-            Result = FState.Contains(TPowerNodeStateElement.pnsRazed);
-            return Result;
-        }
+        public override bool GetRazed() => FState.Contains(TPowerNodeStateElement.pnsRazed);
 
         // PowerNode.pas:93
         public override AnsiString GetCurrentActivityText()
         {
-            AnsiString Result = default;
-            var call__5 = GetPower();
-            var call__6 = TranslateRStr(GeneratingXPowerRStr);
-            var call__7 = Rtl.Rtl.Format(call__6, [IntToStr(call__5)]);
-            Result = call__7;
-            return Result;
+            var power = GetPower();
+            return Rtl.Rtl.Format(TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
         }
 
         // PowerNode.pas:96
         public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
-            int P = default;
+            int P;
             switch (Info.Mode)
             {
                 case TAITargetMode.tmAttack:
-                    bool bool__8 = Info.Player != FPlayer;
-                    if (bool__8)
-                    {
-                        var call__9 = GetRazed();
-                        bool__8 = !call__9;
-                    }
-
-                    if (bool__8)
+                    if (Info.Player != FPlayer && !GetRazed())
                     {
                         P = Data.Priority;
                         if (FPlayer == 0)
@@ -127,11 +107,9 @@ namespace Aow.Units.PowerNode
                         }
                         else
                         {
-                            var call__10 = ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0);
-                            if (call__10)
+                            if (ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                             {
-                                var call__11 = AoWHSMap.FPlayers.GetPlayers(Info.Player);
-                                P = 50 - call__11.FIncome / 2;
+                                P = 50 - AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                 if (P < 25)
                                 {
                                     P = 25;
@@ -163,15 +141,13 @@ namespace Aow.Units.PowerNode
                 {
                     if (FPlayer != -1)
                     {
-                        var call__12 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__12.FMagicControl.UnregisterPowerSource(FPowerSource);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
                     }
 
                     base.SetPlayer(Player);
                     if (FPlayer != -1)
                     {
-                        var call__13 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__13.FMagicControl.RegisterPowerSource(FPowerSource);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
                     }
                 }
                 else
@@ -184,16 +160,8 @@ namespace Aow.Units.PowerNode
         // PowerNode.pas:67
         public override int GetPower()
         {
-            int Result = default;
-            var call__14 = GetRazed();
-            bool bool__15 = !call__14;
-            if (bool__15)
-            {
-                var call__16 = GetBuilding();
-                bool__15 = !call__16;
-            }
-
-            if (bool__15)
+            int Result;
+            if (!GetRazed() && !GetBuilding())
             {
                 Result = 10;
             }
@@ -208,7 +176,7 @@ namespace Aow.Units.PowerNode
         // PowerNode.pas:145
         public override AnsiString GetCombatEventText(TCombat Combat)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
             {
                 Result = TranslateRStr(PowerNodeBattleWonRStr);
@@ -245,23 +213,13 @@ namespace Aow.Units.PowerNode
 
 
         // PowerNode.pas:169
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131482;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131482;
 
         // PowerNode.pas:41
 
 
         // PowerNode.pas:163
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(PowerNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(PowerNodeRStr);
 
     }
 

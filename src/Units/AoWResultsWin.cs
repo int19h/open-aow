@@ -82,9 +82,7 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:93
         public void UpdateSelection()
         {
-            int I = default;
-            int J = default;
-            TPlayerStatistics Stats = default;
+            TPlayerStatistics Stats;
             FMaxTurns = 1;
             FMaxGold = 1;
             FMaxMana = 1;
@@ -93,127 +91,98 @@ namespace Aow.Units.AoWResultsWin
             FMaxHeroes = 1;
             FMaxStructures = 1;
             FMaxStrength = 1;
+            for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__1 = FPlayers.Count - 1;
-                for (; I <= end__1; I += 1)
+                var player = FPlayers[I];
+                Stats = AoWHSMap.FPlayers.GetPlayers(player).FStatistics;
+                var count = Stats.FTurnInfo.GetCount();
+                if (FMaxTurns < count)
                 {
-                    var call__2 = FPlayers[I];
-                    var call__3 = AoWHSMap.FPlayers.GetPlayers(call__2);
-                    Stats = call__3.FStatistics;
-                    var call__4 = Stats.FTurnInfo.GetCount();
-                    if (FMaxTurns < call__4)
+                    FMaxTurns = Stats.FTurnInfo.GetCount();
+                }
+
+                for (int J = 0, lastJ = Stats.FTurnInfo.GetCount() - 1; J <= lastJ; J++)
+                {
+                    var turnInfo = Stats.FTurnInfo.GetTurnInfo(J);
+                    if (FMaxArmies < turnInfo.FArmyStrength)
                     {
-                        var call__5 = Stats.FTurnInfo.GetCount();
-                        FMaxTurns = call__5;
+                        FMaxArmies = Stats.FTurnInfo.GetTurnInfo(J).FArmyStrength;
                     }
 
+                    var fTurnInfoTurnInfo = Stats.FTurnInfo.GetTurnInfo(J);
+                    if (FMaxGold < fTurnInfoTurnInfo.FGold)
                     {
-                        J = 0;
-                        int end__6 = Stats.FTurnInfo.GetCount() - 1;
-                        for (; J <= end__6; J += 1)
-                        {
-                            var call__7 = Stats.FTurnInfo.GetTurnInfo(J);
-                            if (FMaxArmies < call__7.FArmyStrength)
-                            {
-                                var call__8 = Stats.FTurnInfo.GetTurnInfo(J);
-                                FMaxArmies = call__8.FArmyStrength;
-                            }
+                        FMaxGold = Stats.FTurnInfo.GetTurnInfo(J).FGold;
+                    }
 
-                            var call__9 = Stats.FTurnInfo.GetTurnInfo(J);
-                            if (FMaxGold < call__9.FGold)
-                            {
-                                var call__10 = Stats.FTurnInfo.GetTurnInfo(J);
-                                FMaxGold = call__10.FGold;
-                            }
+                    var turnInfo2 = Stats.FTurnInfo.GetTurnInfo(J);
+                    if (FMaxMana < turnInfo2.FMana)
+                    {
+                        FMaxMana = Stats.FTurnInfo.GetTurnInfo(J).FMana;
+                    }
 
-                            var call__11 = Stats.FTurnInfo.GetTurnInfo(J);
-                            if (FMaxMana < call__11.FMana)
-                            {
-                                var call__12 = Stats.FTurnInfo.GetTurnInfo(J);
-                                FMaxMana = call__12.FMana;
-                            }
+                    var turnInfo3 = Stats.FTurnInfo.GetTurnInfo(J);
+                    if (FMaxHeroes < turnInfo3.FHeroes)
+                    {
+                        FMaxHeroes = Stats.FTurnInfo.GetTurnInfo(J).FHeroes;
+                    }
 
-                            var call__13 = Stats.FTurnInfo.GetTurnInfo(J);
-                            if (FMaxHeroes < call__13.FHeroes)
-                            {
-                                var call__14 = Stats.FTurnInfo.GetTurnInfo(J);
-                                FMaxHeroes = call__14.FHeroes;
-                            }
+                    var turnInfo4 = Stats.FTurnInfo.GetTurnInfo(J);
+                    if (FMaxStructures < turnInfo4.FStructures)
+                    {
+                        FMaxStructures = Stats.FTurnInfo.GetTurnInfo(J).FStructures;
+                    }
 
-                            var call__15 = Stats.FTurnInfo.GetTurnInfo(J);
-                            if (FMaxStructures < call__15.FStructures)
-                            {
-                                var call__16 = Stats.FTurnInfo.GetTurnInfo(J);
-                                FMaxStructures = call__16.FStructures;
-                            }
-
-                            var call__17 = Stats.FTurnInfo.GetTurnInfo(J);
-                            var call__18 = call__17.GetSuperiority();
-                            if (FMaxStrength < call__18)
-                            {
-                                var call__19 = Stats.FTurnInfo.GetTurnInfo(J);
-                                var call__20 = call__19.GetSuperiority();
-                                FMaxStrength = call__20;
-                            }
-                        }
+                    var superiority = Stats.FTurnInfo.GetTurnInfo(J).GetSuperiority();
+                    if (FMaxStrength < superiority)
+                    {
+                        FMaxStrength = Stats.FTurnInfo.GetTurnInfo(J).GetSuperiority();
                     }
                 }
             }
 
-            var call__21 = TranslateRStr(TurnRStr);
-            TurnLbl.Text = call__21 + AnsiString.FromBytes(32) + IntToStr(FMaxTurns);
+            var turn = TranslateRStr(TurnRStr);
+            TurnLbl.Text = turn + AnsiString.FromBytes(32) + IntToStr(FMaxTurns);
         }
 
         // AoWResultsWin.pas:250
         public void DrawGraphs(in TSurfaceDesc Surface)
         {
             TRect Bounds = default;
-            int I = default;
             Bounds.Left = ResultsPnl.WinLeft + Axis.WinLeft + 5;
             Bounds.Top = ResultsPnl.WinTop + Axis.WinTop + 4;
             Bounds.Right = ResultsPnl.WinLeft + Axis.WinLeft + 338;
             Bounds.Bottom = ResultsPnl.WinTop + Axis.WinTop + 117;
+            for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__22 = FPlayers.Count - 1;
-                for (; I <= end__22; I += 1)
+                if (GoldCB.Checked)
                 {
-                    if (GoldCB.Checked)
-                    {
-                        var call__23 = FPlayers[I];
-                        DrawGold((sbyte)call__23, Bounds, Surface);
-                    }
+                    DrawGold((sbyte)FPlayers[I], Bounds, Surface);
+                }
 
-                    if (ManaCB.Checked)
-                    {
-                        var call__24 = FPlayers[I];
-                        DrawMana((sbyte)call__24, Bounds, Surface);
-                    }
+                if (ManaCB.Checked)
+                {
+                    DrawMana((sbyte)FPlayers[I], Bounds, Surface);
+                }
 
-                    if (HeroesCB.Checked)
-                    {
-                        var call__25 = FPlayers[I];
-                        DrawHeroes((sbyte)call__25, Bounds, Surface);
-                    }
+                if (HeroesCB.Checked)
+                {
+                    DrawHeroes((sbyte)FPlayers[I], Bounds, Surface);
+                }
 
-                    if (StructuresCB.Checked)
-                    {
-                        var call__26 = FPlayers[I];
-                        DrawStructures((sbyte)call__26, Bounds, Surface);
-                    }
+                if (StructuresCB.Checked)
+                {
+                    DrawStructures((sbyte)FPlayers[I], Bounds, Surface);
+                }
 
-                    if (ArmiesCB.Checked)
-                    {
-                        var call__27 = FPlayers[I];
-                        DrawArmies((sbyte)call__27, Bounds, Surface);
-                    }
+                if (ArmiesCB.Checked)
+                {
+                    DrawArmies((sbyte)FPlayers[I], Bounds, Surface);
+                }
 
-                    if (StrengthCB.Checked)
-                    {
-                        var call__28 = FPlayers[I];
-                        DrawStrength((sbyte)call__28, Bounds, Surface);
-                    }
+                if (StrengthCB.Checked)
+                {
+                    DrawStrength((sbyte)FPlayers[I], Bounds, Surface);
                 }
             }
         }
@@ -221,17 +190,16 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:123
         public void DrawGraph(ImageLib.TLibraryImage Image, TIntegerList Values, int Turns, int Maximum, in TRect R, in TSurfaceDesc Surface)
         {
-            int Width = default;
-            int LastY = default;
-            int Y1 = default;
-            int X2 = default;
-            int I = default;
-            float XStep = default;
-            float YStep = default;
-            int NextY = default;
-            int X1 = default;
-            int Y2 = default;
-            int Height = default;
+            int Width;
+            int LastY;
+            int Y1;
+            int X2;
+            float XStep;
+            float YStep;
+            int NextY;
+            int X1;
+            int Y2;
+            int Height;
             if (Values.Count != 0)
             {
                 Width = R.Right - R.Left;
@@ -246,24 +214,17 @@ namespace Aow.Units.AoWResultsWin
                 }
 
                 YStep = (float)((double)Height / Maximum);
-                var call__29 = Values[0];
-                LastY = call__29;
+                LastY = Values[0];
+                for (int I = 1, last = Values.Count - 1; I <= last; I++)
                 {
-                    I = 1;
-                    int end__30 = Values.Count - 1;
-                    for (; I <= end__30; I += 1)
-                    {
-                        var call__31 = Values[I];
-                        NextY = call__31;
-                        X1 = Round((double)(I - 1) * XStep);
-                        ;
-                        Y1 = Round((double)LastY * YStep);
-                        // { Original advances from the rounded previous x coordinate. }
-                        X2 = Round((double)X1 + XStep);
-                        Y2 = Round((double)NextY * YStep);
-                        DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
-                        LastY = NextY;
-                    }
+                    NextY = Values[I];
+                    X1 = Round((double)(I - 1) * XStep);
+                    Y1 = Round((double)LastY * YStep);
+                    // { Original advances from the rounded previous x coordinate. }
+                    X2 = Round((double)X1 + XStep);
+                    Y2 = Round((double)NextY * YStep);
+                    DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                    LastY = NextY;
                 }
 
                 if (Values.Count == 1)
@@ -273,7 +234,7 @@ namespace Aow.Units.AoWResultsWin
                     Y1 = NextY;
                     X2 = Width - 1;
                     // { Original repeats the rounding and discards its result. }
-                    Y2 = Round((double)LastY * YStep);
+                    Round((double)LastY * YStep);
                     Y2 = NextY;
                     DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
                 }
@@ -283,25 +244,17 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:160
         public void DrawGold(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            TIntegerList Values = default;
-            TTurnInfo Info = default;
-            int I = default;
+            TIntegerList Values;
+            TTurnInfo Info;
             Values = new TIntegerList();
-            var call__32 = AoWHSMap.FPlayers.GetPlayers(Player);
-            Info = call__32.FStatistics.FTurnInfo;
+            Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+            for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__33 = Info.GetCount() - 1;
-                for (; I <= end__33; I += 1)
-                {
-                    var call__34 = Info.GetTurnInfo(I);
-                    Values.Add(call__34.FGold);
-                }
+                Values.Add(Info.GetTurnInfo(I).FGold);
             }
 
-            var call__35 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__36 = IntGfxMod.EndScene[call__35.FPlayerRace + 13];
-            DrawGraph(call__36, Values, FMaxTurns, FMaxGold, R, Surface);
+            var player = AoWHSMap.FPlayers.GetPlayers(Player);
+            DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
             Values.Free();
             KeyMax.Text = IntToStr(FMaxGold);
         }
@@ -309,25 +262,17 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:175
         public void DrawMana(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            TIntegerList Values = default;
-            TTurnInfo Info = default;
-            int I = default;
+            TIntegerList Values;
+            TTurnInfo Info;
             Values = new TIntegerList();
-            var call__37 = AoWHSMap.FPlayers.GetPlayers(Player);
-            Info = call__37.FStatistics.FTurnInfo;
+            Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+            for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__38 = Info.GetCount() - 1;
-                for (; I <= end__38; I += 1)
-                {
-                    var call__39 = Info.GetTurnInfo(I);
-                    Values.Add(call__39.FMana);
-                }
+                Values.Add(Info.GetTurnInfo(I).FMana);
             }
 
-            var call__40 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__41 = IntGfxMod.EndScene[call__40.FPlayerRace + 13];
-            DrawGraph(call__41, Values, FMaxTurns, FMaxMana, R, Surface);
+            var player = AoWHSMap.FPlayers.GetPlayers(Player);
+            DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
             Values.Free();
             KeyMax.Text = IntToStr(FMaxMana);
         }
@@ -335,25 +280,17 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:190
         public void DrawHeroes(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            TIntegerList Values = default;
-            TTurnInfo Info = default;
-            int I = default;
+            TIntegerList Values;
+            TTurnInfo Info;
             Values = new TIntegerList();
-            var call__42 = AoWHSMap.FPlayers.GetPlayers(Player);
-            Info = call__42.FStatistics.FTurnInfo;
+            Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+            for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__43 = Info.GetCount() - 1;
-                for (; I <= end__43; I += 1)
-                {
-                    var call__44 = Info.GetTurnInfo(I);
-                    Values.Add(call__44.FHeroes);
-                }
+                Values.Add(Info.GetTurnInfo(I).FHeroes);
             }
 
-            var call__45 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__46 = IntGfxMod.EndScene[call__45.FPlayerRace + 13];
-            DrawGraph(call__46, Values, FMaxTurns, FMaxHeroes, R, Surface);
+            var player = AoWHSMap.FPlayers.GetPlayers(Player);
+            DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
             Values.Free();
             KeyMax.Text = IntToStr(FMaxHeroes);
         }
@@ -361,25 +298,17 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:205
         public void DrawArmies(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            TIntegerList Values = default;
-            TTurnInfo Info = default;
-            int I = default;
+            TIntegerList Values;
+            TTurnInfo Info;
             Values = new TIntegerList();
-            var call__47 = AoWHSMap.FPlayers.GetPlayers(Player);
-            Info = call__47.FStatistics.FTurnInfo;
+            Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+            for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__48 = Info.GetCount() - 1;
-                for (; I <= end__48; I += 1)
-                {
-                    var call__49 = Info.GetTurnInfo(I);
-                    Values.Add(call__49.FArmyStrength);
-                }
+                Values.Add(Info.GetTurnInfo(I).FArmyStrength);
             }
 
-            var call__50 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__51 = IntGfxMod.EndScene[call__50.FPlayerRace + 13];
-            DrawGraph(call__51, Values, FMaxTurns, FMaxArmies, R, Surface);
+            var player = AoWHSMap.FPlayers.GetPlayers(Player);
+            DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
             Values.Free();
             KeyMax.Text = IntToStr(FMaxArmies);
         }
@@ -387,25 +316,17 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:220
         public void DrawStructures(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            TIntegerList Values = default;
-            TTurnInfo Info = default;
-            int I = default;
+            TIntegerList Values;
+            TTurnInfo Info;
             Values = new TIntegerList();
-            var call__52 = AoWHSMap.FPlayers.GetPlayers(Player);
-            Info = call__52.FStatistics.FTurnInfo;
+            Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+            for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__53 = Info.GetCount() - 1;
-                for (; I <= end__53; I += 1)
-                {
-                    var call__54 = Info.GetTurnInfo(I);
-                    Values.Add(call__54.FStructures);
-                }
+                Values.Add(Info.GetTurnInfo(I).FStructures);
             }
 
-            var call__55 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__56 = IntGfxMod.EndScene[call__55.FPlayerRace + 13];
-            DrawGraph(call__56, Values, FMaxTurns, FMaxStructures, R, Surface);
+            var player = AoWHSMap.FPlayers.GetPlayers(Player);
+            DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
             Values.Free();
             KeyMax.Text = IntToStr(FMaxStructures);
         }
@@ -413,26 +334,17 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:235
         public void DrawStrength(sbyte Player, in TRect R, in TSurfaceDesc Surface)
         {
-            TIntegerList Values = default;
-            TTurnInfo Info = default;
-            int I = default;
+            TIntegerList Values;
+            TTurnInfo Info;
             Values = new TIntegerList();
-            var call__57 = AoWHSMap.FPlayers.GetPlayers(Player);
-            Info = call__57.FStatistics.FTurnInfo;
+            Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+            for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__58 = Info.GetCount() - 1;
-                for (; I <= end__58; I += 1)
-                {
-                    var call__59 = Info.GetTurnInfo(I);
-                    var call__60 = call__59.GetSuperiority();
-                    Values.Add(call__60);
-                }
+                Values.Add(Info.GetTurnInfo(I).GetSuperiority());
             }
 
-            var call__61 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__62 = IntGfxMod.EndScene[call__61.FPlayerRace + 13];
-            DrawGraph(call__62, Values, FMaxTurns, FMaxStrength, R, Surface);
+            var player = AoWHSMap.FPlayers.GetPlayers(Player);
+            DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
             Values.Free();
             // { Original strength graph labels the structures maximum. }
             KeyMax.Text = IntToStr(FMaxStructures);
@@ -441,10 +353,8 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:270
         public void ResultsWinCreate()
         {
-            var call__63 = new TByteList();
-            FPlayers = call__63;
-            var call__64 = new TList();
-            FControls = call__64;
+            FPlayers = new TByteList();
+            FControls = new TList();
             FControls.Add(P1CB);
             FControls.Add(P2CB);
             FControls.Add(P3CB);
@@ -526,42 +436,36 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:339
         public void P1CBPreDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            TRect R = default;
+            TRect R;
             var component = (TAoWComponent)Sender;
             if (component.Tag < FPlayers.Count)
             {
-                var call__66 = Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
-                R = call__66;
-                var call__67 = FPlayers[component.Tag];
-                var call__68 = AoWHSMap.FPlayers.GetPlayers(call__67);
-                var call__69 = call__68.GetFace();
-                if (call__69 != null)
+                R = Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
+                var player = FPlayers[component.Tag];
+                if (AoWHSMap.FPlayers.GetPlayers(player).GetFace() != null)
                 {
-                    var call__70 = FPlayers[component.Tag];
-                    var call__71 = AoWHSMap.FPlayers.GetPlayers(call__70);
-                    call__71.FLeader.ShowFace(R, Surface);
+                    var player2 = FPlayers[component.Tag];
+                    AoWHSMap.FPlayers.GetPlayers(player2).FLeader.ShowFace(R, Surface);
                 }
 
-                var call__72 = FPlayers[component.Tag];
-                var call__73 = AoWHSMap.FPlayers.GetPlayers(call__72);
-                var call__74 = IntGfxMod.RelWin[call__73.FPlayerRace + 16];
-                call__74.ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
+                var player3 = FPlayers[component.Tag];
+                var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player3);
+                IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
             }
         }
 
         // AoWResultsWin.pas:355
         public void P1CBChange(TObject Sender)
         {
-            TAOWCheckBox Control = default;
+            TAOWCheckBox Control;
             Control = (TAOWCheckBox)Sender;
             if (Control.Checked)
             {
                 if (FPlayers.Count > Control.Tag)
                 {
-                    var call__75 = FPlayers[Control.Tag];
-                    var call__76 = AoWHSMap.FPlayers.GetPlayers(call__75);
-                    var call__77 = call__76.GetNameEx();
-                    SideLbl.Text = call__77;
+                    var player = FPlayers[Control.Tag];
+                    var nameEx = AoWHSMap.FPlayers.GetPlayers(player).GetNameEx();
+                    SideLbl.Text = nameEx;
                 }
 
                 ResValues.Items.Clear();
@@ -579,7 +483,6 @@ namespace Aow.Units.AoWResultsWin
         // AoWResultsWin.pas:368
         public static void ShowResults(TResultsWin Window)
         {
-            int I = default;
             if (AoWEngine.FDemo)
             {
                 PlaySongEx((AnsiString)"Songs\\Special\\end2.s3m", 2, 2, true);
@@ -592,55 +495,31 @@ namespace Aow.Units.AoWResultsWin
             SetMusicVolume(0);
             FadeMusicVolume(SoundDlg.MusicVolume.Position, 1);
             Window.FPlayers.Clear();
+            for (int I = 1, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
             {
-                I = 1;
-                int end__78 = AoWHSMap.FPlayers.Count - 1;
-                for (; I <= end__78; I += 1)
+                if (AoWHSMap.FPlayers.GetPlayers(I).FPlayerType != TPlayerType.ptIndependent)
                 {
-                    var call__79 = AoWHSMap.FPlayers.GetPlayers(I);
-                    if (call__79.FPlayerType != TPlayerType.ptIndependent)
-                    {
-                        Window.FPlayers.Add((byte)I);
-                    }
+                    Window.FPlayers.Add((byte)I);
                 }
             }
 
+            for (int I = 0; I <= 11; I++)
             {
-                I = 0;
-                byte end__80 = 11;
-                for (; I <= end__80; I += 1)
-                {
-                    var call__81 = Window.FControls[I];
-                    ((TAOWCheckBox)call__81).Visible = I < Window.FPlayers.Count;
-                    bool bool__82 = I < Window.FPlayers.Count;
-                    if (bool__82)
-                    {
-                        var call__83 = Window.FPlayers[I];
-                        bool__82 = call__83 == AoWHSMap.FSeatedPlayer;
-                    }
-
-                    var call__84 = Window.FControls[I];
-                    ((TAOWCheckBox)call__84).Checked = bool__82;
-                }
+                ((TAOWCheckBox)Window.FControls[I]).Visible = I < Window.FPlayers.Count;
+                bool condition = I < Window.FPlayers.Count && Window.FPlayers[I] == AoWHSMap.FSeatedPlayer;
+                ((TAOWCheckBox)Window.FControls[I]).Checked = condition;
             }
 
-            bool bool__85 = AoWEngine.FCampaign != null;
-            if (bool__85)
+            if (AoWEngine.FCampaign != null && AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FGameOverStatus == TGameOverStatus.goLost)
             {
-                var call__86 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                bool__85 = call__86.FGameOverStatus == TGameOverStatus.goLost;
-            }
-
-            if (bool__85)
-            {
-                var call__87 = TranslateRStr(ReplayRStr);
-                Window.ContinueBtn.Text = call__87;
+                var replay = TranslateRStr(ReplayRStr);
+                Window.ContinueBtn.Text = replay;
                 Window.ExitBtn.Visible = true;
             }
             else
             {
-                var call__88 = TranslateRStr(ContinueRStr);
-                Window.ContinueBtn.Text = call__88;
+                var continueText = TranslateRStr(ContinueRStr);
+                Window.ContinueBtn.Text = continueText;
                 Window.ExitBtn.Visible = false;
             }
 

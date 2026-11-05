@@ -25,20 +25,10 @@ namespace Aow.Units.Crypt
         public new const int ClassID = 131851;
 
         // Crypt.pas:43
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131850;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131850;
 
         // Crypt.pas:37
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(CryptRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(CryptRStr);
 
     }
 

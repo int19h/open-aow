@@ -55,23 +55,17 @@ namespace Aow.Units.PoisonC
         }
 
         // PoisonC.pas:67
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            Result = base.GetShowPriority() + 201326592;
-            return Result;
-        }
+        public override int GetShowPriority() => base.GetShowPriority() + 201326592;
 
         // PoisonC.pas:89
         public override bool PlaceOnMap()
         {
-            bool Result = default;
-            Result = base.PlaceOnMap();
+            bool Result = base.PlaceOnMap();
             if (Result)
             {
-                var call__1 = GetYhx();
-                var call__2 = GetXhx();
-                UpdateMapFields((TMapLevel)Owner.Owner, call__2, call__1);
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
             }
 
             return Result;
@@ -80,7 +74,7 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:111
         public override void RemoveFromMap()
         {
-            TMapLevel Level = default;
+            TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(Level, FXhx, FYhx);
@@ -94,8 +88,7 @@ namespace Aow.Units.PoisonC
                 base.MapFieldMsgProc(ref Msg);
             }
 
-            var call__3 = FResource.TerrainList.Terrain[Msg.HN];
-            if (call__3 >= -1)
+            if (FResource.TerrainList.Terrain[Msg.HN] >= -1)
             {
                 if (Msg.MsgID == 4418)
                 {
@@ -105,8 +98,7 @@ namespace Aow.Units.PoisonC
                 {
                     if (Msg.MsgID == 4384)
                     {
-                        var call__4 = Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255);
-                        if (!call__4.Contains(TDamageType.dtPoison))
+                        if (!Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255).Contains(TDamageType.dtPoison))
                         {
                             Msg.Result = 1;
                         }
@@ -128,19 +120,16 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:119
         public override int CanMoveOver(in THSSenderInfo Info)
         {
-            int Result = default;
-            var call__5 = FResource.TerrainList.Terrain[Info.HN];
-            if (call__5 >= -1)
+            int Result;
+            if (FResource.TerrainList.Terrain[Info.HN] >= -1)
             {
-                var call__6 = CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits);
-                if (!call__6)
+                if (!CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits))
                 {
                     Result = 1;
                 }
                 else
                 {
-                    Result = 0;
-                    return Result;
+                    return 0;
                 }
             }
             else
@@ -157,16 +146,14 @@ namespace Aow.Units.PoisonC
             base.Activate();
             if (FDirection == 0)
             {
-                var call__7 = AoWHSMap.Random(6);
-                FDirection = (byte)(call__7 + 1);
+                FDirection = (byte)(AoWHSMap.Random(6) + 1);
             }
         }
 
         // PoisonC.pas:83
         public override void UpdateMapField(in THSMapFieldInfo Info)
         {
-            var call__8 = FResource.TerrainList.Terrain[Info.HN];
-            if (call__8 >= -1)
+            if (FResource.TerrainList.Terrain[Info.HN] >= -1)
             {
                 ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 8192;
             }
@@ -175,23 +162,15 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:70
         public override bool CanSelect(int Xhp, int Yhp)
         {
-            bool Result = default;
+            bool Result;
             int Xhx = default;
             int Yhx = default;
-            int HN = default;
+            int HN;
             if (FResource.Engine.HSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                var call__9 = dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
-                HN = call__9;
-                bool bool__10 = HN < FResource.TerrainList.Count;
-                if (bool__10)
-                {
-                    var call__11 = FResource.TerrainList.Terrain[HN];
-                    bool__10 = call__11 >= -1;
-                }
-
-                Result = bool__10;
+                HN = dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
+                Result = HN < FResource.TerrainList.Count && FResource.TerrainList.Terrain[HN] >= -1;
             }
             else
             {
@@ -205,16 +184,14 @@ namespace Aow.Units.PoisonC
         public new void UpdateMapFields(TMapLevel Level, int Xhx, int Yhx)
         {
             THNWalkData Walk = default;
-            int Count = default;
+            int Count;
             Count = FResource.TerrainList.Count;
             InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
-                var call__12 = GetTerrain(Walk.HN);
-                if (call__12 >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if (GetTerrain(Walk.HN) >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    var call__13 = Level.GetField(Walk.X, Walk.Y);
-                    call__13.UpdateMapField();
+                    Level.GetField(Walk.X, Walk.Y).UpdateMapField();
                 }
 
                 WalkToNextHN(ref Walk);
@@ -224,24 +201,15 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:129
         public bool CanDoDamage(TUnitList Units)
         {
-            bool Result = default;
-            int I = default;
-            TAbstractUnit AUnit = default;
-            Result = false;
+            int I;
+            TAbstractUnit AUnit;
+            bool Result = false;
             I = Units.GetCount();
             while (!Result && I != 0)
             {
                 I -= 1;
                 AUnit = Units.GetUnit(I);
-                var call__14 = AUnit.GetImmunityTypes();
-                bool bool__15 = !call__14.Contains(TDamageType.dtPoison);
-                if (bool__15)
-                {
-                    var call__16 = AUnit.GetAbilityEnabled(1);
-                    bool__15 = !call__16;
-                }
-
-                Result = bool__15;
+                Result = !AUnit.GetImmunityTypes().Contains(TDamageType.dtPoison) && !AUnit.GetAbilityEnabled(1);
             }
 
             return Result;
@@ -250,14 +218,7 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:142
         public void ArmyPlaced(TArmyHS ArmyHS)
         {
-            bool bool__17 = !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
-            if (bool__17)
-            {
-                var call__18 = ((TAoWMapField)ArmyHS.Owner).GetMagicShieldActive();
-                bool__17 = !call__18;
-            }
-
-            if (bool__17)
+            if (!AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) && !((TAoWMapField)ArmyHS.Owner).GetMagicShieldActive())
             {
                 ArmyHS.FArmy.IncommingStorm(TStormType.stPestilence, 0, ArmyHS.FArmy.FPlayer);
             }
@@ -268,23 +229,21 @@ namespace Aow.Units.PoisonC
         {
             TMapFieldMsg Msg = default;
             THNWalkData Walk = default;
-            TMapLevel Level = default;
+            TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
-            var call__19 = GetYhx();
-            var call__20 = GetXhx();
-            InitHNWalk(ref Walk, call__20, call__19, 0);
+            var yhx = GetYhx();
+            var xhx = GetXhx();
+            InitHNWalk(ref Walk, xhx, yhx, 0);
             Msg.MsgID = 4432;
             Msg.Param[0] = (int)TStormType.stPestilence;
             Msg.Param[2] = FPlayer;
             ref var walk = ref Walk;
             while (FResource.TerrainList.Count > walk.HN)
             {
-                var call__22 = FResource.TerrainList.GetTerrain(walk.HN);
-                if (call__22 >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && Level.Height > walk.Y)
+                if (FResource.TerrainList.GetTerrain(walk.HN) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && Level.Height > walk.Y)
                 {
                     Msg.Param[1] = walk.Radius;
-                    var call__23 = Level.GetField(walk.X, walk.Y);
-                    call__23.SendMapFieldMsg(ref Msg);
+                    Level.GetField(walk.X, walk.Y).SendMapFieldMsg(ref Msg);
                 }
 
                 WalkToNextHN(ref Walk);
@@ -294,17 +253,14 @@ namespace Aow.Units.PoisonC
         // PoisonC.pas:204
         public bool ValidMoveDir(int Direction)
         {
-            bool Result = default;
             int Xhx = default;
             int Yhx = default;
-            TMapLevel Level = default;
+            TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
-            var call__24 = GetYhx();
-            var call__25 = GetXhx();
-            CenterHNtoHX(call__25, call__24, Direction, ref Xhx, ref Yhx);
+            var yhx = GetYhx();
+            CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
             CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
-            Result = Xhx >= 10 && Yhx >= 10 && Xhx + 10 <= Level.Width && Yhx + 10 <= Level.Height;
-            return Result;
+            return Xhx >= 10 && Yhx >= 10 && Xhx + 10 <= Level.Width && Yhx + 10 <= Level.Height;
         }
 
         // PoisonC.pas:216
@@ -312,13 +268,13 @@ namespace Aow.Units.PoisonC
         {
             int Xhx = default;
             int Yhx = default;
-            TByteList Directions = default;
-            bool Valid = default;
-            int Direction = default;
-            int Tries = default;
-            int Lhx = default;
-            int OldXhx = default;
-            int OldYhx = default;
+            TByteList Directions;
+            bool Valid;
+            int Direction;
+            int Tries;
+            int Lhx;
+            int OldXhx;
+            int OldYhx;
             if (FTurnsRemaining != 1)
             {
                 FUpdated = true;
@@ -353,9 +309,7 @@ namespace Aow.Units.PoisonC
 
                     while (Directions.Count != 0 && !Valid)
                     {
-                        var call__26 = AoWHSMap.Random(Directions.Count);
-                        var call__27 = Directions[call__26];
-                        Direction = call__27;
+                        Direction = Directions[AoWHSMap.Random(Directions.Count)];
                         Valid = ValidMoveDir(Direction);
                         if (!Valid)
                         {
@@ -369,8 +323,7 @@ namespace Aow.Units.PoisonC
                         Tries = 20;
                         while (!Valid && Tries != 0)
                         {
-                            var call__28 = AoWHSMap.Random(6);
-                            Direction = call__28 + 1;
+                            Direction = AoWHSMap.Random(6) + 1;
                             Valid = ValidMoveDir(Direction);
                             Tries -= 1;
                         }
@@ -382,20 +335,16 @@ namespace Aow.Units.PoisonC
                         OldYhx = GetYhx();
                         FDirection = (byte)Direction;
                         Lhx = GetLhx();
-                        var call__29 = GetYhx();
-                        var call__30 = GetXhx();
-                        CenterHNtoHX(call__30, call__29, Direction, ref Xhx, ref Yhx);
+                        var yhx = GetYhx();
+                        CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
                         CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
                         Disconnect();
-                        var call__31 = AoWHSMap.MapContainer.GetMapLevel(Lhx);
-                        UpdateMapFields(call__31, OldXhx, OldYhx);
+                        UpdateMapFields(AoWHSMap.MapContainer.GetMapLevel(Lhx), OldXhx, OldYhx);
                         FXhx = (sbyte)Xhx;
                         FYhx = (sbyte)Yhx;
-                        var call__32 = AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
-                        Owner = call__32;
+                        Owner = AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
                         Connect();
-                        var call__33 = AoWHSMap.MapContainer.GetMapLevel(Lhx);
-                        UpdateMapFields(call__33, Xhx, Yhx);
+                        UpdateMapFields(AoWHSMap.MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
                     }
                 }
 
@@ -421,22 +370,10 @@ namespace Aow.Units.PoisonC
         public new const int ClassID = 135744;
 
         // PoisonC.pas:292
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 135743;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 135743;
 
         // PoisonC.pas:289
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__34 = PoisonCloudRStr;
-            var call__35 = TranslateRStr(call__34);
-            Result = call__35;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(PoisonCloudRStr);
 
     }
 

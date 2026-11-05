@@ -16,12 +16,7 @@ namespace Aow.Units.AltDeath
         public new const int ClassID = 131637;
 
         // AltDeath.pas:39
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TDeathStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TDeathStorm(null);
 
     }
 
@@ -38,23 +33,13 @@ namespace Aow.Units.AltDeath
 
 
         // AltDeath.pas:55
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131637;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131637;
 
         // AltDeath.pas:26
 
 
         // AltDeath.pas:49
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(AltarOfDeathRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfDeathRStr);
 
     }
 

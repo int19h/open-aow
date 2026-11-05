@@ -37,37 +37,33 @@ namespace Aow.Units.AoWCampaignSettings
         // AoWCampaignSettings.pas:45
         public void DlgShow(TObject Sender)
         {
-            TCampaignDifficultyLevel Level = default;
+            TCampaignDifficultyLevel Level;
             DifficultyLevelCB.Items.Clear();
+            for (int levelOrdinal = (int)(TCampaignDifficultyLevel)0; levelOrdinal <= (int)(TCampaignDifficultyLevel)2; levelOrdinal++)
             {
-                int first__4 = (int)(TCampaignDifficultyLevel)0;
-                int end__1 = (int)(TCampaignDifficultyLevel)2;
-                for (int ordinal__3 = first__4; ordinal__3 <= end__1; ordinal__3++)
-                {
-                    Level = (TCampaignDifficultyLevel)ordinal__3;
-                    var call__2 = TranslateRStr(TCampaignDifficultyLevelRStr[(int)Level]);
-                    DifficultyLevelCB.Items.AddObject(call__2, IntToObject((int)Level));
-                }
+                Level = (TCampaignDifficultyLevel)levelOrdinal;
+                var campaignDifficultyLevel = TranslateRStr(TCampaignDifficultyLevelRStr[(int)Level]);
+                DifficultyLevelCB.Items.AddObject(campaignDifficultyLevel, IntToObject((int)Level));
             }
 
-            var call__5 = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)AoWEngine.FCampaign.FDifficultyLevel));
-            DifficultyLevelCB.Selected = call__5;
+            var indexOfObject = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)AoWEngine.FCampaign.FDifficultyLevel));
+            DifficultyLevelCB.Selected = indexOfObject;
             TurnModeCB.Items.Clear();
-            var call__6 = TranslateRStr(TPlayModeRStr[(int)TPlayMode.pmTurn]);
-            TurnModeCB.Items.AddObject(call__6, IntToObject((int)TPlayMode.pmTurn));
-            var call__7 = TranslateRStr(TPlayModeRStr[(int)TPlayMode.pmSimultaneous]);
-            TurnModeCB.Items.AddObject(call__7, IntToObject((int)TPlayMode.pmSimultaneous));
-            var call__8 = TurnModeCB.Items.IndexOfObject(IntToObject((int)AoWEngine.FCampaign.FPlayMode));
-            TurnModeCB.Selected = call__8;
+            var playMode = TranslateRStr(TPlayModeRStr[(int)TPlayMode.pmTurn]);
+            TurnModeCB.Items.AddObject(playMode, IntToObject((int)TPlayMode.pmTurn));
+            var playMode2 = TranslateRStr(TPlayModeRStr[(int)TPlayMode.pmSimultaneous]);
+            TurnModeCB.Items.AddObject(playMode2, IntToObject((int)TPlayMode.pmSimultaneous));
+            var itemsIndexOfObject = TurnModeCB.Items.IndexOfObject(IntToObject((int)AoWEngine.FCampaign.FPlayMode));
+            TurnModeCB.Selected = itemsIndexOfObject;
         }
 
         // AoWCampaignSettings.pas:59
         public void OKBtnClick()
         {
-            var call__9 = DifficultyLevelCB.Items.Objects[DifficultyLevelCB.Selected];
-            AoWEngine.FCampaign.FDifficultyLevel = (TCampaignDifficultyLevel)ObjectToInt(call__9);
-            var call__10 = TurnModeCB.Items.Objects[TurnModeCB.Selected];
-            AoWEngine.FCampaign.FPlayMode = (TPlayMode)ObjectToInt(call__10);
+            var objectValue = DifficultyLevelCB.Items.Objects[DifficultyLevelCB.Selected];
+            AoWEngine.FCampaign.FDifficultyLevel = (TCampaignDifficultyLevel)ObjectToInt(objectValue);
+            var objectValue2 = TurnModeCB.Items.Objects[TurnModeCB.Selected];
+            AoWEngine.FCampaign.FPlayMode = (TPlayMode)ObjectToInt(objectValue2);
             Dlg.Visible = false;
         }
 

@@ -43,125 +43,99 @@ namespace Aow.Units.AoWArmyEventDlg
         // AoWArmyEventDlg.pas:113
         public void DrawUnits(int X, int Y, in TSurfaceDesc SD)
         {
-            int Offset = default;
-            int I = default;
+            int Offset;
             var byteList = FUnits;
             Offset = X - byteList.Count * 16;
+            for (int I = 0, last = byteList.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__2 = byteList.Count - 1;
-                for (; I <= end__2; I += 1)
-                {
-                    DrawUnit(I, I * 32 + Offset, Y, SD);
-                }
+                DrawUnit(I, I * 32 + Offset, Y, SD);
             }
         }
 
         // AoWArmyEventDlg.pas:121
         public void DrawUnit(int Index, int X, int Y, TSurfaceDesc SD)
         {
-            TArmyEventLog Event = default;
-            int Frame = default;
-            TP2UnitShowInfo Info = default;
+            TArmyEventLog Event;
+            int Frame;
+            TP2UnitShowInfo Info;
             Event = FEvent;
-            var call__3 = FUnits[Index];
-            var call__4 = Event.FDamageValues[call__3];
-            if (call__4 != 0)
+            var unit = FUnits[Index];
+            if (Event.FDamageValues[unit] != 0)
             {
                 // { The original staggers animation by bits of the unit object's address. }
-                var call__5 = FUnits[Index];
-                var call__6 = Event.FArmyView.GetUnit(call__5);
-                Frame = FFrame - (((int)(((uint)ObjectToInt(call__6)) >> 3)) & 7);
+                var unit2 = FUnits[Index];
+                var fArmyViewUnit = Event.FArmyView.GetUnit(unit2);
+                Frame = FFrame - (((int)(((uint)ObjectToInt(fArmyViewUnit)) >> 3)) & 7);
                 Info = default;
                 Info.Frame = (int)(((uint)Frame) >> 1) - 1;
                 Info.Direction = 3;
                 Info.Animation = TUnitAnimation.uaHit;
-                var call__7 = FUnits[Index];
-                var call__8 = Event.FArmyView.GetUnit(call__7);
-                call__8.ShowEx(X, Y, SD, Info);
+                var unit3 = FUnits[Index];
+                Event.FArmyView.GetUnit(unit3).ShowEx(X, Y, SD, Info);
                 if (Frame == 5)
                 {
-                    var call__9 = FUnits[Index];
-                    var call__10 = Event.FArmyView.GetUnit(call__9);
-                    var call__11 = call__10.GetHitPoints();
-                    if (call__11 != 0)
+                    var unit4 = FUnits[Index];
+                    if (Event.FArmyView.GetUnit(unit4).GetHitPoints() != 0)
                     {
-                        var call__12 = FUnits[Index];
-                        var call__13 = Event.FArmyView.GetUnit(call__12);
-                        var call__14 = call__13.GetUnitGFXResourceIndex();
-                        var call__15 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__14);
-                        call__15.FSFXLibraries[3].Play(0);
+                        var unit5 = FUnits[Index];
+                        var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
+                        var unitGFXResource = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
+                        unitGFXResource.FSFXLibraries[3].Play(0);
                     }
                     else
                     {
-                        var call__16 = FUnits[Index];
-                        var call__17 = Event.FArmyView.GetUnit(call__16);
-                        var call__18 = call__17.GetUnitGFXResourceIndex();
-                        var call__19 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__18);
-                        call__19.FSFXLibraries[4].Play(0);
+                        var unit5 = FUnits[Index];
+                        var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
+                        var unitGFXResource = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
+                        unitGFXResource.FSFXLibraries[4].Play(0);
                     }
                 }
 
                 if (Frame > 5)
                 {
-                    var call__20 = FUnits[Index];
-                    var call__21 = Event.FDamageValues[call__20];
-                    var call__22 = FUnits[Index];
-                    var call__23 = Event.FDamageTypes[call__22];
-                    ShowDamageIcon(X, Y + 8, SD, call__21, (TDamageType)call__23);
-                    var call__24 = FUnits[Index];
-                    var call__25 = Event.FArmyView.GetUnit(call__24);
-                    var call__26 = call__25.GetHitPoints();
-                    var call__27 = FUnits[Index];
-                    var call__28 = Event.FDamageValues[call__27];
-                    var call__29 = FUnits[Index];
-                    var call__30 = Event.FArmyView.GetUnit(call__29);
-                    var call__31 = call__30.GetHits();
-                    var call__32 = HitPointsToHitPcnt((sbyte)(byte)(call__26 - call__28), call__31);
-                    ShowHitPcnt(X, Y, SD, call__32);
+                    var unit4 = FUnits[Index];
+                    var damageValue = Event.FDamageValues[unit4];
+                    var unit5 = FUnits[Index];
+                    var damageType = Event.FDamageTypes[unit5];
+                    ShowDamageIcon(X, Y + 8, SD, damageValue, (TDamageType)damageType);
+                    var unit6 = FUnits[Index];
+                    var hitPoints = Event.FArmyView.GetUnit(unit6).GetHitPoints();
+                    var unit7 = FUnits[Index];
+                    var damageValue2 = Event.FDamageValues[unit7];
+                    var unit8 = FUnits[Index];
+                    var hitPointsToHitPcnt = HitPointsToHitPcnt((sbyte)(byte)(hitPoints - damageValue2), Event.FArmyView.GetUnit(unit8).GetHits());
+                    ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
                 }
                 else
                 {
-                    var call__33 = FUnits[Index];
-                    var call__34 = Event.FArmyView.GetUnit(call__33);
-                    var call__35 = call__34.GetHits();
-                    var call__36 = FUnits[Index];
-                    var call__37 = Event.FArmyView.GetUnit(call__36);
-                    var call__38 = call__37.GetHitPoints();
-                    var call__39 = HitPointsToHitPcnt(call__38, call__35);
-                    ShowHitPcnt(X, Y, SD, call__39);
+                    var unit4 = FUnits[Index];
+                    var hits = Event.FArmyView.GetUnit(unit4).GetHits();
+                    var unit5 = FUnits[Index];
+                    var hitPointsToHitPcnt = HitPointsToHitPcnt(Event.FArmyView.GetUnit(unit5).GetHitPoints(), hits);
+                    ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
                 }
             }
             else
             {
-                var call__40 = FUnits[Index];
-                var call__41 = Event.FArmyView.GetUnit(call__40);
-                call__41.Show(X, Y, SD);
+                var unit2 = FUnits[Index];
+                Event.FArmyView.GetUnit(unit2).Show(X, Y, SD);
             }
         }
 
         // AoWArmyEventDlg.pas:153
         public void ClearEvent()
         {
-            TArmyEventLog Event = default;
-            TExecuteDoneEvent Notify = default;
-            int I = default;
+            TArmyEventLog Event;
+            TExecuteDoneEvent Notify;
             int Resource = default;
             General.Manager.OverlayPriority = 0;
+            for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__42 = FUnits.Count - 1;
-                for (; I <= end__42; I += 1)
+                var unit = FUnits[I];
+                Resource = FEvent.FArmyView.GetUnit(unit).GetUnitGFXResourceIndex();
+                if (Resource != -1)
                 {
-                    var call__43 = FUnits[I];
-                    var call__44 = FEvent.FArmyView.GetUnit(call__43);
-                    var call__45 = call__44.GetUnitGFXResourceIndex();
-                    Resource = call__45;
-                    if (Resource != -1)
-                    {
-                        var call__46 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Resource);
-                        call__46.Release();
-                    }
+                    AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Resource).Release();
                 }
             }
 
@@ -183,8 +157,7 @@ namespace Aow.Units.AoWArmyEventDlg
         // AoWArmyEventDlg.pas:171
         public void ArmyEventDlgCreate()
         {
-            var call__47 = new TByteList();
-            FUnits = call__47;
+            FUnits = new TByteList();
         }
 
         // AoWArmyEventDlg.pas:176
@@ -239,44 +212,28 @@ namespace Aow.Units.AoWArmyEventDlg
         // AoWArmyEventDlg.pas:84
         public static void ShowArmyEvent(TArmyEventDlg Dialog, TArmyEventLog Event, TExecuteDoneEvent Done)
         {
-            TArmyEventLog Log = default;
-            TArmyView Army = default;
-            int I = default;
-            int Image = default;
+            TArmyEventLog Log;
+            TArmyView Army;
+            int Image;
             Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArmyEventDlg.pas", 92);
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();
             Log = Dialog.FEvent;
             Dialog.DamagePic.CurrentImage = Log.FArmyIcon;
-            var call__49 = Log.FArmyMessages.Text;
-            Dialog.EventText.Text = call__49;
+            var text = Log.FArmyMessages.Text;
+            Dialog.EventText.Text = text;
             Army = Log.FArmyView;
             Dialog.FUnits.Clear();
+            for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__50 = Army.GetCount() - 1;
-                for (; I <= end__50; I += 1)
+                if (!Army.GetUnitConcealedForPlayer(I, AoWHSMap.FSeatedPlayer) || Log.FDamageValues[I] != 0)
                 {
-                    var call__51 = Army.GetUnitConcealedForPlayer(I, AoWHSMap.FSeatedPlayer);
-                    bool bool__52 = !call__51;
-                    if (!bool__52)
+                    Dialog.FUnits.Add((byte)I);
+                    Image = Log.FArmyView.GetUnit(I).GetUnitGFXResourceIndex();
+                    if (Image != -1)
                     {
-                        var call__53 = Log.FDamageValues[I];
-                        bool__52 = call__53 != 0;
-                    }
-
-                    if (bool__52)
-                    {
-                        Dialog.FUnits.Add((byte)I);
-                        var call__54 = Log.FArmyView.GetUnit(I);
-                        var call__55 = call__54.GetUnitGFXResourceIndex();
-                        Image = call__55;
-                        if (Image != -1)
-                        {
-                            var call__56 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image);
-                            call__56.AddRef();
-                        }
+                        AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image).AddRef();
                     }
                 }
             }

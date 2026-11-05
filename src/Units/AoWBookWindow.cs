@@ -21,7 +21,7 @@ namespace Aow.Units.AoWBookWindow
         // AoWBookWindow.pas:50
         public override void Destroy()
         {
-            TSurface S = default;
+            TSurface S;
             FPageTurn.Free();
             S = FPageSurface;
             if (S != null)
@@ -35,8 +35,7 @@ namespace Aow.Units.AoWBookWindow
         // AoWBookWindow.pas:44
         public TAoWBookWindow(TComponent owner) : base(owner)
         {
-            var call__1 = new PageTurnCtrl.TPageTurnControl();
-            FPageTurn = call__1;
+            FPageTurn = new PageTurnCtrl.TPageTurnControl();
         }
 
         // AoWBookWindow.pas:78
@@ -45,8 +44,7 @@ namespace Aow.Units.AoWBookWindow
             if (FVisible && FAnimating)
             {
                 FSurfaceValid = false;
-                var call__2 = FPageTurn.UpdateScene();
-                if (!call__2)
+                if (!FPageTurn.UpdateScene())
                 {
                     FAnimating = false;
                     if (FOnAnimationComplete != null)
@@ -62,7 +60,7 @@ namespace Aow.Units.AoWBookWindow
         // AoWBookWindow.pas:59
         public override void SetVisible(bool Value)
         {
-            TSurface S = default;
+            TSurface S;
             if (Value != FVisible)
             {
                 FAnimating = false;
@@ -138,11 +136,10 @@ namespace Aow.Units.AoWBookWindow
         {
             TSurfaceDesc Source = default;
             TSurfaceDesc Dest = default;
-            TRect R = default;
+            TRect R;
             if (FBackSurface != null && FPageSurface != null)
             {
-                var call__3 = Rect(0, 0, FWinWidth, FWinHeight);
-                R = call__3;
+                R = Rect(0, 0, FWinWidth, FWinHeight);
                 FBackSurface.Lock(ref Source);
                 FPageSurface.Lock(ref Dest);
                 BltSDRectClipped(Source, R, Dest, 0, 0);

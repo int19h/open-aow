@@ -42,24 +42,20 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:101
         public override bool Activate(TAIGroupControl Control)
         {
-            bool Result = default;
             FState = 0;
             FControl = Control;
-            Result = true;
-            return Result;
+            return true;
         }
 
         // AGCPlugins.pas:133
         public override bool Process()
         {
-            bool Result = default;
-            TStructure Structure = default;
+            bool Result;
+            TStructure Structure;
             TBattleFieldInfo Info = default;
             if (FState == 0)
             {
-                var call__1 = AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FControl.FLocation));
-                var call__2 = call__1.FindNoneTransparentHS(typeof(TStructure));
-                Structure = (TStructure)call__2;
+                Structure = (TStructure)AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(TStructure));
                 if (Structure != null && Structure.GetRazeable())
                 {
                     SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, TSet<TBattleFieldInfoRequestsElement>.Of(TBattleFieldInfoRequestsElement.bfrIgnoreIndependents), FDamageTypes);
@@ -86,8 +82,7 @@ namespace Aow.Units.AGCPlugins
                 Done();
             }
 
-            Result = false;
-            return Result;
+            return false;
         }
 
         // AGCPlugins.pas:90
@@ -102,10 +97,8 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:98
         public bool Setup(TAIGroupControl Control)
         {
-            bool Result = default;
             Reset();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // AGCPlugins.pas:108
@@ -117,10 +110,8 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:111
         public bool ValidateRazeCity(TCity City, in TBattleFieldInfo Info)
         {
-            bool Result = default;
-            var call__3 = AoWHSMap.FRaces.GetRace(City.FRace);
-            var call__4 = call__3.GetPlayerRelation(FControl.FGroup.FPlayer);
-            switch (call__4)
+            bool Result;
+            switch (AoWHSMap.FRaces.GetRace(City.FRace).GetPlayerRelation(FControl.FGroup.FPlayer))
             {
                 case TStatus.sHostile:
                 case TStatus.sWary:
@@ -147,8 +138,7 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:125
         public bool ValidateRazeStructure(TStructure Structure, in TBattleFieldInfo Info)
         {
-            bool Result = default;
-            Result = false;
+            bool Result = false;
             if (FMode.Contains(TAIGroupRazeControlModeElement.rcmAlways))
             {
                 Result = true;
@@ -188,34 +178,29 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:157
         public TAIGroupDefendTargetSelector(TECustomNode owner) : base(owner)
         {
-            var call__5 = new TAIMoveTargetSelector(null);
-            FSelector = call__5;
-            var call__6 = new TAIGroupControlTargetList(null);
-            FTargets = call__6;
+            FSelector = new TAIMoveTargetSelector(null);
+            FTargets = new TAIGroupControlTargetList(null);
         }
 
         // AGCPlugins.pas:245
         public override bool Activate(TAIGroupControl Control)
         {
-            bool Result = default;
             FControl = Control;
             FSelector.Search(Control);
             FState = 0;
-            Result = true;
-            return Result;
+            return true;
         }
 
         // AGCPlugins.pas:253
         public override bool Process()
         {
-            bool Result = default;
+            bool Result;
             switch (FState)
             {
                 case 0:
                     if (FSelector.FStatus == TAIMoveTargetSelectorStatus.atsSearching)
                     {
-                        var call__7 = FSelector.Process();
-                        Result = call__7;
+                        Result = FSelector.Process();
                     }
                     else
                     {
@@ -230,21 +215,20 @@ namespace Aow.Units.AGCPlugins
 
                     break;
                 case 1:
-                    var call__8 = FTargets.Count;
-                    if (call__8 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FControl.FGroup.SetupTarget(null, TAIGroupTargetStatus.gtsIdle, 0);
                         FControl.SetupME();
-                        var call__9 = FTargets.GetTargets(0);
-                        if (Unsafe.As<TXYL, int>(ref call__9.FLocation) == Unsafe.As<TXYL, int>(ref FControl.FLocation))
+                        var targetLocation = FTargets.GetTargets(0);
+                        if (Unsafe.As<TXYL, int>(ref targetLocation.FLocation) == Unsafe.As<TXYL, int>(ref FControl.FLocation))
                         {
                             FControl.FMoveExecuter.FMode = FControl.FMoveExecuter.FMode - TSet<TAIMoveExecuterModeElement>.Of(TAIMoveExecuterModeElement.memAdjacent);
                         }
 
-                        var call__10 = FTargets.GetTargets(0);
-                        var call__11 = FTargets.GetTargets(0);
-                        var call__12 = FTargets.GetTargets(0);
-                        FControl.ExecuteME(call__12.FLocation.X, call__11.FLocation.Y, call__10.FLocation.L);
+                        var target = FTargets.GetTargets(0);
+                        var target2 = FTargets.GetTargets(0);
+                        var target3 = FTargets.GetTargets(0);
+                        FControl.ExecuteME(target3.FLocation.X, target2.FLocation.Y, target.FLocation.L);
                         FState = 2;
                     }
                     else
@@ -293,8 +277,8 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:188
         public int GetMovepathBattleFieldStrength(TMovepath Path)
         {
-            int Result = default;
-            int I = default;
+            int Result;
+            int I;
             TBattleFieldInfo Info = default;
             if (Path != null && FPathStep < Path.Count)
             {
@@ -306,10 +290,10 @@ namespace Aow.Units.AGCPlugins
                 while (I < Path.Count)
                 {
                     Info.Strength = 0;
-                    var call__16 = Path[I];
-                    var call__17 = Path[I];
-                    var call__18 = Path[I];
-                    AoWHSMap.RetrieveBattleFieldInfo(call__18.X, call__17.Y, call__16.L, FBattleFieldRadius, ref Info);
+                    var pathL = Path[I];
+                    var pathY = Path[I];
+                    var pathX = Path[I];
+                    AoWHSMap.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.L, FBattleFieldRadius, ref Info);
                     if (Result < Info.Strength)
                     {
                         Result = Info.Strength;
@@ -329,7 +313,7 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:213
         public void TargetFoundEvent(TMoveTarget Target, ref bool SearchDone)
         {
-            TAIGroupControlTarget NewTarget = default;
+            TAIGroupControlTarget NewTarget;
             NewTarget = new TAIGroupControlTarget(null);
             NewTarget.FInfo = this.FSelector.FTargetInfo;
 
@@ -339,8 +323,7 @@ namespace Aow.Units.AGCPlugins
             NewTarget.FData.Priority += Round((double)Target.FMovePoints * FMovePointsFactor);
             if (FMode.Contains(TAIGroupDefendTargetSelectorModeElement.dtmCalculateMovepathBFS))
             {
-                var call__20 = GetMovepathBattleFieldStrength(Target.FMovepath);
-                NewTarget.FPathStrength = call__20;
+                NewTarget.FPathStrength = GetMovepathBattleFieldStrength(Target.FMovepath);
             }
 
             if (Target.FTransporterID != -1)
@@ -359,14 +342,12 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:229
         public bool Setup(TAIGroupControl Control)
         {
-            bool Result = default;
             Reset();
             FSelector.FSourceLocation = Control.FLocation;
             FSelector.FMovePointTable = Control.FMovePointTable;
             FSelector.FTargetInfo.Player = Control.FGroup.FPlayer;
             FSelector.FTargetInfo.IndependentRelation = Control.FGroup.FIndependentRelation;
-            var call__21 = AoWHSMap.FPlayers.GetPlayers(Control.FGroup.FPlayer);
-            switch (call__21.FPlayerType)
+            switch (AoWHSMap.FPlayers.GetPlayers(Control.FGroup.FPlayer).FPlayerType)
             {
                 case TPlayerType.ptCPU2:
                     FMode = FMode + TSet<TAIGroupDefendTargetSelectorModeElement>.Of(TAIGroupDefendTargetSelectorModeElement.dtmCalculateMovepathBFS);
@@ -382,8 +363,7 @@ namespace Aow.Units.AGCPlugins
                     break;
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
     }
@@ -405,18 +385,15 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:297
         public TAIGroupWanderControl(TECustomNode owner) : base(owner)
         {
-            var call__22 = new TMoveControlSettings(null);
-            FMoveSettings = call__22;
+            FMoveSettings = new TMoveControlSettings(null);
         }
 
         // AGCPlugins.pas:319
         public override bool Activate(TAIGroupControl Control)
         {
-            bool Result = default;
             FControl = Control;
             FState = 0;
-            Result = true;
-            return Result;
+            return true;
         }
 
         // AGCPlugins.pas:329
@@ -454,14 +431,7 @@ namespace Aow.Units.AGCPlugins
                 {
                     var group = Control.FGroup;
                     // { Original reloads the current control. }
-                    bool bool__26 = group.FTargetMode == 1 && this.FControl.FGroup.FTargetXYL.X > 0;
-                    if (bool__26)
-                    {
-                        var call__27 = FMoveSettings.GetMovePoints(group.FTargetXYL.X, group.FTargetXYL.Y, group.FTargetXYL.L);
-                        bool__26 = call__27 != 16777215;
-                    }
-
-                    if (bool__26 && Unsafe.As<TXYL, int>(ref this.FControl.FGroup.FTargetXYL) != Unsafe.As<TXYL, int>(ref Control.FLocation))
+                    if (group.FTargetMode == 1 && this.FControl.FGroup.FTargetXYL.X > 0 && FMoveSettings.GetMovePoints(group.FTargetXYL.X, group.FTargetXYL.Y, group.FTargetXYL.L) != 16777215 && Unsafe.As<TXYL, int>(ref this.FControl.FGroup.FTargetXYL) != Unsafe.As<TXYL, int>(ref Control.FLocation))
                     {
                         FState = 2;
                     }
@@ -478,40 +448,30 @@ namespace Aow.Units.AGCPlugins
                     Fields = new TDoubleItemList();
                     if (Settings.FProcessedMapFields.Count > 40)
                     {
+                        I = Settings.FProcessedMapFields.Count - 1;
+                        for (; I >= 0; I -= 1)
                         {
-                            I = Settings.FProcessedMapFields.Count - 1;
-                            byte end__28 = 0;
-                            for (; I >= end__28; I -= 1)
+                            if ((I & 3) == 3)
                             {
-                                if ((I & 3) == 3)
+                                Field = (TAoWMapField)Settings.FProcessedMapFields[I];
+                                if (FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx) != 16777215)
                                 {
-                                    var call__29 = Settings.FProcessedMapFields[I];
-                                    Field = (TAoWMapField)call__29;
-                                    var call__30 = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                                    if (call__30 != 16777215)
-                                    {
-                                        var call__31 = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                                        Fields.AddAB(ObjectToInt(Field), call__31);
-                                    }
+                                    var movePoints = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
+                                    Fields.AddAB(ObjectToInt(Field), movePoints);
                                 }
                             }
                         }
                     }
                     else
                     {
+                        I = Settings.FProcessedMapFields.Count - 1;
+                        for (; I >= 0; I -= 1)
                         {
-                            I = Settings.FProcessedMapFields.Count - 1;
-                            byte end__32 = 0;
-                            for (; I >= end__32; I -= 1)
+                            Field = (TAoWMapField)Settings.FProcessedMapFields[I];
+                            if (FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx) != 16777215)
                             {
-                                var call__33 = Settings.FProcessedMapFields[I];
-                                Field = (TAoWMapField)call__33;
-                                var call__34 = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                                if (call__34 != 16777215)
-                                {
-                                    var call__35 = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                                    Fields.AddAB(ObjectToInt(Field), call__35);
-                                }
+                                var movePoints = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
+                                Fields.AddAB(ObjectToInt(Field), movePoints);
                             }
                         }
                     }
@@ -523,10 +483,8 @@ namespace Aow.Units.AGCPlugins
                         I = 0;
                         while (Fields.Count != 0 && Field == null)
                         {
-                            var call__36 = AoWHSMap.Random(Round((double)Fields.Count * 0.1) + 1);
-                            I = call__36;
-                            var call__37 = Fields[I];
-                            Field = ReferenceFromId<TAoWMapField>(call__37.A);
+                            I = AoWHSMap.Random(Round((double)Fields.Count * 0.1) + 1);
+                            Field = ReferenceFromId<TAoWMapField>(Fields[I].A);
                             if (Field.GetPlayer() != -1)
                             {
                                 Fields.Delete(I);
@@ -537,10 +495,8 @@ namespace Aow.Units.AGCPlugins
                         if (Field != null)
                         {
                             // { Original reads the list item before GetXYL. }
-                            var call__38 = Fields[I];
-                            TargetWeight = call__38.B;
-                            var call__39 = Field.GetXYL();
-                            Location.XYL = call__39;
+                            TargetWeight = Fields[I].B;
+                            Location.XYL = Field.GetXYL();
                             FControl.FGroup.SetupTargetEx(Location, TargetWeight, TAIGroupTargetStatus.gtsExecute, 1, -1, 0, 0);
                             FState += 1;
                         }
@@ -592,10 +548,8 @@ namespace Aow.Units.AGCPlugins
         // AGCPlugins.pas:316
         public bool Setup(TAIGroupControl Control)
         {
-            bool Result = default;
             Reset();
-            Result = true;
-            return Result;
+            return true;
         }
 
     }
@@ -604,12 +558,7 @@ namespace Aow.Units.AGCPlugins
     {
         public static TSet<TDamageType> AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
         // AGCPlugins.pas:326
-        public static int CompareWanderFields(in TDoubleItem Item1, in TDoubleItem Item2)
-        {
-            int Result = default;
-            Result = Item2.B - Item1.B;
-            return Result;
-        }
+        public static int CompareWanderFields(in TDoubleItem Item1, in TDoubleItem Item2) => Item2.B - Item1.B;
 
         public static void Initialize()
         {

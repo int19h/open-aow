@@ -12,25 +12,22 @@ namespace Aow.Units.CombatFire
     {
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence = default;
-            int ImageIndex = default;
+            TImageSequence Sequence;
+            int ImageIndex;
             int Xhp = default;
             int Yhp = default;
             HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
-            var call__1 = AoWHSSet.FImageSequences.GetImageSequence(60);
-            Sequence = call__1;
+            Sequence = AoWHSSet.FImageSequences.GetImageSequence(60);
             if (Sequence != null)
             {
                 do
                 {
-                    var call__2 = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
-                    ImageIndex = call__2;
+                    ImageIndex = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                     if (ImageIndex != -1)
                     {
-                        var call__3 = Sequence.ImageLibrary.Get(ImageIndex);
-                        call__3.Show(XhpSurf + Sequence.dXshift + FXShift, YhpSurf + Sequence.dYshift + FYShift, SurfaceDesc);
+                        Sequence.ImageLibrary.Get(ImageIndex).Show(XhpSurf + Sequence.dXshift + FXShift, YhpSurf + Sequence.dYshift + FYShift, SurfaceDesc);
                     }
 
                     Sequence = Sequence.Next;

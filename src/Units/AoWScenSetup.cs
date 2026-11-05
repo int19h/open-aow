@@ -229,7 +229,7 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:526
         public void Execute(TSetupControl Control)
         {
-            byte Availability = default;
+            byte Availability;
             FSetupControl = Control;
             E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
             ScenSetupPnl.Visible = true;
@@ -237,33 +237,27 @@ namespace Aow.Units.AoWScenSetup
             ChatEdit.Text = (AnsiString)"";
             FValidateDelay = 100;
             FPingDelay = 15;
-            var call__1 = FSetupControl.GetRemote();
-            ChatFogPnl.Visible = !call__1;
-            var call__2 = FSetupControl.GetRemote();
-            ChatMemo.FCaptureInput = call__2;
-            var call__3 = FSetupControl.GetRemote();
-            ChatEdit.FCaptureInput = call__3;
-            var call__4 = FSetupControl.GetHost();
-            if (call__4 && FSetupControl.FSettings.FMapName == (AnsiString)"")
+            var remote = FSetupControl.GetRemote();
+            ChatFogPnl.Visible = !remote;
+            var fSetupControlRemote = FSetupControl.GetRemote();
+            ChatMemo.FCaptureInput = fSetupControlRemote;
+            var remote2 = FSetupControl.GetRemote();
+            ChatEdit.FCaptureInput = remote2;
+            if (FSetupControl.GetHost() && FSetupControl.FSettings.FMapName == (AnsiString)"")
             {
                 PickMap();
             }
 
-            var call__5 = FSetupControl.GetRemote();
-            if (call__5)
+            if (FSetupControl.GetRemote())
             {
                 TacticalCombatCB.Visible = true;
                 TacticalCombatLbl.Visible = true;
                 TacticalCombatCB.Items.Clear();
+                for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
                 {
-                    int first__9 = 0;
-                    int end__6 = 2;
-                    for (int ordinal__8 = first__9; ordinal__8 <= end__6; ordinal__8++)
-                    {
-                        Availability = (byte)ordinal__8;
-                        var call__7 = TranslateRStr(AoWE.AoWE.TTacticalCombatAvailabilityRStr[Availability]);
-                        TacticalCombatCB.Items.AddObject(call__7, IntToObject(Availability));
-                    }
+                    Availability = (byte)availabilityOrdinal;
+                    var tacticalCombatAvailability = TranslateRStr(AoWE.AoWE.TTacticalCombatAvailabilityRStr[Availability]);
+                    TacticalCombatCB.Items.AddObject(tacticalCombatAvailability, IntToObject(Availability));
                 }
             }
             else
@@ -277,35 +271,28 @@ namespace Aow.Units.AoWScenSetup
                 CustomizeLeadersLbl.TextColor = 8421504;
                 CustomizeLeaders.FCaptureInput = false;
                 PlayModeCB.Items.Clear();
-                var call__10 = TranslateRStr(ClassicRStr);
-                PlayModeCB.Items.AddObject(call__10, IntToObject(1));
+                var classic = TranslateRStr(ClassicRStr);
+                PlayModeCB.Items.AddObject(classic, IntToObject(1));
             }
             else
             {
                 CustomizeLeadersLbl.TextColor = AlliedVictoryLbl.TextColor;
                 CustomizeLeaders.FCaptureInput = true;
                 PlayModeCB.Items.Clear();
-                var call__11 = TranslateRStr(SimultaneousRStr);
-                PlayModeCB.Items.AddObject(call__11, IntToObject(2));
-                var call__12 = TranslateRStr(ClassicRStr);
-                PlayModeCB.Items.AddObject(call__12, IntToObject(1));
+                var simultaneous = TranslateRStr(SimultaneousRStr);
+                PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
+                var classic = TranslateRStr(ClassicRStr);
+                PlayModeCB.Items.AddObject(classic, IntToObject(1));
             }
 
-            bool bool__13 = SongPlayer.CurrentIndex == -1;
-            if (!bool__13)
+            bool condition = SongPlayer.CurrentIndex == -1;
+            if (!condition)
             {
-                var call__14 = SongPlayer.Songs.Count;
-                bool__13 = SongPlayer.CurrentIndex >= call__14;
+                var count = SongPlayer.Songs.Count;
+                condition = SongPlayer.CurrentIndex >= count;
             }
 
-            bool bool__15 = bool__13;
-            if (!bool__15)
-            {
-                var call__16 = SongPlayer.Songs[SongPlayer.CurrentIndex];
-                bool__15 = call__16 != (AnsiString)"SONGS\\TITLE.IT";
-            }
-
-            if (bool__15)
+            if (condition || SongPlayer.Songs[SongPlayer.CurrentIndex] != (AnsiString)"SONGS\\TITLE.IT")
             {
                 SongPlayer.Songs.Clear();
                 SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
@@ -346,25 +333,21 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:295
         public void PlayerListDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
         {
-            int I = default;
-            var call__17 = PlayerList.Items.Count;
-            if (DrawItem < call__17)
+            int I;
+            if (DrawItem < PlayerList.Items.Count)
             {
-                var call__18 = PlayerList.Items.Objects[DrawItem];
-                var call__19 = FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(ObjectToInt(call__18));
-                I = call__19;
+                var objectValue = PlayerList.Items.Objects[DrawItem];
+                I = FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(ObjectToInt(objectValue));
                 if (I != -1)
                 {
-                    var call__20 = FSetupControl.FSettings.FRemotePlayers.GetPlayers(I);
-                    if (call__20.FMapValidation == TMapValidationInfo.mviInvalid)
+                    if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == TMapValidationInfo.mviInvalid)
                     {
                         FontModule.Age8s.Color = 255;
                         FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, AnsiString.FromBytes(88), SD);
                     }
                     else
                     {
-                        var call__21 = FSetupControl.FSettings.FRemotePlayers.GetPlayers(I);
-                        if (call__21.FMapValidation == TMapValidationInfo.mviInvalidMap)
+                        if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == TMapValidationInfo.mviInvalidMap)
                         {
                             FontModule.Age8s.Color = 32768;
                             FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, AnsiString.FromBytes(88), SD);
@@ -386,8 +369,8 @@ namespace Aow.Units.AoWScenSetup
         {
             if (PreferredRaceCB.Selected >= 0)
             {
-                var call__22 = PreferredRaceCB.Items.Objects[PreferredRaceCB.Selected];
-                FSetupControl.SetPreferredRace((byte)ObjectToInt(call__22));
+                var objectValue = PreferredRaceCB.Items.Objects[PreferredRaceCB.Selected];
+                FSetupControl.SetPreferredRace((byte)ObjectToInt(objectValue));
             }
         }
 
@@ -411,8 +394,8 @@ namespace Aow.Units.AoWScenSetup
             General.PlayButtonSound(0);
             if (PlayerList.Selected > -1)
             {
-                var call__23 = PlayerList.Items.Objects[PlayerList.Selected];
-                FSetupControl.hEjectPlayer(ObjectToInt(call__23));
+                var objectValue = PlayerList.Items.Objects[PlayerList.Selected];
+                FSetupControl.hEjectPlayer(ObjectToInt(objectValue));
             }
         }
 
@@ -422,8 +405,8 @@ namespace Aow.Units.AoWScenSetup
             General.PlayButtonSound(0);
             if (PlayerList.Selected > -1)
             {
-                var call__24 = PlayerList.Items.Objects[PlayerList.Selected];
-                FSetupControl.hSetHostRemoteID(ObjectToInt(call__24));
+                var objectValue = PlayerList.Items.Objects[PlayerList.Selected];
+                FSetupControl.hSetHostRemoteID(ObjectToInt(objectValue));
             }
         }
 
@@ -480,8 +463,8 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:422
         public void PlayModeCBChange()
         {
-            var call__25 = PlayModeCB.Items.Objects[PlayModeCB.Selected];
-            FSetupControl.hSetPlayMode((byte)ObjectToInt(call__25));
+            var objectValue = PlayModeCB.Items.Objects[PlayModeCB.Selected];
+            FSetupControl.hSetPlayMode((byte)ObjectToInt(objectValue));
             E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
         }
 
@@ -489,14 +472,13 @@ namespace Aow.Units.AoWScenSetup
         public void RacePlayerCBChange(TObject Sender)
         {
             TSetupPlayerBehavior Behavior = default;
-            TAOWComboBox Combo = default;
+            TAOWComboBox Combo;
             Combo = (TAOWComboBox)Sender;
-            var call__26 = Combo.Items[Combo.Selected];
-            var call__27 = FSetupControl.PlayerNameToPlayerID(call__26, ref Behavior);
-            if (call__27)
+            var item = Combo.Items[Combo.Selected];
+            if (FSetupControl.PlayerNameToPlayerID(item, ref Behavior))
             {
-                var call__28 = FSetupControl.FSettings.IndexOfRace((byte)Combo.Tag);
-                FSetupControl.hSetPlayerID(call__28, Behavior, true);
+                var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Combo.Tag);
+                FSetupControl.hSetPlayerID(indexOfRace, Behavior, true);
             }
 
             E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
@@ -505,10 +487,10 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:437
         public void RaceBehaviorCBChange(TAOWComboBox Sender)
         {
-            TAOWComboBox Control = default;
+            TAOWComboBox Control;
             Control = Sender;
-            var call__29 = FSetupControl.FSettings.IndexOfRace((byte)Control.Tag);
-            FSetupControl.hSetPlayerBehavior(call__29, (byte)Control.Selected);
+            var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Control.Tag);
+            FSetupControl.hSetPlayerBehavior(indexOfRace, (byte)Control.Selected);
             E2Globals.E2Globals.TitleWindow.TitleWin.FDrawn = false;
         }
 
@@ -593,8 +575,8 @@ namespace Aow.Units.AoWScenSetup
         // AoWScenSetup.pas:492
         public void TacticalCombatCBChange()
         {
-            var call__30 = TacticalCombatCB.Items.Objects[TacticalCombatCB.Selected];
-            FSetupControl.hSetTacticalCombatAvailability((byte)ObjectToInt(call__30));
+            var objectValue = TacticalCombatCB.Items.Objects[TacticalCombatCB.Selected];
+            FSetupControl.hSetTacticalCombatAvailability((byte)ObjectToInt(objectValue));
         }
 
         // AoWScenSetup.pas:498
@@ -602,14 +584,13 @@ namespace Aow.Units.AoWScenSetup
         {
             if (TurnTimeSl.Position == 0)
             {
-                var call__31 = TranslateRStr(NoTimerRStr);
-                TurnTimeVal.Text = LowerCase(call__31);
+                var noTimer = TranslateRStr(NoTimerRStr);
+                TurnTimeVal.Text = LowerCase(noTimer);
             }
             else
             {
-                var call__32 = TranslateRStr(XMinutesRStr);
-                var call__33 = AoWE.AoWE.Format(call__32, [IntToStr(TurnTimeSl.Position)]);
-                TurnTimeVal.Text = call__33;
+                var format = AoWE.AoWE.Format(TranslateRStr(XMinutesRStr), [IntToStr(TurnTimeSl.Position)]);
+                TurnTimeVal.Text = format;
             }
         }
 
@@ -618,44 +599,29 @@ namespace Aow.Units.AoWScenSetup
         {
             if (TurnsSl.Position == 0)
             {
-                var call__34 = TranslateRStr(NoLimitRStr);
-                TurnsVal.Text = LowerCase(call__34);
+                var noLimit = TranslateRStr(NoLimitRStr);
+                TurnsVal.Text = LowerCase(noLimit);
             }
             else
             {
-                var call__35 = TranslateRStr(XTurnsRStr);
-                var call__36 = AoWE.AoWE.Format(LowerCase(call__35), [IntToStr(TurnsSl.Position * 10)]);
-                TurnsVal.Text = call__36;
+                var format = AoWE.AoWE.Format(LowerCase(TranslateRStr(XTurnsRStr)), [IntToStr(TurnsSl.Position * 10)]);
+                TurnsVal.Text = format;
             }
         }
 
         // AoWScenSetup.pas:510
         public void SelectPlayer(int Index)
         {
-            bool bool__37 = Index >= 0;
-            if (bool__37)
-            {
-                var call__38 = PlayerList.Items.Count;
-                bool__37 = Index < call__38;
-            }
-
-            if (bool__37)
+            if (Index >= 0 && Index < PlayerList.Items.Count)
             {
                 PlayerList.Selected = Index;
                 PingList.Selected = Index;
                 PreferredRaceList.Selected = Index;
-                var call__39 = FSetupControl.GetHost();
-                bool bool__40 = call__39;
-                if (bool__40)
-                {
-                    var call__41 = PlayerList.Items.Objects[PlayerList.Selected];
-                    bool__40 = ObjectToInt(call__41) != FSetupControl.FRemotePlayer.FRemoteID;
-                }
-
-                EjectBtn.Visible = bool__40;
-                var call__42 = PlayerList.Items.Objects[PlayerList.Selected];
-                var call__43 = FSetupControl.CanSetHostRemoteID(ObjectToInt(call__42));
-                MakeHostBtn.Visible = call__43;
+                bool condition = FSetupControl.GetHost() && ObjectToInt(PlayerList.Items.Objects[PlayerList.Selected]) != FSetupControl.FRemotePlayer.FRemoteID;
+                EjectBtn.Visible = condition;
+                var objectValue = PlayerList.Items.Objects[PlayerList.Selected];
+                var canSetHostRemoteID = FSetupControl.CanSetHostRemoteID(ObjectToInt(objectValue));
+                MakeHostBtn.Visible = canSetHostRemoteID;
             }
             else
             {

@@ -48,16 +48,15 @@ namespace Aow.Units.UnitTabC
         // UnitTabC.pas:64
         public void UnitIndexGridSelectCell(TObject Sender, int ACol, int ARow, ref bool CanSelect)
         {
-            int Index = default;
-            TUnitIndexList List = default;
-            var call__1 = FUnitIndexGrid.ImageIndex(ACol, ARow);
-            Index = call__1;
+            int Index;
+            TUnitIndexList List;
+            Index = FUnitIndexGrid.ImageIndex(ACol, ARow);
             FUnitIndexGrid.SelectionEnabled = true;
             List = FUnitIndexGrid.FUnitIndexList;
             if (List != null)
             {
-                var call__2 = List[Index];
-                FSelectionControl.SetSelectedUnitIndex(call__2);
+                var list = List[Index];
+                FSelectionControl.SetSelectedUnitIndex(list);
             }
 
             if (FOnSelectUnit != null)

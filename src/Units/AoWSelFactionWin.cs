@@ -131,8 +131,8 @@ namespace Aow.Units.AoWSelFactionWin
             {
                 DSphere.Visible = false;
                 LSphere.Visible = false;
-                var call__1 = TranslateRStr(ChooseFactionRStr);
-                TopLbl.Text = call__1;
+                var chooseFaction = TranslateRStr(ChooseFactionRStr);
+                TopLbl.Text = chooseFaction;
             }
         }
 
@@ -143,8 +143,8 @@ namespace Aow.Units.AoWSelFactionWin
             {
                 DSphere.Visible = true;
                 LSphere.Visible = false;
-                var call__2 = TranslateRStr(CultOfStormsRStr);
-                TopLbl.Text = call__2;
+                var cultOfStorms = TranslateRStr(CultOfStormsRStr);
+                TopLbl.Text = cultOfStorms;
             }
         }
 
@@ -155,8 +155,8 @@ namespace Aow.Units.AoWSelFactionWin
             {
                 DSphere.Visible = false;
                 LSphere.Visible = true;
-                var call__3 = TranslateRStr(KeepersRStr);
-                TopLbl.Text = call__3;
+                var keepers = TranslateRStr(KeepersRStr);
+                TopLbl.Text = keepers;
             }
         }
 
@@ -170,7 +170,7 @@ namespace Aow.Units.AoWSelFactionWin
         // AoWSelFactionWin.pas:174
         public void FactionPnlUpdate()
         {
-            TRect R = default;
+            TRect R;
             if (AoWSelFactionWin.SelFactionWin.FFade >= 0)
             {
                 AoWSelFactionWin.SelFactionWin.FFade -= 6;
@@ -184,8 +184,8 @@ namespace Aow.Units.AoWSelFactionWin
                         LStart.Visible = false;
                         LSphere.Visible = false;
                         TopLbl.Visible = true;
-                        var call__4 = TranslateRStr(ChooseFactionRStr);
-                        TopLbl.Text = call__4;
+                        var chooseFaction = TranslateRStr(ChooseFactionRStr);
+                        TopLbl.Text = chooseFaction;
                         FactionPnl.ILIndexTexture = 0;
                     }
                     else
@@ -198,15 +198,14 @@ namespace Aow.Units.AoWSelFactionWin
                             DStart.Visible = false;
                             DSphere.Visible = false;
                             TopLbl.Visible = true;
-                            var call__5 = TranslateRStr(ChooseFactionRStr);
-                            TopLbl.Text = call__5;
+                            var chooseFaction = TranslateRStr(ChooseFactionRStr);
+                            TopLbl.Text = chooseFaction;
                             FactionPnl.ILIndexTexture = 0;
                         }
                     }
                 }
 
-                var call__7 = Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
-                R = call__7;
+                R = Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
 
                 TitleWindow.TitleWin.AddBltRect(ref R, null);
             }
@@ -233,8 +232,8 @@ namespace Aow.Units.AoWSelFactionWin
             TitleWindow.TitleWin.Visible = true;
             SelFactionWin.FactionPnl.Visible = true;
             Dialog.TopLbl.Visible = true;
-            var call__8 = TranslateRStr(ChooseFactionRStr);
-            Dialog.TopLbl.Text = call__8;
+            var chooseFaction = TranslateRStr(ChooseFactionRStr);
+            Dialog.TopLbl.Text = chooseFaction;
             Dialog.LName.Visible = false;
             Dialog.LText.Visible = false;
             Dialog.LBack.Visible = false;

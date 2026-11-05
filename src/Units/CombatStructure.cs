@@ -34,9 +34,8 @@ namespace Aow.Units.CombatStructure
         // CombatStructure.pas:229
         public override sbyte GetOverlay(int Index)
         {
-            sbyte Result = default;
-            var call__1 = FResource.TerrainList.GetTerrain(Index);
-            if (call__1 >= 0)
+            sbyte Result;
+            if (FResource.TerrainList.GetTerrain(Index) >= 0)
             {
                 if (FHitPoints == 0)
                 {
@@ -66,129 +65,104 @@ namespace Aow.Units.CombatStructure
                 switch (Msg.MsgID)
                 {
                     case 200704:
-                        var call__2 = AoWHSSet.FAbilityControl.GetAbility(65);
-                        call__2.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
-                        var call__3 = AoWHSMap.Random(16777215);
-                        RandSeed = call__3;
-                        var call__4 = GetDefense();
-                        var call__5 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__4);
-                        SetHitPoints(FHitPoints - call__5);
+                        AoWHSSet.FAbilityControl.GetAbility(65).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense = GetDefense();
+                        var executeDamageRole = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense);
+                        SetHitPoints(FHitPoints - executeDamageRole);
                         break;
                     case 200705:
-                        var call__6 = AoWHSSet.FAbilityControl.GetAbility(24);
-                        call__6.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
-                        var call__7 = AoWHSMap.Random(16777215);
-                        RandSeed = call__7;
-                        var call__8 = GetDefense();
-                        var call__9 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__8);
-                        SetHitPoints(FHitPoints - call__9);
+                        AoWHSSet.FAbilityControl.GetAbility(24).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense2 = GetDefense();
+                        var executeDamageRole2 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense2);
+                        SetHitPoints(FHitPoints - executeDamageRole2);
                         break;
                     case 200706:
-                        var call__10 = AoWHSSet.FAbilityControl.GetAbility(44);
-                        call__10.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
-                        var call__11 = AoWHSMap.Random(16777215);
-                        RandSeed = call__11;
-                        var call__12 = GetDefense();
-                        var call__13 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__12);
-                        SetHitPoints(FHitPoints - call__13);
+                        AoWHSSet.FAbilityControl.GetAbility(44).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense3 = GetDefense();
+                        var executeDamageRole3 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense3);
+                        SetHitPoints(FHitPoints - executeDamageRole3);
                         break;
                     case 200707:
-                        var call__14 = AoWHSSet.FSpellControl.GetSpell(117);
-                        call__14.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__15 = AoWHSMap.Random(16777215);
-                        RandSeed = call__15;
-                        var call__16 = GetDefense();
-                        var call__17 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__16);
-                        SetHitPoints(FHitPoints - call__17);
+                        AoWHSSet.FSpellControl.GetSpell(117).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense4 = GetDefense();
+                        var executeDamageRole4 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense4);
+                        SetHitPoints(FHitPoints - executeDamageRole4);
                         break;
                     case 200714:
-                        var call__18 = AoWHSSet.FAbilityControl.GetAbility(31);
-                        call__18.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
-                        var call__19 = AoWHSMap.Random(16777215);
-                        RandSeed = call__19;
-                        var call__20 = GetDefense();
-                        var call__21 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__20);
-                        SetHitPoints(FHitPoints - call__21);
+                        AoWHSSet.FAbilityControl.GetAbility(31).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense5 = GetDefense();
+                        var executeDamageRole5 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense5);
+                        SetHitPoints(FHitPoints - executeDamageRole5);
                         break;
                     case 200715:
-                        var call__22 = AoWHSSet.FSpellControl.GetSpell(113);
-                        call__22.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__23 = AoWHSMap.Random(16777215);
-                        RandSeed = call__23;
-                        var call__24 = GetDefense();
-                        var call__25 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__24);
-                        SetHitPoints(FHitPoints - call__25);
+                        AoWHSSet.FSpellControl.GetSpell(113).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense6 = GetDefense();
+                        var executeDamageRole6 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense6);
+                        SetHitPoints(FHitPoints - executeDamageRole6);
                         break;
                     case 200722:
                         if (Msg.Param[1].Value == 30 || Msg.Param[1].Value == 86)
                         {
-                            var call__26 = AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Value);
-                            call__26.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
-                            var call__27 = AoWHSMap.Random(16777215);
-                            RandSeed = call__27;
-                            var call__28 = GetDefense();
-                            var call__29 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - call__28);
-                            SetHitPoints(FHitPoints - call__29);
+                            AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Value).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                            RandSeed = AoWHSMap.Random(16777215);
+                            var defense7 = GetDefense();
+                            var executeDamageRole7 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense7);
+                            SetHitPoints(FHitPoints - executeDamageRole7);
                         }
 
                         break;
                     case 200723:
                         if (Msg.Param[1].Value == 114)
                         {
-                            var call__30 = AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Value);
-                            call__30.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
-                            var call__31 = AoWHSMap.Random(16777215);
-                            RandSeed = call__31;
-                            var call__32 = GetDefense();
-                            var call__33 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__32);
-                            SetHitPoints(FHitPoints - call__33);
+                            AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Value).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            RandSeed = AoWHSMap.Random(16777215);
+                            var defense7 = GetDefense();
+                            var executeDamageRole7 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense7);
+                            SetHitPoints(FHitPoints - executeDamageRole7);
                         }
 
                         break;
                     case 200710:
-                        var call__34 = AoWHSSet.FSpellControl.GetSpell(116);
-                        call__34.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__35 = AoWHSMap.Random(16777215);
-                        RandSeed = call__35;
-                        var call__36 = GetDefense();
-                        var call__37 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__36);
-                        SetHitPoints(FHitPoints - call__37);
+                        AoWHSSet.FSpellControl.GetSpell(116).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense8 = GetDefense();
+                        var executeDamageRole8 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense8);
+                        SetHitPoints(FHitPoints - executeDamageRole8);
                         break;
                     case 200717:
-                        var call__38 = AoWHSSet.FSpellControl.GetSpell(127);
-                        call__38.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__39 = AoWHSMap.Random(16777215);
-                        RandSeed = call__39;
-                        var call__40 = GetDefense();
-                        var call__41 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__40);
-                        SetHitPoints(FHitPoints - call__41);
+                        AoWHSSet.FSpellControl.GetSpell(127).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense9 = GetDefense();
+                        var executeDamageRole9 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense9);
+                        SetHitPoints(FHitPoints - executeDamageRole9);
                         break;
                     case 200718:
-                        var call__42 = AoWHSSet.FSpellControl.GetSpell(128);
-                        call__42.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__43 = AoWHSMap.Random(16777215);
-                        RandSeed = call__43;
-                        var call__44 = GetDefense();
-                        var call__45 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__44);
-                        SetHitPoints(FHitPoints - call__45);
+                        AoWHSSet.FSpellControl.GetSpell(128).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense10 = GetDefense();
+                        var executeDamageRole10 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense10);
+                        SetHitPoints(FHitPoints - executeDamageRole10);
                         break;
                     case 200708:
                         FPlaySound = Msg.Param[1].Value == 0;
-                        var call__46 = AoWHSSet.FSpellControl.GetSpell(112);
-                        call__46.GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
-                        var call__47 = AoWHSMap.Random(16777215);
-                        RandSeed = call__47;
-                        var call__48 = GetDefense();
-                        var call__49 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - call__48);
-                        SetHitPoints(FHitPoints - call__49);
+                        AoWHSSet.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense11 = GetDefense();
+                        var executeDamageRole11 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense11);
+                        SetHitPoints(FHitPoints - executeDamageRole11);
                         Msg.Param[1] = 1;
                         break;
                     case 200711:
-                        var call__50 = AoWHSMap.Random(16777215);
-                        RandSeed = call__50;
-                        var call__51 = GetDefense();
-                        var call__52 = ExecuteDamageRole(TCDamage[1], TCAttack[1] - call__51);
-                        SetHitPoints(FHitPoints - call__52);
+                        RandSeed = AoWHSMap.Random(16777215);
+                        var defense12 = GetDefense();
+                        var executeDamageRole12 = ExecuteDamageRole(TCDamage[1], TCAttack[1] - defense12);
+                        SetHitPoints(FHitPoints - executeDamageRole12);
                         break;
                 }
             }
@@ -197,8 +171,7 @@ namespace Aow.Units.CombatStructure
         // CombatStructure.pas:216
         public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
         {
-            var call__53 = FResource.TerrainList.GetUsed(Info.HN);
-            if (call__53)
+            if (FResource.TerrainList.GetUsed(Info.HN))
             {
                 if (FHitPoints == 0)
                 {
@@ -206,8 +179,7 @@ namespace Aow.Units.CombatStructure
                 }
                 else
                 {
-                    var call__54 = ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
-                    if (call__54)
+                    if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
                     {
                         MoveResult.Code = -1;
                     }
@@ -224,17 +196,14 @@ namespace Aow.Units.CombatStructure
         // CombatStructure.pas:60
         public override void Activate()
         {
-            TPlayerStructure Structure = default;
-            bool Razed = default;
+            TPlayerStructure Structure;
+            bool Razed;
             base.Activate();
             if (!AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 FPlaySound = true;
                 Razed = false;
-                var call__55 = AoWHSMap.MapContainer.GetMapLevel(CombatLLoc);
-                var call__56 = call__55.GetField(CombatXLoc, CombatYLoc);
-                var call__57 = call__56.FindNoneTransparentHS(typeof(TPlayerStructure));
-                Structure = (TPlayerStructure)call__57;
+                Structure = (TPlayerStructure)AoWHSMap.MapContainer.GetMapLevel(CombatLLoc).GetField(CombatXLoc, CombatYLoc).FindNoneTransparentHS(typeof(TPlayerStructure));
                 if (Structure != null)
                 {
                     Razed = Structure.GetRazed();
@@ -266,33 +235,18 @@ namespace Aow.Units.CombatStructure
         }
 
         // CombatStructure.pas:253
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
-            return Result;
-        }
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
 
         // CombatStructure.pas:250
-        public override bool CanPlaceOnHS(THexagonSprite HS)
-        {
-            bool Result = default;
-            Result = base.CanPlaceOnHS(HS) || HS is TCombatRoad;
-            return Result;
-        }
+        public override bool CanPlaceOnHS(THexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is TCombatRoad;
 
         // CombatStructure.pas:247
-        public override bool ValidTerrainType(int TerrainType)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool ValidTerrainType(int TerrainType) => true;
 
         // CombatStructure.pas:237
         public override int GetTerrainTypeImage(int TerrainType)
         {
-            int Result = default;
+            int Result;
             if (TerrainType == 3)
             {
                 Result = 20;
@@ -320,8 +274,8 @@ namespace Aow.Units.CombatStructure
         // CombatStructure.pas:79
         public void SetHitPoints(int Value)
         {
-            TfxHS Effect = default;
-            TXYZ Point = default;
+            TfxHS Effect;
+            TXYZ Point;
             if (Value < 0)
             {
                 Value = 0;
@@ -336,15 +290,12 @@ namespace Aow.Units.CombatStructure
                         PlaySample((AnsiString)"SFX\\HIT_DEATH\\D_WOODLG.WAV");
                     }
 
-                    var call__58 = AoWCombatMap.AddEffect(TfxType.fxWallSmoke);
-                    Effect = call__58;
+                    Effect = AoWCombatMap.AddEffect(TfxType.fxWallSmoke);
                     Point = new TXYZ();
                     Effect.FPath.Add(Point);
                     HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Point.X, ref Point.Y);
-                    var call__59 = Random(20);
-                    Point.X = call__59 + Point.X + 6;
-                    var call__60 = Random(20);
-                    Point.Y = call__60 + Point.Y - 20;
+                    Point.X = Random(20) + Point.X + 6;
+                    Point.Y = Random(20) + Point.Y - 20;
                 }
                 else
                 {
@@ -373,20 +324,10 @@ namespace Aow.Units.CombatStructure
         public new const int ClassID = 2229511;
 
         // CombatStructure.pas:262
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229510;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229510;
 
         // CombatStructure.pas:259
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat Structure";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat Structure";
 
     }
 

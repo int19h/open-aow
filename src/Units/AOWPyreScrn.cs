@@ -59,16 +59,13 @@ namespace Aow.Units.AOWPyreScrn
             FGameOverEvent = Event;
             FGameOverEvent.AddRef();
             FDone = Done;
-            var call__1 = BackupSongStatus();
-            FSavedSongStatus = call__1;
+            FSavedSongStatus = BackupSongStatus();
             FadeMusicVolume(0, 1);
             General.Manager.OverlayPriority = 249;
-            var call__2 = AoWHSMap.FPlayers.GetPlayers(Event.FPlayer);
-            switch (call__2.FGameOverStatus)
+            switch (AoWHSMap.FPlayers.GetPlayers(Event.FPlayer).FGameOverStatus)
             {
                 case TGameOverStatus.goLost:
-                    var call__3 = PlaySampleEx((AnsiString)"Sfx\\Attack\\Fireloop.wav", 64, true, 0, TSamplePanning.spCenter, null);
-                    FAnimation = call__3;
+                    FAnimation = PlaySampleEx((AnsiString)"Sfx\\Attack\\Fireloop.wav", 64, true, 0, TSamplePanning.spCenter, null);
                     AoWHSMap.FTutorialControl.ShowMessage(68, true, true);
                     break;
                 case TGameOverStatus.goWon:
@@ -83,9 +80,7 @@ namespace Aow.Units.AOWPyreScrn
             SetVideoMode(VideoDialog, TScreenMode.scmTitle);
             VideoDialog.ApplyMode();
             E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
-            var call__4 = Application.ExeName;
-            var call__5 = ExtractFileDir(call__4);
-            SetCurrentDir(call__5);
+            SetCurrentDir(ExtractFileDir(Application.ExeName));
         }
 
         // AOWPyreScrn.pas:48
@@ -109,8 +104,7 @@ namespace Aow.Units.AOWPyreScrn
                 R.Right = R.Left + 103;
                 R.Top = DeadPnl.WinTop + LeaderFaceFr.WinTop + 35;
                 R.Bottom = R.Top + 128;
-                var call__6 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                call__6.FLeader.ShowFace(R, SD);
+                AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FLeader.ShowFace(R, SD);
             }
         }
 
@@ -134,10 +128,10 @@ namespace Aow.Units.AOWPyreScrn
         // AOWPyreScrn.pas:77
         public void PyreAnimationDraw(TObject Sender, TSurfaceDesc SD)
         {
-            int X = default;
-            int Y = default;
-            int Frame = default;
-            AnsiString Text = default;
+            int X;
+            int Y;
+            int Frame;
+            AnsiString Text;
             X = PyreAnimation.WinWidth / 2;
             Y = PyreAnimation.WinHeight + 20 - FAnimationFrame / 2;
             if (Y < 400)
@@ -147,8 +141,7 @@ namespace Aow.Units.AOWPyreScrn
 
             Y += DeadPnl.WinTop;
             X += DeadPnl.WinLeft;
-            var call__7 = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
-            switch (call__7.FGameOverStatus)
+            switch (AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).FGameOverStatus)
             {
                 case TGameOverStatus.goLost:
                     Frame = FAnimationFrame / 3 % 9;
@@ -157,21 +150,13 @@ namespace Aow.Units.AOWPyreScrn
                         Frame = 0;
                     }
 
-                    var call__8 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames[Frame];
-                    call__8.Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
-                    var call__9 = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
-                    var call__10 = call__9.GetNameEx();
-                    var call__11 = TranslateRStr(YourReignHasEndedRStr);
-                    Text = call__10 + (AnsiString)", " + call__11;
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames[Frame].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
+                    Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + (AnsiString)", " + TranslateRStr(YourReignHasEndedRStr);
                     FontModule.AoW15BlackBrown.SetTextCentered(X, Y, Text, SD);
                     break;
                 case TGameOverStatus.goWon:
-                    var call__12 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.VictoryFrames[0];
-                    call__12.Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
-                    var call__13 = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer);
-                    var call__14 = call__13.GetNameEx();
-                    var call__15 = TranslateRStr(YouWhereVictoriousRStr);
-                    Text = call__14 + (AnsiString)", " + call__15;
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.VictoryFrames[0].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
+                    Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + (AnsiString)", " + TranslateRStr(YouWhereVictoriousRStr);
                     FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, Text, SD);
                     break;
             }

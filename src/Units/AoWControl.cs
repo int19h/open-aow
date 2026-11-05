@@ -20,8 +20,7 @@ namespace Aow.Units.AoWControl
         // AoWControl.pas:46
         public TAOWControl(TComponent owner) : base(owner)
         {
-            var call__1 = new TStringList();
-            FToolTipText = call__1;
+            FToolTipText = new TStringList();
             FCaptureInput = true;
         }
 
@@ -41,7 +40,7 @@ namespace Aow.Units.AoWControl
         public override void Update()
         {
             TRect R = default;
-            TAOWBaseWindow W = default;
+            TAOWBaseWindow W;
             if (FValid)
             {
                 if (FVisible)
@@ -74,8 +73,7 @@ namespace Aow.Units.AoWControl
                             }
                             else
                             {
-                                var call__2 = FToolTipText.Count;
-                                if (call__2 > 0 && !FMouseIn)
+                                if (FToolTipText.Count > 0 && !FMouseIn)
                                 {
                                     FToolTip.SetFStrings(FToolTipText);
                                     if (!FToolTip.FToolTipStatic)
@@ -93,13 +91,13 @@ namespace Aow.Units.AoWControl
 
                                     if (FAOWWindow != W)
                                     {
-                                        var call__3 = Rect(FAOWWindow.FWinLeft + W.FWinLeft + FWinLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop, FAOWWindow.FWinLeft + W.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop + FWinHeight);
-                                        FToolTip.FControlRect = call__3;
+                                        var rect = Rect(FAOWWindow.FWinLeft + W.FWinLeft + FWinLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop, FAOWWindow.FWinLeft + W.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop + FWinHeight);
+                                        FToolTip.FControlRect = rect;
                                     }
                                     else
                                     {
-                                        var call__4 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight);
-                                        FToolTip.FControlRect = call__4;
+                                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight);
+                                        FToolTip.FControlRect = rect;
                                     }
 
                                     FMouseIn = true;
@@ -125,13 +123,11 @@ namespace Aow.Units.AoWControl
                     {
                         if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                         {
-                            var call__5 = Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
-                            R = call__5;
+                            R = Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
                         }
                         else
                         {
-                            var call__6 = Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
-                            R = call__6;
+                            R = Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
                         }
 
                         FAOWOwner.AddDrawRect(ref R, this);
@@ -143,13 +139,11 @@ namespace Aow.Units.AoWControl
                         {
                             if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                             {
-                                var call__7 = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
-                                R = call__7;
+                                R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                             }
                             else
                             {
-                                var call__8 = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
-                                R = call__8;
+                                R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                             }
 
                             FAOWOwner.AddDrawRect(ref R, this);
@@ -160,17 +154,15 @@ namespace Aow.Units.AoWControl
                     {
                         if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                         {
-                            var call__9 = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
-                            R = call__9;
+                            R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                         }
                         else
                         {
-                            var call__10 = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
-                            R = call__10;
+                            R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                         }
 
-                        var call__11 = FAOWOwner.FChildren.IndexOf(this);
-                        FAOWOwner.InvalidateRect(call__11, ref R, this);
+                        var indexOf = FAOWOwner.FChildren.IndexOf(this);
+                        FAOWOwner.InvalidateRect(indexOf, ref R, this);
                     }
 
                     FOldRect.Left = FWinLeft;
@@ -184,13 +176,11 @@ namespace Aow.Units.AoWControl
                     {
                         if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                         {
-                            var call__12 = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
-                            R = call__12;
+                            R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                         }
                         else
                         {
-                            var call__13 = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
-                            R = call__13;
+                            R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                         }
 
                         FAOWOwner.AddDrawRect(ref R, this);
@@ -245,16 +235,11 @@ namespace Aow.Units.AoWControl
         // AoWControl.pas:70
         public void SetToolStrings(TStringList Value)
         {
-            int I = default;
             FToolTipText.Clear();
+            for (int I = 0, last = Value.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__14 = Value.Count - 1;
-                for (; I <= end__14; I += 1)
-                {
-                    var call__15 = Value[I];
-                    FToolTipText.Add(call__15);
-                }
+                var valueValue = Value[I];
+                FToolTipText.Add(valueValue);
             }
         }
 

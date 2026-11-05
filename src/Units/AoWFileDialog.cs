@@ -101,8 +101,8 @@ namespace Aow.Units.AoWFileDialog
         // 0 load, 1 save, 2 select map
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TSaveGameEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TSaveGameEventLog Event;
             Done = FDone;
             Event = FSaveEvent;
             FDone = null;
@@ -147,8 +147,7 @@ namespace Aow.Units.AoWFileDialog
             else
             {
                 AoWEngine.CloseCampaign();
-                var call__1 = AoWEngine.CreatePreviewHSM(Name);
-                Map = (TAoWHSMap)call__1;
+                Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(Name);
                 if (Map != null)
                 {
                     try
@@ -166,8 +165,8 @@ namespace Aow.Units.AoWFileDialog
                             E2Globals.E2Globals.TitleScene.HideScene();
                             General.HideWindows();
                             TBWindow.TaskWindow.Visible = false;
-                            var call__2 = ExtractRelativePath(AoWEngine.StartupDirectory, Name);
-                            MultiWindow.Execute(call__2);
+                            var relativePath = ExtractRelativePath(AoWEngine.StartupDirectory, Name);
+                            MultiWindow.Execute(relativePath);
                         }
                     }
                     finally
@@ -198,23 +197,16 @@ namespace Aow.Units.AoWFileDialog
         // AoWFileDialog.pas:233
         public void FindFiles()
         {
-            bool IncludeFile = default;
-            AnsiString Extension = default;
-            AnsiString Directory = default;
-            int I = default;
+            bool IncludeFile;
+            AnsiString Extension;
+            AnsiString Directory;
             TSearchRec Search = default;
-            TFileTime Stamp = default;
+            TFileTime Stamp;
+            for (int I = 0, last = DateLB.Items.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__3 = DateLB.Items.Count - 1;
-                for (; I <= end__3; I += 1)
+                if (DateLB.Items.Objects[I] != null)
                 {
-                    var call__4 = DateLB.Items.Objects[I];
-                    if (call__4 != null)
-                    {
-                        var call__5 = DateLB.Items.Objects[I];
-                        call__5.Free();
-                    }
+                    DateLB.Items.Objects[I].Free();
                 }
             }
 
@@ -246,8 +238,7 @@ namespace Aow.Units.AoWFileDialog
                         else
                         {
                             IncludeFile = false;
-                            var call__6 = ExtractFileExt(Search.Name);
-                            Extension = LowerCase(call__6);
+                            Extension = LowerCase(ExtractFileExt(Search.Name));
                             IncludeFile = IncludeFile || (FMode == 1 && AoWEngine.FCampaign != null && Extension == (AnsiString)".acg");
                             IncludeFile = IncludeFile || (FMode == 1 && AoWEngine.FCampaign == null && Extension == (AnsiString)".asg");
                             IncludeFile = IncludeFile || (FMode == 0 && (Extension == (AnsiString)".asg" || Extension == (AnsiString)".acg"));
@@ -256,8 +247,7 @@ namespace Aow.Units.AoWFileDialog
                             if (IncludeFile)
                             {
                                 Stamp = new TFileTime();
-                                var call__7 = FileDateToDateTime(Search.Time);
-                                Stamp.FTime = call__7;
+                                Stamp.FTime = FileDateToDateTime(Search.Time);
                                 AoWFileDialog.Files.AddObject(Search.Name, Stamp);
                             }
                         }
@@ -282,37 +272,25 @@ namespace Aow.Units.AoWFileDialog
             FileLB.Items.AddStrings(AoWFileDialog.Files);
             SaveLB.Items.AddStrings(FileLB.Items);
             PathEdit.Text = Directory + AnsiString.FromBytes(92);
+            for (int I = 0, last = AoWFileDialog.Directories.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__8 = AoWFileDialog.Directories.Count - 1;
-                for (; I <= end__8; I += 1)
-                {
-                    DateLB.Items.Add((AnsiString)"");
-                }
+                DateLB.Items.Add((AnsiString)"");
             }
 
+            for (int I = 0, last = AoWFileDialog.Files.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__9 = AoWFileDialog.Files.Count - 1;
-                for (; I <= end__9; I += 1)
-                {
-                    var call__10 = AoWFileDialog.Files.Objects[I];
-                    var call__11 = DateTimeToStr(((TFileTime)call__10).FTime);
-                    var call__12 = AoWFileDialog.Files.Objects[I];
-                    DateLB.Items.AddObject(call__11, call__12);
-                }
+                var dateTimeToStr = DateTimeToStr(((TFileTime)AoWFileDialog.Files.Objects[I]).FTime);
+                var objectValue = AoWFileDialog.Files.Objects[I];
+                DateLB.Items.AddObject(dateTimeToStr, objectValue);
             }
         }
 
         // AoWFileDialog.pas:296
         public void FileDlgWindowCreate()
         {
-            var call__13 = new TStringList();
-            AoWFileDialog.Drives = call__13;
-            var call__14 = new TStringList();
-            AoWFileDialog.Directories = call__14;
-            var call__15 = new TStringList();
-            AoWFileDialog.Files = call__15;
+            AoWFileDialog.Drives = new TStringList();
+            AoWFileDialog.Directories = new TStringList();
+            AoWFileDialog.Files = new TStringList();
             FDirectory = AoWEngine.StartupDirectory + (AnsiString)"Save\\";
             FLastFileName = (AnsiString)"";
         }
@@ -320,18 +298,11 @@ namespace Aow.Units.AoWFileDialog
         // AoWFileDialog.pas:305
         public void FileDlgWindowDestroy()
         {
-            int I = default;
+            for (int I = 0, last = DateLB.Items.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__16 = DateLB.Items.Count - 1;
-                for (; I <= end__16; I += 1)
+                if (DateLB.Items.Objects[I] != null)
                 {
-                    var call__17 = DateLB.Items.Objects[I];
-                    if (call__17 != null)
-                    {
-                        var call__18 = DateLB.Items.Objects[I];
-                        call__18.Free();
-                    }
+                    DateLB.Items.Objects[I].Free();
                 }
             }
 
@@ -346,8 +317,8 @@ namespace Aow.Units.AoWFileDialog
             AnsiString Path = default;
             AnsiString Directory = default;
             General.PlayButtonSound(0);
-            var call__19 = AoWFileDialog.Directories.Count;
-            if (FileLB.Selected < call__19 && FileLB.Selected > -1)
+            var count = AoWFileDialog.Directories.Count;
+            if (FileLB.Selected < count && FileLB.Selected > -1)
             {
                 Directory = GetCurrentDir();
                 if (Copy(Directory, Directory.Length, 1) == AnsiString.FromBytes(92))
@@ -355,9 +326,8 @@ namespace Aow.Units.AoWFileDialog
                     Directory = Copy(Directory, 1, Directory.Length - 1);
                 }
 
-                var call__20 = FileLB.Items[FileLB.Selected];
-                var call__21 = SetCurrentDir(Directory + AnsiString.FromBytes(92) + call__20);
-                if (call__21)
+                var item = FileLB.Items[FileLB.Selected];
+                if (SetCurrentDir(Directory + AnsiString.FromBytes(92) + item))
                 {
                     FindFiles();
                 }
@@ -375,14 +345,7 @@ namespace Aow.Units.AoWFileDialog
                 switch (FMode)
                 {
                     case 0:
-                        bool bool__22 = SFileName.Text != (AnsiString)"";
-                        if (bool__22)
-                        {
-                            var call__23 = FileExists(SFileName.Text);
-                            bool__22 = call__23;
-                        }
-
-                        if (bool__22)
+                        if (SFileName.Text != (AnsiString)"" && FileExists(SFileName.Text))
                         {
                             if (AoWHSMap != null)
                             {
@@ -464,14 +427,7 @@ namespace Aow.Units.AoWFileDialog
 
                         break;
                     case 2:
-                        bool bool__24 = FileName.Text != (AnsiString)"";
-                        if (bool__24)
-                        {
-                            var call__25 = FileExists(FileName.Text);
-                            bool__24 = call__25;
-                        }
-
-                        if (bool__24)
+                        if (FileName.Text != (AnsiString)"" && FileExists(FileName.Text))
                         {
                             PickScenarioMap(ScenSetup, FileName.Text);
                             FLastFileName = FileName.Text;
@@ -495,10 +451,8 @@ namespace Aow.Units.AoWFileDialog
         // AoWFileDialog.pas:400
         public void DriveCmbChange()
         {
-            var call__26 = DriveCmb.Items[DriveCmb.Selected];
-            var call__27 = DriveCmb.Items[DriveCmb.Selected];
-            var call__28 = SetCurrentDir(Copy(call__27, call__26.Length - 3, 3));
-            if (call__28)
+            var item = DriveCmb.Items[DriveCmb.Selected];
+            if (SetCurrentDir(Copy(DriveCmb.Items[DriveCmb.Selected], item.Length - 3, 3)))
             {
                 FindFiles();
             }
@@ -511,44 +465,41 @@ namespace Aow.Units.AoWFileDialog
         // AoWFileDialog.pas:406
         public void FileLBChange(TAOWListBox Sender)
         {
-            TAoWHSMap Map = default;
-            TAOWListBox List = default;
+            TAoWHSMap Map;
+            TAOWListBox List;
             List = Sender;
             FileLB.Selected = List.Selected;
             SaveLB.Selected = List.Selected;
             DateLB.Selected = List.Selected;
-            var call__29 = AoWFileDialog.Directories.Count;
-            if (call__29 - 1 < this.FileLB.Selected)
+            if (AoWFileDialog.Directories.Count - 1 < this.FileLB.Selected)
             {
-                var call__30 = FileLB.Items[FileLB.Selected];
-                SFileName.Text = call__30;
-                var call__31 = ExtractFileExt(SFileName.Text);
-                if (LowerCase(call__31) != (AnsiString)".acg")
+                var item = FileLB.Items[FileLB.Selected];
+                SFileName.Text = item;
+                if (LowerCase(ExtractFileExt(SFileName.Text)) != (AnsiString)".acg")
                 {
-                    var call__32 = AoWEngine.CreatePreviewHSM(SFileName.Text);
-                    Map = (TAoWHSMap)call__32;
+                    Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(SFileName.Text);
                     if (Map != null)
                     {
-                        var call__33 = Map.FPlayers.GetCount();
-                        LPlayers.Text = IntToStr(call__33 - 1);
+                        var count = Map.FPlayers.GetCount();
+                        LPlayers.Text = IntToStr(count - 1);
                         switch (Map.MapContainer.Width)
                         {
                             case 48:
-                                var call__34 = TranslateRStr(AnsiString.FromBytes(SmallMapAbrRStr));
-                                LSize.Text = call__34;
+                                var translateRStr = TranslateRStr(AnsiString.FromBytes(SmallMapAbrRStr));
+                                LSize.Text = translateRStr;
                                 break;
                             case 64:
-                                var call__35 = TranslateRStr(AnsiString.FromBytes(MediumMapAbrRStr));
-                                LSize.Text = call__35;
+                                var translateRStr2 = TranslateRStr(AnsiString.FromBytes(MediumMapAbrRStr));
+                                LSize.Text = translateRStr2;
                                 break;
                             case 96:
-                                var call__36 = TranslateRStr(AnsiString.FromBytes(LargeMapAbrRStr));
-                                LSize.Text = call__36;
+                                var translateRStr3 = TranslateRStr(AnsiString.FromBytes(LargeMapAbrRStr));
+                                LSize.Text = translateRStr3;
                                 break;
                             case 127:
                             case 128:
-                                var call__37 = TranslateRStr(ExtraLargeMapAbrRStr);
-                                LSize.Text = call__37;
+                                var extraLargeMapAbr = TranslateRStr(ExtraLargeMapAbrRStr);
+                                LSize.Text = extraLargeMapAbr;
                                 break;
                             default:
                                 LSize.Text = AnsiString.FromBytes(63);
@@ -592,11 +543,9 @@ namespace Aow.Units.AoWFileDialog
         // AoWFileDialog.pas:586
         public void FileLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
-            var call__38 = AoWFileDialog.Directories.Count;
-            if (call__38 > DrawItem)
+            if (AoWFileDialog.Directories.Count > DrawItem)
             {
-                var call__39 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[0];
-                call__39.ShowClipped(DrawRect.Left + 2, DrawRect.Top + 1, SurfDesc);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[0].ShowClipped(DrawRect.Left + 2, DrawRect.Top + 1, SurfDesc);
             }
         }
 
@@ -607,21 +556,21 @@ namespace Aow.Units.AoWFileDialog
             {
                 case 0:
                     SetCurrentDir(FDirectory);
-                    var call__40 = ExtractFileName(FLastFileName);
-                    SFileName.Text = call__40;
+                    var fileName = ExtractFileName(FLastFileName);
+                    SFileName.Text = fileName;
                     FileName.Text = SFileName.Text;
-                    var call__41 = TranslateRStr(SelectAFileToLoadRStr);
-                    AoWFileDialog.FileDlgWindow.Title.Text = call__41;
+                    var selectAFileToLoad = TranslateRStr(SelectAFileToLoadRStr);
+                    AoWFileDialog.FileDlgWindow.Title.Text = selectAFileToLoad;
                     AoWFileDialog.FileDlgWindow.SFileName.Editable = false;
-                    var call__42 = TranslateRStr(OpenRStr);
-                    AoWFileDialog.FileDlgWindow.Openbut.Text = call__42;
+                    var open = TranslateRStr(OpenRStr);
+                    AoWFileDialog.FileDlgWindow.Openbut.Text = open;
                     SavePnl.Visible = true;
                     NewPnl.Visible = false;
                     break;
                 case 1:
                     SetCurrentDir(FDirectory);
-                    var call__43 = ExtractFileName(FLastFileName);
-                    SFileName.Text = call__43;
+                    var fileName2 = ExtractFileName(FLastFileName);
+                    SFileName.Text = fileName2;
                     if (Pos(AnsiString.FromBytes(46), SFileName.Text) != 0)
                     {
                         SFileName.Text = Copy(SFileName.Text, 1, Pos(AnsiString.FromBytes(46), SFileName.Text) - 1);
@@ -640,20 +589,19 @@ namespace Aow.Units.AoWFileDialog
                     }
 
                     FileName.Text = SFileName.Text;
-                    var call__44 = TranslateRStr(SaveGameAsRStr);
-                    AoWFileDialog.FileDlgWindow.Title.Text = call__44;
+                    var saveGameAs = TranslateRStr(SaveGameAsRStr);
+                    AoWFileDialog.FileDlgWindow.Title.Text = saveGameAs;
                     AoWFileDialog.FileDlgWindow.SFileName.Editable = true;
-                    var call__45 = TranslateRStr(SaveRStr);
-                    AoWFileDialog.FileDlgWindow.Openbut.Text = call__45;
+                    var save = TranslateRStr(SaveRStr);
+                    AoWFileDialog.FileDlgWindow.Openbut.Text = save;
                     SavePnl.Visible = true;
                     NewPnl.Visible = false;
                     break;
                 case 2:
-                    var call__46 = ExtractFileExt(FLastFileName);
-                    if (call__46 == (AnsiString)".hsm")
+                    if (ExtractFileExt(FLastFileName) == (AnsiString)".hsm")
                     {
-                        var call__47 = ExtractFileName(FLastFileName);
-                        FileName.Text = call__47;
+                        var fileName3 = ExtractFileName(FLastFileName);
+                        FileName.Text = fileName3;
                     }
                     else
                     {
@@ -661,10 +609,10 @@ namespace Aow.Units.AoWFileDialog
                     }
 
                     SetCurrentDir(AoWEngine.StartupDirectory + (AnsiString)"Scenario\\Custom\\");
-                    var call__48 = TranslateRStr(SelectAMapRStr);
-                    AoWFileDialog.FileDlgWindow.Title.Text = call__48;
-                    var call__49 = TranslateRStr(SelectRStr);
-                    AoWFileDialog.FileDlgWindow.Openbut.Text = call__49;
+                    var selectAMap = TranslateRStr(SelectAMapRStr);
+                    AoWFileDialog.FileDlgWindow.Title.Text = selectAMap;
+                    var select = TranslateRStr(SelectRStr);
+                    AoWFileDialog.FileDlgWindow.Openbut.Text = select;
                     SavePnl.Visible = false;
                     NewPnl.Visible = true;
                     break;
@@ -676,7 +624,7 @@ namespace Aow.Units.AoWFileDialog
         // AoWFileDialog.pas:502
         public void mSBarChange(TAOWVScrollBar Sender)
         {
-            TAOWVScrollBar Bar = default;
+            TAOWVScrollBar Bar;
             Bar = Sender;
             FileLB.ListOffset = Bar.Position;
             SaveLB.ListOffset = Bar.Position;
@@ -700,22 +648,16 @@ namespace Aow.Units.AoWFileDialog
         public void SaveBtnClick(TObject Sender)
         {
             AnsiString Selected = default;
-            int I = default;
             General.PlayButtonSound(0);
             if (FileLB.Selected != -1)
             {
-                var call__50 = FileLB.Items[FileLB.Selected];
-                Selected = call__50;
+                Selected = FileLB.Items[FileLB.Selected];
             }
 
+            for (int I = 0, last = AoWFileDialog.Directories.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__51 = AoWFileDialog.Directories.Count - 1;
-                for (; I <= end__51; I += 1)
-                {
-                    SaveLB.Items.Delete(0);
-                    DateLB.Items.Delete(0);
-                }
+                SaveLB.Items.Delete(0);
+                DateLB.Items.Delete(0);
             }
 
             if (FMode == 1 || FMode == 0)
@@ -731,21 +673,17 @@ namespace Aow.Units.AoWFileDialog
                 }
             }
 
+            for (int I = 0, last = AoWFileDialog.Directories.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__52 = AoWFileDialog.Directories.Count - 1;
-                for (; I <= end__52; I += 1)
-                {
-                    var call__53 = AoWFileDialog.Directories[I];
-                    SaveLB.Items.Insert(I, call__53);
-                    DateLB.Items.Insert(I, (AnsiString)"");
-                }
+                var directory = AoWFileDialog.Directories[I];
+                SaveLB.Items.Insert(I, directory);
+                DateLB.Items.Insert(I, (AnsiString)"");
             }
 
             if (Selected != (AnsiString)"")
             {
-                var call__54 = FileLB.Items.IndexOf(Selected);
-                FileLB.Selected = call__54;
+                var indexOf = FileLB.Items.IndexOf(Selected);
+                FileLB.Selected = indexOf;
             }
 
             FileLBChange(FileLB);
@@ -755,24 +693,18 @@ namespace Aow.Units.AoWFileDialog
         public void DateBtnClick(TObject Sender)
         {
             AnsiString Selected = default;
-            int I = default;
             General.PlayButtonSound(0);
             if (FileLB.Selected != -1)
             {
-                var call__55 = FileLB.Items[FileLB.Selected];
-                Selected = call__55;
+                Selected = FileLB.Items[FileLB.Selected];
             }
 
             if (FMode == 1 || FMode == 0)
             {
+                for (int I = 0, last = SaveLB.Items.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__56 = SaveLB.Items.Count - 1;
-                    for (; I <= end__56; I += 1)
-                    {
-                        var call__57 = DateLB.Items.Objects[I];
-                        SaveLB.Items.Objects[I] = call__57;
-                    }
+                    var objectValue = DateLB.Items.Objects[I];
+                    SaveLB.Items.Objects[I] = objectValue;
                 }
 
                 SortStringsEx(SaveLB.Items, AoWFileDialog.CompareFileDates, [DateLB.Items, FileLB.Items]);
@@ -781,14 +713,10 @@ namespace Aow.Units.AoWFileDialog
             {
                 if (FMode == 2)
                 {
+                    for (int I = 0, last = FileLB.Items.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__58 = FileLB.Items.Count - 1;
-                        for (; I <= end__58; I += 1)
-                        {
-                            var call__59 = DateLB.Items.Objects[I];
-                            FileLB.Items.Objects[I] = call__59;
-                        }
+                        var objectValue = DateLB.Items.Objects[I];
+                        FileLB.Items.Objects[I] = objectValue;
                     }
 
                     SortStringsEx(FileLB.Items, AoWFileDialog.CompareFileDates, [DateLB.Items, SaveLB.Items]);
@@ -797,8 +725,8 @@ namespace Aow.Units.AoWFileDialog
 
             if (Selected != (AnsiString)"")
             {
-                var call__60 = FileLB.Items.IndexOf(Selected);
-                FileLB.Selected = call__60;
+                var indexOf = FileLB.Items.IndexOf(Selected);
+                FileLB.Selected = indexOf;
             }
 
             FileLBChange(FileLB);
@@ -835,7 +763,7 @@ namespace Aow.Units.AoWFileDialog
         // AoWFileDialog.pas:121
         public static int CompareFileDates(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
         {
-            int Result = default;
+            int Result;
             if (O1 == null && O2 == null)
             {
                 Result = CompareText(S1, S2);

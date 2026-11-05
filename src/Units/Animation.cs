@@ -73,7 +73,7 @@ namespace Aow.Units.Animation
         // Animation.pas:153
         public override TSet<TEControlStyleElement> GetControlStyle()
         {
-            TSet<TEControlStyleElement> Result = default;
+            TSet<TEControlStyleElement> Result;
             if (AnimationControlMode().Contains(TAnimationControlModeElement.amSaveable))
             {
                 Result = TSet<TEControlStyleElement>.Of(TEControlStyleElement.csSaveLoad);
@@ -101,12 +101,7 @@ namespace Aow.Units.Animation
 
 
         // Animation.pas:194
-        public override byte GetLevel()
-        {
-            byte Result = default;
-            Result = FAnimationLevel;
-            return Result;
-        }
+        public override byte GetLevel() => FAnimationLevel;
 
         // Animation.pas:207
         public override void SetVisible(bool Value)
@@ -122,52 +117,22 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:213
-        public override bool GetVisible()
-        {
-            bool Result = default;
-            Result = FState.Contains(TAnimationStateElement.asVisible);
-            return Result;
-        }
+        public override bool GetVisible() => FState.Contains(TAnimationStateElement.asVisible);
 
         // Animation.pas:250
-        public override bool GetSelected()
-        {
-            bool Result = default;
-            Result = FState.Contains(TAnimationStateElement.asSelected);
-            return Result;
-        }
+        public override bool GetSelected() => FState.Contains(TAnimationStateElement.asSelected);
 
         // Animation.pas:261
-        public override sbyte GetXhx()
-        {
-            sbyte Result = default;
-            Result = FXhx;
-            return Result;
-        }
+        public override sbyte GetXhx() => FXhx;
 
         // Animation.pas:266
-        public override sbyte GetYhx()
-        {
-            sbyte Result = default;
-            Result = FYhx;
-            return Result;
-        }
+        public override sbyte GetYhx() => FYhx;
 
         // Animation.pas:271
-        public override sbyte GetLhx()
-        {
-            sbyte Result = default;
-            Result = FLhx;
-            return Result;
-        }
+        public override sbyte GetLhx() => FLhx;
 
         // Animation.pas:227
-        public override bool GetEditMode()
-        {
-            bool Result = default;
-            Result = FState.Contains(TAnimationStateElement.asEditMode);
-            return Result;
-        }
+        public override bool GetEditMode() => FState.Contains(TAnimationStateElement.asEditMode);
 
         // Animation.pas:232
         public override void SetEditMode(bool Value)
@@ -185,12 +150,10 @@ namespace Aow.Units.Animation
         // Animation.pas:199
         public override int GetShowPriority()
         {
-            int Result = default;
             int X = default;
             int Y = default;
             HXtoHP(FXhx, FYhx, ref X, ref Y);
-            Result = (FAnimationLevel << 26) + ((Y + FDimensions.Bottom) << 13) + X;
-            return Result;
+            return (FAnimationLevel << 26) + ((Y + FDimensions.Bottom) << 13) + X;
         }
 
         // Animation.pas:315
@@ -247,12 +210,10 @@ namespace Aow.Units.Animation
         // Animation.pas:349
         public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
         {
-            bool Result = default;
             int X = default;
             int Y = default;
             HPtoHX(Xhp, Yhp, ref X, ref Y);
-            Result = PlaceHX(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
-            return Result;
+            return PlaceHX(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
         }
 
         // Animation.pas:372
@@ -326,8 +287,7 @@ namespace Aow.Units.Animation
             if (!FState.Contains(TAnimationStateElement.asVisible))
             {
                 FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asVisible);
-                var call__1 = GetShowPriority();
-                VisibilityList.AddSortChild(this, call__1);
+                VisibilityList.AddSortChild(this, GetShowPriority());
             }
         }
 
@@ -346,35 +306,22 @@ namespace Aow.Units.Animation
         }
 
         // Animation.pas:286
-        public virtual bool PlaceTE(TAnimationTE Event, TTokenExecuter Executer)
-        {
-            bool Result = default;
-            var call__2 = PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
-            Result = call__2;
-            return Result;
-        }
+        public virtual bool PlaceTE(TAnimationTE Event, TTokenExecuter Executer) => PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
 
         // Animation.pas:291
         public virtual bool RemoveTE(TAnimationTE Event, TTokenExecuter Executer)
         {
-            bool Result = default;
             MainRemove();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // Animation.pas:297
-        public virtual bool ExecuteTE(TAnimationTE Event, TTokenExecuter Executer)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool ExecuteTE(TAnimationTE Event, TTokenExecuter Executer) => false;
 
         // Animation.pas:308
         public virtual bool CanPlace(TMapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
-            bool Result = default;
+            bool Result;
             if (X < 0 || Y < 0 || L < 0 || X >= Map.Width || Y >= Map.Height || L >= Map.LevelCount)
             {
                 Result = false;
@@ -390,16 +337,8 @@ namespace Aow.Units.Animation
         // Animation.pas:357
         public virtual bool PlaceHX(TMapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
-            bool Result = default;
-            var call__3 = GetEditMode();
-            bool bool__4 = call__3;
-            if (!bool__4)
-            {
-                var call__5 = CanPlace(Map, X, Y, L);
-                bool__4 = call__5;
-            }
-
-            if (bool__4)
+            bool Result;
+            if (GetEditMode() || CanPlace(Map, X, Y, L))
             {
                 FAnimationMap = Map.Map;
                 Remove();
@@ -459,12 +398,7 @@ namespace Aow.Units.Animation
 
 
         // Animation.pas:159
-        public virtual TSet<TAnimationControlModeElement> AnimationControlMode()
-        {
-            TSet<TAnimationControlModeElement> Result = default;
-            Result = TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amFixedVisible, TAnimationControlModeElement.amLinkToOnDestroy);
-            return Result;
-        }
+        public virtual TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amFixedVisible, TAnimationControlModeElement.amLinkToOnDestroy);
 
 
     }
@@ -490,14 +424,12 @@ namespace Aow.Units.Animation
         // Animation.pas:405
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            TExecuteResult Result = default;
-            Result = base.Execute(TE);
+            TExecuteResult Result = base.Execute(TE);
             if (FAnimation != null)
             {
                 if (FState == TAnimationTEState.atIdle)
                 {
-                    var call__6 = FAnimation.PlaceTE(this, TE);
-                    if (call__6)
+                    if (FAnimation.PlaceTE(this, TE))
                     {
                         FState = TAnimationTEState.atPlaying;
                     }
@@ -509,8 +441,7 @@ namespace Aow.Units.Animation
 
                 if (FState == TAnimationTEState.atPlaying)
                 {
-                    var call__7 = FAnimation.ExecuteTE(this, TE);
-                    if (!call__7)
+                    if (!FAnimation.ExecuteTE(this, TE))
                     {
                         FAnimation.RemoveTE(this, TE);
                         FState = TAnimationTEState.atDone;
@@ -564,13 +495,12 @@ namespace Aow.Units.Animation
         // Animation.pas:493
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence = default;
+            TImageSequence Sequence;
             int X = default;
             int Y = default;
-            int Index = default;
+            int Index;
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
-            var call__8 = GetLhx();
-            if (call__8 == FAnimationMap.ViewL)
+            if (GetLhx() == FAnimationMap.ViewL)
             {
                 HXtoHP(FXhx, FYhx, ref X, ref Y);
                 XhpSurf = X - XhpSurf + 16 + FXhpOffset;
@@ -580,15 +510,12 @@ namespace Aow.Units.Animation
                     Sequence = FImageSequence;
                     while (Sequence != null)
                     {
-                        var call__9 = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-                        Index = call__9;
+                        Index = Sequence.GetUnloopedFrameIndex(FFrameCounter);
                         if (Index != -1)
                         {
-                            var call__10 = Sequence.ImageLibrary.ImageExist(Index);
-                            if (call__10)
+                            if (Sequence.ImageLibrary.ImageExist(Index))
                             {
-                                var call__11 = Sequence.ImageLibrary[Index];
-                                call__11.Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                                Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
                             }
                         }
 
@@ -600,12 +527,10 @@ namespace Aow.Units.Animation
                     Sequence = FImageSequence;
                     while (Sequence != null)
                     {
-                        var call__12 = Sequence.GetFrameIndex(0, FFrameCounter);
-                        Index = call__12;
+                        Index = Sequence.GetFrameIndex(0, FFrameCounter);
                         if (Index != -1)
                         {
-                            var call__13 = Sequence.ImageLibrary[Index];
-                            call__13.Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                            Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
                         }
 
                         Sequence = Sequence.Next;
@@ -627,7 +552,7 @@ namespace Aow.Units.Animation
         // Animation.pas:432
         public void UpdateDimensions()
         {
-            TImageSequence Sequence = default;
+            TImageSequence Sequence;
             TRect R = default;
             FDimensions.Left = 0;
             FDimensions.Right = 0;
@@ -650,8 +575,8 @@ namespace Aow.Units.Animation
         // Animation.pas:454
         public void SetImageSequence(TImageSequence Sequence)
         {
-            TImageSequence Current = default;
-            int Frames = default;
+            TImageSequence Current;
+            int Frames;
             FImageSequence = Sequence;
             UpdateDimensions();
             if (!FLooped)
@@ -714,71 +639,61 @@ namespace Aow.Units.Animation
         // Animation.pas:538
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence = default;
-            int OldSeed = default;
-            int Delay = default;
+            TImageSequence Sequence;
+            int OldSeed;
+            int Delay;
             int X = default;
             int Y = default;
             int DX = default;
             int DY = default;
-            int I = default;
-            int Radius = default;
-            int Angle = default;
-            int Index = default;
+            int Radius;
+            int Angle;
+            int Index;
             OldSeed = RandSeed;
             HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf + 16;
             YhpSurf = Y - YhpSurf + 16;
-            var call__14 = GetXhx();
-            var call__15 = GetYhx();
-            RandSeed = call__14 + AoWHSMap.FInitialRandomSeed + call__15 * 3;
+            var xhx = GetXhx();
+            var yhx = GetYhx();
+            RandSeed = xhx + AoWHSMap.FInitialRandomSeed + yhx * 3;
+            for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                I = 0;
-                int end__16 = FCount - 1;
-                for (; I <= end__16; I += 1)
+                Radius = Random(FRadius);
+                Angle = Random(360);
+                Delay = Random(FStartDelay);
+                if (FFrameCounter - Delay >= 0)
                 {
-                    var call__17 = Random(FRadius);
-                    Radius = call__17;
-                    Angle = Random(360);
-                    var call__18 = Random(FStartDelay);
-                    Delay = call__18;
-                    if (FFrameCounter - Delay >= 0)
+                    if (FMode.Contains(TTwinkleModeElement.tmExpand))
                     {
-                        if (FMode.Contains(TTwinkleModeElement.tmExpand))
+                        Radius = Round((double)(Radius * FFrameCounter) / FDuration) + Radius / 2;
+                    }
+
+                    if (FMode.Contains(TTwinkleModeElement.tmExplode))
+                    {
+                        Radius += Round((FFrameCounter - Delay) * (FFrameCounter - Delay));
+                    }
+
+                    if (FMode.Contains(TTwinkleModeElement.tmImplode))
+                    {
+                        Radius += Round(FDuration - (FFrameCounter - Delay));
+                    }
+
+                    if (FMode.Contains(TTwinkleModeElement.tmRotate))
+                    {
+                        Angle += FFrameCounter * 4;
+                    }
+
+                    DegreesRadToCo(Angle, Radius, ref DX, ref DY);
+                    Sequence = FImageSequence;
+                    while (Sequence != null)
+                    {
+                        Index = Sequence.GetUnloopedFrameIndex(FFrameCounter - Delay);
+                        if (Sequence.ImageLibrary.ImageExist(Index))
                         {
-                            Radius = Round((double)(Radius * FFrameCounter) / FDuration) + Radius / 2;
+                            Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift + DX, YhpSurf + Sequence.dYshift + DY, SurfaceDesc);
                         }
 
-                        if (FMode.Contains(TTwinkleModeElement.tmExplode))
-                        {
-                            Radius += Round((FFrameCounter - Delay) * (FFrameCounter - Delay));
-                        }
-
-                        if (FMode.Contains(TTwinkleModeElement.tmImplode))
-                        {
-                            Radius += Round(FDuration - (FFrameCounter - Delay));
-                        }
-
-                        if (FMode.Contains(TTwinkleModeElement.tmRotate))
-                        {
-                            Angle += FFrameCounter * 4;
-                        }
-
-                        DegreesRadToCo(Angle, Radius, ref DX, ref DY);
-                        Sequence = FImageSequence;
-                        while (Sequence != null)
-                        {
-                            var call__19 = Sequence.GetUnloopedFrameIndex(FFrameCounter - Delay);
-                            Index = call__19;
-                            var call__20 = Sequence.ImageLibrary.ImageExist(Index);
-                            if (call__20)
-                            {
-                                var call__21 = Sequence.ImageLibrary[Index];
-                                call__21.Show(XhpSurf + Sequence.dXshift + DX, YhpSurf + Sequence.dYshift + DY, SurfaceDesc);
-                            }
-
-                            Sequence = Sequence.Next;
-                        }
+                        Sequence = Sequence.Next;
                     }
                 }
             }

@@ -16,12 +16,7 @@ namespace Aow.Units.LifeNode
         public new const int ClassID = 131953;
 
         // LifeNode.pas:40
-        public override TMagicSphere GetMagicSphere()
-        {
-            TMagicSphere Result = default;
-            Result = TMagicSphere.msLife;
-            return Result;
-        }
+        public override TMagicSphere GetMagicSphere() => TMagicSphere.msLife;
 
     }
 
@@ -42,23 +37,13 @@ namespace Aow.Units.LifeNode
 
 
         // LifeNode.pas:58
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131953;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131953;
 
         // LifeNode.pas:27
 
 
         // LifeNode.pas:52
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(LifeNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(LifeNodeRStr);
 
     }
 

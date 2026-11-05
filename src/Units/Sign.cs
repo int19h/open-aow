@@ -17,10 +17,8 @@ namespace Aow.Units.Sign
     {
         public TSign(TECustomNode owner) : base(owner)
         {
-            var call__1 = new TStringList();
-            FText = call__1;
-            var call__2 = new TBitList();
-            FTextSeen = call__2;
+            FText = new TStringList();
+            FTextSeen = new TBitList();
         }
 
         // Sign.pas:99
@@ -64,13 +62,7 @@ namespace Aow.Units.Sign
         }
 
         // Sign.pas:113
-        public bool GetTextSeen(sbyte Player)
-        {
-            bool Result = default;
-            var call__3 = FTextSeen[Player];
-            Result = call__3;
-            return Result;
-        }
+        public bool GetTextSeen(sbyte Player) => FTextSeen[Player];
 
         // Sign.pas:116
         public void SetText(TStrings Text)
@@ -82,40 +74,24 @@ namespace Aow.Units.Sign
         // Sign.pas:125
         public bool CanChangeText()
         {
-            bool Result = default;
-            TArmyHS ArmyHS = default;
-            var call__4 = ((TAoWMapField)Owner).GetArmyHS();
-            ArmyHS = call__4;
-            Result = ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.FSeatedPlayer;
-            return Result;
+            TArmyHS ArmyHS;
+            ArmyHS = ((TAoWMapField)Owner).GetArmyHS();
+            return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.FSeatedPlayer;
         }
 
         // Sign.pas:134
         public bool ChangeText(int Player, TStrings Text)
         {
-            bool Result = default;
-            TUpdateSignTE Event = default;
-            var call__5 = AoWHSMap.FPlayers.GetPlayers(Player);
-            var call__6 = call__5.GetBusy();
-            bool bool__7 = !call__6;
-            if (bool__7)
-            {
-                var call__8 = CanChangeText();
-                bool__7 = call__8;
-            }
-
-            if (bool__7)
+            bool Result;
+            TUpdateSignTE Event;
+            if (!AoWHSMap.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
             {
                 Event = new TUpdateSignTE(null);
-                var call__9 = GetXhx();
-                Event.FXhx = call__9;
-                var call__10 = GetYhx();
-                Event.FYhx = call__10;
-                var call__11 = GetLhx();
-                Event.FLhx = call__11;
+                Event.FXhx = GetXhx();
+                Event.FYhx = GetYhx();
+                Event.FLhx = GetLhx();
                 Event.FText.Assign(Text);
-                var call__12 = AoWHSMap.FTokenManager.GetTokenControl(Player);
-                call__12.AddEvent(Event);
+                AoWHSMap.FTokenManager.GetTokenControl(Player).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -147,33 +123,21 @@ namespace Aow.Units.Sign
 
 
         // Sign.pas:165
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131330;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131330;
 
         // Sign.pas:168
         public override void Show(int X, int Y, in TSurfaceDesc SurfaceDesc, TStructure Structure)
         {
-            TImageSequence Sequence = default;
-            int Index = default;
-            int Offset = default;
-            int Image = default;
-            bool Animate = default;
+            TImageSequence Sequence;
+            int Index;
+            int Offset;
+            int Image;
+            bool Animate;
             if (FImageSequenceList != null)
             {
                 Index = ((TSign)Structure).ImageIndex;
                 Offset = ((TMapField)((TSign)Structure).Owner).Xhx + ((TMapField)((TSign)Structure).Owner).Yhx * 16;
-                bool bool__13 = AoWHSMap.FSeatedPlayer < 0;
-                if (!bool__13)
-                {
-                    var call__14 = ((TSign)Structure).GetTextSeen(AoWHSMap.FSeatedPlayer);
-                    bool__13 = !call__14;
-                }
-
-                Animate = bool__13;
+                Animate = AoWHSMap.FSeatedPlayer < 0 || !((TSign)Structure).GetTextSeen(AoWHSMap.FSeatedPlayer);
                 if (Index < FImageSequenceList.Count)
                 {
                     Sequence = (TImageSequence)FImageSequenceList.List[Index];
@@ -187,8 +151,7 @@ namespace Aow.Units.Sign
                 {
                     if (Animate)
                     {
-                        var call__15 = Sequence.GetFrameIndex(AoWHSMap.Frame, Offset);
-                        Image = call__15;
+                        Image = Sequence.GetFrameIndex(AoWHSMap.Frame, Offset);
                     }
                     else
                     {
@@ -197,16 +160,13 @@ namespace Aow.Units.Sign
 
                     if (Image != -1)
                     {
-                        var call__16 = ((TSign)Structure).GetSelected();
-                        if (call__16 && (AoWHSMap.Frame & 6) == 6)
+                        if (((TSign)Structure).GetSelected() && (AoWHSMap.Frame & 6) == 6)
                         {
-                            var call__17 = Sequence.ImageLibrary[Image];
-                            call__17.ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                            Sequence.ImageLibrary[Image].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
                         }
                         else
                         {
-                            var call__18 = Sequence.ImageLibrary[Image];
-                            call__18.Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                            Sequence.ImageLibrary[Image].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
                         }
                     }
 
@@ -219,14 +179,7 @@ namespace Aow.Units.Sign
 
 
         // Sign.pas:162
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__19 = SignRStr;
-            var call__20 = TranslateRStr(call__19);
-            Result = call__20;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(SignRStr);
 
     }
 
@@ -235,8 +188,7 @@ namespace Aow.Units.Sign
     {
         public TUpdateSignTE(TECustomNode owner) : base(owner)
         {
-            var call__21 = new TStringList();
-            FText = call__21;
+            FText = new TStringList();
         }
 
         // Sign.pas:202
@@ -269,11 +221,9 @@ namespace Aow.Units.Sign
         // Sign.pas:214
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            TExecuteResult Result = default;
-            TSign Sign = default;
-            var call__22 = AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx);
-            var call__23 = call__22.FindOwnedChild(131330);
-            Sign = (TSign)call__23;
+            TExecuteResult Result;
+            TSign Sign;
+            Sign = (TSign)AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
             if (Sign != null)
             {
                 Sign.SetText(FText);

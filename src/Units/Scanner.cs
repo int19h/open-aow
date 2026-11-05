@@ -77,12 +77,11 @@ namespace Aow.Units.Scanner
         // Scanner.pas:398
         public override void Validate()
         {
-            TInterfaceIL Frame = default;
+            TInterfaceIL Frame;
             Frame = FILFrame;
             if (Frame != null)
             {
-                var call__1 = Frame.CheckIL(FILIndexFrame, 8, this);
-                FILFrame = call__1;
+                FILFrame = Frame.CheckIL(FILIndexFrame, 8, this);
             }
 
             if (FILFrame != null && FTilesImageLib != null && FObjectsImageLib != null && FMap != null && FFogImageLib != null && FHighlightImageLib != null)
@@ -96,8 +95,6 @@ namespace Aow.Units.Scanner
         // Scanner.pas:409
         public override void SetSize()
         {
-            int X = default;
-            int Y = default;
             TSurfaceDesc SD = default;
             if ((FWinWidth != FPreviousWidth || FWinHeight != FPreviousHeight) && FWinWidth > 0 && FWinHeight > 0)
             {
@@ -109,22 +106,13 @@ namespace Aow.Units.Scanner
                     FObjectSurface.Cls(65280);
                     FMapSurface.Resize(FWinWidth, FWinHeight);
                     FMapSurface.Lock(ref SD);
+                    for (int X = 0, last = FWinWidth / FFogImageLib[0].Width; X <= last; X++)
                     {
-                        X = 0;
-                        int end__2 = FWinWidth / FFogImageLib[0].Width;
-                        for (; X <= end__2; X += 1)
+                        for (int Y = 0, lastY = FWinHeight / FFogImageLib[0].Height; Y <= lastY; Y++)
                         {
-                            {
-                                Y = 0;
-                                int end__3 = FWinHeight / FFogImageLib[0].Height;
-                                for (; Y <= end__3; Y += 1)
-                                {
-                                    var call__4 = FFogImageLib[0];
-                                    var call__5 = FFogImageLib[0];
-                                    var call__6 = FFogImageLib[0];
-                                    call__6.ShowClipped(X * call__5.Width, Y * call__4.Height, SD);
-                                }
-                            }
+                            var fogImageLibHeight = FFogImageLib[0];
+                            var fogImageLibWidth = FFogImageLib[0];
+                            FFogImageLib[0].ShowClipped(X * fogImageLibWidth.Width, Y * fogImageLibHeight.Height, SD);
                         }
                     }
 
@@ -173,8 +161,6 @@ namespace Aow.Units.Scanner
         // Scanner.pas:445
         public override void Draw(TSurfaceDesc SurfDesc)
         {
-            int X = default;
-            int Y = default;
             TRect R = default;
             TSurfaceDesc SD = default;
             try
@@ -186,14 +172,7 @@ namespace Aow.Units.Scanner
                         FOnPreDraw(this, SurfDesc);
                     }
 
-                    bool bool__7 = FMapSurface != null;
-                    if (bool__7)
-                    {
-                        var call__8 = FMapSurface.PixelFormatID;
-                        bool__7 = call__8 != SurfDesc.PixelFormatID;
-                    }
-
-                    if (bool__7)
+                    if (FMapSurface != null && FMapSurface.PixelFormatID != SurfDesc.PixelFormatID)
                     {
                         FObjectSurface.Free();
                         FMapSurface.Free();
@@ -202,28 +181,17 @@ namespace Aow.Units.Scanner
 
                     if (FMapSurface == null)
                     {
-                        var call__9 = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
-                        FObjectSurface = call__9;
+                        FObjectSurface = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FObjectSurface.Cls(65280);
-                        var call__10 = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
-                        FMapSurface = call__10;
+                        FMapSurface = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                         FMapSurface.Lock(ref SD);
+                        for (int X = 0, last = FWinWidth / FFogImageLib[0].Width; X <= last; X++)
                         {
-                            X = 0;
-                            int end__11 = FWinWidth / FFogImageLib[0].Width;
-                            for (; X <= end__11; X += 1)
+                            for (int Y = 0, lastY = FWinHeight / FFogImageLib[0].Height; Y <= lastY; Y++)
                             {
-                                {
-                                    Y = 0;
-                                    int end__12 = FWinHeight / FFogImageLib[0].Height;
-                                    for (; Y <= end__12; Y += 1)
-                                    {
-                                        var call__13 = FFogImageLib[0];
-                                        var call__14 = FFogImageLib[0];
-                                        var call__15 = FFogImageLib[0];
-                                        call__15.ShowClipped(X * call__14.Width, Y * call__13.Height, SD);
-                                    }
-                                }
+                                var fogImageLibHeight = FFogImageLib[0];
+                                var fogImageLibWidth = FFogImageLib[0];
+                                FFogImageLib[0].ShowClipped(X * fogImageLibWidth.Width, Y * fogImageLibHeight.Height, SD);
                             }
                         }
 
@@ -244,11 +212,10 @@ namespace Aow.Units.Scanner
                         DrawObjects();
                     }
 
-                    var call__16 = Rect(0, 0, FWinWidth, FWinHeight);
-                    R = call__16;
+                    R = Rect(0, 0, FWinWidth, FWinHeight);
                     SD = SurfDesc;
-                    var call__17 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
-                    SD.ClipRect = call__17;
+                    var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
+                    SD.ClipRect = rect;
                     FMapSurface.Lock(ref SurfDesc);
                     BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                     FMapSurface.Unlock();
@@ -257,8 +224,8 @@ namespace Aow.Units.Scanner
                     FObjectSurface.Unlock();
                     if (FMapWidth > 0 && FMapHeight > 0)
                     {
-                        var call__18 = Rect(FAOWWindow.FWinLeft + FWinLeft + FTLeft * FWinWidth / FMapWidth, FAOWWindow.FWinTop + FWinTop + FTTop * FWinHeight / FMapHeight, FTWidth * FWinWidth / FMapWidth, (FTHeight + 2) * FWinHeight / FMapHeight);
-                        FILFrame.DrawILF(FILIndexFrame, call__18, ref SD);
+                        var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft + FTLeft * FWinWidth / FMapWidth, FAOWWindow.FWinTop + FWinTop + FTTop * FWinHeight / FMapHeight, FTWidth * FWinWidth / FMapWidth, (FTHeight + 2) * FWinHeight / FMapHeight);
+                        FILFrame.DrawILF(FILIndexFrame, rect2, ref SD);
                     }
 
                     if (FOnDraw != null)
@@ -276,9 +243,9 @@ namespace Aow.Units.Scanner
         // Scanner.pas:449
         public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            int MapY = default;
-            int OldLeft = default;
-            int OldTop = default;
+            int MapY;
+            int OldLeft;
+            int OldTop;
             if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FMouseDown = true;
@@ -461,16 +428,14 @@ namespace Aow.Units.Scanner
         // Scanner.pas:217
         public byte GetTerrain(int A1, int A2)
         {
-            byte Result = default;
+            byte Result;
             if (AoWHSMap.FCombatMap != null)
             {
-                var call__19 = FLevel.GetField(A1 + 8, A2 + 6);
-                Result = (byte)call__19.TerrainType;
+                Result = (byte)FLevel.GetField(A1 + 8, A2 + 6).TerrainType;
             }
             else
             {
-                var call__20 = FLevel.GetField(A1 + 6, A2 + 6);
-                Result = (byte)call__20.TerrainType;
+                Result = (byte)FLevel.GetField(A1 + 6, A2 + 6).TerrainType;
             }
 
             return Result;
@@ -484,12 +449,10 @@ namespace Aow.Units.Scanner
         // Scanner.pas:226
         public int GetOverlay(int X, int Y)
         {
-            int Result = default;
+            int Result;
             if (AoWHSMap.FCombatMap != null)
             {
-                var call__21 = FLevel.GetField(X + 8, Y + 6);
-                var call__22 = call__21.GetDecorationType();
-                switch (call__22)
+                switch (FLevel.GetField(X + 8, Y + 6).GetDecorationType())
                 {
                     case 1:
                     case 2:
@@ -518,15 +481,13 @@ namespace Aow.Units.Scanner
                         Result = 2;
                         break;
                     default:
-                        var call__23 = FLevel.GetField(X + 8, Y + 6);
-                        Result = call__23.OverlayType;
+                        Result = FLevel.GetField(X + 8, Y + 6).OverlayType;
                         break;
                 }
             }
             else
             {
-                var call__24 = FLevel.GetField(X + 6, Y + 6);
-                Result = call__24.OverlayType;
+                Result = FLevel.GetField(X + 6, Y + 6).OverlayType;
             }
 
             return Result;
@@ -540,23 +501,20 @@ namespace Aow.Units.Scanner
         // Scanner.pas:246
         public byte GetExplored(int X, int Y)
         {
-            byte Result = default;
-            TAoWMapField Field = default;
+            byte Result;
+            TAoWMapField Field;
             if (AoWHSMap.FCombatMap != null)
             {
-                var call__25 = FLevel.GetField(X + 8, Y + 6);
-                Field = (TAoWMapField)call__25;
+                Field = (TAoWMapField)FLevel.GetField(X + 8, Y + 6);
             }
             else
             {
-                var call__26 = FLevel.GetField(X + 6, Y + 6);
-                Field = (TAoWMapField)call__26;
+                Field = (TAoWMapField)FLevel.GetField(X + 6, Y + 6);
             }
 
             if (FMap.FExplorationEnabled)
             {
-                var call__27 = Field.GetExplored(FMap.FSeatedPlayer);
-                if (call__27)
+                if (Field.GetExplored(FMap.FSeatedPlayer))
                 {
                     if (FMap.FFogEnabled)
                     {
@@ -609,30 +567,21 @@ namespace Aow.Units.Scanner
         // Scanner.pas:280
         public int GetObject(int X, int Y)
         {
-            int Result = default;
+            int Result;
             if (AoWHSMap.FCombatMap != null)
             {
-                var call__28 = FLevel.GetField(X + 8, Y + 6);
-                var call__29 = ((TAoWMapField)call__28).GetScannerIcon();
-                Result = call__29;
+                Result = ((TAoWMapField)FLevel.GetField(X + 8, Y + 6)).GetScannerIcon();
             }
             else
             {
-                var call__30 = FLevel.GetField(X + 6, Y + 6);
-                var call__31 = ((TAoWMapField)call__30).GetScannerIcon();
-                Result = call__31;
+                Result = ((TAoWMapField)FLevel.GetField(X + 6, Y + 6)).GetScannerIcon();
             }
 
             return Result;
         }
 
         // Scanner.pas:287
-        public byte GetObjectSize()
-        {
-            byte Result = default;
-            Result = 1;
-            return Result;
-        }
+        public byte GetObjectSize() => 1;
 
         // Scanner.pas:292
         public void SetObjectSize(int A1, int A2, int A3)
@@ -726,8 +675,7 @@ namespace Aow.Units.Scanner
             FMap = Value;
             if (FMap != null)
             {
-                var call__32 = FMap.MapContainer.GetMapLevel(0);
-                FLevel = call__32;
+                FLevel = FMap.MapContainer.GetMapLevel(0);
                 if (AoWHSMap.FCombatMap != null)
                 {
                     FMapWidth = FLevel.Width - 16;
@@ -747,16 +695,12 @@ namespace Aow.Units.Scanner
         // Scanner.pas:440
         public void DrawMap(int X, int Y, int Width, int Height)
         {
-            int MapX = default;
-            int MapY = default;
-            int ImageIndex = default;
-            int Overlay = default;
-            int Explored = default;
-            int TileX = default;
-            int TileY = default;
-            int YOffset = default;
-            int Terrain = default;
-            int OverlayIndex = default;
+            int ImageIndex;
+            int Overlay;
+            int Explored;
+            int YOffset;
+            int Terrain;
+            int OverlayIndex;
             TSurfaceDesc SD = default;
             try
             {
@@ -783,8 +727,7 @@ namespace Aow.Units.Scanner
                         YOffset = FHalfRowInset;
                     }
 
-                    var call__33 = FMapSurface.Lock(ref SD);
-                    if (call__33 >= 0)
+                    if (FMapSurface.Lock(ref SD) >= 0)
                     {
                         if (FMapWidth < Width + X)
                         {
@@ -796,166 +739,99 @@ namespace Aow.Units.Scanner
                             Height = FMapHeight - Y;
                         }
 
+                        for (int MapX = X; MapX <= Width + X - 1; MapX++)
                         {
-                            MapX = X;
-                            int end__34 = Width + X - 1;
-                            for (; MapX <= end__34; MapX += 1)
+                            for (int MapY = Y; MapY <= Y + Height - 1; MapY++)
                             {
+                                var rect = Rect(FWinWidth * MapX / FMapWidth, FDrawableHeight * MapY / FMapHeight + YOffset, (MapX + 1) * FWinWidth / FMapWidth, (MapY + 1) * FDrawableHeight / FMapHeight + YOffset);
+                                SD.ClipRect = rect;
+                                Explored = GetExplored(MapX, MapY);
+                                if (Explored == 0)
                                 {
-                                    MapY = Y;
-                                    int end__35 = Y + Height - 1;
-                                    for (; MapY <= end__35; MapY += 1)
+                                    for (int TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[0].Width, last = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[0].Width; TileX <= last; TileX++)
                                     {
-                                        var call__36 = Rect(FWinWidth * MapX / FMapWidth, FDrawableHeight * MapY / FMapHeight + YOffset, (MapX + 1) * FWinWidth / FMapWidth, (MapY + 1) * FDrawableHeight / FMapHeight + YOffset);
-                                        SD.ClipRect = call__36;
-                                        Explored = GetExplored(MapX, MapY);
-                                        if (Explored == 0)
+                                        for (int TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[0].Height, lastTileY = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[0].Height; TileY <= lastTileY; TileY++)
                                         {
+                                            var fogImageLibHeight = FFogImageLib[0];
+                                            var fogImageLibWidth = FFogImageLib[0];
+                                            FFogImageLib[0].ShowClipped(TileX * fogImageLibWidth.Width, TileY * fogImageLibHeight.Height, SD);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Terrain = GetTerrain(MapX, MapY);
+                                    Overlay = GetOverlay(MapX, MapY);
+                                    if (Overlay > 11 || Overlay == 7)
+                                    {
+                                        OverlayIndex = 0;
+                                    }
+                                    else
+                                    {
+                                        OverlayIndex = Overlay + 1;
+                                    }
+
+                                    ImageIndex = OverlayIndex * 16 + Terrain;
+                                    if (Terrain == 15)
+                                    {
+                                        for (int TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[0].Width, last = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[0].Width; TileX <= last; TileX++)
+                                        {
+                                            for (int TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[0].Height, lastTileY = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[0].Height; TileY <= lastTileY; TileY++)
                                             {
-                                                TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[0].Width;
-                                                int end__37 = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[0].Width;
-                                                for (; TileX <= end__37; TileX += 1)
+                                                var fogImageLibHeight = FFogImageLib[0];
+                                                var fogImageLibWidth = FFogImageLib[0];
+                                                FFogImageLib[0].ShowClipped(TileX * fogImageLibWidth.Width, TileY * fogImageLibHeight.Height, SD);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ImageIndex < FTilesImageLib.Count && FTilesImageLib[ImageIndex] != null)
+                                        {
+                                            for (int TileX = FWinWidth * MapX / FMapWidth / FTilesImageLib[ImageIndex].Width, last = (MapX + 1) * FWinWidth / FMapWidth / FTilesImageLib[ImageIndex].Width; TileX <= last; TileX++)
+                                            {
+                                                for (int TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FTilesImageLib[ImageIndex].Height, lastTileY = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FTilesImageLib[ImageIndex].Height; TileY <= lastTileY; TileY++)
                                                 {
-                                                    {
-                                                        TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[0].Height;
-                                                        int end__38 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[0].Height;
-                                                        for (; TileY <= end__38; TileY += 1)
-                                                        {
-                                                            var call__39 = FFogImageLib[0];
-                                                            var call__40 = FFogImageLib[0];
-                                                            var call__41 = FFogImageLib[0];
-                                                            call__41.ShowClipped(TileX * call__40.Width, TileY * call__39.Height, SD);
-                                                        }
-                                                    }
+                                                    var tilesImageLibHeight = FTilesImageLib[ImageIndex];
+                                                    var tilesImageLibWidth = FTilesImageLib[ImageIndex];
+                                                    FTilesImageLib[ImageIndex].ShowClipped(TileX * tilesImageLibWidth.Width, TileY * tilesImageLibHeight.Height, SD);
                                                 }
                                             }
                                         }
-                                        else
+
+                                        if ((Overlay == 0 || Overlay == 10) && FReserved138 == true && MapY < FMapHeight - 1 && MapX > 0 && GetOverlay(MapX - 1, MapY + 1) != Overlay)
                                         {
-                                            Terrain = GetTerrain(MapX, MapY);
-                                            Overlay = GetOverlay(MapX, MapY);
-                                            if (Overlay > 11 || Overlay == 7)
+                                            FHighlightImageLib[1].ShowClipped(SD.ClipRect.Left, SD.ClipRect.Top, SD);
+                                        }
+
+                                        if ((Overlay == 0 || Overlay == 10) && FReserved138 == true && MapY > 0 && MapX < FMapWidth - 1 && GetOverlay(MapX + 1, MapY - 1) != Overlay)
+                                        {
+                                            FHighlightImageLib[0].ShowClipped(SD.ClipRect.Left, SD.ClipRect.Top, SD);
+                                        }
+
+                                        if (Explored == 2)
+                                        {
+                                            for (int TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[1].Width, last = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[1].Width; TileX <= last; TileX++)
                                             {
-                                                OverlayIndex = 0;
-                                            }
-                                            else
-                                            {
-                                                OverlayIndex = Overlay + 1;
-                                            }
-
-                                            ImageIndex = OverlayIndex * 16 + Terrain;
-                                            if (Terrain == 15)
-                                            {
+                                                for (int TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[1].Height, lastTileY = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[1].Height; TileY <= lastTileY; TileY++)
                                                 {
-                                                    TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[0].Width;
-                                                    int end__42 = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[0].Width;
-                                                    for (; TileX <= end__42; TileX += 1)
-                                                    {
-                                                        {
-                                                            TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[0].Height;
-                                                            int end__43 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[0].Height;
-                                                            for (; TileY <= end__43; TileY += 1)
-                                                            {
-                                                                var call__44 = FFogImageLib[0];
-                                                                var call__45 = FFogImageLib[0];
-                                                                var call__46 = FFogImageLib[0];
-                                                                call__46.ShowClipped(TileX * call__45.Width, TileY * call__44.Height, SD);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                bool bool__47 = ImageIndex < FTilesImageLib.Count;
-                                                if (bool__47)
-                                                {
-                                                    var call__48 = FTilesImageLib[ImageIndex];
-                                                    bool__47 = call__48 != null;
-                                                }
-
-                                                if (bool__47)
-                                                {
-                                                    {
-                                                        TileX = FWinWidth * MapX / FMapWidth / FTilesImageLib[ImageIndex].Width;
-                                                        int end__49 = (MapX + 1) * FWinWidth / FMapWidth / FTilesImageLib[ImageIndex].Width;
-                                                        for (; TileX <= end__49; TileX += 1)
-                                                        {
-                                                            {
-                                                                TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FTilesImageLib[ImageIndex].Height;
-                                                                int end__50 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FTilesImageLib[ImageIndex].Height;
-                                                                for (; TileY <= end__50; TileY += 1)
-                                                                {
-                                                                    var call__51 = FTilesImageLib[ImageIndex];
-                                                                    var call__52 = FTilesImageLib[ImageIndex];
-                                                                    var call__53 = FTilesImageLib[ImageIndex];
-                                                                    call__53.ShowClipped(TileX * call__52.Width, TileY * call__51.Height, SD);
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                                bool bool__54 = (Overlay == 0 || Overlay == 10) && FReserved138 == true && MapY < FMapHeight - 1 && MapX > 0;
-                                                if (bool__54)
-                                                {
-                                                    var call__55 = GetOverlay(MapX - 1, MapY + 1);
-                                                    bool__54 = call__55 != Overlay;
-                                                }
-
-                                                if (bool__54)
-                                                {
-                                                    var call__56 = FHighlightImageLib[1];
-                                                    call__56.ShowClipped(SD.ClipRect.Left, SD.ClipRect.Top, SD);
-                                                }
-
-                                                bool bool__57 = (Overlay == 0 || Overlay == 10) && FReserved138 == true && MapY > 0 && MapX < FMapWidth - 1;
-                                                if (bool__57)
-                                                {
-                                                    var call__58 = GetOverlay(MapX + 1, MapY - 1);
-                                                    bool__57 = call__58 != Overlay;
-                                                }
-
-                                                if (bool__57)
-                                                {
-                                                    var call__59 = FHighlightImageLib[0];
-                                                    call__59.ShowClipped(SD.ClipRect.Left, SD.ClipRect.Top, SD);
-                                                }
-
-                                                if (Explored == 2)
-                                                {
-                                                    {
-                                                        TileX = FWinWidth * MapX / FMapWidth / FFogImageLib[1].Width;
-                                                        int end__60 = (MapX + 1) * FWinWidth / FMapWidth / FFogImageLib[1].Width;
-                                                        for (; TileX <= end__60; TileX += 1)
-                                                        {
-                                                            {
-                                                                TileY = (FDrawableHeight * MapY / FMapHeight + YOffset) / FFogImageLib[1].Height;
-                                                                int end__61 = ((MapY + 1) * FDrawableHeight / FMapHeight + YOffset) / FFogImageLib[1].Height;
-                                                                for (; TileY <= end__61; TileY += 1)
-                                                                {
-                                                                    var call__62 = FFogImageLib[1];
-                                                                    var call__63 = FFogImageLib[1];
-                                                                    var call__64 = FFogImageLib[1];
-                                                                    call__64.ShowClipped(TileX * call__63.Width, TileY * call__62.Height, SD);
-                                                                }
-                                                            }
-                                                        }
-                                                    }
+                                                    var fogImageLibHeight = FFogImageLib[1];
+                                                    var fogImageLibWidth = FFogImageLib[1];
+                                                    FFogImageLib[1].ShowClipped(TileX * fogImageLibWidth.Width, TileY * fogImageLibHeight.Height, SD);
                                                 }
                                             }
                                         }
                                     }
                                 }
+                            }
 
-                                if (YOffset == 0)
-                                {
-                                    YOffset = FHalfRowInset;
-                                }
-                                else
-                                {
-                                    YOffset = 0;
-                                }
+                            if (YOffset == 0)
+                            {
+                                YOffset = FHalfRowInset;
+                            }
+                            else
+                            {
+                                YOffset = 0;
                             }
                         }
 
@@ -974,111 +850,76 @@ namespace Aow.Units.Scanner
         // Scanner.pas:443
         public void DrawObjects()
         {
-            int ImageIndex = default;
-            int YOffset = default;
-            int Army = default;
-            int Natural = default;
-            int Building = default;
-            int X = default;
-            int Y = default;
-            int Obj = default;
+            int ImageIndex;
+            int YOffset;
+            int Army;
+            int Natural;
+            int Building;
+            int Obj;
             TSurfaceDesc SD = default;
             if (FObjectSurface != null)
             {
                 FObjectSurface.Cls(65280);
                 YOffset = 0;
-                var call__65 = FObjectSurface.Lock(ref SD);
-                if (call__65 >= 0)
+                if (FObjectSurface.Lock(ref SD) >= 0)
                 {
+                    for (int X = 0, last = FMapWidth - 1; X <= last; X++)
                     {
-                        X = 0;
-                        int end__66 = FMapWidth - 1;
-                        for (; X <= end__66; X += 1)
+                        for (int Y = 0, lastY = FMapHeight - 1; Y <= lastY; Y++)
                         {
+                            if (GetExplored(X, Y) == 1)
                             {
-                                Y = 0;
-                                int end__67 = FMapHeight - 1;
-                                for (; Y <= end__67; Y += 1)
+                                Obj = GetObject(X, Y);
+                                if (Obj != 0)
                                 {
-                                    if (GetExplored(X, Y) == 1)
+                                    Army = Obj & 255;
+                                    Natural = Obj & 65280;
+                                    Building = Obj & 16711680;
+                                    if (Building > 0 && FBuildings)
                                     {
-                                        Obj = GetObject(X, Y);
-                                        if (Obj != 0)
+                                        ImageIndex = 7 - (((int)(((uint)Building) >> 22)) & 3) + (((int)(((uint)Building) >> 16)) & 63) * 6;
+                                        if (ImageIndex < FObjectsImageLib.Count && ImageIndex > -1 && FObjectsImageLib[ImageIndex] != null)
                                         {
-                                            Army = Obj & 255;
-                                            Natural = Obj & 65280;
-                                            Building = Obj & 16711680;
-                                            if (Building > 0 && FBuildings)
+                                            var objectsImageLibHeight = FObjectsImageLib[ImageIndex];
+                                            var objectsImageLibWidth = FObjectsImageLib[ImageIndex];
+                                            FObjectsImageLib[ImageIndex].ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - objectsImageLibWidth.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - objectsImageLibHeight.Height / 2 + YOffset, SD);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (Natural > 0 && FNaturals)
+                                        {
+                                            ImageIndex = (int)(((uint)Natural) >> 8) * 6 + 9;
+                                            if (ImageIndex < FObjectsImageLib.Count && ImageIndex > -1 && FObjectsImageLib[ImageIndex] != null)
                                             {
-                                                ImageIndex = 7 - (((int)(((uint)Building) >> 22)) & 3) + (((int)(((uint)Building) >> 16)) & 63) * 6;
-                                                bool bool__68 = ImageIndex < FObjectsImageLib.Count && ImageIndex > -1;
-                                                if (bool__68)
-                                                {
-                                                    var call__69 = FObjectsImageLib[ImageIndex];
-                                                    bool__68 = call__69 != null;
-                                                }
-
-                                                if (bool__68)
-                                                {
-                                                    var call__70 = FObjectsImageLib[ImageIndex];
-                                                    var call__71 = FObjectsImageLib[ImageIndex];
-                                                    var call__72 = FObjectsImageLib[ImageIndex];
-                                                    call__72.ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - call__71.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - call__70.Height / 2 + YOffset, SD);
-                                                }
+                                                var objectsImageLibHeight = FObjectsImageLib[ImageIndex];
+                                                var objectsImageLibWidth = FObjectsImageLib[ImageIndex];
+                                                FObjectsImageLib[ImageIndex].ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - objectsImageLibWidth.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - objectsImageLibHeight.Height / 2 + YOffset, SD);
                                             }
-                                            else
-                                            {
-                                                if (Natural > 0 && FNaturals)
-                                                {
-                                                    ImageIndex = (int)(((uint)Natural) >> 8) * 6 + 9;
-                                                    bool bool__73 = ImageIndex < FObjectsImageLib.Count && ImageIndex > -1;
-                                                    if (bool__73)
-                                                    {
-                                                        var call__74 = FObjectsImageLib[ImageIndex];
-                                                        bool__73 = call__74 != null;
-                                                    }
+                                        }
+                                    }
 
-                                                    if (bool__73)
-                                                    {
-                                                        var call__75 = FObjectsImageLib[ImageIndex];
-                                                        var call__76 = FObjectsImageLib[ImageIndex];
-                                                        var call__77 = FObjectsImageLib[ImageIndex];
-                                                        call__77.ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - call__76.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - call__75.Height / 2 + YOffset, SD);
-                                                    }
-                                                }
-                                            }
-
-                                            if (Army > 0 && FArmies)
-                                            {
-                                                ImageIndex = Army * 6 + 8;
-                                                bool bool__78 = ImageIndex < FObjectsImageLib.Count && ImageIndex > -1;
-                                                if (bool__78)
-                                                {
-                                                    var call__79 = FObjectsImageLib[ImageIndex];
-                                                    bool__78 = call__79 != null;
-                                                }
-
-                                                if (bool__78)
-                                                {
-                                                    var call__80 = FObjectsImageLib[ImageIndex];
-                                                    var call__81 = FObjectsImageLib[ImageIndex];
-                                                    var call__82 = FObjectsImageLib[ImageIndex];
-                                                    call__82.ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - call__81.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - call__80.Height / 2 + YOffset, SD);
-                                                }
-                                            }
+                                    if (Army > 0 && FArmies)
+                                    {
+                                        ImageIndex = Army * 6 + 8;
+                                        if (ImageIndex < FObjectsImageLib.Count && ImageIndex > -1 && FObjectsImageLib[ImageIndex] != null)
+                                        {
+                                            var objectsImageLibHeight = FObjectsImageLib[ImageIndex];
+                                            var objectsImageLibWidth = FObjectsImageLib[ImageIndex];
+                                            FObjectsImageLib[ImageIndex].ShowClipped(FWinWidth / (FMapWidth * 2) + X * FWinWidth / FMapWidth - objectsImageLibWidth.Width / 2, FWinHeight / (FMapHeight * 2) + Y * FWinHeight / FMapHeight - objectsImageLibHeight.Height / 2 + YOffset, SD);
                                         }
                                     }
                                 }
                             }
+                        }
 
-                            if (YOffset == 0)
-                            {
-                                YOffset = FHalfRowInset;
-                            }
-                            else
-                            {
-                                YOffset = 0;
-                            }
+                        if (YOffset == 0)
+                        {
+                            YOffset = FHalfRowInset;
+                        }
+                        else
+                        {
+                            YOffset = 0;
                         }
                     }
 

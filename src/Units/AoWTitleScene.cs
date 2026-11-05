@@ -49,25 +49,21 @@ namespace Aow.Units.AoWTitleScene
         // AoWTitleScene.pas:103
         public void DrawCredits(ref TSurfaceDesc Surface)
         {
-            int X = default;
-            int Y = default;
-            int I = default;
-            int Duration = default;
-            int Alpha = default;
+            int X;
+            int Y;
+            int Duration;
+            int Alpha;
             TShowInfo Info = default;
-            TStrings Lines = default;
+            TStrings Lines;
             FCreditFrame += 1;
             Info.ShowMode = TShowMode.smBlended;
             Info.BlendMode = TBlendMode.bmAlpha;
-            var call__1 = FCredits[FCreditPage];
-            Lines = (TStrings)call__1;
+            Lines = (TStrings)FCredits[FCreditPage];
             X = Surface.Width / 2;
-            var call__2 = Lines.Count;
-            Y = Surface.Height / 2 - ((call__2 * 25 + FCreditsFont.Height) / 2 + 35);
-            var call__3 = Lines.Count;
-            Duration = call__3 * 30 + 20 + 50;
-            var call__4 = Lines.Count;
-            if (call__4 > 0)
+            var count = Lines.Count;
+            Y = Surface.Height / 2 - ((count * 25 + FCreditsFont.Height) / 2 + 35);
+            Duration = Lines.Count * 30 + 20 + 50;
+            if (Lines.Count > 0)
             {
                 Alpha = FCreditFrame;
                 if (Alpha > Duration)
@@ -84,43 +80,39 @@ namespace Aow.Units.AoWTitleScene
                 {
                     if (Alpha < 100)
                     {
-                        var call__5 = Lines[0];
-                        FCreditsFont.SetTextEx(X, Y, call__5, Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
+                        var line = Lines[0];
+                        FCreditsFont.SetTextEx(X, Y, line, Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
                     }
                     else
                     {
-                        var call__6 = Lines[0];
-                        FCreditsFont.SetTextCentered(X, Y, call__6, Surface);
+                        var line = Lines[0];
+                        FCreditsFont.SetTextCentered(X, Y, line, Surface);
                     }
                 }
 
+                for (int I = 1, last = Lines.Count - 1; I <= last; I++)
                 {
-                    I = 1;
-                    int end__7 = Lines.Count - 1;
-                    for (; I <= end__7; I += 1)
+                    if (FCreditFrame > Duration)
                     {
-                        if (FCreditFrame > Duration)
+                        Alpha = 100 - (FCreditFrame - Duration) * 5;
+                    }
+                    else
+                    {
+                        Alpha = (FCreditFrame - (I * 30 + 20)) * 10;
+                    }
+
+                    if (Alpha > 0)
+                    {
+                        Info.BlendPercentage = Alpha;
+                        if (Alpha < 100)
                         {
-                            Alpha = 100 - (FCreditFrame - Duration) * 5;
+                            var line = Lines[I];
+                            FCreditsFont.SetTextEx(X, Y + I * 25 + 5, line, Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
                         }
                         else
                         {
-                            Alpha = (FCreditFrame - (I * 30 + 20)) * 10;
-                        }
-
-                        if (Alpha > 0)
-                        {
-                            Info.BlendPercentage = Alpha;
-                            if (Alpha < 100)
-                            {
-                                var call__8 = Lines[I];
-                                FCreditsFont.SetTextEx(X, Y + I * 25 + 5, call__8, Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
-                            }
-                            else
-                            {
-                                var call__9 = Lines[I];
-                                FCreditsFont.SetTextCentered(X, Y + I * 25 + 5, call__9, Surface);
-                            }
+                            var line = Lines[I];
+                            FCreditsFont.SetTextCentered(X, Y + I * 25 + 5, line, Surface);
                         }
                     }
                 }
@@ -144,11 +136,11 @@ namespace Aow.Units.AoWTitleScene
         // AoWTitleScene.pas:148
         public void DrawIntro(ref TSurfaceDesc Surface)
         {
-            int Page = default;
-            int X = default;
-            int Y = default;
-            int Frame = default;
-            int Opacity = default;
+            int Page;
+            int X;
+            int Y;
+            int Frame;
+            int Opacity;
             TShowInfo Info = default;
             AnsiString Text = default;
             FIntroFrame += 1;
@@ -205,48 +197,40 @@ namespace Aow.Units.AoWTitleScene
                 switch (Page)
                 {
                     case 0:
-                        var call__10 = TitleSceneIL[4];
-                        if (call__10 != null)
+                        if (TitleSceneIL[4] != null)
                         {
-                            var call__11 = TitleSceneIL[4];
-                            var call__12 = TitleSceneIL[4];
-                            var call__13 = TitleSceneIL[4];
-                            call__13.Show(X - 75 - call__12.Width / 2, Y - call__11.Height / 2, Surface);
+                            var titleSceneILHeight = TitleSceneIL[4];
+                            var titleSceneILWidth = TitleSceneIL[4];
+                            TitleSceneIL[4].Show(X - 75 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2, Surface);
                         }
 
-                        var call__14 = TitleSceneIL[5];
-                        if (call__14 != null)
+                        if (TitleSceneIL[5] != null)
                         {
-                            var call__15 = TitleSceneIL[5];
-                            var call__16 = TitleSceneIL[5];
-                            var call__17 = TitleSceneIL[5];
-                            call__17.Show(X + 75 - call__16.Width / 2, Y - call__15.Height / 2, Surface);
+                            var titleSceneILHeight = TitleSceneIL[5];
+                            var titleSceneILWidth = TitleSceneIL[5];
+                            TitleSceneIL[5].Show(X + 75 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2, Surface);
                         }
 
                         break;
                     case 1:
-                        var call__18 = TranslateRStr(NorthAmericaRStr);
-                        var call__19 = TitleSceneIL[6];
-                        FCreditsFont.SetTextCentered(X - 75, Y - call__19.Height / 2 - 20, call__18, Surface);
-                        var call__20 = TranslateRStr(EuropeRStr);
-                        var call__21 = TitleSceneIL[6];
-                        FCreditsFont.SetTextCentered(X + 75 + 15, Y - call__21.Height / 2 - 20, call__20, Surface);
-                        var call__22 = TitleSceneIL[6];
-                        if (call__22 != null)
+                        var northAmerica = TranslateRStr(NorthAmericaRStr);
+                        var titleSceneIL = TitleSceneIL[6];
+                        FCreditsFont.SetTextCentered(X - 75, Y - titleSceneIL.Height / 2 - 20, northAmerica, Surface);
+                        var europe = TranslateRStr(EuropeRStr);
+                        var titleSceneIL2 = TitleSceneIL[6];
+                        FCreditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneIL2.Height / 2 - 20, europe, Surface);
+                        if (TitleSceneIL[6] != null)
                         {
-                            var call__23 = TitleSceneIL[6];
-                            var call__24 = TitleSceneIL[6];
-                            var call__25 = TitleSceneIL[6];
-                            call__25.Show(X - 75 - call__24.Width / 2, Y - call__23.Height / 2 + 20, Surface);
+                            var titleSceneILHeight = TitleSceneIL[6];
+                            var titleSceneILWidth = TitleSceneIL[6];
+                            TitleSceneIL[6].Show(X - 75 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2 + 20, Surface);
                         }
 
-                        var call__26 = TitleSceneIL[2];
-                        if (call__26 != null)
+                        if (TitleSceneIL[2] != null)
                         {
-                            var call__27 = TitleSceneIL[2];
-                            var call__28 = TitleSceneIL[2];
-                            var call__29 = TitleSceneIL[2];
-                            call__29.Show(X + 75 + 15 - call__28.Width / 2, Y - call__27.Height / 2 + 20, Surface);
+                            var titleSceneILHeight = TitleSceneIL[2];
+                            var titleSceneILWidth = TitleSceneIL[2];
+                            TitleSceneIL[2].Show(X + 75 + 15 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2 + 20, Surface);
                         }
 
                         break;
@@ -289,13 +273,12 @@ namespace Aow.Units.AoWTitleScene
         // AoWTitleScene.pas:212
         public void DrawScene(ref TSurfaceDesc Surface)
         {
-            int X = default;
-            int Y = default;
-            int Frame = default;
-            int Spacing = default;
-            int I = default;
-            int Image = default;
-            TRect R = default;
+            int X;
+            int Y;
+            int Frame;
+            int Spacing;
+            int Image;
+            TRect R;
             FSceneRect.Left = 0;
             FSceneRect.Right = Surface.Width;
             FSceneRect.Top = Surface.Height / 2 - 240;
@@ -303,8 +286,8 @@ namespace Aow.Units.AoWTitleScene
             if (FRedrawBackground)
             {
                 R = FSceneRect;
-                var call__30 = TitleSceneIL[0];
-                R.Top += call__30.Height;
+                var titleSceneIL = TitleSceneIL[0];
+                R.Top += titleSceneIL.Height;
                 ColorFillSD(R, 0, Surface);
             }
 
@@ -315,13 +298,10 @@ namespace Aow.Units.AoWTitleScene
                 Frame = 0;
             }
 
-            var call__31 = TitleSceneIL[0];
-            Frame = -((Frame + 490) % call__31.Width);
-            var call__32 = TitleSceneIL[0];
-            call__32.Show(Frame, Y, Surface);
-            var call__33 = TitleSceneIL[0];
-            var call__34 = TitleSceneIL[0];
-            call__34.Show(Frame + call__33.Width, Y, Surface);
+            Frame = -((Frame + 490) % TitleSceneIL[0].Width);
+            TitleSceneIL[0].Show(Frame, Y, Surface);
+            var titleSceneILWidth = TitleSceneIL[0];
+            TitleSceneIL[0].Show(Frame + titleSceneILWidth.Width, Y, Surface);
             if (!FShowCredits && FFrame > 25)
             {
                 if (FFrame < 75)
@@ -340,67 +320,51 @@ namespace Aow.Units.AoWTitleScene
                     }
                 }
 
-                var call__35 = TitleSceneIL[1];
-                X = (FSceneRect.Right - FSceneRect.Left - call__35.Width) / 2;
+                var titleSceneIL = TitleSceneIL[1];
+                X = (FSceneRect.Right - FSceneRect.Left - titleSceneIL.Width) / 2;
                 if (Frame < 100)
                 {
-                    var call__36 = AlphaBlendTable.GetLookupTables(Frame);
-                    var call__37 = TitleSceneIL[1];
-                    call__37.ShowBlended(X, Y + 10, Surface, call__36);
+                    var lookupTable = AlphaBlendTable.GetLookupTables(Frame);
+                    TitleSceneIL[1].ShowBlended(X, Y + 10, Surface, lookupTable);
                 }
                 else
                 {
-                    var call__38 = TitleSceneIL[3];
-                    call__38.Show(X, Y + 10, Surface);
+                    TitleSceneIL[3].Show(X, Y + 10, Surface);
                 }
             }
 
             Spacing = 120;
-            var call__39 = TitleSceneIL[10];
-            X = (call__39.Width + FSceneRect.Left + FSceneRect.Right) / 2 - 320;
+            X = (TitleSceneIL[10].Width + FSceneRect.Left + FSceneRect.Right) / 2 - 320;
+            for (int I = 0; I <= 4; I++)
             {
-                I = 0;
-                byte end__40 = 4;
-                for (; I <= end__40; I += 1)
+                if (I == FPressedButton && I == HitTest())
                 {
-                    bool bool__41 = I == FPressedButton;
-                    if (bool__41)
+                    Image = 2;
+                }
+                else
+                {
+                    if (FPressedButton == -1 && I == FHoverButton)
                     {
-                        var call__42 = HitTest();
-                        bool__41 = I == call__42;
-                    }
-
-                    if (bool__41)
-                    {
-                        Image = 2;
+                        Image = 1;
                     }
                     else
                     {
-                        if (FPressedButton == -1 && I == FHoverButton)
-                        {
-                            Image = 1;
-                        }
-                        else
-                        {
-                            Image = 0;
-                        }
+                        Image = 0;
                     }
+                }
 
-                    var call__43 = TitleSceneIL[I * 3 + 10 + Image];
-                    call__43.Show(X + Spacing * I, Y + 355, Surface);
-                    if (I == HitTest())
-                    {
-                        FFont.Color = 16777215;
-                        var call__44 = TranslateRStr(AoWTitleScene.TitleButtons[I]);
-                        var call__45 = TitleSceneIL[10];
-                        FFont.SetTextCentered(X + Spacing * I + call__45.Width / 2, Y + 445, call__44, Surface);
-                    }
+                TitleSceneIL[I * 3 + 10 + Image].Show(X + Spacing * I, Y + 355, Surface);
+                if (I == HitTest())
+                {
+                    FFont.Color = 16777215;
+                    var translateRStr = TranslateRStr(AoWTitleScene.TitleButtons[I]);
+                    var titleSceneIL = TitleSceneIL[10];
+                    FFont.SetTextCentered(X + Spacing * I + titleSceneIL.Width / 2, Y + 445, translateRStr, Surface);
+                }
 
-                    if (AoWEngine.FAnimationDetail == 2)
-                    {
-                        var call__46 = TitleSceneIL[25];
-                        call__46.Show(X + Spacing * I, Y + 355, Surface);
-                    }
+                if (AoWEngine.FAnimationDetail == 2)
+                {
+                    TitleSceneIL[25].Show(X + Spacing * I, Y + 355, Surface);
                 }
             }
 
@@ -455,28 +419,20 @@ namespace Aow.Units.AoWTitleScene
         // AoWTitleScene.pas:293
         public int HitTest()
         {
-            int Result = default;
-            bool Found = default;
-            int X = default;
-            int Spacing = default;
+            int Result;
+            bool Found;
+            int X;
+            int Spacing;
             if (FSceneRect.Bottom - 125 < FMouseY && FMouseY < FSceneRect.Bottom)
             {
                 Spacing = 120;
-                var call__47 = TitleSceneIL[10];
-                X = (call__47.Width + (FSceneRect.Left + FSceneRect.Right)) / 2 - 320;
+                X = (TitleSceneIL[10].Width + (FSceneRect.Left + FSceneRect.Right)) / 2 - 320;
                 Result = 5;
                 Found = false;
                 while (Result != 0 && !Found)
                 {
                     Result -= 1;
-                    bool bool__48 = Spacing * Result + X < FMouseX;
-                    if (bool__48)
-                    {
-                        var call__49 = TitleSceneIL[10];
-                        bool__48 = call__49.Width + X + Spacing * Result > FMouseX;
-                    }
-
-                    Found = bool__48;
+                    Found = Spacing * Result + X < FMouseX && TitleSceneIL[10].Width + X + Spacing * Result > FMouseX;
                 }
 
                 if (!Found)
@@ -498,13 +454,10 @@ namespace Aow.Units.AoWTitleScene
             TSurfaceDesc SD = default;
             try
             {
-                var call__50 = Surface.Lock(ref SD);
-                var call__51 = Succeeded(call__50);
-                if (call__51)
+                if (Succeeded(Surface.Lock(ref SD)))
                 {
                     DrawScene(ref SD);
-                    var call__52 = AoWEngine.RegisteredVersion();
-                    if (call__52 && !FShowCredits)
+                    if (AoWEngine.RegisteredVersion() && !FShowCredits)
                     {
                         LegalNotice.Draw(SD);
                         StrLbl.Draw(SD);
@@ -526,93 +479,76 @@ namespace Aow.Units.AoWTitleScene
         // AoWTitleScene.pas:338
         public void TitleSceneCreate()
         {
-            TStringList Lines = default;
+            TStringList Lines;
             ResetScene();
-            var call__53 = AoWEngine.RegisteredTo();
-            NameLbl.Text = call__53;
-            var call__54 = AoWEngine.GetVersionStr();
-            var call__55 = TranslateRStr(VersionXRStr);
-            var call__56 = AoWE.AoWE.Format(call__55, [call__54]);
-            Version.Text = call__56;
-            var call__57 = new TList();
-            FCredits = call__57;
+            var registeredTo = AoWEngine.RegisteredTo();
+            NameLbl.Text = registeredTo;
+            var versionStr = AoWEngine.GetVersionStr();
+            var format = AoWE.AoWE.Format(TranslateRStr(VersionXRStr), [versionStr]);
+            Version.Text = format;
+            FCredits = new TList();
             Lines = new TStringList();
-            var call__58 = TranslateRStr(DesignerAndDirectorRStr);
-            Lines.Add(call__58);
+            Lines.Add(TranslateRStr(DesignerAndDirectorRStr));
             Lines.Add((AnsiString)"Lennart Sas");
             Lines.Add((AnsiString)"");
-            var call__59 = TranslateRStr(AdditionalDesignRStr);
-            Lines.Add(call__59);
+            Lines.Add(TranslateRStr(AdditionalDesignRStr));
             Lines.Add((AnsiString)"Arno van Wingerden");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__60 = TranslateRStr(LeadProgrammerRStr);
-            Lines.Add(call__60);
+            Lines.Add(TranslateRStr(LeadProgrammerRStr));
             Lines.Add((AnsiString)"Arno van Wingerden");
             Lines.Add((AnsiString)"");
-            var call__61 = TranslateRStr(ProgrammerRStr);
-            Lines.Add(call__61);
+            Lines.Add(TranslateRStr(ProgrammerRStr));
             Lines.Add((AnsiString)"Josh Farley");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__62 = TranslateRStr(ArtistsRStr);
-            Lines.Add(call__62);
+            Lines.Add(TranslateRStr(ArtistsRStr));
             Lines.Add((AnsiString)"Lennart Sas");
             Lines.Add((AnsiString)"Thomas Cardin");
             Lines.Add((AnsiString)"Roy Postma");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__63 = TranslateRStr(LeadScenarioDesignerRStr);
-            Lines.Add(call__63);
+            Lines.Add(TranslateRStr(LeadScenarioDesignerRStr));
             Lines.Add((AnsiString)"Menno Sas");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__64 = TranslateRStr(ScenarioDesignersRStr);
-            Lines.Add(call__64);
+            Lines.Add(TranslateRStr(ScenarioDesignersRStr));
             Lines.Add((AnsiString)"Doug Gibson");
             Lines.Add((AnsiString)"Arnout Sas");
             Lines.Add((AnsiString)"Hugo van Wingerden");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__65 = TranslateRStr(WriterRStr);
-            Lines.Add(call__65);
+            Lines.Add(TranslateRStr(WriterRStr));
             Lines.Add((AnsiString)"Raymond Bingham");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__66 = TranslateRStr(MusicRStr);
-            Lines.Add(call__66);
+            Lines.Add(TranslateRStr(MusicRStr));
             Lines.Add((AnsiString)"Michiel van den Bos");
             Lines.Add((AnsiString)"");
-            var call__67 = TranslateRStr(SoundFXRStr);
-            Lines.Add(call__67);
+            Lines.Add(TranslateRStr(SoundFXRStr));
             Lines.Add((AnsiString)"Nando Eweg");
             FCredits.Add(Lines);
             Lines.Add((AnsiString)"");
-            var call__68 = TranslateRStr(IntroVoiceRStr);
-            Lines.Add(call__68);
+            Lines.Add(TranslateRStr(IntroVoiceRStr));
             Lines.Add((AnsiString)"John McGinn (English)");
             Lines.Add((AnsiString)"Norbert Gastell (German)");
             Lines = new TStringList();
-            var call__69 = TranslateRStr(GalaxySoundSystemRStr);
-            Lines.Add(call__69);
+            Lines.Add(TranslateRStr(GalaxySoundSystemRStr));
             Lines.Add((AnsiString)"Carlo Vogelsang");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__70 = TranslateRStr(InternetMailSuiteRStr);
-            Lines.Add(call__70);
+            Lines.Add(TranslateRStr(InternetMailSuiteRStr));
             Lines.Add((AnsiString)"Argo Software Design");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__71 = TranslateRStr(QACoreRStr);
-            Lines.Add(call__71);
+            Lines.Add(TranslateRStr(QACoreRStr));
             Lines.Add((AnsiString)"Cliff Benjamin");
             Lines.Add((AnsiString)"Ian Calderon");
             Lines.Add((AnsiString)"Ted Stephenson");
             Lines.Add((AnsiString)"Hugo van Wingerden");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__72 = TranslateRStr((AnsiString)"Take 2 Europe");
-            Lines.Add(call__72);
+            Lines.Add(TranslateRStr((AnsiString)"Take 2 Europe"));
             Lines.Add((AnsiString)"");
             Lines.Add((AnsiString)"Producer");
             Lines.Add((AnsiString)"Ken Jordan");
@@ -639,14 +575,12 @@ namespace Aow.Units.AoWTitleScene
             Lines.Add((AnsiString)"Lee Johnson");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__73 = TranslateRStr(BizzRStr);
-            Lines.Add(call__73);
+            Lines.Add(TranslateRStr(BizzRStr));
             Lines.Add((AnsiString)"Jay Wilbur");
             Lines.Add((AnsiString)"Mark Rein");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            var call__74 = TranslateRStr(SpecialThanksRStr);
-            Lines.Add(call__74);
+            Lines.Add(TranslateRStr(SpecialThanksRStr));
             Lines.Add((AnsiString)"Eelco van der Snoek");
             Lines.Add((AnsiString)"Doug Gibson");
             Lines.Add((AnsiString)"Dietmer Tan");
@@ -658,14 +592,9 @@ namespace Aow.Units.AoWTitleScene
         // AoWTitleScene.pas:448
         public void TitleSceneDestroy()
         {
-            int I = default;
+            for (int I = FCredits.Count - 1; I >= 0; I--)
             {
-                I = FCredits.Count - 1;
-                byte end__75 = 0;
-                for (; I >= end__75; I -= 1)
-                {
-                    ((TObject)FCredits.List[I]).Free();
-                }
+                ((TObject)FCredits.List[I]).Free();
             }
 
             FCredits.Free();
@@ -687,8 +616,7 @@ namespace Aow.Units.AoWTitleScene
             FMouseX = X;
             FMouseY = Y;
             FMouseButton = Button;
-            var call__76 = HitTest();
-            FPressedButton = call__76;
+            FPressedButton = HitTest();
         }
 
         // AoWTitleScene.pas:470
@@ -701,8 +629,7 @@ namespace Aow.Units.AoWTitleScene
                 FRedrawBackground = true;
             }
 
-            var call__77 = HitTest();
-            FHoverButton = call__77;
+            FHoverButton = HitTest();
         }
     }
 

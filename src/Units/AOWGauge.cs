@@ -38,22 +38,19 @@ namespace Aow.Units.AOWGauge
         {
             if (FILTextureNormal != null)
             {
-                var call__1 = FILTextureNormal.CheckIL(FILIndexTNormal, 1, this);
-                FILTextureNormal = call__1;
+                FILTextureNormal = FILTextureNormal.CheckIL(FILIndexTNormal, 1, this);
             }
 
             if (FILTextureSelected != null)
             {
-                var call__2 = FILTextureSelected.CheckIL(FILIndexTSelected, 1, this);
-                FILTextureSelected = call__2;
+                FILTextureSelected = FILTextureSelected.CheckIL(FILIndexTSelected, 1, this);
             }
 
             if (FILTextureNormal != null && FILTextureSelected != null)
             {
                 if (FILFrame != null)
                 {
-                    var call__3 = FILFrame.CheckIL(FILIndexFrame, 8, this);
-                    FILFrame = call__3;
+                    FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
                 }
 
                 if (FILFrame != null)
@@ -77,22 +74,22 @@ namespace Aow.Units.AOWGauge
             switch (FStyle)
             {
                 case TAOWGaugeType.gtNormal:
-                    var call__4 = FILFrame[FILIndexFrame];
-                    var call__5 = FILFrame[FILIndexFrame + 5];
-                    if (call__4.Height + call__5.Height > FWinHeight)
+                    var ilFrameHeight = FILFrame[FILIndexFrame];
+                    var ilFrame = FILFrame[FILIndexFrame + 5];
+                    if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
                     {
-                        var call__6 = FILFrame[FILIndexFrame];
-                        var call__7 = FILFrame[FILIndexFrame + 5];
-                        FWinHeight = call__6.Height + call__7.Height;
+                        var ilFrame2 = FILFrame[FILIndexFrame];
+                        var ilFrame3 = FILFrame[FILIndexFrame + 5];
+                        FWinHeight = ilFrame2.Height + ilFrame3.Height;
                     }
 
-                    var call__8 = FILFrame[FILIndexFrame];
-                    var call__9 = FILFrame[FILIndexFrame + 2];
-                    if (call__8.Width + call__9.Width > FWinWidth)
+                    var ilFrameWidth = FILFrame[FILIndexFrame];
+                    var ilFrame4 = FILFrame[FILIndexFrame + 2];
+                    if (ilFrameWidth.Width + ilFrame4.Width > FWinWidth)
                     {
-                        var call__10 = FILFrame[FILIndexFrame];
-                        var call__11 = FILFrame[FILIndexFrame + 2];
-                        FWinWidth = call__10.Width + call__11.Width;
+                        var ilFrame2 = FILFrame[FILIndexFrame];
+                        var ilFrame3 = FILFrame[FILIndexFrame + 2];
+                        FWinWidth = ilFrame2.Width + ilFrame3.Width;
                     }
 
                     break;
@@ -136,33 +133,33 @@ namespace Aow.Units.AOWGauge
                     switch (FStyle)
                     {
                         case TAOWGaugeType.gtNormal:
-                            var call__12 = FILFrame[FILIndexFrame + 3];
-                            var call__13 = FILFrame[FILIndexFrame + 4];
-                            P = (FWinWidth - call__12.Width - call__13.Width) * FPosition / (FMax - FMin);
-                            var call__14 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILFrame.DrawILF(FILIndexFrame, call__14, ref SurfDesc);
-                            var call__15 = FILFrame[FILIndexFrame + 3];
-                            if (FAOWWindow.FWinLeft + P + FWinLeft + call__15.Width > SurfDesc.ClipRect.Left)
+                            var ilFrameWidth = FILFrame[FILIndexFrame + 3];
+                            var ilFrame = FILFrame[FILIndexFrame + 4];
+                            P = (FWinWidth - ilFrameWidth.Width - ilFrame.Width) * FPosition / (FMax - FMin);
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
+                            var ilFrame2 = FILFrame[FILIndexFrame + 3];
+                            if (FAOWWindow.FWinLeft + P + FWinLeft + ilFrame2.Width > SurfDesc.ClipRect.Left)
                             {
-                                var call__16 = FILFrame[FILIndexFrame + 3];
-                                SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft + call__16.Width;
+                                var ilFrame3 = FILFrame[FILIndexFrame + 3];
+                                SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft + ilFrame3.Width;
                             }
 
-                            var call__17 = FILFrame[FILIndexFrame + 1];
-                            var call__18 = FILFrame[FILIndexFrame + 6];
-                            var call__19 = FILFrame[FILIndexFrame + 3];
-                            var call__20 = FILFrame[FILIndexFrame + 4];
-                            var call__21 = FILFrame[FILIndexFrame + 1];
-                            var call__22 = FILFrame[FILIndexFrame + 3];
-                            var call__23 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__22.Width, FAOWWindow.FWinTop + FWinTop + call__21.Height, FWinWidth - call__19.Width - call__20.Width, FWinHeight - call__17.Height - call__18.Height);
-                            FILTextureNormal.DrawILT(FILIndexTNormal, call__23, ref SurfDesc);
+                            var ilFrameHeight = FILFrame[FILIndexFrame + 1];
+                            var ilFrame4 = FILFrame[FILIndexFrame + 6];
+                            var ilFrame5 = FILFrame[FILIndexFrame + 3];
+                            var ilFrame6 = FILFrame[FILIndexFrame + 4];
+                            var ilFrame7 = FILFrame[FILIndexFrame + 1];
+                            var ilFrame8 = FILFrame[FILIndexFrame + 3];
+                            var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilFrame7.Height, FWinWidth - ilFrame5.Width - ilFrame6.Width, FWinHeight - ilFrameHeight.Height - ilFrame4.Height);
+                            FILTextureNormal.DrawILT(FILIndexTNormal, rect2, ref SurfDesc);
                             SurfDesc.ClipRect = OldClip;
-                            var call__24 = FILFrame[FILIndexFrame + 1];
-                            var call__25 = FILFrame[FILIndexFrame + 6];
-                            var call__26 = FILFrame[FILIndexFrame + 1];
-                            var call__27 = FILFrame[FILIndexFrame + 3];
-                            var call__28 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__27.Width, FAOWWindow.FWinTop + FWinTop + call__26.Height, P, FWinHeight - call__24.Height - call__25.Height);
-                            FILTextureSelected.DrawILT(FILIndexTSelected, call__28, ref SurfDesc);
+                            var ilFrame9 = FILFrame[FILIndexFrame + 1];
+                            var item = FILFrame[FILIndexFrame + 6];
+                            var filFrameItem = FILFrame[FILIndexFrame + 1];
+                            var ilFrameWidth2 = FILFrame[FILIndexFrame + 3];
+                            var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrameWidth2.Width, FAOWWindow.FWinTop + FWinTop + filFrameItem.Height, P, FWinHeight - ilFrame9.Height - item.Height);
+                            FILTextureSelected.DrawILT(FILIndexTSelected, rect3, ref SurfDesc);
                             break;
                         case TAOWGaugeType.gtBorderless:
                             P = FPosition * FWinWidth / (FMax - FMin);
@@ -171,11 +168,11 @@ namespace Aow.Units.AOWGauge
                                 SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft;
                             }
 
-                            var call__29 = Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
-                            FILTextureNormal.DrawILT(FILIndexTNormal, call__29, ref SurfDesc);
+                            var rect4 = Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
+                            FILTextureNormal.DrawILT(FILIndexTNormal, rect4, ref SurfDesc);
                             SurfDesc.ClipRect = OldClip;
-                            var call__30 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
-                            FILTextureSelected.DrawILT(FILIndexTSelected, call__30, ref SurfDesc);
+                            var rect5 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
+                            FILTextureSelected.DrawILT(FILIndexTSelected, rect5, ref SurfDesc);
                             break;
                     }
 

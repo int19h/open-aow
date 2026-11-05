@@ -74,18 +74,15 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         // AoWCastUnitSpellDlg.pas:85
         public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc Surface)
         {
-            TAlignment Alignment = default;
-            TP2UnitShowInfo Info = default;
-            TRect OldClip = default;
-            var call__1 = FCaster.FTargetUnits.GetCount();
-            if (Index < call__1)
+            TAlignment Alignment;
+            TP2UnitShowInfo Info;
+            TRect OldClip;
+            if (Index < FCaster.FTargetUnits.GetCount())
             {
                 OldClip = Surface.ClipRect;
-                var call__2 = Rect(X + 5, Y + 4, X + 46, Y + 56);
-                Surface.ClipRect = call__2;
-                var call__3 = FCaster.FTargetUnits.GetUnit(Index);
-                var call__4 = call__3.GetAlignment();
-                Alignment = call__4;
+                var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
+                Surface.ClipRect = rect;
+                Alignment = FCaster.FTargetUnits.GetUnit(Index).GetAlignment();
                 if ((int)Alignment < IntGfxMod.UnitBGs.Count)
                 {
                     var image = IntGfxMod.UnitBGs[(int)Alignment];
@@ -95,8 +92,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
                 Info = default;
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
-                var call__6 = FCaster.FTargetUnits.GetUnit(Index);
-                call__6.ShowEx(X - 8, Y - 4, Surface, Info);
+                FCaster.FTargetUnits.GetUnit(Index).ShowEx(X - 8, Y - 4, Surface, Info);
                 if ((((int)(((uint)FCaster.FValidSelection) >> Index)) & 1) == 0)
                 {
                     var image2 = IntGfxMod.UnitBGs[7];
@@ -119,8 +115,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         {
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__8 = FCaster.CanCast(ref Reason);
-            if (call__8)
+            if (FCaster.CanCast(ref Reason))
             {
                 FCaster.Cast();
                 Dlg.Visible = false;
@@ -134,10 +129,9 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         // AoWCastUnitSpellDlg.pas:163
         public void FaceFramePreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
         {
-            TAbstractUnit U = default;
+            TAbstractUnit U;
             TRect R = default;
-            var call__9 = AoWHSMap.FUnitControl.FindUnit(FCaster.FCasterSourceID);
-            U = call__9;
+            U = AoWHSMap.FUnitControl.FindUnit(FCaster.FCasterSourceID);
             if (U != null)
             {
                 if (U.GetFace() != null)
@@ -147,8 +141,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
                     R.Top = this.FaceFrame.WinTop + TopPnl.WinTop;
                     R.Bottom = R.Top + this.FaceFrame.WinHeight;
 
-                    var call__11 = U.GetFace();
-                    call__11.ShowStretched(R, Surface);
+                    U.GetFace().ShowStretched(R, Surface);
                 }
             }
         }
@@ -161,12 +154,11 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         // AoWCastUnitSpellDlg.pas:191
         public void SpellFrPreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
         {
-            TSpell Spell = default;
+            TSpell Spell;
             TRect R = default;
             if (FCaster != null)
             {
-                var call__12 = AoWHSSet.FSpellControl.GetSpell(FCaster.FCasterSpellID);
-                Spell = call__12;
+                Spell = AoWHSSet.FSpellControl.GetSpell(FCaster.FCasterSpellID);
                 if (Spell != null)
                 {
                     R.Left = this.SpellFr.WinLeft + TopPnl.WinLeft;
@@ -174,8 +166,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
                     R.Top = this.SpellFr.WinTop + TopPnl.WinTop;
                     R.Bottom = R.Top + this.SpellFr.WinHeight;
 
-                    var call__14 = Spell.FCastImages.GetImageSequence(10);
-                    if (call__14 != null)
+                    if (Spell.FCastImages.GetImageSequence(10) != null)
                     {
                         Spell.FCastImages.Show(10, R.Left + 5, R.Top + 15, 0, Surface);
                     }
@@ -194,8 +185,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         {
             if (Dlg.Visible && FCaster != null)
             {
-                var call__15 = FCaster.Valid();
-                if (!call__15)
+                if (!FCaster.Valid())
                 {
                     Dlg.Visible = false;
                 }

@@ -16,12 +16,7 @@ namespace Aow.Units.DeathNode
         public new const int ClassID = 132270;
 
         // DeathNode.pas:40
-        public override TMagicSphere GetMagicSphere()
-        {
-            TMagicSphere Result = default;
-            Result = TMagicSphere.msDeath;
-            return Result;
-        }
+        public override TMagicSphere GetMagicSphere() => TMagicSphere.msDeath;
 
     }
 
@@ -42,23 +37,13 @@ namespace Aow.Units.DeathNode
 
 
         // DeathNode.pas:58
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132270;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132270;
 
         // DeathNode.pas:27
 
 
         // DeathNode.pas:52
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(DeathNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(DeathNodeRStr);
 
     }
 

@@ -35,23 +35,13 @@ namespace Aow.Units.BldGuild
 
 
         // BldGuild.pas:56
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 133422;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 133422;
 
         // BldGuild.pas:26
 
 
         // BldGuild.pas:50
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(BuildersGuildRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(BuildersGuildRStr);
 
     }
 
@@ -60,27 +50,19 @@ namespace Aow.Units.BldGuild
         // BldGuild.pas:59
         public static int BuildersGuildIncome(sbyte Player)
         {
-            int Result = default;
-            TPlayer P = default;
-            int I = default;
-            TPlayerStructure S = default;
+            int Result;
+            TPlayer P;
+            TPlayerStructure S;
             if (AoWHSMap != null)
             {
-                var call__1 = AoWHSMap.FPlayers.GetPlayers(Player);
-                P = call__1;
+                P = AoWHSMap.FPlayers.GetPlayers(Player);
                 Result = 0;
+                for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__2 = P.FStructures.Count - 1;
-                    for (; I <= end__2; I += 1)
+                    S = P.FStructures.GetStructure(I);
+                    if (S.EClass.ClassID == 133422 && S.FPlayer == Player)
                     {
-                        var call__3 = P.FStructures.GetStructure(I);
-                        S = call__3;
-                        var call__4 = S.EClass.ClassID;
-                        if (call__4 == 133422 && S.FPlayer == Player)
-                        {
-                            Result += S.GetIncome();
-                        }
+                        Result += S.GetIncome();
                     }
                 }
             }

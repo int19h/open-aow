@@ -133,8 +133,8 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:287
         public void ClearHero()
         {
-            TExecuteDoneEvent OnClose = default;
-            THeroUpgradeEventLog Hero = default;
+            TExecuteDoneEvent OnClose;
+            THeroUpgradeEventLog Hero;
             OnClose = FOnClose;
             Hero = FReferencedHero;
             FOnClose = null;
@@ -156,10 +156,8 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:280
         public bool ValidateHero()
         {
-            bool Result = default;
-            var call__1 = AoWHSMap.FUnitControl.FindUnit(FReferencedHero.FUnitID);
-            FHero = (THero)call__1;
-            Result = FHero != null;
+            FHero = (THero)AoWHSMap.FUnitControl.FindUnit(FReferencedHero.FUnitID);
+            bool Result = FHero != null;
             if (!Result)
             {
                 Dlg.Visible = false;
@@ -171,39 +169,39 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:257
         public void UpdateStatistics()
         {
-            var call__2 = FHero.GetInherentAttack();
-            AttB.Text = IntToStr(call__2);
-            var call__3 = FHero.GetInherentDefense();
-            DefB.Text = IntToStr(call__3);
-            var call__4 = FHero.GetInherentDamage();
-            DamB.Text = IntToStr(call__4);
-            var call__5 = FHero.GetInherentResistance();
-            ResB.Text = IntToStr(call__5);
-            var call__6 = FHero.GetHits();
-            HitB.Text = IntToStr(call__6);
-            var call__7 = FHero.GetMoves();
-            MovB.Text = IntToStr(call__7);
+            var inherentAttack = FHero.GetInherentAttack();
+            AttB.Text = IntToStr(inherentAttack);
+            var inherentDefense = FHero.GetInherentDefense();
+            DefB.Text = IntToStr(inherentDefense);
+            var inherentDamage = FHero.GetInherentDamage();
+            DamB.Text = IntToStr(inherentDamage);
+            var inherentResistance = FHero.GetInherentResistance();
+            ResB.Text = IntToStr(inherentResistance);
+            var hits = FHero.GetHits();
+            HitB.Text = IntToStr(hits);
+            var moves = FHero.GetMoves();
+            MovB.Text = IntToStr(moves);
             AttA.Text = IntToStr(FEditedHero.FUnitAttack - FHero.FUnitAttack);
             DefA.Text = IntToStr(FEditedHero.FUnitDefense - FHero.FUnitDefense);
             DamA.Text = IntToStr(FEditedHero.FUnitDamage - FHero.FUnitDamage);
             ResA.Text = IntToStr(FEditedHero.FUnitResistance - FHero.FUnitResistance);
             HitA.Text = IntToStr(FEditedHero.FUnitHits - FHero.FUnitHits);
             MovA.Text = IntToStr(FEditedHero.FUnitMoves - FHero.FUnitMoves);
-            var call__8 = FEditedHero.GetInherentAttack();
-            AttValue.Text = IntToStr(call__8);
-            var call__9 = FEditedHero.GetInherentDefense();
-            DefValue.Text = IntToStr(call__9);
-            var call__10 = FEditedHero.GetInherentDamage();
-            DamValue.Text = IntToStr(call__10);
-            var call__11 = FEditedHero.GetInherentResistance();
-            ResValue.Text = IntToStr(call__11);
-            var call__12 = FEditedHero.GetHits();
-            HitValue.Text = IntToStr(call__12);
-            var call__13 = FEditedHero.GetMoves();
-            MovValue.Text = IntToStr(call__13);
-            var call__14 = FEditedHero.GetSkillPoints();
-            var call__15 = FHero.GetSkillPoints();
-            SkillPoints.Text = IntToStr(call__14) + AnsiString.FromBytes(47) + IntToStr(call__15);
+            var fEditedHeroInherentAttack = FEditedHero.GetInherentAttack();
+            AttValue.Text = IntToStr(fEditedHeroInherentAttack);
+            var fEditedHeroInherentDefense = FEditedHero.GetInherentDefense();
+            DefValue.Text = IntToStr(fEditedHeroInherentDefense);
+            var fEditedHeroInherentDamage = FEditedHero.GetInherentDamage();
+            DamValue.Text = IntToStr(fEditedHeroInherentDamage);
+            var fEditedHeroInherentResistance = FEditedHero.GetInherentResistance();
+            ResValue.Text = IntToStr(fEditedHeroInherentResistance);
+            var fEditedHeroHits = FEditedHero.GetHits();
+            HitValue.Text = IntToStr(fEditedHeroHits);
+            var fEditedHeroMoves = FEditedHero.GetMoves();
+            MovValue.Text = IntToStr(fEditedHeroMoves);
+            var skillPoints = FEditedHero.GetSkillPoints();
+            var fHeroSkillPoints = FHero.GetSkillPoints();
+            SkillPoints.Text = IntToStr(skillPoints) + AnsiString.FromBytes(47) + IntToStr(fHeroSkillPoints);
         }
 
         // AoWHeroUpgradeDlg.pas:252
@@ -255,81 +253,50 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:170
         public void RefreshAbilities()
         {
-            AnsiString Name = default;
-            AnsiString Cost = default;
-            TAbility Ability = default;
-            int I = default;
+            AnsiString Name;
+            AnsiString Cost;
+            TAbility Ability;
             AvailableAbilities.Items.Clear();
             AvailableAbilitiesCost.Items.Clear();
+            for (int I = 1, last = AoWHSSet.FAbilityControl.GetCount() - 1; I <= last; I++)
             {
-                I = 1;
-                int end__16 = AoWHSSet.FAbilityControl.GetCount() - 1;
-                for (; I <= end__16; I += 1)
+                Ability = AoWHSSet.FAbilityControl.GetAbility(I);
+                if (Ability != null && Ability.CanExpand(FEditedHero) && Ability.FSelectionTypes.Contains(TAbilitySelectionType.astHeroUpgrade))
                 {
-                    var call__17 = AoWHSSet.FAbilityControl.GetAbility(I);
-                    Ability = call__17;
-                    bool bool__18 = Ability != null;
-                    if (bool__18)
-                    {
-                        var call__19 = Ability.CanExpand(FEditedHero);
-                        bool__18 = call__19;
-                    }
-
-                    if (bool__18 && Ability.FSelectionTypes.Contains(TAbilitySelectionType.astHeroUpgrade))
-                    {
-                        var call__20 = Ability.ExpandName(FEditedHero);
-                        AvailableAbilities.Items.AddObject(call__20, IntToObject(I));
-                        var call__21 = Ability.ExpandCost(FEditedHero);
-                        AvailableAbilitiesCost.Items.Add(IntToStr(call__21));
-                    }
+                    var expandName = Ability.ExpandName(FEditedHero);
+                    AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
+                    var expandCost = Ability.ExpandCost(FEditedHero);
+                    AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
                 }
             }
 
             SelectedAbilities.Items.Clear();
             SelectedAbilitiesCost.Items.Clear();
+            for (int I = 1, last = FEditedHero.GetAbCount() - 1; I <= last; I++)
             {
-                I = 1;
-                int end__22 = FEditedHero.GetAbCount() - 1;
-                for (; I <= end__22; I += 1)
+                if (FEditedHero.GetInherentAbility(I))
                 {
-                    var call__23 = FEditedHero.GetInherentAbility(I);
-                    if (call__23)
+                    Ability = AoWHSSet.FAbilityControl.GetAbility(I);
+                    Name = Ability.GetName(FEditedHero);
+                    if (FHero.GetAbEnabled(I) && FHero.GetInherentAbilityLevel(I) == FEditedHero.GetInherentAbilityLevel(I))
                     {
-                        var call__24 = AoWHSSet.FAbilityControl.GetAbility(I);
-                        Ability = call__24;
-                        var call__25 = Ability.GetName(FEditedHero);
-                        Name = call__25;
-                        var call__26 = FHero.GetAbEnabled(I);
-                        bool bool__27 = call__26;
-                        if (bool__27)
-                        {
-                            var call__28 = FHero.GetInherentAbilityLevel(I);
-                            var call__29 = FEditedHero.GetInherentAbilityLevel(I);
-                            bool__27 = call__28 == call__29;
-                        }
-
-                        if (bool__27)
-                        {
-                            Name = Name + (AnsiString)" (" + TranslateRStr(FixedRStr) + AnsiString.FromBytes(41);
-                            Cost = AnsiString.FromBytes(45);
-                        }
-                        else
-                        {
-                            var call__30 = Ability.GetSkillPoints(FEditedHero);
-                            var call__31 = Ability.GetSkillPoints(FHero);
-                            Cost = IntToStr(call__30 - call__31);
-                        }
-
-                        SelectedAbilitiesCost.Items.Add(Cost);
-                        SelectedAbilities.Items.AddObject(Name, IntToObject(I));
+                        Name = Name + (AnsiString)" (" + TranslateRStr(FixedRStr) + AnsiString.FromBytes(41);
+                        Cost = AnsiString.FromBytes(45);
                     }
+                    else
+                    {
+                        Cost = IntToStr(Ability.GetSkillPoints(FEditedHero) - Ability.GetSkillPoints(FHero));
+                    }
+
+                    SelectedAbilitiesCost.Items.Add(Cost);
+                    SelectedAbilities.Items.AddObject(Name, IntToObject(I));
                 }
             }
 
-            var call__32 = AvailableAbilities.Items.Count;
-            AvailableAbilitiesSB.Max = call__32 - 1;
-            var call__33 = SelectedAbilities.Items.Count;
-            SelectedAbilitiesSB.Max = call__33 - 1;
+            var count = AvailableAbilities.Items.Count;
+            AvailableAbilitiesSB.Max = count - 1;
+            var itemsCount = SelectedAbilities.Items.Count;
+            SelectedAbilitiesSB.Max = itemsCount - 1;
             SortAvailable();
             SortSelected();
         }
@@ -351,19 +318,8 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:212
         public bool CanAddAbility(int AbilityID)
         {
-            bool Result = default;
-            var call__34 = AoWHSSet.FAbilityControl.GetAbility(AbilityID);
-            var call__35 = call__34.CanExpand(FEditedHero);
-            bool bool__36 = !call__35;
-            if (!bool__36)
-            {
-                var call__37 = AoWHSSet.FAbilityControl.GetAbility(AbilityID);
-                var call__38 = call__37.ExpandCost(FEditedHero);
-                var call__39 = FEditedHero.GetSkillPoints();
-                bool__36 = call__38 > call__39;
-            }
-
-            if (bool__36)
+            bool Result;
+            if (!AoWHSSet.FAbilityControl.GetAbility(AbilityID).CanExpand(FEditedHero) || AoWHSSet.FAbilityControl.GetAbility(AbilityID).ExpandCost(FEditedHero) > FEditedHero.GetSkillPoints())
             {
                 Result = false;
             }
@@ -385,15 +341,13 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:308
         public void FaceFramePreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
         {
-            TRect R = default;
+            TRect R;
             if (ValidateHero())
             {
                 var image = (TAOWImage)Sender;
-                var call__41 = Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
-                R = call__41;
+                R = Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
 
-                var call__42 = FHero.GetFace();
-                call__42.ShowStretched(R, SurfDesc);
+                FHero.GetFace().ShowStretched(R, SurfDesc);
             }
         }
 
@@ -558,16 +512,15 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:445
         public void AddAbilityBtnClick()
         {
-            TAOWListBox List = default;
-            int Index = default;
-            int AbilityID = default;
+            TAOWListBox List;
+            int Index;
+            int AbilityID;
             General.PlayButtonSound(0);
             List = AvailableAbilities;
             Index = List.Selected;
             if (Index != -1)
             {
-                var call__43 = List.Items.Objects[Index];
-                AbilityID = ObjectToInt(call__43);
+                AbilityID = ObjectToInt(List.Items.Objects[Index]);
                 if (CanAddAbility(AbilityID))
                 {
                     FEditedHero.ExpandAbility(AbilityID);
@@ -580,22 +533,18 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:465
         public void RemoveBtnClick()
         {
-            TAOWListBox List = default;
-            int Index = default;
-            int AbilityID = default;
+            TAOWListBox List;
+            int Index;
+            int AbilityID;
             General.PlayButtonSound(0);
             List = SelectedAbilities;
             Index = List.Selected;
             if (Index != -1)
             {
-                var call__44 = List.Items.Objects[Index];
-                AbilityID = ObjectToInt(call__44);
-                var call__45 = FHero.GetInherentAbility(AbilityID);
-                if (call__45)
+                AbilityID = ObjectToInt(List.Items.Objects[Index]);
+                if (FHero.GetInherentAbility(AbilityID))
                 {
-                    var call__46 = FHero.GetInherentAbilityLevel(AbilityID);
-                    var call__47 = FEditedHero.GetInherentAbilityLevel(AbilityID);
-                    if (call__46 == call__47)
+                    if (FHero.GetInherentAbilityLevel(AbilityID) == FEditedHero.GetInherentAbilityLevel(AbilityID))
                     {
                         return;
                     }
@@ -674,12 +623,10 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:517
         public void DoneClick()
         {
-            THeroUpgradeTE Event = default;
+            THeroUpgradeTE Event;
             if (ValidateHero())
             {
-                var call__48 = AoWHSMap.FPlayers.GetPlayers(FHero.FPlayer);
-                var call__49 = call__48.GetBusy();
-                if (!call__49)
+                if (!AoWHSMap.FPlayers.GetPlayers(FHero.FPlayer).GetBusy())
                 {
                     Event = new THeroUpgradeTE(null);
                     Event.Setup(FHero);
@@ -690,8 +637,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
                     Event.FHits = (sbyte)(FEditedHero.FUnitHits - FHero.FUnitHits);
                     Event.FMoves = (sbyte)(FEditedHero.FUnitMoves - FHero.FUnitMoves);
                     Event.FAbilities.AssignAb(FEditedHero);
-                    var call__50 = AoWHSMap.FTokenManager.GetTokenControl(FHero.FPlayer);
-                    call__50.AddEvent(Event);
+                    AoWHSMap.FTokenManager.GetTokenControl(FHero.FPlayer).AddEvent(Event);
                     Event.Release();
                     Dlg.Visible = false;
                 }
@@ -707,16 +653,15 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:544
         public void AvailableAbilitiesMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbility Ability = default;
+            TAbility Ability;
             if (Button == TMouseButton.mbRight && AvailableAbilities.Selected != -1)
             {
-                var call__51 = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-                var call__52 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__51));
-                Ability = call__52;
+                var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
+                Ability = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (Ability != null)
                 {
-                    var call__53 = Ability.GetName(null);
-                    SetInfoBanner(InfoBanner, call__53, Ability.FDescription);
+                    var name = Ability.GetName(null);
+                    SetInfoBanner(InfoBanner, name, Ability.FDescription);
                 }
             }
         }
@@ -724,16 +669,15 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:556
         public void SelectedAbilitiesMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbility Ability = default;
+            TAbility Ability;
             if (Button == TMouseButton.mbRight && SelectedAbilities.Selected != -1)
             {
-                var call__54 = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-                var call__55 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__54));
-                Ability = call__55;
+                var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
+                Ability = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (Ability != null)
                 {
-                    var call__56 = Ability.GetName(null);
-                    SetInfoBanner(InfoBanner, call__56, Ability.FDescription);
+                    var name = Ability.GetName(null);
+                    SetInfoBanner(InfoBanner, name, Ability.FDescription);
                 }
             }
         }

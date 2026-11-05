@@ -57,8 +57,7 @@ namespace Aow.Units.AoWPOP3Dlg
         // AoWPOP3Dlg.pas:73
         public void UpdateSelection()
         {
-            var call__1 = FoundEmailGames.Items.Count;
-            if (call__1 != 0 && FoundEmailGames.Selected != -1)
+            if (FoundEmailGames.Items.Count != 0 && FoundEmailGames.Selected != -1)
             {
                 StartExitPnl.Visible = true;
                 ExitPnl.Visible = false;
@@ -81,12 +80,11 @@ namespace Aow.Units.AoWPOP3Dlg
         public void ShowDialog()
         {
             ResetSearch();
-            var call__2 = AoWEngine.FRegistry.GetLocalEmailAddress();
-            LocalEmailAddressEdit.Text = call__2;
-            var call__3 = AoWEngine.FRegistry.GetAttachmentDirectory();
-            var call__4 = TranslateRStr(AttachmentDirectoryXRStr);
-            var call__5 = Format(call__4, [call__3]);
-            AttachmentDirectoryLbl.Text = AnsiString.FromBytes(40) + call__5 + AnsiString.FromBytes(41);
+            var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+            LocalEmailAddressEdit.Text = localEmailAddress;
+            var attachmentDirectory = AoWEngine.FRegistry.GetAttachmentDirectory();
+            var format = Format(TranslateRStr(AttachmentDirectoryXRStr), [attachmentDirectory]);
+            AttachmentDirectoryLbl.Text = AnsiString.FromBytes(40) + format + AnsiString.FromBytes(41);
             Dlg.Visible = true;
         }
 
@@ -102,8 +100,7 @@ namespace Aow.Units.AoWPOP3Dlg
             FCheckDelay -= 1;
             if (FCheckDelay < 0)
             {
-                var call__6 = AoWEngine.FRegistry.GetCheckEmailFrequency();
-                FCheckDelay = call__6 * 30 * 60;
+                FCheckDelay = AoWEngine.FRegistry.GetCheckEmailFrequency() * 30 * 60;
                 if (FCheckDelay < 30)
                 {
                     FCheckDelay = 30;
@@ -138,8 +135,8 @@ namespace Aow.Units.AoWPOP3Dlg
         {
             if (FoundEmailGames.Selected != -1)
             {
-                var call__7 = FoundEmailGames.Items[FoundEmailGames.Selected];
-                LoadGame(General, AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + call__7);
+                var item = FoundEmailGames.Items[FoundEmailGames.Selected];
+                LoadGame(General, AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + item);
                 StartGame(General);
             }
         }

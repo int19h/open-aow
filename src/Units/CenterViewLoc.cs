@@ -54,36 +54,16 @@ namespace Aow.Units.CenterViewLoc
         }
 
         // CenterViewLoc.pas:55
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => true;
 
         // CenterViewLoc.pas:49
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
-        {
-            TMapObjectResourceList Result = default;
-            Result = AoWHSSet.FCombatResources;
-            return Result;
-        }
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
         // CenterViewLoc.pas:52
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // CenterViewLoc.pas:58
-        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
-            return Result;
-        }
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
 
     }
 
@@ -101,12 +81,7 @@ namespace Aow.Units.CenterViewLoc
 
 
         // CenterViewLoc.pas:102
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2233640;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2233640;
 
         // CenterViewLoc.pas:94
         public override void SetLevel(byte Value)
@@ -118,12 +93,7 @@ namespace Aow.Units.CenterViewLoc
 
 
         // CenterViewLoc.pas:99
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Center View Location";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Center View Location";
 
     }
 

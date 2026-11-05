@@ -163,7 +163,7 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:985
         public void UpdateGround(int Offset)
         {
-            TAbstractUnit U = default;
+            TAbstractUnit U;
             Gnd1.Tag = -1;
             Gnd2.Tag = -1;
             Gnd3.Tag = -1;
@@ -181,9 +181,7 @@ namespace Aow.Units.AoWUnitWindow
                 {
                     if (((THero)U).GetItemsOnGround() != null)
                     {
-                        var call__1 = ((THero)U).GetItemsOnGround();
-                        var call__2 = call__1.Count;
-                        FGroundCount = call__2;
+                        FGroundCount = ((THero)U).GetItemsOnGround().Count;
                         FGroundOffset = Offset;
                         // { Original last-page clamp leaves only four items visible. }
                         if (FGroundCount < Offset + 5)
@@ -198,49 +196,39 @@ namespace Aow.Units.AoWUnitWindow
 
                         GroundL.Visible = FGroundOffset > 0;
                         GroundR.Visible = FGroundOffset + 5 <= FGroundCount;
-                        var call__3 = ((THero)U).GetItemsOnGround();
-                        var call__4 = call__3.Count;
-                        if (FGroundOffset < call__4)
+                        var count = ((THero)U).GetItemsOnGround().Count;
+                        if (FGroundOffset < count)
                         {
-                            var call__5 = ((THero)U).GetItemsOnGround();
-                            var call__6 = call__5.GetItem(FGroundOffset);
-                            Gnd1.Tag = call__6.FItemID;
+                            var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset);
+                            Gnd1.Tag = item.FItemID;
                         }
 
-                        var call__7 = ((THero)U).GetItemsOnGround();
-                        var call__8 = call__7.Count;
-                        if (FGroundOffset + 1 < call__8)
+                        var count2 = ((THero)U).GetItemsOnGround().Count;
+                        if (FGroundOffset + 1 < count2)
                         {
-                            var call__9 = ((THero)U).GetItemsOnGround();
-                            var call__10 = call__9.GetItem(FGroundOffset + 1);
-                            Gnd2.Tag = call__10.FItemID;
+                            var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 1);
+                            Gnd2.Tag = item.FItemID;
                         }
 
-                        var call__11 = ((THero)U).GetItemsOnGround();
-                        var call__12 = call__11.Count;
-                        if (FGroundOffset + 2 < call__12)
+                        var count3 = ((THero)U).GetItemsOnGround().Count;
+                        if (FGroundOffset + 2 < count3)
                         {
-                            var call__13 = ((THero)U).GetItemsOnGround();
-                            var call__14 = call__13.GetItem(FGroundOffset + 2);
-                            Gnd3.Tag = call__14.FItemID;
+                            var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 2);
+                            Gnd3.Tag = item.FItemID;
                         }
 
-                        var call__15 = ((THero)U).GetItemsOnGround();
-                        var call__16 = call__15.Count;
-                        if (FGroundOffset + 3 < call__16)
+                        var count4 = ((THero)U).GetItemsOnGround().Count;
+                        if (FGroundOffset + 3 < count4)
                         {
-                            var call__17 = ((THero)U).GetItemsOnGround();
-                            var call__18 = call__17.GetItem(FGroundOffset + 3);
-                            Gnd4.Tag = call__18.FItemID;
+                            var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 3);
+                            Gnd4.Tag = item.FItemID;
                         }
 
-                        var call__19 = ((THero)U).GetItemsOnGround();
-                        var call__20 = call__19.Count;
-                        if (FGroundOffset + 4 < call__20)
+                        var count5 = ((THero)U).GetItemsOnGround().Count;
+                        if (FGroundOffset + 4 < count5)
                         {
-                            var call__21 = ((THero)U).GetItemsOnGround();
-                            var call__22 = call__21.GetItem(FGroundOffset + 4);
-                            Gnd5.Tag = call__22.FItemID;
+                            var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 4);
+                            Gnd5.Tag = item.FItemID;
                         }
                     }
                 }
@@ -250,64 +238,32 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:472
         public void PreDrawAbilityItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
-            bool Enabled = default;
-            TAbility A = default;
-            var call__23 = T1AbilityLB.Items.Objects[DrawItem];
-            var call__24 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__23));
-            A = call__24;
+            bool Enabled;
+            TAbility A;
+            var objectValue = T1AbilityLB.Items.Objects[DrawItem];
+            A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (AoWHSMap.FCombatMap == null)
             {
-                bool bool__25 = A != null && General.FSelectedUnit != null && General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer;
-                if (bool__25)
-                {
-                    var call__26 = A.GetControlType(General.FSelectedUnit);
-                    bool__25 = call__26.Contains(TAbilityControlTypeElement.acAction);
-                }
-
-                Enabled = bool__25;
+                Enabled = A != null && General.FSelectedUnit != null && General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer && A.GetControlType(General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction);
             }
             else
             {
-                bool bool__27 = A != null && General.FCombatUnit != null;
-                if (bool__27)
+                bool condition = A != null && General.FCombatUnit != null;
+                if (condition)
                 {
-                    var call__28 = T1AbilityLB.Items.Objects[DrawItem];
-                    var call__29 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__28));
-                    var call__30 = call__29.GetControlType(General.FCombatUnit.FUnit.FUnit);
-                    bool__27 = call__30.Contains(TAbilityControlTypeElement.acCombatAction);
+                    var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
+                    condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
                 }
 
-                bool bool__31 = bool__27;
-                if (bool__31)
+                bool test = condition && General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints > 0;
+                if (test)
                 {
-                    var call__32 = General.FCombatUnit.FUnit.GetPlayer();
-                    bool__31 = call__32 == AoWCombatMap.FSeatedPlayer;
+                    var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
+                    var combatMode = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(General.FCombatUnit.FUnit.FUnit);
+                    test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[DrawItem]) == 52) || General.FCombatUnit.FUnit.FUnit.GetMoves() == General.FCombatUnit.FUnit.FMovePoints;
                 }
 
-                bool bool__33 = bool__31 && General.FCombatUnit.FUnit.FMovePoints > 0;
-                if (bool__33)
-                {
-                    var call__34 = T1AbilityLB.Items.Objects[DrawItem];
-                    var call__35 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__34));
-                    var call__36 = call__35.GetCombatMode(General.FCombatUnit.FUnit.FUnit);
-                    bool bool__37 = TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(call__36);
-                    if (!bool__37)
-                    {
-                        var call__38 = T1AbilityLB.Items.Objects[DrawItem];
-                        bool__37 = ObjectToInt(call__38) == 52;
-                    }
-
-                    bool bool__39 = !bool__37;
-                    if (!bool__39)
-                    {
-                        var call__40 = General.FCombatUnit.FUnit.FUnit.GetMoves();
-                        bool__39 = call__40 == General.FCombatUnit.FUnit.FMovePoints;
-                    }
-
-                    bool__33 = bool__39;
-                }
-
-                Enabled = bool__33;
+                Enabled = test;
             }
 
             if (Enabled)
@@ -329,7 +285,7 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:507
         public void T1AbilityLBChange(TObject Sender)
         {
-            TAbility A = default;
+            TAbility A;
             T1AbilityLB.Selected = ((TAOWListBox)Sender).Selected;
             T1TypeLB.Selected = ((TAOWListBox)Sender).Selected;
             T1SrcLB.Selected = ((TAOWListBox)Sender).Selected;
@@ -337,46 +293,33 @@ namespace Aow.Units.AoWUnitWindow
             {
                 if (General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer && T1AbilityLB.Selected > -1)
                 {
-                    var call__41 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__42 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__41));
-                    A = call__42;
-                    bool bool__43 = A != null;
-                    if (bool__43)
-                    {
-                        var call__44 = A.GetEnabled(General.FSelectedUnit);
-                        bool__43 = call__44;
-                    }
-
-                    if (bool__43)
+                    var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+                    if (A != null && A.GetEnabled(General.FSelectedUnit))
                     {
                         if (AoWHSMap.FCombatMap == null)
                         {
-                            var call__45 = A.GetControlType(General.FSelectedUnit);
-                            T1UseBut.Visible = call__45.Contains(TAbilityControlTypeElement.acAction);
+                            var controlType = A.GetControlType(General.FSelectedUnit);
+                            T1UseBut.Visible = controlType.Contains(TAbilityControlTypeElement.acAction);
                         }
                         else
                         {
-                            var call__46 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                            var call__47 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__46));
-                            var call__48 = call__47.GetCombatMode(General.FSelectedUnit);
-                            bool bool__49 = call__48 != TCombatMode.cmNone;
-                            if (bool__49)
+                            var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                            bool condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(General.FSelectedUnit) != TCombatMode.cmNone;
+                            if (condition)
                             {
-                                var call__50 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                                var call__51 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__50));
-                                var call__52 = call__51.GetCombatMode(General.FSelectedUnit);
-                                bool__49 = call__52 != TCombatMode.cmMelee;
+                                var objectValue3 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                                condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(General.FSelectedUnit) != TCombatMode.cmMelee;
                             }
 
-                            T1UseBut.Visible = bool__49;
+                            T1UseBut.Visible = condition;
                         }
 
                         if (T1UseBut.Visible)
                         {
-                            var call__53 = A.GetName(General.FSelectedUnit);
-                            var call__54 = TranslateRStr(UseXRStr);
-                            var call__55 = AoWE.AoWE.Format(call__54, [call__53]);
-                            T1UseBut.Text = call__55;
+                            var name = A.GetName(General.FSelectedUnit);
+                            var format = AoWE.AoWE.Format(TranslateRStr(UseXRStr), [name]);
+                            T1UseBut.Text = format;
                         }
                     }
                     else
@@ -391,54 +334,28 @@ namespace Aow.Units.AoWUnitWindow
             }
             else
             {
-                bool bool__56 = T1AbilityLB.Selected > -1 && General.FCombatUnit != null;
-                if (bool__56)
+                bool condition = T1AbilityLB.Selected > -1 && General.FCombatUnit != null;
+                if (condition)
                 {
-                    var call__57 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__58 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__57));
-                    var call__59 = call__58.GetControlType(General.FCombatUnit.FUnit.FUnit);
-                    bool__56 = call__59.Contains(TAbilityControlTypeElement.acCombatAction);
+                    var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
                 }
 
-                bool bool__60 = bool__56;
-                if (bool__60)
+                bool test = condition && General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints > 0;
+                if (test)
                 {
-                    var call__61 = General.FCombatUnit.FUnit.GetPlayer();
-                    bool__60 = call__61 == AoWCombatMap.FSeatedPlayer;
+                    var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    var combatMode = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(General.FCombatUnit.FUnit.FUnit);
+                    test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[T1AbilityLB.Selected]) == 52) || General.FCombatUnit.FUnit.FUnit.GetMoves() == General.FCombatUnit.FUnit.FMovePoints;
                 }
 
-                bool bool__62 = bool__60 && General.FCombatUnit.FUnit.FMovePoints > 0;
-                if (bool__62)
-                {
-                    var call__63 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__64 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__63));
-                    var call__65 = call__64.GetCombatMode(General.FCombatUnit.FUnit.FUnit);
-                    bool bool__66 = TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(call__65);
-                    if (!bool__66)
-                    {
-                        var call__67 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                        bool__66 = ObjectToInt(call__67) == 52;
-                    }
-
-                    bool bool__68 = !bool__66;
-                    if (!bool__68)
-                    {
-                        var call__69 = General.FCombatUnit.FUnit.FUnit.GetMoves();
-                        bool__68 = call__69 == General.FCombatUnit.FUnit.FMovePoints;
-                    }
-
-                    bool__62 = bool__68;
-                }
-
-                if (bool__62)
+                if (test)
                 {
                     T1UseBut.Visible = true;
-                    var call__70 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    var call__71 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__70));
-                    var call__72 = call__71.GetName(General.FCombatUnit.FUnit.FUnit);
-                    var call__73 = TranslateRStr(UseXRStr);
-                    var call__74 = AoWE.AoWE.Format(call__73, [call__72]);
-                    T1UseBut.Text = call__74;
+                    var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                    var name = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(General.FCombatUnit.FUnit.FUnit);
+                    var format = AoWE.AoWE.Format(TranslateRStr(UseXRStr), [name]);
+                    T1UseBut.Text = format;
                 }
                 else
                 {
@@ -457,7 +374,7 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:568
         public void ItemRHMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAOWCheckBox Check = default;
+            TAOWCheckBox Check;
             Check = (TAOWCheckBox)Sender;
             AoWItemBanner.AoWItemBanner.ItemID = Check.Tag;
         }
@@ -524,7 +441,7 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:620
         public void T1SortNameClick(TObject Sender, int Button)
         {
-            TList Lists = default;
+            TList Lists;
             General.PlayButtonSound(0);
             Lists = new TList();
             Lists.Add(T1AbilityLB);
@@ -537,7 +454,7 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:631
         public void T1SortTypeClick(TObject Sender, int Button)
         {
-            TList Lists = default;
+            TList Lists;
             General.PlayButtonSound(0);
             Lists = new TList();
             Lists.Add(T1TypeLB);
@@ -550,7 +467,7 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:642
         public void T1SortSourceClick(TObject Sender, int Button)
         {
-            TList Lists = default;
+            TList Lists;
             General.PlayButtonSound(0);
             Lists = new TList();
             Lists.Add(T1SrcLB);
@@ -563,27 +480,18 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:653
         public void UseAbility()
         {
-            TAbility A = default;
+            TAbility A;
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__76 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-            var call__77 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__76));
-            A = call__77;
-            bool bool__78 = A != null;
-            if (bool__78)
-            {
-                var call__79 = A.GetEnabled(General.FSelectedUnit);
-                bool__78 = call__79;
-            }
-
-            if (bool__78)
+            var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+            A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            if (A != null && A.GetEnabled(General.FSelectedUnit))
             {
                 if (AoWHSMap.FCombatMap == null)
                 {
                     if (General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer)
                     {
-                        var call__80 = A.Activate(General.FSelectedUnit, ref Reason);
-                        if (call__80)
+                        if (A.Activate(General.FSelectedUnit, ref Reason))
                         {
                             UnitWin.Visible = false;
                         }
@@ -600,9 +508,8 @@ namespace Aow.Units.AoWUnitWindow
                 {
                     if (General.FCombatUnit != null && General.FCombatUnit.FUnit.FCombatPlayer == AoWCombatMap.FSeatedCombatPlayer)
                     {
-                        var call__81 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                        var call__82 = General.FCombatUnit.SelectAbility(ObjectToInt(call__81));
-                        if (call__82 > -1)
+                        var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                        if (General.FCombatUnit.SelectAbility(ObjectToInt(objectValue2)) > -1)
                         {
                             UnitWin.Visible = false;
                         }
@@ -618,8 +525,7 @@ namespace Aow.Units.AoWUnitWindow
             General.PlayButtonSound(0);
             if (AoWUnitWindow.SelectedItem != null && General.FSelectedUnit is THero)
             {
-                var call__83 = ((THero)General.FSelectedUnit).CanUseItem(AoWUnitWindow.SelectedItem.Tag, ref Reason);
-                if (call__83)
+                if (((THero)General.FSelectedUnit).CanUseItem(AoWUnitWindow.SelectedItem.Tag, ref Reason))
                 {
                     ((THero)General.FSelectedUnit).UseItem(AoWUnitWindow.SelectedItem.Tag);
                 }
@@ -667,39 +573,33 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:730
         public void Gnd1Draw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
         {
-            THero U = default;
-            TItem Item = default;
-            TAoWComponent Component = default;
+            THero U;
+            TItem Item;
+            TAoWComponent Component;
             Component = Sender;
             if (Component.Tag != -1)
             {
                 U = (THero)General.FSelectedUnit;
-                var call__84 = U.FInventory.FindItem(Component.Tag);
-                Item = call__84;
+                Item = U.FInventory.FindItem(Component.Tag);
                 if (Item == null)
                 {
-                    var call__85 = U.FHeroItems.FindItem(Component.Tag);
-                    Item = call__85;
+                    Item = U.FHeroItems.FindItem(Component.Tag);
                 }
 
                 if (Item == null)
                 {
                     if (U.GetItemsOnGround() != null)
                     {
-                        var call__86 = U.GetItemsOnGround();
-                        var call__87 = call__86.FindItem(Component.Tag);
-                        Item = call__87;
+                        Item = U.GetItemsOnGround().FindItem(Component.Tag);
                     }
                 }
 
                 if (Item != null)
                 {
-                    var panel = T3Panel;
                     var checkBox = (TAOWCheckBox)Component;
                     if (Item.GetImage() != null)
                     {
-                        var call__90 = Item.GetImage();
-                        call__90.ShowClipped(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc);
+                        Item.GetImage().ShowClipped(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc);
                     }
                 }
             }
@@ -708,15 +608,13 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:750
         public void FrLShPreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
         {
-            TRect R = default;
+            TRect R;
             if (General.FSelectedUnit != null)
             {
-                var call__91 = General.FSelectedUnit.GetFace();
-                if (call__91 != null)
+                if (General.FSelectedUnit.GetFace() != null)
                 {
                     var image = (TAOWImage)Sender;
-                    var call__93 = Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
-                    R = call__93;
+                    R = Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
 
                     General.FSelectedUnit.ShowFace(R, SurfDesc);
                 }
@@ -748,9 +646,7 @@ namespace Aow.Units.AoWUnitWindow
         {
             if (General.FSelectedUnit != null)
             {
-                var call__95 = AoWHSMap.FPlayers.GetPlayers(General.FSelectedUnit.FPlayer);
-                var call__96 = call__95.GetBusy();
-                if (!call__96)
+                if (!AoWHSMap.FPlayers.GetPlayers(General.FSelectedUnit.FPlayer).GetBusy())
                 {
                     if (Button == TMouseButton.mbRight)
                     {
@@ -783,8 +679,7 @@ namespace Aow.Units.AoWUnitWindow
             if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == 0)
             {
                 var checkBox = (TAOWCheckBox)Sender;
-                var call__99 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                call__99.ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
             }
         }
 
@@ -795,8 +690,7 @@ namespace Aow.Units.AoWUnitWindow
             if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)1)
             {
                 var checkBox = (TAOWCheckBox)Sender;
-                var call__102 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                call__102.ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
             }
         }
 
@@ -807,8 +701,7 @@ namespace Aow.Units.AoWUnitWindow
             if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)2)
             {
                 var checkBox = (TAOWCheckBox)Sender;
-                var call__105 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                call__105.ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
             }
         }
 
@@ -819,8 +712,7 @@ namespace Aow.Units.AoWUnitWindow
             if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)3)
             {
                 var checkBox = (TAOWCheckBox)Sender;
-                var call__108 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                call__108.ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
             }
         }
 
@@ -831,32 +723,30 @@ namespace Aow.Units.AoWUnitWindow
             if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)4)
             {
                 var checkBox = (TAOWCheckBox)Sender;
-                var call__111 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24];
-                call__111.ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
             }
         }
 
         // AoWUnitWindow.pas:921
         public void DisbandBtnClick()
         {
-            var call__112 = TranslateRStr(DisbandUnitRStr);
-            var call__113 = TranslateRStr(E2Globals.E2Globals.ConfirmRStr);
-            DialogWin.Confirm(call__113, call__112, 7);
+            var disbandUnit = TranslateRStr(DisbandUnitRStr);
+            var confirm = TranslateRStr(E2Globals.E2Globals.ConfirmRStr);
+            DialogWin.Confirm(confirm, disbandUnit, 7);
         }
 
         // AoWUnitWindow.pas:926
         public void T1AbilityLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbility A = default;
+            TAbility A;
             if (Button == TMouseButton.mbRight && General.FSelectedUnit != null && T1AbilityLB.Selected != -1)
             {
-                var call__114 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var call__115 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__114));
-                A = call__115;
+                var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
+                A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (A != null)
                 {
-                    var call__116 = A.GetName(null);
-                    SetInfoBanner(InfoBanner, call__116, A.FDescription);
+                    var name = A.GetName(null);
+                    SetInfoBanner(InfoBanner, name, A.FDescription);
                 }
             }
         }
@@ -875,12 +765,11 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:944
         public void PPrevClick()
         {
-            int I = default;
+            int I;
             General.PlayButtonSound(0);
             if (General.FUnitList != null)
             {
-                var call__117 = General.IndexOfUnit(General.FSelectedUnit);
-                I = call__117;
+                I = General.IndexOfUnit(General.FSelectedUnit);
                 if (I > -1 && General.FSelectedUnits[0] > -1)
                 {
                     I -= 1;
@@ -893,8 +782,8 @@ namespace Aow.Units.AoWUnitWindow
                         }
                     }
 
-                    var call__118 = General.FUnitList.GetUnit(General.FSelectedUnits[I]);
-                    General.FSelectedUnit = call__118;
+                    var unit = General.FUnitList.GetUnit(General.FSelectedUnits[I]);
+                    General.FSelectedUnit = unit;
                     ShowUnit();
                 }
             }
@@ -903,12 +792,11 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:966
         public void PNextClick()
         {
-            int I = default;
+            int I;
             General.PlayButtonSound(0);
             if (General.FUnitList != null)
             {
-                var call__119 = General.IndexOfUnit(General.FSelectedUnit);
-                I = call__119;
+                I = General.IndexOfUnit(General.FSelectedUnit);
                 if (I > -1)
                 {
                     I += 1;
@@ -922,8 +810,8 @@ namespace Aow.Units.AoWUnitWindow
                         I = 0;
                     }
 
-                    var call__120 = General.FUnitList.GetUnit(General.FSelectedUnits[I]);
-                    General.FSelectedUnit = call__120;
+                    var unit = General.FUnitList.GetUnit(General.FSelectedUnits[I]);
+                    General.FSelectedUnit = unit;
                     ShowUnit();
                 }
             }
@@ -950,24 +838,13 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:220
         public static int CompareUnitAbilities(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
         {
-            int Result = default;
-            TAbility A1 = default;
-            TAbility A2 = default;
-            int V1 = default;
-            int V2 = default;
-            var call__121 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(O1));
-            A1 = call__121;
-            var call__122 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(O2));
-            A2 = call__122;
-            var call__123 = A1.GetEnabled(General.FSelectedUnit);
-            bool bool__124 = call__123;
-            if (bool__124)
-            {
-                var call__125 = A1.GetControlType(General.FSelectedUnit);
-                bool__124 = call__125.Contains(TAbilityControlTypeElement.acAction);
-            }
-
-            if (bool__124)
+            TAbility A1;
+            TAbility A2;
+            int V1;
+            int V2;
+            A1 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(O1));
+            A2 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(O2));
+            if (A1.GetEnabled(General.FSelectedUnit) && A1.GetControlType(General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction))
             {
                 V1 = 10;
             }
@@ -976,15 +853,7 @@ namespace Aow.Units.AoWUnitWindow
                 V1 = 0;
             }
 
-            var call__126 = A2.GetEnabled(General.FSelectedUnit);
-            bool bool__127 = call__126;
-            if (bool__127)
-            {
-                var call__128 = A2.GetControlType(General.FSelectedUnit);
-                bool__127 = call__128.Contains(TAbilityControlTypeElement.acAction);
-            }
-
-            if (bool__127)
+            if (A2.GetEnabled(General.FSelectedUnit) && A2.GetControlType(General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction))
             {
                 V2 = 10;
             }
@@ -993,7 +862,7 @@ namespace Aow.Units.AoWUnitWindow
                 V2 = 0;
             }
 
-            Result = V2 - V1;
+            int Result = V2 - V1;
             if (Result == 0)
             {
                 Result = CompareStr(S1, S2);

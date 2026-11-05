@@ -49,23 +49,21 @@ namespace Aow.Units.AoWPInfoWin
         // AoWPInfoWin.pas:173
         public void UpdatePlayer()
         {
-            int RaceIndex = default;
+            int RaceIndex;
             if (AoWHSMap.FSeatedPlayer > -1)
             {
-                var call__1 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__2 = call__1.GetName();
-                AoWPInfoWin.PInfoW.Player.Text = call__2;
+                var name = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetName();
+                AoWPInfoWin.PInfoW.Player.Text = name;
                 if (AoWHSMap.FSeatedPlayer != 0)
                 {
-                    var call__3 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    var call__4 = TranslateRStr(RaceNamesPluralRStr[call__3.FPlayerRace]);
-                    AoWPInfoWin.PInfoW.Race.Text = call__4;
+                    var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                    var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[player.FPlayerRace]);
+                    AoWPInfoWin.PInfoW.Race.Text = raceNamesPlural;
                 }
 
-                var call__5 = TranslateRStr(DayRStr);
-                AoWPInfoWin.PInfoW.Turn.Text = call__5 + AnsiString.FromBytes(32) + IntToStr(AoWHSMap.FDay);
-                var call__6 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                RaceIndex = call__6.FPlayerRace;
+                var day = TranslateRStr(DayRStr);
+                AoWPInfoWin.PInfoW.Turn.Text = day + AnsiString.FromBytes(32) + IntToStr(AoWHSMap.FDay);
+                RaceIndex = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FPlayerRace;
                 if (RaceIndex == -1)
                 {
                     RaceIndex = 12;
@@ -82,12 +80,11 @@ namespace Aow.Units.AoWPInfoWin
             EventList.Items.Clear();
             if (AoWHSMap.FSeatedPlayer > -1)
             {
-                var call__7 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                call__7.FEventLogbook.ListEvents(EventList.Items);
+                AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FEventLogbook.ListEvents(EventList.Items);
             }
 
-            var call__8 = EventList.Items.Count;
-            EventList.ListOffset = call__8 - 1;
+            var count = EventList.Items.Count;
+            EventList.ListOffset = count - 1;
         }
 
         // AoWPInfoWin.pas:67
@@ -100,10 +97,8 @@ namespace Aow.Units.AoWPInfoWin
         // AoWPInfoWin.pas:72
         public void EventListDoubleClick()
         {
-            var call__9 = EventList.Items.Objects[EventList.Selected];
-            var call__10 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__11 = call__10.FEventLogbook.GetLogs(ObjectToInt(call__9));
-            call__11.Execute(true, TExecuteTrigger.etUser, null);
+            var objectValue = EventList.Items.Objects[EventList.Selected];
+            AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, TExecuteTrigger.etUser, null);
         }
 
         // AoWPInfoWin.pas:78
@@ -111,60 +106,45 @@ namespace Aow.Units.AoWPInfoWin
         {
             if (DrawItem != EventList.Selected)
             {
-                var call__12 = EventList.Items.Objects[DrawItem];
-                var call__13 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__14 = call__13.FEventLogbook.GetLogs(ObjectToInt(call__12));
-                var call__15 = call__14.GetTextColor();
-                EventList.TextColor = call__15;
+                var objectValue = EventList.Items.Objects[DrawItem];
+                var textColor = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
+                EventList.TextColor = textColor;
             }
         }
 
         // AoWPInfoWin.pas:85
         public void EventListDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
         {
-            int LeftIcon = default;
-            int MiddleIcon = default;
-            int RightIcon = default;
-            var call__16 = EventList.Items.Objects[DrawItem];
-            var call__17 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__18 = call__17.FEventLogbook.GetLogs(ObjectToInt(call__16));
-            var call__19 = call__18.GetLeftIcon();
-            LeftIcon = call__19;
-            var call__20 = EventList.Items.Objects[DrawItem];
-            var call__21 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__22 = call__21.FEventLogbook.GetLogs(ObjectToInt(call__20));
-            var call__23 = call__22.GetMiddleIcon();
-            MiddleIcon = call__23;
-            var call__24 = EventList.Items.Objects[DrawItem];
-            var call__25 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__26 = call__25.FEventLogbook.GetLogs(ObjectToInt(call__24));
-            var call__27 = call__26.GetRightIcon();
-            RightIcon = call__27;
+            int LeftIcon;
+            int MiddleIcon;
+            int RightIcon;
+            var objectValue = EventList.Items.Objects[DrawItem];
+            LeftIcon = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
+            var objectValue2 = EventList.Items.Objects[DrawItem];
+            MiddleIcon = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
+            var objectValue3 = EventList.Items.Objects[DrawItem];
+            RightIcon = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
             if (LeftIcon > -1)
             {
                 if (MiddleIcon == -1)
                 {
-                    var call__28 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon];
-                    var call__29 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon];
-                    call__29.ShowClipped(DrawRect.Left + (36 - call__28.Width) / 2, DrawRect.Top + 1, SD);
+                    var eventIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon];
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left + (36 - eventIcon.Width) / 2, DrawRect.Top + 1, SD);
                 }
                 else
                 {
-                    var call__30 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon];
-                    call__30.ShowClipped(DrawRect.Left, DrawRect.Top + 1, SD);
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left, DrawRect.Top + 1, SD);
                 }
             }
 
             if (MiddleIcon > -1)
             {
-                var call__31 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[MiddleIcon];
-                call__31.ShowClipped(DrawRect.Left + 12, DrawRect.Top + 1, SD);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[MiddleIcon].ShowClipped(DrawRect.Left + 12, DrawRect.Top + 1, SD);
             }
 
             if (RightIcon > -1)
             {
-                var call__32 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[RightIcon];
-                call__32.ShowClipped(DrawRect.Left + 24, DrawRect.Top + 1, SD);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.EventIcons[RightIcon].ShowClipped(DrawRect.Left + 24, DrawRect.Top + 1, SD);
             }
         }
 
@@ -180,10 +160,8 @@ namespace Aow.Units.AoWPInfoWin
         {
             if (EventList.Selected > -1 && Button == TMouseButton.mbRight)
             {
-                var call__34 = EventList.Items.Objects[EventList.Selected];
-                var call__35 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__36 = call__35.FEventLogbook.GetLogs(ObjectToInt(call__34));
-                call__36.ViewLocation();
+                var objectValue = EventList.Items.Objects[EventList.Selected];
+                AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
             }
         }
 
@@ -194,11 +172,9 @@ namespace Aow.Units.AoWPInfoWin
             sbyte Y = default;
             sbyte L = default;
             General.PlayButtonSound(0);
-            var call__37 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (call__37.FLeader != null)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FLeader != null)
             {
-                var call__38 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                call__38.GetLeaderLocation(ref X, ref Y, ref L);
+                AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
                 if (X > -1)
                 {
                     AoWHSMap.CenterViewTo(X, Y, L);
@@ -216,18 +192,13 @@ namespace Aow.Units.AoWPInfoWin
         // AoWPInfoWin.pas:137
         public void FaceFrDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            TRect R = default;
+            TRect R;
             if (AoWHSMap.FSeatedPlayer > -1)
             {
-                var call__39 = Rect(FaceFr.WinLeft + 3, FaceFr.WinTop + 3, FaceFr.WinLeft + FaceFr.WinWidth - 3, FaceFr.WinTop + FaceFr.WinHeight - 3);
-                R = call__39;
-                var call__40 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__41 = call__40.GetFace();
-                if (call__41 != null)
+                R = Rect(FaceFr.WinLeft + 3, FaceFr.WinTop + 3, FaceFr.WinLeft + FaceFr.WinWidth - 3, FaceFr.WinTop + FaceFr.WinHeight - 3);
+                if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFace() != null)
                 {
-                    var call__42 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    var call__43 = call__42.GetFace();
-                    call__43.ShowStretched(R, SD);
+                    AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFace().ShowStretched(R, SD);
                 }
             }
         }
@@ -238,15 +209,13 @@ namespace Aow.Units.AoWPInfoWin
             sbyte Xhx = default;
             sbyte Yhx = default;
             sbyte Lhx = default;
-            var call__44 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (call__44.FLeader != null)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FLeader != null)
             {
-                var call__45 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                call__45.GetLeaderLocation(ref Xhx, ref Yhx, ref Lhx);
+                AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetLeaderLocation(ref Xhx, ref Yhx, ref Lhx);
                 if (Xhx > -1)
                 {
-                    var call__46 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    General.FSelectedUnit = call__46.FLeader;
+                    var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                    General.FSelectedUnit = player.FLeader;
                     switch (Button)
                     {
                         case TMouseButton.mbLeft:
