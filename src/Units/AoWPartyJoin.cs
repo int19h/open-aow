@@ -143,7 +143,7 @@ namespace Aow.Units.AoWPartyJoin
         // AoWPartyJoin.pas:137
         public void LeftBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (ValidateJoin())
             {
                 General.PlayButtonSound(0);
@@ -161,7 +161,7 @@ namespace Aow.Units.AoWPartyJoin
         // AoWPartyJoin.pas:149
         public void MiddleBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (ValidateJoin())
             {
                 General.PlayButtonSound(0);

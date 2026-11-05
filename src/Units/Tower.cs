@@ -128,7 +128,7 @@ namespace Aow.Units.Tower
 
 
         // Tower.pas:121
-        public override AnsiString ResourceEditName() => TranslateRStr(TowerRStr);
+        public override string ResourceEditName() => TranslateRStr(TowerRStr);
 
     }
 
@@ -138,7 +138,7 @@ namespace Aow.Units.Tower
         { }
 
         // Tower.pas:139
-        public override void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
+        public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
         {
             var tower = TranslateRStr(TowerRStr);
             Text = Rtl.Rtl.Format(TranslateRStr(BuildXRStr), [tower]);
@@ -147,7 +147,7 @@ namespace Aow.Units.Tower
         }
 
         // Tower.pas:146
-        public override bool CanConstruct(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanConstruct(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             sbyte Xhx = default;

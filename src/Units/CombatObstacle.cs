@@ -260,7 +260,7 @@ namespace Aow.Units.CombatObstacle
         public override int ResourceUserClassID() => 2229546;
 
         // CombatObstacle.pas:242
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat " + TranslateRStr(ObstacleRStr);
+        public override string ResourceEditName() => "Combat " + TranslateRStr(ObstacleRStr);
 
     }
 

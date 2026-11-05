@@ -293,7 +293,7 @@ namespace Aow.Units.AoWComboBox
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -779,7 +779,7 @@ namespace Aow.Units.AoWComboBox
         // AoWComboBox.pas:561
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWComboBox)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWComboBox)]);
         }
     }
 }

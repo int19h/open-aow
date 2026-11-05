@@ -79,7 +79,7 @@ namespace Aow.Units.AoWComp
         public int FWinLeft;
         public int FWinTop;
         public TImageLibraryFont FAOWFont;
-        public AnsiString FText;
+        public string FText = "";
         public bool FRedraw;
         public int FBorderWidth;
         public int FBorderHeight;
@@ -258,7 +258,7 @@ namespace Aow.Units.AoWComp
                 }
                 catch (System.Exception)
                 {
-                    MessageBox(0, (AnsiString)"Exception during Validate", (AnsiString)"Error - " + Name, 0);
+                    MessageBox(0, "Exception during Validate", "Error - " + Name, 0);
                 }
 
                 if (FValid)
@@ -272,7 +272,7 @@ namespace Aow.Units.AoWComp
                     }
                     catch (System.Exception)
                     {
-                        MessageBox(0, (AnsiString)"Exception during SetSize", (AnsiString)"Error - " + Name, 0);
+                        MessageBox(0, "Exception during SetSize", "Error - " + Name, 0);
                     }
 
                     try
@@ -284,7 +284,7 @@ namespace Aow.Units.AoWComp
                     }
                     catch (System.Exception)
                     {
-                        MessageBox(0, (AnsiString)"Exception during ReAlign", (AnsiString)"Error - " + Name, 0);
+                        MessageBox(0, "Exception during ReAlign", "Error - " + Name, 0);
                     }
 
                     try
@@ -296,7 +296,7 @@ namespace Aow.Units.AoWComp
                     }
                     catch (System.Exception)
                     {
-                        MessageBox(0, (AnsiString)"Exception during SetSize", (AnsiString)"Error - " + Name, 0);
+                        MessageBox(0, "Exception during SetSize", "Error - " + Name, 0);
                     }
 
                     try
@@ -311,7 +311,7 @@ namespace Aow.Units.AoWComp
                     }
                     catch (System.Exception)
                     {
-                        MessageBox(0, (AnsiString)"Exception during Setup", (AnsiString)"Error - " + Name, 0);
+                        MessageBox(0, "Exception during Setup", "Error - " + Name, 0);
                     }
                 }
             }
@@ -342,7 +342,7 @@ namespace Aow.Units.AoWComp
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Update", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Update", "Error - " + Name, 0);
             }
         }
 
@@ -1048,7 +1048,7 @@ namespace Aow.Units.AoWComp
     public delegate void TAoWOnDrawEvent(TAoWComponent Sender, TSurfaceDesc SurfDesc);
     public delegate void TAoWOnDrawBackEvent(TAoWComponent Sender, TSurfaceDesc SurfDesc);
     public delegate void TAoWOnDrawItemEvent(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc);
-    public delegate void TAoWOnDebugEvent(AnsiString Dtext);
+    public delegate void TAoWOnDebugEvent(string Dtext);
     // how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,
     // FHeightPercent, FLeftOffPercent, FRightOffPercent, FTopOffPercent, FBottomOffPercent,
     // FLeftOffset, FRightOffset, FTopOffset, FBottomOffset, FAlignWidth, FAlignHeight. It does not

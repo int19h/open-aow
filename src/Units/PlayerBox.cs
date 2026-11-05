@@ -60,7 +60,8 @@ namespace Aow.Units.PlayerBox
     public struct TNameView
     {
         public FixedArray_byte_36 Reserved;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 21)]
@@ -77,10 +78,10 @@ namespace Aow.Units.PlayerBox
         // PlayerBox.pas:93
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoW", [typeof(TPlayerComboBox)]);
+            RegisterComponents("AoW", [typeof(TPlayerComboBox)]);
         }
 
-        public static AnsiString PlayerRStr = (AnsiString)"Player";
+        public static string PlayerRStr = "Player";
 
         public static void Initialize()
         {

@@ -234,7 +234,7 @@ namespace Aow.Units.AoWScenSetup
             E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
             ScenSetupPnl.Visible = true;
             ChatMemo.Items.Clear();
-            ChatEdit.Text = (AnsiString)"";
+            ChatEdit.Text = "";
             FValidateDelay = 100;
             FPingDelay = 15;
             var remote = FSetupControl.GetRemote();
@@ -243,7 +243,7 @@ namespace Aow.Units.AoWScenSetup
             ChatMemo.FCaptureInput = fSetupControlRemote;
             var remote2 = FSetupControl.GetRemote();
             ChatEdit.FCaptureInput = remote2;
-            if (FSetupControl.GetHost() && FSetupControl.FSettings.FMapName == (AnsiString)"")
+            if (FSetupControl.GetHost() && IsEmpty(FSetupControl.FSettings.FMapName))
             {
                 PickMap();
             }
@@ -292,10 +292,10 @@ namespace Aow.Units.AoWScenSetup
                 condition = SongPlayer.CurrentIndex >= count;
             }
 
-            if (condition || SongPlayer.Songs[SongPlayer.CurrentIndex] != (AnsiString)"SONGS\\TITLE.IT")
+            if (condition || SongPlayer.Songs[SongPlayer.CurrentIndex] != "SONGS\\TITLE.IT")
             {
                 SongPlayer.Songs.Clear();
-                SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
+                SongPlayer.Songs.Add("SONGS\\TITLE.IT");
                 SongPlayer.Play(0);
             }
 
@@ -343,14 +343,14 @@ namespace Aow.Units.AoWScenSetup
                     if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == TMapValidationInfo.mviInvalid)
                     {
                         FontModule.Age8s.Color = 255;
-                        FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, AnsiString.FromBytes(88), SD);
+                        FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, "X", SD);
                     }
                     else
                     {
                         if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == TMapValidationInfo.mviInvalidMap)
                         {
                             FontModule.Age8s.Color = 32768;
-                            FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, AnsiString.FromBytes(88), SD);
+                            FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, "X", SD);
                         }
                     }
                 }

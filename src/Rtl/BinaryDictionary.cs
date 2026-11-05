@@ -4,5 +4,5 @@ public partial class TIvDictionary
 {
     public void Open() => OpenDictionary();
     public void Close() => dictionary.Close();
-    public AnsiString Translate(AnsiString source) => dictionary.Translate(source);
+    public string Translate(string source) => dictionary.Translate(source);
 }

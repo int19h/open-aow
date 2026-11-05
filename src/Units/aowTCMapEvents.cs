@@ -127,10 +127,10 @@ namespace Aow.Units.aowTCMapEvents
                         TCUnit.TargetULbl.Text = name;
                         var hitPoints = U.GetHitPoints();
                         var hits = U.GetHits();
-                        TCUnit.AHits.Text = IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits);
+                        TCUnit.AHits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
                         var movePoints = U.GetMovePoints();
                         var moves = U.GetMoves();
-                        TCUnit.AMoves.Text = IntToStr(movePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                        TCUnit.AMoves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
                         var attack = U.GetAttack();
                         TCUnit.AAttack.Text = IntToStr(attack);
                         var damage = U.GetDamage();

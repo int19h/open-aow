@@ -500,7 +500,7 @@ namespace Aow.Units.AoWRelations
                                 var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
                                 var race2 = FRaces[I];
                                 var playerRelationValue = AoWHSMap.FRaces.GetRace(race2).GetPlayerRelationValue(FSelectedPlayer);
-                                ((TAOWImage)FControls[12 + I]).ToolTipText.Add(status + (AnsiString)" (" + IntToStr(playerRelationValue) + AnsiString.FromBytes(41));
+                                ((TAOWImage)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                             }
                         }
 
@@ -589,7 +589,7 @@ namespace Aow.Units.AoWRelations
                             var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
                             var player3 = FPlayers[I];
                             var playerRelationValue = AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelationValue((sbyte)player3);
-                            ((TAOWImage)FControls[I]).ToolTipText.Add(status + (AnsiString)" (" + IntToStr(playerRelationValue) + AnsiString.FromBytes(41));
+                            ((TAOWImage)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
 
                         break;
@@ -928,7 +928,7 @@ namespace Aow.Units.AoWRelations
         // AoWRelations.pas:723
         public void MAcceptBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             TDiplomaticAction Action;
             General.PlayButtonSound(0);
             Action = FAction;
@@ -949,7 +949,7 @@ namespace Aow.Units.AoWRelations
         // AoWRelations.pas:739
         public void MRejectBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             TDiplomaticAction Action;
             General.PlayButtonSound(0);
             Action = FAction;
@@ -1077,7 +1077,7 @@ namespace Aow.Units.AoWRelations
         // AoWRelations.pas:811
         public void ASelectClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (ActionsLB.Selected != -1)
             {
                 SetAction((TDiplomaticAction)ActionsLB.Items.Objects[ActionsLB.Selected]);
@@ -1187,7 +1187,7 @@ namespace Aow.Units.AoWRelations
         // AoWRelations.pas:882
         public void MsgSendActionBtn()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             sbyte Player;
             TDiplomaticAction Action;
             Action = FAction;

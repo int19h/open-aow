@@ -42,7 +42,7 @@ namespace Aow.Units.EarthNode
 
 
         // EarthNode.pas:50
-        public override AnsiString ResourceEditName() => TranslateRStr(EarthNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(EarthNodeRStr);
 
     }
 

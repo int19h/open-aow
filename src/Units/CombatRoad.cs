@@ -191,7 +191,7 @@ namespace Aow.Units.CombatRoad
         public override TRoadControl GetRoadControl() => ((TAoWHSSet)Engine.HSSet).FCombatRoads;
 
         // CombatRoad.pas:136
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Road";
+        public override string ResourceEditName() => "Combat Road";
 
     }
 

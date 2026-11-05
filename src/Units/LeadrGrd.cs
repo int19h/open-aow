@@ -147,7 +147,8 @@ namespace Aow.Units.LeadrGrd
     public struct THeroView
     {
         public FixedArray_byte_96 Reserved00;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
         public FixedArray_byte_4 Reserved64;
         public byte Race;
         public FixedArray_byte_15 Reserved69;
@@ -157,7 +158,8 @@ namespace Aow.Units.LeadrGrd
     public struct TItemView
     {
         public FixedArray_byte_24 Reserved00;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
         public FixedArray_byte_24 Reserved1C;
         public byte Kind;
         public FixedArray_byte_15 Reserved35;
@@ -169,11 +171,11 @@ namespace Aow.Units.LeadrGrd
         // LeadrGrd.pas:271
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoW", [typeof(TLeaderGrid)]);
+            RegisterComponents("AoW", [typeof(TLeaderGrid)]);
         }
 
-        public static readonly AnsiString GridUsedRStr = (AnsiString)"Used";
-        public static readonly AnsiString GridPlayerRStr = (AnsiString)"Player";
+        public static readonly string GridUsedRStr = "Used";
+        public static readonly string GridPlayerRStr = "Player";
 
         public static void Initialize()
         {

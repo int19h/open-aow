@@ -373,7 +373,7 @@ namespace Aow.Units.PoisonC
         public override int ResourceUserClassID() => 135743;
 
         // PoisonC.pas:289
-        public override AnsiString ResourceEditName() => TranslateRStr(PoisonCloudRStr);
+        public override string ResourceEditName() => TranslateRStr(PoisonCloudRStr);
 
     }
 

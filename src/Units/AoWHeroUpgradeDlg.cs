@@ -201,7 +201,7 @@ namespace Aow.Units.AoWHeroUpgradeDlg
             MovValue.Text = IntToStr(fEditedHeroMoves);
             var skillPoints = FEditedHero.GetSkillPoints();
             var fHeroSkillPoints = FHero.GetSkillPoints();
-            SkillPoints.Text = IntToStr(skillPoints) + AnsiString.FromBytes(47) + IntToStr(fHeroSkillPoints);
+            SkillPoints.Text = IntToStr(skillPoints) + "/" + IntToStr(fHeroSkillPoints);
         }
 
         // AoWHeroUpgradeDlg.pas:252
@@ -253,8 +253,8 @@ namespace Aow.Units.AoWHeroUpgradeDlg
         // AoWHeroUpgradeDlg.pas:170
         public void RefreshAbilities()
         {
-            AnsiString Name;
-            AnsiString Cost;
+            string Name;
+            string Cost;
             TAbility Ability;
             AvailableAbilities.Items.Clear();
             AvailableAbilitiesCost.Items.Clear();
@@ -280,8 +280,8 @@ namespace Aow.Units.AoWHeroUpgradeDlg
                     Name = Ability.GetName(FEditedHero);
                     if (FHero.GetAbEnabled(I) && FHero.GetInherentAbilityLevel(I) == FEditedHero.GetInherentAbilityLevel(I))
                     {
-                        Name = Name + (AnsiString)" (" + TranslateRStr(FixedRStr) + AnsiString.FromBytes(41);
-                        Cost = AnsiString.FromBytes(45);
+                        Name = Name + " (" + TranslateRStr(FixedRStr) + ")";
+                        Cost = "-";
                     }
                     else
                     {

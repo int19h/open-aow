@@ -164,7 +164,7 @@ namespace Aow.Units.AoWBookWindow
         // AoWBookWindow.pas:211
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAoWBookWindow)]);
+            RegisterComponents("AOW Tools", [typeof(TAoWBookWindow)]);
         }
 
         public static void Initialize()

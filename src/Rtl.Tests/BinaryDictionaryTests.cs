@@ -29,17 +29,17 @@ public sealed class BinaryDictionaryTests
             var dictionary = new TIvBinaryDictionary { FFileName = path };
             dictionary.SetLanguage(1);
             dictionary.Open();
-            Assert.Equal((AnsiString)"items", dictionary.Translate("item(plural)"));
-            Assert.Equal((AnsiString)"unchanged", dictionary.Translate("unchanged"));
-            Assert.Equal((AnsiString)"missing", dictionary.Translate("missing"));
-            Assert.Equal((AnsiString)"tea", dictionary.Translate(AnsiString.FromBytes(0x63, 0x61, 0x66, 0xe9)));
+            Assert.Equal("items", dictionary.Translate("item(plural)"));
+            Assert.Equal("unchanged", dictionary.Translate("unchanged"));
+            Assert.Equal("missing", dictionary.Translate("missing"));
+            Assert.Equal("tea", dictionary.Translate("caf\u00E9"));
             dictionary.SetLanguage(2);
-            Assert.Equal((AnsiString)"Dinge", dictionary.Translate("item(plural)"));
+            Assert.Equal("Dinge", dictionary.Translate("item(plural)"));
             dictionary.SetLanguage(0);
-            Assert.Equal((AnsiString)"item(plural)", dictionary.Translate("item(plural)"));
+            Assert.Equal("item(plural)", dictionary.Translate("item(plural)"));
             dictionary.SetLanguage(1);
             dictionary.Close();
-            Assert.Equal((AnsiString)"item(plural)", dictionary.Translate("item(plural)"));
+            Assert.Equal("item(plural)", dictionary.Translate("item(plural)"));
         }
         finally { File.Delete(path); }
     }

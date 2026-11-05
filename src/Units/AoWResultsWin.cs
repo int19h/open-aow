@@ -142,7 +142,7 @@ namespace Aow.Units.AoWResultsWin
             }
 
             var turn = TranslateRStr(TurnRStr);
-            TurnLbl.Text = turn + AnsiString.FromBytes(32) + IntToStr(FMaxTurns);
+            TurnLbl.Text = turn + " " + IntToStr(FMaxTurns);
         }
 
         // AoWResultsWin.pas:250
@@ -469,10 +469,10 @@ namespace Aow.Units.AoWResultsWin
                 }
 
                 ResValues.Items.Clear();
-                ResValues.Items.Add((AnsiString)"0%");
-                ResValues.Items.Add((AnsiString)"0%");
-                ResValues.Items.Add((AnsiString)"0%");
-                ResValues.Items.Add((AnsiString)"0%");
+                ResValues.Items.Add("0%");
+                ResValues.Items.Add("0%");
+                ResValues.Items.Add("0%");
+                ResValues.Items.Add("0%");
             }
         }
     }
@@ -485,11 +485,11 @@ namespace Aow.Units.AoWResultsWin
         {
             if (AoWEngine.FDemo)
             {
-                PlaySongEx((AnsiString)"Songs\\Special\\end2.s3m", 2, 2, true);
+                PlaySongEx("Songs\\Special\\end2.s3m", 2, 2, true);
             }
             else
             {
-                PlaySongEx((AnsiString)"Songs\\Special\\Sunset.it", 2, 2, true);
+                PlaySongEx("Songs\\Special\\Sunset.it", 2, 2, true);
             }
 
             SetMusicVolume(0);

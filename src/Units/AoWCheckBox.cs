@@ -170,7 +170,7 @@ namespace Aow.Units.AoWCheckBox
         // AoWCheckBox.pas:141
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWCheckBox)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWCheckBox)]);
         }
     }
 }

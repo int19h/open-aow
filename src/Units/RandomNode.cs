@@ -35,7 +35,7 @@ namespace Aow.Units.RandomNode
 
 
         // RandomNode.pas:43
-        public override AnsiString ResourceEditName() => TranslateRStr(RandomNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(RandomNodeRStr);
 
     }
 

@@ -39,7 +39,7 @@ namespace Aow.Units.AltDeath
 
 
         // AltDeath.pas:49
-        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfDeathRStr);
+        public override string ResourceEditName() => TranslateRStr(AltarOfDeathRStr);
 
     }
 

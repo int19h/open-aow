@@ -340,7 +340,7 @@ namespace Aow.Units.ReflectingPool
 
 
         // ReflectingPool.pas:263
-        public override AnsiString ResourceEditName() => TranslateRStr(ReflectingPoolRStr);
+        public override string ResourceEditName() => TranslateRStr(ReflectingPoolRStr);
 
     }
 

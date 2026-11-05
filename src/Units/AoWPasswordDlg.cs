@@ -72,7 +72,7 @@ namespace Aow.Units.AoWPasswordDlg
         // AoWPasswordDlg.pas:65
         public void CancelBtnClick(TObject Sender)
         {
-            FPasswordEvent.FPassword = (AnsiString)"";
+            FPasswordEvent.FPassword = "";
             FPasswordEvent.FPressedButton = TPressedEventLogButton.pebCancel;
             Dlg.Visible = false;
         }

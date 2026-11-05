@@ -66,7 +66,7 @@ namespace Aow.Units.AOWMultiWin
         public TAOWButton EmailSettingsBtn;
         public TAOWButton HeatNetBtn;
         public TIvTranslator Translator;
-        public AnsiString FPendingMap;
+        public string FPendingMap = "";
         public int FMenuHeight;
         // AOWMultiWin.pas:362
         public int ConnectProvider(TConnectionType Kind)
@@ -79,10 +79,10 @@ namespace Aow.Units.AOWMultiWin
         public bool ValidateEmail()
         {
             bool Result;
-            if (AoWEngine.FRegistry.GetLocalEmailAddress() == (AnsiString)"")
+            if (IsEmpty(AoWEngine.FRegistry.GetLocalEmailAddress()))
             {
                 ResetMessageDialog(MessageDlg);
-                MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                MessageDlg.MessageMemo.Items.Add("");
                 var pleaseSetupEmailSettingsFirst = TranslateRStr(PleaseSetupEmailSettingsFirstRStr);
                 MessageDlg.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
                 MessageDlg.OKPnl.Visible = true;
@@ -201,8 +201,8 @@ namespace Aow.Units.AOWMultiWin
         {
             General.PlayButtonSound(0);
             MultiPnl.Visible = false;
-            SetupEvents.SetupControl.SetupHost((AnsiString)"", 0, 0);
-            if (FPendingMap != (AnsiString)"")
+            SetupEvents.SetupControl.SetupHost("", 0, 0);
+            if (!IsEmpty(FPendingMap))
             {
                 SetupEvents.SetupControl.hPickMap(FPendingMap);
             }
@@ -258,8 +258,8 @@ namespace Aow.Units.AOWMultiWin
             if (ValidateEmail())
             {
                 MultiPnl.Visible = false;
-                SetupEvents.SetupControl.SetupHost((AnsiString)"", 2, 0);
-                if (FPendingMap != (AnsiString)"")
+                SetupEvents.SetupControl.SetupHost("", 2, 0);
+                if (!IsEmpty(FPendingMap))
                 {
                     SetupEvents.SetupControl.hPickMap(FPendingMap);
                 }
@@ -273,7 +273,7 @@ namespace Aow.Units.AOWMultiWin
         {
             FileDlgWindow.FMode = 0;
             FileDlgWindow.FileDialog.Visible = true;
-            SetCurrentDir(AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\");
+            SetCurrentDir(AoWEngine.StartupDirectory + "EmailIn\\");
             FileDlgWindow.FindFiles();
         }
 

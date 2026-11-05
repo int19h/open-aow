@@ -156,7 +156,7 @@ namespace Aow.Units.MagicSanctuary
 
 
         // MagicSanctuary.pas:157
-        public override AnsiString ResourceEditName() => TranslateRStr(MagicSanctuaryRStr);
+        public override string ResourceEditName() => TranslateRStr(MagicSanctuaryRStr);
 
     }
 

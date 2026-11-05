@@ -8,10 +8,10 @@ public static class LocalizationRuntime
 
     public static int ReadLanguage(ISettingsStore? settings) => settings?.Read(LanguageKey) is int value && value is >= 2 and <= 5 ? value : 1;
 
-    public static MldDictionary Dictionary(AnsiString name, int? language = null)
+    public static MldDictionary Dictionary(string name, int? language = null)
     {
         string root = StartupDirectory.Length == 0 ? Rtl.Files.CurrentDirectory : StartupDirectory;
-        string path = Path.Combine(root, "Dict", name.ToString() + ".mld");
+        string path = Path.Combine(root, "Dict", name + ".mld");
         string key = Rtl.Files.ExpandPath(path);
         if (!dictionaries.TryGetValue(key, out var dictionary))
         {

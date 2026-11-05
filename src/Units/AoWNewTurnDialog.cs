@@ -93,7 +93,7 @@ namespace Aow.Units.AoWNewTurnDialog
                     }
                     else
                     {
-                        PlayerRace.Text = (AnsiString)"";
+                        PlayerRace.Text = "";
                     }
 
                     if (AoWHSMap.FDay > 0)
@@ -106,7 +106,7 @@ namespace Aow.Units.AoWNewTurnDialog
                     }
 
                     var day = TranslateRStr(DayRStr);
-                    Turn.Text = day + AnsiString.FromBytes(32) + IntToStr(Day);
+                    Turn.Text = day + " " + IntToStr(Day);
                     Race = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer).FPlayerRace;
                     if (Race == -1)
                     {

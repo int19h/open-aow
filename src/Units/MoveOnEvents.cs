@@ -191,7 +191,7 @@ namespace Aow.Units.MoveOnEvents
 
 
         // MoveOnEvents.pas:272
-        public override AnsiString ResourceEditName() => (AnsiString)"MoveOnEvent";
+        public override string ResourceEditName() => "MoveOnEvent";
 
     }
 
@@ -203,7 +203,7 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:277
         public new const int ClassID = 132427;
 
-        public AnsiString FSongFileName;
+        public string FSongFileName = "";
         // MoveOnEvents.pas:280
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -243,7 +243,7 @@ namespace Aow.Units.MoveOnEvents
         public override int ResourceUserClassID() => 132427;
 
         // MoveOnEvents.pas:295
-        public override AnsiString ResourceEditName() => TranslateRStr(ChangeSongEventRStr);
+        public override string ResourceEditName() => TranslateRStr(ChangeSongEventRStr);
 
     }
 
@@ -255,7 +255,7 @@ namespace Aow.Units.MoveOnEvents
         // MoveOnEvents.pas:307
         public new const int ClassID = 132445;
 
-        public AnsiString FSampleFileName;
+        public string FSampleFileName = "";
         // MoveOnEvents.pas:310
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -291,7 +291,7 @@ namespace Aow.Units.MoveOnEvents
         public override int ResourceUserClassID() => 132445;
 
         // MoveOnEvents.pas:322
-        public override AnsiString ResourceEditName() => TranslateRStr(PlaySampleEventRStr);
+        public override string ResourceEditName() => TranslateRStr(PlaySampleEventRStr);
 
     }
 
@@ -356,7 +356,7 @@ namespace Aow.Units.MoveOnEvents
         public override int ResourceUserClassID() => 132429;
 
         // MoveOnEvents.pas:369
-        public override AnsiString ResourceEditName() => TranslateRStr(ShowMessageEventRStr);
+        public override string ResourceEditName() => TranslateRStr(ShowMessageEventRStr);
 
     }
 

@@ -128,7 +128,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
         {
             TAoWCampaignTransferSettings S;
             S = AoWEngine.FCampaign.FTransferSettings;
-            TransferPointsLbl.Text = IntToStr(S.FTransferPointsLeft) + AnsiString.FromBytes(47) + IntToStr(S.FTransferPointsMax);
+            TransferPointsLbl.Text = IntToStr(S.FTransferPointsLeft) + "/" + IntToStr(S.FTransferPointsMax);
             TransferManaLbl.Text = IntToStr(S.FSelectedTransferMana);
             TransferGoldLbl.Text = IntToStr(S.FSelectedTransferGold);
             ManaLeftLbl.Text = IntToStr(S.FTransferManaMax - S.FSelectedTransferMana);
@@ -208,7 +208,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
         public void BookStartClick(TObject Sender)
         {
             TransBookWin.Visible = false;
-            PlaySample((AnsiString)"Sfx\\Int\\BookClse.wav");
+            PlaySample("Sfx\\Int\\BookClse.wav");
             var campaign = AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign();
             campaign.FState += 1;
             AoWWorldMap.AoWWorldMap.WorldMap.UpdateCampaignState();
@@ -219,7 +219,7 @@ namespace Aow.Units.AoWCampaignTransferDlg
         {
             TransBookWin.Visible = false;
             AoWEngine.FCampaign.ResetNextScenario();
-            PlaySample((AnsiString)"Sfx\\Int\\BookClse.wav");
+            PlaySample("Sfx\\Int\\BookClse.wav");
             AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign().FState = 1;
             AoWWorldMap.AoWWorldMap.WorldMap.UpdateCampaignState();
         }

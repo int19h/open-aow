@@ -121,7 +121,7 @@ namespace Aow.Units.Mountain
         public override int ResourceUserClassID() => 131432;
 
         // Mountain.pas:172
-        public override AnsiString ResourceEditName() => TranslateRStr(MountainRStr);
+        public override string ResourceEditName() => TranslateRStr(MountainRStr);
 
     }
 
@@ -260,7 +260,7 @@ namespace Aow.Units.Mountain
         public override int ResourceUserClassID() => 131434;
 
         // Mountain.pas:252
-        public override AnsiString ResourceEditName() => TranslateRStr(RaisedMountainRStr);
+        public override string ResourceEditName() => TranslateRStr(RaisedMountainRStr);
 
     }
 
@@ -439,7 +439,7 @@ namespace Aow.Units.Mountain
             ((TAoWEngine)AEngine).FGameSet.FSpellControl.UnregisterSpellID(12);
         }
 
-        public static readonly AnsiString MountainNameRStr = (AnsiString)"Mountain";
+        public static readonly string MountainNameRStr = "Mountain";
         public static void Initialize()
         {
         }

@@ -76,7 +76,7 @@ namespace Aow.Units.AoWDeformFaceDlg
         // AoWDeformFaceDlg.pas:61
         public void CastBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (FCaster.CanCast(ref Reason))
             {

@@ -71,7 +71,7 @@ namespace Aow.Units.AOWTitleWindow
         {
             InitializeSplash();
             SongPlayer.Songs.Clear();
-            SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
+            SongPlayer.Songs.Add("SONGS\\TITLE.IT");
             SongPlayer.Play(0);
             SplashPnl.ILIndexTexture = 0;
             FSplashTimer = 450;

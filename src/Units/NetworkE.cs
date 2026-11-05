@@ -339,7 +339,7 @@ namespace Aow.Units.NetworkE
                 {
                     if (FEvents[I].FTokenCounter == TE.FTokenCounter)
                     {
-                        throw Exception.Create((AnsiString)"Double TokenCounter defined");
+                        throw Exception.Create("Double TokenCounter defined");
                     }
 
                     FEvents.Insert(I, TE);
@@ -457,7 +457,7 @@ namespace Aow.Units.NetworkE
         {
             if (Remote())
             {
-                throw Exception.Create((AnsiString)"Cannot Add Remote events");
+                throw Exception.Create("Cannot Add Remote events");
             }
 
             Add(TE);
@@ -608,7 +608,7 @@ namespace Aow.Units.NetworkE
             }
             catch (System.Exception)
             {
-                ShowMessage((AnsiString)"Exception occured during " + (AnsiString)ClassNameOf(TE.GetType()));
+                ShowMessage("Exception occured during " + ClassNameOf(TE.GetType()));
                 Result = TExecuteResult.erDone;
             }
 
@@ -1082,7 +1082,7 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1718
-        public void TriggerMessage(AnsiString Msg)
+        public void TriggerMessage(string Msg)
         {
             if (FOnMessage != null)
             {
@@ -1129,7 +1129,7 @@ namespace Aow.Units.NetworkE
     public delegate bool TSendDataEvent(object Data, int Size, int SystemID);
     public delegate void TGetSyncValueEvent(ref int Value);
     public delegate void TTokenEventEvent(TTokenEvent TE);
-    public delegate void TNetworkMessageEvent(TObject Sender, AnsiString Msg);
+    public delegate void TNetworkMessageEvent(TObject Sender, string Msg);
     // { The original reaches TENode's child list (Engine.TENode.FChildren, +8) from this unit; the
 //     recovered Engine.pas keeps the field private, so this layout view of TENode reads it (a
 //     typecast of a field or parameter compiles to no code) }
@@ -1189,7 +1189,7 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:586
-        public virtual AnsiString Name() => (AnsiString)ClassNameOf(this.GetType());
+        public virtual string Name() => ClassNameOf(this.GetType());
 
         public int Sender { get => FSender; set => FSender = value; }
         public int Receiver { get => FReceiver; set => FReceiver = value; }
@@ -1262,7 +1262,7 @@ namespace Aow.Units.NetworkE
         public virtual TPlayerCommunicationSettings CreatePCS() => new TPlayerCommunicationSettings(null);
 
         // NetworkE.pas:493
-        public virtual AnsiString Name() => (AnsiString)"";
+        public virtual string Name() => "";
 
         // NetworkE.pas:554
         public virtual bool ReceivePackageData(TMemoryStream Stream) => false;
@@ -1485,7 +1485,7 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:776
-        public override AnsiString Name() => (AnsiString)"Remote";
+        public override string Name() => "Remote";
 
         // NetworkE.pas:824
         public override bool ReceivePackageData(TMemoryStream Stream)
@@ -1613,7 +1613,7 @@ namespace Aow.Units.NetworkE
         public override int GetSystemCount() => 1;
 
         // NetworkE.pas:714
-        public override AnsiString Name() => (AnsiString)"Local";
+        public override string Name() => "Local";
 
         // NetworkE.pas:724
         public override bool ReceivePackageData(TMemoryStream Stream)
@@ -1739,12 +1739,12 @@ namespace Aow.Units.NetworkE
                             }
                             else
                             {
-                                FTokenManager.TriggerMessage((AnsiString)"TokenEvent already exists");
+                                FTokenManager.TriggerMessage("TokenEvent already exists");
                             }
                         }
                         else
                         {
-                            FTokenManager.TriggerMessage((AnsiString)"TokenEvent already executed");
+                            FTokenManager.TriggerMessage("TokenEvent already executed");
                         }
                     }
                 }
@@ -1864,7 +1864,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1751
         public static void RegisterNetworkEngine(TEngine AEngine)
         {
-            NetworkEngineDID = AEngine.RegisterDebugID((AnsiString)"Network Engine");
+            NetworkEngineDID = AEngine.RegisterDebugID("Network Engine");
             AEngine.RegisterEClasses([EClass.Of<TTokenPackage>(), EClass.Of<TPassTokenTE>(), EClass.Of<TSyncTE>()]);
         }
 

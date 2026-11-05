@@ -336,7 +336,7 @@ namespace Aow.Units.CombatTerrain
         public override int ResourceUserClassID() => 2228582;
 
         // CombatTerrain.pas:307
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Terrain";
+        public override string ResourceEditName() => "Combat Terrain";
 
     }
 

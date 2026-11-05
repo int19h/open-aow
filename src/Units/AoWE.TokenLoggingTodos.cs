@@ -10,12 +10,12 @@ public partial class TAoWHSMap
     private Stream tokenLog;
 
     // Delphi I- suppresses file errors on these diagnostic writes.
-    private void WriteTokenLog(AnsiString text, bool flush = false)
+    private void WriteTokenLog(string text, bool flush = false)
     {
         try
         {
             if (tokenLog is null) return;
-            tokenLog.Write(Rtl.Rtl.StringBytes(text + "\r\n"));
+            tokenLog.Write(Cp1252.Encode(text + "\r\n"));
             if (flush) tokenLog.Flush();
         }
         catch (IOException) { }
@@ -26,7 +26,7 @@ public partial class TAoWHSMap
         if (FTokenEventLogging || AoWE.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) return;
         try
         {
-            try { tokenLog = Rtl.Rtl.Files.Open((AoWE.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + Rtl.Rtl.IntToStr(GFXE.GFXE.GetElapsedMilliSeconds()) + ".TXT").ToString(), Rtl.Rtl.fmCreate); }
+            try { tokenLog = Rtl.Rtl.Files.Open(AoWE.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + Rtl.Rtl.IntToStr(GFXE.GFXE.GetElapsedMilliSeconds()) + ".TXT", Rtl.Rtl.fmCreate); }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog("Map Session: " + FMapName);
@@ -56,16 +56,16 @@ public partial class TAoWHSMap
                 "/D:" + Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FDay) + "/AIPC:" + Rtl.Rtl.IntToStr(AoWE.AoWHSMap.FAIExecuter.FProcessCycles), true);
     }
 
-    public void OnTokenManagerMessage(TObject sender, AnsiString message)
+    public void OnTokenManagerMessage(TObject sender, string message)
     {
         if (FTokenEventLogging) WriteTokenLog(message);
         AoWE.AoWEngine.OutputDebugStr(message);
     }
 
-    public void OnStreamError(TEStorageStream stream, AnsiString message, ref bool handled)
+    public void OnStreamError(TEStorageStream stream, string message, ref bool handled)
     {
         if (FIgnoreStreamErrors) return;
-        int answer = (Rtl.Rtl.Dialogs ?? throw new EInvalidOperation(message)).Show(new((message + " Ignore failure?").ToString(), "Error", 0, 7));
+        int answer = (Rtl.Rtl.Dialogs ?? throw new EInvalidOperation(message)).Show(new(message + " Ignore failure?", "Error", 0, 7));
         handled = answer is 6 or 8;
         FIgnoreStreamErrors = answer == 8;
     }

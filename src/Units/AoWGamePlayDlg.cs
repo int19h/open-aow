@@ -86,14 +86,14 @@ namespace Aow.Units.AoWGamePlayDlg
         public TAOWPanel AOWPanel1;
         public TAOWImage CeltLineL;
         public TIvTranslator Translator;
-        public AnsiString FNewPassword;
+        public string FNewPassword = "";
         // AoWGamePlayDlg.pas:200
         public void PasswordEntered(TEventLog Log)
         {
             TPasswordEventLog Password = default;
             if (((TPasswordEventLog)Log).FPressedButton == TPressedEventLogButton.pebOk)
             {
-                if (((TPasswordEventLog)Log).FPassword != (AnsiString)"")
+                if (!IsEmpty(((TPasswordEventLog)Log).FPassword))
                 {
                     FNewPassword = ((TPasswordEventLog)Log).FPassword;
                     Password = new TPasswordEventLog(null);
@@ -104,7 +104,7 @@ namespace Aow.Units.AoWGamePlayDlg
                 }
                 else
                 {
-                    PasswordEdit.Text = (AnsiString)"";
+                    PasswordEdit.Text = "";
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace Aow.Units.AoWGamePlayDlg
             else
             {
                 ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
                 var confirmationFailed = TranslateRStr(ConfirmationFailedRStr);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(confirmationFailed);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
@@ -199,7 +199,7 @@ namespace Aow.Units.AoWGamePlayDlg
         // AoWGamePlayDlg.pas:147
         public void OKBtnClick(TObject Sender)
         {
-            AnsiString Error = default;
+            string Error = "";
             TSet<TWindowPopupEvent> Events;
             General.PlayButtonSound(0);
             if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FSettings != PasswordEdit.Text)
@@ -213,7 +213,7 @@ namespace Aow.Units.AoWGamePlayDlg
                     if (!AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref Error))
                     {
                         ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
                         var couldntChangePassword = TranslateRStr(CouldntChangePasswordRStr);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(couldntChangePassword);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;

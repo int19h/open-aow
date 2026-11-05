@@ -123,7 +123,7 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:225
-        public override bool CanExecuteProduction(TProductionItem Item, ref AnsiString Reason)
+        public override bool CanExecuteProduction(TProductionItem Item, ref string Reason)
         {
             bool Result;
             if (Item.FProductionID == 10)
@@ -139,9 +139,9 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:252
-        public override AnsiString GetProductionName(TProductionItem Item)
+        public override string GetProductionName(TProductionItem Item)
         {
-            AnsiString Result;
+            string Result;
             if (Item.FProductionID == 1 || Item.FProductionID == 2)
             {
                 Result = base.GetProductionName(Item);
@@ -155,9 +155,9 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:258
-        public override AnsiString GetProductionNameProgressive(TProductionItem Item)
+        public override string GetProductionNameProgressive(TProductionItem Item)
         {
-            AnsiString Result;
+            string Result;
             if (Item.FProductionID == 1 || Item.FProductionID == 2)
             {
                 Result = base.GetProductionNameProgressive(Item);
@@ -447,9 +447,9 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:434
-        public override AnsiString GetCurrentActivityText()
+        public override string GetCurrentActivityText()
         {
-            AnsiString Result;
+            string Result;
             if (FProductionControl.FQueue.Count == 0)
             {
                 if (FPlayer > 0)
@@ -462,7 +462,7 @@ namespace Aow.Units.PrdPlace
                         }
                         else
                         {
-                            Result = AnsiString.FromBytes(45);
+                            Result = "-";
                         }
                     }
                     else
@@ -753,9 +753,9 @@ namespace Aow.Units.PrdPlace
         public virtual TMagicSphere GetMagicSphere() => TMagicSphere.msNone;
 
         // PrdPlace.pas:453
-        public virtual AnsiString GetProductionName(TProductionItem Item)
+        public virtual string GetProductionName(TProductionItem Item)
         {
-            AnsiString Result;
+            string Result;
             if (Item.FProductionID == 10)
             {
                 if (GetMagicSphere() != TMagicSphere.msNone)
@@ -776,9 +776,9 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:461
-        public virtual AnsiString GetProductionNameProgressive(TProductionItem Item)
+        public virtual string GetProductionNameProgressive(TProductionItem Item)
         {
-            AnsiString Result;
+            string Result;
             if (Item.FProductionID == 10)
             {
                 if (GetMagicSphere() != TMagicSphere.msNone)
@@ -904,7 +904,7 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:469
-        public bool CanProduce(int Index, bool Queue, ref AnsiString Reason) => FProductionControl.CanProduceUnit(Index, Queue, ref Reason);
+        public bool CanProduce(int Index, bool Queue, ref string Reason) => FProductionControl.CanProduceUnit(Index, Queue, ref Reason);
 
         // PrdPlace.pas:472
         public bool Produce(int Index, bool Queue) => FProductionControl.ProduceUnit(Index, Queue);
@@ -919,7 +919,7 @@ namespace Aow.Units.PrdPlace
         public int ProductionTime(int Index) => FProductionControl.UnitProductionTime(Index);
 
         // PrdPlace.pas:484
-        public bool CanResearch(int Index, bool Queue, ref AnsiString Reason) => FProductionControl.CanResearchUnit(Index, Queue, ref Reason);
+        public bool CanResearch(int Index, bool Queue, ref string Reason) => FProductionControl.CanResearchUnit(Index, Queue, ref Reason);
 
         // PrdPlace.pas:487
         public bool Research(int Index, bool Queue) => FProductionControl.ResearchUnit(Index, Queue);
@@ -934,7 +934,7 @@ namespace Aow.Units.PrdPlace
         public int ResearchTime(int Index) => FProductionControl.UnitResearchTime(Index);
 
         // PrdPlace.pas:499
-        public bool CanTrade(bool Queue, ref AnsiString Reason)
+        public bool CanTrade(bool Queue, ref string Reason)
         {
             bool Result;
             if (GetMagicSphere() != TMagicSphere.msNone)
@@ -963,7 +963,7 @@ namespace Aow.Units.PrdPlace
         {
             bool Result;
             TProductionItem Item;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanTrade(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 Item = new TProductionItem(null);
@@ -1063,7 +1063,7 @@ namespace Aow.Units.PrdPlace
 
 
         // PrdPlace.pas:715
-        public override AnsiString ResourceEditName() => (AnsiString)"";
+        public override string ResourceEditName() => "";
 
     }
 

@@ -11,12 +11,13 @@ using Aow.Units.Sound;
 namespace Aow.Units
 {
     [InlineArray(10)]
-    public struct FixedArray_Aow_Rtl_AnsiString_10
+    public struct FixedArray_string_10
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_10 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_10 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_10 result = default;
+            FixedArray_string_10 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
@@ -27,12 +28,13 @@ namespace Aow.Units
     }
 
     [InlineArray(13)]
-    public struct FixedArray_Aow_Rtl_AnsiString_13
+    public struct FixedArray_string_13
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_13 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_13 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_13 result = default;
+            FixedArray_string_13 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
@@ -43,18 +45,30 @@ namespace Aow.Units
     }
 
     [InlineArray(19)]
-    public struct FixedArray_Aow_Rtl_AnsiString_19
+    public struct FixedArray_string_19
     {
-        private AnsiString element0;
+        private string element0;
+        public static FixedArray_string_19 From(ReadOnlySpan<string> values)
+        {
+            FixedArray_string_19 result = default;
+            ((Span<string>)result).Fill("");
+            for (int i = 0; i < values.Length; i++)
+            {
+                result[i] = values[i];
+            }
+
+            return result;
+        }
     }
 
     [InlineArray(2)]
-    public struct FixedArray_Aow_Rtl_AnsiString_2
+    public struct FixedArray_string_2
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_2 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_2 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_2 result = default;
+            FixedArray_string_2 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
@@ -65,18 +79,30 @@ namespace Aow.Units
     }
 
     [InlineArray(21)]
-    public struct FixedArray_Aow_Rtl_AnsiString_21
+    public struct FixedArray_string_21
     {
-        private AnsiString element0;
+        private string element0;
+        public static FixedArray_string_21 From(ReadOnlySpan<string> values)
+        {
+            FixedArray_string_21 result = default;
+            ((Span<string>)result).Fill("");
+            for (int i = 0; i < values.Length; i++)
+            {
+                result[i] = values[i];
+            }
+
+            return result;
+        }
     }
 
     [InlineArray(3)]
-    public struct FixedArray_Aow_Rtl_AnsiString_3
+    public struct FixedArray_string_3
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_3 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_3 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_3 result = default;
+            FixedArray_string_3 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
@@ -87,12 +113,13 @@ namespace Aow.Units
     }
 
     [InlineArray(4)]
-    public struct FixedArray_Aow_Rtl_AnsiString_4
+    public struct FixedArray_string_4
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_4 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_4 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_4 result = default;
+            FixedArray_string_4 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
@@ -103,12 +130,13 @@ namespace Aow.Units
     }
 
     [InlineArray(5)]
-    public struct FixedArray_Aow_Rtl_AnsiString_5
+    public struct FixedArray_string_5
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_5 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_5 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_5 result = default;
+            FixedArray_string_5 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
@@ -119,18 +147,30 @@ namespace Aow.Units
     }
 
     [InlineArray(6)]
-    public struct FixedArray_Aow_Rtl_AnsiString_6
+    public struct FixedArray_string_6
     {
-        private AnsiString element0;
+        private string element0;
+        public static FixedArray_string_6 From(ReadOnlySpan<string> values)
+        {
+            FixedArray_string_6 result = default;
+            ((Span<string>)result).Fill("");
+            for (int i = 0; i < values.Length; i++)
+            {
+                result[i] = values[i];
+            }
+
+            return result;
+        }
     }
 
     [InlineArray(7)]
-    public struct FixedArray_Aow_Rtl_AnsiString_7
+    public struct FixedArray_string_7
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_7 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_7 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_7 result = default;
+            FixedArray_string_7 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];
@@ -141,18 +181,30 @@ namespace Aow.Units
     }
 
     [InlineArray(8)]
-    public struct FixedArray_Aow_Rtl_AnsiString_8
+    public struct FixedArray_string_8
     {
-        private AnsiString element0;
+        private string element0;
+        public static FixedArray_string_8 From(ReadOnlySpan<string> values)
+        {
+            FixedArray_string_8 result = default;
+            ((Span<string>)result).Fill("");
+            for (int i = 0; i < values.Length; i++)
+            {
+                result[i] = values[i];
+            }
+
+            return result;
+        }
     }
 
     [InlineArray(9)]
-    public struct FixedArray_Aow_Rtl_AnsiString_9
+    public struct FixedArray_string_9
     {
-        private AnsiString element0;
-        public static FixedArray_Aow_Rtl_AnsiString_9 From(ReadOnlySpan<AnsiString> values)
+        private string element0;
+        public static FixedArray_string_9 From(ReadOnlySpan<string> values)
         {
-            FixedArray_Aow_Rtl_AnsiString_9 result = default;
+            FixedArray_string_9 result = default;
+            ((Span<string>)result).Fill("");
             for (int i = 0; i < values.Length; i++)
             {
                 result[i] = values[i];

@@ -105,7 +105,7 @@ namespace Aow.Units.CitySpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanActivate(A1, ref Reason))
             {
                 FSourceID = A1.FUnitID;
@@ -237,7 +237,7 @@ namespace Aow.Units.CitySpells
             if (TargetSelection.FOnChange.Count > 1)
             {
                 // { Original rejects two existing listeners. }
-                throw Exception.Create((AnsiString)"oohps");
+                throw Exception.Create("oohps");
             }
 
             TargetSelection.FOnChange.Add(OnTargetSelectionChange);
@@ -480,7 +480,7 @@ namespace Aow.Units.CitySpells
         }
 
         // CitySpells.pas:540
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2) => base.CanActivate(A1, ref A2);
+        public override bool CanActivate(TAbstractUnit A1, ref string A2) => base.CanActivate(A1, ref A2);
 
         // CitySpells.pas:545
         public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
@@ -623,7 +623,7 @@ namespace Aow.Units.CitySpells
         {
             bool Valid;
             TAICastSpellAction Action;
-            AnsiString Reason = default;
+            string Reason = "";
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
@@ -660,7 +660,7 @@ namespace Aow.Units.CitySpells
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;

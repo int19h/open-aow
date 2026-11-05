@@ -384,7 +384,7 @@ namespace Aow.Units.Cave
             byte Selection;
             TMovepath Path;
             sbyte L;
-            AnsiString MessageText;
+            string MessageText;
             TArmyHS ArmyHS;
             TAoWMapField Field;
             TTokenEvent Event;
@@ -542,7 +542,7 @@ namespace Aow.Units.Cave
 
 
         // Cave.pas:433
-        public override AnsiString ResourceEditName() => TranslateRStr(CaveRStr);
+        public override string ResourceEditName() => TranslateRStr(CaveRStr);
 
     }
 
@@ -617,8 +617,8 @@ namespace Aow.Units.Cave
         }
 
         // Original AoWE resource initialization table
-        public static AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
-        public static readonly AnsiString CaveNoWarRStr = (AnsiString)"Not at war with the %s";
+        public static string[] RaceNames = ["Humans", "Azracs", "Lizards", "Frostlings", "Elves", "Halflings", "Dwarves", "Highmen", "Dark Elves", "Orcs", "Goblins", "Undead(plural)", "Independents"];
+        public static readonly string CaveNoWarRStr = "Not at war with the %s";
 
         public static void Initialize()
         {

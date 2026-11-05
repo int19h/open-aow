@@ -11,7 +11,7 @@ public partial class TControlWin
 {
     // Original AoW.exe loads the three-space string. The recovered UpdateArmy source has one space
     // at all eight labels
-    public static AnsiString UnitMoveText(int points) => "   " + Rtl.Rtl.IntToStr(points);
+    public static string UnitMoveText(int points) => "   " + Rtl.Rtl.IntToStr(points);
 
     public void UpdateArmy()
     {

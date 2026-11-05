@@ -698,7 +698,7 @@ namespace Aow.Units.AoWE
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error during Show", (AnsiString)"Error - WorldfxHS " + IntToStr((int)FEffectType), 0);
+                MessageBox(0, "Error during Show", "Error - WorldfxHS " + IntToStr((int)FEffectType), 0);
             }
         }
 
@@ -980,7 +980,7 @@ namespace Aow.Units.AoWE
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error - WorldfxHS " + IntToStr((int)FEffectType), (AnsiString)"Error during NewFrame", 0);
+                MessageBox(0, "Error - WorldfxHS " + IntToStr((int)FEffectType), "Error during NewFrame", 0);
             }
         }
 
@@ -1113,9 +1113,9 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:71
-        public virtual AnsiString GetName()
+        public virtual string GetName()
         {
-            AnsiString Result;
+            string Result;
             if (Owner != null)
             {
                 Result = ((TProductionQueue)Owner).FProductionControl.GetProductionName(this);
@@ -1129,9 +1129,9 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:77
-        public AnsiString GetNameProgressive()
+        public string GetNameProgressive()
         {
-            AnsiString Result;
+            string Result;
             if (Owner != null)
             {
                 Result = ((TProductionQueue)Owner).FProductionControl.GetProductionNameProgressive(this);
@@ -1505,7 +1505,7 @@ namespace Aow.Units.AoWE
         public virtual bool ExecuteProduction(TProductionItem Item)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanExecuteProduction(Item, ref Reason))
             {
                 BeginUpdate();
@@ -1843,12 +1843,12 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:361
-        public virtual bool CanExecuteProduction(TProductionItem Item, ref AnsiString Reason)
+        public virtual bool CanExecuteProduction(TProductionItem Item, ref string Reason)
         {
             bool Result;
             if (FStatus == TProductionControlStatus.pcsWaiting)
             {
-                Reason = AnsiString.FromBytes(40) + LowerCase(AoWE.TranslateRStr(AoWE.WaitingRStr)) + AnsiString.FromBytes(41);
+                Reason = "(" + LowerCase(AoWE.TranslateRStr(AoWE.WaitingRStr)) + ")";
             }
 
             // { Original continues checking costs after assigning the waiting text. }
@@ -1960,9 +1960,9 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:840
-        public virtual AnsiString GetProductionName(TProductionItem Item)
+        public virtual string GetProductionName(TProductionItem Item)
         {
-            AnsiString Result;
+            string Result;
             TUnitProduction Production;
             switch (Item.FProductionID)
             {
@@ -2009,9 +2009,9 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:865
-        public virtual AnsiString GetProductionNameProgressive(TProductionItem Item)
+        public virtual string GetProductionNameProgressive(TProductionItem Item)
         {
-            AnsiString Result;
+            string Result;
             TUnitProduction Production;
             switch (Item.FProductionID)
             {
@@ -2087,14 +2087,14 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:604
-        public virtual bool CanProduceUnit(int Index, bool Queue, ref AnsiString Reason) => true;
+        public virtual bool CanProduceUnit(int Index, bool Queue, ref string Reason) => true;
 
         // Structur.PAS:607
         public virtual bool ProduceUnitEx(int Index, int GroupID, bool Queue)
         {
             bool Result;
             TProductionTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             bool condition = CanProduceUnit(Index, Queue, ref Reason);
             if (condition)
             {
@@ -2149,7 +2149,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:660
-        public virtual bool CanResearchUnit(int Index, bool Queue, ref AnsiString Reason)
+        public virtual bool CanResearchUnit(int Index, bool Queue, ref string Reason)
         {
             bool Result;
             if (!Queue || FQueue.IndexOf(2, Index, 0) == -1)
@@ -2170,7 +2170,7 @@ namespace Aow.Units.AoWE
         {
             bool Result;
             TProductionTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             bool condition = CanResearchUnit(Index, Queue, ref Reason);
             if (condition)
             {
@@ -2287,7 +2287,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:741
-        public bool RetryProductionExecution(ref AnsiString Reason)
+        public bool RetryProductionExecution(ref string Reason)
         {
             bool Result;
             TProductionTE Event;
@@ -2498,10 +2498,10 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1700
-        public virtual AnsiString GetName() => AoWE.TranslateRStr(AoWE.P4UndefinedRStr);
+        public virtual string GetName() => AoWE.TranslateRStr(AoWE.P4UndefinedRStr);
 
         // Spells.PAS:1702
-        public virtual AnsiString GetBinding() => AoWE.TranslateRStr(AoWE.NoneRStr);
+        public virtual string GetBinding() => AoWE.TranslateRStr(AoWE.NoneRStr);
 
         // Spells.PAS:1734
         public virtual void SetUpkeep(int A1)
@@ -2731,7 +2731,7 @@ namespace Aow.Units.AoWE
         public TXYL FLocation;
         public int FSpellID;
         public int FValue;
-        public AnsiString FEnchantmentName;
+        public string FEnchantmentName = "";
         // Spells.PAS:1854
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -2744,9 +2744,9 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1892
-        public override AnsiString GetText()
+        public override string GetText()
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (FMode)
             {
                 case TPlayerMagicEventMode.pmemSpellResearched:
@@ -2837,7 +2837,7 @@ namespace Aow.Units.AoWE
         {}
 
         // Spells.PAS:1782
-        public virtual AnsiString Name() => (AnsiString)"";
+        public virtual string Name() => "";
 
         // Spells.PAS:1786
         public virtual int Power() => 0;
@@ -2879,7 +2879,7 @@ namespace Aow.Units.AoWE
 
         public TPlayerMagicControl FExternalPowerControl;
         // Spells.PAS:1835
-        public override AnsiString Name() => AoWE.TranslateRStr(AoWE.P4ExternalPowerRStr);
+        public override string Name() => AoWE.TranslateRStr(AoWE.P4ExternalPowerRStr);
 
         // Engine.pas:524
 
@@ -2957,7 +2957,7 @@ namespace Aow.Units.AoWE
                 {
                     try
                     {
-                        throw Exception.Create((AnsiString)"oohps");
+                        throw Exception.Create("oohps");
                     }
                     catch (System.Exception)
                     {
@@ -3762,7 +3762,7 @@ namespace Aow.Units.AoWE
         public int FDispelMana;
         public TGlobalEnchantmentType FEnchantmentType;
         public sbyte FPlayerIndex;
-        public AnsiString FName;
+        public string FName = "";
         public int FEnchantmentManaUpkeep;
         // Spells.PAS:2520
         public override void ReadWrite(TEStorageStream Stream)
@@ -3799,7 +3799,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2503
-        public virtual AnsiString GetName() => FName;
+        public virtual string GetName() => FName;
 
         // Spells.PAS:2505
         public virtual int GetUpkeep() => FEnchantmentManaUpkeep;
@@ -3816,7 +3816,7 @@ namespace Aow.Units.AoWE
         public virtual int GetAIUpkeepPriority() => 0;
 
         // Spells.PAS:2563
-        public virtual bool CanDeactivate(byte Player, ref AnsiString Reason) => true;
+        public virtual bool CanDeactivate(byte Player, ref string Reason) => true;
 
         // Spells.PAS:2565
         public virtual bool Deactivate(byte Player)
@@ -3842,7 +3842,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2536
-        public virtual bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public virtual bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result;
             if (FEnchantmentType != TGlobalEnchantmentType.getNone && AoWE.AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(FEnchantmentType))
@@ -3852,7 +3852,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                Reason = (AnsiString)"";
+                Reason = "";
                 Result = true;
             }
 
@@ -3885,13 +3885,13 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2575
-        public virtual bool CanCast(sbyte Player, ref AnsiString Reason) => CanActivate(Player, ref Reason);
+        public virtual bool CanCast(sbyte Player, ref string Reason) => CanActivate(Player, ref Reason);
 
         // Spells.PAS:2577
         public virtual bool Cast(sbyte Player)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TGlobalEnchantmentEventLog Log;
             if (CanCast(Player, ref Reason))
             {
@@ -3915,13 +3915,13 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2597
-        public virtual bool CanDispel(sbyte Player, ref AnsiString Reason) => CanDeactivate((byte)Player, ref Reason);
+        public virtual bool CanDispel(sbyte Player, ref string Reason) => CanDeactivate((byte)Player, ref Reason);
 
         // Spells.PAS:2599
         public virtual bool Dispel(byte Player)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TXYL Location;
             TGlobalEnchantmentEventLog Log;
             if (CanDispel((sbyte)Player, ref Reason))
@@ -3955,7 +3955,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2626
-        public virtual bool CanRemove(sbyte Player, ref AnsiString Reason)
+        public virtual bool CanRemove(sbyte Player, ref string Reason)
         {
             bool Result;
             if (Player == FPlayerIndex)
@@ -3974,7 +3974,7 @@ namespace Aow.Units.AoWE
         public virtual bool Remove(byte Player)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TXYL Location;
             TGlobalEnchantmentEventLog Log;
             if (CanRemove((sbyte)Player, ref Reason))
@@ -4045,7 +4045,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:2530
-        public void Setup(TGlobalEnchantmentType Kind, AnsiString Name, int Upkeep)
+        public void Setup(TGlobalEnchantmentType Kind, string Name, int Upkeep)
         {
             FEnchantmentType = Kind;
             FName = Name;
@@ -4409,7 +4409,7 @@ namespace Aow.Units.AoWE
         {
             bool Result;
             TChangeGlobalMagicTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             if (!AoWE.AoWHSMap.FPlayers.GetPlayers(Player).GetBusy() && IndexOfID(Enchantment.FEnchantmentID) != -1)
             {
                 if (Enchantment.CanDispel(Player, ref Reason))
@@ -4463,7 +4463,7 @@ namespace Aow.Units.AoWE
         {
             bool Result;
             TChangeGlobalMagicTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             if (!AoWE.AoWHSMap.FPlayers.GetPlayers(Player).GetBusy() && IndexOfID(Enchantment.FEnchantmentID) != -1)
             {
                 if (Enchantment.CanRemove(Player, ref Reason))
@@ -5254,7 +5254,7 @@ namespace Aow.Units.AoWE
         {}
 
         // Player.PAS:202
-        public virtual AnsiString Name() => (AnsiString)"";
+        public virtual string Name() => "";
 
         // Player.PAS:207
         public virtual int Income() => 0;
@@ -5408,7 +5408,7 @@ namespace Aow.Units.AoWE
         public byte FViewX;
         public byte FViewY;
         public byte FViewL;
-        public AnsiString FPassword;
+        public string FPassword = "";
         public TStringList FMessages;
         public TDiplomaticRelationList FLegacyRelations;
         public TDiplomaticRelationList FLegacyNewRelations;
@@ -5416,7 +5416,7 @@ namespace Aow.Units.AoWE
         public TGameOverStatus FGameOverStatus;
         public TPlayerStatus FStatus;
         public int FBusyCount;
-        public AnsiString FName;
+        public string FName = "";
         public sbyte FMoraleValue;
         public TPlayerMagicControl FMagicControl;
         public TLeader FLeaderSetup;
@@ -5448,8 +5448,8 @@ namespace Aow.Units.AoWE
         public int FBaseIncome;
         public int FBaseHeroJoinDay;
         public int FHeroJoinDay;
-        public AnsiString FSettings;
-        public AnsiString FDescription;
+        public string FSettings = "";
+        public string FDescription = "";
         public int FGems;
         public int FArmyUpkeep;
         public int FMagicUpkeep;
@@ -5470,9 +5470,9 @@ namespace Aow.Units.AoWE
                 {
                     if (AoWE.AoWHSMap != null && AoWE.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
                     {
-                        Assert(FVictoryLocations.Count == 0, (AnsiString)"Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
-                        Assert(FStructures.Count == 0, (AnsiString)"Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
-                        Assert(FArmies.Count == 0, (AnsiString)"Registered Player Armies not correctly cleared (TPlayer)", "Player.PAS", 328);
+                        Assert(FVictoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
+                        Assert(FStructures.Count == 0, "Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
+                        Assert(FArmies.Count == 0, "Registered Player Armies not correctly cleared (TPlayer)", "Player.PAS", 328);
                     }
                     else
                     {
@@ -5987,8 +5987,8 @@ namespace Aow.Units.AoWE
         public bool Validate(TStrings Errors)
         {
             bool Result;
-            AnsiString S;
-            AnsiString LeaderName;
+            string S;
+            string LeaderName;
             if (FPlayerIndex > 0)
             {
                 Result = true;
@@ -5996,7 +5996,7 @@ namespace Aow.Units.AoWE
                 {
                     var translateRStr = AoWE.TranslateRStr(AoWE.RaceNamesRStr[FPlayerRace]);
                     LeaderName = AoWE.Format(AoWE.XLeaderRStr, [translateRStr]);
-                    S = LeaderName + (AnsiString)": " + AoWE.TranslateRStr(AoWE.NotAllSpheresAssignedRStr);
+                    S = LeaderName + ": " + AoWE.TranslateRStr(AoWE.NotAllSpheresAssignedRStr);
                     Errors.Add(S);
                     Result = false;
                 }
@@ -6005,7 +6005,7 @@ namespace Aow.Units.AoWE
                 {
                     var translateRStr = AoWE.TranslateRStr(AoWE.RaceNamesRStr[FPlayerRace]);
                     LeaderName = AoWE.Format(AoWE.XLeaderRStr, [translateRStr]);
-                    S = LeaderName + (AnsiString)": " + AoWE.TranslateRStr(AoWE.NotPlacedOnMapRStr);
+                    S = LeaderName + ": " + AoWE.TranslateRStr(AoWE.NotPlacedOnMapRStr);
                     Errors.Add(S);
                     Result = false;
                 }
@@ -6014,7 +6014,7 @@ namespace Aow.Units.AoWE
                 {
                     var translateRStr = AoWE.TranslateRStr(AoWE.RaceNamesRStr[FPlayerRace]);
                     LeaderName = AoWE.Format(AoWE.XLeaderRStr, [translateRStr]);
-                    S = LeaderName + (AnsiString)": " + AoWE.TranslateRStr(AoWE.NotAllSkillPointsAssignedRStr);
+                    S = LeaderName + ": " + AoWE.TranslateRStr(AoWE.NotAllSkillPointsAssignedRStr);
                     Errors.Add(S);
                 }
             }
@@ -6036,7 +6036,7 @@ namespace Aow.Units.AoWE
         // Player.PAS:552
         public void UnlockBusy()
         {
-            Assert(FBusyCount != 0, (AnsiString)"Invalid busy counter usage", "Player.PAS", 554);
+            Assert(FBusyCount != 0, "Invalid busy counter usage", "Player.PAS", 554);
             FBusyCount -= 1;
         }
 
@@ -6187,18 +6187,18 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:646
-        public AnsiString GetName()
+        public string GetName()
         {
-            AnsiString Result;
+            string Result;
             if (FPlayerIndex != 0)
             {
                 if (FLeader != null)
                 {
                     Result = FLeader.FHeroName;
-                    if (FLeader.GetNickname() != (AnsiString)"")
+                    if (!IsEmpty(FLeader.GetNickname()))
                     {
                         var nickname = FLeader.GetNickname();
-                        Result = Result + AnsiString.FromBytes(32) + nickname;
+                        Result = Result + " " + nickname;
                     }
                 }
                 else
@@ -6206,9 +6206,9 @@ namespace Aow.Units.AoWE
                     Result = FName;
                 }
 
-                if (Result == (AnsiString)"")
+                if (IsEmpty(Result))
                 {
-                    Result = AoWE.TranslateRStr(AoWE.PlayerRStr) + AnsiString.FromBytes(32) + IntToStr(FPlayerIndex);
+                    Result = AoWE.TranslateRStr(AoWE.PlayerRStr) + " " + IntToStr(FPlayerIndex);
                 }
             }
             else
@@ -6220,9 +6220,9 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:663
-        public AnsiString GetNameEx()
+        public string GetNameEx()
         {
-            AnsiString Result;
+            string Result;
             if (FPlayerIndex != 0)
             {
                 var name = GetName();
@@ -6238,14 +6238,14 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:671
-        public void SetName(AnsiString Value)
+        public void SetName(string Value)
         {
             if (FPlayerIndex != 0)
             {
                 if (FLeader != null)
                 {
                     FLeader.FHeroName = Value;
-                    FLeader.SetNickname((AnsiString)"");
+                    FLeader.SetNickname("");
                 }
                 else
                 {
@@ -6600,7 +6600,7 @@ namespace Aow.Units.AoWE
             int FaceIndex;
             int ResourceIndex;
             THeroType HeroType;
-            AnsiString Name;
+            string Name;
             if (AoWE.AoWHSMap != null && FPlayerIndex != 0)
             {
                 HeroType = THeroType.htHeroLeader;
@@ -7074,7 +7074,7 @@ namespace Aow.Units.AoWE
         public bool ValidAttackRelation(sbyte Player, sbyte IndependentRelation)
         {
             bool Result;
-            Assert(FPlayerIndex != 0, (AnsiString)"", "Player.PAS", 1390);
+            Assert(FPlayerIndex != 0, "", "Player.PAS", 1390);
             if (TSet<TPlayerType>.Of(TPlayerType.ptCPU1, TPlayerType.ptCPU2, TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(FPlayerType))
             {
                 Result = FAIValidAttackPlayers[Player];
@@ -7089,7 +7089,7 @@ namespace Aow.Units.AoWE
         }
 
         // Player.PAS:1398
-        public bool ChangePlayerSettings(AnsiString Settings, ref AnsiString Error)
+        public bool ChangePlayerSettings(string Settings, ref string Error)
         {
             bool Result;
             TChangePlayerSettingsTE Event;
@@ -8154,7 +8154,7 @@ namespace Aow.Units.AoWE
             if (!(FMapLevel != null && FSourceX >= 0 && FSourceX < FMapLevel.Width && FSourceY >= 0 && FSourceY < FMapLevel.Width))
             {
                 // { Preserve the original assertion diagnostic. }
-                Assert(false, (AnsiString)"Invalid settings (TMoveControl)", "D:\\AoWDev\\AoWE\\inc\\MoveT.PAS", 32187);
+                Assert(false, "Invalid settings (TMoveControl)", "D:\\AoWDev\\AoWE\\inc\\MoveT.PAS", 32187);
             }
 
             if ((FSettings.FSourceX != FSettings.FDestinationX || FSettings.FSourceY != FSettings.FDestinationY || FSettings.FSourceL != FSettings.FDestinationL) && (FDestinationX == -1 || ValidLocation(FDestinationX, FDestinationY, FDestinationL)))
@@ -8209,7 +8209,7 @@ namespace Aow.Units.AoWE
             {
                 if (Activate(A1))
                 {
-                    Assert(AoWE.AoWEngine.FDemo || A1.FStatus != TMoveControlSettingsStatus.mcssProcessed, (AnsiString)"", "MoveT.PAS", 1541);
+                    Assert(AoWE.AoWEngine.FDemo || A1.FStatus != TMoveControlSettingsStatus.mcssProcessed, "", "MoveT.PAS", 1541);
                     do
                     {
                     }
@@ -8467,7 +8467,7 @@ namespace Aow.Units.AoWE
         // MoveT.PAS:1315
         public bool Process()
         {
-            Assert(FStatus.Contains(TMoveControlStatusElement.mcsActivated), (AnsiString)"", "MoveT.PAS", 1339);
+            Assert(FStatus.Contains(TMoveControlStatusElement.mcsActivated), "", "MoveT.PAS", 1339);
             switch (FSettings.FStatus)
             {
                 case TMoveControlSettingsStatus.mcssIdle:
@@ -8836,8 +8836,8 @@ namespace Aow.Units.AoWE
         {
             TSaveGameEventLog Log = default;
             Log = new TSaveGameEventLog(null);
-            Log.FDefaultName = (AnsiString)"";
-            Log.FDirectory = AoWE.AoWEngine.StartupDirectory + (AnsiString)"Save\\";
+            Log.FDefaultName = "";
+            Log.FDirectory = AoWE.AoWEngine.StartupDirectory + "Save\\";
             AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, ExitSaveGameCallBack);
             Log.Release();
             return true;
@@ -8869,7 +8869,7 @@ namespace Aow.Units.AoWE
                     var name = AoWE.AoWHSMap.FPlayers.GetPlayers(FDisconnectedPlayer).GetName();
                     var format = AoWE.Format(AoWE.TranslateRStr(AoWE.ConnectionXTimeOutRStr), [name]);
                     FMessage.Text = format;
-                    FMessage.Add((AnsiString)"");
+                    FMessage.Add("");
                     var translateRStr2 = AoWE.TranslateRStr(AoWE.TerminateGameSaveRStr);
                     FMessage.Add(translateRStr2);
                     break;
@@ -8887,7 +8887,7 @@ namespace Aow.Units.AoWE
                         FMessage.Text = translateRStr3;
                     }
 
-                    FMessage.Add((AnsiString)"");
+                    FMessage.Add("");
                     var translateRStr4 = AoWE.TranslateRStr(AoWE.TerminateGameSaveRStr);
                     FMessage.Add(translateRStr4);
                     break;
@@ -8897,7 +8897,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:1703
         public void ExitSaveGameCallBack(TEventLog Log)
         {
-            if (((TSaveGameEventLog)Log).FFileName != (AnsiString)"")
+            if (!IsEmpty(((TSaveGameEventLog)Log).FFileName))
             {
                 if (AoWE.AoWEngine.FCampaign != null)
                 {
@@ -8930,7 +8930,7 @@ namespace Aow.Units.AoWE
 
         public TExitGameCallBack FExitCallBack;
         public TExitGameMode FExitMode;
-        public AnsiString FPassword;
+        public string FPassword = "";
         public TDoubleItemList FDisconnectedPlayers;
         public bool FOutOfSyncShown;
         // PlayerC.PAS:7
@@ -8970,7 +8970,7 @@ namespace Aow.Units.AoWE
                 if (AoWE.AoWHSMap.FDayLimit != 0 && AoWE.AoWHSMap.FDayLimit - AoWE.AoWHSMap.FDay <= 10)
                 {
                     var fmtDaysLeftStr = AoWE.FmtDaysLeftStr(AoWE.AoWHSMap.FDayLimit - AoWE.AoWHSMap.FDay);
-                    Log.FText = Log.FText + (AnsiString)" (" + fmtDaysLeftStr + AnsiString.FromBytes(41);
+                    Log.FText = Log.FText + " (" + fmtDaysLeftStr + ")";
                 }
 
                 Log.FPlayer = (sbyte)I;
@@ -9081,12 +9081,12 @@ namespace Aow.Units.AoWE
                     {
                         if (Player == 0)
                         {
-                            AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + (AnsiString)"DEBUG\\" + AoWE.AoWHSMap.FMapName + IntToStr(AoWE.AoWHSMap.FDay) + (AnsiString)"_p" + IntToStr(AoWE.AoWHSMap.FSeatedPlayer) + (AnsiString)".asg", null);
+                            AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + "DEBUG\\" + AoWE.AoWHSMap.FMapName + IntToStr(AoWE.AoWHSMap.FDay) + "_p" + IntToStr(AoWE.AoWHSMap.FSeatedPlayer) + ".asg", null);
                         }
                     }
                     else
                     {
-                        AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + (AnsiString)"DEBUG\\" + AoWE.AoWHSMap.FMapName + IntToStr(AoWE.AoWHSMap.FDay) + AnsiString.FromBytes(45) + IntToStr(Player) + (AnsiString)"_p" + IntToStr(AoWE.AoWHSMap.FSeatedPlayer) + (AnsiString)".asg", null);
+                        AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + "DEBUG\\" + AoWE.AoWHSMap.FMapName + IntToStr(AoWE.AoWHSMap.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWE.AoWHSMap.FSeatedPlayer) + ".asg", null);
                     }
                 }
                 catch (System.Exception)
@@ -9098,13 +9098,13 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:133
         public virtual void AutoSave()
         {
-            AnsiString FileName = default;
+            string FileName = "";
             if (AoWE.AoWHSMap.FGameType == TGameType.gtCampaign)
             {
                 try
                 {
-                    FileName = (AnsiString)"autosave.acg";
-                    AoWE.AoWEngine.SaveCampaign(AoWE.AoWEngine.StartupDirectory + (AnsiString)"Save\\" + FileName);
+                    FileName = "autosave.acg";
+                    AoWE.AoWEngine.SaveCampaign(AoWE.AoWEngine.StartupDirectory + "Save\\" + FileName);
                 }
                 catch (System.Exception)
                 {
@@ -9116,8 +9116,8 @@ namespace Aow.Units.AoWE
             {
                 try
                 {
-                    FileName = (AnsiString)"autosave.asg";
-                    AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + (AnsiString)"Save\\" + FileName, null);
+                    FileName = "autosave.asg";
+                    AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + "Save\\" + FileName, null);
                 }
                 catch (System.Exception)
                 {
@@ -9140,7 +9140,7 @@ namespace Aow.Units.AoWE
             {
                 if (AoWE.AoWHSMap.FPlayerCommunicator.PCC == null)
                 {
-                    throw Exception.Create((AnsiString)"Please setup DirectPlayPCC");
+                    throw Exception.Create("Please setup DirectPlayPCC");
                 }
 
                 var tokenExecuter = AoWE.AoWHSMap.FTokenManager.TokenExecuter;
@@ -9315,7 +9315,7 @@ namespace Aow.Units.AoWE
                                 Log = new TMessageEventLog(null);
                                 Log.FTitle = AoWE.TranslateRStr(AoWE.ConfirmRStr);
                                 Log.FButtons = TMessageEventLogButtons.mebYesNoCancel;
-                                if (AoWE.AoWEngine.FCampaign == null && AoWE.AoWHSMap.FileName != (AnsiString)"" && CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), (AnsiString)".hsm") != 0)
+                                if (AoWE.AoWEngine.FCampaign == null && !IsEmpty(AoWE.AoWHSMap.FileName) && CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), ".hsm") != 0)
                                 {
                                     Log.FLayout = TMessageEventLogLayout.melNormal;
                                     var fileName = ExtractFileName(AoWE.AoWHSMap.FileName);
@@ -9324,7 +9324,7 @@ namespace Aow.Units.AoWE
                                 }
                                 else
                                 {
-                                    if (AoWE.AoWEngine.FCampaign != null && AoWE.AoWEngine.FCampaign.FFileName != (AnsiString)"" && CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), (AnsiString)".csm") != 0)
+                                    if (AoWE.AoWEngine.FCampaign != null && !IsEmpty(AoWE.AoWEngine.FCampaign.FFileName) && CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), ".csm") != 0)
                                     {
                                         // { Original tests the map extension when saving a campaign. }
                                         Log.FLayout = TMessageEventLogLayout.melNormal;
@@ -9489,20 +9489,20 @@ namespace Aow.Units.AoWE
         public void ListPlayerInfo(TStrings Strings)
         {
             int Race;
-            AnsiString Text;
+            string Text;
             TPlayerCommunicationControl PCC;
             PCC = AoWE.AoWHSMap.FPlayerCommunicator.PCC;
             for (int I = 0, last = AoWE.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
             {
-                Text = (AnsiString)"Player " + IntToStr(I);
+                Text = "Player " + IntToStr(I);
                 Race = AoWE.AoWHSMap.FPlayers.GetPlayers(I).FPlayerRace;
                 if (Race != -1)
                 {
                     var translateRStr = AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[Race]);
-                    Text = Text + AnsiString.FromBytes(40) + translateRStr + AnsiString.FromBytes(41);
+                    Text = Text + "(" + translateRStr + ")";
                 }
 
-                Text = Text + (AnsiString)" at system " + IntToStr(PCC.Players[I].SystemID);
+                Text = Text + " at system " + IntToStr(PCC.Players[I].SystemID);
                 if (Strings != null)
                 {
                     Strings.Add(Text);
@@ -9515,7 +9515,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:313
         public void ExitSaveGameCallBack(TEventLog Log)
         {
-            if (((TSaveGameEventLog)Log).FFileName != (AnsiString)"")
+            if (!IsEmpty(((TSaveGameEventLog)Log).FFileName))
             {
                 if (AoWE.AoWEngine.FCampaign != null)
                 {
@@ -9549,15 +9549,15 @@ namespace Aow.Units.AoWE
             TSaveGameEventLog SaveLog = default;
             if (((TMessageEventLog)Log).FPressedButton == TPressedEventLogButton.pebYes)
             {
-                if (AoWE.AoWEngine.FCampaign == null && (AoWE.AoWHSMap.FileName == (AnsiString)"" || CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), (AnsiString)".hsm") == 0) || AoWE.AoWEngine.FCampaign != null && (AoWE.AoWEngine.FCampaign.FFileName == (AnsiString)"" || CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), (AnsiString)".csm") == 0))
+                if (AoWE.AoWEngine.FCampaign == null && (IsEmpty(AoWE.AoWHSMap.FileName) || CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), ".hsm") == 0) || AoWE.AoWEngine.FCampaign != null && (IsEmpty(AoWE.AoWEngine.FCampaign.FFileName) || CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), ".csm") == 0))
                 {
                     SaveLog = new TSaveGameEventLog(null);
-                    if (AoWE.AoWHSMap.FileName != (AnsiString)"")
+                    if (!IsEmpty(AoWE.AoWHSMap.FileName))
                     {
                         SaveLog.FDefaultName = ExtractFileName(AoWE.AoWHSMap.FileName);
-                        if (Pos(AnsiString.FromBytes(46), SaveLog.FDefaultName) != 0)
+                        if (Pos(".", SaveLog.FDefaultName) != 0)
                         {
-                            SaveLog.FDefaultName = Rtl.Rtl.Copy(SaveLog.FDefaultName, 1, Pos(AnsiString.FromBytes(46), SaveLog.FDefaultName) - 1);
+                            SaveLog.FDefaultName = Rtl.Rtl.Copy(SaveLog.FDefaultName, 1, Pos(".", SaveLog.FDefaultName) - 1);
                         }
                     }
                     else
@@ -9565,7 +9565,7 @@ namespace Aow.Units.AoWE
                         SaveLog.FDefaultName = AoWE.AoWHSMap.FMapName;
                     }
 
-                    SaveLog.FDirectory = AoWE.AoWEngine.StartupDirectory + (AnsiString)"Save\\";
+                    SaveLog.FDirectory = AoWE.AoWEngine.StartupDirectory + "Save\\";
                     AoWE.AoWHSMap.TriggerExecuteEventLog(SaveLog, false, ExitSaveGameCallBack);
                     SaveLog.Release();
                 }
@@ -9654,7 +9654,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:484
         public void ValidatePasswordCallBack(TEventLog Log)
         {
-            AnsiString Password = default;
+            string Password = "";
             TMessageEventLog MessageLog = default;
             Password = AoWE.Encode(((TPasswordEventLog)Log).FPassword, 0);
             if (((TPasswordEventLog)Log).FPressedButton != TPressedEventLogButton.pebOk || Password != FPassword)
@@ -9664,7 +9664,7 @@ namespace Aow.Units.AoWE
                 MessageLog.FButtons = TMessageEventLogButtons.mebYesNo;
                 var translateRStr = AoWE.TranslateRStr(AoWE.PasswordFailedRStr);
                 MessageLog.FMessage.Text = translateRStr;
-                MessageLog.FMessage.Add((AnsiString)"");
+                MessageLog.FMessage.Add("");
                 var aoWETranslateRStr = AoWE.TranslateRStr(AoWE.DoYouWantToTryAgainRStr);
                 MessageLog.FMessage.Add(aoWETranslateRStr);
                 AoWE.AoWHSMap.TriggerExecuteEventLog(MessageLog, false, PasswordTryAgainCallBack);
@@ -9677,7 +9677,7 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:504
-        public void ValidatePassword(AnsiString Password)
+        public void ValidatePassword(string Password)
         {
             TPasswordEventLog Log = default;
             if (AoWE.AoWHSMap.FSeatedPlayer != -1)
@@ -9717,7 +9717,7 @@ namespace Aow.Units.AoWE
 
         public int FID;
         public TStrings FText;
-        public AnsiString FName;
+        public string FName = "";
         // Structur.PAS:4400
         public override void Destroy()
         {
@@ -9825,7 +9825,7 @@ namespace Aow.Units.AoWE
         { }
 
         public sbyte FTurnPlayer;
-        public AnsiString FText;
+        public string FText = "";
         public TNewTurnEventLogMode FMode;
         public TSet<TNewTurnEventLogDialogStyleElement> FDialogStyle;
     }
@@ -9935,7 +9935,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                PlaySample((AnsiString)"SFX\\EVENTS\\NEWTURN.WAV");
+                PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
                 if (AoWE.AoWHSMap.FDay == 1 && (AoWE.AoWHSMap.FRequestCombatType || Player == AoWE.AoWHSMap.FSeatedPlayer))
                 {
                     if (TSet<TGameType>.Of(TGameType.gtCustom, TGameType.gtTutorial).Contains(AoWE.AoWHSMap.FGameType))
@@ -10012,7 +10012,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:835
         public override void StartLoadedMap()
         {
-            if (AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FSettings != (AnsiString)"")
+            if (!IsEmpty(AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FSettings))
             {
                 ValidatePassword(AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FSettings);
             }
@@ -10206,7 +10206,7 @@ namespace Aow.Units.AoWE
                 AoWE.AoWHSMap.FAIExecuter.ActivatePlayer(AoWE.AoWHSMap.FCurrentPlayer);
             }
 
-            AoWE.AoWEngine.OutputDebugStr((AnsiString)"Random Seed: " + IntToStr(AoWE.AoWHSMap.FDefendersSeed));
+            AoWE.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(AoWE.AoWHSMap.FDefendersSeed));
         }
 
         // PlayerC.PAS:683
@@ -10366,7 +10366,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:1187
         public override void StartLoadedMap()
         {
-            if (AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FSettings != (AnsiString)"")
+            if (!IsEmpty(AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FSettings))
             {
                 ValidatePassword(AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FSettings);
             }
@@ -10388,16 +10388,16 @@ namespace Aow.Units.AoWE
             TSaveGameEventLog Log = default;
             if (AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FPBEMSettings.FStatus.Contains(TPBEMPlayerStatusElement.pbsPlaying))
             {
-                if (CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), (AnsiString)".hsm") == 0)
+                if (CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), ".hsm") == 0)
                 {
                     Log = new TSaveGameEventLog(null);
                     Log.FTitle = AoWE.TranslateRStr(AoWE.SaveEmailGameRStr);
-                    if (AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FPBEMSettings.FEmailGame.FName != (AnsiString)"")
+                    if (!IsEmpty(AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FPBEMSettings.FEmailGame.FName))
                     {
-                        Log.FDefaultName = AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FPBEMSettings.FEmailGame.FName + (AnsiString)".asg";
+                        Log.FDefaultName = AoWE.AoWHSMap.FPlayers.GetPlayers(AoWE.AoWHSMap.FCurrentPlayer).FPBEMSettings.FEmailGame.FName + ".asg";
                     }
 
-                    Log.FDirectory = AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\";
+                    Log.FDirectory = AoWE.AoWEngine.StartupDirectory + "EmailIn\\";
                     AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, ExitGameSaveAsCallBack);
                     Log.Release();
                 }
@@ -10421,16 +10421,16 @@ namespace Aow.Units.AoWE
             bool Saved = default;
             if (AoWE.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman && AoWE.AoWHSMap.FPlayers.GetPlayers(Player).FStatus == TPlayerStatus.psPlaying)
             {
-                if (CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), (AnsiString)".hsm") == 0)
+                if (CompareText(ExtractFileExt(AoWE.AoWHSMap.FileName), ".hsm") == 0)
                 {
                     SaveLog = new TSaveGameEventLog(null);
                     SaveLog.FTitle = AoWE.TranslateRStr(AoWE.SaveEmailGameRStr);
-                    if (AoWE.AoWHSMap.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName != (AnsiString)"")
+                    if (!IsEmpty(AoWE.AoWHSMap.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName))
                     {
-                        SaveLog.FDefaultName = AoWE.AoWHSMap.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName + (AnsiString)".asg";
+                        SaveLog.FDefaultName = AoWE.AoWHSMap.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName + ".asg";
                     }
 
-                    SaveLog.FDirectory = AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\";
+                    SaveLog.FDirectory = AoWE.AoWEngine.StartupDirectory + "EmailIn\\";
                     AoWE.AoWHSMap.TriggerExecuteEventLog(SaveLog, false, EndTurnGameSavedCallBack);
                     SaveLog.Release();
                 }
@@ -10455,7 +10455,7 @@ namespace Aow.Units.AoWE
                     else
                     {
                         MessageLog = new TMessageEventLog(null);
-                        var format = AoWE.Format(AoWE.TranslateRStr(AoWE.CouldNotSaveXRStr) + AnsiString.FromBytes(46), [AoWE.AoWHSMap.FileName]);
+                        var format = AoWE.Format(AoWE.TranslateRStr(AoWE.CouldNotSaveXRStr) + ".", [AoWE.AoWHSMap.FileName]);
                         MessageLog.FMessage.Text = format;
                         AoWE.AoWHSMap.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
                         MessageLog.Release();
@@ -10505,7 +10505,7 @@ namespace Aow.Units.AoWE
         {
             bool Failed = default;
             TMessageEventLog MessageLog = default;
-            if (((TSaveGameEventLog)Log).FFileName != (AnsiString)"")
+            if (!IsEmpty(((TSaveGameEventLog)Log).FFileName))
             {
                 try
                 {
@@ -10527,7 +10527,7 @@ namespace Aow.Units.AoWE
             if (Failed)
             {
                 MessageLog = new TMessageEventLog(null);
-                var format = AoWE.Format(AoWE.TranslateRStr(AoWE.CouldNotSaveXRStr) + AnsiString.FromBytes(46), [((TSaveGameEventLog)Log).FFileName]);
+                var format = AoWE.Format(AoWE.TranslateRStr(AoWE.CouldNotSaveXRStr) + ".", [((TSaveGameEventLog)Log).FFileName]);
                 MessageLog.FMessage.Text = format;
                 AoWE.AoWHSMap.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
                 MessageLog.Release();
@@ -10535,7 +10535,7 @@ namespace Aow.Units.AoWE
             else
             {
                 MessageLog = new TMessageEventLog(null);
-                var format = AoWE.Format(AoWE.TranslateRStr(AoWE.GameSuccessfullySavedRStr) + AnsiString.FromBytes(46), [((TSaveGameEventLog)Log).FFileName]);
+                var format = AoWE.Format(AoWE.TranslateRStr(AoWE.GameSuccessfullySavedRStr) + ".", [((TSaveGameEventLog)Log).FFileName]);
                 MessageLog.FMessage.Text = format;
                 AoWE.AoWHSMap.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
                 MessageLog.Release();
@@ -10568,7 +10568,7 @@ namespace Aow.Units.AoWE
         public void EndTurnGameSavedCallBack(TEventLog Log)
         {
             bool Failed = default;
-            if (((TSaveGameEventLog)Log).FFileName != (AnsiString)"")
+            if (!IsEmpty(((TSaveGameEventLog)Log).FFileName))
             {
                 try
                 {
@@ -10688,7 +10688,7 @@ namespace Aow.Units.AoWE
                     Log.FTitle = AoWE.TranslateRStr(AoWE.WarningRStr);
                     var translateRStr = AoWE.TranslateRStr(AoWE.PBEMRestartCheatRStr);
                     Log.FMessage.Text = translateRStr;
-                    Log.FMessage.Add((AnsiString)"");
+                    Log.FMessage.Add("");
                     var aoWETranslateRStr = AoWE.TranslateRStr(AoWE.DoYouWantToContinueRStr);
                     Log.FMessage.Add(aoWETranslateRStr);
                     AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, ContinueRestartedGameCallBack);
@@ -10704,7 +10704,7 @@ namespace Aow.Units.AoWE
                         Log.FButtons = TMessageEventLogButtons.mebYesNo;
                         var translateRStr = AoWE.TranslateRStr(AoWE.PBEMGameEndedRStr);
                         Log.FMessage.Text = translateRStr;
-                        Log.FMessage.Add((AnsiString)"");
+                        Log.FMessage.Add("");
                         var aoWETranslateRStr = AoWE.TranslateRStr(AoWE.DoYouWantToContinueRStr);
                         Log.FMessage.Add(aoWETranslateRStr);
                         AoWE.AoWHSMap.TriggerExecuteEventLog(Log, false, ContinueTurnDoneGameCallBack);
@@ -10721,7 +10721,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:1219
         public void ExitGameSaveAsCallBack(TEventLog Log)
         {
-            if (((TSaveGameEventLog)Log).FFileName != (AnsiString)"")
+            if (!IsEmpty(((TSaveGameEventLog)Log).FFileName))
             {
                 try
                 {
@@ -10757,7 +10757,7 @@ namespace Aow.Units.AoWE
                 NewTurn((sbyte)I);
             }
 
-            PlaySample((AnsiString)"SFX\\EVENTS\\NEWTURN.WAV");
+            PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
             if (AoWE.AoWEngine.FRegistry.GetAutoSave())
             {
                 AutoSave();
@@ -10856,7 +10856,7 @@ namespace Aow.Units.AoWE
             var item = AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers[0];
             AoWE.AoWHSMap.SetSeatedPlayer((sbyte)item);
             AoWE.AoWHSMap.SeatedPlayerChanged();
-            Assert(AoWE.AoWHSMap.FSeatedPlayer != 0, (AnsiString)"", "PlayerC.PAS", 1584);
+            Assert(AoWE.AoWHSMap.FSeatedPlayer != 0, "", "PlayerC.PAS", 1584);
             AoWE.AoWHSMap.ResetSeatedPlayerView();
             AoWE.AoWHSMap.FTokenManager.TokenExecuter.ActivateTC(AoWE.AoWHSMap.FCurrentPlayer);
             Log = new TNewTurnEventLog(null);
@@ -10883,7 +10883,7 @@ namespace Aow.Units.AoWE
         public override void StartLoadedMap()
         {
             var item = AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers[0];
-            if (AoWE.AoWHSMap.FPlayers.GetPlayers(item).FSettings != (AnsiString)"")
+            if (!IsEmpty(AoWE.AoWHSMap.FPlayers.GetPlayers(item).FSettings))
             {
                 var fLocalHumanPlayersItem = AoWE.AoWHSMap.FPlayers.FLocalHumanPlayers[0];
                 ValidatePassword(AoWE.AoWHSMap.FPlayers.GetPlayers(fLocalHumanPlayersItem).FSettings);
@@ -12357,32 +12357,32 @@ namespace Aow.Units.AoWE
         // Army.PAS:4063
         public void OutputGroupInfo()
         {
-            AnsiString Text;
+            string Text;
             TAIGroup Group;
             for (int I = 0, last = GetArmyHS().FArmy.Count - 1; I <= last; I++)
             {
-                Text = GetArmyHS().FArmy.GetUnit(I).GetName() + (AnsiString)"(ID:" + IntToStr(GetArmyHS().FArmy.GetUnit(I).FUnitID) + AnsiString.FromBytes(41);
+                Text = GetArmyHS().FArmy.GetUnit(I).GetName() + "(ID:" + IntToStr(GetArmyHS().FArmy.GetUnit(I).FUnitID) + ")";
                 Group = GetArmyHS().FArmy.GetUnit(I).FGroup;
                 if (Group != null)
                 {
                     var behavior = Group.GroupClass.Behavior;
-                    Text = Text + AoWE.TGroupBehaviorStr[(int)behavior] + (AnsiString)"(GID:" + IntToStr(Group.FGroupID) + (AnsiString)"/Target:" + IntToStr(Group.FTargetXYL.X) + AnsiString.FromBytes(44) + IntToStr(Group.FTargetXYL.Y) + AnsiString.FromBytes(44) + IntToStr(Group.FTargetXYL.L) + (AnsiString)"/Budget:" + IntToStr(Group.FGoldBudget) + (AnsiString)"/MP:" + IntToStr(Group.FTargetMovePoints) + AnsiString.FromBytes(41);
+                    Text = Text + AoWE.TGroupBehaviorStr[(int)behavior] + "(GID:" + IntToStr(Group.FGroupID) + "/Target:" + IntToStr(Group.FTargetXYL.X) + "," + IntToStr(Group.FTargetXYL.Y) + "," + IntToStr(Group.FTargetXYL.L) + "/Budget:" + IntToStr(Group.FGoldBudget) + "/MP:" + IntToStr(Group.FTargetMovePoints) + ")";
                     if (Group.FTargetType == TAIGroupTargetStatus.gtsSetup)
                     {
-                        Text = Text + (AnsiString)"-setup";
+                        Text = Text + "-setup";
                     }
                     else
                     {
                         if (Group.FTargetType == TAIGroupTargetStatus.gtsExecute)
                         {
-                            Text = Text + (AnsiString)"-execute";
+                            Text = Text + "-execute";
                         }
                     }
 
                     var unit = GetArmyHS().FArmy.GetUnit(I);
                     if (Group.FLeader == unit)
                     {
-                        Text = Text + (AnsiString)"/Leader";
+                        Text = Text + "/Leader";
                     }
                 }
 
@@ -12390,7 +12390,7 @@ namespace Aow.Units.AoWE
             }
 
             var strengthMax = GetArmyHS().FArmy.GetStrengthMax(AoWE.dtAll - TSet<TDamageType>.Of(TDamageType.dtNone));
-            AoWE.AoWEngine.OutputDebugStr((AnsiString)"Army strength: " + IntToStr(strengthMax));
+            AoWE.AoWEngine.OutputDebugStr("Army strength: " + IntToStr(strengthMax));
         }
 
         // Army.PAS:4090
@@ -12544,8 +12544,8 @@ namespace Aow.Units.AoWE
         public sbyte FTargetY;
         public sbyte FTargetL;
         public TStrings FText;
-        public AnsiString FTitle;
-        public AnsiString FCancelText;
+        public string FTitle = "";
+        public string FCancelText = "";
         public int FSourceUnitID;
         public ImageLib.TLibraryImage FSourceImage;
         public ImageLib.TLibraryImage FValidTargetImage;
@@ -12561,7 +12561,7 @@ namespace Aow.Units.AoWE
             if (FImageLibrary != null)
             {
                 // { Original links the image library again when destroying the control. }
-                AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TARGHEX.ILB");
+                AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TARGHEX.ILB");
                 FImageLibrary = null;
             }
 
@@ -12738,7 +12738,7 @@ namespace Aow.Units.AoWE
         {
             if (FImageLibrary == null)
             {
-                FImageLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TARGHEX.ILB");
+                FImageLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TARGHEX.ILB");
             }
 
             if (!FStatus.Contains(TTargetSelectionStatusElement.tsActivated))
@@ -12749,7 +12749,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"please deactivate before initializing (TTargetSelectionControl)");
+                throw Exception.Create("please deactivate before initializing (TTargetSelectionControl)");
             }
         }
 
@@ -12771,7 +12771,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"Already activated");
+                throw Exception.Create("Already activated");
             }
         }
 
@@ -12829,7 +12829,7 @@ namespace Aow.Units.AoWE
         public TAoWHSMapKeyboard(TECustomNode owner) : base(owner)
         {}
 
-        public AnsiString FCheatText;
+        public string FCheatText = "";
         public TAoWHSMapKeyboardMode FMode;
         public int FLockCount;
         // AoWHSMap.PAS:946
@@ -12961,7 +12961,7 @@ namespace Aow.Units.AoWE
                                 case 82:
                                     if (AoWE.AoWEngine.FDebug)
                                     {
-                                        AoWE.AoWEngine.OutputDebugStr((AnsiString)"Random Seed: " + IntToStr(AoWE.AoWHSMap.FDefendersSeed));
+                                        AoWE.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(AoWE.AoWHSMap.FDefendersSeed));
                                     }
 
                                     break;
@@ -12983,7 +12983,7 @@ namespace Aow.Units.AoWE
                                     if (AoWE.AoWEngine.FDebug)
                                     {
                                         var heapStatus = GetHeapStatus();
-                                        AoWE.AoWHSMap.ShowMessage((AnsiString)"Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
+                                        AoWE.AoWHSMap.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
                                     }
 
                                     break;
@@ -13005,7 +13005,7 @@ namespace Aow.Units.AoWE
 
                         break;
                     case TAoWHSMapKeyboardMode.kmCheat:
-                        FCheatText = FCheatText + AnsiString.FromBytes((byte)Key);
+                        FCheatText = FCheatText + Cp1252.Text((byte)Key);
                         I = 10;
                         Complete = false;
                         Prefix = false;
@@ -13023,7 +13023,7 @@ namespace Aow.Units.AoWE
                             Cheat.FCheatID = I;
                             AoWE.AoWHSMap.FTokenManager.GetTokenControl(AoWE.AoWHSMap.FSeatedPlayer).AddEvent(Cheat);
                             Cheat.Release();
-                            FCheatText = (AnsiString)"";
+                            FCheatText = "";
                             FMode = TAoWHSMapKeyboardMode.kmDefault;
                         }
                         else
@@ -13031,7 +13031,7 @@ namespace Aow.Units.AoWE
                             if (!Prefix)
                             {
                                 FMode = TAoWHSMapKeyboardMode.kmDefault;
-                                FCheatText = (AnsiString)"";
+                                FCheatText = "";
                             }
                         }
 
@@ -13039,11 +13039,11 @@ namespace Aow.Units.AoWE
                 }
             }
 
-            if (Key == 67 && (TSet<TShiftState>.Of(TShiftState.ssShift, TShiftState.ssCtrl) & Shift) == TSet<TShiftState>.Of(TShiftState.ssShift, TShiftState.ssCtrl) && CompareText(ParamStr(1), (AnsiString)"beatrix") == 0 && AoWE.AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork && AoWE.AoWHSMap.FConnectionType != TPlayerConnectionType.pcEmail && !AoWE.AoWEngine.FDemo)
+            if (Key == 67 && (TSet<TShiftState>.Of(TShiftState.ssShift, TShiftState.ssCtrl) & Shift) == TSet<TShiftState>.Of(TShiftState.ssShift, TShiftState.ssCtrl) && CompareText(ParamStr(1), "beatrix") == 0 && AoWE.AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork && AoWE.AoWHSMap.FConnectionType != TPlayerConnectionType.pcEmail && !AoWE.AoWEngine.FDemo)
             {
-                PlaySample((AnsiString)"SFX\\ATTACK\\MAGICB02.WAV");
+                PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
                 FMode = TAoWHSMapKeyboardMode.kmCheat;
-                FCheatText = (AnsiString)"";
+                FCheatText = "";
             }
         }
 
@@ -13062,10 +13062,10 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:938
         public void RunDefaultTest()
         {
-            AnsiString FileName;
-            FileName = (AnsiString)"autosave.asg";
+            string FileName;
+            FileName = "autosave.asg";
             // { Original saves the autosave file. }
-            AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + (AnsiString)"Save\\" + FileName, null);
+            AoWE.AoWEngine.SaveHSM(AoWE.AoWEngine.StartupDirectory + "Save\\" + FileName, null);
         }
 
         // Engine.pas:524
@@ -13290,7 +13290,7 @@ namespace Aow.Units.AoWE
             {
                 var xhx = Xhx;
                 var yhx = Yhx;
-                AoWE.AoWEngine.OutputDebugStr((AnsiString)"Location (" + IntToStr(xhx) + AnsiString.FromBytes(44) + IntToStr(yhx) + (AnsiString)") selected");
+                AoWE.AoWEngine.OutputDebugStr("Location (" + IntToStr(xhx) + "," + IntToStr(yhx) + ") selected");
             }
         }
 
@@ -13382,7 +13382,7 @@ namespace Aow.Units.AoWE
         public sbyte FCurrentPlayer;
         public sbyte FSeatedPlayer;
         public TEventList FShowMessageEvents;
-        public AnsiString FMessageText;
+        public string FMessageText = "";
         public byte FMessageFrame;
         public int FFPS;
         public int FMapChangedLockCount;
@@ -13645,13 +13645,13 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:578
-        public virtual void ShowMessage(AnsiString Text)
+        public virtual void ShowMessage(string Text)
         {
             var notification = new ShowMessageNotification();
             ref var Info = ref notification.Info;
-            if (!AoWE.AoWEngine.FRegistry.GetDebugMode() && Text != (AnsiString)"")
+            if (!AoWE.AoWEngine.FRegistry.GetDebugMode() && !IsEmpty(Text))
             {
-                PlaySample((AnsiString)"SFX\\EVENTS\\INFO1.WAV");
+                PlaySample("SFX\\EVENTS\\INFO1.WAV");
             }
 
             Info.Text = Text;
@@ -13662,13 +13662,13 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:566
-        public virtual void ShowWarning(AnsiString Text)
+        public virtual void ShowWarning(string Text)
         {
             var notification = new ShowMessageNotification();
             ref var Info = ref notification.Info;
-            if (!AoWE.AoWEngine.FRegistry.GetDebugMode() && Text != (AnsiString)"")
+            if (!AoWE.AoWEngine.FRegistry.GetDebugMode() && !IsEmpty(Text))
             {
-                PlaySample((AnsiString)"SFX\\EVENTS\\INFO2.WAV");
+                PlaySample("SFX\\EVENTS\\INFO2.WAV");
             }
 
             Info.Text = Text;
@@ -13685,7 +13685,7 @@ namespace Aow.Units.AoWE
             Animation = new TImageSequenceAnimation(null);
             Animation.SetImageSequence(AoWE.AoWHSSet.FImageSequences.GetImageSequence(11));
             PlaceHX(Animation, X, Y, L);
-            PlaySample((AnsiString)"SFX\\INT\\CENTER.WAV");
+            PlaySample("SFX\\INT\\CENTER.WAV");
         }
 
         // AoWHSMap.PAS:430
@@ -13697,7 +13697,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:435
         public void UnlockMapChangedEvent()
         {
-            Assert(FMapChangedLockCount != 0, (AnsiString)"Invalid MapChanged Lock usage", "AoWHSMap.PAS", 437);
+            Assert(FMapChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 437);
             FMapChangedLockCount -= 1;
         }
 
@@ -13778,7 +13778,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:495
         public void UnlockScannerIconsChangedEvent()
         {
-            Assert(FScannerIconsChangedLockCount != 0, (AnsiString)"Invalid ScannerIcons Lock usage", "AoWHSMap.PAS", 497);
+            Assert(FScannerIconsChangedLockCount != 0, "Invalid ScannerIcons Lock usage", "AoWHSMap.PAS", 497);
             FScannerIconsChangedLockCount -= 1;
         }
 
@@ -13876,7 +13876,7 @@ namespace Aow.Units.AoWE
 
                 if (FMessageFrame == 0)
                 {
-                    Info.Text = (AnsiString)"";
+                    Info.Text = "";
                     Info.Color = 16777215;
                     FShowMessageEvents.TriggerNotifyEvents(notification);
                 }
@@ -13886,7 +13886,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:598
         public bool FogArea(int X, int Y, int Level, int Range)
         {
-            Assert(Range <= 15, (AnsiString)"Invalid Unfog Range", "AoWHSMap.PAS", 600);
+            Assert(Range <= 15, "Invalid Unfog Range", "AoWHSMap.PAS", 600);
             bool Result = ((TAoWMapLevel)MapContainer.GetMapLevel(Level)).FogArea(X, Y, Range);
             if (Result && FMapChangedLockCount == 0 && FFogEnabled)
             {
@@ -13899,7 +13899,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:605
         public bool UnFogArea(int X, int Y, int Level, int Range)
         {
-            Assert(Range <= 15, (AnsiString)"Invalid Unfog Range", "AoWHSMap.PAS", 607);
+            Assert(Range <= 15, "Invalid Unfog Range", "AoWHSMap.PAS", 607);
             bool Result = ((TAoWMapLevel)MapContainer.GetMapLevel(Level)).UnFogArea(X, Y, Range);
             if (Result && FMapChangedLockCount == 0 && FFogEnabled)
             {
@@ -14103,7 +14103,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:1221
         public void OriginalSongsChanged(TObject Sender)
         {
-            AnsiString Name;
+            string Name;
             SongNames.Clear();
             for (int I = Songs.Count - 1; I >= 0; I--)
             {
@@ -14135,8 +14135,8 @@ namespace Aow.Units.AoWE
         public TSelectedArmy FSelectedArmy;
         public bool FIgnoreStreamErrors;
         public TTargetSelectionControl FTargetSelection;
-        public AnsiString FMapName;
-        public AnsiString FAuthor;
+        public string FMapName = "";
+        public string FAuthor = "";
         public int FSphereCount;
         public TStringList FDescription;
         public TItemControl FItemControl;
@@ -14180,7 +14180,7 @@ namespace Aow.Units.AoWE
         public TTurnOrderMode FTurnOrderMode;
         public TByteList FTurnOrder;
         public int FDay;
-        public AnsiString FSessionName;
+        public string FSessionName = "";
         public TEventList FOnLeaderChanged;
         public bool FShowIndependentMoves;
         public TMoveControl FMoveControl;
@@ -14245,9 +14245,9 @@ namespace Aow.Units.AoWE
             LockMapChangedEvent();
             OnViewLevel = null;
             OnCenterView = null;
-            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"GENERAL.ILB");
-            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"CURSORS.ILB");
-            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"COMBAT.ILB");
+            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "GENERAL.ILB");
+            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "CURSORS.ILB");
+            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "COMBAT.ILB");
             FMoveControl.Free();
             for (int I = FEffects.Count - 1; I >= 0; I--)
             {
@@ -14480,17 +14480,17 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:2241
         public override void MainReadWrite(TEStorageStream Stream)
         {
-            AnsiString FileName;
+            string FileName;
             base.MainReadWrite(Stream);
             if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smTextOnly, TStorageModeElement.smPreview, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead) && FDay == 0)
             {
                 if (FGameType == TGameType.gtCampaign)
                 {
-                    FileName = AoWE.AoWEngine.StartupDirectory + (AnsiString)"Dict\\" + (AnsiString)"CampMaps" + (AnsiString)".mld";
+                    FileName = AoWE.AoWEngine.StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
                 }
                 else
                 {
-                    FileName = AoWE.AoWEngine.StartupDirectory + (AnsiString)"Dict\\" + (AnsiString)"CustMaps" + (AnsiString)".mld";
+                    FileName = AoWE.AoWEngine.StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
                 }
 
                 if (FileExists(FileName))
@@ -14527,8 +14527,8 @@ namespace Aow.Units.AoWE
             ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents.Add(FSelectedArmy.RectangleSelectEvent);
             FMoveControl = new TMoveControl(this);
             FGlobalMagicControl = new TGlobalMagicControl(null);
-            FMapName = (AnsiString)"noname";
-            FAuthor = (AnsiString)"";
+            FMapName = "noname";
+            FAuthor = "";
             FTurnTimerStart = -1;
             FSphereCount = 5;
             FVictoryGold = 5000;
@@ -14551,7 +14551,7 @@ namespace Aow.Units.AoWE
             FDay = 0;
             FGameStatus = TGameStatus.gsIdle;
             FGameResult = TGameResult.grNone;
-            FSessionName = (AnsiString)"";
+            FSessionName = "";
             var detailLevel = AoWE.AoWEngine.FRegistry.GetDetailLevel();
             FShowUnitShadows = TSet<TDetailLevel>.Of(TDetailLevel.dtlNormal, TDetailLevel.dtlHigh).Contains(detailLevel);
             FHeroControl = new THeroControl(null);
@@ -14658,8 +14658,8 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:2116
         public override void NotifyProgress(in TMapProgress Progress)
         {
-            AnsiString DefaultText;
-            AnsiString Text = default;
+            string DefaultText;
+            string Text = "";
             int Percent = default;
             int Total = default;
             if (OnProgress != null)
@@ -14839,7 +14839,7 @@ namespace Aow.Units.AoWE
                     StartLoadedMap();
                 }
 
-                ShowMessage((AnsiString)"");
+                ShowMessage("");
             }
 
             if (AoWE.AoWEngine.FRegistry.GetLogTokenEvents())
@@ -15069,7 +15069,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:1534
-        public bool SaveGame(AnsiString FileName)
+        public bool SaveGame(string FileName)
         {
             bool Result;
             TSaveGameTE Event;
@@ -15401,7 +15401,7 @@ namespace Aow.Units.AoWE
             InitMsg(ref Msg, 537001993, this);
             MapContainer.SendMsg(ref Msg, this);
             FSeatedPlayerChangedEvents.TriggerNotifyEvents(AoWE.AoWHSMap);
-            ShowMessage((AnsiString)"");
+            ShowMessage("");
         }
 
         // AoWHSMap.PAS:1822
@@ -16167,7 +16167,7 @@ namespace Aow.Units.AoWE
                 }
                 else
                 {
-                    Rtl.Rtl.ShowMessage((AnsiString)"Invalid AoWHSMap.Random use");
+                    Rtl.Rtl.ShowMessage("Invalid AoWHSMap.Random use");
                     Result = 0;
                 }
             }
@@ -16299,7 +16299,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWHSMap.PAS:2870
-        public void InitializeCombatMap(TCombat A1, AnsiString FileName)
+        public void InitializeCombatMap(TCombat A1, string FileName)
         {
             TPlayer Player = default;
             int X = default;
@@ -16356,7 +16356,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"Combat already created");
+                throw Exception.Create("Combat already created");
             }
 
             return Result;
@@ -16460,7 +16460,7 @@ namespace Aow.Units.AoWE
         // AoWHSMap.PAS:3044
         public void UnlockRelationsChanged()
         {
-            Assert(FRelationsChangedLockCount != 0, (AnsiString)"Invalid MapChanged Lock usage", "AoWHSMap.PAS", 3056);
+            Assert(FRelationsChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 3056);
             FRelationsChangedLockCount -= 1;
         }
 
@@ -16476,11 +16476,11 @@ namespace Aow.Units.AoWE
                     FTurnTimeBeep = Seconds;
                     if (FTurnTimeBeep == 0)
                     {
-                        PlaySample((AnsiString)"SFX\\EVENTS\\CLOCK.WAV");
+                        PlaySample("SFX\\EVENTS\\CLOCK.WAV");
                     }
                     else
                     {
-                        PlaySample((AnsiString)"SFX\\EVENTS\\CLOCK.WAV");
+                        PlaySample("SFX\\EVENTS\\CLOCK.WAV");
                     }
                 }
             }
@@ -16679,10 +16679,10 @@ namespace Aow.Units.AoWE
             FSFXLibraries[4] = sfxLibrary5;
         }
 
-        public AnsiString FName;
+        public string FName = "";
         public int FFaceIndex;
         public TCustomImageLibrary FFaceImageLibrary;
-        public AnsiString FFaceImageLibraryName;
+        public string FFaceImageLibraryName = "";
         public TImageSequenceList FSequences;
         public int FRefCount;
         public byte F_UnitGFXResource_30;
@@ -16788,7 +16788,7 @@ namespace Aow.Units.AoWE
         public void LinkToIL()
         {
             FSequences.LinkToIL();
-            if (FFaceImageLibraryName != (AnsiString)"")
+            if (!IsEmpty(FFaceImageLibraryName))
             {
                 FFaceImageLibrary = FSequences.ILManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FFaceImageLibraryName);
                 return;
@@ -16803,7 +16803,7 @@ namespace Aow.Units.AoWE
             FSequences.ReleaseIL();
             if (FFaceImageLibrary != null)
             {
-                if (FFaceImageLibraryName != (AnsiString)"")
+                if (!IsEmpty(FFaceImageLibraryName))
                 {
                     FSequences.ILManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FFaceImageLibraryName);
                 }
@@ -16813,16 +16813,16 @@ namespace Aow.Units.AoWE
         }
 
         // UnitHS.PAS:57
-        public void SetFaceImageLibraryName(AnsiString Value)
+        public void SetFaceImageLibraryName(string Value)
         {
-            if (FFaceImageLibraryName != (AnsiString)"")
+            if (!IsEmpty(FFaceImageLibraryName))
             {
                 FSequences.ILManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FFaceImageLibraryName);
             }
 
             FFaceImageLibraryName = Value;
             // { Original releases the old library even when no reference is held. }
-            if (FFaceImageLibraryName != (AnsiString)"" && FRefCount != 0)
+            if (!IsEmpty(FFaceImageLibraryName) && FRefCount != 0)
             {
                 FFaceImageLibrary = FSequences.ILManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FFaceImageLibraryName);
             }
@@ -17037,7 +17037,7 @@ namespace Aow.Units.AoWE
         // UnitHS.PAS:232
         public override sbyte GetLhx()
         {
-            Assert(Owner != null, (AnsiString)"Onwer isn't defined", "UnitHS.PAS", 557);
+            Assert(Owner != null, "Onwer isn't defined", "UnitHS.PAS", 557);
             return ((TMapField)Owner).Lhx;
         }
 
@@ -17618,7 +17618,7 @@ namespace Aow.Units.AoWE
             FImageSequences = new TImageSequenceList(AoWE.AoWHSSet.ImageLibraryManager, null);
         }
 
-        public AnsiString FAbilityName;
+        public string FAbilityName = "";
         public int FAbilityID;
         public TStringList FDescription;
         public int FSkillPointCost;
@@ -17657,7 +17657,7 @@ namespace Aow.Units.AoWE
         public virtual TAbilityType GetAbilityType() => 0;
 
         // Ability.PAS:1449
-        public virtual AnsiString GetName(TAbilityOwner A1) => FAbilityName;
+        public virtual string GetName(TAbilityOwner A1) => FAbilityName;
 
         // Ability.PAS:1453
         public virtual sbyte GetAttack(TAbilityOwner A1) => 0;
@@ -17690,7 +17690,7 @@ namespace Aow.Units.AoWE
         public virtual TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner A1) => AoWE.P1EmptyWallFeatures;
 
         // Ability.PAS:1256
-        public virtual AnsiString GetSourceName(TAbilityOwner A1) => A1.GetOwnerName();
+        public virtual string GetSourceName(TAbilityOwner A1) => A1.GetOwnerName();
 
         // Ability.PAS:1420
         public virtual int GetInherentLevel(TAbilityOwner Owner) => 0;
@@ -17738,14 +17738,14 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1594
-        public virtual bool CanActivate(TAbilityOwner A1, ref AnsiString A2)
+        public virtual bool CanActivate(TAbilityOwner A1, ref string A2)
         {
-            A2 = (AnsiString)"";
+            A2 = "";
             return GetControlType(A1).Contains(TAbilityControlTypeElement.acAction);
         }
 
         // Ability.PAS:1606
-        public virtual bool Activate(TAbilityOwner A1, ref AnsiString A2)
+        public virtual bool Activate(TAbilityOwner A1, ref string A2)
         {
             bool Result;
             TActivateAbilityInfo Info;
@@ -17776,14 +17776,14 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1624
-        public virtual bool CanActivateCombat(TAbilityOwner A1, ref AnsiString A2)
+        public virtual bool CanActivateCombat(TAbilityOwner A1, ref string A2)
         {
-            A2 = (AnsiString)"";
+            A2 = "";
             return GetControlType(A1).Contains(TAbilityControlTypeElement.acCombatAction);
         }
 
         // Ability.PAS:1637
-        public virtual bool ActivateCombat(TAbilityOwner Owner, ref AnsiString Reason)
+        public virtual bool ActivateCombat(TAbilityOwner Owner, ref string Reason)
         {
             bool Result;
             TActivateAbilityInfo Info;
@@ -17818,7 +17818,7 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1374
-        public virtual AnsiString ExpandName(TAbilityOwner A1) => FAbilityName;
+        public virtual string ExpandName(TAbilityOwner A1) => FAbilityName;
 
         // Ability.PAS:1382
         public virtual bool Expand(TAbilityOwner A1)
@@ -17901,47 +17901,47 @@ namespace Aow.Units.AoWE
             TAbilityCombatInfo Info = default;
             TSet<TDamageType> Types = default;
             int Strength = default;
-            AnsiString DamageNames;
+            string DamageNames;
             TDamageType DamageType_;
-            A1.Add((AnsiString)"Name: " + this.GetName(null));
-            A1.Add((AnsiString)"-------------------------------------------------");
+            A1.Add("Name: " + this.GetName(null));
+            A1.Add("-------------------------------------------------");
             if (A2.Contains(TAbilityInfoModeElement.aimID))
             {
-                A1.Add((AnsiString)"ID: " + IntToStr(FAbilityID));
+                A1.Add("ID: " + IntToStr(FAbilityID));
             }
 
             var abilityType = this.GetAbilityType();
-            A1.Add((AnsiString)"Type: " + AoWE.TranslateRStr(AoWE.TAbilityTypeRStr[(int)abilityType]));
+            A1.Add("Type: " + AoWE.TranslateRStr(AoWE.TAbilityTypeRStr[(int)abilityType]));
             if (this.GetAttack(null) != 0)
             {
-                A1.Add((AnsiString)"Attack modifier: " + IntToStr(this.GetAttack(null)));
+                A1.Add("Attack modifier: " + IntToStr(this.GetAttack(null)));
             }
 
             if (this.GetDefense(null) != 0)
             {
-                A1.Add((AnsiString)"Defense modifier: " + IntToStr(this.GetDefense(null)));
+                A1.Add("Defense modifier: " + IntToStr(this.GetDefense(null)));
             }
 
             if (this.GetDamage(null) != 0)
             {
-                A1.Add((AnsiString)"Damage modifier: " + IntToStr(this.GetDamage(null)));
+                A1.Add("Damage modifier: " + IntToStr(this.GetDamage(null)));
             }
 
             if (this.GetResistance(null) != 0)
             {
-                A1.Add((AnsiString)"Resistance modifier: " + IntToStr(this.GetResistance(null)));
+                A1.Add("Resistance modifier: " + IntToStr(this.GetResistance(null)));
             }
 
             if (A2.Contains(TAbilityInfoModeElement.aimDescription))
             {
-                A1.Add((AnsiString)"Description: ");
+                A1.Add("Description: ");
                 A1.AddStrings(FDescription);
             }
 
             if (this.GetCombatMode(null) != TCombatMode.cmNone)
             {
                 var combatMode = this.GetCombatMode(null);
-                A1.Add((AnsiString)"Combat mode: " + AoWE.TranslateRStr(AoWE.TCombatModeRStr[(int)combatMode]));
+                A1.Add("Combat mode: " + AoWE.TranslateRStr(AoWE.TCombatModeRStr[(int)combatMode]));
             }
 
             if (A2.Contains(TAbilityInfoModeElement.aimStatistics))
@@ -17949,37 +17949,37 @@ namespace Aow.Units.AoWE
                 this.GetCombatInfo(null, ref Info);
                 if (Info.Attack != -1)
                 {
-                    A1.Add((AnsiString)"Attack: " + IntToStr(Info.Attack));
+                    A1.Add("Attack: " + IntToStr(Info.Attack));
                 }
 
                 if (Info.Damage != -1)
                 {
-                    A1.Add((AnsiString)"Damage: " + IntToStr(Info.Damage));
+                    A1.Add("Damage: " + IntToStr(Info.Damage));
                 }
 
                 if (Info.RepeatCount != -1)
                 {
-                    A1.Add((AnsiString)"Repeat: " + IntToStr(Info.RepeatCount));
+                    A1.Add("Repeat: " + IntToStr(Info.RepeatCount));
                 }
 
                 if (Info.DamageTypes != TSet<TDamageType>.Of())
                 {
-                    DamageNames = (AnsiString)"";
+                    DamageNames = "";
                     for (int damageTypeOrdinal = (int)(TDamageType)0; damageTypeOrdinal <= (int)(TDamageType)9; damageTypeOrdinal++)
                     {
                         DamageType_ = (TDamageType)damageTypeOrdinal;
                         if (Info.DamageTypes.Contains(DamageType_))
                         {
-                            if (DamageNames != (AnsiString)"")
+                            if (!IsEmpty(DamageNames))
                             {
-                                DamageNames = DamageNames + AnsiString.FromBytes(44);
+                                DamageNames = DamageNames + ",";
                             }
 
                             DamageNames = DamageNames + AoWE.TranslateRStr(AoWE.TDamageTypeRStr[(int)DamageType_]);
                         }
                     }
 
-                    A1.Add((AnsiString)"Damage Types: " + DamageNames);
+                    A1.Add("Damage Types: " + DamageNames);
                 }
             }
 
@@ -17988,7 +17988,7 @@ namespace Aow.Units.AoWE
                 this.GetOffensiveStrength(null, ref Strength, ref Types);
                 if (Strength != 0)
                 {
-                    A1.Add((AnsiString)"Strength: " + IntToStr(Strength));
+                    A1.Add("Strength: " + IntToStr(Strength));
                 }
             }
         }
@@ -18105,7 +18105,7 @@ namespace Aow.Units.AoWE
             int OldSize;
             int NewSize;
             // { Original assertion accepts every Integer: its bounds predicate uses OR. }
-            Assert(!(Value < 0 && Value >= 134217727), (AnsiString)"Invalid AbCount Value (TArrayList)", "Ability.PAS", 1119);
+            Assert(!(Value < 0 && Value >= 134217727), "Invalid AbCount Value (TArrayList)", "Ability.PAS", 1119);
             OldSize = (int)(((uint)(FAbilityCount + 7)) >> 3);
             NewSize = (int)(((uint)(Value + 7)) >> 3);
             if (NewSize != OldSize)
@@ -18172,18 +18172,18 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1184
-        public AnsiString GetItemString()
+        public string GetItemString()
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 0, last = FAbilityCount - 1; I <= last; I++)
             {
                 if (GetAbSet(I))
                 {
-                    Result = Result + IntToStr(I) + AnsiString.FromBytes(44);
+                    Result = Result + IntToStr(I) + ",";
                 }
             }
 
-            if (Result != (AnsiString)"")
+            if (!IsEmpty(Result))
             {
                 Result = Rtl.Rtl.Copy(Result, 1, Result.Length - 1);
             }
@@ -18192,13 +18192,13 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:1193
-        public void SetItemString(AnsiString S)
+        public void SetItemString(string S)
         {
-            AnsiString Part;
+            string Part;
             int P;
             Clear();
-            P = Pos(AnsiString.FromBytes(44), S);
-            while (S != (AnsiString)"")
+            P = Pos(",", S);
+            while (!IsEmpty(S))
             {
                 if (P != 0)
                 {
@@ -18208,15 +18208,15 @@ namespace Aow.Units.AoWE
                 else
                 {
                     Part = S;
-                    S = (AnsiString)"";
+                    S = "";
                 }
 
-                if (Part != (AnsiString)"")
+                if (!IsEmpty(Part))
                 {
                     SetAbSet(StrToInt(Part), 1);
                 }
 
-                P = Pos(AnsiString.FromBytes(44), S);
+                P = Pos(",", S);
             }
         }
     }
@@ -18370,10 +18370,10 @@ namespace Aow.Units.AoWE
         public virtual int Execute() => 1;
 
         // Ability.PAS:1676
-        public virtual AnsiString GetOwnerName() => (AnsiString)"";
+        public virtual string GetOwnerName() => "";
 
         // Ability.PAS:1927
-        public virtual AnsiString GetAbName(int AbilityID) => AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetName(this);
+        public virtual string GetAbName(int AbilityID) => AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetName(this);
 
         // Ability.PAS:1931
         public virtual sbyte GetAbAttack(int AbilityID) => AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetAttack(this);
@@ -18849,7 +18849,7 @@ namespace Aow.Units.AoWE
         public void ListAbilities(TStrings Text)
         {
             TAbility Ability;
-            AnsiString Name;
+            string Name;
             Text.Clear();
             for (int I = 0, last = FAbilityCount - 1; I <= last; I++)
             {
@@ -18857,7 +18857,7 @@ namespace Aow.Units.AoWE
                 {
                     Ability = AoWE.AoWHSSet.FAbilityControl.GetAbility(I);
                     Name = Ability.GetName(this);
-                    if (Name != (AnsiString)"")
+                    if (!IsEmpty(Name))
                     {
                         Text.AddObject(Name, IntToObject(I));
                     }
@@ -18937,7 +18937,7 @@ namespace Aow.Units.AoWE
             {
                 if (ID < this.FAbilities.Count && this.FAbilities[ID] != null)
                 {
-                    throw Exception.Create((AnsiString)"Ability already registered (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                    throw Exception.Create("Ability already registered (" + IntToStr(ID) + ")");
                 }
 
                 while (ID >= FAbilities.Count)
@@ -18952,7 +18952,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"Invalid AbilityID (" + (AnsiString)ClassNameOf(Ability.GetType()) + AnsiString.FromBytes(41));
+                throw Exception.Create("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
             }
         }
 
@@ -18965,7 +18965,7 @@ namespace Aow.Units.AoWE
             {
                 if (ID < 0 || ID >= FAbilities.Count || FAbilities[ID] != Ability)
                 {
-                    throw Exception.Create((AnsiString)"Cannot Unregister Ability (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                    throw Exception.Create("Cannot Unregister Ability (" + IntToStr(ID) + ")");
                 }
 
                 if (FAbilities.List[ID] != null)
@@ -18979,7 +18979,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"Invalid AbilityID (" + (AnsiString)ClassNameOf(Ability.GetType()) + AnsiString.FromBytes(41));
+                throw Exception.Create("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
             }
         }
 
@@ -19033,8 +19033,8 @@ namespace Aow.Units.AoWE
             for (int I = 0, last = List.Count - 1; I <= last; I++)
             {
                 ((TAbility)List[I]).ListInfo(Text, Mode);
-                Text.Add((AnsiString)"-------------------------------------------------");
-                Text.Add((AnsiString)"");
+                Text.Add("-------------------------------------------------");
+                Text.Add("");
             }
 
             List.Free();
@@ -19052,7 +19052,7 @@ namespace Aow.Units.AoWE
         public TItemGFX(TECustomNode owner) : base(owner)
         {}
 
-        public AnsiString FImageLibraryName;
+        public string FImageLibraryName = "";
         public int FImageIndex;
         public TItemType FItemType;
         public TCustomImageLibrary FImageLibrary;
@@ -19116,7 +19116,7 @@ namespace Aow.Units.AoWE
         public void LinkToIL()
         {
             ReleaseIL();
-            if (FImageLibraryName != (AnsiString)"")
+            if (!IsEmpty(FImageLibraryName))
             {
                 FImageLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
             }
@@ -19131,7 +19131,7 @@ namespace Aow.Units.AoWE
         {
             if (FImageLibrary != null)
             {
-                if (FImageLibraryName != (AnsiString)"")
+                if (!IsEmpty(FImageLibraryName))
                 {
                     AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
                 }
@@ -19141,16 +19141,16 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5126
-        public void SetImageLibraryName(AnsiString Value)
+        public void SetImageLibraryName(string Value)
         {
-            if (FImageLibraryName != (AnsiString)"")
+            if (!IsEmpty(FImageLibraryName))
             {
                 AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
                 FImageLibrary = null;
             }
 
             FImageLibraryName = Value;
-            if (FImageLibraryName != (AnsiString)"" && FRefCount != 0)
+            if (!IsEmpty(FImageLibraryName) && FRefCount != 0)
             {
                 FImageLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
             }
@@ -19305,13 +19305,13 @@ namespace Aow.Units.AoWE
         }
 
         public int FItemID;
-        public AnsiString FOwnerName;
+        public string FOwnerName = "";
         public TSet<TItemStatusElement> FStatus;
         public int FRefCount;
         public int FLibraryID;
-        public AnsiString FLibraryName;
+        public string FLibraryName = "";
         public int FObtainValue;
-        public AnsiString FName;
+        public string FName = "";
         public TItemType FItemType;
         public int FSpellID;
         public TStringList FDescription;
@@ -19449,7 +19449,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4399
-        public override AnsiString GetOwnerName() => FOwnerName;
+        public override string GetOwnerName() => FOwnerName;
 
         // Army.PAS:4402
         public override TSet<TAbilitySelectionType> GetAbilitySelectionTypes()
@@ -19493,7 +19493,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4276
-        public virtual bool CanUse(THero Hero, ref AnsiString Reason)
+        public virtual bool CanUse(THero Hero, ref string Reason)
         {
             bool Result;
             if (FItemType == TItemType.itScroll && FSpellID != 0)
@@ -19522,7 +19522,7 @@ namespace Aow.Units.AoWE
         public virtual bool Use(THero Hero)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TItemTE Event;
             if (CanUse(Hero, ref Reason) && !AoWE.AoWHSMap.FPlayers.GetPlayers(Hero.FPlayer).GetBusy())
             {
@@ -19544,7 +19544,7 @@ namespace Aow.Units.AoWE
         // Army.PAS:4255
         public virtual bool ExecuteUse(THero Hero)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             // { Original reports success even when CanUse rejects the item. }
             bool Result = true;
             if (CanUse(Hero, ref Reason))
@@ -19555,7 +19555,7 @@ namespace Aow.Units.AoWE
                         AoWE.AoWHSMap.FPlayers.GetPlayers(Hero.FPlayer).FMagicControl.ExecuteSpellResearched(FSpellID);
                         if (AoWE.AoWHSMap.FSeatedPlayer == Hero.FPlayer)
                         {
-                            PlaySample((AnsiString)"SFX\\ATTACK\\MAGICB01.WAV");
+                            PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
                             var spell = AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
                             var format = AoWE.Format(AoWE.TranslateRStr(AoWE.ItemSpellResearchedRStr), [spell.FSpellName]);
                             AoWE.AoWHSMap.ShowMessage(format);
@@ -19648,13 +19648,13 @@ namespace Aow.Units.AoWE
         public bool GetLibraryItem() => FLibraryID != -1;
 
         // Army.PAS:4372
-        public AnsiString GetLibraryName()
+        public string GetLibraryName()
         {
-            AnsiString Result = default;
+            string Result = "";
             if (FLibraryID != -1)
             {
                 Result = FLibraryName;
-                if (Result == (AnsiString)"")
+                if (IsEmpty(Result))
                 {
                     Result = AoWE.TranslateRStr(AoWE.ItemSystemLibraryRStr);
                 }
@@ -19989,7 +19989,7 @@ namespace Aow.Units.AoWE
         public TItemLibrary(TECustomNode owner) : base(owner)
         {}
 
-        public AnsiString FName;
+        public string FName = "";
         public int FLastID;
         // Army.PAS:4933
         public override void ReadWrite(TEStorageStream Stream)
@@ -20013,10 +20013,10 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4940
-        public virtual AnsiString GetName()
+        public virtual string GetName()
         {
-            AnsiString Result = FName;
-            if (Result == (AnsiString)"")
+            string Result = FName;
+            if (IsEmpty(Result))
             {
                 Result = AoWE.TranslateRStr(AoWE.SystemItemLibraryRStr);
             }
@@ -20076,13 +20076,13 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:4957
-        public void LoadFromFile(AnsiString FileName)
+        public void LoadFromFile(string FileName)
         {
             AoWE.AoWEngine.ReadFromFile(FileName, this, null);
         }
 
         // Army.PAS:4962
-        public void SaveToFile(AnsiString FileName)
+        public void SaveToFile(string FileName)
         {
             AoWE.AoWEngine.WriteToFile(FileName, this, null);
         }
@@ -20114,7 +20114,7 @@ namespace Aow.Units.AoWE
         // Army.PAS:4981
         public override void ReadWrite(TEStorageStream Stream)
         {
-            AnsiString Directory;
+            string Directory;
             base.ReadWrite(Stream);
             if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smTextOnly, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of())
             {
@@ -20122,11 +20122,11 @@ namespace Aow.Units.AoWE
                 if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
                 {
                     ReadUserLibraries();
-                    AoWE.AoWEngine.ReadFromFile(Directory + (AnsiString)"ITEMS.PFS", FSystemLibrary, null);
+                    AoWE.AoWEngine.ReadFromFile(Directory + "ITEMS.PFS", FSystemLibrary, null);
                 }
                 else
                 {
-                    AoWE.AoWEngine.WriteToFile(Directory + (AnsiString)"ITEMS.PFS", FSystemLibrary, null);
+                    AoWE.AoWEngine.WriteToFile(Directory + "ITEMS.PFS", FSystemLibrary, null);
                     WriteUserLibraries();
                 }
             }
@@ -20150,13 +20150,13 @@ namespace Aow.Units.AoWE
             bool Found;
             FLibraries.Clear();
             FLibraries.AddChild(FSystemLibrary);
-            Found = FindFirst(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + AnsiString.FromBytes(42) + (AnsiString)".ail", 63 & ~16, ref Search) == 0;
+            Found = FindFirst(AoWE.AoWEngine.StartupDirectory + "User\\" + "*" + ".ail", 63 & ~16, ref Search) == 0;
             while (Found)
             {
                 ItemLibrary = new TItemLibrary(null);
                 try
                 {
-                    ItemLibrary.LoadFromFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + Search.Name);
+                    ItemLibrary.LoadFromFile(AoWE.AoWEngine.StartupDirectory + "User\\" + Search.Name);
                     ItemLibrary.SetOwner(FLibraries);
                 }
                 catch (System.Exception)
@@ -20178,12 +20178,12 @@ namespace Aow.Units.AoWE
             {
                 ItemLibrary = GetLibrary(I);
                 var name = ItemLibrary.GetName();
-                ItemLibrary.SaveToFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + name + (AnsiString)".ail");
+                ItemLibrary.SaveToFile(AoWE.AoWEngine.StartupDirectory + "User\\" + name + ".ail");
             }
         }
 
         // Army.PAS:5043
-        public int IndexOfLibraryName(AnsiString Name)
+        public int IndexOfLibraryName(string Name)
         {
             int Result = FLibraries.Count;
             while (Result != 0)
@@ -20202,7 +20202,7 @@ namespace Aow.Units.AoWE
         public int IndexOfLibrary(TItemLibrary ItemLibrary) => FLibraries.FChildren.IndexOf(ItemLibrary);
 
         // Army.PAS:5059
-        public TItem FindItem(AnsiString LibraryName, int LibraryID)
+        public TItem FindItem(string LibraryName, int LibraryID)
         {
             TItem Result;
             int Index;
@@ -20220,23 +20220,23 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5068
-        public TItemLibrary CreateLibrary(AnsiString Name)
+        public TItemLibrary CreateLibrary(string Name)
         {
             TItemLibrary Result;
-            AnsiString LibraryName;
+            string LibraryName;
             LibraryName = Name;
             // { Original retains the period when stripping the extension. }
-            if (Pos(AnsiString.FromBytes(46), LibraryName) != 0)
+            if (Pos(".", LibraryName) != 0)
             {
-                LibraryName = Rtl.Rtl.Copy(LibraryName, 1, Pos(AnsiString.FromBytes(46), LibraryName));
+                LibraryName = Rtl.Rtl.Copy(LibraryName, 1, Pos(".", LibraryName));
             }
 
-            if (LibraryName != (AnsiString)"" && IndexOfLibraryName(LibraryName) == -1)
+            if (!IsEmpty(LibraryName) && IndexOfLibraryName(LibraryName) == -1)
             {
                 Result = new TItemLibrary(FLibraries);
                 Result.FName = LibraryName;
                 // { Original creates in Release while reading and deleting from User. }
-                Result.SaveToFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"Release\\" + LibraryName + (AnsiString)".ail");
+                Result.SaveToFile(AoWE.AoWEngine.StartupDirectory + "Release\\" + LibraryName + ".ail");
             }
             else
             {
@@ -20252,7 +20252,7 @@ namespace Aow.Units.AoWE
             if (Index < FLibraries.Count && Index > 0)
             {
                 var name = GetLibrary(Index).GetName();
-                DeleteFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + name + (AnsiString)".ail");
+                DeleteFile(AoWE.AoWEngine.StartupDirectory + "User\\" + name + ".ail");
                 GetLibrary(Index).Free();
             }
         }
@@ -20732,7 +20732,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5255
-        public override AnsiString EditName() => AoWE.TranslateRStr(AoWE.ItemBagRStr);
+        public override string EditName() => AoWE.TranslateRStr(AoWE.ItemBagRStr);
 
         // Army.PAS:5297
         public override bool CanPlace(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.CanPlace(Map, Xhx, Yhx, Lhx);
@@ -20793,7 +20793,7 @@ namespace Aow.Units.AoWE
         public TFaceResource(TECustomNode owner) : base(owner)
         {}
 
-        public AnsiString FImageLibraryName;
+        public string FImageLibraryName = "";
         public int FImageIndex;
         public TCustomImageLibrary FImageLibrary;
         public int FReferences;
@@ -20854,7 +20854,7 @@ namespace Aow.Units.AoWE
         public void LinkToIL()
         {
             ReleaseIL();
-            if (FImageLibraryName != (AnsiString)"")
+            if (!IsEmpty(FImageLibraryName))
             {
                 FImageLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
             }
@@ -20869,7 +20869,7 @@ namespace Aow.Units.AoWE
         {
             if (FImageLibrary != null)
             {
-                if (FImageLibraryName != (AnsiString)"")
+                if (!IsEmpty(FImageLibraryName))
                 {
                     AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
                 }
@@ -20879,9 +20879,9 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:469
-        public void SetImageLibraryName(AnsiString Value)
+        public void SetImageLibraryName(string Value)
         {
-            if (FImageLibraryName != (AnsiString)"")
+            if (!IsEmpty(FImageLibraryName))
             {
                 // { Original releases the old name even when this resource has no references. }
                 AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
@@ -20889,7 +20889,7 @@ namespace Aow.Units.AoWE
             }
 
             FImageLibraryName = Value;
-            if (FImageLibraryName != (AnsiString)"" && FReferences != 0)
+            if (!IsEmpty(FImageLibraryName) && FReferences != 0)
             {
                 FImageLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
             }
@@ -21100,7 +21100,7 @@ namespace Aow.Units.AoWE
                             {
                                 try
                                 {
-                                    throw Exception.Create((AnsiString)"UnitID Failure");
+                                    throw Exception.Create("UnitID Failure");
                                 }
                                 catch (System.Exception)
                                 {
@@ -21289,7 +21289,7 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:590
-        public override AnsiString GetOwnerName() => AoWE.TranslateRStr(AoWE.P2InherentRStr);
+        public override string GetOwnerName() => AoWE.TranslateRStr(AoWE.P2InherentRStr);
 
         // Unit.PAS:171
         public override TSet<TAbilitySelectionType> GetAbilitySelectionTypes() => AoWE.TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes;
@@ -21414,7 +21414,7 @@ namespace Aow.Units.AoWE
         public virtual ImageLib.TLibraryImage GetFace() => null;
 
         // Unit.PAS:981
-        public virtual AnsiString GetName() => (AnsiString)"";
+        public virtual string GetName() => "";
 
         // Unit.PAS:787
         public virtual TAlignment GetAlignment() => TAlignment.alNeutral;
@@ -21561,7 +21561,7 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:574
-        public virtual AnsiString GetAbilityName(int AbilityID) => AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetName(this);
+        public virtual string GetAbilityName(int AbilityID) => AoWE.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetName(this);
 
         // Unit.PAS:582
         public virtual TAbilityOwner GetAbilityOwner(int AbilityID)
@@ -21815,7 +21815,7 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1890
-        public virtual bool CanDisband(ref AnsiString Reason)
+        public virtual bool CanDisband(ref string Reason)
         {
             bool Result = AoWE.AoWHSMap.FSeatedPlayer == FPlayer;
             if (Result && GetTransporter() && Owner is TArmy)
@@ -23468,7 +23468,7 @@ namespace Aow.Units.AoWE
         public bool Disband()
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TDisbandUnitTE Event;
             if (CanDisband(ref Reason) && !AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
@@ -23583,7 +23583,7 @@ namespace Aow.Units.AoWE
         }
 
         // UnitRes.PAS:62
-        public override AnsiString ResourceEditName() => (AnsiString)"Unit";
+        public override string ResourceEditName() => "Unit";
 
     }
 
@@ -23616,10 +23616,10 @@ namespace Aow.Units.AoWE
             FBloodType = TBloodType.btRed;
         }
 
-        public AnsiString FName;
+        public string FName = "";
         public sbyte FRace;
         public bool FChampion;
-        public AnsiString FNickname;
+        public string FNickname = "";
         public TAlignment FAlignment;
         public sbyte FAttack;
         public sbyte FDefense;
@@ -23758,12 +23758,12 @@ namespace Aow.Units.AoWE
         public int UnitResourceIndex() => Owner.FindChildIndex(this);
 
         // UnitRes.PAS:149
-        public AnsiString GetUnitName()
+        public string GetUnitName()
         {
-            AnsiString Result = FName;
-            if (FNickname != (AnsiString)"")
+            string Result = FName;
+            if (!IsEmpty(FNickname))
             {
-                Result = Result + AnsiString.FromBytes(32) + FNickname;
+                Result = Result + " " + FNickname;
             }
 
             return Result;
@@ -23841,7 +23841,7 @@ namespace Aow.Units.AoWE
                         FUnitResource = Resource;
                         if (Resource == null)
                         {
-                            throw Exception.Create((AnsiString)"unit resource missing (" + IntToStr(ResourceIndex) + AnsiString.FromBytes(41));
+                            throw Exception.Create("unit resource missing (" + IntToStr(ResourceIndex) + ")");
                         }
                     }
                     else
@@ -24049,7 +24049,7 @@ namespace Aow.Units.AoWE
         }
 
         // Unit.PAS:1917
-        public override AnsiString GetName() => FUnitResource.GetUnitName();
+        public override string GetName() => FUnitResource.GetUnitName();
 
         // Unit.PAS:1932
         public override TAlignment GetAlignment()
@@ -24668,7 +24668,7 @@ namespace Aow.Units.AoWE
                 {
                     if (ShowErrors)
                     {
-                        ShowMessage((AnsiString)"Used unit missing (unit index:" + IntToStr(U) + AnsiString.FromBytes(41));
+                        ShowMessage("Used unit missing (unit index:" + IntToStr(U) + ")");
                     }
 
                     List[I] = Default;
@@ -24679,7 +24679,7 @@ namespace Aow.Units.AoWE
         // UnitRes.PAS:245
         public void SetUnitIndex(int Index, int Value)
         {
-            Assert(Index >= 0, (AnsiString)"List index out of bounds (TUnitIndexList)", "UnitRes.PAS", 250);
+            Assert(Index >= 0, "List index out of bounds (TUnitIndexList)", "UnitRes.PAS", 250);
             if (Index >= Count)
             {
                 Count = Index + 1;
@@ -25143,7 +25143,7 @@ namespace Aow.Units.AoWE
             Clear();
             if (FShowAllCategory && (FAllUnits.Count != 0 || FShowEmptyCategories))
             {
-                AddObject((AnsiString)"All", IntToObject(-16));
+                AddObject("All", IntToObject(-16));
             }
 
             if (FShowTypeCategories)
@@ -25186,7 +25186,7 @@ namespace Aow.Units.AoWE
 
         public int FReferences;
         public sbyte FPlayer;
-        public AnsiString FCaption;
+        public string FCaption = "";
         public TUnitUserList FUnits;
         public byte FSelection;
         public bool FCanceled;
@@ -25233,7 +25233,7 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:623
-        public virtual bool CanSelect(ref AnsiString Error)
+        public virtual bool CanSelect(ref string Error)
         {
             bool Result;
             if (FSelection == 0)
@@ -25936,7 +25936,7 @@ namespace Aow.Units.AoWE
 
         public THero FHero;
         // Hero.PAS:587
-        public override AnsiString Name() => FHero.FHeroName;
+        public override string Name() => FHero.FHeroName;
 
         // Hero.PAS:592
         public override int Power() => FHero.GetPowerGeneration();
@@ -25992,9 +25992,9 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:66
-        public override AnsiString GetText()
+        public override string GetText()
         {
-            AnsiString Result = default;
+            string Result = "";
             THero Hero;
             Hero = (THero)AoWE.AoWHSMap.FUnitControl.FindUnit(FUnitID);
             if (Hero != null)
@@ -26108,7 +26108,7 @@ namespace Aow.Units.AoWE
         public TStringList FJoinMessage;
         public int FGold;
         public TJoinMode FJoinMode;
-        public AnsiString FText;
+        public string FText = "";
         // Diplomacy.pas:12
         public override void Destroy()
         {
@@ -26171,7 +26171,7 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:93
-        public virtual bool Accept(ref AnsiString ErrorText)
+        public virtual bool Accept(ref string ErrorText)
         {
             bool Result;
             if (AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer).FGems >= FGold)
@@ -26191,7 +26191,7 @@ namespace Aow.Units.AoWE
         public virtual bool Cancel() => true;
 
         // Diplomacy.pas:110
-        public virtual bool Reject(ref AnsiString ErrorText) => true;
+        public virtual bool Reject(ref string ErrorText) => true;
 
         // Diplomacy.pas:33
         public void SetupJoinArmy(TArmy Army, sbyte Player, TJoinMode JoinMode)
@@ -26262,7 +26262,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:148
-        public override bool Accept(ref AnsiString ErrorText)
+        public override bool Accept(ref string ErrorText)
         {
             TNegotiateTE TE;
             TAbstractUnit U;
@@ -26294,7 +26294,7 @@ namespace Aow.Units.AoWE
         public bool ExecuteAI()
         {
             THero Hero;
-            AnsiString ErrorText = default;
+            string ErrorText = "";
             bool Result = false;
             Hero = (THero)AoWE.AoWHSMap.FUnitControl.FindUnit(FFirstUnitID);
             if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
@@ -26327,9 +26327,9 @@ namespace Aow.Units.AoWE
 
         public int FUnitID;
         public new int FDay;
-        public AnsiString FText;
+        public string FText = "";
         public THeroJoinMode FMode;
-        public AnsiString FLocationName;
+        public string FLocationName = "";
         // Hero.PAS:188
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -26342,7 +26342,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:198
-        public override AnsiString GetText() => FText;
+        public override string GetText() => FText;
 
         // Hero.PAS:254
         public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
@@ -26400,15 +26400,15 @@ namespace Aow.Units.AoWE
         // Hero.PAS:175
         public void Setup(THero Hero, sbyte Player, THeroJoinMode Mode)
         {
-            AnsiString Name;
+            string Name;
             FPlayer = Player;
             FUnitID = Hero.FUnitID;
             FDay = AoWE.AoWHSMap.FDay;
             FMode = Mode;
             Name = Hero.FHeroName;
-            if (Hero.GetNickname() != (AnsiString)"")
+            if (!IsEmpty(Hero.GetNickname()))
             {
-                _ = Name + AnsiString.FromBytes(32) + Hero.GetNickname();
+                _ = Name + " " + Hero.GetNickname();
             }
 
             // { Original builds Name but formats the message from FHeroName instead. }
@@ -26489,8 +26489,8 @@ namespace Aow.Units.AoWE
         public int FDeathDay;
         public sbyte FDeathPlayer;
         public TSet<THeroModeElement> FMode;
-        public AnsiString FHeroName;
-        public AnsiString FNickname;
+        public string FHeroName = "";
+        public string FNickname = "";
         public sbyte FRace;
         public TUnitGender FGender;
         public sbyte FUnitAttack;
@@ -26510,7 +26510,7 @@ namespace Aow.Units.AoWE
         public int FCastingMana;
         public int FCastingProgress;
         public int FLibraryID;
-        public AnsiString FLibraryName;
+        public string FLibraryName = "";
         public bool FRegistered;
         // Hero.PAS:631
         public override void Destroy()
@@ -26931,7 +26931,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:821
-        public override AnsiString GetName() => FHeroName;
+        public override string GetName() => FHeroName;
 
         // Hero.PAS:862
         public override TAlignment GetAlignment()
@@ -27110,7 +27110,7 @@ namespace Aow.Units.AoWE
         public override bool GetAbilitySet(int AbilityID) => base.GetAbilitySet(AbilityID) || FHeroItems.GetAbilitySet(AbilityID) || FInventory.GetAbilitySet(AbilityID);
 
         // Hero.PAS:1410
-        public override AnsiString GetAbilityName(int AbilityID)
+        public override string GetAbilityName(int AbilityID)
         {
             TAbilityOwner AOwner;
             AOwner = GetSuperlativeAbOwner(AbilityID);
@@ -27455,10 +27455,10 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:691
-        public virtual AnsiString GetNickname() => FNickname;
+        public virtual string GetNickname() => FNickname;
 
         // Hero.PAS:694
-        public virtual void SetNickname(AnsiString Value)
+        public virtual void SetNickname(string Value)
         {
             FNickname = Value;
         }
@@ -27519,10 +27519,10 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:650
-        public AnsiString GetLibraryName()
+        public string GetLibraryName()
         {
-            AnsiString Result = FLibraryName;
-            if (Result == (AnsiString)"")
+            string Result = FLibraryName;
+            if (IsEmpty(Result))
             {
                 Result = AoWE.TranslateRStr(AoWE.SystemRStr);
             }
@@ -28309,7 +28309,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:1722
-        public bool CanUseItem(int ItemID, ref AnsiString Reason)
+        public bool CanUseItem(int ItemID, ref string Reason)
         {
             bool Result;
             TItem Item;
@@ -28321,7 +28321,7 @@ namespace Aow.Units.AoWE
             else
             {
                 Result = false;
-                Reason = (AnsiString)"";
+                Reason = "";
             }
 
             return Result;
@@ -28664,7 +28664,7 @@ namespace Aow.Units.AoWE
         {
             if (SpellID == FCastingSpellID)
             {
-                Assert(CastingReady(), (AnsiString)"", "Hero.PAS", 2080);
+                Assert(CastingReady(), "", "Hero.PAS", 2080);
                 FCastingMana = 0;
                 FCastingProgress = 0;
                 FCastingSpellID = 0;
@@ -28763,7 +28763,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2136
-        public bool CanCastSpellInstantly(int SpellID, int Mana, ref AnsiString Reason)
+        public bool CanCastSpellInstantly(int SpellID, int Mana, ref string Reason)
         {
             bool Result;
             if (!AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
@@ -28787,7 +28787,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2149
-        public bool CanCastSpell(int SpellID, ref AnsiString Reason)
+        public bool CanCastSpell(int SpellID, ref string Reason)
         {
             bool Result;
             TSpell Spell;
@@ -28820,7 +28820,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2176
-        public bool CastSpell(int SpellID, ref AnsiString Reason)
+        public bool CastSpell(int SpellID, ref string Reason)
         {
             bool Result;
             TSpell Spell;
@@ -28883,7 +28883,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2220
-        public bool CanCastCombatSpell(int SpellID, ref AnsiString Reason)
+        public bool CanCastCombatSpell(int SpellID, ref string Reason)
         {
             bool Result;
             TSpell Spell;
@@ -28920,7 +28920,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2252
-        public bool CastCombatSpell(int SpellID, ref AnsiString Reason)
+        public bool CastCombatSpell(int SpellID, ref string Reason)
         {
             bool Result;
             TSpell Spell;
@@ -29108,7 +29108,7 @@ namespace Aow.Units.AoWE
                     {
                         try
                         {
-                            throw Exception.Create((AnsiString)"Double leader used");
+                            throw Exception.Create("Double leader used");
                         }
                         catch (System.Exception)
                         {
@@ -29138,7 +29138,7 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2972
-        public override bool CanDisband(ref AnsiString Reason) => false;
+        public override bool CanDisband(ref string Reason) => false;
 
         // Hero.PAS:2915
         public override void Killed()
@@ -29152,14 +29152,14 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2787
-        public override AnsiString GetNickname()
+        public override string GetNickname()
         {
-            AnsiString Result;
+            string Result;
             if (AoWE.AoWHSMap != null)
             {
                 if (AoWE.AoWHSMap.FGameType != TGameType.gtCampaign)
                 {
-                    Result = (AnsiString)"";
+                    Result = "";
                 }
                 else
                 {
@@ -29168,14 +29168,14 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
         }
 
         // Hero.PAS:2795
-        public override void SetNickname(AnsiString Value)
+        public override void SetNickname(string Value)
         {
             if (AoWE.AoWHSMap != null && AoWE.AoWHSMap.FGameType == TGameType.gtCampaign)
             {
@@ -29564,7 +29564,7 @@ namespace Aow.Units.AoWE
         public int IndexOf(THero Hero) => FHeroes.FChildren.IndexOf(Hero);
 
         // Hero.PAS:2470
-        public int IndexOfLibraryEx(AnsiString LibraryName, int LibraryID)
+        public int IndexOfLibraryEx(string LibraryName, int LibraryID)
         {
             THero Hero;
             int Result = FHeroes.GetCount();
@@ -29739,7 +29739,7 @@ namespace Aow.Units.AoWE
         public THeroLibrary(TECustomNode owner) : base(owner)
         {}
 
-        public AnsiString FLibraryName;
+        public string FLibraryName = "";
         public int FNextLibraryID;
         // Hero.PAS:2639
         public override void ReadWrite(TEStorageStream Stream)
@@ -29762,7 +29762,7 @@ namespace Aow.Units.AoWE
             FChildren.Add(Child);
             if (Child.AddRef() == -1)
             {
-                throw Exception.Create((AnsiString)"EObject doesn't support ReferenceCounting");
+                throw Exception.Create("EObject doesn't support ReferenceCounting");
             }
 
             return FChildren.Count - 1;
@@ -29804,10 +29804,10 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2614
-        public AnsiString GetName()
+        public string GetName()
         {
-            AnsiString Result = FLibraryName;
-            if (Result == (AnsiString)"")
+            string Result = FLibraryName;
+            if (IsEmpty(Result))
             {
                 Result = AoWE.TranslateRStr(AoWE.SystemRStr);
             }
@@ -29833,13 +29833,13 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2633
-        public void LoadFromFile(AnsiString FileName)
+        public void LoadFromFile(string FileName)
         {
             AoWE.AoWEngine.ReadFromFile(FileName, this, null);
         }
 
         // Hero.PAS:2636
-        public void SaveToFile(AnsiString FileName)
+        public void SaveToFile(string FileName)
         {
             AoWE.AoWEngine.WriteToFile(FileName, this, null);
         }
@@ -29871,7 +29871,7 @@ namespace Aow.Units.AoWE
         // Hero.PAS:2656
         public override void ReadWrite(TEStorageStream Stream)
         {
-            AnsiString Directory;
+            string Directory;
             base.ReadWrite(Stream);
             if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smTextOnly, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of())
             {
@@ -29879,11 +29879,11 @@ namespace Aow.Units.AoWE
                 if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
                 {
                     ReadUserLibraries();
-                    AoWE.AoWEngine.ReadFromFile(Directory + (AnsiString)"Heroes.PFS", FSystemLibrary, null);
+                    AoWE.AoWEngine.ReadFromFile(Directory + "Heroes.PFS", FSystemLibrary, null);
                 }
                 else
                 {
-                    AoWE.AoWEngine.WriteToFile(Directory + (AnsiString)"Heroes.PFS", FSystemLibrary, null);
+                    AoWE.AoWEngine.WriteToFile(Directory + "Heroes.PFS", FSystemLibrary, null);
                     WriteUserLibraries();
                 }
             }
@@ -29907,13 +29907,13 @@ namespace Aow.Units.AoWE
             bool Found;
             FLibraries.Clear();
             FLibraries.AddChild(FSystemLibrary);
-            Found = FindFirst(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + AnsiString.FromBytes(42) + (AnsiString)".ahl", 63 - 16, ref Search) == 0;
+            Found = FindFirst(AoWE.AoWEngine.StartupDirectory + "User\\" + "*" + ".ahl", 63 - 16, ref Search) == 0;
             while (Found)
             {
                 Lib = new THeroLibrary(null);
                 try
                 {
-                    Lib.LoadFromFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + Search.Name);
+                    Lib.LoadFromFile(AoWE.AoWEngine.StartupDirectory + "User\\" + Search.Name);
                     Lib.SetOwner(FLibraries);
                 }
                 catch (System.Exception)
@@ -29935,12 +29935,12 @@ namespace Aow.Units.AoWE
             {
                 Lib = GetLibrary(I);
                 var name = Lib.GetName();
-                Lib.SaveToFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + name + (AnsiString)".ahl");
+                Lib.SaveToFile(AoWE.AoWEngine.StartupDirectory + "User\\" + name + ".ahl");
             }
         }
 
         // Hero.PAS:2713
-        public int IndexOfLibraryName(AnsiString Name)
+        public int IndexOfLibraryName(string Name)
         {
             int Result = FLibraries.GetCount();
             while (Result != 0)
@@ -29959,7 +29959,7 @@ namespace Aow.Units.AoWE
         public int IndexOfLibrary(THeroLibrary Lib) => FLibraries.FChildren.IndexOf(Lib);
 
         // Hero.PAS:2727
-        public THero FindHero(AnsiString LibraryName, int LibraryID)
+        public THero FindHero(string LibraryName, int LibraryID)
         {
             THero Result;
             int Index;
@@ -29977,22 +29977,22 @@ namespace Aow.Units.AoWE
         }
 
         // Hero.PAS:2735
-        public THeroLibrary CreateLibrary(AnsiString Name)
+        public THeroLibrary CreateLibrary(string Name)
         {
             THeroLibrary Result;
-            AnsiString LibraryName;
+            string LibraryName;
             LibraryName = Name;
             // { Original retains the period when stripping the extension. }
-            if (Pos(AnsiString.FromBytes(46), LibraryName) != 0)
+            if (Pos(".", LibraryName) != 0)
             {
-                LibraryName = Rtl.Rtl.Copy(LibraryName, 1, Pos(AnsiString.FromBytes(46), LibraryName));
+                LibraryName = Rtl.Rtl.Copy(LibraryName, 1, Pos(".", LibraryName));
             }
 
-            if (LibraryName != (AnsiString)"" && IndexOfLibraryName(LibraryName) == -1)
+            if (!IsEmpty(LibraryName) && IndexOfLibraryName(LibraryName) == -1)
             {
                 Result = new THeroLibrary(FLibraries);
                 Result.FLibraryName = LibraryName;
-                Result.SaveToFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"Release\\" + LibraryName + (AnsiString)".ahl");
+                Result.SaveToFile(AoWE.AoWEngine.StartupDirectory + "Release\\" + LibraryName + ".ahl");
             }
             else
             {
@@ -30008,7 +30008,7 @@ namespace Aow.Units.AoWE
             if (Index < FLibraries.GetCount() && Index > 0)
             {
                 var name = GetLibrary(Index).GetName();
-                DeleteFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"User\\" + name + (AnsiString)".ahl");
+                DeleteFile(AoWE.AoWEngine.StartupDirectory + "User\\" + name + ".ahl");
                 GetLibrary(Index).Free();
             }
         }
@@ -30034,7 +30034,7 @@ namespace Aow.Units.AoWE
             FResistance = 2;
         }
 
-        public AnsiString FName;
+        public string FName = "";
         public sbyte FRace;
         public THeroType FHeroType;
         public TAlignment FAlignment;
@@ -30296,9 +30296,9 @@ namespace Aow.Units.AoWE
         public override TSet<TDamageType> GetImmunityTypes() => AoWE.TWallUnit_GetImmunityTypes__AllDamageTypes - AoWE.TWallUnit_GetImmunityTypes__WallDamageTypes;
 
         // Unit.PAS:2522
-        public override AnsiString GetName()
+        public override string GetName()
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (FWallType)
             {
                 case TWallType.wtWood:
@@ -31542,7 +31542,7 @@ namespace Aow.Units.AoWE
             int Level;
             int UnitLevel;
             TAbstractUnit AUnit;
-            AnsiString SourceName = default;
+            string SourceName = "";
             Level = 0;
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
@@ -31618,7 +31618,7 @@ namespace Aow.Units.AoWE
         public void Activate()
         {
             TAbstractUnit AUnit;
-            Assert(!FStatus.Contains(TArmyStatusElement.asActivated), (AnsiString)"Army already activated", "Army.PAS", 1171);
+            Assert(!FStatus.Contains(TArmyStatusElement.asActivated), "Army already activated", "Army.PAS", 1171);
             if (FOldAIBehavior == TGroupBehavior.gbNone)
             {
                 FOldAIBehavior = GetOldAIBehavior();
@@ -33481,7 +33481,7 @@ namespace Aow.Units.AoWE
                         Log = new TArmyInfoEventLog(null);
                         Log.FArmyView.Setup(this, Selection);
                         Log.FSelection = 255;
-                        Log.FDescription = (AnsiString)"";
+                        Log.FDescription = "";
                         Log.FTitle = AoWE.TranslateRStr(AoWE.P2PartyJoinRStr);
                         Log.FTriggers = TSet<TExecuteTrigger>.Of(TExecuteTrigger.etUser);
                         AHero = Hero(Selection, TSet<THeroType>.Of(THeroType.htHero));
@@ -34546,7 +34546,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:2679
-        public override AnsiString EditName() => AoWE.TranslateRStr(AoWE.P2ArmyRStr);
+        public override string EditName() => AoWE.TranslateRStr(AoWE.P2ArmyRStr);
 
         // Army.PAS:3140
         public override bool MoveTo(TMapField Field, int MoveCost)
@@ -34815,7 +34815,7 @@ namespace Aow.Units.AoWE
                 FUnitYOffset = 0;
             }
 
-            Assert(FUnitGFXResource != null, (AnsiString)"", "Army.PAS", 3027);
+            Assert(FUnitGFXResource != null, "", "Army.PAS", 3027);
         }
 
         // Army.PAS:3200
@@ -34916,7 +34916,7 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131608;
 
         public TArmyView FArmyView;
-        public AnsiString FArmyText;
+        public string FArmyText = "";
         public TStrings FArmyMessages;
         public int FArmyIcon;
         public TByteList FDamageValues;
@@ -34946,7 +34946,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:184
-        public override AnsiString GetText() => FArmyText;
+        public override string GetText() => FArmyText;
 
         // Army.PAS:174
         public override int GetLeftIcon()
@@ -35068,9 +35068,9 @@ namespace Aow.Units.AoWE
         public TArmyView FArmyView;
         public byte FSelection;
         public TStrings FMessages;
-        public AnsiString FTitle;
-        public AnsiString FText;
-        public AnsiString FDescription;
+        public string FTitle = "";
+        public string FText = "";
+        public string FDescription = "";
         public TSet<TExecuteTrigger> FTriggers;
         // Army.PAS:263
         public override void Destroy()
@@ -35093,7 +35093,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:287
-        public override AnsiString GetText() => FText;
+        public override string GetText() => FText;
 
         // Army.PAS:297
         public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
@@ -35123,7 +35123,7 @@ namespace Aow.Units.AoWE
                         }
                         else
                         {
-                            PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
+                            PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
                         }
 
                         break;
@@ -35169,10 +35169,10 @@ namespace Aow.Units.AoWE
 
         public TCustomImageLibrary FFaceLibrary;
         public TCustomImageLibrary FImageLibrary;
-        public AnsiString FImageLibraryName;
-        public AnsiString FName;
-        public AnsiString FRaceName;
-        public AnsiString FDescription;
+        public string FImageLibraryName = "";
+        public string FName = "";
+        public string FRaceName = "";
+        public string FDescription = "";
         public TSet<TAlignment> FAlignments;
         public int FReferences;
         public TUnitIndexList FUnitIndexes;
@@ -35298,12 +35298,12 @@ namespace Aow.Units.AoWE
         {
             if (FImageLibrary == null)
             {
-                if (FImageLibraryName != (AnsiString)"")
+                if (!IsEmpty(FImageLibraryName))
                 {
                     FImageLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
                 }
 
-                FFaceLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"FACES\\R_FACES.ILB");
+                FFaceLibrary = AoWE.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "FACES\\R_FACES.ILB");
             }
         }
 
@@ -35313,19 +35313,19 @@ namespace Aow.Units.AoWE
             // { Original leaves the face library linked when the city library is nil. }
             if (FImageLibrary != null)
             {
-                if (FImageLibraryName != (AnsiString)"")
+                if (!IsEmpty(FImageLibraryName))
                 {
                     AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
                 }
 
-                AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"FACES\\R_FACES.ILB");
+                AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "FACES\\R_FACES.ILB");
                 FFaceLibrary = null;
                 FImageLibrary = null;
             }
         }
 
         // PlayerC.PAS:1788
-        public void SetImageLibraryName(AnsiString Value)
+        public void SetImageLibraryName(string Value)
         {
             if (Value != FImageLibraryName)
             {
@@ -35433,7 +35433,7 @@ namespace Aow.Units.AoWE
         // intf_P1_09.inc:24
 
         // PlayerC.PAS:1815
-        public override AnsiString ResourceEditName() => (AnsiString)"Race";
+        public override string ResourceEditName() => "Race";
 
     }
 
@@ -36106,7 +36106,7 @@ namespace Aow.Units.AoWE
         public virtual TStrings GetDescription() => ((TStructureResource)FResource).FDescription;
 
         // Structur.PAS:1164
-        public virtual AnsiString GetName() => EditName();
+        public virtual string GetName() => EditName();
 
         // Structur.PAS:1346
         public virtual void SetRazed(bool Value)
@@ -36123,7 +36123,7 @@ namespace Aow.Units.AoWE
         public virtual bool RazeEx(sbyte Player)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TStructureTE Event;
             if (CanRaze(Player, ref Reason) && !AoWE.AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
             {
@@ -36266,7 +36266,7 @@ namespace Aow.Units.AoWE
         // Structur.PAS:1200
         public virtual void PlaySelectSample()
         {
-            if (!GetRazed() && ((TStructureResource)FResource).FSelectSFX != (AnsiString)"")
+            if (!GetRazed() && !IsEmpty(((TStructureResource)FResource).FSelectSFX))
             {
                 PlaySample(((TStructureResource)FResource).FSelectSFX);
             }
@@ -36345,7 +36345,7 @@ namespace Aow.Units.AoWE
             bool Result;
             int Time = default;
             int Cost = default;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanRebuild(AUnit, ref Reason))
             {
                 GetRebuildInfo(ref Cost, ref Time);
@@ -36447,7 +36447,7 @@ namespace Aow.Units.AoWE
         public virtual bool ExecuteRaze(sbyte Player)
         {
             bool Result = default;
-            AnsiString Reason = default;
+            string Reason = "";
             TLocationTextEventLog Log = default;
             TImageSequenceAnimation Animation = default;
             if (CanRaze(Player, ref Reason))
@@ -36506,7 +36506,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1169
-        public virtual AnsiString GetCurrentActivityText() => AnsiString.FromBytes(45);
+        public virtual string GetCurrentActivityText() => "-";
 
         // Structur.PAS:1564
         public virtual bool ValidateMap(TStrings Messages) => true;
@@ -36523,10 +36523,10 @@ namespace Aow.Units.AoWE
                 var xhx = GetXhx();
                 var yhx = GetYhx();
                 var lhx = GetLhx();
-                Messages.Add(AoWE.Format(AoWE.TranslateRStr(AoWE.XatLocationYRStr), [editName, AnsiString.FromBytes(40) + IntToStr(xhx) + (AnsiString)", " + IntToStr(yhx) + (AnsiString)", " + IntToStr(lhx) + AnsiString.FromBytes(41)]));
+                Messages.Add(AoWE.Format(AoWE.TranslateRStr(AoWE.XatLocationYRStr), [editName, "(" + IntToStr(xhx) + ", " + IntToStr(yhx) + ", " + IntToStr(lhx) + ")"]));
                 for (int I = 0, last = Errors.Count - 1; I <= last; I++)
                 {
-                    Messages.Add((AnsiString)"  " + Errors[I]);
+                    Messages.Add("  " + Errors[I]);
                 }
             }
 
@@ -36648,7 +36648,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1439
-        public virtual bool CanRebuild(TAbstractUnit AUnit, ref AnsiString Reason)
+        public virtual bool CanRebuild(TAbstractUnit AUnit, ref string Reason)
         {
             bool Result;
             int Cost = default;
@@ -36685,7 +36685,7 @@ namespace Aow.Units.AoWE
         public virtual bool Rebuild(TAbstractUnit AUnit)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TStructureTE Event;
             if (CanRebuild(AUnit, ref Reason) && !AoWE.AoWHSMap.FPlayers.GetPlayers(AUnit.FPlayer).GetBusy())
             {
@@ -36709,7 +36709,7 @@ namespace Aow.Units.AoWE
         public virtual bool Raze(sbyte Player)
         {
             bool Result = default;
-            AnsiString Reason = default;
+            string Reason = "";
             TRazeStructureEventLog Log;
             if (CanRaze(Player, ref Reason) && !AoWE.AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
             {
@@ -36741,7 +36741,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:1708
-        public virtual bool CanRaze(sbyte Player, ref AnsiString Reason)
+        public virtual bool CanRaze(sbyte Player, ref string Reason)
         {
             bool Result;
             TCombatPredictor Predictor;
@@ -37087,7 +37087,7 @@ namespace Aow.Units.AoWE
         // Structur.PAS:3281
         public void Register(TStructure Structure)
         {
-            Assert(FStructures.FChildren.IndexOf(Structure) == -1, (AnsiString)"", "Structur.PAS", 3299);
+            Assert(FStructures.FChildren.IndexOf(Structure) == -1, "", "Structur.PAS", 3299);
             if (Structure.FStructureID == 0 || IndexOfID(Structure.FStructureID) != -1)
             {
                 Structure.FStructureID = CreateUniqueID();
@@ -37140,7 +37140,7 @@ namespace Aow.Units.AoWE
         public bool FTerrainBound;
         public bool FConnectRoads;
         public byte FFlagType;
-        public AnsiString FSelectSFX;
+        public string FSelectSFX = "";
         public bool FSelectSFXLooped;
         public TStrings FDescription;
         public int FScannerIcon;
@@ -37250,7 +37250,7 @@ namespace Aow.Units.AoWE
 
 
         // Structur.PAS:1914
-        public override AnsiString ResourceEditName() => (AnsiString)"";
+        public override string ResourceEditName() => "";
 
     }
 
@@ -37278,7 +37278,7 @@ namespace Aow.Units.AoWE
 
         public TPlayerStructure FStructure;
         // Structur.PAS:2486
-        public override AnsiString Name() => FStructure.GetName();
+        public override string Name() => FStructure.GetName();
 
         // Structur.PAS:2491
         public override int Income() => FStructure.GetIncome();
@@ -37309,7 +37309,7 @@ namespace Aow.Units.AoWE
 
         public TPlayerStructure FStructure;
         // Structur.PAS:2509
-        public override AnsiString Name() => FStructure.GetName();
+        public override string Name() => FStructure.GetName();
 
         // Structur.PAS:2514
         public override int Power() => FStructure.GetPower();
@@ -37742,7 +37742,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2030
-        public override bool CanRebuild(TAbstractUnit AUnit, ref AnsiString Reason) => base.CanRebuild(AUnit, ref Reason);
+        public override bool CanRebuild(TAbstractUnit AUnit, ref string Reason) => base.CanRebuild(AUnit, ref Reason);
 
         // Structur.PAS:2130
         public virtual void SetPlayer(sbyte Player)
@@ -37941,9 +37941,9 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:2115
-        public virtual AnsiString GetCombatEventText(TCombat Combat)
+        public virtual string GetCombatEventText(TCombat Combat)
         {
-            AnsiString Result = default;
+            string Result = "";
             if (!GetRazed())
             {
                 if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
@@ -37953,7 +37953,7 @@ namespace Aow.Units.AoWE
                 }
                 else
                 {
-                    Result = (AnsiString)"";
+                    Result = "";
                 }
             }
 
@@ -38309,7 +38309,7 @@ namespace Aow.Units.AoWE
             FL = L;
             MapField = (TAoWMapField)AoWE.AoWHSMap.MapContainer.GetField(FX, FY, FL);
             Structure = (TStructure)MapField.FindOwnedChild(AClassID);
-            Assert(AClassID == Structure.EClass.ClassID, (AnsiString)"Invalid position (StructureTE)", "Structur.PAS", 3045);
+            Assert(AClassID == Structure.EClass.ClassID, "Invalid position (StructureTE)", "Structur.PAS", 3045);
             FStructureClassID = AClassID;
             FRazed = Structure.GetRazed();
             FPlayer = ((TAoWMapField)AoWE.AoWHSMap.MapContainer.GetField(FX, FY, FL)).GetPlayer();
@@ -38535,7 +38535,7 @@ namespace Aow.Units.AoWE
         // PlayerC.PAS:1920
         public override void Destroy()
         {
-            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"Flags.ILB");
+            AoWE.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "Flags.ILB");
             FFlags = null;
             base.Destroy();
         }
@@ -38544,7 +38544,7 @@ namespace Aow.Units.AoWE
         private protected TFlagControl(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
             var gameSet = (TAoWHSSet)owner;
-            FFlags = gameSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"Flags.ILB");
+            FFlags = gameSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "Flags.ILB");
             this.FRaceResources = gameSet.FRaceResources;
 
             SetControlStyle(TSet<TEControlStyleElement>.Of(TEControlStyleElement.csFixedChild));
@@ -38668,7 +38668,7 @@ namespace Aow.Units.AoWE
         // Ability.PAS:131
         public override void ReadWrite(TEStorageStream Stream)
         {
-            AnsiString Path = default;
+            string Path = "";
             bool Loaded = default;
             if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
             {
@@ -38683,36 +38683,36 @@ namespace Aow.Units.AoWE
                 Path = ExtractFilePath(AoWE.AoWEngine.HSSFileName);
                 if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
                 {
-                    Loaded = AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"ABILITY.PFS", FAbilityControl, null);
+                    Loaded = AoWE.AoWEngine.ReadFromFileCRC(Path + "ABILITY.PFS", FAbilityControl, null);
                     Stream.ShowProgress(this, AoWE.TranslateRStr(AoWE.LoadingUnitsRStr), 70);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"UNITRES.PFS", FUnitResources, null);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"UNITGFX.PFS", FUnitGFXResources, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "UNITRES.PFS", FUnitResources, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "UNITGFX.PFS", FUnitGFXResources, null);
                     Stream.ShowProgress(this, AoWE.TranslateRStr(AoWE.LoadingHeroesRStr), 80);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"HERORES.PFS", FHeroResources, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "HERORES.PFS", FHeroResources, null);
                     Stream.ShowProgress(this, AoWE.TranslateRStr(AoWE.LoadingItemsRStr), 90);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"ITEMGFX.PFS", FItemGFXResources, null);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"FACERES.PFS", FFaceResources, null);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"COMB_RES.PFS", FCombatResources, null);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"SPELLS.PFS", FSpellControl, null);
-                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + (AnsiString)"TEXT.PFS", FTextControl, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "ITEMGFX.PFS", FItemGFXResources, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "FACERES.PFS", FFaceResources, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "COMB_RES.PFS", FCombatResources, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "SPELLS.PFS", FSpellControl, null);
+                    Loaded = Loaded && AoWE.AoWEngine.ReadFromFileCRC(Path + "TEXT.PFS", FTextControl, null);
                     if (!Loaded)
                     {
-                        throw Exception.Create((AnsiString)"CRC-CHECK FAILED");
+                        throw Exception.Create("CRC-CHECK FAILED");
                     }
 
                     Stream.ShowProgress(this, AoWE.TranslateRStr(AoWE.GamePackLoadedRStr), 100);
                 }
                 else
                 {
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"ABILITY.PFS", FAbilityControl, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"UNITRES.PFS", FUnitResources, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"UNITGFX.PFS", FUnitGFXResources, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"HERORES.PFS", FHeroResources, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"ITEMGFX.PFS", FItemGFXResources, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"FACERES.PFS", FFaceResources, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"COMB_RES.PFS", FCombatResources, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"SPELLS.PFS", FSpellControl, null);
-                    AoWE.AoWEngine.WriteToFileCRC(Path + (AnsiString)"TEXT.PFS", FTextControl, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "ABILITY.PFS", FAbilityControl, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "UNITRES.PFS", FUnitResources, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "UNITGFX.PFS", FUnitGFXResources, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "HERORES.PFS", FHeroResources, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "ITEMGFX.PFS", FItemGFXResources, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "FACERES.PFS", FFaceResources, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "COMB_RES.PFS", FCombatResources, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "SPELLS.PFS", FSpellControl, null);
+                    AoWE.AoWEngine.WriteToFileCRC(Path + "TEXT.PFS", FTextControl, null);
                 }
             }
             else
@@ -38739,11 +38739,11 @@ namespace Aow.Units.AoWE
         // Ability.PAS:194
         public override void MainReadWrite(TEStorageStream Stream)
         {
-            AnsiString DictionaryFile;
+            string DictionaryFile;
             base.MainReadWrite(Stream);
             if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smTextOnly, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
             {
-                DictionaryFile = AoWE.AoWEngine.StartupDirectory + (AnsiString)"Dict\\" + (AnsiString)"Release" + (AnsiString)".mld";
+                DictionaryFile = AoWE.AoWEngine.StartupDirectory + "Dict\\" + "Release" + ".mld";
                 AoWE.AoWEngine.TranslateEObjectFromFile(this, DictionaryFile);
             }
         }
@@ -38757,8 +38757,8 @@ namespace Aow.Units.AoWE
             FCombatHexagons.MOClass = typeof(TAbstractHexagon);
             FCombatRoads = new TRoadControl(this);
             FCombatRoads.MOClass = typeof(TAbstractRoad);
-            ImageLibraryManager.ExecutePathSearch(AoWE.AoWEngine.StartupDirectory + (AnsiString)"IMAGES");
-            SFXManager.ExecutePathSearch(AoWE.AoWEngine.StartupDirectory + (AnsiString)"SFX");
+            ImageLibraryManager.ExecutePathSearch(AoWE.AoWEngine.StartupDirectory + "IMAGES");
+            SFXManager.ExecutePathSearch(AoWE.AoWEngine.StartupDirectory + "SFX");
             FImageSequences = new TImageSequenceList(ImageLibraryManager, null);
             var translateRStr = AoWE.TranslateRStr(AoWE.WaterRStr);
             TerrainTypes.Add(translateRStr);
@@ -38846,9 +38846,9 @@ namespace Aow.Units.AoWE
             FAbilityControl = new TAbilityControl(null);
             FSpellControl = new TSpellControl(null);
             FTextControl = new TTextControl(null);
-            FGeneralImages = ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"GENERAL.ILB");
-            FCursorImages = ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"CURSORS.ILB");
-            FCombatImages = ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"COMBAT.ILB");
+            FGeneralImages = ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "GENERAL.ILB");
+            FCursorImages = ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "CURSORS.ILB");
+            FCombatImages = ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "COMBAT.ILB");
         }
 
         // Ability.PAS:206
@@ -38859,7 +38859,7 @@ namespace Aow.Units.AoWE
         }
 
         // Ability.PAS:91
-        public int GetFileCRC(AnsiString FileName, bool AtEnd)
+        public int GetFileCRC(string FileName, bool AtEnd)
         {
             int Result;
             TFileStream FileStream;
@@ -38889,20 +38889,20 @@ namespace Aow.Units.AoWE
         public int RetrieveHSSCRC()
         {
             TIntegerList CRCs;
-            AnsiString Path;
+            string Path;
             CRCs = new TIntegerList();
             Path = ExtractFilePath(AoWE.AoWEngine.HSSFileName);
             // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"ABILITY.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"ABILITY.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"UNITRES.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"UNITGFX.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"HERORES.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"ITEMGFX.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"FACERES.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"COMB_RES.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"SPELLS.PFS", false));
-            CRCs.Add(GetFileCRC(Path + (AnsiString)"RELEASE.HSS", true));
+            CRCs.Add(GetFileCRC(Path + "ABILITY.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "ABILITY.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "UNITRES.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "UNITGFX.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "HERORES.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "ITEMGFX.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "FACERES.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "COMB_RES.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "SPELLS.PFS", false));
+            CRCs.Add(GetFileCRC(Path + "RELEASE.HSS", true));
             int Result = GetCRC32(MemoryMarshal.AsBytes(CRCs.List.AsSpan()), CRCs.Count * 4);
             CRCs.Free();
             return Result;
@@ -38925,11 +38925,11 @@ namespace Aow.Units.AoWE
         public TEmailGame(TECustomNode owner) : base(owner)
         {}
 
-        public AnsiString FName;
+        public string FName = "";
         public int FUniqueLocalID;
         public int FUniqueID;
         public int FSecurityID;
-        public AnsiString FEmailAddress;
+        public string FEmailAddress = "";
         public int FLastDay;
         // Diplomacy.pas:2465
         public override void ReadWrite(TEStorageStream Stream)
@@ -39006,9 +39006,9 @@ namespace Aow.Units.AoWE
         // Diplomacy.pas:2504
         public void Load()
         {
-            AnsiString FileName;
+            string FileName;
             FGames.Clear();
-            FileName = AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + (AnsiString)"egames.pfs";
+            FileName = AoWE.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
             if (FileExists(FileName))
             {
                 if (GetFileCRC32(FileName) == AoWE.AoWEngine.FRegistry.GetEmailGamesCRC())
@@ -39021,11 +39021,11 @@ namespace Aow.Units.AoWE
         // Diplomacy.pas:2514
         public void Save()
         {
-            AnsiString FileName;
+            string FileName;
             try
             {
-                FileName = AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + (AnsiString)"egames.pfs";
-                AoWE.AoWEngine.WriteToFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + (AnsiString)"egames.pfs", FGames, null);
+                FileName = AoWE.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
+                AoWE.AoWEngine.WriteToFile(AoWE.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", FGames, null);
                 var fileCRC32 = GetFileCRC32(FileName);
                 AoWE.AoWEngine.FRegistry.SetEmailGamesCRC(fileCRC32);
             }
@@ -39096,7 +39096,7 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2564
-        public TEmailGame CreateEmailGame(AnsiString Name, AnsiString EmailAddress)
+        public TEmailGame CreateEmailGame(string Name, string EmailAddress)
         {
             TEmailGame Result = new TEmailGame(null);
             Result.FEmailAddress = EmailAddress;
@@ -39110,18 +39110,18 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2576
-        public void ValidateIncommingGame(AnsiString FileName, ref AnsiString Destination)
+        public void ValidateIncommingGame(string FileName, ref string Destination)
         {
             TAoWHSMap Map;
             TAoWHSMap PreviousMap;
             TEmailGame LocalGame;
             bool Overwrite;
             int I;
-            AnsiString Name = default;
+            string Name = "";
             // { Addressability survives elimination of this assignment. }
             try
             {
-                Destination = (AnsiString)"";
+                Destination = "";
                 Overwrite = false;
                 Map = (TAoWHSMap)AoWE.AoWEngine.CreatePreviewHSM(FileName);
                 bool condition = Map != null && Map.FConnectionType == TPlayerConnectionType.pcEmail && Map.FCurrentPlayer > 0;
@@ -39142,9 +39142,9 @@ namespace Aow.Units.AoWE
                             if (Map.FDay > LocalGame.FLastDay)
                             {
                                 Name = Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FName;
-                                if (FileExists(AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + Name + (AnsiString)".asg"))
+                                if (FileExists(AoWE.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg"))
                                 {
-                                    PreviousMap = (TAoWHSMap)AoWE.AoWEngine.CreatePreviewHSM(AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + Name + (AnsiString)".asg");
+                                    PreviousMap = (TAoWHSMap)AoWE.AoWEngine.CreatePreviewHSM(AoWE.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg");
                                     if (PreviousMap != null)
                                     {
                                         // { Original bug: the previous map's player is checked against the new map's count. }
@@ -39183,14 +39183,14 @@ namespace Aow.Units.AoWE
                             Name = Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FName;
                         }
 
-                        if (Name != (AnsiString)"")
+                        if (!IsEmpty(Name))
                         {
                             I = 0;
-                            Destination = AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + Name + (AnsiString)".asg";
+                            Destination = AoWE.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg";
                             while (!Overwrite && FileExists(Destination))
                             {
                                 I += 1;
-                                Destination = AoWE.AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + Name + IntToStr(I) + (AnsiString)".asg";
+                                Destination = AoWE.AoWEngine.StartupDirectory + "EmailIn\\" + Name + IntToStr(I) + ".asg";
                             }
                         }
                     }
@@ -39216,7 +39216,7 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 131831;
 
         // Diplomacy.pas:2453
-        public override AnsiString GetText() => AoWE.TranslateRStr(AoWE.GameRestartedRStr);
+        public override string GetText() => AoWE.TranslateRStr(AoWE.GameRestartedRStr);
 
         // Diplomacy.pas:2456
         public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
@@ -39245,13 +39245,13 @@ namespace Aow.Units.AoWE
             FMessage = new TStringList();
         }
 
-        public AnsiString FToAddress;
-        public AnsiString FFileName;
-        public AnsiString FSubject;
+        public string FToAddress = "";
+        public string FFileName = "";
+        public string FSubject = "";
         public TStringList FMessage;
         public bool FSuccess;
-        public AnsiString FFromAddress;
-        public AnsiString FError;
+        public string FFromAddress = "";
+        public string FError = "";
         // Diplomacy.pas:2447
         public override void Destroy()
         {
@@ -39708,7 +39708,7 @@ namespace Aow.Units.AoWE
         public override int ResourceUserClassID() => 132990;
 
         // Structur.PAS:3692
-        public override AnsiString ResourceEditName() => AoWE.TranslateRStr(AoWE.FireRStr);
+        public override string ResourceEditName() => AoWE.TranslateRStr(AoWE.FireRStr);
 
     }
 
@@ -40719,7 +40719,7 @@ namespace Aow.Units.AoWE
             if (A1 == TWallType.wtNone)
             {
                 // { Preserve the original assertion diagnostic. }
-                Assert(false, (AnsiString)"Use DeleteWall instead!", "D:\\AoWDev\\AoWE\\inc\\CombatPredictor.pas", 18391);
+                Assert(false, "Use DeleteWall instead!", "D:\\AoWDev\\AoWE\\inc\\CombatPredictor.pas", 18391);
             }
 
             UnitObj = FWall;
@@ -41847,7 +41847,7 @@ namespace Aow.Units.AoWE
         {
             int Result;
             int Hits;
-            Assert(A1 >= 0 && A1 < 50, (AnsiString)"Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
+            Assert(A1 >= 0 && A1 < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
             Hits = GetHitPoints();
             if (Hits < A1)
             {
@@ -41886,12 +41886,12 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:5776
-        public virtual AnsiString IDStr() => (AnsiString)"TCombatObject";
+        public virtual string IDStr() => "TCombatObject";
 
         // Combat.pas:1941
         public void AddTarget(TCombatObject Target, int CV, int WallCV, int DV)
         {
-            Assert(FTargets.IndexOfItemA(ObjectToInt(Target)) == -1, (AnsiString)"target already exists use update target", "Combat.pas", 5473);
+            Assert(FTargets.IndexOfItemA(ObjectToInt(Target)) == -1, "target already exists use update target", "Combat.pas", 5473);
             FCombatValue += CV;
             FWallCombatValue += WallCV;
             FTargets.AddABCD(ObjectToInt(Target), CV, WallCV, DV);
@@ -42765,26 +42765,26 @@ namespace Aow.Units.AoWE
         public override TSet<TDamageType> ExecuteDamageEffects(TSet<TDamageType> A1) => FUnit.ExecuteCombatDamageEffects(FCombat, A1);
 
         // Combat.pas:1486
-        public override AnsiString IDStr()
+        public override string IDStr()
         {
-            AnsiString Result;
+            string Result;
             if (FCombat.FCombatData.FPlayers.GetPlayers(FCombatPlayer).FSideIndex == 0)
             {
-                Result = AnsiString.FromBytes(65);
+                Result = "A";
             }
             else
             {
-                Result = AnsiString.FromBytes(68);
+                Result = "D";
             }
 
             if (FUnit != null)
             {
                 var name = FUnit.GetName();
-                Result = Result + AnsiString.FromBytes(40) + IntToStr(FPosition) + (AnsiString)")=" + name;
+                Result = Result + "(" + IntToStr(FPosition) + ")=" + name;
             }
             else
             {
-                Result = Result + AnsiString.FromBytes(40) + IntToStr(FPosition) + AnsiString.FromBytes(41);
+                Result = Result + "(" + IntToStr(FPosition) + ")";
             }
 
             return Result;
@@ -43180,7 +43180,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:1737
-        public override AnsiString IDStr() => (AnsiString)"Wall";
+        public override string IDStr() => "Wall";
 
         // Combat.pas:1704
         public void Setup(byte A1, byte A2, byte A3)
@@ -43271,14 +43271,14 @@ namespace Aow.Units.AoWE
         // Combat.pas:6038
         public void OutputDebugInfo()
         {
-            AnsiString S;
+            string S;
             if (FSideIndex == 0)
             {
-                AoWE.AoWEngine.OutputDebugMessage(AoWE.CombatDID, (AnsiString)"--- Combat Side Attacker ---");
+                AoWE.AoWEngine.OutputDebugMessage(AoWE.CombatDID, "--- Combat Side Attacker ---");
             }
             else
             {
-                AoWE.AoWEngine.OutputDebugMessage(AoWE.CombatDID, (AnsiString)"--- Combat Side Defender ---");
+                AoWE.AoWEngine.OutputDebugMessage(AoWE.CombatDID, "--- Combat Side Defender ---");
             }
 
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
@@ -43286,7 +43286,7 @@ namespace Aow.Units.AoWE
                 var idStr = GetObjects(I).IDStr();
                 var targetPriority = GetObjects(I).GetTargetPriority();
                 var targetStrength = GetObjects(I).GetTargetStrength();
-                S = AnsiString.FromBytes(40) + IntToStr(I) + (AnsiString)"):" + idStr + (AnsiString)" (Priority:" + IntToStr(targetPriority) + (AnsiString)"/Strength:" + IntToStr(targetStrength) + AnsiString.FromBytes(41);
+                S = "(" + IntToStr(I) + "):" + idStr + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
                 AoWE.AoWEngine.OutputDebugMessage(AoWE.CombatDID, S);
             }
         }
@@ -43335,12 +43335,12 @@ namespace Aow.Units.AoWE
         public int FMoveCost;
         public TCombatObject FTarget;
         // AIGroup.pas:6710
-        public virtual AnsiString GetName()
+        public virtual string GetName()
         {
-            AnsiString Result = AoWE.AoWHSSet.FAbilityControl.GetAbility(FAbilityID).GetName(null);
+            string Result = AoWE.AoWHSSet.FAbilityControl.GetAbility(FAbilityID).GetName(null);
             if (FTarget != null)
             {
-                Result = Result + (AnsiString)" on " + FTarget.IDStr();
+                Result = Result + " on " + FTarget.IDStr();
             }
 
             return Result;
@@ -43722,7 +43722,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:713
-        public virtual AnsiString GetName() => (AnsiString)ClassNameOf(this.GetType());
+        public virtual string GetName() => ClassNameOf(this.GetType());
 
         // intf_P3_02.inc:42
         public virtual void Execute(TCombat A1)
@@ -44130,7 +44130,7 @@ namespace Aow.Units.AoWE
         public TUpdateHeaderCA(TECustomNode owner) : base(owner)
         {}
 
-        public AnsiString F_UpdateHeaderCA_0C;
+        public string F_UpdateHeaderCA_0C = "";
         // Combat2.pas:963
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -44180,7 +44180,7 @@ namespace Aow.Units.AoWE
             if (A1.FTime == 0)
             {
                 Execute(A1.FCombat);
-                PlaySample((AnsiString)"SFX\\EVENTS\\INFO2.WAV");
+                PlaySample("SFX\\EVENTS\\INFO2.WAV");
             }
 
             return A1.FDelay > A1.FTime;
@@ -44407,7 +44407,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"CombatParty already exists!");
+                throw Exception.Create("CombatParty already exists!");
             }
 
             return P;
@@ -44577,7 +44577,7 @@ namespace Aow.Units.AoWE
         public TCombatPartyList FParties;
         public TByteList FTurnOrder;
         public int FRound;
-        public AnsiString FHeader;
+        public string FHeader = "";
         public byte FWallType;
         public bool FWallBreached;
         public TCombatWall FWall;
@@ -44667,7 +44667,7 @@ namespace Aow.Units.AoWE
         // Combat2.pas:282
         public void AddObject(TCombatObject A1)
         {
-            Assert(FindID(A1.FID) == null && FindPosition(A1.FPosition) == null, (AnsiString)"CombatObject Position/ID double defined", "Combat2.pas", 284);
+            Assert(FindID(A1.FID) == null && FindPosition(A1.FPosition) == null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
             A1.SetOwner(FCombatObjects);
         }
 
@@ -45039,7 +45039,7 @@ namespace Aow.Units.AoWE
             TCombatData Data;
             TCombatData FinalData;
             TMapFieldMsg Msg = default;
-            Assert((FStatus & TSet<TCombatStatusElement>.Of(TCombatStatusElement.cExecuting, TCombatStatusElement.cActivated)) == TSet<TCombatStatusElement>.Of(TCombatStatusElement.cExecuting), (AnsiString)"Combat Finalize Failure", "Combat.pas", 6523);
+            Assert((FStatus & TSet<TCombatStatusElement>.Of(TCombatStatusElement.cExecuting, TCombatStatusElement.cActivated)) == TSet<TCombatStatusElement>.Of(TCombatStatusElement.cExecuting), "Combat Finalize Failure", "Combat.pas", 6523);
             for (int I = 0, last = FCombatData.FDefeatedLeaders.Count - 1; I <= last; I++)
             {
                 Data = FCombatData;
@@ -45106,7 +45106,7 @@ namespace Aow.Units.AoWE
         // Combat.pas:6577
         public virtual void Activate()
         {
-            Assert(!FStatus.Contains(TCombatStatusElement.cActivated), (AnsiString)"Combat already activated", "Combat.pas", 6595);
+            Assert(!FStatus.Contains(TCombatStatusElement.cActivated), "Combat already activated", "Combat.pas", 6595);
             FStatus = FStatus + TSet<TCombatStatusElement>.Of(TCombatStatusElement.cActivated);
             FCombatData.FParties.Activate(ObjectToInt(this));
             for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
@@ -45128,7 +45128,7 @@ namespace Aow.Units.AoWE
         // Combat.pas:6608
         public virtual void Deactivate()
         {
-            Assert(FStatus.Contains(TCombatStatusElement.cActivated), (AnsiString)"Combat Failure during Deactivating", "Combat.pas", 6612);
+            Assert(FStatus.Contains(TCombatStatusElement.cActivated), "Combat Failure during Deactivating", "Combat.pas", 6612);
             FStatus = FStatus - TSet<TCombatStatusElement>.Of(TCombatStatusElement.cActivated);
             for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
             {
@@ -45273,7 +45273,7 @@ namespace Aow.Units.AoWE
 
         // Combat.pas:6236
         // { }
-        public void SetLogbookHeader(AnsiString A1)
+        public void SetLogbookHeader(string A1)
         {
             TUpdateHeaderCA A;
             A = new TUpdateHeaderCA(null);
@@ -45534,18 +45534,18 @@ namespace Aow.Units.AoWE
 
         // Combat.pas:6642
         // { }
-        public AnsiString GetCombatResultText()
+        public string GetCombatResultText()
         {
             var query = new CombatResultQuery();
             ref var Result = ref query.Text;
             TMapFieldMsg Msg = default;
-            Result = (AnsiString)"";
+            Result = "";
             Msg.MsgID = 4361;
             Msg.Result = query;
             Msg.Param[0] = this;
             // { direct combat data }
             AoWE.AoWHSMap.MapContainer.GetField(FCombatData.FX, FCombatData.FY, FCombatData.FL).SendMapFieldMsg(ref Msg);
-            if (Result == (AnsiString)"")
+            if (IsEmpty(Result))
             {
                 if (FCombatResult == TCombatResult.crVictory)
                 {
@@ -45635,7 +45635,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat2.pas:461
-        public override AnsiString GetText() => FLogbook.FFinalData.FHeader;
+        public override string GetText() => FLogbook.FFinalData.FHeader;
 
         // Combat2.pas:431
         public override int GetTextColor()
@@ -45703,11 +45703,11 @@ namespace Aow.Units.AoWE
         {
             if (FLogbook.FInitialData.FPlayers.IndexOfPlayer((byte)AoWE.AoWHSMap.FSeatedPlayer) != -1)
             {
-                PlaySample((AnsiString)"SFX\\EVENTS\\ROLL.WAV");
+                PlaySample("SFX\\EVENTS\\ROLL.WAV");
             }
             else
             {
-                PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
+                PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
             }
         }
 
@@ -45935,7 +45935,7 @@ namespace Aow.Units.AoWE
             {
                 if (FRegisteredClasses.IndexOf(Classes[I]) != -1)
                 {
-                    throw Exception.Create((AnsiString)"AIPlayerAction already Registered");
+                    throw Exception.Create("AIPlayerAction already Registered");
                 }
 
                 FRegisteredClasses.Add(Classes[I]);
@@ -46844,14 +46844,14 @@ namespace Aow.Units.AoWE
         // AI.pas:659
         public void Unlock()
         {
-            Assert(FLockCount != 0, (AnsiString)"", "AI.pas", 931);
+            Assert(FLockCount != 0, "", "AI.pas", 931);
             FLockCount -= 1;
         }
 
         // AI.pas:935
         public void CaptureTokenCycles(int Cycles)
         {
-            Assert(!FStatus.Contains(TAIExecuterStatusElement.aesTokenLocked), (AnsiString)"", "AI.pas", 937);
+            Assert(!FStatus.Contains(TAIExecuterStatusElement.aesTokenLocked), "", "AI.pas", 937);
             FStatus = FStatus + TSet<TAIExecuterStatusElement>.Of(TAIExecuterStatusElement.aesTokenLocked);
             AoWE.AoWHSMap.FTokenManager.TokenExecuter.Lock();
             FTokenCycle = 0;
@@ -46861,7 +46861,7 @@ namespace Aow.Units.AoWE
         // AI.pas:944
         public void TokenCyclesCaptured()
         {
-            Assert(FStatus.Contains(TAIExecuterStatusElement.aesTokenLocked), (AnsiString)"", "AI.pas", 947);
+            Assert(FStatus.Contains(TAIExecuterStatusElement.aesTokenLocked), "", "AI.pas", 947);
             FStatus = FStatus - TSet<TAIExecuterStatusElement>.Of(TAIExecuterStatusElement.aesTokenLocked);
             AoWE.AoWHSMap.FTokenManager.TokenExecuter.Unlock();
         }
@@ -46946,7 +46946,7 @@ namespace Aow.Units.AoWE
                 }
                 catch (System.Exception)
                 {
-                    ShowMessage((AnsiString)"AI ERROR");
+                    ShowMessage("AI ERROR");
                 }
 
                 AoWE.AoWHSMap.SynchroniseEnd();
@@ -48370,7 +48370,7 @@ namespace Aow.Units.AoWE
                         }
                         else
                         {
-                            throw Exception.Create((AnsiString)"Unit missing!");
+                            throw Exception.Create("Unit missing!");
                         }
                     }
 
@@ -48604,7 +48604,7 @@ namespace Aow.Units.AoWE
                 }
                 catch (System.Exception)
                 {
-                    ShowMessage((AnsiString)"Path already destroyed!?!");
+                    ShowMessage("Path already destroyed!?!");
                 }
             }
 
@@ -48662,7 +48662,7 @@ namespace Aow.Units.AoWE
                     }
                     else
                     {
-                        throw Exception.Create((AnsiString)"Unit missing!");
+                        throw Exception.Create("Unit missing!");
                     }
                 }
 
@@ -50675,13 +50675,13 @@ namespace Aow.Units.AoWE
             {
                 if (FPlayer != AUnit.FPlayer)
                 {
-                    throw Exception.Create((AnsiString)"Player mismatch!");
+                    throw Exception.Create("Player mismatch!");
                 }
             }
 
             if (FUnits.IndexOfUnitID(AUnit.FUnitID) != -1)
             {
-                throw Exception.Create((AnsiString)"Unit already exists! (TAIMoveExecuter)");
+                throw Exception.Create("Unit already exists! (TAIMoveExecuter)");
             }
 
             AUnit.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
@@ -50721,7 +50721,7 @@ namespace Aow.Units.AoWE
             int Index;
             if (FTransporter != null)
             {
-                throw Exception.Create((AnsiString)"Transporter already exists! (TAIMoveExecuter)");
+                throw Exception.Create("Transporter already exists! (TAIMoveExecuter)");
             }
 
             Index = FUnits.IndexOfUnitID(AUnit.FUnitID);
@@ -50911,7 +50911,7 @@ namespace Aow.Units.AoWE
                             var moves = FMoves.GetMoves(I);
                             if (!Move.Setup(Army, Selection, moves.FPath, TSet<TArmyMoveModeElement>.Of()))
                             {
-                                throw Exception.Create((AnsiString)"FAILURE: TAIMoveExecuter.ExecuteMoves");
+                                throw Exception.Create("FAILURE: TAIMoveExecuter.ExecuteMoves");
                             }
 
                             FMoves.GetMoves(I).SetUnitStatus(TAIMoveExecuterUnitStatus.esMoving);
@@ -51036,7 +51036,7 @@ namespace Aow.Units.AoWE
                 }
                 catch (System.Exception)
                 {
-                    ShowMessage((AnsiString)"MoveExecute.OnDone failed");
+                    ShowMessage("MoveExecute.OnDone failed");
                 }
             }
 
@@ -51516,7 +51516,7 @@ namespace Aow.Units.AoWE
         // AI.pas:1678
         public virtual void OutputDebugInfo()
         {
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, (AnsiString)ClassNameOf(this.GetType()) + (AnsiString)" Gold:" + IntToStr(FGold) + AnsiString.FromBytes(47) + IntToStr(FRequiredGold) + (AnsiString)" Mana:" + IntToStr(FMana) + AnsiString.FromBytes(47) + IntToStr(FRequiredMana));
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, ClassNameOf(this.GetType()) + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
         }
 
         // AI.pas:1675
@@ -51934,7 +51934,7 @@ namespace Aow.Units.AoWE
 
             if (Gold > 0 || Mana > 0)
             {
-                AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, (AnsiString)"RETURNING FROM BUDGETS (GOLD:" + IntToStr(Gold) + (AnsiString)"/MANA:" + IntToStr(Mana) + AnsiString.FromBytes(41));
+                AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
                 ReturnFromBudgets(Gold, Mana);
             }
         }
@@ -51949,9 +51949,9 @@ namespace Aow.Units.AoWE
 
             var groupsGoldBudget = GetGroupsGoldBudget();
             var groupsManaBudget = GetGroupsManaBudget();
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, (AnsiString)"GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + (AnsiString)"/MANA:" + IntToStr(groupsManaBudget) + AnsiString.FromBytes(41));
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, (AnsiString)"POOL (GOLD:" + IntToStr(FGold) + (AnsiString)"/MANA:" + IntToStr(FMana) + AnsiString.FromBytes(41));
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, (AnsiString)"REAL (GOLD:" + IntToStr(FPlayer.FGems) + (AnsiString)"/MANA:" + IntToStr(FPlayer.FMagicControl.FMana) + AnsiString.FromBytes(41));
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, "POOL (GOLD:" + IntToStr(FGold) + "/MANA:" + IntToStr(FMana) + ")");
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.TMPDID, "REAL (GOLD:" + IntToStr(FPlayer.FGems) + "/MANA:" + IntToStr(FPlayer.FMagicControl.FMana) + ")");
         }
 
         // AI.pas:1954
@@ -53187,7 +53187,7 @@ namespace Aow.Units.AoWE
                 // { Original diagnostic raises and immediately swallows its exception. }
                 try
                 {
-                    throw Exception.Create((AnsiString)"oohps");
+                    throw Exception.Create("oohps");
                 }
                 catch (System.Exception)
                 {
@@ -53758,7 +53758,7 @@ namespace Aow.Units.AoWE
         public void Activate()
         {
             sbyte Player;
-            Assert(!FStatus.Contains(TAIGroupStatusElement.agsActivated), (AnsiString)"", "AIGroup.pas", 479);
+            Assert(!FStatus.Contains(TAIGroupStatusElement.agsActivated), "", "AIGroup.pas", 479);
             FStatus = FStatus + TSet<TAIGroupStatusElement>.Of(TAIGroupStatusElement.agsActivated);
             Player = FPlayer;
             if (Player != -1)
@@ -53767,7 +53767,7 @@ namespace Aow.Units.AoWE
             }
 
             FLeader = FindID(FLeaderID);
-            Assert(FTransporter != null || FTransporterID == -1, (AnsiString)"", "AIGroup.pas", 485);
+            Assert(FTransporter != null || FTransporterID == -1, "", "AIGroup.pas", 485);
         }
 
         // AIGroup.pas:488
@@ -53777,7 +53777,7 @@ namespace Aow.Units.AoWE
             if (!FStatus.Contains(TAIGroupStatusElement.agsActivated))
             {
                 // { Preserve the original assertion diagnostic. }
-                Assert(false, (AnsiString)"Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AIGroup.pas", 24094);
+                Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AIGroup.pas", 24094);
             }
 
             FStatus = FStatus - TSet<TAIGroupStatusElement>.Of(TAIGroupStatusElement.agsActivated);
@@ -53983,12 +53983,12 @@ namespace Aow.Units.AoWE
         public int GetTargetMana() => 0;
 
         // AIGroup.pas:676
-        public void GetDebugInfo(ref AnsiString Text)
+        public void GetDebugInfo(ref string Text)
         {
-            Text = (AnsiString)"Target(" + IntToStr(FLocation.X) + AnsiString.FromBytes(44) + IntToStr(FLocation.Y) + AnsiString.FromBytes(44) + IntToStr(FLocation.L) + (AnsiString)"): Prio:" + IntToStr(FData.Priority);
+            Text = "Target(" + IntToStr(FLocation.X) + "," + IntToStr(FLocation.Y) + "," + IntToStr(FLocation.L) + "): Prio:" + IntToStr(FData.Priority);
             if (FTransporterID != -1)
             {
-                Text = Text + (AnsiString)"/Transporter(" + IntToStr(FTransporterID) + AnsiString.FromBytes(41);
+                Text = Text + "/Transporter(" + IntToStr(FTransporterID) + ")";
             }
         }
 
@@ -54006,7 +54006,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:684
         public TAIGroupControlTarget GetTargets(int Index)
         {
-            Assert(Index >= 0 && Index < FChildren.Count, (AnsiString)"", "AIGroup.pas", 687);
+            Assert(Index >= 0 && Index < FChildren.Count, "", "AIGroup.pas", 687);
             return (TAIGroupControlTarget)FChildren.List[Index];
         }
 
@@ -54167,7 +54167,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:800
         public TAIRecruitmentGroup GetRecruitmentGroups(int Index)
         {
-            Assert(Index >= 0 && Index < FChildren.Count, (AnsiString)"", "AIGroup.pas", 802);
+            Assert(Index >= 0 && Index < FChildren.Count, "", "AIGroup.pas", 802);
             return (TAIRecruitmentGroup)FChildren.List[Index];
         }
 
@@ -54180,15 +54180,15 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:816
         public void OutputDebugInfo()
         {
-            AnsiString Text;
+            string Text;
             TAIRecruitmentGroup Group;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
                 Group = GetRecruitmentGroups(I);
-                Text = (AnsiString)ClassNameOf(Group.FGroup.GetType()) + (AnsiString)"(ID:" + IntToStr(Group.FGroup.FGroupID) + AnsiString.FromBytes(41);
-                Text = Text + (AnsiString)"/Loc:(" + IntToStr(Group.FLocation.X) + AnsiString.FromBytes(44) + IntToStr(Group.FLocation.Y) + AnsiString.FromBytes(44) + IntToStr(Group.FLocation.L) + AnsiString.FromBytes(41);
-                Text = Text + (AnsiString)"/MP:" + IntToStr(Group.FMovePoints);
-                Text = Text + (AnsiString)"/MPBFS:" + IntToStr(Group.FPathStrength);
+                Text = ClassNameOf(Group.FGroup.GetType()) + "(ID:" + IntToStr(Group.FGroup.FGroupID) + ")";
+                Text = Text + "/Loc:(" + IntToStr(Group.FLocation.X) + "," + IntToStr(Group.FLocation.Y) + "," + IntToStr(Group.FLocation.L) + ")";
+                Text = Text + "/MP:" + IntToStr(Group.FMovePoints);
+                Text = Text + "/MPBFS:" + IntToStr(Group.FPathStrength);
                 AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, Text);
             }
         }
@@ -54312,7 +54312,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:907
         public TAIGroupProductionLocation GetProductionLocation(int Index)
         {
-            Assert(Index >= 0 && Index < FChildren.Count, (AnsiString)"", "AIGroup.pas", 909);
+            Assert(Index >= 0 && Index < FChildren.Count, "", "AIGroup.pas", 909);
             return (TAIGroupProductionLocation)FChildren.List[Index];
         }
 
@@ -54483,7 +54483,7 @@ namespace Aow.Units.AoWE
             }
             catch (System.Exception)
             {
-                throw Exception.Create((AnsiString)ClassNameOf(this.GetType()) + (AnsiString)" exception during state (" + IntToStr(FState) + AnsiString.FromBytes(41));
+                throw Exception.Create(ClassNameOf(this.GetType()) + " exception during state (" + IntToStr(FState) + ")");
             }
 
             return FState != -1;
@@ -58121,41 +58121,41 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:3441
         public void ShowTargetInfo()
         {
-            AnsiString Text = default;
+            string Text = "";
             TAIGroupControlTarget Target;
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, (AnsiString)"Targets for Group (ID:" + IntToStr(FGroupControl.FGroup.FGroupID) + AnsiString.FromBytes(41));
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, "Targets for Group (ID:" + IntToStr(FGroupControl.FGroup.FGroupID) + ")");
             for (int I = 0, last = FGroupControl.FTargets.Count - 1; I <= last; I++)
             {
                 Target = FGroupControl.FTargets.GetTargets(I);
                 Target.GetDebugInfo(ref Text);
-                Text = Text + (AnsiString)"/TS_Prio:" + IntToStr(Target.FDataA);
-                Text = Text + (AnsiString)"/MPBFS:" + IntToStr(Target.FPathStrength);
-                Text = Text + (AnsiString)"/TG:" + IntToStr(Target.GetTargetGold());
-                Text = Text + (AnsiString)"/MP:" + IntToStr(Target.FMovePoints);
-                Text = Text + (AnsiString)"/Status:";
+                Text = Text + "/TS_Prio:" + IntToStr(Target.FDataA);
+                Text = Text + "/MPBFS:" + IntToStr(Target.FPathStrength);
+                Text = Text + "/TG:" + IntToStr(Target.GetTargetGold());
+                Text = Text + "/MP:" + IntToStr(Target.FMovePoints);
+                Text = Text + "/Status:";
                 if (Target.FStatus.Contains(TAIGroupControlTargetStatusElement.gtsCooperate))
                 {
-                    Text = Text + AnsiString.FromBytes(99);
+                    Text = Text + "c";
                 }
 
                 if (Target.FStatus.Contains(TAIGroupControlTargetStatusElement.gtsRecruit))
                 {
-                    Text = Text + AnsiString.FromBytes(114);
+                    Text = Text + "r";
                 }
 
                 if (Target.FStatus.Contains(TAIGroupControlTargetStatusElement.gtsProduce))
                 {
-                    Text = Text + AnsiString.FromBytes(112);
+                    Text = Text + "p";
                 }
 
                 if (Target.FStatus.Contains(TAIGroupControlTargetStatusElement.gtsValid))
                 {
-                    Text = Text + AnsiString.FromBytes(118);
+                    Text = Text + "v";
                 }
 
                 if (Target.FStatus.Contains(TAIGroupControlTargetStatusElement.gtsDone))
                 {
-                    Text = Text + AnsiString.FromBytes(100);
+                    Text = Text + "d";
                 }
 
                 AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, Text);
@@ -58504,7 +58504,7 @@ namespace Aow.Units.AoWE
                         var players = AoWE.AoWHSMap.FPlayers.GetPlayers(FPlayer);
                         var translateRStr = AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[players.FPlayerRace]);
                         var aoWETranslateRStr = AoWE.TranslateRStr(AoWE.P5FinishedTheirTurnRStr);
-                        AoWE.AoWHSMap.ShowMessage(translateRStr + AnsiString.FromBytes(32) + aoWETranslateRStr);
+                        AoWE.AoWHSMap.ShowMessage(translateRStr + " " + aoWETranslateRStr);
                     }
                 }
 
@@ -58537,7 +58537,7 @@ namespace Aow.Units.AoWE
         public new const int ClassID = 135974;
 
         public sbyte FPlayer;
-        public AnsiString FSettings;
+        public string FSettings = "";
         // MoveT.PAS:1891
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -59791,7 +59791,7 @@ namespace Aow.Units.AoWE
                         }
                         else
                         {
-                            AoWE.AoWEngine.OutputDebugStr((AnsiString)"Cannot create CombatMoveTE");
+                            AoWE.AoWEngine.OutputDebugStr("Cannot create CombatMoveTE");
                         }
                     }
                 }
@@ -60570,7 +60570,7 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:320
-        public override bool Accept(ref AnsiString ErrorText)
+        public override bool Accept(ref string ErrorText)
         {
             TNegotiateTE TE;
             bool Result = base.Accept(ref ErrorText);
@@ -60597,7 +60597,7 @@ namespace Aow.Units.AoWE
         public override bool Cancel() => true;
 
         // Diplomacy.pas:339
-        public override bool Reject(ref AnsiString ErrorText)
+        public override bool Reject(ref string ErrorText)
         {
             TNegotiateTE TE;
             bool Result = base.Reject(ref ErrorText);
@@ -60686,7 +60686,7 @@ namespace Aow.Units.AoWE
 
         public new const int ClassID = 135444;
 
-        public AnsiString FFileName;
+        public string FFileName = "";
         // MoveT.PAS:1848
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -60896,7 +60896,7 @@ namespace Aow.Units.AoWE
                     break;
             }
 
-            PlaySample((AnsiString)"SFX\\ATTACK\\MAGICB01.WAV");
+            PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
             return TExecuteResult.erDone;
         }
 
@@ -61698,7 +61698,7 @@ namespace Aow.Units.AoWE
         // AIGroup.pas:7310
         public override TCombatResult Execute()
         {
-            AnsiString Header;
+            string Header;
             TCombatSide Side;
             base.Execute();
             FCombatResult = TCombatResult.crBusy;
@@ -61994,7 +61994,7 @@ namespace Aow.Units.AoWE
     public partial class TAbilityPlugIn : TPlugIn
     {
         // AoWAb.PAS:5569
-        public override AnsiString Name() => AoWE.P4AbilitiesRStr;
+        public override string Name() => AoWE.P4AbilitiesRStr;
 
         // AoWAb.PAS:5573
         public override bool Initialize(TEngine AEngine)
@@ -62091,9 +62091,9 @@ namespace Aow.Units.AoWE
         public TDurationMode FDurationMode;
 
         // AoWAb.PAS:96
-        public override AnsiString GetName(TAbilityOwner A1)
+        public override string GetName(TAbilityOwner A1)
         {
-            AnsiString Result = default;
+            string Result = "";
             if (A1 != null)
             {
                 switch (FDurationMode)
@@ -62105,7 +62105,7 @@ namespace Aow.Units.AoWE
                             var duration = GetDuration(A1);
                             var totalDuration = GetTotalDuration();
                             var format = AoWE.Format(AoWE.TranslateRStr(AoWE.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
-                            Result = Result + AnsiString.FromBytes(32) + format;
+                            Result = Result + " " + format;
                         }
 
                         break;
@@ -62113,12 +62113,12 @@ namespace Aow.Units.AoWE
                         var duration2 = GetDuration(A1);
                         var totalDuration2 = GetTotalDuration();
                         var aoWEFormat = AoWE.Format(AoWE.TranslateRStr(AoWE.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
-                        Result = base.GetName(A1) + AnsiString.FromBytes(32) + aoWEFormat;
+                        Result = base.GetName(A1) + " " + aoWEFormat;
                         break;
                     case TDurationMode.dmEntireCombat:
                         var name = base.GetName(A1);
                         var translateRStr = AoWE.TranslateRStr(AoWE.DurationEntireCombatRStr);
-                        Result = name + AnsiString.FromBytes(32) + translateRStr;
+                        Result = name + " " + translateRStr;
                         break;
                 }
             }
@@ -62301,7 +62301,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:322
-        public virtual AnsiString GetLevelName(int A1) => (AnsiString)"Unknown " + IntToStr(A1);
+        public virtual string GetLevelName(int A1) => "Unknown " + IntToStr(A1);
 
         // AoWAb.PAS:317
         // { branch past the missing-data exit and nil-owner zero result }
@@ -62320,7 +62320,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:947
-        public override AnsiString GetLevelName(int A1) => AoWE.Format(AoWE.TranslateRStr(AoWE.P4TransportUnitsRStr), [IntToStr(A1)]);
+        public override string GetLevelName(int A1) => AoWE.Format(AoWE.TranslateRStr(AoWE.P4TransportUnitsRStr), [IntToStr(A1)]);
     }
 
     // (strike mode)
@@ -63299,7 +63299,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4643
-        public override AnsiString GetName() => AoWE.AoWHSSet.FAbilityControl.GetAbility(FAbilityID).GetName(null);
+        public override string GetName() => AoWE.AoWHSSet.FAbilityControl.GetAbility(FAbilityID).GetName(null);
 
         // AoWAb.PAS:4647
         public override bool Play(TCombatViewer A1)
@@ -65073,7 +65073,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:3191
-        public override AnsiString GetName(TAbilityOwner A1) => GetLevelName(GetLevel(A1));
+        public override string GetName(TAbilityOwner A1) => GetLevelName(GetLevel(A1));
 
         // AoWAb.PAS:3146
         public override int GetLevel(TAbilityOwner A1)
@@ -65159,7 +65159,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:3195
-        public override AnsiString ExpandName(TAbilityOwner A1) => GetLevelName(GetLevel(A1) + 1);
+        public override string ExpandName(TAbilityOwner A1) => GetLevelName(GetLevel(A1) + 1);
 
         // AoWAb.PAS:3217
         public override bool Expand(TAbilityOwner A1)
@@ -65384,25 +65384,25 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:3181
-        public AnsiString GetLevelName(int A1)
+        public string GetLevelName(int A1)
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (A1)
             {
                 case 0:
                     Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr);
                     break;
                 case 1:
-                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + (AnsiString)" I";
+                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + " I";
                     break;
                 case 2:
-                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + (AnsiString)" II";
+                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + " II";
                     break;
                 case 3:
-                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + (AnsiString)" III";
+                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + " III";
                     break;
                 case 4:
-                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + (AnsiString)" IV";
+                    Result = AoWE.TranslateRStr(AoWE.TurnUndeadRStr) + " IV";
                     break;
             }
 
@@ -66845,7 +66845,7 @@ namespace Aow.Units.AoWE
             bool Result;
             TAbstractUnit Source;
             TAbstractUnit Target;
-            AnsiString Error = default;
+            string Error = "";
             int I;
             THealingTE Event;
             Source = AoWE.AoWHSMap.FUnitControl.FindUnit(FSourceUnitID);
@@ -66903,9 +66903,9 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:3663
-        public override AnsiString GetName(TAbilityOwner A1)
+        public override string GetName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             if (A1 == null || GetEnabled(A1))
             {
                 Result = FAbilityName;
@@ -66913,7 +66913,7 @@ namespace Aow.Units.AoWE
             else
             {
                 var translateRStr = AoWE.TranslateRStr(AoWE.UsedRStr);
-                Result = FAbilityName + (AnsiString)" (" + LowerCase(translateRStr) + AnsiString.FromBytes(41);
+                Result = FAbilityName + " (" + LowerCase(translateRStr) + ")";
             }
 
             return Result;
@@ -66992,7 +66992,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:3827
-        public override bool Activate(TAbilityOwner A1, ref AnsiString A2)
+        public override bool Activate(TAbilityOwner A1, ref string A2)
         {
             bool Result;
             TUnitSelectorAAI Info;
@@ -67510,7 +67510,7 @@ namespace Aow.Units.AoWE
             bool Result;
             TAbstractUnit Source;
             TAbstractUnit Target;
-            AnsiString Error = default;
+            string Error = "";
             int I;
             TDispelMagicAbilityTE Event;
             Source = AoWE.AoWHSMap.FUnitControl.FindUnit(FSourceUnitID);
@@ -67568,12 +67568,12 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4129
-        public override AnsiString GetName(TAbilityOwner A1)
+        public override string GetName(TAbilityOwner A1)
         {
-            AnsiString Result = GetLevelName(GetLevel(A1));
+            string Result = GetLevelName(GetLevel(A1));
             if (A1 != null && !GetEnabled(A1))
             {
-                Result = Result + (AnsiString)" (" + LowerCase(AoWE.TranslateRStr(AoWE.UsedRStr)) + AnsiString.FromBytes(41);
+                Result = Result + " (" + LowerCase(AoWE.TranslateRStr(AoWE.UsedRStr)) + ")";
             }
 
             return Result;
@@ -67692,7 +67692,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4311
-        public override bool Activate(TAbilityOwner A1, ref AnsiString A2)
+        public override bool Activate(TAbilityOwner A1, ref string A2)
         {
             bool Result;
             TUnitSelectorAAI Info;
@@ -67743,7 +67743,7 @@ namespace Aow.Units.AoWE
         public override int ExpandCost(TAbilityOwner A1) => 5;
 
         // AoWAb.PAS:4125
-        public override AnsiString ExpandName(TAbilityOwner A1) => GetLevelName(GetLevel(A1) + 1);
+        public override string ExpandName(TAbilityOwner A1) => GetLevelName(GetLevel(A1) + 1);
 
         // AoWAb.PAS:4152
         public override bool Expand(TAbilityOwner A1)
@@ -67921,22 +67921,22 @@ namespace Aow.Units.AoWE
         public int GetDispelMana(TAbilityOwner A1) => GetLevel(A1) * 10 + 20;
 
         // AoWAb.PAS:4116
-        public AnsiString GetLevelName(int A1)
+        public string GetLevelName(int A1)
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (A1)
             {
                 case 0:
                     Result = AoWE.TranslateRStr(AoWE.DispelMagicRStr);
                     break;
                 case 1:
-                    Result = AoWE.TranslateRStr(AoWE.DispelMagicRStr) + (AnsiString)" I";
+                    Result = AoWE.TranslateRStr(AoWE.DispelMagicRStr) + " I";
                     break;
                 case 2:
-                    Result = AoWE.TranslateRStr(AoWE.DispelMagicRStr) + (AnsiString)" II";
+                    Result = AoWE.TranslateRStr(AoWE.DispelMagicRStr) + " II";
                     break;
                 case 3:
-                    Result = AoWE.TranslateRStr(AoWE.DispelMagicRStr) + (AnsiString)" III";
+                    Result = AoWE.TranslateRStr(AoWE.DispelMagicRStr) + " III";
                     break;
             }
 
@@ -67980,7 +67980,7 @@ namespace Aow.Units.AoWE
         {}
 
         public byte FExternalLevel;
-        public AnsiString FExternalSource;
+        public string FExternalSource = "";
         // AoWAb.PAS:957
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -68075,9 +68075,9 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1067
-        public override AnsiString GetSourceName(TAbilityOwner A1)
+        public override string GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             TLeadershipAbilityData Data;
             Data = (TLeadershipAbilityData)A1.GetAbilityData(FAbilityID);
             if (Data != null && Data.FExternalLevel > Data.FLevel)
@@ -68119,10 +68119,10 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:1097
-        public override AnsiString GetLevelName(int A1) => AoWE.TranslateRStr(AoWE.LeadershipRStr);
+        public override string GetLevelName(int A1) => AoWE.TranslateRStr(AoWE.LeadershipRStr);
 
         // AoWAb.PAS:1024
-        public void SetExternalSource(TAbilityOwner A1, byte A2, AnsiString SourceName)
+        public void SetExternalSource(TAbilityOwner A1, byte A2, string SourceName)
         {
             TLeadershipAbilityData Data;
             Data = (TLeadershipAbilityData)A1.GetAbilityData(FAbilityID);
@@ -68157,7 +68157,7 @@ namespace Aow.Units.AoWE
             {
                 if (Data.FLevel != 0)
                 {
-                    Data.FExternalSource = (AnsiString)"";
+                    Data.FExternalSource = "";
                     Data.FExternalLevel = 0;
                 }
                 else
@@ -68202,9 +68202,9 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:804
-        public override AnsiString GetName()
+        public override string GetName()
         {
-            AnsiString Result;
+            string Result;
             TAbstractUnit Source;
             if (AoWE.AoWHSMap != null)
             {
@@ -68227,9 +68227,9 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:831
-        public override AnsiString GetBinding()
+        public override string GetBinding()
         {
-            AnsiString Result;
+            string Result;
             TAbstractUnit Source;
             Source = AoWE.AoWHSMap.FUnitControl.FindUnit(FUnitID);
             if (Source != null)
@@ -68238,7 +68238,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
@@ -68399,9 +68399,9 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:613
-        public override AnsiString GetName(TAbilityOwner A1)
+        public override string GetName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             if (A1 != null)
             {
                 switch (GetDurationMode())
@@ -68413,7 +68413,7 @@ namespace Aow.Units.AoWE
                             var duration = GetDuration(A1);
                             var totalDuration = GetTotalDuration();
                             var format = AoWE.Format(AoWE.TranslateRStr(AoWE.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
-                            Result = Result + AnsiString.FromBytes(32) + format;
+                            Result = Result + " " + format;
                         }
 
                         break;
@@ -68421,12 +68421,12 @@ namespace Aow.Units.AoWE
                         var duration2 = GetDuration(A1);
                         var totalDuration2 = GetTotalDuration();
                         var aoWEFormat = AoWE.Format(AoWE.TranslateRStr(AoWE.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
-                        Result = base.GetName(A1) + AnsiString.FromBytes(32) + aoWEFormat;
+                        Result = base.GetName(A1) + " " + aoWEFormat;
                         break;
                     case TDurationMode.dmEntireCombat:
                         var name = base.GetName(A1);
                         var translateRStr = AoWE.TranslateRStr(AoWE.DurationEntireCombatRStr);
-                        Result = name + AnsiString.FromBytes(32) + translateRStr;
+                        Result = name + " " + translateRStr;
                         break;
                     default:
                         Result = base.GetName(A1);
@@ -68442,9 +68442,9 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:637
-        public override AnsiString GetSourceName(TAbilityOwner A1)
+        public override string GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             TUnitEnchantmentAbilityData Data;
             TAbstractUnit Source;
             if (AoWE.AoWHSMap != null)
@@ -68509,7 +68509,7 @@ namespace Aow.Units.AoWE
             if (!(A1 is TAbstractUnit))
             {
                 // { Preserve the original assertion diagnostic. }
-                Assert(false, (AnsiString)"Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46175);
+                Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46175);
             }
 
             bool Result = false;
@@ -68519,7 +68519,7 @@ namespace Aow.Units.AoWE
                 if (((TAbstractUnit)A1).FUnitID <= 0)
                 {
                     // { Preserve the original assertion diagnostic. }
-                    Assert(false, (AnsiString)"Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
+                    Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
                 }
 
                 Data = new TUnitEnchantmentAbilityData(null);
@@ -68645,20 +68645,20 @@ namespace Aow.Units.AoWE
         {}
 
         // AoWAb.PAS:5494
-        public virtual void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
+        public virtual void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
         {
-            Text = (AnsiString)"";
+            Text = "";
             Gold = 0;
             Days = 0;
         }
 
         // AoWAb.PAS:5500
-        public virtual bool CanConstruct(TAbstractUnit A1, ref AnsiString A2)
+        public virtual bool CanConstruct(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             int Gold = default;
             int Days = default;
-            AnsiString Text = default;
+            string Text = "";
             GetInfo(A1, ref Text, ref Gold, ref Days);
             if (AoWE.AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).FGems < Gold)
             {
@@ -68740,7 +68740,7 @@ namespace Aow.Units.AoWE
         public override TSet<TAbilityControlTypeElement> GetControlType(TAbilityOwner Owner) => TSet<TAbilityControlTypeElement>.Of(TAbilityControlTypeElement.acAction);
 
         // AoWAb.PAS:5555
-        public override bool CanActivate(TAbilityOwner A1, ref AnsiString A2)
+        public override bool CanActivate(TAbilityOwner A1, ref string A2)
         {
             bool Result;
             if (A1 is TAbstractUnit)
@@ -68762,7 +68762,7 @@ namespace Aow.Units.AoWE
             var id = Control.ID();
             if (FConstructionControls.FindID(id) != null)
             {
-                throw Exception.Create((AnsiString)"Construction Control ID already used");
+                throw Exception.Create("Construction Control ID already used");
             }
 
             Control.SetOwner(FConstructionControls);
@@ -68787,7 +68787,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:901
-        public override AnsiString GetName()
+        public override string GetName()
         {
             TAbstractUnit Source;
             Source = AoWE.AoWHSMap.FUnitControl.FindUnit(FUnitID);
@@ -68837,7 +68837,7 @@ namespace Aow.Units.AoWE
         {
             TFastCombat Combat;
             TCombatObject Source;
-            AnsiString Error = default;
+            string Error = "";
             TPlayerMagicControl Magic;
             TSpell Spell;
             Combat = A1.FCombat;
@@ -68891,7 +68891,7 @@ namespace Aow.Units.AoWE
         public override bool fcExecuteCombatCommand(TCombatObject A1, TFastCombatCommand A2) => AoWE.AoWHSSet.FSpellControl.GetSpell(((TSpellCC)A2).FSpellID).fcExecuteCombatCommand(A1, A2);
 
         // AoWAb.PAS:4479
-        public override bool CanActivate(TAbilityOwner A1, ref AnsiString A2)
+        public override bool CanActivate(TAbilityOwner A1, ref string A2)
         {
             bool Result;
             if (A1 is THero)
@@ -68995,28 +68995,28 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:4452
-        public override AnsiString GetLevelName(int A1)
+        public override string GetLevelName(int A1)
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (A1)
             {
                 case 0:
                     Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr);
                     break;
                 case 1:
-                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + (AnsiString)" I";
+                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + " I";
                     break;
                 case 2:
-                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + (AnsiString)" II";
+                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + " II";
                     break;
                 case 3:
-                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + (AnsiString)" III";
+                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + " III";
                     break;
                 case 4:
-                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + (AnsiString)" IV";
+                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + " IV";
                     break;
                 case 5:
-                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + (AnsiString)" V";
+                    Result = AoWE.TranslateRStr(AoWE.SpellCastingRStr) + " V";
                     break;
             }
 
@@ -69030,7 +69030,7 @@ namespace Aow.Units.AoWE
             int I;
             TSpell Spell;
             TSpellCombatInfo Info = default;
-            AnsiString Error = default;
+            string Error = "";
             TPlayerMagicControl Magic;
             if (AUnit is THero)
             {
@@ -69112,13 +69112,13 @@ namespace Aow.Units.AoWE
 
         public int FSpellID;
         // Spells.PAS:1
-        public override AnsiString GetName()
+        public override string GetName()
         {
             var spell = AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
-            AnsiString Result = AoWE.Format(AoWE.TranslateRStr(AoWE.P4CastXRStr), [spell.FSpellName]);
+            string Result = AoWE.Format(AoWE.TranslateRStr(AoWE.P4CastXRStr), [spell.FSpellName]);
             if (FTarget != null)
             {
-                Result = Result + (AnsiString)" on " + FTarget.IDStr();
+                Result = Result + " on " + FTarget.IDStr();
             }
 
             return Result;
@@ -69143,7 +69143,7 @@ namespace Aow.Units.AoWE
             FSpellControlTypes = TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal);
         }
 
-        public AnsiString FSpellName;
+        public string FSpellName = "";
         public TSet<TSpellControlTypeElement> FSpellControlTypes;
         public int FSpellID;
         public int FBaseManaCost;
@@ -69216,7 +69216,7 @@ namespace Aow.Units.AoWE
         public virtual bool GetEnabled() => true;
 
         // Spells.PAS:43
-        public virtual bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
+        public virtual bool CanActivate(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             if (FSpellType == TSpellType.stGlobal)
@@ -69239,7 +69239,7 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        public bool CanActivate__static(TAbstractUnit A1, ref AnsiString A2)
+        public bool CanActivate__static(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             if (FSpellType == TSpellType.stGlobal)
@@ -69304,7 +69304,7 @@ namespace Aow.Units.AoWE
         {
             bool Result;
             TCombatSpellCaster Caster;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanActivateCombat(A1, ref Reason))
             {
                 Caster = new TCombatSpellCaster(null);
@@ -69479,7 +69479,7 @@ namespace Aow.Units.AoWE
             if (Index < 0)
             {
                 // { Preserve the original assertion diagnostic. }
-                Assert(false, (AnsiString)"Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
+                Assert(false, "Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
             }
 
             if (Index < FRegisteredSpells.Count)
@@ -69504,7 +69504,7 @@ namespace Aow.Units.AoWE
             {
                 if (ID < FRegisteredSpells.Count && FRegisteredSpells[ID] != null)
                 {
-                    throw Exception.Create((AnsiString)"Spell already registered (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                    throw Exception.Create("Spell already registered (" + IntToStr(ID) + ")");
                 }
 
                 while (FRegisteredSpells.Count <= ID)
@@ -69517,7 +69517,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"Invalid SpellID (" + (AnsiString)ClassNameOf(Spell.GetType()) + AnsiString.FromBytes(41));
+                throw Exception.Create("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
             }
         }
 
@@ -69530,7 +69530,7 @@ namespace Aow.Units.AoWE
             {
                 if (ID < 0 || ID >= FRegisteredSpells.Count || FRegisteredSpells[ID] != Spell)
                 {
-                    throw Exception.Create((AnsiString)"Cannot Unregister Spell (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                    throw Exception.Create("Cannot Unregister Spell (" + IntToStr(ID) + ")");
                 }
 
                 if (FRegisteredSpells.List[ID] != null)
@@ -69542,7 +69542,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw Exception.Create((AnsiString)"Invalid SpellID (" + (AnsiString)ClassNameOf(Spell.GetType()) + AnsiString.FromBytes(41));
+                throw Exception.Create("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
             }
         }
 
@@ -69822,7 +69822,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:855
-        public override AnsiString GetText()
+        public override string GetText()
         {
             var spell = AoWE.AoWHSSet.FSpellControl.GetSpell(FSpellID);
             return AoWE.Format(AoWE.TranslateRStr(AoWE.P4XCastingReadyRStr), [spell.FSpellName]);
@@ -69833,7 +69833,7 @@ namespace Aow.Units.AoWE
         {
             bool Show;
             TAbstractUnit Hero;
-            AnsiString Reason = default;
+            string Reason = "";
             Show = Trigger == TExecuteTrigger.etUser;
             Show = Show || AoWE.AoWHSMap.FPlayMode == TPlayMode.pmTurn && AoWE.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(TWindowPopupEvent.wpSpellReady);
             Show = Show || AoWE.AoWHSMap.FPlayMode == TPlayMode.pmSimultaneous && AoWE.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(TWindowPopupEvent.wpSpellReady);
@@ -69887,7 +69887,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:947
-        public override bool CanCast(ref AnsiString Reason)
+        public override bool CanCast(ref string Reason)
         {
             bool Result;
             THero Hero;
@@ -69947,7 +69947,7 @@ namespace Aow.Units.AoWE
         {
             bool Result;
             TUnitUserList Targets;
-            AnsiString Reason = default;
+            string Reason = "";
             TAbstractUnit Source;
             if (CanCast(ref Reason))
             {
@@ -70214,7 +70214,7 @@ namespace Aow.Units.AoWE
         public override void AIPrefetchCastSpellActions(TAbstractUnit A1, TAICastSpellActionList A2)
         {
             TAICastSpellAction Action;
-            AnsiString Reason = default;
+            string Reason = "";
             int Priority = default;
             TAbstractUnit Target = default;
             bool Valid;
@@ -70237,7 +70237,7 @@ namespace Aow.Units.AoWE
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             int Priority = default;
             TAbstractUnit Target = default;
             TUnitList Targets;
@@ -70289,7 +70289,7 @@ namespace Aow.Units.AoWE
         {
             bool Result;
             TUnitSpellCaster Caster;
-            AnsiString Reason = default;
+            string Reason = "";
             base.Activate(A1);
             if (CanActivate(A1, ref Reason))
             {
@@ -70317,7 +70317,7 @@ namespace Aow.Units.AoWE
         }
 
         // Spells.PAS:1379
-        public override bool CanActivateCombat(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanActivateCombat(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             if (!FSpellControlTypes.Contains(TSpellControlTypeElement.sctCombat) || !base.CanActivateCombat(A1, ref A2))
@@ -71426,7 +71426,7 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:2044
-        public void SetupSelection(AnsiString FileName)
+        public void SetupSelection(string FileName)
         {
             TAoWHSMap Map;
             ClearSelection();
@@ -71657,8 +71657,8 @@ namespace Aow.Units.AoWE
         }
 
         public int FID;
-        public AnsiString FName;
-        public AnsiString FFileName;
+        public string FName = "";
+        public string FFileName = "";
         // Diplomacy.pas:2197
         public override void Destroy()
         {
@@ -71772,7 +71772,7 @@ namespace Aow.Units.AoWE
             FDifficultyLevel = TCampaignDifficultyLevel.cdlNormal;
         }
 
-        public AnsiString FName;
+        public string FName = "";
         public TMemoryStream FStream;
         public TAoWCampaignScenarioList FScenarios;
         public TIntegerList FCompletedScenarios;
@@ -71781,7 +71781,7 @@ namespace Aow.Units.AoWE
         public TAoWCampaignTransferSettings FTransferSettings;
         public int FCurrentScenarioID;
         public int FNextScenarioID;
-        public AnsiString FFileName;
+        public string FFileName = "";
         public TCampaignDifficultyLevel FDifficultyLevel;
         public TPlayMode FPlayMode;
         // Diplomacy.pas:2261
@@ -71859,7 +71859,7 @@ namespace Aow.Units.AoWE
         public virtual TAoWCampaignScenario CreateScenario() => new TAoWCampaignScenario(null);
 
         // Diplomacy.pas:2413
-        public virtual AnsiString GetAutoSaveFileName(TCampaignAutoSaveType Auto) => AoWE.AoWHSMap.FMapName + (AnsiString)".acg";
+        public virtual string GetAutoSaveFileName(TCampaignAutoSaveType Auto) => AoWE.AoWHSMap.FMapName + ".acg";
 
         // Diplomacy.pas:2330
         public virtual void SelectNextScenario(int ID)
@@ -72010,7 +72010,7 @@ namespace Aow.Units.AoWE
         public virtual void FinishScenario()
         {
             sbyte Player;
-            AnsiString FileName;
+            string FileName;
             FScenarioStarted = false;
             FCompletedScenarios.Add(FCurrentScenarioID);
             FTransferSettings.Retrieve();
@@ -72029,7 +72029,7 @@ namespace Aow.Units.AoWE
             }
 
             FileName = GetAutoSaveFileName(TCampaignAutoSaveType.casScenarioFinished);
-            AoWE.AoWEngine.SaveCampaign(AoWE.AoWEngine.StartupDirectory + (AnsiString)"Save\\" + FileName);
+            AoWE.AoWEngine.SaveCampaign(AoWE.AoWEngine.StartupDirectory + "Save\\" + FileName);
         }
 
         // Diplomacy.pas:2432
@@ -72153,7 +72153,7 @@ namespace Aow.Units.AoWE
                 {
                     FReaction = TDiplomaticActionReaction.darIgnore;
                     Log = AoWE.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
-                    Assert(Log is TDiplomaticActionEventLog, (AnsiString)"", "Diplomacy.pas", 697);
+                    Assert(Log is TDiplomaticActionEventLog, "", "Diplomacy.pas", 697);
                     AoWE.AoWHSMap.FPlayers.GetPlayers(FSource).FEventLogbook.AddEvent(Log);
                     var players = AoWE.AoWHSMap.FPlayers.GetPlayers(FSource);
                     AoWE.AoWHSMap.FPlayers.GetPlayers(FSource).SetGems(players.FGems + FEscrowGold);
@@ -72475,7 +72475,7 @@ namespace Aow.Units.AoWE
             TDiplomaticActionReaction Reaction;
             TDiplomaticAction Last;
             int Chance;
-            AnsiString ErrorText = default;
+            string ErrorText = "";
             Reaction = FReaction;
             if (Reaction == TDiplomaticActionReaction.darNone)
             {
@@ -72660,7 +72660,7 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:1055
-        public virtual bool CanSend(ref AnsiString ErrorText)
+        public virtual bool CanSend(ref string ErrorText)
         {
             bool Result;
             if (AoWE.AoWHSMap.FPlayers.GetPlayers(FSource).FGems >= FGold)
@@ -72690,7 +72690,7 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:1081
-        public virtual bool Send(ref AnsiString ErrorText)
+        public virtual bool Send(ref string ErrorText)
         {
             bool Result;
             TDiplomaticActionTE TE;
@@ -72713,10 +72713,10 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:920
-        public virtual bool CanAccept(ref AnsiString ErrorText) => true;
+        public virtual bool CanAccept(ref string ErrorText) => true;
 
         // Diplomacy.pas:923
-        public virtual bool Accept(ref AnsiString ErrorText)
+        public virtual bool Accept(ref string ErrorText)
         {
             bool Result;
             TDiplomaticActionTE TE;
@@ -72738,10 +72738,10 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:974
-        public virtual bool CanReject(ref AnsiString ErrorText) => true;
+        public virtual bool CanReject(ref string ErrorText) => true;
 
         // Diplomacy.pas:977
-        public virtual bool Reject(ref AnsiString ErrorText)
+        public virtual bool Reject(ref string ErrorText)
         {
             bool Result;
             TDiplomaticActionTE TE;
@@ -72763,9 +72763,9 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:505
-        public AnsiString GetName(sbyte Player)
+        public string GetName(sbyte Player)
         {
-            AnsiString Result;
+            string Result;
             switch (FActionType)
             {
                 case TDiplomaticActionType.daDeclareWar:
@@ -72802,7 +72802,7 @@ namespace Aow.Units.AoWE
                     Result = AoWE.Format(AoWE.TranslateRStr(AoWE.P5SendMessageAsXRStr), [name3]);
                     break;
                 default:
-                    Result = (AnsiString)"";
+                    Result = "";
                     break;
             }
 
@@ -73075,7 +73075,7 @@ namespace Aow.Units.AoWE
         // Diplomacy.pas:1147
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            AnsiString ErrorText = default;
+            string ErrorText = "";
             switch (FOperation)
             {
                 case 0:
@@ -73171,9 +73171,9 @@ namespace Aow.Units.AoWE
         }
 
         // Diplomacy.pas:1265
-        public override AnsiString GetText()
+        public override string GetText()
         {
-            AnsiString Result = default;
+            string Result = "";
             TDiplomaticAction Action;
             Action = FAction;
             switch (Action.FActionType)
@@ -73357,7 +73357,7 @@ namespace Aow.Units.AoWE
                     Result = AoWE.TranslateRStr(AoWE.P5ThreatRStr);
                     break;
                 default:
-                    Result = (AnsiString)"TDiplomaticActionEventLog";
+                    Result = "TDiplomaticActionEventLog";
                     break;
             }
 
@@ -73542,15 +73542,15 @@ namespace Aow.Units.AoWE
                 case TDiplomaticActionType.daDeclareWar:
                 case TDiplomaticActionType.daThreatenToAttack:
                 case TDiplomaticActionType.daBreakAlliance:
-                    PlaySample((AnsiString)"SFX\\EVENTS\\MESSAGE.WAV");
+                    PlaySample("SFX\\EVENTS\\MESSAGE.WAV");
                     break;
                 case TDiplomaticActionType.daOfferPeace:
                 case TDiplomaticActionType.daProposeAlliance:
                 case TDiplomaticActionType.daMakeTribute:
-                    PlaySample((AnsiString)"SFX\\EVENTS\\MESSAGE2.WAV");
+                    PlaySample("SFX\\EVENTS\\MESSAGE2.WAV");
                     break;
                 default:
-                    PlaySample((AnsiString)"SFX\\EVENTS\\MESSAGE.WAV");
+                    PlaySample("SFX\\EVENTS\\MESSAGE.WAV");
                     break;
             }
         }
@@ -73713,7 +73713,7 @@ namespace Aow.Units.AoWE
             int Score;
             sbyte Source;
             sbyte Candidate;
-            AnsiString ErrorText = default;
+            string ErrorText = "";
             // { Original bug: the result remains False even when an action is sent. }
             bool Result = false;
             Action = null;
@@ -73866,7 +73866,7 @@ namespace Aow.Units.AoWE
             TByteList IdealPeace;
             TByteList IdealWar;
             int Player;
-            AnsiString S;
+            string S;
             IdealPeace = new TByteList();
             IdealWar = new TByteList();
             FControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
@@ -73874,9 +73874,9 @@ namespace Aow.Units.AoWE
             var players = AoWE.AoWHSMap.FPlayers.GetPlayers(Player);
             S = AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[players.FPlayerRace]);
             var name = AoWE.AoWHSMap.FPlayers.GetPlayers(Player).GetName();
-            S = S + AnsiString.FromBytes(47) + name;
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, (AnsiString)"DIPLOMACY (" + S + AnsiString.FromBytes(41));
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, (AnsiString)"IDEAL PEACE PLAYERS");
+            S = S + "/" + name;
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, "DIPLOMACY (" + S + ")");
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, "IDEAL PEACE PLAYERS");
             for (int I = 0, last = IdealPeace.Count - 1; I <= last; I++)
             {
                 var item = IdealPeace[I];
@@ -73884,11 +73884,11 @@ namespace Aow.Units.AoWE
                 S = AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[fPlayersPlayers.FPlayerRace]);
                 var idealPeaceItem = IdealPeace[I];
                 var name2 = AoWE.AoWHSMap.FPlayers.GetPlayers(idealPeaceItem).GetName();
-                S = S + AnsiString.FromBytes(47) + name2;
+                S = S + "/" + name2;
                 AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, S);
             }
 
-            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, (AnsiString)"IDEAL WAR PLAYERS");
+            AoWE.AoWEngine.OutputDebugMessage(AoWE.AIDID, "IDEAL WAR PLAYERS");
             for (int I = 0, last = IdealWar.Count - 1; I <= last; I++)
             {
                 var item = IdealWar[I];
@@ -73961,7 +73961,7 @@ namespace Aow.Units.AoWE
             FAnimationDetail = (byte)FRegistry.GetDetailLevel();
             FEmailGames = new TEmailGameControl(null);
             FDictionary = new TAoWDictionary(null);
-            FDictionary.SetDictionaryName((AnsiString)"ResourceStringDictionary");
+            FDictionary.SetDictionaryName("ResourceStringDictionary");
             // { Original selects English for every explicit language here. }
             switch (FRegistry.GetLanguage())
             {
@@ -74015,19 +74015,19 @@ namespace Aow.Units.AoWE
             RegisterEventLog(this);
             AoWE.P2RegisterAbilities(FGameSet.FAbilityControl);
             AoWE.P2RegisterSpells(this);
-            AoWE.CombatDID = RegisterDebugID((AnsiString)"Combat");
-            AoWE.AIDID = RegisterDebugID((AnsiString)"AI");
-            AoWE.TMPDID = RegisterDebugID((AnsiString)"TMP");
-            AoWE.MAGICDID = RegisterDebugID((AnsiString)"MAGIC");
+            AoWE.CombatDID = RegisterDebugID("Combat");
+            AoWE.AIDID = RegisterDebugID("AI");
+            AoWE.TMPDID = RegisterDebugID("TMP");
+            AoWE.MAGICDID = RegisterDebugID("MAGIC");
             Editors.RegisterClass(EditorClass.Of<TAoWMapObjectEditor>());
-            LoadExternalPlugIns(StartupDirectory + (AnsiString)"PLUGINS");
+            LoadExternalPlugIns(StartupDirectory + "PLUGINS");
             FEmailGames.Load();
         }
 
         // Army.PAS:5901
         public override void UpdateStartupDirectory()
         {
-            if (FRegistry.GetStartupDirectory() != (AnsiString)"")
+            if (!IsEmpty(FRegistry.GetStartupDirectory()))
             {
                 SetStartupDirectory(FRegistry.GetStartupDirectory());
             }
@@ -74036,19 +74036,19 @@ namespace Aow.Units.AoWE
                 SetStartupDirectory(ExtractFilePath(Application.ExeName));
             }
 
-            if (StartupDirectory[StartupDirectory.Length] != 92)
+            if (StartupDirectory[StartupDirectory.Length - 1] != 92)
             {
-                SetStartupDirectory(StartupDirectory + AnsiString.FromBytes(92));
+                SetStartupDirectory(StartupDirectory + "\\");
             }
 
             BaseImageLibraryPath = StartupDirectory;
             BaseSoundEnginePath = StartupDirectory;
-            FDictionary.FFileName = StartupDirectory + (AnsiString)"Dict\\" + (AnsiString)"ResStr" + (AnsiString)".mld";
+            FDictionary.FFileName = StartupDirectory + "Dict\\" + "ResStr" + ".mld";
             FDictionary.Open();
         }
 
         // Army.PAS:5748
-        public override AnsiString TranslateText(AnsiString Text) => TranslateRStr(Text);
+        public override string TranslateText(string Text) => TranslateRStr(Text);
 
         // Army.PAS:5955
         public override void CreateHSSet()
@@ -74080,7 +74080,7 @@ namespace Aow.Units.AoWE
             }
             catch (System.Exception)
             {
-                throw Exception.Create((AnsiString)"exception occurred during CloseHSM");
+                throw Exception.Create("exception occurred during CloseHSM");
             }
         }
 
@@ -74101,7 +74101,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5660
-        public void TranslateEObjectFromFile(TEObject Obj, AnsiString FileName)
+        public void TranslateEObjectFromFile(TEObject Obj, string FileName)
         {
             TAoWDictionary Dictionary;
             if (FileExists(FileName))
@@ -74144,7 +74144,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5725
-        public void ExportTextToFile(AnsiString FileName, TEObject Obj)
+        public void ExportTextToFile(string FileName, TEObject Obj)
         {
             TExportTextStream Stream;
             TFileStream FileStream;
@@ -74168,9 +74168,9 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5741
-        public AnsiString TranslateRStr(AnsiString S)
+        public string TranslateRStr(string S)
         {
-            AnsiString Result;
+            string Result;
             if (FDictionary.FLanguage > 0)
             {
                 Result = FDictionary.Translate(S);
@@ -74254,34 +74254,34 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5941
-        public AnsiString GetVersionStr()
+        public string GetVersionStr()
         {
             int Version;
-            AnsiString Result = IntToStr(GetMajorVersion()) + AnsiString.FromBytes(46);
+            string Result = IntToStr(GetMajorVersion()) + ".";
             Version = GetMinorVersion();
             if (Version < 10)
             {
-                Result = Result + AnsiString.FromBytes(48) + IntToStr(Version) + AnsiString.FromBytes(46);
+                Result = Result + "0" + IntToStr(Version) + ".";
             }
             else
             {
-                Result = Result + IntToStr(Version) + AnsiString.FromBytes(46);
+                Result = Result + IntToStr(Version) + ".";
             }
 
             Version = GetBuildNumber();
             if (Version < 1000)
             {
-                Result = Result + AnsiString.FromBytes(48);
+                Result = Result + "0";
             }
 
             if (Version < 100)
             {
-                Result = Result + AnsiString.FromBytes(48);
+                Result = Result + "0";
             }
 
             if (Version < 10)
             {
-                Result = Result + AnsiString.FromBytes(48);
+                Result = Result + "0";
             }
 
             return Result + IntToStr(Version);
@@ -74294,12 +74294,12 @@ namespace Aow.Units.AoWE
             bool Registered = default;
             TMemoryStream Mem;
             TFileStream FileStream;
-            AnsiString Name = default;
+            string Name = "";
             try
             {
                 Mem = new TMemoryStream();
                 // { Original leaks Mem if opening or loading the file raises. }
-                FileStream = new TFileStream(AoWE.AoWEngine.StartupDirectory + (AnsiString)"RELEASE\\GENERAL.PFS", 0 | 32);
+                FileStream = new TFileStream(AoWE.AoWEngine.StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
                 try
                 {
                     Mem.LoadFromStream(FileStream);
@@ -74330,18 +74330,18 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:6008
-        public AnsiString RegisteredTo()
+        public string RegisteredTo()
         {
-            AnsiString Result = default;
+            string Result = "";
             bool Registered = default;
             TMemoryStream Mem;
-            AnsiString Name = default;
+            string Name = "";
             try
             {
                 Mem = new TMemoryStream();
                 try
                 {
-                    Mem.LoadFromFile(AoWE.AoWEngine.StartupDirectory + (AnsiString)"RELEASE\\GENERAL.PFS");
+                    Mem.LoadFromFile(AoWE.AoWEngine.StartupDirectory + "RELEASE\\GENERAL.PFS");
                     Mem.Read(Bytes.Of(ref Registered, 1));
                     StringFromStream(ref Name, Mem);
                     Result = AoWE.Encode(Name, 0);
@@ -74353,40 +74353,40 @@ namespace Aow.Units.AoWE
             }
             catch (System.Exception)
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
         }
 
         // Army.PAS:6026
-        public bool RequestAccess(AnsiString Name, AnsiString Code)
+        public bool RequestAccess(string Name, string Code)
         {
-            AnsiString RegistrationCode(AnsiString Text)
+            string RegistrationCode(string Text)
             {
                 int Value;
-                AnsiString Hex;
-                AnsiString Result = (AnsiString)"";
+                string Hex;
+                string Result = "";
                 if (Text.Length >= 4)
                 {
                     Value = 0;
                     for (int I = 1; I <= Text.Length; I++)
                     {
-                        Value += Text[I];
+                        Value += Cp1252.Byte(Text[I - 1]);
                     }
 
                     for (int I = 1; I <= 4; I++)
                     {
-                        Hex = IntToHex(Text[I] * Value + I, 6);
-                        Result = Result + AnsiString.FromBytes(Hex[Hex.Length]);
-                        Value += Hex[Hex.Length] + Hex[1];
+                        Hex = IntToHex(Cp1252.Byte(Text[I - 1]) * Value + I, 6);
+                        Result = Result + Hex[Hex.Length - 1].ToString();
+                        Value += Cp1252.Byte(Hex[Hex.Length - 1]) + Cp1252.Byte(Hex[0]);
                     }
                 }
 
                 return Result;
             }
 
-            return RegisteredTo() == Name && Name != (AnsiString)"" && Code == RegistrationCode(Name);
+            return RegisteredTo() == Name && !IsEmpty(Name) && Code == RegistrationCode(Name);
         }
 
         // Army.PAS:6050
@@ -74410,16 +74410,16 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:6068
-        public void LoadCampaign(AnsiString FileName)
+        public void LoadCampaign(string FileName)
         {
             CloseCampaign();
             FCampaign = (TAoWCampaign)RetrieveFromFile(FileName, null);
-            TranslateEObjectFromFile(FCampaign, AoWE.AoWEngine.StartupDirectory + (AnsiString)"Dict\\" + (AnsiString)"Campaign" + (AnsiString)".mld");
+            TranslateEObjectFromFile(FCampaign, AoWE.AoWEngine.StartupDirectory + "Dict\\" + "Campaign" + ".mld");
             FCampaign.FFileName = FileName;
         }
 
         // Army.PAS:6076
-        public void SaveCampaign(AnsiString FileName)
+        public void SaveCampaign(string FileName)
         {
             if (FCampaign != null)
             {
@@ -74488,14 +74488,14 @@ namespace Aow.Units.AoWE
         {}
 
         // Structur.PAS:3195
-        public override bool CanConstruct(TAbstractUnit A1, ref AnsiString A2) => ValidateLocation(A1, ref A2) && (base.CanConstruct(A1, ref A2) && StructureResource(A1) != null);
+        public override bool CanConstruct(TAbstractUnit A1, ref string A2) => ValidateLocation(A1, ref A2) && (base.CanConstruct(A1, ref A2) && StructureResource(A1) != null);
 
         // Structur.PAS:3201
         public override bool Construct(TAbstractUnit AUnit)
         {
             bool Result;
             TConstructStructureTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanConstruct(AUnit, ref Reason) && !AoWE.AoWHSMap.FPlayers.GetPlayers(AUnit.FPlayer).GetBusy())
             {
                 Event = new TConstructStructureTE(null);
@@ -74515,7 +74515,7 @@ namespace Aow.Units.AoWE
         }
 
         // Structur.PAS:3162
-        public virtual bool ValidateLocation(TAbstractUnit AUnit, ref AnsiString Reason)
+        public virtual bool ValidateLocation(TAbstractUnit AUnit, ref string Reason)
         {
             TStructureResource Resource;
             sbyte X = default;
@@ -74588,8 +74588,8 @@ namespace Aow.Units.AoWE
             TStructureConstructionControl Control;
             TStructureResource Resource;
             TStructure Structure;
-            AnsiString Reason = default;
-            AnsiString Text = default;
+            string Reason = "";
+            string Text = "";
             int Gold = default;
             int Days = default;
             TEChangeNotifyNode Owner;
@@ -74649,29 +74649,29 @@ namespace Aow.Units.AoWE
     public partial class TExportTextStream : TEWriteTextStorageStream
     {
         // Army.PAS:5685
-        public override void rwString(ref AnsiString S, int ID)
+        public override void rwString(ref string S, int ID)
         {
-            AnsiString Buffer;
+            string Buffer;
             if (!PropertyTable.PropertyExist(ID))
             {
-                if (S != (AnsiString)"")
+                if (!IsEmpty(S))
                 {
-                    Buffer = AnsiString.FromBytes(91) + IntToStr(ID) + (AnsiString)"]=" + AnsiString.FromBytes(124) + S + AnsiString.FromBytes(124) + AnsiString.FromBytes(13) + AnsiString.FromBytes(10);
-                    FBuffer.Write(StringBytes(Buffer).Slice(1 - 1, Buffer.Length));
+                    Buffer = "[" + IntToStr(ID) + "]=" + "|" + S + "|" + "\r" + "\n";
+                    FBuffer.Write(Cp1252.Encode(Buffer).AsSpan().Slice(1 - 1, Buffer.Length));
                     PropertyTable.Add(ID, 0);
                 }
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found");
+                throw new EDoublePrioriyID("Double priorityID found");
             }
         }
 
         // Army.PAS:5700
         public override void rwStrings(TStrings Strings, int ID)
         {
-            AnsiString S = default;
-            AnsiString Buffer;
+            string S = "";
+            string Buffer;
             if (!PropertyTable.PropertyExist(ID))
             {
                 if (Strings.Count != 0)
@@ -74681,23 +74681,23 @@ namespace Aow.Units.AoWE
                         S = S + Strings[I];
                         if (I != Strings.Count - 1)
                         {
-                            S = S + (AnsiString)"<eol>";
+                            S = S + "<eol>";
                         }
                     }
 
                     try
                     {
-                        Buffer = AnsiString.FromBytes(91) + IntToStr(ID) + (AnsiString)"]=";
-                        if (S != (AnsiString)"")
+                        Buffer = "[" + IntToStr(ID) + "]=";
+                        if (!IsEmpty(S))
                         {
-                            Buffer = Buffer + AnsiString.FromBytes(124) + S + AnsiString.FromBytes(124) + AnsiString.FromBytes(13) + AnsiString.FromBytes(10);
+                            Buffer = Buffer + "|" + S + "|" + "\r" + "\n";
                         }
                         else
                         {
-                            Buffer = Buffer + AnsiString.FromBytes(13) + AnsiString.FromBytes(10);
+                            Buffer = Buffer + "\r" + "\n";
                         }
 
-                        FBuffer.Write(StringBytes(Buffer).Slice(1 - 1, Buffer.Length));
+                        FBuffer.Write(Cp1252.Encode(Buffer).AsSpan().Slice(1 - 1, Buffer.Length));
                         PropertyTable.Add(ID, 0);
                     }
                     finally
@@ -74707,7 +74707,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found");
+                throw new EDoublePrioriyID("Double priorityID found");
             }
         }
 
@@ -74722,18 +74722,18 @@ namespace Aow.Units.AoWE
         // Army.PAS:5614
         public override void TranslateStrings(ref TStrings Strings)
         {
-            AnsiString S;
+            string S;
             int EndOfLine;
             int LineFeed;
             if (Strings.Count != 0)
             {
-                S = (AnsiString)"";
+                S = "";
                 for (int I = 0, last = Strings.Count - 1; I <= last; I++)
                 {
                     S = S + Strings[I];
                     if (I != Strings.Count - 1)
                     {
-                        S = S + (AnsiString)"<eol>";
+                        S = S + "<eol>";
                     }
                 }
 
@@ -74741,8 +74741,8 @@ namespace Aow.Units.AoWE
                 Strings.Clear();
                 do
                 {
-                    EndOfLine = Pos((AnsiString)"<eol>", S);
-                    LineFeed = Pos(AnsiString.FromBytes(10), S);
+                    EndOfLine = Pos("<eol>", S);
+                    LineFeed = Pos("\n", S);
                     if ((EndOfLine < LineFeed || LineFeed == 0) && EndOfLine != 0)
                     {
                         Strings.Add(Copy(S, 1, EndOfLine - 1));
@@ -74754,7 +74754,7 @@ namespace Aow.Units.AoWE
                         {
                             Strings.Add(Copy(S, 1, LineFeed - 1));
                             // { Original reverses the length comparison before reading the following CR. }
-                            if (S.Length < LineFeed + 1 && S[LineFeed + 1] == 13)
+                            if (S.Length < LineFeed + 1 && S[LineFeed] == 13)
                             {
                                 LineFeed += 1;
                             }
@@ -74764,16 +74764,16 @@ namespace Aow.Units.AoWE
                         else
                         {
                             Strings.Add(S);
-                            S = (AnsiString)"";
+                            S = "";
                         }
                     }
                 }
-                while (!(S == (AnsiString)""));
+                while (!IsEmpty(S));
             }
         }
 
         // Army.PAS:5609
-        public override void TranslateString(ref AnsiString S)
+        public override void TranslateString(ref string S)
         {
             S = FDictionary.Translate(S);
         }
@@ -74809,7 +74809,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5413
-        public override void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
+        public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
         {
             TStructure Structure;
             Structure = GetStructure(AUnit);
@@ -74829,7 +74829,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5430
-        public override bool CanConstruct(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanConstruct(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             if (GetStructure(A1) != null)
@@ -74849,7 +74849,7 @@ namespace Aow.Units.AoWE
         public override bool Construct(TAbstractUnit AUnit)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanConstruct(AUnit, ref Reason))
             {
                 Result = GetStructure(AUnit).Rebuild(AUnit);
@@ -74883,7 +74883,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5458
-        public override void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
+        public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
         {
             Text = AoWE.TranslateRStr(AoWE.P4BuildRoadRStr);
             Gold = 0;
@@ -74891,7 +74891,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:5464
-        public override bool CanConstruct(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanConstruct(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             sbyte X = default;
@@ -74916,7 +74916,7 @@ namespace Aow.Units.AoWE
         public override bool Construct(TAbstractUnit AUnit)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanConstruct(AUnit, ref Reason))
             {
                 AoWE.AoWHSMap.FSelectedArmy.SelectBuildRoad(AUnit);
@@ -76093,7 +76093,8 @@ namespace Aow.Units.AoWE
 
     public struct TShowMessageInfo
     {
-        public AnsiString Text;
+        private string text;
+        public string Text { readonly get => text ?? ""; set => text = value; }
         public int Color;
     }
 
@@ -76232,7 +76233,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:29
-        public virtual AnsiString OwnerName()
+        public virtual string OwnerName()
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -76328,7 +76329,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:46
-        public virtual AnsiString GetName(TAbilityOwner Owner)
+        public virtual string GetName(TAbilityOwner Owner)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -76406,7 +76407,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:59
-        public virtual AnsiString GetSourceName(TAbilityOwner Owner)
+        public virtual string GetSourceName(TAbilityOwner Owner)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -76460,25 +76461,25 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:68
-        public virtual bool CanActivate(TAbilityOwner Owner, ref AnsiString Reason)
+        public virtual bool CanActivate(TAbilityOwner Owner, ref string Reason)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Combat.pas:69
-        public virtual bool Activate(TAbilityOwner Owner, ref AnsiString Reason)
+        public virtual bool Activate(TAbilityOwner Owner, ref string Reason)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Combat.pas:70
-        public virtual bool CanActivateCombat(TAbilityOwner Owner, ref AnsiString Reason)
+        public virtual bool CanActivateCombat(TAbilityOwner Owner, ref string Reason)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Combat.pas:71
-        public virtual bool ActivateCombat(TAbilityOwner Owner, ref AnsiString Reason)
+        public virtual bool ActivateCombat(TAbilityOwner Owner, ref string Reason)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -76502,7 +76503,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:75
-        public virtual AnsiString ExpandName(TAbilityOwner Owner)
+        public virtual string ExpandName(TAbilityOwner Owner)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -76622,7 +76623,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:97
-        public virtual AnsiString GetName(object Owner)
+        public virtual string GetName(object Owner)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -77158,7 +77159,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:377
-        public virtual AnsiString AbilityName(TAbilityOwner AOwner)
+        public virtual string AbilityName(TAbilityOwner AOwner)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -77236,7 +77237,7 @@ namespace Aow.Units.AoWE
         }
 
         // Combat.pas:390
-        public virtual AnsiString SourceName(TAbilityOwner AOwner)
+        public virtual string SourceName(TAbilityOwner AOwner)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -78225,17 +78226,17 @@ namespace Aow.Units.AoWE
             Text = FixedArray_byte_128.From([73, 110, 118, 97, 108, 105, 100, 32, 83, 112, 101, 108, 108, 73, 68, 0])
         };
         public static TSet<TAbilitySelectionType> TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes = TSet<TAbilitySelectionType>.FromMask(1UL);
-        public static AnsiString TAbstractUnit_UpdateOffensiveStrength__AssertFile = (AnsiString)"D:\\AoWDev\\AoWE\\inc\\Unit.PAS";
+        public static string TAbstractUnit_UpdateOffensiveStrength__AssertFile = "D:\\AoWDev\\AoWE\\inc\\Unit.PAS";
         public static TSet<TDamageType> TAbstractUnit_GetStrengthMax__AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
         public static TSet<TDamageType> TWallUnit_GetImmunityTypes__AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
         public static TSet<TDamageType> TWallUnit_GetImmunityTypes__WallDamageTypes = TSet<TDamageType>.FromMask(256UL);
         public static FixedArray_Aow_Units_AoWE_TItemType_6 THeroItems_GetPositionItemType__Types = FixedArray_Aow_Units_AoWE_TItemType_6.From([TItemType.itAttack, TItemType.itHead, TItemType.itDefense, TItemType.itRing, TItemType.itTorso, TItemType.itRing]);
         public static FixedArray_Aow_Units_AoWE_THeroItemPosition_7 THeroItems_GetItemTypePosition__Positions = FixedArray_Aow_Units_AoWE_THeroItemPosition_7.From([THeroItemPosition.ipHeadSlot, THeroItemPosition.ipTorsoSlot, THeroItemPosition.ipAttackSlot, THeroItemPosition.ipDefenseSlot, THeroItemPosition.ipLeftRingSlot, THeroItemPosition.ipNone, THeroItemPosition.ipNone]);
-        public static AnsiString TArmyHS_Show__AssertFile = (AnsiString)"D:\\AoWDev\\AoWE\\inc\\Army.PAS";
-        public static AnsiString TArmyHS_Show__AssertMessage = (AnsiString)"Invalid Unit Index";
+        public static string TArmyHS_Show__AssertFile = "D:\\AoWDev\\AoWE\\inc\\Army.PAS";
+        public static string TArmyHS_Show__AssertMessage = "Invalid Unit Index";
         public static FixedArray_byte_8 P2InitializeMovePoints__MoveBits = FixedArray_byte_8.From([1, 4, 2, 8, 16, 32, 64, 128]);
         // Combat.pas:1060
-        public static AnsiString TranslateRStr(AnsiString S)
+        public static string TranslateRStr(string S)
         {
             if (AoWEngine != null)
             {
@@ -78520,9 +78521,9 @@ namespace Aow.Units.AoWE
         // Diplomacy.pas:1420
         public static void RetrieveDefaultDiplomaticActionMessage(sbyte Source, sbyte Target, sbyte Other, TDiplomaticActionType Action, TDiplomaticActionReaction Reaction, TStrings Text)
         {
-            AnsiString SourceRace;
-            AnsiString TargetRace;
-            AnsiString OtherRace;
+            string SourceRace;
+            string TargetRace;
+            string OtherRace;
             TDiplomaticRelation Relation;
             TTextControl TextControl;
             int Alignment;
@@ -78540,7 +78541,7 @@ namespace Aow.Units.AoWE
             }
             else
             {
-                OtherRace = (AnsiString)"";
+                OtherRace = "";
             }
 
             var players3 = AoWHSMap.FPlayers.GetPlayers(Source);
@@ -78799,7 +78800,7 @@ namespace Aow.Units.AoWE
                         var item = Path[0];
                         var pathItem = Path[0];
                         var item2 = Path[0];
-                        AoWEngine.OutputDebugStr((AnsiString)"Moving to: " + IntToStr(item.X) + AnsiString.FromBytes(44) + IntToStr(pathItem.Y) + AnsiString.FromBytes(44) + IntToStr(item2.L));
+                        AoWEngine.OutputDebugStr("Moving to: " + IntToStr(item.X) + "," + IntToStr(pathItem.Y) + "," + IntToStr(item2.L));
                         if (Move.Setup((TArmyHS)Settings.FMoveObject, (byte)Settings.FSelection, Path, TSet<TArmyMoveModeElement>.Of()))
                         {
                             Multi.FEvents.Add(Move);
@@ -79028,9 +79029,9 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1967
-        public static AnsiString Format(AnsiString S, params TVarRec[] Args)
+        public static string Format(string S, params TVarRec[] Args)
         {
-            AnsiString Result;
+            string Result;
             try
             {
                 Result = Rtl.Rtl.Format(S, Args);
@@ -79044,9 +79045,9 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1977
-        public static AnsiString FmtTurnsStr(int Turns)
+        public static string FmtTurnsStr(int Turns)
         {
-            AnsiString Result;
+            string Result;
             if (Turns == 1)
             {
                 Result = Format(TranslateRStr(XTurnRStr), [(byte)49]);
@@ -79060,9 +79061,9 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1984
-        public static AnsiString FmtTurnsLeftStr(int Turns)
+        public static string FmtTurnsLeftStr(int Turns)
         {
-            AnsiString Result;
+            string Result;
             if (Turns == 1)
             {
                 Result = Format(TranslateRStr(XTurnLeftRStr), [(byte)49]);
@@ -79076,9 +79077,9 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1991
-        public static AnsiString FmtDaysStr(int Days)
+        public static string FmtDaysStr(int Days)
         {
-            AnsiString Result;
+            string Result;
             if (Days == 1)
             {
                 Result = Format(TranslateRStr(XDayRStr), [(byte)49]);
@@ -79092,9 +79093,9 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:1998
-        public static AnsiString FmtDaysLeftStr(int Days)
+        public static string FmtDaysLeftStr(int Days)
         {
-            AnsiString Result;
+            string Result;
             if (Days == 1)
             {
                 Result = Format(TranslateRStr(XDayLeftRStr), [(byte)49]);
@@ -79267,7 +79268,7 @@ namespace Aow.Units.AoWE
                 default:
                     Result = 50;
                     // { Original constructs and leaks this exception without raising it. }
-                    Exception.Create((AnsiString)"Invalid TStatus Value");
+                    Exception.Create("Invalid TStatus Value");
                     break;
             }
 
@@ -79304,7 +79305,7 @@ namespace Aow.Units.AoWE
                         default:
                             Result = TStatus.sNeutral;
                             // { Original constructs and leaks this exception without raising it. }
-                            Exception.Create((AnsiString)"Invalid StatusValue");
+                            Exception.Create("Invalid StatusValue");
                             break;
                     }
                 }
@@ -79337,7 +79338,7 @@ namespace Aow.Units.AoWE
                 default:
                     Result = 50;
                     // { Original leaks the exception without raising it. }
-                    Exception.Create((AnsiString)"Invalid TMoral Value");
+                    Exception.Create("Invalid TMoral Value");
                     break;
             }
 
@@ -79374,7 +79375,7 @@ namespace Aow.Units.AoWE
                         default:
                             Result = TMorale.mOK;
                             // { Original leaks the exception without raising it. }
-                            Exception.Create((AnsiString)"Invalid MoralValue");
+                            Exception.Create("Invalid MoralValue");
                             break;
                     }
                 }
@@ -80269,12 +80270,12 @@ namespace Aow.Units.AoWE
         }
 
         // PlayerC.PAS:2586
-        public static AnsiString Encode(AnsiString Text, int Mode)
+        public static string Encode(string Text, int Mode)
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 1; I <= Text.Length; I++)
             {
-                Result = Result + AnsiString.FromBytes((byte)(Text[I] ^ ((Text.Length + (I + 5)) & 255)));
+                Result = Result + Cp1252.Text((byte)(Cp1252.Byte(Text[I - 1]) ^ ((Text.Length + (I + 5)) & 255)));
             }
 
             return Result;
@@ -80604,7 +80605,7 @@ namespace Aow.Units.AoWE
         }
 
         // AoWAb.PAS:929
-        public static TEnhancementAbility CreateEnhancementAbility(int ID, AnsiString Name, TSet<TAbilitySelectionType> SelectionTypes)
+        public static TEnhancementAbility CreateEnhancementAbility(int ID, string Name, TSet<TAbilitySelectionType> SelectionTypes)
         {
             TEnhancementAbility Ability;
             Ability = new TEnhancementAbility(null);
@@ -80743,7 +80744,7 @@ namespace Aow.Units.AoWE
         // Army.PAS:6112
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoWEngine", [typeof(TAgeOfWondersEngine)]);
+            RegisterComponents("AoWEngine", [typeof(TAgeOfWondersEngine)]);
         }
 
         // Army.PAS:6117
@@ -80758,812 +80759,812 @@ namespace Aow.Units.AoWE
         }
 
         public static FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_256 MovePointTables;
-        public static FixedArray_Aow_Rtl_AnsiString_3 TTacticalCombatAvailabilityRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_4 TVictoryConditionRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_3 TPlayerConnectionTypeRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_9 TMagicSphereRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_3 TSpellTypeRStr;
+        public static FixedArray_string_3 TTacticalCombatAvailabilityRStr = FixedArray_string_3.From([]);
+        public static FixedArray_string_4 TVictoryConditionRStr = FixedArray_string_4.From([]);
+        public static FixedArray_string_3 TPlayerConnectionTypeRStr = FixedArray_string_3.From([]);
+        public static FixedArray_string_9 TMagicSphereRStr = FixedArray_string_9.From([]);
+        public static FixedArray_string_3 TSpellTypeRStr = FixedArray_string_3.From([]);
         public static FixedArray_int_3 CommandAbilityIDs = FixedArray_int_3.From([29, 28, 148]);
-        public static readonly AnsiString ObstacleRStr = (AnsiString)"Obstacle";
-        public static readonly AnsiString CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr = (AnsiString)"Spell Ward locks all global enchantments";
-        public static readonly AnsiString XIsAlreadyActiveRStr = (AnsiString)"%s is already active";
-        public static readonly AnsiString SystemRStr = (AnsiString)"System";
-        public static readonly AnsiString HillRStr = (AnsiString)"Hill";
-        public static readonly AnsiString MountainRStr = (AnsiString)"Mountain";
-        public static readonly AnsiString DispelMagicFailedRStr = (AnsiString)"Dispel Magic failed";
-        public static readonly AnsiString DispelMagicRStr = (AnsiString)"Dispel Magic";
-        public static readonly AnsiString XSpellsSuccessfullyDispelledRStr = (AnsiString)"%s spell(s) dispelled";
-        public static readonly AnsiString CastingXInProgressRStr = (AnsiString)"Casting %s...";
-        public static readonly AnsiString P2NotEnoughCastingPointsRStr = (AnsiString)"Not enough channeling points";
-        public static readonly AnsiString CannotCastSpellInCombatRStr = (AnsiString)"Cannot cast spell in combat";
-        public static readonly AnsiString NotEnoughChannelingPointsRStr = (AnsiString)"Not enough channeling points";
-        public static readonly AnsiString NoUnitSelectedRStr = (AnsiString)"No unit selected";
-        public static readonly AnsiString NotEnoughGoldRStr = (AnsiString)"Not enough gold.";
-        public static readonly AnsiString NotEnoughManaRStr = (AnsiString)"Not enough mana.";
-        public static readonly AnsiString StructureCapturedRStr = (AnsiString)"%s captured";
-        public static readonly AnsiString UnknownRStr = (AnsiString)"Unknown";
-        public static readonly AnsiString PlayerRStr = (AnsiString)"Player";
-        public static readonly AnsiString NoneRStr = (AnsiString)"None";
-        public static readonly AnsiString AWarRelationIsRequiredForXRStr = (AnsiString)"A state of WAR is required for %s";
-        public static readonly AnsiString NoWarDeclaredtoXRStr = (AnsiString)"Not at war with the %s";
-        public static readonly AnsiString AcceptAllianceRStr = (AnsiString)"Accept alliance";
-        public static readonly AnsiString AcceptRStr = (AnsiString)"Accept";
-        public static readonly AnsiString AccumulateGoldRStr = (AnsiString)"Accumulate gold";
-        public static readonly AnsiString AccumulateManaRStr = (AnsiString)"Accumulate mana";
-        public static readonly AnsiString AdditionalDesignRStr = (AnsiString)"Additional Design";
-        public static readonly AnsiString AfterLiberationOneUnitJoinedTheForcesOfXRStr = (AnsiString)"After liberation 1 unit joined the forces of %s";
-        public static readonly AnsiString AfterLiberationXJoinedTheForcesOfYRStr = (AnsiString)"After liberation %s joined the forces of %s";
-        public static readonly AnsiString AfterLiberationXunitsJoinedTheForcesOfYRStr = (AnsiString)"After liberation %d units joined the forces of %s";
-        public static readonly AnsiString AgeOfWondersRStr = (AnsiString)"Age of Wonders";
-        public static readonly AnsiString AggressiveRStr = (AnsiString)"Aggressive";
-        public static readonly AnsiString AggressorRStr = (AnsiString)"Aggressor";
-        public static readonly AnsiString AirMasteryRStr = (AnsiString)"Air Mastery";
-        public static readonly AnsiString AirNodeRStr = (AnsiString)"Air Node";
-        public static readonly AnsiString AirRStr = (AnsiString)"Air";
-        public static readonly AnsiString AlignmentXRStr = (AnsiString)"Alignment: %s";
-        public static readonly AnsiString AllPlayersRStr = (AnsiString)"All players";
-        public static readonly AnsiString AllSlotsAreInUseRStr = (AnsiString)"All slots are in use...";
-        public static readonly AnsiString AllianceAcceptedRStr = (AnsiString)"Alliance accepted";
-        public static readonly AnsiString AllianceRStr = (AnsiString)"Alliance";
-        public static readonly AnsiString AlliedVictoryXRStr = (AnsiString)"Allied victory: %s";
-        public static readonly AnsiString AltarOfDeathRStr = (AnsiString)"Altar of Death";
-        public static readonly AnsiString AltarOfFireRStr = (AnsiString)"Altar of Fire";
-        public static readonly AnsiString AltarOfIceRStr = (AnsiString)"Altar of Ice";
-        public static readonly AnsiString AltarOfLifeRStr = (AnsiString)"Altar of Life";
-        public static readonly AnsiString AltarOfLightningRStr = (AnsiString)"Altar of Lightning";
-        public static readonly AnsiString AltarOfPestilenceRStr = (AnsiString)"Altar of Pestilence";
-        public static readonly AnsiString AlwaysFastCombatRStr = (AnsiString)"Always fast combat";
-        public static readonly AnsiString AlwaysRStr = (AnsiString)"Always";
-        public static readonly AnsiString AlwaysTacticalCombatRStr = (AnsiString)"Always tactical combat";
-        public static readonly AnsiString AnarchyRStr = (AnsiString)"Anarchy";
-        public static readonly AnsiString AndRStr = (AnsiString)"And";
-        public static readonly AnsiString AnimateDeadRStr = (AnsiString)"Animate Dead";
-        public static readonly AnsiString AnimateHeroRStr = (AnsiString)"Animate Hero";
-        public static readonly AnsiString AnimateRuinsRStr = (AnsiString)"Animate Ruins";
-        public static readonly AnsiString AnimatedRStr = (AnsiString)"Animated";
-        public static readonly AnsiString AntiMagicShellRStr = (AnsiString)"Anti Magic Shell";
-        public static readonly AnsiString AoWAlreadyRunningRStr = (AnsiString)"Age Of Wonders is already running";
-        public static readonly AnsiString AoWEdRStr = (AnsiString)"AoWEd";
-        public static readonly AnsiString ArenaRStr = (AnsiString)"Arena";
-        public static readonly AnsiString ArmageddonRStr = (AnsiString)"Armageddon";
-        public static readonly AnsiString ArmiesRStr = (AnsiString)"Armies";
-        public static readonly AnsiString ArtistsRStr = (AnsiString)"Artists";
-        public static readonly AnsiString AssignXNewSpheresRStr = (AnsiString)"Assign %s new spheres!";
-        public static readonly AnsiString AttachmentDirectoryXRStr = (AnsiString)"Attachment directory: %s";
-        public static readonly AnsiString AttackItemRStr = (AnsiString)"Attack item";
-        public static readonly AnsiString AttackRStr = (AnsiString)"Attack";
-        public static readonly AnsiString AutoRStr = (AnsiString)"Auto";
-        public static readonly AnsiString AverageRStr = (AnsiString)"Average";
-        public static readonly AnsiString AzracPluralRStr = (AnsiString)"Azracs";
-        public static readonly AnsiString AzracRStr = (AnsiString)"Azrac";
-        public static readonly AnsiString BardsSkillsRStr = (AnsiString)"Bard's Skills";
-        public static readonly AnsiString BaseIncomeRStr = (AnsiString)"Base Income";
-        public static readonly AnsiString BasePowerRStr = (AnsiString)"Base Power";
-        public static readonly AnsiString BerserkRStr = (AnsiString)"Fury";
-        public static readonly AnsiString BetweenHumansRStr = (AnsiString)"Between Humans";
-        public static readonly AnsiString BirdsViewRStr = (AnsiString)"Bird's View";
-        public static readonly AnsiString BizzRStr = (AnsiString)"Bizz";
-        public static readonly AnsiString BlackCurseRStr = (AnsiString)"Black Curse";
-        public static readonly AnsiString BlessRStr = (AnsiString)"Bless";
-        public static readonly AnsiString BlessedRStr = (AnsiString)"Blessed";
-        public static readonly AnsiString BloodShrineRStr = (AnsiString)"Blood Shrine";
-        public static readonly AnsiString BloodlustRStr = (AnsiString)"Bloodlust";
-        public static readonly AnsiString BribeRStr = (AnsiString)"Bribe";
-        public static readonly AnsiString BuildXRStr = (AnsiString)"Build %s";
-        public static readonly AnsiString CannotBuildXInUndergroundRStr = (AnsiString)"Cannot build %s underground";
-        public static readonly AnsiString BuildersGuildRStr = (AnsiString)"Builders Guild";
-        public static readonly AnsiString BuildersGuildsRStr = (AnsiString)"Builder Guilds";
-        public static readonly AnsiString BuildingWallsRStr = (AnsiString)"Building";
-        public static readonly AnsiString BurningRStr = (AnsiString)"Burning";
-        public static readonly AnsiString CPUEmperorRStr = (AnsiString)"CPU Emperor";
-        public static readonly AnsiString CPUKingRStr = (AnsiString)"CPU King";
-        public static readonly AnsiString CPUKnightRStr = (AnsiString)"CPU Knight";
-        public static readonly AnsiString CPULordRStr = (AnsiString)"CPU Lord";
-        public static readonly AnsiString CPUWarriorRStr = (AnsiString)"CPU Squire";
-        public static readonly AnsiString CallHeroRStr = (AnsiString)"Call Hero";
-        public static readonly AnsiString CallFlamesRStr = (AnsiString)"Call Flames";
-        public static readonly AnsiString CallLightningRStr = (AnsiString)"Call Lightning";
-        public static readonly AnsiString CampaignMapRStr = (AnsiString)"Campaign map";
-        public static readonly AnsiString CampaignRStr = (AnsiString)"Campaign";
-        public static readonly AnsiString CanOnlyBuildNextToWaterRStr = (AnsiString)"Can only be built next to water";
-        public static readonly AnsiString XCastRStr = (AnsiString)"%s cast";
+        public static readonly string ObstacleRStr = "Obstacle";
+        public static readonly string CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr = "Spell Ward locks all global enchantments";
+        public static readonly string XIsAlreadyActiveRStr = "%s is already active";
+        public static readonly string SystemRStr = "System";
+        public static readonly string HillRStr = "Hill";
+        public static readonly string MountainRStr = "Mountain";
+        public static readonly string DispelMagicFailedRStr = "Dispel Magic failed";
+        public static readonly string DispelMagicRStr = "Dispel Magic";
+        public static readonly string XSpellsSuccessfullyDispelledRStr = "%s spell(s) dispelled";
+        public static readonly string CastingXInProgressRStr = "Casting %s...";
+        public static readonly string P2NotEnoughCastingPointsRStr = "Not enough channeling points";
+        public static readonly string CannotCastSpellInCombatRStr = "Cannot cast spell in combat";
+        public static readonly string NotEnoughChannelingPointsRStr = "Not enough channeling points";
+        public static readonly string NoUnitSelectedRStr = "No unit selected";
+        public static readonly string NotEnoughGoldRStr = "Not enough gold.";
+        public static readonly string NotEnoughManaRStr = "Not enough mana.";
+        public static readonly string StructureCapturedRStr = "%s captured";
+        public static readonly string UnknownRStr = "Unknown";
+        public static readonly string PlayerRStr = "Player";
+        public static readonly string NoneRStr = "None";
+        public static readonly string AWarRelationIsRequiredForXRStr = "A state of WAR is required for %s";
+        public static readonly string NoWarDeclaredtoXRStr = "Not at war with the %s";
+        public static readonly string AcceptAllianceRStr = "Accept alliance";
+        public static readonly string AcceptRStr = "Accept";
+        public static readonly string AccumulateGoldRStr = "Accumulate gold";
+        public static readonly string AccumulateManaRStr = "Accumulate mana";
+        public static readonly string AdditionalDesignRStr = "Additional Design";
+        public static readonly string AfterLiberationOneUnitJoinedTheForcesOfXRStr = "After liberation 1 unit joined the forces of %s";
+        public static readonly string AfterLiberationXJoinedTheForcesOfYRStr = "After liberation %s joined the forces of %s";
+        public static readonly string AfterLiberationXunitsJoinedTheForcesOfYRStr = "After liberation %d units joined the forces of %s";
+        public static readonly string AgeOfWondersRStr = "Age of Wonders";
+        public static readonly string AggressiveRStr = "Aggressive";
+        public static readonly string AggressorRStr = "Aggressor";
+        public static readonly string AirMasteryRStr = "Air Mastery";
+        public static readonly string AirNodeRStr = "Air Node";
+        public static readonly string AirRStr = "Air";
+        public static readonly string AlignmentXRStr = "Alignment: %s";
+        public static readonly string AllPlayersRStr = "All players";
+        public static readonly string AllSlotsAreInUseRStr = "All slots are in use...";
+        public static readonly string AllianceAcceptedRStr = "Alliance accepted";
+        public static readonly string AllianceRStr = "Alliance";
+        public static readonly string AlliedVictoryXRStr = "Allied victory: %s";
+        public static readonly string AltarOfDeathRStr = "Altar of Death";
+        public static readonly string AltarOfFireRStr = "Altar of Fire";
+        public static readonly string AltarOfIceRStr = "Altar of Ice";
+        public static readonly string AltarOfLifeRStr = "Altar of Life";
+        public static readonly string AltarOfLightningRStr = "Altar of Lightning";
+        public static readonly string AltarOfPestilenceRStr = "Altar of Pestilence";
+        public static readonly string AlwaysFastCombatRStr = "Always fast combat";
+        public static readonly string AlwaysRStr = "Always";
+        public static readonly string AlwaysTacticalCombatRStr = "Always tactical combat";
+        public static readonly string AnarchyRStr = "Anarchy";
+        public static readonly string AndRStr = "And";
+        public static readonly string AnimateDeadRStr = "Animate Dead";
+        public static readonly string AnimateHeroRStr = "Animate Hero";
+        public static readonly string AnimateRuinsRStr = "Animate Ruins";
+        public static readonly string AnimatedRStr = "Animated";
+        public static readonly string AntiMagicShellRStr = "Anti Magic Shell";
+        public static readonly string AoWAlreadyRunningRStr = "Age Of Wonders is already running";
+        public static readonly string AoWEdRStr = "AoWEd";
+        public static readonly string ArenaRStr = "Arena";
+        public static readonly string ArmageddonRStr = "Armageddon";
+        public static readonly string ArmiesRStr = "Armies";
+        public static readonly string ArtistsRStr = "Artists";
+        public static readonly string AssignXNewSpheresRStr = "Assign %s new spheres!";
+        public static readonly string AttachmentDirectoryXRStr = "Attachment directory: %s";
+        public static readonly string AttackItemRStr = "Attack item";
+        public static readonly string AttackRStr = "Attack";
+        public static readonly string AutoRStr = "Auto";
+        public static readonly string AverageRStr = "Average";
+        public static readonly string AzracPluralRStr = "Azracs";
+        public static readonly string AzracRStr = "Azrac";
+        public static readonly string BardsSkillsRStr = "Bard's Skills";
+        public static readonly string BaseIncomeRStr = "Base Income";
+        public static readonly string BasePowerRStr = "Base Power";
+        public static readonly string BerserkRStr = "Fury";
+        public static readonly string BetweenHumansRStr = "Between Humans";
+        public static readonly string BirdsViewRStr = "Bird's View";
+        public static readonly string BizzRStr = "Bizz";
+        public static readonly string BlackCurseRStr = "Black Curse";
+        public static readonly string BlessRStr = "Bless";
+        public static readonly string BlessedRStr = "Blessed";
+        public static readonly string BloodShrineRStr = "Blood Shrine";
+        public static readonly string BloodlustRStr = "Bloodlust";
+        public static readonly string BribeRStr = "Bribe";
+        public static readonly string BuildXRStr = "Build %s";
+        public static readonly string CannotBuildXInUndergroundRStr = "Cannot build %s underground";
+        public static readonly string BuildersGuildRStr = "Builders Guild";
+        public static readonly string BuildersGuildsRStr = "Builder Guilds";
+        public static readonly string BuildingWallsRStr = "Building";
+        public static readonly string BurningRStr = "Burning";
+        public static readonly string CPUEmperorRStr = "CPU Emperor";
+        public static readonly string CPUKingRStr = "CPU King";
+        public static readonly string CPUKnightRStr = "CPU Knight";
+        public static readonly string CPULordRStr = "CPU Lord";
+        public static readonly string CPUWarriorRStr = "CPU Squire";
+        public static readonly string CallHeroRStr = "Call Hero";
+        public static readonly string CallFlamesRStr = "Call Flames";
+        public static readonly string CallLightningRStr = "Call Lightning";
+        public static readonly string CampaignMapRStr = "Campaign map";
+        public static readonly string CampaignRStr = "Campaign";
+        public static readonly string CanOnlyBuildNextToWaterRStr = "Can only be built next to water";
+        public static readonly string XCastRStr = "%s cast";
         // referenced
-        public static readonly AnsiString CancelRStr = (AnsiString)"Cancel";
+        public static readonly string CancelRStr = "Cancel";
         // referenced
-        public static readonly AnsiString CancelSpellResearchRStr = (AnsiString)"Cancels current spell research";
-        public static readonly AnsiString CannotCastSpellInUndergoundRStr = (AnsiString)"Cannot cast spell underground";
-        public static readonly AnsiString CannotDispelWhenSpellWardIsActiveRStr = (AnsiString)"Cannot dispel when Spell Ward is active";
-        public static readonly AnsiString CannotInflicDamageRStr = (AnsiString)"Cannot Inflict Damage";
-        public static readonly AnsiString CastXSpellRStr = (AnsiString)"Cast %s Spell";
-        public static readonly AnsiString CasterMustBeInsideCityRStr = (AnsiString)"Can only cast from inside city";
-        public static readonly AnsiString CastingCostRStr = (AnsiString)"Casting Cost";
-        public static readonly AnsiString CastingPointsRStr = (AnsiString)"Channeling Points";
-        public static readonly AnsiString CastingRStr = (AnsiString)"Casting";
-        public static readonly AnsiString CastingReadyRStr = (AnsiString)"Casting Ready";
-        public static readonly AnsiString CastleRuinRStr = (AnsiString)"Castle Ruin";
-        public static readonly AnsiString CauseFearRStr = (AnsiString)"Cause Fear";
-        public static readonly AnsiString CaveCrawlingRStr = (AnsiString)"Cave Crawling";
-        public static readonly AnsiString CaveRStr = (AnsiString)"Cave";
-        public static readonly AnsiString ChainLightningRStr = (AnsiString)"Chain Lighting";
-        public static readonly AnsiString ChangePasswordRStr = (AnsiString)"Change Password";
-        public static readonly AnsiString ChangeRStr = (AnsiString)"Change";
-        public static readonly AnsiString ChangeSongEventRStr = (AnsiString)"Change Song Event";
-        public static readonly AnsiString ChargingRStr = (AnsiString)"Charging";
-        public static readonly AnsiString CheerfulRStr = (AnsiString)"Cheerful";
-        public static readonly AnsiString ChooseRStr = (AnsiString)"Choose";
-        public static readonly AnsiString CitiesRStr = (AnsiString)"Cities";
-        public static readonly AnsiString CityBattleDrawnRStr = (AnsiString)"Battle of %s drawn";
-        public static readonly AnsiString CityBattleLostRStr = (AnsiString)"Battle of %s lost";
-        public static readonly AnsiString CityBattleWonRStr = (AnsiString)"%s captured";
-        public static readonly AnsiString CityFortifiedRStr = (AnsiString)"%s fortified";
-        public static readonly AnsiString CityFortifyRStr = (AnsiString)"Improves town defenses. Ground based attackers must breach the wall to enter town. First level of fortification is a wooden pallisade, the second level is a stone wall.";
-        public static readonly AnsiString CityFreeJoinRStr = (AnsiString)"The city council eagerly vows its loyalty and awaits your orders.";
-        public static readonly AnsiString CityJoinHeaderRStr = (AnsiString)"A herald from %s:";
-        public static readonly AnsiString CityLootRStr = (AnsiString)"Pillages the town, taking 1 turn per city hex, after which the town is turned to ruins. The amount of gold depends on the city size. Looting decreases your relation with the population's race!";
-        public static readonly AnsiString CityLootedRStr = (AnsiString)"%0:s looted (%1:s gold gained)";
-        public static readonly AnsiString CityLootingRStr = (AnsiString)"%s is being looted";
-        public static readonly AnsiString CityMigratedToRStr = (AnsiString)"%0:s migrated to %1:s";
-        public static readonly AnsiString CityOfXRStr = (AnsiString)"city of %s";
-        public static readonly AnsiString CityRStr = (AnsiString)"City";
-        public static readonly AnsiString CityRazeRStr = (AnsiString)"Destroys the town instantly by burning it to the ground. Razing is faster as the loot option, but doens't deliver any gold. Razing decreases your relation with the population's race!";
-        public static readonly AnsiString CityRebellionRStr = (AnsiString)"%s rebelled";
-        public static readonly AnsiString CityTradeRStr = (AnsiString)"When producing merchandise, a city's income increases by 25%.";
-        public static readonly AnsiString CityTributeJoinRStr = (AnsiString)"The city council offers its allegiance for %s pieces of gold.";
-        public static readonly AnsiString CityUpgradeRStr = (AnsiString)"Upgrades the infrastructure of the town with the technology to buy more powerful units.";
-        public static readonly AnsiString ClassicRStr = (AnsiString)"Classic";
-        public static readonly AnsiString ClickToBeginRStr = (AnsiString)"Click to begin";
-        public static readonly AnsiString CloseRStr = (AnsiString)"Close";
-        public static readonly AnsiString CoDevelopedByRStr = (AnsiString)"Co-developed by:";
-        public static readonly AnsiString CoPublishedByRStr = (AnsiString)"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
-        public static readonly AnsiString ColdImmunityRStr = (AnsiString)"Cold Immunity";
-        public static readonly AnsiString ColdProtectionRStr = (AnsiString)"Cold Protection";
-        public static readonly AnsiString ColdRStr = (AnsiString)"Cold";
-        public static readonly AnsiString ColdBreathRStr = (AnsiString)"Cold Breath";
-        public static readonly AnsiString FireRStr = (AnsiString)"Fire";
-        public static readonly AnsiString CombatRStr = (AnsiString)"Combat";
-        public static readonly AnsiString CommonRStr = (AnsiString)"Common";
-        public static readonly AnsiString ConcealAreaRStr = (AnsiString)"Conceal Area";
-        public static readonly AnsiString ConcealmentRStr = (AnsiString)"Concealment";
-        public static readonly AnsiString ConfirmPasswordRStr = (AnsiString)"Confirm Password";
-        public static readonly AnsiString ConfirmationFailedRStr = (AnsiString)"Confirmation failed";
-        public static readonly AnsiString ConquerLocationsRStr = (AnsiString)"Conquer locations";
-        public static readonly AnsiString ConquerTheMapRStr = (AnsiString)"Conquer the map";
-        public static readonly AnsiString ContentRStr = (AnsiString)"Content";
-        public static readonly AnsiString ContinueRStr = (AnsiString)"Continue";
-        public static readonly AnsiString CosmeticSurgeryOnXRStr = (AnsiString)"Cosmagic Surgery on %s";
-        public static readonly AnsiString CosmosRStr = (AnsiString)"Cosmos";
-        public static readonly AnsiString CostXRStr = (AnsiString)"Cost: %d";
-        public static readonly AnsiString CouldntChangePasswordRStr = (AnsiString)"Couldn't change password!";
-        public static readonly AnsiString CreateNewLibraryRStr = (AnsiString)"Create New Library";
-        public static readonly AnsiString CreatureRStr = (AnsiString)"Creature";
-        public static readonly AnsiString CreaturesRStr = (AnsiString)"Creatures";
-        public static readonly AnsiString CropRStr = (AnsiString)"Crops";
-        public static readonly AnsiString CrusadeRStr = (AnsiString)"Crusade";
-        public static readonly AnsiString CrusaderRStr = (AnsiString)"Crusader";
-        public static readonly AnsiString CryptRStr = (AnsiString)"Crypt";
-        public static readonly AnsiString CurrentRStr = (AnsiString)"Current";
-        public static readonly AnsiString CurrentlyResearchingRStr = (AnsiString)"Currently Researching";
-        public static readonly AnsiString CurseRStr = (AnsiString)"Curse";
-        public static readonly AnsiString CursedRStr = (AnsiString)"Cursed";
-        public static readonly AnsiString CustomMapRStr = (AnsiString)"Custom map";
-        public static readonly AnsiString CustomizeLeaderRStr = (AnsiString)"Customize Leader";
-        public static readonly AnsiString DarkElfPluralRStr = (AnsiString)"Dark Elves";
-        public static readonly AnsiString DarkElfRStr = (AnsiString)"DarkElf";
-        public static readonly AnsiString DarkGiftRStr = (AnsiString)"Dark Gift";
-        public static readonly AnsiString DayRStr = (AnsiString)"Day";
-        public static readonly AnsiString DayXRStr = (AnsiString)"Day %d";
-        public static readonly AnsiString DaysRStr = (AnsiString)"Days";
-        public static readonly AnsiString DeadOakRStr = (AnsiString)"Dead Oak";
-        public static readonly AnsiString DeadPineRStr = (AnsiString)"Dead Pine";
-        public static readonly AnsiString DeadTrunkRStr = (AnsiString)"Dead Trunk";
-        public static readonly AnsiString DeathImmunityRStr = (AnsiString)"Death Immunity";
-        public static readonly AnsiString DeathMasteryRStr = (AnsiString)"Death Mastery";
-        public static readonly AnsiString DeathNodeRStr = (AnsiString)"Death Node";
-        public static readonly AnsiString DeathProtectionRStr = (AnsiString)"Death Protection";
-        public static readonly AnsiString DeathRStr = (AnsiString)"Death";
-        public static readonly AnsiString DeathRayRStr = (AnsiString)"Death Ray";
-        public static readonly AnsiString DeathStormRStr = (AnsiString)"Death Storm";
-        public static readonly AnsiString DebugSaveDisabledRStr = (AnsiString)"Debug save disabled";
-        public static readonly AnsiString DebugSaveEnabledRStr = (AnsiString)"Debug save enabled";
-        public static readonly AnsiString DecayRStr = (AnsiString)"Decay";
-        public static readonly AnsiString DeclineRStr = (AnsiString)"Decline";
-        public static readonly AnsiString DefaultRStr = (AnsiString)"Default";
-        public static readonly AnsiString DefeatRStr = (AnsiString)"Defeat";
-        public static readonly AnsiString DefendRStr = (AnsiString)"Defend";
-        public static readonly AnsiString DefenderRStr = (AnsiString)"Defender";
-        public static readonly AnsiString DefenseItemRStr = (AnsiString)"Defense item";
-        public static readonly AnsiString DefensiveRStr = (AnsiString)"Defensive";
-        public static readonly AnsiString DeformFaceRStr = (AnsiString)"Cosmagic Surgery";
-        public static readonly AnsiString DeleteRStr = (AnsiString)"Delete";
-        public static readonly AnsiString DemoVersionMessageRStr = (AnsiString)"Sorry, this function isn't available in the demo.";
-        public static readonly AnsiString DesertConcealmentRStr = (AnsiString)"Desert Concealment";
-        public static readonly AnsiString DesignerAndDirectorRStr = (AnsiString)"Designer & Director";
-        public static readonly AnsiString DesktopWindowRStr = (AnsiString)"Desktop Window";
-        public static readonly AnsiString DestroyAllEnemiesRStr = (AnsiString)"Destroy all enemies";
-        public static readonly AnsiString DevelopedByRStr = (AnsiString)"Developed by";
-        public static readonly AnsiString DiplomacyRStr = (AnsiString)"Diplomacy";
-        public static readonly AnsiString DisabledRStr = (AnsiString)"Disabled";
-        public static readonly AnsiString DiseaseCloudRStr = (AnsiString)"Disease Cloud";
-        public static readonly AnsiString DisjunctionRStr = (AnsiString)"Disjunction";
-        public static readonly AnsiString DivineDraftRStr = (AnsiString)"Divine Draft";
-        public static readonly AnsiString DivineStormRStr = (AnsiString)"Divine Storm";
-        public static readonly AnsiString DoneRStr = (AnsiString)"Done";
-        public static readonly AnsiString DragonRStr = (AnsiString)"Dragon";
-        public static readonly AnsiString DrinkRStr = (AnsiString)"Drink";
-        public static readonly AnsiString DungeonExploredRStr = (AnsiString)"Dungeon Explored";
-        public static readonly AnsiString DungeonPrisonersJoinHeaderRStr = (AnsiString)"A rescued prisoner steps forward:";
-        public static readonly AnsiString DungeonRStr = (AnsiString)"Dungeon";
-        public static readonly AnsiString DwarfPluralRStr = (AnsiString)"Dwarves";
-        public static readonly AnsiString DwarfRStr = (AnsiString)"Dwarf";
-        public static readonly AnsiString EarthMasteryRStr = (AnsiString)"Earth Mastery";
-        public static readonly AnsiString EarthNodeRStr = (AnsiString)"Earth Node";
-        public static readonly AnsiString EasyRStr = (AnsiString)"Easy";
-        public static readonly AnsiString EditorRStr = (AnsiString)"Editor";
-        public static readonly AnsiString ElfPluralRStr = (AnsiString)"Elves";
-        public static readonly AnsiString ElfRStr = (AnsiString)"Elf";
-        public static readonly AnsiString EmptyQueueRStr = (AnsiString)"<empty>";
-        public static readonly AnsiString EnabledRStr = (AnsiString)"Enabled";
-        public static readonly AnsiString EnchantWeaponRStr = (AnsiString)"Enchant Weapon";
-        public static readonly AnsiString EnchantedRoadsRStr = (AnsiString)"Enchanted Roads";
-        public static readonly AnsiString EnchantedWeaponRStr = (AnsiString)"Enchanted Weapon";
-        public static readonly AnsiString EnchantmentRStr = (AnsiString)"Enchantment";
-        public static readonly AnsiString EnhancementRStr = (AnsiString)"Enhancement";
-        public static readonly AnsiString EnhancementsRStr = (AnsiString)"Enhancements";
-        public static readonly AnsiString EntangledRStr = (AnsiString)"Entangled";
-        public static readonly AnsiString EntangleRStr = (AnsiString)"Entangle";
-        public static readonly AnsiString EnterLibraryNameRStr = (AnsiString)"Enter library name";
-        public static readonly AnsiString EnterNewPasswordRStr = (AnsiString)"Enter new password:";
-        public static readonly AnsiString EnterPasswordRStr = (AnsiString)"Enter password:";
-        public static readonly AnsiString EnterRStr = (AnsiString)"Enter";
-        public static readonly AnsiString EuropeRStr = (AnsiString)"\x00\x00\x00\x00\x00\x00";
-        public static readonly AnsiString EvilRStr = (AnsiString)"Evil";
-        public static readonly AnsiString ExceptionalRStr = (AnsiString)"Exceptional";
-        public static readonly AnsiString ExecuteRStr = (AnsiString)"Execute";
-        public static readonly AnsiString ExitRStr = (AnsiString)"Exit";
-        public static readonly AnsiString ExpandRStr = (AnsiString)"Expand";
-        public static readonly AnsiString ExpanderRStr = (AnsiString)"Expander";
-        public static readonly AnsiString ExploredRStr = (AnsiString)"Explored";
-        public static readonly AnsiString ExternalIncomeRStr = (AnsiString)"External Income";
-        public static readonly AnsiString ExtraLargeMapAbrRStr = (AnsiString)"XL";
-        public static readonly AnsiString ExtraPowerRStr = (AnsiString)"Extra Power";
-        public static readonly AnsiString FarmBattleWonRStr = (AnsiString)"Farm captured";
-        public static readonly AnsiString FarmRStr = (AnsiString)"Farm";
-        public static readonly AnsiString FarmsRStr = (AnsiString)"Farms";
-        public static readonly AnsiString FearlessRStr = (AnsiString)"Fearless";
-        public static readonly AnsiString FileNameXRStr = (AnsiString)"File name: %s";
-        public static readonly AnsiString FinishRStr = (AnsiString)"Finish";
-        public static readonly AnsiString FireAuraRStr = (AnsiString)"Fire Halo";
-        public static readonly AnsiString FireBallRStr = (AnsiString)"Fireball";
-        public static readonly AnsiString FireBreathRStr = (AnsiString)"Fire Breath";
-        public static readonly AnsiString FireBarrierRStr = (AnsiString)"Fire Barrier";
-        public static readonly AnsiString FireImmunityRStr = (AnsiString)"Fire Immunity";
-        public static readonly AnsiString FireMasteryRStr = (AnsiString)"Fire Mastery";
-        public static readonly AnsiString FireNodeRStr = (AnsiString)"Fire Node";
-        public static readonly AnsiString FireProtectionRStr = (AnsiString)"Fire Protection";
-        public static readonly AnsiString FireStormRStr = (AnsiString)"Fire Storm";
-        public static readonly AnsiString FixedRStr = (AnsiString)"Fixed";
-        public static readonly AnsiString FlagMessageEventRStr = (AnsiString)"Flag Message Event";
-        public static readonly AnsiString FlamingArrowRStr = (AnsiString)"Flaming Arrow";
-        public static readonly AnsiString FloatingRStr = (AnsiString)"Floating";
-        public static readonly AnsiString FloodRStr = (AnsiString)"Flood";
-        public static readonly AnsiString FlowerRStr = (AnsiString)"Flower";
-        public static readonly AnsiString FlyingRStr = (AnsiString)"Flying";
-        public static readonly AnsiString ForXGoldRStr = (AnsiString)"For %s gold";
-        public static readonly AnsiString ForcedRStr = (AnsiString)"(forced)";
-        public static readonly AnsiString ForestryRStr = (AnsiString)"Forestry";
-        public static readonly AnsiString FortifyRStr = (AnsiString)"Fortify";
-        public static readonly AnsiString FortifyingRStr = (AnsiString)"Fortifying";
-        public static readonly AnsiString FountainOfLifeRStr = (AnsiString)"Fountain Of Life";
-        public static readonly AnsiString FreeMovementRStr = (AnsiString)"Free Movement";
-        public static readonly AnsiString FreeRStr = (AnsiString)"Free";
-        public static readonly AnsiString FreezeRStr = (AnsiString)"Freeze";
-        public static readonly AnsiString FreezeWaterRStr = (AnsiString)"Freeze Water";
-        public static readonly AnsiString FrequentRStr = (AnsiString)"Frequent";
-        public static readonly AnsiString FriendlyRStr = (AnsiString)"Friendly";
-        public static readonly AnsiString FromTheRStr = (AnsiString)"From the %s";
-        public static readonly AnsiString FrostBeamsRStr = (AnsiString)"Frost Beam";
-        public static readonly AnsiString FrostlingPluralRStr = (AnsiString)"Frostlings";
-        public static readonly AnsiString FrostlingRStr = (AnsiString)"Frostling";
-        public static readonly AnsiString FrozenRStr = (AnsiString)"Frozen";
-        public static readonly AnsiString FullScreenRStr = (AnsiString)"Full Screen";
-        public static readonly AnsiString FuryRStr = (AnsiString)"Fury";
-        public static readonly AnsiString GalaxySoundSystemRStr = (AnsiString)"Galaxy Sound System";
-        public static readonly AnsiString GameOverDefeatEventLogRStr = (AnsiString)"%s is defeated!";
-        public static readonly AnsiString GameOverVictoryEventLogRStr = (AnsiString)"%s is victorious!";
-        public static readonly AnsiString GameSuccessfullySentRStr = (AnsiString)"Game successfully sent";
-        public static readonly AnsiString GameTerminatedRStr = (AnsiString)"Game terminated";
-        public static readonly AnsiString GametypeXRStr = (AnsiString)"Game type: %s";
-        public static readonly AnsiString GenerateExtraPowerRStr = (AnsiString)"Generate Extra Power";
-        public static readonly AnsiString GenerateExtraPowerTextRStr = (AnsiString)"Increases the power generated by the node by 25%.";
-        public static readonly AnsiString GeneratingExtraPowerRStr = (AnsiString)"Generating Extra Power";
-        public static readonly AnsiString GeneratingXPowerRStr = (AnsiString)"Generating %s power";
-        public static readonly AnsiString GeyserRStr = (AnsiString)"Geyser";
-        public static readonly AnsiString GlobalRStr = (AnsiString)"Global";
-        public static readonly AnsiString GoDownRStr = (AnsiString)"Go Down";
-        public static readonly AnsiString GoUpRStr = (AnsiString)"Go Up";
-        public static readonly AnsiString GoblinPluralRStr = (AnsiString)"Goblins";
-        public static readonly AnsiString GoblinRStr = (AnsiString)"Goblin";
-        public static readonly AnsiString GoldFoundRStr = (AnsiString)"%s gold pieces found";
-        public static readonly AnsiString GoldRStr = (AnsiString)"Gold";
-        public static readonly AnsiString GoldRushRStr = (AnsiString)"Gold Rush";
-        public static readonly AnsiString GoodRStr = (AnsiString)"Good";
-        public static readonly AnsiString GrassConcealmentRStr = (AnsiString)"Grass Concealment";
-        public static readonly AnsiString GreatHailRStr = (AnsiString)"Great Hail";
-        public static readonly AnsiString GuardAreaRStr = (AnsiString)"Guard Area";
-        public static readonly AnsiString GuardRStr = (AnsiString)"Guard";
-        public static readonly AnsiString HalflingPluralRStr = (AnsiString)"Halflings";
-        public static readonly AnsiString HalflingRStr = (AnsiString)"Halfling";
-        public static readonly AnsiString HandicapRStr = (AnsiString)"Handicap";
-        public static readonly AnsiString HardRStr = (AnsiString)"Hard";
-        public static readonly AnsiString HarmonyRStr = (AnsiString)"Tranquility";
-        public static readonly AnsiString HasteRStr = (AnsiString)"Haste";
-        public static readonly AnsiString HatredRStr = (AnsiString)"Hatred";
-        public static readonly AnsiString HeadItemRStr = (AnsiString)"Head item";
-        public static readonly AnsiString HealingShowersRStr = (AnsiString)"Healing Showers";
-        public static readonly AnsiString HealingWaterRStr = (AnsiString)"Healing Water";
-        public static readonly AnsiString HeatWaveRStr = (AnsiString)"Heat Wave";
-        public static readonly AnsiString HelpRStr = (AnsiString)"Help";
-        public static readonly AnsiString HeroRStr = (AnsiString)"Hero";
-        public static readonly AnsiString HeroUpgradeRStr = (AnsiString)"Hero upgrade";
-        public static readonly AnsiString HiddenmovementPleaseWaitRStr = (AnsiString)"Hidden movement, please wait";
-        public static readonly AnsiString HighPrayerBlessingRStr = (AnsiString)"Blessed";
-        public static readonly AnsiString HighPrayerRStr = (AnsiString)"High Prayer";
-        public static readonly AnsiString HighRStr = (AnsiString)"High";
-        public static readonly AnsiString HighmanPluralRStr = (AnsiString)"Highmen";
-        public static readonly AnsiString HighmanRStr = (AnsiString)"Highman";
-        public static readonly AnsiString HolyChampionRStr = (AnsiString)"Holy Champion";
-        public static readonly AnsiString HolyFearRStr = (AnsiString)"Holy Fear";
-        public static readonly AnsiString HolyGroundDamageRStr = (AnsiString)"Holy Ground Damage";
-        public static readonly AnsiString HolyGroundRStr = (AnsiString)"Holy Ground";
-        public static readonly AnsiString HolyGroundsRStr = (AnsiString)"Holy Woods";
-        public static readonly AnsiString HolyImmunityRStr = (AnsiString)"Holy Immunity";
-        public static readonly AnsiString HolyProtectionRStr = (AnsiString)"Holy Protection";
-        public static readonly AnsiString HolyRStr = (AnsiString)"Holy";
-        public static readonly AnsiString HostileRStr = (AnsiString)"Hostile";
-        public static readonly AnsiString HotSeatRStr = (AnsiString)"Hot Seat";
-        public static readonly AnsiString HumanPluralRStr = (AnsiString)"Humans";
-        public static readonly AnsiString HumanRStr = (AnsiString)"Human";
-        public static readonly AnsiString HumanoidRStr = (AnsiString)"Humanoid";
-        public static readonly AnsiString HumanoidsRStr = (AnsiString)"Humanoids";
-        public static readonly AnsiString HuntRStr = (AnsiString)"Hunt";
-        public static readonly AnsiString HurlFireSkullRStr = (AnsiString)"Hurl Fire Skull";
-        public static readonly AnsiString IPXRStr = (AnsiString)"IPX";
-        public static readonly AnsiString IceShardsRStr = (AnsiString)"Ice Shards";
-        public static readonly AnsiString IceStormRStr = (AnsiString)"Ice Storm";
-        public static readonly AnsiString IdleRStr = (AnsiString)"Idle";
-        public static readonly AnsiString IgnitionRStr = (AnsiString)"Ignition";
-        public static readonly AnsiString IncomeRStr = (AnsiString)"Income";
-        public static readonly AnsiString IncomeXRStr = (AnsiString)"Income: %s";
-        public static readonly AnsiString IncompatibleVersionRStr = (AnsiString)"Incompatible Version";
-        public static readonly AnsiString IndependentRStr = (AnsiString)"Independent";
-        public static readonly AnsiString InstallRStr = (AnsiString)"Install";
-        public static readonly AnsiString InstallingRStr = (AnsiString)"Installing";
-        public static readonly AnsiString InstantRStr = (AnsiString)"Instant";
-        public static readonly AnsiString InternetLanRStr = (AnsiString)"Internet/Lan";
-        public static readonly AnsiString InternetMailSuiteRStr = (AnsiString)"Internet Mail Suite";
-        public static readonly AnsiString IntroVoiceRStr = (AnsiString)"Intro Voice";
-        public static readonly AnsiString InvalidLocationSpecifiedRStr = (AnsiString)"invalid location specified";
-        public static readonly AnsiString InvalidPasswordRStr = (AnsiString)"Invalid password";
-        public static readonly AnsiString InvisibilityRStr = (AnsiString)"Invisibility";
-        public static readonly AnsiString ItemsExploredRStr = (AnsiString)"\"From the %s\",\"you recovered the following items:\"";
-        public static readonly AnsiString ItemsFoundRStr = (AnsiString)"Items Found";
-        public static readonly AnsiString ItemsRStr = (AnsiString)"Items";
-        public static readonly AnsiString KillTheLeadersRStr = (AnsiString)"Kill enemy leaders";
+        public static readonly string CancelSpellResearchRStr = "Cancels current spell research";
+        public static readonly string CannotCastSpellInUndergoundRStr = "Cannot cast spell underground";
+        public static readonly string CannotDispelWhenSpellWardIsActiveRStr = "Cannot dispel when Spell Ward is active";
+        public static readonly string CannotInflicDamageRStr = "Cannot Inflict Damage";
+        public static readonly string CastXSpellRStr = "Cast %s Spell";
+        public static readonly string CasterMustBeInsideCityRStr = "Can only cast from inside city";
+        public static readonly string CastingCostRStr = "Casting Cost";
+        public static readonly string CastingPointsRStr = "Channeling Points";
+        public static readonly string CastingRStr = "Casting";
+        public static readonly string CastingReadyRStr = "Casting Ready";
+        public static readonly string CastleRuinRStr = "Castle Ruin";
+        public static readonly string CauseFearRStr = "Cause Fear";
+        public static readonly string CaveCrawlingRStr = "Cave Crawling";
+        public static readonly string CaveRStr = "Cave";
+        public static readonly string ChainLightningRStr = "Chain Lighting";
+        public static readonly string ChangePasswordRStr = "Change Password";
+        public static readonly string ChangeRStr = "Change";
+        public static readonly string ChangeSongEventRStr = "Change Song Event";
+        public static readonly string ChargingRStr = "Charging";
+        public static readonly string CheerfulRStr = "Cheerful";
+        public static readonly string ChooseRStr = "Choose";
+        public static readonly string CitiesRStr = "Cities";
+        public static readonly string CityBattleDrawnRStr = "Battle of %s drawn";
+        public static readonly string CityBattleLostRStr = "Battle of %s lost";
+        public static readonly string CityBattleWonRStr = "%s captured";
+        public static readonly string CityFortifiedRStr = "%s fortified";
+        public static readonly string CityFortifyRStr = "Improves town defenses. Ground based attackers must breach the wall to enter town. First level of fortification is a wooden pallisade, the second level is a stone wall.";
+        public static readonly string CityFreeJoinRStr = "The city council eagerly vows its loyalty and awaits your orders.";
+        public static readonly string CityJoinHeaderRStr = "A herald from %s:";
+        public static readonly string CityLootRStr = "Pillages the town, taking 1 turn per city hex, after which the town is turned to ruins. The amount of gold depends on the city size. Looting decreases your relation with the population's race!";
+        public static readonly string CityLootedRStr = "%0:s looted (%1:s gold gained)";
+        public static readonly string CityLootingRStr = "%s is being looted";
+        public static readonly string CityMigratedToRStr = "%0:s migrated to %1:s";
+        public static readonly string CityOfXRStr = "city of %s";
+        public static readonly string CityRStr = "City";
+        public static readonly string CityRazeRStr = "Destroys the town instantly by burning it to the ground. Razing is faster as the loot option, but doens't deliver any gold. Razing decreases your relation with the population's race!";
+        public static readonly string CityRebellionRStr = "%s rebelled";
+        public static readonly string CityTradeRStr = "When producing merchandise, a city's income increases by 25%.";
+        public static readonly string CityTributeJoinRStr = "The city council offers its allegiance for %s pieces of gold.";
+        public static readonly string CityUpgradeRStr = "Upgrades the infrastructure of the town with the technology to buy more powerful units.";
+        public static readonly string ClassicRStr = "Classic";
+        public static readonly string ClickToBeginRStr = "Click to begin";
+        public static readonly string CloseRStr = "Close";
+        public static readonly string CoDevelopedByRStr = "Co-developed by:";
+        public static readonly string CoPublishedByRStr = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+        public static readonly string ColdImmunityRStr = "Cold Immunity";
+        public static readonly string ColdProtectionRStr = "Cold Protection";
+        public static readonly string ColdRStr = "Cold";
+        public static readonly string ColdBreathRStr = "Cold Breath";
+        public static readonly string FireRStr = "Fire";
+        public static readonly string CombatRStr = "Combat";
+        public static readonly string CommonRStr = "Common";
+        public static readonly string ConcealAreaRStr = "Conceal Area";
+        public static readonly string ConcealmentRStr = "Concealment";
+        public static readonly string ConfirmPasswordRStr = "Confirm Password";
+        public static readonly string ConfirmationFailedRStr = "Confirmation failed";
+        public static readonly string ConquerLocationsRStr = "Conquer locations";
+        public static readonly string ConquerTheMapRStr = "Conquer the map";
+        public static readonly string ContentRStr = "Content";
+        public static readonly string ContinueRStr = "Continue";
+        public static readonly string CosmeticSurgeryOnXRStr = "Cosmagic Surgery on %s";
+        public static readonly string CosmosRStr = "Cosmos";
+        public static readonly string CostXRStr = "Cost: %d";
+        public static readonly string CouldntChangePasswordRStr = "Couldn't change password!";
+        public static readonly string CreateNewLibraryRStr = "Create New Library";
+        public static readonly string CreatureRStr = "Creature";
+        public static readonly string CreaturesRStr = "Creatures";
+        public static readonly string CropRStr = "Crops";
+        public static readonly string CrusadeRStr = "Crusade";
+        public static readonly string CrusaderRStr = "Crusader";
+        public static readonly string CryptRStr = "Crypt";
+        public static readonly string CurrentRStr = "Current";
+        public static readonly string CurrentlyResearchingRStr = "Currently Researching";
+        public static readonly string CurseRStr = "Curse";
+        public static readonly string CursedRStr = "Cursed";
+        public static readonly string CustomMapRStr = "Custom map";
+        public static readonly string CustomizeLeaderRStr = "Customize Leader";
+        public static readonly string DarkElfPluralRStr = "Dark Elves";
+        public static readonly string DarkElfRStr = "DarkElf";
+        public static readonly string DarkGiftRStr = "Dark Gift";
+        public static readonly string DayRStr = "Day";
+        public static readonly string DayXRStr = "Day %d";
+        public static readonly string DaysRStr = "Days";
+        public static readonly string DeadOakRStr = "Dead Oak";
+        public static readonly string DeadPineRStr = "Dead Pine";
+        public static readonly string DeadTrunkRStr = "Dead Trunk";
+        public static readonly string DeathImmunityRStr = "Death Immunity";
+        public static readonly string DeathMasteryRStr = "Death Mastery";
+        public static readonly string DeathNodeRStr = "Death Node";
+        public static readonly string DeathProtectionRStr = "Death Protection";
+        public static readonly string DeathRStr = "Death";
+        public static readonly string DeathRayRStr = "Death Ray";
+        public static readonly string DeathStormRStr = "Death Storm";
+        public static readonly string DebugSaveDisabledRStr = "Debug save disabled";
+        public static readonly string DebugSaveEnabledRStr = "Debug save enabled";
+        public static readonly string DecayRStr = "Decay";
+        public static readonly string DeclineRStr = "Decline";
+        public static readonly string DefaultRStr = "Default";
+        public static readonly string DefeatRStr = "Defeat";
+        public static readonly string DefendRStr = "Defend";
+        public static readonly string DefenderRStr = "Defender";
+        public static readonly string DefenseItemRStr = "Defense item";
+        public static readonly string DefensiveRStr = "Defensive";
+        public static readonly string DeformFaceRStr = "Cosmagic Surgery";
+        public static readonly string DeleteRStr = "Delete";
+        public static readonly string DemoVersionMessageRStr = "Sorry, this function isn't available in the demo.";
+        public static readonly string DesertConcealmentRStr = "Desert Concealment";
+        public static readonly string DesignerAndDirectorRStr = "Designer & Director";
+        public static readonly string DesktopWindowRStr = "Desktop Window";
+        public static readonly string DestroyAllEnemiesRStr = "Destroy all enemies";
+        public static readonly string DevelopedByRStr = "Developed by";
+        public static readonly string DiplomacyRStr = "Diplomacy";
+        public static readonly string DisabledRStr = "Disabled";
+        public static readonly string DiseaseCloudRStr = "Disease Cloud";
+        public static readonly string DisjunctionRStr = "Disjunction";
+        public static readonly string DivineDraftRStr = "Divine Draft";
+        public static readonly string DivineStormRStr = "Divine Storm";
+        public static readonly string DoneRStr = "Done";
+        public static readonly string DragonRStr = "Dragon";
+        public static readonly string DrinkRStr = "Drink";
+        public static readonly string DungeonExploredRStr = "Dungeon Explored";
+        public static readonly string DungeonPrisonersJoinHeaderRStr = "A rescued prisoner steps forward:";
+        public static readonly string DungeonRStr = "Dungeon";
+        public static readonly string DwarfPluralRStr = "Dwarves";
+        public static readonly string DwarfRStr = "Dwarf";
+        public static readonly string EarthMasteryRStr = "Earth Mastery";
+        public static readonly string EarthNodeRStr = "Earth Node";
+        public static readonly string EasyRStr = "Easy";
+        public static readonly string EditorRStr = "Editor";
+        public static readonly string ElfPluralRStr = "Elves";
+        public static readonly string ElfRStr = "Elf";
+        public static readonly string EmptyQueueRStr = "<empty>";
+        public static readonly string EnabledRStr = "Enabled";
+        public static readonly string EnchantWeaponRStr = "Enchant Weapon";
+        public static readonly string EnchantedRoadsRStr = "Enchanted Roads";
+        public static readonly string EnchantedWeaponRStr = "Enchanted Weapon";
+        public static readonly string EnchantmentRStr = "Enchantment";
+        public static readonly string EnhancementRStr = "Enhancement";
+        public static readonly string EnhancementsRStr = "Enhancements";
+        public static readonly string EntangledRStr = "Entangled";
+        public static readonly string EntangleRStr = "Entangle";
+        public static readonly string EnterLibraryNameRStr = "Enter library name";
+        public static readonly string EnterNewPasswordRStr = "Enter new password:";
+        public static readonly string EnterPasswordRStr = "Enter password:";
+        public static readonly string EnterRStr = "Enter";
+        public static readonly string EuropeRStr = "\x00\x00\x00\x00\x00\x00";
+        public static readonly string EvilRStr = "Evil";
+        public static readonly string ExceptionalRStr = "Exceptional";
+        public static readonly string ExecuteRStr = "Execute";
+        public static readonly string ExitRStr = "Exit";
+        public static readonly string ExpandRStr = "Expand";
+        public static readonly string ExpanderRStr = "Expander";
+        public static readonly string ExploredRStr = "Explored";
+        public static readonly string ExternalIncomeRStr = "External Income";
+        public static readonly string ExtraLargeMapAbrRStr = "XL";
+        public static readonly string ExtraPowerRStr = "Extra Power";
+        public static readonly string FarmBattleWonRStr = "Farm captured";
+        public static readonly string FarmRStr = "Farm";
+        public static readonly string FarmsRStr = "Farms";
+        public static readonly string FearlessRStr = "Fearless";
+        public static readonly string FileNameXRStr = "File name: %s";
+        public static readonly string FinishRStr = "Finish";
+        public static readonly string FireAuraRStr = "Fire Halo";
+        public static readonly string FireBallRStr = "Fireball";
+        public static readonly string FireBreathRStr = "Fire Breath";
+        public static readonly string FireBarrierRStr = "Fire Barrier";
+        public static readonly string FireImmunityRStr = "Fire Immunity";
+        public static readonly string FireMasteryRStr = "Fire Mastery";
+        public static readonly string FireNodeRStr = "Fire Node";
+        public static readonly string FireProtectionRStr = "Fire Protection";
+        public static readonly string FireStormRStr = "Fire Storm";
+        public static readonly string FixedRStr = "Fixed";
+        public static readonly string FlagMessageEventRStr = "Flag Message Event";
+        public static readonly string FlamingArrowRStr = "Flaming Arrow";
+        public static readonly string FloatingRStr = "Floating";
+        public static readonly string FloodRStr = "Flood";
+        public static readonly string FlowerRStr = "Flower";
+        public static readonly string FlyingRStr = "Flying";
+        public static readonly string ForXGoldRStr = "For %s gold";
+        public static readonly string ForcedRStr = "(forced)";
+        public static readonly string ForestryRStr = "Forestry";
+        public static readonly string FortifyRStr = "Fortify";
+        public static readonly string FortifyingRStr = "Fortifying";
+        public static readonly string FountainOfLifeRStr = "Fountain Of Life";
+        public static readonly string FreeMovementRStr = "Free Movement";
+        public static readonly string FreeRStr = "Free";
+        public static readonly string FreezeRStr = "Freeze";
+        public static readonly string FreezeWaterRStr = "Freeze Water";
+        public static readonly string FrequentRStr = "Frequent";
+        public static readonly string FriendlyRStr = "Friendly";
+        public static readonly string FromTheRStr = "From the %s";
+        public static readonly string FrostBeamsRStr = "Frost Beam";
+        public static readonly string FrostlingPluralRStr = "Frostlings";
+        public static readonly string FrostlingRStr = "Frostling";
+        public static readonly string FrozenRStr = "Frozen";
+        public static readonly string FullScreenRStr = "Full Screen";
+        public static readonly string FuryRStr = "Fury";
+        public static readonly string GalaxySoundSystemRStr = "Galaxy Sound System";
+        public static readonly string GameOverDefeatEventLogRStr = "%s is defeated!";
+        public static readonly string GameOverVictoryEventLogRStr = "%s is victorious!";
+        public static readonly string GameSuccessfullySentRStr = "Game successfully sent";
+        public static readonly string GameTerminatedRStr = "Game terminated";
+        public static readonly string GametypeXRStr = "Game type: %s";
+        public static readonly string GenerateExtraPowerRStr = "Generate Extra Power";
+        public static readonly string GenerateExtraPowerTextRStr = "Increases the power generated by the node by 25%.";
+        public static readonly string GeneratingExtraPowerRStr = "Generating Extra Power";
+        public static readonly string GeneratingXPowerRStr = "Generating %s power";
+        public static readonly string GeyserRStr = "Geyser";
+        public static readonly string GlobalRStr = "Global";
+        public static readonly string GoDownRStr = "Go Down";
+        public static readonly string GoUpRStr = "Go Up";
+        public static readonly string GoblinPluralRStr = "Goblins";
+        public static readonly string GoblinRStr = "Goblin";
+        public static readonly string GoldFoundRStr = "%s gold pieces found";
+        public static readonly string GoldRStr = "Gold";
+        public static readonly string GoldRushRStr = "Gold Rush";
+        public static readonly string GoodRStr = "Good";
+        public static readonly string GrassConcealmentRStr = "Grass Concealment";
+        public static readonly string GreatHailRStr = "Great Hail";
+        public static readonly string GuardAreaRStr = "Guard Area";
+        public static readonly string GuardRStr = "Guard";
+        public static readonly string HalflingPluralRStr = "Halflings";
+        public static readonly string HalflingRStr = "Halfling";
+        public static readonly string HandicapRStr = "Handicap";
+        public static readonly string HardRStr = "Hard";
+        public static readonly string HarmonyRStr = "Tranquility";
+        public static readonly string HasteRStr = "Haste";
+        public static readonly string HatredRStr = "Hatred";
+        public static readonly string HeadItemRStr = "Head item";
+        public static readonly string HealingShowersRStr = "Healing Showers";
+        public static readonly string HealingWaterRStr = "Healing Water";
+        public static readonly string HeatWaveRStr = "Heat Wave";
+        public static readonly string HelpRStr = "Help";
+        public static readonly string HeroRStr = "Hero";
+        public static readonly string HeroUpgradeRStr = "Hero upgrade";
+        public static readonly string HiddenmovementPleaseWaitRStr = "Hidden movement, please wait";
+        public static readonly string HighPrayerBlessingRStr = "Blessed";
+        public static readonly string HighPrayerRStr = "High Prayer";
+        public static readonly string HighRStr = "High";
+        public static readonly string HighmanPluralRStr = "Highmen";
+        public static readonly string HighmanRStr = "Highman";
+        public static readonly string HolyChampionRStr = "Holy Champion";
+        public static readonly string HolyFearRStr = "Holy Fear";
+        public static readonly string HolyGroundDamageRStr = "Holy Ground Damage";
+        public static readonly string HolyGroundRStr = "Holy Ground";
+        public static readonly string HolyGroundsRStr = "Holy Woods";
+        public static readonly string HolyImmunityRStr = "Holy Immunity";
+        public static readonly string HolyProtectionRStr = "Holy Protection";
+        public static readonly string HolyRStr = "Holy";
+        public static readonly string HostileRStr = "Hostile";
+        public static readonly string HotSeatRStr = "Hot Seat";
+        public static readonly string HumanPluralRStr = "Humans";
+        public static readonly string HumanRStr = "Human";
+        public static readonly string HumanoidRStr = "Humanoid";
+        public static readonly string HumanoidsRStr = "Humanoids";
+        public static readonly string HuntRStr = "Hunt";
+        public static readonly string HurlFireSkullRStr = "Hurl Fire Skull";
+        public static readonly string IPXRStr = "IPX";
+        public static readonly string IceShardsRStr = "Ice Shards";
+        public static readonly string IceStormRStr = "Ice Storm";
+        public static readonly string IdleRStr = "Idle";
+        public static readonly string IgnitionRStr = "Ignition";
+        public static readonly string IncomeRStr = "Income";
+        public static readonly string IncomeXRStr = "Income: %s";
+        public static readonly string IncompatibleVersionRStr = "Incompatible Version";
+        public static readonly string IndependentRStr = "Independent";
+        public static readonly string InstallRStr = "Install";
+        public static readonly string InstallingRStr = "Installing";
+        public static readonly string InstantRStr = "Instant";
+        public static readonly string InternetLanRStr = "Internet/Lan";
+        public static readonly string InternetMailSuiteRStr = "Internet Mail Suite";
+        public static readonly string IntroVoiceRStr = "Intro Voice";
+        public static readonly string InvalidLocationSpecifiedRStr = "invalid location specified";
+        public static readonly string InvalidPasswordRStr = "Invalid password";
+        public static readonly string InvisibilityRStr = "Invisibility";
+        public static readonly string ItemsExploredRStr = "\"From the %s\",\"you recovered the following items:\"";
+        public static readonly string ItemsFoundRStr = "Items Found";
+        public static readonly string ItemsRStr = "Items";
+        public static readonly string KillTheLeadersRStr = "Kill enemy leaders";
         public const byte LargeMapAbrRStr = 76;
-        public static readonly AnsiString LeadProgrammerRStr = (AnsiString)"Lead Programmer";
-        public static readonly AnsiString LeadScenarioDesignerRStr = (AnsiString)"Lead Scenario Designer";
-        public static readonly AnsiString LeaderOfTheXRStr = (AnsiString)"Leader of the %s";
-        public static readonly AnsiString LeaderRStr = (AnsiString)"Leader";
-        public static readonly AnsiString LevelRStr = (AnsiString)"Level";
-        public static readonly AnsiString LevelTerrainRStr = (AnsiString)"Level Terrain";
-        public static readonly AnsiString LevelXRStr = (AnsiString)"Level %s";
-        public static readonly AnsiString LiberatePrisonerMessageRStr = (AnsiString)"In gratitude for rescue, the captive offers to join you. Do you accept?";
-        public static readonly AnsiString LiberatePrisonersMessageRStr = (AnsiString)"Grateful to be rescued, the captives offer to join you. Do you accept?";
-        public static readonly AnsiString LifeDrainRStr = (AnsiString)"Life Drain";
-        public static readonly AnsiString LifeMasteryRStr = (AnsiString)"Life Mastery";
-        public static readonly AnsiString LifeNodeRStr = (AnsiString)"Life Node";
-        public static readonly AnsiString LifeRStr = (AnsiString)"Life";
-        public static readonly AnsiString LightningImmunityRStr = (AnsiString)"Lightning Immunity";
-        public static readonly AnsiString LightningProtectionRStr = (AnsiString)"Lightning Protection";
-        public static readonly AnsiString LightningRStr = (AnsiString)"Lightning";
-        public static readonly AnsiString LightningStormRStr = (AnsiString)"Lightning Storm";
-        public static readonly AnsiString LiquidFormRStr = (AnsiString)"Liquid Form";
-        public static readonly AnsiString LizardPluralRStr = (AnsiString)"Lizards";
-        public static readonly AnsiString LizardRStr = (AnsiString)"Lizard";
-        public static readonly AnsiString LoadGameRStr = (AnsiString)"Load Game";
-        public static readonly AnsiString LoadingMapDataRStr = (AnsiString)"Loading Map";
-        public static readonly AnsiString LoadingXRStr = (AnsiString)"Loading: %s...";
-        public static readonly AnsiString LocalRStr = (AnsiString)"Single Computer";
-        public static readonly AnsiString LongRangeRStr = (AnsiString)"Long Range";
-        public static readonly AnsiString LootRStr = (AnsiString)"Loot";
-        public static readonly AnsiString LootingRStr = (AnsiString)"Looting";
-        public static readonly AnsiString LowSytemResourcesRStr = (AnsiString)"Low System Resources! Age of Wonders requires at least 50MB of free virtual memory.  Please close down other programs, free up disk space, and/or reboot before trying to play the game again.";
-        public static readonly AnsiString MachineRStr = (AnsiString)"Machine";
-        public static readonly AnsiString MachinesRStr = (AnsiString)"Machines";
-        public static readonly AnsiString MagicImmunityRStr = (AnsiString)"Magic Immunity";
-        public static readonly AnsiString MagicProtectionRStr = (AnsiString)"Magic Protection";
-        public static readonly AnsiString MagicRStr = (AnsiString)"Magic";
-        public static readonly AnsiString MagicSanctuaryRStr = (AnsiString)"Magic Sanctuary";
-        public static readonly AnsiString ManaCrystalsFoundRStr = (AnsiString)"%s mana crystals found";
-        public static readonly AnsiString ManaCrystalsRStr = (AnsiString)"Mana Crystals";
-        public static readonly AnsiString ManaPoolRStr = (AnsiString)"Mana Pool";
-        public static readonly AnsiString ManaRStr = (AnsiString)"Mana";
-        public static readonly AnsiString MapRStr = (AnsiString)"Map";
-        public static readonly AnsiString MarksmanshipRStr = (AnsiString)"Marksmanship";
-        public static readonly AnsiString MaxFortifyLevelReachedRStr = (AnsiString)"Max. fortify level reached.";
-        public static readonly AnsiString MaxUpgradeLevelReachedRStr = (AnsiString)"Max. upgrade level reached.";
-        public static readonly AnsiString MaximumPlayerHeroesXRStr = (AnsiString)"Maximum player heroes: %s";
-        public static readonly AnsiString MaximumSphereLevelXRStr = (AnsiString)"Maximum sphere level: %s";
+        public static readonly string LeadProgrammerRStr = "Lead Programmer";
+        public static readonly string LeadScenarioDesignerRStr = "Lead Scenario Designer";
+        public static readonly string LeaderOfTheXRStr = "Leader of the %s";
+        public static readonly string LeaderRStr = "Leader";
+        public static readonly string LevelRStr = "Level";
+        public static readonly string LevelTerrainRStr = "Level Terrain";
+        public static readonly string LevelXRStr = "Level %s";
+        public static readonly string LiberatePrisonerMessageRStr = "In gratitude for rescue, the captive offers to join you. Do you accept?";
+        public static readonly string LiberatePrisonersMessageRStr = "Grateful to be rescued, the captives offer to join you. Do you accept?";
+        public static readonly string LifeDrainRStr = "Life Drain";
+        public static readonly string LifeMasteryRStr = "Life Mastery";
+        public static readonly string LifeNodeRStr = "Life Node";
+        public static readonly string LifeRStr = "Life";
+        public static readonly string LightningImmunityRStr = "Lightning Immunity";
+        public static readonly string LightningProtectionRStr = "Lightning Protection";
+        public static readonly string LightningRStr = "Lightning";
+        public static readonly string LightningStormRStr = "Lightning Storm";
+        public static readonly string LiquidFormRStr = "Liquid Form";
+        public static readonly string LizardPluralRStr = "Lizards";
+        public static readonly string LizardRStr = "Lizard";
+        public static readonly string LoadGameRStr = "Load Game";
+        public static readonly string LoadingMapDataRStr = "Loading Map";
+        public static readonly string LoadingXRStr = "Loading: %s...";
+        public static readonly string LocalRStr = "Single Computer";
+        public static readonly string LongRangeRStr = "Long Range";
+        public static readonly string LootRStr = "Loot";
+        public static readonly string LootingRStr = "Looting";
+        public static readonly string LowSytemResourcesRStr = "Low System Resources! Age of Wonders requires at least 50MB of free virtual memory.  Please close down other programs, free up disk space, and/or reboot before trying to play the game again.";
+        public static readonly string MachineRStr = "Machine";
+        public static readonly string MachinesRStr = "Machines";
+        public static readonly string MagicImmunityRStr = "Magic Immunity";
+        public static readonly string MagicProtectionRStr = "Magic Protection";
+        public static readonly string MagicRStr = "Magic";
+        public static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
+        public static readonly string ManaCrystalsFoundRStr = "%s mana crystals found";
+        public static readonly string ManaCrystalsRStr = "Mana Crystals";
+        public static readonly string ManaPoolRStr = "Mana Pool";
+        public static readonly string ManaRStr = "Mana";
+        public static readonly string MapRStr = "Map";
+        public static readonly string MarksmanshipRStr = "Marksmanship";
+        public static readonly string MaxFortifyLevelReachedRStr = "Max. fortify level reached.";
+        public static readonly string MaxUpgradeLevelReachedRStr = "Max. upgrade level reached.";
+        public static readonly string MaximumPlayerHeroesXRStr = "Maximum player heroes: %s";
+        public static readonly string MaximumSphereLevelXRStr = "Maximum sphere level: %s";
         public const byte MediumMapAbrRStr = 77;
-        public static readonly AnsiString MediumRangeRStr = (AnsiString)"Medium Range";
-        public static readonly AnsiString MeleeRStr = (AnsiString)"Melee";
-        public static readonly AnsiString MerchantRStr = (AnsiString)"Merchant";
-        public static readonly AnsiString MessageFromXRStr = (AnsiString)"Message from %s";
-        public static readonly AnsiString MessageReceivedRStr = (AnsiString)"Message Received";
-        public static readonly AnsiString MigrateRStr = (AnsiString)"Migrate";
-        public static readonly AnsiString MigrateToXRStr = (AnsiString)"Migrate to %s";
-        public static readonly AnsiString MigratingRStr = (AnsiString)"Migrating";
-        public static readonly AnsiString MigratingToXRStr = (AnsiString)"Migrating to %s";
-        public static readonly AnsiString MindDecayRStr = (AnsiString)"Mind Decay";
-        public static readonly AnsiString MineBattleWonRStr = (AnsiString)"Mine captured";
-        public static readonly AnsiString MineRStr = (AnsiString)"Mine";
-        public static readonly AnsiString MinesRStr = (AnsiString)"Mines";
-        public static readonly AnsiString MissingPlayerRStr = (AnsiString)"Missing player %d";
-        public static readonly AnsiString ModemRStr = (AnsiString)"Modem";
-        public static readonly AnsiString MonsterLairRStr = (AnsiString)"Monster Lair";
-        public static readonly AnsiString MoraleRStr = (AnsiString)"Morale";
-        public static readonly AnsiString MoraleXRStr = (AnsiString)"Morale: %s";
-        public static readonly AnsiString MountaineeringRStr = (AnsiString)"Mountaineering";
-        public static readonly AnsiString MovementRStr = (AnsiString)"Movement";
-        public static readonly AnsiString MusicRStr = (AnsiString)"Music";
-        public static readonly AnsiString NameRStr = (AnsiString)"Name";
-        public static readonly AnsiString NaturesBlessingRStr = (AnsiString)"Nature's Blessing";
-        public static readonly AnsiString NeutralRStr = (AnsiString)"Neutral";
-        public static readonly AnsiString NeverRStr = (AnsiString)"Never";
-        public static readonly AnsiString NextPlayerXRStr = (AnsiString)"Next Player: %s";
-        public static readonly AnsiString NextRStr = (AnsiString)"Next";
-        public static readonly AnsiString NightVisionRStr = (AnsiString)"Night Vision";
-        public static readonly AnsiString NoContactRStr = (AnsiString)"No Contact";
-        public static readonly AnsiString NoGlobalOpponentEnchantmentsActiveRStr = (AnsiString)"No global opponent enchantments active";
-        public static readonly AnsiString NoHeroAnsweredYourCallRStr = (AnsiString)"No hero answered your call";
-        public static readonly AnsiString NoHeroAnswersYourCallRStr = (AnsiString)"Nobody answers your call...";
-        public static readonly AnsiString NoJoinAnimateRStr = (AnsiString)"Who dares to call me! Do you really think I would serve you?!";
-        public static readonly AnsiString NoJoinResurrectionRStr = (AnsiString)"I needed that... Goodbye.";
-        public static readonly AnsiString NoLimitRStr = (AnsiString)"No Limit";
-        public static readonly AnsiString NoNameSpecifiedRStr = (AnsiString)"no name specified";
-        public static readonly AnsiString NoSummonLocationFoundRStr = (AnsiString)"No nearby summon location found";
-        public static readonly AnsiString NoTimerRStr = (AnsiString)"No Timer";
-        public static readonly AnsiString NonameRStr = (AnsiString)"Noname";
-        public static readonly AnsiString NormalRStr = (AnsiString)"Normal";
-        public static readonly AnsiString NorthAmericaRStr = (AnsiString)"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
-        public static readonly AnsiString NotImplementedRStr = (AnsiString)"Not implemented";
-        public static readonly AnsiString NotImplementedYetRStr = (AnsiString)"Not implemented yet...";
-        public static readonly AnsiString OKRStr = (AnsiString)"OK";
-        public static readonly AnsiString OakRStr = (AnsiString)"Oak";
-        public static readonly AnsiString ObjectiveValidationFailedRStr = (AnsiString)"Objective (%s) failed with message: %s";
-        public static readonly AnsiString ObjectiveXRStr = (AnsiString)"Objective: %s";
-        public static readonly AnsiString OccupationForcesXRStr = (AnsiString)"Occupation Forces: %s";
-        public static readonly AnsiString OkayRStr = (AnsiString)"Okay";
-        public static readonly AnsiString OneMomentPleaseRStr = (AnsiString)"One moment please...";
-        public static readonly AnsiString OnePrisonerLiberatedRStr = (AnsiString)"1 prisoner liberated";
-        public static readonly AnsiString OneUnitTrainedRStr = (AnsiString)"1 unit trained";
-        public static readonly AnsiString OozeRStr = (AnsiString)"Ooze";
-        public static readonly AnsiString OpenRStr = (AnsiString)"Open";
-        public static readonly AnsiString OppressedRStr = (AnsiString)"Oppressed";
-        public static readonly AnsiString OptionsRStr = (AnsiString)"Options";
-        public static readonly AnsiString OrcPluralRStr = (AnsiString)"Orcs";
-        public static readonly AnsiString OrcRStr = (AnsiString)"Orc";
-        public static readonly AnsiString OverlayObjectRStr = (AnsiString)"Overlay Object";
-        public static readonly AnsiString PanickedRStr = (AnsiString)"Panicked";
-        public static readonly AnsiString PartyOwnerXRStr = (AnsiString)"Party Owner: %s";
-        public static readonly AnsiString PassWallRStr = (AnsiString)"Pass Wall";
-        public static readonly AnsiString PassiveRStr = (AnsiString)"Passive";
-        public static readonly AnsiString PasswordConfirmationRStr = (AnsiString)"Password confirmation";
-        public static readonly AnsiString PasswordVerificationRStr = (AnsiString)"Password Verification";
-        public static readonly AnsiString PathOfDecayRStr = (AnsiString)"Path Of Decay";
-        public static readonly AnsiString PathOfFrostRStr = (AnsiString)"Path Of Frost";
-        public static readonly AnsiString PathOfLifeRStr = (AnsiString)"Path Of Life";
-        public static readonly AnsiString PatrolRStr = (AnsiString)"Patrol";
-        public static readonly AnsiString PestilenceRStr = (AnsiString)"Pestilence";
-        public static readonly AnsiString PestilenceStormRStr = (AnsiString)"Pestilence cloud";
-        public static readonly AnsiString PhaseRStr = (AnsiString)"Phase";
-        public static readonly AnsiString PhysicalImmunityRStr = (AnsiString)"Physical Immunity";
-        public static readonly AnsiString PhysicalProtectionRStr = (AnsiString)"Physical Protection";
-        public static readonly AnsiString PhysicalRStr = (AnsiString)"Physical";
-        public static readonly AnsiString PickupRStr = (AnsiString)"Pickup";
-        public static readonly AnsiString PineRStr = (AnsiString)"Pine";
-        public static readonly AnsiString PlayByEmailRStr = (AnsiString)"Play by email";
-        public static readonly AnsiString PlaySampleEventRStr = (AnsiString)"Play Sample";
-        public static readonly AnsiString PlayerNameXRStr = (AnsiString)"Player name: %s";
-        public static readonly AnsiString PlayersOnMapXRStr = (AnsiString)"Players on map: %s";
-        public static readonly AnsiString PleaseAssignAllSpheresRStr = (AnsiString)"Please assign all spheres!";
-        public static readonly AnsiString PleaseFillInAllSettingsRStr = (AnsiString)"Please fill in all settings.";
-        public static readonly AnsiString PleaseInsertTheAoWCDRStr = (AnsiString)"Please insert the Age of Wonders CD.";
-        public static readonly AnsiString PleaseInsertTheAoWCDRetryRStr = (AnsiString)"Couldn't find the Age of Wonders CD, do you want to retry?";
-        public static readonly AnsiString PleaseSetupEmailSettingsFirstRStr = (AnsiString)"Please setup email settings first!";
-        public static readonly AnsiString PoisonCloudDamageRStr = (AnsiString)"Poison Cloud Damage";
-        public static readonly AnsiString PoisonCloudRStr = (AnsiString)"Poison Cloud";
-        public static readonly AnsiString PoisonImmunityRStr = (AnsiString)"Poison Immunity";
-        public static readonly AnsiString PoisonPlantDamageRStr = (AnsiString)"Poison Plant Damage";
-        public static readonly AnsiString PoisonPlantRStr = (AnsiString)"Poison Plant";
-        public static readonly AnsiString PoisonPlantsRStr = (AnsiString)"Poison Plants";
-        public static readonly AnsiString PoisonProtectionRStr = (AnsiString)"Poison Protection";
-        public static readonly AnsiString PoisonRStr = (AnsiString)"Poison";
-        public static readonly AnsiString PoisonedRStr = (AnsiString)"Poisoned";
-        public static readonly AnsiString PoliteRStr = (AnsiString)"Polite";
-        public static readonly AnsiString PoorRStr = (AnsiString)"Poor";
-        public static readonly AnsiString PopulationRStr = (AnsiString)"Population";
-        public static readonly AnsiString PowerLeakRStr = (AnsiString)"Power Leak";
-        public static readonly AnsiString PowerNodeBattleWonRStr = (AnsiString)"Power Node captured";
-        public static readonly AnsiString PowerNodeRStr = (AnsiString)"Power Node";
-        public static readonly AnsiString PowerRStr = (AnsiString)"Power";
-        public static readonly AnsiString PowerXRStr = (AnsiString)"Power: %s";
-        public static readonly AnsiString PrisonerLiberationRStr = (AnsiString)"Prisoner Liberation";
-        public static readonly AnsiString ProduceMerchandiseRStr = (AnsiString)"Produce Merchandise";
-        public static readonly AnsiString ProduceMerchandiseTextRStr = (AnsiString)"When producing merchandise the income is increased by 25%.";
-        public static readonly AnsiString ProduceRStr = (AnsiString)"Produce";
-        public static readonly AnsiString ProduceXRStr = (AnsiString)"Produce %s";
-        public static readonly AnsiString InstallXRStr = (AnsiString)"Install %s";
+        public static readonly string MediumRangeRStr = "Medium Range";
+        public static readonly string MeleeRStr = "Melee";
+        public static readonly string MerchantRStr = "Merchant";
+        public static readonly string MessageFromXRStr = "Message from %s";
+        public static readonly string MessageReceivedRStr = "Message Received";
+        public static readonly string MigrateRStr = "Migrate";
+        public static readonly string MigrateToXRStr = "Migrate to %s";
+        public static readonly string MigratingRStr = "Migrating";
+        public static readonly string MigratingToXRStr = "Migrating to %s";
+        public static readonly string MindDecayRStr = "Mind Decay";
+        public static readonly string MineBattleWonRStr = "Mine captured";
+        public static readonly string MineRStr = "Mine";
+        public static readonly string MinesRStr = "Mines";
+        public static readonly string MissingPlayerRStr = "Missing player %d";
+        public static readonly string ModemRStr = "Modem";
+        public static readonly string MonsterLairRStr = "Monster Lair";
+        public static readonly string MoraleRStr = "Morale";
+        public static readonly string MoraleXRStr = "Morale: %s";
+        public static readonly string MountaineeringRStr = "Mountaineering";
+        public static readonly string MovementRStr = "Movement";
+        public static readonly string MusicRStr = "Music";
+        public static readonly string NameRStr = "Name";
+        public static readonly string NaturesBlessingRStr = "Nature's Blessing";
+        public static readonly string NeutralRStr = "Neutral";
+        public static readonly string NeverRStr = "Never";
+        public static readonly string NextPlayerXRStr = "Next Player: %s";
+        public static readonly string NextRStr = "Next";
+        public static readonly string NightVisionRStr = "Night Vision";
+        public static readonly string NoContactRStr = "No Contact";
+        public static readonly string NoGlobalOpponentEnchantmentsActiveRStr = "No global opponent enchantments active";
+        public static readonly string NoHeroAnsweredYourCallRStr = "No hero answered your call";
+        public static readonly string NoHeroAnswersYourCallRStr = "Nobody answers your call...";
+        public static readonly string NoJoinAnimateRStr = "Who dares to call me! Do you really think I would serve you?!";
+        public static readonly string NoJoinResurrectionRStr = "I needed that... Goodbye.";
+        public static readonly string NoLimitRStr = "No Limit";
+        public static readonly string NoNameSpecifiedRStr = "no name specified";
+        public static readonly string NoSummonLocationFoundRStr = "No nearby summon location found";
+        public static readonly string NoTimerRStr = "No Timer";
+        public static readonly string NonameRStr = "Noname";
+        public static readonly string NormalRStr = "Normal";
+        public static readonly string NorthAmericaRStr = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+        public static readonly string NotImplementedRStr = "Not implemented";
+        public static readonly string NotImplementedYetRStr = "Not implemented yet...";
+        public static readonly string OKRStr = "OK";
+        public static readonly string OakRStr = "Oak";
+        public static readonly string ObjectiveValidationFailedRStr = "Objective (%s) failed with message: %s";
+        public static readonly string ObjectiveXRStr = "Objective: %s";
+        public static readonly string OccupationForcesXRStr = "Occupation Forces: %s";
+        public static readonly string OkayRStr = "Okay";
+        public static readonly string OneMomentPleaseRStr = "One moment please...";
+        public static readonly string OnePrisonerLiberatedRStr = "1 prisoner liberated";
+        public static readonly string OneUnitTrainedRStr = "1 unit trained";
+        public static readonly string OozeRStr = "Ooze";
+        public static readonly string OpenRStr = "Open";
+        public static readonly string OppressedRStr = "Oppressed";
+        public static readonly string OptionsRStr = "Options";
+        public static readonly string OrcPluralRStr = "Orcs";
+        public static readonly string OrcRStr = "Orc";
+        public static readonly string OverlayObjectRStr = "Overlay Object";
+        public static readonly string PanickedRStr = "Panicked";
+        public static readonly string PartyOwnerXRStr = "Party Owner: %s";
+        public static readonly string PassWallRStr = "Pass Wall";
+        public static readonly string PassiveRStr = "Passive";
+        public static readonly string PasswordConfirmationRStr = "Password confirmation";
+        public static readonly string PasswordVerificationRStr = "Password Verification";
+        public static readonly string PathOfDecayRStr = "Path Of Decay";
+        public static readonly string PathOfFrostRStr = "Path Of Frost";
+        public static readonly string PathOfLifeRStr = "Path Of Life";
+        public static readonly string PatrolRStr = "Patrol";
+        public static readonly string PestilenceRStr = "Pestilence";
+        public static readonly string PestilenceStormRStr = "Pestilence cloud";
+        public static readonly string PhaseRStr = "Phase";
+        public static readonly string PhysicalImmunityRStr = "Physical Immunity";
+        public static readonly string PhysicalProtectionRStr = "Physical Protection";
+        public static readonly string PhysicalRStr = "Physical";
+        public static readonly string PickupRStr = "Pickup";
+        public static readonly string PineRStr = "Pine";
+        public static readonly string PlayByEmailRStr = "Play by email";
+        public static readonly string PlaySampleEventRStr = "Play Sample";
+        public static readonly string PlayerNameXRStr = "Player name: %s";
+        public static readonly string PlayersOnMapXRStr = "Players on map: %s";
+        public static readonly string PleaseAssignAllSpheresRStr = "Please assign all spheres!";
+        public static readonly string PleaseFillInAllSettingsRStr = "Please fill in all settings.";
+        public static readonly string PleaseInsertTheAoWCDRStr = "Please insert the Age of Wonders CD.";
+        public static readonly string PleaseInsertTheAoWCDRetryRStr = "Couldn't find the Age of Wonders CD, do you want to retry?";
+        public static readonly string PleaseSetupEmailSettingsFirstRStr = "Please setup email settings first!";
+        public static readonly string PoisonCloudDamageRStr = "Poison Cloud Damage";
+        public static readonly string PoisonCloudRStr = "Poison Cloud";
+        public static readonly string PoisonImmunityRStr = "Poison Immunity";
+        public static readonly string PoisonPlantDamageRStr = "Poison Plant Damage";
+        public static readonly string PoisonPlantRStr = "Poison Plant";
+        public static readonly string PoisonPlantsRStr = "Poison Plants";
+        public static readonly string PoisonProtectionRStr = "Poison Protection";
+        public static readonly string PoisonRStr = "Poison";
+        public static readonly string PoisonedRStr = "Poisoned";
+        public static readonly string PoliteRStr = "Polite";
+        public static readonly string PoorRStr = "Poor";
+        public static readonly string PopulationRStr = "Population";
+        public static readonly string PowerLeakRStr = "Power Leak";
+        public static readonly string PowerNodeBattleWonRStr = "Power Node captured";
+        public static readonly string PowerNodeRStr = "Power Node";
+        public static readonly string PowerRStr = "Power";
+        public static readonly string PowerXRStr = "Power: %s";
+        public static readonly string PrisonerLiberationRStr = "Prisoner Liberation";
+        public static readonly string ProduceMerchandiseRStr = "Produce Merchandise";
+        public static readonly string ProduceMerchandiseTextRStr = "When producing merchandise the income is increased by 25%.";
+        public static readonly string ProduceRStr = "Produce";
+        public static readonly string ProduceXRStr = "Produce %s";
+        public static readonly string InstallXRStr = "Install %s";
         // exports /
-        public static readonly AnsiString ProducingMerchandiseRStr = (AnsiString)"Producing Merchandise";
-        public static readonly AnsiString ProducingRStr = (AnsiString)"Producing";
-        public static readonly AnsiString ProducingXIncomeRStr = (AnsiString)"Producing %s income";
-        public static readonly AnsiString ProductionPlaceXRazeRStr = (AnsiString)"Destroys the %s instantly by burning it to the ground.";
-        public static readonly AnsiString ProgrammerRStr = (AnsiString)"Programmer";
-        public static readonly AnsiString PropertiesRStr = (AnsiString)"Properties";
-        public static readonly AnsiString PublishedByRStr = (AnsiString)"Published by";
-        public static readonly AnsiString PureEvilRStr = (AnsiString)"Pure Evil";
-        public static readonly AnsiString PureGoodRStr = (AnsiString)"Pure Good";
-        public static readonly AnsiString PureNeutralRStr = (AnsiString)"Pure Neutral";
-        public static readonly AnsiString PyramidRStr = (AnsiString)"Pyramid";
-        public static readonly AnsiString QACoreRStr = (AnsiString)"QA Core";
-        public static readonly AnsiString QueueRStr = (AnsiString)"Queue";
-        public static readonly AnsiString RaceRelationXRStr = (AnsiString)"Race Relation: %s";
-        public static readonly AnsiString RaceXHaveNoValidCaptureLocationRStr = (AnsiString)"%s have no valid capture locations";
-        public static readonly AnsiString RaceXRStr = (AnsiString)"Race: %s";
-        public static readonly AnsiString RaceXReachedGoldAmountRStr = (AnsiString)"%s reached the gold amount for victory";
-        public static readonly AnsiString RaidRStr = (AnsiString)"Raid";
-        public static readonly AnsiString RaiseTerrainRStr = (AnsiString)"Raise Terrain";
-        public static readonly AnsiString RaisedMountainRStr = (AnsiString)"Raised Mountain";
-        public static readonly AnsiString RandomNodeRStr = (AnsiString)"Random Node";
-        public static readonly AnsiString RandomRStr = (AnsiString)"Random";
-        public static readonly AnsiString RareRStr = (AnsiString)"Rare";
-        public static readonly AnsiString RazeRStr = (AnsiString)"Raze";
-        public static readonly AnsiString RazedRStr = (AnsiString)"Razed";
-        public static readonly AnsiString ReadyRStr = (AnsiString)"Ready";
-        public static readonly AnsiString RecallSpiritRStr = (AnsiString)"Recall Spirits";
-        public static readonly AnsiString RecipientXRStr = (AnsiString)"Recipient: %s";
-        public static readonly AnsiString RedDragonRStr = (AnsiString)"Red Dragon";
-        public static readonly AnsiString ReenterNewPasswordRStr = (AnsiString)"Confirm new password:";
-        public static readonly AnsiString ReenterPasswordRStr = (AnsiString)"Confirm password:";
-        public static readonly AnsiString ReflectingPoolRStr = (AnsiString)"Reflecting Pool";
-        public static readonly AnsiString RefugeRStr = (AnsiString)"Refuge";
-        public static readonly AnsiString RegenerationRStr = (AnsiString)"Regeneration";
-        public static readonly AnsiString RejectRStr = (AnsiString)"Reject";
-        public static readonly AnsiString RejuvenateRStr = (AnsiString)"Rejuvenate";
-        public static readonly AnsiString RemedyRStr = (AnsiString)"Remedy";
-        public static readonly AnsiString RepeatRStr = (AnsiString)"Repeat";
-        public static readonly AnsiString ReplayRStr = (AnsiString)"Replay";
-        public static readonly AnsiString RequiredManaRStr = (AnsiString)"Required Mana";
-        public static readonly AnsiString ResearchNewSpellRStr = (AnsiString)"Research new spell";
-        public static readonly AnsiString ResearchPointsRStr = (AnsiString)"Research Points";
-        public static readonly AnsiString ResearchRStr = (AnsiString)"Research";
-        public static readonly AnsiString ResearchSpellRStr = (AnsiString)"Research Spell";
-        public static readonly AnsiString ResearchXspellRStr = (AnsiString)"Research %s Spell";
-        public static readonly AnsiString ResearchedRStr = (AnsiString)"Researched";
-        public static readonly AnsiString ResurrectHeroRStr = (AnsiString)"Resurrect Hero";
-        public static readonly AnsiString ResurrectedRStr = (AnsiString)"Resurrected";
-        public static readonly AnsiString RingItemRStr = (AnsiString)"Ring item";
-        public static readonly AnsiString RuinRStr = (AnsiString)"Ruin";
-        public static readonly AnsiString SacredWrathRStr = (AnsiString)"Sacred Wrath";
-        public static readonly AnsiString SacrificialFlameRStr = (AnsiString)"Sacrificial Flame";
-        public static readonly AnsiString SailingRStr = (AnsiString)"Sailing";
-        public static readonly AnsiString SaveGameAsRStr = (AnsiString)"Save game as...";
-        public static readonly AnsiString SaveRStr = (AnsiString)"Save";
-        public static readonly AnsiString ScenarioDesignersRStr = (AnsiString)"Scenario Designers";
-        public static readonly AnsiString ScenarioRStr = (AnsiString)"Scenario";
-        public static readonly AnsiString ScenarioXRStr = (AnsiString)"Scenario: %s";
-        public static readonly AnsiString ScorchRStr = (AnsiString)"Scorch";
-        public static readonly AnsiString ScorcherRStr = (AnsiString)"Scorcher";
-        public static readonly AnsiString ScoutRStr = (AnsiString)"Scout";
-        public static readonly AnsiString SearchRStr = (AnsiString)"Search";
-        public static readonly AnsiString SecretRStr = (AnsiString)"Secret";
-        public static readonly AnsiString SelectAFileToLoadRStr = (AnsiString)"Select a File to Load...";
-        public static readonly AnsiString SelectAMapRStr = (AnsiString)"Select a Map...";
-        public static readonly AnsiString SelectRStr = (AnsiString)"Select";
-        public static readonly AnsiString SelectTargetCityForXOnMapRStr = (AnsiString)"Select target city for %s on map.";
-        public static readonly AnsiString SelectTargetLocationForXOnMapRStr = (AnsiString)"Select target location for %s on map.";
-        public static readonly AnsiString SelectTargetRStr = (AnsiString)"Select Target";
-        public static readonly AnsiString SelectUnitForDispelMagicRStr = (AnsiString)"Select unit for \"Dispel Magic\"";
-        public static readonly AnsiString SelectedSpheresRStr = (AnsiString)"Selected Spheres";
-        public static readonly AnsiString SendingEmailGameRStr = (AnsiString)"Sending email game...";
-        public static readonly AnsiString SerialRStr = (AnsiString)"Serial";
-        public static readonly AnsiString ShipyardRStr = (AnsiString)"Shipyard";
-        public static readonly AnsiString ShockwaveRStr = (AnsiString)"Shock Wave";
-        public static readonly AnsiString ShortRangeRStr = (AnsiString)"Short Range";
-        public static readonly AnsiString ShowMessageEventRStr = (AnsiString)"Show Message Event";
-        public static readonly AnsiString SignRStr = (AnsiString)"Sign";
-        public static readonly AnsiString SimultaneousRStr = (AnsiString)"Simultaneous";
-        public static readonly AnsiString SkillPointsRStr = (AnsiString)"Skill Points";
-        public static readonly AnsiString SkirmishRStr = (AnsiString)"Skirmish";
-        public static readonly AnsiString SlaveryRStr = (AnsiString)"Enslaved";
-        public static readonly AnsiString SlowRStr = (AnsiString)"Slow";
-        public static readonly AnsiString SlugSlimeRStr = (AnsiString)"Slug Slime";
+        public static readonly string ProducingMerchandiseRStr = "Producing Merchandise";
+        public static readonly string ProducingRStr = "Producing";
+        public static readonly string ProducingXIncomeRStr = "Producing %s income";
+        public static readonly string ProductionPlaceXRazeRStr = "Destroys the %s instantly by burning it to the ground.";
+        public static readonly string ProgrammerRStr = "Programmer";
+        public static readonly string PropertiesRStr = "Properties";
+        public static readonly string PublishedByRStr = "Published by";
+        public static readonly string PureEvilRStr = "Pure Evil";
+        public static readonly string PureGoodRStr = "Pure Good";
+        public static readonly string PureNeutralRStr = "Pure Neutral";
+        public static readonly string PyramidRStr = "Pyramid";
+        public static readonly string QACoreRStr = "QA Core";
+        public static readonly string QueueRStr = "Queue";
+        public static readonly string RaceRelationXRStr = "Race Relation: %s";
+        public static readonly string RaceXHaveNoValidCaptureLocationRStr = "%s have no valid capture locations";
+        public static readonly string RaceXRStr = "Race: %s";
+        public static readonly string RaceXReachedGoldAmountRStr = "%s reached the gold amount for victory";
+        public static readonly string RaidRStr = "Raid";
+        public static readonly string RaiseTerrainRStr = "Raise Terrain";
+        public static readonly string RaisedMountainRStr = "Raised Mountain";
+        public static readonly string RandomNodeRStr = "Random Node";
+        public static readonly string RandomRStr = "Random";
+        public static readonly string RareRStr = "Rare";
+        public static readonly string RazeRStr = "Raze";
+        public static readonly string RazedRStr = "Razed";
+        public static readonly string ReadyRStr = "Ready";
+        public static readonly string RecallSpiritRStr = "Recall Spirits";
+        public static readonly string RecipientXRStr = "Recipient: %s";
+        public static readonly string RedDragonRStr = "Red Dragon";
+        public static readonly string ReenterNewPasswordRStr = "Confirm new password:";
+        public static readonly string ReenterPasswordRStr = "Confirm password:";
+        public static readonly string ReflectingPoolRStr = "Reflecting Pool";
+        public static readonly string RefugeRStr = "Refuge";
+        public static readonly string RegenerationRStr = "Regeneration";
+        public static readonly string RejectRStr = "Reject";
+        public static readonly string RejuvenateRStr = "Rejuvenate";
+        public static readonly string RemedyRStr = "Remedy";
+        public static readonly string RepeatRStr = "Repeat";
+        public static readonly string ReplayRStr = "Replay";
+        public static readonly string RequiredManaRStr = "Required Mana";
+        public static readonly string ResearchNewSpellRStr = "Research new spell";
+        public static readonly string ResearchPointsRStr = "Research Points";
+        public static readonly string ResearchRStr = "Research";
+        public static readonly string ResearchSpellRStr = "Research Spell";
+        public static readonly string ResearchXspellRStr = "Research %s Spell";
+        public static readonly string ResearchedRStr = "Researched";
+        public static readonly string ResurrectHeroRStr = "Resurrect Hero";
+        public static readonly string ResurrectedRStr = "Resurrected";
+        public static readonly string RingItemRStr = "Ring item";
+        public static readonly string RuinRStr = "Ruin";
+        public static readonly string SacredWrathRStr = "Sacred Wrath";
+        public static readonly string SacrificialFlameRStr = "Sacrificial Flame";
+        public static readonly string SailingRStr = "Sailing";
+        public static readonly string SaveGameAsRStr = "Save game as...";
+        public static readonly string SaveRStr = "Save";
+        public static readonly string ScenarioDesignersRStr = "Scenario Designers";
+        public static readonly string ScenarioRStr = "Scenario";
+        public static readonly string ScenarioXRStr = "Scenario: %s";
+        public static readonly string ScorchRStr = "Scorch";
+        public static readonly string ScorcherRStr = "Scorcher";
+        public static readonly string ScoutRStr = "Scout";
+        public static readonly string SearchRStr = "Search";
+        public static readonly string SecretRStr = "Secret";
+        public static readonly string SelectAFileToLoadRStr = "Select a File to Load...";
+        public static readonly string SelectAMapRStr = "Select a Map...";
+        public static readonly string SelectRStr = "Select";
+        public static readonly string SelectTargetCityForXOnMapRStr = "Select target city for %s on map.";
+        public static readonly string SelectTargetLocationForXOnMapRStr = "Select target location for %s on map.";
+        public static readonly string SelectTargetRStr = "Select Target";
+        public static readonly string SelectUnitForDispelMagicRStr = "Select unit for \"Dispel Magic\"";
+        public static readonly string SelectedSpheresRStr = "Selected Spheres";
+        public static readonly string SendingEmailGameRStr = "Sending email game...";
+        public static readonly string SerialRStr = "Serial";
+        public static readonly string ShipyardRStr = "Shipyard";
+        public static readonly string ShockwaveRStr = "Shock Wave";
+        public static readonly string ShortRangeRStr = "Short Range";
+        public static readonly string ShowMessageEventRStr = "Show Message Event";
+        public static readonly string SignRStr = "Sign";
+        public static readonly string SimultaneousRStr = "Simultaneous";
+        public static readonly string SkillPointsRStr = "Skill Points";
+        public static readonly string SkirmishRStr = "Skirmish";
+        public static readonly string SlaveryRStr = "Enslaved";
+        public static readonly string SlowRStr = "Slow";
+        public static readonly string SlugSlimeRStr = "Slug Slime";
         public const byte SmallMapAbrRStr = 83;
-        public static readonly AnsiString SmokeCloudRStr = (AnsiString)"Cloud of Ashes";
-        public static readonly AnsiString SnowConcealmentRStr = (AnsiString)"Snow Concealment";
-        public static readonly AnsiString SolarBlastRStr = (AnsiString)"Solar Blast";
-        public static readonly AnsiString SolarFlareRStr = (AnsiString)"Solar Flare";
-        public static readonly AnsiString SoundFXRStr = (AnsiString)"Sound FX";
-        public static readonly AnsiString SourceLibraryXRStr = (AnsiString)"Source Library: %s";
-        public static readonly AnsiString StructureRStr = (AnsiString)"Structure";
+        public static readonly string SmokeCloudRStr = "Cloud of Ashes";
+        public static readonly string SnowConcealmentRStr = "Snow Concealment";
+        public static readonly string SolarBlastRStr = "Solar Blast";
+        public static readonly string SolarFlareRStr = "Solar Flare";
+        public static readonly string SoundFXRStr = "Sound FX";
+        public static readonly string SourceLibraryXRStr = "Source Library: %s";
+        public static readonly string StructureRStr = "Structure";
         // public resource, AoWEd
-        public static readonly AnsiString SpecialThanksRStr = (AnsiString)"Special Thanks";
-        public static readonly AnsiString SpellIsAlreadyResearchedRStr = (AnsiString)"Spell already researched";
-        public static readonly AnsiString SpellRStr = (AnsiString)"Spell";
-        public static readonly AnsiString SpellWardRStr = (AnsiString)"Spell Ward";
-        public static readonly AnsiString SplitOnEnterCaveWarningRStr = (AnsiString)"Entering the cave will split your party. Do you wish to continue?";
-        public static readonly AnsiString SpringOfLifeRStr = (AnsiString)"Spring of Life";
-        public static readonly AnsiString StableRStr = (AnsiString)"Stable";
-        public static readonly AnsiString StatusRStr = (AnsiString)"Status";
-        public static readonly AnsiString StatusWarmodeRStr = (AnsiString)"Status: Warmode";
-        public static readonly AnsiString StatusXRStr = (AnsiString)"Status: %s";
-        public static readonly AnsiString Step1CustomizeLeaderRStr = (AnsiString)"Step 1: Customize Leader";
-        public static readonly AnsiString Step2AssignSkillPointsRStr = (AnsiString)"Step 2: Assign Skill Points";
-        public static readonly AnsiString Step3AssignSpheresRStr = (AnsiString)"Step 3: Assign Spheres";
-        public static readonly AnsiString SteppeConcealmentRStr = (AnsiString)"Steppe Concealment";
-        public static readonly AnsiString StoneSkinRStr = (AnsiString)"Stone Skin";
-        public static readonly AnsiString StoningRStr = (AnsiString)"Stoning";
-        public static readonly AnsiString StormRStr = (AnsiString)"Storm";
-        public static readonly AnsiString StoryAndEditingRStr = (AnsiString)"Story and Editing";
-        public static readonly AnsiString StrongRStr = (AnsiString)"Strong";
-        public static readonly AnsiString StunnedRStr = (AnsiString)"Stunned";
-        public static readonly AnsiString SuggestSplitWithYRStr = (AnsiString)"Suggest split with %s";
-        public static readonly AnsiString SuicidalRStr = (AnsiString)"Suicidal";
-        public static readonly AnsiString SuicidedRStr = (AnsiString)"Commited Suicide";
-        public static readonly AnsiString SummonAirElementalRStr = (AnsiString)"Summon Air Elemental";
-        public static readonly AnsiString SummonBlackDragonRStr = (AnsiString)"Summon Black Dragon";
-        public static readonly AnsiString SummonBlackSpiderRStr = (AnsiString)"Summon Black Spider";
-        public static readonly AnsiString SummonBoarRStr = (AnsiString)"Summon Boar";
-        public static readonly AnsiString SummonEarthElementalRStr = (AnsiString)"Summon Earth Elemental";
-        public static readonly AnsiString SummonFireElementalRStr = (AnsiString)"Summon Fire Elemental";
-        public static readonly AnsiString SummonFireSpriteRStr = (AnsiString)"Summon Fire Sprite";
-        public static readonly AnsiString SummonFrogRStr = (AnsiString)"Summon Frog";
-        public static readonly AnsiString SummonGoldDragonRStr = (AnsiString)"Summon Gold Dragon";
-        public static readonly AnsiString SummonGreatEagleRStr = (AnsiString)"Summon Great Eagle";
-        public static readonly AnsiString SummonMermaidRStr = (AnsiString)"Summon Mermaid";
-        public static readonly AnsiString SummonSyronRStr = (AnsiString)"Summon Syron";
-        public static readonly AnsiString SummonWaterElementalRStr = (AnsiString)"Summon Water Elemental";
-        public static readonly AnsiString SummonedRStr = (AnsiString)"Summoned";
-        public static readonly AnsiString SurrenderYourEmpireRStr = (AnsiString)"Surrender your empire?";
-        public static readonly AnsiString SwarmRStr = (AnsiString)"Swarm";
-        public static readonly AnsiString SwimmingRStr = (AnsiString)"Swimming";
-        public static readonly AnsiString TCPIPRStr = (AnsiString)"TCP/IP";
-        public static readonly AnsiString TakenRStr = (AnsiString)"(taken)";
-        public static readonly AnsiString TargetRStr = (AnsiString)"Target";
-        public static readonly AnsiString TeleportRStr = (AnsiString)"Teleport";
-        public static readonly AnsiString TerrainBonusXRStr = (AnsiString)"Terrain Bonus: %s";
-        public static readonly AnsiString TerrainPenaltyXRStr = (AnsiString)"Terrain Penalty: %s";
-        public static readonly AnsiString TerribleRStr = (AnsiString)"Terrible";
-        public static readonly AnsiString TerrorRStr = (AnsiString)"Terror";
-        public static readonly AnsiString TheLeaderStepsForewardRStr = (AnsiString)"The leader of the party steps forward:";
-        public static readonly AnsiString TheXliesInRuinsRStr = (AnsiString)"The %s lies in ruins.";
-        public static readonly AnsiString TheyTaughtYouTheSpellXRStr = (AnsiString)"They taught you the spell %s";
-        public static readonly AnsiString TitleRStr = (AnsiString)"Title";
-        public static readonly AnsiString ToadRStr = (AnsiString)"Toad";
-        public static readonly AnsiString TornadoRStr = (AnsiString)"Tornado";
-        public static readonly AnsiString TorsoItemRStr = (AnsiString)"Torso item";
-        public static readonly AnsiString TotalCostXRStr = (AnsiString)"Total Cost: %s";
-        public static readonly AnsiString TouchRStr = (AnsiString)"Touch";
-        public static readonly AnsiString TowerRStr = (AnsiString)"Tower";
-        public static readonly AnsiString TownGateRStr = (AnsiString)"Town Gate";
-        public static readonly AnsiString TownQuakeDamageRStr = (AnsiString)"Town Quake Damage";
-        public static readonly AnsiString TownQuakeRStr = (AnsiString)"Town Quake";
-        public static readonly AnsiString TrailOfDarknessRStr = (AnsiString)"Trail Of Darkness";
-        public static readonly AnsiString TrainingCompletedRStr = (AnsiString)"Training completed";
-        public static readonly AnsiString TransparentRStr = (AnsiString)"Transparent";
-        public static readonly AnsiString TransportRStr = (AnsiString)"Transport";
-        public static readonly AnsiString TremorsRStr = (AnsiString)"Tremors";
-        public static readonly AnsiString TrueVisionRStr = (AnsiString)"True Seeing";
-        public static readonly AnsiString TunnelingRStr = (AnsiString)"Tunneling";
-        public static readonly AnsiString TurnModeXRStr = (AnsiString)"Turn mode: %s";
-        public static readonly AnsiString TurnRStr = (AnsiString)"Turn";
-        public static readonly AnsiString TurnedUndeadRStr = (AnsiString)"Turned Undead";
-        public static readonly AnsiString TurnUndeadRStr = (AnsiString)"Turn Undead";
-        public static readonly AnsiString TurnsRStr = (AnsiString)"Turns";
-        public static readonly AnsiString TurnsXRStr = (AnsiString)"Turns: %s";
-        public static readonly AnsiString TutorialMessageEventRStr = (AnsiString)"Tutorial Message Event";
-        public static readonly AnsiString TutorialRStr = (AnsiString)"Tutorial";
-        public static readonly AnsiString UnavailableRStr = (AnsiString)"Unavailable";
-        public static readonly AnsiString UncommonRStr = (AnsiString)"Uncommon";
-        public static readonly AnsiString UndergroundConcealmentRStr = (AnsiString)"Underground Concealment";
-        public static readonly AnsiString UnexploredRStr = (AnsiString)"Unexplored";
-        public static readonly AnsiString UnholyChampionRStr = (AnsiString)"Unholy Champion";
-        public static readonly AnsiString UnholyGroundDamageRStr = (AnsiString)"Unholy Ground Damage";
-        public static readonly AnsiString UnholyGroundRStr = (AnsiString)"Unholy Ground";
-        public static readonly AnsiString UnholyGroundsRStr = (AnsiString)"Evil Woods";
-        public static readonly AnsiString UniqueRStr = (AnsiString)"Unique";
-        public static readonly AnsiString UnitRStr = (AnsiString)"Unit";
-        public static readonly AnsiString UnlimitedRStr = (AnsiString)"Unlimited";
-        public static readonly AnsiString UnrestRStr = (AnsiString)"Unrest";
-        public static readonly AnsiString UnrulyRStr = (AnsiString)"Unruly";
-        public static readonly AnsiString UpgradeLevelXRStr = (AnsiString)"Upgrade Level: %s";
-        public static readonly AnsiString UpgradeRStr = (AnsiString)"Upgrade";
-        public static readonly AnsiString UpgradingRStr = (AnsiString)"Upgrading";
-        public static readonly AnsiString UpkeepRStr = (AnsiString)"Upkeep";
-        public static readonly AnsiString UpkeepXRStr = (AnsiString)"Upkeep: %d";
-        public static readonly AnsiString UseItemRStr = (AnsiString)"Use item";
-        public static readonly AnsiString UseXRStr = (AnsiString)"Use %s";
-        public static readonly AnsiString UserRStr = (AnsiString)"user";
-        public static readonly AnsiString UsedRStr = (AnsiString)"Used";
-        public static readonly AnsiString VaporizeRStr = (AnsiString)"Vaporize";
-        public static readonly AnsiString VersionXRStr = (AnsiString)"Version: %s";
-        public static readonly AnsiString VersionXYRequiredRStr = (AnsiString)"(Version %0:s.%1:s required)";
-        public static readonly AnsiString VersusRStr = (AnsiString)"vs.";
-        public static readonly AnsiString VertigoRStr = (AnsiString)"Vertigo";
-        public static readonly AnsiString VeryRareRStr = (AnsiString)"Very Rare";
-        public static readonly AnsiString VictoryRStr = (AnsiString)"Victory";
-        public static readonly AnsiString ViewallTCRStr = (AnsiString)"View all TC";
-        public static readonly AnsiString VisionRStr = (AnsiString)"Vision";
-        public static readonly AnsiString VortexDamageRStr = (AnsiString)"Vortex Damage";
-        public static readonly AnsiString VortexRStr = (AnsiString)"Vortex";
-        public static readonly AnsiString WalkingRStr = (AnsiString)"Walking";
-        public static readonly AnsiString WallBreachRStr = (AnsiString)"Wall Breach";
-        public static readonly AnsiString WallClimbingRStr = (AnsiString)"Wall Climbing";
-        public static readonly AnsiString WallRStr = (AnsiString)"Wall";
-        public static readonly AnsiString WarmodeRStr = (AnsiString)"Warmode";
-        public static readonly AnsiString WarmongerRStr = (AnsiString)"Warmonger";
-        public static readonly AnsiString WarpPartyRStr = (AnsiString)"Warp Party";
-        public static readonly AnsiString WaryRStr = (AnsiString)"Wary";
-        public static readonly AnsiString WastelandConcealmentRStr = (AnsiString)"Wasteland Concealment";
-        public static readonly AnsiString WatcherRStr = (AnsiString)"Watcher";
-        public static readonly AnsiString WaterConcealmentRStr = (AnsiString)"Water Concealment";
-        public static readonly AnsiString WaterHexagonRStr = (AnsiString)"Water/Ice Hexagon";
-        public static readonly AnsiString WaterMasteryRStr = (AnsiString)"Water Mastery";
-        public static readonly AnsiString WaterNodeRStr = (AnsiString)"Water Node";
-        public static readonly AnsiString WaterWalkingRStr = (AnsiString)"Water Walking";
-        public static readonly AnsiString WeakRStr = (AnsiString)"Weak";
-        public static readonly AnsiString WebbedRStr = (AnsiString)"Webbed";
-        public static readonly AnsiString WillowRStr = (AnsiString)"Willow";
-        public static readonly AnsiString WindWalkingRStr = (AnsiString)"Wind Walking";
-        public static readonly AnsiString WindsOfFuryRStr = (AnsiString)"Winds Of Fury";
-        public static readonly AnsiString WizardsTowerRStr = (AnsiString)"Wizards Tower";
-        public static readonly AnsiString WonRStr = (AnsiString)"Won";
-        public static readonly AnsiString WraithsDelightRStr = (AnsiString)"Wraith's delight";
-        public static readonly AnsiString WriterRStr = (AnsiString)"Writer";
-        public static readonly AnsiString XAlreadyActiveRStr = (AnsiString)"%s already active";
-        public static readonly AnsiString XAlreadyExistsRStr = (AnsiString)"%s already exists";
-        public static readonly AnsiString XAlreadyRemovedRStr = (AnsiString)"%s already removed";
-        public static readonly AnsiString XAnimatedRStr = (AnsiString)"%s animated";
-        public static readonly AnsiString XCropFieldsRStr = (AnsiString)"%s Crop Fields";
-        public static readonly AnsiString XExploredRStr = (AnsiString)"%s explored";
-        public static readonly AnsiString XGoldRStr = (AnsiString)"%s gold";
-        public static readonly AnsiString XHostYRStr = (AnsiString)"%0:s Host: %1:s";
-        public static readonly AnsiString XInstalledAtYRStr = (AnsiString)"%0:s installed at %1:s";
-        public static readonly AnsiString XLiberatedRStr = (AnsiString)"%s liberated";
-        public static readonly AnsiString XMinutesRStr = (AnsiString)"%s minutes";
-        public static readonly AnsiString XOverthrownRStr = (AnsiString)"%s overthrown";
-        public static readonly AnsiString XPowerRStr = (AnsiString)"%s power";
-        public static readonly AnsiString XPrisonersLiberatedRStr = (AnsiString)"%s prisoners liberated";
-        public static readonly AnsiString XProducedAtYRStr = (AnsiString)"%0:s produced at %1:s";
-        public static readonly AnsiString XRazedRStr = (AnsiString)"%s razed";
-        public static readonly AnsiString XRelationMinusYRStr = (AnsiString)"%s Relation %d";
-        public static readonly AnsiString XRelationPlusYRStr = (AnsiString)"%s Relation +%d";
-        public static readonly AnsiString XResurrectedRStr = (AnsiString)"%s resurrected";
-        public static readonly AnsiString XSelectedRStr = (AnsiString)"%s selected";
-        public static readonly AnsiString XSpellsRStr = (AnsiString)"%s Spells";
-        public static readonly AnsiString XSuccessfullyDispelledRStr = (AnsiString)"%s successfully dispelled";
-        public static readonly AnsiString XUnitsTrainedRStr = (AnsiString)"%s units trained";
-        public static readonly AnsiString XUpgradedRStr = (AnsiString)"%s upgraded";
-        public static readonly AnsiString XinYdaysRStr = (AnsiString)"%s in %d day(s)";
-        public static readonly AnsiString XsGameRStr = (AnsiString)"%s's Game";
-        public static readonly AnsiString XtimeYSphereRStr = (AnsiString)"%0:sx %1:s sphere";
-        public static readonly AnsiString YouCannotChannelPowerFromThisNodeRStr = (AnsiString)"You cannot channel power from this node";
-        public static readonly AnsiString YouNeed2HumanPlayersToPlayAnEmailGameRStr = (AnsiString)"You need 2 human players to play an email game.";
-        public static readonly AnsiString YouWereEjectedByTheHostRStr = (AnsiString)"You were ejected by the host.";
-        public static readonly AnsiString YouWhereVictoriousRStr = (AnsiString)"you were victorious!";
-        public static readonly AnsiString YourReignHasEndedRStr = (AnsiString)"your reign has ended!";
-        public static readonly AnsiString spRStr = (AnsiString)"sp";
+        public static readonly string SpecialThanksRStr = "Special Thanks";
+        public static readonly string SpellIsAlreadyResearchedRStr = "Spell already researched";
+        public static readonly string SpellRStr = "Spell";
+        public static readonly string SpellWardRStr = "Spell Ward";
+        public static readonly string SplitOnEnterCaveWarningRStr = "Entering the cave will split your party. Do you wish to continue?";
+        public static readonly string SpringOfLifeRStr = "Spring of Life";
+        public static readonly string StableRStr = "Stable";
+        public static readonly string StatusRStr = "Status";
+        public static readonly string StatusWarmodeRStr = "Status: Warmode";
+        public static readonly string StatusXRStr = "Status: %s";
+        public static readonly string Step1CustomizeLeaderRStr = "Step 1: Customize Leader";
+        public static readonly string Step2AssignSkillPointsRStr = "Step 2: Assign Skill Points";
+        public static readonly string Step3AssignSpheresRStr = "Step 3: Assign Spheres";
+        public static readonly string SteppeConcealmentRStr = "Steppe Concealment";
+        public static readonly string StoneSkinRStr = "Stone Skin";
+        public static readonly string StoningRStr = "Stoning";
+        public static readonly string StormRStr = "Storm";
+        public static readonly string StoryAndEditingRStr = "Story and Editing";
+        public static readonly string StrongRStr = "Strong";
+        public static readonly string StunnedRStr = "Stunned";
+        public static readonly string SuggestSplitWithYRStr = "Suggest split with %s";
+        public static readonly string SuicidalRStr = "Suicidal";
+        public static readonly string SuicidedRStr = "Commited Suicide";
+        public static readonly string SummonAirElementalRStr = "Summon Air Elemental";
+        public static readonly string SummonBlackDragonRStr = "Summon Black Dragon";
+        public static readonly string SummonBlackSpiderRStr = "Summon Black Spider";
+        public static readonly string SummonBoarRStr = "Summon Boar";
+        public static readonly string SummonEarthElementalRStr = "Summon Earth Elemental";
+        public static readonly string SummonFireElementalRStr = "Summon Fire Elemental";
+        public static readonly string SummonFireSpriteRStr = "Summon Fire Sprite";
+        public static readonly string SummonFrogRStr = "Summon Frog";
+        public static readonly string SummonGoldDragonRStr = "Summon Gold Dragon";
+        public static readonly string SummonGreatEagleRStr = "Summon Great Eagle";
+        public static readonly string SummonMermaidRStr = "Summon Mermaid";
+        public static readonly string SummonSyronRStr = "Summon Syron";
+        public static readonly string SummonWaterElementalRStr = "Summon Water Elemental";
+        public static readonly string SummonedRStr = "Summoned";
+        public static readonly string SurrenderYourEmpireRStr = "Surrender your empire?";
+        public static readonly string SwarmRStr = "Swarm";
+        public static readonly string SwimmingRStr = "Swimming";
+        public static readonly string TCPIPRStr = "TCP/IP";
+        public static readonly string TakenRStr = "(taken)";
+        public static readonly string TargetRStr = "Target";
+        public static readonly string TeleportRStr = "Teleport";
+        public static readonly string TerrainBonusXRStr = "Terrain Bonus: %s";
+        public static readonly string TerrainPenaltyXRStr = "Terrain Penalty: %s";
+        public static readonly string TerribleRStr = "Terrible";
+        public static readonly string TerrorRStr = "Terror";
+        public static readonly string TheLeaderStepsForewardRStr = "The leader of the party steps forward:";
+        public static readonly string TheXliesInRuinsRStr = "The %s lies in ruins.";
+        public static readonly string TheyTaughtYouTheSpellXRStr = "They taught you the spell %s";
+        public static readonly string TitleRStr = "Title";
+        public static readonly string ToadRStr = "Toad";
+        public static readonly string TornadoRStr = "Tornado";
+        public static readonly string TorsoItemRStr = "Torso item";
+        public static readonly string TotalCostXRStr = "Total Cost: %s";
+        public static readonly string TouchRStr = "Touch";
+        public static readonly string TowerRStr = "Tower";
+        public static readonly string TownGateRStr = "Town Gate";
+        public static readonly string TownQuakeDamageRStr = "Town Quake Damage";
+        public static readonly string TownQuakeRStr = "Town Quake";
+        public static readonly string TrailOfDarknessRStr = "Trail Of Darkness";
+        public static readonly string TrainingCompletedRStr = "Training completed";
+        public static readonly string TransparentRStr = "Transparent";
+        public static readonly string TransportRStr = "Transport";
+        public static readonly string TremorsRStr = "Tremors";
+        public static readonly string TrueVisionRStr = "True Seeing";
+        public static readonly string TunnelingRStr = "Tunneling";
+        public static readonly string TurnModeXRStr = "Turn mode: %s";
+        public static readonly string TurnRStr = "Turn";
+        public static readonly string TurnedUndeadRStr = "Turned Undead";
+        public static readonly string TurnUndeadRStr = "Turn Undead";
+        public static readonly string TurnsRStr = "Turns";
+        public static readonly string TurnsXRStr = "Turns: %s";
+        public static readonly string TutorialMessageEventRStr = "Tutorial Message Event";
+        public static readonly string TutorialRStr = "Tutorial";
+        public static readonly string UnavailableRStr = "Unavailable";
+        public static readonly string UncommonRStr = "Uncommon";
+        public static readonly string UndergroundConcealmentRStr = "Underground Concealment";
+        public static readonly string UnexploredRStr = "Unexplored";
+        public static readonly string UnholyChampionRStr = "Unholy Champion";
+        public static readonly string UnholyGroundDamageRStr = "Unholy Ground Damage";
+        public static readonly string UnholyGroundRStr = "Unholy Ground";
+        public static readonly string UnholyGroundsRStr = "Evil Woods";
+        public static readonly string UniqueRStr = "Unique";
+        public static readonly string UnitRStr = "Unit";
+        public static readonly string UnlimitedRStr = "Unlimited";
+        public static readonly string UnrestRStr = "Unrest";
+        public static readonly string UnrulyRStr = "Unruly";
+        public static readonly string UpgradeLevelXRStr = "Upgrade Level: %s";
+        public static readonly string UpgradeRStr = "Upgrade";
+        public static readonly string UpgradingRStr = "Upgrading";
+        public static readonly string UpkeepRStr = "Upkeep";
+        public static readonly string UpkeepXRStr = "Upkeep: %d";
+        public static readonly string UseItemRStr = "Use item";
+        public static readonly string UseXRStr = "Use %s";
+        public static readonly string UserRStr = "user";
+        public static readonly string UsedRStr = "Used";
+        public static readonly string VaporizeRStr = "Vaporize";
+        public static readonly string VersionXRStr = "Version: %s";
+        public static readonly string VersionXYRequiredRStr = "(Version %0:s.%1:s required)";
+        public static readonly string VersusRStr = "vs.";
+        public static readonly string VertigoRStr = "Vertigo";
+        public static readonly string VeryRareRStr = "Very Rare";
+        public static readonly string VictoryRStr = "Victory";
+        public static readonly string ViewallTCRStr = "View all TC";
+        public static readonly string VisionRStr = "Vision";
+        public static readonly string VortexDamageRStr = "Vortex Damage";
+        public static readonly string VortexRStr = "Vortex";
+        public static readonly string WalkingRStr = "Walking";
+        public static readonly string WallBreachRStr = "Wall Breach";
+        public static readonly string WallClimbingRStr = "Wall Climbing";
+        public static readonly string WallRStr = "Wall";
+        public static readonly string WarmodeRStr = "Warmode";
+        public static readonly string WarmongerRStr = "Warmonger";
+        public static readonly string WarpPartyRStr = "Warp Party";
+        public static readonly string WaryRStr = "Wary";
+        public static readonly string WastelandConcealmentRStr = "Wasteland Concealment";
+        public static readonly string WatcherRStr = "Watcher";
+        public static readonly string WaterConcealmentRStr = "Water Concealment";
+        public static readonly string WaterHexagonRStr = "Water/Ice Hexagon";
+        public static readonly string WaterMasteryRStr = "Water Mastery";
+        public static readonly string WaterNodeRStr = "Water Node";
+        public static readonly string WaterWalkingRStr = "Water Walking";
+        public static readonly string WeakRStr = "Weak";
+        public static readonly string WebbedRStr = "Webbed";
+        public static readonly string WillowRStr = "Willow";
+        public static readonly string WindWalkingRStr = "Wind Walking";
+        public static readonly string WindsOfFuryRStr = "Winds Of Fury";
+        public static readonly string WizardsTowerRStr = "Wizards Tower";
+        public static readonly string WonRStr = "Won";
+        public static readonly string WraithsDelightRStr = "Wraith's delight";
+        public static readonly string WriterRStr = "Writer";
+        public static readonly string XAlreadyActiveRStr = "%s already active";
+        public static readonly string XAlreadyExistsRStr = "%s already exists";
+        public static readonly string XAlreadyRemovedRStr = "%s already removed";
+        public static readonly string XAnimatedRStr = "%s animated";
+        public static readonly string XCropFieldsRStr = "%s Crop Fields";
+        public static readonly string XExploredRStr = "%s explored";
+        public static readonly string XGoldRStr = "%s gold";
+        public static readonly string XHostYRStr = "%0:s Host: %1:s";
+        public static readonly string XInstalledAtYRStr = "%0:s installed at %1:s";
+        public static readonly string XLiberatedRStr = "%s liberated";
+        public static readonly string XMinutesRStr = "%s minutes";
+        public static readonly string XOverthrownRStr = "%s overthrown";
+        public static readonly string XPowerRStr = "%s power";
+        public static readonly string XPrisonersLiberatedRStr = "%s prisoners liberated";
+        public static readonly string XProducedAtYRStr = "%0:s produced at %1:s";
+        public static readonly string XRazedRStr = "%s razed";
+        public static readonly string XRelationMinusYRStr = "%s Relation %d";
+        public static readonly string XRelationPlusYRStr = "%s Relation +%d";
+        public static readonly string XResurrectedRStr = "%s resurrected";
+        public static readonly string XSelectedRStr = "%s selected";
+        public static readonly string XSpellsRStr = "%s Spells";
+        public static readonly string XSuccessfullyDispelledRStr = "%s successfully dispelled";
+        public static readonly string XUnitsTrainedRStr = "%s units trained";
+        public static readonly string XUpgradedRStr = "%s upgraded";
+        public static readonly string XinYdaysRStr = "%s in %d day(s)";
+        public static readonly string XsGameRStr = "%s's Game";
+        public static readonly string XtimeYSphereRStr = "%0:sx %1:s sphere";
+        public static readonly string YouCannotChannelPowerFromThisNodeRStr = "You cannot channel power from this node";
+        public static readonly string YouNeed2HumanPlayersToPlayAnEmailGameRStr = "You need 2 human players to play an email game.";
+        public static readonly string YouWereEjectedByTheHostRStr = "You were ejected by the host.";
+        public static readonly string YouWhereVictoriousRStr = "you were victorious!";
+        public static readonly string YourReignHasEndedRStr = "your reign has ended!";
+        public static readonly string spRStr = "sp";
         // P1 shared world globals. original addresses and
         public static TAoWEngine AoWEngine;
         public static TAoWHSMap AoWHSMap;
@@ -81573,7 +81574,7 @@ namespace Aow.Units.AoWE
         public static TSet<TDamageType> dtAll = TSet<TDamageType>.FromMask(1023UL);
         public static TSet<TItemType> itAll = TSet<TItemType>.FromMask(127UL);
         // ItemExpS
-        public static FixedArray_Aow_Rtl_AnsiString_2 ExplosionSFX = FixedArray_Aow_Rtl_AnsiString_2.From([(AnsiString)"SFX\\ATTACK\\STORM.WAV", (AnsiString)"SFX\\ATTACK\\EXPLOD1.WAV"]);
+        public static FixedArray_string_2 ExplosionSFX = FixedArray_string_2.From(["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"]);
         public static TSet<TAlignment> alsPureGood = TSet<TAlignment>.FromMask(67UL);
         public static TSet<TAlignment> alsGood = TSet<TAlignment>.FromMask(75UL);
         public static TSet<TAlignment> alsNeutral = TSet<TAlignment>.FromMask(90UL);
@@ -81633,69 +81634,69 @@ namespace Aow.Units.AoWE
 
         ];
         public static TSet<TAlignment> alsAll = TSet<TAlignment>.FromMask(123UL);
-        public static FixedArray_Aow_Rtl_AnsiString_3 UnitTypePluralRStr;
+        public static FixedArray_string_3 UnitTypePluralRStr = FixedArray_string_3.From([]);
         // initially empty
-        public static FixedArray_Aow_Rtl_AnsiString_5 TAbilityTypeRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_10 TAbilitySelectionTypeRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_8 TPlayerTypeRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_3 TCampaignDifficultyLevelRStr = FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Easy", (AnsiString)"Normal", (AnsiString)"Hard"]);
-        public static FixedArray_Aow_Rtl_AnsiString_3 TPlayModeRStr = FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"None", (AnsiString)"Classic", (AnsiString)"Simultaneous"]);
-        public static FixedArray_Aow_Rtl_AnsiString_6 TPlayerBehaviorRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_4 TDiplomaticRelationRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_6 TCombatModeRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_3 TCombatResolveModeRStr;
-        public static FixedArray_Aow_Rtl_AnsiString_19 TGroupBehaviorStr;
-        public static AnsiString[] TAlignmentRStr = [(AnsiString)"Pure Good", (AnsiString)"Good", (AnsiString)"Pure Neutral", (AnsiString)"Neutral", (AnsiString)"Evil", (AnsiString)"Pure Evil", (AnsiString)"None"];
+        public static FixedArray_string_5 TAbilityTypeRStr = FixedArray_string_5.From([]);
+        public static FixedArray_string_10 TAbilitySelectionTypeRStr = FixedArray_string_10.From([]);
+        public static FixedArray_string_8 TPlayerTypeRStr = FixedArray_string_8.From([]);
+        public static FixedArray_string_3 TCampaignDifficultyLevelRStr = FixedArray_string_3.From(["Easy", "Normal", "Hard"]);
+        public static FixedArray_string_3 TPlayModeRStr = FixedArray_string_3.From(["None", "Classic", "Simultaneous"]);
+        public static FixedArray_string_6 TPlayerBehaviorRStr = FixedArray_string_6.From([]);
+        public static FixedArray_string_4 TDiplomaticRelationRStr = FixedArray_string_4.From([]);
+        public static FixedArray_string_6 TCombatModeRStr = FixedArray_string_6.From([]);
+        public static FixedArray_string_3 TCombatResolveModeRStr = FixedArray_string_3.From([]);
+        public static FixedArray_string_19 TGroupBehaviorStr = FixedArray_string_19.From([]);
+        public static string[] TAlignmentRStr = ["Pure Good", "Good", "Pure Neutral", "Neutral", "Evil", "Pure Evil", "None"];
         // export . AoW
-        public static AnsiString[] TStatusRStr = new AnsiString[5];
-        public static FixedArray_Aow_Rtl_AnsiString_5 TPartyStatusRStr = FixedArray_Aow_Rtl_AnsiString_5.From([(AnsiString)"Unruly", (AnsiString)"Unrest", (AnsiString)"Stable", (AnsiString)"Content", (AnsiString)"Cheerful"]);
-        public static AnsiString[] ItemAvailabilityRStr = [(AnsiString)"Exceptional", (AnsiString)"Rare", (AnsiString)"Common", (AnsiString)"Frequent"];
+        public static string[] TStatusRStr = Strings(5);
+        public static FixedArray_string_5 TPartyStatusRStr = FixedArray_string_5.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful"]);
+        public static string[] ItemAvailabilityRStr = ["Exceptional", "Rare", "Common", "Frequent"];
         // export
-        public static FixedArray_Aow_Rtl_AnsiString_5 TMoraleRStr = FixedArray_Aow_Rtl_AnsiString_5.From([(AnsiString)"Terrible", (AnsiString)"Poor", (AnsiString)"Okay", (AnsiString)"Good", (AnsiString)"High"]);
-        public static FixedArray_Aow_Rtl_AnsiString_10 TDamageTypeRStr;
+        public static FixedArray_string_5 TMoraleRStr = FixedArray_string_5.From(["Terrible", "Poor", "Okay", "Good", "High"]);
+        public static FixedArray_string_10 TDamageTypeRStr = FixedArray_string_10.From([]);
         public static TSet<TAbilitySelectionType> astAll = TSet<TAbilitySelectionType>.Of().WithRange(TAbilitySelectionType.astUnit, TAbilitySelectionType.astEditor);
         public static TSet<TMagicSphere> msAll = TSet<TMagicSphere>.Of().WithRange(TMagicSphere.msCosmos, TMagicSphere.msNone);
         // RaceNamesPluralRStr export spans $34 bytes to the next export. ListDebugInfo reads its
         // entries. AIDID goes to TEngine.OutputDebugMessage. (P5)
-        public static AnsiString[] RaceNamesPluralRStr = new AnsiString[13];
+        public static string[] RaceNamesPluralRStr = Strings(13);
         public static int AIDID;
-        public static FixedArray_Aow_Rtl_AnsiString_13 RaceNamesRStr;
-        public static readonly AnsiString CouldNotSaveXRStr = (AnsiString)"Could not save %s";
-        public static readonly AnsiString InfoRStr = (AnsiString)"Info";
-        public static readonly AnsiString NewDayRStr = (AnsiString)"Day %d dawns";
-        public static readonly AnsiString TurnLimitReachedRStr = (AnsiString)"Sorry, turn limit reached!";
-        public static readonly AnsiString MapSuccessfullyValidatedRStr = (AnsiString)"Map validated successfully";
-        public static readonly AnsiString MapValidationFailedRStr = (AnsiString)"Map validation failed!";
-        public static readonly AnsiString LoadingLevelRStr = (AnsiString)"Loading Level ";
-        public static readonly AnsiString InitializingLevelRStr = (AnsiString)"Initializing Level ";
-        public static readonly AnsiString UpdatingTerrainLevelRStr = (AnsiString)"Updating Terrain Level ";
-        public static readonly AnsiString ActivatingLevelRStr = (AnsiString)"Activating Level ";
-        public static readonly AnsiString SavingLevelRStr = (AnsiString)"Saving Level ";
-        public static readonly AnsiString DestroyingLevelRStr = (AnsiString)"Destroying Level ";
-        public static readonly AnsiString XTurnRStr = (AnsiString)"%s turn";
-        public static readonly AnsiString XTurnsRStr = (AnsiString)"%s turns";
-        public static readonly AnsiString XTurnLeftRStr = (AnsiString)"%s turn left";
-        public static readonly AnsiString XTurnsLeftRStr = (AnsiString)"%s turns left";
-        public static readonly AnsiString XDayRStr = (AnsiString)"%s day";
-        public static readonly AnsiString XDaysRStr = (AnsiString)"%s days";
-        public static readonly AnsiString XDayLeftRStr = (AnsiString)"%s day left";
-        public static readonly AnsiString XDaysLeftRStr = (AnsiString)"%s days left";
-        public static readonly AnsiString StructureRazedRStr = (AnsiString)"%s razed";
-        public static readonly AnsiString StructureBuiltRStr = (AnsiString)"%s built";
-        public static readonly AnsiString StructureRebuiltRStr = (AnsiString)"%s rebuilt";
-        public static readonly AnsiString XatLocationYRStr = (AnsiString)"%0:s at location %1:s";
-        public static readonly AnsiString NotEnoughForcesRStr = (AnsiString)"Your forces aren't sufficient";
-        public static readonly AnsiString RazeStructureWarningRStr = (AnsiString)"You're about to raze this structure.";
-        public static readonly AnsiString WarningRStr = (AnsiString)"Warning";
-        public static readonly AnsiString DoYouWishToContinueRStr = (AnsiString)"Do you wish to continue?";
-        public static readonly AnsiString MessageRStr = (AnsiString)"Message";
+        public static FixedArray_string_13 RaceNamesRStr = FixedArray_string_13.From([]);
+        public static readonly string CouldNotSaveXRStr = "Could not save %s";
+        public static readonly string InfoRStr = "Info";
+        public static readonly string NewDayRStr = "Day %d dawns";
+        public static readonly string TurnLimitReachedRStr = "Sorry, turn limit reached!";
+        public static readonly string MapSuccessfullyValidatedRStr = "Map validated successfully";
+        public static readonly string MapValidationFailedRStr = "Map validation failed!";
+        public static readonly string LoadingLevelRStr = "Loading Level ";
+        public static readonly string InitializingLevelRStr = "Initializing Level ";
+        public static readonly string UpdatingTerrainLevelRStr = "Updating Terrain Level ";
+        public static readonly string ActivatingLevelRStr = "Activating Level ";
+        public static readonly string SavingLevelRStr = "Saving Level ";
+        public static readonly string DestroyingLevelRStr = "Destroying Level ";
+        public static readonly string XTurnRStr = "%s turn";
+        public static readonly string XTurnsRStr = "%s turns";
+        public static readonly string XTurnLeftRStr = "%s turn left";
+        public static readonly string XTurnsLeftRStr = "%s turns left";
+        public static readonly string XDayRStr = "%s day";
+        public static readonly string XDaysRStr = "%s days";
+        public static readonly string XDayLeftRStr = "%s day left";
+        public static readonly string XDaysLeftRStr = "%s days left";
+        public static readonly string StructureRazedRStr = "%s razed";
+        public static readonly string StructureBuiltRStr = "%s built";
+        public static readonly string StructureRebuiltRStr = "%s rebuilt";
+        public static readonly string XatLocationYRStr = "%0:s at location %1:s";
+        public static readonly string NotEnoughForcesRStr = "Your forces aren't sufficient";
+        public static readonly string RazeStructureWarningRStr = "You're about to raze this structure.";
+        public static readonly string WarningRStr = "Warning";
+        public static readonly string DoYouWishToContinueRStr = "Do you wish to continue?";
+        public static readonly string MessageRStr = "Message";
         // Diplomacy.pas:396
         // Original unnamed helper, following TNegotiateRequestEventLog
         // { P5 unnamed helper declarations; these must follow the forward class block. }
         public static void NegotiateArmy(sbyte Player, TArmyHS ArmyHS, byte Selection, sbyte X, sbyte Y, sbyte L, int MovePoints)
         {
             TNegotiateRequestEventLog Log;
-            AnsiString ErrorText = default;
+            string ErrorText = "";
             TMapFieldMsg Msg = default;
             if (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
             {
@@ -81775,121 +81776,121 @@ namespace Aow.Units.AoWE
         public static bool ConstructRoad(sbyte Player, TAoWMapField Field) => false;
 
         // declarations of AoWE, from AoWEPACK.dpl
-        public static readonly AnsiString CannotBreachWallRStr = (AnsiString)"Cannot breach wall";
-        public static readonly AnsiString CannotInflictDamageRStr = (AnsiString)"Cannot inflict damage";
-        public static readonly AnsiString UndeadRStr = (AnsiString)"Undead";
-        public static readonly AnsiString UndeadPluralRStr = (AnsiString)"Undead(plural)";
+        public static readonly string CannotBreachWallRStr = "Cannot breach wall";
+        public static readonly string CannotInflictDamageRStr = "Cannot inflict damage";
+        public static readonly string UndeadRStr = "Undead";
+        public static readonly string UndeadPluralRStr = "Undead(plural)";
         public static TSet<TAbilitySelectionType> P1EmptySelectionTypes = TSet<TAbilitySelectionType>.FromMask(0UL);
         public static TSet<TMoveType> P1EmptyMoveTypes = TSet<TMoveType>.FromMask(0UL);
         public static TSet<TDamageType> P1EmptyDamageTypes = TSet<TDamageType>.FromMask(0UL);
         public static TSet<TWallCombatFeaturesElement> P1EmptyWallFeatures = TSet<TWallCombatFeaturesElement>.FromMask(0UL);
         public static TSet<TAbilityControlTypeElement> P1EmptyControlType = TSet<TAbilityControlTypeElement>.FromMask(0UL);
-        public static readonly AnsiString WaitingRStr = (AnsiString)"Waiting";
-        public static readonly AnsiString ActionAlreadyQueuedRStr = (AnsiString)"Action already queued";
+        public static readonly string WaitingRStr = "Waiting";
+        public static readonly string ActionAlreadyQueuedRStr = "Action already queued";
         // { ProduceXRStr is declared in the interface. }
         // { InstallXRStr is declared in the interface. }
-        public static readonly AnsiString SummonXRStr = (AnsiString)"Summon %s";
-        public static readonly AnsiString ProducingXRStr = (AnsiString)"Producing %s";
-        public static readonly AnsiString InstallingXRStr = (AnsiString)"Installing %s";
-        public static readonly AnsiString SummoningXRStr = (AnsiString)"Summoning %s";
-        public static readonly AnsiString ConfirmRStr = (AnsiString)"Confirm";
-        public static readonly AnsiString YourAboutToExitAMultiPlayerGameRStr = (AnsiString)"You're about to exit a multi-player game!";
-        public static readonly AnsiString DoYouWantToContinueExitingRStr = (AnsiString)"Do you want to continue exiting?";
-        public static readonly AnsiString PleaseWaitTillItIsYourTurnRStr = (AnsiString)"Please, wait till it is your turn.";
-        public static readonly AnsiString SaveGameToXRStr = (AnsiString)"Save game to %s?";
-        public static readonly AnsiString DoYouWantToSaveThisGameRStr = (AnsiString)"Do you want to save this game?";
-        public static readonly AnsiString PasswordFailedRStr = (AnsiString)"Password failed!";
-        public static readonly AnsiString DoYouWantToTryAgainRStr = (AnsiString)"Do you want to try again?";
-        public static readonly AnsiString ConnectionLostRStr = (AnsiString)"Connection Lost!";
-        public static readonly AnsiString ConnectionXLostRStr = (AnsiString)"Connection to %s lost!";
-        public static readonly AnsiString ConnectionXTimeOutRStr = (AnsiString)"Connection to %s timed out!";
-        public static readonly AnsiString OutOfSyncRStr = (AnsiString)"Out of sync!";
-        public static readonly AnsiString TerminateGameSaveRStr = (AnsiString)"The game will be terminated, do you want to save?";
-        public static readonly AnsiString LetTheGameBeginRStr = (AnsiString)"Let the game begin";
-        public static readonly AnsiString TheGameContinuesRStr = (AnsiString)"The game continues";
-        public static readonly AnsiString AgeOfWondersEmailGameRStr = (AnsiString)"Age of Wonders email game";
-        public static readonly AnsiString AoWEmailGameXRStr = (AnsiString)"AoW email game (%s)";
-        public static readonly AnsiString DoYouWantToContinueRStr = (AnsiString)"Do you want to continue?";
-        public static readonly AnsiString GameRestartEventLogXRStr = (AnsiString)"Game is restarted for unknown reason, contact %s for more information";
-        public static readonly AnsiString GameSavedRStr = (AnsiString)"%s saved";
-        public static readonly AnsiString GameSuccessfullySavedRStr = (AnsiString)"Game successfully saved";
-        public static readonly AnsiString MapXRStr = (AnsiString)"Map: %s";
-        public static readonly AnsiString NameXRStr = (AnsiString)"Name: %s";
-        public static readonly AnsiString PBEMGameEndedRStr = (AnsiString)"This game's turn has been ended. Restarting is only allowed for resend purposes.";
-        public static readonly AnsiString PBEMRestartCheatRStr = (AnsiString)"This game isn't the original game. Restarting it qualifies you as a cheater!";
-        public static readonly AnsiString PlayersRStr = (AnsiString)"Players";
-        public static readonly AnsiString SaveEmailGameRStr = (AnsiString)"Save email game...";
-        public static readonly AnsiString TurnXRStr = (AnsiString)"Turn: %s";
+        public static readonly string SummonXRStr = "Summon %s";
+        public static readonly string ProducingXRStr = "Producing %s";
+        public static readonly string InstallingXRStr = "Installing %s";
+        public static readonly string SummoningXRStr = "Summoning %s";
+        public static readonly string ConfirmRStr = "Confirm";
+        public static readonly string YourAboutToExitAMultiPlayerGameRStr = "You're about to exit a multi-player game!";
+        public static readonly string DoYouWantToContinueExitingRStr = "Do you want to continue exiting?";
+        public static readonly string PleaseWaitTillItIsYourTurnRStr = "Please, wait till it is your turn.";
+        public static readonly string SaveGameToXRStr = "Save game to %s?";
+        public static readonly string DoYouWantToSaveThisGameRStr = "Do you want to save this game?";
+        public static readonly string PasswordFailedRStr = "Password failed!";
+        public static readonly string DoYouWantToTryAgainRStr = "Do you want to try again?";
+        public static readonly string ConnectionLostRStr = "Connection Lost!";
+        public static readonly string ConnectionXLostRStr = "Connection to %s lost!";
+        public static readonly string ConnectionXTimeOutRStr = "Connection to %s timed out!";
+        public static readonly string OutOfSyncRStr = "Out of sync!";
+        public static readonly string TerminateGameSaveRStr = "The game will be terminated, do you want to save?";
+        public static readonly string LetTheGameBeginRStr = "Let the game begin";
+        public static readonly string TheGameContinuesRStr = "The game continues";
+        public static readonly string AgeOfWondersEmailGameRStr = "Age of Wonders email game";
+        public static readonly string AoWEmailGameXRStr = "AoW email game (%s)";
+        public static readonly string DoYouWantToContinueRStr = "Do you want to continue?";
+        public static readonly string GameRestartEventLogXRStr = "Game is restarted for unknown reason, contact %s for more information";
+        public static readonly string GameSavedRStr = "%s saved";
+        public static readonly string GameSuccessfullySavedRStr = "Game successfully saved";
+        public static readonly string MapXRStr = "Map: %s";
+        public static readonly string NameXRStr = "Name: %s";
+        public static readonly string PBEMGameEndedRStr = "This game's turn has been ended. Restarting is only allowed for resend purposes.";
+        public static readonly string PBEMRestartCheatRStr = "This game isn't the original game. Restarting it qualifies you as a cheater!";
+        public static readonly string PlayersRStr = "Players";
+        public static readonly string SaveEmailGameRStr = "Save email game...";
+        public static readonly string TurnXRStr = "Turn: %s";
         // { WarningRStr is exported in intf_P1_14.inc. }
-        public static readonly AnsiString XatYRStr = (AnsiString)"%0:s at %1:s";
-        public static readonly AnsiString ItsYourTurnRStr = (AnsiString)"It's your turn!";
-        public static readonly AnsiString YourTurnContinuesRStr = (AnsiString)"Your turn continues";
-        public static readonly AnsiString IndependentsAreMovingRStr = (AnsiString)"Independents are moving";
-        public static readonly AnsiString PlayerIsMovingRStr = (AnsiString)"%s is moving";
-        public static readonly AnsiString AreMovingRStr = (AnsiString)"%s are moving";
+        public static readonly string XatYRStr = "%0:s at %1:s";
+        public static readonly string ItsYourTurnRStr = "It's your turn!";
+        public static readonly string YourTurnContinuesRStr = "Your turn continues";
+        public static readonly string IndependentsAreMovingRStr = "Independents are moving";
+        public static readonly string PlayerIsMovingRStr = "%s is moving";
+        public static readonly string AreMovingRStr = "%s are moving";
         // PlayerRStr is declared in the interface. AoWEd
-        public static readonly AnsiString IndependentsRStr = (AnsiString)"Independents";
-        public static readonly AnsiString PlayerNameExRStr = (AnsiString)"%0:s of the %1:s";
-        public static readonly AnsiString GameOverDefeatMessageRStr = (AnsiString)"On day %0:s, the empire of the %1:s, led by %2:s was defeated.";
-        public static readonly AnsiString GameOverVictoryMessageRStr = (AnsiString)"On day %0:s, the empire of the %1:s, led by %2:s was victorious.";
-        public static readonly AnsiString XLeaderRStr = (AnsiString)"%s leader";
-        public static readonly AnsiString NotAllSpheresAssignedRStr = (AnsiString)"not all spheres assigned";
-        public static readonly AnsiString NotPlacedOnMapRStr = (AnsiString)"not placed on map";
-        public static readonly AnsiString NotAllSkillPointsAssignedRStr = (AnsiString)"not all skill points assigned";
-        public static readonly AnsiString WaterRStr = (AnsiString)"Water";
-        public static readonly AnsiString GrassRStr = (AnsiString)"Grass";
-        public static readonly AnsiString DesertRStr = (AnsiString)"Desert";
-        public static readonly AnsiString SnowRStr = (AnsiString)"Snow";
-        public static readonly AnsiString SteppeRStr = (AnsiString)"Steppe";
-        public static readonly AnsiString WastelandRStr = (AnsiString)"Wasteland";
-        public static readonly AnsiString IceRStr = (AnsiString)"Ice";
-        public static readonly AnsiString EarthRStr = (AnsiString)"Earth";
-        public static readonly AnsiString RockRStr = (AnsiString)"Rock";
-        public static readonly AnsiString LavaRStr = (AnsiString)"Lava";
-        public static readonly AnsiString ReservedRStr = (AnsiString)"Reserved";
-        public static readonly AnsiString DirtRStr = (AnsiString)"Dirt";
-        public static readonly AnsiString CoastRStr = (AnsiString)"Coast";
-        public static readonly AnsiString BorderRStr = (AnsiString)"Border";
+        public static readonly string IndependentsRStr = "Independents";
+        public static readonly string PlayerNameExRStr = "%0:s of the %1:s";
+        public static readonly string GameOverDefeatMessageRStr = "On day %0:s, the empire of the %1:s, led by %2:s was defeated.";
+        public static readonly string GameOverVictoryMessageRStr = "On day %0:s, the empire of the %1:s, led by %2:s was victorious.";
+        public static readonly string XLeaderRStr = "%s leader";
+        public static readonly string NotAllSpheresAssignedRStr = "not all spheres assigned";
+        public static readonly string NotPlacedOnMapRStr = "not placed on map";
+        public static readonly string NotAllSkillPointsAssignedRStr = "not all skill points assigned";
+        public static readonly string WaterRStr = "Water";
+        public static readonly string GrassRStr = "Grass";
+        public static readonly string DesertRStr = "Desert";
+        public static readonly string SnowRStr = "Snow";
+        public static readonly string SteppeRStr = "Steppe";
+        public static readonly string WastelandRStr = "Wasteland";
+        public static readonly string IceRStr = "Ice";
+        public static readonly string EarthRStr = "Earth";
+        public static readonly string RockRStr = "Rock";
+        public static readonly string LavaRStr = "Lava";
+        public static readonly string ReservedRStr = "Reserved";
+        public static readonly string DirtRStr = "Dirt";
+        public static readonly string CoastRStr = "Coast";
+        public static readonly string BorderRStr = "Border";
         // { MountainRStr is declared in the interface for Mountain.ResourceEditName. }
-        public static readonly AnsiString DenseVegetationRStr = (AnsiString)"Dense Vegetation";
+        public static readonly string DenseVegetationRStr = "Dense Vegetation";
         // { HillRStr is declared in the interface for Hill.ResourceEditName. }
-        public static readonly AnsiString VegetationRStr = (AnsiString)"Vegetation";
-        public static readonly AnsiString RoadRStr = (AnsiString)"Road";
-        public static readonly AnsiString BridgeRStr = (AnsiString)"Bridge";
-        public static readonly AnsiString RubbleRStr = (AnsiString)"Rubble";
+        public static readonly string VegetationRStr = "Vegetation";
+        public static readonly string RoadRStr = "Road";
+        public static readonly string BridgeRStr = "Bridge";
+        public static readonly string RubbleRStr = "Rubble";
         // StructureRStr is public in the interface. AoWEd
         // { ObstacleRStr is exported in the interface. }
-        public static readonly AnsiString LightVegetationRStr = (AnsiString)"Light Vegetation";
-        public static readonly AnsiString SolidRStr = (AnsiString)"Solid";
-        public static readonly AnsiString RocksRStr = (AnsiString)"Rocks";
-        public static readonly AnsiString BonesRStr = (AnsiString)"Bones";
-        public static readonly AnsiString DeadTreeRStr = (AnsiString)"Dead Tree";
-        public static readonly AnsiString ToadstoolsRStr = (AnsiString)"Toadstools";
-        public static readonly AnsiString LoadingGamePackRStr = (AnsiString)"Loading Game Pack";
-        public static readonly AnsiString LoadingUnitsRStr = (AnsiString)"Loading Units";
-        public static readonly AnsiString LoadingHeroesRStr = (AnsiString)"Loading Heroes";
-        public static readonly AnsiString LoadingItemsRStr = (AnsiString)"Loading Items";
-        public static readonly AnsiString GamePackLoadedRStr = (AnsiString)"Game Pack Loaded";
+        public static readonly string LightVegetationRStr = "Light Vegetation";
+        public static readonly string SolidRStr = "Solid";
+        public static readonly string RocksRStr = "Rocks";
+        public static readonly string BonesRStr = "Bones";
+        public static readonly string DeadTreeRStr = "Dead Tree";
+        public static readonly string ToadstoolsRStr = "Toadstools";
+        public static readonly string LoadingGamePackRStr = "Loading Game Pack";
+        public static readonly string LoadingUnitsRStr = "Loading Units";
+        public static readonly string LoadingHeroesRStr = "Loading Heroes";
+        public static readonly string LoadingItemsRStr = "Loading Items";
+        public static readonly string GamePackLoadedRStr = "Game Pack Loaded";
         public static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12 DefaultRaceRelations = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12.From([FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sFriendly, TStatus.sPolite, TStatus.sPolite, TStatus.sPolite, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sPolite, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sWary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sPolite, TStatus.sFriendly, TStatus.sPolite, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sWary, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sWary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sPolite, TStatus.sPolite, TStatus.sFriendly, TStatus.sPolite, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sWary, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sWary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sPolite, TStatus.sNeutral, TStatus.sPolite, TStatus.sFriendly, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sWary, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sWary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sFriendly, TStatus.sFriendly, TStatus.sPolite, TStatus.sFriendly, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sFriendly, TStatus.sFriendly, TStatus.sFriendly, TStatus.sPolite, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sPolite, TStatus.sFriendly, TStatus.sFriendly, TStatus.sFriendly, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sPolite, TStatus.sWary, TStatus.sWary, TStatus.sWary, TStatus.sFriendly, TStatus.sPolite, TStatus.sFriendly, TStatus.sFriendly, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sFriendly, TStatus.sFriendly, TStatus.sPolite, TStatus.sPolite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sFriendly, TStatus.sFriendly, TStatus.sFriendly, TStatus.sPolite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sNeutral, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sPolite, TStatus.sFriendly, TStatus.sFriendly, TStatus.sPolite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([TStatus.sWary, TStatus.sWary, TStatus.sWary, TStatus.sWary, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sHostile, TStatus.sPolite, TStatus.sPolite, TStatus.sPolite, TStatus.sFriendly])]);
-        public static readonly AnsiString CannotBuildOnCurrentLocationRStr = (AnsiString)"Cannot build on current location";
+        public static readonly string CannotBuildOnCurrentLocationRStr = "Cannot build on current location";
         // Exported resourcestring declaration recovered from AoW
         // FireRStr is exported from the interface. AoW
-        public static readonly AnsiString ObserveEnabledRStr = (AnsiString)"Observe enabled";
-        public static readonly AnsiString ObserveDisabledRStr = (AnsiString)"Observe disabled";
-        public static FixedArray_Aow_Rtl_AnsiString_10 CheatNames = FixedArray_Aow_Rtl_AnsiString_10.From([(AnsiString)"gold", (AnsiString)"mana", (AnsiString)"explore", (AnsiString)"fog", (AnsiString)"spells", (AnsiString)"win", (AnsiString)"freemove", (AnsiString)"towns", (AnsiString)"lose", (AnsiString)"research"]);
-        public static readonly AnsiString FileNotFoundRStr = (AnsiString)"File not found";
+        public static readonly string ObserveEnabledRStr = "Observe enabled";
+        public static readonly string ObserveDisabledRStr = "Observe disabled";
+        public static FixedArray_string_10 CheatNames = FixedArray_string_10.From(["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"]);
+        public static readonly string FileNotFoundRStr = "File not found";
         public static FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 HeroExperienceTable = FixedArray_Aow_Units_AoWE_TP2HeroLevel_6.From([new TP2HeroLevel { DailyExperience = 1, Experience = 15 }, new TP2HeroLevel { DailyExperience = 1, Experience = 15 }, new TP2HeroLevel { DailyExperience = 1, Experience = 20 }, new TP2HeroLevel { DailyExperience = 1, Experience = 20 }, new TP2HeroLevel { DailyExperience = 1, Experience = 25 }, new TP2HeroLevel { DailyExperience = 1, Experience = 25 }]);
         // Use the P1 shared AoWHSSet
         public static FixedArray_Aow_Units_FixedArray_sbyte_7_7 P2AlignmentToStatusValue = FixedArray_Aow_Units_FixedArray_sbyte_7_7.From([FixedArray_sbyte_7.From([100, 90, 30, 40, 10, 0, 50]), FixedArray_sbyte_7.From([90, 90, 40, 50, 10, 10, 50]), FixedArray_sbyte_7.From([30, 40, 70, 50, 40, 30, 50]), FixedArray_sbyte_7.From([40, 50, 50, 50, 50, 40, 50]), FixedArray_sbyte_7.From([10, 10, 40, 50, 90, 90, 50]), FixedArray_sbyte_7.From([0, 10, 30, 40, 90, 100, 50]), FixedArray_sbyte_7.From([50, 50, 50, 50, 50, 50, 50])]);
         // RaceTerrain holds 12 pairs of two-byte terrain sets.
         public static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 P2RaceTerrain = FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12.From([new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(), Disliked = TSet<TAoWTerrainType>.Of() }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttDesert), Disliked = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttSnow, TAoWTerrainType.ttIce, TAoWTerrainType.ttUndergroundIce) }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttWater), Disliked = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttDesert, TAoWTerrainType.ttWasteland) }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttSnow, TAoWTerrainType.ttIce, TAoWTerrainType.ttUndergroundIce), Disliked = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttDesert) }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttGrass), Disliked = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttWasteland) }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttGrass), Disliked = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttWasteland) }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttDirt), Disliked = TSet<TAoWTerrainType>.Of() }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(), Disliked = TSet<TAoWTerrainType>.Of() }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttDirt), Disliked = TSet<TAoWTerrainType>.Of() }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(), Disliked = TSet<TAoWTerrainType>.Of() }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttDirt), Disliked = TSet<TAoWTerrainType>.Of() }, new TP2RaceTerrain { Preferred = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttWasteland), Disliked = TSet<TAoWTerrainType>.Of(TAoWTerrainType.ttGrass) }]);
-        public static readonly AnsiString P2InherentRStr = (AnsiString)"Inherent";
-        public static FixedArray_Aow_Rtl_AnsiString_5 P2AbilityTypeNames = FixedArray_Aow_Rtl_AnsiString_5.From([(AnsiString)"Enhancement", (AnsiString)"Handicap", (AnsiString)"Movement", (AnsiString)"Combat", (AnsiString)"Enchantment"]);
+        public static readonly string P2InherentRStr = "Inherent";
+        public static FixedArray_string_5 P2AbilityTypeNames = FixedArray_string_5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
         public static FixedArray_Aow_Units_AoWE_TDamageType_7 StormDamageType = FixedArray_Aow_Units_AoWE_TDamageType_7.From([TDamageType.dtNone, TDamageType.dtFire, TDamageType.dtDeath, TDamageType.dtHoly, TDamageType.dtCold, TDamageType.dtLightning, TDamageType.dtPoison]);
-        public static readonly AnsiString P2RefugeJoinRStr = (AnsiString)"This one begs to join your cause.";
-        public static readonly AnsiString P2RefugeesJoinRStr = (AnsiString)"This group wishes to join your forces.";
-        public static readonly AnsiString P2BribeUnitJoinRStr = (AnsiString)"For %s gold pieces, this one offers to join you.";
-        public static readonly AnsiString P2BribeUnitsJoinRStr = (AnsiString)"For %s gold pieces, they offer to join you.";
+        public static readonly string P2RefugeJoinRStr = "This one begs to join your cause.";
+        public static readonly string P2RefugeesJoinRStr = "This group wishes to join your forces.";
+        public static readonly string P2BribeUnitJoinRStr = "For %s gold pieces, this one offers to join you.";
+        public static readonly string P2BribeUnitsJoinRStr = "For %s gold pieces, they offer to join you.";
         // Rank and morale tables read
         public static FixedArray_sbyte_3 P2RankDefense = FixedArray_sbyte_3.From([0, 1, 1]);
         public static FixedArray_sbyte_3 P2RankAttack = FixedArray_sbyte_3.From([0, 1, 1]);
@@ -81898,64 +81899,64 @@ namespace Aow.Units.AoWE
         public static FixedArray_sbyte_3 P2RankHits = FixedArray_sbyte_3.From([0, 1, 2]);
         public static FixedArray_sbyte_5 P2MoraleResistance = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
         public static FixedArray_sbyte_5 P2MoraleDefense = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
-        public static readonly AnsiString P2WoodenWallRStr = (AnsiString)"Wooden Wall";
-        public static readonly AnsiString P2StoneWallRStr = (AnsiString)"Stone Wall";
-        public static readonly AnsiString P2UndefinedWallRStr = (AnsiString)"Undefined";
-        public static readonly AnsiString XMadeALevelRStr = (AnsiString)"%s made a level";
-        public static readonly AnsiString XMadeYLevelsRStr = (AnsiString)"%s made %d levels";
-        public static readonly AnsiString CanOnlyUpgradeHeroOnceRStr = (AnsiString)"Can only upgrade hero once";
-        public static readonly AnsiString CanOnlyUpgradeOnTheDayALevelIsMadeRStr = (AnsiString)"Can only upgrade on the day a level is made";
-        public static readonly AnsiString XOffersToJoinRStr = (AnsiString)"%s offers to join!";
-        public static readonly AnsiString XAlreadyJoinedRStr = (AnsiString)"%s already joined";
-        public static readonly AnsiString XDoesntWantToJoinAnymoreRStr = (AnsiString)"%s doesn't want to join anymore";
-        public static readonly AnsiString XEmergedAtYAndOffersToJoinYouForZgpRStr = (AnsiString)"%0:s emerged at %1:s and offers to join you for %d gold";
-        public static readonly AnsiString XwasResurrectedAndOffersToJoinYouForZgpRStr = (AnsiString)"%s was resurrected and offers to join you for %d gold";
-        public static readonly AnsiString UnitsDrownRStr = (AnsiString)"Units Drowned";
-        public static readonly AnsiString UnitsBurnedRStr = (AnsiString)"Units Burned";
-        public static readonly AnsiString UnitsCrushedRStr = (AnsiString)"Units Crushed";
-        public static readonly AnsiString ArmyInherentRStr = (AnsiString)"Inherent";
+        public static readonly string P2WoodenWallRStr = "Wooden Wall";
+        public static readonly string P2StoneWallRStr = "Stone Wall";
+        public static readonly string P2UndefinedWallRStr = "Undefined";
+        public static readonly string XMadeALevelRStr = "%s made a level";
+        public static readonly string XMadeYLevelsRStr = "%s made %d levels";
+        public static readonly string CanOnlyUpgradeHeroOnceRStr = "Can only upgrade hero once";
+        public static readonly string CanOnlyUpgradeOnTheDayALevelIsMadeRStr = "Can only upgrade on the day a level is made";
+        public static readonly string XOffersToJoinRStr = "%s offers to join!";
+        public static readonly string XAlreadyJoinedRStr = "%s already joined";
+        public static readonly string XDoesntWantToJoinAnymoreRStr = "%s doesn't want to join anymore";
+        public static readonly string XEmergedAtYAndOffersToJoinYouForZgpRStr = "%0:s emerged at %1:s and offers to join you for %d gold";
+        public static readonly string XwasResurrectedAndOffersToJoinYouForZgpRStr = "%s was resurrected and offers to join you for %d gold";
+        public static readonly string UnitsDrownRStr = "Units Drowned";
+        public static readonly string UnitsBurnedRStr = "Units Burned";
+        public static readonly string UnitsCrushedRStr = "Units Crushed";
+        public static readonly string ArmyInherentRStr = "Inherent";
         public static FixedArray_byte_9 ArmySelectionMasks = FixedArray_byte_9.From([0, 1, 3, 7, 15, 31, 63, 127, 255]);
-        public static readonly AnsiString DesertionRStr = (AnsiString)"Desertion";
-        public static readonly AnsiString TheLeaderOfThePartyStepsForwardRStr = (AnsiString)"The leader of the party steps forward";
-        public static readonly AnsiString OneUnitDesertedRStr = (AnsiString)"1 unit deserted";
-        public static readonly AnsiString XUnitsDesertedRStr = (AnsiString)"%s units deserted";
-        public static readonly AnsiString DesertUnitNoUpkeepRStr = (AnsiString)"This one abandons you, refusing a voucher for pay.";
-        public static readonly AnsiString DesertUnitsNoUpkeepRStr = (AnsiString)"Without sufficient funds for support, these troops desert you.";
-        public static readonly AnsiString DesertUnitLowMoraleRStr = (AnsiString)"With no common cause, this one deserts you.";
-        public static readonly AnsiString DesertUnitsLowMoraleRStr = (AnsiString)"No longer sharing your cause, these desert you.";
-        public static readonly AnsiString DesertUnitLowMoraleSplitRStr = (AnsiString)"Lacking faith, this one abandons your ranks";
-        public static readonly AnsiString DesertUnitsLowMoraleSplitRStr = (AnsiString)"Troubled and weary, these abandon your ranks.";
-        public static readonly AnsiString P2PartyJoinHeaderRStr = (AnsiString)"The leader of the party steps forward:";
-        public static readonly AnsiString P2PartyJoinRStr = (AnsiString)"Party Join";
-        public static readonly AnsiString P2OneUnitJoinedRStr = (AnsiString)"1 unit joined";
-        public static readonly AnsiString P2AUnitJoinedTheForcesofYRStr = (AnsiString)"A unit joined the forces of %s";
-        public static readonly AnsiString P2XUnitsJoinedRStr = (AnsiString)"%s units joined";
-        public static readonly AnsiString P2XUnitsJoinedTheForcesofYRStr = (AnsiString)"%d units joined the forces of %s";
-        public static readonly AnsiString P2XJoinedRStr = (AnsiString)"%s joined";
-        public static readonly AnsiString P2XJoinedTheForcesOfYRStr = (AnsiString)"%0:s joined the forces of %1:s";
-        public static readonly AnsiString P2FireDamageRStr = (AnsiString)"Fire Damage";
-        public static FixedArray_Aow_Rtl_AnsiString_7 TStormTypeRStr = FixedArray_Aow_Rtl_AnsiString_7.From([NoneRStr, FireStormRStr, DeathStormRStr, DivineStormRStr, IceStormRStr, LightningStormRStr, PestilenceStormRStr]);
-        public static readonly AnsiString P2ArmyRStr = (AnsiString)"Army";
-        public static readonly AnsiString SelectRoadConstructionPathRStr = (AnsiString)"Select road construction path";
-        public static readonly AnsiString ArmyNotEnoughMovePointsRStr = (AnsiString)"Not enough move points";
-        public static readonly AnsiString ArmyRoadConstructionCostRStr = (AnsiString)"Constructing road will cost %s gold";
-        public static readonly AnsiString ArmyNotAtWarRStr = (AnsiString)"Not at war with the %s";
-        public static readonly AnsiString ItemSpellResearchedRStr = (AnsiString)"%s researched";
-        public static readonly AnsiString ItemSpellAlreadyResearchedRStr = (AnsiString)"%s already researched";
-        public static readonly AnsiString ItemNotUseableRStr = (AnsiString)"This is not an usable item";
-        public static readonly AnsiString ItemSystemLibraryRStr = (AnsiString)"System";
-        public static readonly AnsiString SystemItemLibraryRStr = (AnsiString)"System";
-        public static readonly AnsiString ItemBagRStr = (AnsiString)"Item Bag";
-        public static readonly AnsiString P2UndeadPluralRStr = (AnsiString)"Undead(plural)";
-        public static readonly AnsiString P2UndeadRStr = (AnsiString)"Undead";
+        public static readonly string DesertionRStr = "Desertion";
+        public static readonly string TheLeaderOfThePartyStepsForwardRStr = "The leader of the party steps forward";
+        public static readonly string OneUnitDesertedRStr = "1 unit deserted";
+        public static readonly string XUnitsDesertedRStr = "%s units deserted";
+        public static readonly string DesertUnitNoUpkeepRStr = "This one abandons you, refusing a voucher for pay.";
+        public static readonly string DesertUnitsNoUpkeepRStr = "Without sufficient funds for support, these troops desert you.";
+        public static readonly string DesertUnitLowMoraleRStr = "With no common cause, this one deserts you.";
+        public static readonly string DesertUnitsLowMoraleRStr = "No longer sharing your cause, these desert you.";
+        public static readonly string DesertUnitLowMoraleSplitRStr = "Lacking faith, this one abandons your ranks";
+        public static readonly string DesertUnitsLowMoraleSplitRStr = "Troubled and weary, these abandon your ranks.";
+        public static readonly string P2PartyJoinHeaderRStr = "The leader of the party steps forward:";
+        public static readonly string P2PartyJoinRStr = "Party Join";
+        public static readonly string P2OneUnitJoinedRStr = "1 unit joined";
+        public static readonly string P2AUnitJoinedTheForcesofYRStr = "A unit joined the forces of %s";
+        public static readonly string P2XUnitsJoinedRStr = "%s units joined";
+        public static readonly string P2XUnitsJoinedTheForcesofYRStr = "%d units joined the forces of %s";
+        public static readonly string P2XJoinedRStr = "%s joined";
+        public static readonly string P2XJoinedTheForcesOfYRStr = "%0:s joined the forces of %1:s";
+        public static readonly string P2FireDamageRStr = "Fire Damage";
+        public static FixedArray_string_7 TStormTypeRStr = FixedArray_string_7.From([NoneRStr, FireStormRStr, DeathStormRStr, DivineStormRStr, IceStormRStr, LightningStormRStr, PestilenceStormRStr]);
+        public static readonly string P2ArmyRStr = "Army";
+        public static readonly string SelectRoadConstructionPathRStr = "Select road construction path";
+        public static readonly string ArmyNotEnoughMovePointsRStr = "Not enough move points";
+        public static readonly string ArmyRoadConstructionCostRStr = "Constructing road will cost %s gold";
+        public static readonly string ArmyNotAtWarRStr = "Not at war with the %s";
+        public static readonly string ItemSpellResearchedRStr = "%s researched";
+        public static readonly string ItemSpellAlreadyResearchedRStr = "%s already researched";
+        public static readonly string ItemNotUseableRStr = "This is not an usable item";
+        public static readonly string ItemSystemLibraryRStr = "System";
+        public static readonly string SystemItemLibraryRStr = "System";
+        public static readonly string ItemBagRStr = "Item Bag";
+        public static readonly string P2UndeadPluralRStr = "Undead(plural)";
+        public static readonly string P2UndeadRStr = "Undead";
         public static FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8 P2MovementTemplates = FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8.From([FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 4, 4, -1, 4, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 4, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([3, -1, 6, -1, 3, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])])]);
         public static int CombatDID;
         public static int TMPDID;
         public static int MAGICDID;
         // { P3 combat implementation. }
-        public static readonly AnsiString BattleWonRStr = (AnsiString)"Battle Won";
-        public static readonly AnsiString BattleLostRStr = (AnsiString)"Battle Lost";
-        public static readonly AnsiString BattleDrawnRStr = (AnsiString)"Battle Drawn";
+        public static readonly string BattleWonRStr = "Battle Won";
+        public static readonly string BattleLostRStr = "Battle Lost";
+        public static readonly string BattleDrawnRStr = "Battle Drawn";
         public static FixedArray_float_20 P3HitProbabilities;
         // CommandAbilityIDs is declared in the interface
         public static FixedArray_sbyte_5 P4LeadershipAttack = FixedArray_sbyte_5.From([0, 1, 1, 2, 2]);
@@ -81976,117 +81977,117 @@ namespace Aow.Units.AoWE
         public static EClass P4CombatCasterClass = EClass.Of<TCombatSpellCaster>();
         public static EClass P4ImageAnimationClass = EClass.Of<TImageSequenceAnimation>();
         public static EClass P4UnitSelectionClass = EClass.Of<TUnitUserList>();
-        public static readonly AnsiString P4XResearchedRStr = (AnsiString)"%s researched";
-        public static readonly AnsiString P4XRemovedOutOfManaRStr = (AnsiString)"%s removed (out of mana)";
-        public static readonly AnsiString P4XRemovedRStr = (AnsiString)"%s removed";
-        public static readonly AnsiString P4XDispelledRStr = (AnsiString)"%s dispelled";
-        public static readonly AnsiString P4UndefinedRStr = (AnsiString)"Undefined";
-        public static readonly AnsiString P4SelectTargetPartyForXRStr = (AnsiString)"Select target party for %s on map";
-        public static readonly AnsiString P4CastXRStr = (AnsiString)"Cast %s";
-        public static readonly AnsiString P4XCastingReadyRStr = (AnsiString)"%s ready";
-        public static readonly AnsiString P4RebuildXRStr = (AnsiString)"Rebuild %s";
-        public static readonly AnsiString P4StructureRStr = (AnsiString)"Structure";
-        public static readonly AnsiString P4NoRazedStructuresRStr = (AnsiString)"No razed structure found";
-        public static readonly AnsiString P4BuildRoadRStr = (AnsiString)"Build Roads";
-        public static readonly AnsiString P4CannotBuildUndergroundRStr = (AnsiString)"Cannot build %s underground";
-        public static readonly AnsiString P4RoadsRStr = (AnsiString)"Roads";
-        public static readonly AnsiString P4NotEnoughGoldRStr = (AnsiString)"Not enough gold.";
-        public static readonly AnsiString P4ConstructRStr = (AnsiString)"Construct";
-        public static readonly AnsiString P4AbilitiesRStr = (AnsiString)"Abilities";
-        public static readonly AnsiString DominatedRStr = (AnsiString)"Dominated";
-        public static readonly AnsiString DominateRStr = (AnsiString)"Dominate";
-        public static readonly AnsiString CharmedRStr = (AnsiString)"Charmed";
-        public static readonly AnsiString CharmRStr = (AnsiString)"Charm";
-        public static readonly AnsiString SeducedRStr = (AnsiString)"Seduced";
-        public static readonly AnsiString SeduceRStr = (AnsiString)"Seduce";
-        public static readonly AnsiString PossessedRStr = (AnsiString)"Possessed";
-        public static readonly AnsiString PossessRStr = (AnsiString)"Possess";
-        public static readonly AnsiString WebRStr = (AnsiString)"Web";
-        public static readonly AnsiString InvokeDeathRStr = (AnsiString)"Invoke Death";
-        public static readonly AnsiString HealingRStr = (AnsiString)"Healing";
+        public static readonly string P4XResearchedRStr = "%s researched";
+        public static readonly string P4XRemovedOutOfManaRStr = "%s removed (out of mana)";
+        public static readonly string P4XRemovedRStr = "%s removed";
+        public static readonly string P4XDispelledRStr = "%s dispelled";
+        public static readonly string P4UndefinedRStr = "Undefined";
+        public static readonly string P4SelectTargetPartyForXRStr = "Select target party for %s on map";
+        public static readonly string P4CastXRStr = "Cast %s";
+        public static readonly string P4XCastingReadyRStr = "%s ready";
+        public static readonly string P4RebuildXRStr = "Rebuild %s";
+        public static readonly string P4StructureRStr = "Structure";
+        public static readonly string P4NoRazedStructuresRStr = "No razed structure found";
+        public static readonly string P4BuildRoadRStr = "Build Roads";
+        public static readonly string P4CannotBuildUndergroundRStr = "Cannot build %s underground";
+        public static readonly string P4RoadsRStr = "Roads";
+        public static readonly string P4NotEnoughGoldRStr = "Not enough gold.";
+        public static readonly string P4ConstructRStr = "Construct";
+        public static readonly string P4AbilitiesRStr = "Abilities";
+        public static readonly string DominatedRStr = "Dominated";
+        public static readonly string DominateRStr = "Dominate";
+        public static readonly string CharmedRStr = "Charmed";
+        public static readonly string CharmRStr = "Charm";
+        public static readonly string SeducedRStr = "Seduced";
+        public static readonly string SeduceRStr = "Seduce";
+        public static readonly string PossessedRStr = "Possessed";
+        public static readonly string PossessRStr = "Possess";
+        public static readonly string WebRStr = "Web";
+        public static readonly string InvokeDeathRStr = "Invoke Death";
+        public static readonly string HealingRStr = "Healing";
         // { DispelMagicRStr is declared in the interface. }
         // { DispelMagicFailedRStr is declared in the interface. }
         // { XSpellsSuccessfullyDispelledRStr is declared in the interface. }
-        public static readonly AnsiString SpellCastingRStr = (AnsiString)"Spell Casting";
-        public static readonly AnsiString FlameThrowingRStr = (AnsiString)"Flame Throwing";
+        public static readonly string SpellCastingRStr = "Spell Casting";
+        public static readonly string FlameThrowingRStr = "Flame Throwing";
         // { UsedRStr is declared in the interface. }
-        public static readonly AnsiString SelectUnitForXRStr = (AnsiString)"Select unit for %s";
+        public static readonly string SelectUnitForXRStr = "Select unit for %s";
         // EntangleRStr is declared in the interface
         // TurnUndeadRStr is declared in the interface
-        public static readonly AnsiString StrikeRStr = (AnsiString)"Strike";
-        public static readonly AnsiString WallCrushingRStr = (AnsiString)"Wall Crushing";
-        public static readonly AnsiString SelfDestructRStr = (AnsiString)"Self Destruct";
-        public static readonly AnsiString RoundAttackRStr = (AnsiString)"Round Attack";
-        public static readonly AnsiString LeadershipRStr = (AnsiString)"Leadership";
-        public static readonly AnsiString NotEnoughCastingPointsRStr = (AnsiString)"Not enough channeling points";
-        public static readonly AnsiString P4SpellWardBlocksCastRStr = (AnsiString)"Spell Ward locks all global enchantments";
-        public static readonly AnsiString P4ExternalPowerRStr = (AnsiString)"External";
-        public static readonly AnsiString CosmeticSurgeryRStr = (AnsiString)"Cosmagic Surgery";
-        public static readonly AnsiString P4TransportUnitsRStr = (AnsiString)"Transport (%s units)";
-        public static readonly AnsiString XIsOutOfSightRStr = (AnsiString)"%s is out of sight";
-        public static readonly AnsiString P4ManaRStr = (AnsiString)"Mana";
-        public static readonly AnsiString DurationDaysRStr = (AnsiString)"(%s/%s days)";
-        public static readonly AnsiString DurationCombatTurnRStr = (AnsiString)"(%s/%s turns)";
-        public static readonly AnsiString DurationEntireCombatRStr = (AnsiString)"(combat only)";
+        public static readonly string StrikeRStr = "Strike";
+        public static readonly string WallCrushingRStr = "Wall Crushing";
+        public static readonly string SelfDestructRStr = "Self Destruct";
+        public static readonly string RoundAttackRStr = "Round Attack";
+        public static readonly string LeadershipRStr = "Leadership";
+        public static readonly string NotEnoughCastingPointsRStr = "Not enough channeling points";
+        public static readonly string P4SpellWardBlocksCastRStr = "Spell Ward locks all global enchantments";
+        public static readonly string P4ExternalPowerRStr = "External";
+        public static readonly string CosmeticSurgeryRStr = "Cosmagic Surgery";
+        public static readonly string P4TransportUnitsRStr = "Transport (%s units)";
+        public static readonly string XIsOutOfSightRStr = "%s is out of sight";
+        public static readonly string P4ManaRStr = "Mana";
+        public static readonly string DurationDaysRStr = "(%s/%s days)";
+        public static readonly string DurationCombatTurnRStr = "(%s/%s turns)";
+        public static readonly string DurationEntireCombatRStr = "(combat only)";
         // { TMPDID is declared with the shared engine globals. }
         // NotEnoughGoldRStr uses string resource 65215.
-        public static readonly AnsiString P5NotEnoughGoldRStr = (AnsiString)"Not enough gold.";
-        public static readonly AnsiString GameRestartedRStr = (AnsiString)"Game Restarted";
-        public static readonly AnsiString P5FinishedTheirTurnRStr = (AnsiString)"finished their turn";
-        public static readonly AnsiString P5CannotCombineArmiesRStr = (AnsiString)"Cannot combine armies";
-        public static readonly AnsiString P5CannotCombineTransportersRStr = (AnsiString)"Cannot combine two transporters";
-        public static readonly AnsiString P5IndependentsAreMovingRStr = (AnsiString)"Independents are moving";
-        public static readonly AnsiString P5PlayerIsMovingRStr = (AnsiString)"%s is moving";
-        public static readonly AnsiString P5YouAreBeingAttackedRStr = (AnsiString)"You're being attacked!";
-        public static readonly AnsiString P5XLeftTheGameRStr = (AnsiString)"%s left the game!";
-        public static readonly AnsiString P5ExplorationEnabledRStr = (AnsiString)"Exploration Enabled";
-        public static readonly AnsiString P5ExplorationDisabledRStr = (AnsiString)"Exploration Disabled";
-        public static readonly AnsiString P5FogEnabledRStr = (AnsiString)"Fog Enabled";
-        public static readonly AnsiString P5FogDisabledRStr = (AnsiString)"Fog Disabled";
-        public static readonly AnsiString P5SpellCheatEnabledRStr = (AnsiString)"All spells enabled";
-        public static readonly AnsiString P5SpellCheatDisabledRStr = (AnsiString)"All spells disabled";
-        public static readonly AnsiString P5FreeMovementEnabledRStr = (AnsiString)"Free movement enabled";
-        public static readonly AnsiString P5FreeMovementDisabledRStr = (AnsiString)"Free movement disabled";
-        public static readonly AnsiString P5DeclareWarRStr = (AnsiString)"Declare war";
-        public static readonly AnsiString P5OfferPeaceRStr = (AnsiString)"Offer peace";
-        public static readonly AnsiString P5ProposeAllianceRStr = (AnsiString)"Propose alliance";
-        public static readonly AnsiString P5SendMessageRStr = (AnsiString)"Send Message";
-        public static readonly AnsiString P5ThreatenToAttackRStr = (AnsiString)"Threaten to attack";
-        public static readonly AnsiString P5MakeTributeRStr = (AnsiString)"Make tribute";
-        public static readonly AnsiString P5BreakAllianceRStr = (AnsiString)"Break alliance";
-        public static readonly AnsiString P5SendMessageAsXRStr = (AnsiString)"Send message as %s";
-        public static readonly AnsiString P5SuggestAllianceBreakWithYRStr = (AnsiString)"Suggest alliance break with %s";
-        public static readonly AnsiString P5SuggestWarWithYRStr = (AnsiString)"Suggest war with %s";
-        public static readonly AnsiString P5NotEnoughManaRStr = (AnsiString)"Not enough mana.";
-        public static readonly AnsiString P5NoGoldManaSpecifiedRStr = (AnsiString)"No gold/mana specified";
-        public static readonly AnsiString P5WarDeclaredRStr = (AnsiString)"War declared";
-        public static readonly AnsiString P5AllianceBrokenRStr = (AnsiString)"Alliance broken";
-        public static readonly AnsiString P5MessageSentRStr = (AnsiString)"Message sent";
+        public static readonly string P5NotEnoughGoldRStr = "Not enough gold.";
+        public static readonly string GameRestartedRStr = "Game Restarted";
+        public static readonly string P5FinishedTheirTurnRStr = "finished their turn";
+        public static readonly string P5CannotCombineArmiesRStr = "Cannot combine armies";
+        public static readonly string P5CannotCombineTransportersRStr = "Cannot combine two transporters";
+        public static readonly string P5IndependentsAreMovingRStr = "Independents are moving";
+        public static readonly string P5PlayerIsMovingRStr = "%s is moving";
+        public static readonly string P5YouAreBeingAttackedRStr = "You're being attacked!";
+        public static readonly string P5XLeftTheGameRStr = "%s left the game!";
+        public static readonly string P5ExplorationEnabledRStr = "Exploration Enabled";
+        public static readonly string P5ExplorationDisabledRStr = "Exploration Disabled";
+        public static readonly string P5FogEnabledRStr = "Fog Enabled";
+        public static readonly string P5FogDisabledRStr = "Fog Disabled";
+        public static readonly string P5SpellCheatEnabledRStr = "All spells enabled";
+        public static readonly string P5SpellCheatDisabledRStr = "All spells disabled";
+        public static readonly string P5FreeMovementEnabledRStr = "Free movement enabled";
+        public static readonly string P5FreeMovementDisabledRStr = "Free movement disabled";
+        public static readonly string P5DeclareWarRStr = "Declare war";
+        public static readonly string P5OfferPeaceRStr = "Offer peace";
+        public static readonly string P5ProposeAllianceRStr = "Propose alliance";
+        public static readonly string P5SendMessageRStr = "Send Message";
+        public static readonly string P5ThreatenToAttackRStr = "Threaten to attack";
+        public static readonly string P5MakeTributeRStr = "Make tribute";
+        public static readonly string P5BreakAllianceRStr = "Break alliance";
+        public static readonly string P5SendMessageAsXRStr = "Send message as %s";
+        public static readonly string P5SuggestAllianceBreakWithYRStr = "Suggest alliance break with %s";
+        public static readonly string P5SuggestWarWithYRStr = "Suggest war with %s";
+        public static readonly string P5NotEnoughManaRStr = "Not enough mana.";
+        public static readonly string P5NoGoldManaSpecifiedRStr = "No gold/mana specified";
+        public static readonly string P5WarDeclaredRStr = "War declared";
+        public static readonly string P5AllianceBrokenRStr = "Alliance broken";
+        public static readonly string P5MessageSentRStr = "Message sent";
         public static FixedArray_int_13 P5RaceColors = FixedArray_int_13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
-        public static readonly AnsiString P5WarRStr = (AnsiString)"War";
-        public static readonly AnsiString P5PeaceOfferRStr = (AnsiString)"Peace offer";
-        public static readonly AnsiString P5XRejectedRStr = (AnsiString)"%s rejected";
-        public static readonly AnsiString P5XAcceptedRStr = (AnsiString)"%s accepted";
-        public static readonly AnsiString P5XIgnoredRStr = (AnsiString)"%s ignored";
-        public static readonly AnsiString P5PeaceRStr = (AnsiString)"Peace";
-        public static readonly AnsiString P5AllianceProposalRStr = (AnsiString)"Alliance proposal";
-        public static readonly AnsiString P5MadeAllianceRStr = (AnsiString)"Made alliance";
-        public static readonly AnsiString P5MessageRStr = (AnsiString)"Message";
-        public static readonly AnsiString P5ThreatRStr = (AnsiString)"Threat";
-        public static readonly AnsiString P5TributeRStr = (AnsiString)"Tribute";
-        public static readonly AnsiString P5BreakAllianceSuggestionRStr = (AnsiString)"Break alliance suggestion";
-        public static readonly AnsiString P5DeclareWarSuggestionRStr = (AnsiString)"Declare war suggestion";
+        public static readonly string P5WarRStr = "War";
+        public static readonly string P5PeaceOfferRStr = "Peace offer";
+        public static readonly string P5XRejectedRStr = "%s rejected";
+        public static readonly string P5XAcceptedRStr = "%s accepted";
+        public static readonly string P5XIgnoredRStr = "%s ignored";
+        public static readonly string P5PeaceRStr = "Peace";
+        public static readonly string P5AllianceProposalRStr = "Alliance proposal";
+        public static readonly string P5MadeAllianceRStr = "Made alliance";
+        public static readonly string P5MessageRStr = "Message";
+        public static readonly string P5ThreatRStr = "Threat";
+        public static readonly string P5TributeRStr = "Tribute";
+        public static readonly string P5BreakAllianceSuggestionRStr = "Break alliance suggestion";
+        public static readonly string P5DeclareWarSuggestionRStr = "Declare war suggestion";
         public static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5 Player2GroupBehaviorTable = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5.From([FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal, TGroupBehavior.gbNormal]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive, TGroupBehavior.gbAggressive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive, TGroupBehavior.gbDefensive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand, TGroupBehavior.gbExpand]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch, TGroupBehavior.gbScorch])]);
         public static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4 IndependentGroupBehaviorTable = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4.From([FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbPatrol, TGroupBehavior.gbScout, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbPatrol, TGroupBehavior.gbPatrol, TGroupBehavior.gbScout, TGroupBehavior.gbScout, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([TGroupBehavior.gbPatrol, TGroupBehavior.gbPatrol, TGroupBehavior.gbScout, TGroupBehavior.gbScout, TGroupBehavior.gbSuicidal, TGroupBehavior.gbSuicidal, TGroupBehavior.gbRaid, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive, TGroupBehavior.gbPassive])]);
         public static int DefenseSortGroupID;
         public static TUnitList DefenseSortUnits;
-        public static readonly AnsiString P5RoundXRStr = (AnsiString)"Round: %s";
+        public static readonly string P5RoundXRStr = "Round: %s";
         public static FixedArray_int_7 P5OppositeDirections = FixedArray_int_7.From([0, 4, 5, 6, 1, 2, 3]);
         public static FixedArray_Aow_Units_FixedArray_int_2_7 P5SideDirections = FixedArray_Aow_Units_FixedArray_int_2_7.From([FixedArray_int_2.From([-1, -1]), FixedArray_int_2.From([6, 2]), FixedArray_int_2.From([1, 3]), FixedArray_int_2.From([2, 4]), FixedArray_int_2.From([3, 5]), FixedArray_int_2.From([4, 6]), FixedArray_int_2.From([5, 1])]);
         public static FixedArray_Aow_Units_FixedArray_byte_3_6 P5OddDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([1, 3, 5]), FixedArray_byte_3.From([3, 1, 5]), FixedArray_byte_3.From([3, 5, 1]), FixedArray_byte_3.From([5, 3, 1]), FixedArray_byte_3.From([5, 1, 3]), FixedArray_byte_3.From([1, 5, 3])]);
         public static FixedArray_Aow_Units_FixedArray_byte_3_6 P5EvenDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([2, 4, 6]), FixedArray_byte_3.From([4, 2, 6]), FixedArray_byte_3.From([4, 6, 2]), FixedArray_byte_3.From([6, 4, 2]), FixedArray_byte_3.From([6, 2, 4]), FixedArray_byte_3.From([2, 6, 4])]);
-        public static readonly AnsiString P5SavingGameRStr = (AnsiString)"saving: %s";
-        public static readonly AnsiString P5ErrorSavingRStr = (AnsiString)"Error saving: %s";
+        public static readonly string P5SavingGameRStr = "saving: %s";
+        public static readonly string P5ErrorSavingRStr = "Error saving: %s";
         // Combat.pas:1779
         public static void P3InitializeHitProbabilities()
         {
@@ -82631,7 +82632,7 @@ namespace Aow.Units.AoWE
         // UnitRes.PAS:254
         public static int P2CompareUnitIndexes(int Item1, int Item2)
         {
-            Assert(AoWHSSet.FUnitResources.GetUnitResource(Item1) != null && AoWHSSet.FUnitResources.GetUnitResource(Item1) != null, (AnsiString)"Undefined UnitResource Used!", "UnitRes.PAS", 256);
+            Assert(AoWHSSet.FUnitResources.GetUnitResource(Item1) != null && AoWHSSet.FUnitResources.GetUnitResource(Item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
             var unitResource = AoWHSSet.FUnitResources.GetUnitResource(Item2);
             var fUnitResourcesUnitResource = AoWHSSet.FUnitResources.GetUnitResource(Item1);
             return unitResource.FLevel - fUnitResourcesUnitResource.FLevel;
@@ -82670,43 +82671,43 @@ namespace Aow.Units.AoWE
             return Result;
         }
 
-        public static readonly AnsiString P2RegisterLifeStealingRStr = (AnsiString)"Life Stealing";
-        public static readonly AnsiString P2RegisterChargeRStr = (AnsiString)"Charge";
-        public static readonly AnsiString P2RegisterDragonSlayingRStr = (AnsiString)"Dragon Slaying";
-        public static readonly AnsiString P2RegisterParryRStr = (AnsiString)"Parry";
-        public static readonly AnsiString P2RegisterExtraStrikeRStr = (AnsiString)"Extra Strike";
-        public static readonly AnsiString P2RegisterFirstStrikeRStr = (AnsiString)"First Strike";
-        public static readonly AnsiString P2RegisterEntangleStrikeRStr = (AnsiString)"Entangle Strike";
-        public static readonly AnsiString P2RegisterFireStrikeRStr = (AnsiString)"Fire Strike";
-        public static readonly AnsiString P2RegisterColdStrikeRStr = (AnsiString)"Cold Strike";
-        public static readonly AnsiString P2RegisterLightningStrikeRStr = (AnsiString)"Lightning Strike";
-        public static readonly AnsiString P2RegisterPoisonStrikeRStr = (AnsiString)"Poison Strike";
-        public static readonly AnsiString P2RegisterDeathStrikeRStr = (AnsiString)"Death Strike";
-        public static readonly AnsiString P2RegisterHolyStrikeRStr = (AnsiString)"Holy Strike";
-        public static readonly AnsiString P2RegisterMagicStrikeRStr = (AnsiString)"Magic Strike";
-        public static readonly AnsiString P2RegisterBlackBoltsRStr = (AnsiString)"Black Bolts";
-        public static readonly AnsiString P2RegisterMagicBoltsRStr = (AnsiString)"Magic Bolts";
-        public static readonly AnsiString P2RegisterFrostBoltsRStr = (AnsiString)"Frost Bolts";
-        public static readonly AnsiString P2RegisterLightningBoltsRStr = (AnsiString)"Lightning Bolts";
-        public static readonly AnsiString P2RegisterHolyBoltsRStr = (AnsiString)"Holy Bolts";
-        public static readonly AnsiString P2RegisterFireBreathRStr = (AnsiString)"Fire Breath";
-        public static readonly AnsiString P2RegisterColdBreathRStr = (AnsiString)"Cold Breath";
-        public static readonly AnsiString P2RegisterBlackBreathRStr = (AnsiString)"Black Breath";
-        public static readonly AnsiString P2RegisterDivineBreathRStr = (AnsiString)"Divine Breath";
-        public static readonly AnsiString P2RegisterGasBreathRStr = (AnsiString)"Gas Breath";
-        public static readonly AnsiString P2RegisterShootJavelinRStr = (AnsiString)"Shoot Javelin";
-        public static readonly AnsiString P2RegisterShootBlackJavelinRStr = (AnsiString)"Shoot Black Javelin";
-        public static readonly AnsiString P2RegisterHurlStonesRStr = (AnsiString)"Hurl Stones";
-        public static readonly AnsiString P2RegisterFireMusketRStr = (AnsiString)"Fire Musket";
-        public static readonly AnsiString P2RegisterFireCannonRStr = (AnsiString)"Fire Cannon";
-        public static readonly AnsiString P2RegisterHurlBoulderRStr = (AnsiString)"Hurl Boulder";
-        public static readonly AnsiString P2RegisterVenomousSpitRStr = (AnsiString)"Venomous Spit";
-        public static readonly AnsiString P2RegisterCallFlamesRStr = (AnsiString)"Call Flames";
-        public static readonly AnsiString P2RegisterArcheryRStr = (AnsiString)"Archery";
-        public static readonly AnsiString P2RegisterPoisonDartsRStr = (AnsiString)"Poison Darts";
-        public static readonly AnsiString P2RegisterDoomGazeRStr = (AnsiString)"Doom Gaze";
+        public static readonly string P2RegisterLifeStealingRStr = "Life Stealing";
+        public static readonly string P2RegisterChargeRStr = "Charge";
+        public static readonly string P2RegisterDragonSlayingRStr = "Dragon Slaying";
+        public static readonly string P2RegisterParryRStr = "Parry";
+        public static readonly string P2RegisterExtraStrikeRStr = "Extra Strike";
+        public static readonly string P2RegisterFirstStrikeRStr = "First Strike";
+        public static readonly string P2RegisterEntangleStrikeRStr = "Entangle Strike";
+        public static readonly string P2RegisterFireStrikeRStr = "Fire Strike";
+        public static readonly string P2RegisterColdStrikeRStr = "Cold Strike";
+        public static readonly string P2RegisterLightningStrikeRStr = "Lightning Strike";
+        public static readonly string P2RegisterPoisonStrikeRStr = "Poison Strike";
+        public static readonly string P2RegisterDeathStrikeRStr = "Death Strike";
+        public static readonly string P2RegisterHolyStrikeRStr = "Holy Strike";
+        public static readonly string P2RegisterMagicStrikeRStr = "Magic Strike";
+        public static readonly string P2RegisterBlackBoltsRStr = "Black Bolts";
+        public static readonly string P2RegisterMagicBoltsRStr = "Magic Bolts";
+        public static readonly string P2RegisterFrostBoltsRStr = "Frost Bolts";
+        public static readonly string P2RegisterLightningBoltsRStr = "Lightning Bolts";
+        public static readonly string P2RegisterHolyBoltsRStr = "Holy Bolts";
+        public static readonly string P2RegisterFireBreathRStr = "Fire Breath";
+        public static readonly string P2RegisterColdBreathRStr = "Cold Breath";
+        public static readonly string P2RegisterBlackBreathRStr = "Black Breath";
+        public static readonly string P2RegisterDivineBreathRStr = "Divine Breath";
+        public static readonly string P2RegisterGasBreathRStr = "Gas Breath";
+        public static readonly string P2RegisterShootJavelinRStr = "Shoot Javelin";
+        public static readonly string P2RegisterShootBlackJavelinRStr = "Shoot Black Javelin";
+        public static readonly string P2RegisterHurlStonesRStr = "Hurl Stones";
+        public static readonly string P2RegisterFireMusketRStr = "Fire Musket";
+        public static readonly string P2RegisterFireCannonRStr = "Fire Cannon";
+        public static readonly string P2RegisterHurlBoulderRStr = "Hurl Boulder";
+        public static readonly string P2RegisterVenomousSpitRStr = "Venomous Spit";
+        public static readonly string P2RegisterCallFlamesRStr = "Call Flames";
+        public static readonly string P2RegisterArcheryRStr = "Archery";
+        public static readonly string P2RegisterPoisonDartsRStr = "Poison Darts";
+        public static readonly string P2RegisterDoomGazeRStr = "Doom Gaze";
         // Army.PAS:5326
-        public static TRangedAttackAbility P2CreateRangedAttack(int ID, AnsiString Name, sbyte Attack, sbyte Damage, sbyte Repeats, TCombatRange Range, TSet<TDamageType> DamageTypes, int Enchantment)
+        public static TRangedAttackAbility P2CreateRangedAttack(int ID, string Name, sbyte Attack, sbyte Damage, sbyte Repeats, TCombatRange Range, TSet<TDamageType> DamageTypes, int Enchantment)
         {
             TRangedAttackAbility Ability;
             Ability = new TRangedAttackAbility(null);
@@ -82722,7 +82723,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5333
-        public static TBoltsAbility P2CreateBolts(int ID, AnsiString Name, int Attack, sbyte Damage, TDamageType DamageType, int Enchantment)
+        public static TBoltsAbility P2CreateBolts(int ID, string Name, int Attack, sbyte Damage, TDamageType DamageType, int Enchantment)
         {
             TBoltsAbility Ability;
             Ability = new TBoltsAbility(null);
@@ -82736,7 +82737,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5339
-        public static TBreathAbility P2CreateBreath(int ID, AnsiString Name, TDamageType DamageType, int Enchantment)
+        public static TBreathAbility P2CreateBreath(int ID, string Name, TDamageType DamageType, int Enchantment)
         {
             TBreathAbility Ability;
             Ability = new TBreathAbility(null);
@@ -82748,7 +82749,7 @@ namespace Aow.Units.AoWE
         }
 
         // Army.PAS:5346
-        public static TStrikeEnhancementAbility P2CreateStrikeEnhancement(int ID, AnsiString Name, TSet<TAbilitySelectionType> Selection)
+        public static TStrikeEnhancementAbility P2CreateStrikeEnhancement(int ID, string Name, TSet<TAbilitySelectionType> Selection)
         {
             TStrikeEnhancementAbility Ability;
             Ability = new TStrikeEnhancementAbility(null);

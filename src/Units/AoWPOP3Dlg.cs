@@ -84,7 +84,7 @@ namespace Aow.Units.AoWPOP3Dlg
             LocalEmailAddressEdit.Text = localEmailAddress;
             var attachmentDirectory = AoWEngine.FRegistry.GetAttachmentDirectory();
             var format = Format(TranslateRStr(AttachmentDirectoryXRStr), [attachmentDirectory]);
-            AttachmentDirectoryLbl.Text = AnsiString.FromBytes(40) + format + AnsiString.FromBytes(41);
+            AttachmentDirectoryLbl.Text = "(" + format + ")";
             Dlg.Visible = true;
         }
 
@@ -136,7 +136,7 @@ namespace Aow.Units.AoWPOP3Dlg
             if (FoundEmailGames.Selected != -1)
             {
                 var item = FoundEmailGames.Items[FoundEmailGames.Selected];
-                LoadGame(General, AoWEngine.StartupDirectory + (AnsiString)"EmailIn\\" + item);
+                LoadGame(General, AoWEngine.StartupDirectory + "EmailIn\\" + item);
                 StartGame(General);
             }
         }

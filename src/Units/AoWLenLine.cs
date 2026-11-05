@@ -50,7 +50,7 @@ namespace Aow.Units.AoWLenLine
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Aow.Units.AoWLenLine
                 }
                 else
                 {
-                    MessageBox(0, (AnsiString)"Lines must have 3 Images", (AnsiString)"Error - " + Name, 0);
+                    MessageBox(0, "Lines must have 3 Images", "Error - " + Name, 0);
                 }
             }
             else
@@ -132,7 +132,7 @@ namespace Aow.Units.AoWLenLine
         // AoWLenLine.pas:100
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAoWLenLine)]);
+            RegisterComponents("AOW Tools", [typeof(TAoWLenLine)]);
         }
 
         public static void Initialize()

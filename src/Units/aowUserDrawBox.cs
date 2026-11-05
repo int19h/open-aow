@@ -41,7 +41,7 @@ namespace Aow.Units.aowUserDrawBox
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -101,7 +101,7 @@ namespace Aow.Units.aowUserDrawBox
         // aowUserDrawBox.pas:99
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TaowUserDrawBox)]);
+            RegisterComponents("AOW Interface", [typeof(TaowUserDrawBox)]);
         }
     }
 }

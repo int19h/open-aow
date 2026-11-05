@@ -130,7 +130,7 @@ public sealed class MapNetSoundDispatchTests
         {
             Assert.IsType<TSampleData>(value);
             Assert.Equal(1, value.RefCount);
-            Assert.Equal(memory ? "" : value == direct ? "direct" : "dynamic", value.Name.ToString());
+            Assert.Equal(memory ? "" : value == direct ? "direct" : "dynamic", value.Name);
             if (!memory) Assert.Same(value, SoundApi.SampleDataList.Find(value.Name));
         }
         Assert.Equal(memory ? 0 : 2, SoundApi.SampleDataList.Count);
@@ -160,8 +160,8 @@ public sealed class MapNetSoundDispatchTests
         var sdl = SoundApi.SoundSystems.Find("SDL");
         var galaxy = SoundApi.SoundSystems.Find("Galaxy");
         Assert.NotSame(sdl, galaxy);
-        Assert.Equal("SDL", sdl.Name.ToString());
-        Assert.Equal("Galaxy", galaxy.Name.ToString());
+        Assert.Equal("SDL", sdl.Name);
+        Assert.Equal("Galaxy", galaxy.Name);
         Assert.Same(sdl, TSdlSoundSystem.Descriptor);
         Assert.Same(galaxy, TSdlSoundSystem.Galaxy);
         Assert.Same(sdl, SoundApi.SoundSystems.Find("sdl"));
@@ -171,7 +171,7 @@ public sealed class MapNetSoundDispatchTests
         Assert.Same(sdl, SoundApi.SoundSystems.Find("SDL"));
         Assert.Same(galaxy, SoundApi.SoundSystems.Find("Galaxy"));
         var error = Assert.Throws<Aow.Rtl.Exception>(() => SoundApi.RegisterSoundSystem(sdl));
-        Assert.Equal("Sound System with name: SDL already registered", error.Message.ToString());
+        Assert.Equal("Sound System with name: SDL already registered", error.Message);
     }
 
     [Theory]

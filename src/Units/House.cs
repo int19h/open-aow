@@ -69,7 +69,7 @@ namespace Aow.Units.House
         public override int ResourceUserClassID() => 2229522;
 
         // House.pas:148
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat House";
+        public override string ResourceEditName() => "Combat House";
 
     }
 

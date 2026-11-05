@@ -10,8 +10,6 @@ public sealed class InputMapper
     private bool inside;
     private (byte Button, ulong Time, float X, float Y)? firstPress;
     private byte doubleButton;
-    private static readonly Dictionary<char, byte> Characters = Enumerable.Range(1, 255)
-        .ToDictionary(i => AnsiString.FromBytes((byte)i).ToString()[0], i => (byte)i);
 
     public void Reset()
     {
@@ -77,8 +75,9 @@ public sealed class InputMapper
     }
     public static void Text(string text, IDisplayEvents sink)
     {
-        foreach (var rune in text.EnumerateRunes())
-            if (rune.IsBmp && Characters.TryGetValue((char)rune.Value, out byte value) && value >= 32) sink.KeyPress(value);
+        // Only a char with a code page 1252 byte reaches the game, as that byte (strings.md 2.3).
+        foreach (char c in text)
+            if (Cp1252.IsMapped(c) && Cp1252.Byte(c) >= 32) sink.KeyPress(Cp1252.Byte(c));
     }
     public static ushort VirtualKey(int keycode, int scancode)
     {

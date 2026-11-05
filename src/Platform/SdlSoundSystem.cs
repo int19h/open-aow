@@ -14,7 +14,7 @@ public class TSdlSoundSystem : TSoundSystem
     public enum SongState { Idle, Playing, WaitingForFadeIn }
     public SongState State { get; private set; }
     private int volume = 127, fadeIn = 2;
-    private AnsiString fileName;
+    private string fileName = "";
     private bool loop;
 
     public static void Install(bool mute = true, bool audioOutput = false)
@@ -24,7 +24,7 @@ public class TSdlSoundSystem : TSoundSystem
         if (SoundApi.SoundSystems.Find("SDL") is null) SoundApi.RegisterSoundSystem(Descriptor);
         if (SoundApi.SoundSystems.Find("Galaxy") is null) SoundApi.RegisterSoundSystem(Galaxy);
     }
-    public static AnsiString Name => "SDL";
+    public static string Name => "SDL";
     public static SoundSystemClass Descriptor { get; } = new("SDL", static () => new TSdlSoundSystem());
     public static SoundSystemClass Galaxy { get; } = new("Galaxy", static () => new TSdlSoundSystem());
     public static SampleClass Samples { get; } = new("SdlSample", static data => SdlSample.Create(active!.Mixer, data));
@@ -96,9 +96,9 @@ public class TSdlSoundSystem : TSoundSystem
     // GalSndS.GetSFXVolume divides the 0..127 master by 32767.
     protected internal override int GetSFXVolume() { lock (Mixer.Sync) return (int)Math.Round(Mixer.SfxGain.Value * 100.0 / 32767); }
     protected internal override bool GetPlayingSong() { lock (Mixer.Sync) return State == SongState.WaitingForFadeIn || (Mixer.Song is not null && !Mixer.SongEnded); }
-    protected internal override AnsiString GetPlayingSongFileName() => GetPlayingSong() ? fileName : "";
-    public override bool PlaySong(AnsiString name) => PlaySongEx(name, 0, 0, false);
-    public override bool PlaySongEx(AnsiString name, int fadeOut, int newFadeIn, bool repeat)
+    protected internal override string GetPlayingSongFileName() => GetPlayingSong() ? fileName : "";
+    public override bool PlaySong(string name) => PlaySongEx(name, 0, 0, false);
+    public override bool PlaySongEx(string name, int fadeOut, int newFadeIn, bool repeat)
     {
         if (!settings.MusicEnabled) return false;
         lock (Mixer.Sync)
@@ -114,7 +114,7 @@ public class TSdlSoundSystem : TSoundSystem
             State = SongState.Idle;
             try
             {
-                using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name).ToString(), 0);
+                using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name), 0);
                 using var data = new MemoryStream(); stream.CopyTo(data);
                 var song = OpenMptModule.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
                 if (song is null) return false;
@@ -145,7 +145,7 @@ public class TSdlSoundSystem : TSoundSystem
         public int Order { get; init; }
         public bool Loop { get; init; }
         public int Volume { get; init; }
-        public SavedSong(AnsiString name) => FFileName = name;
+        public SavedSong(string name) => FFileName = name;
     }
     public override TSongStatus BackupSongStatus()
     {
@@ -173,15 +173,15 @@ public class TSdlSoundSystem : TSoundSystem
 internal class SdlSampleData : TSampleData
 {
     public WaveData Wave { get; private set; } = new(44100, 1, []);
-    public static new SdlSampleData Create(AnsiString name) =>
+    public static new SdlSampleData Create(string name) =>
         ConstructionContext.Create(name, static (context, value) => new SdlSampleData(context, value));
     public static new SdlSampleData CreateEx(in TWaveFormatEx format, object data, int size) =>
         ConstructionContext.Create((format, data, size), static (context, value) =>
             new SdlSampleData(context, value.format, value.data, value.size));
 
-    private protected SdlSampleData(ConstructionContext context, AnsiString name) : base(context, name)
+    private protected SdlSampleData(ConstructionContext context, string name) : base(context, name)
     {
-        using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name).ToString(), 0);
+        using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name), 0);
         Wave = WaveData.Read(stream);
     }
     private protected SdlSampleData(ConstructionContext context, in TWaveFormatEx format, object data, int size) : base(context, format, data, size)

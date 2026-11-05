@@ -148,29 +148,29 @@ namespace Aow.Units.E1GameFlow
         }
 
         // E1GameFlow.pas:100
-        public static void SaveGame(TGeneral Controller, AnsiString Name)
+        public static void SaveGame(TGeneral Controller, string Name)
         {
             AoWHSMap.SaveGame(Name);
         }
 
         // E1GameFlow.pas:105
-        public static void SaveCampaign(TGeneral Controller, AnsiString Name)
+        public static void SaveCampaign(TGeneral Controller, string Name)
         {
             // { Original campaign-save command uses the map save routine. }
             AoWHSMap.SaveGame(Name);
         }
 
         // E1GameFlow.pas:110
-        public static void PickScenarioMap(TScenSetup Dialog, AnsiString Name)
+        public static void PickScenarioMap(TScenSetup Dialog, string Name)
         {
             var currentDir = GetCurrentDir();
-            Name = ExtractRelativePath(AoWEngine.StartupDirectory, currentDir + AnsiString.FromBytes(92) + Name);
+            Name = ExtractRelativePath(AoWEngine.StartupDirectory, currentDir + "\\" + Name);
             FileDlgWindow.FileDialog.Visible = false;
             Dialog.FSetupControl.hPickMap(Name);
         }
 
         // E1GameFlow.pas:118
-        public static void ShowMultiplayer(TMultiWindow Dialog, AnsiString Name)
+        public static void ShowMultiplayer(TMultiWindow Dialog, string Name)
         {
             /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
             throw new NotImplementedException();
@@ -179,7 +179,7 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:154
         public static void ShowCampaignMap(TWorldMap Dialog)
         {
-            AnsiString Song = default;
+            string Song = "";
             Dialog.ResetCampaign();
             AoWEngine.CloseHSM(null);
             E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
@@ -187,19 +187,19 @@ namespace Aow.Units.E1GameFlow
             Dialog.WorldPnl.Visible = true;
             Dialog.FPathFrame = 0;
             Dialog.FPathDelay = 5;
-            Dialog.DescLbl.Text = (AnsiString)"";
+            Dialog.DescLbl.Text = "";
             General.Manager.OverlayPriority = 249;
             SongPlayer.Stop(false);
             SetCurrentDir(AoWEngine.StartupDirectory);
             var campaign = Dialog.GetCampaign();
-            if (GetCampaignScenario(Dialog.GetCampaign(), campaign.FCurrentScenarioID).FImageLibrary == (AnsiString)"")
+            if (IsEmpty(GetCampaignScenario(Dialog.GetCampaign(), campaign.FCurrentScenarioID).FImageLibrary))
             {
-                Song = (AnsiString)"Songs\\Title.IT";
+                Song = "Songs\\Title.IT";
             }
             else
             {
                 var dialogCampaign = Dialog.GetCampaign();
-                Song = (AnsiString)"Songs\\" + GetCampaignScenario(Dialog.GetCampaign(), dialogCampaign.FCurrentScenarioID).FImageLibrary;
+                Song = "Songs\\" + GetCampaignScenario(Dialog.GetCampaign(), dialogCampaign.FCurrentScenarioID).FImageLibrary;
             }
 
             PlaySongEx(Song, 1, 0, true);

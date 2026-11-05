@@ -986,7 +986,7 @@ namespace Aow.Units.UnitSpells
         public int FFaceIndex;
         public int FTargetUnitID;
         // UnitSpells.pas:870
-        public override bool CanCast(ref AnsiString Reason) => base.CanCast(ref Reason);
+        public override bool CanCast(ref string Reason) => base.CanCast(ref Reason);
 
         // UnitSpells.pas:875
         public override bool Cast()
@@ -995,7 +995,7 @@ namespace Aow.Units.UnitSpells
             TAbstractUnit Source;
             TAbstractUnit Target;
             TUnitSpellTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             ((TUnitSpell)AoWHSSet.FSpellControl.GetSpell(59)).ResetTargetSelection();
             Source = AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
             Target = AoWHSMap.FUnitControl.FindUnit(FTargetUnitID);

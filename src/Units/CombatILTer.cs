@@ -170,7 +170,7 @@ namespace Aow.Units.CombatILTer
         public override int ResourceUserClassID() => 2228534;
 
         // CombatILTer.pas:178
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat ILTerrain";
+        public override string ResourceEditName() => "Combat ILTerrain";
 
     }
 
@@ -230,7 +230,7 @@ namespace Aow.Units.CombatILTer
                 }
                 else
                 {
-                    throw Exception.Create((AnsiString)"TILFixedTerrain Failure");
+                    throw Exception.Create("TILFixedTerrain Failure");
                 }
             }
         }
@@ -252,7 +252,7 @@ namespace Aow.Units.CombatILTer
         public override int ResourceUserClassID() => 2228536;
 
         // CombatILTer.pas:230
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat FixedILTerrain";
+        public override string ResourceEditName() => "Combat FixedILTerrain";
 
     }
 

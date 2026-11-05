@@ -76,8 +76,8 @@ public partial class TMultiLevelAbility
 {
     public override int GetLevel(TAbilityOwner owner) => owner == null ? 0 : ((TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
     public override int GetInherentLevel(TAbilityOwner owner) => owner == null ? 0 : ((TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
-    public override AnsiString GetName(TAbilityOwner owner) => GetLevelName(GetLevel(owner));
-    public override AnsiString ExpandName(TAbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
+    public override string GetName(TAbilityOwner owner) => GetLevelName(GetLevel(owner));
+    public override string ExpandName(TAbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
     public override int ExpandCost(TAbilityOwner owner)
     {
         int level = GetInherentLevel(owner);
@@ -149,7 +149,7 @@ public partial class TDiplomaticActionEventLog
 
 public partial class TSpell
 {
-    public virtual bool CanActivateCombat(TAbstractUnit source, ref AnsiString reason) => AoWE.AoWHSMap.FCombat != null;
+    public virtual bool CanActivateCombat(TAbstractUnit source, ref string reason) => AoWE.AoWHSMap.FCombat != null;
     public virtual void GetCombatInfo(TAbstractUnit source, ref TSpellCombatInfo info)
     {
         info.Attack = 0; info.Damage = 0; info.DamageTypes = default;
@@ -170,9 +170,9 @@ public partial class TSpellTE
     public TAbstractUnit GetSource() => AoWE.AoWHSMap.FUnitControl.FindUnit(FEventSourceID);
     public virtual bool Validate(THero source)
     {
-        AnsiString reason = default;
+        string reason = "";
         try { return (byte)source.FPlayer == FEventPlayerIndex && source.CanCastSpellInstantly(FEventSpellID, FEventMana, ref reason); }
-        finally { reason = default; }
+        finally { reason = ""; }
     }
     public virtual bool Process(TAbstractUnit source, int value) => AoWE.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).ExecuteTE(this, source, value);
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
@@ -186,7 +186,7 @@ public partial class TSpellTE
 public partial class TSpellCaster
 {
     public TAbstractUnit GetSource() => AoWE.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
-    public virtual bool CanCast(ref AnsiString reason) => AoWE.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID) != null;
+    public virtual bool CanCast(ref string reason) => AoWE.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID) != null;
 }
 public partial class TUnitSpellCaster
 {

@@ -243,7 +243,7 @@ namespace Aow.Units.IsoHex
         public override int ResourceUserClassID() => 131440;
 
         // IsoHex.pas:448
-        public override AnsiString ResourceEditName() => UpperIsometricHexagonStr;
+        public override string ResourceEditName() => UpperIsometricHexagonStr;
 
     }
 
@@ -269,7 +269,7 @@ namespace Aow.Units.IsoHex
         public override int ResourceUserClassID() => 131442;
 
         // IsoHex.pas:576
-        public override AnsiString ResourceEditName() => LowerIsometricHexagonStr;
+        public override string ResourceEditName() => LowerIsometricHexagonStr;
 
     }
 

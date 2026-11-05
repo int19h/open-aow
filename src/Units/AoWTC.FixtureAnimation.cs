@@ -640,7 +640,7 @@ namespace Aow.Units.AoWTC
             catch (System.Exception)
             {
                 // { Original puts the diagnostic in the message-box caption. }
-                MessageBox(0, (AnsiString)"Error during Show", NullTerminatedText((AnsiString)"Error - fxHS " + IntToStr(FAbilityIndex) + AnsiString.FromBytes(32) + IntToStr(FSpellIndex)), 0);
+                MessageBox(0, "Error during Show", NullTerminatedText("Error - fxHS " + IntToStr(FAbilityIndex) + " " + IntToStr(FSpellIndex)), 0);
             }
         }
     }
@@ -666,7 +666,7 @@ namespace Aow.Units.AoWTC
             {
                 if (!(FDirection < FUnitGFXResource.FSequences.Count))
                 {
-                    AoWTC.OriginalUnitAssert((AnsiString)"Invalid Unit Index", (AnsiString)"D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
+                    AoWTC.OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
                 }
 
                 HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
@@ -935,7 +935,7 @@ namespace Aow.Units.AoWTC
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error during ShowUnit", NullTerminatedText((AnsiString)"Error - " + FUnit.FUnit.GetName()), 0);
+                MessageBox(0, "Error during ShowUnit", NullTerminatedText("Error - " + FUnit.FUnit.GetName()), 0);
             }
         }
 

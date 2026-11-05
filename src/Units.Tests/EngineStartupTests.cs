@@ -171,8 +171,8 @@ public sealed class EngineStartupTests
         ["Version"] = engine.FVersion, ["User"] = engine.FUser.Mask, ["Options"] = engine.Options.Mask,
         ["Debug"] = engine.FDebug, ["Detail"] = engine.FAnimationDetail,
         ["Language"] = engine.FLanguage, ["DictionaryLanguage"] = engine.FDictionary.Reader.Language,
-        ["Demo"] = engine.FDemo, ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory.ToString()),
-        ["DebugIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.DebugIDs.Count).Select(i => new { Name = engine.DebugIDs[i].ToString(), Id = Runtime.ObjectToInt(engine.DebugIDs.Objects[i]) })),
+        ["Demo"] = engine.FDemo, ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory),
+        ["DebugIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.DebugIDs.Count).Select(i => new { Name = engine.DebugIDs[i], Id = Runtime.ObjectToInt(engine.DebugIDs.Objects[i]) })),
         ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EClasses.Count).Select(i => ((EClass)engine.EClasses[i]!).ClassID)),
         ["Children"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.Count).Select(i => engine.Children[i].GetType().FullName)),
         ["Globals"] = fixture.State()

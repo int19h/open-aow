@@ -464,7 +464,7 @@ namespace Aow.Units.AoWSMTPDlg
 {
     public partial class TmsMessage
     {
-        public Aow.Rtl.AnsiString ContentType { get; set; }
+        public string ContentType { get; set; } = "";
         public bool ReturnReceipt { get; set; }
     }
 }
@@ -708,8 +708,8 @@ namespace Aow.Layout
         public Aow.Layout.TGDMessageErrorEvent OnMessageError { get; set; }
         public Aow.Layout.TGDPingMessageEvent OnPingMessage { get; set; }
         public Aow.Layout.TGDSessionLostEvent OnSessionLost { get; set; }
-        public Aow.Rtl.AnsiString PlayerName { get; set; }
-        public Aow.Rtl.AnsiString SessionName { get; set; }
+        public string PlayerName { get; set; } = "";
+        public string SessionName { get; set; } = "";
         public bool UseCodes { get; set; }
         public bool UseSetupDialogs { get; set; }
     }
@@ -747,7 +747,7 @@ namespace Aow.Layout
 
 namespace Aow.Layout
 {
-    public delegate void SmtpError(Aow.Rtl.TObject sender, ref Aow.Rtl.AnsiString error);
+    public delegate void SmtpError(Aow.Rtl.TObject sender, ref string error);
 }
 
 namespace Aow.Layout
@@ -757,7 +757,7 @@ namespace Aow.Layout
 
 namespace Aow.Layout
 {
-    public delegate void TGDChatMessageEvent(ref Aow.Rtl.AnsiString ChatMsg, ref int ToID, ref int FromID);
+    public delegate void TGDChatMessageEvent(ref string ChatMsg, ref int ToID, ref int FromID);
 }
 
 namespace Aow.Layout
@@ -777,7 +777,7 @@ namespace Aow.Layout
 
 namespace Aow.Layout
 {
-    public delegate void TGDFileStartMessageEvent(int ID, ref Aow.Rtl.AnsiString Name, int Size, ref byte Response);
+    public delegate void TGDFileStartMessageEvent(int ID, ref string Name, int Size, ref byte Response);
 }
 
 namespace Aow.Layout

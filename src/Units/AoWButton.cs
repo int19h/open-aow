@@ -197,7 +197,7 @@ namespace Aow.Units.AoWButton
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -254,7 +254,7 @@ namespace Aow.Units.AoWButton
         }
 
         // AoWButton.pas:130
-        public void SetGText(AnsiString Value)
+        public void SetGText(string Value)
         {
             FText = Value;
             FDrawn = false;
@@ -288,7 +288,7 @@ namespace Aow.Units.AoWButton
         public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
 
         [Published]
-        public AnsiString Text { get => FText; set => SetGText(value); }
+        public string Text { get => FText; set => SetGText(value); }
     }
 
     // Fields: FOnClick
@@ -400,7 +400,7 @@ namespace Aow.Units.AoWButton
         // AoWButton.pas:313
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWButton)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWButton)]);
         }
     }
 }

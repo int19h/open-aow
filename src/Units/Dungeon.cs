@@ -210,7 +210,7 @@ namespace Aow.Units.Dungeon
             ArmyLog.FSelection = 255;
             ArmyLog.FPlayer = GetPlayer();
             ArmyLog.FTitle = TranslateRStr(PrisonerLiberationRStr);
-            ArmyLog.FDescription = (AnsiString)"";
+            ArmyLog.FDescription = "";
             Hero = FPrisoners.Hero(255, TSet<THeroType>.Of(THeroType.htHero));
             if (Hero == null)
             {
@@ -295,7 +295,7 @@ namespace Aow.Units.Dungeon
 
 
         // Dungeon.pas:277
-        public override AnsiString ResourceEditName() => TranslateRStr(DungeonRStr);
+        public override string ResourceEditName() => TranslateRStr(DungeonRStr);
 
     }
 
@@ -309,7 +309,7 @@ namespace Aow.Units.Dungeon
         public sbyte FY;
         public sbyte FL;
         // Dungeon.pas:292
-        public override bool Accept(ref AnsiString ErrorText)
+        public override bool Accept(ref string ErrorText)
         {
             bool Result;
             TDungeon Dungeon;

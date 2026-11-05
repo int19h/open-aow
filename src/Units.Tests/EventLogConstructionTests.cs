@@ -28,7 +28,7 @@ public sealed class EventLogConstructionTests
                 bool nil = true;
                 for (Type? type = child.GetType(); type != typeof(TEventLog); type = type!.BaseType)
                     foreach (var field in type!.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
-                        if (!field.FieldType.IsValueType && field.GetValue(child) is not null) nil = false;
+                        if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null) nil = false;
                 Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.FDay, child.FPlayer, child.FID, child.FRefCount, AddRefReturn = child.FRefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child, Origin) }));
             };
         }

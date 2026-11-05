@@ -111,7 +111,7 @@ namespace Aow.Units.AoWMagic
         // AoWMagic.pas:142
         public void SelectGlobalEnchantment(int Index)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             TGlobalEnchantment Enchantment;
             if (Index >= GlobalEnchantmentList.Items.Count)
             {

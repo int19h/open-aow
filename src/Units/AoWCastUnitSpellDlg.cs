@@ -113,7 +113,7 @@ namespace Aow.Units.AoWCastUnitSpellDlg
         // AoWCastUnitSpellDlg.pas:117
         public void CastButClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (FCaster.CanCast(ref Reason))
             {

@@ -83,7 +83,7 @@ namespace Aow.Units.AoWArnoLine
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Aow.Units.AoWArnoLine
         // AoWArnoLine.pas:119
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAoWArnoLine)]);
+            RegisterComponents("AOW Tools", [typeof(TAoWArnoLine)]);
         }
 
         public static void Initialize()

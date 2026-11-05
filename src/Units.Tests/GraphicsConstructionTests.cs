@@ -59,7 +59,7 @@ public sealed class GraphicsConstructionTests
                 Assert.Equal(type.Name.StartsWith("TTransparent", StringComparison.Ordinal) ? TShowMode.smTransparent : TShowMode.smOpaque, image.ShowInfo.ShowMode);
                 Assert.Equal(0, image.Width);
                 Assert.Equal(0, image.Height);
-                if (image is TImageNode) Assert.Equal("(multi images)", image.FileName.ToString());
+                if (image is TImageNode) Assert.Equal("(multi images)", image.FileName);
                 Assert.Equal(0, owner.Count);
                 Assert.Equal(0, ((TList)Field(Field(owner, "FPaletteManager")!, "FPalettes")!).Count);
                 image.Destroy();

@@ -38,7 +38,7 @@ namespace Aow.Units.SmokeCloud
         }
 
         // SmokeCloud.pas:102
-        public override AnsiString GetName() => AoWHSSet.FSpellControl.GetSpell(74).FSpellName;
+        public override string GetName() => AoWHSSet.FSpellControl.GetSpell(74).FSpellName;
 
         // SmokeCloud.pas:156
         public override bool VisibleForPlayer(sbyte Player)
@@ -404,14 +404,15 @@ namespace Aow.Units.SmokeCloud
         public override int ResourceUserClassID() => 135746;
 
         // SmokeCloud.pas:388
-        public override AnsiString ResourceEditName() => TranslateRStr(SmokeCloudRStr);
+        public override string ResourceEditName() => TranslateRStr(SmokeCloudRStr);
 
     }
 
     public struct TCloudSpellFields
     {
         public FixedArray_byte_8 Reserved;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 166)]

@@ -51,7 +51,7 @@ namespace Aow.Units.Shipyard
 
 
         // Shipyard.pas:69
-        public override AnsiString ResourceEditName() => TranslateRStr(ShipyardRStr);
+        public override string ResourceEditName() => TranslateRStr(ShipyardRStr);
 
     }
 
@@ -61,7 +61,7 @@ namespace Aow.Units.Shipyard
         { }
 
         // Shipyard.pas:93
-        public override void GetInfo(TAbstractUnit AUnit, ref AnsiString Text, ref int Gold, ref int Days)
+        public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
         {
             var shipyard = TranslateRStr(ShipyardRStr);
             Text = Rtl.Rtl.Format(TranslateRStr(BuildXRStr), [shipyard]);
@@ -70,7 +70,7 @@ namespace Aow.Units.Shipyard
         }
 
         // Shipyard.pas:100
-        public override bool ValidateLocation(TAbstractUnit AUnit, ref AnsiString Reason)
+        public override bool ValidateLocation(TAbstractUnit AUnit, ref string Reason)
         {
             sbyte X = default;
             sbyte Y = default;

@@ -31,7 +31,7 @@ public sealed class ClassesTests
         Assert.Throws<EListError>(() => l.Move(0, 5)); Assert.Throws<EListError>(() => l.Move(-1, 0));
         l.Move(-1, -1);
         Assert.Same(l, l.Expand()); Assert.Equal(9, l.Capacity);
-        Assert.Equal((AnsiString)"problem 7", Assert.Throws<EListError>(() => TList.Error("problem %d", 7)).Message);
+        Assert.Equal("problem 7", Assert.Throws<EListError>(() => TList.Error("problem %d", 7)).Message);
         l.Destroy(); Assert.Equal(0, l.Count); Assert.Empty(l.List);
     }
 
@@ -51,11 +51,11 @@ public sealed class ClassesTests
         // CLASSES.PAS:1817..1857.
         var target = new TPersistent(); var source = new Assigned();
         target.Assign(source); Assert.Same(target, source.Target);
-        Assert.Equal((AnsiString)"Cannot assign a nil to a TPersistent", Assert.Throws<EConvertError>(() => target.Assign(null)).Message);
-        Assert.Equal((AnsiString)"Cannot assign a TPersistent to a TPersistent", Assert.Throws<EConvertError>(() => target.Assign(new TPersistent())).Message);
-        Assert.Null(target.GetOwner()); Assert.Equal((AnsiString)"TPersistent", target.GetNamePath());
-        Assert.Equal((AnsiString)"TPersistent.Owned", new Owned(target).GetNamePath());
-        Assert.Equal((AnsiString)"Owned", new Owned(new TComponent(null!)).GetNamePath());
+        Assert.Equal("Cannot assign a nil to a TPersistent", Assert.Throws<EConvertError>(() => target.Assign(null)).Message);
+        Assert.Equal("Cannot assign a TPersistent to a TPersistent", Assert.Throws<EConvertError>(() => target.Assign(new TPersistent())).Message);
+        Assert.Null(target.GetOwner()); Assert.Equal("TPersistent", target.GetNamePath());
+        Assert.Equal("TPersistent.Owned", new Owned(target).GetNamePath());
+        Assert.Equal("Owned", new Owned(new TComponent(null!)).GetNamePath());
         target.DefineProperties(null); target.Destroy();
     }
 
@@ -83,10 +83,10 @@ public sealed class ClassesTests
         var second = new TComponent(owner) { Name = "B" };
         Assert.Same(owner, first.Owner); Assert.Same(owner, first.GetOwner());
         Assert.Equal(2, owner.ComponentCount); Assert.Same(first, owner.Components[0]);
-        Assert.Equal(42, owner.Tag); Assert.Equal((AnsiString)"A_1", first.GetNamePath());
-        Assert.Same(first, owner.FindComponent("a_1")); Assert.Null(owner.FindComponent(default)); Assert.Null(owner.FindComponent("missing"));
+        Assert.Equal(42, owner.Tag); Assert.Equal("A_1", first.GetNamePath());
+        Assert.Same(first, owner.FindComponent("a_1")); Assert.Null(owner.FindComponent("")); Assert.Null(owner.FindComponent("missing"));
         Assert.Throws<EComponentError>(() => second.Name = "a_1");
-        foreach (AnsiString name in new AnsiString[] { "1abc", "bad-name", "a b", "\xe0", "x\0y" }) Assert.Throws<EComponentError>(() => second.Name = name);
+        foreach (string name in new string[] { "1abc", "bad-name", "a b", "\xe0", "x\0y" }) Assert.Throws<EComponentError>(() => second.Name = name);
         first.Name = "a_1"; first.Name = "a_1";
         first.ComponentIndex = 99; Assert.Same(first, owner.Components[1]);
         first.ComponentIndex = -1; Assert.Same(first, owner.Components[0]); first.ComponentIndex = 0;

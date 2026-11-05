@@ -151,7 +151,7 @@ namespace Aow.Units.AoWTabPanel
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -312,7 +312,7 @@ namespace Aow.Units.AoWTabPanel
         // AoWTabPanel.pas:257
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWTabPanel)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWTabPanel)]);
         }
     }
 }

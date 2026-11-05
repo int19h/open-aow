@@ -62,13 +62,13 @@ namespace Aow.Units.ImageLib
     {
         static int ILibraryImageClass.ClassID => 0;
         static byte ILibraryImageClass.ClassVersion => 3;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Abstract Library Image";
+        static string ILibraryImageClass.Name => "Abstract Library Image";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TLibraryImage(owner);
 
         private LibraryImageClass imageClass;
         public LibraryImageClass ImageClass => imageClass ??= LibraryImageClass.Of(GetType());
         public virtual byte ClassVersion() => ImageClass.ClassVersion;
-        public virtual AnsiString Name() => ImageClass.Name;
+        public virtual string Name() => ImageClass.Name;
 
         internal TCustomImageLibrary FOwner;
         internal bool FDataLoaded;
@@ -83,7 +83,7 @@ namespace Aow.Units.ImageLib
         internal int FHeight;
         internal int FXshift;
         internal int FYshift;
-        internal AnsiString FFileName;
+        internal string FFileName = "";
         internal int FFileIndex;
         internal TShowInfo FShowInfo;
         // ImageLib.pas:1613
@@ -126,7 +126,7 @@ namespace Aow.Units.ImageLib
 
             if (Value && !FReloadingEnabled)
             {
-                throw Exception.Create((AnsiString)"Cannot turn on Reloading when disabled");
+                throw Exception.Create("Cannot turn on Reloading when disabled");
             }
             else
             {
@@ -317,14 +317,14 @@ namespace Aow.Units.ImageLib
             }
             else
             {
-                throw Exception.Create((AnsiString)"Invalid image format");
+                throw Exception.Create("Invalid image format");
             }
         }
 
         // ImageLib.pas:1985
         public virtual int RemapToPixelFormat(int PixelFormatID)
         {
-            throw Exception.Create((AnsiString)"Surface format not supported");
+            throw Exception.Create("Surface format not supported");
         }
 
         // ImageLib.pas:1685
@@ -357,12 +357,12 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:1979
-        public virtual AnsiString Info()
+        public virtual string Info()
         {
-            AnsiString Result = Name() + AnsiString.FromBytes(32) + IntToStr(FWidth) + AnsiString.FromBytes(120) + IntToStr(FHeight);
+            string Result = Name() + " " + IntToStr(FWidth) + "x" + IntToStr(FHeight);
             if (GetTransparent())
             {
-                Result = Result + (AnsiString)" Transparent";
+                Result = Result + " Transparent";
             }
 
             return Result;
@@ -659,7 +659,7 @@ namespace Aow.Units.ImageLib
         public int Height { get => FHeight; set => SetHeight(value); }
         public int Xshift { get => FXshift; set => SetXshift(value); }
         public int Yshift { get => FYshift; set => SetYshift(value); }
-        public AnsiString FileName { get => FFileName; set => FFileName = value; }
+        public string FileName { get => FFileName; set => FFileName = value; }
         public int FileIndex { get => FFileIndex; set => FFileIndex = value; }
         public TShowInfo ShowInfo { get => FShowInfo; set => SetDefaultShowInfo(value); }
         public TGFXEPalette Palette { get => GetPalette(); }
@@ -753,7 +753,7 @@ namespace Aow.Units.ImageLib
             }
             else
             {
-                throw EConvertError.Create((AnsiString)"Can only assign to a TLibraryImagePalette descendant");
+                throw EConvertError.Create("Can only assign to a TLibraryImagePalette descendant");
             }
         }
 
@@ -918,8 +918,8 @@ namespace Aow.Units.ImageLib
         internal byte FChangeLock;
         internal bool FReloading;
         internal bool FLoadOnDemand;
-        internal AnsiString FLoadedFileName;
-        internal AnsiString FFileName;
+        internal string FLoadedFileName = "";
+        internal string FFileName = "";
         internal int FDataOffset;
         internal int FCapacity;
         internal int FCount;
@@ -964,12 +964,12 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:9723
-        internal AnsiString GetFullFileName()
+        internal string GetFullFileName()
         {
-            AnsiString Result;
-            AnsiString Drive;
-            AnsiString Path;
-            if (FFileName != (AnsiString)"")
+            string Result;
+            string Drive;
+            string Path;
+            if (!IsEmpty(FFileName))
             {
                 if (ComponentState.Contains(TComponentState.csDesigning))
                 {
@@ -981,7 +981,7 @@ namespace Aow.Units.ImageLib
                 }
 
                 Drive = ExtractFileDrive(FFileName);
-                if (Drive == (AnsiString)"" || Drive == ExtractFileDrive(Path))
+                if (IsEmpty(Drive) || Drive == ExtractFileDrive(Path))
                 {
                     Result = ExpandFileName(Path + FFileName);
                 }
@@ -992,16 +992,16 @@ namespace Aow.Units.ImageLib
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
         }
 
         // ImageLib.pas:9743
-        internal void SetFileName(AnsiString Value)
+        internal void SetFileName(string Value)
         {
-            AnsiString Path;
+            string Path;
             if (ComponentState.Contains(TComponentState.csDesigning))
             {
                 Path = ExtractFilePath(ToolServices.GetProjectName());
@@ -1015,7 +1015,7 @@ namespace Aow.Units.ImageLib
             if ((ComponentState.Contains(TComponentState.csDesigning) || ComponentState.Contains(TComponentState.csLoading)) && Value != FFileName)
             {
                 FFileName = Value;
-                if (FFileName != (AnsiString)"")
+                if (!IsEmpty(FFileName))
                 {
                     try
                     {
@@ -1023,8 +1023,8 @@ namespace Aow.Units.ImageLib
                     }
                     catch (System.Exception)
                     {
-                        ShowMessage((AnsiString)"Error loading: " + GetFullFileName());
-                        FFileName = (AnsiString)"";
+                        ShowMessage("Error loading: " + GetFullFileName());
+                        FFileName = "";
                     }
                 }
                 else
@@ -1081,7 +1081,7 @@ namespace Aow.Units.ImageLib
         {
             FPaletteManager = new TPaletteManager();
             FLoadOnDemand = true;
-            FFileName = (AnsiString)"";
+            FFileName = "";
             FStatus = TSet<TImageLibraryStatusElement>.Of();
             Clear();
         }
@@ -1123,8 +1123,8 @@ namespace Aow.Units.ImageLib
 
             if (!FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile))
             {
-                FFileName = (AnsiString)"";
-                FLoadedFileName = (AnsiString)"";
+                FFileName = "";
+                FLoadedFileName = "";
             }
 
             FReloading = false;
@@ -1250,17 +1250,17 @@ namespace Aow.Units.ImageLib
         {
             TFileStream Swap;
             int StartPos;
-            AnsiString SwapName;
+            string SwapName;
             int I;
             TILBHeader Header = default;
             StartPos = Stream.Position;
-            SwapName = ExtractFilePath(Application.ExeName) + (AnsiString)"\\SWAP.$$$";
+            SwapName = ExtractFilePath(Application.ExeName) + "\\SWAP.$$$";
             Swap = new TFileStream(SwapName, 65535);
             try
             {
                 FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSaving);
                 Header.HeaderSize = 24;
-                Header.ID = AnsiString.FromBytes(73, 76, 66, 0);
+                Header.ID = "ILB\0";
                 Header.Version = 4;
                 Stream.Write(Bytes.Of(ref Header, 24));
                 FPaletteManager.SaveToStream(Stream);
@@ -1297,7 +1297,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:10079
-        public virtual void LoadFromFile(AnsiString AFileName)
+        public virtual void LoadFromFile(string AFileName)
         {
             TStream Stream;
             Stream = new TFastLoadFileStream(AFileName);
@@ -1322,10 +1322,10 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:10098
-        public virtual void SaveToFile(AnsiString AFileName)
+        public virtual void SaveToFile(string AFileName)
         {
             TFileStream Stream;
-            AnsiString Name;
+            string Name;
             Name = ExpandFileName(AFileName);
             if (Name == FLoadedFileName)
             {
@@ -1520,7 +1520,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:10115
-        public void LoadFromFileStream(AnsiString AFileName, TStream Stream)
+        public void LoadFromFileStream(string AFileName, TStream Stream)
         {
             FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoadingFromFile);
             try
@@ -1575,7 +1575,7 @@ namespace Aow.Units.ImageLib
             }
             else
             {
-                throw EConvertError.Create((AnsiString)"Can only assign to a TCustomImageLibrary descendant");
+                throw EConvertError.Create("Can only assign to a TCustomImageLibrary descendant");
             }
         }
 
@@ -2140,13 +2140,13 @@ namespace Aow.Units.ImageLib
         public bool Modified { get => GetModified(); set => SetModified(value); }
         public TSet<TImageLibraryStatusElement> Status { get => FStatus; }
         public TPaletteManager PaletteManager { get => FPaletteManager; }
-        public AnsiString FullFileName { get => GetFullFileName(); }
-        public AnsiString LoadedFileName { get => FLoadedFileName; }
+        public string FullFileName { get => GetFullFileName(); }
+        public string LoadedFileName { get => FLoadedFileName; }
         public int DataOffset { get => FDataOffset; }
         public bool Reloading { get => FReloading; }
         public bool LoadOnDemand { get => FLoadOnDemand; set => SetLoadOnDemand(value); }
         public TNotifyEvent OnChange { get => FOnChange; set => FOnChange = value; }
-        public AnsiString FileName { get => FFileName; set => SetFileName(value); }
+        public string FileName { get => FFileName; set => SetFileName(value); }
 
     }
 
@@ -2174,7 +2174,7 @@ namespace Aow.Units.ImageLib
         public int TransparentColor;
         public bool FindRectangles;
         public int TransparentPixel;
-        public AnsiString FileName;
+        public string FileName = "";
         public int FileIndex;
         // ImageLib.pas:9634
         public virtual void LoadFromStream(TStream Stream)
@@ -2223,7 +2223,7 @@ namespace Aow.Units.ImageLib
     }
 
     public delegate void TImagesGrabbedEvent(TCustomImageLibrary GrabbedImages, TGrabInfo UsedGrabInfo);
-    public delegate void TGrabProgressEvent(TObject Sender, int Percent, AnsiString Msg);
+    public delegate void TGrabProgressEvent(TObject Sender, int Percent, string Msg);
     public enum TShowMode : byte
     {
         smOpaque = 0,
@@ -2288,7 +2288,7 @@ namespace Aow.Units.ImageLib
     public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 256;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"";
+        static string ILibraryImageClass.Name => "";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImageNode(owner);
 
         internal Ptr<TLibraryImage> FImages;
@@ -2323,7 +2323,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:1286
         public TImageNode(TCustomImageLibrary owner) : base(owner)
         {
-            FFileName = (AnsiString)"(multi images)";
+            FFileName = "(multi images)";
         }
 
         // ImageLib.pas:1292
@@ -2334,7 +2334,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:1308
-        public override AnsiString Info() => (AnsiString)"Image Node";
+        public override string Info() => "Image Node";
 
         // ImageLib.pas:1330
         public TLibraryImage GetImage(int Index) => FImages[Index];
@@ -2818,7 +2818,7 @@ namespace Aow.Units.ImageLib
     public partial class TPicture08 : TImage08, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 1;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Picture (08bpp)";
+        static string ILibraryImageClass.Name => "Picture (08bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture08(owner);
 
         public TPicture08(TCustomImageLibrary owner) : base(owner)
@@ -2985,7 +2985,7 @@ namespace Aow.Units.ImageLib
     public partial class TRLESprite08 : TImage08, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 2;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"RLE Sprite (08bpp)";
+        static string ILibraryImageClass.Name => "RLE Sprite (08bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite08(owner);
 
         public TRLESprite08(TCustomImageLibrary owner) : base(owner)
@@ -3123,7 +3123,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (SD.PixelFormatID != FRemapPalette.PixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != GFXE_OK)
                     {
-                        throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                        throw Exception.Create("Surface pixel format not supported!");
                     }
 
                     switch (SD.PixelFormatID)
@@ -3133,7 +3133,7 @@ namespace Aow.Units.ImageLib
                             ImageLib.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
                             break;
                         default:
-                            throw Exception.Create((AnsiString)"PixelFormat not supported");
+                            throw Exception.Create("PixelFormat not supported");
                     }
                 }
 
@@ -3152,7 +3152,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (SD.PixelFormatID != FRemapPalette.PixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != GFXE_OK)
                     {
-                        throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                        throw Exception.Create("Surface pixel format not supported!");
                     }
 
                     switch (SD.PixelFormatID)
@@ -3162,7 +3162,7 @@ namespace Aow.Units.ImageLib
                             ImageLib.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
                             break;
                         default:
-                            throw Exception.Create((AnsiString)"PixelFormat not supported");
+                            throw Exception.Create("PixelFormat not supported");
                     }
                 }
             }
@@ -3379,7 +3379,7 @@ namespace Aow.Units.ImageLib
     public partial class TPicture16 : TImage16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 16;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Picture (16bpp)";
+        static string ILibraryImageClass.Name => "Picture (16bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture16(owner);
 
         public TPicture16(TCustomImageLibrary owner) : base(owner)
@@ -3670,7 +3670,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
@@ -3693,7 +3693,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
@@ -3779,14 +3779,14 @@ namespace Aow.Units.ImageLib
                             }
                             else
                             {
-                                throw Exception.Create((AnsiString)"Invalid BlendTable format");
+                                throw Exception.Create("Invalid BlendTable format");
                             }
                         }
                         else
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             if (Table.Bits == 5)
@@ -3803,7 +3803,7 @@ namespace Aow.Units.ImageLib
                             }
                             else
                             {
-                                throw Exception.Create((AnsiString)"Invalid BlendTable format");
+                                throw Exception.Create("Invalid BlendTable format");
                             }
                         }
 
@@ -3832,14 +3832,14 @@ namespace Aow.Units.ImageLib
                             }
                             else
                             {
-                                throw Exception.Create((AnsiString)"Invalid BlendTable format");
+                                throw Exception.Create("Invalid BlendTable format");
                             }
                         }
                         else
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             if (Table.Bits == 5)
@@ -3856,7 +3856,7 @@ namespace Aow.Units.ImageLib
                             }
                             else
                             {
-                                throw Exception.Create((AnsiString)"Invalid BlendTable format");
+                                throw Exception.Create("Invalid BlendTable format");
                             }
                         }
                     }
@@ -3939,7 +3939,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             if (FPixelFormatID == pfRGB565)
@@ -3976,7 +3976,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             if (FPixelFormatID == pfRGB565)
@@ -3999,7 +3999,7 @@ namespace Aow.Units.ImageLib
     public partial class TTransparentPicture16 : TPicture16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 21;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Transparent Picture (16bpp)";
+        static string ILibraryImageClass.Name => "Transparent Picture (16bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentPicture16(owner);
 
         // ImageLib.pas:2845
@@ -4021,7 +4021,7 @@ namespace Aow.Units.ImageLib
     public partial class TSprite16 : TImage16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 22;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Sprite (16bpp)";
+        static string ILibraryImageClass.Name => "Sprite (16bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TSprite16(owner);
 
         internal int FPitch;
@@ -4270,7 +4270,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
@@ -4293,7 +4293,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
@@ -4381,7 +4381,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             switch (FPixelFormatID)
@@ -4420,7 +4420,7 @@ namespace Aow.Units.ImageLib
                         {
                             if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                             {
-                                throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                                throw Exception.Create("Surface pixel format not supported!");
                             }
 
                             switch (FPixelFormatID)
@@ -4483,7 +4483,7 @@ namespace Aow.Units.ImageLib
                         var surfaceHeight = Surface.GetHeight();
                         if (RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                         {
-                            throw Exception.Create((AnsiString)"Invalid PixelFormat");
+                            throw Exception.Create("Invalid PixelFormat");
                         }
 
                         FTransparentColor = RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
@@ -4548,7 +4548,7 @@ namespace Aow.Units.ImageLib
     public partial class TRLESprite16 : TImage16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 17;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"RLE Sprite (16bpp)";
+        static string ILibraryImageClass.Name => "RLE Sprite (16bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite16(owner);
 
         internal int FColorKey;
@@ -4716,7 +4716,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                     {
-                        throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                        throw Exception.Create("Surface pixel format not supported!");
                     }
 
                     ImageLib.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
@@ -4737,7 +4737,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                     {
-                        throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                        throw Exception.Create("Surface pixel format not supported!");
                     }
 
                     ImageLib.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
@@ -4754,7 +4754,7 @@ namespace Aow.Units.ImageLib
                 LoadDiscardableImageData();
                 if (SD.PixelFormatID != FPixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != 0)
                 {
-                    throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                    throw Exception.Create("Surface pixel format not supported!");
                 }
 
                 switch (FPixelFormatID)
@@ -4776,7 +4776,7 @@ namespace Aow.Units.ImageLib
             {
                 if (SD.PixelFormatID != FPixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != 0)
                 {
-                    throw Exception.Create((AnsiString)"Surface pixel format not supported!");
+                    throw Exception.Create("Surface pixel format not supported!");
                 }
 
                 switch (FPixelFormatID)
@@ -4880,7 +4880,7 @@ namespace Aow.Units.ImageLib
                         var surfaceHeight = Surface.GetHeight();
                         if (RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                         {
-                            throw Exception.Create((AnsiString)"Invalid PixelFormat");
+                            throw Exception.Create("Invalid PixelFormat");
                         }
 
                         FColorKey = RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
@@ -4956,7 +4956,7 @@ namespace Aow.Units.ImageLib
     public partial class TTransparentRLESprite16 : TRLESprite16, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 18;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Transparent RLE Sprite (16bpp)";
+        static string ILibraryImageClass.Name => "Transparent RLE Sprite (16bpp)";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentRLESprite16(owner);
 
         // ImageLib.pas:3592
@@ -5000,7 +5000,7 @@ namespace Aow.Units.ImageLib
     public partial class TBitMask : TLibraryImage, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 19;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Bit Mask";
+        static string ILibraryImageClass.Name => "Bit Mask";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TBitMask(owner);
 
         public TBitMask(TCustomImageLibrary owner) : base(owner)
@@ -5229,7 +5229,7 @@ namespace Aow.Units.ImageLib
     public partial class TShadow : TBitMask, ILibraryImageClass
     {
         static int ILibraryImageClass.ClassID => 20;
-        static AnsiString ILibraryImageClass.Name => (AnsiString)"Shadow";
+        static string ILibraryImageClass.Name => "Shadow";
         static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TShadow(owner);
 
         // ImageLib.pas:5100
@@ -5256,7 +5256,7 @@ namespace Aow.Units.ImageLib
                         ImageLib.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                         break;
                     default:
-                        throw Exception.Create((AnsiString)"Surface format not supported");
+                        throw Exception.Create("Surface format not supported");
                 }
 
                 if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -5275,7 +5275,7 @@ namespace Aow.Units.ImageLib
                         ImageLib.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                         break;
                     default:
-                        throw Exception.Create((AnsiString)"Surface format not supported");
+                        throw Exception.Create("Surface format not supported");
                 }
             }
         }
@@ -5341,7 +5341,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6367
-        public int GetTextWidth(AnsiString Text)
+        public int GetTextWidth(string Text)
         {
             int Result;
             switch (FCharCase)
@@ -5364,11 +5364,11 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6378
-        public int GetTextHeight(AnsiString Text)
+        public int GetTextHeight(string Text)
         {
             int H;
             int C;
-            AnsiString S;
+            string S;
             switch (FCharCase)
             {
                 case TEditCharCase.ecLowerCase:
@@ -5385,7 +5385,7 @@ namespace Aow.Units.ImageLib
             H = 0;
             for (int I = 1; I <= S.Length; I++)
             {
-                C = S[I];
+                C = Cp1252.Byte(S[I - 1]);
                 if (C < FCount && this[C] != null && this[C].Height > H)
                 {
                     H = this[C].Height;
@@ -5396,7 +5396,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6399
-        public void SetText(int X, int Y, AnsiString Text, in TSurfaceDesc SD)
+        public void SetText(int X, int Y, string Text, in TSurfaceDesc SD)
         {
             switch (FCharCase)
             {
@@ -5413,9 +5413,9 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6408
-        public void SetTextCentered(int X, int Y, AnsiString Text, in TSurfaceDesc SD)
+        public void SetTextCentered(int X, int Y, string Text, in TSurfaceDesc SD)
         {
-            AnsiString S;
+            string S;
             switch (FCharCase)
             {
                 case TEditCharCase.ecNormal:
@@ -5436,10 +5436,10 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6433
-        public void SetTextEx(int X, int Y, AnsiString Text, in TSurfaceDesc SD, TSet<TSetTextModeElement> Mode, in TShowInfo ShowInfo)
+        public void SetTextEx(int X, int Y, string Text, in TSurfaceDesc SD, TSet<TSetTextModeElement> Mode, in TShowInfo ShowInfo)
         {
             int C;
-            AnsiString S;
+            string S;
             switch (FCharCase)
             {
                 case TEditCharCase.ecLowerCase:
@@ -5460,7 +5460,7 @@ namespace Aow.Units.ImageLib
 
             for (int I = 1; I <= S.Length; I++)
             {
-                C = S[I];
+                C = Cp1252.Byte(S[I - 1]);
                 if (C < FCount && this[C] != null)
                 {
                     this[C].ShowEx(X, Y, SD, ShowInfo);
@@ -5926,7 +5926,7 @@ namespace Aow.Units.ImageLib
     {
 
 
-        internal AnsiString FSearchPath;
+        internal string FSearchPath = "";
         internal TILManagerList FDiskList;
         internal TILManagerList FOwnedList;
         // ImageLib.pas:8260
@@ -5968,15 +5968,15 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:8288
         // { Lists the .ILB files of the search path and of its subdirectories in FDiskList }
-        public void ExecutePathSearch(AnsiString Path)
+        public void ExecutePathSearch(string Path)
         {
-            AnsiString Dir;
-            void SearchDirectory(AnsiString SubDirectory)
+            string Dir;
+            void SearchDirectory(string SubDirectory)
             {
                 TStringList List;
                 TSearchRec SR = default;
                 bool Found;
-                Found = FindFirst(FSearchPath + SubDirectory + (AnsiString)"*.ilb", 63 - 16, ref SR) == 0;
+                Found = FindFirst(FSearchPath + SubDirectory + "*.ilb", 63 - 16, ref SR) == 0;
                 while (Found)
                 {
                     FDiskList.AddILFile(SubDirectory + UpperCase(SR.Name));
@@ -5985,12 +5985,12 @@ namespace Aow.Units.ImageLib
 
                 FindClose(ref SR);
                 List = new TStringList();
-                Found = FindFirst(SubDirectory + (AnsiString)"*.*", 16, ref SR) == 0;
+                Found = FindFirst(SubDirectory + "*.*", 16, ref SR) == 0;
                 while (Found)
                 {
-                    if ((SR.Attr & 16) != 0 && SR.Name != AnsiString.FromBytes(46) && SR.Name != (AnsiString)"..")
+                    if ((SR.Attr & 16) != 0 && SR.Name != "." && SR.Name != "..")
                     {
-                        List.Add(SubDirectory + UpperCase(SR.Name) + AnsiString.FromBytes(92));
+                        List.Add(SubDirectory + UpperCase(SR.Name) + "\\");
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -6007,21 +6007,21 @@ namespace Aow.Units.ImageLib
 
             FDiskList.Clear();
             FSearchPath = UpperCase(Path);
-            if (FSearchPath[FSearchPath.Length] != 92)
+            if (FSearchPath[FSearchPath.Length - 1] != 92)
             {
-                FSearchPath = FSearchPath + AnsiString.FromBytes(92);
+                FSearchPath = FSearchPath + "\\";
             }
 
             Dir = GetCurrentDir();
             SetCurrentDir(Path);
-            SearchDirectory((AnsiString)"");
+            SearchDirectory("");
             SetCurrentDir(Dir);
         }
 
         // ImageLib.pas:8331
         // { A missing owned library is created empty and added. The exception for a missing library is
 //   raised and swallowed at once (it only shows in the debugger), as in the original. }
-        public TCustomImageLibrary LinkToIL(TSet<TILManagerCategoryElement> Category, AnsiString FileName)
+        public TCustomImageLibrary LinkToIL(TSet<TILManagerCategoryElement> Category, string FileName)
         {
             TCustomImageLibrary Result = null;
             if (Category.Contains(TILManagerCategoryElement.icDisk))
@@ -6043,7 +6043,7 @@ namespace Aow.Units.ImageLib
             {
                 try
                 {
-                    throw Exception.Create((AnsiString)"Missing IL Resource: " + FileName);
+                    throw Exception.Create("Missing IL Resource: " + FileName);
                 }
                 catch (System.Exception)
                 {
@@ -6054,7 +6054,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8352
-        public void ReleaseIL(TSet<TILManagerCategoryElement> Category, AnsiString FileName)
+        public void ReleaseIL(TSet<TILManagerCategoryElement> Category, string FileName)
         {
             bool Released;
             Released = false;
@@ -6085,7 +6085,7 @@ namespace Aow.Units.ImageLib
         public TILManagerList OwnedList { get => FOwnedList; }
 
         [Published]
-        public AnsiString SearchPath { get => FSearchPath; set => FSearchPath = value; }
+        public string SearchPath { get => FSearchPath; set => FSearchPath = value; }
 
     }
 
@@ -6139,7 +6139,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8126
-        public TILManagerObject AddILFile(AnsiString FileName)
+        public TILManagerObject AddILFile(string FileName)
         {
             TILManagerObject Obj;
             Obj = new TILManagerObject();
@@ -6152,9 +6152,9 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:8139
         // { Original bug: the object is deleted from the hash table instead of added, so LinkToIL never
 //   finds the owned libraries. }
-        public TILManagerObject AddILManagerObject(AnsiString Name, TCustomImageLibrary ImageLibrary)
+        public TILManagerObject AddILManagerObject(string Name, TCustomImageLibrary ImageLibrary)
         {
-            AnsiString S;
+            string S;
             TILManagerObject Obj;
             S = UpperCase(Name);
             Obj = new TILManagerObject();
@@ -6201,7 +6201,7 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:8187
         // { Links to the library of FileName (relative to the search path), loading it on the first link.
 //   The original clears FileName at the end (a second @LStrClr of the parameter). }
-        public TCustomImageLibrary LinkToIL(AnsiString FileName)
+        public TCustomImageLibrary LinkToIL(string FileName)
         {
             TCustomImageLibrary Result;
             TILManagerObject Obj;
@@ -6220,7 +6220,7 @@ namespace Aow.Units.ImageLib
                     }
                     catch (System.Exception)
                     {
-                        throw Exception.Create((AnsiString)"Error loading: " + FOwner.FSearchPath + FileName);
+                        throw Exception.Create("Error loading: " + FOwner.FSearchPath + FileName);
                     }
                 }
 
@@ -6235,7 +6235,7 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8213
-        public bool ReleaseIL(AnsiString FileName)
+        public bool ReleaseIL(string FileName)
         {
             bool Result;
             TILManagerObject Obj;
@@ -6263,7 +6263,7 @@ namespace Aow.Units.ImageLib
         public override void LoadFromStream(TStream Stream)
         {
             int N = default;
-            AnsiString Name = default;
+            string Name = "";
             TCustomImageLibrary IL;
             Stream.Read(Bytes.Of(ref N, 4));
             for (int I = 0, last = N - 1; I <= last; I++)
@@ -6299,9 +6299,9 @@ namespace Aow.Units.ImageLib
     {
         internal TImageLibraryManager FILManager;
         internal TSet<TILManagerCategoryElement> FCategory;
-        internal AnsiString FSubDirectory;
-        internal AnsiString FSkipDirectories;
-        internal AnsiString FEmptyILName;
+        internal string FSubDirectory = "";
+        internal string FSkipDirectories = "";
+        internal string FEmptyILName = "";
         // ImageLib.pas:8373
         internal void SetILManager(TImageLibraryManager Value)
         {
@@ -6310,24 +6310,24 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8379
-        internal void SetSubDirectory(AnsiString Value)
+        internal void SetSubDirectory(string Value)
         {
             FSubDirectory = UpperCase(Value);
-            if (Value != (AnsiString)"" && FSubDirectory[FSubDirectory.Length] != 92)
+            if (!IsEmpty(Value) && FSubDirectory[FSubDirectory.Length - 1] != 92)
             {
-                FSubDirectory = FSubDirectory + AnsiString.FromBytes(92);
+                FSubDirectory = FSubDirectory + "\\";
             }
         }
 
         // ImageLib.pas:8393
-        internal AnsiString GetImageLibraryName()
+        internal string GetImageLibraryName()
         {
             /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // ImageLib.pas:8401
-        internal void SetImageLibraryName(AnsiString Value)
+        internal void SetImageLibraryName(string Value)
         {
             /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new NotImplementedException();
@@ -6348,7 +6348,7 @@ namespace Aow.Units.ImageLib
             throw new NotImplementedException();
         }
 
-        public AnsiString ImageLibraryName { get => GetImageLibraryName(); set => SetImageLibraryName(value); }
+        public string ImageLibraryName { get => GetImageLibraryName(); set => SetImageLibraryName(value); }
 
         [Published]
         public TImageLibraryManager ILManager { get => FILManager; set => SetILManager(value); }
@@ -6357,13 +6357,13 @@ namespace Aow.Units.ImageLib
         public TSet<TILManagerCategoryElement> Category { get => FCategory; set => FCategory = value; }
 
         [Published]
-        public AnsiString SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
+        public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
 
         [Published]
-        public AnsiString SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
+        public string SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
 
         [Published]
-        public AnsiString EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
+        public string EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
     }
 
     // the list box version of TILManagerComboBox. FILManager, FCategory, FSubDirectory,
@@ -6372,9 +6372,9 @@ namespace Aow.Units.ImageLib
     {
         internal TImageLibraryManager FILManager;
         internal TSet<TILManagerCategoryElement> FCategory;
-        internal AnsiString FSubDirectory;
-        internal AnsiString FSkipDirectories;
-        internal AnsiString FEmptyILName;
+        internal string FSubDirectory = "";
+        internal string FSkipDirectories = "";
+        internal string FEmptyILName = "";
         // ImageLib.pas:8463
         internal void SetILManager(TImageLibraryManager Value)
         {
@@ -6383,24 +6383,24 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8469
-        internal void SetSubDirectory(AnsiString Value)
+        internal void SetSubDirectory(string Value)
         {
             FSubDirectory = UpperCase(Value);
-            if (Value != (AnsiString)"" && FSubDirectory[FSubDirectory.Length] != 92)
+            if (!IsEmpty(Value) && FSubDirectory[FSubDirectory.Length - 1] != 92)
             {
-                FSubDirectory = FSubDirectory + AnsiString.FromBytes(92);
+                FSubDirectory = FSubDirectory + "\\";
             }
         }
 
         // ImageLib.pas:8483
-        internal AnsiString GetImageLibraryName()
+        internal string GetImageLibraryName()
         {
             /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // ImageLib.pas:8491
-        internal void SetImageLibraryName(AnsiString Value)
+        internal void SetImageLibraryName(string Value)
         {
             /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new NotImplementedException();
@@ -6421,7 +6421,7 @@ namespace Aow.Units.ImageLib
             throw new NotImplementedException();
         }
 
-        public AnsiString ImageLibraryName { get => GetImageLibraryName(); set => SetImageLibraryName(value); }
+        public string ImageLibraryName { get => GetImageLibraryName(); set => SetImageLibraryName(value); }
 
         [Published]
         public TImageLibraryManager ILManager { get => FILManager; set => SetILManager(value); }
@@ -6430,13 +6430,13 @@ namespace Aow.Units.ImageLib
         public TSet<TILManagerCategoryElement> Category { get => FCategory; set => FCategory = value; }
 
         [Published]
-        public AnsiString SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
+        public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
 
         [Published]
-        public AnsiString SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
+        public string SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
 
         [Published]
-        public AnsiString EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
+        public string EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
     }
 
     public enum TSequenceMode : byte
@@ -6474,18 +6474,18 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:8918
         // { The indices with a sequence, separated by commas }
-        public AnsiString UsedIndexString()
+        public string UsedIndexString()
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
                 if (List[I] != null)
                 {
-                    Result = Result + IntToStr(I) + AnsiString.FromBytes(44);
+                    Result = Result + IntToStr(I) + ",";
                 }
             }
 
-            if (Result != (AnsiString)"")
+            if (!IsEmpty(Result))
             {
                 Result = Copy(Result, 1, Result.Length - 1);
             }
@@ -6590,14 +6590,14 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:9001
-        public void SaveToIniFile(AnsiString Section, TIniFile IniFile)
+        public void SaveToIniFile(string Section, TIniFile IniFile)
         {
             /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // ImageLib.pas:9016
-        public void LoadFromIniFile(AnsiString Section, TIniFile IniFile)
+        public void LoadFromIniFile(string Section, TIniFile IniFile)
         {
             /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
             throw new NotImplementedException();
@@ -6740,7 +6740,7 @@ namespace Aow.Units.ImageLib
                 {
                     if (S != null && Sequence.FLayer == S.FLayer)
                     {
-                        throw Exception.Create((AnsiString)"Layer does already exist");
+                        throw Exception.Create("Layer does already exist");
                     }
 
                     Prev.FNext = Sequence;
@@ -7028,7 +7028,7 @@ namespace Aow.Units.ImageLib
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             return FList[Index];
@@ -7063,7 +7063,7 @@ namespace Aow.Units.ImageLib
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -7079,7 +7079,7 @@ namespace Aow.Units.ImageLib
         {
             if (NewCapacity < FCount || NewCapacity > 134217727)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -7094,7 +7094,7 @@ namespace Aow.Units.ImageLib
         {
             if (NewCount < 0 || NewCount > 134217727)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -7159,7 +7159,7 @@ namespace Aow.Units.ImageLib
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -7175,12 +7175,12 @@ namespace Aow.Units.ImageLib
             int Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -7224,7 +7224,7 @@ namespace Aow.Units.ImageLib
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -7252,7 +7252,7 @@ namespace Aow.Units.ImageLib
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -7319,15 +7319,15 @@ namespace Aow.Units.ImageLib
 
         // ImageLib.pas:9586
         // { The items separated by commas }
-        public AnsiString GetItemString()
+        public string GetItemString()
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                Result = Result + IntToStr(FList[I]) + AnsiString.FromBytes(44);
+                Result = Result + IntToStr(FList[I]) + ",";
             }
 
-            if (Result != (AnsiString)"")
+            if (!IsEmpty(Result))
             {
                 Result = Copy(Result, 1, Result.Length - 1);
             }
@@ -7338,23 +7338,23 @@ namespace Aow.Units.ImageLib
         // ImageLib.pas:9597
         // { Reads items separated by commas; other characters than digits are dropped, an empty item
 //   is 0 }
-        public void SetItemString(AnsiString Value)
+        public void SetItemString(string Value)
         {
             int I;
             int N;
-            AnsiString S;
+            string S;
             I = Value.Length;
             for (; I >= 1; I -= 1)
             {
-                if (!TSet<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Value[I]))
+                if (!TSet<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(Value[I - 1])))
                 {
                     Value = Rtl.Rtl.Delete(Value, I, 1);
                 }
             }
 
             Clear();
-            I = Pos(AnsiString.FromBytes(44), Value);
-            while (Value != (AnsiString)"")
+            I = Pos(",", Value);
+            while (!IsEmpty(Value))
             {
                 if (I != 0)
                 {
@@ -7364,10 +7364,10 @@ namespace Aow.Units.ImageLib
                 else
                 {
                     S = Value;
-                    Value = (AnsiString)"";
+                    Value = "";
                 }
 
-                if (S != (AnsiString)"")
+                if (!IsEmpty(S))
                 {
                     N = StrToInt(S);
                 }
@@ -7377,7 +7377,7 @@ namespace Aow.Units.ImageLib
                 }
 
                 Add(N);
-                I = Pos(AnsiString.FromBytes(44), Value);
+                I = Pos(",", Value);
             }
         }
 
@@ -7388,10 +7388,10 @@ namespace Aow.Units.ImageLib
 
         public Ptr<int> List { get => FList; }
         public int DefaultValue { get => FDefaultValue; set => FDefaultValue = value; }
-        public AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
+        public string ItemString { get => GetItemString(); set => SetItemString(value); }
 
         // ImageLib.pas:9401
-        public static void Error(AnsiString Msg, int Data)
+        public static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -7411,7 +7411,7 @@ namespace Aow.Units.ImageLib
         internal byte FLayer;
         internal TImageSequence FNext;
         internal TCustomImageLibrary FImageLibrary;
-        internal AnsiString FImageLibraryName;
+        internal string FImageLibraryName = "";
         internal byte FSequenceSpeed;
         internal TSequenceMode FSequenceMode;
         internal TFrameTableList FFrameTable;
@@ -7422,7 +7422,7 @@ namespace Aow.Units.ImageLib
         internal byte FSpeedCount;
         internal int FFrameCounter;
         // ImageLib.pas:8606
-        internal void SetImageLibraryName(AnsiString Value)
+        internal void SetImageLibraryName(string Value)
         {
             ReleaseIL();
             FImageLibraryName = Value;
@@ -7789,7 +7789,7 @@ namespace Aow.Units.ImageLib
                 ReleaseIL();
             }
 
-            if (FImageLibraryName != (AnsiString)"")
+            if (!IsEmpty(FImageLibraryName))
             {
                 FImageLibrary = FOwner.FILManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
             }
@@ -7804,7 +7804,7 @@ namespace Aow.Units.ImageLib
         {
             if (FImageLibrary != null)
             {
-                if (FImageLibraryName != (AnsiString)"")
+                if (!IsEmpty(FImageLibraryName))
                 {
                     FOwner.FILManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
                 }
@@ -7869,14 +7869,14 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:8865
-        public void SaveToIniFile(AnsiString Section, TIniFile IniFile)
+        public void SaveToIniFile(string Section, TIniFile IniFile)
         {
             /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // ImageLib.pas:8880
-        public void LoadFromIniFile(AnsiString Section, TIniFile IniFile)
+        public void LoadFromIniFile(string Section, TIniFile IniFile)
         {
             /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
             throw new NotImplementedException();
@@ -7886,7 +7886,7 @@ namespace Aow.Units.ImageLib
         public byte Layer { get => FLayer; set => FLayer = value; }
         public TImageSequence Next { get => FNext; set => FNext = value; }
         public TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
-        public AnsiString ImageLibraryName { get => FImageLibraryName; set => SetImageLibraryName(value); }
+        public string ImageLibraryName { get => FImageLibraryName; set => SetImageLibraryName(value); }
         public byte SequenceSpeed { get => FSequenceSpeed; set => FSequenceSpeed = value; }
         public byte SpeedCount { get => FSpeedCount; }
         public TSequenceMode SequenceMode { get => FSequenceMode; set => SetSequenceMode(value); }
@@ -7911,7 +7911,7 @@ namespace Aow.Units.ImageLib
     {
         [FieldOffset(0)]
         public FixedArray_byte_5 ID__image;
-        public AnsiString ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
+        public string ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
         [FieldOffset(8)]
         public float Version;
@@ -7937,7 +7937,7 @@ namespace Aow.Units.ImageLib
         public override TSet<TPropertyAttribute> GetAttributes() => TSet<TPropertyAttribute>.Of(TPropertyAttribute.paDialog, TPropertyAttribute.paRevertable);
 
         // ImageLib.pas:10663
-        public override AnsiString GetValue()
+        public override string GetValue()
         {
             /* TODO: Implement DsgnIntf.GetValue in the platform or editor service. */
             throw new NotImplementedException();
@@ -8210,45 +8210,45 @@ namespace Aow.Units.ImageLib
         }
 
         // ImageLib.pas:6458
-        public static void ParseFontText(AnsiString Text, TStrings Strings, TImageLibraryFont Font, int MaxWidth)
+        public static void ParseFontText(string Text, TStrings Strings, TImageLibraryFont Font, int MaxWidth)
         {
             int I;
             int J;
             int W;
             int Len;
             int LineWidth;
-            AnsiString Word;
-            AnsiString Line;
+            string Word;
+            string Line;
             I = 1;
             LineWidth = 0;
-            Line = (AnsiString)"";
+            Line = "";
             Len = Text.Length;
             while (I <= Len)
             {
-                if (TSet<byte>.WithBounds(0, 255).With(13).With(32).Contains(Text[I]))
+                if (TSet<byte>.WithBounds(0, 255).With(13).With(32).Contains(Cp1252.Byte(Text[I - 1])))
                 {
                     I += 1;
                 }
 
                 J = 0;
-                while (I + J <= Len && !TSet<byte>.WithBounds(0, 255).With(10).With(13).With(32).Contains(Text[I + J]))
+                while (I + J <= Len && !TSet<byte>.WithBounds(0, 255).With(10).With(13).With(32).Contains(Cp1252.Byte(Text[I + J - 1])))
                 {
                     J += 1;
                 }
 
                 Word = Copy(Text, I, J);
                 W = Font.GetTextWidth(Word);
-                if (LineWidth + W > MaxWidth && Line != (AnsiString)"")
+                if (LineWidth + W > MaxWidth && !IsEmpty(Line))
                 {
                     Strings.Add(Line);
-                    Line = (AnsiString)"";
+                    Line = "";
                     LineWidth = 0;
                 }
 
-                if (Line != (AnsiString)"")
+                if (!IsEmpty(Line))
                 {
-                    Line = Line + AnsiString.FromBytes(32) + Word;
-                    LineWidth = LineWidth + W + Font.GetTextWidth(AnsiString.FromBytes(32));
+                    Line = Line + " " + Word;
+                    LineWidth = LineWidth + W + Font.GetTextWidth(" ");
                 }
                 else
                 {
@@ -8256,10 +8256,10 @@ namespace Aow.Units.ImageLib
                     LineWidth += W;
                 }
 
-                if (I + J <= Len && Text[I + J] == 10)
+                if (I + J <= Len && Text[I + J - 1] == 10)
                 {
                     Strings.Add(Line);
-                    Line = (AnsiString)"";
+                    Line = "";
                     LineWidth = 0;
                     I += 1;
                 }
@@ -8267,7 +8267,7 @@ namespace Aow.Units.ImageLib
                 I += J;
             }
 
-            if (Line != (AnsiString)"")
+            if (!IsEmpty(Line))
             {
                 Strings.Add(Line);
             }
@@ -8317,7 +8317,7 @@ namespace Aow.Units.ImageLib
                 }
                 else
                 {
-                    throw Exception.Create((AnsiString)"Image ClassID is already used (" + (AnsiString)AClasses[I].ClassName + AnsiString.FromBytes(41));
+                    throw Exception.Create("Image ClassID is already used (" + AClasses[I].ClassName + ")");
                 }
             }
         }
@@ -8406,33 +8406,33 @@ namespace Aow.Units.ImageLib
         }
 
         // { The directory library file names are relative to at run time (the program's directory) }
-        public static AnsiString BaseImageLibraryPath;
+        public static string BaseImageLibraryPath = "";
         // { Access to the lookup tables of a GFXE blend table collection: the original reads the
 //     array directly (GFXE.TLookupBlendTableCollection100 +8), which the GFXE source declares
 //     private. }
         public static TList LibraryImageClasses;
         // ImageLib.pas:1266
         // { The strings of the image sequences: a length and the characters }
-        public static void WriteStringToStream(AnsiString S, TStream Stream)
+        public static void WriteStringToStream(string S, TStream Stream)
         {
             int L;
             L = S.Length;
             Stream.Write(Bytes.Of(ref L, 4));
-            Stream.Write(StringBytes(S).Slice(0, L));
+            Stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, L));
         }
 
         // ImageLib.pas:1275
-        public static void ReadStringFromStream(ref AnsiString S, TStream Stream)
+        public static void ReadStringFromStream(ref string S, TStream Stream)
         {
             int L = default;
             Stream.Read(Bytes.Of(ref L, 4));
             if (L < 0) throw new ERangeError("Negative string length");
             byte[] buffer = new byte[L];
-            StringBytes(S)[..Math.Min(S.Length, L)].CopyTo(buffer);
+            Cp1252.Encode(S)[..Math.Min(S.Length, L)].CopyTo(buffer);
             // A failed read leaves the resized value in the destination.
-            S = AnsiString.FromBytes(buffer);
+            S = Cp1252.Decode(buffer);
             Stream.Read(buffer);
-            S = AnsiString.FromBytes(buffer);
+            S = Cp1252.Decode(buffer);
         }
 
         // ImageLib.pas:6568

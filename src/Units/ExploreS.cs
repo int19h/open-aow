@@ -225,7 +225,7 @@ namespace Aow.Units.ExploreS
                         Combat.Deactivate();
                         Combat.Finalize();
                         var name = GetName();
-                        Combat.FLogbook.FFinalData.FHeader = name + AnsiString.FromBytes(32) + Combat.FLogbook.FFinalData.FHeader;
+                        Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                         Event = new TCombatEventLog(null);
                         Event.SetCombatLogbook(Combat.FLogbook);
                         AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
@@ -250,7 +250,7 @@ namespace Aow.Units.ExploreS
                             Combat.Deactivate();
                             Combat.Finalize();
                             var name = GetName();
-                            Combat.FLogbook.FFinalData.FHeader = name + AnsiString.FromBytes(32) + Combat.FLogbook.FFinalData.FHeader;
+                            Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                             Event = new TCombatEventLog(null);
                             Event.SetCombatLogbook(Combat.FLogbook);
                             AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
@@ -472,7 +472,7 @@ namespace Aow.Units.ExploreS
 
 
         // ExploreS.pas:370
-        public override AnsiString ResourceEditName() => (AnsiString)"";
+        public override string ResourceEditName() => "";
 
     }
 

@@ -44,7 +44,7 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
             return;
         }
         int before = hero.FCastingSpellID, required = hero.FCastingProgress;
-        AnsiString reason = default;
+        string reason = "";
         bool accepted = hero.CastSpell(spell, ref reason);
         bool started = !accepted && reason.Length == 0 && before == 0 && hero.ExecuteStartCasting(spell);
         GlobalRequests.Add(new { accepted, started, reason = reason.Length != 0,

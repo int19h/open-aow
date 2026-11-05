@@ -100,8 +100,8 @@ public sealed class EngineStateAttribute : BeforeAfterTestAttribute
     private ISettingsStore? settings;
     private IDialogService? dialogs;
     private IClock clock = null!;
-    private AnsiString exe;
-    private Action<AnsiString> message = null!;
+    private string exe = "";
+    private Action<string> message = null!;
     public override void Before(MethodInfo methodUnderTest)
     {
         files = Runtime.Files; settings = Runtime.Settings; dialogs = Runtime.Dialogs;

@@ -27,7 +27,7 @@ namespace Aow.Units.aowSetupEvents
         public void ClearChat()
         {
             ChatWindow.ChatMemo.Items.Clear();
-            ChatWindow.ChatEdit.Text = (AnsiString)"";
+            ChatWindow.ChatEdit.Text = "";
         }
 
         // aowSetupEvents.pas:67
@@ -52,7 +52,7 @@ namespace Aow.Units.aowSetupEvents
         }
 
         // aowSetupEvents.pas:84
-        public void UpdatePlayerName(AnsiString Name)
+        public void UpdatePlayerName(string Name)
         {
             /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
             throw new NotImplementedException();
@@ -79,10 +79,10 @@ namespace Aow.Units.aowSetupEvents
         }
 
         // aowSetupEvents.pas:111
-        public void DPlayFileStartMessage(int ID, ref AnsiString Name, int Size, ref byte Response)
+        public void DPlayFileStartMessage(int ID, ref string Name, int Size, ref byte Response)
         {
-            ProgressDialog.StatusLbl.Text = (AnsiString)"0k of " + IntToStr(Size / 1000) + AnsiString.FromBytes(107);
-            ProgressDialog.Title.Text = (AnsiString)"Receiving File";
+            ProgressDialog.StatusLbl.Text = "0k of " + IntToStr(Size / 1000) + "k";
+            ProgressDialog.Title.Text = "Receiving File";
             ProgressDialog.Bar.Max = Size;
             ProgressDialog.Bar.Position = 0;
         }
@@ -99,13 +99,13 @@ namespace Aow.Units.aowSetupEvents
         {
             if (Position > ProgressDialog.Bar.Position)
             {
-                ProgressDialog.StatusLbl.Text = IntToStr(Position / 1000) + (AnsiString)"k of " + IntToStr(Size / 1000) + AnsiString.FromBytes(107);
+                ProgressDialog.StatusLbl.Text = IntToStr(Position / 1000) + "k of " + IntToStr(Size / 1000) + "k";
                 ProgressDialog.Bar.Position = Position;
             }
         }
 
         // aowSetupEvents.pas:134
-        public void DPlayChatMessage(ref AnsiString Message, ref int ToID, ref int FromID)
+        public void DPlayChatMessage(ref string Message, ref int ToID, ref int FromID)
         {
             if (ScenSetup.ScenSetupPnl.Visible)
             {
@@ -117,7 +117,7 @@ namespace Aow.Units.aowSetupEvents
                 ChatWindow.ChatMemo.Items.Add(Message);
                 TBWindow.FChatFlash = 136;
                 ChatWindow.FScrollPending = true;
-                PlaySample((AnsiString)"SFX\\EVENTS\\CHAT.WAV");
+                PlaySample("SFX\\EVENTS\\CHAT.WAV");
             }
         }
 
@@ -137,7 +137,7 @@ namespace Aow.Units.aowSetupEvents
                 ResetMessageDialog(MessageDlg);
                 var warning = TranslateRStr(E2Globals.E2Globals.WarningRStr);
                 MessageDlg.TitleLbl.Text = warning;
-                MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                MessageDlg.MessageMemo.Items.Add("");
                 var youWereEjectedByTheHost = TranslateRStr(YouWereEjectedByTheHostRStr);
                 MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
                 MessageDlg.OKPnl.Visible = true;
@@ -162,12 +162,12 @@ namespace Aow.Units.aowSetupEvents
         }
 
         // aowSetupEvents.pas:195
-        public void SetupControlLoadMap(TSetupControl Control, AnsiString FileName)
+        public void SetupControlLoadMap(TSetupControl Control, string FileName)
         {
             var fileName = ExtractFileName(FileName);
             var format = AoWE.AoWE.Format(TranslateRStr(LoadingXRStr), [fileName]);
             ProgressDialog.Title.Text = format;
-            ProgressDialog.StatusLbl.Text = (AnsiString)"";
+            ProgressDialog.StatusLbl.Text = "";
             ProgressDialog.Bar.Position = 0;
             ProgressDialog.Bar.Max = 100;
             ProgressDialog.ProgDlg.Visible = true;
@@ -183,7 +183,7 @@ namespace Aow.Units.aowSetupEvents
             {
                 AoWEngine.LoadHSMfromStream(Control.FStream, false, General.MapProgress);
                 var fileName2 = ExtractFileName(FileName);
-                AoWHSMap.FileName = AoWEngine.StartupDirectory + (AnsiString)"Scenario\\" + fileName2;
+                AoWHSMap.FileName = AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
             }
             else
             {
@@ -262,8 +262,8 @@ namespace Aow.Units.aowSetupEvents
         {
             General.Manager.OverlayPriority = 5000;
             ProgressDialog.ProgDlg.Visible = true;
-            ProgressDialog.Title.Text = (AnsiString)"Transferring Files...";
-            ProgressDialog.StatusLbl.Text = (AnsiString)"Please Wait";
+            ProgressDialog.Title.Text = "Transferring Files...";
+            ProgressDialog.StatusLbl.Text = "Please Wait";
             ProgressDialog.Bar.Position = 0;
         }
 

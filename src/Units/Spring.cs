@@ -90,7 +90,7 @@ namespace Aow.Units.Spring
 
             if (condition)
             {
-                PlaySample((AnsiString)"SFX\\ATTACK\\ENCHP02.WAV");
+                PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var lhx2 = GetLhx();
@@ -135,7 +135,7 @@ namespace Aow.Units.Spring
 
 
         // Spring.pas:126
-        public override AnsiString ResourceEditName() => TranslateRStr(SpringOfLifeRStr);
+        public override string ResourceEditName() => TranslateRStr(SpringOfLifeRStr);
 
     }
 

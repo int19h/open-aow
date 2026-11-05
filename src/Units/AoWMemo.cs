@@ -129,7 +129,7 @@ namespace Aow.Units.AoWMemo
             int Len;
             int W;
             ReadOnlySpan<byte> text;
-            AnsiString S;
+            string S;
             int J;
             int Start;
             int TW;
@@ -185,7 +185,7 @@ namespace Aow.Units.AoWMemo
             FLines.Clear();
             for (int I = 0, last = FItems.Count - 1; I <= last; I++)
             {
-                FLines.Add((AnsiString)"");
+                FLines.Add("");
                 var colorChange = new TColorChange();
                 FColorList.Add(colorChange);
                 J = 0;
@@ -199,8 +199,8 @@ namespace Aow.Units.AoWMemo
                     W = FBorderWidth * 2;
                 }
 
-                AnsiString item = NullTerminatedText(FItems[I]);
-                text = StringBytes(item);
+                string item = NullTerminatedText(FItems[I]);
+                text = Cp1252.Encode(item);
                 Len = text.Length;
                 if (Len > 6 && text[0] == FColorChangeChar)
                 {
@@ -209,7 +209,7 @@ namespace Aow.Units.AoWMemo
                     try
                     {
                         var item2 = FItems[I];
-                        CC.FColor = StrToInt(AnsiString.FromBytes(36) + Copy(item2, 2, 6));
+                        CC.FColor = StrToInt("$" + Copy(item2, 2, 6));
                     }
                     catch (System.Exception)
                     {
@@ -506,7 +506,7 @@ namespace Aow.Units.AoWMemo
                     {
                         var line = FLines[FCurLine];
                         var textWidth = FAOWFont.GetTextWidth(Copy(line, 1, FCurCol));
-                        FAOWFont.SetText(FBorderWidth + X + textWidth, FBorderHeight + Y + (FCurLine - FTopItem) * FItemHeight, AnsiString.FromBytes(FCursorChar), SurfDesc);
+                        FAOWFont.SetText(FBorderWidth + X + textWidth, FBorderHeight + Y + (FCurLine - FTopItem) * FItemHeight, Cp1252.Text(FCursorChar), SurfDesc);
                     }
 
                     if (FOnDraw != null)
@@ -517,7 +517,7 @@ namespace Aow.Units.AoWMemo
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -599,7 +599,7 @@ namespace Aow.Units.AoWMemo
                     case 13:
                         if (FLines[FCurLine].Length == FCurCol)
                         {
-                            FItems.Insert(FRealLine + 1, (AnsiString)"");
+                            FItems.Insert(FRealLine + 1, "");
                             var item = FItems[FRealLine];
                             FItems[FRealLine] = Copy(item, 1, FRealCol + 1);
                         }
@@ -628,14 +628,14 @@ namespace Aow.Units.AoWMemo
                             var itemLength = FItems[FRealLine];
                             var item = FItems[FRealLine];
                             var item2 = FItems[FRealLine];
-                            FItems[FRealLine] = Copy(item2, 1, FRealCol + 1) + AnsiString.FromBytes(C) + Copy(item, FRealCol + 2, itemLength.Length - FRealCol);
+                            FItems[FRealLine] = Copy(item2, 1, FRealCol + 1) + Cp1252.Text(C) + Copy(item, FRealCol + 2, itemLength.Length - FRealCol);
                         }
                         else
                         {
                             var itemLength = FItems[FRealLine];
                             var item = FItems[FRealLine];
                             var item2 = FItems[FRealLine];
-                            FItems[FRealLine] = Copy(item2, 1, FRealCol) + AnsiString.FromBytes(C) + Copy(item, FRealCol + 1, itemLength.Length - FRealCol);
+                            FItems[FRealLine] = Copy(item2, 1, FRealCol) + Cp1252.Text(C) + Copy(item, FRealCol + 1, itemLength.Length - FRealCol);
                         }
 
                         FRealCol += 1;
@@ -1059,7 +1059,7 @@ namespace Aow.Units.AoWMemo
         // AoWMemo.pas:864
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWMemo)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWMemo)]);
         }
     }
 }

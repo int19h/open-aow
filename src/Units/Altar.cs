@@ -52,7 +52,7 @@ namespace Aow.Units.Altar
         // Altar.pas:78
         public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             TExecuteResult Result = base.ExecuteTE(A1, Executer);
             if (A1.FAction == 0)
             {
@@ -101,13 +101,13 @@ namespace Aow.Units.Altar
         }
 
         // Altar.pas:70
-        public override AnsiString GetCurrentActivityText()
+        public override string GetCurrentActivityText()
         {
-            AnsiString Result;
+            string Result;
             if (GetRechargeDays() != FRechargeDays)
             {
                 var fmtDaysLeftStr = FmtDaysLeftStr(GetRechargeDays() - FRechargeDays);
-                Result = TranslateRStr(ChargingRStr) + (AnsiString)" (" + fmtDaysLeftStr + AnsiString.FromBytes(41);
+                Result = TranslateRStr(ChargingRStr) + " (" + fmtDaysLeftStr + ")";
             }
             else
             {
@@ -193,7 +193,7 @@ namespace Aow.Units.Altar
         public virtual bool StormTargetSelected(sbyte X, sbyte Y, sbyte L)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TStructureTE Event;
             if (CanTarget(ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
@@ -217,7 +217,7 @@ namespace Aow.Units.Altar
         public virtual byte GetRechargeDays() => 10;
 
         // Altar.pas:153
-        public virtual bool CanTarget(ref AnsiString Reason)
+        public virtual bool CanTarget(ref string Reason)
         {
             bool Result;
             if (TargetMana() <= AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana)
@@ -238,7 +238,7 @@ namespace Aow.Units.Altar
         {
             bool Result = default;
             TTargetSelectionControl Selection = default;
-            AnsiString Reason = default;
+            string Reason = "";
             Selection = AoWHSMap.FTargetSelection;
             if (!GetRazed() && FPlayer >= 0 && TargetMana() <= AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana && CanTarget(ref Reason) && FStorm == null)
             {
@@ -348,7 +348,7 @@ namespace Aow.Units.Altar
 
 
         // Altar.pas:304
-        public override AnsiString ResourceEditName() => (AnsiString)"";
+        public override string ResourceEditName() => "";
 
     }
 

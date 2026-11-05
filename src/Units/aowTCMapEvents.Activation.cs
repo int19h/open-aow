@@ -19,20 +19,20 @@ namespace Aow.Units.aowTCMapEvents
             SongPlayer.Pause(false);
             if (AoWEngine.FDemo)
             {
-                PlaySongEx((AnsiString)"Songs\\Combat\\Defend.IT", 2, 0, true);
+                PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
             }
             else
             {
                 switch (Random(3))
                 {
                     case 0:
-                        PlaySongEx((AnsiString)"Songs\\Combat\\Defend.IT", 2, 0, true);
+                        PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
                         break;
                     case 1:
-                        PlaySongEx((AnsiString)"Songs\\Combat\\Outnum.IT", 2, 0, true);
+                        PlaySongEx("Songs\\Combat\\Outnum.IT", 2, 0, true);
                         break;
                     case 2:
-                        PlaySongEx((AnsiString)"Songs\\Combat\\Races.IT", 2, 0, true);
+                        PlaySongEx("Songs\\Combat\\Races.IT", 2, 0, true);
                         break;
                 }
             }

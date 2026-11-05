@@ -186,7 +186,7 @@ namespace Aow.Units.AoWImage
         // AoWImage.pas:208
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWImage)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWImage)]);
         }
     }
 }

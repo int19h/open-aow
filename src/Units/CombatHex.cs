@@ -276,7 +276,7 @@ namespace Aow.Units.CombatHex
 
             if (Msg.MsgID == 536870920)
             {
-                FTransitionLibrary = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TCombat\\Base_Hex\\CTransHx.ILB");
+                FTransitionLibrary = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 
@@ -304,7 +304,7 @@ namespace Aow.Units.CombatHex
         public override THexagonControl GetHexagonControl() => ((TAoWHSSet)Engine.HSSet).FCombatHexagons;
 
         // CombatHex.pas:188
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Hexagon";
+        public override string ResourceEditName() => "Combat Hexagon";
 
     }
 
@@ -336,7 +336,7 @@ namespace Aow.Units.CombatHex
         public override THexagonControl GetHexagonControl() => ((TAoWHSSet)Engine.HSSet).FCombatHexagons;
 
         // CombatHex.pas:225
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Water/Ice hex";
+        public override string ResourceEditName() => "Combat Water/Ice hex";
 
     }
 

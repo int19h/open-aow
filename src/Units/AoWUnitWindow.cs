@@ -481,7 +481,7 @@ namespace Aow.Units.AoWUnitWindow
         public void UseAbility()
         {
             TAbility A;
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
             A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
@@ -497,7 +497,7 @@ namespace Aow.Units.AoWUnitWindow
                         }
                         else
                         {
-                            if (Reason != (AnsiString)"")
+                            if (!IsEmpty(Reason))
                             {
                                 AoWHSMap.ShowWarning(Reason);
                             }
@@ -521,7 +521,7 @@ namespace Aow.Units.AoWUnitWindow
         // AoWUnitWindow.pas:676
         public void UseItemClick(TObject Sender)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (AoWUnitWindow.SelectedItem != null && General.FSelectedUnit is THero)
             {
@@ -822,21 +822,21 @@ namespace Aow.Units.AoWUnitWindow
     {
         public static TUnitWindow UnitWindow;
         public static TAOWCheckBox SelectedItem;
-        public static readonly AnsiString AbilitiesRStr = (AnsiString)"Abilities";
-        public static readonly AnsiString InfoRStr = (AnsiString)"Info";
-        public static readonly AnsiString NoneRStr = (AnsiString)"None";
-        public static readonly AnsiString CreatureRStr = (AnsiString)"Creature";
-        public static readonly AnsiString MachineRStr = (AnsiString)"Machine";
-        public static readonly AnsiString UnitRStr = (AnsiString)"Unit";
-        public static readonly AnsiString LeaderRStr = (AnsiString)"Leader";
-        public static readonly AnsiString HeroRStr = (AnsiString)"Hero";
-        public static readonly AnsiString NoLeaderRStr = (AnsiString)"Hero has no Leader";
-        public static readonly AnsiString LeaderSpheresRStr = (AnsiString)"Leaders magic spheres";
-        public static readonly AnsiString ItemsRStr = (AnsiString)"Items";
-        public static readonly AnsiString LevelRStr = (AnsiString)"Level";
-        public static readonly AnsiString ExpRStr = (AnsiString)"Exp";
+        public static readonly string AbilitiesRStr = "Abilities";
+        public static readonly string InfoRStr = "Info";
+        public static readonly string NoneRStr = "None";
+        public static readonly string CreatureRStr = "Creature";
+        public static readonly string MachineRStr = "Machine";
+        public static readonly string UnitRStr = "Unit";
+        public static readonly string LeaderRStr = "Leader";
+        public static readonly string HeroRStr = "Hero";
+        public static readonly string NoLeaderRStr = "Hero has no Leader";
+        public static readonly string LeaderSpheresRStr = "Leaders magic spheres";
+        public static readonly string ItemsRStr = "Items";
+        public static readonly string LevelRStr = "Level";
+        public static readonly string ExpRStr = "Exp";
         // AoWUnitWindow.pas:220
-        public static int CompareUnitAbilities(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
+        public static int CompareUnitAbilities(string S1, string S2, TObject O1, TObject O2)
         {
             TAbility A1;
             TAbility A2;

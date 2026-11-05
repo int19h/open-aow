@@ -64,7 +64,7 @@ namespace Aow.Units.E2GameFlow
         }
 
         // E2GameFlow.pas:632
-        public static void ConfirmDialog(TDWin Dialog, AnsiString Title, AnsiString Message, byte Kind)
+        public static void ConfirmDialog(TDWin Dialog, string Title, string Message, byte Kind)
         {
             Dialog.FAction = Kind;
             Dialog.DTitle.Text = Title;
@@ -217,8 +217,8 @@ namespace Aow.Units.E2GameFlow
         public static void UpdateScenarioSetup(TScenSetup Setup)
         {
             int HostIndex;
-            AnsiString HostName;
-            AnsiString Connection;
+            string HostName;
+            string Connection;
             TRemotePlayer Player;
             TSetupControl Control;
             if (Setup.FSetupControl != null)
@@ -242,7 +242,7 @@ namespace Aow.Units.E2GameFlow
                         Setup.PreferredRaceList.Items.Add(none);
                     }
 
-                    Setup.PingList.Items.AddObject((AnsiString)"", IntToObject(Player.FRemoteID));
+                    Setup.PingList.Items.AddObject("", IntToObject(Player.FRemoteID));
                 }
 
                 var count = Setup.PlayerList.Items.Count;
@@ -345,7 +345,7 @@ namespace Aow.Units.E2GameFlow
                             Connection = TranslateRStr(SerialRStr);
                             break;
                         default:
-                            Connection = (AnsiString)"";
+                            Connection = "";
                             break;
                     }
 
@@ -358,7 +358,7 @@ namespace Aow.Units.E2GameFlow
                     }
                     else
                     {
-                        HostName = AnsiString.FromBytes(63);
+                        HostName = "?";
                     }
 
                     Setup.HostNameLbl.Visible = true;
@@ -407,12 +407,12 @@ namespace Aow.Units.E2GameFlow
             switch (Dialog.FFaction)
             {
                 case 0:
-                    LoadWorldCampaign(WorldMap, (AnsiString)"Keepers.cam");
+                    LoadWorldCampaign(WorldMap, "Keepers.cam");
                     Dialog.CharGenPnl.ILIndexTexture = 10;
                     AoWHSSet.FTextControl.RetrieveText(10, Lines);
                     break;
                 case 1:
-                    LoadWorldCampaign(WorldMap, (AnsiString)"Storm.cam");
+                    LoadWorldCampaign(WorldMap, "Storm.cam");
                     Dialog.CharGenPnl.ILIndexTexture = 11;
                     AoWHSSet.FTextControl.RetrieveText(11, Lines);
                     break;
@@ -423,7 +423,7 @@ namespace Aow.Units.E2GameFlow
             var path = GetCampaignScenario(Campaign, 0).FPaths[0];
             Index = Campaign.FScenarios.IndexOfID(path);
             var campaignScenario = GetCampaignScenario(WorldMap.GetCampaign(), Index);
-            Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + (AnsiString)"Scenario\\Campaign\\" + campaignScenario.FFileName);
+            Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName);
             I = 0;
             // { Original uses the preview map child count as the player-search bound. }
             while (I < Preview.Count && (int)Preview.FPlayers.GetPlayers(I).FPlayerType != 0)
@@ -438,7 +438,7 @@ namespace Aow.Units.E2GameFlow
         }
 
         // E2GameFlow.pas:498
-        public static void LoadGame(TGeneral Controller, AnsiString FileName)
+        public static void LoadGame(TGeneral Controller, string FileName)
         {
             if (AoWHSMap != null)
             {
@@ -447,8 +447,8 @@ namespace Aow.Units.E2GameFlow
 
             var loading = TranslateRStr(LoadingRStr);
             var fileName = ExtractFileName(FileName);
-            ProgressDialog.Title.Text = loading + (AnsiString)": " + fileName + (AnsiString)"...";
-            ProgressDialog.StatusLbl.Text = (AnsiString)"";
+            ProgressDialog.Title.Text = loading + ": " + fileName + "...";
+            ProgressDialog.StatusLbl.Text = "";
             ProgressDialog.Bar.Position = 0;
             ProgressDialog.Bar.Max = 100;
             ProgressDialog.ProgDlg.Visible = true;
@@ -495,7 +495,7 @@ namespace Aow.Units.E2GameFlow
                 }
                 else
                 {
-                    SongPlayer.Songs.Add((AnsiString)"Songs\\Heartwoo.it");
+                    SongPlayer.Songs.Add("Songs\\Heartwoo.it");
                 }
             }
 
@@ -619,9 +619,9 @@ namespace Aow.Units.E2GameFlow
         }
 
         // E2GameFlow.pas:40
-        public static void LoadWorldCampaign(TWorldMap Dialog, AnsiString Name)
+        public static void LoadWorldCampaign(TWorldMap Dialog, string Name)
         {
-            AoWEngine.LoadCampaign(AoWEngine.StartupDirectory + (AnsiString)"Scenario\\Campaign\\" + Name);
+            AoWEngine.LoadCampaign(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name);
         }
 
         // E2GameFlow.pas:87
@@ -690,7 +690,7 @@ namespace Aow.Units.E2GameFlow
                     }
                 }
 
-                Info.Text = (AnsiString)"";
+                Info.Text = "";
                 Info.Visible = Setup.FSetupControl.GetRemote() || Settings.FStatus.Contains(TPlayerSetupStatusElement.pssFixed);
                 if (Info.Visible)
                 {
@@ -797,7 +797,7 @@ namespace Aow.Units.E2GameFlow
             TitleWindow.TitleWin.Visible = true;
             Setup.ScenSetupPnl.Visible = true;
             Setup.ChatMemo.Items.Clear();
-            Setup.ChatEdit.Text = (AnsiString)"";
+            Setup.ChatEdit.Text = "";
             Setup.FValidateDelay = 100;
             Setup.FPingDelay = 15;
             var remote = Setup.FSetupControl.GetRemote();
@@ -806,7 +806,7 @@ namespace Aow.Units.E2GameFlow
             Setup.ChatMemo.CaptureInput = fSetupControlRemote;
             var remote2 = Setup.FSetupControl.GetRemote();
             Setup.ChatEdit.CaptureInput = remote2;
-            if (Setup.FSetupControl.GetHost() && Setup.FSetupControl.FSettings.FMapName == (AnsiString)"")
+            if (Setup.FSetupControl.GetHost() && IsEmpty(Setup.FSetupControl.FSettings.FMapName))
             {
                 Setup.PickMap();
             }
@@ -855,10 +855,10 @@ namespace Aow.Units.E2GameFlow
                 condition = SongPlayer.CurrentIndex < count;
             }
 
-            if (!(condition && SongPlayer.Songs[SongPlayer.CurrentIndex] == (AnsiString)"SONGS\\TITLE.IT"))
+            if (!(condition && SongPlayer.Songs[SongPlayer.CurrentIndex] == "SONGS\\TITLE.IT"))
             {
                 SongPlayer.Songs.Clear();
-                SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
+                SongPlayer.Songs.Add("SONGS\\TITLE.IT");
                 SongPlayer.Play(0);
             }
 

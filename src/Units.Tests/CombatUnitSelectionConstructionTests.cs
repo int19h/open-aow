@@ -30,7 +30,7 @@ public sealed class CombatUnitSelectionConstructionTests
         for (int fail = 0; fail < 2; fail++)
         {
             using var fixture = new OrderingRecording.Fixture();
-            var entry = fixture.Manager.FDiskList.AddILFile((AnsiString)"TargHex.ILB");
+            var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
             entry.FImageLibrary = new TImageLibrary(null!);
             var set = Game.AoWHSSet;
             if (fail == 1) Game.AoWHSSet = null!;

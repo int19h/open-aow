@@ -27,7 +27,7 @@ namespace Aow.Units.WorkShop
         public override int ResourceUserClassID() => 2229512;
 
         // WorkShop.pas:42
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Workshop";
+        public override string ResourceEditName() => "Combat Workshop";
 
     }
 

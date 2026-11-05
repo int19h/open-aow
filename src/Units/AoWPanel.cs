@@ -208,7 +208,7 @@ namespace Aow.Units.AoWPanel
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Setup", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Setup", "Error - " + Name, 0);
             }
         }
 
@@ -568,7 +568,7 @@ namespace Aow.Units.AoWPanel
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -815,7 +815,7 @@ namespace Aow.Units.AoWPanel
         // AoWPanel.pas:643
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWPanel)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWPanel)]);
         }
     }
 }

@@ -142,7 +142,7 @@ namespace Aow.Units.AoWTitleScene
             int Frame;
             int Opacity;
             TShowInfo Info = default;
-            AnsiString Text = default;
+            string Text = "";
             FIntroFrame += 1;
             X = Surface.Width / 2;
             Y = Surface.Height / 2;
@@ -175,7 +175,7 @@ namespace Aow.Units.AoWTitleScene
                         Text = TranslateRStr(CoPublishedByRStr);
                         break;
                     case 2:
-                        Text = (AnsiString)"";
+                        Text = "";
                         break;
                 }
 
@@ -253,11 +253,11 @@ namespace Aow.Units.AoWTitleScene
                             Info.ShowMode = TShowMode.smBlended;
                             Info.BlendMode = TBlendMode.bmAlpha;
                             Info.BlendPercentage = Opacity;
-                            FCreditsFont.SetTextEx(X, Y - FCreditsFont.Height / 2, (AnsiString)"Copyright (C) 1999,2000 Triumph Studios", Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
+                            FCreditsFont.SetTextEx(X, Y - FCreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
                         }
                         else
                         {
-                            FCreditsFont.SetTextCentered(X, Y - FCreditsFont.Height / 2, (AnsiString)"Copyright (C) 1999,2000 Triumph Studios", Surface);
+                            FCreditsFont.SetTextCentered(X, Y - FCreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", Surface);
                         }
 
                         break;
@@ -472,7 +472,7 @@ namespace Aow.Units.AoWTitleScene
             }
             catch (System.Exception)
             {
-                throw Exception.Create((AnsiString)"Failure during TitleScene DrawSurface");
+                throw Exception.Create("Failure during TitleScene DrawSurface");
             }
         }
 
@@ -489,103 +489,103 @@ namespace Aow.Units.AoWTitleScene
             FCredits = new TList();
             Lines = new TStringList();
             Lines.Add(TranslateRStr(DesignerAndDirectorRStr));
-            Lines.Add((AnsiString)"Lennart Sas");
-            Lines.Add((AnsiString)"");
+            Lines.Add("Lennart Sas");
+            Lines.Add("");
             Lines.Add(TranslateRStr(AdditionalDesignRStr));
-            Lines.Add((AnsiString)"Arno van Wingerden");
+            Lines.Add("Arno van Wingerden");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(LeadProgrammerRStr));
-            Lines.Add((AnsiString)"Arno van Wingerden");
-            Lines.Add((AnsiString)"");
+            Lines.Add("Arno van Wingerden");
+            Lines.Add("");
             Lines.Add(TranslateRStr(ProgrammerRStr));
-            Lines.Add((AnsiString)"Josh Farley");
+            Lines.Add("Josh Farley");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(ArtistsRStr));
-            Lines.Add((AnsiString)"Lennart Sas");
-            Lines.Add((AnsiString)"Thomas Cardin");
-            Lines.Add((AnsiString)"Roy Postma");
+            Lines.Add("Lennart Sas");
+            Lines.Add("Thomas Cardin");
+            Lines.Add("Roy Postma");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(LeadScenarioDesignerRStr));
-            Lines.Add((AnsiString)"Menno Sas");
+            Lines.Add("Menno Sas");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(ScenarioDesignersRStr));
-            Lines.Add((AnsiString)"Doug Gibson");
-            Lines.Add((AnsiString)"Arnout Sas");
-            Lines.Add((AnsiString)"Hugo van Wingerden");
+            Lines.Add("Doug Gibson");
+            Lines.Add("Arnout Sas");
+            Lines.Add("Hugo van Wingerden");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(WriterRStr));
-            Lines.Add((AnsiString)"Raymond Bingham");
+            Lines.Add("Raymond Bingham");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(MusicRStr));
-            Lines.Add((AnsiString)"Michiel van den Bos");
-            Lines.Add((AnsiString)"");
+            Lines.Add("Michiel van den Bos");
+            Lines.Add("");
             Lines.Add(TranslateRStr(SoundFXRStr));
-            Lines.Add((AnsiString)"Nando Eweg");
+            Lines.Add("Nando Eweg");
             FCredits.Add(Lines);
-            Lines.Add((AnsiString)"");
+            Lines.Add("");
             Lines.Add(TranslateRStr(IntroVoiceRStr));
-            Lines.Add((AnsiString)"John McGinn (English)");
-            Lines.Add((AnsiString)"Norbert Gastell (German)");
+            Lines.Add("John McGinn (English)");
+            Lines.Add("Norbert Gastell (German)");
             Lines = new TStringList();
             Lines.Add(TranslateRStr(GalaxySoundSystemRStr));
-            Lines.Add((AnsiString)"Carlo Vogelsang");
+            Lines.Add("Carlo Vogelsang");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(InternetMailSuiteRStr));
-            Lines.Add((AnsiString)"Argo Software Design");
+            Lines.Add("Argo Software Design");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(QACoreRStr));
-            Lines.Add((AnsiString)"Cliff Benjamin");
-            Lines.Add((AnsiString)"Ian Calderon");
-            Lines.Add((AnsiString)"Ted Stephenson");
-            Lines.Add((AnsiString)"Hugo van Wingerden");
+            Lines.Add("Cliff Benjamin");
+            Lines.Add("Ian Calderon");
+            Lines.Add("Ted Stephenson");
+            Lines.Add("Hugo van Wingerden");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            Lines.Add(TranslateRStr((AnsiString)"Take 2 Europe"));
-            Lines.Add((AnsiString)"");
-            Lines.Add((AnsiString)"Producer");
-            Lines.Add((AnsiString)"Ken Jordan");
-            Lines.Add((AnsiString)"");
-            Lines.Add((AnsiString)"Manuals + Translations");
-            Lines.Add((AnsiString)"Frazer Nash");
+            Lines.Add(TranslateRStr("Take 2 Europe"));
+            Lines.Add("");
+            Lines.Add("Producer");
+            Lines.Add("Ken Jordan");
+            Lines.Add("");
+            Lines.Add("Manuals + Translations");
+            Lines.Add("Frazer Nash");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            Lines.Add((AnsiString)"Tarantula Studios testing suite");
-            Lines.Add((AnsiString)"");
-            Lines.Add((AnsiString)"Test Manager");
-            Lines.Add((AnsiString)"Mark Lloyd");
-            Lines.Add((AnsiString)"");
-            Lines.Add((AnsiString)"Lead Tester");
-            Lines.Add((AnsiString)"Paul Byers");
+            Lines.Add("Tarantula Studios testing suite");
+            Lines.Add("");
+            Lines.Add("Test Manager");
+            Lines.Add("Mark Lloyd");
+            Lines.Add("");
+            Lines.Add("Lead Tester");
+            Lines.Add("Paul Byers");
             FCredits.Add(Lines);
             Lines = new TStringList();
-            Lines.Add((AnsiString)"Testers");
-            Lines.Add((AnsiString)"");
-            Lines.Add((AnsiString)"Jim Thompson");
-            Lines.Add((AnsiString)"Kit Brown");
-            Lines.Add((AnsiString)"Julian Turner");
-            Lines.Add((AnsiString)"Jim Cree");
-            Lines.Add((AnsiString)"Lee Johnson");
+            Lines.Add("Testers");
+            Lines.Add("");
+            Lines.Add("Jim Thompson");
+            Lines.Add("Kit Brown");
+            Lines.Add("Julian Turner");
+            Lines.Add("Jim Cree");
+            Lines.Add("Lee Johnson");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(BizzRStr));
-            Lines.Add((AnsiString)"Jay Wilbur");
-            Lines.Add((AnsiString)"Mark Rein");
+            Lines.Add("Jay Wilbur");
+            Lines.Add("Mark Rein");
             FCredits.Add(Lines);
             Lines = new TStringList();
             Lines.Add(TranslateRStr(SpecialThanksRStr));
-            Lines.Add((AnsiString)"Eelco van der Snoek");
-            Lines.Add((AnsiString)"Doug Gibson");
-            Lines.Add((AnsiString)"Dietmer Tan");
-            Lines.Add((AnsiString)"Arjan Brussee");
-            Lines.Add((AnsiString)"Daniel Cook");
+            Lines.Add("Eelco van der Snoek");
+            Lines.Add("Doug Gibson");
+            Lines.Add("Dietmer Tan");
+            Lines.Add("Arjan Brussee");
+            Lines.Add("Daniel Cook");
             FCredits.Add(Lines);
         }
 
@@ -635,12 +635,12 @@ namespace Aow.Units.AoWTitleScene
 
     public static partial class AoWTitleScene
     {
-        public static readonly AnsiString TitleNewGameRStr = (AnsiString)"New Game";
-        public static readonly AnsiString TitleCampaignRStr = (AnsiString)"Campaign";
-        public static readonly AnsiString TitleTutorialRStr = (AnsiString)"Tutorial";
-        public static readonly AnsiString TitleLoadGameRStr = (AnsiString)"Load Game";
-        public static readonly AnsiString TitleExitRStr = (AnsiString)"Exit";
-        public static FixedArray_Aow_Rtl_AnsiString_5 TitleButtons;
+        public static readonly string TitleNewGameRStr = "New Game";
+        public static readonly string TitleCampaignRStr = "Campaign";
+        public static readonly string TitleTutorialRStr = "Tutorial";
+        public static readonly string TitleLoadGameRStr = "Load Game";
+        public static readonly string TitleExitRStr = "Exit";
+        public static FixedArray_string_5 TitleButtons = FixedArray_string_5.From([]);
         public static void Initialize()
         {
             TitleButtons[0] = TitleNewGameRStr;

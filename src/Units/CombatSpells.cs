@@ -394,7 +394,7 @@ namespace Aow.Units.CombatSpells
         {
             TAbstractUnit Hero;
             int Distance;
-            AnsiString Reason = default;
+            string Reason = "";
             TCombatObject Target;
             TSpellCC Command;
             TAbilityDamageValues Values = default;

@@ -15,7 +15,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
         File.WriteAllText(dialogFile, "");
         if (settings is not null)
             foreach (var property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
-                Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Value));
+                Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Name, property.Value));
         byte speed = movementSpeed switch
         {
             "normal" => 0, "fast" => 1, "turbo" => 2,
@@ -23,23 +23,23 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
         };
         Settings.Write(@"\Software\Triumph Studios\Age of Wonders\General\Movement Speed", new byte[] { speed });
     }
-    private static object ReadSetting(JsonElement value)
+    private static object ReadSetting(string key, JsonElement value)
     {
         if (value.ValueKind == JsonValueKind.Object)
         {
             string kind = value.GetProperty("kind").GetString() ?? "";
             var data = value.GetProperty("value");
             if (kind == "rectangle" && data.ValueKind == JsonValueKind.Array)
-                return (AnsiString)string.Join(",", data.EnumerateArray().Select(v => v.GetInt32()));
+                return string.Join(",", data.EnumerateArray().Select(v => v.GetInt32()));
             return kind == "bytes" && data.ValueKind == JsonValueKind.String
-                ? Convert.FromBase64String(data.GetString()!) : ReadSetting(data);
+                ? Convert.FromBase64String(data.GetString()!) : ReadSetting(key, data);
         }
         return value.ValueKind switch
         {
             JsonValueKind.Number => value.GetInt32(),
             JsonValueKind.True => true, JsonValueKind.False => false,
             JsonValueKind.Array => value.EnumerateArray().Select(v => v.GetByte()).ToArray(),
-            JsonValueKind.String => (AnsiString)(value.GetString() ?? ""),
+            JsonValueKind.String => JsonSettingsStore.ReadText(key, value.GetString() ?? ""),
             _ => throw new InvalidDataException("unsupported setting value")
         };
     }

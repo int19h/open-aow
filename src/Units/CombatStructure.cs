@@ -287,7 +287,7 @@ namespace Aow.Units.CombatStructure
                 {
                     if (FPlaySound && AoWCombatMap.FPlaySounds)
                     {
-                        PlaySample((AnsiString)"SFX\\HIT_DEATH\\D_WOODLG.WAV");
+                        PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                     }
 
                     Effect = AoWCombatMap.AddEffect(TfxType.fxWallSmoke);
@@ -301,7 +301,7 @@ namespace Aow.Units.CombatStructure
                 {
                     if (FPlaySound && AoWCombatMap.FPlaySounds)
                     {
-                        PlaySample((AnsiString)"SFX\\HIT_DEATH\\D_WOODMD.WAV");
+                        PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                     }
                 }
             }
@@ -327,7 +327,7 @@ namespace Aow.Units.CombatStructure
         public override int ResourceUserClassID() => 2229510;
 
         // CombatStructure.pas:259
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Structure";
+        public override string ResourceEditName() => "Combat Structure";
 
     }
 

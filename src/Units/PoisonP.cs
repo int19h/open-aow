@@ -345,7 +345,7 @@ namespace Aow.Units.PoisonP
         public override int ResourceUserClassID() => 131998;
 
         // PoisonP.pas:288
-        public override AnsiString ResourceEditName() => TranslateRStr(PoisonPlantRStr);
+        public override string ResourceEditName() => TranslateRStr(PoisonPlantRStr);
 
     }
 

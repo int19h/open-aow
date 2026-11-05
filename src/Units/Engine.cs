@@ -78,7 +78,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -94,7 +94,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -109,7 +109,7 @@ namespace Aow.Units.Engine
         {
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -126,15 +126,15 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3537
-        internal AnsiString GetItemString()
+        internal string GetItemString()
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                Result = Result + IntToStr(FList[I]) + AnsiString.FromBytes(44);
+                Result = Result + IntToStr(FList[I]) + ",";
             }
 
-            if (Result != (AnsiString)"")
+            if (!IsEmpty(Result))
             {
                 Result = Copy(Result, 1, Result.Length - 1);
             }
@@ -143,14 +143,14 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3548
-        internal void SetItemString(AnsiString S)
+        internal void SetItemString(string S)
         {
-            AnsiString Item;
+            string Item;
             int P;
             int V;
             Clear();
-            P = Pos(AnsiString.FromBytes(44), S);
-            while (S != (AnsiString)"")
+            P = Pos(",", S);
+            while (!IsEmpty(S))
             {
                 if (P != 0)
                 {
@@ -160,10 +160,10 @@ namespace Aow.Units.Engine
                 else
                 {
                     Item = S;
-                    S = (AnsiString)"";
+                    S = "";
                 }
 
-                if (Item != (AnsiString)"")
+                if (!IsEmpty(Item))
                 {
                     V = StrToInt(Item);
                 }
@@ -173,7 +173,7 @@ namespace Aow.Units.Engine
                 }
 
                 Add(V);
-                P = Pos(AnsiString.FromBytes(44), S);
+                P = Pos(",", S);
             }
         }
 
@@ -249,7 +249,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -265,12 +265,12 @@ namespace Aow.Units.Engine
             int Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -314,7 +314,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -342,7 +342,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -501,11 +501,11 @@ namespace Aow.Units.Engine
 
         public int this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
+        public string ItemString { get => GetItemString(); set => SetItemString(value); }
         public int[] List { get => FList; }
 
         // Engine.pas:3310
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -541,7 +541,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -557,7 +557,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -572,7 +572,7 @@ namespace Aow.Units.Engine
         {
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -589,15 +589,15 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3883
-        internal AnsiString GetItemString()
+        internal string GetItemString()
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                Result = Result + IntToStr(FList[I]) + AnsiString.FromBytes(44);
+                Result = Result + IntToStr(FList[I]) + ",";
             }
 
-            if (Result != (AnsiString)"")
+            if (!IsEmpty(Result))
             {
                 Result = Copy(Result, 1, Result.Length - 1);
             }
@@ -606,14 +606,14 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3894
-        internal void SetItemString(AnsiString S)
+        internal void SetItemString(string S)
         {
-            AnsiString Item;
+            string Item;
             int P;
             int V;
             Clear();
-            P = Pos(AnsiString.FromBytes(44), S);
-            while (S != (AnsiString)"")
+            P = Pos(",", S);
+            while (!IsEmpty(S))
             {
                 if (P != 0)
                 {
@@ -623,10 +623,10 @@ namespace Aow.Units.Engine
                 else
                 {
                     Item = S;
-                    S = (AnsiString)"";
+                    S = "";
                 }
 
-                if (Item != (AnsiString)"")
+                if (!IsEmpty(Item))
                 {
                     V = StrToInt(Item);
                 }
@@ -641,7 +641,7 @@ namespace Aow.Units.Engine
                 }
 
                 Add((byte)V);
-                P = Pos(AnsiString.FromBytes(44), S);
+                P = Pos(",", S);
             }
         }
 
@@ -717,7 +717,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -733,12 +733,12 @@ namespace Aow.Units.Engine
             byte Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -782,7 +782,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -810,7 +810,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -980,11 +980,11 @@ namespace Aow.Units.Engine
 
         public byte this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
+        public string ItemString { get => GetItemString(); set => SetItemString(value); }
         public byte[] List { get => FList; }
 
         // Engine.pas:3645
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -1020,7 +1020,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -1036,7 +1036,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -1051,7 +1051,7 @@ namespace Aow.Units.Engine
         {
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -1139,7 +1139,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -1155,12 +1155,12 @@ namespace Aow.Units.Engine
             sbyte Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -1204,7 +1204,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -1232,7 +1232,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -1405,7 +1405,7 @@ namespace Aow.Units.Engine
         public sbyte[] List { get => FList; }
 
         // Engine.pas:3992
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -1441,7 +1441,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -1457,7 +1457,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -1472,7 +1472,7 @@ namespace Aow.Units.Engine
         {
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -1560,7 +1560,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -1576,12 +1576,12 @@ namespace Aow.Units.Engine
             ushort Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -1625,7 +1625,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -1653,7 +1653,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -1827,7 +1827,7 @@ namespace Aow.Units.Engine
         public ushort[] List { get => FList; }
 
         // Engine.pas:4303
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -1846,7 +1846,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             NewCapacity = (NewCapacity + 31) & ~31;
@@ -1873,7 +1873,7 @@ namespace Aow.Units.Engine
             int OldCount;
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -1897,18 +1897,18 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4798
-        internal AnsiString GetItemString()
+        internal string GetItemString()
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 0, last = FCount - 1; I <= last; I++)
             {
                 if (Get(I) != FDefault)
                 {
-                    Result = Result + IntToStr(I) + AnsiString.FromBytes(44);
+                    Result = Result + IntToStr(I) + ",";
                 }
             }
 
-            if (Result != (AnsiString)"")
+            if (!IsEmpty(Result))
             {
                 Result = Copy(Result, 1, Result.Length - 1);
             }
@@ -1917,13 +1917,13 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4810
-        internal void SetItemString(AnsiString S)
+        internal void SetItemString(string S)
         {
-            AnsiString Item;
+            string Item;
             int P;
             Clear();
-            P = Pos(AnsiString.FromBytes(44), S);
-            while (S != (AnsiString)"")
+            P = Pos(",", S);
+            while (!IsEmpty(S))
             {
                 if (P != 0)
                 {
@@ -1933,15 +1933,15 @@ namespace Aow.Units.Engine
                 else
                 {
                     Item = S;
-                    S = (AnsiString)"";
+                    S = "";
                 }
 
-                if (Item != (AnsiString)"")
+                if (!IsEmpty(Item))
                 {
                     Put(StrToInt(Item), !FDefault);
                 }
 
-                P = Pos(AnsiString.FromBytes(44), S);
+                P = Pos(",", S);
             }
         }
 
@@ -2031,7 +2031,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -2050,12 +2050,12 @@ namespace Aow.Units.Engine
             bool Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = Get(Index1);
@@ -2099,7 +2099,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -2135,7 +2135,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -2195,12 +2195,12 @@ namespace Aow.Units.Engine
 
         public bool this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public AnsiString ItemString { get => GetItemString(); set => SetItemString(value); }
+        public string ItemString { get => GetItemString(); set => SetItemString(value); }
         public int BitsSet { get => GetBitsSet(); }
         public int BitsCleared { get => GetBitsCleared(); }
 
         // Engine.pas:4613
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -2235,7 +2235,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -2251,7 +2251,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -2267,7 +2267,7 @@ namespace Aow.Units.Engine
             int OldCount;
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -2362,7 +2362,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -2378,12 +2378,12 @@ namespace Aow.Units.Engine
             TNotifyEvent Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -2429,7 +2429,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -2457,7 +2457,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -2518,7 +2518,7 @@ namespace Aow.Units.Engine
         public TNotifyEvent[] List { get => FList; }
 
         // Engine.pas:4896
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -2563,7 +2563,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -2579,7 +2579,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -2594,7 +2594,7 @@ namespace Aow.Units.Engine
         {
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -2697,7 +2697,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -2713,12 +2713,12 @@ namespace Aow.Units.Engine
             TDoubleItem Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -2796,7 +2796,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -2824,7 +2824,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -3058,7 +3058,7 @@ namespace Aow.Units.Engine
         public TDoubleItem[] List { get => FList; }
 
         // Engine.pas:5107
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -3107,7 +3107,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -3123,7 +3123,7 @@ namespace Aow.Units.Engine
         {
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -3138,7 +3138,7 @@ namespace Aow.Units.Engine
         {
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -3243,7 +3243,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -3259,12 +3259,12 @@ namespace Aow.Units.Engine
             TQuadInteger Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -3376,7 +3376,7 @@ namespace Aow.Units.Engine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -3404,7 +3404,7 @@ namespace Aow.Units.Engine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -3570,7 +3570,7 @@ namespace Aow.Units.Engine
         public TQuadInteger[] List { get => FList; }
 
         // Engine.pas:5505
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -3870,15 +3870,15 @@ namespace Aow.Units.Engine
 
         protected internal TECustomNode FOwner;
         // Engine.pas:2487
-        internal AnsiString GetEObjectPath()
+        internal string GetEObjectPath()
         {
             TEObject P;
-            AnsiString S;
-            S = (AnsiString)ClassNameOf(this.GetType());
+            string S;
+            S = ClassNameOf(this.GetType());
             P = FOwner;
             while (P != null)
             {
-                S = (AnsiString)ClassNameOf(P.GetType()) + (AnsiString)"" + S;
+                S = ClassNameOf(P.GetType()) + "" + S;
                 P = P.FOwner;
             }
 
@@ -3939,13 +3939,13 @@ namespace Aow.Units.Engine
         // Engine.pas:2447
         public virtual int AddRef()
         {
-            throw Exception.Create((AnsiString)"Reference counting not supported");
+            throw Exception.Create("Reference counting not supported");
         }
 
         // Engine.pas:2452
         public virtual int Release()
         {
-            throw Exception.Create((AnsiString)"Reference counting not supported");
+            throw Exception.Create("Reference counting not supported");
         }
 
         // Engine.pas:2457
@@ -4085,7 +4085,7 @@ namespace Aow.Units.Engine
         }
 
         public TECustomNode Owner { get => FOwner; set => SetOwner(value); }
-        public AnsiString EObjectPath { get => GetEObjectPath(); }
+        public string EObjectPath { get => GetEObjectPath(); }
         public int LastMsg { get => GetLastMsg(); set => SetLastMsg(value); }
 
 
@@ -4446,7 +4446,7 @@ namespace Aow.Units.Engine
         public TEComponent FComponent;
         internal TStringList FDebugIDs;
         internal TEventList FDebugEvents;
-        internal AnsiString FStartupDirectory;
+        internal string FStartupDirectory = "";
         public TSet<TEngineUserElement> FUser;
         internal TSet<TEngineModeElement> FOptions;
         // Engine.pas:8776
@@ -4495,7 +4495,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8771
-        public virtual void SetStartupDirectory(AnsiString Value)
+        public virtual void SetStartupDirectory(string Value)
         {
             FStartupDirectory = Value;
         }
@@ -4522,17 +4522,17 @@ namespace Aow.Units.Engine
             EClass Result = (EClass)P;
             if (Result == null)
             {
-                throw Exception.Create((AnsiString)"Unregistered E-ClassID found (" + IntToStr(AClassID) + AnsiString.FromBytes(41));
+                throw Exception.Create("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
             }
 
             return Result;
         }
 
         // Engine.pas:8761
-        public virtual AnsiString TranslateText(AnsiString Text) => Text;
+        public virtual string TranslateText(string Text) => Text;
 
         // Engine.pas:8782
-        public int RegisterDebugID(AnsiString Name)
+        public int RegisterDebugID(string Name)
         {
             int Result = CreateUniqueDebugID();
             FDebugIDs.AddObject(Name, IntToObject(Result));
@@ -4551,7 +4551,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8796
-        public void OutputDebugStr(AnsiString S)
+        public void OutputDebugStr(string S)
         {
             var notification = new EngineDebugNotification();
             ref var Info = ref notification.Info;
@@ -4561,7 +4561,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8805
-        public void OutputDebugMessage(int ID, AnsiString S)
+        public void OutputDebugMessage(int ID, string S)
         {
             var notification = new EngineDebugNotification();
             ref var Info = ref notification.Info;
@@ -4604,7 +4604,7 @@ namespace Aow.Units.Engine
                 var classID = AClasses[I].ClassID;
                 if (FClassTable.Find(classID) != null)
                 {
-                    throw Exception.Create((AnsiString)"EObject Class ID double defined!");
+                    throw Exception.Create("EObject Class ID double defined!");
                 }
 
                 FEClasses.Add(AClasses[I]);
@@ -4749,7 +4749,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8973
-        public TEObject RetrieveFromFile(AnsiString FileName, TProgressEvent AProgress)
+        public TEObject RetrieveFromFile(string FileName, TProgressEvent AProgress)
         {
             TEObject Result = default;
             TFileStream F;
@@ -4767,7 +4767,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8985
-        public void StoreInFile(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
+        public void StoreInFile(string FileName, TEObject Obj, TProgressEvent AProgress)
         {
             TFileStream F;
             F = new TFileStream(FileName, 65535);
@@ -4782,7 +4782,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8997
-        public void WriteToFile(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
+        public void WriteToFile(string FileName, TEObject Obj, TProgressEvent AProgress)
         {
             TMemoryStream M;
             TFileStream F = default;
@@ -4808,7 +4808,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9017
-        public void ReadFromFile(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
+        public void ReadFromFile(string FileName, TEObject Obj, TProgressEvent AProgress)
         {
             TMemoryStream M;
             TFileStream F;
@@ -4835,7 +4835,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9037
-        public void WriteToFileCRC(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
+        public void WriteToFileCRC(string FileName, TEObject Obj, TProgressEvent AProgress)
         {
             int CRC1 = default;
             int CRC2 = default;
@@ -4869,7 +4869,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9061
-        public bool ReadFromFileCRC(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
+        public bool ReadFromFileCRC(string FileName, TEObject Obj, TProgressEvent AProgress)
         {
             TMemoryStream M;
             TFileStream F;
@@ -4913,7 +4913,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9091
-        public void ReadTextFromFile(AnsiString FileName, TEObject Obj)
+        public void ReadTextFromFile(string FileName, TEObject Obj)
         {
             TEStorageStream S;
             TFileStream F;
@@ -4937,7 +4937,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9109
-        public void WriteTextToFile(AnsiString FileName, TEObject Obj)
+        public void WriteTextToFile(string FileName, TEObject Obj)
         {
             TEStorageStream S;
             TFileStream F;
@@ -4966,7 +4966,7 @@ namespace Aow.Units.Engine
         public TEControlStyleNode ControlNode { get => FControlNode; }
         public TStringList DebugIDs { get => FDebugIDs; }
         public TEventList DebugEvents { get => FDebugEvents; }
-        public AnsiString StartupDirectory { get => FStartupDirectory; set => SetStartupDirectory(value); }
+        public string StartupDirectory { get => FStartupDirectory; set => SetStartupDirectory(value); }
         public TSet<TEngineModeElement> Options { get => FOptions; set => FOptions = value; }
 
         // Engine.pas:1126
@@ -5027,7 +5027,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9511
-        public virtual void rwString(ref AnsiString S, int ID)
+        public virtual void rwString(ref string S, int ID)
         {
         }
 
@@ -5095,7 +5095,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9497
-        public void ShowProgress(TEObject Sender, AnsiString Msg, int Percent)
+        public void ShowProgress(TEObject Sender, string Msg, int Percent)
         {
             if (FOnProgress != null)
             {
@@ -5129,7 +5129,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Exception.Create((AnsiString)"EObjectEditor Double Defined!");
+                throw Exception.Create("EObjectEditor Double Defined!");
             }
         }
 
@@ -5236,7 +5236,7 @@ namespace Aow.Units.Engine
         public ImageLib.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
         // Engine.pas:8508
-        public virtual AnsiString ResourceEditName() => (AnsiString)ClassNameOf(GetType());
+        public virtual string ResourceEditName() => ClassNameOf(GetType());
 
 
     }
@@ -5256,12 +5256,12 @@ namespace Aow.Units.Engine
         public int Value { get => Payload.Value; set => Payload = value; }
     }
 
-    public delegate void TStorageStreamError(TEStorageStream StorageStream, AnsiString Message, ref bool Handled);
-    public delegate void TProgressEvent(TEObject Sender, AnsiString Message, int Progression);
+    public delegate void TStorageStreamError(TEStorageStream StorageStream, string Message, ref bool Handled);
+    public delegate void TProgressEvent(TEObject Sender, string Message, int Progression);
     public partial class EDoublePrioriyID : Exception
     {
         // SysUtils.pas:174
-        public EDoublePrioriyID(AnsiString Msg)
+        public EDoublePrioriyID(string Msg)
         {
     Message = Msg;
 }
@@ -5372,7 +5372,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1781
-        public int SaveToFileEx(AnsiString FileName, TCompressLevel Level)
+        public int SaveToFileEx(string FileName, TCompressLevel Level)
         {
             int Result = default;
             TFileStream F;
@@ -5390,7 +5390,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1793
-        public new void SaveToFile(AnsiString FileName)
+        public new void SaveToFile(string FileName)
         {
             TFileStream F;
             F = new TFileStream(FileName, 65535);
@@ -5405,7 +5405,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1805
-        public new void LoadFromFile(AnsiString FileName)
+        public new void LoadFromFile(string FileName)
         {
             TFileStream F;
             F = new TFileStream(FileName, 0 | 32);
@@ -5467,7 +5467,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9173
-        public virtual AnsiString Name() => (AnsiString)"Abstract PlugIn";
+        public virtual string Name() => "Abstract PlugIn";
 
         // Engine.pas:9178
         public virtual bool Initialize(TEngine AEngine)
@@ -5502,7 +5502,7 @@ namespace Aow.Units.Engine
             {
                 if (FCounts[I] == 0)
                 {
-                    throw Exception.Create((AnsiString)"Invalid PlugIn Finalize Usage");
+                    throw Exception.Create("Invalid PlugIn Finalize Usage");
                 }
 
                 if (FCounts[I] == 1)
@@ -5536,7 +5536,7 @@ namespace Aow.Units.Engine
     public partial class EPlugInMissing : Exception
     {
         // SysUtils.pas:174
-        public EPlugInMissing(AnsiString Msg)
+        public EPlugInMissing(string Msg)
         {
     Message = Msg;
 }
@@ -5586,7 +5586,7 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    throw new EPlugInMissing((AnsiString)"PlugIn Missing (" + FUsedPlugIns[I] + AnsiString.FromBytes(41));
+                    throw new EPlugInMissing("PlugIn Missing (" + FUsedPlugIns[I] + ")");
                 }
             }
         }
@@ -6181,7 +6181,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1910
         public override void SetChild(int Index, TEObject Child)
         {
-            throw Exception.Create((AnsiString)"Set Child not supported (TETimerNode)");
+            throw Exception.Create("Set Child not supported (TETimerNode)");
         }
 
         // Engine.pas:1915
@@ -7065,7 +7065,7 @@ namespace Aow.Units.Engine
 // }
         public void EndUpdate()
         {
-            Assert(FUpdateCount > 0, (AnsiString)"Invalid UpdateCount Usage", "Engine.pas", 7959);
+            Assert(FUpdateCount > 0, "Invalid UpdateCount Usage", "Engine.pas", 7959);
             FUpdateCount -= 1;
             if (FUpdateCount == 0)
             {
@@ -7380,7 +7380,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:18
         protected internal void SetCapacity(int NewCapacity)
         {
-            Assert(NewCapacity >= FCount, (AnsiString)"Capacity Error (THashList)", "HashTab.PAS", 20);
+            Assert(NewCapacity >= FCount, "Capacity Error (THashList)", "HashTab.PAS", 20);
             if (NewCapacity != FCapacity)
             {
                 Array.Resize(ref FItems, NewCapacity);
@@ -7391,7 +7391,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:28
         protected internal void Delete(int Index)
         {
-            Assert(Index >= 0 && Index < FCount, (AnsiString)"Delete Error (THashList)", "HashTab.PAS", 30);
+            Assert(Index >= 0 && Index < FCount, "Delete Error (THashList)", "HashTab.PAS", 30);
             FCount -= 1;
             if (Index < FCount)
             {
@@ -7441,10 +7441,10 @@ namespace Aow.Units.Engine
             THashItem H = default;
             if (Find(Key) != null)
             {
-                throw Exception.Create((AnsiString)"ID already in HashTable");
+                throw Exception.Create("ID already in HashTable");
             }
 
-            Assert(Item != null, (AnsiString)"Cannot add nil item to hash table", "HashTab.PAS", 48);
+            Assert(Item != null, "Cannot add nil item to hash table", "HashTab.PAS", 48);
             H.Key = Key;
             H.Item = Item;
             base.Add(H);
@@ -7607,14 +7607,14 @@ namespace Aow.Units.Engine
         {
             for (int I = FCount - 1; I >= 0; I--)
             {
-                FItems[I].Key = (AnsiString)"";
+                FItems[I].Key = "";
             }
 
             base.Clear();
         }
 
         // HashTab.PAS:151
-        public object Find(AnsiString Key)
+        public object Find(string Key)
         {
             int I;
             object Result = null;
@@ -7624,7 +7624,7 @@ namespace Aow.Units.Engine
                 do
                 {
                     I -= 1;
-                    if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
+                    if (AnsiCompareStr(FItems[I].Key.As<string>(), Key) == 0)
                     {
                         return FItems[I].Item;
                     }
@@ -7636,15 +7636,15 @@ namespace Aow.Units.Engine
         }
 
         // HashTab.PAS:170
-        public void Add(object Item, AnsiString Key)
+        public void Add(object Item, string Key)
         {
             THashItem H = default;
             if (Find(Key) != null)
             {
-                throw Exception.Create((AnsiString)"ID already in HashTable");
+                throw Exception.Create("ID already in HashTable");
             }
 
-            Assert(Item != null, (AnsiString)"Cannot add nil item to hash table", "HashTab.PAS", 175);
+            Assert(Item != null, "Cannot add nil item to hash table", "HashTab.PAS", 175);
             H.Key = 0;
             H.Item = Item;
             H.Key = Key;
@@ -7652,7 +7652,7 @@ namespace Aow.Units.Engine
         }
 
         // HashTab.PAS:182
-        public void Delete(AnsiString Key)
+        public void Delete(string Key)
         {
             int I;
             I = FCount;
@@ -7661,9 +7661,9 @@ namespace Aow.Units.Engine
                 do
                 {
                     I -= 1;
-                    if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
+                    if (AnsiCompareStr(FItems[I].Key.As<string>(), Key) == 0)
                     {
-                        FItems[I].Key = (AnsiString)"";
+                        FItems[I].Key = "";
                         base.Delete(I);
                         return;
                     }
@@ -7677,19 +7677,19 @@ namespace Aow.Units.Engine
     public partial class TStringHashTable : TObject
     {
         // Engine.pas:804
-        public virtual void Add(object Item, AnsiString Key)
+        public virtual void Add(object Item, string Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Engine.pas:805
-        public virtual void Delete(AnsiString Key)
+        public virtual void Delete(string Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Engine.pas:806
-        public virtual object Find(AnsiString Key)
+        public virtual object Find(string Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -7736,19 +7736,19 @@ namespace Aow.Units.Engine
         }
 
         // HashTab.PAS:222
-        public override void Add(object Item, AnsiString Key)
+        public override void Add(object Item, string Key)
         {
             int H;
             H = Key.Length;
             if (H >= 2)
             {
-                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
+                H = Cp1252.Byte(Key[0]) + Cp1252.Byte(Key[H - 2]) + (H << 4) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = Key[1];
+                    H = Cp1252.Byte(Key[0]);
                 }
             }
 
@@ -7756,19 +7756,19 @@ namespace Aow.Units.Engine
         }
 
         // HashTab.PAS:234
-        public override void Delete(AnsiString Key)
+        public override void Delete(string Key)
         {
             int H;
             H = Key.Length;
             if (H >= 2)
             {
-                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
+                H = Cp1252.Byte(Key[0]) + Cp1252.Byte(Key[H - 2]) + (H << 4) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = Key[1];
+                    H = Cp1252.Byte(Key[0]);
                 }
             }
 
@@ -7776,19 +7776,19 @@ namespace Aow.Units.Engine
         }
 
         // HashTab.PAS:246
-        public override object Find(AnsiString Key)
+        public override object Find(string Key)
         {
             int H;
             H = Key.Length;
             if (H >= 2)
             {
-                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
+                H = Cp1252.Byte(Key[0]) + Cp1252.Byte(Key[H - 2]) + (H << 4) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = Key[1];
+                    H = Cp1252.Byte(Key[0]);
                 }
             }
 
@@ -7984,7 +7984,7 @@ namespace Aow.Units.Engine
             EClass Result = FindClass(AClassID);
             if (Result == null)
             {
-                throw Exception.Create((AnsiString)"Unregistered E-ClassID found (" + IntToStr(AClassID) + AnsiString.FromBytes(41));
+                throw Exception.Create("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
             }
 
             return Result;
@@ -7999,7 +7999,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Exception.Create((AnsiString)"EObject Class ID double defined!");
+                throw Exception.Create("EObject Class ID double defined!");
             }
         }
 
@@ -8068,9 +8068,9 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8667
-        public AnsiString GetUniqueEditorName(AnsiString Name)
+        public string GetUniqueEditorName(string Name)
         {
-            AnsiString S;
+            string S;
             S = Name;
             while (FEditors.IndexOf(S) != -1)
             {
@@ -8081,7 +8081,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8700
-        public int GetEditID(AnsiString Name)
+        public int GetEditID(string Name)
         {
             int Result;
             int I;
@@ -8100,7 +8100,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8714
-        public int RemoveEditor(AnsiString Name)
+        public int RemoveEditor(string Name)
         {
             int Result = FEditors.IndexOf(Name);
             if (Result != -1)
@@ -8261,7 +8261,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1565
         public override void ReadWrite(TEStorageStream Stream)
         {
-            throw Exception.Create((AnsiString)"Read/Write not supported (TESortNode)");
+            throw Exception.Create("Read/Write not supported (TESortNode)");
         }
 
         // Engine.pas:1596
@@ -8481,7 +8481,7 @@ namespace Aow.Units.Engine
             FChildren.Add(Child);
             if (Child.AddRef() == -1)
             {
-                throw Exception.Create((AnsiString)"EObject doesn't support ReferenceCounting");
+                throw Exception.Create("EObject doesn't support ReferenceCounting");
             }
 
             return FChildren.Count - 1;
@@ -9935,7 +9935,8 @@ namespace Aow.Units.Engine
     public struct TEngineDebugInfo
     {
         public int ID;
-        public AnsiString Text;
+        private string text;
+        public string Text { readonly get => text ?? ""; set => text = value; }
     }
 
     // FPath, FSize, FSections, FText, FValues. The text form of the storage: "[:path:]" lines open
@@ -9944,7 +9945,7 @@ namespace Aow.Units.Engine
     // at them
     public partial class TEReadTextStorageStream : TEStorageStream
     {
-        internal AnsiString FPath;
+        internal string FPath = "";
         internal int FSize;
         internal TStringList FSections;
         internal TStringList FText;
@@ -9952,7 +9953,7 @@ namespace Aow.Units.Engine
         // Engine.pas:10632
         internal void ReadStreamText()
         {
-            AnsiString Line;
+            string Line;
             TStringList Text;
             int P = 0;
             int Start;
@@ -9977,11 +9978,11 @@ namespace Aow.Units.Engine
                             P += 1;
                         }
 
-                        Line = AnsiString.FromBytes(text[Start..P].ToArray());
-                        if (Line != (AnsiString)"")
+                        Line = Cp1252.Decode(text[Start..P].ToArray());
+                        if (!IsEmpty(Line))
                         {
                             L = Line.Length;
-                            if (L >= 4 && Copy(Line, 1, 2) == (AnsiString)"[:" && Copy(Line, L - 1, 2) == (AnsiString)":]")
+                            if (L >= 4 && Copy(Line, 1, 2) == "[:" && Copy(Line, L - 1, 2) == ":]")
                             {
                                 var count = Text.Count;
                                 FSections.AddObject(Copy(Line, 3, L - 4), IntToObject(count));
@@ -10019,7 +10020,7 @@ namespace Aow.Units.Engine
             int I;
             int ID;
             int NewID;
-            AnsiString Value;
+            string Value;
             FValues.Clear();
             Index = FSections.IndexOf(FPath);
             if (Index != -1)
@@ -10036,7 +10037,7 @@ namespace Aow.Units.Engine
 
                 I = First;
                 ID = -1;
-                Value = (AnsiString)"";
+                Value = "";
                 while (I <= Last)
                 {
                     NewID = Units.Engine.Engine.GetLineID(FText[I]);
@@ -10053,7 +10054,7 @@ namespace Aow.Units.Engine
                         else
                         {
                             var item = FText[I];
-                            Value = Value + AnsiString.FromBytes(13) + AnsiString.FromBytes(10) + item;
+                            Value = Value + "\r" + "\n" + item;
                         }
                     }
                     else
@@ -10084,7 +10085,7 @@ namespace Aow.Units.Engine
         // Engine.pas:10611
         public TEReadTextStorageStream(TStream AStream, TEngine AEngine, int ASize) : base(AStream, AEngine)
         {
-            FPath = (AnsiString)"";
+            FPath = "";
             if (ASize <= 0)
             {
                 FSize = FStream.Size - FStream.Position;
@@ -10129,12 +10130,12 @@ namespace Aow.Units.Engine
         public override void rwEObject(TEObject Obj, int ID)
         {
             TStringList SavedValues;
-            AnsiString SavedPath;
+            string SavedPath;
             bool Continue;
             SavedPath = FPath;
-            if (FPath != (AnsiString)"")
+            if (!IsEmpty(FPath))
             {
-                FPath = FPath + AnsiString.FromBytes(92) + IntToStr(ID);
+                FPath = FPath + "\\" + IntToStr(ID);
             }
             else
             {
@@ -10163,7 +10164,7 @@ namespace Aow.Units.Engine
                 if (FOnError != null)
                 {
                     var classID = Obj.EClass.ClassID;
-                    FOnError(this, (AnsiString)"Error reading object (cid:" + IntToStr(classID) + AnsiString.FromBytes(41), ref Continue);
+                    FOnError(this, "Error reading object (cid:" + IntToStr(classID) + ")", ref Continue);
                 }
 
                 if (!Continue)
@@ -10180,7 +10181,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10784
-        public override void rwString(ref AnsiString S, int ID)
+        public override void rwString(ref string S, int ID)
         {
             int Offset;
             Offset = FPropertyTable.FindOffset(ID);
@@ -10190,7 +10191,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                S = (AnsiString)"";
+                S = "";
             }
         }
 
@@ -10220,9 +10221,9 @@ namespace Aow.Units.Engine
         {
             TEObject C;
             // { the original saves the path and never restores it }
-            if (FPath != (AnsiString)"")
+            if (!IsEmpty(FPath))
             {
-                FPath = FPath + AnsiString.FromBytes(92) + IntToStr(ID);
+                FPath = FPath + "\\" + IntToStr(ID);
             }
             else
             {
@@ -10245,21 +10246,21 @@ namespace Aow.Units.Engine
     // "[:path:]" line
     public partial class TEWriteTextStorageStream : TEStorageStream
     {
-        internal AnsiString FPath;
+        internal string FPath = "";
         protected internal TEBufferStream FBuffer;
         // Engine.pas:10355
         internal void WriteTextBuffer(TStream Stream)
         {
-            AnsiString S;
+            string S;
             if (FPropertyTable.Count != 0 && FBuffer.Size != 0)
             {
-                S = (AnsiString)"[:" + FPath + (AnsiString)":]" + AnsiString.FromBytes(13) + AnsiString.FromBytes(10);
-                if (FPath != (AnsiString)"")
+                S = "[:" + FPath + ":]" + "\r" + "\n";
+                if (!IsEmpty(FPath))
                 {
-                    S = AnsiString.FromBytes(13, 10) + S;
+                    S = "\r\n" + S;
                 }
 
-                Stream.Write(StringBytes(S).Slice(1 - 1, S.Length));
+                Stream.Write(Cp1252.Encode(S).AsSpan().Slice(1 - 1, S.Length));
                 FBuffer.SaveToStream(Stream);
             }
         }
@@ -10267,7 +10268,7 @@ namespace Aow.Units.Engine
         // Engine.pas:10335
         public TEWriteTextStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine)
         {
-            FPath = (AnsiString)"";
+            FPath = "";
             FBuffer = new TEBufferStream();
             FPropertyTable = new TPropertyTable();
         }
@@ -10298,7 +10299,7 @@ namespace Aow.Units.Engine
         public override void rwEObject(TEObject Obj, int ID)
         {
             TEBufferStream SavedBuffer;
-            AnsiString SavedPath;
+            string SavedPath;
             bool Continue;
             if (!FPropertyTable.PropertyExist(ID))
             {
@@ -10306,9 +10307,9 @@ namespace Aow.Units.Engine
                 SavedPath = FPath;
                 FPropertyTable.BackupSettings();
                 FBuffer = new TEBufferStream();
-                if (FPath != (AnsiString)"")
+                if (!IsEmpty(FPath))
                 {
-                    FPath = FPath + AnsiString.FromBytes(92) + IntToStr(ID);
+                    FPath = FPath + "\\" + IntToStr(ID);
                 }
                 else
                 {
@@ -10335,7 +10336,7 @@ namespace Aow.Units.Engine
                     if (FOnError != null)
                     {
                         var classID = Obj.EClass.ClassID;
-                        FOnError(this, (AnsiString)"Error writing object (cid:" + IntToStr(classID) + AnsiString.FromBytes(41), ref Continue);
+                        FOnError(this, "Error writing object (cid:" + IntToStr(classID) + ")", ref Continue);
                     }
 
                     if (!Continue)
@@ -10346,7 +10347,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found");
+                throw new EDoublePrioriyID("Double priorityID found");
             }
         }
 
@@ -10357,29 +10358,29 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10417
-        public override void rwString(ref AnsiString S, int ID)
+        public override void rwString(ref string S, int ID)
         {
-            AnsiString Line;
+            string Line;
             if (!FPropertyTable.PropertyExist(ID))
             {
-                if (S != (AnsiString)"")
+                if (!IsEmpty(S))
                 {
-                    Line = AnsiString.FromBytes(91) + IntToStr(ID) + (AnsiString)"]=" + S + AnsiString.FromBytes(13) + AnsiString.FromBytes(10);
-                    FBuffer.Write(StringBytes(Line).Slice(1 - 1, Line.Length));
+                    Line = "[" + IntToStr(ID) + "]=" + S + "\r" + "\n";
+                    FBuffer.Write(Cp1252.Encode(Line).AsSpan().Slice(1 - 1, Line.Length));
                     FPropertyTable.Add(ID, 0);
                 }
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found");
+                throw new EDoublePrioriyID("Double priorityID found");
             }
         }
 
         // Engine.pas:10434
         public override void rwStrings(TStrings Strings, int ID)
         {
-            AnsiString Line;
-            AnsiString P;
+            string Line;
+            string P;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 if (Strings.Count != 0)
@@ -10387,10 +10388,10 @@ namespace Aow.Units.Engine
                     P = Strings.Text;
                     try
                     {
-                        Line = AnsiString.FromBytes(91) + IntToStr(ID) + (AnsiString)"]=";
+                        Line = "[" + IntToStr(ID) + "]=";
                         Line += NullTerminatedText(P);
 
-                        FBuffer.Write(StringBytes(Line).Slice(1 - 1, Line.Length));
+                        FBuffer.Write(Cp1252.Encode(Line).AsSpan().Slice(1 - 1, Line.Length));
                         FPropertyTable.Add(ID, 0);
                     }
                     finally
@@ -10400,7 +10401,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found");
+                throw new EDoublePrioriyID("Double priorityID found");
             }
         }
 
@@ -10413,14 +10414,14 @@ namespace Aow.Units.Engine
         // Engine.pas:10463
         public override void rwChildren(TECustomNode Node, int ID)
         {
-            AnsiString SavedPath;
+            string SavedPath;
             TEObject C;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 SavedPath = FPath;
-                if (FPath != (AnsiString)"")
+                if (!IsEmpty(FPath))
                 {
-                    FPath = FPath + AnsiString.FromBytes(92) + IntToStr(ID);
+                    FPath = FPath + "\\" + IntToStr(ID);
                 }
                 else
                 {
@@ -10441,7 +10442,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found");
+                throw new EDoublePrioriyID("Double priorityID found");
             }
         }
 
@@ -10646,7 +10647,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10103
-        public override void rwString(ref AnsiString S, int ID)
+        public override void rwString(ref string S, int ID)
         {
             int Offset;
             Offset = FPropertyTable.FindOffset(ID);
@@ -10661,7 +10662,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                S = (AnsiString)"";
+                S = "";
             }
         }
 
@@ -10783,7 +10784,7 @@ namespace Aow.Units.Engine
                 Continue = true;
                 if (FOnError != null)
                 {
-                    if (E.Message == (AnsiString)"")
+                    if (Rtl.Rtl.IsEmpty(E.Message))
                     {
                         FOnError(this, Units.Engine.Engine.EStreamReadErrorStr, ref Continue);
                     }
@@ -10982,7 +10983,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9592
         internal void PropertyExistError(int ID)
         {
-            throw new EDoublePrioriyID((AnsiString)"PropertyID already in use (" + IntToStr(ID) + (AnsiString)" / " + (AnsiString)ClassNameOf(this.GetType()) + AnsiString.FromBytes(41));
+            throw new EDoublePrioriyID("PropertyID already in use (" + IntToStr(ID) + " / " + ClassNameOf(this.GetType()) + ")");
         }
 
         // Engine.pas:9565
@@ -11093,7 +11094,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"PropertyID already in use");
+                throw new EDoublePrioriyID("PropertyID already in use");
             }
         }
 
@@ -11161,16 +11162,16 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"PropertyID already in use");
+                throw new EDoublePrioriyID("PropertyID already in use");
             }
         }
 
         // Engine.pas:9709
-        public override void rwString(ref AnsiString S, int ID)
+        public override void rwString(ref string S, int ID)
         {
             if (!FPropertyTable.PropertyExist(ID))
             {
-                if (S != (AnsiString)"")
+                if (!IsEmpty(S))
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
                     Units.Engine.Engine.SaveStringToStream(S, FBuffer);
@@ -11296,7 +11297,7 @@ namespace Aow.Units.Engine
                 Continue = true;
                 if (FOnError != null)
                 {
-                    if (E.Message == (AnsiString)"")
+                    if (Rtl.Rtl.IsEmpty(E.Message))
                     {
                         FOnError(this, Units.Engine.Engine.EStreamWriteErrorStr, ref Continue);
                     }
@@ -11372,7 +11373,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                throw new EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -11406,7 +11407,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                throw new EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -11446,7 +11447,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found (" + (AnsiString)ClassNameOf(Obj.GetType()) + AnsiString.FromBytes(58) + IntToStr(ID) + AnsiString.FromBytes(41));
+                throw new EDoublePrioriyID("Double priorityID found (" + ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
             }
         }
 
@@ -11555,7 +11556,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                throw new EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -11581,7 +11582,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found (" + IntToStr(ID) + AnsiString.FromBytes(41));
+                throw new EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -11610,7 +11611,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw new EDoublePrioriyID((AnsiString)"Double priorityID found (" + (AnsiString)ClassNameOf(Obj.GetType()) + AnsiString.FromBytes(58) + IntToStr(ID) + AnsiString.FromBytes(41));
+                throw new EDoublePrioriyID("Double priorityID found (" + ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
             }
         }
 
@@ -11662,7 +11663,7 @@ namespace Aow.Units.Engine
         public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smText, TStorageModeElement.smTranslate);
 
         // Engine.pas:10842
-        public override void rwString(ref AnsiString S, int ID)
+        public override void rwString(ref string S, int ID)
         {
             TranslateString(ref S);
         }
@@ -11707,7 +11708,7 @@ namespace Aow.Units.Engine
                 if (FOnError != null)
                 {
                     var classID = Obj.EClass.ClassID;
-                    FOnError(this, (AnsiString)"Error reading object (cid:" + IntToStr(classID) + AnsiString.FromBytes(41), ref Continue);
+                    FOnError(this, "Error reading object (cid:" + IntToStr(classID) + ")", ref Continue);
                 }
 
                 if (!Continue)
@@ -11743,7 +11744,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10905
-        public virtual void TranslateString(ref AnsiString S)
+        public virtual void TranslateString(ref string S)
         {
         }
 
@@ -11768,7 +11769,7 @@ namespace Aow.Units.Engine
         {
             try
             {
-                throw Exception.Create((AnsiString)"Property Mismatch (PropertyID:" + IntToStr(ID) + AnsiString.FromBytes(41));
+                throw Exception.Create("Property Mismatch (PropertyID:" + IntToStr(ID) + ")");
             }
             catch (System.Exception)
             {
@@ -11900,9 +11901,9 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:11022
-        public override void rwString(ref AnsiString S, int ID)
+        public override void rwString(ref string S, int ID)
         {
-            AnsiString Value = default;
+            string Value = "";
             base.rwString(ref Value, ID);
             if (Value != S)
             {
@@ -12038,10 +12039,11 @@ namespace Aow.Units.Engine
 
     }
 
-    public delegate int TStringsSortCompare(AnsiString S1, AnsiString S2, TObject O1, TObject O2);
+    public delegate int TStringsSortCompare(string S1, string S2, TObject O1, TObject O2);
     public struct TStringHashItem
     {
-        public AnsiString Key;
+        private string key;
+        public string Key { readonly get => key ?? ""; set => key = value; }
         public object Item;
     }
 
@@ -12076,10 +12078,10 @@ namespace Aow.Units.Engine
         public const TStorageModeElement smPartial = (TStorageModeElement)3;
         // Engine.pas:1953
         // { Strings }
-        public static AnsiString ReplaceText(AnsiString S, AnsiString Old, AnsiString New)
+        public static string ReplaceText(string S, string Old, string New)
         {
             int P;
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             P = Pos(Old, S);
             while (P != 0)
             {
@@ -12174,7 +12176,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2109
-        public static int HexToInt(AnsiString S)
+        public static int HexToInt(string S)
         {
             int L;
             int D;
@@ -12188,7 +12190,7 @@ namespace Aow.Units.Engine
 
             for (int I = 0; I <= L - 1; I++)
             {
-                C = S[L - I];
+                C = Cp1252.Byte(S[L - I - 1]);
                 if (TSet<byte>.WithBounds(0, 255).WithRange(48, 57).Contains(C))
                 {
                     D = C - 48;
@@ -12238,7 +12240,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Exception.Create((AnsiString)"PlugIn " + PlugIn.Name() + (AnsiString)" already registered");
+                throw Exception.Create("PlugIn " + PlugIn.Name() + " already registered");
             }
         }
 
@@ -12251,7 +12253,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                throw Exception.Create((AnsiString)"PlugIn not found");
+                throw Exception.Create("PlugIn not found");
             }
         }
 
@@ -12290,7 +12292,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9359
-        public static TPlugIn FindPlugIn(AnsiString Name)
+        public static TPlugIn FindPlugIn(string Name)
         {
             int I;
             TPlugIn Result = null;
@@ -12312,16 +12314,16 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9375
-        public static void LoadExternalPlugIns(AnsiString Directory)
+        public static void LoadExternalPlugIns(string Directory)
         {
-            AnsiString Dir;
-            void LoadFrom(AnsiString Dir)
+            string Dir;
+            void LoadFrom(string Dir)
             {
                 TSearchRec SR = default;
                 TStringList Dirs;
                 bool Found;
                 int H = default;
-                Found = FindFirst(Dir + (AnsiString)"*.DPL", 63 - 16, ref SR) == 0;
+                Found = FindFirst(Dir + "*.DPL", 63 - 16, ref SR) == 0;
                 while (Found)
                 {
                     try
@@ -12332,7 +12334,7 @@ namespace Aow.Units.Engine
                     }
                     catch (System.Exception)
                     {
-                        throw Exception.Create((AnsiString)"Unable to load PlugIn: " + Dir + SR.Name);
+                        throw Exception.Create("Unable to load PlugIn: " + Dir + SR.Name);
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -12340,12 +12342,12 @@ namespace Aow.Units.Engine
 
                 FindClose(ref SR);
                 Dirs = new TStringList();
-                Found = FindFirst(Dir + (AnsiString)"*.*", 16, ref SR) == 0;
+                Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
                 while (Found)
                 {
-                    if ((SR.Attr & 16) != 0 && SR.Name != AnsiString.FromBytes(46) && SR.Name != (AnsiString)"..")
+                    if ((SR.Attr & 16) != 0 && SR.Name != "." && SR.Name != "..")
                     {
-                        Dirs.Add(Dir + SR.Name + AnsiString.FromBytes(92));
+                        Dirs.Add(Dir + SR.Name + "\\");
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -12362,9 +12364,9 @@ namespace Aow.Units.Engine
 
             Dir = ExpandFileName(Directory);
             // { the original tests the character of Directory, not of Dir }
-            if (Dir != (AnsiString)"" && Directory[Dir.Length] != 92)
+            if (!IsEmpty(Dir) && Directory[Dir.Length - 1] != 92)
             {
-                Dir = Dir + AnsiString.FromBytes(92);
+                Dir = Dir + "\\";
             }
 
             LoadFrom(Dir);
@@ -12373,7 +12375,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9419
         public static void UnloadExternalPlugIns()
         {
-            AnsiString S;
+            string S;
             for (int I = Packages.Count - 1; I >= 0; I--)
             {
                 try
@@ -12386,7 +12388,7 @@ namespace Aow.Units.Engine
                 }
                 catch (System.Exception)
                 {
-                    S = (AnsiString)"Could not release PlugIn: " + Packages[I];
+                    S = "Could not release PlugIn: " + Packages[I];
                     throw Exception.Create(S);
                 }
             }
@@ -12425,7 +12427,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3099
-        public static int GetFileCRC32(AnsiString FileName)
+        public static int GetFileCRC32(string FileName)
         {
             int Result = default;
             TMemoryStream M;
@@ -12502,33 +12504,33 @@ namespace Aow.Units.Engine
 
             if (!Found)
             {
-                throw Exception.Create((AnsiString)"Cannot access Engine");
+                throw Exception.Create("Cannot access Engine");
             }
 
             return Result;
         }
 
         // Engine.pas:2132
-        public static void StringToStream(AnsiString S, TStream Stream)
+        public static void StringToStream(string S, TStream Stream)
         {
             int Len;
             Len = S.Length;
             Stream.Write(Bytes.Of(ref Len, 4));
-            Stream.Write(StringBytes(S).Slice(0, Len));
+            Stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, Len));
         }
 
         // Engine.pas:2141
-        public static void StringFromStream(ref AnsiString S, TStream Stream)
+        public static void StringFromStream(ref string S, TStream Stream)
         {
             int Len = default;
             Stream.Read(Bytes.Of(ref Len, 4));
             if (Len < 0) throw new ERangeError("Negative string length");
             byte[] buffer = new byte[Len];
-            StringBytes(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
+            Cp1252.Encode(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
             // A failed read leaves the resized value in the destination.
-            S = AnsiString.FromBytes(buffer);
+            S = Cp1252.Decode(buffer);
             Stream.Read(buffer);
-            S = AnsiString.FromBytes(buffer);
+            S = Cp1252.Decode(buffer);
         }
 
         // Engine.pas:2185
@@ -12536,7 +12538,7 @@ namespace Aow.Units.Engine
         {
             ReadOnlySpan<byte> P;
             int Len;
-            P = StringBytes(Strings.Text);
+            P = Cp1252.Encode(Strings.Text);
             Len = CStringLength(P);
             Stream.Write(Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P[..Len]);
@@ -12553,7 +12555,7 @@ namespace Aow.Units.Engine
                 if (Len < 0) throw new ERangeError("Negative string length");
                 byte[] buffer = new byte[Len];
                 Stream.Read(buffer);
-                Strings.Text = AnsiString.FromBytes(buffer);
+                Strings.Text = Cp1252.Decode(buffer);
             }
             finally
             {
@@ -12562,9 +12564,9 @@ namespace Aow.Units.Engine
         }
 
         public static bool VerifyEObjectEnabled;
-        public static readonly AnsiString EStreamReadErrorStr = (AnsiString)"Error Reading EObject";
-        public static readonly AnsiString EStreamWriteErrorStr = (AnsiString)"Error Writing EObject";
-        public static readonly AnsiString UserStr = (AnsiString)"User";
+        public static readonly string EStreamReadErrorStr = "Error Reading EObject";
+        public static readonly string EStreamWriteErrorStr = "Error Writing EObject";
+        public static readonly string UserStr = "User";
         public static TList Engines;
         public static TList PlugIns;
         public static TEngine CopyEngine;
@@ -12666,7 +12668,7 @@ namespace Aow.Units.Engine
             int J;
             int M;
             TObject PO;
-            AnsiString P;
+            string P;
             do
             {
                 I = L;
@@ -12727,7 +12729,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2059
-        public static int CompareAscending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
+        public static int CompareAscending(string S1, string S2, TObject O1, TObject O2)
         {
             int Result = CompareText(S1, S2);
             if (Result == 0)
@@ -12739,7 +12741,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2070
-        public static int CompareDescending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
+        public static int CompareDescending(string S1, string S2, TObject O1, TObject O2)
         {
             int Result = CompareText(S2, S1);
             if (Result == 0)
@@ -12751,7 +12753,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2081
-        public static int CompareNumericalAscending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
+        public static int CompareNumericalAscending(string S1, string S2, TObject O1, TObject O2)
         {
             int V1;
             int V2;
@@ -12761,7 +12763,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2095
-        public static int CompareNumericalDescending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
+        public static int CompareNumericalDescending(string S1, string S2, TObject O1, TObject O2)
         {
             int V1;
             int V2;
@@ -12771,7 +12773,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2150
-        public static void SaveStringToStream(AnsiString S, TStream Stream)
+        public static void SaveStringToStream(string S, TStream Stream)
         {
             int Len;
             byte B = default;
@@ -12788,15 +12790,15 @@ namespace Aow.Units.Engine
                 Stream.Write(Bytes.Of(ref Len, 4));
             }
 
-            Stream.Write(StringBytes(S).Slice(0, Len));
+            Stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, Len));
         }
 
         // Engine.pas:2170
-        public static void LoadStringFromStream(ref AnsiString S, TStream Stream)
+        public static void LoadStringFromStream(ref string S, TStream Stream)
         {
             int Len = default;
             byte B = default;
-            S = (AnsiString)"";
+            S = "";
             Stream.Read(Bytes.Of(ref B, 1));
             if (B == 255)
             {
@@ -12809,11 +12811,11 @@ namespace Aow.Units.Engine
 
             if (Len < 0) throw new ERangeError("Negative string length");
             byte[] buffer = new byte[Len];
-            StringBytes(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
+            Cp1252.Encode(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
             // A failed read leaves the resized value in the destination.
-            S = AnsiString.FromBytes(buffer);
+            S = Cp1252.Decode(buffer);
             Stream.Read(buffer);
-            S = AnsiString.FromBytes(buffer);
+            S = Cp1252.Decode(buffer);
         }
 
         // Engine.pas:2213
@@ -12822,7 +12824,7 @@ namespace Aow.Units.Engine
             ReadOnlySpan<byte> P;
             int Len;
             int Obj = default;
-            P = StringBytes(Strings.Text);
+            P = Cp1252.Encode(Strings.Text);
             Len = CStringLength(P);
             Stream.Write(Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P[..Len]);
@@ -12845,7 +12847,7 @@ namespace Aow.Units.Engine
                 if (Len < 0) throw new ERangeError("Negative string length");
                 byte[] buffer = new byte[Len];
                 Stream.Read(buffer);
-                Strings.Text = AnsiString.FromBytes(buffer);
+                Strings.Text = Cp1252.Decode(buffer);
                 for (int I = 0, last = Strings.Count - 1; I <= last; I++)
                 {
                     Stream.Read(Bytes.Of(ref Obj, 4));
@@ -13191,17 +13193,17 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10675
         // { "[id]=" at the start of a text line, or -1 }
-        public static int GetLineID(AnsiString S)
+        public static int GetLineID(string S)
         {
             int Result;
             int I;
             I = 1;
-            while (TSet<byte>.WithBounds(0, 255).With(91).WithRange(48, 57).Contains(S[I]))
+            while (TSet<byte>.WithBounds(0, 255).With(91).WithRange(48, 57).Contains(Cp1252.Byte(S[I - 1])))
             {
                 I += 1;
             }
 
-            if (Copy(S, I, 2) == (AnsiString)"]=")
+            if (Copy(S, I, 2) == "]=")
             {
                 Result = StrToInt(Copy(S, 2, I - 2));
             }
@@ -13215,11 +13217,11 @@ namespace Aow.Units.Engine
 
         // Engine.pas:10685
         // { the text behind "[id]=" }
-        public static AnsiString GetLineValue(AnsiString S)
+        public static string GetLineValue(string S)
         {
             int I;
             I = 1;
-            while (TSet<byte>.WithBounds(0, 255).With(91).With(93).WithRange(48, 57).Contains(S[I]))
+            while (TSet<byte>.WithBounds(0, 255).With(91).With(93).WithRange(48, 57).Contains(Cp1252.Byte(S[I - 1])))
             {
                 I += 1;
             }
@@ -13234,7 +13236,7 @@ namespace Aow.Units.Engine
             Engines = new TList();
             PlugIns = new TList();
             Packages = new TStringList();
-            ClipboardFormat = RegisterClipboardFormat((AnsiString)"ECLIPBOARD FORMAT");
+            ClipboardFormat = RegisterClipboardFormat("ECLIPBOARD FORMAT");
             RegisterClass(typeof(TECopyComponent));
         }
 

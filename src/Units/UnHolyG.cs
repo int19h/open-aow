@@ -338,7 +338,7 @@ namespace Aow.Units.UnHolyG
         public override int ResourceUserClassID() => 131985;
 
         // UnHolyG.pas:273
-        public override AnsiString ResourceEditName() => TranslateRStr(UnholyGroundRStr);
+        public override string ResourceEditName() => TranslateRStr(UnholyGroundRStr);
 
     }
 

@@ -390,7 +390,7 @@ namespace Aow.Units.Animation
             }
             else
             {
-                throw Exception.Create((AnsiString)"Cannot change dimensions when object is places");
+                throw Exception.Create("Cannot change dimensions when object is places");
             }
         }
 

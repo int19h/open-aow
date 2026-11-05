@@ -21,15 +21,15 @@ public sealed class TypedNameRoundTripTests
         try
         {
             InputMapper.Text("Jörg €„äß", new Keyboard(edit));
-            AnsiString typed = edit.FText;
-            Assert.Equal("Jörg €„äß", typed.ToString());
-            Assert.Equal(new byte[] { 0x4A, 0xF6, 0x72, 0x67, 0x20, 0x80, 0x84, 0xE4, 0xDF }, Runtime.StringBytes(typed).ToArray());
+            string typed = edit.FText;
+            Assert.Equal("Jörg €„äß", typed);
+            Assert.Equal(new byte[] { 0x4A, 0xF6, 0x72, 0x67, 0x20, 0x80, 0x84, 0xE4, 0xDF }, Cp1252.Encode(typed).ToArray());
 
             source = new TLeader(null!) { FHeroResourceIndex = -1 };
             source.FHeroName = typed;
             byte[] saved = Save(source);
             Assert.True(saved.AsSpan().IndexOf(new byte[] { 0x80, 0x84, 0xE4, 0xDF }) > 0, "the saved bytes hold 0x80, 0x84, 0xE4 and 0xDF");
-            Assert.True(saved.AsSpan().IndexOf(Runtime.StringBytes(typed)) > 0, "the saved bytes hold the typed name");
+            Assert.True(saved.AsSpan().IndexOf(Cp1252.Encode(typed)) > 0, "the saved bytes hold the typed name");
 
             loaded = new TLeader(null!);
             using (var memory = new TMemoryStream())
@@ -41,7 +41,7 @@ public sealed class TypedNameRoundTripTests
                 finally { reader.Destroy(); }
             }
             Assert.Equal(typed, loaded.FHeroName);
-            Assert.Equal("Jörg €„äß", loaded.FHeroName.ToString());
+            Assert.Equal("Jörg €„äß", loaded.FHeroName);
             Assert.Equal(saved, Save(loaded));
         }
         finally

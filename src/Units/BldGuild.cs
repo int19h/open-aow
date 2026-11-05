@@ -41,7 +41,7 @@ namespace Aow.Units.BldGuild
 
 
         // BldGuild.pas:50
-        public override AnsiString ResourceEditName() => TranslateRStr(BuildersGuildRStr);
+        public override string ResourceEditName() => TranslateRStr(BuildersGuildRStr);
 
     }
 

@@ -73,7 +73,7 @@ public sealed class GlyphIndexTests
         try
         {
             font.LoadFromFile(file);
-            Assert.Equal(file, font.LoadedFileName.ToString());
+            Assert.Equal(file, font.LoadedFileName);
             string name = Path.GetFileName(file);
             int width = 16, height = 16;
             for (int code = 0; code < 256; code++)
@@ -86,8 +86,8 @@ public sealed class GlyphIndexTests
             height += 64;
             for (int code = 0; code < 256; code++)
             {
-                AnsiString text = Cp1252.Text((byte)code);
-                Assert.True(text.Length == 1 && text[1] == code, $"{name}: the one-char string of byte {code}");
+                string text = Cp1252.Text((byte)code);
+                Assert.True(text.Length == 1 && Cp1252.Byte(text[0]) == code, $"{name}: the one-char string of byte {code}");
                 var glyph = font.GetSafe(code);
                 Assert.True((glyph?.Width ?? 5) + font.CharacterDistance == font.TextWidth(text), $"{name}: TextWidth of byte {code}");
                 byte[] shown = Draw(width, height, sd => font.ShowText(24, 24, text, sd));

@@ -115,7 +115,7 @@ namespace Aow.Units.AoWEdit
         // AoWEdit.pas:155
         public override void Draw(TSurfaceDesc SurfDesc)
         {
-            AnsiString S = default;
+            string S = "";
             TRect OldClip = default;
             try
             {
@@ -143,10 +143,10 @@ namespace Aow.Units.AoWEdit
                     }
                     else
                     {
-                        S = (AnsiString)"";
+                        S = "";
                         for (int I = 0, last = FShownChars - 1; I <= last; I++)
                         {
-                            S = S + AnsiString.FromBytes(FPassWordChar);
+                            S = S + Cp1252.Text(FPassWordChar);
                         }
 
                         FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, S, SurfDesc);
@@ -156,7 +156,7 @@ namespace Aow.Units.AoWEdit
                     if (FEditable && FRedraw == true && FCursorShown == true)
                     {
                         var textWidth = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FCursorPos));
-                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + textWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, AnsiString.FromBytes(FCursorChar), SurfDesc);
+                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + textWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, Cp1252.Text(FCursorChar), SurfDesc);
                     }
 
                     if (FOnDraw != null)
@@ -167,7 +167,7 @@ namespace Aow.Units.AoWEdit
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -323,7 +323,7 @@ namespace Aow.Units.AoWEdit
                         C = Key;
                         if (FText.Length < FMaxChars || FMaxChars == 0)
                         {
-                            FText = Copy(FText, 1, FFirstChar + FCursorPos - 1) + AnsiString.FromBytes(C) + Copy(FText, FFirstChar + FCursorPos, FText.Length - FCursorPos - FFirstChar + 1);
+                            FText = Copy(FText, 1, FFirstChar + FCursorPos - 1) + Cp1252.Text(C) + Copy(FText, FFirstChar + FCursorPos, FText.Length - FCursorPos - FFirstChar + 1);
                             FCursorPos += 1;
                             FCursorPos = FCursorPos + FFirstChar - 1;
                             FFirstChar = 1;
@@ -372,7 +372,7 @@ namespace Aow.Units.AoWEdit
         }
 
         // AoWEdit.pas:113
-        public void SetGText(AnsiString Value)
+        public void SetGText(string Value)
         {
             FText = Value;
             FSized = false;
@@ -392,7 +392,7 @@ namespace Aow.Units.AoWEdit
         public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
         [Published]
-        public AnsiString Text { get => FText; set => SetGText(value); }
+        public string Text { get => FText; set => SetGText(value); }
 
         [Published]
         public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -433,7 +433,7 @@ namespace Aow.Units.AoWEdit
         // AoWEdit.pas:399
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWEdit)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWEdit)]);
         }
     }
 }

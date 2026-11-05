@@ -5,15 +5,15 @@ using System.Text;
 namespace Aow.Rtl.Localize;
 
 public sealed record MldLanguage(int Offset, int? BlockSize, int PrimaryLanguageId,
-    AnsiString IsoLanguage, int SubLanguageId, AnsiString IsoCountry, AnsiString AllSubs,
-    AnsiString AllCountries, int CharacterSetType, int CodePage, byte Options,
-    AnsiString EnglishName, AnsiString NativeName, AnsiString ExtraString, byte ExtraByte, int Padding);
+    string IsoLanguage, int SubLanguageId, string IsoCountry, string AllSubs,
+    string AllCountries, int CharacterSetType, int CodePage, byte Options,
+    string EnglishName, string NativeName, string ExtraString, byte ExtraByte, int Padding);
 
-public sealed record MldEntry(int Index, int Offset, AnsiString Native, AnsiString Form,
-    AnsiString Component, ReadOnlyCollection<AnsiString> Translations);
+public sealed record MldEntry(int Index, int Offset, string Native, string Form,
+    string Component, ReadOnlyCollection<string> Translations);
 
-public sealed record MldInfo(int Offset, AnsiString Description, AnsiString Owner,
-    ReadOnlyCollection<AnsiString> Users, string? Timestamp);
+public sealed record MldInfo(int Offset, string Description, string Owner,
+    ReadOnlyCollection<string> Users, string? Timestamp);
 
 public sealed class MldDictionary
 {
@@ -77,11 +77,11 @@ public sealed class MldDictionary
             int start = reader.Position;
             int? block = Version >= 3 ? reader.Word() : null;
             int primary = reader.Word();
-            var isoLanguage = Version >= 2 ? reader.Chars(2) : default;
+            var isoLanguage = Version >= 2 ? reader.Chars(2) : "";
             int sub = reader.Word();
-            var country = Version >= 2 ? reader.Chars(2) : default;
+            var country = Version >= 2 ? reader.Chars(2) : "";
             var allSubs = reader.Text();
-            var countries = Version >= 2 ? reader.Text() : default;
+            var countries = Version >= 2 ? reader.Text() : "";
             int charset = Version >= 3 ? reader.Word() : 0;
             int codePage = reader.Word();
             if (reader.Ansi && codePage is not (0 or 1252))
@@ -109,9 +109,9 @@ public sealed class MldDictionary
         {
             int start = reader.Position;
             var native = reader.Text();
-            var form = ContextCode is 1 or 3 ? reader.Text() : default;
-            var component = ContextCode is 1 or 2 ? reader.Text() : default;
-            var translations = new AnsiString[languageCount - 1];
+            var form = ContextCode is 1 or 3 ? reader.Text() : "";
+            var component = ContextCode is 1 or 2 ? reader.Text() : "";
+            var translations = Rtl.Strings(languageCount - 1);
             for (int j = 0; j < translations.Length; j++) translations[j] = reader.Text();
             entries[i] = new(i, start, native, form, component, Array.AsReadOnly(translations));
         }
@@ -122,7 +122,7 @@ public sealed class MldDictionary
             reader.Seek(infoOffset);
             var description = reader.Text();
             var owner = reader.Text();
-            var users = new AnsiString[reader.Word()];
+            var users = Rtl.Strings(reader.Word());
             for (int i = 0; i < users.Length; i++) users[i] = reader.Text();
             string? timestamp = null;
             if (Version >= 3)
@@ -149,15 +149,15 @@ public sealed class MldDictionary
         FileSize = bytes.Length;
         ConsumedBytes = consumed;
         // OrderBy preserves on-disk order for equal keys.
-        sorted = entries.OrderBy(SortKey).ToArray();
+        sorted = entries.OrderBy(SortKey, Cp1252.Comparer).ToArray();
         contextual = sorted;
         IsOpen = true;
     }
 
-    private static AnsiString Key(MldEntry entry) => entry.Native + AnsiString.FromBytes(127) + entry.Form + entry.Component;
+    private static string Key(MldEntry entry) => entry.Native + "\u007F" + entry.Form + entry.Component;
 
     /// <summary>The key the lookup array is sorted by: the source text, with its context when the file has one.</summary>
-    public AnsiString SortKey(MldEntry entry) => ContextCode == 0 ? entry.Native : Key(entry);
+    public string SortKey(MldEntry entry) => ContextCode == 0 ? entry.Native : Key(entry);
 
     /// <summary>The entries in the order the binary search reads them.</summary>
     public ReadOnlyCollection<MldEntry> SortedEntries => Array.AsReadOnly(sorted);
@@ -181,19 +181,19 @@ public sealed class MldDictionary
         Version = ByteOrder = CharacterSet = ContextCode = FileSize = ConsumedBytes = 0;
     }
 
-    private MldEntry? Find(AnsiString source)
+    private MldEntry? Find(string source)
     {
-        var key = ContextCode == 0 ? source : source + AnsiString.FromBytes(127);
-        return Search(sorted, key, entry => ContextCode == 0 ? entry.Native : entry.Native + AnsiString.FromBytes(127));
+        var key = ContextCode == 0 ? source : source + "\u007F";
+        return Search(sorted, key, entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
     }
 
-    private static MldEntry? Search(MldEntry[] entries, AnsiString key, Func<MldEntry, AnsiString> selector)
+    private static MldEntry? Search(MldEntry[] entries, string key, Func<MldEntry, string> selector)
     {
         int low = 0, high = entries.Length - 1;
         while (low <= high)
         {
             int middle = low + ((high - low) >> 1);
-            int comparison = selector(entries[middle]).CompareTo(key);
+            int comparison = Cp1252.Compare(selector(entries[middle]), key);
             if (comparison == 0) return entries[middle];
             if (comparison < 0) low = middle + 1;
             else high = middle - 1;
@@ -201,20 +201,20 @@ public sealed class MldDictionary
         return null;
     }
 
-    private AnsiString Translation(AnsiString source, MldEntry? entry)
+    private string Translation(string source, MldEntry? entry)
     {
         if (entry is null || language == 0 || language > entry.Translations.Count) return source;
         var translated = entry.Translations[language - 1];
         return translated.Length == 0 ? source : translated;
     }
 
-    public AnsiString Translate(AnsiString source) => source.Length == 0 ? source : Translation(source, Find(source));
+    public string Translate(string source) => source.Length == 0 ? source : Translation(source, Find(source));
 
-    public AnsiString TranslateContext(AnsiString source, AnsiString form, AnsiString component)
+    public string TranslateContext(string source, string form, string component)
     {
         if (source.Length == 0 || ContextCode == 0) return Translate(source);
-        var key = source + AnsiString.FromBytes(127) + (ContextCode is 1 or 3 ? form : default)
-            + (ContextCode is 1 or 2 ? component : default);
+        var key = source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
+            + (ContextCode is 1 or 2 ? component : "");
         return Translation(source, Search(contextual, key, Key) ?? Find(source));
     }
 
@@ -245,13 +245,13 @@ public sealed class MldDictionary
             if (offset > int.MaxValue) throw new InvalidDataException("MLD offset outside file");
             return (int)offset;
         }
-        public AnsiString Text() => Chars(Word());
-        public AnsiString Chars(int count)
+        public string Text() => Chars(Word());
+        public string Chars(int count)
         {
             var raw = Take(checked(count * (Ansi ? 1 : 2)));
-            if (Ansi) return AnsiString.FromBytes(raw.ToArray());
+            if (Ansi) return Cp1252.Decode(raw.ToArray());
             var encoding = new UnicodeEncoding(!LittleEndian, false, true);
-            return (AnsiString)encoding.GetString(raw);
+            return Cp1252.Normalize(encoding.GetString(raw));
         }
     }
 }

@@ -4,26 +4,26 @@ using static Aow.Rtl.Rtl;
 
 namespace Aow.Units.PlugInM
 {
-    public delegate void TLoadPlugInEvent(TObject Sender, AnsiString FileName);
+    public delegate void TLoadPlugInEvent(TObject Sender, string FileName);
     // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
     // FPlugInExtension ('dpl'), FOnLoadPlugIn
     public partial class TPlugInManager : TComponent
     {
         internal TStringList FPlugIns;
         internal bool FPlugInsLoaded;
-        internal AnsiString FPlugInDirectory;
-        internal AnsiString FPlugInExtension;
+        internal string FPlugInDirectory = "";
+        internal string FPlugInExtension = "";
         internal TLoadPlugInEvent FOnLoadPlugIn;
         // PlugInM.pas:60
-        internal void ExecutePlugInSearch(AnsiString Directory)
+        internal void ExecutePlugInSearch(string Directory)
         {
-            AnsiString Dir;
-            void SearchDir(AnsiString Dir)
+            string Dir;
+            void SearchDir(string Dir)
             {
                 TSearchRec SR = default;
                 TStringList Dirs;
                 bool Found;
-                Found = FindFirst(Dir + (AnsiString)"*." + FPlugInExtension, 63 - 16, ref SR) == 0;
+                Found = FindFirst(Dir + "*." + FPlugInExtension, 63 - 16, ref SR) == 0;
                 while (Found)
                 {
                     FPlugIns.Add(Dir + SR.Name);
@@ -32,12 +32,12 @@ namespace Aow.Units.PlugInM
 
                 FindClose(ref SR);
                 Dirs = new TStringList();
-                Found = FindFirst(Dir + (AnsiString)"*.*", 16, ref SR) == 0;
+                Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
                 while (Found)
                 {
-                    if ((SR.Attr & 16) != 0 && SR.Name != AnsiString.FromBytes(46) && SR.Name != (AnsiString)"..")
+                    if ((SR.Attr & 16) != 0 && SR.Name != "." && SR.Name != "..")
                     {
-                        Dirs.Add(Dir + SR.Name + AnsiString.FromBytes(92));
+                        Dirs.Add(Dir + SR.Name + "\\");
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -60,7 +60,7 @@ namespace Aow.Units.PlugInM
         public TPlugInManager(TComponent owner) : base(owner)
         {
             FPlugIns = new TStringList();
-            FPlugInExtension = (AnsiString)"dpl";
+            FPlugInExtension = "dpl";
         }
 
         // PlugInM.pas:53
@@ -72,13 +72,13 @@ namespace Aow.Units.PlugInM
         }
 
         // PlugInM.pas:96
-        public void LoadPlugIns(AnsiString Directory)
+        public void LoadPlugIns(string Directory)
         {
             ReleasePlugIns();
             FPlugInDirectory = ExpandFileName(Directory);
-            if (FPlugInDirectory != (AnsiString)"" && FPlugInDirectory[FPlugInDirectory.Length] != 92)
+            if (!IsEmpty(FPlugInDirectory) && FPlugInDirectory[FPlugInDirectory.Length - 1] != 92)
             {
-                FPlugInDirectory = FPlugInDirectory + AnsiString.FromBytes(92);
+                FPlugInDirectory = FPlugInDirectory + "\\";
             }
 
             ExecutePlugInSearch(FPlugInDirectory);
@@ -100,7 +100,7 @@ namespace Aow.Units.PlugInM
                 }
                 catch (System.Exception)
                 {
-                    ShowMessage((AnsiString)"Unable to load PlugIn: " + stringList[I]);
+                    ShowMessage("Unable to load PlugIn: " + stringList[I]);
                     stringList.Objects[I] = null;
                 }
             }
@@ -122,7 +122,7 @@ namespace Aow.Units.PlugInM
                 }
                 catch (System.Exception)
                 {
-                    ShowMessage((AnsiString)"Could not release PlugIn: " + this.FPlugIns[I]);
+                    ShowMessage("Could not release PlugIn: " + this.FPlugIns[I]);
                     this.FPlugIns.Objects[I] = null;
                 }
 
@@ -136,10 +136,10 @@ namespace Aow.Units.PlugInM
         public bool PlugInsLoaded { get => FPlugInsLoaded; }
 
         [Published]
-        public AnsiString PlugInDirectory { get => FPlugInDirectory; }
+        public string PlugInDirectory { get => FPlugInDirectory; }
 
         [Published]
-        public AnsiString PlugInExtension { get => FPlugInExtension; set => FPlugInExtension = value; }
+        public string PlugInExtension { get => FPlugInExtension; set => FPlugInExtension = value; }
 
         [Published]
         public TLoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
@@ -150,7 +150,7 @@ namespace Aow.Units.PlugInM
         // PlugInM.pas:141
         public static void Register()
         {
-            RegisterComponents((AnsiString)"Engine", [typeof(TPlugInManager)]);
+            RegisterComponents("Engine", [typeof(TPlugInManager)]);
         }
     }
 }

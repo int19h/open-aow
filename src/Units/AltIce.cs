@@ -39,7 +39,7 @@ namespace Aow.Units.AltIce
 
 
         // AltIce.pas:49
-        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfIceRStr);
+        public override string ResourceEditName() => TranslateRStr(AltarOfIceRStr);
 
     }
 

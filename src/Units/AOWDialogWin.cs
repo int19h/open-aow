@@ -47,7 +47,7 @@ namespace Aow.Units.AOWDialogWin
         public byte FAction;
         public bool FSkipCombatChoice;
         // AOWDialogWin.pas:121
-        public void Confirm(AnsiString Title, AnsiString Text, byte Action)
+        public void Confirm(string Title, string Text, byte Action)
         {
             FAction = Action;
             DTitle.Text = Title;
@@ -58,7 +58,7 @@ namespace Aow.Units.AOWDialogWin
         }
 
         // AOWDialogWin.pas:113
-        public void AddDebugMessage(AnsiString Text)
+        public void AddDebugMessage(string Text)
         {
             DebugMemo.Items.Add(Text);
             if (DebugMemo.Items.Count > 99)
@@ -87,7 +87,7 @@ namespace Aow.Units.AOWDialogWin
         // AOWDialogWin.pas:73
         public void yesBtnClick(TObject Sender)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             TStructure Structure;
             General.PlayButtonSound(0);
             switch (FAction)

@@ -23,7 +23,7 @@ public sealed class HeadlessServicesTests
     [InlineData("C:\\file", "C:")]
     [InlineData("\\\\server\\share\\file", "\\\\server\\share")]
     [InlineData("relative\\file", "")]
-    public void DriveExtractionUsesDelphiSeparators(string path, string drive) => Assert.Equal((AnsiString)drive, Rtl.ExtractFileDrive(path));
+    public void DriveExtractionUsesDelphiSeparators(string path, string drive) => Assert.Equal(drive, Rtl.ExtractFileDrive(path));
 
     [Fact]
     public void DirectoryChangesStayInsideTheFileService()
@@ -55,7 +55,7 @@ public sealed class HeadlessServicesTests
         registry.OpenKey("general", false);
         Assert.Equal(1, registry.ReadInteger("language"));
         Assert.True(registry.ReadBool("enabled"));
-        Assert.Equal((AnsiString)"English", registry.ReadString("name"));
+        Assert.Equal("English", registry.ReadString("name"));
         registry.OpenKey("Other", false);
         Assert.False(registry.ValueExists("Language"));
         var separate = new TRegistry();

@@ -28,7 +28,7 @@ namespace Aow.Units.Ruin
         public override int ResourceUserClassID() => 131994;
 
         // Ruin.pas:37
-        public override AnsiString ResourceEditName() => TranslateRStr(CastleRuinRStr);
+        public override string ResourceEditName() => TranslateRStr(CastleRuinRStr);
 
     }
 

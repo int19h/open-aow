@@ -302,9 +302,9 @@ namespace Aow.Units.AoWTCUnit
                         Window.TargetSelPnl.Visible = false;
                         var hitPoints = U.GetHitPoints();
                         var hits = U.GetHits();
-                        Window.UHits.Text = IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits);
+                        Window.UHits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
                         var moves = U.GetMoves();
-                        Window.UMoves.Text = IntToStr(General.FCombatUnit.FUnit.FMovePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                        Window.UMoves.Text = IntToStr(General.FCombatUnit.FUnit.FMovePoints) + "/" + IntToStr(moves);
                         var attack = U.GetAttack();
                         Window.UAttack.Text = IntToStr(attack);
                         var damage = U.GetDamage();
@@ -337,7 +337,7 @@ namespace Aow.Units.AoWTCUnit
                             }
                             else
                             {
-                                Window.AbilAttLbl.Text = AnsiString.FromBytes(45);
+                                Window.AbilAttLbl.Text = "-";
                             }
 
                             if (SpellInfo.Damage > 0)
@@ -346,7 +346,7 @@ namespace Aow.Units.AoWTCUnit
                             }
                             else
                             {
-                                Window.AbilDamLbl.Text = AnsiString.FromBytes(45);
+                                Window.AbilDamLbl.Text = "-";
                             }
 
                             Window.AbilStat.Items.Clear();
@@ -354,63 +354,63 @@ namespace Aow.Units.AoWTCUnit
                             {
                                 var fire = TranslateRStr(FireRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(fire + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(fire + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtCold))
                             {
                                 var cold = TranslateRStr(ColdRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(cold + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(cold + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtLightning))
                             {
                                 var lightning = TranslateRStr(LightningRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(lightning + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(lightning + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtMagic))
                             {
                                 var magic = TranslateRStr(MagicRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(magic + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(magic + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtPoison))
                             {
                                 var poison = TranslateRStr(PoisonRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(poison + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(poison + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtDeath))
                             {
                                 var death = TranslateRStr(DeathRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(death + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(death + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtHoly))
                             {
                                 var holy = TranslateRStr(HolyRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(holy + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(holy + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtPhysical))
                             {
                                 var physical = TranslateRStr(PhysicalRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(physical + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(physical + " " + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtWall))
                             {
                                 var wall = TranslateRStr(WallRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(wall + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(wall + " " + e1Damage);
                             }
                         }
                         else
@@ -427,7 +427,7 @@ namespace Aow.Units.AoWTCUnit
                             }
                             else
                             {
-                                Window.AbilAttLbl.Text = AnsiString.FromBytes(45);
+                                Window.AbilAttLbl.Text = "-";
                             }
 
                             if (AbilityInfo.Damage > 0)
@@ -436,7 +436,7 @@ namespace Aow.Units.AoWTCUnit
                             }
                             else
                             {
-                                Window.AbilDamLbl.Text = AnsiString.FromBytes(45);
+                                Window.AbilDamLbl.Text = "-";
                             }
 
                             Window.AbilStat.Items.Clear();
@@ -444,63 +444,63 @@ namespace Aow.Units.AoWTCUnit
                             {
                                 var fire = TranslateRStr(FireRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(fire + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(fire + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtCold))
                             {
                                 var cold = TranslateRStr(ColdRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(cold + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(cold + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtLightning))
                             {
                                 var lightning = TranslateRStr(LightningRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(lightning + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(lightning + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtMagic))
                             {
                                 var magic = TranslateRStr(MagicRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(magic + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(magic + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtPoison))
                             {
                                 var poison = TranslateRStr(PoisonRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(poison + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(poison + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtDeath))
                             {
                                 var death = TranslateRStr(DeathRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(death + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(death + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtHoly))
                             {
                                 var holy = TranslateRStr(HolyRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(holy + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(holy + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtPhysical))
                             {
                                 var physical = TranslateRStr(PhysicalRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(physical + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(physical + " " + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtWall))
                             {
                                 var wall = TranslateRStr(WallRStr);
                                 var e1Damage = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(wall + AnsiString.FromBytes(32) + e1Damage);
+                                Window.AbilStat.Items.Add(wall + " " + e1Damage);
                             }
                         }
                     }

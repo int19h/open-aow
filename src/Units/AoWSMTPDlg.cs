@@ -24,7 +24,7 @@ namespace Aow.Units.AoWSMTPDlg
         { }
 
         public TmsMessageHeader FHeader;
-        public AnsiString FSubject;
+        public string FSubject = "";
         public bool FIncludeHeader;
         public bool FEncode;
         public TmsAttList FAttachments;
@@ -43,7 +43,7 @@ namespace Aow.Units.AoWSMTPDlg
         public TmsSMTP(TComponent owner) : base(owner)
         { }
 
-        public AnsiString FHost;
+        public string FHost = "";
         public TmsMessage FMessage;
         // AoWSMTPDlg.pas:29
         public void SetWinsockLoaded(bool Value)
@@ -186,7 +186,7 @@ namespace Aow.Units.AoWSMTPDlg
         }
 
         // AoWSMTPDlg.pas:185
-        public void IMSSMTPError(TObject Sender, ref AnsiString Error)
+        public void IMSSMTPError(TObject Sender, ref string Error)
         {
             if (FEvent != null)
             {

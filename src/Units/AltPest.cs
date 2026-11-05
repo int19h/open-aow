@@ -39,7 +39,7 @@ namespace Aow.Units.AltPest
 
 
         // AltPest.pas:49
-        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfPestilenceRStr);
+        public override string ResourceEditName() => TranslateRStr(AltarOfPestilenceRStr);
 
     }
 

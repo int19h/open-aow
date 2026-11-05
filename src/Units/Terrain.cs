@@ -48,7 +48,7 @@ namespace Aow.Units.Terrain
 
 
         // Terrain.pas:317
-        public override AnsiString ResourceEditName() => TerrainStr;
+        public override string ResourceEditName() => TerrainStr;
 
     }
 

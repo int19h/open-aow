@@ -167,7 +167,7 @@ namespace Aow.Units.CombatFire
         public override int ResourceUserClassID() => 2229578;
 
         // CombatFire.pas:163
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Fire";
+        public override string ResourceEditName() => "Combat Fire";
 
     }
 

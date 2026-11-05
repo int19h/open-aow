@@ -76,7 +76,7 @@ public sealed class CombatDataTests
             FX = 12, FY = 34, FL = 2,
             FAttackerX = 9, FAttackerY = 8, FAttackerL = 1,
             FAttackerPlayer = -1, FDefenderPlayer = 3,
-            FRound = 7, FHeader = (AnsiString)"Combat",
+            FRound = 7, FHeader = "Combat",
             FWallType = 2, FWallBreached = true
         };
         data.FDefeatedLeaders.Add(3);

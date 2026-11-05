@@ -10,26 +10,26 @@ public sealed class SysUtilsTests
     public void IntegerParsingAndConversionsHaveDelphiBounds()
     {
         // SYSTEM.PAS:2343 _ValLong rejects signs on hexadecimal values and stops at NUL.
-        foreach (AnsiString invalid in new AnsiString[] { "+$1", "-$1", "\t1", "1 ", "$100000000", "-2147483648", "$G", "$", "  ", "+", "0x1", "1\n", "\0" + "1" })
+        foreach (string invalid in new string[] { "+$1", "-$1", "\t1", "1 ", "$100000000", "-2147483648", "$G", "$", "  ", "+", "0x1", "1\n", "\0" + "1" })
         {
             Assert.Equal(91, StrToIntDef(invalid, 91));
-            Assert.Equal((AnsiString)$"'{invalid}' is not a valid integer value", Assert.Throws<EConvertError>(() => StrToInt(invalid)).Message);
+            Assert.Equal($"'{invalid}' is not a valid integer value", Assert.Throws<EConvertError>(() => StrToInt(invalid)).Message);
         }
         foreach (var (text, value) in new[] { ("  +42", 42), ("-0", 0), ("$80000000", int.MinValue), ("$abcdef", 0xabcdef), ("00000000", 0), ("0002147483647", int.MaxValue), ("12\0junk", 12), ("$fF\0junk", 255), ("-2147483647", -int.MaxValue) })
         {
             Assert.Equal(value, StrToInt(text)); Assert.Equal(value, StrToIntDef(text, 91));
         }
         // SYSUTILS.PAS:3719 ignores integer precision outside 0..15.
-        Assert.Equal((AnsiString)"000000000000001", IntToHex(1, 15));
-        foreach (int width in new[] { int.MinValue, -1, 0, 16, 32, int.MaxValue }) Assert.Equal((AnsiString)"1", IntToHex(1, width));
-        Assert.Equal((AnsiString)"80000000", IntToHex(int.MinValue, 1));
-        Assert.Equal((AnsiString)"000", StringOfChar((byte)'0', 3));
-        Assert.Equal(default, StringOfChar(255, -1));
-        Assert.Equal(AnsiString.FromBytes(255, 255), StringOfChar(255, 2));
-        Assert.Equal((AnsiString)"'a''b\0c'", QuotedStr("a'b\0c"));
-        Assert.Equal((AnsiString)"''", QuotedStr(default(AnsiString)));
+        Assert.Equal("000000000000001", IntToHex(1, 15));
+        foreach (int width in new[] { int.MinValue, -1, 0, 16, 32, int.MaxValue }) Assert.Equal("1", IntToHex(1, width));
+        Assert.Equal("80000000", IntToHex(int.MinValue, 1));
+        Assert.Equal("000", StringOfChar((byte)'0', 3));
+        Assert.Equal("", StringOfChar(255, -1));
+        Assert.Equal("\u00FF\u00FF", StringOfChar(255, 2));
+        Assert.Equal("'a''b\0c'", QuotedStr("a'b\0c"));
+        Assert.Equal("''", QuotedStr(""));
         Assert.Equal(3, AnsiPos("\0b", "aa\0bb"));
-        Assert.Equal(0, AnsiPos(default(AnsiString), "aa"));
+        Assert.Equal(0, AnsiPos("", "aa"));
         Assert.Equal(0, AnsiPos("z", "aa"));
     }
 
@@ -45,11 +45,11 @@ public sealed class SysUtilsTests
         {
             int lower = pairs.Where(p => p.Upper == c).Select(p => p.Lower).DefaultIfEmpty(c).Single();
             int upper = pairs.Where(p => p.Lower == c).Select(p => p.Upper).DefaultIfEmpty(c).Single();
-            var value = AnsiString.FromBytes((byte)c);
-            Assert.Equal(AnsiString.FromBytes((byte)lower), AnsiLowerCase(value));
-            Assert.Equal(AnsiString.FromBytes((byte)upper), AnsiUpperCase(value));
+            var value = Cp1252.Text((byte)c);
+            Assert.Equal(Cp1252.Text((byte)lower), AnsiLowerCase(value));
+            Assert.Equal(Cp1252.Text((byte)upper), AnsiUpperCase(value));
         }
-        Assert.Equal(default, AnsiUpperCase(default(AnsiString))); Assert.Equal(default, AnsiLowerCase(default(AnsiString)));
+        Assert.Equal("", AnsiUpperCase("")); Assert.Equal("", AnsiLowerCase(""));
         Assert.Equal(128, CompareStr("\xff", "\x7f"));
         Assert.Equal(-2, CompareStr("a", "abc"));
         Assert.Equal(-1, CompareStr("a\0b", "a\0c"));
@@ -57,39 +57,39 @@ public sealed class SysUtilsTests
         Assert.Equal(128, CompareText("\xff", "\x7f"));
         Assert.Equal(0, AnsiCompareStr("\xad", "\0"));
         Assert.True(AnsiCompareStr("A", "a") < 0);
-        Assert.Equal(0, AnsiCompareText(AnsiString.FromBytes(0xc0, 0x8a, 0x8c, 0x9f), AnsiString.FromBytes(0xe0, 0x9a, 0x9c, 0xff)));
+        Assert.Equal(0, AnsiCompareText("\u00C0\u0160\u0152\u0178", "\u00E0\u0161\u0153\u00FF"));
         Assert.True(AnsiCompareText("ab", "ABC") < 0);
-        Assert.Equal((AnsiString)"a \0", TrimLeft("\t a \0"));
-        Assert.Equal((AnsiString)"\0 a", TrimRight("\0 a\t\0"));
-        Assert.Equal(default, TrimLeft((AnsiString)" \t")); Assert.Equal(default, TrimRight((AnsiString)" \t"));
+        Assert.Equal("a \0", TrimLeft("\t a \0"));
+        Assert.Equal("\0 a", TrimRight("\0 a\t\0"));
+        Assert.Equal("", TrimLeft(" \t")); Assert.Equal("", TrimRight(" \t"));
     }
 
     [Fact]
     public void FormatCoversAllTaggedKindsAndSourceParserEdges()
     {
         // SYSUTILS.PAS:3498 FormatBuf, checked with DCC32 shim-edges.pas.
-        foreach (string text in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*" }) Assert.Equal(default, Format((AnsiString)text));
-        Assert.Equal((AnsiString)"abc", Format("abc%"));
-        Assert.Equal((AnsiString)"7", Format("%.16d", 7));
-        Assert.Equal((AnsiString)"000000000000007", Format("%.15d", 7));
-        Assert.Equal((AnsiString)"A", Format("%.0s", (byte)'A'));
-        Assert.Equal((AnsiString)"4294967295", Format("%u", -1));
-        Assert.Equal((AnsiString)"-2147483648", Format("%D", int.MinValue));
-        Assert.Equal((AnsiString)"80000000", Format("%X", int.MinValue));
-        Assert.Equal((AnsiString)"FFFFFFFF", Format("%p", TVarRec.Pointer(uint.MaxValue)));
-        Assert.Equal((AnsiString)"  00000001", Format("%10.2P", TVarRec.Pointer(1)));
-        Assert.Equal((AnsiString)"abc", Format("%s", ((AnsiString)"abc\0def").AsPtr()));
-        Assert.Equal((AnsiString)"a\0b", Format("%s", (AnsiString)"a\0b"));
-        Assert.Equal((AnsiString)"bc", Format("%*:*s", 1, 2, (AnsiString)"bc"));
-        Assert.Equal((AnsiString)"1", Format("%*d", false, 1));
-        Assert.Equal((AnsiString)"1", Format("%*d", (AnsiString)"x", 1));
-        Assert.Equal((AnsiString)"abcdef", Format("%0:1:s", 7, (AnsiString)"abcdef"));
-        Assert.Equal((AnsiString)"abc", Format("%:s", (AnsiString)"abc"));
+        foreach (string text in new[] { "%", "%3", "%-", "%.", "%0:", "%*", "%.*" }) Assert.Equal("", Format(text));
+        Assert.Equal("abc", Format("abc%"));
+        Assert.Equal("7", Format("%.16d", 7));
+        Assert.Equal("000000000000007", Format("%.15d", 7));
+        Assert.Equal("A", Format("%.0s", (byte)'A'));
+        Assert.Equal("4294967295", Format("%u", -1));
+        Assert.Equal("-2147483648", Format("%D", int.MinValue));
+        Assert.Equal("80000000", Format("%X", int.MinValue));
+        Assert.Equal("FFFFFFFF", Format("%p", TVarRec.Pointer(uint.MaxValue)));
+        Assert.Equal("  00000001", Format("%10.2P", TVarRec.Pointer(1)));
+        Assert.Equal("abc", Format("%s", Ptr<byte>.Unbox("abc\0def")));
+        Assert.Equal("a\0b", Format("%s", "a\0b"));
+        Assert.Equal("bc", Format("%*:*s", 1, 2, "bc"));
+        Assert.Equal("1", Format("%*d", false, 1));
+        Assert.Equal("1", Format("%*d", "x", 1));
+        Assert.Equal("abcdef", Format("%0:1:s", 7, "abcdef"));
+        Assert.Equal("abc", Format("%:s", "abc"));
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<EConvertError>(() => Format(kind, 1.25));
         foreach (TVarRec arg in new TVarRec[] { true, 1.25, new TObject(), TVarRec.Pointer(0) }) Assert.Throws<EConvertError>(() => Format("%s", arg));
         Assert.Throws<EConvertError>(() => Format("%p", 1));
         Assert.Throws<EConvertError>(() => Format("%d", (byte)'a'));
-        Assert.Throws<EConvertError>(() => Format("%0:1:d", 7, (AnsiString)"abcdef"));
+        Assert.Throws<EConvertError>(() => Format("%0:1:d", 7, "abcdef"));
     }
 
     private sealed class FixedClock : IClock
@@ -125,7 +125,7 @@ public sealed class SysUtilsTests
             Assert.Equal((1899, 12, 30), (y, month, day));
             DecodeDate(EncodeDate(1, 1, 1) - 1, out y, out month, out day);
             Assert.Equal((0, 0, 0), (y, month, day));
-            Assert.Equal((AnsiString)"2/29/2024 12:34:56 PM", DateTimeToStr(Now()));
+            Assert.Equal("2/29/2024 12:34:56 PM", DateTimeToStr(Now()));
             Assert.Equal(0, DateTimeToFileDate(EncodeDate(1979, 12, 31)));
             Assert.Equal(0, DateTimeToFileDate(EncodeDate(2100, 1, 1)));
             int dos = DateTimeToFileDate(date + time);

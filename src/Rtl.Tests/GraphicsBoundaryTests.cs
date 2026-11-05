@@ -19,8 +19,8 @@ public sealed class GraphicsBoundaryTests
     [Fact]
     public void CharacterBufferConversionStopsAtZero()
     {
-        Assert.Equal((AnsiString)"AB", Rtl.StrPasBuffer(new byte[] { 65, 66, 0, 67 }));
-        Assert.Equal((AnsiString)"AB", Rtl.StrPasBuffer(new byte[] { 65, 66 }));
+        Assert.Equal("AB", Rtl.StrPasBuffer(new byte[] { 65, 66, 0, 67 }));
+        Assert.Equal("AB", Rtl.StrPasBuffer(new byte[] { 65, 66 }));
         Assert.Equal(18, Marshal.SizeOf<TWaveFormatEx>());
     }
 
@@ -32,7 +32,7 @@ public sealed class GraphicsBoundaryTests
         Assert.Equal(new byte[] { 3, 65, 66, 67 }, image);
         Rtl.WriteShortString(image, "X");
         Assert.Equal(new byte[] { 1, 88, 66, 67 }, image);
-        Assert.Equal((AnsiString)"X", Rtl.ReadShortString(image));
+        Assert.Equal("X", Rtl.ReadShortString(image));
     }
 
     [Fact]

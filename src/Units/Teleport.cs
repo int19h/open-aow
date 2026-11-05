@@ -84,7 +84,7 @@ namespace Aow.Units.Teleport
 
                 if (notFogEnabled || AoWHSMap.VisibleForPlayer(FDestinationX, FDestinationY, FDestinationL, AoWHSMap.FSeatedPlayer))
                 {
-                    PlaySample((AnsiString)"SFX\\PLACES\\TELEPORT.WAV");
+                    PlaySample("SFX\\PLACES\\TELEPORT.WAV");
                 }
 
                 ShowTeleportAnimations();
@@ -146,7 +146,7 @@ namespace Aow.Units.Teleport
             bool Result;
             if (FDestinationX == 0 || FDestinationY == 0)
             {
-                A1.Add(TranslateRStr(WarningRStr) + (AnsiString)": " + TranslateRStr(InvalidLocationSpecifiedRStr));
+                A1.Add(TranslateRStr(WarningRStr) + ": " + TranslateRStr(InvalidLocationSpecifiedRStr));
                 Result = false;
             }
             else
@@ -214,7 +214,7 @@ namespace Aow.Units.Teleport
             TMovepath Path;
             TAoWMapField Field;
             TTokenEvent Event;
-            AnsiString MessageText;
+            string MessageText;
             if (CanTeleport(Player))
             {
                 ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
@@ -324,7 +324,7 @@ namespace Aow.Units.Teleport
 
 
         // Teleport.pas:302
-        public override AnsiString ResourceEditName() => TranslateRStr(TeleportRStr);
+        public override string ResourceEditName() => TranslateRStr(TeleportRStr);
 
     }
 
@@ -373,10 +373,10 @@ namespace Aow.Units.Teleport
         }
 
         // Original AoWE resource initialization table
-        public static AnsiString[] RaceNames = [(AnsiString)"Humans", (AnsiString)"Azracs", (AnsiString)"Lizards", (AnsiString)"Frostlings", (AnsiString)"Elves", (AnsiString)"Halflings", (AnsiString)"Dwarves", (AnsiString)"Highmen", (AnsiString)"Dark Elves", (AnsiString)"Orcs", (AnsiString)"Goblins", (AnsiString)"Undead(plural)", (AnsiString)"Independents"];
-        public static readonly AnsiString TeleportNoWarRStr = (AnsiString)"Not at war with the %s";
+        public static string[] RaceNames = ["Humans", "Azracs", "Lizards", "Frostlings", "Elves", "Halflings", "Dwarves", "Highmen", "Dark Elves", "Orcs", "Goblins", "Undead(plural)", "Independents"];
+        public static readonly string TeleportNoWarRStr = "Not at war with the %s";
         // { original RT_STRING $FCD6 }
-        public static readonly AnsiString TeleportWarningRStr = (AnsiString)"Warning";
+        public static readonly string TeleportWarningRStr = "Warning";
 
         public static void Initialize()
         {

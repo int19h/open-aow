@@ -97,28 +97,6 @@ public static partial class Rtl
     private static double FloatingResult(double result, bool finiteInput) => double.IsInfinity(result) && finiteInput
         ? throw new EOverflow("Floating point overflow") : result;
 
-    public static AnsiString Copy(AnsiString value, int index, int count)
-    {
-        index = Math.Max(1, index);
-        if (index > value.Length || count <= 0) return default;
-        return AnsiString.FromBytes(value.Span.Slice(index - 1, Math.Min(count, value.Length - index + 1)).ToArray());
-    }
-    public static AnsiString Delete(AnsiString value, int index, int count)
-    {
-        if (index < 1 || index > value.Length || count <= 0) return value;
-        count = Math.Min(count, value.Length - index + 1);
-        return Copy(value, 1, index - 1) + Copy(value, index + count, int.MaxValue);
-    }
-    public static void Delete(ref AnsiString value, int index, int count) => value = Delete(value, index, count);
-    public static AnsiString Insert(AnsiString source, AnsiString value, int index)
-    {
-        int offset = index <= 1 ? 0 : Math.Min(index - 1, value.Length);
-        return Copy(value, 1, offset) + source + Copy(value, offset + 1, int.MaxValue);
-    }
-    public static void Insert(AnsiString source, ref AnsiString value, int index) => value = Insert(source, value, index);
-    public static int Pos(AnsiString needle, AnsiString haystack) => needle.Length == 0 ? 0 : haystack.Span.IndexOf(needle.Span) + 1;
-    public static void SetLength(ref AnsiString value, int length) => value = value.Resized(length);
-    public static int Length(AnsiString value) => value.Length;
     public static byte Chr(int value) => unchecked((byte)value);
     public static int Ord(byte value) => value;
     public static int Ord(int value) => value;
@@ -126,24 +104,23 @@ public static partial class Rtl
     public static int Ord(bool value) => value ? 1 : 0;
     public static int Ord<E>(E value) where E : unmanaged, Enum => Convert.ToInt32(value);
     public static byte UpCase(byte value) => value is >= (byte)'a' and <= (byte)'z' ? (byte)(value - 32) : value;
-    public static AnsiString SetString(Ptr<byte> source, int length)
+    public static string SetString(Ptr<byte> source, int length)
     {
-        if (length <= 0) return default;
-        if (source.IsNull) return default(AnsiString).Resized(length);
-        return AnsiString.FromBytes(source.Array!.AsSpan(source.Index, length).ToArray());
+        if (length <= 0) return "";
+        if (source.IsNull) return Resized("", length);
+        return Cp1252.Decode(source.Array!.AsSpan(source.Index, length).ToArray());
     }
-    public static void SetString(ref AnsiString value, Ptr<byte> source, int length) => value = SetString(source, length);
     public static int StrLen(Ptr<byte> value)
     {
         int count = 0;
         while (value[count] != 0) count++;
         return count;
     }
-    public static AnsiString StrPas(Ptr<byte> value) => AnsiString.FromPChar(value);
-    public static AnsiString StrPasBuffer(ReadOnlySpan<byte> value)
+    public static string StrPas(Ptr<byte> value) => FromPChar(value);
+    public static string StrPasBuffer(ReadOnlySpan<byte> value)
     {
         int end = value.IndexOf((byte)0);
-        return AnsiString.FromBytes((end < 0 ? value : value[..end]).ToArray());
+        return Cp1252.Decode((end < 0 ? value : value[..end]).ToArray());
     }
     public static Ptr<byte> StrCopy(Ptr<byte> destination, Ptr<byte> source)
     {
@@ -191,10 +168,6 @@ public static partial class Rtl
     public static void FreeMem<T>(ref Ptr<T> pointer) => pointer = default;
     public static void New<T>(out Ptr<T> pointer) => pointer = Ptr<T>.Alloc(1);
     public static void Dispose<T>(ref Ptr<T> pointer) => pointer = default;
-    public static void Assert(bool condition, AnsiString message, string file, int line)
-    {
-        if (!condition) throw new EAssertionFailed($"{(message.Length == 0 ? (AnsiString)"Assertion failed" : message)} ({file}, line {line})");
-    }
     public static void Halt(int exitCode = 0) => throw new EHalt(exitCode);
     public static void Abort() => throw EAbort.Create();
     public static T? As<T>(object? value) where T : class => value is null ? null : value as T
@@ -209,13 +182,13 @@ public static partial class Rtl
         _ => new Exception(value.Message)
     };
 
-    private static AnsiString[] arguments = Environment.GetCommandLineArgs().Select(s => (AnsiString)s).ToArray();
+    private static string[] arguments = Environment.GetCommandLineArgs().Select(s => s).ToArray();
     // Until IRtlHost is introduced, the host supplies argument zero and the arguments here.
-    public static void SetCommandLine(params AnsiString[] values)
+    public static void SetCommandLine(params string[] values)
     {
         if (values.Length == 0) throw new ArgumentException("Argument zero is the executable name.", nameof(values));
-        arguments = (AnsiString[])values.Clone();
+        arguments = (string[])values.Clone();
     }
     public static int ParamCount() => arguments.Length - 1;
-    public static AnsiString ParamStr(int index) => index >= 0 && index < arguments.Length ? arguments[index] : default;
+    public static string ParamStr(int index) => index >= 0 && index < arguments.Length ? arguments[index] : "";
 }

@@ -73,7 +73,7 @@ public sealed class LayoutSessionTests
         var module = new FailingModule();
         FailingGlobal = null;
         var error = Assert.Throws<EComponentError>(() => session.Load(module, value => FailingGlobal = value));
-        Assert.Contains("Child", error.Message.ToString());
+        Assert.Contains("Child", error.Message);
         Assert.Null(FailingGlobal);
         Assert.Equal(0, module.ComponentCount);
         Assert.True(module.ComponentState.Contains(TComponentState.csDestroying));

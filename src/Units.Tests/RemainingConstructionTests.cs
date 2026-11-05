@@ -59,7 +59,7 @@ public sealed class RemainingConstructionTests
             if (item is null) return null;
             if (item is TAoWEngine) return "$engine";
             Type type = item.GetType();
-            if (item is AnsiString text) return text.ToString();
+            if (item is string text) return text;
             if (type.IsEnum) return Convert.ToInt64(item);
             if (type.IsPrimitive || item is string || item is decimal) return item;
             if (item is Type represented) return represented.FullName;
@@ -71,9 +71,9 @@ public sealed class RemainingConstructionTests
             }
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
-            var fields = new SortedDictionary<string, object?> { ["$type"] = type.FullName };
+            var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
                     if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
                     string key = current.Name + "." + field.Name;

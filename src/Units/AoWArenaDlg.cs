@@ -126,7 +126,7 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:158
         public void SelectBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (FEvent.Train(ref Reason))
             {
@@ -141,7 +141,7 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:170
         public void U1Change(TObject Sender)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (((TAOWCheckBox)Sender).Checked)
             {
                 FEvent.SetSelection((byte)(FEvent.FSelection | (1 << ((TComponent)Sender).Tag)));
@@ -187,7 +187,7 @@ namespace Aow.Units.AoWArenaDlg
             }
             else
             {
-                SelectionInfoLbl.Text = (AnsiString)"";
+                SelectionInfoLbl.Text = "";
             }
         }
 
@@ -265,7 +265,7 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:90
         public static void ShowArena(TArenaDlg Dialog, TEnterArenaEventLog Event, TExecuteDoneEvent Done)
         {
-            Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArenaDlg.pas", 94);
+            Assert(Dialog.FEvent == null, "", "AoWArenaDlg.pas", 94);
             ResetArena(Dialog);
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
@@ -285,7 +285,7 @@ namespace Aow.Units.AoWArenaDlg
             Dialog.U6.Checked = false;
             Dialog.U7.Checked = false;
             Dialog.U8.Checked = false;
-            Dialog.SelectionInfoLbl.Text = (AnsiString)"";
+            Dialog.SelectionInfoLbl.Text = "";
         }
     }
 }

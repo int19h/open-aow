@@ -78,12 +78,12 @@ internal sealed class FrameDiagnostics : IDisposable
                     if (resource?.ImageSequenceList is { } list)
                         for (int index = 0; index < list.Count; index++)
                             for (var sequence = list.GetImageSequence(index); sequence is not null; sequence = sequence.Next)
-                                sequences.Add(new { index, name = sequence.ImageLibraryName.ToString(),
+                                sequences.Add(new { index, name = sequence.ImageLibraryName,
                                     mode = sequence.SequenceMode.ToString(), sequence.SpeedCount, sequence.ImageIndex,
                                     lastFrame = typeof(Aow.Units.ImageLib.TImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
                                     counter = typeof(Aow.Units.ImageLib.TImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence) });
                     objects.Add(new { x, y, px, py, type = child.GetType().Name,
-                        resource = resource?.GetType().Name, name = resource?.Name.ToString(), sequences });
+                        resource = resource?.GetType().Name, name = resource?.Name, sequences });
                 }
             }
         File.WriteAllText(Path.Combine(output, "diagnostic-" + name + ".json"), JsonSerializer.Serialize(new

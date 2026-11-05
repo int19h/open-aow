@@ -100,7 +100,7 @@ namespace Aow.Units.AoWSyncDlg
                 }
 
                 var day = TranslateRStr(DayRStr);
-                Turn.Text = day + AnsiString.FromBytes(32) + IntToStr(Day);
+                Turn.Text = day + " " + IntToStr(Day);
                 LShield.CurrentImage = Settings.FRace + 26;
                 RShield.CurrentImage = Settings.FRace + 26;
             }

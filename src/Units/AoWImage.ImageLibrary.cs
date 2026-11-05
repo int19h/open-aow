@@ -43,7 +43,7 @@ public partial class TAOWImage
         }
         catch (System.Exception)
         {
-            Rtl.Rtl.MessageBox(0, "Exception during Draw", (AnsiString)"Error - " + Name, 0);
+            Rtl.Rtl.MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 }

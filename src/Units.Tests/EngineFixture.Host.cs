@@ -26,8 +26,8 @@ public sealed partial class EngineFixture
         private readonly ISettingsStore? previousSettings = Runtime.Settings;
         private readonly IDialogService? previousDialogs = Runtime.Dialogs;
         private readonly IClock previousClock = Runtime.Clock;
-        private readonly AnsiString previousExe = Runtime.Application.ExeName;
-        private readonly Action<AnsiString> previousMessage = Runtime.MessageHandler;
+        private readonly string previousExe = Runtime.Application.ExeName;
+        private readonly Action<string> previousMessage = Runtime.MessageHandler;
         private readonly string previousLocalization = LocalizationRuntime.StartupDirectory;
         internal readonly List<Entry> Events = [];
         internal int Origin;
@@ -50,7 +50,7 @@ public sealed partial class EngineFixture
             Game.AoWHSSet = null!;
             Game.AoWHSMap = null!;
             Hex.HSEngineDID = Game.CombatDID = Game.AIDID = Game.TMPDID = Game.MAGICDID = 0;
-            Images.BaseImageLibraryPath = SoundApi.BaseSoundEnginePath = default;
+            Images.BaseImageLibraryPath = SoundApi.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
         internal string Relative(string value) => value.Replace(root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
@@ -62,8 +62,8 @@ public sealed partial class EngineFixture
             ["AoWHSSet"] = Game.AoWHSSet is null ? null : Game.AoWHSSet.InstanceId - Origin,
             ["HSEngineDID"] = Hex.HSEngineDID, ["CombatDID"] = Game.CombatDID, ["AIDID"] = Game.AIDID,
             ["TMPDID"] = Game.TMPDID, ["MAGICDID"] = Game.MAGICDID,
-            ["BaseImageLibraryPath"] = Relative(Images.BaseImageLibraryPath.ToString()),
-            ["BaseSoundEnginePath"] = Relative(SoundApi.BaseSoundEnginePath.ToString()),
+            ["BaseImageLibraryPath"] = Relative(Images.BaseImageLibraryPath),
+            ["BaseSoundEnginePath"] = Relative(SoundApi.BaseSoundEnginePath),
             ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),
             ["Engines"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, Core.Engines.Count).Select(i => ((TObject)Core.Engines[i]!).InstanceId - Origin)),
             ["Counter"] = (int)Counter.GetValue(null)! - Origin

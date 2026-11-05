@@ -135,7 +135,7 @@ namespace Aow.Units.Gems
 
                 if (condition)
                 {
-                    PlaySample((AnsiString)"SFX\\EVENTS\\GOLD.WAV");
+                    PlaySample("SFX\\EVENTS\\GOLD.WAV");
                 }
 
                 var player = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
@@ -170,7 +170,7 @@ namespace Aow.Units.Gems
         public override int ResourceUserClassID() => 132014;
 
         // Gems.pas:134
-        public override AnsiString ResourceEditName() => TranslateRStr(GoldRStr);
+        public override string ResourceEditName() => TranslateRStr(GoldRStr);
 
     }
 

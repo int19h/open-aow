@@ -368,7 +368,7 @@ namespace Aow.Units.CityWall
                     AoWCombatMap.FCombat.FCombatData.FWallBreached = true;
                     if (FPlaySound && AoWCombatMap.FPlaySounds)
                     {
-                        PlaySample((AnsiString)"SFX\\HIT_DEATH\\D_WOODLG.WAV");
+                        PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                     }
 
                     Effect = AoWCombatMap.AddEffect(TfxType.fxWallSmoke);
@@ -382,7 +382,7 @@ namespace Aow.Units.CityWall
                 {
                     if (FPlaySound && AoWCombatMap.FPlaySounds)
                     {
-                        PlaySample((AnsiString)"SFX\\HIT_DEATH\\D_WOODMD.WAV");
+                        PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                     }
                 }
             }
@@ -436,7 +436,7 @@ namespace Aow.Units.CityWall
         public override int ResourceUserClassID() => 2229508;
 
         // CityWall.pas:375
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat City Wall";
+        public override string ResourceEditName() => "Combat City Wall";
 
     }
 
@@ -584,7 +584,7 @@ namespace Aow.Units.CityWall
         public override int ResourceUserClassID() => 2229510;
 
         // CityWall.pas:454
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat City Door";
+        public override string ResourceEditName() => "Combat City Door";
 
     }
 

@@ -122,7 +122,7 @@ namespace Aow.Units.AoWWorldMap
                 {
                     case 0:
                         var campaign = GetCampaign();
-                        bool condition = AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FOutroPages, 0).FImageLibrary != (AnsiString)"";
+                        bool condition = !IsEmpty(AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FOutroPages, 0).FImageLibrary);
                         if (!condition)
                         {
                             var campaign2 = GetCampaign();
@@ -131,7 +131,7 @@ namespace Aow.Units.AoWWorldMap
 
                         if (condition)
                         {
-                            SetCurrentDir(AoWEngine.StartupDirectory + (AnsiString)"\\Int\\Scenes");
+                            SetCurrentDir(AoWEngine.StartupDirectory + "\\Int\\Scenes");
                             var campaign2 = GetCampaign();
                             var campaignScenario = GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID);
                             var campaign3 = GetCampaign();
@@ -174,7 +174,7 @@ namespace Aow.Units.AoWWorldMap
                             var campaign11 = GetCampaign();
                             var campaignScenario5 = GetCampaignScenario(GetCampaign(), campaign11.FCurrentScenarioID);
                             var campaign12 = GetCampaign();
-                            if (AoWWorldMap.GetCampaignPage(campaignScenario5.FOutroPages, campaign12.FPage).FImageLibrary == (AnsiString)"")
+                            if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario5.FOutroPages, campaign12.FPage).FImageLibrary))
                             {
                                 PicL.ImageLib = null;
                             }
@@ -199,7 +199,7 @@ namespace Aow.Units.AoWWorldMap
                             var campaign17 = GetCampaign();
                             var campaignScenario8 = GetCampaignScenario(GetCampaign(), campaign17.FCurrentScenarioID);
                             var campaign18 = GetCampaign();
-                            if (AoWWorldMap.GetCampaignPage(campaignScenario8.FOutroPages, campaign18.FPage + 1).FImageLibrary == (AnsiString)"")
+                            if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario8.FOutroPages, campaign18.FPage + 1).FImageLibrary))
                             {
                                 PicR.ImageLib = null;
                             }
@@ -232,7 +232,7 @@ namespace Aow.Units.AoWWorldMap
                                 var campaign13 = GetCampaign();
                                 var campaignScenario6 = GetCampaignScenario(GetCampaign(), campaign13.FCurrentScenarioID);
                                 var campaign14 = GetCampaign();
-                                bool test = AoWWorldMap.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 2).FImageLibrary != (AnsiString)"";
+                                bool test = !IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 2).FImageLibrary);
                                 if (!test)
                                 {
                                     var campaign15 = GetCampaign();
@@ -381,7 +381,7 @@ namespace Aow.Units.AoWWorldMap
                         break;
                     case 2:
                         var campaign26 = GetCampaign();
-                        bool passed = AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign26.FNextScenarioID).FIntroPages, 0).FImageLibrary != (AnsiString)"";
+                        bool passed = !IsEmpty(AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign26.FNextScenarioID).FIntroPages, 0).FImageLibrary);
                         if (!passed)
                         {
                             var campaign2 = GetCampaign();
@@ -417,7 +417,7 @@ namespace Aow.Units.AoWWorldMap
                     case 4:
                         var campaign27 = GetCampaign();
                         var campaignScenario11 = GetCampaignScenario(GetCampaign(), campaign27.FNextScenarioID);
-                        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + (AnsiString)"Scenario\\Campaign\\" + campaignScenario11.FFileName);
+                        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName);
                         if (Preview != null)
                         {
                             Index = Preview.FPlayers.IndexOfPlayerType(TPlayerType.ptHuman);
@@ -444,13 +444,13 @@ namespace Aow.Units.AoWWorldMap
                         break;
                     case 7:
                         var campaign28 = GetCampaign();
-                        if (GetCampaignScenario(GetCampaign(), campaign28.FNextScenarioID).FFileName != (AnsiString)"")
+                        if (!IsEmpty(GetCampaignScenario(GetCampaign(), campaign28.FNextScenarioID).FFileName))
                         {
                             var campaign2 = GetCampaign();
                             campaign2.FState += 1;
                             var campaign3 = GetCampaign();
                             GetCampaign().StartScenario(campaign3.FNextScenarioID, null);
-                            SetCurrentDir(AoWEngine.StartupDirectory + (AnsiString)"Scenario\\Campaign\\");
+                            SetCurrentDir(AoWEngine.StartupDirectory + "Scenario\\Campaign\\");
                             var campaign4 = GetCampaign();
                             var campaignScenario = GetCampaignScenario(GetCampaign(), campaign4.FCurrentScenarioID);
                             AoWWinMan.AoWWinMan.LoadGame(General, campaignScenario.FFileName);
@@ -458,11 +458,11 @@ namespace Aow.Units.AoWWorldMap
                             WorldPnl.Visible = false;
                             GetCampaign().SetupScenario();
                             AoWWinMan.AoWWinMan.StartGame(General);
-                            AoWWorldMap.WorldMap.DescLbl.Text = (AnsiString)"";
+                            AoWWorldMap.WorldMap.DescLbl.Text = "";
                         }
                         else
                         {
-                            AoWWorldMap.WorldMap.DescLbl.Text = (AnsiString)"";
+                            AoWWorldMap.WorldMap.DescLbl.Text = "";
                             GetCampaign().FState = 0;
                             UpdateCampaignState();
                         }
@@ -478,7 +478,7 @@ namespace Aow.Units.AoWWorldMap
         // AoWWorldMap.pas:347
         public void ShowIntroPages(int Index)
         {
-            SetCurrentDir(AoWEngine.StartupDirectory + (AnsiString)"Int\\Scenes");
+            SetCurrentDir(AoWEngine.StartupDirectory + "Int\\Scenes");
             var campaignScenario = GetCampaignScenario(GetCampaign(), Index);
             var campaign = GetCampaign();
             var campaignPage = AoWWorldMap.GetCampaignPage(campaignScenario.FIntroPages, campaign.FPage);
@@ -499,7 +499,7 @@ namespace Aow.Units.AoWWorldMap
             rightSB.Position = 0;
             var campaignScenario5 = GetCampaignScenario(GetCampaign(), Index);
             var campaign5 = GetCampaign();
-            if (AoWWorldMap.GetCampaignPage(campaignScenario5.FIntroPages, campaign5.FPage).FImageLibrary == (AnsiString)"")
+            if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario5.FIntroPages, campaign5.FPage).FImageLibrary))
             {
                 PicL.ImageLib = null;
             }
@@ -521,7 +521,7 @@ namespace Aow.Units.AoWWorldMap
 
             var campaignScenario8 = GetCampaignScenario(GetCampaign(), Index);
             var campaign8 = GetCampaign();
-            if (AoWWorldMap.GetCampaignPage(campaignScenario8.FIntroPages, campaign8.FPage + 1).FImageLibrary == (AnsiString)"")
+            if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario8.FIntroPages, campaign8.FPage + 1).FImageLibrary))
             {
                 PicR.ImageLib = null;
             }
@@ -551,7 +551,7 @@ namespace Aow.Units.AoWWorldMap
             {
                 var campaignScenario6 = GetCampaignScenario(GetCampaign(), Index);
                 var campaign6 = GetCampaign();
-                bool condition = AoWWorldMap.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 2).FImageLibrary != (AnsiString)"";
+                bool condition = !IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 2).FImageLibrary);
                 if (!condition)
                 {
                     var campaignScenario7 = GetCampaignScenario(GetCampaign(), Index);
@@ -674,7 +674,7 @@ namespace Aow.Units.AoWWorldMap
                 if (condition)
                 {
                     var campaign2 = GetCampaign();
-                    bool test = AoWWorldMap.GetCampaignPage(Scenario.FIntroPages, campaign2.FPage + 2).FImageLibrary != (AnsiString)"";
+                    bool test = !IsEmpty(AoWWorldMap.GetCampaignPage(Scenario.FIntroPages, campaign2.FPage + 2).FImageLibrary);
                     if (!test)
                     {
                         var campaign3 = GetCampaign();
@@ -708,7 +708,7 @@ namespace Aow.Units.AoWWorldMap
                 this.BookWin.FBackSurface.Cls(this.BookWin.FMaskColor);
             }
 
-            PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+            PlaySample("Sfx\\Int\\Pagef1.wav");
             FBookAction = 1;
         }
 
@@ -724,7 +724,7 @@ namespace Aow.Units.AoWWorldMap
             Back.CaptureInput = false;
             Next.CaptureInput = false;
             BookStart.CaptureInput = false;
-            PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+            PlaySample("Sfx\\Int\\Pagef1.wav");
             FBookAction = 2;
         }
 
@@ -865,7 +865,7 @@ namespace Aow.Units.AoWWorldMap
             {
                 if (GetCampaign().FState == 1)
                 {
-                    DescLbl.Text = (AnsiString)"";
+                    DescLbl.Text = "";
                     SelectCampaignPath(GetCampaign(), 0);
                     UpdateCampaignState();
                 }
@@ -879,7 +879,7 @@ namespace Aow.Units.AoWWorldMap
             {
                 if (GetCampaign().FState == 1)
                 {
-                    DescLbl.Text = (AnsiString)"";
+                    DescLbl.Text = "";
                     SelectCampaignPath(GetCampaign(), 1);
                     UpdateCampaignState();
                 }
@@ -893,7 +893,7 @@ namespace Aow.Units.AoWWorldMap
             {
                 if (GetCampaign().FState == 1)
                 {
-                    DescLbl.Text = (AnsiString)"";
+                    DescLbl.Text = "";
                     SelectCampaignPath(GetCampaign(), 2);
                     UpdateCampaignState();
                 }
@@ -905,7 +905,7 @@ namespace Aow.Units.AoWWorldMap
         {
             GetCampaign().ResetNextScenario();
             GetCampaign().FState = 1;
-            PlaySample((AnsiString)"Sfx\\Int\\BookClse.wav");
+            PlaySample("Sfx\\Int\\BookClse.wav");
             UpdateCampaignState();
         }
 
@@ -931,7 +931,7 @@ namespace Aow.Units.AoWWorldMap
         // AoWWorldMap.pas:624
         public void PPawnMouseMove(TAoWComponent Sender, TSet<TShiftState> Shift, int X, int Y)
         {
-            AnsiString Description = default;
+            string Description = "";
             TAoWComponent Pawn;
             Pawn = Sender;
             // { Original hit test uses X. }
@@ -957,7 +957,7 @@ namespace Aow.Units.AoWWorldMap
                 }
             }
 
-            if (DescLbl.Text != Description && Description != (AnsiString)"")
+            if (DescLbl.Text != Description && !IsEmpty(Description))
             {
                 DescLbl.Text = Description;
                 this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
@@ -1037,9 +1037,9 @@ namespace Aow.Units.AoWWorldMap
             {
                 if (GetCampaign().FState == 1)
                 {
-                    if (this.DescLbl.Text != (AnsiString)"")
+                    if (!IsEmpty(this.DescLbl.Text))
                     {
-                        this.DescLbl.Text = (AnsiString)"";
+                        this.DescLbl.Text = "";
                     }
                 }
             }
@@ -1051,7 +1051,7 @@ namespace Aow.Units.AoWWorldMap
         public void BookStartClick()
         {
             BookWin.Visible = false;
-            PlaySample((AnsiString)"Sfx\\Int\\BookClse.wav");
+            PlaySample("Sfx\\Int\\BookClse.wav");
             if (!WorldPnl.Visible)
             {
                 General.Manager.OverlayPriority = 0;

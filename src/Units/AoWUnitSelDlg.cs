@@ -106,7 +106,7 @@ namespace Aow.Units.AoWUnitSelDlg
             U6.Checked = false;
             U7.Checked = false;
             U8.Checked = false;
-            SelectionInfoLbl.Text = (AnsiString)"";
+            SelectionInfoLbl.Text = "";
         }
 
         // AoWUnitSelDlg.pas:186
@@ -160,7 +160,7 @@ namespace Aow.Units.AoWUnitSelDlg
         // AoWUnitSelDlg.pas:107
         public void SelectBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (FEvent.CanSelect(ref Reason))
             {
@@ -176,7 +176,7 @@ namespace Aow.Units.AoWUnitSelDlg
         // AoWUnitSelDlg.pas:120
         public void U1Change(TObject Sender)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (((TAOWCheckBox)Sender).Checked)
             {
                 if (!FEvent.FCanceled)
@@ -226,7 +226,7 @@ namespace Aow.Units.AoWUnitSelDlg
             }
             else
             {
-                SelectionInfoLbl.Text = (AnsiString)"";
+                SelectionInfoLbl.Text = "";
             }
         }
 

@@ -201,7 +201,7 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:131
-        public override AnsiString ResourceEditName() => (AnsiString)"Road";
+        public override string ResourceEditName() => "Road";
 
     }
 

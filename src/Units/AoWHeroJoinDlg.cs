@@ -139,7 +139,7 @@ namespace Aow.Units.AoWHeroJoinDlg
         // AoWHeroJoinDlg.pas:132
         public void LeftBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (ValidateJoin())
             {
                 General.PlayButtonSound(0);
@@ -157,7 +157,7 @@ namespace Aow.Units.AoWHeroJoinDlg
         // AoWHeroJoinDlg.pas:144
         public void MiddleBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (ValidateJoin())
             {
                 General.PlayButtonSound(0);

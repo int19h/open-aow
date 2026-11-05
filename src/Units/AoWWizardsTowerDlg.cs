@@ -75,7 +75,7 @@ namespace Aow.Units.AoWWizardsTowerDlg
         // AoWWizardsTowerDlg.pas:73
         public void BuyBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (!FEvent.FTower.Buy(AoWHSMap.FSeatedPlayer, ref Reason))
             {

@@ -124,7 +124,7 @@ namespace Aow.Units.aowMapEvents
         {
             General.FAbilities.Clear();
             General.FUnitList = null;
-            AOWControlWin.AOWControlWin.ControlWin.MovesLbl.Text = (AnsiString)"";
+            AOWControlWin.AOWControlWin.ControlWin.MovesLbl.Text = "";
             AOWControlWin.AOWControlWin.ControlWin.MoveIcon.Visible = false;
             AOWControlWin.AOWControlWin.ControlWin.Emp1Fr.Visible = true;
             AOWControlWin.AOWControlWin.ControlWin.Emp1Chk.Visible = true;
@@ -533,9 +533,9 @@ namespace Aow.Units.aowMapEvents
                 if (!Update)
                 {
                     // { The original clears both income signs when the gold display is cleared. }
-                    TBWindow.WGTLbl.Text = (AnsiString)"";
-                    TBWindow.WGSign.Text = (AnsiString)"";
-                    TBWindow.WMTSign.Text = (AnsiString)"";
+                    TBWindow.WGTLbl.Text = "";
+                    TBWindow.WGSign.Text = "";
+                    TBWindow.WMTSign.Text = "";
                 }
                 else
                 {
@@ -596,7 +596,7 @@ namespace Aow.Units.aowMapEvents
 
                 if (!Update)
                 {
-                    TBWindow.WGILbl.Text = (AnsiString)"";
+                    TBWindow.WGILbl.Text = "";
                 }
                 else
                 {
@@ -604,13 +604,13 @@ namespace Aow.Units.aowMapEvents
                     NetIncome = AoWHSMap.FPlayers.GetPlayers(Player).FIncome - upkeep;
                     if (NetIncome >= 0)
                     {
-                        TBWindow.WGSign.Text = AnsiString.FromBytes(43);
+                        TBWindow.WGSign.Text = "+";
                         TBWindow.WGSign.TextColor = 7864183;
                         TBWindow.WGILbl.TextColor = 7864183;
                     }
                     else
                     {
-                        TBWindow.WGSign.Text = AnsiString.FromBytes(45);
+                        TBWindow.WGSign.Text = "-";
                         TBWindow.WGSign.TextColor = 119;
                         TBWindow.WGILbl.TextColor = 119;
                     }
@@ -686,8 +686,8 @@ namespace Aow.Units.aowMapEvents
 
                 if (!Update)
                 {
-                    TBWindow.WMTLbl.Text = (AnsiString)"";
-                    TBWindow.WMILbl.Text = (AnsiString)"";
+                    TBWindow.WMTLbl.Text = "";
+                    TBWindow.WMILbl.Text = "";
                 }
                 else
                 {
@@ -696,13 +696,13 @@ namespace Aow.Units.aowMapEvents
                     NetIncome = AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaIncome() - AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaUpkeep();
                     if (NetIncome >= 0)
                     {
-                        TBWindow.WMTSign.Text = AnsiString.FromBytes(43);
+                        TBWindow.WMTSign.Text = "+";
                         TBWindow.WMTSign.TextColor = 7864183;
                         TBWindow.WMILbl.TextColor = 7864183;
                     }
                     else
                     {
-                        TBWindow.WMTSign.Text = AnsiString.FromBytes(45);
+                        TBWindow.WMTSign.Text = "-";
                         TBWindow.WMTSign.TextColor = 119;
                         TBWindow.WMILbl.TextColor = 119;
                     }
@@ -821,7 +821,7 @@ namespace Aow.Units.aowMapEvents
             General.FProductionPlace = null;
             General.FProductionControl = null;
             General.FSign = null;
-            IWindow.StructNameLbl.Text = (AnsiString)"";
+            IWindow.StructNameLbl.Text = "";
             IWindow.StructLine.Visible = false;
             IWindow.InfoWin.Visible = false;
             TBWindow.StructButton.Visible = false;
@@ -1084,7 +1084,7 @@ namespace Aow.Units.aowMapEvents
                 var castingPoints = Hero.GetCastingPoints();
                 var castingPoints2 = TranslateRStr(CastingPointsRStr);
                 var castingPointsMax = Hero.GetCastingPointsMax();
-                Dialog.CastingPointsLbl.Text = castingPoints2 + (AnsiString)": " + IntToStr(castingPoints) + AnsiString.FromBytes(47) + IntToStr(castingPointsMax);
+                Dialog.CastingPointsLbl.Text = castingPoints2 + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
             }
 
             Spell = AoWHSSet.FSpellControl.GetSpell(Dialog.FCaster.FCasterSpellID);
@@ -1093,13 +1093,13 @@ namespace Aow.Units.aowMapEvents
             var castingMana = Hero.CastingMana(Spell);
             var castingCost = TranslateRStr(CastingCostRStr);
             var mana = TranslateRStr(ManaRStr);
-            Dialog.SpellManaLbl.Text = castingCost + (AnsiString)": " + IntToStr(castingMana) + AnsiString.FromBytes(32) + mana;
+            Dialog.SpellManaLbl.Text = castingCost + ": " + IntToStr(castingMana) + " " + mana;
             var upkeep = TranslateRStr(UpkeepRStr);
             var mana2 = TranslateRStr(ManaRStr);
-            Dialog.SpellUpkeepLbl.Text = upkeep + (AnsiString)": " + IntToStr(Spell.FManaUpkeep) + AnsiString.FromBytes(32) + mana2;
+            Dialog.SpellUpkeepLbl.Text = upkeep + ": " + IntToStr(Spell.FManaUpkeep) + " " + mana2;
             var player = AoWHSMap.FPlayers.GetPlayers(Hero.FPlayer);
             var mana3 = TranslateRStr(ManaRStr);
-            Dialog.CastingManaLbl.Text = mana3 + (AnsiString)": " + IntToStr(player.FMagicControl.FMana);
+            Dialog.CastingManaLbl.Text = mana3 + ": " + IntToStr(player.FMagicControl.FMana);
             Dialog.U1.Checked = false;
             Dialog.U2.Checked = false;
             Dialog.U3.Checked = false;
@@ -1108,7 +1108,7 @@ namespace Aow.Units.aowMapEvents
             Dialog.U6.Checked = false;
             Dialog.U7.Checked = false;
             Dialog.U8.Checked = false;
-            Dialog.SelectionInfoLbl.Text = (AnsiString)"";
+            Dialog.SelectionInfoLbl.Text = "";
             Dialog.Dlg.Visible = true;
         }
 
@@ -1199,7 +1199,7 @@ namespace Aow.Units.aowMapEvents
                 Dialog.MessageMemo.Items.Delete(0);
             }
 
-            if (Dialog.MessageMemo.Items.Count > 0 && Dialog.MessageMemo.Items[0] == (AnsiString)"")
+            if (Dialog.MessageMemo.Items.Count > 0 && Rtl.Rtl.IsEmpty(Dialog.MessageMemo.Items[0]))
             {
                 Dialog.MessageMemo.Items.Delete(0);
             }
@@ -1249,26 +1249,26 @@ namespace Aow.Units.aowMapEvents
             {
                 var buyCost = Dialog.FEvent.FTower.BuyCost();
                 var format = AoWE.AoWE.Format(TranslateRStr(ForXGoldRStr), [IntToStr(buyCost)]);
-                Dialog.PriceLbl.Text = format + AnsiString.FromBytes(46);
+                Dialog.PriceLbl.Text = format + ".";
                 Spell = AoWHSSet.FSpellControl.GetSpell(Tower.FSpellID);
                 Dialog.SpellName.Text = Spell.FSpellName;
                 var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
                 var level = TranslateRStr(AoWE.AoWE.LevelRStr);
-                Dialog.SpellClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                Dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
                 var castingCost = TranslateRStr(CastingCostRStr);
                 var mana = TranslateRStr(ManaRStr);
-                Dialog.SpellCost.Text = castingCost + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + mana;
+                Dialog.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
                 var text = Spell.FSpellText.Text;
                 Dialog.ResearchMemo.Items.Text = text;
             }
             else
             {
-                Dialog.PriceLbl.Text = (AnsiString)"";
+                Dialog.PriceLbl.Text = "";
                 var none = TranslateRStr(AoWE.AoWE.NoneRStr);
                 Dialog.SpellName.Text = none;
-                Dialog.SpellClass.Text = (AnsiString)"";
-                Dialog.SpellCost.Text = (AnsiString)"";
-                Dialog.ResearchMemo.Items.Text = (AnsiString)"";
+                Dialog.SpellClass.Text = "";
+                Dialog.SpellCost.Text = "";
+                Dialog.ResearchMemo.Items.Text = "";
             }
 
             Dialog.Dlg.Visible = true;
@@ -1421,16 +1421,16 @@ namespace Aow.Units.aowMapEvents
                 Dialog.UnitName.Text = Dialog.FHero.FHeroName;
                 var level = Dialog.FHero.GetLevel();
                 var level2 = TranslateRStr(AoWE.AoWE.LevelRStr);
-                Dialog.LevelLbl.Text = level2 + AnsiString.FromBytes(32) + IntToStr(level);
+                Dialog.LevelLbl.Text = level2 + " " + IntToStr(level);
                 if (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel > 1)
                 {
                     var format = AoWE.AoWE.Format(TranslateRStr(E3Globals.E3Globals.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
-                    Dialog.HeaderLbl.Text = format + AnsiString.FromBytes(33);
+                    Dialog.HeaderLbl.Text = format + "!";
                 }
                 else
                 {
                     var format = AoWE.AoWE.Format(TranslateRStr(E3Globals.E3Globals.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
-                    Dialog.HeaderLbl.Text = format + AnsiString.FromBytes(33);
+                    Dialog.HeaderLbl.Text = format + "!";
                 }
 
                 Dialog.Dlg.Visible = true;
@@ -1454,7 +1454,7 @@ namespace Aow.Units.aowMapEvents
                     Dialog.MessageMemo.Items.Text = text;
                     if (Dialog.MessageMemo.Items.Text.Length < 80)
                     {
-                        Dialog.MessageMemo.Items.Insert(0, (AnsiString)"");
+                        Dialog.MessageMemo.Items.Insert(0, "");
                     }
 
                     break;
@@ -1494,7 +1494,7 @@ namespace Aow.Units.aowMapEvents
             Dialog.FSaveEvent.AddRef();
             Dialog.FMode = 1;
             Dialog.FileDialog.Visible = true;
-            if (Event.FDirectory != (AnsiString)"")
+            if (!IsEmpty(Event.FDirectory))
             {
                 SetCurrentDir(Event.FDirectory);
             }

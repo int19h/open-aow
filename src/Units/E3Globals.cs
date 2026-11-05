@@ -83,7 +83,7 @@ namespace Aow.Units.E3Globals
                 var manaUpkeep = Control.GetManaUpkeep();
                 var controlManaIncome = Control.GetManaIncome();
                 var controlManaUpkeep = Control.GetManaUpkeep();
-                Window.NetMana.Text = IntToStr(manaIncome) + AnsiString.FromBytes(45) + IntToStr(manaUpkeep) + AnsiString.FromBytes(61) + IntToStr(controlManaIncome - controlManaUpkeep);
+                Window.NetMana.Text = IntToStr(manaIncome) + "-" + IntToStr(manaUpkeep) + "=" + IntToStr(controlManaIncome - controlManaUpkeep);
                 var netPowerToResearch = Control.GetNetPowerToResearch();
                 Window.ResearchPoints.Text = IntToStr(netPowerToResearch);
                 if (Control.FResearchSpellID != 0)
@@ -92,10 +92,10 @@ namespace Aow.Units.E3Globals
                     Window.SpellName.Text = Spell.FSpellName;
                     var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
                     var level = TranslateRStr(LevelRStr);
-                    Window.SpellClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                    Window.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
                     var castingCost = TranslateRStr(CastingCostRStr);
                     var mana = TranslateRStr(ManaRStr);
-                    Window.SpellCost.Text = castingCost + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + mana;
+                    Window.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
                     Turns = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
                     if (Turns < 999)
                     {
@@ -180,10 +180,10 @@ namespace Aow.Units.E3Globals
                     condition = SongPlayer.CurrentIndex >= count;
                 }
 
-                if (condition || SongPlayer.Songs[SongPlayer.CurrentIndex] != (AnsiString)"SONGS\\TITLE.IT")
+                if (condition || SongPlayer.Songs[SongPlayer.CurrentIndex] != "SONGS\\TITLE.IT")
                 {
                     SongPlayer.Songs.Clear();
-                    SongPlayer.Songs.Add((AnsiString)"SONGS\\TITLE.IT");
+                    SongPlayer.Songs.Add("SONGS\\TITLE.IT");
                     SongPlayer.Play(0);
                 }
             }
@@ -222,28 +222,28 @@ namespace Aow.Units.E3Globals
             Dialog.Dlg.Visible = true;
         }
 
-        public static readonly AnsiString DisbandUnitRStr = (AnsiString)"Disband this unit?";
-        public static readonly AnsiString ConfirmRStr = (AnsiString)"Confirm";
-        public static readonly AnsiString PartyActionRStr = (AnsiString)"Party Action:";
-        public static readonly AnsiString PatrollingRStr = (AnsiString)"Patrolling";
-        public static readonly AnsiString GuardingRStr = (AnsiString)"Guarding";
-        public static readonly AnsiString ScoutingRStr = (AnsiString)"Scouting";
-        public static readonly AnsiString SeekingRefugeRStr = (AnsiString)"Seeking Refuge";
-        public static readonly AnsiString RaidingRStr = (AnsiString)"Raiding";
-        public static readonly AnsiString HuntingRStr = (AnsiString)"Hunting";
-        public static readonly AnsiString ProtectingRStr = (AnsiString)"Protecting";
-        public static readonly AnsiString FortifiedRStr = (AnsiString)"Fortified";
-        public static readonly AnsiString BerserkRStr = (AnsiString)"Berserk";
-        public static readonly AnsiString WanderingRStr = (AnsiString)"Wandering";
-        public static readonly AnsiString PartyJoinRStr = (AnsiString)"Party Join";
-        public static readonly AnsiString XMadeALevelRStr = (AnsiString)"%s made a level";
-        public static readonly AnsiString XMadeYLevelsRStr = (AnsiString)"%s made %d levels";
-        public static FixedArray_Aow_Rtl_AnsiString_3 TTacticalCombatAvailabilityRStr = FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Never", (AnsiString)"Between Humans", (AnsiString)"Always"]);
-        public static readonly AnsiString IndependentsRStr = (AnsiString)"Independents";
-        public static readonly AnsiString ItemBagRStr = (AnsiString)"Item Bag";
-        public static readonly AnsiString MapSettingsRStr = (AnsiString)"Scenario Info:";
-        public static readonly AnsiString DayLimitXRStr = (AnsiString)"Turn Limit: %s";
-        public static FixedArray_Aow_Rtl_AnsiString_4 TVictoryConditionRStr = FixedArray_Aow_Rtl_AnsiString_4.From([(AnsiString)"None", (AnsiString)"Conquer locations", (AnsiString)"Accumulate gold", (AnsiString)"Accumulate mana"]);
-        public static FixedArray_Aow_Rtl_AnsiString_3 TPlayerConnectionTypeRStr = FixedArray_Aow_Rtl_AnsiString_3.From([(AnsiString)"Single Computer", (AnsiString)"Internet/Lan", (AnsiString)"Play by email"]);
+        public static readonly string DisbandUnitRStr = "Disband this unit?";
+        public static readonly string ConfirmRStr = "Confirm";
+        public static readonly string PartyActionRStr = "Party Action:";
+        public static readonly string PatrollingRStr = "Patrolling";
+        public static readonly string GuardingRStr = "Guarding";
+        public static readonly string ScoutingRStr = "Scouting";
+        public static readonly string SeekingRefugeRStr = "Seeking Refuge";
+        public static readonly string RaidingRStr = "Raiding";
+        public static readonly string HuntingRStr = "Hunting";
+        public static readonly string ProtectingRStr = "Protecting";
+        public static readonly string FortifiedRStr = "Fortified";
+        public static readonly string BerserkRStr = "Berserk";
+        public static readonly string WanderingRStr = "Wandering";
+        public static readonly string PartyJoinRStr = "Party Join";
+        public static readonly string XMadeALevelRStr = "%s made a level";
+        public static readonly string XMadeYLevelsRStr = "%s made %d levels";
+        public static FixedArray_string_3 TTacticalCombatAvailabilityRStr = FixedArray_string_3.From(["Never", "Between Humans", "Always"]);
+        public static readonly string IndependentsRStr = "Independents";
+        public static readonly string ItemBagRStr = "Item Bag";
+        public static readonly string MapSettingsRStr = "Scenario Info:";
+        public static readonly string DayLimitXRStr = "Turn Limit: %s";
+        public static FixedArray_string_4 TVictoryConditionRStr = FixedArray_string_4.From(["None", "Conquer locations", "Accumulate gold", "Accumulate mana"]);
+        public static FixedArray_string_3 TPlayerConnectionTypeRStr = FixedArray_string_3.From(["Single Computer", "Internet/Lan", "Play by email"]);
     }
 }

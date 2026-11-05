@@ -63,7 +63,7 @@ namespace Aow.Units.Farm
         public override bool GetRazed() => FMode.Contains(TFarmModeElement.fmRazed);
 
         // Farm.pas:76
-        public override AnsiString GetCurrentActivityText()
+        public override string GetCurrentActivityText()
         {
             var income = GetIncome();
             return Rtl.Rtl.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
@@ -177,7 +177,7 @@ namespace Aow.Units.Farm
 
 
         // Farm.pas:146
-        public override AnsiString ResourceEditName() => TranslateRStr(FarmRStr);
+        public override string ResourceEditName() => TranslateRStr(FarmRStr);
 
     }
 

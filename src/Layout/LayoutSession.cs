@@ -69,7 +69,7 @@ public sealed class LayoutSession
 
     public void Resolve(TComponent root)
     {
-        if (!modules.TryAdd(root.Name.ToString(), root)) throw new InvalidOperationException("Duplicate module " + root.Name.ToString());
+        if (!modules.TryAdd(root.Name, root)) throw new InvalidOperationException("Duplicate module " + root.Name);
         for (int i = 0; i < pending.Count;)
         {
             var fixup = pending[i];
@@ -97,11 +97,11 @@ public sealed class LayoutSession
 
 // This adapter uses the list's getter and batches its changes, as TStrings.ReadData does.
 // It also allows collection initializers without changing the frozen shim.
-public sealed class LayoutStrings : IEnumerable<AnsiString>
+public sealed class LayoutStrings : IEnumerable<string>
 {
-    private readonly List<AnsiString> values = [];
-    public void Add(AnsiString value) => values.Add(value);
-    public IEnumerator<AnsiString> GetEnumerator() => values.GetEnumerator();
+    private readonly List<string> values = [];
+    public void Add(string value) => values.Add(value);
+    public IEnumerator<string> GetEnumerator() => values.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     public void CopyTo(TStrings target)
     {

@@ -49,12 +49,12 @@ public sealed class CoreTests
         Assert.True(TFailingSample.LastInstance!.Destroyed);
         var result = GeneratedStyleSample.Run();
         Assert.Equal(20, result.Value);
-        Assert.Equal((AnsiString)"abcde", result.Name);
+        Assert.Equal("abcde", result.Name);
         Assert.Equal(TSet<TFlag>.Range(TFlag.First, TFlag.Third), result.Flags);
         var copy = result;
         copy.Name = "x";
         copy.Flags = default;
-        Assert.Equal((AnsiString)"abcde", result.Name);
+        Assert.Equal("abcde", result.Name);
         Assert.Equal(3, result.Flags.Count);
         Assert.Equal(12, Marshal.SizeOf<TSampleRecord>());
         var image = Bytes.Of(ref result);
@@ -66,53 +66,50 @@ public sealed class CoreTests
     private sealed class Unregistered : TObject;
 
     [Fact]
-    public void StringsAreImmutableByteValues()
+    public void StringsAreImmutableValuesWithOneCharPerByte()
     {
         using var mode = new StringMode(false);
-        AnsiString empty = default;
-        Assert.Equal(0, empty.Length);
-        Assert.Equal("", empty.ToString());
-        Assert.Equal((AnsiString)"", empty);
-        Assert.Equal(empty.GetHashCode(), ((AnsiString)"").GetHashCode());
-        Assert.Equal(empty, (AnsiString)(string?)null);
-        Assert.Equal((byte)0, empty.AsPtr().Value);
-        Assert.Equal(default, AnsiString.FromPChar(default));
+        string? nil = null;
+        Assert.Equal(0, Length(nil));
+        Assert.True(IsEmpty(nil));
+        Assert.Equal((byte)0, Ptr<byte>.Unbox("").Value);
+        Assert.Equal("", StrPas(default));
         byte[] buffer = [0, 65, 128, 255];
-        var value = AnsiString.FromBytes(buffer);
+        string value = Cp1252.Decode(buffer);
         buffer[1] = 99;
-        Assert.Equal(65, value[2]);
-        Assert.Equal((byte)63, ((AnsiString)"\x80")[1]);
-        Assert.Equal((byte)128, ((AnsiString)"€")[1]);
-        Assert.Equal((AnsiString)"?", (AnsiString)"中");
-        Assert.Equal("\0A€ÿ", value.ToString());
+        Assert.Equal('A', value[1]);
+        Assert.Equal("\0A\u20ac\u00ff", value);
+        Assert.Equal((byte)63, Cp1252.Byte('\u0080'));
+        Assert.Equal((byte)128, Cp1252.Byte('\u20ac'));
+        Assert.Equal("?", Cp1252.Normalize("\u4e2d"));
         byte[] all = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
-        var full = AnsiString.FromBytes(all);
-        Assert.Equal(full, (AnsiString)full.ToString());
-        var dict = new Dictionary<AnsiString, int> { [full] = 1 };
-        Assert.Equal(1, dict[AnsiString.FromBytes(all)]);
-        Assert.True(full.Equals((object)AnsiString.FromBytes(all)));
-        Assert.False(full.Equals("x"));
-        Assert.Equal(0, full.CompareTo(full));
-        var pointer = full.AsPtr();
+        string full = Cp1252.Decode(all);
+        Assert.Equal(256, full.Length);
+        Assert.Equal(all, Cp1252.Encode(full));
+        var dictionary = new Dictionary<string, int> { [full] = 1 };
+        Assert.Equal(1, dictionary[Cp1252.Decode(all)]);
+        Assert.Equal(0, Cp1252.Compare(full, Cp1252.Decode(all)));
+        // A PChar of a string is a zero-terminated copy, so a write through it leaves the string.
+        var pointer = Ptr<byte>.Unbox(full);
         pointer[1] = 10;
-        Assert.Equal(1, full[2]);
+        Assert.Equal('\u0001', full[1]);
         Assert.Equal(0, pointer[256]);
-        Assert.Equal((AnsiString)"ab", AnsiString.FromPChar(((AnsiString)"ab\0cd").AsPtr()));
-        var original = (AnsiString)"abc";
-        var resized = original.Resized(5);
-        Assert.Equal(AnsiString.FromBytes(97, 98, 99, 0, 0), resized);
-        Assert.Equal((AnsiString)"abc", original);
-        Assert.Equal((AnsiString)"aXc", original.WithChar(2, (byte)'X'));
-        Assert.Throws<ERangeError>(() => original[0]);
-        Assert.Throws<ERangeError>(() => original[4]);
-        Assert.Throws<ERangeError>(() => original.WithChar(int.MinValue, 0));
-        Assert.Throws<ERangeError>(() => original.Resized(-1));
-        Assert.True((AnsiString)"a" <= "a");
-        Assert.True((AnsiString)"a" >= "a");
-        Assert.False((AnsiString)"a" < "a");
-        Assert.False((AnsiString)"a" > "a");
-        Assert.False((AnsiString)"a" != "a");
-        Assert.Equal((AnsiString)"abcd", original + "d");
+        Assert.Equal("ab", StrPas(Ptr<byte>.Unbox("ab\0cd")));
+        string original = "abc";
+        Assert.Equal("abc\0\0", Resized(original, 5));
+        Assert.Equal("abc", original);
+        Assert.Equal("aXc", WithChar(original, 2, 'X'));
+        // The zero-based indexer throws the .NET range error, which Wrap gives translated handlers as ERangeError.
+        Assert.IsType<ERangeError>(Wrap(Assert.Throws<IndexOutOfRangeException>(() => original[3])));
+        Assert.IsType<ERangeError>(Wrap(Assert.Throws<IndexOutOfRangeException>(() => original[-1])));
+        Assert.Throws<ERangeError>(() => WithChar(original, 0, 'X'));
+        Assert.Throws<ERangeError>(() => WithChar(original, 4, 'X'));
+        Assert.Throws<ERangeError>(() => WithChar(original, int.MinValue, '\0'));
+        Assert.Throws<ERangeError>(() => Resized(original, -1));
+        Assert.Equal(0, Cp1252.Compare("a", "a"));
+        Assert.True(Cp1252.Compare("a", "b") < 0);
+        Assert.True(Cp1252.Compare("\u20ac", "\u00c4") < 0);
+        Assert.Equal("abcd", original + "d");
     }
 
     [Fact]
@@ -198,9 +195,9 @@ public sealed class CoreTests
         Assert.Same(obj, reference.Ref);
         Assert.Same(obj, reference.As<TObject>());
         Assert.Equal(obj.InstanceId, reference.Value);
-        IntOrRef text = (AnsiString)"abc";
+        IntOrRef text = "abc";
         Assert.Equal(obj.InstanceId + 1, text.Value);
-        Assert.Equal((AnsiString)"abc", text.As<AnsiString>());
+        Assert.Equal("abc", text.As<string>());
         var copy = text;
         Assert.Equal(text.Value, copy.Value);
         Assert.Equal(text.Value + 1, new TObject().InstanceId);
@@ -208,14 +205,14 @@ public sealed class CoreTests
         Assert.Null(nil.Ref);
         Assert.Equal(0, nil.Value);
         TVarRec integer = 4, chr = (byte)65, boolean = true, floating = 1.25;
-        TVarRec str = (AnsiString)"hello", instance = obj;
+        TVarRec str = "hello", instance = obj;
         Assert.Equal(VarKind.Integer, integer.Kind); Assert.Equal(4, integer.Int);
-        Assert.Equal(VarKind.Char, chr.Kind); Assert.Equal(65, chr.Chr);
+        Assert.Equal(VarKind.Char, chr.Kind); Assert.Equal('A', chr.Chr);
         TVarRec numericByte = (int)(byte)65;
         Assert.Equal(VarKind.Integer, numericByte.Kind); Assert.Equal(65, numericByte.Int);
         Assert.Equal(VarKind.Boolean, boolean.Kind); Assert.True(boolean.Bool);
         Assert.Equal(VarKind.Extended, floating.Kind); Assert.Equal(1.25, floating.Ext);
-        Assert.Equal(VarKind.String, str.Kind); Assert.Equal((AnsiString)"hello", str.Str);
+        Assert.Equal(VarKind.String, str.Kind); Assert.Equal("hello", str.Str);
         Assert.Equal(VarKind.Object, instance.Kind); Assert.Same(obj, instance.Obj);
     }
 

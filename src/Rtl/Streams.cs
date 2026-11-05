@@ -98,10 +98,10 @@ public class TMemoryStream : TStream
     // CLASSES.PAS TMemoryStream.LoadFromStream resets the source, preserving our position.
     public void LoadFromStream(TStream source) { source.Position = 0; SetSize(source.Size); source.ReadBuffer(memory.AsSpan(0, size)); }
     // CLASSES.PAS TMemoryStream.LoadFromFile.
-    public void LoadFromFile(AnsiString name) { using var stream = new TFileStream(name, Rtl.fmOpenRead); LoadFromStream(stream); }
+    public void LoadFromFile(string name) { using var stream = new TFileStream(name, Rtl.fmOpenRead); LoadFromStream(stream); }
     // CLASSES.PAS TCustomMemoryStream.SaveToStream and SaveToFile.
     public void SaveToStream(TStream stream) => stream.WriteBuffer(memory.AsSpan(0, size));
-    public void SaveToFile(AnsiString name) { using var stream = new TFileStream(name, Rtl.fmCreate); SaveToStream(stream); }
+    public void SaveToFile(string name) { using var stream = new TFileStream(name, Rtl.fmCreate); SaveToStream(stream); }
     // CLASSES.PAS TMemoryStream.Destroy.
     public override void Destroy() { Clear(); base.Destroy(); }
 }
@@ -110,9 +110,9 @@ public class TFileStream : TStream
 {
     private readonly Stream stream;
     // CLASSES.PAS TFileStream.Create.
-    public TFileStream(AnsiString name, int mode)
+    public TFileStream(string name, int mode)
     {
-        try { stream = Rtl.Files.Open(name.ToString(), mode); }
+        try { stream = Rtl.Files.Open(name, mode); }
         catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {
             if (mode == Rtl.fmCreate) throw new EFCreateError($"Cannot create file {name}");

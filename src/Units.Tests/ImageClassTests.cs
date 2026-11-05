@@ -23,10 +23,10 @@ public sealed class ImageClassTests
         Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<TBMPImageFile>());
         Assert.Equal("TPicture08", LibraryImageClass.Of<TPicture08>().ClassName);
         var types = typeof(Aow.Units.ImageLib.TLibraryImage).Assembly.GetTypes();
-        Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(),
-            LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(Aow.Units.ImageLib.TLibraryImage).Assembly).Select(c => c.Type.FullName).Order());
-        Assert.Equal(types.Where(t => t.IsClass && typeof(IImageFileClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(),
-            ImageFileClass.All.Select(c => c.Type.FullName).Order());
+        Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
+            LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(Aow.Units.ImageLib.TLibraryImage).Assembly).Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
+        Assert.Equal(types.Where(t => t.IsClass && typeof(IImageFileClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
+            ImageFileClass.All.Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
     }
 
     private sealed record Baseline(string Type, int ClassID, byte ClassVersion, string Name);
@@ -57,7 +57,7 @@ public sealed class ImageClassTests
                 Assert.Equal(expected.Type, descriptor.Type.FullName);
                 Assert.Equal(expected.ClassID, descriptor.ClassID);
                 Assert.Equal(expected.ClassVersion, descriptor.ClassVersion);
-                Assert.Equal(expected.Name, descriptor.Name.ToString());
+                Assert.Equal(expected.Name, descriptor.Name);
                 Assert.Same(descriptor, Images.FindLibraryImageClass(expected.ClassID));
                 Assert.Same(descriptor, LibraryImageClass.Of(descriptor.Type));
                 var image = descriptor.Create(source);
@@ -80,7 +80,7 @@ public sealed class ImageClassTests
                 var image = loaded[i];
                 Assert.Equal(expected.Type, image.GetType().FullName);
                 Assert.Equal(expected.ClassVersion, image.ClassVersion());
-                Assert.Equal(expected.Name, image.Name().ToString());
+                Assert.Equal(expected.Name, image.Name());
                 Assert.Same(loaded, image.Owner);
                 Assert.Same(Images.FindLibraryImageClass(expected.ClassID), image.ImageClass);
                 Assert.Same(image.ImageClass, image.ImageClass);
@@ -102,7 +102,7 @@ public sealed class ImageClassTests
     public void GrabInfoDescriptorCopiesTheRuntimeTypeAndAllFields()
     {
         var descriptor = TBitMaskGrabInfo.Descriptor;
-        Assert.Equal("TBitMaskGrabInfo", descriptor.Name.ToString());
+        Assert.Equal("TBitMaskGrabInfo", descriptor.Name);
         var value = Assert.IsType<TBitMaskGrabInfo>(descriptor.Create());
         value.TransparentColor = 19;
         value.FindRectangles = true;
@@ -130,8 +130,8 @@ public sealed class ImageClassTests
         Assert.Equal(typeof(TBMPImageFile), descriptor.Type);
         Assert.Same(descriptor, ImageFileClass.Of(typeof(TBMPImageFile)));
         Assert.Equal("TBMPImageFile", descriptor.ClassName);
-        Assert.Equal("BMP", descriptor.Extension.ToString());
-        Assert.Equal("Bitmap files (*.bmp)", descriptor.Description.ToString());
+        Assert.Equal("BMP", descriptor.Extension);
+        Assert.Equal("Bitmap files (*.bmp)", descriptor.Description);
         Assert.Throws<EAbstractError>(() => descriptor.Name);
         var classes = new TImageFileClassList();
         classes.Add(descriptor);
@@ -159,7 +159,7 @@ public sealed class ImageClassTests
             Assert.Equal(2, image.Width);
             Assert.Equal(3, image.Height);
             Assert.Same(library, image.Owner);
-            Assert.Equal("grab.bmp", image.FileName.ToString());
+            Assert.Equal("grab.bmp", image.FileName);
         }
         finally
         {

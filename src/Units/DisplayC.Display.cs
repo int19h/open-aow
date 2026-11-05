@@ -56,7 +56,7 @@ public partial class TCustomDisplay
         if (FOptions.Contains(doAutoResizeBackSurface)) ResizeBackSurfaces(screen.Width, screen.Height);
         FOnResize?.Invoke(this);
     }
-    public virtual void ShowError(AnsiString message) => Rtl.Rtl.ShowMessage(message);
+    public virtual void ShowError(string message) => Rtl.Rtl.ShowMessage(message);
     public virtual void StopUpdateFrameLoop() => FStatus = FStatus.Without(dsFrameLoopActive);
     public virtual void PauseFrameUpdateLoop() { FPauseCount++; FStatus = FStatus.With(dsFrameLoopPaused); }
     public virtual void ResumeFrameUpdateLoop()
@@ -161,5 +161,5 @@ public partial class TDisplayCtrl
     }
     public override int Handle() => 0;
     public override TWinControl OutputWnd() => FDisplay;
-    public override void ShowError(AnsiString message) => Rtl.Rtl.ShowMessage(message);
+    public override void ShowError(string message) => Rtl.Rtl.ShowMessage(message);
 }

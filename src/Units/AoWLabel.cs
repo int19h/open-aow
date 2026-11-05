@@ -57,7 +57,7 @@ namespace Aow.Units.AoWLabel
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Aow.Units.AoWLabel
         }
 
         // AoWLabel.pas:62
-        public void SetGText(AnsiString Value)
+        public void SetGText(string Value)
         {
             if (FText != Value)
             {
@@ -136,7 +136,7 @@ namespace Aow.Units.AoWLabel
         public TImageLibraryFont AOWFont { get => FAOWFont; set => SetGFont(value); }
 
         [Published]
-        public AnsiString Text { get => FText; set => SetGText(value); }
+        public string Text { get => FText; set => SetGText(value); }
     }
 
     public static partial class AoWLabel
@@ -144,7 +144,7 @@ namespace Aow.Units.AoWLabel
         // AoWLabel.pas:133
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWLabel)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWLabel)]);
         }
     }
 }

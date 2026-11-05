@@ -497,7 +497,7 @@ namespace Aow.Units.AoWTC
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error during Eval Movepath", NullTerminatedText((AnsiString)"Error - TCAI " + U.FUnit.GetName()), 0);
+                MessageBox(0, "Error during Eval Movepath", NullTerminatedText("Error - TCAI " + U.FUnit.GetName()), 0);
             }
 
             return Result;
@@ -1087,7 +1087,7 @@ namespace Aow.Units.AoWTC
                 }
                 catch (System.Exception)
                 {
-                    MessageBox(0, (AnsiString)"Error during Melee Check", (AnsiString)"Error - TCAI ", 0);
+                    MessageBox(0, "Error during Melee Check", "Error - TCAI ", 0);
                 }
 
                 for (int AbilityIndex = 0, last = Abilities.Count - 1; AbilityIndex <= last; AbilityIndex++)
@@ -1605,7 +1605,7 @@ namespace Aow.Units.AoWTC
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"Error during Spell Check", NullTerminatedText((AnsiString)"Error - TCAI " + IntToStr(Ability) + AnsiString.FromBytes(32) + IntToStr(Spell)), 0);
+                                MessageBox(0, "Error during Spell Check", NullTerminatedText("Error - TCAI " + IntToStr(Ability) + " " + IntToStr(Spell)), 0);
                             }
 
                             break;
@@ -1756,7 +1756,7 @@ namespace Aow.Units.AoWTC
                                         }
                                         catch (System.Exception)
                                         {
-                                            MessageBox(0, (AnsiString)"Error during Touch Check", NullTerminatedText((AnsiString)"Error - TCAI " + IntToStr(Ability) + AnsiString.FromBytes(32) + IntToStr(Spell)), 0);
+                                            MessageBox(0, "Error during Touch Check", NullTerminatedText("Error - TCAI " + IntToStr(Ability) + " " + IntToStr(Spell)), 0);
                                         }
                                     }
 
@@ -2045,7 +2045,7 @@ namespace Aow.Units.AoWTC
                                     }
                                     catch (System.Exception)
                                     {
-                                        MessageBox(0, (AnsiString)"Error during Ranged Check", NullTerminatedText((AnsiString)"Error - TCAI " + IntToStr(Ability) + AnsiString.FromBytes(32) + IntToStr(Spell)), 0);
+                                        MessageBox(0, "Error during Ranged Check", NullTerminatedText("Error - TCAI " + IntToStr(Ability) + " " + IntToStr(Spell)), 0);
                                     }
 
                                     break;
@@ -2082,7 +2082,7 @@ namespace Aow.Units.AoWTC
             int TerrainCost = default;
             int PathCost;
             TList Bonuses;
-            AnsiString Reason = default;
+            string Reason = "";
             TXYLList Path = default;
             TAbilityCombatInfo AIInfo = default;
             TSpellCombatInfo SpellInfo = default;
@@ -2170,9 +2170,9 @@ namespace Aow.Units.AoWTC
                                 }
                             }
 
-                            AoWEngine.OutputDebugStr((AnsiString)"AI found " + IntToStr(Units.Count) + (AnsiString)" Own units.");
-                            AoWEngine.OutputDebugStr((AnsiString)"AI found " + IntToStr(Allies.Count) + (AnsiString)" Ally units.");
-                            AoWEngine.OutputDebugStr((AnsiString)"AI found " + IntToStr(Enemies.Count) + (AnsiString)" Enemy units.");
+                            AoWEngine.OutputDebugStr("AI found " + IntToStr(Units.Count) + " Own units.");
+                            AoWEngine.OutputDebugStr("AI found " + IntToStr(Allies.Count) + " Ally units.");
+                            AoWEngine.OutputDebugStr("AI found " + IntToStr(Enemies.Count) + " Enemy units.");
                             FIgnoreWalls = FSide == TCombatSideIndex.csAttacker;
                             FFlee = FSide == TCombatSideIndex.csAttacker && AoWTC.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && !AoWTC.AoWCombatMap.FCombat.FCombatData.FWallBreached;
                             FMinMoves = 100;
@@ -2305,7 +2305,7 @@ namespace Aow.Units.AoWTC
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error - TCAI", (AnsiString)"Error during Create Unit List", 0);
+                            MessageBox(0, "Error - TCAI", "Error during Create Unit List", 0);
                         }
 
                         break;
@@ -2376,7 +2376,7 @@ namespace Aow.Units.AoWTC
                                     }
                                     catch (System.Exception)
                                     {
-                                        MessageBox(0, (AnsiString)"Error during Eval Enemies", NullTerminatedText((AnsiString)"Error - TCAI " + U.FUnit.GetName()), 0);
+                                        MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + U.FUnit.GetName()), 0);
                                     }
 
                                     Settings = new TCombatMoveControlSettings(null);
@@ -2465,7 +2465,7 @@ namespace Aow.Units.AoWTC
                                     }
                                     catch (System.Exception)
                                     {
-                                        MessageBox(0, (AnsiString)"Error during Eval Friends", NullTerminatedText((AnsiString)"Error - TCAI " + U.FUnit.GetName()), 0);
+                                        MessageBox(0, "Error during Eval Friends", NullTerminatedText("Error - TCAI " + U.FUnit.GetName()), 0);
                                     }
 
                                     if (Abilities.Count > 0)
@@ -2550,12 +2550,12 @@ namespace Aow.Units.AoWTC
                                     }
 
                                     FUnitIndex = 0;
-                                    AoWEngine.OutputDebugStr((AnsiString)"AI calculated " + IntToStr(Units.Count * Enemies.Count) + (AnsiString)" Attack paths.");
-                                    AoWEngine.OutputDebugStr((AnsiString)"AI calculated " + IntToStr(Moves.Count) + (AnsiString)" Moves.");
+                                    AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Units.Count * Enemies.Count) + " Attack paths.");
+                                    AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Moves.Count) + " Moves.");
                                 }
                                 catch (System.Exception)
                                 {
-                                    MessageBox(0, (AnsiString)"Error - TCAI ", (AnsiString)"Error during Eval Ending", 0);
+                                    MessageBox(0, "Error - TCAI ", "Error during Eval Ending", 0);
                                 }
                             }
 
@@ -2563,7 +2563,7 @@ namespace Aow.Units.AoWTC
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error - TCAI", (AnsiString)"Error during Create Move List", 0);
+                            MessageBox(0, "Error - TCAI", "Error during Create Move List", 0);
                         }
 
                         break;
@@ -2713,15 +2713,15 @@ namespace Aow.Units.AoWTC
                                 CurrentMove += 1;
                                 Walls.Clear();
                                 FUnitIndex = 0;
-                                AoWEngine.OutputDebugStr((AnsiString)"AI calculated " + IntToStr(Units.Count * Enemies.Count) + (AnsiString)" Attack paths.");
-                                AoWEngine.OutputDebugStr((AnsiString)"AI calculated " + IntToStr(Moves.Count) + (AnsiString)" Moves.");
+                                AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Units.Count * Enemies.Count) + " Attack paths.");
+                                AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Moves.Count) + " Moves.");
                             }
 
                             FUnitLimit = 0;
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error - TCAI", (AnsiString)"Error during Create WallCrush List", 0);
+                            MessageBox(0, "Error - TCAI", "Error during Create WallCrush List", 0);
                         }
 
                         break;
@@ -2796,7 +2796,7 @@ namespace Aow.Units.AoWTC
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error - TCAI", (AnsiString)"Error during Build Group Bonuses", 0);
+                            MessageBox(0, "Error - TCAI", "Error during Build Group Bonuses", 0);
                         }
 
                         break;
@@ -2941,7 +2941,7 @@ namespace Aow.Units.AoWTC
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error - TCAI", (AnsiString)"Error during Add Group Bonuses", 0);
+                            MessageBox(0, "Error - TCAI", "Error during Add Group Bonuses", 0);
                         }
 
                         break;
@@ -3035,7 +3035,7 @@ namespace Aow.Units.AoWTC
                                                         }
 
                                                         // { Original repeats X. }
-                                                        AoWEngine.OutputDebugStr((AnsiString)"AI moves to X: " + IntToStr(Move.X) + (AnsiString)" Y: " + IntToStr(Move.X));
+                                                        AoWEngine.OutputDebugStr("AI moves to X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                                         Moved = MoveCombatUnit(Move.UnitHS.FUnit, (TMovepath)Path);
                                                         if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
                                                         {
@@ -3075,7 +3075,7 @@ namespace Aow.Units.AoWTC
                                                 if (Path[Path.Count - 2].Flag <= Move.UnitHS.FUnit.FMovePoints)
                                                 {
                                                     // { Original repeats X in the debug text. }
-                                                    AoWEngine.OutputDebugStr((AnsiString)"AI touches at X: " + IntToStr(Move.X) + (AnsiString)" Y: " + IntToStr(Move.X));
+                                                    AoWEngine.OutputDebugStr("AI touches at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                                     Moved = Move.UnitHS.MeleeMoveTC((TMovepath)Path);
                                                     if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
                                                     {
@@ -3116,7 +3116,7 @@ namespace Aow.Units.AoWTC
                                                 {
                                                     Move.UnitHS.FSelectedAbility = Move.Ability;
                                                     // { Original repeats X in the debug text. }
-                                                    AoWEngine.OutputDebugStr((AnsiString)"AI melees at X: " + IntToStr(Move.X) + (AnsiString)" Y: " + IntToStr(Move.X));
+                                                    AoWEngine.OutputDebugStr("AI melees at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                                     Moved = Move.UnitHS.AbTouchMoveTC((TMovepath)Path);
                                                     if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
                                                     {
@@ -3134,7 +3134,7 @@ namespace Aow.Units.AoWTC
                                         Move.UnitHS.FSelectedAbility = Move.Ability;
                                         Move.UnitHS.FSelectedSpell = Move.Spell;
                                         // { Original repeats X in the debug text. }
-                                        AoWEngine.OutputDebugStr((AnsiString)"AI ranged at X: " + IntToStr(Move.X) + (AnsiString)" Y: " + IntToStr(Move.X));
+                                        AoWEngine.OutputDebugStr("AI ranged at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                         Moved = Move.UnitHS.AbRangedTC(Move.X, Move.Y);
                                         if (Move.UnitHS.FUnit.FCombatPlayer == AoWTC.AoWCombatMap.FSeatedPlayer)
                                         {
@@ -3167,7 +3167,7 @@ namespace Aow.Units.AoWTC
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error - TCAI", (AnsiString)"Error during Execute Moves", 0);
+                            MessageBox(0, "Error - TCAI", "Error during Execute Moves", 0);
                         }
 
                         break;
@@ -3415,15 +3415,15 @@ namespace Aow.Units.AoWTC
         public override void Activate()
         {
             base.Activate();
-            FMiscImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TCombat\\Misc.ILB");
-            FTargetImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TargHex.ILB");
+            FMiscImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCombat\\Misc.ILB");
+            FTargetImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
         }
 
         // AoWTC.pas:4839
         public override void Deactivate()
         {
-            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TCombat\\Misc.ILB");
-            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TargHex.ILB");
+            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCombat\\Misc.ILB");
+            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
             base.Deactivate();
         }
 
@@ -5183,7 +5183,7 @@ namespace Aow.Units.AoWTC
             catch (System.Exception)
             {
                 // { Original puts the diagnostic in the message-box caption. }
-                MessageBox(0, (AnsiString)"Error during NewFrame", NullTerminatedText((AnsiString)"Error - fxHS " + IntToStr(FAbilityIndex) + AnsiString.FromBytes(32) + IntToStr(FSpellIndex)), 0);
+                MessageBox(0, "Error during NewFrame", NullTerminatedText("Error - fxHS " + IntToStr(FAbilityIndex) + " " + IntToStr(FSpellIndex)), 0);
             }
         }
 
@@ -5286,7 +5286,7 @@ namespace Aow.Units.AoWTC
                 var yhx = GetYhx();
                 var packXYL = PackXYL(GetXhx(), yhx, 0);
                 AoWTC.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
-                FImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TCUNITS.ILB");
+                FImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCUNITS.ILB");
                 UpdateImageIndex();
             }
             else
@@ -5305,7 +5305,7 @@ namespace Aow.Units.AoWTC
         {
             if (Activated() && ((TMapLevel)((TMapField)Owner).Owner).Map.Status.Contains(THSMapStatusElement.msEditting))
             {
-                AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TCUNITS.ILB");
+                AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCUNITS.ILB");
                 var unitPosition = AoWTC.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
                 var xhx = GetXhx();
                 bool condition = unitPosition.X == xhx;
@@ -6637,7 +6637,7 @@ namespace Aow.Units.AoWTC
         public int SelectAbility(int A1)
         {
             int Index;
-            AnsiString Reason = default;
+            string Reason = "";
             AoWTC.AoWCombatMap.FUnitSelection.DeactivateRangedPath();
             FSelectedAbility = -1;
             int Result = -1;
@@ -6922,7 +6922,7 @@ namespace Aow.Units.AoWTC
             FObstacles = new TList();
             FRangedPathHS = new TRangedPathHS(null);
             FRangedPathHS.Activate();
-            FTargetImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TargHex.ILB");
+            FTargetImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
         }
 
         public TSet<AnonymousEnum_piMove> FPathInvalid;
@@ -6946,7 +6946,7 @@ namespace Aow.Units.AoWTC
             FObstacles.Free();
             FRangedPath.Free();
             FRangedPathHS.Free();
-            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"TargHex.ILB");
+            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
             base.Destroy();
         }
 
@@ -8527,7 +8527,7 @@ namespace Aow.Units.AoWTC
                     switch (FAI.Status)
                     {
                         case TaiStatus.aiIdle:
-                            AoWEngine.OutputDebugStr((AnsiString)"AI for Player " + IntToStr(FCurrentPlayer) + (AnsiString)" turn begins.");
+                            AoWEngine.OutputDebugStr("AI for Player " + IntToStr(FCurrentPlayer) + " turn begins.");
                             FAI.BeginTurn();
                             break;
                         case TaiStatus.aiBusy:
@@ -8537,7 +8537,7 @@ namespace Aow.Units.AoWTC
                             if (EndTurn(true))
                             {
                                 FAI.Status = TaiStatus.aiIdle;
-                                AoWEngine.OutputDebugStr((AnsiString)"AI for Player " + IntToStr(FCurrentPlayer) + (AnsiString)" turn ends.");
+                                AoWEngine.OutputDebugStr("AI for Player " + IntToStr(FCurrentPlayer) + " turn ends.");
                             }
 
                             break;
@@ -8671,7 +8671,7 @@ namespace Aow.Units.AoWTC
             {
                 var ind = TranslateRStr(AoWTC.IndRStr);
                 var beginRound = TranslateRStr(AoWTC.BeginRoundRStr);
-                ShowMessage(ind + AnsiString.FromBytes(32) + beginRound);
+                ShowMessage(ind + " " + beginRound);
             }
             else
             {
@@ -8679,7 +8679,7 @@ namespace Aow.Units.AoWTC
                 var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player.FPlayer);
                 var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
                 var beginRound = TranslateRStr(AoWTC.BeginRoundRStr);
-                ShowMessage(raceNamesPlural + AnsiString.FromBytes(32) + beginRound);
+                ShowMessage(raceNamesPlural + " " + beginRound);
             }
 
             var playerPlayer = FPlayers.GetPlayers(FCurrentCombatPlayer);
@@ -8719,7 +8719,7 @@ namespace Aow.Units.AoWTC
                 }
             }
 
-            PlaySample((AnsiString)"Sfx\\Events\\NewEvent.wav");
+            PlaySample("Sfx\\Events\\NewEvent.wav");
             InitMsg(ref Msg, 537006081, this);
             SendMsg(ref Msg, this);
             if (FExplorationEnabled)
@@ -9161,7 +9161,7 @@ namespace Aow.Units.AoWTC
             bool HasUnit = default;
             bool SiteCombat;
             bool RandomTerrain;
-            AnsiString FileName;
+            string FileName;
             THexagonSprite Structure;
             FixedArray_int_20 Weights = default;
             bool Blocked(int X, int Y, int First, int Last)
@@ -9234,7 +9234,7 @@ namespace Aow.Units.AoWTC
                 }
             }
 
-            FileName = (AnsiString)"TCMaps\\";
+            FileName = "TCMaps\\";
             Structure = AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(TStructure));
             if (Structure == null)
             {
@@ -9246,7 +9246,7 @@ namespace Aow.Units.AoWTC
                 switch (Structure.EClass.ClassID)
                 {
                     case 131336:
-                        FileName = FileName + AnsiString.FromBytes(48);
+                        FileName = FileName + "0";
                     {
                         I = 1;
                         for (; I <= 6; I += 1)
@@ -9262,72 +9262,72 @@ namespace Aow.Units.AoWTC
 
                         while (FileName.Length < 11)
                         {
-                            FileName = FileName + AnsiString.FromBytes(120);
+                            FileName = FileName + "x";
                         }
 
-                        FileName = FileName + (AnsiString)"C000";
+                        FileName = FileName + "C000";
                         break;
                     case 131950:
-                        FileName = FileName + (AnsiString)"Farmx000";
+                        FileName = FileName + "Farmx000";
                         break;
                     case 131962:
-                        FileName = FileName + (AnsiString)"Minex000";
+                        FileName = FileName + "Minex000";
                         break;
                     case 131328:
-                        FileName = FileName + (AnsiString)"SLife000";
+                        FileName = FileName + "SLife000";
                         break;
                     case 133454:
-                        FileName = FileName + (AnsiString)"NodeA000";
+                        FileName = FileName + "NodeA000";
                         break;
                     case 132270:
-                        FileName = FileName + (AnsiString)"NodeD000";
+                        FileName = FileName + "NodeD000";
                         break;
                     case 131482:
-                        FileName = FileName + (AnsiString)"NodeC000";
+                        FileName = FileName + "NodeC000";
                         break;
                     case 132302:
-                        FileName = FileName + (AnsiString)"NodeE000";
+                        FileName = FileName + "NodeE000";
                         break;
                     case 132062:
-                        FileName = FileName + (AnsiString)"NodeF000";
+                        FileName = FileName + "NodeF000";
                         break;
                     case 131953:
-                        FileName = FileName + (AnsiString)"NodeL000";
+                        FileName = FileName + "NodeL000";
                         break;
                     case 132275:
-                        FileName = FileName + (AnsiString)"NodeW000";
+                        FileName = FileName + "NodeW000";
                         break;
                     case 132670:
-                        FileName = FileName + (AnsiString)"RPool000";
+                        FileName = FileName + "RPool000";
                         break;
                     case 133422:
-                        FileName = FileName + (AnsiString)"BGuil000";
+                        FileName = FileName + "BGuil000";
                         break;
                     case 132286:
-                        FileName = FileName + (AnsiString)"SYard000";
+                        FileName = FileName + "SYard000";
                         break;
                     case 132158:
-                        FileName = FileName + (AnsiString)"TFort000";
+                        FileName = FileName + "TFort000";
                         break;
                     case 131966:
                         if (RandomTerrain)
                         {
-                            FileName = FileName + (AnsiString)"CaveN000";
+                            FileName = FileName + "CaveN000";
                         }
                         else
                         {
-                            FileName = FileName + (AnsiString)"CaveE000";
+                            FileName = FileName + "CaveE000";
                         }
 
                         break;
                     case 131332:
                         if (FRandomTerrain)
                         {
-                            FileName = FileName + (AnsiString)"TeleN000";
+                            FileName = FileName + "TeleN000";
                         }
                         else
                         {
-                            FileName = FileName + (AnsiString)"Telep000";
+                            FileName = FileName + "Telep000";
                         }
 
                         RandomTerrain = true;
@@ -9336,7 +9336,7 @@ namespace Aow.Units.AoWTC
                         if (SiteCombat)
                         {
                             FItems = (TItemList)Combat.FItems;
-                            FileName = FileName + (AnsiString)"eMrLr00" + IntToStr(Random(4));
+                            FileName = FileName + "eMrLr00" + IntToStr(Random(4));
                             I = 1;
                             for (; I <= 6; I += 1)
                             {
@@ -9345,7 +9345,7 @@ namespace Aow.Units.AoWTC
                         }
                         else
                         {
-                            FileName = FileName + (AnsiString)"Blank000";
+                            FileName = FileName + "Blank000";
                         }
 
                         break;
@@ -9353,7 +9353,7 @@ namespace Aow.Units.AoWTC
                         if (SiteCombat)
                         {
                             FItems = (TItemList)Combat.FItems;
-                            FileName = FileName + (AnsiString)"eZigg00" + IntToStr(Random(2));
+                            FileName = FileName + "eZigg00" + IntToStr(Random(2));
                             I = 1;
                             for (; I <= 6; I += 1)
                             {
@@ -9362,7 +9362,7 @@ namespace Aow.Units.AoWTC
                         }
                         else
                         {
-                            FileName = FileName + (AnsiString)"Blank000";
+                            FileName = FileName + "Blank000";
                         }
 
                         break;
@@ -9370,7 +9370,7 @@ namespace Aow.Units.AoWTC
                         if (SiteCombat)
                         {
                             FItems = (TItemList)Combat.FItems;
-                            FileName = FileName + (AnsiString)"eCrpt00" + IntToStr(Random(2));
+                            FileName = FileName + "eCrpt00" + IntToStr(Random(2));
                             I = 1;
                             for (; I <= 6; I += 1)
                             {
@@ -9379,7 +9379,7 @@ namespace Aow.Units.AoWTC
                         }
                         else
                         {
-                            FileName = FileName + (AnsiString)"Blank000";
+                            FileName = FileName + "Blank000";
                         }
 
                         break;
@@ -9387,7 +9387,7 @@ namespace Aow.Units.AoWTC
                         if (SiteCombat)
                         {
                             FItems = (TItemList)Combat.FItems;
-                            FileName = FileName + (AnsiString)"eRuin00" + IntToStr(Random(2));
+                            FileName = FileName + "eRuin00" + IntToStr(Random(2));
                             I = 1;
                             for (; I <= 6; I += 1)
                             {
@@ -9396,14 +9396,14 @@ namespace Aow.Units.AoWTC
                         }
                         else
                         {
-                            FileName = FileName + (AnsiString)"Blank000";
+                            FileName = FileName + "Blank000";
                         }
 
                         break;
                     case 131882:
                         if (SiteCombat)
                         {
-                            FileName = FileName + (AnsiString)"eDung00" + IntToStr(Random(2));
+                            FileName = FileName + "eDung00" + IntToStr(Random(2));
                             I = 1;
                             for (; I <= 6; I += 1)
                             {
@@ -9412,49 +9412,49 @@ namespace Aow.Units.AoWTC
                         }
                         else
                         {
-                            FileName = FileName + (AnsiString)"Blank000";
+                            FileName = FileName + "Blank000";
                         }
 
                         break;
                     case 133242:
                         RandomTerrain = false;
                         FRandomTerrain = false;
-                        FileName = FileName + (AnsiString)"Br";
+                        FileName = FileName + "Br";
                         switch (FTerrain[0])
                         {
                             case 10:
-                                FileName = FileName + (AnsiString)"UW";
+                                FileName = FileName + "UW";
                                 break;
                             case 6:
-                                FileName = FileName + (AnsiString)"Ic";
+                                FileName = FileName + "Ic";
                                 break;
                             case 9:
-                                FileName = FileName + (AnsiString)"La";
+                                FileName = FileName + "La";
                                 break;
                             case 13:
-                                FileName = FileName + (AnsiString)"UI";
+                                FileName = FileName + "UI";
                                 break;
                             default:
-                                FileName = FileName + (AnsiString)"Wa";
+                                FileName = FileName + "Wa";
                                 break;
                         }
 
                         switch (((THexagonBridge)Structure).FDirection)
                         {
                             case 1:
-                                FileName = FileName + (AnsiString)"A000";
+                                FileName = FileName + "A000";
                                 break;
                             case 2:
-                                FileName = FileName + (AnsiString)"B000";
+                                FileName = FileName + "B000";
                                 break;
                             default:
-                                FileName = FileName + (AnsiString)"C000";
+                                FileName = FileName + "C000";
                                 break;
                         }
 
                         break;
                     default:
-                        FileName = FileName + (AnsiString)"Blank000";
+                        FileName = FileName + "Blank000";
                         break;
                 }
 
@@ -9463,10 +9463,10 @@ namespace Aow.Units.AoWTC
 
             if (FTags[0] != 127)
             {
-                FileName = FileName + (AnsiString)"Blank000";
+                FileName = FileName + "Blank000";
             }
 
-            FileName = FileName + (AnsiString)".HSM";
+            FileName = FileName + ".HSM";
             if (Combat == null)
             {
                 AoWEngine.LoadHSMEx(AoWEngine.StartupDirectory + FileName, false, null);
@@ -11186,17 +11186,17 @@ namespace Aow.Units.AoWTC
         public static FixedArray_int_19 rndHex = FixedArray_int_19.From([6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14]);
         public static FixedArray_int_12 BreathHit = FixedArray_int_12.From([0, 1, 4, 7, 8, 2, 5, 9, 10, 3, 6, 11]);
         public static FixedArray_int_2 WallMaxHP = FixedArray_int_2.From([7, 13]);
-        public static readonly AnsiString IndRStr = (AnsiString)"Independents";
-        public static readonly AnsiString BeginRoundRStr = (AnsiString)"begin their round.";
+        public static readonly string IndRStr = "Independents";
+        public static readonly string BeginRoundRStr = "begin their round.";
         public static FixedArray_int_48 DefPosX = FixedArray_int_48.From([32, 30, 34, 32, 28, 36, 30, 34, 34, 36, 32, 38, 30, 36, 32, 34, 36, 34, 38, 32, 36, 30, 34, 32, 32, 34, 30, 32, 36, 28, 34, 30, 30, 28, 32, 26, 34, 28, 32, 30, 28, 30, 26, 32, 28, 34, 30, 32]);
         public static FixedArray_int_48 DefPosY = FixedArray_int_48.From([26, 27, 27, 28, 28, 28, 29, 29, 27, 28, 26, 29, 27, 30, 28, 29, 30, 31, 29, 32, 28, 31, 29, 30, 32, 31, 31, 30, 30, 30, 29, 29, 31, 30, 32, 29, 31, 28, 30, 29, 28, 27, 29, 26, 30, 27, 29, 28]);
         public static FixedArray_byte_3770 MapShape = FixedArray_byte_3770.From([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 10, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 11, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 10, 2, 14, 2, 14, 2, 14, 2, 14, 2, 11, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 14, 1, 14, 1, 14, 1, 14, 1, 14, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 17, 1, 1, 1, 1, 1, 1, 1, 1, 1, 17, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 17, 17, 17, 17, 17, 17, 17, 17, 17, 5, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 12, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 13, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         public static FixedArray_byte_3770 MapRoads = FixedArray_byte_3770.From([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 21, 2, 2, 2, 21, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 21, 2, 2, 2, 21, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 21, 2, 2, 2, 21, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 1, 1, 1, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 1, 1, 1, 1, 1, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 1, 1, 1, 1, 1, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 1, 1, 1, 1, 1, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 5, 1, 5, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 24, 5, 5, 5, 24, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 24, 5, 5, 5, 24, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         public static FixedArray_int_18 clusterChk = FixedArray_int_18.From([1, 2, 6, 16, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 33, 34, 35, 36]);
         // AoWTC.pas:3664
-        public static void OriginalUnitAssert(AnsiString Message, AnsiString Filename, int LineNumber)
+        public static void OriginalUnitAssert(string Message, string Filename, int LineNumber)
         {
-            Assert(false, Message, Filename.ToString(), LineNumber);
+            Assert(false, Message, Filename, LineNumber);
         }
 
         public static void Initialize()

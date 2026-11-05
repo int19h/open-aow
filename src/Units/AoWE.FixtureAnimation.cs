@@ -21,7 +21,7 @@ namespace Aow.Units.AoWE
             int DX = default;
             int DY = default;
             float Progress;
-            Assert(FDirection < FUnitGFXResource.FSequences.Count, (AnsiString)"Invalid Unit Index", "UnitHS.PAS", 853);
+            Assert(FDirection < FUnitGFXResource.FSequences.Count, "Invalid Unit Index", "UnitHS.PAS", 853);
             HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;

@@ -17,17 +17,17 @@ public sealed class StringsTests
         // CLASSES.PAS:2125..2163 and :2263..2354.
         var list = new TStringList(); var obj = new TrackObject(); var other = new TrackObject();
         Assert.Equal(0, list.AddObject("First=one", obj)); list.InsertObject(1, "blank", other); list.Add("FIRST=two"); list.Add("=emptyname");
-        Assert.Equal((AnsiString)"First", list.Names[0]); Assert.Equal(default, list.Names[1]); Assert.Equal(0, list.IndexOfName("first")); Assert.Equal(3, list.IndexOfName(default));
+        Assert.Equal("First", list.Names[0]); Assert.Equal("", list.Names[1]); Assert.Equal(0, list.IndexOfName("first")); Assert.Equal(3, list.IndexOfName(""));
         Assert.Equal(1, list.IndexOfObject(other)); Assert.Equal(2, list.IndexOfObject(null)); Assert.Equal(-1, list.IndexOfObject(new TObject()));
-        Assert.Equal((AnsiString)"one", list.Values["FIRST"]); Assert.Equal(default, list.Values["missing"]);
-        list.Values["FIRST"] = "updated"; Assert.Equal((AnsiString)"FIRST=updated", list.Strings[0]); Assert.Same(obj, list.Objects[0]);
-        list.Values["added"] = "new"; Assert.Equal((AnsiString)"new", list.Values["added"]); list.Values["added"] = default; Assert.Equal(-1, list.IndexOfName("added")); list.Values["absent"] = default;
-        list.Strings[1] = "changed"; Assert.Equal((AnsiString)"changed", list[1]);
+        Assert.Equal("one", list.Values["FIRST"]); Assert.Equal("", list.Values["missing"]);
+        list.Values["FIRST"] = "updated"; Assert.Equal("FIRST=updated", list.Strings[0]); Assert.Same(obj, list.Objects[0]);
+        list.Values["added"] = "new"; Assert.Equal("new", list.Values["added"]); list.Values["added"] = ""; Assert.Equal(-1, list.IndexOfName("added")); list.Values["absent"] = "";
+        list.Strings[1] = "changed"; Assert.Equal("changed", list[1]);
         list.Objects[1] = obj; Assert.Same(obj, list.Objects[1]);
         var copy = new TStringList(); copy.Assign(list); Assert.Equal(list.Text, copy.Text); Assert.Same(obj, copy.Objects[0]);
         copy.AddStrings(list); Assert.Equal(list.Count * 2, copy.Count);
-        list.Move(0, 2); Assert.Equal((AnsiString)"FIRST=updated", list[2]); Assert.Same(obj, list.Objects[2]);
-        list.Exchange(0, 2); Assert.Equal((AnsiString)"FIRST=updated", list[0]); Assert.Same(obj, list.Objects[0]);
+        list.Move(0, 2); Assert.Equal("FIRST=updated", list[2]); Assert.Same(obj, list.Objects[2]);
+        list.Exchange(0, 2); Assert.Equal("FIRST=updated", list[0]); Assert.Same(obj, list.Objects[0]);
         list.Move(-1, -1);
         Assert.Throws<EConvertError>(() => copy.Assign(new TPersistent()));
         copy.Assign(copy); Assert.Equal(0, copy.Count);
@@ -43,7 +43,7 @@ public sealed class StringsTests
         list.OnChange = s => { Assert.Same(list, s); events.Add("changed"); };
         list.Clear(); Assert.Empty(events);
         list.BeginUpdate(); list.BeginUpdate(); list.Add("b"); list.Add("a"); list.EndUpdate(); Assert.Equal(new[] { "changing" }, events); list.EndUpdate(); Assert.Equal(new[] { "changing", "changed" }, events);
-        events.Clear(); list.Sorted = true; Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal((AnsiString)"a", list[0]);
+        events.Clear(); list.Sorted = true; Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal("a", list[0]);
         events.Clear(); list.Sort(); list.Sorted = true; Assert.Empty(events);
         Assert.Throws<EStringListError>(() => list[0] = "z"); Assert.Throws<EStringListError>(() => list.Insert(0, "z"));
         list.Objects[0] = new TObject(); list.Exchange(0, 1); Assert.Equal(4, events.Count);
@@ -73,18 +73,18 @@ public sealed class StringsTests
             ("a b, c",new[]{"a","b","c"},"a,b,c"), (" \"a b\",\"x,y\" ",new[]{"a b","x,y"},"\"a b\",\"x,y\""),
             ("\"\"",new[]{""},"\"\""), ("\"unterminated",new[]{"unterminated"},"unterminated"), ("a\0b",new[]{"a"},"a") })
         {
-            list.CommaText = input; Assert.Equal(expected, Enumerable.Range(0, list.Count).Select(i => list[i].ToString())); Assert.Equal((AnsiString)canonical, list.CommaText);
+            list.CommaText = input; Assert.Equal(expected, Enumerable.Range(0, list.Count).Select(i => list[i])); Assert.Equal(canonical, list.CommaText);
         }
-        list.Clear(); list.Add("a\tb"); list.Add("c\0d"); Assert.Equal((AnsiString)"\"a\tb\",c\0d", list.CommaText);
+        list.Clear(); list.Add("a\tb"); list.Add("c\0d"); Assert.Equal("\"a\tb\",c\0d", list.CommaText);
     }
 
     // A minimal TStrings descendant exercises the base implementations separately from TStringList.
     private sealed class PlainStrings : TStrings
     {
-        private readonly List<AnsiString> items = [];
+        private readonly List<string> items = [];
         public override int Count => items.Count;
-        public override AnsiString this[int index] { get => items[index]; set => items[index] = value; }
-        public override void Insert(int index, AnsiString value) => items.Insert(index, value);
+        public override string this[int index] { get => items[index]; set => items[index] = value; }
+        public override void Insert(int index, string value) => items.Insert(index, value);
         public override void Delete(int index) => items.RemoveAt(index);
         public override void Clear() => items.Clear();
     }
@@ -98,14 +98,14 @@ public sealed class StringsTests
         source.AddObject("a", ignored); source.InsertObject(1, "b", ignored); Assert.Null(source.Objects[0]); source.Objects[0] = ignored;
         Assert.Equal(0, source.IndexOfObject(null)); Assert.Equal(-1, source.IndexOfObject(ignored));
         Assert.Equal(2, source.Capacity); source.Capacity = 100; Assert.Equal(2, source.Capacity);
-        source.Exchange(0, 1); Assert.Equal((AnsiString)"b", source[0]); source.Move(0, 1); Assert.Equal((AnsiString)"a", source[0]); source.Move(-1, -1);
+        source.Exchange(0, 1); Assert.Equal("b", source[0]); source.Move(0, 1); Assert.Equal("a", source[0]); source.Move(-1, -1);
         Assert.Equal(0, source.IndexOf("A")); Assert.Equal(-1, source.IndexOf("c"));
-        var copy = new PlainStrings(); copy.Assign(source); copy.AddStrings(source); Assert.Equal((AnsiString)"a\r\nb\r\na\r\nb\r\n", copy.Text);
+        var copy = new PlainStrings(); copy.Assign(source); copy.AddStrings(source); Assert.Equal("a\r\nb\r\na\r\nb\r\n", copy.Text);
         using var memory = new TMemoryStream(); memory.WriteBuffer(new byte[] { 0x78, 0x61, 0x0a, 0x62 }); memory.Position = 1;
-        copy.LoadFromStream(memory); Assert.Equal((AnsiString)"a\r\nb\r\n", copy.Text);
+        copy.LoadFromStream(memory); Assert.Equal("a\r\nb\r\n", copy.Text);
         memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.Memory.Take(memory.Size));
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);
-        Assert.Equal((AnsiString)"error 1", Assert.Throws<EStringListError>(() => TStrings.Error("error %d", 1)).Message);
+        Assert.Equal("error 1", Assert.Throws<EStringListError>(() => TStrings.Error("error %d", 1)).Message);
         copy.BeginUpdate(); copy.EndUpdate(); copy.Destroy();
         var readOnly = new IndexedProperty<int, int>(i => i + 1); Assert.Equal(3, readOnly[2]); Assert.Throws<EInvalidOperation>(() => readOnly[2] = 4);
     }

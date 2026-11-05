@@ -203,7 +203,7 @@ namespace Aow.Units.FMemStr
         }
 
         // FMemStr.pas:113
-        public void LoadFromFile(AnsiString FileName)
+        public void LoadFromFile(string FileName)
         {
             TStream Stream;
             Stream = new TFileStream(FileName, 0);
@@ -227,7 +227,7 @@ namespace Aow.Units.FMemStr
         }
 
         // FMemStr.pas:78
-        public void SaveToFile(AnsiString FileName)
+        public void SaveToFile(string FileName)
         {
             TStream Stream;
             Stream = new TFileStream(FileName, 65535);

@@ -100,7 +100,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:39
-        public virtual AnsiString Name()
+        public virtual string Name()
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -168,7 +168,7 @@ namespace Aow.Units.Storms
             AoWHSMap.ValidateTerrainObservation(AoWHSMap.FCurrentPlayer, X, Y, L, 4);
             if (AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.TerrainVisible(X, Y, L, 4))
             {
-                PlaySample((AnsiString)"SFX\\ATTACK\\STORMBIG.WAV");
+                PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
             }
 
             PlaceHX(AoWHSMap.MapContainer, X, Y, L);
@@ -253,7 +253,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:294
-        public virtual AnsiString StormFileName() => (AnsiString)"";
+        public virtual string StormFileName() => "";
 
         // Storms.pas:299
         public virtual TStormType StormType() => TStormType.stNone;
@@ -316,7 +316,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:409
-        public override AnsiString StormFileName() => (AnsiString)"EFFECTS\\STORM1.ILB";
+        public override string StormFileName() => "EFFECTS\\STORM1.ILB";
 
         // Storms.pas:414
         public override TStormType StormType() => TStormType.stIce;
@@ -325,7 +325,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:368
-        public override AnsiString Name() => TranslateRStr(IceStormRStr);
+        public override string Name() => TranslateRStr(IceStormRStr);
 
     }
 
@@ -347,7 +347,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:507
-        public override AnsiString StormFileName() => (AnsiString)"EFFECTS\\STORMD.ILB";
+        public override string StormFileName() => "EFFECTS\\STORMD.ILB";
 
         // Storms.pas:512
         public override TStormType StormType() => TStormType.stDeath;
@@ -356,7 +356,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:497
-        public override AnsiString Name() => TranslateRStr(DeathStormRStr);
+        public override string Name() => TranslateRStr(DeathStormRStr);
 
     }
 
@@ -378,7 +378,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:624
-        public override AnsiString StormFileName() => (AnsiString)"EFFECTS\\STORMLGT.ILB";
+        public override string StormFileName() => "EFFECTS\\STORMLGT.ILB";
 
         // Storms.pas:629
         public override TStormType StormType() => TStormType.stHoly;
@@ -387,7 +387,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:613
-        public override AnsiString Name() => TranslateRStr(DivineStormRStr);
+        public override string Name() => TranslateRStr(DivineStormRStr);
 
     }
 
@@ -441,7 +441,7 @@ namespace Aow.Units.Storms
         {
             TRect R = default;
             base.InitializeStorm(Player, X, Y, L);
-            FStormImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"EFFECTS\\LIGHTN.ILB");
+            FStormImages = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "EFFECTS\\LIGHTN.ILB");
             if (GetVisible())
             {
                 FStormImages.LoadDiscardableImageData();
@@ -463,7 +463,7 @@ namespace Aow.Units.Storms
             NewFrame();
             if (FStormImages.GetSafe(FFrameCounter) != null)
             {
-                PlaySample((AnsiString)"SFX\\ATTACK\\LIGHTNG.WAV");
+                PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
             }
 
             if (FStormImages.Count == FFrameCounter)
@@ -485,7 +485,7 @@ namespace Aow.Units.Storms
         public override void FinalizeStorm()
         {
             FStormImages.ReleaseDiscardableImageData();
-            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"EFFECTS\\LIGHTN.ILB");
+            AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "EFFECTS\\LIGHTN.ILB");
             base.FinalizeStorm();
         }
 
@@ -493,7 +493,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:424
-        public override AnsiString Name() => TranslateRStr(LightningStormRStr);
+        public override string Name() => TranslateRStr(LightningStormRStr);
 
     }
 
@@ -635,7 +635,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:522
-        public override AnsiString Name() => TranslateRStr(FireStormRStr);
+        public override string Name() => TranslateRStr(FireStormRStr);
 
     }
 
@@ -773,7 +773,7 @@ namespace Aow.Units.Storms
 
 
         // Storms.pas:639
-        public override AnsiString Name() => TranslateRStr(PestilenceStormRStr);
+        public override string Name() => TranslateRStr(PestilenceStormRStr);
 
     }
 
@@ -864,7 +864,7 @@ namespace Aow.Units.Storms
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TXYL Target = default;
             sbyte X = default;
             sbyte Y = default;
@@ -912,7 +912,7 @@ namespace Aow.Units.Storms
         }
 
         // Storms.pas:809
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanActivate(TAbstractUnit A1, ref string A2)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -938,7 +938,7 @@ namespace Aow.Units.Storms
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            AnsiString Reason = default;
+            string Reason = "";
             TTargetSelectionControl Selection = default;
             base.Activate(A1);
             if (CanActivate(A1, ref Reason))
@@ -1013,7 +1013,7 @@ namespace Aow.Units.Storms
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            AnsiString Reason = default;
+            string Reason = "";
             TStorm Storm;
             TStormDamageInfo Info = default;
             int Damage;

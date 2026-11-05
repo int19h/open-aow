@@ -90,7 +90,7 @@ namespace Aow.Units.Hexagon
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"HexTrans.ILB");
+                FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "HexTrans.ILB");
             }
 
             if (Msg.MsgID == 65621)
@@ -186,7 +186,7 @@ namespace Aow.Units.Hexagon
 
 
         // Hexagon.pas:107
-        public override AnsiString ResourceEditName() => HexagonStr;
+        public override string ResourceEditName() => HexagonStr;
 
     }
 

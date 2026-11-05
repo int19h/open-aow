@@ -426,7 +426,7 @@ namespace Aow.Units.HSLib
         // HSLib.pas:328
         public static void Register()
         {
-            RegisterComponents((AnsiString)"HS-Engine", [typeof(THSLibrary)]);
+            RegisterComponents("HS-Engine", [typeof(THSLibrary)]);
         }
     }
 }

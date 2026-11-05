@@ -8,7 +8,7 @@ public partial class TAoWRegistry
     public TAoWLanguage GetLanguage()
     {
         int value = 0;
-        rwInteger((AnsiString)"General", (AnsiString)"Language", ref value, TReadWriteMode.rwRead);
+        rwInteger("General", "Language", ref value, TReadWriteMode.rwRead);
         return value is >= 2 and <= 5 ? (TAoWLanguage)value : TAoWLanguage.alEnglish;
     }
 }

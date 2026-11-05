@@ -141,7 +141,7 @@ namespace Aow.Units.AoWSoundDlg
             {
                 RemoveBtn.Visible = false;
                 PlayBtn.Visible = false;
-                CurrentSongLbl.Text = (AnsiString)"";
+                CurrentSongLbl.Text = "";
             }
             else
             {
@@ -182,27 +182,27 @@ namespace Aow.Units.AoWSoundDlg
         // AoWSoundDlg.pas:179
         public void FindFiles()
         {
-            AnsiString Directory;
+            string Directory;
             TSearchRec Search = default;
             SongLB.Items.Clear();
             AoWSoundDlg.SongFiles.Clear();
-            SetCurrentDir(AoWEngine.StartupDirectory + (AnsiString)"\\Songs");
+            SetCurrentDir(AoWEngine.StartupDirectory + "\\Songs");
             Directory = GetCurrentDir();
-            if (Copy(Directory, Directory.Length, 1) == AnsiString.FromBytes(92))
+            if (Copy(Directory, Directory.Length, 1) == "\\")
             {
                 Directory = Copy(Directory, 1, Directory.Length - 1);
             }
 
-            if (FindFirst(Directory + (AnsiString)"\\*.*", 16, ref Search) == 0)
+            if (FindFirst(Directory + "\\*.*", 16, ref Search) == 0)
             {
                 do
                 {
-                    if (Search.Name != AnsiString.FromBytes(46) && Search.Name != (AnsiString)"..")
+                    if (Search.Name != "." && Search.Name != "..")
                     {
-                        if (UpperCase(Copy(Search.Name, Search.Name.Length - 3, 4)) == (AnsiString)".S3M" || UpperCase(Copy(Search.Name, Search.Name.Length - 2, 3)) == (AnsiString)".IT")
+                        if (UpperCase(Copy(Search.Name, Search.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(Search.Name, Search.Name.Length - 2, 3)) == ".IT")
                         {
-                            AoWSoundDlg.SongFiles.Add((AnsiString)"Songs\\" + Search.Name);
-                            var songName = GetSongName((AnsiString)"Songs\\" + Search.Name);
+                            AoWSoundDlg.SongFiles.Add("Songs\\" + Search.Name);
+                            var songName = GetSongName("Songs\\" + Search.Name);
                             SongLB.Items.Add(songName);
                         }
                     }
@@ -264,7 +264,7 @@ namespace Aow.Units.AoWSoundDlg
             {
                 ReleaseSoundSystem();
                 FSoundQuality = 0;
-                CurrentSongLbl.Text = (AnsiString)"";
+                CurrentSongLbl.Text = "";
                 PlayLB.FDrawn = false;
                 MainPnl.FDrawn = false;
             }
@@ -295,7 +295,7 @@ namespace Aow.Units.AoWSoundDlg
                 {
                     FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omMono, TSoundOutputModeElement.om8bit);
                     FSettings.SampleRate = 22050;
-                    InitializeSoundSystem((AnsiString)"Galaxy", FSettings);
+                    InitializeSoundSystem("Galaxy", FSettings);
                 }
             }
 
@@ -325,7 +325,7 @@ namespace Aow.Units.AoWSoundDlg
                 {
                     FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit);
                     FSettings.SampleRate = 44100;
-                    InitializeSoundSystem((AnsiString)"Galaxy", FSettings);
+                    InitializeSoundSystem("Galaxy", FSettings);
                 }
             }
 
@@ -355,7 +355,7 @@ namespace Aow.Units.AoWSoundDlg
                 {
                     FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit, TSoundOutputModeElement.omHighQuality);
                     FSettings.SampleRate = 44100;
-                    InitializeSoundSystem((AnsiString)"Galaxy", FSettings);
+                    InitializeSoundSystem("Galaxy", FSettings);
                 }
             }
 
