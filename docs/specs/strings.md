@@ -9,6 +9,14 @@ boundaries, in one pass over the whole tree (`docs/design.md` open question 1 an
 `docs/milestones.md` row 9.5). Done measure of the row: O3 holds, the frame fixtures hold. The base
 of the pass is the commit section 3.5 names.
 
+Implemented. Brief 9.5-1 merged on 2026-11-05 (PR #95, main `c55a631`). It ran on main `8949ebb`,
+one merge past the P5 base `b6a1c3d`, which adds the 9.7-1 projects and leaves `src/Rtl` as it was.
+Brief 9.5-2 read this document against the code the same day and corrected what the pass changed:
+section 1 stays the survey before the pass, sections 2 to 4 name the code after it, and section 8
+holds the result. The pass's record (the rule counts, every hand fix by member, the Layout
+comparison, the test mapping and every `Cp1252` call site by boundary of 2.4) is
+`data/rewrite/strings.md` in the private repository.
+
 ## 1. Where the tree stands
 
 Surveyed on main, 2026-10-29, with the semantic counts of the tool's dry run over main `d31aa07`
@@ -84,19 +92,24 @@ text become `?` under the gate on the old type, and the pass changes no literal'
 
 ### 2.2 Nulls
 
-A game string is never null. Delphi has one value for nil and `''`, and today
-`default(AnsiString) == ""` holds. In C# `s.Length` on null throws, and `s == ""` on null is
+A game string is never null. Delphi has one value for nil and `''`, and before the
+pass `default(AnsiString) == ""` held. In C# `s.Length` on null throws, and `s == ""` on null is
 `false` with no exception, so a null that escapes turns an empty test silently false
 (`AOWMultiWin.cs:181` `if (call__1 == ((AnsiString)""))`).
 
-- Rule 3 of the tool initializes every string field, local, auto-property and array element with
-  `""`. Rule 8 turns `x == ""`, `x != ""` and their `default` forms into `Rtl.IsEmpty(x)` and its
-  negation, so the 146 empty tests of Units read a null as Delphi does and become observable.
+- Rule 3 of the tool initializes every string field, auto-property and array element with `""`,
+  and rewrites an existing `default` initializer or assignment of a local to `""`. It adds no
+  initializer to a local that has none: C# definite assignment already guarantees the local is
+  assigned before it is read, and C8 removed those unused initializers (amended 2026-11-04, the
+  tool change landed in P5's final run, with a test). Rule 8 turns `x == ""`, `x != ""` and their
+  `default` forms into `Rtl.IsEmpty(x)` and its negation, so the 146 empty tests of Units read a
+  null as Delphi does and become observable.
 - `Rtl.IsEmpty`, `Length(s)`, the RTL text routines and `Cp1252.Encode` read the switch
   `Rtl.StrictStrings`. Off, a null reads as empty, as Delphi reads nil, and that is the game. On, a
-  null argument throws `NullStringException`. Game, Headless and HostChecks turn it on at entry when
-  the environment variable `AOW_STRICT_STRINGS` is `1`, which `check.py` sets for every command it
-  starts. The test projects turn it on in a module initializer. Every gate run is strict.
+  null argument throws `NullStringException`. Game, Headless, HostChecks and Localization.Tests turn
+  it on at entry (`GateSwitches.Enter`) when the environment variable `AOW_STRICT_STRINGS` is `1`,
+  which `check.py` sets for every command it starts. The `Rtl.Tests` and `Units.Tests` projects turn
+  it on in a module initializer. Every gate run is strict.
 - Null sources that skip initializers get a reviewed fix each. They are the 34 string fields of
   structs, since `default(S)`, array elements and struct fields of classes skip constructors and
   code resets view structs such as `HeroCtrl.cs:290` `THeroView.Name` with `= default`. Among them
@@ -109,11 +122,20 @@ A game string is never null. Delphi has one value for nil and `''`, and today
   constructor. A field that code takes by `ref` stays a field and is initialized at each creation
   site. P5 records the form per site (3.2). A product test asserts after unit initialization that
   every element of the static string tables is non-null.
+- After the pass. No struct string field is taken by `ref`, so all 20 struct fields of Units, and
+  `TSearchRec.Name` and `TVarRec.Str` in `src/Rtl`, are properties that read a null backing field as
+  `""`. The 12 `[InlineArray]` string types keep their element field, and their `From` factory fills
+  every element with `""` before it copies the given values. The 18 static tables that had no
+  initializer start from `From([])`. `IntOrRef.As<string>()` reads `""` for a slot that holds no
+  string, and `TRegistry.ReadString` reads `""` for a value that does not exist, as Delphi's does.
+  `StaticStringTableTests` checks every static string field, array element and inline-array element
+  of `Aow.Units` after `Startup.InitializeAll()`. Nine static tables of `AoWE` are never filled, in
+  the port and in the Delphi source, and their elements read `""` as the shim's empty value did.
 - `string ==` between two variables, one null and one empty, is false and passes through no RTL
   routine. Nothing but the closed sources above guards that case, which is why the sources are
   closed instead of the readers guarded.
 - A null or a range error inside a broad catch leaves no trace by itself. `Rtl.Wrap` turns
-  `NullReferenceException` into `EAccessViolation` (`Rtl.cs:205`), `AOWGauge.cs:212` turns any draw
+  `NullReferenceException` into `EAccessViolation`, `AOWGauge.cs:212` turns any draw
   exception into a message box, and `AoWE.Format` (`AoWE.cs:103449`) returns the raw template on any
   exception. The exception census of section 4 counts first-chance exceptions in every gate host,
   so a swallowed exception still moves a number.
@@ -133,11 +155,10 @@ and 9.6 builds on it.
   its result lands in byte locals. Where a Delphi `Char` byte reaches an RTL routine that takes a
   `char` (`StringOfChar` among them), the RTL keeps a `byte` overload that converts through
   `Cp1252.Char`, and P5 lists the routines that need one.
-- Key handlers stay `ref byte Key`. `InputMapper.Text` already sends only chars with a code page
-  byte, as that byte (`InputMapper.cs:13-14, 81`), so the 17 handlers, their `switch (Key)` labels
-  (`AoWEdit.cs:343`) and `C = unchecked((byte)Key)` (`AoWEdit.cs:369`, `AoWMemo.cs:707`) stay
-  correct with no edit. After the pass the mapper's table comes from `Cp1252.IsMapped` and
-  `Cp1252.Byte`.
+- Key handlers stay `ref byte Key`. `InputMapper.Text` sends only chars with a code page byte, as
+  that byte, so the 17 handlers, their `switch (Key)` labels and `C = unchecked((byte)Key)` stay
+  correct with no edit. After the pass the mapper sends a char when `Cp1252.IsMapped` holds and its
+  byte is at least 32, as `Cp1252.Byte(c)`.
 - `TVarRec(byte)` stays the Char case beside `TVarRec(char)`, and `TVarRec.Chr` holds a `char`
   (`TVarRec(byte)` converts through `Cp1252.Char`). 9.6-1's `FormatArg` takes both over.
 - An explicit cast between `char` and `byte` is wrong exactly for the 27 chars of bytes 128 to 159:
@@ -153,7 +174,7 @@ transpiler's symbol table.
 |---|---|
 | Saves, maps, scenario sets, campaigns, user lists (`rwString`, `rwStrings`, `StringToStream`, `SaveStringToStream`, `StringFromStream`, `StringsToStream`, `TStrings.LoadFromStream` and `SaveToStream`) | bytes. The length prefix counts bytes, which equals the char count. `Encode` at the writer, `Decode` at the reader. The storage stream's property values (`FValues`, a `TStringList`) hold strings. Every save-path `Encode` and `Decode` sits inside these routines, and a `ReadWrite` override never calls `Cp1252` itself (3.4) |
 | `ShortString` images (ILB `ID`, `HSEngine` `ID` and `Name`, `FileSecurity` `ID`) | bytes. `ReadShortString` decodes, `WriteShortString` encodes and truncates to the image size as today. The `ShortString` class fields that lost their truncation in the transpiler (`AoWSMTPDlg.cs:75` `FSubject`, `E3IMSTypes.cs:16` `FFrom`) are outside 9.5 |
-| Dictionaries (`.mld`) | bytes on disk, decoded at load with `Decode`. The sort and the binary search both use `Cp1252.Compare`, because `mld-format.md` names an exact byte comparison and 395 bytes in the 128 to 159 range occur in the eight files. The binary search (`MldDictionary.cs:190`) takes it through rule 6. The sort (`MldDictionary.cs:152`) is an `OrderBy` that binds `Comparer<AnsiString>.Default` today and UTF-16 ordinal order once its key is a `string`, so it takes `Cp1252.Comparer`. The context separator byte 127 becomes `'\x7F'`. UTF-16 dictionaries enter through `Normalize` (2.5) |
+| Dictionaries (`.mld`) | bytes on disk, decoded at load with `Decode`. The sort and the binary search both use `Cp1252.Compare`, because `mld-format.md` names an exact byte comparison and 395 bytes in the 128 to 159 range occur in the eight files. The binary search (`MldDictionary.Search`) calls `Cp1252.Compare`. The sort (`MldDictionary.Read`) is an `OrderBy` that keeps the on-disk order of equal keys and passes `Cp1252.Comparer`, because without a comparer it sorts a `string` key in UTF-16 ordinal order. The context separator byte 127 is the char `\u007F`. UTF-16 dictionaries enter through `Normalize` (2.5) |
 | Fonts and glyph indices (`TImageLibraryFont.TextWidth`, `ShowText`, `GetSafe`) | bytes. The glyph index of a char is `Cp1252.Byte(c)`, one table lookup per char, no allocation. A char outside the table draws glyph 63. `CharCase` goes through `UpperCase` and `LowerCase`, ASCII only, as today |
 | Text input (`ref byte Key` handlers, `InputMapper`) | bytes, unchanged (2.3). The mapper drops a char with no code page 1252 byte, because no font has its glyph and no save can hold it |
 | Network (`TGDChatMessageEvent`, `TGDFileStartMessageEvent`, packets) | strings in the delegates, bytes in the packets through the same stream routines. The transport stand-in reports no connections, so nothing runs |
@@ -163,7 +184,7 @@ transpiler's symbol table.
 | File names and paths (`ExtractFileName` and friends, `FindFirst`, `TFileStream`, `IFileSystem`) | `string` end to end, with the host's chars (2.5). The split rule stays `\` and `:` only, the enumeration order stays upper-cased ordinal UTF-16 (`rtl-shim.md` 3.5). The RTL routines are total over chars outside the table (2.6), so two such names stay distinct in `CompareText`, `AnsiCompareText` and the sorted lists. A host path reaches a save only through `Encode`, where those chars become `?`. This extends the original, whose ANSI file APIs see such a name only through best-fit lookalikes |
 | Forms text (`tools/forms`, `src/Layout`) | the forms generator and the emitter decode form text through the table, not through Latin-1, so a form byte from 0x80 to 0x9F reaches the font as its letter (3.3). No form holds one today |
 | Dialogs, console, exceptions, `Assert` | `string`. `NullTerminatedText` stays and cuts at `'\0'` |
-| Literals | `(AnsiString)"..."` becomes `"..."`. `FromBytes` of literal bytes becomes a string literal with `\uNNNN` escapes above 127, so the sources stay ASCII |
+| Literals | C# string literals. The pass made each cast literal of the shim a plain literal and each `FromBytes` of literal bytes a string literal. No literal of `src/Units` holds a char above 127, and its sources are pure ASCII |
 | Python tools that read or write game text | one 256-entry table, `tools/cp1252.py` in the private repository, in place of the `cp1252` codec, which has no mapping for the five undefined bytes and raises on them |
 
 ### 2.5 Host text
@@ -179,11 +200,11 @@ After the pass two kinds of host text exist, and every entry point is one or the
 
 | entry point | kind | after the pass |
 |---|---|---|
-| command line, `ParamStr` (`Rtl.cs:212`) | path | chars kept |
-| `GetCurrentDir`, `ExpandFileName`, `FindFirst` names (`FilesAndTime.cs:155, 156, 198`) | path | chars kept |
-| UTF-16 dictionaries (`MldDictionary.cs:248`) | text | `Normalize` |
-| settings and registry values (`JsonSettingsStore.cs:31, 49, 74, 81, 84`, `GraphicsBoundary.cs:126`) | text, except keys whose value the game opens as a path | `Normalize` at read, path keys kept. P5 lists the path keys by name |
-| headless and fixture inputs (`HeadlessHost.cs:33, 42`) | per argument | `Normalize` for text, chars kept for paths |
+| command line, `ParamStr` | path | chars kept |
+| `GetCurrentDir`, `ExpandFileName`, `FindFirst` names | path | chars kept |
+| UTF-16 dictionaries (`MldDictionary`, the reader's `Chars`) | text | `Normalize` |
+| settings and registry values read from `settings.json` (`JsonSettingsStore.ReadText`, which `TRegistry.ReadString` reads through the store) | text, except keys whose value the game opens as a path | `Normalize` at read. The path keys `General/Root Directory`, `General/Startup Directory` and `Email/Attachment Directory` keep their chars |
+| headless fixture settings (`HeadlessHost.ReadSetting`) | per key | `JsonSettingsStore.ReadText`, the same rule |
 | typed text (`InputMapper.Text`) | text | unchanged, only chars with a byte reach the game, as that byte |
 | class names | ASCII | unchanged |
 
@@ -202,7 +223,7 @@ passes through unchanged and keeps two strings that differ apart.
 | routine | semantics over `string` |
 |---|---|
 | `Copy`, `Delete`, `Insert`, `Pos`, `AnsiPos` | one-based, the edge rules of `rtl-shim.md` 2.3 unchanged |
-| `X[I]` | becomes `X[I - 1]`, with a literal index folded (`X[1]` to `X[0]`). Out of range throws `IndexOutOfRangeException` where the shim threw `ERangeError`, and `Rtl.Wrap` maps it to `ERangeError` (`Rtl.cs:207`), so translated handlers see the same class |
+| `X[I]` | becomes `X[I - 1]`, with a literal index folded (`X[1]` to `X[0]`). Out of range throws `IndexOutOfRangeException` where the shim threw `ERangeError`, and `Rtl.Wrap` maps it to `ERangeError`, so translated handlers see the same class |
 | `WithChar`, `Resized`, `SetLength` | `Rtl.WithChar(s, i, c)` one-based, `Rtl.Resized(s, n)` padded with `'\0'` |
 | `Length`, `IsEmpty` | `Length(s)` and `Rtl.IsEmpty(s)` follow the null switch (2.2). `s.Length` throws on null in both modes |
 | `UpperCase`, `LowerCase`, `UpCase` | ASCII letters only, as today. Every other char stays |
@@ -246,16 +267,19 @@ rewrite:
 2. `(AnsiString)"lit"` becomes `"lit"`, and `(AnsiString)expr` loses the cast. A non-constant
    operand is also a `host-entry` site (3.2). `FromBytes` of literal bytes becomes a string literal.
    `FromBytes(expr)` of one byte becomes `Cp1252.Text(expr)`, of a span or array `Cp1252.Decode`.
-3. `default(AnsiString)` and `= default` on a string declaration become `""`. A string declaration
-   without an initializer gets `= ""`. `new AnsiString[n]` becomes `Rtl.Strings(n)`, which fills
-   with `""`.
+3. `default(AnsiString)` and `= default` on a string declaration become `""`. A string field
+   without an initializer gets `= ""`, and a local without one keeps none (2.2, amended
+   2026-11-04). `new AnsiString[n]` becomes `Rtl.Strings(n)`, which fills with `""`.
 4. An element access on a string receiver gets `- 1` on the index, folded for literals and for
    `I + 1`, `1 + I` and `I - k`, with a non-primary operand parenthesized.
-5. `.Span`, `.AsPtr()`, `FromPChar` and `StrPas` become `Encode` and `Decode`. `.AsPtr().Value`,
-   which reads the first char or zero, becomes `(s.Length == 0 ? '\0' : s[0])`, inside
-   `Cp1252.Byte` where it flows into a byte slot. `Rtl.StringBytes(s)` of P2 becomes
-   `Cp1252.Encode(s)`. `.ToString()` on a string receiver is dropped. `WithChar` and `Resized`
-   become the `Rtl` calls.
+5. `.Span` becomes `Cp1252.Encode`, and `FromPChar` becomes `Rtl.StrPas`, which stops at the
+   first zero byte. `.AsPtr()` other than the `.Value` read becomes `Ptr<byte>.Unbox(s)`, the
+   zero-terminated encoded copy that the emitter produces for a string passed as `PChar` (3.3). The
+   site stays in the `as-ptr` residue, since a write through the copy no longer reaches the string
+   (amended in P5). `.AsPtr().Value`, which reads the first char or zero, becomes
+   `(s.Length == 0 ? '\0' : s[0])`, inside `Cp1252.Byte` where it flows into a byte slot.
+   `Rtl.StringBytes(s)` of P2 becomes `Cp1252.Encode(s)`. `.ToString()` on a string receiver is
+   dropped. `WithChar` and `Resized` become the `Rtl` calls.
 6. Ordering operators and `CompareTo` become `Cp1252.Compare`. Every `OrderBy`,
    `OrderByDescending`, `ThenBy`, `ThenByDescending`, `Order`, `OrderDescending`, `Sort`,
    `BinarySearch`, `Min`, `Max`, `SortedSet`, `SortedDictionary` and `SortedList` whose key or
@@ -328,11 +352,13 @@ P4, on a private branch that merges with the pass:
 
 - The transpiler emitter switches outright. `Emitter.cs:276` maps `TypeKind.String` to `string`,
   char to string conversions emit `Cp1252.Text`, literals with `#` codes emit `\u` escapes, `PChar`
-  conversions emit `Decode`, empty tests emit `Rtl.IsEmpty`, sorts over strings pass
-  `Cp1252.Comparer`, and names come out in the simplified form of 3.1. The 326 transpiler tests
-  update their expected text. There is no dual mode, because the first-stage emission has no
-  consumer once the shim type is gone. Probe `.pas` sources and the recorded Delphi outputs do not
-  change.
+  to string conversions emit `Rtl.StrPas` (not `Cp1252.Decode`, which over a `Ptr<byte>` reads past
+  the zero terminator, amended 2026-11-05 after the P4 review), string to `PChar` emits a
+  zero-terminated copy through `Ptr<byte>.Unbox`, empty tests emit `Rtl.IsEmpty`, sorts over
+  strings pass `Cp1252.Comparer`, and names come out in the simplified form of 3.1. The 326
+  transpiler tests update their expected text (328 after the merge). There is no dual mode,
+  because the first-stage emission has no consumer once the shim type is gone. Probe `.pas`
+  sources and the recorded Delphi outputs do not change.
 - The forms generator decodes form text through the table, not through Latin-1 (2.4).
 - `tools/cp1252.py` replaces the `cp1252` codec in every Python tool that reads or writes game
   text.
@@ -354,7 +380,7 @@ The post-check stays after the pass. From 9.5-1 on,
 `product` layer in `check.py`, after the build, with no new layer. It prints
 `Strings check: N findings` and fails unless N is 0. A finding is:
 
-- any `AnsiString`,
+- any `AnsiString`, the type the pass retired,
 - an explicit conversion from `char` to `byte` or `sbyte`, or to `char` from a non-constant integer
   or from a constant of 128 and above,
 - an equality or relational operator between a `char` operand and a `byte` operand,
@@ -372,8 +398,14 @@ The post-check stays after the pass. From 9.5-1 on,
   on `string`, whose zero-based positions mix badly with the one-based Pascal routines, until a
   later pass retires those routines unit by unit.
 
-The allowlist names members, not lines: the host path code of `src/Platform`, the `FindFirst` order
-of `rtl-shim.md` 3.5 and the `JsonSettingsStore` keys. `InvariantGlobalization`
+The allowlist names members, not lines, by documentation comment id, each group with its reason. In
+`tools/rewrite/strings/allow.txt` of the private repository after the pass it holds 31 members:
+the host path code (`IFileSystem.ExtractRelativePath`, `SystemIoFileSystem.Resolve`), the
+`FindFirst` order of `rtl-shim.md` 3.5, the settings keys and dictionary paths, host text that
+never becomes game text (the language tag, the census file name, reflected property names, layout
+module names), the table's own construction in `Cp1252`, the ASCII case arithmetic of `UpCase` and
+`LowerCase`, the file signatures and JSON escapes of the own formats (9.7-1), and test members that
+build bytes from ASCII constants or walk every char. `InvariantGlobalization`
 (`Directory.Build.props:11`) removes machine-culture variance, but the banned differences from
 Delphi do not depend on culture: UTF-16 ordinal order, `char.IsWhiteSpace` and `string.Trim()`
 treating U+00A0 (byte 0xA0) as space where Delphi `Trim` stops at 32, `char.IsLetter` and
@@ -415,10 +447,10 @@ emits simplified names (3.1). In return the 9.5 review reads clean code.
 | Frame pixels, including German glyphs and the Weltkarte caption | `frames` (100 of 100, zero masks), `language-frames` (`fixture_glyphs_equal`, `undead_equal`), `scenarios` (92 frames) | existing |
 | Glyphs of bytes 128 to 159 | for every byte `b`, `TextWidth` and the glyph `ShowText` draws for the one-char string of `b` equal glyph `b`, for every font of the English and German installs, headless. A `language-frames` fixture whose German text holds a char from bytes 128 to 159 (`„` 0x84, `“` 0x93, the dash of 0x96 or `…` 0x85, taken from the German dictionary), captured natively at volume 0 | P6 |
 | Dictionary lookup, context fallback, every entry of the eight files | `localization` (6,683 entries, 100,245 lookup checks, 174,727 assertions), which covers the 395 bytes in the 128 to 159 range. A test asserts that the sorted entry array of each of the eight dictionaries is in `Cp1252.Compare` order | existing, P6 |
-| Units sorts over German and English names | sort dump: `CompareItemNames`, `CompareAbilityNames`, `CompareTextControlItems` (`AoWE.cs:25881, 24734, 12647`) and each sorted `TStringList` user, over the English and German names of units, items, abilities and spells. The dump on the base and after the pass is identical | P6, recorded in P5 |
+| Units sorts over German and English names | sort dump (HostChecks `--sort-dump`): `CompareItemNames`, `CompareAbilityNames`, `P4CompareSpellNames`, `P4CompareSpellLevels`, `CompareTextControlItems` and a sorted `TStringList`, over the English and German names of units, items, abilities, spells and texts of the installed game's set. The dump on the base and after the pass is identical, 2,994 lines | P6, recorded in P5 |
 | Null and range errors behind broad catches and `AoWE.Format` | exception census (below). Counts equal the base, `NullStringException` 0. Every gate run is strict (2.2). A product test asserts the static string tables non-null | P6, recorded in P5, test in 9.5-1 |
-| Typed text through save and load | a player name typed through `InputMapper.Text` with €, „, ä and ß survives save and load in byte mode (the saved bytes hold 0x80, 0x84, 0xE4 and 0xDF) and in model mode (the oracle's model reader) | P6 |
-| Host paths outside the table | a test creates files whose names hold chars outside the table in a temporary folder, finds them through `FindFirst`, opens them, and checks that `AnsiUpperCase` keeps them and that `AnsiCompareText` and a sorted `TStringList` with `dupIgnore` tell them apart | 9.5-1 |
+| Typed text through save and load | a player name typed through `InputMapper.Text` with €, „, ä and ß survives save and load in byte mode (the saved bytes hold 0x80, 0x84, 0xE4 and 0xDF, `TypedNameRoundTripTests`) and in model mode (the oracle's model reader reads a whole save the Headless host wrote with that leader name, `tools/oracle/typed_name.py` in the private repository) | P6 for byte mode. The model-mode read needs the oracle's Python reader over a whole save, so it landed with the oracle tooling in 9.7-2 (deferred 2026-11-05) |
+| Host paths outside the table | a test creates files whose names hold chars outside the table in a temporary folder, finds them through `FindFirst`, opens them, and checks that `AnsiUpperCase` keeps them and that `AnsiCompareText` and a sorted `TStringList` with `dupIgnore` tell them apart (`HostPathTests`) | 9.5-1 |
 | `AnsiCompareText` and `AnsiCompareStr` order and equality | probe `strings` with the 15,568-pair pin, probe `lists` for the sorted `TStringList`, `SysUtilsTests` | existing |
 | `Format`, `IntToStr`, `StrToInt`, `Copy` family edge cases | probes `format` and `strings`, `SysUtilsProbeTests`, P1's `FormatPreservesEveryHighCharAsStringCharByteAndPChar` | existing |
 | `FindFirst` order, path splitting | probe `files`, `FilesProbeTests` | existing |
@@ -458,8 +490,8 @@ zero warnings and `dotnet test`.
 | 9.5-0 | P2 (Units): the string-as-buffer sites become `byte[]` while the type is still `AnsiString` (the three `ReadString` shapes, the `Span` reads in `Engine.cs`), and the 27 retained `Ptr<byte>` walks in `AoWMemo.cs`, `AoWHTMLMemo.cs` and `AoWRealm.cs` become loops over `Rtl.StringBytes(S)` | after CF-4, beside C6 and P6, before C9 | 13 layers pass with unchanged counts, none of the 27 lines `ptr.md` retains is left, and a dry run lists no `span` site that writes through a span |
 | 9.5-0 | P6 (product and private): the exception census in the hosts and `check.py`, `AOW_STRICT_STRINGS` in `check.py`, HostChecks `--sort-dump <file>`, the glyph index test, the German fixture with a char from bytes 128 to 159, the input round trip, the dictionary order test, the culture guard (section 4) | after C6, merged before C9 | 13 layers pass, with the new counts the report states, and the census file and the sort dump are written on main |
 | 9.5-0 | P5 (unmerged product branch and private): the RTL after the switch, the dry run, `--diagnose` and the patch on the base, the base recordings | after C8c (the base), P1b, P3b, P6 | on the base commit, which `strings.md` names: `--diagnose <rtl> --patch data/rewrite/strings-patch.json` prints 0 errors, `strings.md` classifies every `host-entry` site and lists the path keys and the binary-value strings, `data/rewrite/9.5-exceptions-base.json` holds two gate runs, `data/rewrite/9.5-sorts-base.txt` holds the sort dump |
-| 9.5-1 | The pass, one implementer, one worktree, `src/` frozen: switch the RTL from the P5 branch, run the tool with `--write --patch` over `src` and the private trees, merge P4 and regenerate `src/Layout`, fix what the build still reports and record each fix by member, replace the shim tests, add the host path and static table tests, wire `--check` into the `product` layer, delete `AnsiString.cs` and `Rtl.StringBytes` | after P5 and P4 | `python tools/check.py` passes all 13 layers with the counts of section 4 and zero warnings, the product summary carries `Strings check: 0 findings`. `git grep -n AnsiString -- src` prints nothing, and in the private repository `tools/` and `tests/` name it only in reports, documents and `tools/rewrite/strings`. The census of every run equals the base and `NullStringException` is 0. HostChecks `--sort-dump` equals `data/rewrite/9.5-sorts-base.txt`. `python tools/rewrite/analyze_9x.py` prints IDE0004 0 and IDE0047 0 over `src/Units`, as after C7. The report holds the Layout comparison, the test mapping table and the product layer's wall time before and after. `strings.md` lists every `Cp1252` call site by boundary of 2.4 |
-| 9.5-2 | Documents: `rtl-shim.md` 1.2, 2.3 and 3 rewritten for `string`, `localization.md` decision 4, `design.md` open question 1, `milestones.md` row 9.5, `testing.md` for the strings check, the strict switch and the exception census | after 9.5-1 | the documents name the code as it is |
+| 9.5-1 | The pass, one implementer, one worktree, `src/` frozen: switch the RTL from the P5 branch, run the tool with `--write --patch` over `src` and the private trees, merge P4 and regenerate `src/Layout`, fix what the build still reports and record each fix by member, replace the shim tests, add the host path and static table tests, wire `--check` into the `product` layer, delete `AnsiString.cs` and `Rtl.StringBytes` | after P5 and P4. Merged 2026-11-05 (PR #95, `c55a631`) | `python tools/check.py` passes all 13 layers with the counts of section 4 and zero warnings, the product summary carries `Strings check: 0 findings`. `git grep -n AnsiString -- src` prints nothing, and in the private repository `tools/` and `tests/` name it only in reports, documents and `tools/rewrite/strings`. The census of every run equals the base and `NullStringException` is 0. HostChecks `--sort-dump` equals `data/rewrite/9.5-sorts-base.txt`. `python tools/rewrite/analyze_9x.py` prints IDE0004 0 and IDE0047 0 over `src/Units`, as after C7. The report holds the Layout comparison, the test mapping table and the product layer's wall time before and after. `strings.md` lists every `Cp1252` call site by boundary of 2.4 |
+| 9.5-2 | Documents: `rtl-shim.md` 1.2, 2.3 and 3 rewritten for `string`, `localization.md` decision 4, `design.md` open question 1, `milestones.md` row 9.5, `testing.md` for the strings check, the strict switch and the exception census, and this document against the code (section 8) | after 9.5-1 | the documents name the code as it is |
 
 Loop base shifts, `StringBuilder` in hot concatenations and span-based text drawing are a later
 cleanup, measured first, and not part of the done measure. So are retyping Delphi `Char` to `char`
@@ -547,3 +579,29 @@ the amendment's wording, the reason follows.
 | A12 emitted names | applied (3.1, 5.1) |
 | A13 proofs | applied (section 4). The glyph test, the 128 to 159 fixture, the input round trip, the dictionary order test and the culture guard land in P6 on the base, so they prove an unchanged result instead of a passing one. The culture guard runs at host start as well as in a test |
 | A14 corrections | applied (sections 1, 2.6 and 5) |
+
+## 8. Result
+
+Brief 9.5-1 merged on 2026-11-05 (PR #95, main `c55a631`, with the review fixes of `d4d0e44`). The
+gate of the merged pass passed all 13 layers:
+
+- The product layer runs 3,337 tests (`Rtl.Tests` 153, `Units.Tests` 2,914, `Formats.Tests` 270),
+  3,334 on the base. The three new tests are the host path test, the static table test and
+  `HeadlessServicesTests.MissingStringValueReadsAsEmpty`. The summary carries
+  `Strings check: 0 findings` and zero build warnings.
+- `git grep -n AnsiString -- src` prints nothing. `src/Rtl/AnsiString.cs` and `Rtl.StringBytes` are
+  deleted.
+- The exception census holds every count at 0 in every run, as the base does, `NullStringException`
+  included. The oracle layer has one run more than the base, the Headless run of the typed-name save
+  of 9.7-2.
+- The sort dump equals `data/rewrite/9.5-sorts-base.txt` byte for byte.
+- The other layers pass: transpiler 328 tests, forms 172, localization 181,410
+  assertions in L1 and L2, oracle 177 of 177 saves equal in byte and model modes, frames 100 of 100,
+  scenarios 92 states and 92 frames equal.
+
+The tool read 545 files and changed 303 of them, with 7,127 rewrites and 164 residue sites. The 32
+`struct-field` sites are fixed by entries of the 57-entry patch `data/rewrite/strings-patch.json`,
+the 117 `host-entry` sites are classified, and the 15 `as-ptr` sites are zero-terminated copies
+that nothing writes through. The patch entries and the hand edits outside it are recorded by member
+in the private `data/rewrite/strings.md`. The product makes 121 `Cp1252` calls outside the tests
+and `Rtl/Cp1252.cs`, and that record lists each one under its boundary of 2.4.
