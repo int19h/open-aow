@@ -59,7 +59,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3343
         public int Get(int Index)
         {
-            int Result = default;
+            int Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -128,16 +128,10 @@ namespace Aow.Units.Engine
         // Engine.pas:3537
         internal AnsiString GetItemString()
         {
-            AnsiString Result = default;
-            int I = default;
-            Result = (AnsiString)"";
+            AnsiString Result = (AnsiString)"";
+            for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                I = 0;
-                int end__1 = FCount - 1;
-                for (; I <= end__1; I += 1)
-                {
-                    Result = Result + IntToStr(FList[I]) + AnsiString.FromBytes(44);
-                }
+                Result = Result + IntToStr(FList[I]) + AnsiString.FromBytes(44);
             }
 
             if (Result != (AnsiString)"")
@@ -151,9 +145,9 @@ namespace Aow.Units.Engine
         // Engine.pas:3548
         internal void SetItemString(AnsiString S)
         {
-            AnsiString Item = default;
-            int P = default;
-            int V = default;
+            AnsiString Item;
+            int P;
+            int V;
             Clear();
             P = Pos(AnsiString.FromBytes(44), S);
             while (S != (AnsiString)"")
@@ -186,7 +180,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3351
         protected internal virtual void Grow()
         {
-            int Delta = default;
+            int Delta;
             if (FCapacity > 64)
             {
                 Delta = FCapacity / 4;
@@ -232,8 +226,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3287
         public int Add(int Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -269,7 +262,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3321
         public void Exchange(int Index1, int Index2)
         {
-            int Item = default;
+            int Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -288,29 +281,21 @@ namespace Aow.Units.Engine
         // Engine.pas:3332
         public TIntegerList Expand()
         {
-            TIntegerList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:3338
-        public int First()
-        {
-            int Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public int First() => Get(0);
 
         // Engine.pas:3361
         public int IndexOf(int Item)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result] != Item)
             {
                 Result += 1;
@@ -347,18 +332,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3379
-        public int Last()
-        {
-            int Result = default;
-            var call__3 = Get(FCount - 1);
-            Result = call__3;
-            return Result;
-        }
+        public int Last() => Get(FCount - 1);
 
         // Engine.pas:3384
         public void Move(int CurIndex, int NewIndex)
         {
-            int Item = default;
+            int Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -375,8 +354,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3404
         public int Remove(int Item)
         {
-            int Result = default;
-            Result = IndexOf(Item);
+            int Result = IndexOf(Item);
             if (Result != -1)
             {
                 Delete(Result);
@@ -388,17 +366,11 @@ namespace Aow.Units.Engine
         // Engine.pas:3410
         public void Pack()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__4 = 0;
-                for (; I >= end__4; I -= 1)
+                if (this[I] == FDefault)
                 {
-                    var call__5 = this[I];
-                    if (call__5 == FDefault)
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
@@ -413,18 +385,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3471
-        public bool Compare(TIntegerList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__6 = CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
-                Result = call__6;
-            }
-
-            return Result;
-        }
+        public bool Compare(TIntegerList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
         // Engine.pas:3478
         public void LoadFromStream(TStream Stream)
@@ -454,13 +415,12 @@ namespace Aow.Units.Engine
         // Engine.pas:3499
         public void SaveToStream(TStream Stream)
         {
-            int I = default;
+            int I;
             int Run = default;
             int DefaultRun()
             {
-                int Result = default;
-                int J = default;
-                Result = 0;
+                int J;
+                int Result = 0;
                 J = I;
                 while (J < FCount && FList[J] == FDefault)
                 {
@@ -494,27 +454,22 @@ namespace Aow.Units.Engine
         // Engine.pas:3573
         public int RandomChanceItem(int Bonus)
         {
-            int Result = default;
-            int I = default;
-            int Total = default;
-            int Chance = default;
-            int R = default;
+            int Result;
+            int Total;
+            int Chance;
+            int R;
             if (FCount != 0)
             {
                 Total = 0;
+                for (int I = FCount - 1; I >= 0; I--)
                 {
-                    I = FCount - 1;
-                    byte end__7 = 0;
-                    for (; I >= end__7; I -= 1)
+                    Chance = FList[I] + Bonus;
+                    if (Chance < 0)
                     {
-                        Chance = FList[I] + Bonus;
-                        if (Chance < 0)
-                        {
-                            Chance = 0;
-                        }
-
-                        Total += Chance;
+                        Chance = 0;
                     }
+
+                    Total += Chance;
                 }
 
                 R = Random(Total);
@@ -568,7 +523,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3678
         internal byte Get(int Index)
         {
-            byte Result = default;
+            byte Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -636,16 +591,10 @@ namespace Aow.Units.Engine
         // Engine.pas:3883
         internal AnsiString GetItemString()
         {
-            AnsiString Result = default;
-            int I = default;
-            Result = (AnsiString)"";
+            AnsiString Result = (AnsiString)"";
+            for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                I = 0;
-                int end__8 = FCount - 1;
-                for (; I <= end__8; I += 1)
-                {
-                    Result = Result + IntToStr(FList[I]) + AnsiString.FromBytes(44);
-                }
+                Result = Result + IntToStr(FList[I]) + AnsiString.FromBytes(44);
             }
 
             if (Result != (AnsiString)"")
@@ -659,9 +608,9 @@ namespace Aow.Units.Engine
         // Engine.pas:3894
         internal void SetItemString(AnsiString S)
         {
-            AnsiString Item = default;
-            int P = default;
-            int V = default;
+            AnsiString Item;
+            int P;
+            int V;
             Clear();
             P = Pos(AnsiString.FromBytes(44), S);
             while (S != (AnsiString)"")
@@ -699,7 +648,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3686
         protected internal virtual void Grow()
         {
-            int Delta = default;
+            int Delta;
             if (FCapacity > 64)
             {
                 Delta = FCapacity / 4;
@@ -745,8 +694,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3622
         public int Add(byte Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -782,7 +730,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3656
         public void Exchange(int Index1, int Index2)
         {
-            byte Item = default;
+            byte Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -801,29 +749,21 @@ namespace Aow.Units.Engine
         // Engine.pas:3667
         public TByteList Expand()
         {
-            TByteList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:3673
-        public byte First()
-        {
-            byte Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public byte First() => Get(0);
 
         // Engine.pas:3696
         public int IndexOf(byte Item)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result] != Item)
             {
                 Result += 1;
@@ -860,18 +800,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3714
-        public byte Last()
-        {
-            byte Result = default;
-            var call__10 = Get(FCount - 1);
-            Result = call__10;
-            return Result;
-        }
+        public byte Last() => Get(FCount - 1);
 
         // Engine.pas:3719
         public void Move(int CurIndex, int NewIndex)
         {
-            byte Item = default;
+            byte Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -888,8 +822,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3739
         public int Remove(byte Item)
         {
-            int Result = default;
-            Result = IndexOf(Item);
+            int Result = IndexOf(Item);
             if (Result != -1)
             {
                 Delete(Result);
@@ -901,17 +834,11 @@ namespace Aow.Units.Engine
         // Engine.pas:3745
         public void Pack()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__11 = 0;
-                for (; I >= end__11; I -= 1)
+                if (this[I] == FDefault)
                 {
-                    var call__12 = this[I];
-                    if (call__12 == FDefault)
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
@@ -926,18 +853,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:3806
-        public bool Compare(TByteList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__13 = CompareMem(FList.AsSpan(0, FCount * 1), List.FList.AsSpan(0, FCount * 1), FCount * 1);
-                Result = call__13;
-            }
-
-            return Result;
-        }
+        public bool Compare(TByteList List) => List.FCount == FCount && CompareMem(FList.AsSpan(0, FCount * 1), List.FList.AsSpan(0, FCount * 1), FCount * 1);
 
         // Engine.pas:3813
         public void LoadFromStream(TStream Stream)
@@ -967,14 +883,13 @@ namespace Aow.Units.Engine
         // Engine.pas:3835
         public void SaveToStream(TStream Stream)
         {
-            int I = default;
-            int Run = default;
+            int I;
+            int Run;
             byte B = default;
             int DefaultRun()
             {
-                int Result = default;
-                int J = default;
-                Result = 0;
+                int J;
+                int Result = 0;
                 J = I;
                 while (J < FCount && FList[J] == FDefault)
                 {
@@ -1018,27 +933,22 @@ namespace Aow.Units.Engine
         // Engine.pas:3920
         public int RandomChanceItem(int Bonus)
         {
-            int Result = default;
-            int I = default;
-            int Total = default;
-            int Chance = default;
-            int R = default;
+            int Result;
+            int Total;
+            int Chance;
+            int R;
             if (FCount != 0)
             {
                 Total = 0;
+                for (int I = FCount - 1; I >= 0; I--)
                 {
-                    I = FCount - 1;
-                    byte end__14 = 0;
-                    for (; I >= end__14; I -= 1)
+                    Chance = FList[I] + Bonus;
+                    if (Chance < 0)
                     {
-                        Chance = FList[I] + Bonus;
-                        if (Chance < 0)
-                        {
-                            Chance = 0;
-                        }
-
-                        Total += Chance;
+                        Chance = 0;
                     }
+
+                    Total += Chance;
                 }
 
                 R = Random(Total);
@@ -1092,7 +1002,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4025
         internal sbyte Get(int Index)
         {
-            sbyte Result = default;
+            sbyte Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -1160,7 +1070,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4033
         protected internal virtual void Grow()
         {
-            int Delta = default;
+            int Delta;
             if (FCapacity > 64)
             {
                 Delta = FCapacity / 4;
@@ -1206,8 +1116,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3969
         public int Add(sbyte Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -1243,7 +1152,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4003
         public void Exchange(int Index1, int Index2)
         {
-            sbyte Item = default;
+            sbyte Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -1262,29 +1171,21 @@ namespace Aow.Units.Engine
         // Engine.pas:4014
         public TShortIntList Expand()
         {
-            TShortIntList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:4020
-        public sbyte First()
-        {
-            sbyte Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public sbyte First() => Get(0);
 
         // Engine.pas:4043
         public int IndexOf(sbyte Item)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result] != Item)
             {
                 Result += 1;
@@ -1321,18 +1222,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4061
-        public sbyte Last()
-        {
-            sbyte Result = default;
-            var call__16 = Get(FCount - 1);
-            Result = call__16;
-            return Result;
-        }
+        public sbyte Last() => Get(FCount - 1);
 
         // Engine.pas:4066
         public void Move(int CurIndex, int NewIndex)
         {
-            sbyte Item = default;
+            sbyte Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -1349,8 +1244,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4086
         public int Remove(sbyte Item)
         {
-            int Result = default;
-            Result = IndexOf(Item);
+            int Result = IndexOf(Item);
             if (Result != -1)
             {
                 Delete(Result);
@@ -1362,17 +1256,11 @@ namespace Aow.Units.Engine
         // Engine.pas:4092
         public void Pack()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__17 = 0;
-                for (; I >= end__17; I -= 1)
+                if (this[I] == FDefault)
                 {
-                    var call__18 = this[I];
-                    if (call__18 == FDefault)
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
@@ -1387,18 +1275,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4153
-        public bool Compare(TShortIntList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__19 = CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount * 1)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount * 1)), FCount * 1);
-                Result = call__19;
-            }
-
-            return Result;
-        }
+        public bool Compare(TShortIntList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount * 1)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount * 1)), FCount * 1);
 
         // Engine.pas:4160
         public void LoadFromStream(TStream Stream)
@@ -1428,14 +1305,13 @@ namespace Aow.Units.Engine
         // Engine.pas:4183
         public void SaveToStream(TStream Stream)
         {
-            int I = default;
-            int Run = default;
+            int I;
+            int Run;
             byte B = default;
             int DefaultRun()
             {
-                int Result = default;
-                int J = default;
-                Result = 0;
+                int J;
+                int Result = 0;
                 J = I;
                 while (J < FCount && FList[J] == FDefault)
                 {
@@ -1479,27 +1355,22 @@ namespace Aow.Units.Engine
         // Engine.pas:4231
         public int RandomChanceItem(int Bonus)
         {
-            int Result = default;
-            int I = default;
-            int Total = default;
-            int Chance = default;
-            int R = default;
+            int Result;
+            int Total;
+            int Chance;
+            int R;
             if (FCount != 0)
             {
                 Total = 0;
+                for (int I = FCount - 1; I >= 0; I--)
                 {
-                    I = FCount - 1;
-                    byte end__20 = 0;
-                    for (; I >= end__20; I -= 1)
+                    Chance = FList[I] + Bonus;
+                    if (Chance < 0)
                     {
-                        Chance = FList[I] + Bonus;
-                        if (Chance < 0)
-                        {
-                            Chance = 0;
-                        }
-
-                        Total += Chance;
+                        Chance = 0;
                     }
+
+                    Total += Chance;
                 }
 
                 R = Random(Total);
@@ -1552,7 +1423,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4336
         internal ushort Get(int Index)
         {
-            ushort Result = default;
+            ushort Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -1620,7 +1491,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4344
         protected internal virtual void Grow()
         {
-            int Delta = default;
+            int Delta;
             if (FCapacity > 64)
             {
                 Delta = FCapacity / 4;
@@ -1666,8 +1537,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4280
         public int Add(ushort Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -1703,7 +1573,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4314
         public void Exchange(int Index1, int Index2)
         {
-            ushort Item = default;
+            ushort Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -1722,29 +1592,21 @@ namespace Aow.Units.Engine
         // Engine.pas:4325
         public TWordList Expand()
         {
-            TWordList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:4331
-        public ushort First()
-        {
-            ushort Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public ushort First() => Get(0);
 
         // Engine.pas:4354
         public int IndexOf(ushort Item)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result] != Item)
             {
                 Result += 1;
@@ -1781,18 +1643,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4372
-        public ushort Last()
-        {
-            ushort Result = default;
-            var call__22 = Get(FCount - 1);
-            Result = call__22;
-            return Result;
-        }
+        public ushort Last() => Get(FCount - 1);
 
         // Engine.pas:4377
         public void Move(int CurIndex, int NewIndex)
         {
-            ushort Item = default;
+            ushort Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -1809,8 +1665,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4397
         public int Remove(ushort Item)
         {
-            int Result = default;
-            Result = IndexOf(Item);
+            int Result = IndexOf(Item);
             if (Result != -1)
             {
                 Delete(Result);
@@ -1822,17 +1677,11 @@ namespace Aow.Units.Engine
         // Engine.pas:4403
         public void Pack()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__23 = 0;
-                for (; I >= end__23; I -= 1)
+                if (this[I] == FDefault)
                 {
-                    var call__24 = this[I];
-                    if (call__24 == FDefault)
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
@@ -1847,18 +1696,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4464
-        public bool Compare(TWordList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__25 = CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 2);
-                Result = call__25;
-            }
-
-            return Result;
-        }
+        public bool Compare(TWordList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 2);
 
         // Engine.pas:4471
         public void LoadFromStream(TStream Stream)
@@ -1888,14 +1726,13 @@ namespace Aow.Units.Engine
         // Engine.pas:4493
         public void SaveToStream(TStream Stream)
         {
-            int I = default;
-            int Run = default;
+            int I;
+            int Run;
             ushort B = default;
             int DefaultRun()
             {
-                int Result = default;
-                int J = default;
-                Result = 0;
+                int J;
+                int Result = 0;
                 J = I;
                 while (J < FCount && FList[J] == FDefault)
                 {
@@ -1940,27 +1777,22 @@ namespace Aow.Units.Engine
         // Engine.pas:4541
         public int RandomChanceItem(int Bonus)
         {
-            int Result = default;
-            int I = default;
-            int Total = default;
-            int Chance = default;
-            int R = default;
+            int Result;
+            int Total;
+            int Chance;
+            int R;
             if (FCount != 0)
             {
                 Total = 0;
+                for (int I = FCount - 1; I >= 0; I--)
                 {
-                    I = FCount - 1;
-                    byte end__26 = 0;
-                    for (; I >= end__26; I -= 1)
+                    Chance = FList[I] + Bonus;
+                    if (Chance < 0)
                     {
-                        Chance = FList[I] + Bonus;
-                        if (Chance < 0)
-                        {
-                            Chance = 0;
-                        }
-
-                        Total += Chance;
+                        Chance = 0;
                     }
+
+                    Total += Chance;
                 }
 
                 R = Random(Total);
@@ -2012,7 +1844,6 @@ namespace Aow.Units.Engine
         // Engine.pas:4743
         internal void SetCapacity(int NewCapacity)
         {
-            int I = default;
             if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
             {
                 Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
@@ -2029,13 +1860,9 @@ namespace Aow.Units.Engine
                     FList = resized;
                 }
                 FCapacity = NewCapacity;
+                for (int I = FCount; I <= NewCapacity - 1; I++)
                 {
-                    I = FCount;
-                    int end__27 = NewCapacity - 1;
-                    for (; I <= end__27; I += 1)
-                    {
-                        Put(I, FDefault);
-                    }
+                    Put(I, FDefault);
                 }
             }
         }
@@ -2043,8 +1870,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4758
         internal void SetCount(int NewCount)
         {
-            int I = default;
-            int OldCount = default;
+            int OldCount;
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
                 Error((AnsiString)"List count out of bounds (%d)", NewCount);
@@ -2059,13 +1885,9 @@ namespace Aow.Units.Engine
             {
                 OldCount = FCount;
                 FCount = NewCount;
+                for (int I = OldCount, last = FCount - 1; I <= last; I++)
                 {
-                    I = OldCount;
-                    int end__28 = FCount - 1;
-                    for (; I <= end__28; I += 1)
-                    {
-                        Put(I, FDefault);
-                    }
+                    Put(I, FDefault);
                 }
             }
             else
@@ -2077,19 +1899,12 @@ namespace Aow.Units.Engine
         // Engine.pas:4798
         internal AnsiString GetItemString()
         {
-            AnsiString Result = default;
-            int I = default;
-            Result = (AnsiString)"";
+            AnsiString Result = (AnsiString)"";
+            for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                I = 0;
-                int end__29 = FCount - 1;
-                for (; I <= end__29; I += 1)
+                if (Get(I) != FDefault)
                 {
-                    var call__30 = Get(I);
-                    if (call__30 != FDefault)
-                    {
-                        Result = Result + IntToStr(I) + AnsiString.FromBytes(44);
-                    }
+                    Result = Result + IntToStr(I) + AnsiString.FromBytes(44);
                 }
             }
 
@@ -2104,8 +1919,8 @@ namespace Aow.Units.Engine
         // Engine.pas:4810
         internal void SetItemString(AnsiString S)
         {
-            AnsiString Item = default;
-            int P = default;
+            AnsiString Item;
+            int P;
             Clear();
             P = Pos(AnsiString.FromBytes(44), S);
             while (S != (AnsiString)"")
@@ -2133,18 +1948,12 @@ namespace Aow.Units.Engine
         // Engine.pas:4834
         internal int GetBitsSet()
         {
-            int Result = default;
-            int I = default;
-            Result = 0;
+            int Result = 0;
+            for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                I = 0;
-                int end__31 = FCount - 1;
-                for (; I <= end__31; I += 1)
+                if (Get(I))
                 {
-                    if (Get(I))
-                    {
-                        Result += 1;
-                    }
+                    Result += 1;
                 }
             }
 
@@ -2154,18 +1963,12 @@ namespace Aow.Units.Engine
         // Engine.pas:4843
         internal int GetBitsCleared()
         {
-            int Result = default;
-            int I = default;
-            Result = 0;
+            int Result = 0;
+            for (int I = 0, last = FCount - 1; I <= last; I++)
             {
-                I = 0;
-                int end__32 = FCount - 1;
-                for (; I <= end__32; I += 1)
+                if (!Get(I))
                 {
-                    if (!Get(I))
-                    {
-                        Result += 1;
-                    }
+                    Result += 1;
                 }
             }
 
@@ -2206,8 +2009,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4590
         public int Add(bool Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -2227,7 +2029,6 @@ namespace Aow.Units.Engine
         // Engine.pas:4603
         public void Delete(int Index)
         {
-            int I = default;
             if (Index < 0 || Index >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index);
@@ -2236,14 +2037,9 @@ namespace Aow.Units.Engine
             FCount -= 1;
             if (Index < FCount)
             {
+                for (int I = Index, last = FCount - 1; I <= last; I++)
                 {
-                    I = Index;
-                    int end__34 = FCount - 1;
-                    for (; I <= end__34; I += 1)
-                    {
-                        var call__35 = Get(I + 1);
-                        Put(I, call__35);
-                    }
+                    Put(I, Get(I + 1));
                 }
             }
         }
@@ -2251,7 +2047,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4624
         public void Exchange(int Index1, int Index2)
         {
-            bool Item = default;
+            bool Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -2263,51 +2059,31 @@ namespace Aow.Units.Engine
             }
 
             Item = Get(Index1);
-            var call__36 = Get(Index2);
-            Put(Index1, call__36);
+            Put(Index1, Get(Index2));
             Put(Index2, Item);
         }
 
         // Engine.pas:4635
         public TBitList Expand()
         {
-            TBitList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:4641
-        public bool First()
-        {
-            bool Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public bool First() => Get(0);
 
         // Engine.pas:4688
         public int IndexOf(bool Item)
         {
-            int Result = default;
-            Result = 0;
-            while (true)
+            int Result = 0;
+            while (Result < FCount && Item != Get(Result))
             {
-                bool bool__37 = Result < FCount;
-                if (bool__37)
-                {
-                    var call__38 = Get(Result);
-                    bool__37 = Item != call__38;
-                }
-
-                if (!bool__37)
-                    break;
-                {
-                    Result += 1;
-                }
+                Result += 1;
             }
 
             if (Result == FCount)
@@ -2321,7 +2097,6 @@ namespace Aow.Units.Engine
         // Engine.pas:4695
         public void Insert(int Index, bool Item)
         {
-            int I = default;
             if (Index < 0 || Index > FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index);
@@ -2336,14 +2111,9 @@ namespace Aow.Units.Engine
             {
                 FCount += 1;
                 // { sic: the original copies the same bit FCount - Index - 1 times instead of moving the tail }
+                for (int I = FCount - 2; I >= Index; I--)
                 {
-                    I = FCount - 2;
-                    int end__39 = Index;
-                    for (; I >= end__39; I -= 1)
-                    {
-                        var call__40 = Get(Index);
-                        Put(Index + 1, call__40);
-                    }
+                    Put(Index + 1, Get(Index));
                 }
             }
             else
@@ -2355,18 +2125,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4712
-        public bool Last()
-        {
-            bool Result = default;
-            var call__41 = Get(FCount - 1);
-            Result = call__41;
-            return Result;
-        }
+        public bool Last() => Get(FCount - 1);
 
         // Engine.pas:4717
         public void Move(int CurIndex, int NewIndex)
         {
-            bool Item = default;
+            bool Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -2383,8 +2147,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4730
         public int Remove(bool Item)
         {
-            int Result = default;
-            Result = IndexOf(Item);
+            int Result = IndexOf(Item);
             if (Result != -1)
             {
                 Delete(Result);
@@ -2396,34 +2159,17 @@ namespace Aow.Units.Engine
         // Engine.pas:4736
         public void Pack()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__42 = 0;
-                for (; I >= end__42; I -= 1)
+                if (this[I] == FDefault)
                 {
-                    var call__43 = this[I];
-                    if (call__43 == FDefault)
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
 
         // Engine.pas:4775
-        public bool Compare(TBitList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__44 = CompareMem(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), List.FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
-                Result = call__44;
-            }
-
-            return Result;
-        }
+        public bool Compare(TBitList List) => List.FCount == FCount && CompareMem(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), List.FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
 
         // Engine.pas:4782
         public void LoadFromStream(TStream Stream)
@@ -2471,7 +2217,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4929
         internal TNotifyEvent Get(int Index)
         {
-            TNotifyEvent Result = default;
+            TNotifyEvent Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -2518,8 +2264,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5022
         internal void SetCount(int NewCount)
         {
-            int I = default;
-            int OldCount = default;
+            int OldCount;
             if (NewCount < 0 || NewCount > Engine.MaxListSize)
             {
                 Error((AnsiString)"List count out of bounds (%d)", NewCount);
@@ -2534,13 +2279,9 @@ namespace Aow.Units.Engine
             {
                 OldCount = FCount;
                 FCount = NewCount;
+                for (int I = OldCount, last = FCount - 1; I <= last; I++)
                 {
-                    I = OldCount;
-                    int end__45 = FCount - 1;
-                    for (; I <= end__45; I += 1)
-                    {
-                        Put(I, FDefault);
-                    }
+                    Put(I, FDefault);
                 }
             }
             else
@@ -2552,7 +2293,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4937
         protected internal virtual void Grow()
         {
-            int Delta = default;
+            int Delta;
             if (FCapacity > 64)
             {
                 Delta = FCapacity / 4;
@@ -2598,8 +2339,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4873
         public int Add(TNotifyEvent Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -2635,7 +2375,7 @@ namespace Aow.Units.Engine
         // Engine.pas:4907
         public void Exchange(int Index1, int Index2)
         {
-            TNotifyEvent Item = default;
+            TNotifyEvent Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -2654,30 +2394,22 @@ namespace Aow.Units.Engine
         // Engine.pas:4918
         public TEventList Expand()
         {
-            TEventList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:4924
-        public TNotifyEvent First()
-        {
-            TNotifyEvent Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public TNotifyEvent First() => Get(0);
 
         // Engine.pas:4947
         public int IndexOf(TNotifyEvent Item)
         {
-            int Result = default;
-            Delegate M = default;
-            Result = 0;
+            Delegate M;
+            int Result = 0;
             M = Item;
             while (Result < FCount && (MethodTarget(FList[Result]) != MethodTarget(M) || MethodCode(FList[Result]) != MethodCode(M)))
             {
@@ -2715,18 +2447,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:4969
-        public TNotifyEvent Last()
-        {
-            TNotifyEvent Result = default;
-            var call__47 = Get(FCount - 1);
-            Result = call__47;
-            return Result;
-        }
+        public TNotifyEvent Last() => Get(FCount - 1);
 
         // Engine.pas:4974
         public void Move(int CurIndex, int NewIndex)
         {
-            TNotifyEvent Item = default;
+            TNotifyEvent Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -2756,50 +2482,29 @@ namespace Aow.Units.Engine
         // Engine.pas:5000
         public void Pack()
         {
-            int I = default;
-            Delegate M = default;
+            Delegate M;
             M = FDefault;
             // { sic: the original deletes an item only when both halves differ from the default }
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__48 = 0;
-                for (; I >= end__48; I -= 1)
+                if (MethodTarget(FList[I]) != MethodTarget(M) && MethodCode(FList[I]) != MethodCode(M))
                 {
-                    if (MethodTarget(FList[I]) != MethodTarget(M) && MethodCode(FList[I]) != MethodCode(M))
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
 
         // Engine.pas:5039
-        public bool Compare(TEventList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__49 = FList.AsSpan(0, FCount).SequenceEqual(List.FList.AsSpan(0, FCount));
-                Result = call__49;
-            }
-
-            return Result;
-        }
+        public bool Compare(TEventList List) => List.FCount == FCount && FList.AsSpan(0, FCount).SequenceEqual(List.FList.AsSpan(0, FCount));
 
         // Engine.pas:5046
         public void TriggerNotifyEvents(TObject Sender)
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__50 = 0;
-                for (; I >= end__50; I -= 1)
+                if (FList[I] != null)
                 {
-                    if (FList[I] != null)
-                    {
-                        FList[I](Sender);
-                    }
+                    FList[I](Sender);
                 }
             }
         }
@@ -2840,7 +2545,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5140
         internal TDoubleItem Get(int Index)
         {
-            TDoubleItem Result = default;
+            TDoubleItem Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -2908,7 +2613,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5148
         protected internal virtual void Grow()
         {
-            int Delta = default;
+            int Delta;
             if (FCapacity > 64)
             {
                 Delta = FCapacity / 4;
@@ -2954,8 +2659,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5075
         public int Add(in TDoubleItem Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -2969,8 +2673,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5083
         public int AddAB(int A, int B)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -3007,7 +2710,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5118
         public void Exchange(int Index1, int Index2)
         {
-            TDoubleItem Item = default;
+            TDoubleItem Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -3026,29 +2729,21 @@ namespace Aow.Units.Engine
         // Engine.pas:5129
         public TDoubleItemList Expand()
         {
-            TDoubleItemList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:5135
-        public TDoubleItem First()
-        {
-            TDoubleItem Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public TDoubleItem First() => Get(0);
 
         // Engine.pas:5158
         public int IndexOf(in TDoubleItem Item)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && (double)Unsafe.As<TDoubleItem, long>(ref FList[Result]) != Unsafe.BitCast<TDoubleItem, long>(Item))
             {
                 Result += 1;
@@ -3065,8 +2760,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5165
         public int IndexOfItemA(int A)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result].A != A)
             {
                 Result += 1;
@@ -3083,8 +2777,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5172
         public int IndexOfItemB(int B)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result].B != B)
             {
                 Result += 1;
@@ -3121,18 +2814,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5190
-        public TDoubleItem Last()
-        {
-            TDoubleItem Result = default;
-            var call__52 = Get(FCount - 1);
-            Result = call__52;
-            return Result;
-        }
+        public TDoubleItem Last() => Get(FCount - 1);
 
         // Engine.pas:5195
         public void Move(int CurIndex, int NewIndex)
         {
-            TDoubleItem Item = default;
+            TDoubleItem Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -3149,8 +2836,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5215
         public int Remove(in TDoubleItem Item)
         {
-            int Result = default;
-            Result = IndexOf(Item);
+            int Result = IndexOf(Item);
             if (Result != -1)
             {
                 Delete(Result);
@@ -3162,19 +2848,13 @@ namespace Aow.Units.Engine
         // Engine.pas:5221
         public void Pack()
         {
-            int I = default;
             TDoubleItem Item = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__53 = 0;
-                for (; I >= end__53; I -= 1)
+                Item = this[I];
+                if ((double)Unsafe.As<TDoubleItem, long>(ref Item) == Unsafe.As<TDoubleItem, long>(ref FDefault))
                 {
-                    var call__54 = this[I];
-                    Item = call__54;
-                    if ((double)Unsafe.As<TDoubleItem, long>(ref Item) == Unsafe.As<TDoubleItem, long>(ref FDefault))
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
@@ -3213,18 +2893,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5327
-        public bool Compare(TDoubleItemList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__55 = CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 8);
-                Result = call__55;
-            }
-
-            return Result;
-        }
+        public bool Compare(TDoubleItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 8);
 
         // Engine.pas:5334
         public void LoadFromStream(TStream Stream)
@@ -3254,13 +2923,12 @@ namespace Aow.Units.Engine
         // Engine.pas:5356
         public void SaveToStream(TStream Stream)
         {
-            int I = default;
+            int I;
             int Run = default;
             int DefaultRun()
             {
-                int Result = default;
-                int J = default;
-                Result = 0;
+                int J;
+                int Result = 0;
                 J = I;
                 while (J < FCount && (double)Unsafe.As<TDoubleItem, long>(ref FList[J]) == Unsafe.As<TDoubleItem, long>(ref FDefault))
                 {
@@ -3294,27 +2962,22 @@ namespace Aow.Units.Engine
         // Engine.pas:5394
         public int RandomChanceItemA(int Bonus)
         {
-            int Result = default;
-            int I = default;
-            int Total = default;
-            int Chance = default;
-            int R = default;
+            int Result;
+            int Total;
+            int Chance;
+            int R;
             if (FCount != 0)
             {
                 Total = 0;
+                for (int I = FCount - 1; I >= 0; I--)
                 {
-                    I = FCount - 1;
-                    byte end__56 = 0;
-                    for (; I >= end__56; I -= 1)
+                    Chance = FList[I].A + Bonus;
+                    if (Chance < 0)
                     {
-                        Chance = FList[I].A + Bonus;
-                        if (Chance < 0)
-                        {
-                            Chance = 0;
-                        }
-
-                        Total += Chance;
+                        Chance = 0;
                     }
+
+                    Total += Chance;
                 }
 
                 R = Random(Total);
@@ -3343,24 +3006,19 @@ namespace Aow.Units.Engine
         // Engine.pas:5422
         public int RandomChanceItemB(int Bonus)
         {
-            int Result = default;
-            int I = default;
-            int Total = default;
-            int Chance = default;
-            int R = default;
+            int Result;
+            int Total;
+            int Chance;
+            int R;
             if (FCount != 0)
             {
                 Total = 0;
+                for (int I = FCount - 1; I >= 0; I--)
                 {
-                    I = FCount - 1;
-                    byte end__57 = 0;
-                    for (; I >= end__57; I -= 1)
+                    Chance = FList[I].B + Bonus;
+                    if (Chance > 0)
                     {
-                        Chance = FList[I].B + Bonus;
-                        if (Chance > 0)
-                        {
-                            Total += Chance;
-                        }
+                        Total += Chance;
                     }
                 }
 
@@ -3431,7 +3089,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5538
         internal TQuadInteger Get(int Index)
         {
-            TQuadInteger Result = default;
+            TQuadInteger Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -3499,7 +3157,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5546
         protected internal virtual void Grow()
         {
-            int Delta = default;
+            int Delta;
             if (FCapacity > 64)
             {
                 Delta = FCapacity / 4;
@@ -3545,8 +3203,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5471
         public int Add(in TQuadInteger Item)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -3560,8 +3217,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5479
         public int AddABCD(int A, int B, int C, int D)
         {
-            int Result = default;
-            Result = FCount;
+            int Result = FCount;
             if (Result == FCapacity)
             {
                 Grow();
@@ -3600,7 +3256,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5516
         public void Exchange(int Index1, int Index2)
         {
-            TQuadInteger Item = default;
+            TQuadInteger Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error((AnsiString)"List index out of bounds (%d)", Index1);
@@ -3619,29 +3275,21 @@ namespace Aow.Units.Engine
         // Engine.pas:5527
         public TQuadItemList Expand()
         {
-            TQuadItemList Result = default;
             if (FCount == FCapacity)
             {
                 Grow();
             }
 
-            Result = this;
-            return Result;
+            return this;
         }
 
         // Engine.pas:5533
-        public TQuadInteger First()
-        {
-            TQuadInteger Result = default;
-            Result = Get(0);
-            return Result;
-        }
+        public TQuadInteger First() => Get(0);
 
         // Engine.pas:5556
         public int IndexOf(in TQuadInteger Item)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && (FList[Result].A != Item.A || FList[Result].B != Item.B || FList[Result].C != Item.C || FList[Result].D != Item.D))
             {
                 Result += 1;
@@ -3658,8 +3306,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5564
         public int IndexOfItemA(int A)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result].A != A)
             {
                 Result += 1;
@@ -3676,8 +3323,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5571
         public int IndexOfItemB(int B)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result].B != B)
             {
                 Result += 1;
@@ -3694,8 +3340,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5578
         public int IndexOfItemC(int C)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result].C != C)
             {
                 Result += 1;
@@ -3712,8 +3357,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5585
         public int IndexOfItemD(int D)
         {
-            int Result = default;
-            Result = 0;
+            int Result = 0;
             while (Result < FCount && FList[Result].D != D)
             {
                 Result += 1;
@@ -3750,18 +3394,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5603
-        public TQuadInteger Last()
-        {
-            TQuadInteger Result = default;
-            var call__59 = Get(FCount - 1);
-            Result = call__59;
-            return Result;
-        }
+        public TQuadInteger Last() => Get(FCount - 1);
 
         // Engine.pas:5608
         public void Move(int CurIndex, int NewIndex)
         {
-            TQuadInteger Item = default;
+            TQuadInteger Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -3778,8 +3416,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5628
         public int Remove(in TQuadInteger Item)
         {
-            int Result = default;
-            Result = IndexOf(Item);
+            int Result = IndexOf(Item);
             if (Result != -1)
             {
                 Delete(Result);
@@ -3791,16 +3428,11 @@ namespace Aow.Units.Engine
         // Engine.pas:5634
         public void Pack()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__60 = 0;
-                for (; I >= end__60; I -= 1)
+                if (FList[I].A == FDefault.A && FList[I].B == FDefault.B && FList[I].C == FDefault.C && FList[I].D == FDefault.D)
                 {
-                    if (FList[I].A == FDefault.A && FList[I].B == FDefault.B && FList[I].C == FDefault.C && FList[I].D == FDefault.D)
-                    {
-                        Delete(I);
-                    }
+                    Delete(I);
                 }
             }
         }
@@ -3863,18 +3495,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5777
-        public bool Compare(TQuadItemList List)
-        {
-            bool Result = default;
-            Result = List.FCount == FCount;
-            if (Result)
-            {
-                var call__61 = CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 16);
-                Result = call__61;
-            }
-
-            return Result;
-        }
+        public bool Compare(TQuadItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 16);
 
         // Engine.pas:5784
         public void LoadFromStream(TStream Stream)
@@ -3904,13 +3525,12 @@ namespace Aow.Units.Engine
         // Engine.pas:5807
         public void SaveToStream(TStream Stream)
         {
-            int I = default;
+            int I;
             int Run = default;
             int DefaultRun()
             {
-                int Result = default;
-                int J = default;
-                Result = 0;
+                int J;
+                int Result = 0;
                 J = I;
                 while (J < FCount && (FList[J].A == FDefault.A && FList[J].B == FDefault.B && FList[J].C == FDefault.C && FList[J].D == FDefault.D))
                 {
@@ -4044,8 +3664,8 @@ namespace Aow.Units.Engine
         // Engine.pas:2291
         public int FindOffset(int ID)
         {
-            int Result = default;
-            int I = default;
+            int Result;
+            int I;
             I = FNextIndex;
             if (I >= FCount || FItems[I].ID != ID)
             {
@@ -4074,8 +3694,8 @@ namespace Aow.Units.Engine
         // Engine.pas:2315
         public bool PropertyExist(int ID)
         {
-            bool Result = default;
-            int I = default;
+            bool Result;
+            int I;
             if (ID <= FMaxID)
             {
                 I = FFirst;
@@ -4133,7 +3753,6 @@ namespace Aow.Units.Engine
             int Offset = default;
             byte ShortCount = default;
             ushort Pair = default;
-            ushort I = default;
             Stream.Read(Bytes.Of(ref ShortCount, 1));
             if ((ShortCount & 128) != 0)
             {
@@ -4147,30 +3766,20 @@ namespace Aow.Units.Engine
 
             if (ShortCount != 0)
             {
+                for (int ordinal = 0, last = ShortCount - 1; ordinal <= last; ordinal++)
                 {
-                    int first__66 = 0;
-                    int end__64 = ShortCount - 1;
-                    for (int ordinal__65 = first__66; ordinal__65 <= end__64; ordinal__65++)
-                    {
-                        I = (ushort)ordinal__65;
-                        Stream.Read(Bytes.Of(ref Pair, 2));
-                        Add(Pair & 255, (int)(((uint)Pair) >> 8));
-                    }
+                    Stream.Read(Bytes.Of(ref Pair, 2));
+                    Add(Pair & 255, (int)(((uint)Pair) >> 8));
                 }
             }
 
             if (LongCount != 0)
             {
+                for (int ordinal = 0, last = LongCount - 1; ordinal <= last; ordinal++)
                 {
-                    int first__69 = 0;
-                    int end__67 = LongCount - 1;
-                    for (int ordinal__68 = first__69; ordinal__68 <= end__67; ordinal__68++)
-                    {
-                        I = (ushort)ordinal__68;
-                        Stream.Read(Bytes.Of(ref ID, 4));
-                        Stream.Read(Bytes.Of(ref Offset, 4));
-                        Add(ID, Offset);
-                    }
+                    Stream.Read(Bytes.Of(ref ID, 4));
+                    Stream.Read(Bytes.Of(ref Offset, 4));
+                    Add(ID, Offset);
                 }
             }
         }
@@ -4178,26 +3787,21 @@ namespace Aow.Units.Engine
         // Engine.pas:2391
         public void SaveToStream(TStream Stream)
         {
-            int LongCount = default;
-            int I = default;
-            byte ShortCount = default;
-            byte Marker = default;
+            int LongCount;
+            byte ShortCount;
+            byte Marker;
             int Pair = default;
             LongCount = 0;
             ShortCount = 0;
+            for (int I = FFirst, last = FCount - 1; I <= last; I++)
             {
-                I = FFirst;
-                int end__70 = FCount - 1;
-                for (; I <= end__70; I += 1)
+                if (FItems[I].ID <= 127 && FItems[I].Offset <= 255)
                 {
-                    if (FItems[I].ID <= 127 && FItems[I].Offset <= 255)
-                    {
-                        ShortCount = (byte)(ShortCount + 1);
-                    }
-                    else
-                    {
-                        LongCount += 1;
-                    }
+                    ShortCount = (byte)(ShortCount + 1);
+                }
+                else
+                {
+                    LongCount += 1;
                 }
             }
 
@@ -4214,32 +3818,24 @@ namespace Aow.Units.Engine
 
             if (ShortCount != 0)
             {
+                for (int I = FFirst, last = FCount - 1; I <= last; I++)
                 {
-                    I = FFirst;
-                    int end__71 = FCount - 1;
-                    for (; I <= end__71; I += 1)
+                    if (FItems[I].ID <= 127 && FItems[I].Offset <= 255)
                     {
-                        if (FItems[I].ID <= 127 && FItems[I].Offset <= 255)
-                        {
-                            Pair = FItems[I].ID + (FItems[I].Offset << 8);
-                            Stream.Write(Bytes.Of(ref Pair, 2));
-                        }
+                        Pair = FItems[I].ID + (FItems[I].Offset << 8);
+                        Stream.Write(Bytes.Of(ref Pair, 2));
                     }
                 }
             }
 
             if (LongCount != 0)
             {
+                for (int I = FFirst, last = FCount - 1; I <= last; I++)
                 {
-                    I = FFirst;
-                    int end__72 = FCount - 1;
-                    for (; I <= end__72; I += 1)
+                    if (FItems[I].ID > 127 || FItems[I].Offset > 255)
                     {
-                        if (FItems[I].ID > 127 || FItems[I].Offset > 255)
-                        {
-                            Stream.Write(Bytes.Of(ref FItems[I].ID, 4));
-                            Stream.Write(Bytes.Of(ref FItems[I].Offset, 4));
-                        }
+                        Stream.Write(Bytes.Of(ref FItems[I].ID, 4));
+                        Stream.Write(Bytes.Of(ref FItems[I].Offset, 4));
                     }
                 }
             }
@@ -4276,9 +3872,8 @@ namespace Aow.Units.Engine
         // Engine.pas:2487
         internal AnsiString GetEObjectPath()
         {
-            AnsiString Result = default;
-            TEObject P = default;
-            AnsiString S = default;
+            TEObject P;
+            AnsiString S;
             S = (AnsiString)ClassNameOf(this.GetType());
             P = FOwner;
             while (P != null)
@@ -4287,25 +3882,14 @@ namespace Aow.Units.Engine
                 P = P.FOwner;
             }
 
-            Result = S;
-            return Result;
+            return S;
         }
 
         // Engine.pas:2442
-        public virtual int ClassVersion()
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual int ClassVersion() => 0;
 
         // Engine.pas:2563
-        public virtual TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = TSet<TEControlStyleElement>.Of(Engine.csStored);
-            return Result;
-        }
+        public virtual TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Engine.csStored);
 
         // Engine.pas:2568
         public virtual void SetOwner(TECustomNode AOwner)
@@ -4326,21 +3910,10 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2558
-        public virtual TEngine GetEngine()
-        {
-            TEngine Result = default;
-            var call__73 = FOwner.GetEngine();
-            Result = call__73;
-            return Result;
-        }
+        public virtual TEngine GetEngine() => FOwner.GetEngine();
 
         // Engine.pas:2502
-        public virtual int GetLastMsg()
-        {
-            int Result = default;
-            Result = 2147483647;
-            return Result;
-        }
+        public virtual int GetLastMsg() => 2147483647;
 
         // Engine.pas:2507
         public virtual void SetLastMsg(int Value)
@@ -4366,17 +3939,13 @@ namespace Aow.Units.Engine
         // Engine.pas:2447
         public virtual int AddRef()
         {
-            int Result = default;
             throw Exception.Create((AnsiString)"Reference counting not supported");
-            return Result;
         }
 
         // Engine.pas:2452
         public virtual int Release()
         {
-            int Result = default;
             throw Exception.Create((AnsiString)"Reference counting not supported");
-            return Result;
         }
 
         // Engine.pas:2457
@@ -4387,13 +3956,10 @@ namespace Aow.Units.Engine
         // Engine.pas:2511
         public virtual bool Compare(TEObject Obj, TEngine AEngine)
         {
-            bool Result = default;
-            TMemoryStream S1 = default;
-            TMemoryStream S2 = default;
-            Result = false;
-            var call__74 = EClass.ClassID;
-            var call__75 = Obj.EClass.ClassID;
-            if (call__74 != call__75)
+            TMemoryStream S1;
+            TMemoryStream S2;
+            bool Result = false;
+            if (EClass.ClassID != Obj.EClass.ClassID)
             {
                 return Result;
             }
@@ -4404,17 +3970,14 @@ namespace Aow.Units.Engine
             {
                 AEngine.WriteEObject(S1, this, null);
                 AEngine.WriteEObject(S2, Obj, null);
-                var call__76 = S1.Size;
-                var call__77 = S2.Size;
-                bool bool__78 = call__76 == call__77;
-                if (bool__78)
+                bool condition = S1.Size == S2.Size;
+                if (condition)
                 {
-                    var call__79 = S1.Size;
-                    var call__80 = CompareMem(S1.Memory.AsSpan(0, call__79), S2.Memory.AsSpan(0, call__79), call__79);
-                    bool__78 = call__80;
+                    var size = S1.Size;
+                    condition = CompareMem(S1.Memory.AsSpan(0, size), S2.Memory.AsSpan(0, size), size);
                 }
 
-                Result = bool__78;
+                Result = condition;
             }
             finally
             {
@@ -4428,9 +3991,8 @@ namespace Aow.Units.Engine
         // Engine.pas:2466
         public virtual EditorClass Editor()
         {
-            EditorClass Result = default;
-            TEngine E = default;
-            Result = null;
+            TEngine E;
+            EditorClass Result = null;
             E = GetEngine();
             if (E != null)
             {
@@ -4451,7 +4013,7 @@ namespace Aow.Units.Engine
         // Engine.pas:2529
         public virtual void Assign(TEObject Source, TEngine AEngine)
         {
-            TMemoryStream S = default;
+            TMemoryStream S;
             S = new TMemoryStream();
             try
             {
@@ -4505,7 +4067,7 @@ namespace Aow.Units.Engine
         public TEObject Copy(TEngine AEngine)
         {
             TEObject Result = default;
-            TMemoryStream S = default;
+            TMemoryStream S;
             S = new TMemoryStream();
             try
             {
@@ -4558,52 +4120,33 @@ namespace Aow.Units.Engine
         // Engine.pas:2626
         public override void Clear()
         {
-            int I = default;
-            TEObject C = default;
-            var call__83 = Count;
-            if (call__83 != 0)
+            TEObject C;
+            if (Count != 0)
             {
+                for (int I = Count - 1; I >= 0; I--)
                 {
-                    I = Count - 1;
-                    byte end__84 = 0;
-                    for (; I >= end__84; I -= 1)
+                    C = Children[I];
+                    if (C != null && C.Owner == this)
                     {
-                        var call__85 = Children[I];
-                        C = call__85;
-                        if (C != null && C.Owner == this)
+                        if (!C.GetControlStyle().Contains(Engine.csShared))
                         {
-                            if (!C.GetControlStyle().Contains(Engine.csShared))
-                            {
-                                C.Destroy();
-                            }
-                            else
-                            {
-                                C.Clear();
-                            }
+                            C.Destroy();
+                        }
+                        else
+                        {
+                            C.Clear();
                         }
                     }
                 }
 
+                for (int I = Count - 1; I >= 0; I--)
                 {
-                    I = Count - 1;
-                    byte end__86 = 0;
-                    for (; I >= end__86; I -= 1)
+                    C = Children[I];
+                    if (C != null)
                     {
-                        var call__87 = Children[I];
-                        C = call__87;
-                        if (C != null)
+                        if (!(C.Owner == this && C.GetControlStyle().Contains(Engine.csShared)))
                         {
-                            bool bool__88 = C.Owner == this;
-                            if (bool__88)
-                            {
-                                var call__89 = C.GetControlStyle();
-                                bool__88 = call__89.Contains(Engine.csShared);
-                            }
-
-                            if (!bool__88)
-                            {
-                                RemoveChild(C);
-                            }
+                            RemoveChild(C);
                         }
                     }
                 }
@@ -4652,46 +4195,29 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2715
-        public virtual bool SendToChild(ref TEMsg Msg)
-        {
-            bool Result = default;
-            Result = (Msg.MsgID & 1073741824) == 0;
-            return Result;
-        }
+        public virtual bool SendToChild(ref TEMsg Msg) => (Msg.MsgID & 1073741824) == 0;
 
         // Engine.pas:2608
         public virtual void DestroyAllChildren()
         {
-            TEObject C = default;
-            int I = default;
+            TEObject C;
+            for (int I = Count - 1; I >= 0; I--)
             {
-                I = Count - 1;
-                byte end__90 = 0;
-                for (; I >= end__90; I -= 1)
+                C = Children[I];
+                if (C != null && C.Owner == this)
                 {
-                    var call__91 = Children[I];
-                    C = call__91;
-                    if (C != null && C.Owner == this)
-                    {
-                        C.Destroy();
-                    }
+                    C.Destroy();
                 }
             }
 
-            var call__92 = Count;
-            if (call__92 != 0)
+            if (Count != 0)
             {
+                for (int I = Count - 1; I >= 0; I--)
                 {
-                    I = Count - 1;
-                    byte end__93 = 0;
-                    for (; I >= end__93; I -= 1)
+                    C = Children[I];
+                    if (C != null)
                     {
-                        var call__94 = Children[I];
-                        C = call__94;
-                        if (C != null)
-                        {
-                            RemoveChild(C);
-                        }
+                        RemoveChild(C);
                     }
                 }
             }
@@ -4700,70 +4226,39 @@ namespace Aow.Units.Engine
         // Engine.pas:2654
         public virtual void QuickClear()
         {
-            int I = default;
+            for (int I = Count - 1; I >= 0; I--)
             {
-                I = Count - 1;
-                byte end__95 = 0;
-                for (; I >= end__95; I -= 1)
-                {
-                    var call__96 = Children[I];
-                    RemoveChild(call__96);
-                }
+                RemoveChild(Children[I]);
             }
         }
 
         // Engine.pas:2674
         public virtual void SendMsg(ref TEMsg Msg, TEObject Sender)
         {
-            int I = default;
-            TEObject C = default;
+            TEObject C;
             if ((Msg.MsgID & 268435456) != 0)
             {
                 if ((Msg.MsgID & 536870912) == 0)
                 {
+                    for (int I = Count - 1; I >= 0; I--)
                     {
-                        I = Count - 1;
-                        byte end__97 = 0;
-                        for (; I >= end__97; I -= 1)
+                        C = Children[I];
+                        if (C != null && C.GetLastMsg() != Msg.Seq)
                         {
-                            var call__98 = Children[I];
-                            C = call__98;
-                            bool bool__99 = C != null;
-                            if (bool__99)
-                            {
-                                var call__100 = C.GetLastMsg();
-                                bool__99 = call__100 != Msg.Seq;
-                            }
-
-                            if (bool__99)
-                            {
-                                C.SetLastMsg(Msg.Seq);
-                                C.MsgProc(ref Msg, this);
-                            }
+                            C.SetLastMsg(Msg.Seq);
+                            C.MsgProc(ref Msg, this);
                         }
                     }
                 }
                 else
                 {
+                    for (int I = Count - 1; I >= 0; I--)
                     {
-                        I = Count - 1;
-                        byte end__101 = 0;
-                        for (; I >= end__101; I -= 1)
+                        C = Children[I];
+                        if (C != null && C.GetLastMsg() != Msg.Seq && C.Owner == this)
                         {
-                            var call__102 = Children[I];
-                            C = call__102;
-                            bool bool__103 = C != null;
-                            if (bool__103)
-                            {
-                                var call__104 = C.GetLastMsg();
-                                bool__103 = call__104 != Msg.Seq;
-                            }
-
-                            if (bool__103 && C.Owner == this)
-                            {
-                                C.SetLastMsg(Msg.Seq);
-                                C.MsgProc(ref Msg, this);
-                            }
+                            C.SetLastMsg(Msg.Seq);
+                            C.MsgProc(ref Msg, this);
                         }
                     }
                 }
@@ -4772,33 +4267,23 @@ namespace Aow.Units.Engine
             {
                 if ((Msg.MsgID & 536870912) == 0)
                 {
+                    for (int I = Count - 1; I >= 0; I--)
                     {
-                        I = Count - 1;
-                        byte end__105 = 0;
-                        for (; I >= end__105; I -= 1)
+                        C = Children[I];
+                        if (C != null)
                         {
-                            var call__106 = Children[I];
-                            C = call__106;
-                            if (C != null)
-                            {
-                                C.MsgProc(ref Msg, this);
-                            }
+                            C.MsgProc(ref Msg, this);
                         }
                     }
                 }
                 else
                 {
+                    for (int I = Count - 1; I >= 0; I--)
                     {
-                        I = Count - 1;
-                        byte end__107 = 0;
-                        for (; I >= end__107; I -= 1)
+                        C = Children[I];
+                        if (C != null && C.Owner == this)
                         {
-                            var call__108 = Children[I];
-                            C = call__108;
-                            if (C != null && C.Owner == this)
-                            {
-                                C.MsgProc(ref Msg, this);
-                            }
+                            C.MsgProc(ref Msg, this);
                         }
                     }
                 }
@@ -4821,61 +4306,38 @@ namespace Aow.Units.Engine
         // { The original tests Result before the child-count call. }
         public virtual int DestroyChildren(int AClassID)
         {
-            int Result = default;
-            int I = default;
-            TEObject C = default;
-            int N = default;
+            TEObject C;
+            int N;
             N = 0;
+            for (int I = Count - 1; I >= 0; I--)
             {
-                I = Count - 1;
-                byte end__109 = 0;
-                for (; I >= end__109; I -= 1)
+                C = Children[I];
+                if (C != null && C.EClass.ClassID == AClassID)
                 {
-                    var call__110 = Children[I];
-                    C = call__110;
-                    if (C != null && C.EClass.ClassID == AClassID)
-                    {
-                        C.Destroy();
-                        N += 1;
-                    }
+                    C.Destroy();
+                    N += 1;
                 }
             }
 
-            Result = N;
-            return Result;
+            return N;
         }
 
         // Engine.pas:2768
         public virtual TEObject FindChildInTree(int AClassID)
         {
-            TEObject Result = default;
-            int I = default;
-            Result = FindChild(AClassID);
+            int I;
+            TEObject Result = FindChild(AClassID);
             if (Result == null)
             {
                 I = 0;
-                while (true)
+                while (Result == null && I < Count)
                 {
-                    bool bool__111 = Result == null;
-                    if (bool__111)
+                    if (Children[I] is TECustomNode)
                     {
-                        var call__112 = Count;
-                        bool__111 = I < call__112;
+                        Result = ((TECustomNode)Children[I]).FindChildInTree(AClassID);
                     }
 
-                    if (!bool__111)
-                        break;
-                    {
-                        var call__113 = Children[I];
-                        if (call__113 is TECustomNode)
-                        {
-                            var call__114 = Children[I];
-                            var call__115 = ((TECustomNode)call__114).FindChildInTree(AClassID);
-                            Result = call__115;
-                        }
-
-                        I += 1;
-                    }
+                    I += 1;
                 }
             }
 
@@ -4885,30 +4347,18 @@ namespace Aow.Units.Engine
         // Engine.pas:2726
         public virtual TEObject FindChild(int AClassID)
         {
-            TEObject Result = default;
-            int I = default;
-            bool Found = default;
-            TEObject C = default;
+            TEObject Result;
+            int I;
+            bool Found;
+            TEObject C;
             I = 0;
             Found = false;
             C = null;
-            while (true)
+            while (!Found && I < Count)
             {
-                bool bool__116 = !Found;
-                if (bool__116)
-                {
-                    var call__117 = Count;
-                    bool__116 = I < call__117;
-                }
-
-                if (!bool__116)
-                    break;
-                {
-                    var call__118 = Children[I];
-                    C = call__118;
-                    Found = C != null && C.EClass.ClassID == AClassID;
-                    I += 1;
-                }
+                C = Children[I];
+                Found = C != null && C.EClass.ClassID == AClassID;
+                I += 1;
             }
 
             if (Found)
@@ -4926,37 +4376,18 @@ namespace Aow.Units.Engine
         // Engine.pas:2744
         public virtual TEObject FindOwnedChild(int AClassID)
         {
-            TEObject Result = default;
-            int I = default;
-            bool Found = default;
-            TEObject C = default;
+            TEObject Result;
+            int I;
+            bool Found;
+            TEObject C;
             I = 0;
             Found = false;
             C = null;
-            while (true)
+            while (!Found && I < Count)
             {
-                bool bool__119 = !Found;
-                if (bool__119)
-                {
-                    var call__120 = Count;
-                    bool__119 = I < call__120;
-                }
-
-                if (!bool__119)
-                    break;
-                {
-                    var call__121 = Children[I];
-                    C = call__121;
-                    bool bool__122 = C != null && C.Owner == this;
-                    if (bool__122)
-                    {
-                        var call__123 = C.EClass.ClassID;
-                        bool__122 = AClassID == call__123;
-                    }
-
-                    Found = bool__122;
-                    I += 1;
-                }
+                C = Children[I];
+                Found = C != null && C.Owner == this && AClassID == C.EClass.ClassID;
+                I += 1;
             }
 
             if (Found)
@@ -4974,23 +4405,10 @@ namespace Aow.Units.Engine
         // Engine.pas:2762
         public virtual int FindChildIndex(TEObject Child)
         {
-            int Result = default;
-            var call__124 = Count;
-            Result = call__124 - 1;
-            while (true)
+            int Result = Count - 1;
+            while (Result >= 0 && Child != Children[Result])
             {
-                bool bool__125 = Result >= 0;
-                if (bool__125)
-                {
-                    var call__126 = Children[Result];
-                    bool__125 = Child != call__126;
-                }
-
-                if (!bool__125)
-                    break;
-                {
-                    Result -= 1;
-                }
+                Result -= 1;
             }
 
             return Result;
@@ -5034,28 +4452,17 @@ namespace Aow.Units.Engine
         // Engine.pas:8776
         internal int CreateUniqueDebugID()
         {
-            int Result = default;
-            Result = 0;
-            while (true)
+            int Result = 0;
+            while (FDebugIDs.IndexOfObject(IntToObject(Result)) != -1)
             {
-                var call__127 = FDebugIDs.IndexOfObject(IntToObject(Result));
-                if (!(call__127 != -1))
-                    break;
-                {
-                    Result += 1;
-                }
+                Result += 1;
             }
 
             return Result;
         }
 
         // Engine.pas:8814
-        public override TEngine GetEngine()
-        {
-            TEngine Result = default;
-            Result = this;
-            return Result;
-        }
+        public override TEngine GetEngine() => this;
 
         public TEngine(TECustomNode owner) : this(null, owner) { }
 
@@ -5063,19 +4470,13 @@ namespace Aow.Units.Engine
         {
             UpdateStartupDirectory();
             FOptions = TSet<TEngineModeElement>.Of(Engine.eoVerifyClasses);
-            var call__128 = new TEventList();
-            FDebugEvents = call__128;
-            var call__129 = new TEObjectClassList();
-            FEClasses = call__129;
-            var call__130 = new TIntegerHashTable256();
-            FClassTable = call__130;
-            var call__131 = new TEObjectEditorList();
-            FEditors = call__131;
-            var call__132 = new TEControlStyleNode(this);
-            FControlNode = call__132;
+            FDebugEvents = new TEventList();
+            FEClasses = new TEObjectClassList();
+            FClassTable = new TIntegerHashTable256();
+            FEditors = new TEObjectEditorList();
+            FControlNode = new TEControlStyleNode(this);
             FControlNode.SetControlStyle(TSet<TEControlStyleElement>.Of(Engine.csShared));
-            var call__133 = new TStringList();
-            FDebugIDs = call__133;
+            FDebugIDs = new TStringList();
             FDebugIDs.AddObject(Engine.UserStr, IntToObject(-1));
             RegisterEClasses([EClass.Of<TEControlStyleObject>(), EClass.Of<TEControlStyleNode>(), EClass.Of<TECustomOwner>(), EClass.Of<TEResourceEditSettings>()]);
             Engine.Engines.Add(this);
@@ -5102,29 +4503,23 @@ namespace Aow.Units.Engine
         // Engine.pas:8766
         public virtual void UpdateStartupDirectory()
         {
-            var call__134 = Application.ExeName;
-            var call__135 = ExtractFilePath(call__134);
-            FStartupDirectory = call__135;
+            FStartupDirectory = ExtractFilePath(Application.ExeName);
         }
 
         // Engine.pas:8887
         public virtual TEObject CreateEObject(int AClassID, TECustomNode AOwner)
         {
-            TEObject Result = default;
-            EClass C = default;
+            EClass C;
             C = GetEClass(AClassID);
-            Result = C.Create(AOwner);
-            return Result;
+            return C.Create(AOwner);
         }
 
         // Engine.pas:8860
         public virtual EClass GetEClass(int AClassID)
         {
-            EClass Result = default;
-            object P = default;
-            var call__136 = FClassTable.Find(AClassID);
-            P = call__136;
-            Result = (EClass)P;
+            object P;
+            P = FClassTable.Find(AClassID);
+            EClass Result = (EClass)P;
             if (Result == null)
             {
                 throw Exception.Create((AnsiString)"Unregistered E-ClassID found (" + IntToStr(AClassID) + AnsiString.FromBytes(41));
@@ -5134,18 +4529,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8761
-        public virtual AnsiString TranslateText(AnsiString Text)
-        {
-            AnsiString Result = default;
-            Result = Text;
-            return Result;
-        }
+        public virtual AnsiString TranslateText(AnsiString Text) => Text;
 
         // Engine.pas:8782
         public int RegisterDebugID(AnsiString Name)
         {
-            int Result = default;
-            Result = CreateUniqueDebugID();
+            int Result = CreateUniqueDebugID();
             FDebugIDs.AddObject(Name, IntToObject(Result));
             return Result;
         }
@@ -5153,9 +4542,8 @@ namespace Aow.Units.Engine
         // Engine.pas:8788
         public void UnregisterDebugID(int ID)
         {
-            int I = default;
-            var call__137 = FDebugIDs.IndexOfObject(IntToObject(ID));
-            I = call__137;
+            int I;
+            I = FDebugIDs.IndexOfObject(IntToObject(ID));
             if (I != -1)
             {
                 FDebugIDs.Delete(I);
@@ -5194,85 +4582,62 @@ namespace Aow.Units.Engine
         // Engine.pas:8828
         public int IncMsgCount()
         {
-            int Result = default;
             FMsgCount += 1;
             if (FMsgCount > 268435455)
             {
                 ResetMsgCount();
             }
 
-            Result = FMsgCount;
-            return Result;
+            return FMsgCount;
         }
 
         // Engine.pas:8835
         public void RegisterEClasses(ReadOnlySpan<EClass> AClasses)
         {
-            int I = default;
+            for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
             {
-                I = 0;
-                int end__138 = AClasses.Length - 1;
-                for (; I <= end__138; I += 1)
+                if (FOptions.Contains(Engine.eoVerifyClasses))
                 {
-                    if (FOptions.Contains(Engine.eoVerifyClasses))
-                    {
-                        VerifyEObjectClass(AClasses[I]);
-                    }
-
-                    var call__139 = AClasses[I].ClassID;
-                    var call__140 = FClassTable.Find(call__139);
-                    if (call__140 != null)
-                    {
-                        throw Exception.Create((AnsiString)"EObject Class ID double defined!");
-                    }
-
-                    FEClasses.Add(AClasses[I]);
-                    var call__141 = AClasses[I].ClassID;
-                    FClassTable.Add(AClasses[I], call__141);
+                    VerifyEObjectClass(AClasses[I]);
                 }
+
+                var classID = AClasses[I].ClassID;
+                if (FClassTable.Find(classID) != null)
+                {
+                    throw Exception.Create((AnsiString)"EObject Class ID double defined!");
+                }
+
+                FEClasses.Add(AClasses[I]);
+                var classID2 = AClasses[I].ClassID;
+                FClassTable.Add(AClasses[I], classID2);
             }
         }
 
         // Engine.pas:8849
         public void UnregisterEClasses(ReadOnlySpan<EClass> AClasses)
         {
-            int I = default;
+            for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
             {
-                I = 0;
-                int end__142 = AClasses.Length - 1;
-                for (; I <= end__142; I += 1)
-                {
-                    FEClasses.Remove(AClasses[I]);
-                    var call__143 = AClasses[I].ClassID;
-                    FClassTable.Delete(call__143);
-                }
+                FEClasses.Remove(AClasses[I]);
+                var classID = AClasses[I].ClassID;
+                FClassTable.Delete(classID);
             }
         }
 
         // Engine.pas:8867
         public TEObjectClassList GetDescendantClasses(Type AClass)
         {
-            TEObjectClassList Result = default;
-            int I = default;
-            TEObjectClassList L = default;
+            TEObjectClassList L;
             L = new TEObjectClassList();
+            for (int I = 0, last = FEClasses.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__144 = FEClasses.Count - 1;
-                for (; I <= end__144; I += 1)
+                if (((EClass)FEClasses[I]).InheritsFrom(AClass))
                 {
-                    var call__145 = FEClasses[I];
-                    var call__146 = ((EClass)call__145).InheritsFrom(AClass);
-                    if (call__146)
-                    {
-                        var call__147 = FEClasses[I];
-                        L.Add(call__147);
-                    }
+                    L.Add(FEClasses[I]);
                 }
             }
 
-            Result = L;
-            return Result;
+            return L;
         }
 
         // Engine.pas:8878
@@ -5287,7 +4652,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8895
         public void WriteEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
         {
-            TEStorageStream S = default;
+            TEStorageStream S;
             S = new TEWriteStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
@@ -5303,7 +4668,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8908
         public void ReadEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
         {
-            TEStorageStream S = default;
+            TEStorageStream S;
             S = new TEReadStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
@@ -5319,7 +4684,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8921
         public void WritePreviewEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
         {
-            TEStorageStream S = default;
+            TEStorageStream S;
             S = new TEWriteStorageStream(Stream, this, true);
             S.OnProgress = AProgress;
             try
@@ -5335,7 +4700,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8934
         public void ReadPreviewEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
         {
-            TEStorageStream S = default;
+            TEStorageStream S;
             S = new TEReadStorageStream(Stream, this, true);
             S.OnProgress = AProgress;
             try
@@ -5351,7 +4716,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8947
         public void StoreEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
         {
-            TEStorageStream S = default;
+            TEStorageStream S;
             S = new TEWriteStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
@@ -5368,7 +4733,7 @@ namespace Aow.Units.Engine
         public TEObject RetrieveEObject(TStream Stream, TProgressEvent AProgress)
         {
             TEObject Result = default;
-            TEStorageStream S = default;
+            TEStorageStream S;
             S = new TEReadStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
@@ -5387,7 +4752,7 @@ namespace Aow.Units.Engine
         public TEObject RetrieveFromFile(AnsiString FileName, TProgressEvent AProgress)
         {
             TEObject Result = default;
-            TFileStream F = default;
+            TFileStream F;
             F = new TFileStream(FileName, 0 | 32);
             try
             {
@@ -5404,7 +4769,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8985
         public void StoreInFile(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
         {
-            TFileStream F = default;
+            TFileStream F;
             F = new TFileStream(FileName, 65535);
             try
             {
@@ -5419,7 +4784,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8997
         public void WriteToFile(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
         {
-            TMemoryStream M = default;
+            TMemoryStream M;
             TFileStream F = default;
             M = new TMemoryStream();
             try
@@ -5429,8 +4794,7 @@ namespace Aow.Units.Engine
                 try
                 {
                     M.Position = 0;
-                    var call__148 = M.Size;
-                    F.CopyFrom(M, call__148);
+                    F.CopyFrom(M, M.Size);
                 }
                 finally
                 {
@@ -5446,8 +4810,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9017
         public void ReadFromFile(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
         {
-            TMemoryStream M = default;
-            TFileStream F = default;
+            TMemoryStream M;
+            TFileStream F;
             M = new TMemoryStream();
             F = new TFileStream(FileName, 0 | 32);
             try
@@ -5475,25 +4839,23 @@ namespace Aow.Units.Engine
         {
             int CRC1 = default;
             int CRC2 = default;
-            TMemoryStream M = default;
+            TMemoryStream M;
             TFileStream F = default;
             M = new TMemoryStream();
             try
             {
                 WriteEObject(M, Obj, AProgress);
-                var call__149 = M.Size;
-                var call__150 = Engine.GetCRC32(M.Memory, call__149);
-                CRC1 = call__150;
+                var size = M.Size;
+                CRC1 = Engine.GetCRC32(M.Memory, size);
                 M.Write(Bytes.Of(ref CRC1, 4));
-                var call__151 = M.Size;
-                var call__152 = Engine.GetCRC32(M.Memory, call__151);
-                CRC2 = call__152;
+                var mSize = M.Size;
+                CRC2 = Engine.GetCRC32(M.Memory, mSize);
                 F = new TFileStream(FileName, 65535);
                 try
                 {
                     F.Write(Bytes.Of(ref CRC2, 4));
-                    var call__153 = M.Size;
-                    F.Write(M.Memory.AsSpan(0, call__153));
+                    var size2 = M.Size;
+                    F.Write(M.Memory.AsSpan(0, size2));
                 }
                 finally
                 {
@@ -5509,35 +4871,31 @@ namespace Aow.Units.Engine
         // Engine.pas:9061
         public bool ReadFromFileCRC(AnsiString FileName, TEObject Obj, TProgressEvent AProgress)
         {
-            bool Result = default;
-            TMemoryStream M = default;
-            TFileStream F = default;
-            int CRC2 = default;
-            int CRC1 = default;
-            Result = false;
+            TMemoryStream M;
+            TFileStream F;
+            int CRC2;
+            int CRC1;
+            bool Result = false;
             M = new TMemoryStream();
             F = new TFileStream(FileName, 0 | 32);
             try
             {
                 M.LoadFromStream(F);
                 M.Position = 0;
-                var call__154 = M.Size;
-                if (call__154 > 8)
+                if (M.Size > 8)
                 {
                     CRC1 = MemoryMarshal.Read<int>(M.Memory.AsSpan(0, 4));
-                    var call__155 = M.Size;
-                    CRC2 = MemoryMarshal.Read<int>(M.Memory.AsSpan(call__155 - 4, 4));
-                    var call__156 = M.Size;
-                    var call__157 = Engine.GetCRC32(M.Memory.AsSpan(4), call__156 - 4);
-                    bool bool__158 = CRC1 == call__157;
-                    if (bool__158)
+                    var size = M.Size;
+                    CRC2 = MemoryMarshal.Read<int>(M.Memory.AsSpan(size - 4, 4));
+                    var mSize = M.Size;
+                    bool condition = CRC1 == Engine.GetCRC32(M.Memory.AsSpan(4), mSize - 4);
+                    if (condition)
                     {
-                        var call__159 = M.Size;
-                        var call__160 = Engine.GetCRC32(M.Memory.AsSpan(4), call__159 - 8);
-                        bool__158 = CRC2 == call__160;
+                        var size2 = M.Size;
+                        condition = CRC2 == Engine.GetCRC32(M.Memory.AsSpan(4), size2 - 8);
                     }
 
-                    if (bool__158)
+                    if (condition)
                     {
                         M.Position = 4;
                         ReadEObject(M, Obj, AProgress);
@@ -5557,8 +4915,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9091
         public void ReadTextFromFile(AnsiString FileName, TEObject Obj)
         {
-            TEStorageStream S = default;
-            TFileStream F = default;
+            TEStorageStream S;
+            TFileStream F;
             F = new TFileStream(FileName, 0 | 32);
             try
             {
@@ -5581,8 +4939,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9109
         public void WriteTextToFile(AnsiString FileName, TEObject Obj)
         {
-            TEStorageStream S = default;
-            TFileStream F = default;
+            TEStorageStream S;
+            TFileStream F;
             F = new TFileStream(FileName, 65535);
             try
             {
@@ -5632,12 +4990,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9502
-        public virtual TStream OpenPropertyStream(int ID)
-        {
-            TStream Result = default;
-            Result = null;
-            return Result;
-        }
+        public virtual TStream OpenPropertyStream(int ID) => null;
 
         // Engine.pas:1186
         public virtual void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
@@ -5770,9 +5123,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8356
         public void RegisterClass(EditorClass AClass)
         {
-            var call__161 = AClass.EditorClassID;
-            var call__162 = FindEditor(call__161);
-            if (call__162 == null)
+            if (FindEditor(AClass.EditorClassID) == null)
             {
                 FList.Add(AClass);
             }
@@ -5785,22 +5136,12 @@ namespace Aow.Units.Engine
         // Engine.pas:8364
         public EditorClass FindEditor(int AClassID)
         {
-            EditorClass Result = default;
-            int I = default;
+            EditorClass Result;
+            int I;
             I = 0;
-            while (true)
+            while (I != Count && AClassID != FList[I].EditorClassID)
             {
-                bool bool__163 = I != Count;
-                if (bool__163)
-                {
-                    var call__164 = FList[I].EditorClassID;
-                    bool__163 = AClassID != call__164;
-                }
-                if (!bool__163)
-                    break;
-                {
-                    I += 1;
-                }
+                I += 1;
             }
 
             if (I != Count)
@@ -5853,12 +5194,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8533
-        public virtual ImageLib.TLibraryImage GetCellImage()
-        {
-            ImageLib.TLibraryImage Result = default;
-            Result = null;
-            return Result;
-        }
+        public virtual ImageLib.TLibraryImage GetCellImage() => null;
 
         // Engine.pas:8538
         public virtual void SetCellImage(ImageLib.TLibraryImage Value)
@@ -5866,24 +5202,17 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8550
-        public virtual int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 0;
-            return Result;
-        }
+        public virtual int ResourceUserClassID() => 0;
 
         // Engine.pas:8555
         public virtual TEObject CreateResourceUser()
         {
-            TEObject Result = default;
-            int UserClassID = default;
+            TEObject Result;
+            int UserClassID;
             UserClassID = ResourceUserClassID();
             if (UserClassID != 0)
             {
-                var call__165 = GetEngine();
-                var call__166 = call__165.CreateEObject(UserClassID, null);
-                Result = call__166;
+                Result = GetEngine().CreateEObject(UserClassID, null);
             }
             else
             {
@@ -5897,8 +5226,7 @@ namespace Aow.Units.Engine
         public virtual void Draw(TCanvas Canvas, TRect Rect, ImageLib.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
             TRect R = default;
-            var call__167 = GetCellImage();
-            BltLibraryImage(Canvas, call__167, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
+            BltLibraryImage(Canvas, GetCellImage(), Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
         }
 
         public TECustomNode ResourceList { get => FResourceList; set => FResourceList = value; }
@@ -5908,12 +5236,7 @@ namespace Aow.Units.Engine
         public ImageLib.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
         // Engine.pas:8508
-        public virtual AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)ClassNameOf(GetType());
-            return Result;
-        }
+        public virtual AnsiString ResourceEditName() => (AnsiString)ClassNameOf(GetType());
 
 
     }
@@ -5967,9 +5290,9 @@ namespace Aow.Units.Engine
         {
             bool Compressed = default;
             FixedArray_byte_4 Magic = default;
-            TDecompressionStream D = default;
-            byte[] Buffer = [];
-            int Count = default;
+            TDecompressionStream D;
+            byte[] Buffer;
+            int Count;
             Stream.Read(((Span<byte>)Magic).Slice(0, 4));
             Stream.Read(Bytes.Of(ref Compressed, 1));
             if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, Engine.CompressMagic))
@@ -5988,8 +5311,7 @@ namespace Aow.Units.Engine
                 {
                     while (Count != 0)
                     {
-                        var call__168 = D.Read(Buffer.AsSpan(0, 8096));
-                        Count = call__168;
+                        Count = D.Read(Buffer.AsSpan(0, 8096));
                         if (Count != 0)
                         {
                             this.WriteBuffer(Buffer.AsSpan(0, Count));
@@ -6004,9 +5326,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__169 = Stream.Size;
-                var call__170 = Stream.Position;
-                CopyFrom(Stream, call__169 - call__170);
+                CopyFrom(Stream, Stream.Size - Stream.Position);
             }
 
             Position = 0;
@@ -6015,14 +5335,12 @@ namespace Aow.Units.Engine
         // Engine.pas:1752
         public int SaveToStreamEx(TStream Stream, TCompressLevel Level)
         {
-            int Result = default;
-            TCompressionStream C = default;
-            int StartSize = default;
-            TCompressionLevel CompressionLevel = default;
+            TCompressionStream C;
+            int StartSize;
+            TCompressionLevel CompressionLevel;
             Position = 0;
-            Result = 100;
-            var call__171 = Stream.Size;
-            StartSize = call__171;
+            int Result = 100;
+            StartSize = Stream.Size;
             Stream.Write(((ReadOnlySpan<byte>)Engine.CompressMagic).Slice(0, 4));
             Stream.Write(Bytes.Of(ref Level, 1));
             if (Level != TCompressLevel.cpNone)
@@ -6032,9 +5350,7 @@ namespace Aow.Units.Engine
                 try
                 {
                     C.CopyFrom(this, 0);
-                    var call__172 = Stream.Size;
-                    var call__173 = Size;
-                    Result = Round((double)((double)1 - (double)(call__172 - StartSize) / call__173) * 100);
+                    Result = Round((double)((double)1 - (double)(Stream.Size - StartSize) / Size) * 100);
                 }
                 finally
                 {
@@ -6059,7 +5375,7 @@ namespace Aow.Units.Engine
         public int SaveToFileEx(AnsiString FileName, TCompressLevel Level)
         {
             int Result = default;
-            TFileStream F = default;
+            TFileStream F;
             F = new TFileStream(FileName, 65535);
             try
             {
@@ -6076,7 +5392,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1793
         public new void SaveToFile(AnsiString FileName)
         {
-            TFileStream F = default;
+            TFileStream F;
             F = new TFileStream(FileName, 65535);
             try
             {
@@ -6091,7 +5407,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1805
         public new void LoadFromFile(AnsiString FileName)
         {
-            TFileStream F = default;
+            TFileStream F;
             F = new TFileStream(FileName, 0 | 32);
             try
             {
@@ -6114,11 +5430,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9144
         public TPlugIn()
         {
-            ;
-            var call__174 = new TList();
-            FEngines = call__174;
-            var call__175 = new TIntegerList();
-            FCounts = call__175;
+            FEngines = new TList();
+            FCounts = new TIntegerList();
             Engine.RegisterPlugIn(this);
             FRefCount = 1;
         }
@@ -6128,8 +5441,7 @@ namespace Aow.Units.Engine
         {
             while (FEngines.Count != 0)
             {
-                var call__176 = FEngines[FEngines.Count - 1];
-                Finalize((TEngine)call__176);
+                Finalize((TEngine)FEngines[FEngines.Count - 1]);
             }
 
             FEngines.Free();
@@ -6155,21 +5467,15 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9173
-        public virtual AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Abstract PlugIn";
-            return Result;
-        }
+        public virtual AnsiString Name() => (AnsiString)"Abstract PlugIn";
 
         // Engine.pas:9178
         public virtual bool Initialize(TEngine AEngine)
         {
-            bool Result = default;
-            int I = default;
+            bool Result;
+            int I;
             AddRef();
-            var call__177 = FEngines.IndexOf(AEngine);
-            I = call__177;
+            I = FEngines.IndexOf(AEngine);
             if (I == -1)
             {
                 FEngines.Add(AEngine);
@@ -6178,8 +5484,8 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__178 = FCounts[I];
-                FCounts[I] = call__178 + 1;
+                var item = FCounts[I];
+                FCounts[I] = item + 1;
                 Result = false;
             }
 
@@ -6189,20 +5495,17 @@ namespace Aow.Units.Engine
         // Engine.pas:9197
         public virtual bool Finalize(TEngine AEngine)
         {
-            bool Result = default;
-            int I = default;
-            var call__179 = FEngines.IndexOf(AEngine);
-            I = call__179;
+            bool Result;
+            int I;
+            I = FEngines.IndexOf(AEngine);
             if (I != -1)
             {
-                var call__180 = FCounts[I];
-                if (call__180 == 0)
+                if (FCounts[I] == 0)
                 {
                     throw Exception.Create((AnsiString)"Invalid PlugIn Finalize Usage");
                 }
 
-                var call__181 = FCounts[I];
-                if (call__181 == 1)
+                if (FCounts[I] == 1)
                 {
                     FEngines.Remove(AEngine);
                     FCounts.Delete(I);
@@ -6210,8 +5513,8 @@ namespace Aow.Units.Engine
                 }
                 else
                 {
-                    var call__182 = FCounts[I];
-                    FCounts[I] = call__182 - 1;
+                    var item = FCounts[I];
+                    FCounts[I] = item - 1;
                     Result = false;
                 }
             }
@@ -6252,12 +5555,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9284
-        internal TStrings GetUsedPlugIns()
-        {
-            TStrings Result = default;
-            Result = FUsedPlugIns;
-            return Result;
-        }
+        internal TStrings GetUsedPlugIns() => FUsedPlugIns;
 
         // Engine.pas:9289
         internal void OnChange(TObject Sender)
@@ -6276,27 +5574,19 @@ namespace Aow.Units.Engine
         {
             int[] I__cell = new int[1];
             ref int I = ref I__cell[0];
-            object IndexAddress = default;
-            TPlugIn P = default;
-            ;
+            TPlugIn P;
+            I = 0;
+            int last = FUsedPlugIns.Count - 1;
+            for (; I <= last; I += 1)
             {
-                I = 0;
-                int end__183 = FUsedPlugIns.Count - 1;
-                for (; I <= end__183; I += 1)
+                P = Units.Engine.Engine.FindPlugIn(FUsedPlugIns[I]);
+                if (P != null)
                 {
-                    var call__184 = FUsedPlugIns[I];
-                    var call__185 = Units.Engine.Engine.FindPlugIn(call__184);
-                    P = call__185;
-                    if (P != null)
-                    {
-                        P.Initialize(FEngine);
-                    }
-                    else
-                    {
-                        var call__186 = FUsedPlugIns[I];
-                        var call__187 = new EPlugInMissing((AnsiString)"PlugIn Missing (" + call__186 + AnsiString.FromBytes(41));
-                        throw call__187;
-                    }
+                    P.Initialize(FEngine);
+                }
+                else
+                {
+                    throw new EPlugInMissing((AnsiString)"PlugIn Missing (" + FUsedPlugIns[I] + AnsiString.FromBytes(41));
                 }
             }
         }
@@ -6304,20 +5594,13 @@ namespace Aow.Units.Engine
         // Engine.pas:9319
         internal void FinalizePlugIns()
         {
-            int I = default;
-            TPlugIn P = default;
+            TPlugIn P;
+            for (int I = 0, last = FUsedPlugIns.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__188 = FUsedPlugIns.Count - 1;
-                for (; I <= end__188; I += 1)
+                P = Units.Engine.Engine.FindPlugIn(FUsedPlugIns[I]);
+                if (P != null)
                 {
-                    var call__189 = FUsedPlugIns[I];
-                    var call__190 = Units.Engine.Engine.FindPlugIn(call__189);
-                    P = call__190;
-                    if (P != null)
-                    {
-                        P.Finalize(FEngine);
-                    }
+                    P.Finalize(FEngine);
                 }
             }
         }
@@ -6325,8 +5608,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9252
         public TPlugInControl(TECustomNode owner) : base(owner)
         {
-            var call__191 = new TStringList();
-            FUsedPlugIns = call__191;
+            FUsedPlugIns = new TStringList();
             FUsedPlugIns.Sorted = true;
             FUsedPlugIns.OnChange = OnChange;
             FUsedPlugIns.OnChanging = OnChanging;
@@ -6342,20 +5624,10 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:9269
-        public override TEngine GetEngine()
-        {
-            TEngine Result = default;
-            Result = FEngine;
-            return Result;
-        }
+        public override TEngine GetEngine() => FEngine;
 
         // Engine.pas:9274
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = TSet<TEControlStyleElement>.Of(Units.Engine.Engine.csStored, Units.Engine.Engine.csShared);
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Units.Engine.Engine.csStored, Units.Engine.Engine.csShared);
 
         // Engine.pas:9331
         public override void ReadWrite(TEStorageStream Stream)
@@ -6375,13 +5647,7 @@ namespace Aow.Units.Engine
     public partial class TEObjectList : TList
     {
         // Engine.pas:7136
-        protected internal TEObject GetEObject(int Index)
-        {
-            TEObject Result = default;
-            var call__192 = this[Index];
-            Result = (TEObject)call__192;
-            return Result;
-        }
+        protected internal TEObject GetEObject(int Index) => (TEObject)this[Index];
 
         // Engine.pas:7141
         protected internal void SetEObject(int Index, TEObject Value)
@@ -6392,21 +5658,14 @@ namespace Aow.Units.Engine
         // Engine.pas:7146
         public TEObject FindObject(int AClassID)
         {
-            TEObject Result = default;
-            int I = default;
-            bool Found = default;
+            TEObject Result;
+            int I;
+            bool Found;
             I = 0;
             Found = false;
             while (!Found && I < Count)
             {
-                bool bool__193 = List[I] != null;
-                if (bool__193)
-                {
-                    var call__194 = ((TEObject)List[I]).EClass.ClassID;
-                    bool__193 = AClassID == call__194;
-                }
-
-                Found = bool__193;
+                Found = List[I] != null && AClassID == ((TEObject)List[I]).EClass.ClassID;
                 I += 1;
             }
 
@@ -6425,21 +5684,14 @@ namespace Aow.Units.Engine
         // Engine.pas:7161
         public int FindObjectIndex(int AClassID)
         {
-            int Result = default;
-            int I = default;
-            bool Found = default;
+            int Result;
+            int I;
+            bool Found;
             I = 0;
             Found = false;
             while (!Found && I < Count)
             {
-                bool bool__195 = List[I] != null;
-                if (bool__195)
-                {
-                    var call__196 = ((TEObject)List[I]).EClass.ClassID;
-                    bool__195 = AClassID == call__196;
-                }
-
-                Found = bool__195;
+                Found = List[I] != null && AClassID == ((TEObject)List[I]).EClass.ClassID;
                 I += 1;
             }
 
@@ -6458,46 +5710,32 @@ namespace Aow.Units.Engine
         // Engine.pas:7176
         public void ClearList()
         {
-            int I = default;
+            for (int I = Count - 1; I >= 0; I--)
             {
-                I = Count - 1;
-                byte end__197 = 0;
-                for (; I >= end__197; I -= 1)
+                // { the original tests List^[Count], one past the end, not List^[I] }
+                if (List[Count] != null)
                 {
-                    // { the original tests List^[Count], one past the end, not List^[I] }
-                    if (List[Count] != null)
-                    {
-                        ((TEObject)List[I]).Destroy();
-                    }
-
-                    Delete(I);
+                    ((TEObject)List[I]).Destroy();
                 }
+
+                Delete(I);
             }
         }
 
         // Engine.pas:7188
         public bool AllHaveCID(int AClassID)
         {
-            bool Result = default;
-            int I = default;
-            bool OK = default;
+            int I;
+            bool OK;
             I = 0;
             OK = true;
             while (I < Count)
             {
-                bool bool__198 = List[I] == null;
-                if (!bool__198)
-                {
-                    var call__199 = ((TEObject)List[I]).EClass.ClassID;
-                    bool__198 = AClassID == call__199;
-                }
-
-                OK = bool__198;
+                OK = List[I] == null || AClassID == ((TEObject)List[I]).EClass.ClassID;
                 I += 1;
             }
 
-            Result = OK && Count != 0;
-            return Result;
+            return OK && Count != 0;
         }
 
         public sealed class EObjectsAccessor(TEObjectList target)
@@ -6519,8 +5757,7 @@ namespace Aow.Units.Engine
 
         private protected TENode(ConstructionContext context, TECustomNode owner) : base(context, owner)
         {
-            var call__200 = new TEObjectList();
-            FChildren = call__200;
+            FChildren = new TEObjectList();
         }
 
         public TEObjectList FChildren;
@@ -6528,50 +5765,36 @@ namespace Aow.Units.Engine
         // Engine.pas:2833
         public override void Clear()
         {
-            int I = default;
-            TEObject C = default;
+            int I;
+            TEObject C;
+            I = Count - 1;
+            for (; I >= 0; I -= 1)
             {
-                I = Count - 1;
-                byte end__201 = 0;
-                for (; I >= end__201; I -= 1)
+                C = (TEObject)FChildren.List[I];
+                if (C != null && C.Owner == this)
                 {
-                    C = (TEObject)FChildren.List[I];
-                    if (C != null && C.Owner == this)
+                    if (!C.GetControlStyle().Contains(Engine.csShared))
                     {
-                        if (!C.GetControlStyle().Contains(Engine.csShared))
-                        {
-                            C.Destroy();
-                        }
-                        else
-                        {
-                            C.Clear();
-                        }
+                        C.Destroy();
+                    }
+                    else
+                    {
+                        C.Clear();
                     }
                 }
             }
 
-            var call__202 = Count;
-            if (call__202 != 0)
+            if (Count != 0)
             {
+                I = Count - 1;
+                for (; I >= 0; I -= 1)
                 {
-                    I = Count - 1;
-                    byte end__203 = 0;
-                    for (; I >= end__203; I -= 1)
+                    C = (TEObject)FChildren.List[I];
+                    if (C != null)
                     {
-                        C = (TEObject)FChildren.List[I];
-                        if (C != null)
+                        if (!(C.Owner == this && C.GetControlStyle().Contains(Engine.csShared)))
                         {
-                            bool bool__204 = C.Owner == this;
-                            if (bool__204)
-                            {
-                                var call__205 = C.GetControlStyle();
-                                bool__204 = call__205.Contains(Engine.csShared);
-                            }
-
-                            if (!bool__204)
-                            {
-                                RemoveChild(C);
-                            }
+                            RemoveChild(C);
                         }
                     }
                 }
@@ -6586,24 +5809,14 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2866
-        public override TEObject GetChild(int Index)
-        {
-            TEObject Result = default;
-            Result = (TEObject)FChildren.List[Index];
-            return Result;
-        }
+        public override TEObject GetChild(int Index) => (TEObject)FChildren.List[Index];
 
         // Engine.pas:2871
         public override void SetChild(int Index, TEObject Child)
         {
-            while (true)
+            while (Index >= Count)
             {
-                var call__206 = Count;
-                if (!(Index >= call__206))
-                    break;
-                {
-                    FChildren.Add(null);
-                }
+                FChildren.Add(null);
             }
 
             if (FChildren.List[Index] != null && ((TEObject)FChildren.List[Index]).Owner == this)
@@ -6615,31 +5828,21 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:2879
-        public override int GetCount()
-        {
-            int Result = default;
-            Result = FChildren.Count;
-            return Result;
-        }
+        public override int GetCount() => FChildren.Count;
 
         // Engine.pas:2819
         public override void DestroyAllChildren()
         {
-            int I = default;
-            TEObject C = default;
+            TEObject C;
             Clear();
             if (FChildren.Count != 0)
             {
+                for (int I = FChildren.Count - 1; I >= 0; I--)
                 {
-                    I = FChildren.Count - 1;
-                    byte end__207 = 0;
-                    for (; I >= end__207; I -= 1)
+                    C = (TEObject)FChildren.List[I];
+                    if (C != null && C.Owner == this)
                     {
-                        C = (TEObject)FChildren.List[I];
-                        if (C != null && C.Owner == this)
-                        {
-                            C.Destroy();
-                        }
+                        C.Destroy();
                     }
                 }
             }
@@ -6648,7 +5851,6 @@ namespace Aow.Units.Engine
         // Engine.pas:2884
         public override void SendMsg(ref TEMsg Msg, TEObject Sender)
         {
-            int I = default;
             var children = FChildren;
             if (GetControlStyle().Contains(Engine.csKeepIndex))
             {
@@ -6656,40 +5858,30 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__209 = 0;
-                            for (; I >= end__209; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
+                                var node = (TEObject)children.List[I];
+                                if (node.GetLastMsg() != Msg.Seq)
                                 {
-                                    var node = (TEObject)children.List[I];
-                                    var call__211 = node.GetLastMsg();
-                                    if (call__211 != Msg.Seq)
-                                    {
-                                        node.SetLastMsg(Msg.Seq);
-                                        node.MsgProc(ref Msg, this);
-                                    }
+                                    node.SetLastMsg(Msg.Seq);
+                                    node.MsgProc(ref Msg, this);
                                 }
                             }
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__212 = 0;
-                            for (; I >= end__212; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
+                                var node2 = (TEObject)children[I];
+                                if (node2.GetLastMsg() != Msg.Seq && node2.Owner == this)
                                 {
-                                    var node2 = (TEObject)children[I];
-                                    var call__214 = node2.GetLastMsg();
-                                    if (call__214 != Msg.Seq && node2.Owner == this)
-                                    {
-                                        node2.SetLastMsg(Msg.Seq);
-                                        node2.MsgProc(ref Msg, this);
-                                    }
+                                    node2.SetLastMsg(Msg.Seq);
+                                    node2.MsgProc(ref Msg, this);
                                 }
                             }
                         }
@@ -6699,33 +5891,25 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__215 = 0;
-                            for (; I >= end__215; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
-                                {
-                                    var node3 = (TEObject)children.List[I];
-                                    node3.MsgProc(ref Msg, this);
-                                }
+                                var node3 = (TEObject)children.List[I];
+                                node3.MsgProc(ref Msg, this);
                             }
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__217 = 0;
-                            for (; I >= end__217; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
+                                var node4 = (TEObject)children[I];
+                                if (node4.Owner == this)
                                 {
-                                    var node4 = (TEObject)children[I];
-                                    if (node4.Owner == this)
-                                    {
-                                        node4.MsgProc(ref Msg, this);
-                                    }
+                                    node4.MsgProc(ref Msg, this);
                                 }
                             }
                         }
@@ -6738,35 +5922,25 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__219 = 0;
-                            for (; I >= end__219; I -= 1)
+                            var node5 = (TEObject)children.List[I];
+                            if (node5.GetLastMsg() != Msg.Seq)
                             {
-                                var node5 = (TEObject)children.List[I];
-                                var call__221 = node5.GetLastMsg();
-                                if (call__221 != Msg.Seq)
-                                {
-                                    node5.SetLastMsg(Msg.Seq);
-                                    node5.MsgProc(ref Msg, this);
-                                }
+                                node5.SetLastMsg(Msg.Seq);
+                                node5.MsgProc(ref Msg, this);
                             }
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__222 = 0;
-                            for (; I >= end__222; I -= 1)
+                            var node6 = (TEObject)children[I];
+                            if (node6.GetLastMsg() != Msg.Seq && node6.Owner == this)
                             {
-                                var node6 = (TEObject)children[I];
-                                var call__224 = node6.GetLastMsg();
-                                if (call__224 != Msg.Seq && node6.Owner == this)
-                                {
-                                    node6.SetLastMsg(Msg.Seq);
-                                    node6.MsgProc(ref Msg, this);
-                                }
+                                node6.SetLastMsg(Msg.Seq);
+                                node6.MsgProc(ref Msg, this);
                             }
                         }
                     }
@@ -6775,28 +5949,20 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__225 = 0;
-                            for (; I >= end__225; I -= 1)
-                            {
-                                var node7 = (TEObject)children.List[I];
-                                node7.MsgProc(ref Msg, this);
-                            }
+                            var node7 = (TEObject)children.List[I];
+                            node7.MsgProc(ref Msg, this);
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__227 = 0;
-                            for (; I >= end__227; I -= 1)
+                            var node8 = (TEObject)children[I];
+                            if (node8.Owner == this)
                             {
-                                var node8 = (TEObject)children[I];
-                                if (node8.Owner == this)
-                                {
-                                    node8.MsgProc(ref Msg, this);
-                                }
+                                node8.MsgProc(ref Msg, this);
                             }
                         }
                     }
@@ -6807,11 +5973,10 @@ namespace Aow.Units.Engine
         // Engine.pas:2981
         public override int RemoveChild(TEObject Child)
         {
-            int Result = default;
+            int Result;
             if (GetControlStyle().Contains(Engine.csKeepIndex))
             {
-                var call__229 = FChildren.IndexOf(Child);
-                Result = call__229;
+                Result = FChildren.IndexOf(Child);
                 if (Result != -1)
                 {
                     FChildren.List[Result] = null;
@@ -6819,8 +5984,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__230 = FChildren.Remove(Child);
-                Result = call__230;
+                Result = FChildren.Remove(Child);
             }
 
             return Result;
@@ -6829,19 +5993,17 @@ namespace Aow.Units.Engine
         // Engine.pas:2992
         public override int AddChild(TEObject Child)
         {
-            int Result = default;
             FChildren.Add(Child);
-            Result = FChildren.Count - 1;
-            return Result;
+            return FChildren.Count - 1;
         }
 
         // Engine.pas:2998
         public override TEObject FindChild(int AClassID)
         {
-            TEObject Result = default;
-            int I = default;
-            bool Found = default;
-            TEObject C = default;
+            TEObject Result;
+            int I;
+            bool Found;
+            TEObject C;
             I = 0;
             Found = false;
             C = null;
@@ -6867,9 +6029,7 @@ namespace Aow.Units.Engine
         // Engine.pas:3016
         public override int FindChildIndex(TEObject Child)
         {
-            int Result = default;
-            var call__231 = Count;
-            Result = call__231 - 1;
+            int Result = Count - 1;
             while (Result >= 0 && Child != (TEObject)FChildren.List[Result])
             {
                 Result -= 1;
@@ -6888,25 +6048,13 @@ namespace Aow.Units.Engine
         // Engine.pas:3022
         public void DestroyEObjects(int AClassID)
         {
-            int I = default;
-            TEObject C = default;
+            TEObject C;
+            for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                I = FChildren.Count - 1;
-                byte end__232 = 0;
-                for (; I >= end__232; I -= 1)
+                C = (TEObject)FChildren.List[I];
+                if (C != null && AClassID == C.EClass.ClassID && C.Owner == this)
                 {
-                    C = (TEObject)FChildren.List[I];
-                    bool bool__233 = C != null;
-                    if (bool__233)
-                    {
-                        var call__234 = C.EClass.ClassID;
-                        bool__233 = AClassID == call__234;
-                    }
-
-                    if (bool__233 && C.Owner == this)
-                    {
-                        C.Destroy();
-                    }
+                    C.Destroy();
                 }
             }
         }
@@ -6927,16 +6075,14 @@ namespace Aow.Units.Engine
         // Engine.pas:1856
         internal int FindTimerList(TEObject Child)
         {
-            int Result = default;
-            int I = default;
-            Result = -1;
+            int I;
+            int Result = -1;
             I = 0;
             while (Result == -1 && I < 10)
             {
                 I += 1;
                 // { the original indexes the lists with Result (-1 on the first round), not with I }
-                var call__235 = FTimerLists[Result - 1].IndexOf(Child);
-                Result = call__235;
+                Result = FTimerLists[Result - 1].IndexOf(Child);
             }
 
             if (Result != -1)
@@ -6954,68 +6100,42 @@ namespace Aow.Units.Engine
         // Engine.pas:1819
         public TETimerNode(TECustomNode owner) : base(owner)
         {
-            int I = default;
             FCount = 0;
+            for (int I = 1; I <= 10; I++)
             {
-                I = 1;
-                byte end__236 = 10;
-                for (; I <= end__236; I += 1)
-                {
-                    var call__237 = new TList();
-                    FTimerLists[I - 1] = call__237;
-                }
+                var list = new TList();
+                FTimerLists[I - 1] = list;
             }
         }
 
         // Engine.pas:1828
         public override void Destroy()
         {
-            int I = default;
             base.Destroy();
+            for (int I = 1; I <= 10; I++)
             {
-                I = 1;
-                byte end__238 = 10;
-                for (; I <= end__238; I += 1)
-                {
-                    FTimerLists[I - 1].Free();
-                }
+                FTimerLists[I - 1].Free();
             }
         }
 
         // Engine.pas:1841
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = TSet<TEControlStyleElement>.Of(Engine.csStored, Engine.csShared, Engine.csReserved2);
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Engine.csStored, Engine.csShared, Engine.csReserved2);
 
         // Engine.pas:1846
-        public override int GetCount()
-        {
-            int Result = default;
-            Result = FCount;
-            return Result;
-        }
+        public override int GetCount() => FCount;
 
         // Engine.pas:1851
-        public TList GetTimerList(sbyte Timer)
-        {
-            TList Result = default;
-            Result = FTimerLists[Timer - 1];
-            return Result;
-        }
+        public TList GetTimerList(sbyte Timer) => FTimerLists[Timer - 1];
 
         // Engine.pas:1871
         public override int RemoveChild(TEObject Child)
         {
-            int Result = default;
-            int L = default;
+            int Result;
+            int L;
             L = FindTimerList(Child);
             if (L != -1)
             {
-                var call__239 = FTimerLists[L - 1].Remove(Child);
-                Result = call__239;
+                Result = FTimerLists[L - 1].Remove(Child);
                 if (Result != -1)
                 {
                     FCount -= 1;
@@ -7032,9 +6152,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1885
         public override int AddChild(TEObject Child)
         {
-            int Result = default;
-            var call__240 = FTimerLists[1 - 1].Add(Child);
-            Result = call__240;
+            int Result = FTimerLists[1 - 1].Add(Child);
             FCount += 1;
             return Result;
         }
@@ -7042,10 +6160,9 @@ namespace Aow.Units.Engine
         // Engine.pas:1891
         public override TEObject GetChild(int Index)
         {
-            TEObject Result = default;
-            int I = default;
-            int Total = default;
-            TList L = default;
+            int I;
+            int Total;
+            TList L;
             I = 1;
             L = FTimerLists[1 - 1];
             Total = L.Count;
@@ -7058,8 +6175,7 @@ namespace Aow.Units.Engine
 
             L = FTimerLists[I - 1];
             Total -= L.Count;
-            Result = (TEObject)L.List[Index - Total];
-            return Result;
+            return (TEObject)L.List[Index - Total];
         }
 
         // Engine.pas:1910
@@ -7071,9 +6187,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1915
         public int AddTimerChild(TEObject Child, sbyte Timer)
         {
-            int Result = default;
-            var call__241 = FTimerLists[Timer - 1].Add(Child);
-            Result = call__241;
+            int Result = FTimerLists[Timer - 1].Add(Child);
             FCount += 1;
             return Result;
         }
@@ -7081,9 +6195,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1921
         public int RemoveTimerChild(TEObject Child, sbyte Timer)
         {
-            int Result = default;
-            var call__242 = FTimerLists[Timer - 1].Remove(Child);
-            Result = call__242;
+            int Result = FTimerLists[Timer - 1].Remove(Child);
             if (Result != -1)
             {
                 FCount -= 1;
@@ -7095,14 +6207,9 @@ namespace Aow.Units.Engine
         // Engine.pas:1927
         public void TriggerTimerListEvent(int Timer)
         {
-            int I = default;
+            for (int I = 0, last = FTimerLists[Timer - 1].Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__243 = FTimerLists[Timer - 1].Count - 1;
-                for (; I <= end__243; I += 1)
-                {
-                    ((TEObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
-                }
+                ((TEObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
             }
         }
 
@@ -7174,8 +6281,7 @@ namespace Aow.Units.Engine
 
         public TEChangeNotifyNode(TECustomNode owner) : base(owner)
         {
-            var call__244 = new TEObjectList();
-            FChildren = call__244;
+            FChildren = new TEObjectList();
             FUpdateCount = 0;
         }
 
@@ -7194,47 +6300,34 @@ namespace Aow.Units.Engine
         // Engine.pas:7220
         public override void Clear()
         {
-            int I = default;
-            TEObject C = default;
+            int I;
+            TEObject C;
+            I = Count - 1;
+            for (; I >= 0; I -= 1)
             {
-                I = Count - 1;
-                byte end__245 = 0;
-                for (; I >= end__245; I -= 1)
+                C = (TEObject)FChildren.List[I];
+                if (C != null && C.Owner == this)
                 {
-                    C = (TEObject)FChildren.List[I];
-                    if (C != null && C.Owner == this)
+                    if (!C.GetControlStyle().Contains(Engine.csShared))
                     {
-                        if (!C.GetControlStyle().Contains(Engine.csShared))
-                        {
-                            C.Destroy();
-                        }
-                        else
-                        {
-                            C.Clear();
-                        }
+                        C.Destroy();
+                    }
+                    else
+                    {
+                        C.Clear();
                     }
                 }
             }
 
+            I = Count - 1;
+            for (; I >= 0; I -= 1)
             {
-                I = Count - 1;
-                byte end__246 = 0;
-                for (; I >= end__246; I -= 1)
+                C = (TEObject)FChildren.List[I];
+                if (C != null)
                 {
-                    C = (TEObject)FChildren.List[I];
-                    if (C != null)
+                    if (!(C.Owner == this && C.GetControlStyle().Contains(Engine.csShared)))
                     {
-                        bool bool__247 = C.Owner == this;
-                        if (bool__247)
-                        {
-                            var call__248 = C.GetControlStyle();
-                            bool__247 = call__248.Contains(Engine.csShared);
-                        }
-
-                        if (!bool__247)
-                        {
-                            RemoveChild(C);
-                        }
+                        RemoveChild(C);
                     }
                 }
             }
@@ -7253,24 +6346,14 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:7251
-        public override TEObject GetChild(int Index)
-        {
-            TEObject Result = default;
-            Result = (TEObject)FChildren.List[Index];
-            return Result;
-        }
+        public override TEObject GetChild(int Index) => (TEObject)FChildren.List[Index];
 
         // Engine.pas:7256
         public override void SetChild(int Index, TEObject Child)
         {
-            while (true)
+            while (Index >= Count)
             {
-                var call__249 = Count;
-                if (!(Index >= call__249))
-                    break;
-                {
-                    FChildren.Add(null);
-                }
+                FChildren.Add(null);
             }
 
             FChildren[Index] = Child;
@@ -8014,17 +7097,11 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:7978
-        public override int GetCount()
-        {
-            int Result = default;
-            Result = FChildren.Count;
-            return Result;
-        }
+        public override int GetCount() => FChildren.Count;
 
         // Engine.pas:7983
         public override void SendMsg(ref TEMsg Msg, TEObject Sender)
         {
-            int I = default;
             var children = FChildren;
             if (GetControlStyle().Contains(Engine.csKeepIndex))
             {
@@ -8032,40 +7109,30 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__251 = 0;
-                            for (; I >= end__251; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
+                                var node = (TEObject)children.List[I];
+                                if (node.GetLastMsg() != Msg.Seq)
                                 {
-                                    var node = (TEObject)children.List[I];
-                                    var call__253 = node.GetLastMsg();
-                                    if (call__253 != Msg.Seq)
-                                    {
-                                        node.SetLastMsg(Msg.Seq);
-                                        node.MsgProc(ref Msg, this);
-                                    }
+                                    node.SetLastMsg(Msg.Seq);
+                                    node.MsgProc(ref Msg, this);
                                 }
                             }
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__254 = 0;
-                            for (; I >= end__254; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
+                                var node2 = (TEObject)children[I];
+                                if (node2.GetLastMsg() != Msg.Seq && node2.Owner == this)
                                 {
-                                    var node2 = (TEObject)children[I];
-                                    var call__256 = node2.GetLastMsg();
-                                    if (call__256 != Msg.Seq && node2.Owner == this)
-                                    {
-                                        node2.SetLastMsg(Msg.Seq);
-                                        node2.MsgProc(ref Msg, this);
-                                    }
+                                    node2.SetLastMsg(Msg.Seq);
+                                    node2.MsgProc(ref Msg, this);
                                 }
                             }
                         }
@@ -8075,33 +7142,25 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__257 = 0;
-                            for (; I >= end__257; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
-                                {
-                                    var node3 = (TEObject)children.List[I];
-                                    node3.MsgProc(ref Msg, this);
-                                }
+                                var node3 = (TEObject)children.List[I];
+                                node3.MsgProc(ref Msg, this);
                             }
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__259 = 0;
-                            for (; I >= end__259; I -= 1)
+                            if (children.List[I] != null)
                             {
-                                if (children.List[I] != null)
+                                var node4 = (TEObject)children[I];
+                                if (node4.Owner == this)
                                 {
-                                    var node4 = (TEObject)children[I];
-                                    if (node4.Owner == this)
-                                    {
-                                        node4.MsgProc(ref Msg, this);
-                                    }
+                                    node4.MsgProc(ref Msg, this);
                                 }
                             }
                         }
@@ -8114,35 +7173,25 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__261 = 0;
-                            for (; I >= end__261; I -= 1)
+                            var node5 = (TEObject)children.List[I];
+                            if (node5.GetLastMsg() != Msg.Seq)
                             {
-                                var node5 = (TEObject)children.List[I];
-                                var call__263 = node5.GetLastMsg();
-                                if (call__263 != Msg.Seq)
-                                {
-                                    node5.SetLastMsg(Msg.Seq);
-                                    node5.MsgProc(ref Msg, this);
-                                }
+                                node5.SetLastMsg(Msg.Seq);
+                                node5.MsgProc(ref Msg, this);
                             }
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__264 = 0;
-                            for (; I >= end__264; I -= 1)
+                            var node6 = (TEObject)children[I];
+                            if (node6.GetLastMsg() != Msg.Seq && node6.Owner == this)
                             {
-                                var node6 = (TEObject)children[I];
-                                var call__266 = node6.GetLastMsg();
-                                if (call__266 != Msg.Seq && node6.Owner == this)
-                                {
-                                    node6.SetLastMsg(Msg.Seq);
-                                    node6.MsgProc(ref Msg, this);
-                                }
+                                node6.SetLastMsg(Msg.Seq);
+                                node6.MsgProc(ref Msg, this);
                             }
                         }
                     }
@@ -8151,28 +7200,20 @@ namespace Aow.Units.Engine
                 {
                     if ((Msg.MsgID & 536870912) == 0)
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__267 = 0;
-                            for (; I >= end__267; I -= 1)
-                            {
-                                var node7 = (TEObject)children.List[I];
-                                node7.MsgProc(ref Msg, this);
-                            }
+                            var node7 = (TEObject)children.List[I];
+                            node7.MsgProc(ref Msg, this);
                         }
                     }
                     else
                     {
+                        for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            I = children.Count - 1;
-                            byte end__269 = 0;
-                            for (; I >= end__269; I -= 1)
+                            var node8 = (TEObject)children[I];
+                            if (node8.Owner == this)
                             {
-                                var node8 = (TEObject)children[I];
-                                if (node8.Owner == this)
-                                {
-                                    node8.MsgProc(ref Msg, this);
-                                }
+                                node8.MsgProc(ref Msg, this);
                             }
                         }
                     }
@@ -8183,11 +7224,10 @@ namespace Aow.Units.Engine
         // Engine.pas:8080
         public override int RemoveChild(TEObject Child)
         {
-            int Result = default;
+            int Result;
             if (GetControlStyle().Contains(Engine.csKeepIndex))
             {
-                var call__271 = FChildren.IndexOf(Child);
-                Result = call__271;
+                Result = FChildren.IndexOf(Child);
                 if (Result != -1)
                 {
                     FChildren.List[Result] = null;
@@ -8195,8 +7235,7 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__272 = FChildren.Remove(Child);
-                Result = call__272;
+                Result = FChildren.Remove(Child);
             }
 
             if (FUpdateCount == 0)
@@ -8210,24 +7249,22 @@ namespace Aow.Units.Engine
         // Engine.pas:8092
         public override int AddChild(TEObject Child)
         {
-            int Result = default;
             FChildren.Add(Child);
             if (FUpdateCount == 0)
             {
                 Changed();
             }
 
-            Result = FChildren.Count - 1;
-            return Result;
+            return FChildren.Count - 1;
         }
 
         // Engine.pas:8099
         public override TEObject FindChild(int AClassID)
         {
-            TEObject Result = default;
-            int I = default;
-            bool Found = default;
-            TEObject C = default;
+            TEObject Result;
+            int I;
+            bool Found;
+            TEObject C;
             I = 0;
             Found = false;
             C = null;
@@ -8253,9 +7290,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8117
         public override int FindChildIndex(TEObject Child)
         {
-            int Result = default;
-            var call__273 = Count;
-            Result = call__273 - 1;
+            int Result = Count - 1;
             while (Result >= 0 && Child != FChildren.List[Result])
             {
                 Result -= 1;
@@ -8277,8 +7312,7 @@ namespace Aow.Units.Engine
 
         public TEChangeNotifyEventList(TECustomNode owner) : base(owner)
         {
-            var call__274 = new TEventList();
-            FEvents = call__274;
+            FEvents = new TEventList();
         }
 
         internal TEventList FEvents;
@@ -8419,7 +7453,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:54
         public new void Delete(int Key)
         {
-            int I = default;
+            int I;
             I = FCount;
             if (I != 0)
             {
@@ -8439,23 +7473,15 @@ namespace Aow.Units.Engine
         // HashTab.PAS:70
         public object Find(int Key)
         {
-            object Result = default;
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__275 = 0;
-                for (; I >= end__275; I -= 1)
+                if (Key == FItems[I].Key.Value)
                 {
-                    if (Key == FItems[I].Key.Value)
-                    {
-                        Result = FItems[I].Item;
-                        return Result;
-                    }
+                    return FItems[I].Item;
                 }
             }
 
-            Result = null;
-            return Result;
+            return null;
         }
     }
 
@@ -8494,30 +7520,19 @@ namespace Aow.Units.Engine
         // HashTab.PAS:83
         public TIntegerHashTable256()
         {
-            int I = default;
-            ;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__276 = 255;
-                for (; I <= end__276; I += 1)
-                {
-                    var call__277 = new TIntegerHashList();
-                    FLists[I] = call__277;
-                }
+                var integerHashList = new TIntegerHashList();
+                FLists[I] = integerHashList;
             }
         }
 
         // HashTab.PAS:91
         public override void Destroy()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__278 = 255;
-                for (; I <= end__278; I += 1)
-                {
-                    FLists[I].Free();
-                }
+                FLists[I].Free();
             }
 
             base.Destroy();
@@ -8526,14 +7541,9 @@ namespace Aow.Units.Engine
         // HashTab.PAS:99
         public override void Clear()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__279 = 255;
-                for (; I <= end__279; I += 1)
-                {
-                    FLists[I].Clear();
-                }
+                FLists[I].Clear();
             }
         }
 
@@ -8550,19 +7560,12 @@ namespace Aow.Units.Engine
         }
 
         // HashTab.PAS:116
-        public override object Find(int Key)
-        {
-            object Result = default;
-            var call__280 = FLists[Key & 255].Find(Key);
-            Result = call__280;
-            return Result;
-        }
+        public override object Find(int Key) => FLists[Key & 255].Find(Key);
 
         // HashTab.PAS:121
         public void DeleteSafe(object Item, int Key)
         {
-            var call__281 = FLists[Key & 255].Find(Key);
-            if (call__281 == Item)
+            if (FLists[Key & 255].Find(Key) == Item)
             {
                 FLists[Key & 255].Delete(Key);
             }
@@ -8571,38 +7574,28 @@ namespace Aow.Units.Engine
         // HashTab.PAS:126
         public virtual int GetFreeID()
         {
-            int Result = default;
-            int Min = default;
-            int MinIndex = default;
-            int I = default;
+            int Min;
+            int MinIndex;
+            int I;
             Min = 16777215;
             MinIndex = 0;
+            I = 0;
+            for (; I <= 255; I += 1)
             {
-                I = 0;
-                byte end__282 = 255;
-                for (; I <= end__282; I += 1)
+                if (Min > FLists[I].Count)
                 {
-                    if (Min > FLists[I].Count)
-                    {
-                        Min = FLists[I].Count;
-                        MinIndex = I;
-                    }
+                    Min = FLists[I].Count;
+                    MinIndex = I;
                 }
             }
 
             I = FLists[MinIndex].Count;
-            while (true)
+            while (FLists[MinIndex].Find((I << 8) + MinIndex) != null)
             {
-                var call__283 = FLists[MinIndex].Find((I << 8) + MinIndex);
-                if (!(call__283 != null))
-                    break;
-                {
-                    I += 1;
-                }
+                I += 1;
             }
 
-            Result = (I << 8) + MinIndex;
-            return Result;
+            return (I << 8) + MinIndex;
         }
     }
 
@@ -8612,14 +7605,9 @@ namespace Aow.Units.Engine
         // HashTab.PAS:143
         public override void Clear()
         {
-            int I = default;
+            for (int I = FCount - 1; I >= 0; I--)
             {
-                I = FCount - 1;
-                byte end__284 = 0;
-                for (; I >= end__284; I -= 1)
-                {
-                    FItems[I].Key = (AnsiString)"";
-                }
+                FItems[I].Key = (AnsiString)"";
             }
 
             base.Clear();
@@ -8628,9 +7616,8 @@ namespace Aow.Units.Engine
         // HashTab.PAS:151
         public object Find(AnsiString Key)
         {
-            object Result = default;
-            int I = default;
-            Result = null;
+            int I;
+            object Result = null;
             I = FCount;
             if (I != 0)
             {
@@ -8639,8 +7626,7 @@ namespace Aow.Units.Engine
                     I -= 1;
                     if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
                     {
-                        Result = FItems[I].Item;
-                        return Result;
+                        return FItems[I].Item;
                     }
                 }
                 while (!(I == 0));
@@ -8668,7 +7654,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:182
         public void Delete(AnsiString Key)
         {
-            int I = default;
+            int I;
             I = FCount;
             if (I != 0)
             {
@@ -8722,30 +7708,19 @@ namespace Aow.Units.Engine
         // HashTab.PAS:199
         public TStringHashTable256()
         {
-            int I = default;
-            ;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__285 = 255;
-                for (; I <= end__285; I += 1)
-                {
-                    var call__286 = new TStringHashList();
-                    FLists[I] = call__286;
-                }
+                var stringHashList = new TStringHashList();
+                FLists[I] = stringHashList;
             }
         }
 
         // HashTab.PAS:207
         public override void Destroy()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__287 = 255;
-                for (; I <= end__287; I += 1)
-                {
-                    FLists[I].Free();
-                }
+                FLists[I].Free();
             }
 
             base.Destroy();
@@ -8754,21 +7729,16 @@ namespace Aow.Units.Engine
         // HashTab.PAS:215
         public override void Clear()
         {
-            int I = default;
+            for (int I = 0; I <= 255; I++)
             {
-                I = 0;
-                byte end__288 = 255;
-                for (; I <= end__288; I += 1)
-                {
-                    FLists[I].Clear();
-                }
+                FLists[I].Clear();
             }
         }
 
         // HashTab.PAS:222
         public override void Add(object Item, AnsiString Key)
         {
-            int H = default;
+            int H;
             H = Key.Length;
             if (H >= 2)
             {
@@ -8788,7 +7758,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:234
         public override void Delete(AnsiString Key)
         {
-            int H = default;
+            int H;
             H = Key.Length;
             if (H >= 2)
             {
@@ -8808,8 +7778,7 @@ namespace Aow.Units.Engine
         // HashTab.PAS:246
         public override object Find(AnsiString Key)
         {
-            object Result = default;
-            int H = default;
+            int H;
             H = Key.Length;
             if (H >= 2)
             {
@@ -8823,9 +7792,7 @@ namespace Aow.Units.Engine
                 }
             }
 
-            var call__289 = FLists[H].Find(Key);
-            Result = call__289;
-            return Result;
+            return FLists[H].Find(Key);
         }
 
         // Engine.pas:816
@@ -8849,12 +7816,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8233
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = FControlStyle;
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:8238
         public void SetControlStyle(TSet<TEControlStyleElement> Value)
@@ -8884,12 +7846,7 @@ namespace Aow.Units.Engine
         internal TSet<TEControlStyleElement> FControlStyle;
 
         // Engine.pas:8204
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = FControlStyle;
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:8209
         public void SetControlStyle(TSet<TEControlStyleElement> Value)
@@ -8925,12 +7882,7 @@ namespace Aow.Units.Engine
         internal TEngine FEngine;
         internal TSet<TEControlStyleElement> FControlStyle;
         // Engine.pas:8262
-        public override TEngine GetEngine()
-        {
-            TEngine Result = default;
-            Result = FEngine;
-            return Result;
-        }
+        public override TEngine GetEngine() => FEngine;
 
         // Engine.pas:8267
         public void SetEngine(TEngine AEngine)
@@ -8939,12 +7891,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:8272
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = FControlStyle;
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:8277
         public void SetControlStyle(TSet<TEControlStyleElement> Value)
@@ -8977,34 +7924,25 @@ namespace Aow.Units.Engine
     public partial class TEObjectClassList : TList
     {
         // Engine.pas:8296
-        protected internal EClass GetEClass(int Index)
-        {
-            EClass Result = default;
-            var call__290 = this[Index];
-            Result = (EClass)call__290;
-            return Result;
-        }
+        protected internal EClass GetEClass(int Index) => (EClass)this[Index];
 
         // Engine.pas:8301
         public EClass FindClass(int AClassID)
         {
-            EClass Result = default;
-            int I = default;
-            bool Found = default;
+            EClass Result;
+            int I;
+            bool Found;
             I = 0;
             Found = false;
             while (!Found && I < Count)
             {
-                var call__291 = this[I];
-                var call__292 = ((EClass)call__291).ClassID;
-                Found = AClassID == call__292;
+                Found = AClassID == ((EClass)this[I]).ClassID;
                 I += 1;
             }
 
             if (Found)
             {
-                var call__293 = this[I - 1];
-                Result = (EClass)call__293;
+                Result = (EClass)this[I - 1];
             }
             else
             {
@@ -9017,16 +7955,14 @@ namespace Aow.Units.Engine
         // Engine.pas:8316
         public int FindClassIndex(int AClassID)
         {
-            int Result = default;
-            int I = default;
-            bool Found = default;
+            int Result;
+            int I;
+            bool Found;
             I = 0;
             Found = false;
             while (!Found && I < Count)
             {
-                var call__294 = this[I];
-                var call__295 = ((EClass)call__294).ClassID;
-                Found = AClassID == call__295;
+                Found = AClassID == ((EClass)this[I]).ClassID;
                 I += 1;
             }
 
@@ -9045,8 +7981,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8331
         public EClass GetClass(int AClassID)
         {
-            EClass Result = default;
-            Result = FindClass(AClassID);
+            EClass Result = FindClass(AClassID);
             if (Result == null)
             {
                 throw Exception.Create((AnsiString)"Unregistered E-ClassID found (" + IntToStr(AClassID) + AnsiString.FromBytes(41));
@@ -9058,16 +7993,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8338
         public void RegisterClass(EClass AClass)
         {
-            var call__296 = AClass.ClassID;
-            var call__297 = FindClass(call__296);
-            bool bool__298 = call__297 == null;
-            if (bool__298)
-            {
-                var call__299 = AClass.ClassID;
-                bool__298 = call__299 != 0;
-            }
-
-            if (bool__298)
+            if (FindClass(AClass.ClassID) == null && AClass.ClassID != 0)
             {
                 Add(AClass);
             }
@@ -9080,10 +8006,8 @@ namespace Aow.Units.Engine
         // Engine.pas:8346
         public void UnregisterClass(EClass AClass)
         {
-            int I = default;
-            var call__300 = AClass.ClassID;
-            var call__301 = FindClassIndex(call__300);
-            I = call__301;
+            int I;
+            I = FindClassIndex(AClass.ClassID);
             if (I != -1)
             {
                 Delete(I);
@@ -9108,21 +8032,17 @@ namespace Aow.Units.Engine
         // Engine.pas:8677
         internal int GetUniqueEditID()
         {
-            int Result = default;
-            int I = default;
-            bool Found = default;
-            Result = 1;
+            int I;
+            bool Found;
+            int Result = 1;
             I = 0;
-            var call__302 = FEditors.Count;
-            Found = call__302 == 0;
+            Found = FEditors.Count == 0;
             while (!Found)
             {
-                var call__303 = FEditors.Objects[I];
-                if (Result != ObjectToInt(call__303))
+                if (Result != ObjectToInt(FEditors.Objects[I]))
                 {
                     I += 1;
-                    var call__304 = FEditors.Count;
-                    Found = I == call__304;
+                    Found = I == FEditors.Count;
                 }
                 else
                 {
@@ -9137,8 +8057,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8650
         public TEResourceEditSettings(TECustomNode owner) : base(owner)
         {
-            var call__305 = new TStringList();
-            FEditors = call__305;
+            FEditors = new TStringList();
         }
 
         // Engine.pas:8656
@@ -9151,34 +8070,25 @@ namespace Aow.Units.Engine
         // Engine.pas:8667
         public AnsiString GetUniqueEditorName(AnsiString Name)
         {
-            AnsiString Result = default;
-            AnsiString S = default;
+            AnsiString S;
             S = Name;
-            while (true)
+            while (FEditors.IndexOf(S) != -1)
             {
-                var call__306 = FEditors.IndexOf(S);
-                if (!(call__306 != -1))
-                    break;
-                {
-                    S = Name + IntToStr(Random(268435455));
-                }
+                S = Name + IntToStr(Random(268435455));
             }
 
-            Result = S;
-            return Result;
+            return S;
         }
 
         // Engine.pas:8700
         public int GetEditID(AnsiString Name)
         {
-            int Result = default;
-            int I = default;
-            var call__307 = FEditors.IndexOf(Name);
-            I = call__307;
+            int Result;
+            int I;
+            I = FEditors.IndexOf(Name);
             if (I != -1)
             {
-                var call__308 = FEditors.Objects[I];
-                Result = ObjectToInt(call__308);
+                Result = ObjectToInt(FEditors.Objects[I]);
             }
             else
             {
@@ -9192,9 +8102,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8714
         public int RemoveEditor(AnsiString Name)
         {
-            int Result = default;
-            var call__309 = FEditors.IndexOf(Name);
-            Result = call__309;
+            int Result = FEditors.IndexOf(Name);
             if (Result != -1)
             {
                 FEditors.Delete(Result);
@@ -9249,12 +8157,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1498
-        internal int GetSortValue(int Index)
-        {
-            int Result = default;
-            Result = FItems[Index].SortValue;
-            return Result;
-        }
+        internal int GetSortValue(int Index) => FItems[Index].SortValue;
 
         // Engine.pas:1503
         internal void SetSortValue(int Index, int Value)
@@ -9276,12 +8179,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1488
-        public override TEObject GetChild(int Index)
-        {
-            TEObject Result = default;
-            Result = FItems[Index].Child;
-            return Result;
-        }
+        public override TEObject GetChild(int Index) => FItems[Index].Child;
 
         // Engine.pas:1493
         public override void SetChild(int Index, TEObject Child)
@@ -9290,12 +8188,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1508
-        public override int GetCount()
-        {
-            int Result = default;
-            Result = FCount;
-            return Result;
-        }
+        public override int GetCount() => FCount;
 
         // Engine.pas:1520
         public virtual void Grow()
@@ -9306,8 +8199,7 @@ namespace Aow.Units.Engine
         // Engine.pas:1525
         public override int RemoveChild(TEObject Child)
         {
-            int Result = default;
-            Result = FCount - 1;
+            int Result = FCount - 1;
             while (Result >= 0 && Child != FItems[Result].Child)
             {
                 Result -= 1;
@@ -9326,18 +8218,13 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1537
-        public override int AddChild(TEObject Child)
-        {
-            int Result = default;
-            Result = AddSortChild(Child, 0);
-            return Result;
-        }
+        public override int AddChild(TEObject Child) => AddSortChild(Child, 0);
 
         // Engine.pas:1542
         public virtual int AddSortChild(TEObject Child, int SortValue)
         {
-            int Result = default;
-            int I = default;
+            int Result;
+            int I;
             if (FCount >= FCapacity)
             {
                 Grow();
@@ -9412,8 +8299,8 @@ namespace Aow.Units.Engine
         // Engine.pas:1635
         public override int AddSortChild(TEObject Child, int SortValue)
         {
-            int Result = default;
-            int I = default;
+            int Result;
+            int I;
             if (FCount >= FCapacity)
             {
                 Grow();
@@ -9474,12 +8361,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:1677
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = FControlStyle;
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:1682
         public void SetControlStyle(TSet<TEControlStyleElement> Value)
@@ -9503,12 +8385,7 @@ namespace Aow.Units.Engine
         internal TSet<TEControlStyleElement> FControlStyle;
 
         // Engine.pas:1700
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = FControlStyle;
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:1705
         public void SetControlStyle(TSet<TEControlStyleElement> Value)
@@ -9532,14 +8409,9 @@ namespace Aow.Units.Engine
         // Engine.pas:8144
         public override void Clear()
         {
-            int I = default;
+            for (int I = Count - 1; I >= 0; I--)
             {
-                I = Count - 1;
-                byte end__310 = 0;
-                for (; I >= end__310; I -= 1)
-                {
-                    ((TEObject)FChildren.List[I]).Release();
-                }
+                ((TEObject)FChildren.List[I]).Release();
             }
 
             FChildren.Clear();
@@ -9548,31 +8420,22 @@ namespace Aow.Units.Engine
         // Engine.pas:8157
         public override void ReadWriteChildren(TEStorageStream Stream)
         {
-            int I = default;
             if (Stream.StorageMode().Contains(TStorageModeElement.smWrite))
             {
+                for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__311 = FChildren.Count - 1;
-                    for (; I <= end__311; I += 1)
+                    if (((TEObject)FChildren.List[I]).FOwner == null)
                     {
-                        if (((TEObject)FChildren.List[I]).FOwner == null)
-                        {
-                            ((TEObject)FChildren.List[I]).FOwner = this;
-                        }
+                        ((TEObject)FChildren.List[I]).FOwner = this;
                     }
                 }
 
                 base.ReadWriteChildren(Stream);
+                for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__312 = FChildren.Count - 1;
-                    for (; I <= end__312; I += 1)
+                    if (((TEObject)FChildren.List[I]).FOwner == this)
                     {
-                        if (((TEObject)FChildren.List[I]).FOwner == this)
-                        {
-                            ((TEObject)FChildren.List[I]).FOwner = null;
-                        }
+                        ((TEObject)FChildren.List[I]).FOwner = null;
                     }
                 }
             }
@@ -9581,13 +8444,9 @@ namespace Aow.Units.Engine
                 base.ReadWriteChildren(Stream);
                 if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Engine.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
                 {
+                    for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__313 = FChildren.Count - 1;
-                        for (; I <= end__313; I += 1)
-                        {
-                            ((TEObject)FChildren.List[I]).Release();
-                        }
+                        ((TEObject)FChildren.List[I]).Release();
                     }
                 }
             }
@@ -9602,9 +8461,7 @@ namespace Aow.Units.Engine
         // Engine.pas:8177
         public override int RemoveChild(TEObject Child)
         {
-            int Result = default;
-            var call__314 = FChildren.Remove(Child);
-            Result = call__314;
+            int Result = FChildren.Remove(Child);
             if (Result != -1)
             {
                 Child.Release();
@@ -9616,7 +8473,6 @@ namespace Aow.Units.Engine
         // Engine.pas:8183
         public override int AddChild(TEObject Child)
         {
-            int Result = default;
             if (Child.FOwner == this)
             {
                 Child.FOwner = null;
@@ -9628,8 +8484,7 @@ namespace Aow.Units.Engine
                 throw Exception.Create((AnsiString)"EObject doesn't support ReferenceCounting");
             }
 
-            Result = FChildren.Count - 1;
-            return Result;
+            return FChildren.Count - 1;
         }
 
         // Engine.pas:631
@@ -10900,12 +9755,7 @@ namespace Aow.Units.Engine
         { }
 
         // Engine.pas:8573
-        protected internal TEResource GetResource(int Index)
-        {
-            TEResource Result = default;
-            Result = (TEResource)FChildren.List[Index];
-            return Result;
-        }
+        protected internal TEResource GetResource(int Index) => (TEResource)FChildren.List[Index];
 
         // Engine.pas:8578
         public virtual void ResourceChanged()
@@ -10915,9 +9765,9 @@ namespace Aow.Units.Engine
         // Engine.pas:8582
         public TEResource FindResource(int ID)
         {
-            TEResource Result = default;
-            int I = default;
-            bool Found = default;
+            TEResource Result;
+            int I;
+            bool Found;
             Found = false;
             I = 0;
             while (!Found && I != this.FChildren.Count)
@@ -10941,14 +9791,13 @@ namespace Aow.Units.Engine
         // Engine.pas:8600
         public void ValidateResourceID(int Index)
         {
-            int ID = default;
-            int NewID = default;
-            int Tries = default;
-            bool Found = default;
+            int ID;
+            int NewID;
+            int Tries;
+            bool Found;
             if (Index < FChildren.Count)
             {
-                var call__316 = GetResource(Index);
-                ID = call__316.FResourceID;
+                ID = GetResource(Index).FResourceID;
                 var resource = GetResource(Index);
                 resource.FResourceID = resource.FResourceID ^ 65535;
 
@@ -10971,13 +9820,11 @@ namespace Aow.Units.Engine
                         Tries += 1;
                     }
 
-                    var call__318 = GetResource(Index);
-                    call__318.FResourceID = NewID;
+                    GetResource(Index).FResourceID = NewID;
                 }
                 else
                 {
-                    var call__319 = GetResource(Index);
-                    call__319.FResourceID = ID;
+                    GetResource(Index).FResourceID = ID;
                 }
             }
         }
@@ -11037,12 +9884,7 @@ namespace Aow.Units.Engine
     {
         internal List<TCallBackEvent> FList = [];
         // Engine.pas:5864
-        internal int GetCount()
-        {
-            int Result = default;
-            Result = FList.Count;
-            return Result;
-        }
+        internal int GetCount() => FList.Count;
 
         // Engine.pas:5869
         internal ref TCallBackEvent GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
@@ -11050,8 +9892,7 @@ namespace Aow.Units.Engine
         // Engine.pas:5846
         public TCallBackEventList()
         {
-            var call__320 = new List<TCallBackEvent>();
-            FList = call__320;
+            FList = new List<TCallBackEvent>();
         }
 
         // Engine.pas:5852
@@ -11081,7 +9922,6 @@ namespace Aow.Units.Engine
         {
             if (Index < FList.Count)
             {
-                ;
                 FList.RemoveAt(Index);
             }
         }
@@ -11112,11 +9952,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10632
         internal void ReadStreamText()
         {
-            AnsiString Line = default;
-            TStringList Text = default;
+            AnsiString Line;
+            TStringList Text;
             int P = 0;
-            int Start = 0;
-            int L = default;
+            int Start;
+            int L;
             Text = FText;
             FSections.Clear();
             Text.BeginUpdate();
@@ -11143,8 +9983,8 @@ namespace Aow.Units.Engine
                             L = Line.Length;
                             if (L >= 4 && Copy(Line, 1, 2) == (AnsiString)"[:" && Copy(Line, L - 1, 2) == (AnsiString)":]")
                             {
-                                var call__321 = Text.Count;
-                                FSections.AddObject(Copy(Line, 3, L - 4), IntToObject(call__321));
+                                var count = Text.Count;
+                                FSections.AddObject(Copy(Line, 3, L - 4), IntToObject(count));
                             }
                             else
                             {
@@ -11173,30 +10013,25 @@ namespace Aow.Units.Engine
         // Engine.pas:10694
         internal void ReadTextBuffer()
         {
-            int Index = default;
-            int First = default;
-            int Last = default;
-            int I = default;
-            int ID = default;
-            int NewID = default;
-            AnsiString Value = default;
+            int Index;
+            int First;
+            int Last;
+            int I;
+            int ID;
+            int NewID;
+            AnsiString Value;
             FValues.Clear();
-            var call__322 = FSections.IndexOf(FPath);
-            Index = call__322;
+            Index = FSections.IndexOf(FPath);
             if (Index != -1)
             {
-                var call__323 = FSections.Objects[Index];
-                First = ObjectToInt(call__323);
-                var call__324 = FSections.Count;
-                if (Index != call__324 - 1)
+                First = ObjectToInt(FSections.Objects[Index]);
+                if (Index != FSections.Count - 1)
                 {
-                    var call__325 = FSections.Objects[Index + 1];
-                    Last = ObjectToInt(call__325) - 1;
+                    Last = ObjectToInt(FSections.Objects[Index + 1]) - 1;
                 }
                 else
                 {
-                    var call__326 = FText.Count;
-                    Last = call__326 - 1;
+                    Last = FText.Count - 1;
                 }
 
                 I = First;
@@ -11204,25 +10039,21 @@ namespace Aow.Units.Engine
                 Value = (AnsiString)"";
                 while (I <= Last)
                 {
-                    var call__327 = FText[I];
-                    var call__328 = Units.Engine.Engine.GetLineID(call__327);
-                    NewID = call__328;
+                    NewID = Units.Engine.Engine.GetLineID(FText[I]);
                     if (ID != -1)
                     {
                         if (NewID != ID && NewID != -1)
                         {
-                            var call__329 = FValues.Count;
-                            FPropertyTable.Add(ID, call__329);
+                            var count = FValues.Count;
+                            FPropertyTable.Add(ID, count);
                             FValues.Add(Value);
                             ID = NewID;
-                            var call__330 = FText[I];
-                            var call__331 = Units.Engine.Engine.GetLineValue(call__330);
-                            Value = call__331;
+                            Value = Units.Engine.Engine.GetLineValue(FText[I]);
                         }
                         else
                         {
-                            var call__332 = FText[I];
-                            Value = Value + AnsiString.FromBytes(13) + AnsiString.FromBytes(10) + call__332;
+                            var item = FText[I];
+                            Value = Value + AnsiString.FromBytes(13) + AnsiString.FromBytes(10) + item;
                         }
                     }
                     else
@@ -11234,9 +10065,7 @@ namespace Aow.Units.Engine
                                 ID = NewID;
                             }
 
-                            var call__333 = FText[I];
-                            var call__334 = Units.Engine.Engine.GetLineValue(call__333);
-                            Value = call__334;
+                            Value = Units.Engine.Engine.GetLineValue(FText[I]);
                         }
                     }
 
@@ -11245,8 +10074,8 @@ namespace Aow.Units.Engine
 
                 if (ID != -1)
                 {
-                    var call__335 = FValues.Count;
-                    FPropertyTable.Add(ID, call__335);
+                    var count = FValues.Count;
+                    FPropertyTable.Add(ID, count);
                     FValues.Add(Value);
                 }
             }
@@ -11258,23 +10087,17 @@ namespace Aow.Units.Engine
             FPath = (AnsiString)"";
             if (ASize <= 0)
             {
-                var call__336 = FStream.Size;
-                var call__337 = FStream.Position;
-                FSize = call__336 - call__337;
+                FSize = FStream.Size - FStream.Position;
             }
             else
             {
                 FSize = ASize;
             }
 
-            var call__338 = new TStringList();
-            FValues = call__338;
-            var call__339 = new TPropertyTable();
-            FPropertyTable = call__339;
-            var call__340 = new TStringList();
-            FText = call__340;
-            var call__341 = new TStringList();
-            FSections = call__341;
+            FValues = new TStringList();
+            FPropertyTable = new TPropertyTable();
+            FText = new TStringList();
+            FSections = new TStringList();
             ReadStreamText();
             ReadTextBuffer();
         }
@@ -11289,17 +10112,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10669
-        public override TSet<TStorageModeElement> StorageMode()
-        {
-            TSet<TStorageModeElement> Result = default;
-            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smText);
-            return Result;
-        }
+        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smText);
 
         // Engine.pas:10741
         public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
         {
-            TEObject O = default;
+            TEObject O;
             O = Obj;
             if (O != null)
             {
@@ -11310,9 +10128,9 @@ namespace Aow.Units.Engine
         // Engine.pas:10749
         public override void rwEObject(TEObject Obj, int ID)
         {
-            TStringList SavedValues = default;
-            AnsiString SavedPath = default;
-            bool Continue = default;
+            TStringList SavedValues;
+            AnsiString SavedPath;
+            bool Continue;
             SavedPath = FPath;
             if (FPath != (AnsiString)"")
             {
@@ -11325,8 +10143,7 @@ namespace Aow.Units.Engine
 
             SavedValues = FValues;
             FPropertyTable.BackupSettings();
-            var call__342 = new TStringList();
-            FValues = call__342;
+            FValues = new TStringList();
             try
             {
                 ReadTextBuffer();
@@ -11345,8 +10162,8 @@ namespace Aow.Units.Engine
                 Continue = true;
                 if (FOnError != null)
                 {
-                    var call__343 = Obj.EClass.ClassID;
-                    FOnError(this, (AnsiString)"Error reading object (cid:" + IntToStr(call__343) + AnsiString.FromBytes(41), ref Continue);
+                    var classID = Obj.EClass.ClassID;
+                    FOnError(this, (AnsiString)"Error reading object (cid:" + IntToStr(classID) + AnsiString.FromBytes(41), ref Continue);
                 }
 
                 if (!Continue)
@@ -11365,13 +10182,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10784
         public override void rwString(ref AnsiString S, int ID)
         {
-            int Offset = default;
-            var call__344 = FPropertyTable.FindOffset(ID);
-            Offset = call__344;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__345 = FValues[Offset];
-                S = call__345;
+                S = FValues[Offset];
             }
             else
             {
@@ -11382,13 +10197,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10792
         public override void rwStrings(TStrings Strings, int ID)
         {
-            int Offset = default;
-            var call__346 = FPropertyTable.FindOffset(ID);
-            Offset = call__346;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__347 = FValues[Offset];
-                Strings.Text = NullTerminatedText(call__347);
+                Strings.Text = NullTerminatedText(FValues[Offset]);
             }
             else
             {
@@ -11405,11 +10218,8 @@ namespace Aow.Units.Engine
         // Engine.pas:10805
         public override void rwChildren(TECustomNode Node, int ID)
         {
-            AnsiString SavedPath = default;
-            int I = default;
-            TEObject C = default;
+            TEObject C;
             // { the original saves the path and never restores it }
-            SavedPath = FPath;
             if (FPath != (AnsiString)"")
             {
                 FPath = FPath + AnsiString.FromBytes(92) + IntToStr(ID);
@@ -11419,31 +10229,12 @@ namespace Aow.Units.Engine
                 FPath = IntToStr(ID);
             }
 
+            for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__348 = Node.Count - 1;
-                for (; I <= end__348; I += 1)
+                C = Node.Children[I];
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
                 {
-                    var call__349 = Node.Children[I];
-                    C = call__349;
-                    bool bool__350 = C != null && C.Owner == Node;
-                    if (bool__350)
-                    {
-                        var call__351 = C.GetControlStyle();
-                        bool__350 = !call__351.Contains(Units.Engine.Engine.csShared);
-                    }
-
-                    bool bool__352 = bool__350;
-                    if (bool__352)
-                    {
-                        var call__353 = C.GetControlStyle();
-                        bool__352 = call__353.Contains(Units.Engine.Engine.csStored);
-                    }
-
-                    if (bool__352)
-                    {
-                        rwEObject(C, I);
-                    }
+                    rwEObject(C, I);
                 }
             }
         }
@@ -11459,15 +10250,8 @@ namespace Aow.Units.Engine
         // Engine.pas:10355
         internal void WriteTextBuffer(TStream Stream)
         {
-            AnsiString S = default;
-            bool bool__354 = FPropertyTable.Count != 0;
-            if (bool__354)
-            {
-                var call__355 = FBuffer.Size;
-                bool__354 = call__355 != 0;
-            }
-
-            if (bool__354)
+            AnsiString S;
+            if (FPropertyTable.Count != 0 && FBuffer.Size != 0)
             {
                 S = (AnsiString)"[:" + FPath + (AnsiString)":]" + AnsiString.FromBytes(13) + AnsiString.FromBytes(10);
                 if (FPath != (AnsiString)"")
@@ -11484,10 +10268,8 @@ namespace Aow.Units.Engine
         public TEWriteTextStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine)
         {
             FPath = (AnsiString)"";
-            var call__356 = new TEBufferStream();
-            FBuffer = call__356;
-            var call__357 = new TPropertyTable();
-            FPropertyTable = call__357;
+            FBuffer = new TEBufferStream();
+            FPropertyTable = new TPropertyTable();
         }
 
         // Engine.pas:10343
@@ -11499,17 +10281,12 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10350
-        public override TSet<TStorageModeElement> StorageMode()
-        {
-            TSet<TStorageModeElement> Result = default;
-            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, Units.Engine.Engine.smText);
-            return Result;
-        }
+        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, Units.Engine.Engine.smText);
 
         // Engine.pas:10368
         public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
         {
-            TEObject O = default;
+            TEObject O;
             O = Obj;
             if (O != null)
             {
@@ -11520,17 +10297,15 @@ namespace Aow.Units.Engine
         // Engine.pas:10376
         public override void rwEObject(TEObject Obj, int ID)
         {
-            TEBufferStream SavedBuffer = default;
-            AnsiString SavedPath = default;
-            bool Continue = default;
-            var call__358 = FPropertyTable.PropertyExist(ID);
-            if (!call__358)
+            TEBufferStream SavedBuffer;
+            AnsiString SavedPath;
+            bool Continue;
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 SavedBuffer = FBuffer;
                 SavedPath = FPath;
                 FPropertyTable.BackupSettings();
-                var call__359 = new TEBufferStream();
-                FBuffer = call__359;
+                FBuffer = new TEBufferStream();
                 if (FPath != (AnsiString)"")
                 {
                     FPath = FPath + AnsiString.FromBytes(92) + IntToStr(ID);
@@ -11559,8 +10334,8 @@ namespace Aow.Units.Engine
                     Continue = true;
                     if (FOnError != null)
                     {
-                        var call__360 = Obj.EClass.ClassID;
-                        FOnError(this, (AnsiString)"Error writing object (cid:" + IntToStr(call__360) + AnsiString.FromBytes(41), ref Continue);
+                        var classID = Obj.EClass.ClassID;
+                        FOnError(this, (AnsiString)"Error writing object (cid:" + IntToStr(classID) + AnsiString.FromBytes(41), ref Continue);
                     }
 
                     if (!Continue)
@@ -11584,9 +10359,8 @@ namespace Aow.Units.Engine
         // Engine.pas:10417
         public override void rwString(ref AnsiString S, int ID)
         {
-            AnsiString Line = default;
-            var call__361 = FPropertyTable.PropertyExist(ID);
-            if (!call__361)
+            AnsiString Line;
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (S != (AnsiString)"")
                 {
@@ -11604,13 +10378,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10434
         public override void rwStrings(TStrings Strings, int ID)
         {
-            AnsiString Line = default;
-            AnsiString P = default;
-            var call__362 = FPropertyTable.PropertyExist(ID);
-            if (!call__362)
+            AnsiString Line;
+            AnsiString P;
+            if (!FPropertyTable.PropertyExist(ID))
             {
-                var call__363 = Strings.Count;
-                if (call__363 != 0)
+                if (Strings.Count != 0)
                 {
                     P = Strings.Text;
                     try
@@ -11623,7 +10395,6 @@ namespace Aow.Units.Engine
                     }
                     finally
                     {
-                        P = default;
                     }
                 }
             }
@@ -11642,11 +10413,9 @@ namespace Aow.Units.Engine
         // Engine.pas:10463
         public override void rwChildren(TECustomNode Node, int ID)
         {
-            AnsiString SavedPath = default;
-            int I = default;
-            TEObject C = default;
-            var call__364 = FPropertyTable.PropertyExist(ID);
-            if (!call__364)
+            AnsiString SavedPath;
+            TEObject C;
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 SavedPath = FPath;
                 if (FPath != (AnsiString)"")
@@ -11658,31 +10427,12 @@ namespace Aow.Units.Engine
                     FPath = IntToStr(ID);
                 }
 
+                for (int I = 0, last = Node.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__365 = Node.Count - 1;
-                    for (; I <= end__365; I += 1)
+                    C = Node.Children[I];
+                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
                     {
-                        var call__366 = Node.Children[I];
-                        C = call__366;
-                        bool bool__367 = C != null && C.Owner == Node;
-                        if (bool__367)
-                        {
-                            var call__368 = C.GetControlStyle();
-                            bool__367 = !call__368.Contains(Units.Engine.Engine.csShared);
-                        }
-
-                        bool bool__369 = bool__367;
-                        if (bool__369)
-                        {
-                            var call__370 = C.GetControlStyle();
-                            bool__369 = call__370.Contains(Units.Engine.Engine.csStored);
-                        }
-
-                        if (bool__369)
-                        {
-                            rwEObject(C, I);
-                        }
+                        rwEObject(C, I);
                     }
                 }
 
@@ -11706,11 +10456,9 @@ namespace Aow.Units.Engine
         // Engine.pas:9968
         public TEReadStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
         {
-            var call__371 = new TPropertyTable();
-            FPropertyTable = call__371;
+            FPropertyTable = new TPropertyTable();
             FPropertyTable.LoadFromStream(AStream);
-            var call__372 = FStream.Position;
-            FDataBase = call__372;
+            FDataBase = FStream.Position;
             FPartial = APartial;
         }
 
@@ -11724,7 +10472,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9983
         public override TSet<TStorageModeElement> StorageMode()
         {
-            TSet<TStorageModeElement> Result = default;
+            TSet<TStorageModeElement> Result;
             if (FPartial)
             {
                 Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smPartial);
@@ -11740,13 +10488,11 @@ namespace Aow.Units.Engine
         // Engine.pas:9991
         public override void rwInteger(ref int I, int ID)
         {
-            int Offset = default;
-            var call__373 = FPropertyTable.FindOffset(ID);
-            Offset = call__373;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__374 = FStream.Position;
-                if (call__374 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11762,13 +10508,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10005
         public override void rwByte(ref byte B, int ID)
         {
-            int Offset = default;
-            var call__375 = FPropertyTable.FindOffset(ID);
-            Offset = call__375;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__376 = FStream.Position;
-                if (call__376 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11784,13 +10528,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10019
         public override void rwShortint(ref sbyte S, int ID)
         {
-            int Offset = default;
-            var call__377 = FPropertyTable.FindOffset(ID);
-            Offset = call__377;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__378 = FStream.Position;
-                if (call__378 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11806,13 +10548,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10033
         public override void rwWord(ref ushort W, int ID)
         {
-            int Offset = default;
-            var call__379 = FPropertyTable.FindOffset(ID);
-            Offset = call__379;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__380 = FStream.Position;
-                if (call__380 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11828,13 +10568,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10047
         public override void rwIntegerEx(ref int I, int Default, int ID)
         {
-            int Offset = default;
-            var call__381 = FPropertyTable.FindOffset(ID);
-            Offset = call__381;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__382 = FStream.Position;
-                if (call__382 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11850,13 +10588,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10061
         public override void rwByteEx(ref byte B, byte Default, int ID)
         {
-            int Offset = default;
-            var call__383 = FPropertyTable.FindOffset(ID);
-            Offset = call__383;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__384 = FStream.Position;
-                if (call__384 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11872,13 +10608,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10075
         public override void rwShortintEx(ref sbyte S, sbyte Default, int ID)
         {
-            int Offset = default;
-            var call__385 = FPropertyTable.FindOffset(ID);
-            Offset = call__385;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__386 = FStream.Position;
-                if (call__386 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11894,13 +10628,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10089
         public override void rwWordEx(ref ushort W, ushort Default, int ID)
         {
-            int Offset = default;
-            var call__387 = FPropertyTable.FindOffset(ID);
-            Offset = call__387;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__388 = FStream.Position;
-                if (call__388 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11916,13 +10648,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10103
         public override void rwString(ref AnsiString S, int ID)
         {
-            int Offset = default;
-            var call__389 = FPropertyTable.FindOffset(ID);
-            Offset = call__389;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__390 = FStream.Position;
-                if (call__390 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11938,13 +10668,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10117
         public override void rwStrings(TStrings Strings, int ID)
         {
-            int Offset = default;
-            var call__391 = FPropertyTable.FindOffset(ID);
-            Offset = call__391;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__392 = FStream.Position;
-                if (call__392 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11960,13 +10688,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10131
         public override void rwStringsEx(TStrings Strings, int ID)
         {
-            int Offset = default;
-            var call__393 = FPropertyTable.FindOffset(ID);
-            Offset = call__393;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__394 = FStream.Position;
-                if (call__394 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -11982,13 +10708,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10145
         public override void rwData(Span<byte> Buffer, int Size, int ID)
         {
-            int Offset = default;
-            var call__395 = FPropertyTable.FindOffset(ID);
-            Offset = call__395;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__396 = FStream.Position;
-                if (call__396 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12000,13 +10724,11 @@ namespace Aow.Units.Engine
         // Engine.pas:10157
         public override void rwStreamProc(int ID, TStreamProc LoadProc, TStreamProc SaveProc)
         {
-            int Offset = default;
-            var call__397 = FPropertyTable.FindOffset(ID);
-            Offset = call__397;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__398 = FStream.Position;
-                if (call__398 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12024,14 +10746,12 @@ namespace Aow.Units.Engine
         // Engine.pas:10172
         public override TStream OpenPropertyStream(int ID)
         {
-            TStream Result = default;
-            int Offset = default;
-            var call__399 = FPropertyTable.FindOffset(ID);
-            Offset = call__399;
+            TStream Result;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__400 = FStream.Position;
-                if (call__400 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12049,17 +10769,15 @@ namespace Aow.Units.Engine
         // Engine.pas:10186
         public override void rwBool(ref bool B, int ID)
         {
-            int Offset = default;
-            var call__401 = FPropertyTable.FindOffset(ID);
-            Offset = call__401;
+            int Offset;
+            Offset = FPropertyTable.FindOffset(ID);
             B = Offset != -1;
         }
 
         // Engine.pas:10191
         public bool HandleException(Exception E)
         {
-            bool Result = default;
-            bool Continue = default;
+            bool Continue;
             if (!FErrorHandled)
             {
                 Continue = true;
@@ -12081,23 +10799,20 @@ namespace Aow.Units.Engine
                 }
             }
 
-            Result = !FErrorHandled;
-            return Result;
+            return !FErrorHandled;
         }
 
         // Engine.pas:10208
         public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
         {
-            int Offset = default;
-            int SavedBase = default;
+            int Offset;
+            int SavedBase;
             int AClassID = default;
             Obj = null;
-            var call__402 = FPropertyTable.FindOffset(ID);
-            Offset = call__402;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
-                var call__403 = FStream.Position;
-                if (call__403 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -12108,12 +10823,10 @@ namespace Aow.Units.Engine
                     SavedBase = FDataBase;
                     FPropertyTable.BackupSettings();
                     FPropertyTable.LoadFromStream(FStream);
-                    var call__404 = FStream.Position;
-                    FDataBase = call__404;
+                    FDataBase = FStream.Position;
                     try
                     {
-                        var call__406 = FEngine.CreateEObject(AClassID, null);
-                        Obj = call__406;
+                        Obj = FEngine.CreateEObject(AClassID, null);
                         Obj.FOwner = AOwner;
                         Obj.MainReadWrite(this);
                         Obj.FOwner = null;
@@ -12121,9 +10834,9 @@ namespace Aow.Units.Engine
                         FPropertyTable.RestoreSettings();
                         FDataBase = SavedBase;
                     }
-                    catch (System.Exception caught__405)
+                    catch (System.Exception error)
                     {
-                        var E = Wrap(caught__405);
+                        var E = Wrap(error);
                         Obj.Free();
                         Obj = null;
                         FPropertyTable.RestoreSettings();
@@ -12140,52 +10853,40 @@ namespace Aow.Units.Engine
         // Engine.pas:10246
         public override void rwChildren(TECustomNode Node, int ID)
         {
-            int Offset = default;
-            int SavedBase = default;
-            int I = default;
-            int ChildID = default;
+            int Offset;
+            int SavedBase;
+            int ChildID;
             TEObject Child = default;
-            var call__407 = FPropertyTable.FindOffset(ID);
-            Offset = call__407;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
                 SavedBase = FDataBase;
                 FPropertyTable.BackupSettings();
-                var call__408 = FStream.Position;
-                if (call__408 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
 
                 FPropertyTable.LoadFromStream(FStream);
-                var call__409 = FStream.Position;
-                FDataBase = call__409;
+                FDataBase = FStream.Position;
                 if (Node.GetControlStyle().Contains(Units.Engine.Engine.csKeepIndex))
                 {
+                    for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                     {
-                        I = FPropertyTable.First;
-                        int end__410 = FPropertyTable.Count - 1;
-                        for (; I <= end__410; I += 1)
+                        ChildID = FPropertyTable.Items[I].ID;
+                        rwCreateEObject(ref Child, Node, ChildID);
+                        if (Child != null)
                         {
-                            ChildID = FPropertyTable.Items[I].ID;
-                            rwCreateEObject(ref Child, Node, ChildID);
-                            if (Child != null)
-                            {
-                                Child.SetArrayOwner(Node, ChildID);
-                            }
+                            Child.SetArrayOwner(Node, ChildID);
                         }
                     }
                 }
                 else
                 {
+                    for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                     {
-                        I = FPropertyTable.First;
-                        int end__411 = FPropertyTable.Count - 1;
-                        for (; I <= end__411; I += 1)
-                        {
-                            ChildID = FPropertyTable.Items[I].ID;
-                            rwCreateEObject(ref Child, Node, ChildID);
-                        }
+                        ChildID = FPropertyTable.Items[I].ID;
+                        rwCreateEObject(ref Child, Node, ChildID);
                     }
                 }
 
@@ -12197,23 +10898,20 @@ namespace Aow.Units.Engine
         // Engine.pas:10277
         public override void rwEObject(TEObject Obj, int ID)
         {
-            int Offset = default;
-            int SavedBase = default;
+            int Offset;
+            int SavedBase;
             SavedBase = FDataBase;
-            var call__412 = FPropertyTable.FindOffset(ID);
-            Offset = call__412;
+            Offset = FPropertyTable.FindOffset(ID);
             FPropertyTable.BackupSettings();
             if (Offset != -1)
             {
-                var call__413 = FStream.Position;
-                if (call__413 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
 
                 FPropertyTable.LoadFromStream(FStream);
-                var call__414 = FStream.Position;
-                FDataBase = call__414;
+                FDataBase = FStream.Position;
             }
 
             try
@@ -12222,9 +10920,9 @@ namespace Aow.Units.Engine
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
             }
-            catch (System.Exception caught__415)
+            catch (System.Exception error)
             {
-                var E = Wrap(caught__415);
+                var E = Wrap(error);
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
                 if (!HandleException(E))
@@ -12237,11 +10935,10 @@ namespace Aow.Units.Engine
         // Engine.pas:10304
         public override void rwEObjectStream(TEObject Obj, int ID)
         {
-            int SavedBase = default;
-            int Start = default;
+            int SavedBase;
+            int Start;
             int Size = default;
-            var call__416 = FStream.Position;
-            Start = call__416;
+            Start = FStream.Position;
             FStream.Read(Bytes.Of(ref Size, 4));
             if (Size != 0)
             {
@@ -12250,16 +10947,15 @@ namespace Aow.Units.Engine
                 try
                 {
                     FPropertyTable.LoadFromStream(FStream);
-                    var call__418 = FStream.Position;
-                    FDataBase = call__418;
+                    FDataBase = FStream.Position;
                     Obj.MainReadWrite(this);
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
                     FStream.Position = Start + Size + 4;
                 }
-                catch (System.Exception caught__417)
+                catch (System.Exception error)
                 {
-                    var E = Wrap(caught__417);
+                    var E = Wrap(error);
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
                     FStream.Position = Start + Size + 4;
@@ -12302,10 +10998,8 @@ namespace Aow.Units.Engine
         {
             FEngine = AEngine;
             FStream = AStream;
-            var call__419 = new TEBufferStream();
-            FBuffer = call__419;
-            var call__420 = new TPropertyTable();
-            FPropertyTable = call__420;
+            FBuffer = new TEBufferStream();
+            FPropertyTable = new TPropertyTable();
             FPartial = APartial;
         }
 
@@ -12322,7 +11016,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9584
         public override TSet<TStorageModeElement> StorageMode()
         {
-            TSet<TStorageModeElement> Result = default;
+            TSet<TStorageModeElement> Result;
             if (FPartial)
             {
                 Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, Units.Engine.Engine.smPartial);
@@ -12338,8 +11032,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9597
         public override void rwByte(ref byte B, int ID)
         {
-            var call__421 = FPropertyTable.PropertyExist(ID);
-            if (!call__421)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (B != 0)
                 {
@@ -12356,8 +11049,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9611
         public override void rwWord(ref ushort W, int ID)
         {
-            var call__422 = FPropertyTable.PropertyExist(ID);
-            if (!call__422)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (W != 0)
                 {
@@ -12374,8 +11066,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9625
         public override void rwShortint(ref sbyte S, int ID)
         {
-            var call__423 = FPropertyTable.PropertyExist(ID);
-            if (!call__423)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (S != 0)
                 {
@@ -12392,8 +11083,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9639
         public override void rwInteger(ref int I, int ID)
         {
-            var call__424 = FPropertyTable.PropertyExist(ID);
-            if (!call__424)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (I != 0)
                 {
@@ -12410,8 +11100,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9653
         public override void rwByteEx(ref byte B, byte Default, int ID)
         {
-            var call__425 = FPropertyTable.PropertyExist(ID);
-            if (!call__425)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (B != Default)
                 {
@@ -12428,8 +11117,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9667
         public override void rwWordEx(ref ushort W, ushort Default, int ID)
         {
-            var call__426 = FPropertyTable.PropertyExist(ID);
-            if (!call__426)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (W != Default)
                 {
@@ -12446,8 +11134,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9681
         public override void rwShortintEx(ref sbyte S, sbyte Default, int ID)
         {
-            var call__427 = FPropertyTable.PropertyExist(ID);
-            if (!call__427)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (S != Default)
                 {
@@ -12464,8 +11151,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9695
         public override void rwIntegerEx(ref int I, int Default, int ID)
         {
-            var call__428 = FPropertyTable.PropertyExist(ID);
-            if (!call__428)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (I != Default)
                 {
@@ -12482,8 +11168,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9709
         public override void rwString(ref AnsiString S, int ID)
         {
-            var call__429 = FPropertyTable.PropertyExist(ID);
-            if (!call__429)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (S != (AnsiString)"")
                 {
@@ -12500,11 +11185,9 @@ namespace Aow.Units.Engine
         // Engine.pas:9723
         public override void rwStrings(TStrings Strings, int ID)
         {
-            var call__430 = FPropertyTable.PropertyExist(ID);
-            if (!call__430)
+            if (!FPropertyTable.PropertyExist(ID))
             {
-                var call__431 = Strings.Count;
-                if (call__431 != 0)
+                if (Strings.Count != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
                     Units.Engine.Engine.StringsToStream(Strings, FBuffer);
@@ -12519,11 +11202,9 @@ namespace Aow.Units.Engine
         // Engine.pas:9737
         public override void rwStringsEx(TStrings Strings, int ID)
         {
-            var call__432 = FPropertyTable.PropertyExist(ID);
-            if (!call__432)
+            if (!FPropertyTable.PropertyExist(ID))
             {
-                var call__433 = Strings.Count;
-                if (call__433 != 0)
+                if (Strings.Count != 0)
                 {
                     FPropertyTable.Add(ID, FBuffer.Position);
                     Units.Engine.Engine.StringsToStreamEx(Strings, FBuffer);
@@ -12538,8 +11219,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9751
         public override void rwData(Span<byte> Buffer, int Size, int ID)
         {
-            var call__434 = FPropertyTable.PropertyExist(ID);
-            if (!call__434)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (Size != 0)
                 {
@@ -12556,8 +11236,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9765
         public override void rwStreamProc(int ID, TStreamProc LoadProc, TStreamProc SaveProc)
         {
-            var call__435 = FPropertyTable.PropertyExist(ID);
-            if (!call__435)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 FPropertyTable.Add(ID, FBuffer.Position);
                 try
@@ -12577,9 +11256,8 @@ namespace Aow.Units.Engine
         // Engine.pas:9779
         public override TStream OpenPropertyStream(int ID)
         {
-            TStream Result = default;
-            var call__436 = FPropertyTable.PropertyExist(ID);
-            if (!call__436)
+            TStream Result;
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 FPropertyTable.Add(ID, FBuffer.Position);
                 Result = FBuffer;
@@ -12596,8 +11274,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9793
         public override void rwBool(ref bool B, int ID)
         {
-            var call__437 = FPropertyTable.PropertyExist(ID);
-            if (!call__437)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 if (B)
                 {
@@ -12613,8 +11290,7 @@ namespace Aow.Units.Engine
         // Engine.pas:9803
         public bool HandleException(Exception E)
         {
-            bool Result = default;
-            bool Continue = default;
+            bool Continue;
             if (!FErrorHandled)
             {
                 Continue = true;
@@ -12636,19 +11312,17 @@ namespace Aow.Units.Engine
                 }
             }
 
-            Result = !FErrorHandled;
-            return Result;
+            return !FErrorHandled;
         }
 
         // Engine.pas:9820
         public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
         {
-            TEBufferStream Outer = default;
-            int Start = default;
-            int AClassID = default;
-            TEObject O = default;
-            var call__438 = FPropertyTable.PropertyExist(ID);
-            if (!call__438)
+            TEBufferStream Outer;
+            int Start;
+            int AClassID;
+            TEObject O;
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 Start = FBuffer.Position;
                 O = Obj;
@@ -12664,8 +11338,7 @@ namespace Aow.Units.Engine
                 if (AClassID != 0)
                 {
                     Outer = FBuffer;
-                    var call__439 = new TEBufferStream();
-                    FBuffer = call__439;
+                    FBuffer = new TEBufferStream();
                     FPropertyTable.BackupSettings();
                     try
                     {
@@ -12678,9 +11351,9 @@ namespace Aow.Units.Engine
                         FBuffer = Outer;
                         FPropertyTable.Add(ID, Start);
                     }
-                    catch (System.Exception caught__440)
+                    catch (System.Exception error)
                     {
-                        var E = Wrap(caught__440);
+                        var E = Wrap(error);
                         FPropertyTable.RestoreSettings();
                         FBuffer.Free();
                         FBuffer = Outer;
@@ -12706,43 +11379,21 @@ namespace Aow.Units.Engine
         // Engine.pas:9866
         public override void rwChildren(TECustomNode Node, int ID)
         {
-            TEBufferStream Outer = default;
-            int Start = default;
+            TEBufferStream Outer;
+            int Start;
             TEObject C = default;
-            int I = default;
-            var call__441 = FPropertyTable.PropertyExist(ID);
-            if (!call__441)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 Start = FBuffer.Position;
                 Outer = FBuffer;
-                var call__442 = new TEBufferStream();
-                FBuffer = call__442;
+                FBuffer = new TEBufferStream();
                 FPropertyTable.BackupSettings();
+                for (int I = 0, last = Node.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__443 = Node.Count - 1;
-                    for (; I <= end__443; I += 1)
+                    C = Node.Children[I];
+                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
                     {
-                        var call__444 = Node.Children[I];
-                        C = call__444;
-                        bool bool__445 = C != null && C.Owner == Node;
-                        if (bool__445)
-                        {
-                            var call__446 = C.GetControlStyle();
-                            bool__445 = !call__446.Contains(Units.Engine.Engine.csShared);
-                        }
-
-                        bool bool__447 = bool__445;
-                        if (bool__447)
-                        {
-                            var call__448 = C.GetControlStyle();
-                            bool__447 = call__448.Contains(Units.Engine.Engine.csStored);
-                        }
-
-                        if (bool__447)
-                        {
-                            rwCreateEObject(ref C, Node, I);
-                        }
+                        rwCreateEObject(ref C, Node, I);
                     }
                 }
 
@@ -12762,15 +11413,13 @@ namespace Aow.Units.Engine
         // Engine.pas:9897
         public override void rwEObject(TEObject Obj, int ID)
         {
-            TEBufferStream Outer = default;
-            int Start = default;
-            var call__449 = FPropertyTable.PropertyExist(ID);
-            if (!call__449)
+            TEBufferStream Outer;
+            int Start;
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 Start = FBuffer.Position;
                 Outer = FBuffer;
-                var call__450 = new TEBufferStream();
-                FBuffer = call__450;
+                FBuffer = new TEBufferStream();
                 FPropertyTable.BackupSettings();
                 try
                 {
@@ -12782,9 +11431,9 @@ namespace Aow.Units.Engine
                     FBuffer = Outer;
                     FPropertyTable.Add(ID, Start);
                 }
-                catch (System.Exception caught__451)
+                catch (System.Exception error)
                 {
-                    var E = Wrap(caught__451);
+                    var E = Wrap(error);
                     FPropertyTable.RestoreSettings();
                     FBuffer.Free();
                     FBuffer = Outer;
@@ -12804,13 +11453,12 @@ namespace Aow.Units.Engine
         // Engine.pas:9931
         public override void rwEObjectStream(TEObject Obj, int ID)
         {
-            TEBufferStream Outer = default;
-            int Start = default;
+            TEBufferStream Outer;
+            int Start;
             int Len = default;
             Start = FBuffer.Position;
             Outer = FBuffer;
-            var call__452 = new TEBufferStream();
-            FBuffer = call__452;
+            FBuffer = new TEBufferStream();
             FPropertyTable.BackupSettings();
             try
             {
@@ -12826,9 +11474,9 @@ namespace Aow.Units.Engine
                 FBuffer.Free();
                 FBuffer = Outer;
             }
-            catch (System.Exception caught__453)
+            catch (System.Exception error)
             {
-                var E = Wrap(caught__453);
+                var E = Wrap(error);
                 FBuffer.Free();
                 FBuffer = Outer;
                 FPropertyTable.RestoreSettings();
@@ -12863,10 +11511,9 @@ namespace Aow.Units.Engine
         // Engine.pas:10505
         public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
         {
-            int AClassID = default;
-            TEObject O = default;
-            var call__455 = FPropertyTable.PropertyExist(ID);
-            if (!call__455)
+            int AClassID;
+            TEObject O;
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 O = Obj;
                 if (O != null)
@@ -12890,9 +11537,9 @@ namespace Aow.Units.Engine
                         FPropertyTable.RestoreSettings();
                         FPropertyTable.Add(ID, FBuffer.Position);
                     }
-                    catch (System.Exception caught__456)
+                    catch (System.Exception error)
                     {
-                        var E = Wrap(caught__456);
+                        var E = Wrap(error);
                         FPropertyTable.RestoreSettings();
                         if (!HandleException(E))
                         {
@@ -12916,36 +11563,15 @@ namespace Aow.Units.Engine
         public override void rwChildren(TECustomNode Node, int ID)
         {
             TEObject C = default;
-            int I = default;
-            var call__457 = FPropertyTable.PropertyExist(ID);
-            if (!call__457)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 FPropertyTable.BackupSettings();
+                for (int I = 0, last = Node.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__458 = Node.Count - 1;
-                    for (; I <= end__458; I += 1)
+                    C = Node.Children[I];
+                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
                     {
-                        var call__459 = Node.Children[I];
-                        C = call__459;
-                        bool bool__460 = C != null && C.Owner == Node;
-                        if (bool__460)
-                        {
-                            var call__461 = C.GetControlStyle();
-                            bool__460 = !call__461.Contains(Units.Engine.Engine.csShared);
-                        }
-
-                        bool bool__462 = bool__460;
-                        if (bool__462)
-                        {
-                            var call__463 = C.GetControlStyle();
-                            bool__462 = call__463.Contains(Units.Engine.Engine.csStored);
-                        }
-
-                        if (bool__462)
-                        {
-                            rwCreateEObject(ref C, Node, I);
-                        }
+                        rwCreateEObject(ref C, Node, I);
                     }
                 }
 
@@ -12962,8 +11588,7 @@ namespace Aow.Units.Engine
         // Engine.pas:10565
         public override void rwEObject(TEObject Obj, int ID)
         {
-            var call__464 = FPropertyTable.PropertyExist(ID);
-            if (!call__464)
+            if (!FPropertyTable.PropertyExist(ID))
             {
                 FPropertyTable.BackupSettings();
                 try
@@ -12973,9 +11598,9 @@ namespace Aow.Units.Engine
                     FPropertyTable.RestoreSettings();
                     FPropertyTable.Add(ID, FBuffer.Position);
                 }
-                catch (System.Exception caught__465)
+                catch (System.Exception error)
                 {
-                    var E = Wrap(caught__465);
+                    var E = Wrap(error);
                     FPropertyTable.RestoreSettings();
                     if (!HandleException(E))
                     {
@@ -13002,9 +11627,9 @@ namespace Aow.Units.Engine
                 FBuffer.Write(Bytes.Of(ref Size, 4));
                 FPropertyTable.RestoreSettings();
             }
-            catch (System.Exception caught__466)
+            catch (System.Exception error)
             {
-                var E = Wrap(caught__466);
+                var E = Wrap(error);
                 FPropertyTable.RestoreSettings();
                 Size = 0;
                 FBuffer.Write(Bytes.Of(ref Size, 4));
@@ -13023,8 +11648,7 @@ namespace Aow.Units.Engine
         // Engine.pas:10825
         public TTranslateStorageStream(TEngine AEngine) : base(null, AEngine)
         {
-            var call__467 = new TPropertyTable();
-            FPropertyTable = call__467;
+            FPropertyTable = new TPropertyTable();
         }
 
         // Engine.pas:10831
@@ -13035,12 +11659,7 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10837
-        public override TSet<TStorageModeElement> StorageMode()
-        {
-            TSet<TStorageModeElement> Result = default;
-            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smText, TStorageModeElement.smTranslate);
-            return Result;
-        }
+        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smText, TStorageModeElement.smTranslate);
 
         // Engine.pas:10842
         public override void rwString(ref AnsiString S, int ID)
@@ -13063,7 +11682,7 @@ namespace Aow.Units.Engine
         // Engine.pas:10857
         public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
         {
-            TEObject O = default;
+            TEObject O;
             O = Obj;
             if (O != null)
             {
@@ -13087,8 +11706,8 @@ namespace Aow.Units.Engine
                 // { the original leaves Continue uninitialized here }
                 if (FOnError != null)
                 {
-                    var call__468 = Obj.EClass.ClassID;
-                    FOnError(this, (AnsiString)"Error reading object (cid:" + IntToStr(call__468) + AnsiString.FromBytes(41), ref Continue);
+                    var classID = Obj.EClass.ClassID;
+                    FOnError(this, (AnsiString)"Error reading object (cid:" + IntToStr(classID) + AnsiString.FromBytes(41), ref Continue);
                 }
 
                 if (!Continue)
@@ -13107,33 +11726,13 @@ namespace Aow.Units.Engine
         // Engine.pas:10887
         public override void rwChildren(TECustomNode Node, int ID)
         {
-            int I = default;
-            TEObject C = default;
+            TEObject C;
+            for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__469 = Node.Count - 1;
-                for (; I <= end__469; I += 1)
+                C = Node.Children[I];
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
                 {
-                    var call__470 = Node.Children[I];
-                    C = call__470;
-                    bool bool__471 = C != null && C.Owner == Node;
-                    if (bool__471)
-                    {
-                        var call__472 = C.GetControlStyle();
-                        bool__471 = !call__472.Contains(Units.Engine.Engine.csShared);
-                    }
-
-                    bool bool__473 = bool__471;
-                    if (bool__473)
-                    {
-                        var call__474 = C.GetControlStyle();
-                        bool__473 = call__474.Contains(Units.Engine.Engine.csStored);
-                    }
-
-                    if (bool__473)
-                    {
-                        rwEObject(C, I);
-                    }
+                    rwEObject(C, I);
                 }
             }
         }
@@ -13157,12 +11756,7 @@ namespace Aow.Units.Engine
         { }
 
         // Engine.pas:10911
-        public override TSet<TStorageModeElement> StorageMode()
-        {
-            TSet<TStorageModeElement> Result = default;
-            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smSetupCompare);
-            return Result;
-        }
+        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smSetupCompare);
     }
 
     // reads a stored copy and calls Mismatch for every property that differs from the object.
@@ -13192,25 +11786,18 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:10928
-        public override TSet<TStorageModeElement> StorageMode()
-        {
-            TSet<TStorageModeElement> Result = default;
-            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smCompare);
-            return Result;
-        }
+        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smCompare);
 
         // Engine.pas:10933
         public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
         {
-            int Offset = default;
-            int SavedBase = default;
+            int Offset;
+            int SavedBase;
             int AClassID = default;
-            var call__475 = FPropertyTable.FindOffset(ID);
-            Offset = call__475;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1 && Obj != null)
             {
-                var call__476 = FStream.Position;
-                if (call__476 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
@@ -13221,8 +11808,7 @@ namespace Aow.Units.Engine
                     SavedBase = FDataBase;
                     FPropertyTable.BackupSettings();
                     FPropertyTable.LoadFromStream(FStream);
-                    var call__477 = FStream.Position;
-                    FDataBase = call__477;
+                    FDataBase = FStream.Position;
                     // { The original handles read errors by destroying and clearing Obj. }
                     try
                     {
@@ -13230,9 +11816,9 @@ namespace Aow.Units.Engine
                         FPropertyTable.RestoreSettings();
                         FDataBase = SavedBase;
                     }
-                    catch (System.Exception caught__478)
+                    catch (System.Exception error)
                     {
-                        var E = Wrap(caught__478);
+                        var E = Wrap(error);
                         Obj.Free();
                         Obj = null;
                         FPropertyTable.RestoreSettings();
@@ -13249,87 +11835,52 @@ namespace Aow.Units.Engine
         // Engine.pas:10958
         public override void rwChildren(TECustomNode Node, int ID)
         {
-            int SavedBase = default;
-            int I = default;
-            int Start = default;
+            int SavedBase;
+            int Start;
             TEObject C = default;
-            int Offset = default;
-            int Index = default;
-            var call__479 = FPropertyTable.FindOffset(ID);
-            Offset = call__479;
+            int Offset;
+            int Index;
+            Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
                 SavedBase = FDataBase;
                 FPropertyTable.BackupSettings();
-                var call__480 = FStream.Position;
-                if (call__480 != FDataBase + Offset)
+                if (FStream.Position != FDataBase + Offset)
                 {
                     FStream.Position = FDataBase + Offset;
                 }
 
                 FPropertyTable.LoadFromStream(FStream);
-                var call__481 = FStream.Position;
-                FDataBase = call__481;
+                FDataBase = FStream.Position;
                 if (Node.GetControlStyle().Contains(Units.Engine.Engine.csKeepIndex))
                 {
+                    for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                     {
-                        I = FPropertyTable.First;
-                        int end__482 = FPropertyTable.Count - 1;
-                        for (; I <= end__482; I += 1)
+                        Index = FPropertyTable.Items[I].ID;
+                        C = Node.Children[Index];
+                        if (C != null)
                         {
-                            Index = FPropertyTable.Items[I].ID;
-                            var call__483 = Node.Children[Index];
-                            C = call__483;
-                            if (C != null)
-                            {
-                                rwCreateEObject(ref C, Node, Index);
-                            }
+                            rwCreateEObject(ref C, Node, Index);
                         }
                     }
                 }
                 else
                 {
                     Start = 0;
-                    while (true)
+                    while (Start < Node.Count && Node.Children[Start] != null && (Node.Children[Start].GetControlStyle() & TSet<TEControlStyleElement>.Of(Units.Engine.Engine.csShared)) != TSet<TEControlStyleElement>.Of())
                     {
-                        var call__484 = Node.Count;
-                        bool bool__485 = Start < call__484;
-                        if (bool__485)
-                        {
-                            var call__486 = Node.Children[Start];
-                            bool__485 = call__486 != null;
-                        }
-
-                        bool bool__487 = bool__485;
-                        if (bool__487)
-                        {
-                            var call__488 = Node.Children[Start];
-                            var call__489 = call__488.GetControlStyle();
-                            bool__487 = (call__489 & TSet<TEControlStyleElement>.Of(Units.Engine.Engine.csShared)) != TSet<TEControlStyleElement>.Of();
-                        }
-
-                        if (!bool__487)
-                            break;
-                        {
-                            Start += 1;
-                        }
+                        Start += 1;
                     }
 
+                    for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                     {
-                        I = FPropertyTable.First;
-                        int end__490 = FPropertyTable.Count - 1;
-                        for (; I <= end__490; I += 1)
+                        Index = FPropertyTable.Items[I].ID;
+                        if (Index < Node.Count)
                         {
-                            Index = FPropertyTable.Items[I].ID;
-                            var call__491 = Node.Count;
-                            if (Index < call__491)
+                            C = Node.Children[I - FPropertyTable.First + Start];
+                            if (C != null)
                             {
-                                var call__492 = Node.Children[I - FPropertyTable.First + Start];
-                                C = call__492;
-                                if (C != null)
-                                {
-                                    rwCreateEObject(ref C, Node, Index);
-                                }
+                                rwCreateEObject(ref C, Node, Index);
                             }
                         }
                     }
@@ -13362,13 +11913,12 @@ namespace Aow.Units.Engine
         // Engine.pas:11030
         public override void rwStrings(TStrings Strings, int ID)
         {
-            TStringList L = default;
+            TStringList L;
             // { the original never frees L }
             L = new TStringList();
             base.rwStrings(L, ID);
-            var call__493 = Strings.Text;
-            var call__494 = L.Text;
-            if (CompareText(call__494, call__493) != 0)
+            var text = Strings.Text;
+            if (CompareText(L.Text, text) != 0)
             {
                 Mismatch(ID);
             }
@@ -13377,12 +11927,11 @@ namespace Aow.Units.Engine
         // Engine.pas:11040
         public override void rwStringsEx(TStrings Strings, int ID)
         {
-            TStringList L = default;
+            TStringList L;
             L = new TStringList();
             base.rwStrings(L, ID);
-            var call__495 = Strings.Text;
-            var call__496 = L.Text;
-            if (CompareText(call__496, call__495) != 0)
+            var text = Strings.Text;
+            if (CompareText(L.Text, text) != 0)
             {
                 Mismatch(ID);
             }
@@ -13529,9 +12078,8 @@ namespace Aow.Units.Engine
         // { Strings }
         public static AnsiString ReplaceText(AnsiString S, AnsiString Old, AnsiString New)
         {
-            AnsiString Result = default;
-            int P = default;
-            Result = (AnsiString)"";
+            int P;
+            AnsiString Result = (AnsiString)"";
             P = Pos(Old, S);
             while (P != 0)
             {
@@ -13540,22 +12088,20 @@ namespace Aow.Units.Engine
                 P = Pos(Old, S);
             }
 
-            Result = Result + S;
-            return Result;
+            return Result + S;
         }
 
         // Engine.pas:2005
         public static void SortStrings(TStrings Strings, TStringsSortCompare Compare)
         {
             TSortStringsContext Ctx = default;
-            var call__497 = Strings.Count;
-            if (call__497 != 0)
+            if (Strings.Count != 0)
             {
                 Ctx.Strings = Strings;
                 Ctx.Compare = Compare;
                 Ctx.ExchangeProc = null;
-                var call__498 = Strings.Count;
-                QuickSortStrings(ref Ctx, 0, call__498 - 1);
+                var count = Strings.Count;
+                QuickSortStrings(ref Ctx, 0, count - 1);
             }
         }
 
@@ -13563,10 +12109,8 @@ namespace Aow.Units.Engine
         public static void SortStringsEx(TStrings Strings, TStringsSortCompare Compare, ReadOnlySpan<TStrings> LinkedStrings)
         {
             TList Lists = default;
-            int I = default;
             TSortStringsContext Ctx = default;
-            var call__499 = Strings.Count;
-            if (call__499 != 0)
+            if (Strings.Count != 0)
             {
                 Strings.BeginUpdate();
                 Ctx.Strings = Strings;
@@ -13575,14 +12119,10 @@ namespace Aow.Units.Engine
                 if ((uint)(LinkedStrings.Length - 1) >= 0)
                 {
                     Lists = new TList();
+                    for (int I = 0, last = LinkedStrings.Length - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__500 = LinkedStrings.Length - 1;
-                        for (; I <= end__500; I += 1)
-                        {
-                            LinkedStrings[I].BeginUpdate();
-                            Lists.Add(LinkedStrings[I]);
-                        }
+                        LinkedStrings[I].BeginUpdate();
+                        Lists.Add(LinkedStrings[I]);
                     }
 
                     Ctx.ExchangeProc = ExchangeLinkedStrings;
@@ -13593,17 +12133,13 @@ namespace Aow.Units.Engine
                     Lists = null;
                 }
 
-                var call__501 = Strings.Count;
-                QuickSortStrings(ref Ctx, 0, call__501 - 1);
+                var count = Strings.Count;
+                QuickSortStrings(ref Ctx, 0, count - 1);
                 if (Lists != null)
                 {
+                    for (int I = 0, last = LinkedStrings.Length - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__502 = LinkedStrings.Length - 1;
-                        for (; I <= end__502; I += 1)
-                        {
-                            LinkedStrings[I].EndUpdate();
-                        }
+                        LinkedStrings[I].EndUpdate();
                     }
 
                     Lists.Free();
@@ -13640,49 +12176,43 @@ namespace Aow.Units.Engine
         // Engine.pas:2109
         public static int HexToInt(AnsiString S)
         {
-            int Result = default;
-            int I = default;
-            int L = default;
-            int D = default;
-            byte C = default;
-            Result = 0;
+            int L;
+            int D;
+            byte C;
+            int Result = 0;
             L = S.Length;
             if (L > 8)
             {
                 L = 8;
             }
 
+            for (int I = 0; I <= L - 1; I++)
             {
-                I = 0;
-                int end__503 = L - 1;
-                for (; I <= end__503; I += 1)
+                C = S[L - I];
+                if (TSet<byte>.WithBounds(0, 255).WithRange(48, 57).Contains(C))
                 {
-                    C = S[L - I];
-                    if (TSet<byte>.WithBounds(0, 255).WithRange(48, 57).Contains(C))
+                    D = C - 48;
+                }
+                else
+                {
+                    if (TSet<byte>.WithBounds(0, 255).WithRange(65, 70).Contains(C))
                     {
-                        D = C - 48;
+                        D = C - 65 + 10;
                     }
                     else
                     {
-                        if (TSet<byte>.WithBounds(0, 255).WithRange(65, 70).Contains(C))
+                        if (TSet<byte>.WithBounds(0, 255).WithRange(97, 102).Contains(C))
                         {
-                            D = C - 65 + 10;
+                            D = C - 97 + 10;
                         }
                         else
                         {
-                            if (TSet<byte>.WithBounds(0, 255).WithRange(97, 102).Contains(C))
-                            {
-                                D = C - 97 + 10;
-                            }
-                            else
-                            {
-                                D = 0;
-                            }
+                            D = 0;
                         }
                     }
-
-                    Result = Result | (D << (I * 4));
                 }
+
+                Result = Result | (D << (I * 4));
             }
 
             return Result;
@@ -13692,16 +12222,13 @@ namespace Aow.Units.Engine
         // { Plug-in registry }
         public static void RegisterPlugIn(TPlugIn PlugIn)
         {
-            int I = default;
-            bool Found = default;
+            int I;
+            bool Found;
             Found = false;
             I = 0;
             while (!Found && I != PlugIns.Count)
             {
-                var call__504 = PlugIns[I];
-                var call__505 = ((TPlugIn)call__504).Name();
-                var call__506 = PlugIn.Name();
-                Found = call__505 == call__506;
+                Found = ((TPlugIn)PlugIns[I]).Name() == PlugIn.Name();
                 I += 1;
             }
 
@@ -13711,17 +12238,14 @@ namespace Aow.Units.Engine
             }
             else
             {
-                var call__507 = PlugIn.Name();
-                var call__508 = Exception.Create((AnsiString)"PlugIn " + call__507 + (AnsiString)" already registered");
-                throw call__508;
+                throw Exception.Create((AnsiString)"PlugIn " + PlugIn.Name() + (AnsiString)" already registered");
             }
         }
 
         // Engine.pas:9242
         public static void UnregisterPlugIn(TPlugIn PlugIn)
         {
-            var call__509 = PlugIns.IndexOf(PlugIn);
-            if (call__509 != -1)
+            if (PlugIns.IndexOf(PlugIn) != -1)
             {
                 PlugIns.Remove(PlugIn);
             }
@@ -13734,41 +12258,28 @@ namespace Aow.Units.Engine
         // Engine.pas:9337
         public static void InitializePlugIns(TEngine AEngine)
         {
-            int I = default;
+            for (int I = 0, last = PlugIns.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__510 = PlugIns.Count - 1;
-                for (; I <= end__510; I += 1)
-                {
-                    var call__511 = PlugIns[I];
-                    ((TPlugIn)call__511).Initialize(AEngine);
-                }
+                ((TPlugIn)PlugIns[I]).Initialize(AEngine);
             }
         }
 
         // Engine.pas:9344
         public static void FinalizePlugIns(TEngine AEngine)
         {
-            int I = default;
+            for (int I = 0, last = PlugIns.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__512 = PlugIns.Count - 1;
-                for (; I <= end__512; I += 1)
-                {
-                    var call__513 = PlugIns[I];
-                    ((TPlugIn)call__513).Finalize(AEngine);
-                }
+                ((TPlugIn)PlugIns[I]).Finalize(AEngine);
             }
         }
 
         // Engine.pas:9351
         public static TPlugIn GetPlugIn(int Index)
         {
-            TPlugIn Result = default;
+            TPlugIn Result;
             if (PlugIns != null && Index >= 0 && Index < PlugIns.Count)
             {
-                var call__514 = PlugIns[Index];
-                Result = (TPlugIn)call__514;
+                Result = (TPlugIn)PlugIns[Index];
             }
             else
             {
@@ -13781,20 +12292,16 @@ namespace Aow.Units.Engine
         // Engine.pas:9359
         public static TPlugIn FindPlugIn(AnsiString Name)
         {
-            TPlugIn Result = default;
-            int I = default;
-            Result = null;
+            int I;
+            TPlugIn Result = null;
             if (PlugIns != null)
             {
                 I = 0;
                 while (I != PlugIns.Count && Result == null)
                 {
-                    var call__515 = PlugIns[I];
-                    var call__516 = ((TPlugIn)call__515).Name();
-                    if (call__516 == Name)
+                    if (((TPlugIn)PlugIns[I]).Name() == Name)
                     {
-                        var call__517 = PlugIns[I];
-                        Result = (TPlugIn)call__517;
+                        Result = (TPlugIn)PlugIns[I];
                     }
 
                     I += 1;
@@ -13807,13 +12314,12 @@ namespace Aow.Units.Engine
         // Engine.pas:9375
         public static void LoadExternalPlugIns(AnsiString Directory)
         {
-            AnsiString Dir = default;
+            AnsiString Dir;
             void LoadFrom(AnsiString Dir)
             {
                 TSearchRec SR = default;
-                TStringList Dirs = default;
-                int I = default;
-                bool Found = default;
+                TStringList Dirs;
+                bool Found;
                 int H = default;
                 Found = FindFirst(Dir + (AnsiString)"*.DPL", 63 - 16, ref SR) == 0;
                 while (Found)
@@ -13826,8 +12332,7 @@ namespace Aow.Units.Engine
                     }
                     catch (System.Exception)
                     {
-                        var call__518 = Exception.Create((AnsiString)"Unable to load PlugIn: " + Dir + SR.Name);
-                        throw call__518;
+                        throw Exception.Create((AnsiString)"Unable to load PlugIn: " + Dir + SR.Name);
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -13847,14 +12352,9 @@ namespace Aow.Units.Engine
                 }
 
                 FindClose(ref SR);
+                for (int I = 0, last = Dirs.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__520 = Dirs.Count - 1;
-                    for (; I <= end__520; I += 1)
-                    {
-                        var call__521 = Dirs[I];
-                        LoadFrom(call__521);
-                    }
+                    LoadFrom(Dirs[I]);
                 }
 
                 Dirs.Free();
@@ -13873,28 +12373,21 @@ namespace Aow.Units.Engine
         // Engine.pas:9419
         public static void UnloadExternalPlugIns()
         {
-            int I = default;
-            AnsiString S = default;
+            AnsiString S;
+            for (int I = Packages.Count - 1; I >= 0; I--)
             {
-                I = Packages.Count - 1;
-                byte end__522 = 0;
-                for (; I >= end__522; I -= 1)
+                try
                 {
-                    try
-                    {
-                        var call__524 = Packages[I];
-                        S = call__524;
-                        // { the original hands the name, not the handle in Objects, to UnloadPackage }
-                        /* TODO: Implement the native Delphi package loader. */
-                        throw new NotImplementedException();
-                        Packages.Delete(I);
-                    }
-                    catch (System.Exception)
-                    {
-                        var call__523 = Packages[I];
-                        S = (AnsiString)"Could not release PlugIn: " + call__523;
-                        throw Exception.Create(S);
-                    }
+                    S = Packages[I];
+                    // { the original hands the name, not the handle in Objects, to UnloadPackage }
+                    /* TODO: Implement the native Delphi package loader. */
+                    throw new NotImplementedException();
+                    Packages.Delete(I);
+                }
+                catch (System.Exception)
+                {
+                    S = (AnsiString)"Could not release PlugIn: " + Packages[I];
+                    throw Exception.Create(S);
                 }
             }
 
@@ -13935,8 +12428,8 @@ namespace Aow.Units.Engine
         public static int GetFileCRC32(AnsiString FileName)
         {
             int Result = default;
-            TMemoryStream M = default;
-            TFileStream F = default;
+            TMemoryStream M;
+            TFileStream F;
             M = new TMemoryStream();
             try
             {
@@ -13944,9 +12437,8 @@ namespace Aow.Units.Engine
                 try
                 {
                     M.LoadFromStream(F);
-                    var call__525 = M.Size;
-                    var call__526 = GetCRC32(M.Memory, call__525);
-                    Result = call__526;
+                    var size = M.Size;
+                    Result = GetCRC32(M.Memory, size);
                 }
                 finally
                 {
@@ -13970,12 +12462,11 @@ namespace Aow.Units.Engine
         // Engine.pas:9458
         public static TEngine GetEngine(int Index)
         {
-            TEngine Result = default;
-            object P = default;
+            TEngine Result;
+            object P;
             if (Engines != null && Index >= 0 && Index < Engines.Count)
             {
-                var call__527 = Engines[Index];
-                P = call__527;
+                P = Engines[Index];
                 Result = (TEngine)P;
             }
             else
@@ -13989,27 +12480,23 @@ namespace Aow.Units.Engine
         // Engine.pas:9466
         public static TEngine FindEngine(int AClassID)
         {
-            TEngine Result = default;
-            int I = default;
-            bool Found = default;
+            int I;
+            bool Found;
             Found = false;
-            Result = null;
+            TEngine Result = null;
             if (Engines != null)
             {
                 I = 0;
                 Found = false;
                 while (!Found && I < Engines.Count)
                 {
-                    var call__528 = Engines[I];
-                    var call__529 = ((TEngine)call__528).EClass.ClassID;
-                    Found = AClassID == call__529;
+                    Found = AClassID == ((TEngine)Engines[I]).EClass.ClassID;
                     I += 1;
                 }
 
                 if (Found)
                 {
-                    var call__530 = Engines[I - 1];
-                    Result = (TEngine)call__530;
+                    Result = (TEngine)Engines[I - 1];
                 }
             }
 
@@ -14024,7 +12511,7 @@ namespace Aow.Units.Engine
         // Engine.pas:2132
         public static void StringToStream(AnsiString S, TStream Stream)
         {
-            int Len = default;
+            int Len;
             Len = S.Length;
             Stream.Write(Bytes.Of(ref Len, 4));
             Stream.Write(StringBytes(S).Slice(0, Len));
@@ -14047,13 +12534,12 @@ namespace Aow.Units.Engine
         // Engine.pas:2185
         public static void StringsToStream(TStrings Strings, TStream Stream)
         {
-            ReadOnlySpan<byte> P = default;
-            int Len = default;
+            ReadOnlySpan<byte> P;
+            int Len;
             P = StringBytes(Strings.Text);
             Len = CStringLength(P);
             Stream.Write(Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P[..Len]);
-            P = default;
         }
 
         // Engine.pas:2197
@@ -14087,10 +12573,10 @@ namespace Aow.Units.Engine
         // Engine.pas:1570
         public static void SortItems(Span<TSortItem> SortList, int L, int R)
         {
-            int I = default;
-            int J = default;
-            int P = default;
-            TSortItem T = default;
+            int I;
+            int J;
+            int P;
+            TSortItem T;
             do
             {
                 I = L;
@@ -14131,10 +12617,10 @@ namespace Aow.Units.Engine
         // Engine.pas:1602
         public static void InverseSortItems(Span<TSortItem> SortList, int L, int R)
         {
-            int I = default;
-            int J = default;
-            int P = default;
-            TSortItem T = default;
+            int I;
+            int J;
+            int P;
+            TSortItem T;
             do
             {
                 I = L;
@@ -14176,44 +12662,36 @@ namespace Aow.Units.Engine
         // Engine.pas:1977
         public static void QuickSortStrings(ref TSortStringsContext Ctx, int L, int R)
         {
-            int I = default;
-            int J = default;
-            int M = default;
-            TObject PO = default;
-            AnsiString P = default;
+            int I;
+            int J;
+            int M;
+            TObject PO;
+            AnsiString P;
             do
             {
                 I = L;
                 J = R;
                 M = (int)(((uint)(L + R)) >> 1);
-                var call__531 = Ctx.Strings[M];
-                P = call__531;
-                var call__532 = Ctx.Strings.Objects[M];
-                PO = call__532;
+                P = Ctx.Strings[M];
+                PO = Ctx.Strings.Objects[M];
                 do
                 {
                     while (true)
                     {
-                        var call__533 = Ctx.Strings.Objects[I];
-                        var call__534 = Ctx.Strings[I];
-                        var call__535 = Ctx.Compare(call__534, P, call__533, PO);
-                        if (!(call__535 < 0))
+                        var item = Ctx.Strings.Objects[I];
+                        var stringsItem = Ctx.Strings[I];
+                        if (!(Ctx.Compare(stringsItem, P, item, PO) < 0))
                             break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
                     while (true)
                     {
-                        var call__536 = Ctx.Strings.Objects[J];
-                        var call__537 = Ctx.Strings[J];
-                        var call__538 = Ctx.Compare(call__537, P, call__536, PO);
-                        if (!(call__538 > 0))
+                        var item = Ctx.Strings.Objects[J];
+                        var stringsItem = Ctx.Strings[J];
+                        if (!(Ctx.Compare(stringsItem, P, item, PO) > 0))
                             break;
-                        {
-                            J -= 1;
-                        }
+                        J -= 1;
                     }
 
                     if (I <= J)
@@ -14242,22 +12720,16 @@ namespace Aow.Units.Engine
         // Engine.pas:2018
         public static void ExchangeLinkedStrings(TList Lists, int I, int J)
         {
-            int K = default;
+            for (int K = Lists.Count - 1; K >= 0; K--)
             {
-                K = Lists.Count - 1;
-                byte end__539 = 0;
-                for (; K >= end__539; K -= 1)
-                {
-                    ((TStrings)Lists.List[K]).Exchange(I, J);
-                }
+                ((TStrings)Lists.List[K]).Exchange(I, J);
             }
         }
 
         // Engine.pas:2059
         public static int CompareAscending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
         {
-            int Result = default;
-            Result = CompareText(S1, S2);
+            int Result = CompareText(S1, S2);
             if (Result == 0)
             {
                 Result = S1.Length - S2.Length;
@@ -14269,8 +12741,7 @@ namespace Aow.Units.Engine
         // Engine.pas:2070
         public static int CompareDescending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
         {
-            int Result = default;
-            Result = CompareText(S2, S1);
+            int Result = CompareText(S2, S1);
             if (Result == 0)
             {
                 Result = S2.Length - S1.Length;
@@ -14282,31 +12753,27 @@ namespace Aow.Units.Engine
         // Engine.pas:2081
         public static int CompareNumericalAscending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
         {
-            int Result = default;
-            int V1 = default;
-            int V2 = default;
+            int V1;
+            int V2;
             V1 = StrToIntDef(S1, -1);
             V2 = StrToIntDef(S2, -1);
-            Result = V1 - V2;
-            return Result;
+            return V1 - V2;
         }
 
         // Engine.pas:2095
         public static int CompareNumericalDescending(AnsiString S1, AnsiString S2, TObject O1, TObject O2)
         {
-            int Result = default;
-            int V1 = default;
-            int V2 = default;
+            int V1;
+            int V2;
             V1 = StrToIntDef(S1, -1);
             V2 = StrToIntDef(S2, -1);
-            Result = V2 - V1;
-            return Result;
+            return V2 - V1;
         }
 
         // Engine.pas:2150
         public static void SaveStringToStream(AnsiString S, TStream Stream)
         {
-            int Len = default;
+            int Len;
             byte B = default;
             Len = S.Length;
             if (Len < 255)
@@ -14352,24 +12819,17 @@ namespace Aow.Units.Engine
         // Engine.pas:2213
         public static void StringsToStreamEx(TStrings Strings, TStream Stream)
         {
-            ReadOnlySpan<byte> P = default;
-            int Len = default;
-            int I = default;
+            ReadOnlySpan<byte> P;
+            int Len;
             int Obj = default;
             P = StringBytes(Strings.Text);
             Len = CStringLength(P);
             Stream.Write(Bytes.Of(ref Len, 4));
             Stream.WriteBuffer(P[..Len]);
-            P = default;
+            for (int I = 0, last = Strings.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__540 = Strings.Count - 1;
-                for (; I <= end__540; I += 1)
-                {
-                    var call__541 = Strings.Objects[I];
-                    Obj = ObjectToInt(call__541);
-                    Stream.Write(Bytes.Of(ref Obj, 4));
-                }
+                Obj = ObjectToInt(Strings.Objects[I]);
+                Stream.Write(Bytes.Of(ref Obj, 4));
             }
         }
 
@@ -14377,7 +12837,6 @@ namespace Aow.Units.Engine
         public static void StringsFromStreamEx(TStrings Strings, TStream Stream)
         {
             int Len = default;
-            int I = default;
             int Obj = default;
             Strings.BeginUpdate();
             try
@@ -14387,14 +12846,10 @@ namespace Aow.Units.Engine
                 byte[] buffer = new byte[Len];
                 Stream.Read(buffer);
                 Strings.Text = AnsiString.FromBytes(buffer);
+                for (int I = 0, last = Strings.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__542 = Strings.Count - 1;
-                    for (; I <= end__542; I += 1)
-                    {
-                        Stream.Read(Bytes.Of(ref Obj, 4));
-                        Strings.Objects[I] = IntToObject(Obj);
-                    }
+                    Stream.Read(Bytes.Of(ref Obj, 4));
+                    Strings.Objects[I] = IntToObject(Obj);
                 }
             }
             finally
@@ -14408,37 +12863,27 @@ namespace Aow.Units.Engine
         // Engine.pas:3061
         public static void BuildCRC32Table()
         {
-            int I = default;
-            int J = default;
-            int C = default;
-            int Polynomial = default;
+            int C;
+            int Polynomial;
             if (CRC32Table.Length == 0)
             {
                 CRC32Table = new int[256];
                 Polynomial = -306674912;
+                for (int I = 0; I <= 255; I++)
                 {
-                    I = 0;
-                    byte end__543 = 255;
-                    for (; I <= end__543; I += 1)
+                    C = I;
+                    for (int J = 7; J >= 0; J--)
                     {
-                        C = I;
+                        if ((C & 1) != 0)
                         {
-                            J = 7;
-                            byte end__544 = 0;
-                            for (; J >= end__544; J -= 1)
-                            {
-                                if ((C & 1) != 0)
-                                {
-                                    C = ((int)(((uint)C) >> 1)) ^ Polynomial;
-                                }
-                                else
-                                {
-                                    C = (int)(((uint)C) >> 1);
-                                }
-
-                                CRC32Table[I] = C;
-                            }
+                            C = ((int)(((uint)C) >> 1)) ^ Polynomial;
                         }
+                        else
+                        {
+                            C = (int)(((uint)C) >> 1);
+                        }
+
+                        CRC32Table[I] = C;
                     }
                 }
             }
@@ -14447,9 +12892,9 @@ namespace Aow.Units.Engine
         // Engine.pas:3438
         public static void QuickSortInteger(Span<int> SortList, int L, int R, TIntegerSortCompare SCompare)
         {
-            int I = default;
-            int J = default;
-            int P = default;
+            int I;
+            int J;
+            int P;
             int T = default;
             do
             {
@@ -14458,24 +12903,14 @@ namespace Aow.Units.Engine
                 P = SortList[(int)(((uint)(L + R)) >> 1)];
                 do
                 {
-                    while (true)
+                    while (SCompare(SortList[I], P) < 0)
                     {
-                        var call__545 = SCompare(SortList[I], P);
-                        if (!(call__545 < 0))
-                            break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
-                    while (true)
+                    while (SCompare(SortList[J], P) > 0)
                     {
-                        var call__546 = SCompare(SortList[J], P);
-                        if (!(call__546 > 0))
-                            break;
-                        {
-                            J -= 1;
-                        }
+                        J -= 1;
                     }
 
                     if (I <= J)
@@ -14501,9 +12936,9 @@ namespace Aow.Units.Engine
         // Engine.pas:3773
         public static void QuickSortByte(Span<byte> SortList, int L, int R, TByteSortCompare SCompare)
         {
-            int I = default;
-            int J = default;
-            byte P = default;
+            int I;
+            int J;
+            byte P;
             byte T = default;
             do
             {
@@ -14512,24 +12947,14 @@ namespace Aow.Units.Engine
                 P = SortList[(int)(((uint)(L + R)) >> 1)];
                 do
                 {
-                    while (true)
+                    while (SCompare(SortList[I], P) < 0)
                     {
-                        var call__547 = SCompare(SortList[I], P);
-                        if (!(call__547 < 0))
-                            break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
-                    while (true)
+                    while (SCompare(SortList[J], P) > 0)
                     {
-                        var call__548 = SCompare(SortList[J], P);
-                        if (!(call__548 > 0))
-                            break;
-                        {
-                            J -= 1;
-                        }
+                        J -= 1;
                     }
 
                     if (I <= J)
@@ -14555,9 +12980,9 @@ namespace Aow.Units.Engine
         // Engine.pas:4120
         public static void QuickSortShortInt(Span<sbyte> SortList, int L, int R, TShortIntSortCompare SCompare)
         {
-            int I = default;
-            int J = default;
-            sbyte P = default;
+            int I;
+            int J;
+            sbyte P;
             sbyte T = default;
             do
             {
@@ -14566,24 +12991,14 @@ namespace Aow.Units.Engine
                 P = SortList[(int)(((uint)(L + R)) >> 1)];
                 do
                 {
-                    while (true)
+                    while (SCompare(SortList[I], P) < 0)
                     {
-                        var call__549 = SCompare(SortList[I], P);
-                        if (!(call__549 < 0))
-                            break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
-                    while (true)
+                    while (SCompare(SortList[J], P) > 0)
                     {
-                        var call__550 = SCompare(SortList[J], P);
-                        if (!(call__550 > 0))
-                            break;
-                        {
-                            J -= 1;
-                        }
+                        J -= 1;
                     }
 
                     if (I <= J)
@@ -14609,9 +13024,9 @@ namespace Aow.Units.Engine
         // Engine.pas:4431
         public static void QuickSortWord(Span<ushort> SortList, int L, int R, TWordSortCompare SCompare)
         {
-            int I = default;
-            int J = default;
-            ushort P = default;
+            int I;
+            int J;
+            ushort P;
             ushort T = default;
             do
             {
@@ -14620,24 +13035,14 @@ namespace Aow.Units.Engine
                 P = SortList[(int)(((uint)(L + R)) >> 1)];
                 do
                 {
-                    while (true)
+                    while (SCompare(SortList[I], P) < 0)
                     {
-                        var call__551 = SCompare(SortList[I], P);
-                        if (!(call__551 < 0))
-                            break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
-                    while (true)
+                    while (SCompare(SortList[J], P) > 0)
                     {
-                        var call__552 = SCompare(SortList[J], P);
-                        if (!(call__552 > 0))
-                            break;
-                        {
-                            J -= 1;
-                        }
+                        J -= 1;
                     }
 
                     if (I <= J)
@@ -14663,9 +13068,9 @@ namespace Aow.Units.Engine
         // Engine.pas:5254
         public static void QuickSortDoubleItem(Span<TDoubleItem> SortList, int L, int R, TDoubleItemSortCompare SCompare)
         {
-            int I = default;
-            int J = default;
-            TDoubleItem P = default;
+            int I;
+            int J;
+            TDoubleItem P;
             TDoubleItem T = default;
             do
             {
@@ -14674,24 +13079,14 @@ namespace Aow.Units.Engine
                 P = SortList[(int)(((uint)(L + R)) >> 1)];
                 do
                 {
-                    while (true)
+                    while (SCompare(SortList[I], P) < 0)
                     {
-                        var call__553 = SCompare(SortList[I], P);
-                        if (!(call__553 < 0))
-                            break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
-                    while (true)
+                    while (SCompare(SortList[J], P) > 0)
                     {
-                        var call__554 = SCompare(SortList[J], P);
-                        if (!(call__554 > 0))
-                            break;
-                        {
-                            J -= 1;
-                        }
+                        J -= 1;
                     }
 
                     if (I <= J)
@@ -14715,43 +13110,23 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5287
-        public static int CompareDoubleItemAAscending(in TDoubleItem Item1, in TDoubleItem Item2)
-        {
-            int Result = default;
-            Result = Item1.A - Item2.A;
-            return Result;
-        }
+        public static int CompareDoubleItemAAscending(in TDoubleItem Item1, in TDoubleItem Item2) => Item1.A - Item2.A;
 
         // Engine.pas:5292
-        public static int CompareDoubleItemBAscending(in TDoubleItem Item1, in TDoubleItem Item2)
-        {
-            int Result = default;
-            Result = Item1.B - Item2.B;
-            return Result;
-        }
+        public static int CompareDoubleItemBAscending(in TDoubleItem Item1, in TDoubleItem Item2) => Item1.B - Item2.B;
 
         // Engine.pas:5297
-        public static int CompareDoubleItemADescending(in TDoubleItem Item1, in TDoubleItem Item2)
-        {
-            int Result = default;
-            Result = Item2.A - Item1.A;
-            return Result;
-        }
+        public static int CompareDoubleItemADescending(in TDoubleItem Item1, in TDoubleItem Item2) => Item2.A - Item1.A;
 
         // Engine.pas:5302
-        public static int CompareDoubleItemBDescending(in TDoubleItem Item1, in TDoubleItem Item2)
-        {
-            int Result = default;
-            Result = Item2.B - Item1.B;
-            return Result;
-        }
+        public static int CompareDoubleItemBDescending(in TDoubleItem Item1, in TDoubleItem Item2) => Item2.B - Item1.B;
 
         // Engine.pas:5664
         public static void QuickSortQuadItem(Span<TQuadInteger> SortList, int L, int R, TQuadItemSortCompare SCompare)
         {
-            int I = default;
-            int J = default;
-            TQuadInteger P = default;
+            int I;
+            int J;
+            TQuadInteger P;
             TQuadInteger T = default;
             do
             {
@@ -14760,24 +13135,14 @@ namespace Aow.Units.Engine
                 P = SortList[(int)(((uint)(L + R)) >> 1)];
                 do
                 {
-                    while (true)
+                    while (SCompare(SortList[I], P) < 0)
                     {
-                        var call__555 = SCompare(SortList[I], P);
-                        if (!(call__555 < 0))
-                            break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
-                    while (true)
+                    while (SCompare(SortList[J], P) > 0)
                     {
-                        var call__556 = SCompare(SortList[J], P);
-                        if (!(call__556 > 0))
-                            break;
-                        {
-                            J -= 1;
-                        }
+                        J -= 1;
                     }
 
                     if (I <= J)
@@ -14801,75 +13166,35 @@ namespace Aow.Units.Engine
         }
 
         // Engine.pas:5697
-        public static int CompareQuadItemAAscending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item1.A - Item2.A;
-            return Result;
-        }
+        public static int CompareQuadItemAAscending(in TQuadInteger Item1, in TQuadInteger Item2) => Item1.A - Item2.A;
 
         // Engine.pas:5702
-        public static int CompareQuadItemBAscending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item1.B - Item2.B;
-            return Result;
-        }
+        public static int CompareQuadItemBAscending(in TQuadInteger Item1, in TQuadInteger Item2) => Item1.B - Item2.B;
 
         // Engine.pas:5707
-        public static int CompareQuadItemCAscending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item1.C - Item2.C;
-            return Result;
-        }
+        public static int CompareQuadItemCAscending(in TQuadInteger Item1, in TQuadInteger Item2) => Item1.C - Item2.C;
 
         // Engine.pas:5712
-        public static int CompareQuadItemDAscending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item1.D - Item2.D;
-            return Result;
-        }
+        public static int CompareQuadItemDAscending(in TQuadInteger Item1, in TQuadInteger Item2) => Item1.D - Item2.D;
 
         // Engine.pas:5717
-        public static int CompareQuadItemADescending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item2.A - Item1.A;
-            return Result;
-        }
+        public static int CompareQuadItemADescending(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.A - Item1.A;
 
         // Engine.pas:5722
-        public static int CompareQuadItemBDescending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item2.B - Item1.B;
-            return Result;
-        }
+        public static int CompareQuadItemBDescending(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.B - Item1.B;
 
         // Engine.pas:5727
-        public static int CompareQuadItemCDescending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item2.C - Item1.C;
-            return Result;
-        }
+        public static int CompareQuadItemCDescending(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.C - Item1.C;
 
         // Engine.pas:5732
-        public static int CompareQuadItemDDescending(in TQuadInteger Item1, in TQuadInteger Item2)
-        {
-            int Result = default;
-            Result = Item2.D - Item1.D;
-            return Result;
-        }
+        public static int CompareQuadItemDDescending(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.D - Item1.D;
 
         // Engine.pas:10675
         // { "[id]=" at the start of a text line, or -1 }
         public static int GetLineID(AnsiString S)
         {
-            int Result = default;
-            int I = default;
+            int Result;
+            int I;
             I = 1;
             while (TSet<byte>.WithBounds(0, 255).With(91).WithRange(48, 57).Contains(S[I]))
             {
@@ -14892,30 +13217,24 @@ namespace Aow.Units.Engine
         // { the text behind "[id]=" }
         public static AnsiString GetLineValue(AnsiString S)
         {
-            AnsiString Result = default;
-            int I = default;
+            int I;
             I = 1;
             while (TSet<byte>.WithBounds(0, 255).With(91).With(93).WithRange(48, 57).Contains(S[I]))
             {
                 I += 1;
             }
 
-            Result = Copy(S, I + 1, S.Length - I);
-            return Result;
+            return Copy(S, I + 1, S.Length - I);
         }
 
         public static void Initialize()
         {
             CRC32Table = [];
             VerifyEObjectEnabled = true;
-            var call__557 = new TList();
-            Engines = call__557;
-            var call__558 = new TList();
-            PlugIns = call__558;
-            var call__559 = new TStringList();
-            Packages = call__559;
-            var call__560 = RegisterClipboardFormat((AnsiString)"ECLIPBOARD FORMAT");
-            ClipboardFormat = call__560;
+            Engines = new TList();
+            PlugIns = new TList();
+            Packages = new TStringList();
+            ClipboardFormat = RegisterClipboardFormat((AnsiString)"ECLIPBOARD FORMAT");
             RegisterClass(typeof(TECopyComponent));
         }
 

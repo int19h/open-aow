@@ -40,11 +40,9 @@ public sealed class LibraryImageClass
     public int GrabImages(in TSurfaceDesc SD, TGrabInfo GrabInfo, TCustomImageLibrary ImageLibrary, TGrabProgressEvent OnProgress)
     {
         int Result = default;
-        LibraryImageClass ImageClass = default;
+        LibraryImageClass ImageClass;
         TLibraryImage Image = default;
-        AnsiString Msg = default;
         TRectangleList Rects = default;
-        int I = default;
         void Progress(int Percent, AnsiString Msg)
         {
             if (OnProgress != null)
@@ -54,50 +52,40 @@ public sealed class LibraryImageClass
         }
 
         Progress(10, (AnsiString)"Analyzing Image..");
-        var call__9 = ClassID;
-        var call__10 = ImageLib.FindLibraryImageClass(call__9);
-        ImageClass = call__10;
+        ImageClass = ImageLib.FindLibraryImageClass(ClassID);
         if (GrabInfo.FindRectangles)
         {
-            var call__11 = GFXE.GFXE.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
-            Rects = call__11;
+            Rects = GFXE.GFXE.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
         }
         else
         {
             Rects = new TRectangleList();
-            var call__12 = new TRectangle(0, 0, SD.Width, SD.Height);
-            Rects.Add(call__12);
+            Rects.Add(new TRectangle(0, 0, SD.Width, SD.Height));
         }
 
         if (Rects != null && ImageClass != null)
         {
+            for (int I = 0, last = Rects.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__13 = Rects.Count - 1;
-                for (; I <= end__13; I += 1)
+                if (Rects.Count > 1)
                 {
-                    Msg = (AnsiString)"Grabbing Image";
-                    if (Rects.Count > 1)
-                    {
-                        Progress(Rtl.Rtl.Round((double)(I * 90) / (Rects.Count - 1)) + 10, (AnsiString)"Grabbing Image " + Rtl.Rtl.IntToStr(I + 1));
-                    }
-                    else
-                    {
-                        Progress(100, (AnsiString)"Grabbing Image");
-                    }
+                    Progress(Rtl.Rtl.Round((double)(I * 90) / (Rects.Count - 1)) + 10, (AnsiString)"Grabbing Image " + Rtl.Rtl.IntToStr(I + 1));
+                }
+                else
+                {
+                    Progress(100, (AnsiString)"Grabbing Image");
+                }
 
-                    Image = ImageClass.Create(null);
-                    GrabInfo.FileIndex = I;
-                    var call__14 = Rects.Rectangles[I];
-                    var call__15 = Image.GrabImage(SD, call__14.Rect, GrabInfo);
-                    if (call__15)
-                    {
-                        ImageLibrary.Add(Image);
-                    }
-                    else
-                    {
-                        Image.Free();
-                    }
+                Image = ImageClass.Create(null);
+                GrabInfo.FileIndex = I;
+                var item = Rects.Rectangles[I];
+                if (Image.GrabImage(SD, item.Rect, GrabInfo))
+                {
+                    ImageLibrary.Add(Image);
+                }
+                else
+                {
+                    Image.Free();
                 }
             }
 

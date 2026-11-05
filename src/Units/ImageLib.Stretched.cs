@@ -7,26 +7,25 @@ public partial class TPicture16
 {
     public override void ShowOpaqueStretched(in TRect R, in GFXE.TSurfaceDesc SD)
     {
-        Ptr<int> RowTable = default;
-        Ptr<int> ColTable = default;
-        int W = default;
-        object Dst = default;
-        int XPos = default;
-        int YPos = default;
-        int XStep = default;
-        int YStep = default;
-        int SX = default;
-        int SY = default;
-        float XScale = default;
-        float YScale = default;
-        int H = default;
-        int L = default;
-        int T = default;
-        int Rt = default;
-        int B = default;
-        int I = default;
-        int C = default;
-        int D = default;
+        Ptr<int> RowTable;
+        Ptr<int> ColTable;
+        int W;
+        object Dst;
+        int XPos;
+        int YPos;
+        int XStep;
+        int YStep;
+        int SX;
+        int SY;
+        float XScale;
+        float YScale;
+        int H;
+        int L;
+        int T;
+        int Rt;
+        int B;
+        int C;
+        int D;
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         if (W > 0 && H > 0)
@@ -86,20 +85,16 @@ public partial class TPicture16
                     XPos = 0;
                 }
 
+                for (int I = 0; I <= W - 1; I++)
                 {
-                    I = 0;
-                    int end__122 = W - 1;
-                    for (; I <= end__122; I += 1)
+                    C = (int)(((uint)XPos) >> 16);
+                    if (C >= FDataWidth)
                     {
-                        C = (int)(((uint)XPos) >> 16);
-                        if (C >= FDataWidth)
-                        {
-                            C = FDataWidth - 1;
-                        }
-
-                        ColTable[I] = C;
-                        XPos += XStep;
+                        C = FDataWidth - 1;
                     }
+
+                    ColTable[I] = C;
+                    XPos += XStep;
                 }
 
                 YStep = Rtl.Rtl.Round((double)65535 / YScale);
@@ -115,20 +110,16 @@ public partial class TPicture16
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
+                    for (int I = 0; I <= H - 1; I++)
                     {
-                        I = 0;
-                        int end__123 = H - 1;
-                        for (; I <= end__123; I += 1)
+                        C = (int)(((uint)YPos) >> 16);
+                        if (C >= FDataHeight)
                         {
-                            C = (int)(((uint)YPos) >> 16);
-                            if (C >= FDataHeight)
-                            {
-                                C = FDataHeight - 1;
-                            }
-
-                            RowTable[I] = C * FPitch;
-                            YPos += YStep;
+                            C = FDataHeight - 1;
                         }
+
+                        RowTable[I] = C * FPitch;
+                        YPos += YStep;
                     }
 
                     if (SD.PixelFormatID == FPixelFormatID)
@@ -137,8 +128,7 @@ public partial class TPicture16
                     }
                     else
                     {
-                        var call__124 = RemapToPixelFormat(SD.PixelFormatID);
-                        if (call__124 != 0)
+                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
                             throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                         }
@@ -153,20 +143,16 @@ public partial class TPicture16
                 }
                 else
                 {
+                    for (int I = 0; I <= H - 1; I++)
                     {
-                        I = 0;
-                        int end__125 = H - 1;
-                        for (; I <= end__125; I += 1)
+                        C = (int)(((uint)YPos) >> 16);
+                        if (C >= FDataHeight)
                         {
-                            C = (int)(((uint)YPos) >> 16);
-                            if (C >= FDataHeight)
-                            {
-                                C = FDataHeight - 1;
-                            }
-
-                            RowTable[I] = C * FPitch;
-                            YPos += YStep;
+                            C = FDataHeight - 1;
                         }
+
+                        RowTable[I] = C * FPitch;
+                        YPos += YStep;
                     }
 
                     if (SD.PixelFormatID == FPixelFormatID)
@@ -175,8 +161,7 @@ public partial class TPicture16
                     }
                     else
                     {
-                        var call__126 = RemapToPixelFormat(SD.PixelFormatID);
-                        if (call__126 != 0)
+                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
                             throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                         }
@@ -184,33 +169,30 @@ public partial class TPicture16
                         GFXE.GFXE.BltStretched16(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
                     }
                 }
-
-                RowTable = default;
             }
         }
     }
     public override void ShowBlendedStretched(in TRect R, in GFXE.TSurfaceDesc SD, TBlendTable Table)
     {
-        Ptr<int> RowTable = default;
-        Ptr<int> ColTable = default;
-        int W = default;
-        int H = default;
-        int Rt = default;
-        object Dst = default;
-        int XPos = default;
-        int YPos = default;
-        int XStep = default;
-        int YStep = default;
-        int SX = default;
-        int SY = default;
-        float XScale = default;
-        float YScale = default;
-        int L = default;
-        int T = default;
-        int B = default;
-        int I = default;
-        int C = default;
-        int D = default;
+        Ptr<int> RowTable;
+        Ptr<int> ColTable;
+        int W;
+        int H;
+        int Rt;
+        object Dst;
+        int XPos;
+        int YPos;
+        int XStep;
+        int YStep;
+        int SX;
+        int SY;
+        float XScale;
+        float YScale;
+        int L;
+        int T;
+        int B;
+        int C;
+        int D;
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         if (W > 0 && H > 0)
@@ -270,20 +252,16 @@ public partial class TPicture16
                     XPos = 0;
                 }
 
+                for (int I = 0; I <= W - 1; I++)
                 {
-                    I = 0;
-                    int end__127 = W - 1;
-                    for (; I <= end__127; I += 1)
+                    C = (int)(((uint)XPos) >> 16);
+                    if (C >= FDataWidth)
                     {
-                        C = (int)(((uint)XPos) >> 16);
-                        if (C >= FDataWidth)
-                        {
-                            C = FDataWidth - 1;
-                        }
-
-                        ColTable[I] = C;
-                        XPos += XStep;
+                        C = FDataWidth - 1;
                     }
+
+                    ColTable[I] = C;
+                    XPos += XStep;
                 }
 
                 YStep = Rtl.Rtl.Round((double)65535 / YScale);
@@ -299,20 +277,16 @@ public partial class TPicture16
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
+                    for (int I = 0; I <= H - 1; I++)
                     {
-                        I = 0;
-                        int end__128 = H - 1;
-                        for (; I <= end__128; I += 1)
+                        C = (int)(((uint)YPos) >> 16);
+                        if (C >= FDataHeight)
                         {
-                            C = (int)(((uint)YPos) >> 16);
-                            if (C >= FDataHeight)
-                            {
-                                C = FDataHeight - 1;
-                            }
-
-                            RowTable[I] = C * FPitch;
-                            YPos += YStep;
+                            C = FDataHeight - 1;
                         }
+
+                        RowTable[I] = C * FPitch;
+                        YPos += YStep;
                     }
 
                     if (SD.PixelFormatID == FPixelFormatID)
@@ -329,8 +303,7 @@ public partial class TPicture16
                     }
                     else
                     {
-                        var call__129 = RemapToPixelFormat(SD.PixelFormatID);
-                        if (call__129 != 0)
+                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
                             throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                         }
@@ -353,20 +326,16 @@ public partial class TPicture16
                 }
                 else
                 {
+                    for (int I = 0; I <= H - 1; I++)
                     {
-                        I = 0;
-                        int end__130 = H - 1;
-                        for (; I <= end__130; I += 1)
+                        C = (int)(((uint)YPos) >> 16);
+                        if (C >= FDataHeight)
                         {
-                            C = (int)(((uint)YPos) >> 16);
-                            if (C >= FDataHeight)
-                            {
-                                C = FDataHeight - 1;
-                            }
-
-                            RowTable[I] = C * FPitch;
-                            YPos += YStep;
+                            C = FDataHeight - 1;
                         }
+
+                        RowTable[I] = C * FPitch;
+                        YPos += YStep;
                     }
 
                     if (SD.PixelFormatID == FPixelFormatID)
@@ -383,8 +352,7 @@ public partial class TPicture16
                     }
                     else
                     {
-                        var call__131 = RemapToPixelFormat(SD.PixelFormatID);
-                        if (call__131 != 0)
+                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
                             throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
                         }
@@ -400,8 +368,6 @@ public partial class TPicture16
                         }
                     }
                 }
-
-                RowTable = default;
             }
         }
     }
