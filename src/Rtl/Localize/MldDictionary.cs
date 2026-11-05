@@ -149,12 +149,18 @@ public sealed class MldDictionary
         FileSize = bytes.Length;
         ConsumedBytes = consumed;
         // OrderBy preserves on-disk order for equal keys.
-        sorted = entries.OrderBy(e => ContextCode == 0 ? e.Native : Key(e)).ToArray();
+        sorted = entries.OrderBy(SortKey).ToArray();
         contextual = sorted;
         IsOpen = true;
     }
 
     private static AnsiString Key(MldEntry entry) => entry.Native + AnsiString.FromBytes(127) + entry.Form + entry.Component;
+
+    /// <summary>The key the lookup array is sorted by: the source text, with its context when the file has one.</summary>
+    public AnsiString SortKey(MldEntry entry) => ContextCode == 0 ? entry.Native : Key(entry);
+
+    /// <summary>The entries in the order the binary search reads them.</summary>
+    public ReadOnlyCollection<MldEntry> SortedEntries => Array.AsReadOnly(sorted);
 
     public void SetLanguage(int value)
     {

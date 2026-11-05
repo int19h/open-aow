@@ -1,0 +1,75 @@
+using Aow.Platform;
+using Aow.Units.AoWE;
+using Aow.Units.AoWEdit;
+using Aow.Units.Engine;
+using Aow.Units.ImageLib;
+
+namespace Aow.Units.Tests;
+
+[Collection("Engine")]
+[EngineState]
+public sealed class TypedNameRoundTripTests
+{
+    // strings.md section 4: a player name typed through InputMapper.Text with the euro sign, the low
+    // double quote, a-umlaut and sharp s keeps its bytes through save and load.
+    [Fact]
+    public void TypedLeaderNameKeepsItsBytesThroughSaveAndLoad()
+    {
+        var font = new TImageLibraryFont(null!);
+        var edit = new TAOWEdit(null!) { FAOWFont = font, FValid = true, FRedraw = true, FVisible = true, FWinWidth = 10000, FFirstChar = 1 };
+        TLeader source = null!, loaded = null!;
+        try
+        {
+            InputMapper.Text("Jörg €„äß", new Keyboard(edit));
+            AnsiString typed = edit.FText;
+            Assert.Equal("Jörg €„äß", typed.ToString());
+            Assert.Equal(new byte[] { 0x4A, 0xF6, 0x72, 0x67, 0x20, 0x80, 0x84, 0xE4, 0xDF }, Runtime.StringBytes(typed).ToArray());
+
+            source = new TLeader(null!) { FHeroResourceIndex = -1 };
+            source.FHeroName = typed;
+            byte[] saved = Save(source);
+            Assert.True(saved.AsSpan().IndexOf(new byte[] { 0x80, 0x84, 0xE4, 0xDF }) > 0, "the saved bytes hold 0x80, 0x84, 0xE4 and 0xDF");
+            Assert.True(saved.AsSpan().IndexOf(Runtime.StringBytes(typed)) > 0, "the saved bytes hold the typed name");
+
+            loaded = new TLeader(null!);
+            using (var memory = new TMemoryStream())
+            {
+                memory.Write(saved);
+                memory.Position = 0;
+                var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
+                try { loaded.ReadWrite(reader); }
+                finally { reader.Destroy(); }
+            }
+            Assert.Equal(typed, loaded.FHeroName);
+            Assert.Equal("Jörg €„äß", loaded.FHeroName.ToString());
+            Assert.Equal(saved, Save(loaded));
+        }
+        finally
+        {
+            loaded?.Destroy();
+            source?.Destroy();
+            edit.Destroy();
+            font.Destroy();
+        }
+    }
+
+    private static byte[] Save(TLeader leader)
+    {
+        using var memory = new TMemoryStream();
+        var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false);
+        try { leader.ReadWrite(writer); }
+        finally { writer.Destroy(); }
+        return memory.Memory[..memory.Size];
+    }
+
+    private sealed class Keyboard(TAOWEdit edit) : IDisplayEvents
+    {
+        public void KeyPress(byte value) => edit.CheckKeyPress(ref value);
+        public void KeyDown(ushort key, TSet<TShiftState> shift) { }
+        public void KeyUp(ushort key, TSet<TShiftState> shift) { }
+        public void MouseMove(TSet<TShiftState> shift, int x, int y) { }
+        public void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+        public void MouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+        public void DoubleClick() { }
+    }
+}
