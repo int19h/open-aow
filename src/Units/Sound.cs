@@ -51,12 +51,7 @@ namespace Aow.Units.Sound
         internal TSampleCallBack FCallBack;
         internal TSet<TSampleStatusElement> FStatus;
         // Sound.pas:746
-        protected internal virtual bool GetPlaying()
-        {
-            bool Result = default;
-            Result = FDelay != 0;
-            return Result;
-        }
+        protected internal virtual bool GetPlaying() => FDelay != 0;
 
         // Sound.pas:81
         protected internal virtual int GetVolume()
@@ -99,14 +94,7 @@ namespace Aow.Units.Sound
 //   does not loop destroys itself. }
         public virtual void Update()
         {
-            bool bool__1 = FStatus.Contains(TSampleStatusElement.ssRunning);
-            if (bool__1)
-            {
-                var call__2 = GetPlaying();
-                bool__1 = !call__2;
-            }
-
-            if (bool__1)
+            if (FStatus.Contains(TSampleStatusElement.ssRunning) && !GetPlaying())
             {
                 if (FDelay != 0)
                 {
@@ -376,9 +364,8 @@ namespace Aow.Units.Sound
         // Sound.pas:1165
         public virtual int Release()
         {
-            int Result = default;
             FRefCount -= 1;
-            Result = FRefCount;
+            int Result = FRefCount;
             if (FRefCount == 0)
             {
                 Destroy();
@@ -390,10 +377,8 @@ namespace Aow.Units.Sound
         // Sound.pas:1173
         public virtual int AddRef()
         {
-            int Result = default;
             FRefCount += 1;
-            Result = FRefCount;
-            return Result;
+            return FRefCount;
         }
 
         // Sound.pas:130
@@ -510,8 +495,7 @@ namespace Aow.Units.Sound
         // Sound.pas:407
         public TSFXManager(TComponent owner) : base(owner)
         {
-            var call__3 = new TSFXList();
-            FSFX = call__3;
+            FSFX = new TSFXList();
         }
 
         // Sound.pas:413
@@ -531,15 +515,13 @@ namespace Aow.Units.Sound
         // Sound.pas:425
         public void ExecutePathSearch(AnsiString Path)
         {
-            AnsiString OldDir = default;
+            AnsiString OldDir;
             void Search(AnsiString Dir)
             {
                 TSearchRec SR = default;
-                TStringList Dirs = default;
-                bool Found = default;
-                int I = default;
-                var call__4 = FindFirst(FSearchPath + Dir + (AnsiString)"*." + Sound.SFXExtension, 63 & ~16, ref SR);
-                Found = call__4 == 0;
+                TStringList Dirs;
+                bool Found;
+                Found = FindFirst(FSearchPath + Dir + (AnsiString)"*." + Sound.SFXExtension, 63 & ~16, ref SR) == 0;
                 while (Found)
                 {
                     FSFX.Add(UpperCase(Dir + SR.Name));
@@ -560,14 +542,9 @@ namespace Aow.Units.Sound
                 }
 
                 FindClose(ref SR);
+                for (int I = 0, last = Dirs.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__5 = Dirs.Count - 1;
-                    for (; I <= end__5; I += 1)
-                    {
-                        var call__6 = Dirs[I];
-                        Search(call__6);
-                    }
+                    Search(Dirs[I]);
                 }
 
                 Dirs.Free();
@@ -584,8 +561,7 @@ namespace Aow.Units.Sound
             SetCurrentDir(Path);
             Search((AnsiString)"");
             SetCurrentDir(OldDir);
-            var call__7 = ExtractRelativePath(Sound.BaseSoundEnginePath, FSearchPath);
-            FSearchPath = UpperCase(call__7);
+            FSearchPath = UpperCase(ExtractRelativePath(Sound.BaseSoundEnginePath, FSearchPath));
         }
 
         [Published]
@@ -742,11 +718,9 @@ namespace Aow.Units.Sound
 
         public TSonglist(TECustomNode owner) : base(owner)
         {
-            var call__11 = new TStringList();
-            FSongs = call__11;
+            FSongs = new TStringList();
             FSongs.OnChange = SongsChanged;
-            var call__12 = new TStringList();
-            FSongNames = call__12;
+            FSongNames = new TStringList();
         }
 
         internal TStringList FSongs;
@@ -761,23 +735,17 @@ namespace Aow.Units.Sound
         // { Reads the song titles; a file that cannot be read is dropped from the list. }
         internal void SongsChanged(TObject Sender)
         {
-            int I = default;
             FSongNames.Clear();
+            for (int I = FSongs.Count - 1; I >= 0; I--)
             {
-                I = FSongs.Count - 1;
-                byte end__8 = 0;
-                for (; I >= end__8; I -= 1)
+                try
                 {
-                    try
-                    {
-                        var call__9 = FSongs[I];
-                        var call__10 = Sound.GetSongName(call__9);
-                        FSongNames.Insert(0, call__10);
-                    }
-                    catch (System.Exception)
-                    {
-                        FSongs.Delete(I);
-                    }
+                    var songName = Sound.GetSongName(FSongs[I]);
+                    FSongNames.Insert(0, songName);
+                }
+                catch (System.Exception)
+                {
+                    FSongs.Delete(I);
                 }
             }
         }
@@ -807,8 +775,8 @@ namespace Aow.Units.Sound
         public void Search(AnsiString Path, AnsiString Ext)
         {
             TSearchRec SR = default;
-            AnsiString FullPath = default;
-            bool Found = default;
+            AnsiString FullPath;
+            bool Found;
             if (Path[Path.Length] != 92)
             {
                 Path = Path + AnsiString.FromBytes(92);
@@ -853,45 +821,30 @@ namespace Aow.Units.Sound
         // Sound.pas:875
         internal void SongsChanged(TObject Sender)
         {
-            int I = default;
             FSongNames.Clear();
+            for (int I = FSongs.Count - 1; I >= 0; I--)
             {
-                I = FSongs.Count - 1;
-                byte end__13 = 0;
-                for (; I >= end__13; I -= 1)
+                try
                 {
-                    try
-                    {
-                        var call__14 = FSongs[I];
-                        var call__15 = Sound.GetSongName(call__14);
-                        FSongNames.Insert(0, call__15);
-                    }
-                    catch (System.Exception)
-                    {
-                        FSongs.Delete(I);
-                    }
+                    var songName = Sound.GetSongName(FSongs[I]);
+                    FSongNames.Insert(0, songName);
+                }
+                catch (System.Exception)
+                {
+                    FSongs.Delete(I);
                 }
             }
 
             if (FStatus.Contains(TSongPlayerStatusElement.spPlaying))
             {
-                var call__16 = FSongs.Count;
-                if (call__16 != 0)
+                if (FSongs.Count != 0)
                 {
                     if (FCurrentIndex != -1)
                     {
-                        var call__17 = FSongs.Count;
-                        bool bool__18 = FCurrentIndex >= call__17;
-                        if (!bool__18)
+                        var count = FSongs.Count;
+                        if (FCurrentIndex >= count || FSongs[FCurrentIndex] != FCurrentSong)
                         {
-                            var call__19 = FSongs[FCurrentIndex];
-                            bool__18 = call__19 != FCurrentSong;
-                        }
-
-                        if (bool__18)
-                        {
-                            var call__20 = FSongs.IndexOf(FCurrentSong);
-                            FCurrentIndex = call__20;
+                            FCurrentIndex = FSongs.IndexOf(FCurrentSong);
                             if (FCurrentIndex == -1)
                             {
                                 FCurrentSong = (AnsiString)"";
@@ -920,11 +873,9 @@ namespace Aow.Units.Sound
         // Sound.pas:854
         public TSongPlayer()
         {
-            var call__21 = new TStringList();
-            FSongs = call__21;
+            FSongs = new TStringList();
             FSongs.OnChange = SongsChanged;
-            var call__22 = new TStringList();
-            FSongNames = call__22;
+            FSongNames = new TStringList();
             FCurrentIndex = -1;
         }
 
@@ -940,32 +891,16 @@ namespace Aow.Units.Sound
         // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
         public void Update()
         {
-            bool bool__23 = Sound.SoundSystem != null && FStatus.Contains(TSongPlayerStatusElement.spPlaying) && !FStatus.Contains(TSongPlayerStatusElement.spPaused);
-            if (bool__23)
-            {
-                var call__24 = Sound.SoundSystem.PlayingSong;
-                var call__25 = !call__24;
-                bool__23 = call__25;
-            }
-
-            bool bool__26 = bool__23;
-            if (bool__26)
-            {
-                var call__27 = Sound.SoundSystem.MusicEnabled;
-                bool__26 = call__27;
-            }
-
-            if (bool__26)
+            if (Sound.SoundSystem != null && FStatus.Contains(TSongPlayerStatusElement.spPlaying) && !FStatus.Contains(TSongPlayerStatusElement.spPaused) && !Sound.SoundSystem.PlayingSong && Sound.SoundSystem.MusicEnabled)
             {
                 FCurrentIndex += 1;
-                var call__28 = FSongs.Count;
-                if (call__28 <= FCurrentIndex)
+                if (FSongs.Count <= FCurrentIndex)
                 {
                     FCurrentIndex = 0;
                 }
 
-                var call__29 = FSongs.Count;
-                if (FCurrentIndex < call__29)
+                var count = FSongs.Count;
+                if (FCurrentIndex < count)
                 {
                     Play(FCurrentIndex);
                 }
@@ -979,25 +914,16 @@ namespace Aow.Units.Sound
         // Sound.pas:924
         public bool PlayEx(int Index, int FadeOut, int FadeIn)
         {
-            bool Result = default;
-            bool bool__30 = Sound.SoundSystem != null && Index >= 0;
-            if (bool__30)
-            {
-                var call__31 = FSongs.Count;
-                bool__30 = Index < call__31;
-            }
-
-            if (bool__30)
+            bool Result;
+            if (Sound.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
             {
                 FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
-                var call__32 = FSongs[Index];
-                var call__33 = Sound.SoundSystem.PlaySongEx(call__32, FadeOut, FadeIn, false);
-                Result = call__33;
+                var item = FSongs[Index];
+                Result = Sound.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
                 if (Result)
                 {
                     FCurrentIndex = Index;
-                    var call__34 = FSongs[Index];
-                    FCurrentSong = call__34;
+                    FCurrentSong = FSongs[Index];
                     if (FOnSongChange != null)
                     {
                         FOnSongChange(this);
@@ -1020,25 +946,16 @@ namespace Aow.Units.Sound
         // Sound.pas:947
         public bool Play(int Index)
         {
-            bool Result = default;
-            bool bool__35 = Sound.SoundSystem != null && Index >= 0;
-            if (bool__35)
-            {
-                var call__36 = FSongs.Count;
-                bool__35 = Index < call__36;
-            }
-
-            if (bool__35)
+            bool Result;
+            if (Sound.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
             {
                 FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
-                var call__37 = FSongs[Index];
-                var call__38 = Sound.SoundSystem.PlaySongEx(call__37, 2, 0, false);
-                Result = call__38;
+                var item = FSongs[Index];
+                Result = Sound.SoundSystem.PlaySongEx(item, 2, 0, false);
                 if (Result)
                 {
                     FCurrentIndex = Index;
-                    var call__39 = FSongs[Index];
-                    FCurrentSong = call__39;
+                    FCurrentSong = FSongs[Index];
                     if (FOnSongChange != null)
                     {
                         FOnSongChange(this);
@@ -1061,7 +978,7 @@ namespace Aow.Units.Sound
         // Sound.pas:970
         public bool Stop(bool StopMusic)
         {
-            bool Result = default;
+            bool Result;
             if (Sound.SoundSystem != null)
             {
                 if (StopMusic)
@@ -1087,7 +1004,6 @@ namespace Aow.Units.Sound
         // { Pauses count; the first one saves the song position. }
         public bool Pause(bool StopMusic)
         {
-            bool Result = default;
             if (FPauseCount == 0)
             {
                 if (FBackup != null)
@@ -1095,8 +1011,7 @@ namespace Aow.Units.Sound
                     FBackup.Free();
                 }
 
-                var call__40 = Sound.BackupSongStatus();
-                FBackup = call__40;
+                FBackup = Sound.BackupSongStatus();
                 FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPaused);
                 if (StopMusic)
                 {
@@ -1105,21 +1020,18 @@ namespace Aow.Units.Sound
             }
 
             FPauseCount += 1;
-            Result = true;
-            return Result;
+            return true;
         }
 
         // Sound.pas:1000
         public bool Resume()
         {
-            bool Result = default;
             FPauseCount -= 1;
             if (FPauseCount == 0)
             {
                 if (FBackup != null)
                 {
-                    var call__41 = FSongs.IndexOf(FBackup.FFileName);
-                    FCurrentIndex = call__41;
+                    FCurrentIndex = FSongs.IndexOf(FBackup.FFileName);
                     if (FCurrentIndex == -1)
                     {
                         Play(0);
@@ -1136,8 +1048,7 @@ namespace Aow.Units.Sound
                 FStatus = FStatus - TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPaused);
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
         public AnsiString CurrentSong { get => FCurrentSong; }
@@ -1169,22 +1080,10 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1034
-        public TSample Play()
-        {
-            TSample Result = default;
-            var call__42 = Sound.PlaySample(FFileName);
-            Result = call__42;
-            return Result;
-        }
+        public TSample Play() => Sound.PlaySample(FFileName);
 
         // Sound.pas:1039
-        public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
-        {
-            TSample Result = default;
-            var call__43 = Sound.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
-            Result = call__43;
-            return Result;
-        }
+        public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack) => Sound.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
 
         public AnsiString FileName { get => FFileName; set => FFileName = value; }
 
@@ -1207,22 +1106,16 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1052
-        public TSFX GetSFX(int Index)
-        {
-            TSFX Result = default;
-            Result = (TSFX)this.FChildren.List[Index];
-            return Result;
-        }
+        public TSFX GetSFX(int Index) => (TSFX)this.FChildren.List[Index];
 
         // Sound.pas:1063
         public TSample Play()
         {
-            TSample Result = default;
+            TSample Result;
             if (this.FChildren.Count != 0)
             {
-                var call__44 = Random(this.FChildren.Count);
-                var call__45 = ((TSFX)this.FChildren.List[call__44]).Play();
-                Result = call__45;
+                var random = Random(this.FChildren.Count);
+                Result = ((TSFX)this.FChildren.List[random]).Play();
             }
             else
             {
@@ -1238,9 +1131,8 @@ namespace Aow.Units.Sound
             TSample Result = default;
             if (this.FChildren.Count != 0)
             {
-                var call__46 = Random(this.FChildren.Count);
-                var call__47 = ((TSFX)this.FChildren.List[call__46]).PlayEx(Volume, Looped, Delay, Panning, CallBack);
-                Result = call__47;
+                var random = Random(this.FChildren.Count);
+                Result = ((TSFX)this.FChildren.List[random]).PlayEx(Volume, Looped, Delay, Panning, CallBack);
             }
             else
             {
@@ -1272,7 +1164,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1088
         public TSFXSequence GetSFXSequence(int Index)
         {
-            TSFXSequence Result = default;
+            TSFXSequence Result;
             if (Index >= 0 && Index < this.FChildren.Count)
             {
                 Result = (TSFXSequence)this.FChildren.List[Index];
@@ -1288,8 +1180,8 @@ namespace Aow.Units.Sound
         // Sound.pas:1096
         public TSample Play(int ID)
         {
-            TSample Result = default;
-            TSFXSequence S = default;
+            TSample Result;
+            TSFXSequence S;
             S = Find(ID);
             if (S != null)
             {
@@ -1307,7 +1199,7 @@ namespace Aow.Units.Sound
         public TSample PlayEx(int ID, int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
         {
             TSample Result = default;
-            TSFXSequence S = default;
+            TSFXSequence S;
             S = Find(ID);
             if (S != null)
             {
@@ -1324,10 +1216,9 @@ namespace Aow.Units.Sound
         // Sound.pas:1119
         public TSFXSequence Find(int ID)
         {
-            TSFXSequence Result = default;
-            int I = default;
+            int I;
             I = 0;
-            Result = null;
+            TSFXSequence Result = null;
             while (I != this.FChildren.Count && Result == null)
             {
                 if (((TSFXSequence)this.FChildren.List[I]).FID == ID)
@@ -1345,39 +1236,22 @@ namespace Aow.Units.Sound
         // { The first ID that two sequences share, -1 when the IDs are unique. }
         public int DoubleID()
         {
-            int Result = default;
-            int I = default;
-            int J = default;
-            int ID = default;
+            int I;
+            int ID;
             I = 0;
-            Result = -1;
-            while (true)
+            int Result = -1;
+            while (Result == -1 && I != Count)
             {
-                bool bool__48 = Result == -1;
-                if (bool__48)
+                ID = ((TSFXSequence)this.FChildren.List[I]).FID;
+                for (int J = I + 1, last = Count - 1; J <= last; J++)
                 {
-                    var call__49 = Count;
-                    bool__48 = I != call__49;
-                }
-
-                if (!bool__48)
-                    break;
-                {
-                    ID = ((TSFXSequence)this.FChildren.List[I]).FID;
+                    if (ID == ((TSFXSequence)this.FChildren.List[J]).FID)
                     {
-                        J = I + 1;
-                        int end__50 = Count - 1;
-                        for (; J <= end__50; J += 1)
-                        {
-                            if (ID == ((TSFXSequence)this.FChildren.List[J]).FID)
-                            {
-                                Result = ID;
-                            }
-                        }
+                        Result = ID;
                     }
-
-                    I += 1;
                 }
+
+                I += 1;
             }
 
             return Result;
@@ -1405,14 +1279,9 @@ namespace Aow.Units.Sound
         // Sound.pas:716
         public new void Clear()
         {
-            int I = default;
+            for (int I = Count - 1; I >= 0; I--)
             {
-                I = Count - 1;
-                byte end__81 = 0;
-                for (; I >= end__81; I -= 1)
-                {
-                    ((TSample)List[I]).Destroy();
-                }
+                ((TSample)List[I]).Destroy();
             }
 
             base.Clear();
@@ -1426,8 +1295,8 @@ namespace Aow.Units.Sound
         // Sound.pas:659
         public TSampleData Find(AnsiString Name)
         {
-            TSampleData Result = default;
-            int I = default;
+            TSampleData Result;
+            int I;
             I = 0;
             while (I != Count && CompareText(Name, ((TSampleData)List[I]).FName) != 0)
             {
@@ -1465,23 +1334,12 @@ namespace Aow.Units.Sound
         // Sound.pas:1293
         public SoundSystemClass Find(AnsiString Name)
         {
-            SoundSystemClass Result = default;
-            int I = default;
+            SoundSystemClass Result;
+            int I;
             I = 0;
-            while (true)
+            while (I != Count && CompareText(Name, ((SoundSystemClass)List[I]).Name) != 0)
             {
-                bool bool__82 = I != Count;
-                if (bool__82)
-                {
-                    var call__83 = ((SoundSystemClass)List[I]).Name;
-                    bool__82 = CompareText(Name, call__83) != 0;
-                }
-
-                if (!bool__82)
-                    break;
-                {
-                    I += 1;
-                }
+                I += 1;
             }
 
             if (I != Count)
@@ -1507,14 +1365,13 @@ namespace Aow.Units.Sound
         // { Loads the sound data (or adds a reference) so that it stays loaded between samples. }
         public static void LockSampleData(AnsiString Name)
         {
-            TSampleData D = default;
+            TSampleData D;
             if (SoundSystem != null)
             {
                 D = SampleDataList.Find(Name);
                 if (D == null)
                 {
-                    var call__51 = SoundSystem.SampleDataClass();
-                    call__51.Create(Name);
+                    SoundSystem.SampleDataClass().Create(Name);
                 }
                 else
                 {
@@ -1526,7 +1383,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1196
         public static void UnlockSampleData(AnsiString Name)
         {
-            TSampleData D = default;
+            TSampleData D;
             D = SampleDataList.Find(Name);
             if (D != null)
             {
@@ -1537,12 +1394,10 @@ namespace Aow.Units.Sound
         // Sound.pas:1205
         public static TSampleData CreateSampleData(AnsiString Name)
         {
-            TSampleData Result = default;
+            TSampleData Result;
             if (SoundSystem != null)
             {
-                var call__52 = SoundSystem.SampleDataClass();
-                var call__53 = call__52.Create(Name);
-                Result = call__53;
+                Result = SoundSystem.SampleDataClass().Create(Name);
             }
             else
             {
@@ -1555,12 +1410,10 @@ namespace Aow.Units.Sound
         // Sound.pas:1213
         public static TSampleData CreateSampleDataEx(ReadOnlySpan<TWaveFormatEx> Format, object Data, int Size)
         {
-            TSampleData Result = default;
+            TSampleData Result;
             if (SoundSystem != null)
             {
-                var call__54 = SoundSystem.SampleDataClass();
-                var call__55 = call__54.CreateEx(Format[0], Data, Size);
-                Result = call__55;
+                Result = SoundSystem.SampleDataClass().CreateEx(Format[0], Data, Size);
             }
             else
             {
@@ -1573,12 +1426,10 @@ namespace Aow.Units.Sound
         // Sound.pas:1221
         public static TSample CreateSample(TSampleData SampleData)
         {
-            TSample Result = default;
+            TSample Result;
             if (SoundSystem != null)
             {
-                var call__56 = SoundSystem.SampleClass();
-                var call__57 = call__56.Create(SampleData);
-                Result = call__57;
+                Result = SoundSystem.SampleClass().Create(SampleData);
             }
             else
             {
@@ -1591,35 +1442,22 @@ namespace Aow.Units.Sound
         // Sound.pas:1229
         public static TSample PlaySample(AnsiString Name)
         {
-            TSample Result = default;
-            TSampleData D = default;
-            bool bool__58 = SoundSystem != null;
-            if (bool__58)
-            {
-                var call__59 = SoundSystem.SFXEnabled;
-                bool__58 = call__59;
-            }
-
-            if (bool__58)
+            TSample Result;
+            TSampleData D;
+            if (SoundSystem != null && SoundSystem.SFXEnabled)
             {
                 try
                 {
                     D = SampleDataList.Find(Name);
                     if (D == null)
                     {
-                        var call__60 = SoundSystem.SampleDataClass();
-                        var call__61 = call__60.Create(Name);
-                        D = call__61;
-                        var call__62 = SoundSystem.SampleClass();
-                        var call__63 = call__62.Create(D);
-                        Result = call__63;
+                        D = SoundSystem.SampleDataClass().Create(Name);
+                        Result = SoundSystem.SampleClass().Create(D);
                         D.Release();
                     }
                     else
                     {
-                        var call__64 = SoundSystem.SampleClass();
-                        var call__65 = call__64.Create(D);
-                        Result = call__65;
+                        Result = SoundSystem.SampleClass().Create(D);
                     }
 
                     Result.Execute();
@@ -1640,35 +1478,22 @@ namespace Aow.Units.Sound
         // Sound.pas:1252
         public static TSample PlaySampleEx(AnsiString Name, int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
         {
-            TSample Result = default;
-            TSampleData D = default;
-            bool bool__66 = SoundSystem != null;
-            if (bool__66)
-            {
-                var call__67 = SoundSystem.SFXEnabled;
-                bool__66 = call__67;
-            }
-
-            if (bool__66)
+            TSample Result;
+            TSampleData D;
+            if (SoundSystem != null && SoundSystem.SFXEnabled)
             {
                 try
                 {
                     D = SampleDataList.Find(Name);
                     if (D == null)
                     {
-                        var call__68 = SoundSystem.SampleDataClass();
-                        var call__69 = call__68.Create(Name);
-                        D = call__69;
-                        var call__70 = SoundSystem.SampleClass();
-                        var call__71 = call__70.Create(D);
-                        Result = call__71;
+                        D = SoundSystem.SampleDataClass().Create(Name);
+                        Result = SoundSystem.SampleClass().Create(D);
                         D.Release();
                     }
                     else
                     {
-                        var call__72 = SoundSystem.SampleClass();
-                        var call__73 = call__72.Create(D);
-                        Result = call__73;
+                        Result = SoundSystem.SampleClass().Create(D);
                     }
 
                     Result.Looped = Looped;
@@ -1692,20 +1517,10 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1281
-        public static int SamplesActive()
-        {
-            int Result = default;
-            Result = SampleList.Count;
-            return Result;
-        }
+        public static int SamplesActive() => SampleList.Count;
 
         // Sound.pas:1286
-        public static int SamplesLoaded()
-        {
-            int Result = default;
-            Result = SampleDataList.Count;
-            return Result;
-        }
+        public static int SamplesLoaded() => SampleDataList.Count;
 
         // Sound.pas:1306
         public static void RegisterSoundSystem(SoundSystemClass AClass)
@@ -1715,17 +1530,14 @@ namespace Aow.Units.Sound
                 SoundSystems = new TSoundSystemList();
             }
 
-            var call__74 = AClass.Name;
-            var call__75 = SoundSystems.Find(call__74);
-            if (call__75 == null)
+            var name = AClass.Name;
+            if (SoundSystems.Find(name) == null)
             {
                 SoundSystems.Add(AClass);
             }
             else
             {
-                var call__76 = AClass.Name;
-                var call__77 = Exception.Create((AnsiString)"Sound System with name: " + call__76 + (AnsiString)" already registered");
-                throw call__77;
+                throw Exception.Create((AnsiString)"Sound System with name: " + AClass.Name + (AnsiString)" already registered");
             }
         }
 
@@ -1733,15 +1545,13 @@ namespace Aow.Units.Sound
         // { Creates and activates the named sound system (the first registered one when Name is empty). }
         public static bool InitializeSoundSystem(AnsiString Name, in TSoundSettings Settings)
         {
-            bool Result = default;
-            SoundSystemClass C = default;
-            Result = true;
+            SoundSystemClass C;
+            bool Result = true;
             if (Name == (AnsiString)"")
             {
                 if (SoundSystems.Count != 0)
                 {
-                    var call__78 = SoundSystems[0];
-                    C = (SoundSystemClass)call__78;
+                    C = (SoundSystemClass)SoundSystems[0];
                 }
                 else
                 {
@@ -1799,7 +1609,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1360
         public static TSet<TSoundSystemStatusElement> SoundSystemStatus()
         {
-            TSet<TSoundSystemStatusElement> Result = default;
+            TSet<TSoundSystemStatusElement> Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.FStatus;
@@ -1833,7 +1643,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1380
         public static int GetMusicVolume()
         {
-            int Result = default;
+            int Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.GetMusicVolume();
@@ -1858,7 +1668,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1394
         public static int GetSFXVolume()
         {
-            int Result = default;
+            int Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.GetSFXVolume();
@@ -1874,7 +1684,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1402
         public static bool GetMusicEnabled()
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.GetMusicEnabled();
@@ -1890,7 +1700,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1410
         public static bool SetMusicEnabled(bool Value)
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.SetMusicEnabled(Value);
@@ -1906,7 +1716,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1418
         public static bool GetSFXEnabled()
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.GetSFXEnabled();
@@ -1922,7 +1732,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1426
         public static bool SetSFXEnabled(bool Value)
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.SetSFXEnabled(Value);
@@ -1938,7 +1748,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1434
         public static TSoundSettings GetSoundSettings()
         {
-            TSoundSettings Result = default;
+            TSoundSettings Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.GetSoundSettings();
@@ -1954,7 +1764,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1442
         public static bool SetSoundSettings(in TSoundSettings Settings)
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.SetSoundSettings(Settings);
@@ -1970,7 +1780,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1450
         public static TSongStatus BackupSongStatus()
         {
-            TSongStatus Result = default;
+            TSongStatus Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.BackupSongStatus();
@@ -1986,7 +1796,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1458
         public static bool RestoreSongStatus(TSongStatus Status)
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.RestoreSongStatus(Status);
@@ -2005,12 +1815,11 @@ namespace Aow.Units.Sound
         public static AnsiString GetSongName(AnsiString FileName)
         {
             AnsiString Result = default;
-            TFileStream Stream = default;
-            AnsiString Ext = default;
-            FixedArray_byte_28 Title = default;
-            int P = default;
-            var call__79 = new TFileStream(BaseSoundEnginePath + FileName, 0 | 32);
-            Stream = call__79;
+            TFileStream Stream;
+            AnsiString Ext;
+            FixedArray_byte_28 Title;
+            int P;
+            Stream = new TFileStream(BaseSoundEnginePath + FileName, 0 | 32);
             try
             {
                 Ext = UpperCase(ExtractFileExt(FileName));
@@ -2050,7 +1859,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1502
         public static AnsiString PlayingSongFileName()
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.GetPlayingSongFileName();
@@ -2066,7 +1875,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1510
         public static bool PlaySong(AnsiString FileName)
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.PlaySong(FileName);
@@ -2082,7 +1891,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1518
         public static bool PlaySongEx(AnsiString FileName, int FadeOut, int FadeIn, bool Loop)
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.PlaySongEx(FileName, FadeOut, FadeIn, Loop);
@@ -2098,7 +1907,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1526
         public static bool StopSong()
         {
-            bool Result = default;
+            bool Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.StopSong();
@@ -2114,16 +1923,11 @@ namespace Aow.Units.Sound
         // Sound.pas:1534
         public static void ProcessSound()
         {
-            int I = default;
             if (SampleList != null)
             {
+                for (int I = SampleList.Count - 1; I >= 0; I--)
                 {
-                    I = SampleList.Count - 1;
-                    byte end__80 = 0;
-                    for (; I >= end__80; I -= 1)
-                    {
-                        ((TSample)SampleList.List[I]).Update();
-                    }
+                    ((TSample)SampleList.List[I]).Update();
                 }
             }
 
@@ -2165,15 +1969,11 @@ namespace Aow.Units.Sound
         {
             if (ToolServices != null)
             {
-                var call__84 = ToolServices.GetProjectName();
-                var call__85 = ExtractFilePath(call__84);
-                BaseSoundEnginePath = call__85;
+                BaseSoundEnginePath = ExtractFilePath(ToolServices.GetProjectName());
             }
             else
             {
-                var call__86 = Application.ExeName;
-                var call__87 = ExtractFilePath(call__86);
-                BaseSoundEnginePath = call__87;
+                BaseSoundEnginePath = ExtractFilePath(Application.ExeName);
             }
 
             SampleList = new TSampleList();
@@ -2183,8 +1983,7 @@ namespace Aow.Units.Sound
                 SoundSystems = new TSoundSystemList();
             }
 
-            var call__88 = new TSongPlayer();
-            SongPlayer = call__88;
+            SongPlayer = new TSongPlayer();
         }
 
         public static void Finalize()

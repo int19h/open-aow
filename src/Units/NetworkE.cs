@@ -20,20 +20,16 @@ namespace Aow.Units.NetworkE
         public TPlayerCommunicator(TECustomNode owner) : base(owner)
         {
             FReceivedPackage = null;
-            var call__1 = new TEventList();
-            FOnReceive = call__1;
-            var call__2 = new TMemoryStream();
-            FSendStream = call__2;
-            var call__3 = new TMemoryStream();
-            FReceiveStream = call__3;
-            var call__4 = new TEventList();
-            FOnProcess = call__4;
+            FOnReceive = new TEventList();
+            FSendStream = new TMemoryStream();
+            FReceiveStream = new TMemoryStream();
+            FOnProcess = new TEventList();
         }
 
         // NetworkE.pas:629
         public virtual bool ActivatePCC(TPlayerCommunicationControl PCC)
         {
-            bool Result = default;
+            bool Result;
             if (FPCC != null)
             {
                 FPCC.Release();
@@ -44,8 +40,7 @@ namespace Aow.Units.NetworkE
             if (FPCC != null)
             {
                 FPCC.AddRef();
-                var call__5 = FPCC.Activate(this);
-                Result = call__5;
+                Result = FPCC.Activate(this);
                 if (!Result)
                 {
                     FPCC.Release();
@@ -65,7 +60,6 @@ namespace Aow.Units.NetworkE
         {
             while (ReceiveDataPackage())
             {
-                ;
             }
 
             FOnProcess.TriggerNotifyEvents(this);
@@ -94,13 +88,11 @@ namespace Aow.Units.NetworkE
             TEObject Obj = default;
             FReceiveStream.Clear();
             FReceiveStream.Position = 0;
-            var call__6 = FPCC.ReceivePackageData(FReceiveStream);
-            if (call__6)
+            if (FPCC.ReceivePackageData(FReceiveStream))
             {
                 try
                 {
-                    var call__7 = FEngine.RetrieveEObject(FReceiveStream, null);
-                    Obj = call__7;
+                    Obj = FEngine.RetrieveEObject(FReceiveStream, null);
                     if (Obj is TDataPackage)
                     {
                         FReceivedPackage = (TDataPackage)Obj;
@@ -130,15 +122,12 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:685
         public bool SendDataPackage(TDataPackage Package, int ASender, int AReceiver)
         {
-            bool Result = default;
             Package.FSender = ASender;
             Package.FReceiver = AReceiver;
             FSendStream.Clear();
             FEngine.StoreEObject(FSendStream, Package, null);
             FSendStream.Position = 0;
-            var call__8 = FPCC.SendPackageData(AReceiver, FSendStream);
-            Result = call__8;
-            return Result;
+            return FPCC.SendPackageData(AReceiver, FSendStream);
         }
 
         public TEngine Engine { get => FEngine; set => FEngine = value; }
@@ -177,18 +166,15 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:955
         public override int AddRef()
         {
-            int Result = default;
             FRefCount += 1;
-            Result = FRefCount;
-            return Result;
+            return FRefCount;
         }
 
         // NetworkE.pas:961
         public override int Release()
         {
-            int Result = default;
             FRefCount -= 1;
-            Result = FRefCount;
+            int Result = FRefCount;
             if (Result == 0)
             {
                 Destroy();
@@ -198,12 +184,7 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:975
-        public virtual TExecuteResult Execute(TTokenExecuter TE)
-        {
-            TExecuteResult Result = default;
-            Result = TExecuteResult.erDone;
-            return Result;
-        }
+        public virtual TExecuteResult Execute(TTokenExecuter TE) => TExecuteResult.erDone;
 
         public int TokenCounter { get => FTokenCounter; set => FTokenCounter = value; }
 
@@ -226,8 +207,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:982
         public TTokenEventList(TECustomNode owner) : base(owner)
         {
-            var call__9 = new TEReferenceNode(null);
-            FList = call__9;
+            FList = new TEReferenceNode(null);
         }
 
         // NetworkE.pas:1046
@@ -254,9 +234,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1012
         public int IndexOfTokenCounter(int ATokenCounter)
         {
-            int Result = default;
-            var call__10 = FList.Count;
-            Result = call__10;
+            int Result = FList.Count;
             while (Result != 0)
             {
                 Result -= 1;
@@ -266,32 +244,18 @@ namespace Aow.Units.NetworkE
                 }
             }
 
-            Result = -1;
-            return Result;
+            return -1;
         }
 
         // NetworkE.pas:1024
         public int FindTE(int AClassID)
         {
-            int Result = default;
-            int C = default;
-            Result = 0;
-            var call__11 = FList.Count;
-            C = call__11;
-            while (true)
+            int C;
+            int Result = 0;
+            C = FList.Count;
+            while (Result != C && ((TTokenEvent)FList.FChildren.List[Result]).EClass.ClassID != AClassID)
             {
-                bool bool__12 = Result != C;
-                if (bool__12)
-                {
-                    var call__13 = ((TTokenEvent)FList.FChildren.List[Result]).EClass.ClassID;
-                    bool__12 = call__13 != AClassID;
-                }
-
-                if (!bool__12)
-                    break;
-                {
-                    Result += 1;
-                }
+                Result += 1;
             }
 
             if (Result == C)
@@ -303,21 +267,10 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1036
-        public TTokenEvent GetEvent(int Index)
-        {
-            TTokenEvent Result = default;
-            Result = (TTokenEvent)FList.FChildren.List[Index];
-            return Result;
-        }
+        public TTokenEvent GetEvent(int Index) => (TTokenEvent)FList.FChildren.List[Index];
 
         // NetworkE.pas:1041
-        public int GetCount()
-        {
-            int Result = default;
-            var call__14 = FList.Count;
-            Result = call__14;
-            return Result;
-        }
+        public int GetCount() => FList.Count;
 
         // NetworkE.pas:1056
         public void SortOnTokenCounter()
@@ -328,15 +281,10 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1061
         public void AddEvents(TTokenEventList Events)
         {
-            int I = default;
+            for (int I = 0, last = Events.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__15 = Events.Count - 1;
-                for (; I <= end__15; I += 1)
-                {
-                    var call__16 = Events[I];
-                    FList.AddChild(call__16);
-                }
+                var item = Events[I];
+                FList.AddChild(item);
             }
         }
 
@@ -349,8 +297,8 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1074
         public void Delete(int Index)
         {
-            var call__17 = FList.Children[Index];
-            FList.RemoveChild(call__17);
+            var item = FList.Children[Index];
+            FList.RemoveChild(item);
         }
 
         // NetworkE.pas:1080
@@ -378,32 +326,18 @@ namespace Aow.Units.NetworkE
         // { Keeps the events sorted on their token counters; an event without one goes to the end }
         public virtual void Add(TTokenEvent TE)
         {
-            int I = default;
+            int I;
             if (TE.FTokenCounter != -1)
             {
                 I = 0;
-                while (true)
+                while (I != FEvents.Count && FEvents[I].FTokenCounter < TE.FTokenCounter)
                 {
-                    var call__18 = FEvents.Count;
-                    bool bool__19 = I != call__18;
-                    if (bool__19)
-                    {
-                        var call__20 = FEvents[I];
-                        bool__19 = call__20.FTokenCounter < TE.FTokenCounter;
-                    }
-
-                    if (!bool__19)
-                        break;
-                    {
-                        I += 1;
-                    }
+                    I += 1;
                 }
 
-                var call__21 = FEvents.Count;
-                if (I < call__21)
+                if (I < FEvents.Count)
                 {
-                    var call__22 = FEvents[I];
-                    if (call__22.FTokenCounter == TE.FTokenCounter)
+                    if (FEvents[I].FTokenCounter == TE.FTokenCounter)
                     {
                         throw Exception.Create((AnsiString)"Double TokenCounter defined");
                     }
@@ -426,30 +360,20 @@ namespace Aow.Units.NetworkE
 //   sync); a remote player's events are prefetched only when they are complete }
         public virtual bool PrefetchTokenEvents(TTokenExecuter Executer)
         {
-            bool Result = default;
-            int I = default;
-            int N = default;
-            TTokenEvent TE = default;
-            var call__23 = Global();
-            bool bool__24 = call__23;
-            if (!bool__24)
+            bool Result;
+            int N;
+            TTokenEvent TE;
+            if (Global() || Local())
             {
-                var call__25 = Local();
-                bool__24 = call__25;
-            }
-
-            if (bool__24)
-            {
-                var call__26 = FEvents.Count;
-                if (call__26 != 0 || Executer.FHoldTC != true)
+                if (FEvents.Count != 0 || Executer.FHoldTC != true)
                 {
                     if (Local())
                     {
                         if (Executer.FOnSyncError != null)
                         {
                             TE = new TSyncTE(null);
-                            var call__27 = Executer.GetSyncValue();
-                            ((TSyncTE)TE).FSyncValue = call__27;
+                            var syncValue = Executer.GetSyncValue();
+                            ((TSyncTE)TE).FSyncValue = syncValue;
                             FEvents.Insert(0, TE);
                             TE.Release();
                         }
@@ -459,14 +383,9 @@ namespace Aow.Units.NetworkE
                         TE.Release();
                     }
 
+                    for (int I = 0, last = FEvents.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__28 = FEvents.Count - 1;
-                        for (; I <= end__28; I += 1)
-                        {
-                            var call__29 = FEvents[I];
-                            Executer.PrefetchTokenEvent(call__29);
-                        }
+                        Executer.PrefetchTokenEvent(FEvents[I]);
                     }
 
                     FEvents.Clear();
@@ -484,23 +403,14 @@ namespace Aow.Units.NetworkE
                     N = GetPrefetchableTokenEvents(Executer);
                     if (N > 0)
                     {
+                        for (int I = 0; I <= N - 1; I++)
                         {
-                            I = 0;
-                            int end__30 = N - 1;
-                            for (; I <= end__30; I += 1)
-                            {
-                                var call__31 = FEvents[I];
-                                Executer.PrefetchTokenEvent(call__31);
-                            }
+                            Executer.PrefetchTokenEvent(FEvents[I]);
                         }
 
+                        for (int I = N - 1; I >= 0; I--)
                         {
-                            I = N - 1;
-                            byte end__32 = 0;
-                            for (; I >= end__32; I -= 1)
-                            {
-                                FEvents.Delete(I);
-                            }
+                            FEvents.Delete(I);
                         }
 
                         Result = true;
@@ -523,22 +433,7 @@ namespace Aow.Units.NetworkE
         // { A local player's prefetched events go to every other player }
         public virtual void TokenEventsPrefetched(TTokenExecuter Executer, TTokenEventList Events)
         {
-            var call__33 = Local();
-            bool bool__34 = call__33;
-            if (bool__34)
-            {
-                var call__35 = Global();
-                bool__34 = !call__35;
-            }
-
-            bool bool__36 = bool__34;
-            if (bool__36)
-            {
-                var call__37 = Events.Count;
-                bool__36 = call__37 != 0;
-            }
-
-            if (bool__36)
+            if (Local() && !Global() && Events.Count != 0)
             {
                 FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, NetworkE.AllPlayers, Events);
             }
@@ -547,8 +442,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1169
         public TTokenControl(TTokenManager AManager, int APlayer)
         {
-            var call__38 = new TTokenEventList(null);
-            FEvents = call__38;
+            FEvents = new TTokenEventList(null);
             FTokenManager = AManager;
             FPlayer = APlayer;
             FActive = true;
@@ -578,15 +472,9 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1238
         public virtual void AddEvents(TTokenEventList Events)
         {
-            int I = default;
+            for (int I = 0, last = Events.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__39 = Events.Count - 1;
-                for (; I <= end__39; I += 1)
-                {
-                    var call__40 = Events[I];
-                    AddEvent(call__40);
-                }
+                AddEvent(Events[I]);
             }
         }
 
@@ -609,54 +497,30 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1228
-        public TTokenEvent GetEvent(int Index)
-        {
-            TTokenEvent Result = default;
-            var call__41 = FEvents[Index];
-            Result = call__41;
-            return Result;
-        }
+        public TTokenEvent GetEvent(int Index) => FEvents[Index];
 
         // NetworkE.pas:1233
-        public int GetCount()
-        {
-            int Result = default;
-            var call__42 = FEvents.Count;
-            Result = call__42;
-            return Result;
-        }
+        public int GetCount() => FEvents.Count;
 
         // NetworkE.pas:1246
         public bool Local()
         {
-            bool Result = default;
             var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-            var call__44 = playerCommunicationControl.GetPlayers(FPlayer);
-            Result = call__44.FConnectionMode == TConnectionMode.cmLocal;
-
-            return Result;
+            return playerCommunicationControl.GetPlayers(FPlayer).FConnectionMode == TConnectionMode.cmLocal;
         }
 
         // NetworkE.pas:1252
         public bool Global()
         {
-            bool Result = default;
             var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-            var call__46 = playerCommunicationControl.GetPlayers(FPlayer);
-            Result = call__46.FConnectionMode == TConnectionMode.cmGlobal;
-
-            return Result;
+            return playerCommunicationControl.GetPlayers(FPlayer).FConnectionMode == TConnectionMode.cmGlobal;
         }
 
         // NetworkE.pas:1258
         public bool Remote()
         {
-            bool Result = default;
             var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-            var call__48 = playerCommunicationControl.GetPlayers(FPlayer);
-            Result = call__48.FConnectionMode == TConnectionMode.cmRemote;
-
-            return Result;
+            return playerCommunicationControl.GetPlayers(FPlayer).FConnectionMode == TConnectionMode.cmRemote;
         }
 
         // NetworkE.pas:1266
@@ -664,34 +528,20 @@ namespace Aow.Units.NetworkE
 //   executer's token counter without a gap, up to and including the first TPassTokenTE }
         public int GetPrefetchableTokenEvents(TTokenExecuter Executer)
         {
-            int Result = default;
-            int I = default;
-            bool InOrder = default;
-            bool PassToken = default;
+            int Result;
+            int I;
+            bool InOrder;
+            bool PassToken;
             if (Remote())
             {
                 I = 0;
                 InOrder = true;
                 PassToken = false;
-                while (true)
+                while (InOrder && !PassToken && I < FEvents.Count)
                 {
-                    bool bool__49 = InOrder && !PassToken;
-                    if (bool__49)
-                    {
-                        var call__50 = FEvents.Count;
-                        bool__49 = I < call__50;
-                    }
-
-                    if (!bool__49)
-                        break;
-                    {
-                        var call__51 = FEvents[I];
-                        InOrder = call__51.FTokenCounter == Executer.FTokenCounter + I;
-                        var call__52 = FEvents[I];
-                        var call__53 = call__52.EClass.ClassID;
-                        PassToken = call__53 == NetworkE.CID_PassTokenTE;
-                        I += 1;
-                    }
+                    InOrder = FEvents[I].FTokenCounter == Executer.FTokenCounter + I;
+                    PassToken = FEvents[I].EClass.ClassID == NetworkE.CID_PassTokenTE;
+                    I += 1;
                 }
 
                 if (InOrder)
@@ -705,8 +555,7 @@ namespace Aow.Units.NetworkE
             }
             else
             {
-                var call__54 = FEvents.Count;
-                Result = call__54;
+                Result = FEvents.Count;
             }
 
             return Result;
@@ -772,16 +621,11 @@ namespace Aow.Units.NetworkE
         public TTokenExecuter(TTokenManager AManager)
         {
             FTokenManager = AManager;
-            var call__55 = new TTokenEventList(null);
-            FEvents = call__55;
-            var call__56 = new TList();
-            FTCList = call__56;
-            var call__57 = new TEventList();
-            FOnEventsExecuted = call__57;
-            var call__58 = new TEventList();
-            FOnActivateTC = call__58;
-            var call__59 = new TTokenEventList(null);
-            FSystemEvents = call__59;
+            FEvents = new TTokenEventList(null);
+            FTCList = new TList();
+            FOnEventsExecuted = new TEventList();
+            FOnActivateTC = new TEventList();
+            FSystemEvents = new TTokenEventList(null);
         }
 
         // NetworkE.pas:1361
@@ -813,12 +657,7 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1380
-        public TTokenControl GetTC(int Index)
-        {
-            TTokenControl Result = default;
-            Result = (TTokenControl)FTCList.List[Index];
-            return Result;
-        }
+        public TTokenControl GetTC(int Index) => (TTokenControl)FTCList.List[Index];
 
         // NetworkE.pas:1385
         public void AddTC(TTokenControl TC)
@@ -863,8 +702,7 @@ namespace Aow.Units.NetworkE
             {
                 if (TE.FTokenCounter >= FTokenCounter || TE.FTokenCounter == -1)
                 {
-                    var call__60 = FEvents.Count;
-                    TE.FTokenCounter = call__60 + FTokenCounter;
+                    TE.FTokenCounter = FEvents.Count + FTokenCounter;
                     FEvents.Add(TE);
                 }
 
@@ -875,18 +713,10 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1444
         public TTokenEvent GetExecutingTokenEvent()
         {
-            TTokenEvent Result = default;
-            bool bool__61 = FState.Contains(TTokenExecuterState.tsExecuting);
-            if (bool__61)
+            TTokenEvent Result;
+            if (FState.Contains(TTokenExecuterState.tsExecuting) && FEvents.Count != 0)
             {
-                var call__62 = FEvents.Count;
-                bool__61 = call__62 != 0;
-            }
-
-            if (bool__61)
-            {
-                var call__63 = FEvents[0];
-                Result = call__63;
+                Result = FEvents[0];
             }
             else
             {
@@ -899,7 +729,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1452
         public bool InsertExecuteEvent(TTokenEvent TE)
         {
-            bool Result = default;
+            bool Result;
             if (FState.Contains(TTokenExecuterState.tsExecuting))
             {
                 FEvents.Add(TE);
@@ -919,8 +749,7 @@ namespace Aow.Units.NetworkE
             FState = TSet<TTokenExecuterState>.Of();
             if (AIndex < FTCList.Count)
             {
-                var call__64 = FTCList[AIndex];
-                FActiveTC = (TTokenControl)call__64;
+                FActiveTC = (TTokenControl)FTCList[AIndex];
                 FActiveTCIndex = AIndex;
                 FRound = 0;
             }
@@ -929,8 +758,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1474
         public void ActivateTC(int Index)
         {
-            var call__65 = FTCList[Index];
-            FActiveTC = (TTokenControl)call__65;
+            FActiveTC = (TTokenControl)FTCList[Index];
             FActiveTC.FActive = true;
             FActiveTCIndex = Index;
             FOnActivateTC.TriggerNotifyEvents(this);
@@ -944,29 +772,23 @@ namespace Aow.Units.NetworkE
         // { The next active token control after the current one; a wrap starts the next round }
         public void ActivateNextTC()
         {
-            int N = default;
+            int N;
             N = 0;
             while (true)
             {
+                FActiveTCIndex += 1;
+                N += 1;
+                if (FTCList.Count <= FActiveTCIndex)
                 {
-                    FActiveTCIndex += 1;
-                    N += 1;
-                    if (FTCList.Count <= FActiveTCIndex)
-                    {
-                        FActiveTCIndex = 0;
-                        FRound += 1;
-                    }
+                    FActiveTCIndex = 0;
+                    FRound += 1;
                 }
 
-                {
-                    var call__66 = FTCList[FActiveTCIndex];
-                    if (((TTokenControl)call__66).FActive || N > FTCList.Count)
-                        break;
-                }
+                if (((TTokenControl)FTCList[FActiveTCIndex]).FActive || N > FTCList.Count)
+                    break;
             }
 
-            var call__68 = FTCList[FActiveTCIndex];
-            if (((TTokenControl)call__68).FActive)
+            if (((TTokenControl)FTCList[FActiveTCIndex]).FActive)
             {
                 ActivateTC(FActiveTCIndex);
             }
@@ -985,39 +807,23 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1513
-        public bool GetLocked()
-        {
-            bool Result = default;
-            Result = FLockCount != 0;
-            return Result;
-        }
+        public bool GetLocked() => FLockCount != 0;
 
         // NetworkE.pas:1519
         // { The system events run between the token controls' events; True while some remain }
         public bool ProcessSystemTokenEvents()
         {
-            bool Result = default;
-            TExecuteResult R = default;
-            bool bool__69 = !FState.Contains(TTokenExecuterState.tsExecuting);
-            if (bool__69)
+            bool Result;
+            TExecuteResult R;
+            if (!FState.Contains(TTokenExecuterState.tsExecuting) && FSystemEvents.Count > 0 && FLockCount == 0)
             {
-                var call__70 = FSystemEvents.Count;
-                bool__69 = call__70 > 0;
-            }
-
-            if (bool__69 && FLockCount == 0)
-            {
-                var call__71 = FSystemEvents[0];
-                if (call__71.FTokenCounter == -1)
+                if (FSystemEvents[0].FTokenCounter == -1)
                 {
                     FExecuteCount = 0;
-                    var call__72 = FSystemEvents[0];
-                    call__72.FTokenCounter = FTokenCounter;
+                    FSystemEvents[0].FTokenCounter = FTokenCounter;
                 }
 
-                var call__73 = FSystemEvents[0];
-                var call__74 = ExecuteTokenEvent(call__73);
-                R = call__74;
+                R = ExecuteTokenEvent(FSystemEvents[0]);
                 if (R == TExecuteResult.erDone || R == TExecuteResult.erDoneHalt)
                 {
                     FSystemEvents.Delete(0);
@@ -1025,8 +831,7 @@ namespace Aow.Units.NetworkE
                     FExecuteCount = 0;
                 }
 
-                var call__75 = FSystemEvents.Count;
-                Result = call__75 != 0;
+                Result = FSystemEvents.Count != 0;
             }
             else
             {
@@ -1047,17 +852,10 @@ namespace Aow.Units.NetworkE
 //   control, for at most one round of token controls }
         public void Process()
         {
-            int I = default;
-            bool Prefetched = default;
-            TExecuteResult R = default;
-            bool bool__76 = FActiveTC != null;
-            if (bool__76)
-            {
-                var call__77 = ProcessSystemTokenEvents();
-                bool__76 = !call__77;
-            }
-
-            if (bool__76)
+            int I;
+            bool Prefetched;
+            TExecuteResult R;
+            if (FActiveTC != null && !ProcessSystemTokenEvents())
             {
                 I = 0;
                 Prefetched = true;
@@ -1068,8 +866,7 @@ namespace Aow.Units.NetworkE
                     {
                         FState = FState + TSet<TTokenExecuterState>.Of(TTokenExecuterState.tsPrefetching);
                         FEvents.Clear();
-                        var call__78 = FActiveTC.PrefetchTokenEvents(this);
-                        Prefetched = call__78;
+                        Prefetched = FActiveTC.PrefetchTokenEvents(this);
                         FState = FState - TSet<TTokenExecuterState>.Of(TTokenExecuterState.tsPrefetching);
                         if (Prefetched == true)
                         {
@@ -1081,32 +878,18 @@ namespace Aow.Units.NetworkE
 
                     if (FState.Contains(TTokenExecuterState.tsExecuting))
                     {
-                        while (true)
+                        while (R == TExecuteResult.erDone && FEvents.Count != 0)
                         {
-                            bool bool__79 = R == TExecuteResult.erDone;
-                            if (bool__79)
+                            R = ExecuteTokenEvent(FEvents[0]);
+                            if (R == TExecuteResult.erDone || R == TExecuteResult.erDoneHalt)
                             {
-                                var call__80 = FEvents.Count;
-                                bool__79 = call__80 != 0;
-                            }
-
-                            if (!bool__79)
-                                break;
-                            {
-                                var call__81 = FEvents[0];
-                                var call__82 = ExecuteTokenEvent(call__81);
-                                R = call__82;
-                                if (R == TExecuteResult.erDone || R == TExecuteResult.erDoneHalt)
-                                {
-                                    FEvents.Delete(0);
-                                    FTokenCounter += 1;
-                                    FExecuteCount = 0;
-                                }
+                                FEvents.Delete(0);
+                                FTokenCounter += 1;
+                                FExecuteCount = 0;
                             }
                         }
 
-                        var call__83 = FEvents.Count;
-                        if (call__83 == 0)
+                        if (FEvents.Count == 0)
                         {
                             FState = FState - TSet<TTokenExecuterState>.Of(TTokenExecuterState.tsExecuting);
                             FOnEventsExecuted.TriggerNotifyEvents(this);
@@ -1150,12 +933,9 @@ namespace Aow.Units.NetworkE
         public TTokenManager(TObject owner)
         {
             FOwner = owner;
-            var call__102 = new TList();
-            FTokenControls = call__102;
-            var call__103 = CreateTokenExecuter();
-            FTokenExecuter = call__103;
-            var call__104 = CreateTokenPackageDistributer();
-            FTokenPackageDistributer = call__104;
+            FTokenControls = new TList();
+            FTokenExecuter = CreateTokenExecuter();
+            FTokenPackageDistributer = CreateTokenPackageDistributer();
         }
 
         internal TTokenExecuter FTokenExecuter;
@@ -1164,45 +944,24 @@ namespace Aow.Units.NetworkE
         internal TList FTokenControls;
         internal TNetworkMessageEvent FOnMessage;
         // NetworkE.pas:1642
-        public virtual TTokenExecuter CreateTokenExecuter()
-        {
-            TTokenExecuter Result = default;
-            Result = new TTokenExecuter(this);
-            return Result;
-        }
+        public virtual TTokenExecuter CreateTokenExecuter() => new TTokenExecuter(this);
 
         // NetworkE.pas:1647
-        public virtual TTokenPackageDistributer CreateTokenPackageDistributer()
-        {
-            TTokenPackageDistributer Result = default;
-            Result = new TTokenPackageDistributer(this);
-            return Result;
-        }
+        public virtual TTokenPackageDistributer CreateTokenPackageDistributer() => new TTokenPackageDistributer(this);
 
         // NetworkE.pas:1652
-        public virtual TTokenControl CreateTokenControl(int APlayer)
-        {
-            TTokenControl Result = default;
-            Result = new TTokenControl(this, APlayer);
-            return Result;
-        }
+        public virtual TTokenControl CreateTokenControl(int APlayer) => new TTokenControl(this, APlayer);
 
         // NetworkE.pas:1628
         public virtual void Initialize(TPlayerCommunicator PC)
         {
-            int I = default;
             FTokenPackageDistributer.SetPC(PC);
-            var call__84 = PC.FPCC.GetCount();
-            if (call__84 > 0)
+            if (PC.FPCC.GetCount() > 0)
             {
                 ClearPlayers();
+                for (int I = 0, last = PC.FPCC.GetCount() - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__85 = PC.FPCC.GetCount() - 1;
-                    for (; I <= end__85; I += 1)
-                    {
-                        CreatePlayer(I);
-                    }
+                    CreatePlayer(I);
                 }
             }
 
@@ -1223,33 +982,17 @@ namespace Aow.Units.NetworkE
 //   are not being executed }
         public virtual bool PlayerReady(int APlayer)
         {
-            bool Result = default;
-            bool bool__86 = APlayer < FTokenControls.Count;
-            if (bool__86)
+            bool Result;
+            if (APlayer < FTokenControls.Count && FTokenControls[APlayer] != null)
             {
-                var call__87 = FTokenControls[APlayer];
-                bool__86 = call__87 != null;
-            }
-
-            if (bool__86)
-            {
-                var call__88 = FTokenExecuter.FSystemEvents.Count;
-                bool bool__89 = call__88 != 0;
-                if (!bool__89)
+                bool condition = FTokenExecuter.FSystemEvents.Count != 0 || ((TTokenControl)FTokenControls[APlayer]).GetCount() != 0;
+                if (!condition)
                 {
-                    var call__90 = FTokenControls[APlayer];
-                    var call__91 = ((TTokenControl)call__90).GetCount();
-                    bool__89 = call__91 != 0;
+                    var item = FTokenControls[APlayer];
+                    condition = FTokenExecuter.FPrefetchTC == item && FTokenExecuter.FState.Contains(TTokenExecuterState.tsExecuting);
                 }
 
-                bool bool__92 = bool__89;
-                if (!bool__92)
-                {
-                    var call__93 = FTokenControls[APlayer];
-                    bool__92 = FTokenExecuter.FPrefetchTC == call__93 && FTokenExecuter.FState.Contains(TTokenExecuterState.tsExecuting);
-                }
-
-                if (bool__92)
+                if (condition)
                 {
                     Result = false;
                 }
@@ -1269,39 +1012,24 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1663
         public virtual void CreatePlayer(int APlayer)
         {
-            bool bool__94 = APlayer >= FTokenControls.Count;
-            if (!bool__94)
-            {
-                var call__95 = FTokenControls[APlayer];
-                bool__94 = call__95 == null;
-            }
-
-            if (bool__94)
+            if (APlayer >= FTokenControls.Count || FTokenControls[APlayer] == null)
             {
                 while (APlayer >= FTokenControls.Count)
                 {
                     FTokenControls.Add(null);
                 }
 
-                var call__96 = CreateTokenControl(APlayer);
-                FTokenControls[APlayer] = call__96;
+                var createTokenControl = CreateTokenControl(APlayer);
+                FTokenControls[APlayer] = createTokenControl;
             }
         }
 
         // NetworkE.pas:1673
         public virtual void DeletePlayer(int APlayer)
         {
-            bool bool__97 = APlayer < FTokenControls.Count;
-            if (bool__97)
+            if (APlayer < FTokenControls.Count && FTokenControls[APlayer] != null)
             {
-                var call__98 = FTokenControls[APlayer];
-                bool__97 = call__98 != null;
-            }
-
-            if (bool__97)
-            {
-                var call__99 = FTokenControls[APlayer];
-                ((TObject)call__99).Free();
+                ((TObject)FTokenControls[APlayer]).Free();
                 FTokenControls[APlayer] = null;
             }
         }
@@ -1311,11 +1039,9 @@ namespace Aow.Units.NetworkE
         {
             while (FTokenControls.Count != 0)
             {
-                var call__100 = FTokenControls[FTokenControls.Count - 1];
-                if (call__100 != null)
+                if (FTokenControls[FTokenControls.Count - 1] != null)
                 {
-                    var call__101 = FTokenControls[FTokenControls.Count - 1];
-                    ((TObject)call__101).Free();
+                    ((TObject)FTokenControls[FTokenControls.Count - 1]).Free();
                 }
 
                 FTokenControls.Delete(FTokenControls.Count - 1);
@@ -1337,21 +1063,15 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:1623
-        public int GetCount()
-        {
-            int Result = default;
-            Result = FTokenControls.Count;
-            return Result;
-        }
+        public int GetCount() => FTokenControls.Count;
 
         // NetworkE.pas:1710
         public TTokenControl GetTokenControl(int APlayer)
         {
-            TTokenControl Result = default;
+            TTokenControl Result;
             if (APlayer < FTokenControls.Count)
             {
-                var call__105 = FTokenControls[APlayer];
-                Result = (TTokenControl)call__105;
+                Result = (TTokenControl)FTokenControls[APlayer];
             }
             else
             {
@@ -1451,18 +1171,15 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:572
         public override int AddRef()
         {
-            int Result = default;
             FRefCount += 1;
-            Result = FRefCount;
-            return Result;
+            return FRefCount;
         }
 
         // NetworkE.pas:578
         public override int Release()
         {
-            int Result = default;
             FRefCount -= 1;
-            Result = FRefCount;
+            int Result = FRefCount;
             if (Result == 0)
             {
                 Destroy();
@@ -1472,12 +1189,7 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:586
-        public virtual AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)ClassNameOf(this.GetType());
-            return Result;
-        }
+        public virtual AnsiString Name() => (AnsiString)ClassNameOf(this.GetType());
 
         public int Sender { get => FSender; set => FSender = value; }
         public int Receiver { get => FReceiver; set => FReceiver = value; }
@@ -1515,12 +1227,7 @@ namespace Aow.Units.NetworkE
         { }
 
         // NetworkE.pas:461
-        public TPlayerCommunicationSettings GetPlayers(int Index)
-        {
-            TPlayerCommunicationSettings Result = default;
-            Result = (TPlayerCommunicationSettings)this.FChildren.List[Index];
-            return Result;
-        }
+        public TPlayerCommunicationSettings GetPlayers(int Index) => (TPlayerCommunicationSettings)this.FChildren.List[Index];
 
         public sealed class PlayersAccessor(TPlayerCommunicationSettingsList target)
         {
@@ -1539,68 +1246,35 @@ namespace Aow.Units.NetworkE
         internal TPlayerCommunicator FPlayerCommunicator;
         internal TPlayerCommunicationSettingsList FPCSList;
         // NetworkE.pas:549
-        public virtual int GetLocalSystemID()
-        {
-            int Result = default;
-            Result = 1;
-            return Result;
-        }
+        public virtual int GetLocalSystemID() => 1;
 
         // NetworkE.pas:532
-        public virtual int GetSystemCount()
-        {
-            int Result = default;
-            Result = 1;
-            return Result;
-        }
+        public virtual int GetSystemCount() => 1;
 
         // NetworkE.pas:516
         public virtual bool Activate(TPlayerCommunicator PC)
         {
-            bool Result = default;
             FPlayerCommunicator = PC;
-            Result = true;
-            return Result;
+            return true;
         }
 
         // NetworkE.pas:498
-        public virtual TPlayerCommunicationSettings CreatePCS()
-        {
-            TPlayerCommunicationSettings Result = default;
-            Result = new TPlayerCommunicationSettings(null);
-            return Result;
-        }
+        public virtual TPlayerCommunicationSettings CreatePCS() => new TPlayerCommunicationSettings(null);
 
         // NetworkE.pas:493
-        public virtual AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"";
-            return Result;
-        }
+        public virtual AnsiString Name() => (AnsiString)"";
 
         // NetworkE.pas:554
-        public virtual bool ReceivePackageData(TMemoryStream Stream)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool ReceivePackageData(TMemoryStream Stream) => false;
 
         // NetworkE.pas:559
-        public virtual bool SendPackageData(int APlayer, TMemoryStream Stream)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public virtual bool SendPackageData(int APlayer, TMemoryStream Stream) => false;
 
         // NetworkE.pas:468
         public TPlayerCommunicationControl()
         {
             FRefCount = 1;
-            var call__106 = new TPlayerCommunicationSettingsList(null);
-            FPCSList = call__106;
+            FPCSList = new TPlayerCommunicationSettingsList(null);
         }
 
         // NetworkE.pas:475
@@ -1629,18 +1303,10 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:503
         public TPlayerCommunicationSettings GetPlayers(int Index)
         {
-            TPlayerCommunicationSettings Result = default;
-            bool bool__107 = Index >= 0;
-            if (bool__107)
+            TPlayerCommunicationSettings Result;
+            if (Index >= 0 && Index < FPCSList.Count)
             {
-                var call__108 = FPCSList.Count;
-                bool__107 = Index < call__108;
-            }
-
-            if (bool__107)
-            {
-                var call__109 = FPCSList.Players[Index];
-                Result = call__109;
+                Result = FPCSList.Players[Index];
             }
             else
             {
@@ -1651,51 +1317,34 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:511
-        public int GetCount()
-        {
-            int Result = default;
-            var call__110 = FPCSList.Count;
-            Result = call__110;
-            return Result;
-        }
+        public int GetCount() => FPCSList.Count;
 
         // NetworkE.pas:522
         public bool Setup(int ACount)
         {
-            bool Result = default;
-            int I = default;
             FPCSList.Clear();
+            for (int I = 0; I <= ACount - 1; I++)
             {
-                I = 0;
-                int end__111 = ACount - 1;
-                for (; I <= end__111; I += 1)
-                {
-                    var call__112 = CreatePCS();
-                    call__112.Owner = FPCSList;
-                }
+                CreatePCS().Owner = FPCSList;
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
         // NetworkE.pas:537
         public int IndexOfSystemID(int ASystemID)
         {
-            int Result = default;
-            Result = GetCount();
+            int Result = GetCount();
             while (Result != 0)
             {
                 Result -= 1;
-                var call__113 = FPCSList.Players[Result];
-                if (call__113.FSystemID == ASystemID)
+                if (FPCSList.Players[Result].FSystemID == ASystemID)
                 {
                     return Result;
                 }
             }
 
-            Result = -1;
-            return Result;
+            return -1;
         }
 
         public int Count { get => GetCount(); }
@@ -1718,8 +1367,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:870
         public TPackageDataList()
         {
-            var call__114 = new TList();
-            FList = call__114;
+            FList = new TList();
         }
 
         // NetworkE.pas:876
@@ -1731,25 +1379,15 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:883
-        public int GetCount()
-        {
-            int Result = default;
-            Result = FList.Count;
-            return Result;
-        }
+        public int GetCount() => FList.Count;
 
         // NetworkE.pas:888
-        public TMemoryStream GetPackageData(int Index)
-        {
-            TMemoryStream Result = default;
-            Result = (TMemoryStream)FList.List[Index];
-            return Result;
-        }
+        public TMemoryStream GetPackageData(int Index) => (TMemoryStream)FList.List[Index];
 
         // NetworkE.pas:893
         public void Clear()
         {
-            TList L = default;
+            TList L;
             L = FList;
             while (L.Count != 0)
             {
@@ -1761,19 +1399,18 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:905
         public void Add(TMemoryStream Stream)
         {
-            TMemoryStream S = default;
+            TMemoryStream S;
             S = new TMemoryStream();
-            var call__115 = Stream.Size;
-            S.Size = call__115;
-            var call__116 = S.Size;
-            Move(Stream.Memory.AsSpan(0, call__116), S.Memory.AsSpan(0, call__116), call__116);
+            S.Size = Stream.Size;
+            var size = S.Size;
+            Move(Stream.Memory.AsSpan(0, size), S.Memory.AsSpan(0, size), size);
             FList.Add(S);
         }
 
         // NetworkE.pas:915
         public void AddData(object Data, int Size)
         {
-            TMemoryStream S = default;
+            TMemoryStream S;
             S = new TMemoryStream();
             S.Size = Size;
             Move(BufferBytes(Data)[..Size], S.Memory.AsSpan(0, Size), Size);
@@ -1783,12 +1420,11 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:925
         public void Insert(int Index, TMemoryStream Stream)
         {
-            TMemoryStream S = default;
+            TMemoryStream S;
             S = new TMemoryStream();
-            var call__117 = Stream.Size;
-            S.Size = call__117;
-            var call__118 = S.Size;
-            Move(Stream.Memory.AsSpan(0, call__118), S.Memory.AsSpan(0, call__118), call__118);
+            S.Size = Stream.Size;
+            var size = S.Size;
+            Move(Stream.Memory.AsSpan(0, size), S.Memory.AsSpan(0, size), size);
             FList.Insert(Index, S);
         }
 
@@ -1818,43 +1454,30 @@ namespace Aow.Units.NetworkE
         internal TPackageDataList FPackageDataList;
         internal TSendDataEvent FOnSendData;
         // NetworkE.pas:819
-        public override int GetLocalSystemID()
-        {
-            int Result = default;
-            Result = FLocalSystemID;
-            return Result;
-        }
+        public override int GetLocalSystemID() => FLocalSystemID;
 
         // NetworkE.pas:782
         // { The number of different system IDs among the players }
         public override int GetSystemCount()
         {
-            int Result = default;
-            int I = default;
-            int J = default;
-            int ID = default;
-            bool Unique = default;
-            Result = 0;
+            int J;
+            int ID;
+            bool Unique;
+            int Result = 0;
+            for (int I = 0, last = FPCSList.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__119 = FPCSList.Count - 1;
-                for (; I <= end__119; I += 1)
+                ID = FPCSList.Players[I].FSystemID;
+                Unique = true;
+                J = 0;
+                while (J != I && Unique)
                 {
-                    var call__120 = FPCSList.Players[I];
-                    ID = call__120.FSystemID;
-                    Unique = true;
-                    J = 0;
-                    while (J != I && Unique)
-                    {
-                        var call__121 = FPCSList.Players[J];
-                        Unique = ID != call__121.FSystemID;
-                        J += 1;
-                    }
+                    Unique = ID != FPCSList.Players[J].FSystemID;
+                    J += 1;
+                }
 
-                    if (Unique)
-                    {
-                        Result += 1;
-                    }
+                if (Unique)
+                {
+                    Result += 1;
                 }
             }
 
@@ -1862,26 +1485,17 @@ namespace Aow.Units.NetworkE
         }
 
         // NetworkE.pas:776
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Remote";
-            return Result;
-        }
+        public override AnsiString Name() => (AnsiString)"Remote";
 
         // NetworkE.pas:824
         public override bool ReceivePackageData(TMemoryStream Stream)
         {
-            bool Result = default;
-            var call__122 = FPackageDataList.Count;
-            if (call__122 != 0)
+            bool Result;
+            if (FPackageDataList.Count != 0)
             {
-                var call__123 = FPackageDataList.PackageData[0];
-                var call__124 = call__123.Size;
-                Stream.Size = call__124;
-                var call__125 = Stream.Size;
-                var call__126 = FPackageDataList.PackageData[0];
-                Move(call__126.Memory.AsSpan(0, call__125), Stream.Memory.AsSpan(0, call__125), call__125);
+                Stream.Size = FPackageDataList.PackageData[0].Size;
+                var size = Stream.Size;
+                Move(FPackageDataList.PackageData[0].Memory.AsSpan(0, size), Stream.Memory.AsSpan(0, size), size);
                 FPackageDataList.Delete(0);
                 Result = true;
             }
@@ -1898,23 +1512,21 @@ namespace Aow.Units.NetworkE
 //   for every player or for a player on this system is also received here. }
         public override bool SendPackageData(int APlayer, TMemoryStream Stream)
         {
-            bool Result = default;
-            int SystemID = default;
+            bool Result;
+            int SystemID;
             if (APlayer == NetworkE.AllPlayers)
             {
                 SystemID = 0;
             }
             else
             {
-                var call__127 = FPCSList.Players[APlayer];
-                SystemID = call__127.FSystemID;
+                SystemID = FPCSList.Players[APlayer].FSystemID;
             }
 
             if (SystemID != FLocalSystemID)
             {
-                var call__128 = Stream.Size;
-                var call__129 = SendData(Stream.Memory, call__128, SystemID);
-                Result = call__129;
+                var size = Stream.Size;
+                Result = SendData(Stream.Memory, size, SystemID);
             }
             else
             {
@@ -1932,8 +1544,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:759
         public TRemotePCC() : base()
         {
-            var call__130 = new TPackageDataList();
-            FPackageDataList = call__130;
+            FPackageDataList = new TPackageDataList();
         }
 
         // NetworkE.pas:765
@@ -1952,15 +1563,13 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:803
         public void SetConnectionMode(int Index, TConnectionMode Mode)
         {
-            var call__131 = FPCSList.Players[Index];
-            call__131.FConnectionMode = Mode;
+            FPCSList.Players[Index].FConnectionMode = Mode;
         }
 
         // NetworkE.pas:808
         public void SetSystemID(int Index, int ASystemID)
         {
-            var call__132 = FPCSList.Players[Index];
-            call__132.FSystemID = ASystemID;
+            FPCSList.Players[Index].FSystemID = ASystemID;
         }
 
         // NetworkE.pas:813
@@ -1982,8 +1591,7 @@ namespace Aow.Units.NetworkE
             bool Result = default;
             if (FOnSendData != null)
             {
-                var call__133 = FOnSendData(Data, Size, SystemID);
-                Result = call__133;
+                Result = FOnSendData(Data, Size, SystemID);
             }
             else
             {
@@ -2002,34 +1610,20 @@ namespace Aow.Units.NetworkE
     {
         internal TPackageDataList FPackageDataList;
         // NetworkE.pas:709
-        public override int GetSystemCount()
-        {
-            int Result = default;
-            Result = 1;
-            return Result;
-        }
+        public override int GetSystemCount() => 1;
 
         // NetworkE.pas:714
-        public override AnsiString Name()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Local";
-            return Result;
-        }
+        public override AnsiString Name() => (AnsiString)"Local";
 
         // NetworkE.pas:724
         public override bool ReceivePackageData(TMemoryStream Stream)
         {
-            bool Result = default;
-            var call__134 = FPackageDataList.Count;
-            if (call__134 != 0)
+            bool Result;
+            if (FPackageDataList.Count != 0)
             {
-                var call__135 = FPackageDataList.PackageData[0];
-                var call__136 = call__135.Size;
-                Stream.Size = call__136;
-                var call__137 = Stream.Size;
-                var call__138 = FPackageDataList.PackageData[0];
-                Move(call__138.Memory.AsSpan(0, call__137), Stream.Memory.AsSpan(0, call__137), call__137);
+                Stream.Size = FPackageDataList.PackageData[0].Size;
+                var size = Stream.Size;
+                Move(FPackageDataList.PackageData[0].Memory.AsSpan(0, size), Stream.Memory.AsSpan(0, size), size);
                 FPackageDataList.Delete(0);
                 Result = true;
             }
@@ -2044,17 +1638,14 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:737
         public override bool SendPackageData(int APlayer, TMemoryStream Stream)
         {
-            bool Result = default;
             FPackageDataList.Add(Stream);
-            Result = true;
-            return Result;
+            return true;
         }
 
         // NetworkE.pas:697
         public TLocalPCC() : base()
         {
-            var call__139 = new TPackageDataList();
-            FPackageDataList = call__139;
+            FPackageDataList = new TPackageDataList();
         }
 
         // NetworkE.pas:703
@@ -2073,25 +1664,18 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:743
         public new void Setup(int ACount)
         {
-            int I = default;
             base.Setup(ACount);
+            for (int I = FPCSList.Count - 1; I >= 0; I--)
             {
-                I = FPCSList.Count - 1;
-                byte end__140 = 0;
-                for (; I >= end__140; I -= 1)
-                {
-                    var call__141 = GetLocalSystemID();
-                    var call__142 = FPCSList.Players[I];
-                    call__142.FSystemID = call__141;
-                }
+                var localSystemID = GetLocalSystemID();
+                FPCSList.Players[I].FSystemID = localSystemID;
             }
         }
 
         // NetworkE.pas:752
         public void SetConnectionMode(int Index, TConnectionMode Mode)
         {
-            var call__143 = FPCSList.Players[Index];
-            call__143.FConnectionMode = Mode;
+            FPCSList.Players[Index].FConnectionMode = Mode;
         }
 
     }
@@ -2113,8 +1697,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1088
         public TTokenPackage(TECustomNode owner) : base(owner)
         {
-            var call__144 = new TTokenEventList(null);
-            FTokenEvents = call__144;
+            FTokenEvents = new TTokenEventList(null);
         }
 
         // NetworkE.pas:1094
@@ -2139,41 +1722,29 @@ namespace Aow.Units.NetworkE
 //   unless they were already executed or are already there. }
         public virtual void TokenPackageReceived(TTokenPackage TP)
         {
-            int I = default;
             if (FTokenManager != null)
             {
-                var call__145 = FPC.FPCC.GetLocalSystemID();
-                var call__146 = FPC.FPCC.GetPlayers(TP.FSender);
-                if (call__145 != call__146.FSystemID)
+                if (FPC.FPCC.GetLocalSystemID() != FPC.FPCC.GetPlayers(TP.FSender).FSystemID)
                 {
+                    for (int I = 0, last = TP.FTokenEvents.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__147 = TP.FTokenEvents.Count - 1;
-                        for (; I <= end__147; I += 1)
+                        if (TP.FTokenEvents[I].FTokenCounter >= FTokenManager.FTokenExecuter.FTokenCounter)
                         {
-                            var call__148 = TP.FTokenEvents[I];
-                            if (call__148.FTokenCounter >= FTokenManager.FTokenExecuter.FTokenCounter)
+                            var item = TP.FTokenEvents[I];
+                            if (FTokenManager.GetTokenControl(TP.FSender).FEvents.IndexOfTokenCounter(item.FTokenCounter) == -1)
                             {
-                                var call__149 = TP.FTokenEvents[I];
-                                var call__150 = FTokenManager.GetTokenControl(TP.FSender);
-                                var call__151 = call__150.FEvents.IndexOfTokenCounter(call__149.FTokenCounter);
-                                if (call__151 == -1)
-                                {
-                                    var call__152 = TP.FTokenEvents[I];
-                                    var call__153 = FTokenManager.GetTokenControl(TP.FSender);
-                                    call__153.Add(call__152);
-                                    var call__154 = FTokenManager.GetTokenControl(TP.FSender);
-                                    call__154.FEvents.SortOnTokenCounter();
-                                }
-                                else
-                                {
-                                    FTokenManager.TriggerMessage((AnsiString)"TokenEvent already exists");
-                                }
+                                var fTokenEventsItem = TP.FTokenEvents[I];
+                                FTokenManager.GetTokenControl(TP.FSender).Add(fTokenEventsItem);
+                                FTokenManager.GetTokenControl(TP.FSender).FEvents.SortOnTokenCounter();
                             }
                             else
                             {
-                                FTokenManager.TriggerMessage((AnsiString)"TokenEvent already executed");
+                                FTokenManager.TriggerMessage((AnsiString)"TokenEvent already exists");
                             }
+                        }
+                        else
+                        {
+                            FTokenManager.TriggerMessage((AnsiString)"TokenEvent already executed");
                         }
                     }
                 }
@@ -2189,7 +1760,7 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1157
         public virtual void SendTokenEvents(int APlayer, int AReceiver, TTokenEventList Events)
         {
-            TTokenPackage TP = default;
+            TTokenPackage TP;
             TP = new TTokenPackage(null);
             TP.FTokenEvents.Assign(Events, null);
             FPC.SendDataPackage(TP, APlayer, AReceiver);
@@ -2254,10 +1825,8 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1744
         public override TExecuteResult Execute(TTokenExecuter TE)
         {
-            TExecuteResult Result = default;
-            Result = base.Execute(TE);
-            var call__155 = TE.GetSyncValue();
-            if (call__155 != FSyncValue && TE.FOnSyncError != null)
+            TExecuteResult Result = base.Execute(TE);
+            if (TE.GetSyncValue() != FSyncValue && TE.FOnSyncError != null)
             {
                 TE.FOnSyncError(TE);
             }
@@ -2295,18 +1864,12 @@ namespace Aow.Units.NetworkE
         // NetworkE.pas:1751
         public static void RegisterNetworkEngine(TEngine AEngine)
         {
-            var call__156 = AEngine.RegisterDebugID((AnsiString)"Network Engine");
-            NetworkEngineDID = call__156;
+            NetworkEngineDID = AEngine.RegisterDebugID((AnsiString)"Network Engine");
             AEngine.RegisterEClasses([EClass.Of<TTokenPackage>(), EClass.Of<TPassTokenTE>(), EClass.Of<TSyncTE>()]);
         }
 
         public static int NetworkEngineDID;
         // NetworkE.pas:1051
-        public static int CompareTokenCounter(object Item1, object Item2)
-        {
-            int Result = default;
-            Result = ((TTokenEvent)Item1).FTokenCounter - ((TTokenEvent)Item2).FTokenCounter;
-            return Result;
-        }
+        public static int CompareTokenCounter(object Item1, object Item2) => ((TTokenEvent)Item1).FTokenCounter - ((TTokenEvent)Item2).FTokenCounter;
     }
 }

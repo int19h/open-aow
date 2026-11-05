@@ -5,24 +5,21 @@ namespace Aow.Units.HSEngine
     {
         public bool CanSelectLocation(int Xhp, int Yhp, int Lhp)
         {
-            bool Result = default;
+            bool Result;
             int Xhx = default;
             int Yhx = default;
-            TMapField MapF = default;
-            int I = default;
+            TMapField MapF;
+            int I;
             HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             if (Xhx >= 0 && ((THSMap)Owner).FMapContainer.FWidth > Xhx && ((THSMap)Owner).FMapContainer.FHeight > Yhx && Yhx >= 0)
             {
-                var call__226 = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
-                MapF = call__226;
-                var call__227 = MapF.Count;
-                I = call__227;
+                MapF = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
+                I = MapF.Count;
                 Result = false;
                 while (!Result && I != 0)
                 {
                     I -= 1;
-                    var call__228 = MapF.FHSList[I].CanSelect(Xhp, Yhp);
-                    Result = call__228;
+                    Result = MapF.FHSList[I].CanSelect(Xhp, Yhp);
                 }
             }
             else
@@ -34,26 +31,22 @@ namespace Aow.Units.HSEngine
         }
         public void SelectLocation(int Xhp, int Yhp, int Lhp)
         {
-            int N = default;
+            int N;
             int Xhx = default;
             int Yhx = default;
-            TMapField MapF = default;
-            THexagonSprite HS = default;
-            int I = default;
+            TMapField MapF;
+            THexagonSprite HS;
+            int I;
             HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            var call__229 = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
-            MapF = call__229;
+            MapF = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
             I = FindLocationHSIndex(MapF) - 1;
-            ;
             HS = null;
             if (I < 0)
             {
-                var call__230 = MapF.Count;
-                I = call__230 - 1;
+                I = MapF.Count - 1;
             }
 
-            var call__231 = MapF.Count;
-            N = call__231;
+            N = MapF.Count;
             while (N != 0 && HS == null)
             {
                 HS = MapF.FHSList[I];
@@ -66,15 +59,13 @@ namespace Aow.Units.HSEngine
                 I -= 1;
                 if (I < 0)
                 {
-                    var call__232 = MapF.Count;
-                    I = call__232 - 1;
+                    I = MapF.Count - 1;
                 }
             }
 
             if (HS != null)
             {
-                var call__233 = FLocationHS.IndexOf(HS);
-                if (call__233 == -1)
+                if (FLocationHS.IndexOf(HS) == -1)
                 {
                     UnselectLocation();
                     SelectLocationHS(HS);
@@ -83,40 +74,27 @@ namespace Aow.Units.HSEngine
         }
         public int FindLocationHSIndex(TMapField MapF)
         {
-            int Result = default;
-            int I = default;
+            int I;
             int Xhp = default;
             int Yhp = default;
-            THexagonSprite HS = default;
-            Result = -1;
+            THexagonSprite HS;
+            int Result = -1;
             if (FLocationHS.Count != 0)
             {
                 I = 0;
                 HSEngine.HXtoHP(MapF.FXhx, MapF.FYhx, ref Xhp, ref Yhp);
-                while (true)
+                while (Result == -1 && I != MapF.Count)
                 {
-                    bool bool__227 = Result == -1;
-                    if (bool__227)
+                    HS = MapF.FHSList[I];
+                    if (HS.CanSelect(Xhp, Yhp))
                     {
-                        var call__228 = MapF.Count;
-                        bool__227 = I != call__228;
-                    }
-
-                    if (!bool__227)
-                        break;
-                    {
-                        HS = MapF.FHSList[I];
-                        if (HS.CanSelect(Xhp, Yhp))
+                        if (FLocationHS.IndexOf(HS) != -1)
                         {
-                            var call__229 = FLocationHS.IndexOf(HS);
-                            if (call__229 != -1)
-                            {
-                                Result = I;
-                            }
+                            Result = I;
                         }
-
-                        I += 1;
                     }
+
+                    I += 1;
                 }
             }
 
