@@ -6,361 +6,360 @@ using static Aow.Units.HSEngine.HSEngine;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
-namespace Aow.Units.ReflectingPool
+namespace Aow.Units.ReflectingPool;
+
+// FCenterFrame (-1 when inactive)
+public partial class TReflectingPool : TPlayerStructure
 {
-    // FCenterFrame (-1 when inactive)
-    public partial class TReflectingPool : TPlayerStructure
+    public TReflectingPool(TECustomNode owner) : base(owner)
     {
-        public TReflectingPool(TECustomNode owner) : base(owner)
+        FCenterFrame = -1;
+    }
+
+    // ReflectingPool.pas:58
+    public new const int ClassID = 132670;
+
+    public int FCenterFrame;
+    // ReflectingPool.pas:80
+    public override void ReadWrite(TEStorageStream Stream)
+    {
+        base.ReadWrite(Stream);
+    }
+
+    // ReflectingPool.pas:52
+
+
+    // ReflectingPool.pas:241
+    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    {
+        if (Msg.MsgID == 4362 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
         {
-            FCenterFrame = -1;
-        }
-
-        // ReflectingPool.pas:58
-        public new const int ClassID = 132670;
-
-        public int FCenterFrame;
-        // ReflectingPool.pas:80
-        public override void ReadWrite(TEStorageStream Stream)
-        {
-            base.ReadWrite(Stream);
-        }
-
-        // ReflectingPool.pas:52
-
-
-        // ReflectingPool.pas:241
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
-        {
-            if (Msg.MsgID == 4362 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+            if (VisibilityRange() >= Msg.Param[0].Value && PoolVisionPlayer((sbyte)Msg.Param[1].Value))
             {
-                if (VisibilityRange() >= Msg.Param[0].Value && PoolVisionPlayer((sbyte)Msg.Param[1].Value))
+                Msg.Result = 1;
+            }
+        }
+        else
+        {
+            if (Msg.MsgID == 4365 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+            {
+                if (VisibilityRange() >= Msg.Param[0].Value)
                 {
-                    Msg.Result = 1;
+                    NotifyPlayerChanged(Msg.MapField, Msg.Param[0].Value);
                 }
             }
             else
             {
-                if (Msg.MsgID == 4365 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
-                {
-                    if (VisibilityRange() >= Msg.Param[0].Value)
-                    {
-                        NotifyPlayerChanged(Msg.MapField, Msg.Param[0].Value);
-                    }
-                }
-                else
-                {
-                    base.MapFieldMsgProc(ref Msg);
-                }
+                base.MapFieldMsgProc(ref Msg);
             }
         }
+    }
 
-        // ReflectingPool.pas:83
-        public override void Activate()
+    // ReflectingPool.pas:83
+    public override void Activate()
+    {
+        base.Activate();
+        if (FPlayer != -1)
         {
-            base.Activate();
-            if (FPlayer != -1)
-            {
-                AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
-            }
+            AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
         }
+    }
 
-        // ReflectingPool.pas:89
-        public override void Deactivate()
+    // ReflectingPool.pas:89
+    public override void Deactivate()
+    {
+        base.Deactivate();
+        DeactivatePoolCentering();
+        if (FPlayer != -1)
         {
-            base.Deactivate();
-            DeactivatePoolCentering();
+            AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.RemoveChild(this);
+        }
+    }
+
+    // ReflectingPool.pas:143
+    public override void SetPlayer(sbyte Player)
+    {
+        if (Player != FPlayer)
+        {
             if (FPlayer != -1)
             {
                 AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.RemoveChild(this);
             }
-        }
 
-        // ReflectingPool.pas:143
-        public override void SetPlayer(sbyte Player)
-        {
-            if (Player != FPlayer)
+            base.SetPlayer(Player);
+            if (FPlayer != -1)
             {
-                if (FPlayer != -1)
-                {
-                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.RemoveChild(this);
-                }
-
-                base.SetPlayer(Player);
-                if (FPlayer != -1)
-                {
-                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
-                }
-
-                UpdateReflectingPoolsExploration();
-                if (FPlayer != -1 && FPlayer == AoWHSMap.FSeatedPlayer && AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.Count == 1)
-                {
-                    ActivatePoolCentering();
-                }
-            }
-        }
-
-        // ReflectingPool.pas:69
-        public override int VisibilityRange()
-        {
-            int Result = 8;
-            if (GetLhx() != 0 || FPlayer > 0 && (((byte)AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
-            {
-                Result = (int)(((uint)(Result + 1)) >> 1);
+                AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
             }
 
-            return Result;
+            UpdateReflectingPoolsExploration();
+            if (FPlayer != -1 && FPlayer == AoWHSMap.FSeatedPlayer && AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.Count == 1)
+            {
+                ActivatePoolCentering();
+            }
+        }
+    }
+
+    // ReflectingPool.pas:69
+    public override int VisibilityRange()
+    {
+        int Result = 8;
+        if (GetLhx() != 0 || FPlayer > 0 && (((byte)AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
+        {
+            Result = (int)(((uint)(Result + 1)) >> 1);
         }
 
-        // ReflectingPool.pas:185
-        public override void UpdateUnfog()
+        return Result;
+    }
+
+    // ReflectingPool.pas:185
+    public override void UpdateUnfog()
+    {
+        int Range;
+        int X = default;
+        int Y = default;
+        if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
         {
-            int Range;
-            int X = default;
-            int Y = default;
-            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            if (FStatus.Contains(TMapObjectStatusElement.moActivated) && AoWHSMap.FSeatedPlayer != -1)
             {
-                if (FStatus.Contains(TMapObjectStatusElement.moActivated) && AoWHSMap.FSeatedPlayer != -1)
+                if (PoolVisionPlayer(AoWHSMap.FSeatedPlayer))
                 {
-                    if (PoolVisionPlayer(AoWHSMap.FSeatedPlayer))
-                    {
-                        Range = VisibilityRange();
-                    }
-                    else
-                    {
-                        Range = 0;
-                    }
+                    Range = VisibilityRange();
                 }
                 else
                 {
                     Range = 0;
                 }
-
-                if (Range != FUnfogRange)
-                {
-                    if (FUnfogRange != 0)
-                    {
-                        for (int I = 0, last = FResource.TerrainList.Count - 1; I <= last; I++)
-                        {
-                            if (FResource.TerrainList.GetTerrain(I) >= 0)
-                            {
-                                CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
-                                AoWHSMap.FogArea(X, Y, ((TMapField)Owner).Lhx, FUnfogRange);
-                            }
-                        }
-                    }
-
-                    FUnfogRange = (byte)Range;
-                    if (FUnfogRange != 0)
-                    {
-                        for (int I = 0, last = FResource.TerrainList.Count - 1; I <= last; I++)
-                        {
-                            if (FResource.TerrainList.GetTerrain(I) >= 0)
-                            {
-                                CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
-                                AoWHSMap.UnFogArea(X, Y, ((TMapField)Owner).Lhx, FUnfogRange);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // ReflectingPool.pas:157
-        public override void UpdateExploration()
-        {
-            int X = default;
-            int Y = default;
-            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
-            {
-                for (int P = 1, last = AoWHSMap.FPlayers.Count - 1; P <= last; P++)
-                {
-                    if (PoolVisionPlayer((sbyte)P))
-                    {
-                        for (int I = 0, lastI = FResource.TerrainList.Count - 1; I <= lastI; I++)
-                        {
-                            if (FResource.TerrainList.GetTerrain(I) >= 0)
-                            {
-                                CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
-                                var visibilityRange = VisibilityRange();
-                                AoWHSMap.ExploreArea(X, Y, ((TMapField)Owner).Lhx, (sbyte)P, visibilityRange);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // ReflectingPool.pas:77
-        public override int GetDefaultAITargetPriority() => 1;
-
-        // ReflectingPool.pas:61
-        public void ListReflectingPools(ref TPlayerStructureList List)
-        {
-            for (int P = AoWHSMap.FPlayers.Count - 1; P >= 0; P--)
-            {
-                for (int I = AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.Count - 1; I >= 0; I--)
-                {
-                    var structure = AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.GetStructure(I);
-                    List.AddChild(structure);
-                }
-            }
-        }
-
-        // ReflectingPool.pas:99
-        public void NewFrame(TObject Sender)
-        {
-            TPlayerStructureList List = default;
-            TPlayerStructure Pool = default;
-            if (AoWHSMap.FSeatedPlayer == FPlayer)
-            {
-                FCenterFrame += 1;
-                if (FCenterFrame % 8 == 0)
-                {
-                    List = new TPlayerStructureList(null);
-                    ListReflectingPools(ref List);
-                    List.RemoveChild(this);
-                    List.Sort(ReflectingPool.ComparePools);
-                    var count = List.Count;
-                    if (FCenterFrame / 8 < count)
-                    {
-                        Pool = List.GetStructure(FCenterFrame / 8);
-                        var lhx = Pool.GetLhx();
-                        var yhx = Pool.GetYhx();
-                        var xhx = Pool.GetXhx();
-                        AoWHSMap.CenterViewTo(xhx, yhx, lhx);
-                    }
-                    else
-                    {
-                        var lhx = GetLhx();
-                        var yhx = GetYhx();
-                        var xhx = GetXhx();
-                        AoWHSMap.CenterViewTo(xhx, yhx, lhx);
-                        DeactivatePoolCentering();
-                    }
-
-                    List.Free();
-                }
             }
             else
             {
-                DeactivatePoolCentering();
+                Range = 0;
             }
-        }
 
-        // ReflectingPool.pas:127
-        public void ActivatePoolCentering()
-        {
-            DeactivatePoolCentering();
-            FCenterFrame = 0;
-            AoWHSMap.NewFrameEvents.Add(NewFrame);
-        }
-
-        // ReflectingPool.pas:134
-        public void DeactivatePoolCentering()
-        {
-            if (FCenterFrame != -1)
+            if (Range != FUnfogRange)
             {
-                AoWHSMap.NewFrameEvents.Remove(NewFrame);
-                FCenterFrame = -1;
-            }
-        }
-
-        // ReflectingPool.pas:171
-        public void UpdateReflectingPoolsExploration()
-        {
-            TPlayer Player;
-            for (int P = AoWHSMap.FPlayers.Count - 1; P >= 0; P--)
-            {
-                Player = AoWHSMap.FPlayers.GetPlayers(P);
-                for (int I = Player.FKnownStructures.Count - 1; I >= 0; I--)
+                if (FUnfogRange != 0)
                 {
-                    Player.FKnownStructures.GetStructure(I).UpdateExploration();
-                    Player.FKnownStructures.GetStructure(I).UpdateUnfog();
+                    for (int I = 0, last = FResource.TerrainList.Count - 1; I <= last; I++)
+                    {
+                        if (FResource.TerrainList.GetTerrain(I) >= 0)
+                        {
+                            CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
+                            AoWHSMap.FogArea(X, Y, ((TMapField)Owner).Lhx, FUnfogRange);
+                        }
+                    }
+                }
+
+                FUnfogRange = (byte)Range;
+                if (FUnfogRange != 0)
+                {
+                    for (int I = 0, last = FResource.TerrainList.Count - 1; I <= last; I++)
+                    {
+                        if (FResource.TerrainList.GetTerrain(I) >= 0)
+                        {
+                            CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
+                            AoWHSMap.UnFogArea(X, Y, ((TMapField)Owner).Lhx, FUnfogRange);
+                        }
+                    }
                 }
             }
         }
+    }
 
-        // ReflectingPool.pas:217
-        public bool PoolVisionPlayer(sbyte Player)
-        {
-            int P;
-            bool Result = AoWHSMap.FPlayers.GetPlayers(Player).FKnownStructures.Count != 0;
-            if (!Result)
-            {
-                P = AoWHSMap.FPlayers.Count;
-                while (P > 1 && !Result)
-                {
-                    P -= 1;
-                    Result = AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.Count != 0 && AoWHSMap.FPlayers.GetPlayers(P).FDiplomaticRelations.GetDiplomaticRelation(Player) == TDiplomaticRelation.drAlliance;
-                }
-            }
-
-            return Result;
-        }
-
-        // ReflectingPool.pas:233
-        public void NotifyPlayerChanged(TMapField MapField, int Distance)
+    // ReflectingPool.pas:157
+    public override void UpdateExploration()
+    {
+        int X = default;
+        int Y = default;
+        if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
         {
             for (int P = 1, last = AoWHSMap.FPlayers.Count - 1; P <= last; P++)
             {
                 if (PoolVisionPlayer((sbyte)P))
                 {
-                    var trueVisionRange = TrueVisionRange();
-                    AoWHSMap.UpdatePlayerSeen(P, MapField.Xhx, MapField.Yhx, MapField.Lhx, Distance, trueVisionRange);
+                    for (int I = 0, lastI = FResource.TerrainList.Count - 1; I <= lastI; I++)
+                    {
+                        if (FResource.TerrainList.GetTerrain(I) >= 0)
+                        {
+                            CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
+                            var visibilityRange = VisibilityRange();
+                            AoWHSMap.ExploreArea(X, Y, ((TMapField)Owner).Lhx, (sbyte)P, visibilityRange);
+                        }
+                    }
                 }
             }
         }
-
-        // ReflectingPool.pas:20
-
-
     }
 
-    public partial class TReflectingPoolResource : TPlayerStructureResource
+    // ReflectingPool.pas:77
+    public override int GetDefaultAITargetPriority() => 1;
+
+    // ReflectingPool.pas:61
+    public void ListReflectingPools(ref TPlayerStructureList List)
     {
-        public TReflectingPoolResource(TECustomNode owner) : base(owner)
+        for (int P = AoWHSMap.FPlayers.Count - 1; P >= 0; P--)
         {
-            FTerrainBound = true;
-            FConnectRoads = false;
-            FClaimed = false;
-            FRazeable = false;
+            for (int I = AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.Count - 1; I >= 0; I--)
+            {
+                var structure = AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.GetStructure(I);
+                List.AddChild(structure);
+            }
         }
-
-        // ReflectingPool.pas:266
-        public new const int ClassID = 132671;
-
-        // ReflectingPool.pas:254
-
-
-        // ReflectingPool.pas:269
-        public override int ResourceUserClassID() => 132670;
-
-        // ReflectingPool.pas:42
-
-
-        // ReflectingPool.pas:263
-        public override string ResourceEditName() => TranslateRStr(ReflectingPoolRStr);
-
     }
 
-    public static partial class ReflectingPool
+    // ReflectingPool.pas:99
+    public void NewFrame(TObject Sender)
     {
-        // ReflectingPool.pas:272
-        public static void RegisterReflectingPool(TEngine AEngine)
+        TPlayerStructureList List = default;
+        TPlayerStructure Pool = default;
+        if (AoWHSMap.FSeatedPlayer == FPlayer)
         {
-            AEngine.RegisterEClasses([EClass.Of<TReflectingPool>(), EClass.Of<TReflectingPoolResource>()]);
+            FCenterFrame += 1;
+            if (FCenterFrame % 8 == 0)
+            {
+                List = new TPlayerStructureList(null);
+                ListReflectingPools(ref List);
+                List.RemoveChild(this);
+                List.Sort(ReflectingPool.ComparePools);
+                var count = List.Count;
+                if (FCenterFrame / 8 < count)
+                {
+                    Pool = List.GetStructure(FCenterFrame / 8);
+                    var lhx = Pool.GetLhx();
+                    var yhx = Pool.GetYhx();
+                    var xhx = Pool.GetXhx();
+                    AoWHSMap.CenterViewTo(xhx, yhx, lhx);
+                }
+                else
+                {
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    AoWHSMap.CenterViewTo(xhx, yhx, lhx);
+                    DeactivatePoolCentering();
+                }
+
+                List.Free();
+            }
+        }
+        else
+        {
+            DeactivatePoolCentering();
+        }
+    }
+
+    // ReflectingPool.pas:127
+    public void ActivatePoolCentering()
+    {
+        DeactivatePoolCentering();
+        FCenterFrame = 0;
+        AoWHSMap.NewFrameEvents.Add(NewFrame);
+    }
+
+    // ReflectingPool.pas:134
+    public void DeactivatePoolCentering()
+    {
+        if (FCenterFrame != -1)
+        {
+            AoWHSMap.NewFrameEvents.Remove(NewFrame);
+            FCenterFrame = -1;
+        }
+    }
+
+    // ReflectingPool.pas:171
+    public void UpdateReflectingPoolsExploration()
+    {
+        TPlayer Player;
+        for (int P = AoWHSMap.FPlayers.Count - 1; P >= 0; P--)
+        {
+            Player = AoWHSMap.FPlayers.GetPlayers(P);
+            for (int I = Player.FKnownStructures.Count - 1; I >= 0; I--)
+            {
+                Player.FKnownStructures.GetStructure(I).UpdateExploration();
+                Player.FKnownStructures.GetStructure(I).UpdateUnfog();
+            }
+        }
+    }
+
+    // ReflectingPool.pas:217
+    public bool PoolVisionPlayer(sbyte Player)
+    {
+        int P;
+        bool Result = AoWHSMap.FPlayers.GetPlayers(Player).FKnownStructures.Count != 0;
+        if (!Result)
+        {
+            P = AoWHSMap.FPlayers.Count;
+            while (P > 1 && !Result)
+            {
+                P -= 1;
+                Result = AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.Count != 0 && AoWHSMap.FPlayers.GetPlayers(P).FDiplomaticRelations.GetDiplomaticRelation(Player) == TDiplomaticRelation.drAlliance;
+            }
         }
 
-        // ReflectingPool.pas:96
-        public static int ComparePools(object Item1, object Item2) => (((TObject)Item1)?.InstanceId ?? 0) - (((TObject)Item2)?.InstanceId ?? 0);
+        return Result;
+    }
 
-        public static void Initialize()
+    // ReflectingPool.pas:233
+    public void NotifyPlayerChanged(TMapField MapField, int Distance)
+    {
+        for (int P = 1, last = AoWHSMap.FPlayers.Count - 1; P <= last; P++)
         {
+            if (PoolVisionPlayer((sbyte)P))
+            {
+                var trueVisionRange = TrueVisionRange();
+                AoWHSMap.UpdatePlayerSeen(P, MapField.Xhx, MapField.Yhx, MapField.Lhx, Distance, trueVisionRange);
+            }
         }
+    }
 
-        public static void Finalize()
-        {
-        }
+    // ReflectingPool.pas:20
+
+
+}
+
+public partial class TReflectingPoolResource : TPlayerStructureResource
+{
+    public TReflectingPoolResource(TECustomNode owner) : base(owner)
+    {
+        FTerrainBound = true;
+        FConnectRoads = false;
+        FClaimed = false;
+        FRazeable = false;
+    }
+
+    // ReflectingPool.pas:266
+    public new const int ClassID = 132671;
+
+    // ReflectingPool.pas:254
+
+
+    // ReflectingPool.pas:269
+    public override int ResourceUserClassID() => 132670;
+
+    // ReflectingPool.pas:42
+
+
+    // ReflectingPool.pas:263
+    public override string ResourceEditName() => TranslateRStr(ReflectingPoolRStr);
+
+}
+
+public static partial class ReflectingPool
+{
+    // ReflectingPool.pas:272
+    public static void RegisterReflectingPool(TEngine AEngine)
+    {
+        AEngine.RegisterEClasses([EClass.Of<TReflectingPool>(), EClass.Of<TReflectingPoolResource>()]);
+    }
+
+    // ReflectingPool.pas:96
+    public static int ComparePools(object Item1, object Item2) => (((TObject)Item1)?.InstanceId ?? 0) - (((TObject)Item2)?.InstanceId ?? 0);
+
+    public static void Initialize()
+    {
+    }
+
+    public static void Finalize()
+    {
     }
 }

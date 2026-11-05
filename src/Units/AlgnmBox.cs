@@ -3,76 +3,75 @@ using Aow.Rtl;
 using static Aow.Rtl.Rtl;
 using Aow.Units.AoWE;
 
-namespace Aow.Units.AlgnmBox
+namespace Aow.Units.AlgnmBox;
+
+public partial class TAlignmentBox : TComboBox
 {
-    public partial class TAlignmentBox : TComboBox
+    public TAlignment FAlignment;
+    public TSet<TAlignment> FAlignments;
+    public bool FSetMode;
+    // AlgnmBox.pas:133
+    public override void Loaded()
     {
-        public TAlignment FAlignment;
-        public TSet<TAlignment> FAlignments;
-        public bool FSetMode;
-        // AlgnmBox.pas:133
-        public override void Loaded()
-        {
-            base.Loaded();
-            GenerateItems();
-        }
-
-        // AlgnmBox.pas:54
-
-        public TAlignmentBox(TComponent owner) : base(owner)
-        {
-            /* TODO: Implement StdCtrls.Create in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // AlgnmBox.pas:60
-        public void GenerateItems()
-        {
-            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // AlgnmBox.pas:100
-        public void SetAlignments(TSet<TAlignment> Value)
-        {
-            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // AlgnmBox.pas:110
-        public void SetAlignment(TAlignment Value)
-        {
-            /* TODO: Implement StdCtrls.Items in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // AlgnmBox.pas:120
-        protected internal override void Change()
-        {
-            /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        [Published]
-        public bool UseSets { get => FSetMode; set => FSetMode = value; }
+        base.Loaded();
+        GenerateItems();
     }
 
-    public static partial class AlgnmBox
+    // AlgnmBox.pas:54
+
+    public TAlignmentBox(TComponent owner) : base(owner)
     {
-        // AlgnmBox.pas:139
-        public static void Register()
-        {
-            RegisterComponents("AoW", [typeof(TAlignmentBox)]);
-        }
+        /* TODO: Implement StdCtrls.Create in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        public static string NoneRStr = "None";
+    // AlgnmBox.pas:60
+    public void GenerateItems()
+    {
+        /* TODO: Implement StdCtrls.Items in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        public static void Initialize()
-        {
-        }
+    // AlgnmBox.pas:100
+    public void SetAlignments(TSet<TAlignment> Value)
+    {
+        /* TODO: Implement StdCtrls.Items in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        public static void Finalize()
-        {
-        }
+    // AlgnmBox.pas:110
+    public void SetAlignment(TAlignment Value)
+    {
+        /* TODO: Implement StdCtrls.Items in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // AlgnmBox.pas:120
+    protected internal override void Change()
+    {
+        /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    [Published]
+    public bool UseSets { get => FSetMode; set => FSetMode = value; }
+}
+
+public static partial class AlgnmBox
+{
+    // AlgnmBox.pas:139
+    public static void Register()
+    {
+        RegisterComponents("AoW", [typeof(TAlignmentBox)]);
+    }
+
+    public static string NoneRStr = "None";
+
+    public static void Initialize()
+    {
+    }
+
+    public static void Finalize()
+    {
     }
 }

@@ -5,58 +5,57 @@ using Aow.Units.Altar;
 using Aow.Units.Storms;
 using static Aow.Units.AoWE.AoWE;
 
-namespace Aow.Units.AltDeath
+namespace Aow.Units.AltDeath;
+
+public partial class TAltarOfDeath : TAltar
 {
-    public partial class TAltarOfDeath : TAltar
+    public TAltarOfDeath(TECustomNode owner) : base(owner)
+    {}
+
+    // AltDeath.pas:36
+    public new const int ClassID = 131637;
+
+    // AltDeath.pas:39
+    public override TStorm CreateStorm() => new TDeathStorm(null);
+
+}
+
+public partial class TAltarOfDeathResource : TAltarResource
+{
+    public TAltarOfDeathResource(TECustomNode owner) : base(owner)
     {
-        public TAltarOfDeath(TECustomNode owner) : base(owner)
-        {}
-
-        // AltDeath.pas:36
-        public new const int ClassID = 131637;
-
-        // AltDeath.pas:39
-        public override TStorm CreateStorm() => new TDeathStorm(null);
-
     }
 
-    public partial class TAltarOfDeathResource : TAltarResource
+    // AltDeath.pas:52
+    public new const int ClassID = 131638;
+
+    // AltDeath.pas:44
+
+
+    // AltDeath.pas:55
+    public override int ResourceUserClassID() => 131637;
+
+    // AltDeath.pas:26
+
+
+    // AltDeath.pas:49
+    public override string ResourceEditName() => TranslateRStr(AltarOfDeathRStr);
+
+}
+
+public static partial class AltDeath
+{
+    // AltDeath.pas:58
+    public static void RegisterAltarOfDeath(TEngine AEngine)
     {
-        public TAltarOfDeathResource(TECustomNode owner) : base(owner)
-        {
-        }
-
-        // AltDeath.pas:52
-        public new const int ClassID = 131638;
-
-        // AltDeath.pas:44
-
-
-        // AltDeath.pas:55
-        public override int ResourceUserClassID() => 131637;
-
-        // AltDeath.pas:26
-
-
-        // AltDeath.pas:49
-        public override string ResourceEditName() => TranslateRStr(AltarOfDeathRStr);
-
+        AEngine.RegisterEClasses([EClass.Of<TAltarOfDeath>(), EClass.Of<TAltarOfDeathResource>()]);
     }
 
-    public static partial class AltDeath
+    public static void Initialize()
     {
-        // AltDeath.pas:58
-        public static void RegisterAltarOfDeath(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TAltarOfDeath>(), EClass.Of<TAltarOfDeathResource>()]);
-        }
+    }
 
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
+    public static void Finalize()
+    {
     }
 }

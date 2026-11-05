@@ -8,59 +8,58 @@ using Aow.Units.AoWWindow;
 using Aow.Units.EventLog;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 
-namespace Aow.Units.AoWMsgReceiveDlg
+namespace Aow.Units.AoWMsgReceiveDlg;
+
+// done callback, retained event
+public partial class TMsgReceiveDlg : TDataModule
 {
-    // done callback, retained event
-    public partial class TMsgReceiveDlg : TDataModule
+    public TMsgReceiveDlg(TComponent owner) : base(owner)
+    { }
+
+    public TAOWWindow MsgReceiveWin;
+    public TAOWMemo MessageMemo;
+    public TAOWButton Close;
+    public TAOWVScrollBar MessageSB;
+    public TAOWImage LShield;
+    public TAOWImage RShield;
+    public TAOWMemo HeaderMemo;
+    public TIvTranslator Translator;
+    public TExecuteDoneEvent FDone;
+    public TEventLog FEvent;
+    // AoWMsgReceiveDlg.pas:54
+    public void FinishDialog()
     {
-        public TMsgReceiveDlg(TComponent owner) : base(owner)
-        { }
-
-        public TAOWWindow MsgReceiveWin;
-        public TAOWMemo MessageMemo;
-        public TAOWButton Close;
-        public TAOWVScrollBar MessageSB;
-        public TAOWImage LShield;
-        public TAOWImage RShield;
-        public TAOWMemo HeaderMemo;
-        public TIvTranslator Translator;
-        public TExecuteDoneEvent FDone;
-        public TEventLog FEvent;
-        // AoWMsgReceiveDlg.pas:54
-        public void FinishDialog()
+        TExecuteDoneEvent Done;
+        TEventLog Log;
+        Done = FDone;
+        Log = FEvent;
+        FDone = null;
+        FEvent = null;
+        if (Done != null)
         {
-            TExecuteDoneEvent Done;
-            TEventLog Log;
-            Done = FDone;
-            Log = FEvent;
-            FDone = null;
-            FEvent = null;
-            if (Done != null)
-            {
-                Done(Log);
-            }
-
-            if (Log != null)
-            {
-                Log.Release();
-            }
+            Done(Log);
         }
 
-        // AoWMsgReceiveDlg.pas:40
-        public void CloseClick()
+        if (Log != null)
         {
-            General.PlayButtonSound(0);
-            MsgReceiveWin.Visible = false;
-        }
-
-        // AoWMsgReceiveDlg.pas:47
-        public void MsgReceiveWinHide()
-        {
-            FinishDialog();
+            Log.Release();
         }
     }
 
-    public static partial class AoWMsgReceiveDlg
+    // AoWMsgReceiveDlg.pas:40
+    public void CloseClick()
     {
+        General.PlayButtonSound(0);
+        MsgReceiveWin.Visible = false;
     }
+
+    // AoWMsgReceiveDlg.pas:47
+    public void MsgReceiveWinHide()
+    {
+        FinishDialog();
+    }
+}
+
+public static partial class AoWMsgReceiveDlg
+{
 }

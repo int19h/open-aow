@@ -6,260 +6,255 @@ using static Aow.Units.AoWE.AoWE;
 using Aow.Units.AoWComp;
 using static Aow.Units.AoWExeForms.AoWExeForms;
 
-namespace Aow.Units.E2WindowLayout
+namespace Aow.Units.E2WindowLayout;
+
+public static partial class E2WindowLayout
 {
-    public static partial class E2WindowLayout
+    // E2WindowLayout.pas:13
+    // The original window placement loader
+    public static void RestoreWindowLayout(TObject Controller)
     {
-        // E2WindowLayout.pas:13
-        // The original window placement loader
-        public static void RestoreWindowLayout(TObject Controller)
+        TRect R;
+        R = AoWEngine.FRegistry.GetRectangle(6);
+        var scanner = AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
+        if (R.Right != 0)
         {
-            TRect R;
-            R = AoWEngine.FRegistry.GetRectangle(6);
-            var window = AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
-            if (R.Right != 0)
-            {
-                window.Alignment.TopOffset = R.Top;
-                window.Alignment.RightOffset = R.Left;
-                window.WinWidth = R.Right;
-                window.WinHeight = R.Bottom;
-            }
-            else
-            {
-                window.Alignment.TopOffset = 0;
-                window.Alignment.RightOffset = 0;
-                window.WinWidth = window.MinWidth;
-                window.WinHeight = window.MinHeight;
-            }
+            scanner.Alignment.TopOffset = R.Top;
+            scanner.Alignment.RightOffset = R.Left;
+            scanner.WinWidth = R.Right;
+            scanner.WinHeight = R.Bottom;
+        }
+        else
+        {
+            scanner.Alignment.TopOffset = 0;
+            scanner.Alignment.RightOffset = 0;
+            scanner.WinWidth = scanner.MinWidth;
+            scanner.WinHeight = scanner.MinHeight;
+        }
 
-            R = AoWEngine.FRegistry.GetRectangle(0);
-            var window2 = AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin;
-            if (R.Right != 0)
-            {
-                window2.Alignment.BottomOffset = R.Top;
-                window2.Alignment.RightOffset = R.Left;
-                window2.WinWidth = R.Right;
-                window2.WinHeight = R.Bottom;
-            }
-            else
-            {
-                window2.Alignment.BottomOffset = 0;
-                window2.Alignment.RightOffset = 0;
-                window2.WinWidth = window2.MinWidth;
-                window2.WinHeight = window2.MinHeight;
-            }
+        R = AoWEngine.FRegistry.GetRectangle(0);
+        var playerInfo = AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin;
+        if (R.Right != 0)
+        {
+            playerInfo.Alignment.BottomOffset = R.Top;
+            playerInfo.Alignment.RightOffset = R.Left;
+            playerInfo.WinWidth = R.Right;
+            playerInfo.WinHeight = R.Bottom;
+        }
+        else
+        {
+            playerInfo.Alignment.BottomOffset = 0;
+            playerInfo.Alignment.RightOffset = 0;
+            playerInfo.WinWidth = playerInfo.MinWidth;
+            playerInfo.WinHeight = playerInfo.MinHeight;
+        }
 
-            R = AoWEngine.FRegistry.GetRectangle(2);
-            var window3 = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
-            if (R.Right != 0)
-            {
-                var alignment = window3.Alignment;
-                alignment.AlignWidth = TAOWAlignWidth.awLeft;
-                alignment.AlignHeight = TAOWAlignHeight.ahTop;
-                alignment.TopOffset = R.Top;
-                alignment.LeftOffset = R.Left;
+        R = AoWEngine.FRegistry.GetRectangle(2);
+        var unitWindow = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
+        if (R.Right != 0)
+        {
+            var alignment = unitWindow.Alignment;
+            alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            alignment.TopOffset = R.Top;
+            alignment.LeftOffset = R.Left;
 
-                window3.WinWidth = R.Right;
-                window3.WinHeight = R.Bottom;
-            }
-            else
-            {
-                var alignment2 = window3.Alignment;
-                alignment2.AlignWidth = TAOWAlignWidth.awCenter;
-                alignment2.AlignHeight = TAOWAlignHeight.ahCenter;
+            unitWindow.WinWidth = R.Right;
+            unitWindow.WinHeight = R.Bottom;
+        }
+        else
+        {
+            var alignment = unitWindow.Alignment;
+            alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            alignment.AlignHeight = TAOWAlignHeight.ahCenter;
 
-                window3.WinWidth = window3.MinWidth;
-                window3.WinHeight = window3.MinHeight;
-            }
+            unitWindow.WinWidth = unitWindow.MinWidth;
+            unitWindow.WinHeight = unitWindow.MinHeight;
+        }
 
-            AoWEngine.FRegistry.GetRectangle(3);
-            AoWEngine.FRegistry.GetRectangle(4);
-            R = AoWEngine.FRegistry.GetRectangle(5);
-            var window4 = AoWRealm.AoWRealm.RealmWin.Dlg;
-            if (R.Right != 0)
-            {
-                var alignment3 = window4.Alignment;
-                alignment3.AlignWidth = TAOWAlignWidth.awLeft;
-                alignment3.AlignHeight = TAOWAlignHeight.ahTop;
-                alignment3.TopOffset = R.Top;
-                alignment3.LeftOffset = R.Left;
+        AoWEngine.FRegistry.GetRectangle(3);
+        AoWEngine.FRegistry.GetRectangle(4);
+        R = AoWEngine.FRegistry.GetRectangle(5);
+        var realm = AoWRealm.AoWRealm.RealmWin.Dlg;
+        if (R.Right != 0)
+        {
+            var alignment = realm.Alignment;
+            alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            alignment.TopOffset = R.Top;
+            alignment.LeftOffset = R.Left;
 
-                window4.WinWidth = R.Right;
-                window4.WinHeight = R.Bottom;
-            }
-            else
-            {
-                var alignment4 = window4.Alignment;
-                alignment4.BottomOffset = TBWindow.TaskWindow.WinHeight;
+            realm.WinWidth = R.Right;
+            realm.WinHeight = R.Bottom;
+        }
+        else
+        {
+            var alignment = realm.Alignment;
+            alignment.BottomOffset = TBWindow.TaskWindow.WinHeight;
+            alignment.LeftOffset = 0;
+            alignment.RightOffset = scanner.WinWidth;
+            alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            alignment.AlignHeight = TAOWAlignHeight.ahBottom;
 
-                var alignment5 = window4.Alignment;
-                alignment5.LeftOffset = 0;
-                alignment5.RightOffset = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                alignment5.AlignWidth = TAOWAlignWidth.awBoth;
-                alignment5.AlignHeight = TAOWAlignHeight.ahBottom;
+            realm.WinWidth = realm.MinWidth;
+            realm.WinHeight = realm.MinHeight;
+        }
 
-                window4.WinWidth = window4.MinWidth;
-                window4.WinHeight = window4.MinHeight;
-            }
+        R = AoWEngine.FRegistry.GetRectangle(13);
+        var magic = MagicWin.Dlg;
+        if (R.Right != 0)
+        {
+            var alignment = magic.Alignment;
+            alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            alignment.TopOffset = R.Top;
+            alignment.LeftOffset = R.Left;
 
-            R = AoWEngine.FRegistry.GetRectangle(13);
-            var window5 = MagicWin.Dlg;
-            if (R.Right != 0)
-            {
-                var alignment6 = window5.Alignment;
-                alignment6.AlignWidth = TAOWAlignWidth.awLeft;
-                alignment6.AlignHeight = TAOWAlignHeight.ahTop;
-                alignment6.TopOffset = R.Top;
-                alignment6.LeftOffset = R.Left;
+            magic.WinWidth = R.Right;
+            magic.WinHeight = R.Bottom;
+        }
+        else
+        {
+            var alignment = magic.Alignment;
+            alignment.BottomOffset = TBWindow.TaskWindow.WinHeight;
+            alignment.LeftOffset = 0;
+            alignment.RightOffset = scanner.WinWidth;
+            alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            alignment.AlignHeight = TAOWAlignHeight.ahBottom;
 
-                window5.WinWidth = R.Right;
-                window5.WinHeight = R.Bottom;
-            }
-            else
-            {
-                var alignment7 = window5.Alignment;
-                alignment7.BottomOffset = TBWindow.TaskWindow.WinHeight;
+            magic.WinWidth = magic.MinWidth;
+            magic.WinHeight = magic.MinHeight;
+        }
 
-                var alignment8 = window5.Alignment;
-                alignment8.LeftOffset = 0;
-                alignment8.RightOffset = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinWidth;
-                alignment8.AlignWidth = TAOWAlignWidth.awBoth;
-                alignment8.AlignHeight = TAOWAlignHeight.ahBottom;
+        R = AoWEngine.FRegistry.GetRectangle(1);
+        var controls = AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
+        if (R.Right != 0)
+        {
+            controls.Alignment.TopOffset = R.Top;
+            controls.Alignment.RightOffset = R.Left;
+            controls.WinWidth = R.Right;
+            controls.WinHeight = R.Bottom;
+        }
+        else
+        {
+            controls.Alignment.TopOffset = scanner.WinHeight;
+            controls.Alignment.RightOffset = 0;
+            controls.WinWidth = controls.MinWidth;
+            controls.WinHeight = controls.MinHeight;
+        }
 
-                window5.WinWidth = window5.MinWidth;
-                window5.WinHeight = window5.MinHeight;
-            }
+        R = AoWEngine.FRegistry.GetRectangle(7);
+        var info = AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
+        if (R.Right != 0)
+        {
+            info.Alignment.TopOffset = R.Top;
+            info.Alignment.RightOffset = R.Left;
+            info.WinWidth = R.Right;
+            info.WinHeight = R.Bottom;
+        }
+        else
+        {
+            info.Alignment.TopOffset = scanner.WinHeight;
+            info.Alignment.RightOffset = 0;
+            info.WinWidth = info.MinWidth;
+            info.WinHeight = info.MinHeight;
+        }
 
-            R = AoWEngine.FRegistry.GetRectangle(1);
-            var window6 = AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
-            if (R.Right != 0)
-            {
-                window6.Alignment.TopOffset = R.Top;
-                window6.Alignment.RightOffset = R.Left;
-                window6.WinWidth = R.Right;
-                window6.WinHeight = R.Bottom;
-            }
-            else
-            {
-                window6.Alignment.TopOffset = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                window6.Alignment.RightOffset = 0;
-                window6.WinWidth = window6.MinWidth;
-                window6.WinHeight = window6.MinHeight;
-            }
+        R = AoWEngine.FRegistry.GetRectangle(8);
+        var chat = ChatWindow.ChatWin;
+        if (R.Right != 0)
+        {
+            var alignment = chat.Alignment;
+            alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            alignment.BottomOffset = R.Top;
+            alignment.LeftOffset = R.Left;
 
-            R = AoWEngine.FRegistry.GetRectangle(7);
-            var window7 = AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
-            if (R.Right != 0)
-            {
-                window7.Alignment.TopOffset = R.Top;
-                window7.Alignment.RightOffset = R.Left;
-                window7.WinWidth = R.Right;
-                window7.WinHeight = R.Bottom;
-            }
-            else
-            {
-                window7.Alignment.TopOffset = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.WinHeight;
-                window7.Alignment.RightOffset = 0;
-                window7.WinWidth = window7.MinWidth;
-                window7.WinHeight = window7.MinHeight;
-            }
+            chat.WinWidth = R.Right;
+            chat.WinHeight = R.Bottom;
+        }
+        else
+        {
+            var alignment = chat.Alignment;
+            alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            alignment.LeftOffset = 0;
+            alignment.RightOffset = scanner.MinWidth;
+            alignment.BottomOffset = TBWindow.TaskWindow.WinHeight;
 
-            R = AoWEngine.FRegistry.GetRectangle(8);
-            var window8 = ChatWindow.ChatWin;
-            if (R.Right != 0)
-            {
-                var alignment9 = window8.Alignment;
-                alignment9.AlignWidth = TAOWAlignWidth.awLeft;
-                alignment9.BottomOffset = R.Top;
-                alignment9.LeftOffset = R.Left;
+            chat.WinWidth = chat.MinWidth;
+            chat.WinHeight = chat.MinHeight;
+        }
 
-                window8.WinWidth = R.Right;
-                window8.WinHeight = R.Bottom;
-            }
-            else
-            {
-                var alignment10 = window8.Alignment;
-                alignment10.AlignWidth = TAOWAlignWidth.awBoth;
-                alignment10.LeftOffset = 0;
-                alignment10.RightOffset = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.MinWidth;
-                alignment10.BottomOffset = TBWindow.TaskWindow.WinHeight;
+        R = AoWEngine.FRegistry.GetRectangle(12);
+        var tcScanner = TCScanner.TCScannerWin;
+        if (R.Right != 0)
+        {
+            tcScanner.Alignment.TopOffset = R.Top;
+            tcScanner.Alignment.RightOffset = R.Left;
+            tcScanner.WinWidth = R.Right;
+            tcScanner.WinHeight = R.Bottom;
+        }
+        else
+        {
+            tcScanner.Alignment.TopOffset = 0;
+            tcScanner.Alignment.RightOffset = 0;
+            tcScanner.WinWidth = tcScanner.MinWidth;
+            tcScanner.WinHeight = tcScanner.MinHeight;
+        }
 
-                window8.WinWidth = window8.MinWidth;
-                window8.WinHeight = window8.MinHeight;
-            }
+        R = AoWEngine.FRegistry.GetRectangle(10);
+        var tcUnit = AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
+        if (R.Right != 0)
+        {
+            tcUnit.Alignment.BottomOffset = R.Top;
+            tcUnit.Alignment.RightOffset = R.Left;
+            tcUnit.WinWidth = R.Right;
+            tcUnit.WinHeight = R.Bottom;
+        }
+        else
+        {
+            tcUnit.Alignment.BottomOffset = 0;
+            tcUnit.Alignment.RightOffset = 0;
+            tcUnit.WinWidth = tcUnit.MinWidth;
+            tcUnit.WinHeight = tcUnit.MinHeight;
+        }
 
-            R = AoWEngine.FRegistry.GetRectangle(12);
-            var window9 = TCScanner.TCScannerWin;
-            if (R.Right != 0)
-            {
-                window9.Alignment.TopOffset = R.Top;
-                window9.Alignment.RightOffset = R.Left;
-                window9.WinWidth = R.Right;
-                window9.WinHeight = R.Bottom;
-            }
-            else
-            {
-                window9.Alignment.TopOffset = 0;
-                window9.Alignment.RightOffset = 0;
-                window9.WinWidth = window9.MinWidth;
-                window9.WinHeight = window9.MinHeight;
-            }
+        R = AoWEngine.FRegistry.GetRectangle(11);
+        if (R.Right != 0)
+        {
+            MWindow.FMapRect = R;
+            MWindow.FMapAlignHeight = TAOWAlignHeight.ahTop;
+            MWindow.FMapAlignWidth = TAOWAlignWidth.awLeft;
+        }
+        else
+        {
+            MWindow.FMapAlignHeight = TAOWAlignHeight.ahBoth;
+            MWindow.FMapAlignWidth = TAOWAlignWidth.awBoth;
+            var rect = Rect(0, 0, tcScanner.MinWidth, TBWindow.TaskWindow.WinHeight);
+            MWindow.FMapRect = rect;
+        }
 
-            R = AoWEngine.FRegistry.GetRectangle(10);
-            var window10 = AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
-            if (R.Right != 0)
-            {
-                window10.Alignment.BottomOffset = R.Top;
-                window10.Alignment.RightOffset = R.Left;
-                window10.WinWidth = R.Right;
-                window10.WinHeight = R.Bottom;
-            }
-            else
-            {
-                window10.Alignment.BottomOffset = 0;
-                window10.Alignment.RightOffset = 0;
-                window10.WinWidth = window10.MinWidth;
-                window10.WinHeight = window10.MinHeight;
-            }
+        R = AoWEngine.FRegistry.GetRectangle(9);
+        var map = MWindow.MapWindow;
+        if (R.Right != 0)
+        {
+            var alignment = map.Alignment;
+            alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            alignment.TopOffset = R.Top;
+            alignment.LeftOffset = R.Left;
 
-            R = AoWEngine.FRegistry.GetRectangle(11);
-            if (R.Right != 0)
-            {
-                MWindow.FMapRect = R;
-                MWindow.FMapAlignHeight = TAOWAlignHeight.ahTop;
-                MWindow.FMapAlignWidth = TAOWAlignWidth.awLeft;
-            }
-            else
-            {
-                MWindow.FMapAlignHeight = TAOWAlignHeight.ahBoth;
-                MWindow.FMapAlignWidth = TAOWAlignWidth.awBoth;
-                var rect = Rect(0, 0, TCScanner.TCScannerWin.MinWidth, TBWindow.TaskWindow.WinHeight);
-                MWindow.FMapRect = rect;
-            }
-
-            R = AoWEngine.FRegistry.GetRectangle(9);
-            var window11 = MWindow.MapWindow;
-            if (R.Right != 0)
-            {
-                var alignment11 = window11.Alignment;
-                alignment11.AlignHeight = TAOWAlignHeight.ahTop;
-                alignment11.AlignWidth = TAOWAlignWidth.awLeft;
-                alignment11.TopOffset = R.Top;
-                alignment11.LeftOffset = R.Left;
-
-                window11.WinWidth = R.Right;
-                window11.WinHeight = R.Bottom;
-            }
-            else
-            {
-                var alignment12 = window11.Alignment;
-                alignment12.AlignHeight = TAOWAlignHeight.ahBoth;
-                alignment12.AlignWidth = TAOWAlignWidth.awBoth;
-                alignment12.TopOffset = 0;
-                alignment12.LeftOffset = 0;
-                alignment12.RightOffset = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.MinWidth;
-                alignment12.BottomOffset = TBWindow.TaskWindow.WinHeight;
-            }
+            map.WinWidth = R.Right;
+            map.WinHeight = R.Bottom;
+        }
+        else
+        {
+            var alignment = map.Alignment;
+            alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            alignment.TopOffset = 0;
+            alignment.LeftOffset = 0;
+            alignment.RightOffset = scanner.MinWidth;
+            alignment.BottomOffset = TBWindow.TaskWindow.WinHeight;
         }
     }
 }

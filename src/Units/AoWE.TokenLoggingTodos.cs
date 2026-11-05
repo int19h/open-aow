@@ -35,7 +35,7 @@ public partial class TAoWHSMap
             WriteTokenLog("Local Race: " + AoWE.TranslateRStr(AoWE.RaceNamesPluralRStr[AoWE.AoWHSMap.FPlayers.GetPlayers((sbyte)player).FPlayerRace]));
             FTokenEventLogging = true;
         }
-        catch (System.Exception) { }
+        catch { }
     }
 
     public void StopTokenEventLogging()

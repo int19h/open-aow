@@ -34,7 +34,7 @@ public partial class TMapField
             if (sprite == null) throw Rtl.Exception.Create("No nil HS allowed in TMapField");
             if (FindChildIndex(sprite) != -1) throw Rtl.Exception.Create("HS already defined");
         }
-        catch (System.Exception) { }
+        catch { }
         if (FCapacity == FCount) Resize((byte)(FCapacity + 1));
         int priority = sprite.GetShowPriority();
         int index = FStatus.Contains(TMapFieldStatusElement.msComparing) ? FCount : 0;
@@ -69,7 +69,7 @@ public partial class TMapField
             else
             {
                 try { throw Rtl.Exception.Create($"Invalid StaticCount ({ClassNameOf(sprite.GetType())})"); }
-                catch (System.Exception) { }
+                catch { }
             }
         }
         return FCount;

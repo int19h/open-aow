@@ -41,7 +41,7 @@ public partial class TAOWImage
             FImageLib.DrawILT(FCurrentImage, rectangle, ref surface);
             FOnDraw?.Invoke(this, surface);
         }
-        catch (System.Exception)
+        catch
         {
             Rtl.Rtl.MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }

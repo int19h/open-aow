@@ -285,7 +285,7 @@ The 13 layers of `tools/check.py` keep their counts. A count that moves is a fin
 | 9.6-4 `MsgArg`, buffers | `Engine.cs`, `HSEngine.cs`, `FixedArrays.cs`, new `src/Rtl/MsgArg.cs`, `CoreTests.cs`, the 59 Units message files, `AoWTC.cs` | `IntOrRef` remains only in `THashItem`, `Ptr.cs` and their tests, the overlap scan finds 3 structs |
 | 9.6-5 `TShowInfo` | `ImageLib.cs`, 25 more Units files, `GraphicsConstructionTests.cs` | no `IntOrRef` in `ImageLib.cs`, the ILB round trip test passes |
 | 9.6-6 production orders | new `AoWE.ProductionOrders.cs`, `AoWE.cs`, `City.cs`, `PrdPlace.cs`, `AoWCityScreen.cs`, `AoWInfoWin.cs`, `AoWProdScreen.cs`, tests | `FProductionID` and `FParameter` appear nowhere, no switch over a production id or its city action outside the order classes, the byte tests pass |
-| 9.6-7 diplomatic proposals | new `AoWE.DiplomaticProposals.cs`, `AoWE.cs`, `AoWE.Assembly.cs`, `AoWRelations.cs`, `E3EventDialogs.cs`, tests | no switch on `FActionType`, the byte tests pass |
+| 9.6-7 diplomatic proposals | new `AoWE.DiplomaticProposals.cs`, `AoWE.cs`, `AoWRelations.cs`, `E3EventDialogs.cs`, tests | no switch on `FActionType`, the byte tests pass |
 | 9.6-8 documents | `design.md` sections 1, 2, 6 and 9, `rtl-shim.md` 1.5 and 1.6, `transpiler.md` 4.3, `persistence.md` 5, `milestones.md` row 9.6 reworded to unions for closed data and virtual dispatch for kind families | the documents name the code as it is |
 
 Overrides go into the new partial files, which keeps the view briefs out of the unit files 9.6-4

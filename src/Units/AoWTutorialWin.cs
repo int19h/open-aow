@@ -6,56 +6,55 @@ using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
 using Aow.Units.EventLog;
 
-namespace Aow.Units.AoWTutorialWin
+namespace Aow.Units.AoWTutorialWin;
+
+// done callback, retained event
+public partial class TTutorialWindow : TDataModule
 {
-    // done callback, retained event
-    public partial class TTutorialWindow : TDataModule
+    public TTutorialWindow(TComponent owner) : base(owner)
+    { }
+
+    public TAOWWindow Dlg;
+    public TAOWMemo MessageMemo;
+    public TAOWButton Close;
+    public TAOWMemo HeaderMemo;
+    public TAOWVScrollBar AbVSB;
+    public TIvTranslator Translator;
+    public TExecuteDoneEvent FDone;
+    public TEventLog FEvent;
+    // AoWTutorialWin.pas:51
+    public void FinishDialog()
     {
-        public TTutorialWindow(TComponent owner) : base(owner)
-        { }
-
-        public TAOWWindow Dlg;
-        public TAOWMemo MessageMemo;
-        public TAOWButton Close;
-        public TAOWMemo HeaderMemo;
-        public TAOWVScrollBar AbVSB;
-        public TIvTranslator Translator;
-        public TExecuteDoneEvent FDone;
-        public TEventLog FEvent;
-        // AoWTutorialWin.pas:51
-        public void FinishDialog()
+        TExecuteDoneEvent Done;
+        TEventLog Log;
+        Done = FDone;
+        Log = FEvent;
+        FDone = null;
+        FEvent = null;
+        if (Done != null)
         {
-            TExecuteDoneEvent Done;
-            TEventLog Log;
-            Done = FDone;
-            Log = FEvent;
-            FDone = null;
-            FEvent = null;
-            if (Done != null)
-            {
-                Done(Log);
-            }
-
-            if (Log != null)
-            {
-                Log.Release();
-            }
+            Done(Log);
         }
 
-        // AoWTutorialWin.pas:38
-        public void DlgHide()
+        if (Log != null)
         {
-            FinishDialog();
-        }
-
-        // AoWTutorialWin.pas:44
-        public void CloseClick()
-        {
-            Dlg.Visible = false;
+            Log.Release();
         }
     }
 
-    public static partial class AoWTutorialWin
+    // AoWTutorialWin.pas:38
+    public void DlgHide()
     {
+        FinishDialog();
     }
+
+    // AoWTutorialWin.pas:44
+    public void CloseClick()
+    {
+        Dlg.Visible = false;
+    }
+}
+
+public static partial class AoWTutorialWin
+{
 }

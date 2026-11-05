@@ -8,183 +8,207 @@ using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
 
-namespace Aow.Units.AOWMenuBar
-{
-    // { The AOWMenuBar unit of aowInt.dpl: TAOWMenuBar, a horizontal bar of buttons, one per item, in a
+namespace Aow.Units.AOWMenuBar;
+
+// { The AOWMenuBar unit of aowInt.dpl: TAOWMenuBar, a horizontal bar of buttons, one per item, in a
 //   window. Clicking an item selects it and shows the menus (TAOWMenu) that belong to the item
 //   (their OwnerItem is the item's index); clicking it again closes it. }
-    // Fields: FItems, FSelected (-1 for none), FILButton, FLastSelected, FILIndexUp, FILIndexDown,
-    // FMenus (the TAOWMenu objects whose OwnerMenuBar is this bar), F130 (only cleared and tested:
-    // a click on the item last selected then does nothing)
-    public partial class TAOWMenuBar : TAOWControl
+// Fields: FItems, FSelected (-1 for none), FILButton, FLastSelected, FILIndexUp, FILIndexDown,
+// FMenus (the TAOWMenu objects whose OwnerMenuBar is this bar), F130 (only cleared and tested:
+// a click on the item last selected then does nothing)
+public partial class TAOWMenuBar : TAOWControl
+{
+    public TStringList FItems;
+    public int FSelected;
+    public TInterfaceIL FILButton;
+    public int FLastSelected;
+    public int FILIndexUp;
+    public int FILIndexDown;
+    public TList FMenus;
+    public bool F130;
+    // AOWMenuBar.pas:65
+    public TAOWMenuBar(TComponent owner) : base(owner)
     {
-        public TStringList FItems;
-        public int FSelected;
-        public TInterfaceIL FILButton;
-        public int FLastSelected;
-        public int FILIndexUp;
-        public int FILIndexDown;
-        public TList FMenus;
-        public bool F130;
-        // AOWMenuBar.pas:65
-        public TAOWMenuBar(TComponent owner) : base(owner)
+        FItems = new TStringList();
+        FItems.OnChange = OnChangeText;
+        FMenus = new TList();
+        FSelected = -1;
+    }
+
+    // AOWMenuBar.pas:74
+    public override void Destroy()
+    {
+        TAOWWindowControl M;
+        for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
         {
-            FItems = new TStringList();
-            FItems.OnChange = OnChangeText;
-            FMenus = new TList();
-            FSelected = -1;
+            M = (TAOWWindowControl)FMenus[I];
+            M.DetachMenuBar();
         }
 
-        // AOWMenuBar.pas:74
-        public override void Destroy()
-        {
-            TAOWWindowControl M;
-            for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
-            {
-                M = (TAOWWindowControl)FMenus[I];
-                M.DetachMenuBar();
-            }
+        FMenus.Destroy();
+        FItems.Destroy();
+        base.Destroy();
+    }
 
-            FMenus.Destroy();
-            FItems.Destroy();
-            base.Destroy();
+    // AOWMenuBar.pas:98
+    public override void Validate()
+    {
+        if (FILButton != null)
+        {
+            FILButton = FILButton.CheckIL(FILIndexUp, 3, this);
         }
 
-        // AOWMenuBar.pas:98
-        public override void Validate()
+        if (FILButton != null)
         {
-            if (FILButton != null)
-            {
-                FILButton = FILButton.CheckIL(FILIndexUp, 3, this);
-            }
-
-            if (FILButton != null)
-            {
-                FILButton = FILButton.CheckIL(FILIndexDown, 3, this);
-            }
-
-            if (FILButton != null)
-            {
-                FValid = true;
-            }
-
-            base.Validate();
+            FILButton = FILButton.CheckIL(FILIndexDown, 3, this);
         }
 
-        // AOWMenuBar.pas:110
-        // { The bar is at least as wide as one up and one down button per item }
-        public override void SetSize()
+        if (FILButton != null)
         {
-            var ilButtonWidth = FILButton[FILIndexUp];
-            var ilButton = FILButton[FILIndexUp + 2];
-            var count = FItems.Count;
-            if ((ilButtonWidth.Width + ilButton.Width) * count > FWinWidth)
-            {
-                var ilButton2 = FILButton[FILIndexUp];
-                var ilButton3 = FILButton[FILIndexUp + 2];
-                var fItemsCount = FItems.Count;
-                FWinWidth = (ilButton2.Width + ilButton3.Width) * fItemsCount;
-            }
-
-            FWinHeight = FILButton[FILIndexUp].Height;
-            for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
-            {
-                ((TAoWComponent)FMenus[I]).FAligned = false;
-            }
-
-            base.SetSize();
+            FValid = true;
         }
 
-        // AOWMenuBar.pas:122
-        public override void ReAlign()
-        {
-            for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
-            {
-                ((TAoWComponent)FMenus[I]).FAligned = false;
-            }
+        base.Validate();
+    }
 
-            base.ReAlign();
+    // AOWMenuBar.pas:110
+    // { The bar is at least as wide as one up and one down button per item }
+    public override void SetSize()
+    {
+        var ilButtonWidth = FILButton[FILIndexUp];
+        var ilButton = FILButton[FILIndexUp + 2];
+        var count = FItems.Count;
+        if ((ilButtonWidth.Width + ilButton.Width) * count > FWinWidth)
+        {
+            var ilButton2 = FILButton[FILIndexUp];
+            var ilButton3 = FILButton[FILIndexUp + 2];
+            var fItemsCount = FItems.Count;
+            FWinWidth = (ilButton2.Width + ilButton3.Width) * fItemsCount;
         }
 
-        // AOWMenuBar.pas:160
-        // { Draw: the items side by side, each in an equal share of the width; the selected one with the up
+        FWinHeight = FILButton[FILIndexUp].Height;
+        for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
+        {
+            ((TAoWComponent)FMenus[I]).FAligned = false;
+        }
+
+        base.SetSize();
+    }
+
+    // AOWMenuBar.pas:122
+    public override void ReAlign()
+    {
+        for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
+        {
+            ((TAoWComponent)FMenus[I]).FAligned = false;
+        }
+
+        base.ReAlign();
+    }
+
+    // AOWMenuBar.pas:160
+    // { Draw: the items side by side, each in an equal share of the width; the selected one with the up
 //   image and the text one pixel lower }
-        public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(TSurfaceDesc SurfDesc)
+    {
+        TRect OldClip = default;
+        try
         {
-            TRect OldClip = default;
-            try
+            if (FValid && FVisible)
             {
-                if (FValid && FVisible)
+                if (FOnPreDraw != null)
                 {
-                    if (FOnPreDraw != null)
-                    {
-                        FOnPreDraw(this, SurfDesc);
-                    }
+                    FOnPreDraw(this, SurfDesc);
+                }
 
-                    OldClip = SurfDesc.ClipRect;
-                    for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+                OldClip = SurfDesc.ClipRect;
+                for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+                {
+                    if (I != FSelected)
                     {
-                        if (I != FSelected)
+                        var count = FItems.Count;
+                        var fItemsCount = FItems.Count;
+                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
+                        if (FAOWFont != null)
                         {
-                            var count = FItems.Count;
-                            var fItemsCount = FItems.Count;
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
-                            FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
-                            if (FAOWFont != null)
-                            {
-                                FAOWFont.Color = FSelColor;
-                                var item = FItems[I];
-                                var count2 = FItems.Count;
-                                FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / count2 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, item, SurfDesc);
-                            }
-                        }
-                        else
-                        {
-                            var count = FItems.Count;
-                            var fItemsCount = FItems.Count;
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
-                            FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
-                            if (FAOWFont != null)
-                            {
-                                FAOWFont.Color = FColor;
-                                var item = FItems[I];
-                                var count2 = FItems.Count;
-                                FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / count2 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight + 1, item, SurfDesc);
-                            }
+                            FAOWFont.Color = FSelColor;
+                            var item = FItems[I];
+                            var count2 = FItems.Count;
+                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / count2 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, item, SurfDesc);
                         }
                     }
-
-                    if (FOnDraw != null)
+                    else
                     {
-                        FOnDraw(this, SurfDesc);
+                        var count = FItems.Count;
+                        var fItemsCount = FItems.Count;
+                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
+                        if (FAOWFont != null)
+                        {
+                            FAOWFont.Color = FColor;
+                            var item = FItems[I];
+                            var count2 = FItems.Count;
+                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / count2 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight + 1, item, SurfDesc);
+                        }
                     }
                 }
-            }
-            catch (System.Exception)
-            {
-                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+
+                if (FOnDraw != null)
+                {
+                    FOnDraw(this, SurfDesc);
+                }
             }
         }
-
-        // AOWMenuBar.pas:206
-        // { CheckMouseDown: a left click on an item selects it and shows its menus, or closes it when it
-//   was selected; a click outside the bar closes the selected item }
-        public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+        catch
         {
-            int I = default;
-            base.CheckMouseDown(Button, Shift, X, Y);
-            FHandled = false;
-            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+        }
+    }
+
+    // AOWMenuBar.pas:206
+    // { CheckMouseDown: a left click on an item selects it and shows its menus, or closes it when it
+//   was selected; a click outside the bar closes the selected item }
+    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    {
+        int I = default;
+        base.CheckMouseDown(Button, Shift, X, Y);
+        FHandled = false;
+        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        {
+            FHandled = true;
+            FRedraw = true;
+            if (Button == TMouseButton.mbLeft)
             {
-                FHandled = true;
-                FRedraw = true;
-                if (Button == TMouseButton.mbLeft)
+                var count = FItems.Count;
+                I = (X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / count);
+                if (I == FSelected)
                 {
-                    var count = FItems.Count;
-                    I = (X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / count);
-                    if (I == FSelected)
+                    FSelected = -1;
+                    if (FOnChange != null)
                     {
-                        FSelected = -1;
+                        FOnChange(this);
+                    }
+
+                    FDrawn = false;
+                }
+                else
+                {
+                    if (!F130 || (I > -1 && I != FLastSelected))
+                    {
+                        FSelected = I;
+                        FLastSelected = I;
+                        I = 0;
+                        int last = FMenus.Count - 1;
+                        for (; I <= last; I += 1)
+                        {
+                            var component = (TAoWComponent)FMenus[I];
+                            if (component.FOwnerItem == this.FSelected)
+                            {
+                                component.SetVisible(true);
+                            }
+                        }
+
                         if (FOnChange != null)
                         {
                             FOnChange(this);
@@ -192,157 +216,132 @@ namespace Aow.Units.AOWMenuBar
 
                         FDrawn = false;
                     }
-                    else
-                    {
-                        if (!F130 || (I > -1 && I != FLastSelected))
-                        {
-                            FSelected = I;
-                            FLastSelected = I;
-                            I = 0;
-                            int last = FMenus.Count - 1;
-                            for (; I <= last; I += 1)
-                            {
-                                var component = (TAoWComponent)FMenus[I];
-                                if (component.FOwnerItem == this.FSelected)
-                                {
-                                    component.SetVisible(true);
-                                }
-                            }
-
-                            if (FOnChange != null)
-                            {
-                                FOnChange(this);
-                            }
-
-                            FDrawn = false;
-                        }
-                    }
-                }
-
-                if (FOnMouseDown != null)
-                {
-                    FOnMouseDown(this, Button, Shift, X, Y);
-                }
-            }
-            else
-            {
-                if (FSelected > -1)
-                {
-                    FSelected = -1;
-                    FDrawn = false;
                 }
             }
 
-            F130 = false;
-        }
-
-        // AOWMenuBar.pas:251
-        public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
-        {
-            FHandled = false;
-            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
+            if (FOnMouseDown != null)
             {
-                FHandled = true;
-                if (FOnMouseUp != null)
-                {
-                    FOnMouseUp(this, Button, Shift, X, Y);
-                }
+                FOnMouseDown(this, Button, Shift, X, Y);
+            }
+        }
+        else
+        {
+            if (FSelected > -1)
+            {
+                FSelected = -1;
+                FDrawn = false;
             }
         }
 
-        // AOWMenuBar.pas:264
-        public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
-        {
-            base.CheckMouseMove(Shift, X, Y);
-            FHandled = false;
-            if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
-            {
-                FHandled = true;
-                if (FOnMouseMove != null)
-                {
-                    FOnMouseMove(this, Shift, X, Y);
-                }
-            }
-        }
-
-        // AOWMenuBar.pas:277
-        public override void CheckKeyPress(ref byte Key)
-        {
-            FHandled = false;
-        }
-
-        // AOWMenuBar.pas:89
-        public virtual void SetILButton(TInterfaceIL Value)
-        {
-            if (Value != FILButton)
-            {
-                FValid = false;
-                FILButton = Value;
-            }
-        }
-
-        // AOWMenuBar.pas:131
-        public virtual void SetILUIndex(int Value)
-        {
-            if (Value != FILIndexUp)
-            {
-                FILIndexUp = Value;
-                FValid = false;
-            }
-        }
-
-        // AOWMenuBar.pas:140
-        public virtual void SetILDIndex(int Value)
-        {
-            if (Value != FILIndexDown)
-            {
-                FILIndexDown = Value;
-                FValid = false;
-            }
-        }
-
-        // AOWMenuBar.pas:149
-        public void SetFStrings(TStringList Value)
-        {
-            FItems.Clear();
-            for (int I = 0, last = Value.Count - 1; I <= last; I++)
-            {
-                var valueValue = Value[I];
-                FItems.Add(valueValue);
-            }
-        }
-
-        [Published]
-        public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
-
-        [Published]
-        public TStringList Items { get => FItems; set => SetFStrings(value); }
-
-        [Published]
-        public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
-
-        [Published]
-        public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
-
-        [Published]
-        public int Selected { get => FSelected; set => FSelected = value; }
-
-        [Published]
-        public TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
-
-        [Published]
-        public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
-
-        [Published]
-        public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
+        F130 = false;
     }
 
-    public static partial class AOWMenuBar
+    // AOWMenuBar.pas:251
+    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
-        // AOWMenuBar.pas:282
-        public static void Register()
+        FHandled = false;
+        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
         {
-            RegisterComponents("AOW Interface", [typeof(TAOWMenuBar)]);
+            FHandled = true;
+            if (FOnMouseUp != null)
+            {
+                FOnMouseUp(this, Button, Shift, X, Y);
+            }
         }
+    }
+
+    // AOWMenuBar.pas:264
+    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    {
+        base.CheckMouseMove(Shift, X, Y);
+        FHandled = false;
+        if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
+        {
+            FHandled = true;
+            if (FOnMouseMove != null)
+            {
+                FOnMouseMove(this, Shift, X, Y);
+            }
+        }
+    }
+
+    // AOWMenuBar.pas:277
+    public override void CheckKeyPress(ref byte Key)
+    {
+        FHandled = false;
+    }
+
+    // AOWMenuBar.pas:89
+    public virtual void SetILButton(TInterfaceIL Value)
+    {
+        if (Value != FILButton)
+        {
+            FValid = false;
+            FILButton = Value;
+        }
+    }
+
+    // AOWMenuBar.pas:131
+    public virtual void SetILUIndex(int Value)
+    {
+        if (Value != FILIndexUp)
+        {
+            FILIndexUp = Value;
+            FValid = false;
+        }
+    }
+
+    // AOWMenuBar.pas:140
+    public virtual void SetILDIndex(int Value)
+    {
+        if (Value != FILIndexDown)
+        {
+            FILIndexDown = Value;
+            FValid = false;
+        }
+    }
+
+    // AOWMenuBar.pas:149
+    public void SetFStrings(TStringList Value)
+    {
+        FItems.Clear();
+        for (int I = 0, last = Value.Count - 1; I <= last; I++)
+        {
+            var valueValue = Value[I];
+            FItems.Add(valueValue);
+        }
+    }
+
+    [Published]
+    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+
+    [Published]
+    public TStringList Items { get => FItems; set => SetFStrings(value); }
+
+    [Published]
+    public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
+
+    [Published]
+    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+
+    [Published]
+    public int Selected { get => FSelected; set => FSelected = value; }
+
+    [Published]
+    public TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
+
+    [Published]
+    public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
+
+    [Published]
+    public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
+}
+
+public static partial class AOWMenuBar
+{
+    // AOWMenuBar.pas:282
+    public static void Register()
+    {
+        RegisterComponents("AOW Interface", [typeof(TAOWMenuBar)]);
     }
 }
