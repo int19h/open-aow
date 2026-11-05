@@ -20,18 +20,18 @@ public struct TSampleRecord
         readonly get => TSet<TFlag>.FromMask(flags);
         set => flags = (byte)value.Image;
     }
-    public AnsiString Name
+    public string Name
     {
         get
         {
-            AnsiString result = default;
-            for (int i = 1; i <= name[0]; i++) result += AnsiString.FromBytes(name[i]);
+            string result = "";
+            for (int i = 1; i <= name[0]; i++) result += Cp1252.Text(name[i]);
             return result;
         }
         set
         {
             name[0] = (byte)Math.Min(5, value.Length);
-            for (int i = 1; i <= name[0]; i++) name[i] = value[i];
+            for (int i = 1; i <= name[0]; i++) name[i] = Cp1252.Byte(value[i - 1]);
         }
     }
 }

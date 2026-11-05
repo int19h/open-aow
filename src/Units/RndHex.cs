@@ -48,7 +48,7 @@ namespace Aow.Units.RndHex
         }
 
         // RndHex.pas:33
-        public override AnsiString ResourceEditName() => (AnsiString)"Random Hexagon";
+        public override string ResourceEditName() => "Random Hexagon";
 
     }
 

@@ -38,7 +38,7 @@ namespace Aow.Units.Hill
         }
 
         // Hill.pas:45
-        public override AnsiString ResourceEditName() => TranslateRStr(HillRStr);
+        public override string ResourceEditName() => TranslateRStr(HillRStr);
 
     }
 
@@ -50,7 +50,7 @@ namespace Aow.Units.Hill
             AEngine.RegisterEClasses([EClass.Of<THillMO>()]);
         }
 
-        public static readonly AnsiString HillNameRStr = (AnsiString)"Hill";
+        public static readonly string HillNameRStr = "Hill";
         public static void Initialize()
         {
         }

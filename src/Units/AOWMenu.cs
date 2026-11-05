@@ -494,7 +494,7 @@ namespace Aow.Units.AOWMenu
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -1002,7 +1002,7 @@ namespace Aow.Units.AOWMenu
         // AOWMenu.pas:748
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWMenu)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWMenu)]);
         }
     }
 }

@@ -85,7 +85,7 @@ namespace Aow.Units.AoWSetup
         public TRemotePlayer(TECustomNode owner) : base(owner)
         { }
 
-        public AnsiString FName;
+        public string FName = "";
         public int FRemoteID;
         public byte FPreferredRace;
         public TMapValidationInfo FMapValidation;
@@ -146,7 +146,7 @@ namespace Aow.Units.AoWSetup
         public TLeader FLeader;
         public byte FPlayerID;
         public byte FBehaviorMode;
-        public AnsiString FEmailAddress;
+        public string FEmailAddress = "";
         // AoWSetup.pas:305
         public override void Destroy()
         {
@@ -187,8 +187,8 @@ namespace Aow.Units.AoWSetup
         public new const int ClassID = 131680;
 
         public int FHostRemoteID;
-        public AnsiString FFileName;
-        public AnsiString FMapName;
+        public string FFileName = "";
+        public string FMapName = "";
         public int FMapCRC;
         public int FSetCRC;
         public int FMapDay;
@@ -206,7 +206,7 @@ namespace Aow.Units.AoWSetup
         public byte FConnectionType;
         public byte FTacticalCombatAvailability;
         public bool FAlwaysViewTC;
-        public AnsiString FEmailGameName;
+        public string FEmailGameName = "";
         // AoWSetup.pas:334
         public override void Destroy()
         {
@@ -259,8 +259,8 @@ namespace Aow.Units.AoWSetup
             FExplorationEnabled = true;
             FLeadersOnMap = true;
             FRemotePlayers.Clear();
-            FMapName = (AnsiString)"";
-            FFileName = (AnsiString)"";
+            FMapName = "";
+            FFileName = "";
             FAlwaysViewTC = false;
         }
 
@@ -410,7 +410,7 @@ namespace Aow.Units.AoWSetup
                 var size = Stream.Size;
                 SendData(Stream.Memory, size, Recipient);
                 var streamSize = Stream.Size;
-                AoWEngine.OutputDebugMessage(NetworkEngineDID, (AnsiString)"SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + (AnsiString)"/Size:" + IntToStr(streamSize) + (AnsiString)") to " + IntToStr(Recipient));
+                AoWEngine.OutputDebugMessage(NetworkEngineDID, "SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(Recipient));
             }
             finally
             {
@@ -481,7 +481,7 @@ namespace Aow.Units.AoWSetup
                 if (Obj is TSetupPackage)
                 {
                     var size = Stream.Size;
-                    AoWEngine.OutputDebugMessage(NetworkEngineDID, (AnsiString)"SetupPackage Received (ID:" + IntToStr(((TSetupPackage)Obj).FMessageID) + (AnsiString)"/Size:" + IntToStr(size) + (AnsiString)") from " + IntToStr(SenderID));
+                    AoWEngine.OutputDebugMessage(NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((TSetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
                     PackageReceived((TSetupPackage)Obj, SenderID);
                 }
 
@@ -563,7 +563,7 @@ namespace Aow.Units.AoWSetup
             if (I != -1)
             {
                 FSettings.FRemotePlayers.GetPlayers(I).Assign(Player, AoWEngine);
-                FSettings.FRemotePlayers.GetPlayers(I).FName = (AnsiString)"";
+                FSettings.FRemotePlayers.GetPlayers(I).FName = "";
                 var validatePlayerName = ValidatePlayerName(Player.FName);
                 FSettings.FRemotePlayers.GetPlayers(I).FName = validatePlayerName;
                 UpdatePreferredRaces();
@@ -617,9 +617,9 @@ namespace Aow.Units.AoWSetup
         // AoWSetup.pas:604
         public void ValidateMap()
         {
-            AnsiString FileName;
+            string FileName;
             TMapValidationInfo Validation;
-            if (FSettings.FMapName != (AnsiString)"" && FRemotePlayer.FMapValidation != TMapValidationInfo.mviValid)
+            if (!IsEmpty(FSettings.FMapName) && FRemotePlayer.FMapValidation != TMapValidationInfo.mviValid)
             {
                 if (AoWHSSet.FHSSCRC == FSettings.FSetCRC)
                 {
@@ -1044,21 +1044,21 @@ namespace Aow.Units.AoWSetup
         // AoWSetup.pas:830
         public void ListPCCInfo(TPlayerCommunicationControl PCC)
         {
-            AnsiString S;
+            string S;
             for (int I = 0, last = PCC.Count - 1; I <= last; I++)
             {
                 var player = PCC.Players[I];
-                S = (AnsiString)"Player (" + IntToStr(I) + (AnsiString)") at system:" + IntToStr(player.SystemID) + (AnsiString)" CM:";
+                S = "Player (" + IntToStr(I) + ") at system:" + IntToStr(player.SystemID) + " CM:";
                 switch (PCC.Players[I].ConnectionMode)
                 {
                     case TConnectionMode.cmGlobal:
-                        S = S + (AnsiString)"Global";
+                        S = S + "Global";
                         break;
                     case TConnectionMode.cmLocal:
-                        S = S + (AnsiString)"Local";
+                        S = S + "Local";
                         break;
                     case TConnectionMode.cmRemote:
-                        S = S + (AnsiString)"Remote";
+                        S = S + "Remote";
                         break;
                 }
 
@@ -1321,7 +1321,7 @@ namespace Aow.Units.AoWSetup
         {
             FPhase = TSetupPhase.spIdle;
             FStatus = TSet<TSetupStatusElement>.Of();
-            FRemotePlayer.FName = (AnsiString)"";
+            FRemotePlayer.FName = "";
             FRemotePlayer.FMapValidation = TMapValidationInfo.mviUnknown;
             FRemotePlayer.FPreferredRace = 255;
             FSettings.Reset();
@@ -1335,10 +1335,10 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:920
-        public AnsiString GetPlayerName() => FRemotePlayer.FName;
+        public string GetPlayerName() => FRemotePlayer.FName;
 
         // AoWSetup.pas:924
-        public void SetPlayerName(AnsiString Value)
+        public void SetPlayerName(string Value)
         {
             if (Value != FRemotePlayer.FName)
             {
@@ -1363,7 +1363,7 @@ namespace Aow.Units.AoWSetup
         // AoWSetup.pas:1276
         public void ResetPlayerSettings(int Index)
         {
-            Assert(GetHost(), (AnsiString)"", "AoWSetup.pas", 1278);
+            Assert(GetHost(), "", "AoWSetup.pas", 1278);
             if (!GetRemote())
             {
                 if (FSettings.GetSettings(Index).FOriginalBehavior.PlayerType != 0)
@@ -1392,7 +1392,7 @@ namespace Aow.Units.AoWSetup
             int Old;
             int Race;
             bool Again;
-            Assert(GetHost(), (AnsiString)"", "AoWSetup.pas", 1292);
+            Assert(GetHost(), "", "AoWSetup.pas", 1292);
             Again = true;
             bool Result = false;
             while (Again)
@@ -1470,7 +1470,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:970
-        public AnsiString ValidatePlayerName(AnsiString Name)
+        public string ValidatePlayerName(string Name)
         {
             bool Done;
             TStringList List;
@@ -1479,7 +1479,7 @@ namespace Aow.Units.AoWSetup
             List = new TStringList();
             ListAvailablePlayers(List);
             Done = false;
-            AnsiString Result = Name;
+            string Result = Name;
             while (!Done)
             {
                 I = 0;
@@ -1493,13 +1493,13 @@ namespace Aow.Units.AoWSetup
                 if (!Unique)
                 {
                     // { Original reads the last character without guarding an empty name. }
-                    if (TSet<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Result[Result.Length]))
+                    if (TSet<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(Result[Result.Length - 1])))
                     {
-                        Result = Copy(Result, 1, Result.Length - 1) + IntToStr(Result[Result.Length] + 1 - 48);
+                        Result = Copy(Result, 1, Result.Length - 1) + IntToStr(Cp1252.Byte(Result[Result.Length - 1]) + 1 - 48);
                     }
                     else
                     {
-                        Result = Result + AnsiString.FromBytes(49);
+                        Result = Result + "1";
                     }
                 }
                 else
@@ -1513,7 +1513,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:995
-        public bool PlayerNameToPlayerID(AnsiString Name, ref TSetupPlayerBehavior Behavior)
+        public bool PlayerNameToPlayerID(string Name, ref TSetupPlayerBehavior Behavior)
         {
             int I;
             byte PlayerType;
@@ -1859,7 +1859,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:1209
-        public bool hPickMap(AnsiString FileName)
+        public bool hPickMap(string FileName)
         {
             bool Result = default;
             bool FirstHuman = default;
@@ -1984,7 +1984,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:1236
-        public bool SetupHost(AnsiString Name, byte Mode, int RemoteID)
+        public bool SetupHost(string Name, byte Mode, int RemoteID)
         {
             Reset();
             FPhase = TSetupPhase.spSetupPlayers;
@@ -2017,7 +2017,7 @@ namespace Aow.Units.AoWSetup
         }
 
         // AoWSetup.pas:1264
-        public bool SetupUser(AnsiString Name, int RemoteID)
+        public bool SetupUser(string Name, int RemoteID)
         {
             Reset();
             FRemotePlayer.FName = Name;
@@ -2091,7 +2091,7 @@ namespace Aow.Units.AoWSetup
 
     public delegate void TSetupControlEvent(TSetupControl SetupControl);
     public delegate void TCustomizeLeaderEvent(TSetupControl SetupControl, TCustomizeLeaderControl CLC);
-    public delegate void TLoadMapEvent(TSetupControl SetupControl, AnsiString Filename);
+    public delegate void TLoadMapEvent(TSetupControl SetupControl, string Filename);
     public delegate void TEjectPlayerEvent(TSetupControl SetupControl, int RemoteID);
     public delegate void TIncompatibleVersionEvent(TSetupControl SetupControl, int MajorVersion, int MinorVersion);
     public delegate void TSendMapEvent(TSetupControl SetupControl, object Data, int Size, int Recipient);
@@ -2105,7 +2105,7 @@ namespace Aow.Units.AoWSetup
 
     public partial class TSetupHeroView : TObject
     {
-        public AnsiString Name;
+        public string Name = "";
     }
 
     public static partial class AoWSetup
@@ -2119,7 +2119,7 @@ namespace Aow.Units.AoWSetup
         // AoWSetup.pas:1339
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoW", [typeof(TSetupControl)]);
+            RegisterComponents("AoW", [typeof(TSetupControl)]);
         }
 
         public static TSetupPlayerBehavior CPUBehavior = new TSetupPlayerBehavior

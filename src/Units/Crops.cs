@@ -716,7 +716,7 @@ namespace Aow.Units.Crops
         }
 
         // Crops.pas:254
-        public override AnsiString ResourceEditName() => TranslateRStr(CropRStr);
+        public override string ResourceEditName() => TranslateRStr(CropRStr);
 
     }
 

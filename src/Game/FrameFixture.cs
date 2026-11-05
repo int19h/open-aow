@@ -248,7 +248,7 @@ internal sealed class FrameFixture
             if (fixture.values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts);
             var taskbar = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
             var controls = Aow.Units.AOWControlWin.AOWControlWin.ControlWin;
-            File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text.ToString(), controls.Unit2Chk.Text.ToString(), controls.MovesLbl.Text.ToString() }) + "\n");
+            File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text, controls.Unit2Chk.Text, controls.MovesLbl.Text }) + "\n");
             var selected = GameState.AoWHSMap?.FSelectedArmy?.GetArmyHS();
             if (GameState.AoWHSMap is { } world)
             {
@@ -261,8 +261,8 @@ internal sealed class FrameFixture
                     object[] Items(TItemList list) => Enumerable.Range(0, list.GetCount())
                         .Select(index => list.GetItem(index))
                         .OfType<TItem>()
-                        .Select(item => (object)new { item.FItemID, name = item.FName.ToString(), type = item.FItemType.ToString() }).ToArray();
-                    heroes.Add(new { name = hero.FHeroName.ToString(), hero.FPlayer, x, y, level,
+                        .Select(item => (object)new { item.FItemID, name = item.FName, type = item.FItemType.ToString() }).ToArray();
+                    heroes.Add(new { name = hero.FHeroName, hero.FPlayer, x, y, level,
                         attack = hero.GetAttack(), defense = hero.GetDefense(), damage = hero.GetDamage(),
                         equipped = Items(hero.FHeroItems), inventory = Items(hero.FInventory) });
                 }
@@ -278,7 +278,7 @@ internal sealed class FrameFixture
                         players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.FGems });
                         for (int index = 0; index < player.FStructures.GetCount(); index++)
                             if (player.FStructures.GetStructure(index) is Aow.Units.City.TCity city)
-                                cities.Add(new { name = city.FName.ToString(), player = playerIndex, wall = city.FWallType, upgrade = city.FUpgradeLevel });
+                                cities.Add(new { name = city.FName, player = playerIndex, wall = city.FWallType, upgrade = city.FUpgradeLevel });
                     }
                     File.WriteAllText(Path.Combine(output, "world.json"), JsonSerializer.Serialize(new
                     {
@@ -319,7 +319,7 @@ internal sealed class FrameFixture
                 if (fixture.values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    GameState.AoWEngine.SaveHSM(GameState.AoWEngine.StartupDirectory + (AnsiString)("Save\\" + saveName), null!);
+                    GameState.AoWEngine.SaveHSM(GameState.AoWEngine.StartupDirectory + "Save\\" + saveName, null!);
                 }
                 else map.FPlayerControl.AutoSave();
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);
@@ -329,8 +329,8 @@ internal sealed class FrameFixture
                     File.Copy(Path.Combine(output, "user", saved), Path.Combine(output, "saved-" + Path.GetFileName(saved)), true);
             File.WriteAllText(Path.Combine(output, "taskbar.json"), JsonSerializer.Serialize(
                 new[] { taskbar.WGTLbl, taskbar.WGILbl, taskbar.WMTLbl, taskbar.WMILbl, taskbar.TGTLbl, taskbar.TGILbl, taskbar.TMTLbl, taskbar.TMILbl }
-                    .Select(c => new { name = c.Name.ToString(), text = c.Text.ToString(), c.WinLeft, c.WinTop, c.WinWidth, c.WinHeight, c.FVisible,
-                        owner = c.FAOWOwner?.Name.ToString(), window = c.FAOWWindow?.Name.ToString() }),
+                    .Select(c => new { name = c.Name, text = c.Text, c.WinLeft, c.WinTop, c.WinWidth, c.WinHeight, c.FVisible,
+                        owner = c.FAOWOwner?.Name, window = c.FAOWWindow?.Name }),
                 new JsonSerializerOptions { WriteIndented = true }) + "\n");
             File.WriteAllText(Path.Combine(output, "fixture.json"), JsonSerializer.Serialize(new
             {

@@ -28,7 +28,7 @@ namespace Aow.Units.Crypt
         public override int ResourceUserClassID() => 131850;
 
         // Crypt.pas:37
-        public override AnsiString ResourceEditName() => TranslateRStr(CryptRStr);
+        public override string ResourceEditName() => TranslateRStr(CryptRStr);
 
     }
 

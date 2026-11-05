@@ -62,7 +62,7 @@ namespace Aow.Units.AoWPInfoWin
                 }
 
                 var day = TranslateRStr(DayRStr);
-                AoWPInfoWin.PInfoW.Turn.Text = day + AnsiString.FromBytes(32) + IntToStr(AoWHSMap.FDay);
+                AoWPInfoWin.PInfoW.Turn.Text = day + " " + IntToStr(AoWHSMap.FDay);
                 RaceIndex = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FPlayerRace;
                 if (RaceIndex == -1)
                 {

@@ -28,7 +28,7 @@ namespace Aow.Units.MonsterL
         public override int ResourceUserClassID() => 131886;
 
         // MonsterL.pas:37
-        public override AnsiString ResourceEditName() => TranslateRStr(MonsterLairRStr);
+        public override string ResourceEditName() => TranslateRStr(MonsterLairRStr);
 
     }
 

@@ -3,15 +3,15 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Rtl;
 
-public sealed record TranslationTarget(AnsiString ClassName, AnsiString PropertyName, int Options = 0);
+public sealed record TranslationTarget(string ClassName, string PropertyName, int Options = 0);
 
 public static class TranslatorProperties
 {
-    internal sealed record Binding(Type Type, string Name, Func<TComponent, AnsiString[]> Read,
-        Action<TComponent, AnsiString[]> Write, bool IsList);
+    internal sealed record Binding(Type Type, string Name, Func<TComponent, string[]> Read,
+        Action<TComponent, string[]> Write, bool IsList);
     private static readonly Dictionary<(Type, string), Binding> bindings = [];
 
-    public static void Register<T>(string name, Func<T, AnsiString> read, Action<T, AnsiString> write) where T : TComponent
+    public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : TComponent
         => bindings[(typeof(T), name)] = new(typeof(T), name, component => [read((T)component)],
             (component, values) => write((T)component, values[0]), false);
 
@@ -47,8 +47,8 @@ public class TIvCustomTranslator : TComponent
 {
     public TIvCustomTranslator(TComponent? owner = null) : base(owner) { }
 
-    private ConditionalWeakTable<TComponent, Dictionary<string, AnsiString[]>> nativeValues = new();
-    public AnsiString DictionaryName { get; set; } = "AoW";
+    private ConditionalWeakTable<TComponent, Dictionary<string, string[]>> nativeValues = new();
+    public string DictionaryName { get; set; } = "AoW";
     public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();
     public MldDictionary? Dictionary { get; set; }
     public int? Language { get; set; }
@@ -64,7 +64,7 @@ public class TIvCustomTranslator : TComponent
     {
         var dictionary = Dictionary ?? LocalizationRuntime.Dictionary(DictionaryName, Language);
         if (Language is int language && dictionary.Language != language) dictionary.SetLanguage(language);
-        AnsiString form = TObject.ClassNameOf(module.GetType());
+        string form = TObject.ClassNameOf(module.GetType());
         Visit(module);
 
         void Visit(TComponent component)
@@ -72,7 +72,7 @@ public class TIvCustomTranslator : TComponent
             foreach (var target in TargetsData)
             {
                 if (!Matches(component.GetType(), target.ClassName)) continue;
-                string name = target.PropertyName.ToString();
+                string name = target.PropertyName;
                 var binding = TranslatorProperties.Find(component.GetType(), name);
                 if (binding is null) continue;
                 var values = nativeValues.GetOrCreateValue(component);
@@ -81,7 +81,7 @@ public class TIvCustomTranslator : TComponent
                     native = binding.Read(component);
                     values.Add(name, native);
                 }
-                AnsiString componentName = ReferenceEquals(component, module) ? default : component.Name;
+                string componentName = ReferenceEquals(component, module) ? "" : component.Name;
                 if (binding.IsList)
                 {
                     if (native.Length == 0) continue;
@@ -95,17 +95,17 @@ public class TIvCustomTranslator : TComponent
         }
     }
 
-    private static bool Matches(Type type, AnsiString name)
+    private static bool Matches(Type type, string name)
     {
         if (name.Length == 0) return true;
         for (Type? current = type; current is not null; current = current.BaseType)
-            if ((AnsiString)TObject.ClassNameOf(current) == name) return true;
+            if (TObject.ClassNameOf(current) == name) return true;
         return false;
     }
 
-    private static AnsiString Join(AnsiString[] values)
+    private static string Join(string[] values)
     {
-        AnsiString result = default;
+        string result = "";
         for (int index = 0; index < values.Length; index++)
         {
             if (index > 0) result += "<eol>";
@@ -114,12 +114,12 @@ public class TIvCustomTranslator : TComponent
         return result;
     }
 
-    private static AnsiString[] Split(AnsiString value)
+    private static string[] Split(string value)
     {
-        var result = new List<AnsiString>();
+        var result = new List<string>();
         do
         {
-            int marker = Rtl.Pos("<eol>", value), lineFeed = Rtl.Pos(AnsiString.FromBytes(10), value);
+            int marker = Rtl.Pos("<eol>", value), lineFeed = Rtl.Pos("\n", value);
             int end = marker != 0 && (lineFeed == 0 || marker < lineFeed) ? marker : lineFeed;
             if (end == 0) { result.Add(value); break; }
             result.Add(Rtl.Copy(value, 1, end - 1));

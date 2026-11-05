@@ -5,14 +5,14 @@ namespace Aow.Units.E1Resources
 {
     public static partial class E1Resources
     {
-        public static readonly AnsiString E1DamageRStr = (AnsiString)"Damage";
-        public static readonly AnsiString E1FileNotFoundRStr = (AnsiString)"File not found";
-        public static readonly AnsiString E1LoadingRStr = (AnsiString)"Loading";
-        public static readonly AnsiString E1BackgroundRStr = (AnsiString)"Background";
-        public static readonly AnsiString E1CampaignRStr = (AnsiString)"Campaign";
-        public static readonly AnsiString E1SurfaceRStr = (AnsiString)"Surface";
-        public static readonly AnsiString E1CavernsRStr = (AnsiString)"Caverns";
-        public static readonly AnsiString E1DepthsRStr = (AnsiString)"Depths";
-        public static readonly AnsiString E1FactionRStr = (AnsiString)"Choose a Faction";
+        public static readonly string E1DamageRStr = "Damage";
+        public static readonly string E1FileNotFoundRStr = "File not found";
+        public static readonly string E1LoadingRStr = "Loading";
+        public static readonly string E1BackgroundRStr = "Background";
+        public static readonly string E1CampaignRStr = "Campaign";
+        public static readonly string E1SurfaceRStr = "Surface";
+        public static readonly string E1CavernsRStr = "Caverns";
+        public static readonly string E1DepthsRStr = "Depths";
+        public static readonly string E1FactionRStr = "Choose a Faction";
     }
 }

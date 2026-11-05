@@ -58,7 +58,7 @@ namespace Aow.Units.Arena
         public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
             TAbstractUnit AUnit;
-            AnsiString ErrorText = default;
+            string ErrorText = "";
             TExecuteResult Result = base.ExecuteTE(A1, Executer);
             if (A1.FAction == 1)
             {
@@ -151,7 +151,7 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:159
-        public bool CanTrainUnits(sbyte Player, TIntegerList Units, ref AnsiString ErrorText)
+        public bool CanTrainUnits(sbyte Player, TIntegerList Units, ref string ErrorText)
         {
             bool Result;
             int Total;
@@ -209,11 +209,11 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:194
-        public bool TrainUnits(sbyte Player, TIntegerList Units, ref AnsiString ErrorText)
+        public bool TrainUnits(sbyte Player, TIntegerList Units, ref string ErrorText)
         {
             bool Result;
             TArenaTE TE;
-            ErrorText = (AnsiString)"";
+            ErrorText = "";
             if (CanTrainUnits(Player, Units, ref ErrorText) && !AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
             {
                 TE = (TArenaTE)CreateTE();
@@ -306,7 +306,7 @@ namespace Aow.Units.Arena
 
 
         // Arena.pas:250
-        public override AnsiString ResourceEditName() => TranslateRStr(ArenaRStr);
+        public override string ResourceEditName() => TranslateRStr(ArenaRStr);
 
     }
 
@@ -357,7 +357,7 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:284
-        public bool Train(ref AnsiString ErrorText)
+        public bool Train(ref string ErrorText)
         {
             TIntegerList Units;
             Units = new TIntegerList();
@@ -375,7 +375,7 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:294
-        public bool CanTrain(ref AnsiString ErrorText)
+        public bool CanTrain(ref string ErrorText)
         {
             TIntegerList Units;
             Units = new TIntegerList();
@@ -393,9 +393,9 @@ namespace Aow.Units.Arena
         }
 
         // Arena.pas:304
-        public AnsiString GetSelectionInfo()
+        public string GetSelectionInfo()
         {
-            AnsiString Result;
+            string Result;
             int Total;
             TAbstractUnit AUnit;
             Total = 0;
@@ -418,7 +418,7 @@ namespace Aow.Units.Arena
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;

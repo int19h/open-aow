@@ -48,8 +48,8 @@ public sealed class EngineSupportTests
     {
         Assert.Equal(new byte[] { 0x78, 0x56 }, R.ValueBytes(0x12345678, 2));
         Assert.Throws<ERangeError>(() => R.ValueBytes(1, 5));
-        AnsiString value = AnsiString.FromBytes(0, 233, 255);
-        Assert.Equal(new byte[] { 0, 233, 255 }, R.StringBytes(value).ToArray());
+        string value = "\0\u00E9\u00FF";
+        Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode(value).ToArray());
         byte[] bytes = new byte[3];
         R.FillBytes(bytes, -1);
         Assert.Equal(new byte[] { 255, 255, 255 }, bytes);
@@ -109,13 +109,13 @@ public sealed class EngineSupportTests
         var stream = new TMemoryStream();
         stream.WriteBuffer(new byte[] { 0, 233 });
         stream.Position = 0;
-        AnsiString value = "abcd", shared = value;
+        string value = "abcd", shared = value;
         Assert.Equal(2, R.ReadString(stream, ref value, 1, 2, false));
-        Assert.Equal((AnsiString)"abcd", shared);
-        Assert.Equal(AnsiString.FromBytes(97, 0, 233, 100), value);
+        Assert.Equal("abcd", shared);
+        Assert.Equal("a\0\u00E9d", value);
         stream.Position = 0;
         Assert.Throws<EReadError>(() => R.ReadString(stream, ref value, 0, 4, true));
-        Assert.Equal((byte)0, value[1]); Assert.Equal((byte)233, value[2]);
+        Assert.Equal((byte)0, Cp1252.Byte(value[0])); Assert.Equal((byte)233, Cp1252.Byte(value[1]));
     }
 
     [Fact]
@@ -149,10 +149,10 @@ public sealed class EngineSupportTests
         var saved = R.MessageHandler;
         try
         {
-            AnsiString shown = default;
+            string shown = "";
             R.MessageHandler = message => shown = message;
             R.ShowMessage("message");
-            Assert.Equal((AnsiString)"message", shown);
+            Assert.Equal("message", shown);
         }
         finally { R.MessageHandler = saved; }
         R.RegisterClass(typeof(TComponent));

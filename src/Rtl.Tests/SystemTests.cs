@@ -111,14 +111,14 @@ public sealed class SystemTests
     [Fact]
     public void StringsHandleExtremeIndicesAndIndependentAliases()
     {
-        AnsiString text = "abcd";
-        Assert.Equal((AnsiString)"ab", Copy(text, int.MinValue, 2));
-        Assert.Equal(default, Copy(text, int.MaxValue, int.MaxValue));
+        string text = "abcd";
+        Assert.Equal("ab", Copy(text, int.MinValue, 2));
+        Assert.Equal("", Copy(text, int.MaxValue, int.MaxValue));
         Assert.Equal(text, Delete(text, int.MinValue, int.MaxValue));
         Assert.Equal(text, Delete(text, int.MaxValue, int.MaxValue));
-        Assert.Equal(default, Delete(text, 1, int.MaxValue));
-        Assert.Equal((AnsiString)"XYabcd", Insert("XY", text, int.MinValue));
-        Assert.Equal((AnsiString)"abcdXY", Insert("XY", text, int.MaxValue));
+        Assert.Equal("", Delete(text, 1, int.MaxValue));
+        Assert.Equal("XYabcd", Insert("XY", text, int.MinValue));
+        Assert.Equal("abcdXY", Insert("XY", text, int.MaxValue));
         Assert.Equal(0, Pos("x", text));
         Assert.Equal(4, Length(text));
         Assert.Equal((byte)255, Chr(-1));
@@ -129,19 +129,19 @@ public sealed class SystemTests
         Assert.Equal(1, Ord(Generated.TFlag.Second));
         for (int i = 0; i <= 255; i++)
             Assert.Equal(i is >= 97 and <= 122 ? i - 32 : i, UpCase((byte)i));
-        var pointer = ((AnsiString)"ab\0cd").AsPtr();
+        var pointer = Ptr<byte>.Unbox("ab\0cd");
         Assert.Equal(2, StrLen(pointer));
-        Assert.Equal((AnsiString)"ab", StrPas(pointer));
-        Assert.Equal((AnsiString)"b", StrPas(pointer + 1));
-        Assert.Equal(default, StrPas(default));
-        Assert.Equal((AnsiString)"ab\0cd", SetString(pointer, 5));
-        AnsiString value = default;
+        Assert.Equal("ab", StrPas(pointer));
+        Assert.Equal("b", StrPas(pointer + 1));
+        Assert.Equal("", StrPas(default));
+        Assert.Equal("ab\0cd", SetString(pointer, 5));
+        string value = "";
         SetString(ref value, pointer + 1, 3);
-        Assert.Equal((AnsiString)"b\0c", value);
+        Assert.Equal("b\0c", value);
         pointer[1] = 99;
-        Assert.Equal((AnsiString)"b\0c", value);
-        Assert.Equal(AnsiString.FromBytes(0, 0, 0), SetString(default, 3));
-        Assert.Equal(default, SetString(default, -1));
+        Assert.Equal("b\0c", value);
+        Assert.Equal("\0\0\0", SetString(default, 3));
+        Assert.Equal("", SetString(default, -1));
         var destination = Ptr<byte>.Alloc(10);
         Ptr<byte>.Fill(destination, 10, 255);
         Assert.Equal(destination, StrCopy(destination + 0, pointer));
@@ -149,10 +149,10 @@ public sealed class SystemTests
         Assert.Equal(255, destination[3]);
         Assert.Equal(0, StrLComp(pointer, destination, 10));
         Assert.Equal(0, StrLComp(default, default, 0));
-        Assert.Equal(0, StrLComp(((AnsiString)"abc").AsPtr(), ((AnsiString)"abd").AsPtr(), 2));
-        Assert.Equal(-1, StrLComp(((AnsiString)"abc").AsPtr(), ((AnsiString)"abd").AsPtr(), 3));
-        Assert.Equal(127, StrLComp(AnsiString.FromBytes(255).AsPtr(), AnsiString.FromBytes(128).AsPtr(), 2));
-        Assert.Equal(-99, StrLComp(((AnsiString)"ab").AsPtr(), ((AnsiString)"abc").AsPtr(), 10));
+        Assert.Equal(0, StrLComp(Ptr<byte>.Unbox("abc"), Ptr<byte>.Unbox("abd"), 2));
+        Assert.Equal(-1, StrLComp(Ptr<byte>.Unbox("abc"), Ptr<byte>.Unbox("abd"), 3));
+        Assert.Equal(127, StrLComp(Ptr<byte>.Unbox("\u00FF"), Ptr<byte>.Unbox("\u20AC"), 2));
+        Assert.Equal(-99, StrLComp(Ptr<byte>.Unbox("ab"), Ptr<byte>.Unbox("abc"), 10));
         Assert.Equal(pointer + 1, StrScan(pointer, (byte)'c'));
         Assert.Equal(pointer + 2, StrScan(pointer, 0));
         Assert.True(StrScan(pointer, (byte)'d').IsNull);
@@ -224,22 +224,22 @@ public sealed class SystemTests
     [MemberData(nameof(ExceptionTypes))]
     public void EveryExceptionHasTypedFactories(Type type)
     {
-        var instance = (DelphiException)Activator.CreateInstance(type, (AnsiString)"message")!;
-        Assert.Equal((AnsiString)"message", instance.Message);
+        var instance = (DelphiException)Activator.CreateInstance(type, "message")!;
+        Assert.Equal("message", instance.Message);
         Assert.Equal("message", ((System.Exception)instance).Message);
         instance.HelpContext = 19;
         Assert.Equal(19, instance.HelpContext);
         instance.Message = "changed";
-        Assert.Equal((AnsiString)"changed", instance.Message);
+        Assert.Equal("changed", instance.Message);
         Assert.Same(instance, Wrap(instance));
         var create = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
-        var created = (DelphiException)create.Invoke(null, new object[] { (AnsiString)"created" })!;
+        var created = (DelphiException)create.Invoke(null, new object[] { "created" })!;
         Assert.Equal(type, created.GetType());
-        Assert.Equal((AnsiString)"created", created.Message);
+        Assert.Equal("created", created.Message);
         var createFmt = type.GetMethod("CreateFmt", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
-        var formatted = (DelphiException)createFmt.Invoke(null, new object[] { (AnsiString)"%s %d %%", new TVarRec[] { (AnsiString)"item", -7 } })!;
+        var formatted = (DelphiException)createFmt.Invoke(null, new object[] { "%s %d %%", new TVarRec[] { "item", -7 } })!;
         Assert.Equal(type, formatted.GetType());
-        Assert.Equal((AnsiString)"item -7 %", formatted.Message);
+        Assert.Equal("item -7 %", formatted.Message);
     }
 
     [Fact]
@@ -263,7 +263,7 @@ public sealed class SystemTests
         Assert.IsType<EDivByZero>(Wrap(new DivideByZeroException("zero")));
         Assert.IsType<ERangeError>(Wrap(new IndexOutOfRangeException("range")));
         Assert.IsType<EInvalidCast>(Wrap(new InvalidCastException("cast")));
-        Assert.Equal((AnsiString)"other", Assert.IsType<DelphiException>(Wrap(new System.Exception("other"))).Message);
+        Assert.Equal("other", Assert.IsType<DelphiException>(Wrap(new System.Exception("other"))).Message);
         Assert.Null(As<TObject>(null));
         var obj = new TObject();
         Assert.Same(obj, As<TObject>(obj));
@@ -271,41 +271,41 @@ public sealed class SystemTests
         Assert.Throws<EAbort>(Abort);
         Assert.Equal(0, Assert.Throws<EHalt>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<EHalt>(() => Halt(-1)).ExitCode);
-        Assert.Equal((AnsiString)"broken (unit.pas, line 42)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, "broken", "unit.pas", 42)).Message);
+        Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, "broken", "unit.pas", 42)).Message);
         // SYSUTILS.PAS:5380 substitutes SAssertionFailed for an empty message.
-        Assert.Equal((AnsiString)"Assertion failed (unit.pas, line 1)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, default(AnsiString), "unit.pas", 1)).Message);
+        Assert.Equal("Assertion failed (unit.pas, line 1)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, "", "unit.pas", 1)).Message);
         Rtl.Assert(true, "", "unit.pas", 1);
     }
 
     [Fact]
     public void ExceptionFormattingUsesTaggedArguments()
     {
-        Assert.Equal((AnsiString)"0007 x   FF", DelphiException.CreateFmt("%.4d %-3s %X", 7, (AnsiString)"x", -1 & 255).Message);
-        Assert.Equal((AnsiString)"bb:aa", DelphiException.CreateFmt("%1:s:%0:s", (AnsiString)"aa", (AnsiString)"bb").Message);
-        Assert.Equal((AnsiString)"   abc", DelphiException.CreateFmt("%*.*s", 6, 3, (AnsiString)"abcdef").Message);
-        Assert.Equal((AnsiString)"-0007", DelphiException.CreateFmt("%.4d", -7).Message);
-        Assert.Equal((AnsiString)"4294967295", DelphiException.CreateFmt("%u", -1).Message);
-        Assert.Equal((AnsiString)"A", DelphiException.CreateFmt("%s", (byte)65).Message);
+        Assert.Equal("0007 x   FF", DelphiException.CreateFmt("%.4d %-3s %X", 7, "x", -1 & 255).Message);
+        Assert.Equal("bb:aa", DelphiException.CreateFmt("%1:s:%0:s", "aa", "bb").Message);
+        Assert.Equal("   abc", DelphiException.CreateFmt("%*.*s", 6, 3, "abcdef").Message);
+        Assert.Equal("-0007", DelphiException.CreateFmt("%.4d", -7).Message);
+        Assert.Equal("4294967295", DelphiException.CreateFmt("%u", -1).Message);
+        Assert.Equal("A", DelphiException.CreateFmt("%s", (byte)65).Message);
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%s", 1));
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%d", true));
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%d"));
-        Assert.Equal(default, DelphiException.CreateFmt("%").Message);
+        Assert.Equal("", DelphiException.CreateFmt("%").Message);
         Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%f", 1.25));
-        Assert.Equal((AnsiString)"x", DelphiException.CreateFmt("%*s", true, (AnsiString)"x").Message);
+        Assert.Equal("x", DelphiException.CreateFmt("%*s", true, "x").Message);
     }
 
     [Fact]
     public void CommandLineUsesHostSuppliedSnapshot()
     {
-        AnsiString[] args = ["game.exe", "one", "two words"];
+        string[] args = ["game.exe", "one", "two words"];
         SetCommandLine(args);
         args[1] = "changed";
         Assert.Equal(2, ParamCount());
-        Assert.Equal((AnsiString)"game.exe", ParamStr(0));
-        Assert.Equal((AnsiString)"one", ParamStr(1));
-        Assert.Equal((AnsiString)"two words", ParamStr(2));
-        Assert.Equal(default, ParamStr(-1));
-        Assert.Equal(default, ParamStr(3));
+        Assert.Equal("game.exe", ParamStr(0));
+        Assert.Equal("one", ParamStr(1));
+        Assert.Equal("two words", ParamStr(2));
+        Assert.Equal("", ParamStr(-1));
+        Assert.Equal("", ParamStr(3));
         SetCommandLine("game.exe");
         Assert.Equal(0, ParamCount());
         Assert.Throws<ArgumentException>(() => SetCommandLine());

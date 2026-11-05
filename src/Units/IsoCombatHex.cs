@@ -167,7 +167,7 @@ namespace Aow.Units.IsoCombatHex
         public override THexagonControl GetHexagonControl() => ((TAoWHSSet)Engine.HSSet).FCombatHexagons;
 
         // IsoCombatHex.pas:111
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat ISO-Hex";
+        public override string ResourceEditName() => "Combat ISO-Hex";
 
     }
 

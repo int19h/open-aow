@@ -735,7 +735,7 @@ namespace Aow.Units.AoWVScroll
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -976,7 +976,7 @@ namespace Aow.Units.AoWVScroll
         // AoWVScroll.pas:706
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWVScrollBar)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWVScrollBar)]);
         }
     }
 }

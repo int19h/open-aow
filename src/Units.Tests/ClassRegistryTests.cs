@@ -13,8 +13,8 @@ public sealed class ClassRegistryTests
     public void EveryProductClassHasItsDescriptor()
     {
         var types = typeof(TEObject).Assembly.GetTypes();
-        var engineTypes = types.Where(t => t.IsClass && typeof(TEObject).IsAssignableFrom(t)).OrderBy(t => t.FullName);
-        Assert.Equal(engineTypes, EClass.All.Where(c => c.Type.Assembly == typeof(TEObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName));
+        var engineTypes = types.Where(t => t.IsClass && typeof(TEObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
+        Assert.Equal(engineTypes, EClass.All.Where(c => c.Type.Assembly == typeof(TEObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, StringComparer.Ordinal));
         foreach (var type in engineTypes)
         {
             var descriptor = EClass.Of(type);
@@ -110,6 +110,6 @@ public sealed class ClassRegistryTests
     };
 
     private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered) =>
-        Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName),
-            registered.Where(t => t.Assembly == typeof(TEObject).Assembly).OrderBy(t => t.FullName));
+        Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal),
+            registered.Where(t => t.Assembly == typeof(TEObject).Assembly).OrderBy(t => t.FullName, StringComparer.Ordinal));
 }

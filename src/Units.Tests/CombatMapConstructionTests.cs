@@ -44,7 +44,7 @@ public sealed class CombatMapConstructionTests
             for (int route = 0; route < 4; route++)
             {
                 using var fixture = new OrderingRecording.Fixture(typeof(TAoWCombatMap));
-                var entry = fixture.Manager.FDiskList.AddILFile((AnsiString)"TargHex.ILB");
+                var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
                 entry.FImageLibrary = new TImageLibrary(null!);
                 var set = Game.AoWHSSet;
                 if (failure == 2) Game.AoWHSSet = null!;

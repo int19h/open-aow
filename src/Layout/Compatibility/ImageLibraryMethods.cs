@@ -3,33 +3,30 @@
 using System;
 using Aow.Rtl;
 using Aow.Layout;
+using static Aow.Rtl.Rtl;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
 
 namespace Aow.Layout
 {
     public static class ImageLibraryMethods
     {
-        public static Aow.Units.ImageLib.TImageLibrary CheckIL(this Aow.Units.ImageLib.TImageLibrary library, int Index, int Count, Aow.Rtl.TComponent Sender)
+        public static Aow.Units.ImageLib.TImageLibrary CheckIL(this Aow.Units.ImageLib.TImageLibrary library, int Index, int Count, TComponent Sender)
         {
-            Aow.Units.ImageLib.TImageLibrary Result = default;
-            int I = default;
-            Result = library;
-            if ((Index + Count) > library.Count)
+            Aow.Units.ImageLib.TImageLibrary Result = library;
+            if (Index + Count > library.Count)
             {
                 Result = null;
-                Aow.Rtl.Rtl.MessageBox((int)0, ((library.Name + ((AnsiString)" must have ")) + Aow.Rtl.Rtl.IntToStr(Index + Count)) + ((AnsiString)" Images"), ((AnsiString)"Error - ") + Sender.Name, (int)0);
+                MessageBox(0, library.Name + " must have " + IntToStr(Index + Count) + " Images", "Error - " + Sender.Name, 0);
             }
             else
             {
+                for (int I = Index; I <= Index + Count - 1; I++)
                 {
-                    I = Index;
-                    int end__1 = (Index + Count) - 1;
-                    for (; I <= end__1; I += 1)
+                    if (!library.ImageExist(I))
                     {
-                        if (!library.ImageExist(I))
-                        {
-                            Aow.Rtl.Rtl.MessageBox((int)0, ((library.Name + AnsiString.FromBytes(32, 73, 109, 97, 103, 101, 32, 35, 32)) + Aow.Rtl.Rtl.IntToStr(I)) + ((AnsiString)" is invalid"), ((AnsiString)"Error - ") + Sender.Name, (int)0);
-                            Result = null;
-                        }
+                        MessageBox(0, library.Name + " Image # " + IntToStr(I) + " is invalid", "Error - " + Sender.Name, 0);
+                        Result = null;
                     }
                 }
             }
@@ -37,15 +34,13 @@ namespace Aow.Layout
             return Result;
         }
 
-        public static void DrawILT(this Aow.Units.ImageLib.TImageLibrary library, int Index, in Aow.Rtl.TRect R, ref Aow.Units.GFXE.TSurfaceDesc SurfDesc)
+        public static void DrawILT(this Aow.Units.ImageLib.TImageLibrary library, int Index, in TRect R, ref TSurfaceDesc SurfDesc)
         {
-            int I = default;
-            int J = default;
-            int ClipRight = default;
-            int ClipBottom = default;
-            Aow.Rtl.TRect OldClip = default;
+            int ClipRight;
+            int ClipBottom;
+            TRect OldClip;
             OldClip = SurfDesc.ClipRect;
-            if ((R.Left + R.Right) > SurfDesc.ClipRect.Right)
+            if (R.Left + R.Right > SurfDesc.ClipRect.Right)
             {
                 ClipRight = SurfDesc.ClipRect.Right;
             }
@@ -54,7 +49,7 @@ namespace Aow.Layout
                 ClipRight = R.Left + R.Right;
             }
 
-            if ((R.Top + R.Bottom) > SurfDesc.ClipRect.Bottom)
+            if (R.Top + R.Bottom > SurfDesc.ClipRect.Bottom)
             {
                 ClipBottom = SurfDesc.ClipRect.Bottom;
             }
@@ -63,34 +58,25 @@ namespace Aow.Layout
                 ClipBottom = R.Top + R.Bottom;
             }
 
-            var call__33 = Aow.Rtl.Rtl.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-            SurfDesc.ClipRect = call__33;
-            if ((R.Left + R.Right) < OldClip.Right)
+            var rect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+            SurfDesc.ClipRect = rect;
+            if (R.Left + R.Right < OldClip.Right)
             {
                 SurfDesc.ClipRect.Right = R.Left + R.Right;
             }
 
-            if ((R.Top + R.Bottom) < OldClip.Bottom)
+            if (R.Top + R.Bottom < OldClip.Bottom)
             {
                 SurfDesc.ClipRect.Bottom = R.Top + R.Bottom;
             }
 
+            for (int J = 0, last = R.Bottom / library[Index].Height; J <= last; J++)
             {
-                J = 0;
-                int end__34 = R.Bottom / library[Index].Height;
-                for (; J <= end__34; J += 1)
+                for (int I = 0, lastI = R.Right / library[Index].Width; I <= lastI; I++)
                 {
-                    {
-                        I = 0;
-                        int end__35 = R.Right / library[Index].Width;
-                        for (; I <= end__35; I += 1)
-                        {
-                            var call__36 = library[Index];
-                            var call__37 = library[Index];
-                            var call__38 = library[Index];
-                            call__38.ShowClipped(R.Left + (call__37.Width * I), R.Top + (call__36.Height * J), SurfDesc);
-                        }
-                    }
+                    var item = library[Index];
+                    var item2 = library[Index];
+                    library[Index].ShowClipped(R.Left + item2.Width * I, R.Top + item.Height * J, SurfDesc);
                 }
             }
 

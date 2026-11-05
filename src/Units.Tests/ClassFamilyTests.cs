@@ -36,8 +36,8 @@ public sealed class ClassFamilyTests
     {
         static void Verify(Type contract, IEnumerable<Type> registered)
         {
-            var expected = typeof(TEObject).Assembly.GetTypes().Where(t => t.IsClass && contract.IsAssignableFrom(t)).Select(t => t.FullName).Order();
-            Assert.Equal(expected, registered.Where(t => t.Assembly == typeof(TEObject).Assembly).Select(t => t.FullName).Order());
+            var expected = typeof(TEObject).Assembly.GetTypes().Where(t => t.IsClass && contract.IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal);
+            Assert.Equal(expected, registered.Where(t => t.Assembly == typeof(TEObject).Assembly).Select(t => t.FullName).Order(StringComparer.Ordinal));
         }
         Verify(typeof(IAIPlayerActionClass), AIPlayerActionClass.All.Select(c => c.Class.Type));
         Verify(typeof(IAIGroupClass), AIGroupClass.All.Select(c => c.Class.Type));

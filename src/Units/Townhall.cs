@@ -27,7 +27,7 @@ namespace Aow.Units.Townhall
         public override int ResourceUserClassID() => 2229520;
 
         // Townhall.pas:42
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Townhall";
+        public override string ResourceEditName() => "Combat Townhall";
 
     }
 

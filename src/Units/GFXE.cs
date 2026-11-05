@@ -1468,7 +1468,7 @@ namespace Aow.Units.GFXE
             {
                 try
                 {
-                    Assert(X >= 0 && X < SD.Width && Y >= 0 && Y < SD.Height, (AnsiString)"Coordinates out of bounds!", "GFXE.pas", 11974);
+                    Assert(X >= 0 && X < SD.Width && Y >= 0 && Y < SD.Height, "Coordinates out of bounds!", "GFXE.pas", 11974);
                     // { 8 bit pixels need the palette; 1555 and the TColor ordered 24 bit layout are not handled }
                     switch (SD.PixelFormatID)
                     {
@@ -1481,7 +1481,7 @@ namespace Aow.Units.GFXE
                             Result = (int)(((uint)(W & 63488)) >> 8) + ((W & 2016) << 5) + ((W & 31) << 19);
                             break;
                         case GFXE.pfPAL8:
-                            Assert(SD.Palette != null, (AnsiString)"Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
+                            Assert(SD.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                             Index = MemoryMarshal.Read<byte>((BytePointer(SD.Data) + X + Y * SD.Pitch).AsSpan(1));
                             P = Ptr<TPaletteEntry>.To(SD.Palette.Entries, Index).Reinterpret<byte>();
                             Result = P[0] + (P[1] << 8) + (P[2] << 16);
@@ -1495,7 +1495,7 @@ namespace Aow.Units.GFXE
                             Result = (int)(((uint)(V & 16711680)) >> 16) + (V & 65280) + ((V & 255) << 16);
                             break;
                         default:
-                            Assert(false, (AnsiString)"Pixel format not supported (GetColor)", "GFXE.pas", 11999);
+                            Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11999);
                             Result = 0;
                             break;
                     }
@@ -1507,7 +1507,7 @@ namespace Aow.Units.GFXE
             }
             else
             {
-                Assert(false, (AnsiString)"Cannot Lock Surface", "GFXE.pas", 12004);
+                Assert(false, "Cannot Lock Surface", "GFXE.pas", 12004);
                 Result = -1;
             }
 
@@ -1525,7 +1525,7 @@ namespace Aow.Units.GFXE
             {
                 try
                 {
-                    Assert(X >= 0 && X < SD.Width && Y >= 0 && Y < SD.Height, (AnsiString)"Coordinates out of bounds!", "GFXE.pas", 11932);
+                    Assert(X >= 0 && X < SD.Width && Y >= 0 && Y < SD.Height, "Coordinates out of bounds!", "GFXE.pas", 11932);
                     switch (SD.BitCount)
                     {
                         case 8:
@@ -1550,7 +1550,7 @@ namespace Aow.Units.GFXE
                             Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X << 2) + Y * SD.Pitch).AsSpan(4));
                             break;
                         default:
-                            Assert(false, (AnsiString)"Pixel format not supported (GetColor)", "GFXE.pas", 11946);
+                            Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11946);
                             Result = 0;
                             break;
                     }
@@ -1562,7 +1562,7 @@ namespace Aow.Units.GFXE
             }
             else
             {
-                Assert(false, (AnsiString)"Cannot Lock Surface", "GFXE.pas", 11951);
+                Assert(false, "Cannot Lock Surface", "GFXE.pas", 11951);
                 Result = -1;
             }
 
@@ -2156,7 +2156,7 @@ namespace Aow.Units.GFXE
         public override int GetHeight() => FHeight;
 
         // GFXE.pas:6767
-        public void SaveToBMP24(AnsiString FileName)
+        public void SaveToBMP24(string FileName)
         {
             TSurfaceDesc SD = default;
             Lock(ref SD);
@@ -2436,28 +2436,28 @@ namespace Aow.Units.GFXE
     public partial class TImageFile : TObject, IImageFileClass
     {
         // GFXE.pas:693
-        public static AnsiString Name => throw EAbstractError.Create("Abstract Error");
+        public static string Name => throw EAbstractError.Create("Abstract Error");
 
         // GFXE.pas:694
-        public static AnsiString Extension => throw EAbstractError.Create("Abstract Error");
+        public static string Extension => throw EAbstractError.Create("Abstract Error");
 
         // GFXE.pas:695
-        public static AnsiString Description => throw EAbstractError.Create("Abstract Error");
+        public static string Description => throw EAbstractError.Create("Abstract Error");
 
         // GFXE.pas:696
-        public static int GetPixelFormatID(AnsiString FileName)
+        public static int GetPixelFormatID(string FileName)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // GFXE.pas:697
-        public static TSurface CreateSurface(AnsiString FileName)
+        public static TSurface CreateSurface(string FileName)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // GFXE.pas:698
-        public static int LoadToSurfaceDesc(AnsiString FileName, ref TSurfaceDesc SD, int X, int Y)
+        public static int LoadToSurfaceDesc(string FileName, ref TSurfaceDesc SD, int X, int Y)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -2772,12 +2772,12 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:949
-        public ImageFileClass FindClass(AnsiString Ext)
+        public ImageFileClass FindClass(string Ext)
         {
             ImageFileClass Result;
             int I;
             I = 0;
-            if (Ext != (AnsiString)"" && Ext[1] == 46)
+            if (!IsEmpty(Ext) && Ext[0] == 46)
             {
                 Ext = Copy(Ext, 2, Ext.Length - 1);
             }
@@ -2831,19 +2831,19 @@ namespace Aow.Units.GFXE
     public partial class TBMPImageFile : TImageFile, IImageFileClass
     {
         // GFXE.pas:9043
-        public static new AnsiString Extension => (AnsiString)"BMP";
+        public static new string Extension => "BMP";
 
         // GFXE.pas:9048
-        public static new AnsiString Description => (AnsiString)"Bitmap files (*.bmp)";
+        public static new string Description => "Bitmap files (*.bmp)";
 
         // GFXE.pas:9053
-        public static new int GetPixelFormatID(AnsiString FileName) => GFXE.GetBMPPixelFormat(FileName);
+        public static new int GetPixelFormatID(string FileName) => GFXE.GetBMPPixelFormat(FileName);
 
         // GFXE.pas:9058
-        public static new TSurface CreateSurface(AnsiString FileName) => GFXE.CreateSurfaceFromBMP(FileName);
+        public static new TSurface CreateSurface(string FileName) => GFXE.CreateSurfaceFromBMP(FileName);
 
         // GFXE.pas:9063
-        public static new int LoadToSurfaceDesc(AnsiString FileName, ref TSurfaceDesc SD, int X, int Y) => GFXE.LoadBMP(FileName, ref SD, X, Y);
+        public static new int LoadToSurfaceDesc(string FileName, ref TSurfaceDesc SD, int X, int Y) => GFXE.LoadBMP(FileName, ref SD, X, Y);
 
     }
 
@@ -2983,31 +2983,31 @@ namespace Aow.Units.GFXE
         public static TLookupBlendTableCollection100 ShadowBlendTable;
         public static TLookupBlendTableCollection100 LinearAlphaBlendTable;
         // GFXE.pas:978
-        public static AnsiString GetImageFilesFilter()
+        public static string GetImageFilesFilter()
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 0, last = ImageFileClassList.Count - 1; I <= last; I++)
             {
-                if (Result != (AnsiString)"")
+                if (!IsEmpty(Result))
                 {
-                    Result = Result + AnsiString.FromBytes(124);
+                    Result = Result + "|";
                 }
 
-                Result = Result + ImageFileClassList.Classes[I].Description + (AnsiString)"|*." + ImageFileClassList.Classes[I].Extension;
+                Result = Result + ImageFileClassList.Classes[I].Description + "|*." + ImageFileClassList.Classes[I].Extension;
             }
 
             return Result;
         }
 
         // GFXE.pas:991
-        public static bool ValidImageFile(AnsiString FileName)
+        public static bool ValidImageFile(string FileName)
         {
             var extractFileExt = ExtractFileExt(FileName);
             return ImageFileClassList.FindClass(extractFileExt) != null;
         }
 
         // GFXE.pas:996
-        public static int LoadImageFile(AnsiString FileName, ref TSurfaceDesc SD, int X, int Y)
+        public static int LoadImageFile(string FileName, ref TSurfaceDesc SD, int X, int Y)
         {
             int Result;
             ImageFileClass C;
@@ -3026,7 +3026,7 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:1007
-        public static TSurface CreateSurfaceFromImageFile(AnsiString FileName)
+        public static TSurface CreateSurfaceFromImageFile(string FileName)
         {
             TSurface Result;
             ImageFileClass C;
@@ -3045,7 +3045,7 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:1018
-        public static int GetImageFilePixelFormat(AnsiString FileName)
+        public static int GetImageFilePixelFormat(string FileName)
         {
             int Result;
             ImageFileClass C;
@@ -3075,7 +3075,7 @@ namespace Aow.Units.GFXE
                 }
                 else
                 {
-                    throw Exception.Create((AnsiString)"ImageFile class with " + AClasses[I].Extension + (AnsiString)" extension is already registered");
+                    throw Exception.Create("ImageFile class with " + AClasses[I].Extension + " extension is already registered");
                 }
             }
         }
@@ -3088,7 +3088,7 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:1736
-        public static void RegisterBltProc(TBltRectProc Proc, AnsiString Name)
+        public static void RegisterBltProc(TBltRectProc Proc, string Name)
         {
             if (BltProcCount != MaxBltProcs)
             {
@@ -3098,7 +3098,7 @@ namespace Aow.Units.GFXE
             }
             else
             {
-                throw Exception.Create((AnsiString)"Maximum number of BltProc reached");
+                throw Exception.Create("Maximum number of BltProc reached");
             }
         }
 
@@ -3295,7 +3295,7 @@ namespace Aow.Units.GFXE
                     Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + X * 4 + SD.Pitch * Y).AsSpan(4));
                     break;
                 default:
-                    throw Exception.Create((AnsiString)"PixelFormat is not supported");
+                    throw Exception.Create("PixelFormat is not supported");
             }
 
             return Result;
@@ -3450,7 +3450,7 @@ namespace Aow.Units.GFXE
                         Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X << 2) + SD.Pitch * Y).AsSpan(4));
                         break;
                     default:
-                        throw Exception.Create((AnsiString)"PixelFormat is not supported");
+                        throw Exception.Create("PixelFormat is not supported");
                 }
 
                 return Result;
@@ -3562,7 +3562,7 @@ namespace Aow.Units.GFXE
                         Result = MemoryMarshal.Read<int>((BytePointer(SD__value.Data) + X * 4 + SD__value.Pitch * Y).AsSpan(4));
                         break;
                     default:
-                        throw Exception.Create((AnsiString)"PixelFormat is not supported");
+                        throw Exception.Create("PixelFormat is not supported");
                 }
 
                 return Result;
@@ -3662,7 +3662,7 @@ namespace Aow.Units.GFXE
                         Result = MemoryMarshal.Read<int>((BytePointer(SD__value.Data) + X * 4 + SD__value.Pitch * Y).AsSpan(4));
                         break;
                     default:
-                        throw Exception.Create((AnsiString)"PixelFormat is not supported");
+                        throw Exception.Create("PixelFormat is not supported");
                 }
 
                 return Result;
@@ -4092,7 +4092,7 @@ namespace Aow.Units.GFXE
                     }
                     else
                     {
-                        throw Exception.Create((AnsiString)"Source Palette needed (GFXE)");
+                        throw Exception.Create("Source Palette needed (GFXE)");
                     }
 
                     break;
@@ -4133,7 +4133,7 @@ namespace Aow.Units.GFXE
                     B = (byte)(PixelInfo & 255);
                     break;
                 default:
-                    throw Exception.Create((AnsiString)"Source PixelFormat not supported");
+                    throw Exception.Create("Source PixelFormat not supported");
             }
 
             switch (DestPixelFormatID)
@@ -4145,7 +4145,7 @@ namespace Aow.Units.GFXE
                     }
                     else
                     {
-                        throw Exception.Create((AnsiString)"Destination Palette needed");
+                        throw Exception.Create("Destination Palette needed");
                     }
 
                     break;
@@ -4168,14 +4168,14 @@ namespace Aow.Units.GFXE
                     Result = (A << 24) + (R << 16) + (G << 8) + B;
                     break;
                 default:
-                    throw Exception.Create((AnsiString)"Destination PixelFormat not supported");
+                    throw Exception.Create("Destination PixelFormat not supported");
             }
 
             return Result;
         }
 
         // GFXE.pas:8923
-        public static int SaveSurfaceDescToBMP24(in TSurfaceDesc SD, TRect R, AnsiString FileName)
+        public static int SaveSurfaceDescToBMP24(in TSurfaceDesc SD, TRect R, string FileName)
         {
             /* TODO: Implement the untyped file stream buffer. */
             throw new NotImplementedException();
@@ -4221,7 +4221,7 @@ namespace Aow.Units.GFXE
             }
             else
             {
-                throw Exception.Create((AnsiString)"BlendTable format not supported");
+                throw Exception.Create("BlendTable format not supported");
             }
         }
 
@@ -4309,28 +4309,28 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:12517
-        public static AnsiString GetErrorMsg(int ErrorCode)
+        public static string GetErrorMsg(int ErrorCode)
         {
-            AnsiString Result;
+            string Result;
             switch (ErrorCode)
             {
                 case GFXE_OK:
-                    Result = (AnsiString)"No ERROR occurred!";
+                    Result = "No ERROR occurred!";
                     break;
                 case GFXE_ERROR:
-                    Result = (AnsiString)"Undefine ERROR occurred";
+                    Result = "Undefine ERROR occurred";
                     break;
                 case GFXE_NOTSUPPORTED:
-                    Result = (AnsiString)"Function is not supported";
+                    Result = "Function is not supported";
                     break;
                 case GFXE_PIXELFORMATNOTSUPPORTED:
-                    Result = (AnsiString)"PixelFormat is not supported";
+                    Result = "PixelFormat is not supported";
                     break;
                 case GFXE_BITMAPFORMATNOTSUPPORTED:
-                    Result = (AnsiString)"Bitmap format is not supported";
+                    Result = "Bitmap format is not supported";
                     break;
                 default:
-                    Result = (AnsiString)"Undocumented Error (Error Code:" + IntToStr(ErrorCode) + AnsiString.FromBytes(41);
+                    Result = "Undocumented Error (Error Code:" + IntToStr(ErrorCode) + ")";
                     break;
             }
 
@@ -4348,7 +4348,7 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:12538
-        public static void WriteGFXESettingsToRegistry(AnsiString Key)
+        public static void WriteGFXESettingsToRegistry(string Key)
         {
             try
             {
@@ -4359,7 +4359,7 @@ namespace Aow.Units.GFXE
         }
 
         // GFXE.pas:12545
-        public static void ReadGFXESettingsFromRegistry(AnsiString Key)
+        public static void ReadGFXESettingsFromRegistry(string Key)
         {
             try
             {
@@ -4505,14 +4505,14 @@ namespace Aow.Units.GFXE
         // GFXE.pas:12874
         public static void Register()
         {
-            RegisterComponents((AnsiString)"GFX Engine", [typeof(TDrawPanel), typeof(TOpenImageFileDialog)]);
+            RegisterComponents("GFX Engine", [typeof(TDrawPanel), typeof(TOpenImageFileDialog)]);
         }
 
         public const byte MaxBltProcs = 20;
         public static int ForcedPixelFormatID;
         public static TImageFileClassList ImageFileClassList;
         public static FixedArray_Aow_Units_GFXE_TBltRectProc_21 BltProcs;
-        public static FixedArray_Aow_Rtl_AnsiString_21 BltProcNames;
+        public static FixedArray_string_21 BltProcNames = FixedArray_string_21.From([]);
         // { the blit routine indices chosen by GetOptimalGFXESettings: large and small blits, for
 //     qword, dword, word and misaligned source/destination pairs }
         public static FixedArray_byte_8 OptimalBltProc;
@@ -4714,21 +4714,21 @@ namespace Aow.Units.GFXE
 
         // GFXE.pas:8752
         // { The BMP file format: TBMPImageFile and its helpers. }
-        public static int LoadBMP(AnsiString FileName, ref TSurfaceDesc SD, int X, int Y)
+        public static int LoadBMP(string FileName, ref TSurfaceDesc SD, int X, int Y)
         {
             /* TODO: Implement the untyped file stream buffer. */
             throw new NotImplementedException();
         }
 
         // GFXE.pas:8968
-        public static TSurface CreateSurfaceFromBMP(AnsiString FileName)
+        public static TSurface CreateSurfaceFromBMP(string FileName)
         {
             /* TODO: Implement the untyped file stream buffer. */
             throw new NotImplementedException();
         }
 
         // GFXE.pas:9009
-        public static int GetBMPPixelFormat(AnsiString FileName)
+        public static int GetBMPPixelFormat(string FileName)
         {
             /* TODO: Implement the untyped file stream buffer. */
             throw new NotImplementedException();
@@ -4764,7 +4764,7 @@ namespace Aow.Units.GFXE
             }
             else
             {
-                throw Exception.Create((AnsiString)"BlendTable format not supported");
+                throw Exception.Create("BlendTable format not supported");
             }
         }
 
@@ -4835,13 +4835,13 @@ namespace Aow.Units.GFXE
             ForcedPixelFormatID = 0;
             ImageFileClassList = new TImageFileClassList();
             RegisterImageFileClasses([ImageFileClass.Of<TBMPImageFile>()]);
-            RegisterBltProc(RegisterBltRect, (AnsiString)"Register Blt");
+            RegisterBltProc(RegisterBltRect, "Register Blt");
             if (MMXsupport())
             {
-                RegisterBltProc(MMXBltRect, (AnsiString)"MMX Blt");
+                RegisterBltProc(MMXBltRect, "MMX Blt");
             }
 
-            RegisterBltProc(RepMovsdBltRect, (AnsiString)"MOVSD Blt");
+            RegisterBltProc(RepMovsdBltRect, "MOVSD Blt");
         }
 
         public static void Finalize()

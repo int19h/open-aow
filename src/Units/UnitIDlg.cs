@@ -192,7 +192,7 @@ namespace Aow.Units.UnitIDlg
         }
 
         // UnitIDlg.pas:77
-        public virtual AnsiString GetName()
+        public virtual string GetName()
         {
             throw EAbstractError.Create("Abstract Error");
         }

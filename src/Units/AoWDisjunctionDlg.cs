@@ -74,7 +74,7 @@ namespace Aow.Units.AoWDisjunctionDlg
         public void UpdateEnchantments()
         {
             TGlobalMagicControl Magic;
-            AnsiString Reason = default;
+            string Reason = "";
             Magic = AoWHSMap.FGlobalMagicControl;
             EnchantmentList.Items.Clear();
             OwnerList.Items.Clear();
@@ -138,8 +138,8 @@ namespace Aow.Units.AoWDisjunctionDlg
             var mana = FCaster.GetMana();
             var fSpellControlSpell = AoWHSSet.FSpellControl.GetSpell(51);
             var fCasterMana = FCaster.GetMana();
-            DisjunctionMana.Text = IntToStr(spell.FBaseManaCost) + AnsiString.FromBytes(43) + IntToStr(mana) + AnsiString.FromBytes(61) + IntToStr(fSpellControlSpell.FBaseManaCost + fCasterMana);
-            DisjunctionChance.Text = IntToStr(FCaster.FDispelChance) + AnsiString.FromBytes(37);
+            DisjunctionMana.Text = IntToStr(spell.FBaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.FBaseManaCost + fCasterMana);
+            DisjunctionChance.Text = IntToStr(FCaster.FDispelChance) + "%";
             var dispelChanceMax = FCaster.GetDispelChanceMax();
             ChanceSlider.Max = dispelChanceMax;
             ChanceSlider.Position = FCaster.FDispelChance;
@@ -208,7 +208,7 @@ namespace Aow.Units.AoWDisjunctionDlg
         // AoWDisjunctionDlg.pas:82
         public void CastBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (FCaster.CanCast(ref Reason))
             {
                 if (FCaster.Cast())

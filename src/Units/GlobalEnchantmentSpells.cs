@@ -46,7 +46,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         // GlobalEnchantmentSpells.pas:400
         public override bool Validate(THero A1)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             bool Result = base.Validate(A1);
             return Result && FEnchantment.CanCast(A1.FPlayer, ref Reason);
         }
@@ -104,7 +104,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             if (AICanCastSpell(A1))
             {
                 var aiUpkeepPriority = AIUpkeepPriority();
@@ -136,7 +136,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:435
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanActivate(TAbstractUnit A1, ref string A2)
         {
             TGlobalEnchantment Enchantment;
             bool Result = base.CanActivate(A1, ref A2);
@@ -167,7 +167,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         {
             bool Result;
             TGlobalEnchantmentSpellTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
             {
                 Event = new TGlobalEnchantmentSpellTE(null);
@@ -189,7 +189,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         // GlobalEnchantmentSpells.pas:476
         public virtual bool AICanCastSpell(TAbstractUnit Source)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             bool Result = FAIBasePriority != -1 && ((THero)Source).CanCastSpell(FSpellID, ref Reason);
             return Result && CanActivate(Source, ref Reason);
         }
@@ -241,7 +241,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:545
-        public override bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result && AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petEnchantedRoads))
@@ -337,7 +337,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:659
-        public override bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
@@ -480,7 +480,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:770
-        public override bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
@@ -1092,12 +1092,12 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:1268
-        public override AnsiString GetName()
+        public override string GetName()
         {
-            AnsiString Result = base.GetName();
+            string Result = base.GetName();
             if (FRemoved)
             {
-                Result = Result + (AnsiString)" (" + LowerCase(FmtDaysLeftStr(FRestoreDays)) + AnsiString.FromBytes(41);
+                Result = Result + " (" + LowerCase(FmtDaysLeftStr(FRestoreDays)) + ")";
             }
             else
             {
@@ -1131,7 +1131,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         public override int GetAIUpkeepPriority() => 500;
 
         // GlobalEnchantmentSpells.pas:1328
-        public override bool CanDeactivate(byte Player, ref AnsiString Reason)
+        public override bool CanDeactivate(byte Player, ref string Reason)
         {
             bool Result;
             if (!FRemoved)
@@ -1327,7 +1327,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:1401
-        public override bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
@@ -1454,7 +1454,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:1489
-        public override bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
@@ -1687,7 +1687,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:1653
-        public override bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result;
             if (AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petFireMastery))
@@ -1860,7 +1860,7 @@ namespace Aow.Units.GlobalEnchantmentSpells
         }
 
         // GlobalEnchantmentSpells.pas:1834
-        public override bool CanActivate(sbyte Player, ref AnsiString Reason)
+        public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)

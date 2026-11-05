@@ -38,7 +38,7 @@ namespace Aow.Units.AoWHTMLMemo
     {
         public int FHeight;
         public int FColor;
-        public AnsiString FFont;
+        public string FFont = "";
         public TaowTextAlign FAlign;
         public int FPos;
         public int FLine;
@@ -57,7 +57,7 @@ namespace Aow.Units.AoWHTMLMemo
         public TStringList FLines;
         public TStringList FItems;
         public TAOWVScrollBar FVScrollBar;
-        public AnsiString FFilename;
+        public string FFilename = "";
         public int FScrollWidth;
         public bool FBackDrawn;
         public TInterfaceIL FImages;
@@ -122,21 +122,21 @@ namespace Aow.Units.AoWHTMLMemo
             int TagStart;
             byte C;
             ReadOnlySpan<byte> text;
-            AnsiString S;
+            string S;
             int V;
             void NewLine()
             {
-                FLines.Add((AnsiString)"");
+                FLines.Add("");
                 H = H + CI.FHeight;
                 LineIdx += 1;
             }
 
-            void AddText(AnsiString S)
+            void AddText(string S)
             {
                 int TW;
                 int W;
                 int Start;
-                AnsiString Word;
+                string Word;
                 int I;
                 int Len;
                 if (FAOWFont != null)
@@ -148,7 +148,7 @@ namespace Aow.Units.AoWHTMLMemo
                     W = FAOWFont.GetTextWidth(line) + FBorderWidth * 2 + FScrollWidth;
                     while (I < Len)
                     {
-                        if (S[I] == 32 || I == Len - 1)
+                        if (S[I - 1] == 32 || I == Len - 1)
                         {
                             if (I == Len - 1)
                             {
@@ -194,63 +194,63 @@ namespace Aow.Units.AoWHTMLMemo
                 CI = N;
             }
 
-            void ParseTag(AnsiString Tag)
+            void ParseTag(string Tag)
             {
                 Tag = UpperCase(Tag);
                 switch (State)
                 {
                     case TIntParseMode.pInBG:
-                        if (Tag == (AnsiString)"INDEX")
+                        if (Tag == "INDEX")
                         {
                             State = TIntParseMode.pBGIndex;
                         }
 
                         break;
                     default:
-                        if (Tag == AnsiString.FromBytes(80))
+                        if (Tag == "P")
                         {
                             NewLine();
                             NewLine();
                         }
                         else
                         {
-                            if (Tag == (AnsiString)"BR")
+                            if (Tag == "BR")
                             {
                                 NewLine();
                             }
                             else
                             {
-                                if (Tag == (AnsiString)"FONT")
+                                if (Tag == "FONT")
                                 {
                                     State = TIntParseMode.pFont;
                                 }
                                 else
                                 {
-                                    if (Tag == (AnsiString)"ITEMHEIGHT")
+                                    if (Tag == "ITEMHEIGHT")
                                     {
                                         State = TIntParseMode.pItemHeight;
                                     }
                                     else
                                     {
-                                        if (Tag == (AnsiString)"COLOR")
+                                        if (Tag == "COLOR")
                                         {
                                             State = TIntParseMode.pColor;
                                         }
                                         else
                                         {
-                                            if (Tag == (AnsiString)"SPACING")
+                                            if (Tag == "SPACING")
                                             {
                                                 State = TIntParseMode.pSpace;
                                             }
                                             else
                                             {
-                                                if (Tag == (AnsiString)"ALIGN")
+                                                if (Tag == "ALIGN")
                                                 {
                                                     State = TIntParseMode.pAlign;
                                                 }
                                                 else
                                                 {
-                                                    if (Tag == (AnsiString)"BACKGROUND")
+                                                    if (Tag == "BACKGROUND")
                                                     {
                                                         State = TIntParseMode.pBG;
                                                     }
@@ -276,9 +276,9 @@ namespace Aow.Units.AoWHTMLMemo
             H = FTextHeight;
             FLines.Clear();
             State = TIntParseMode.pNone;
-            if (FItems.Count > 0 && UpperCase(Copy(FItems[0], 1, 5)) == (AnsiString)"<INT>")
+            if (FItems.Count > 0 && UpperCase(Copy(FItems[0], 1, 5)) == "<INT>")
             {
-                FLines.Add((AnsiString)"");
+                FLines.Add("");
                 H = FBorderHeight * 2;
                 FImages.Clear();
                 for (int I = 0, last = FChanges.Count - 1; I <= last; I++)
@@ -290,7 +290,7 @@ namespace Aow.Units.AoWHTMLMemo
                 CI = new TChangeInfo();
                 CI.FHeight = 10;
                 CI.FColor = 16777215;
-                CI.FFont = (AnsiString)"";
+                CI.FFont = "";
                 CI.FAlign = TaowTextAlign.taLeft;
                 CI.FPos = 0;
                 CI.FLine = 0;
@@ -299,8 +299,8 @@ namespace Aow.Units.AoWHTMLMemo
                 LineIdx = 0;
                 for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                 {
-                    AnsiString item = NullTerminatedText(FItems[I]);
-                    text = StringBytes(item);
+                    string item = NullTerminatedText(FItems[I]);
+                    text = Cp1252.Encode(item);
                     Last = text.Length - 1;
                     TextStart = 0;
                     TextEnd = -1;
@@ -345,11 +345,11 @@ namespace Aow.Units.AoWHTMLMemo
                                     CI.FPos = line.Length;
                                     CI.FLine = LineIdx;
                                     CI.FFont = Copy(item, TagStart + 1, J - TagStart);
-                                    if (CI.FFont != (AnsiString)"")
+                                    if (!IsEmpty(CI.FFont))
                                     {
                                         if (!LoadFont(CI.FFont))
                                         {
-                                            CI.FFont = (AnsiString)"";
+                                            CI.FFont = "";
                                         }
                                     }
 
@@ -474,13 +474,13 @@ namespace Aow.Units.AoWHTMLMemo
                                     var line = FLines[LineIdx];
                                     CI.FPos = line.Length;
                                     CI.FLine = LineIdx;
-                                    if (S == (AnsiString)"RIGHT")
+                                    if (S == "RIGHT")
                                     {
                                         CI.FAlign = TaowTextAlign.taRight;
                                     }
                                     else
                                     {
-                                        if (S == (AnsiString)"CENTER")
+                                        if (S == "CENTER")
                                         {
                                             CI.FAlign = TaowTextAlign.taCenter;
                                         }
@@ -690,7 +690,7 @@ namespace Aow.Units.AoWHTMLMemo
             int X = default;
             int Y = default;
             TaowTextAlign Align = default;
-            AnsiString FontName = default;
+            string FontName = "";
             TSurfaceDesc BackSD = default;
             TRect SrcR = default;
             int Line = default;
@@ -744,7 +744,7 @@ namespace Aow.Units.AoWHTMLMemo
                         Line = 1;
                         CI = (TChangeInfo)FChanges[0];
                         Align = TaowTextAlign.taLeft;
-                        FontName = (AnsiString)"";
+                        FontName = "";
                         X = FBorderWidth;
                         Y = FBorderHeight;
                         LH = 10;
@@ -766,7 +766,7 @@ namespace Aow.Units.AoWHTMLMemo
 
                             while (CI.FLine == I && Line <= FChanges.Count)
                             {
-                                if (FontName != (AnsiString)"" && CI.FPos > Pos)
+                                if (!IsEmpty(FontName) && CI.FPos > Pos)
                                 {
                                     switch (Align)
                                     {
@@ -794,7 +794,7 @@ namespace Aow.Units.AoWHTMLMemo
                                 }
 
                                 Pos = CI.FPos;
-                                if (CI.FFont != (AnsiString)"")
+                                if (!IsEmpty(CI.FFont))
                                 {
                                     LoadFont(CI.FFont);
                                 }
@@ -829,7 +829,7 @@ namespace Aow.Units.AoWHTMLMemo
                                 Line += 1;
                             }
 
-                            if (FontName != (AnsiString)"")
+                            if (!IsEmpty(FontName))
                             {
                                 switch (Align)
                                 {
@@ -932,7 +932,7 @@ namespace Aow.Units.AoWHTMLMemo
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -975,7 +975,7 @@ namespace Aow.Units.AoWHTMLMemo
         }
 
         // AoWHTMLMemo.pas:165
-        public void SetFileName(AnsiString Value)
+        public void SetFileName(string Value)
         {
             if (Value != FFilename && FileExists(Value))
             {
@@ -987,7 +987,7 @@ namespace Aow.Units.AoWHTMLMemo
         // AoWHTMLMemo.pas:182
         // { LoadFont makes the font in FileName (relative to the program) the current font, loading it
 //   the first time }
-        public bool LoadFont(AnsiString FileName)
+        public bool LoadFont(string FileName)
         {
             TImageLibraryFont Font;
             int I;
@@ -1030,7 +1030,7 @@ namespace Aow.Units.AoWHTMLMemo
         public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
         [Published]
-        public AnsiString Filename { get => FFilename; set => SetFileName(value); }
+        public string Filename { get => FFilename; set => SetFileName(value); }
 
         [Published]
         public bool FreeSurfaceOnHide { get => FFreeSurfaceOnHide; set => FFreeSurfaceOnHide = value; }
@@ -1050,7 +1050,7 @@ namespace Aow.Units.AoWHTMLMemo
         // AoWHTMLMemo.pas:772
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TaowHTMLMemo)]);
+            RegisterComponents("AOW Interface", [typeof(TaowHTMLMemo)]);
         }
     }
 }

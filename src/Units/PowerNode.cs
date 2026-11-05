@@ -85,7 +85,7 @@ namespace Aow.Units.PowerNode
         public override bool GetRazed() => FState.Contains(TPowerNodeStateElement.pnsRazed);
 
         // PowerNode.pas:93
-        public override AnsiString GetCurrentActivityText()
+        public override string GetCurrentActivityText()
         {
             var power = GetPower();
             return Rtl.Rtl.Format(TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
@@ -174,16 +174,16 @@ namespace Aow.Units.PowerNode
         }
 
         // PowerNode.pas:145
-        public override AnsiString GetCombatEventText(TCombat Combat)
+        public override string GetCombatEventText(TCombat Combat)
         {
-            AnsiString Result;
+            string Result;
             if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
             {
                 Result = TranslateRStr(PowerNodeBattleWonRStr);
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
@@ -219,7 +219,7 @@ namespace Aow.Units.PowerNode
 
 
         // PowerNode.pas:163
-        public override AnsiString ResourceEditName() => TranslateRStr(PowerNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(PowerNodeRStr);
 
     }
 

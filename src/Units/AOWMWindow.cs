@@ -282,11 +282,11 @@ namespace Aow.Units.AOWMWindow
                                 AoWCombatMap.SetFogEnabled(!AoWCombatMap.FFogEnabled);
                                 if (AoWCombatMap.FFogEnabled)
                                 {
-                                    AoWCombatMap.ShowMessage((AnsiString)"Fog Enabled");
+                                    AoWCombatMap.ShowMessage("Fog Enabled");
                                 }
                                 else
                                 {
-                                    AoWCombatMap.ShowMessage((AnsiString)"Fog Disabled");
+                                    AoWCombatMap.ShowMessage("Fog Disabled");
                                 }
                             }
                             else
@@ -296,11 +296,11 @@ namespace Aow.Units.AOWMWindow
                                     AoWHSMap.SetFogEnabled(!AoWHSMap.FFogEnabled);
                                     if (AoWHSMap.FFogEnabled)
                                     {
-                                        AoWHSMap.ShowMessage((AnsiString)"Fog Enabled");
+                                        AoWHSMap.ShowMessage("Fog Enabled");
                                     }
                                     else
                                     {
-                                        AoWHSMap.ShowMessage((AnsiString)"Fog Disabled");
+                                        AoWHSMap.ShowMessage("Fog Disabled");
                                     }
                                 }
                             }
@@ -315,12 +315,12 @@ namespace Aow.Units.AOWMWindow
                                 AoWCombatMap.SetExplorationEnabled(!AoWCombatMap.FExplorationEnabled);
                                 if (AoWCombatMap.FExplorationEnabled)
                                 {
-                                    AoWCombatMap.ShowMessage((AnsiString)"Exploration Enabled");
+                                    AoWCombatMap.ShowMessage("Exploration Enabled");
                                 }
                                 else
                                 {
                                     // { Original text omits the space. }
-                                    AoWCombatMap.ShowMessage((AnsiString)"ExplorationEnabled");
+                                    AoWCombatMap.ShowMessage("ExplorationEnabled");
                                 }
                             }
                             else
@@ -330,11 +330,11 @@ namespace Aow.Units.AOWMWindow
                                     AoWHSMap.SetExplorationEnabled(!AoWHSMap.FExplorationEnabled);
                                     if (AoWHSMap.FExplorationEnabled)
                                     {
-                                        AoWHSMap.ShowMessage((AnsiString)"Exploration Enabled");
+                                        AoWHSMap.ShowMessage("Exploration Enabled");
                                     }
                                     else
                                     {
-                                        AoWHSMap.ShowMessage((AnsiString)"Exploration Disabled");
+                                        AoWHSMap.ShowMessage("Exploration Disabled");
                                     }
                                 }
                             }

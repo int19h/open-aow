@@ -6,11 +6,11 @@ public sealed class StringFormatTests
 {
     private static void Same(string format, params TVarRec[] args)
     {
-        AnsiString ansi = format;
+        string ansi = format;
         var error = Record.Exception(() => Rtl.Format(ansi, args));
-        if (error is null) Assert.Equal(Rtl.Format(ansi, args).ToString(), Rtl.Format(format, args));
-        else Assert.Equal(Assert.IsType<EConvertError>(error).Message.ToString(),
-            Assert.Throws<EConvertError>(() => Rtl.Format(format, args)).Message.ToString());
+        if (error is null) Assert.Equal(Rtl.Format(ansi, args), Rtl.Format(format, args));
+        else Assert.Equal(Assert.IsType<EConvertError>(error).Message,
+            Assert.Throws<EConvertError>(() => Rtl.Format(format, args)).Message);
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public sealed class StringFormatTests
         Same("%.16d", 7); Same("%.15d", 7); Same("%.0s", (byte)'A');
         Same("%u", -1); Same("%D", int.MinValue); Same("%X", int.MinValue);
         Same("%p", TVarRec.Pointer(uint.MaxValue)); Same("%10.2P", TVarRec.Pointer(1));
-        Same("%s", ((AnsiString)"abc\0def").AsPtr()); Same("%s", "a\0b");
+        Same("%s", Ptr<byte>.Unbox("abc\0def")); Same("%s", "a\0b");
         Same("%*:*s", 1, 2, "bc"); Same("%*d", false, 1); Same("%*d", "x", 1);
         Same("%0:1:s", 7, "abcdef"); Same("%:s", "abc");
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Same(kind, 1.25);

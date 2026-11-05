@@ -46,7 +46,7 @@ namespace Aow.Units.AltFire
 
 
         // AltFire.pas:55
-        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfFireRStr);
+        public override string ResourceEditName() => TranslateRStr(AltarOfFireRStr);
 
     }
 

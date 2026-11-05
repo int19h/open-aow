@@ -412,7 +412,7 @@ namespace Aow.Units.HxBridge
 
 
         // HxBridge.pas:343
-        public override AnsiString ResourceEditName() => BridgeStr;
+        public override string ResourceEditName() => BridgeStr;
 
     }
 

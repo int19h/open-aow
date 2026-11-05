@@ -21,7 +21,7 @@ public partial class TCastUnitSpellDlg
             SelectionInfoLbl.Text = "";
             return;
         }
-        AnsiString reason = default;
+        string reason = "";
         SelectionInfoLbl.TextColor = FCaster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
         SelectionInfoLbl.Text = AoWE.AoWE.TranslateRStr(AoWE.AoWE.RequiredManaRStr) +

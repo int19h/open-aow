@@ -46,7 +46,7 @@ namespace Aow.Units.WizardsTower
         public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
             TPlayer Player;
-            AnsiString Reason = default;
+            string Reason = "";
             TExecuteResult Result = base.ExecuteTE(A1, Executer);
             if (A1.FAction == 1 && CanBuy((sbyte)A1.FParam, ref Reason))
             {
@@ -81,7 +81,7 @@ namespace Aow.Units.WizardsTower
             TArmy Army;
             TAIGroup Group;
             int I;
-            AnsiString Reason = default;
+            string Reason = "";
             int Cost;
             bool Found;
             int Location;
@@ -221,7 +221,7 @@ namespace Aow.Units.WizardsTower
         }
 
         // WizardsTower.pas:221
-        public bool CanBuy(sbyte Player, ref AnsiString Reason)
+        public bool CanBuy(sbyte Player, ref string Reason)
         {
             bool Result;
             if (FSpellID != 0)
@@ -255,11 +255,11 @@ namespace Aow.Units.WizardsTower
         }
 
         // WizardsTower.pas:243
-        public bool Buy(sbyte Player, ref AnsiString Reason)
+        public bool Buy(sbyte Player, ref string Reason)
         {
             bool Result;
             TStructureTE TE;
-            Reason = (AnsiString)"";
+            Reason = "";
             if (CanBuy(Player, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
             {
                 TE = CreateTE();
@@ -295,7 +295,7 @@ namespace Aow.Units.WizardsTower
         public override int ResourceUserClassID() => 133278;
 
         // WizardsTower.pas:260
-        public override AnsiString ResourceEditName() => TranslateRStr(WizardsTowerRStr);
+        public override string ResourceEditName() => TranslateRStr(WizardsTowerRStr);
 
     }
 

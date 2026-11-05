@@ -121,7 +121,7 @@ internal static class FrameFixtureChecks
         private readonly ISettingsStore? settings = Aow.Rtl.Rtl.Settings;
         private readonly IDialogService? dialogs = Aow.Rtl.Rtl.Dialogs;
         private readonly IClock clock = Aow.Rtl.Rtl.Clock;
-        private readonly AnsiString exe = Aow.Rtl.Rtl.Application.ExeName;
+        private readonly string exe = Aow.Rtl.Rtl.Application.ExeName;
         private readonly string scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
         internal StartupScope(string root)
         {

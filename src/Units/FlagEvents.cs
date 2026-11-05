@@ -142,7 +142,7 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:192
         public new const int ClassID = 132461;
 
-        public AnsiString FHelpFileName;
+        public string FHelpFileName = "";
         public TStringList FMessage;
         // FlagEvents.pas:186
         public override void Destroy()
@@ -196,7 +196,7 @@ namespace Aow.Units.FlagEvents
         public override int ResourceUserClassID() => 132461;
 
         // FlagEvents.pas:223
-        public override AnsiString ResourceEditName() => TranslateRStr(FlagMessageEventRStr);
+        public override string ResourceEditName() => TranslateRStr(FlagMessageEventRStr);
 
     }
 
@@ -262,7 +262,7 @@ namespace Aow.Units.FlagEvents
         public override int ResourceUserClassID() => 132459;
 
         // FlagEvents.pas:274
-        public override AnsiString ResourceEditName() => TranslateRStr(TutorialMessageEventRStr);
+        public override string ResourceEditName() => TranslateRStr(TutorialMessageEventRStr);
 
     }
 

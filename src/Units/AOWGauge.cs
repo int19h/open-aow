@@ -184,7 +184,7 @@ namespace Aow.Units.AOWGauge
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -350,7 +350,7 @@ namespace Aow.Units.AOWGauge
         // AOWGauge.pas:279
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAoWGauge)]);
+            RegisterComponents("AOW Interface", [typeof(TAoWGauge)]);
         }
     }
 }

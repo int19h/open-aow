@@ -183,8 +183,8 @@ namespace Aow.Units.Sound
     // FFileName. What BackupSongStatus saves. the sound system adds its own position
     public partial class TSongStatus : TObject
     {
-        protected internal AnsiString FFileName;
-        public AnsiString FileName { get => FFileName; }
+        protected internal string FFileName = "";
+        public string FileName { get => FFileName; }
     }
 
     public delegate void TSampleCallBack(TSample Sample, TSampleCallBackMode Mode);
@@ -226,10 +226,10 @@ namespace Aow.Units.Sound
     {
         public static SampleDataClass Descriptor { get; } = new("TSampleData", Create, CreateEx);
 
-        internal AnsiString FName;
+        internal string FName = "";
         internal int FRefCount;
         // Sound.pas:674
-        protected TSampleData(ConstructionContext context, AnsiString Name)
+        protected TSampleData(ConstructionContext context, string Name)
         {
             context.Capture(this);
             FName = Name;
@@ -242,7 +242,7 @@ namespace Aow.Units.Sound
         protected TSampleData(ConstructionContext context, in TWaveFormatEx Format, object Data, int Size)
         {
             context.Capture(this);
-            FName = (AnsiString)"";
+            FName = "";
             AddRef();
         }
 
@@ -269,11 +269,11 @@ namespace Aow.Units.Sound
             base.Destroy();
         }
 
-        public AnsiString Name { get => FName; }
+        public string Name { get => FName; }
         public int RefCount { get => FRefCount; }
 
         // Sound.pas:60
-        public static TSampleData Create(AnsiString name) =>
+        public static TSampleData Create(string name) =>
             ConstructionContext.Create(name, static (context, value) => new TSampleData(context, value));
 
         // Sound.pas:61
@@ -338,7 +338,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:123
-        protected internal virtual AnsiString GetPlayingSongFileName()
+        protected internal virtual string GetPlayingSongFileName()
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -430,13 +430,13 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:138
-        public virtual bool PlaySong(AnsiString FileName)
+        public virtual bool PlaySong(string FileName)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // Sound.pas:139
-        public virtual bool PlaySongEx(AnsiString FileName, int FadeOut, int FadeIn, bool Loop)
+        public virtual bool PlaySongEx(string FileName, int FadeOut, int FadeIn, bool Loop)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -474,7 +474,7 @@ namespace Aow.Units.Sound
         public int MusicVolume { get => GetMusicVolume(); }
         public int SFXVolume { get => GetSFXVolume(); }
         public bool PlayingSong { get => GetPlayingSong(); }
-        public AnsiString PlayingSongFileName { get => GetPlayingSongFileName(); }
+        public string PlayingSongFileName { get => GetPlayingSongFileName(); }
         public bool SFXEnabled { get => GetSFXEnabled(); }
         public bool MusicEnabled { get => GetMusicEnabled(); }
 
@@ -490,7 +490,7 @@ namespace Aow.Units.Sound
     // subdirectories) relative to the search path
     public partial class TSFXManager : TComponent
     {
-        internal AnsiString FSearchPath;
+        internal string FSearchPath = "";
         internal TSFXList FSFX;
         // Sound.pas:407
         public TSFXManager(TComponent owner) : base(owner)
@@ -513,15 +513,15 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:425
-        public void ExecutePathSearch(AnsiString Path)
+        public void ExecutePathSearch(string Path)
         {
-            AnsiString OldDir;
-            void Search(AnsiString Dir)
+            string OldDir;
+            void Search(string Dir)
             {
                 TSearchRec SR = default;
                 TStringList Dirs;
                 bool Found;
-                Found = FindFirst(FSearchPath + Dir + (AnsiString)"*." + Sound.SFXExtension, 63 & ~16, ref SR) == 0;
+                Found = FindFirst(FSearchPath + Dir + "*." + Sound.SFXExtension, 63 & ~16, ref SR) == 0;
                 while (Found)
                 {
                     FSFX.Add(UpperCase(Dir + SR.Name));
@@ -530,12 +530,12 @@ namespace Aow.Units.Sound
 
                 FindClose(ref SR);
                 Dirs = new TStringList();
-                Found = FindFirst(Dir + (AnsiString)"*.*", 16, ref SR) == 0;
+                Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
                 while (Found)
                 {
-                    if ((SR.Attr & 16) != 0 && SR.Name != AnsiString.FromBytes(46) && SR.Name != (AnsiString)"..")
+                    if ((SR.Attr & 16) != 0 && SR.Name != "." && SR.Name != "..")
                     {
-                        Dirs.Add(Dir + UpperCase(SR.Name) + AnsiString.FromBytes(92));
+                        Dirs.Add(Dir + UpperCase(SR.Name) + "\\");
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -552,20 +552,20 @@ namespace Aow.Units.Sound
 
             FSFX.Clear();
             FSearchPath = UpperCase(Path);
-            if (FSearchPath[FSearchPath.Length] != 92)
+            if (FSearchPath[FSearchPath.Length - 1] != 92)
             {
-                FSearchPath = FSearchPath + AnsiString.FromBytes(92);
+                FSearchPath = FSearchPath + "\\";
             }
 
             OldDir = GetCurrentDir();
             SetCurrentDir(Path);
-            Search((AnsiString)"");
+            Search("");
             SetCurrentDir(OldDir);
             FSearchPath = UpperCase(ExtractRelativePath(Sound.BaseSoundEnginePath, FSearchPath));
         }
 
         [Published]
-        public AnsiString SearchPath { get => FSearchPath; set => FSearchPath = value; }
+        public string SearchPath { get => FSearchPath; set => FSearchPath = value; }
 
         [Published]
         public TSFXList SFX { get => FSFX; }
@@ -576,9 +576,9 @@ namespace Aow.Units.Sound
     public partial class TSFXManagerComboBox : TComboBox
     {
         internal TSFXManager FSFXManager;
-        internal AnsiString FSubDirectory;
-        internal AnsiString FSkipDirectories;
-        internal AnsiString FEmptySFXName;
+        internal string FSubDirectory = "";
+        internal string FSkipDirectories = "";
+        internal string FEmptySFXName = "";
         // Sound.pas:472
         internal void SetSFXManager(TSFXManager Value)
         {
@@ -587,24 +587,24 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:478
-        internal void SetSubDirectory(AnsiString Value)
+        internal void SetSubDirectory(string Value)
         {
             FSubDirectory = UpperCase(Value);
-            if (Value != (AnsiString)"" && FSubDirectory[FSubDirectory.Length] != 92)
+            if (!IsEmpty(Value) && FSubDirectory[FSubDirectory.Length - 1] != 92)
             {
-                FSubDirectory = FSubDirectory + AnsiString.FromBytes(92);
+                FSubDirectory = FSubDirectory + "\\";
             }
         }
 
         // Sound.pas:491
-        internal AnsiString GetSFXName()
+        internal string GetSFXName()
         {
             /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // Sound.pas:499
-        internal void SetSFXName(AnsiString Value)
+        internal void SetSFXName(string Value)
         {
             /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new NotImplementedException();
@@ -627,28 +627,28 @@ namespace Aow.Units.Sound
             throw new NotImplementedException();
         }
 
-        public AnsiString SFXName { get => GetSFXName(); set => SetSFXName(value); }
+        public string SFXName { get => GetSFXName(); set => SetSFXName(value); }
 
         [Published]
         public TSFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
 
         [Published]
-        public AnsiString SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
+        public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
 
         [Published]
-        public AnsiString SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
+        public string SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
 
         [Published]
-        public AnsiString EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
+        public string EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
     }
 
     // FSFXManager, FSubDirectory, FSkipDirectories, FEmptySFXName. The same as the combo box
     public partial class TSFXManagerListBox : TListBox
     {
         internal TSFXManager FSFXManager;
-        internal AnsiString FSubDirectory;
-        internal AnsiString FSkipDirectories;
-        internal AnsiString FEmptySFXName;
+        internal string FSubDirectory = "";
+        internal string FSkipDirectories = "";
+        internal string FEmptySFXName = "";
         // Sound.pas:566
         internal void SetSFXManager(TSFXManager Value)
         {
@@ -657,24 +657,24 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:572
-        internal void SetSubDirectory(AnsiString Value)
+        internal void SetSubDirectory(string Value)
         {
             FSubDirectory = UpperCase(Value);
-            if (Value != (AnsiString)"" && FSubDirectory[FSubDirectory.Length] != 92)
+            if (!IsEmpty(Value) && FSubDirectory[FSubDirectory.Length - 1] != 92)
             {
-                FSubDirectory = FSubDirectory + AnsiString.FromBytes(92);
+                FSubDirectory = FSubDirectory + "\\";
             }
         }
 
         // Sound.pas:586
-        internal AnsiString GetSFXName()
+        internal string GetSFXName()
         {
             /* TODO: Implement StdCtrls.ItemIndex in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // Sound.pas:594
-        internal void SetSFXName(AnsiString Value)
+        internal void SetSFXName(string Value)
         {
             /* TODO: Implement StdCtrls.Items in the platform or editor service. */
             throw new NotImplementedException();
@@ -695,19 +695,19 @@ namespace Aow.Units.Sound
             throw new NotImplementedException();
         }
 
-        public AnsiString SFXName { get => GetSFXName(); set => SetSFXName(value); }
+        public string SFXName { get => GetSFXName(); set => SetSFXName(value); }
 
         [Published]
         public TSFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
 
         [Published]
-        public AnsiString SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
+        public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
 
         [Published]
-        public AnsiString SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
+        public string SkipDirectories { get => FSkipDirectories; set => FSkipDirectories = value; }
 
         [Published]
-        public AnsiString EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
+        public string EmptySFXName { get => FEmptySFXName; set => FEmptySFXName = value; }
     }
 
     // FSongs, FSongNames (the titles, from the files). An engine object with a list of music files
@@ -772,19 +772,19 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:832
-        public void Search(AnsiString Path, AnsiString Ext)
+        public void Search(string Path, string Ext)
         {
             TSearchRec SR = default;
-            AnsiString FullPath;
+            string FullPath;
             bool Found;
-            if (Path[Path.Length] != 92)
+            if (Path[Path.Length - 1] != 92)
             {
-                Path = Path + AnsiString.FromBytes(92);
+                Path = Path + "\\";
             }
 
             FullPath = Sound.BaseSoundEnginePath + Path;
             FSongs.BeginUpdate();
-            Found = FindFirst(FullPath + (AnsiString)"*." + Ext, 63 & ~16, ref SR) == 0;
+            Found = FindFirst(FullPath + "*." + Ext, 63 & ~16, ref SR) == 0;
             while (Found)
             {
                 FSongs.Add(UpperCase(Path + SR.Name));
@@ -804,7 +804,7 @@ namespace Aow.Units.Sound
     // FPauseCount. Plays the songs in turn (Update starts the next one)
     public partial class TSongPlayer : TObject
     {
-        internal AnsiString FCurrentSong;
+        internal string FCurrentSong = "";
         internal TSet<TSongPlayerStatusElement> FStatus;
         internal TStringList FSongs;
         internal TStringList FSongNames;
@@ -847,7 +847,7 @@ namespace Aow.Units.Sound
                             FCurrentIndex = FSongs.IndexOf(FCurrentSong);
                             if (FCurrentIndex == -1)
                             {
-                                FCurrentSong = (AnsiString)"";
+                                FCurrentSong = "";
                             }
                         }
                     }
@@ -865,7 +865,7 @@ namespace Aow.Units.Sound
                     }
 
                     FCurrentIndex = -1;
-                    FCurrentSong = (AnsiString)"";
+                    FCurrentSong = "";
                 }
             }
         }
@@ -931,7 +931,7 @@ namespace Aow.Units.Sound
                 }
                 else
                 {
-                    FCurrentSong = (AnsiString)"";
+                    FCurrentSong = "";
                     FCurrentIndex = -1;
                 }
             }
@@ -963,7 +963,7 @@ namespace Aow.Units.Sound
                 }
                 else
                 {
-                    FCurrentSong = (AnsiString)"";
+                    FCurrentSong = "";
                     FCurrentIndex = -1;
                 }
             }
@@ -1051,7 +1051,7 @@ namespace Aow.Units.Sound
             return true;
         }
 
-        public AnsiString CurrentSong { get => FCurrentSong; }
+        public string CurrentSong { get => FCurrentSong; }
         public TSet<TSongPlayerStatusElement> Status { get => FStatus; }
         public TStringList Songs { get => FSongs; set => SetSongs(value); }
         public TStringList SongNames { get => FSongNames; }
@@ -1068,7 +1068,7 @@ namespace Aow.Units.Sound
         public TSFX(TECustomNode owner) : base(owner)
         { }
 
-        internal AnsiString FFileName;
+        internal string FFileName = "";
         // Sound.pas:1027
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -1085,7 +1085,7 @@ namespace Aow.Units.Sound
         // Sound.pas:1039
         public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack) => Sound.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
 
-        public AnsiString FileName { get => FFileName; set => FFileName = value; }
+        public string FileName { get => FFileName; set => FFileName = value; }
 
     }
 
@@ -1293,7 +1293,7 @@ namespace Aow.Units.Sound
     public partial class TSampleDataList : TList
     {
         // Sound.pas:659
-        public TSampleData Find(AnsiString Name)
+        public TSampleData Find(string Name)
         {
             TSampleData Result;
             int I;
@@ -1332,7 +1332,7 @@ namespace Aow.Units.Sound
     public partial class TSoundSystemList : TList
     {
         // Sound.pas:1293
-        public SoundSystemClass Find(AnsiString Name)
+        public SoundSystemClass Find(string Name)
         {
             SoundSystemClass Result;
             int I;
@@ -1358,12 +1358,12 @@ namespace Aow.Units.Sound
 
     public static partial class Sound
     {
-        public static AnsiString BaseSoundEnginePath;
+        public static string BaseSoundEnginePath = "";
         public static TSongPlayer SongPlayer;
         // Sound.pas:1182
         // { Unit routines }
         // { Loads the sound data (or adds a reference) so that it stays loaded between samples. }
-        public static void LockSampleData(AnsiString Name)
+        public static void LockSampleData(string Name)
         {
             TSampleData D;
             if (SoundSystem != null)
@@ -1381,7 +1381,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1196
-        public static void UnlockSampleData(AnsiString Name)
+        public static void UnlockSampleData(string Name)
         {
             TSampleData D;
             D = SampleDataList.Find(Name);
@@ -1392,7 +1392,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1205
-        public static TSampleData CreateSampleData(AnsiString Name)
+        public static TSampleData CreateSampleData(string Name)
         {
             TSampleData Result;
             if (SoundSystem != null)
@@ -1440,7 +1440,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1229
-        public static TSample PlaySample(AnsiString Name)
+        public static TSample PlaySample(string Name)
         {
             TSample Result;
             TSampleData D;
@@ -1476,7 +1476,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1252
-        public static TSample PlaySampleEx(AnsiString Name, int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
+        public static TSample PlaySampleEx(string Name, int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
         {
             TSample Result;
             TSampleData D;
@@ -1537,17 +1537,17 @@ namespace Aow.Units.Sound
             }
             else
             {
-                throw Exception.Create((AnsiString)"Sound System with name: " + AClass.Name + (AnsiString)" already registered");
+                throw Exception.Create("Sound System with name: " + AClass.Name + " already registered");
             }
         }
 
         // Sound.pas:1317
         // { Creates and activates the named sound system (the first registered one when Name is empty). }
-        public static bool InitializeSoundSystem(AnsiString Name, in TSoundSettings Settings)
+        public static bool InitializeSoundSystem(string Name, in TSoundSettings Settings)
         {
             SoundSystemClass C;
             bool Result = true;
-            if (Name == (AnsiString)"")
+            if (IsEmpty(Name))
             {
                 if (SoundSystems.Count != 0)
                 {
@@ -1812,11 +1812,11 @@ namespace Aow.Units.Sound
         // Sound.pas:1468
         // { The title stored in an Impulse Tracker or Scream Tracker 3 module, else the file name without
 //   the extension. }
-        public static AnsiString GetSongName(AnsiString FileName)
+        public static string GetSongName(string FileName)
         {
-            AnsiString Result = default;
+            string Result = "";
             TFileStream Stream;
-            AnsiString Ext;
+            string Ext;
             FixedArray_byte_28 Title;
             int P;
             Stream = new TFileStream(BaseSoundEnginePath + FileName, 0 | 32);
@@ -1824,7 +1824,7 @@ namespace Aow.Units.Sound
             {
                 Ext = UpperCase(ExtractFileExt(FileName));
                 Title = default;
-                if (Ext == (AnsiString)".IT")
+                if (Ext == ".IT")
                 {
                     Stream.Seek(4, 0);
                     Stream.Read(((Span<byte>)Title).Slice(0, 28));
@@ -1832,7 +1832,7 @@ namespace Aow.Units.Sound
                 }
                 else
                 {
-                    if (Ext == (AnsiString)".S3M")
+                    if (Ext == ".S3M")
                     {
                         Stream.Read(((Span<byte>)Title).Slice(0, 28));
                         Result = StrPasBuffer(Title);
@@ -1840,7 +1840,7 @@ namespace Aow.Units.Sound
                     else
                     {
                         Result = ExtractFileName(FileName);
-                        P = Pos(AnsiString.FromBytes(46), Result);
+                        P = Pos(".", Result);
                         if (P != 0)
                         {
                             Result = Copy(Result, 1, P - 1);
@@ -1857,23 +1857,23 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1502
-        public static AnsiString PlayingSongFileName()
+        public static string PlayingSongFileName()
         {
-            AnsiString Result;
+            string Result;
             if (SoundSystem != null)
             {
                 Result = SoundSystem.GetPlayingSongFileName();
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
         }
 
         // Sound.pas:1510
-        public static bool PlaySong(AnsiString FileName)
+        public static bool PlaySong(string FileName)
         {
             bool Result;
             if (SoundSystem != null)
@@ -1889,7 +1889,7 @@ namespace Aow.Units.Sound
         }
 
         // Sound.pas:1518
-        public static bool PlaySongEx(AnsiString FileName, int FadeOut, int FadeIn, bool Loop)
+        public static bool PlaySongEx(string FileName, int FadeOut, int FadeIn, bool Loop)
         {
             bool Result;
             if (SoundSystem != null)
@@ -1957,10 +1957,10 @@ namespace Aow.Units.Sound
         // Sound.pas:1557
         public static void Register()
         {
-            RegisterComponents((AnsiString)"Sound", [typeof(TSFXManager), typeof(TSFXManagerComboBox), typeof(TSFXManagerListBox)]);
+            RegisterComponents("Sound", [typeof(TSFXManager), typeof(TSFXManagerComboBox), typeof(TSFXManagerListBox)]);
         }
 
-        public static readonly AnsiString SFXExtension = (AnsiString)"WAV";
+        public static readonly string SFXExtension = "WAV";
         public static TSoundSystem SoundSystem = default;
         public static TSoundSystemList SoundSystems = default;
         public static TSampleDataList SampleDataList = default;
@@ -1994,7 +1994,7 @@ namespace Aow.Units.Sound
             SampleList = null;
             if (SampleDataList.Count != 0)
             {
-                ShowMessage((AnsiString)"Inproper use of Sound Engine (SoundData still loaded)!");
+                ShowMessage("Inproper use of Sound Engine (SoundData still loaded)!");
             }
 
             SampleDataList.Free();

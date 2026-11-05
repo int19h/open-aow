@@ -93,7 +93,7 @@ namespace Aow.Units.CenterViewLoc
 
 
         // CenterViewLoc.pas:99
-        public override AnsiString ResourceEditName() => (AnsiString)"Center View Location";
+        public override string ResourceEditName() => "Center View Location";
 
     }
 

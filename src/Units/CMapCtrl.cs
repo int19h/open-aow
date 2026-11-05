@@ -150,7 +150,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnSelect event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnSelect event (TAoWCombatMapControl)");
             }
         }
 
@@ -166,7 +166,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeselect event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnDeselect event (TAoWCombatMapControl)");
             }
         }
 
@@ -182,7 +182,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
             }
         }
 
@@ -199,7 +199,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during UnitChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during UnitChanged event (TAoWCombatMapControl)");
             }
         }
 
@@ -215,7 +215,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
             }
         }
 
@@ -231,7 +231,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
             }
         }
 
@@ -247,7 +247,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Gems Changed event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Gems Changed event (TAoWCombatMapControl)");
             }
         }
 
@@ -263,7 +263,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Income Changed event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Income Changed event (TAoWCombatMapControl)");
             }
         }
 
@@ -279,7 +279,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
             }
         }
 
@@ -296,7 +296,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
             }
         }
 
@@ -312,7 +312,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
             }
         }
 
@@ -328,7 +328,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
             }
         }
 
@@ -344,7 +344,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
             }
         }
 
@@ -360,7 +360,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
             }
         }
 
@@ -376,7 +376,7 @@ namespace Aow.Units.CMapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
             }
         }
 
@@ -457,7 +457,7 @@ namespace Aow.Units.CMapCtrl
         // CMapCtrl.pas:361
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoWEngine", [typeof(TAoWCombatMapControl)]);
+            RegisterComponents("AoWEngine", [typeof(TAoWCombatMapControl)]);
         }
 
         public static void Initialize()

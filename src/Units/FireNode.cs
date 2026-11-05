@@ -42,7 +42,7 @@ namespace Aow.Units.FireNode
 
 
         // FireNode.pas:50
-        public override AnsiString ResourceEditName() => TranslateRStr(FireNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(FireNodeRStr);
 
     }
 

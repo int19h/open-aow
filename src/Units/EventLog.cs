@@ -75,7 +75,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:371
-        public virtual AnsiString GetText() => (AnsiString)"Default TEventLog";
+        public virtual string GetText() => "Default TEventLog";
 
         // EventLog.pas:376
         public virtual int GetTextColor()
@@ -143,7 +143,7 @@ namespace Aow.Units.EventLog
         // EventLog.pas:444
         public virtual void PlayLoggedSFX(TEventLogbook A1)
         {
-            PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
+            PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
         }
 
         // EventLog.pas:449
@@ -168,7 +168,7 @@ namespace Aow.Units.EventLog
             {
                 if (Trigger == TExecuteTrigger.etEvent)
                 {
-                    PlaySample((AnsiString)"SFX\\EVENTS\\NEWEVENT.WAV");
+                    PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
                 }
 
                 Result = false;
@@ -209,7 +209,7 @@ namespace Aow.Units.EventLog
         // EventLog.pas:713
         public new const int ClassID = 131809;
 
-        public AnsiString FText;
+        public string FText = "";
         // EventLog.pas:716
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -218,7 +218,7 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:719
-        public override AnsiString GetText() => FText;
+        public override string GetText() => FText;
 
         // EventLog.pas:722
         public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done) => false;
@@ -294,8 +294,8 @@ namespace Aow.Units.EventLog
             FLayout = TMessageEventLogLayout.melNormal;
         }
 
-        public AnsiString FTitle;
-        public AnsiString FHeader;
+        public string FTitle = "";
+        public string FHeader = "";
         public TStrings FMessage;
         public TMessageEventLogLayout FLayout;
         public TMessageEventLogButtons FButtons;
@@ -359,7 +359,7 @@ namespace Aow.Units.EventLog
         }
 
         public TStringList FMessage;
-        public AnsiString FHelpFileName;
+        public string FHelpFileName = "";
         public byte FMode;
         // EventLog.pas:868
         public override void Destroy()
@@ -488,7 +488,7 @@ namespace Aow.Units.EventLog
             FChildren.Add(Child);
             if (Child.AddRef() == -1)
             {
-                throw Exception.Create((AnsiString)"EObject doesn't support ReferenceCounting");
+                throw Exception.Create("EObject doesn't support ReferenceCounting");
             }
 
             int Result = FChildren.Count - 1;
@@ -679,7 +679,7 @@ namespace Aow.Units.EventLog
         // EventLog.pas:600
         public void AddEvent(TEventLog Event)
         {
-            Assert(AoWHSMap.GetSynchronised(), (AnsiString)"", "EventLog.pas", 704);
+            Assert(AoWHSMap.GetSynchronised(), "", "EventLog.pas", 704);
             Event.SetOwner(FEvents);
             Event.FID = CreateUniqueID();
             Event.NotifyLogged(this);
@@ -775,9 +775,9 @@ namespace Aow.Units.EventLog
         }
 
         // EventLog.pas:783
-        public override AnsiString GetText()
+        public override string GetText()
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (AoWHSMap.FPlayers.GetPlayers(FPlayer).FGameOverStatus)
             {
                 case TGameOverStatus.goLost:
@@ -893,10 +893,10 @@ namespace Aow.Units.EventLog
         }
 
         public TSet<TSaveGameEventLogModeElement> FMode;
-        public AnsiString FDirectory;
-        public AnsiString FDefaultName;
-        public AnsiString FFileName;
-        public AnsiString FTitle;
+        public string FDirectory = "";
+        public string FDefaultName = "";
+        public string FFileName = "";
+        public string FTitle = "";
 
     }
 
@@ -906,15 +906,15 @@ namespace Aow.Units.EventLog
         // EventLog.pas:877
         public TPasswordEventLog(TECustomNode owner) : base(owner)
         {
-            FPassword = (AnsiString)"";
+            FPassword = "";
             FPrompt = TranslateRStr(EnterPasswordRStr);
             FTitle = TranslateRStr(PasswordVerificationRStr);
             FPressedButton = TPressedEventLogButton.pebNone;
         }
 
-        public AnsiString FPassword;
-        public AnsiString FTitle;
-        public AnsiString FPrompt;
+        public string FPassword = "";
+        public string FTitle = "";
+        public string FPrompt = "";
         public TPressedEventLogButton FPressedButton;
 
     }

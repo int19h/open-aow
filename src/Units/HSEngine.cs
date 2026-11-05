@@ -207,7 +207,7 @@ namespace Aow.Units.HSEngine
         {
             if (Index >= FCount)
             {
-                throw Exception.Create((AnsiString)"Index out of bounds");
+                throw Exception.Create("Index out of bounds");
             }
 
             return FHSList[Index];
@@ -218,7 +218,7 @@ namespace Aow.Units.HSEngine
         {
             if (Index >= FCount)
             {
-                throw Exception.Create((AnsiString)"Index out of bounds");
+                throw Exception.Create("Index out of bounds");
             }
 
             FHSList[Index] = (THexagonSprite)Child;
@@ -762,7 +762,7 @@ namespace Aow.Units.HSEngine
         internal bool FStaticSceneInvalid;
         internal bool FDynamicSceneInvalid;
         internal int FVersion;
-        internal AnsiString FHSSFileName;
+        internal string FHSSFileName = "";
         internal TSet<THSMapStatusElement> FStatus;
         internal int FFrame;
         internal TEventList FTerrainChangedEvents;
@@ -775,7 +775,7 @@ namespace Aow.Units.HSEngine
         internal TEventList FViewPortChangedEvents;
         internal TEventList FDestroyEvents;
         internal TEventList FHSChangedEvents;
-        internal AnsiString FFileName;
+        internal string FFileName = "";
         protected internal int FViewXhp;
         protected internal int FViewYhp;
         protected internal int FViewL;
@@ -832,7 +832,7 @@ namespace Aow.Units.HSEngine
                 Stream.rwString(ref FHSSFileName, 2);
             }
 
-            if (!Stream.StorageMode().Contains(smPartial) && Stream.StorageMode().Contains(TStorageModeElement.smRead) && FHSSFileName != (AnsiString)"")
+            if (!Stream.StorageMode().Contains(smPartial) && Stream.StorageMode().Contains(TStorageModeElement.smRead) && !IsEmpty(FHSSFileName))
             {
                 ((THSEngine)Stream.Engine).InitializeHSSet(Stream.Engine.StartupDirectory + FHSSFileName, Stream.OnProgress);
             }
@@ -911,7 +911,7 @@ namespace Aow.Units.HSEngine
         {
             if (FStaticSceneInvalid)
             {
-                throw Exception.Create((AnsiString)"Static scene is invalid, call UpdateStaticScene!");
+                throw Exception.Create("Static scene is invalid, call UpdateStaticScene!");
             }
 
             for (int I = FStaticVisibleHS.FCount - 1; I >= 0; I--)
@@ -925,7 +925,7 @@ namespace Aow.Units.HSEngine
         {
             if (FDynamicSceneInvalid)
             {
-                throw Exception.Create((AnsiString)"Dynamic scene is invalid, call UpdateDynamicScene!");
+                throw Exception.Create("Dynamic scene is invalid, call UpdateDynamicScene!");
             }
 
             for (int I = FDynamicVisibleHS.FCount - 1; I >= 0; I--)
@@ -964,7 +964,7 @@ namespace Aow.Units.HSEngine
         {
             if (FStatus.Contains(THSMapStatusElement.msActivated))
             {
-                throw Exception.Create((AnsiString)"HSMap already activated");
+                throw Exception.Create("HSMap already activated");
             }
 
             FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
@@ -975,7 +975,7 @@ namespace Aow.Units.HSEngine
         {
             if (!FStatus.Contains(THSMapStatusElement.msActivated))
             {
-                throw Exception.Create((AnsiString)"HSMap wasn't activated");
+                throw Exception.Create("HSMap wasn't activated");
             }
 
             FStatus = FStatus - TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
@@ -1412,7 +1412,7 @@ namespace Aow.Units.HSEngine
         {
             if (FTerrainChangedLockCounter == 0)
             {
-                HSEngine.OriginalAssert((AnsiString)"Invalid TerrainChangedLockCounter", (AnsiString)"D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
+                HSEngine.OriginalAssert("Invalid TerrainChangedLockCounter", "D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
             }
 
             FTerrainChangedLockCounter -= 1;
@@ -1460,7 +1460,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSMAP.PAS:231
-        public void SetHSSFileName(AnsiString FileName)
+        public void SetHSSFileName(string FileName)
         {
             var expandFileName = ExpandFileName(FileName);
             FHSSFileName = ExtractRelativePath(FEngine.StartupDirectory, expandFileName);
@@ -1625,7 +1625,7 @@ namespace Aow.Units.HSEngine
             }
             catch (System.Exception)
             {
-                throw Exception.Create((AnsiString)"Exception during ResetVisibleDynamicHS");
+                throw Exception.Create("Exception during ResetVisibleDynamicHS");
             }
         }
 
@@ -1640,7 +1640,7 @@ namespace Aow.Units.HSEngine
                 }
                 catch (System.Exception)
                 {
-                    throw Exception.Create((AnsiString)"Exception during ResetVisibleDynamicHS (" + (AnsiString)ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + AnsiString.FromBytes(41));
+                    throw Exception.Create("Exception during ResetVisibleDynamicHS (" + ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + ")");
                 }
             }
 
@@ -1666,7 +1666,7 @@ namespace Aow.Units.HSEngine
         public bool StaticSceneInvalid { get => FStaticSceneInvalid; set => FStaticSceneInvalid = value; }
         public bool DynamicSceneInvalid { get => FDynamicSceneInvalid; set => FDynamicSceneInvalid = value; }
         public int Version { get => FVersion; set => FVersion = value; }
-        public AnsiString HSSFileName { get => FHSSFileName; set => SetHSSFileName(value); }
+        public string HSSFileName { get => FHSSFileName; set => SetHSSFileName(value); }
         public TSet<THSMapStatusElement> Status { get => FStatus; set => FStatus = value; }
         public int Frame { get => FFrame; }
         public TEventList TerrainChangedEvents { get => FTerrainChangedEvents; }
@@ -1678,7 +1678,7 @@ namespace Aow.Units.HSEngine
         public TEventList ViewPortChangedEvents { get => FViewPortChangedEvents; }
         public TEventList DestroyEvents { get => FDestroyEvents; }
         public TEventList HSChangedEvents { get => FHSChangedEvents; }
-        public AnsiString FileName { get => FFileName; set => FFileName = value; }
+        public string FileName { get => FFileName; set => FFileName = value; }
         public int ViewXhp { get => FViewXhp; }
         public int ViewYhp { get => FViewYhp; }
         public int ViewL { get => FViewL; }
@@ -1705,8 +1705,8 @@ namespace Aow.Units.HSEngine
         internal TSet<THSEngineStatusElement> FStatus;
         protected internal THSSet FHSSet;
         protected internal THSMap FHSMap;
-        internal AnsiString FHSSetSearchPath;
-        internal AnsiString FHSSFileName;
+        internal string FHSSetSearchPath = "";
+        internal string FHSSFileName = "";
         internal TEventList FOnHSMLoaded;
         internal TEventList FOnHSMClose;
         internal TEventList FOnHSSLoaded;
@@ -1737,8 +1737,8 @@ namespace Aow.Units.HSEngine
             RegisterEClasses([EClass.Of<TMapContainer>(), EClass.Of<TMapLevel>(), EClass.Of<THSMap>(), EClass.Of<THSSet>()]);
             RegisterEClasses([EClass.Of<TMapObjectResource>(), EClass.Of<TMultiHexMOR>()]);
             RegisterEClasses([EClass.Of<TAbstractHexagon>(), EClass.Of<TAbstractBorderHexagon>(), EClass.Of<TAbstractRoad>()]);
-            HSEngine.HSEngineDID = RegisterDebugID((AnsiString)"HS-Engine");
-            FHSSFileName = (AnsiString)"noname.hss";
+            HSEngine.HSEngineDID = RegisterDebugID("HS-Engine");
+            FHSSFileName = "noname.hss";
             CreateHSSet();
         }
 
@@ -1755,7 +1755,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5210
-        public virtual void LoadHSM(AnsiString FileName, bool Edit, Engine.TProgressEvent AProgress)
+        public virtual void LoadHSM(string FileName, bool Edit, Engine.TProgressEvent AProgress)
         {
             TCompressStream Stream;
             THSMHeader Header = default;
@@ -1812,10 +1812,10 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5137
-        public virtual THSMap CreatePreviewHSM(AnsiString FileName)
+        public virtual THSMap CreatePreviewHSM(string FileName)
         {
             TCompressStream Stream;
-            AnsiString FullName;
+            string FullName;
             THSMHeader Header = default;
             THSMap Result = null;
             FullName = ExpandFileName(FileName);
@@ -1858,7 +1858,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5291
-        public virtual void SaveHSM(AnsiString FileName, Engine.TProgressEvent AProgress)
+        public virtual void SaveHSM(string FileName, Engine.TProgressEvent AProgress)
         {
             TCompressStream Stream;
             THSMHeader Header;
@@ -1903,14 +1903,14 @@ namespace Aow.Units.HSEngine
         {
             FOnHSSClose.TriggerNotifyEvents(this);
             FHSSet.Clear();
-            FHSSFileName = (AnsiString)"noname.hss";
+            FHSSFileName = "noname.hss";
         }
 
         // HSEngine.pas:4967
-        public TStringList GetHSSetFiles(AnsiString Mask)
+        public TStringList GetHSSetFiles(string Mask)
         {
             TStringList Files;
-            void Search(AnsiString Dir)
+            void Search(string Dir)
             {
                 TStringList Dirs;
                 TFileStream Stream = default;
@@ -1937,9 +1937,9 @@ namespace Aow.Units.HSEngine
                     {
                     }
 
-                    if (Header.ID == AnsiString.FromBytes(72, 83, 83, 0))
+                    if (Header.ID == "HSS\0")
                     {
-                        Files.Add(Header.Name + AnsiString.FromBytes(124) + Dir + SR.Name);
+                        Files.Add(Header.Name + "|" + Dir + SR.Name);
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -1947,12 +1947,12 @@ namespace Aow.Units.HSEngine
 
                 FindClose(ref SR);
                 Dirs = new TStringList();
-                Found = FindFirst(Dir + (AnsiString)"*.*", 16, ref SR) == 0;
+                Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
                 while (Found)
                 {
-                    if ((SR.Attr & 16) != 0 && SR.Name != AnsiString.FromBytes(46) && SR.Name != (AnsiString)"..")
+                    if ((SR.Attr & 16) != 0 && SR.Name != "." && SR.Name != "..")
                     {
-                        Dirs.Add(Dir + SR.Name + AnsiString.FromBytes(92));
+                        Dirs.Add(Dir + SR.Name + "\\");
                     }
 
                     Found = FindNext(ref SR) == 0;
@@ -1973,7 +1973,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5024
-        public void LoadHSS(AnsiString FileName, bool Edit, Engine.TProgressEvent AProgress)
+        public void LoadHSS(string FileName, bool Edit, Engine.TProgressEvent AProgress)
         {
             TMemoryStream Mem;
             TFileStream F;
@@ -2000,7 +2000,7 @@ namespace Aow.Units.HSEngine
                 Mem.Position = Header.Size;
                 var size = Mem.Size;
                 CRC = MemoryMarshal.Read<int>(Mem.Memory.AsSpan(size - 4, 4));
-                bool condition = Header.ID != AnsiString.FromBytes(72, 83, 83, 0);
+                bool condition = Header.ID != "HSS\0";
                 if (!condition)
                 {
                     var memSize = Mem.Size;
@@ -2009,7 +2009,7 @@ namespace Aow.Units.HSEngine
 
                 if (condition)
                 {
-                    throw Exception.Create((AnsiString)"Invalid HSSET");
+                    throw Exception.Create("Invalid HSSET");
                 }
 
                 ReadEObject(Mem, FHSSet, AProgress);
@@ -2027,7 +2027,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5060
-        public void SaveHSS(AnsiString FileName, Engine.TProgressEvent AProgress)
+        public void SaveHSS(string FileName, Engine.TProgressEvent AProgress)
         {
             TMemoryStream Mem;
             TFileStream F = default;
@@ -2037,7 +2037,7 @@ namespace Aow.Units.HSEngine
             {
                 Header.Size = 52;
                 Header.Name = FHSSet.Name;
-                Header.ID = AnsiString.FromBytes(72, 83, 83, 0);
+                Header.ID = "HSS\0";
                 FHSSFileName = ExpandFileName(FileName);
                 FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSS);
                 Mem = new TMemoryStream();
@@ -2067,7 +2067,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5100
-        public void LoadPreviewHSM(AnsiString FileName)
+        public void LoadPreviewHSM(string FileName)
         {
             TCompressStream Stream;
             THSMHeader Header = default;
@@ -2116,10 +2116,10 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5171
-        public THSMap LoadHSMEx(AnsiString FileName, bool Edit, Engine.TProgressEvent AProgress)
+        public THSMap LoadHSMEx(string FileName, bool Edit, Engine.TProgressEvent AProgress)
         {
             TCompressStream Stream;
-            AnsiString FullName;
+            string FullName;
             THSMHeader Header = default;
             THSMap Result = null;
             FullName = ExpandFileName(FileName);
@@ -2255,7 +2255,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5341
-        public void InitializeHSSet(AnsiString FileName, Engine.TProgressEvent AProgress)
+        public void InitializeHSSet(string FileName, Engine.TProgressEvent AProgress)
         {
             TEMsg Msg = default;
             if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
@@ -2288,8 +2288,8 @@ namespace Aow.Units.HSEngine
         public TSet<THSEngineStatusElement> Status { get => FStatus; }
         public THSSet HSSet { get => FHSSet; }
         public THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
-        public AnsiString HSSetSearchPath { get => FHSSetSearchPath; set => FHSSetSearchPath = value; }
-        public AnsiString HSSFileName { get => FHSSFileName; }
+        public string HSSetSearchPath { get => FHSSetSearchPath; set => FHSSetSearchPath = value; }
+        public string HSSFileName { get => FHSSFileName; }
         public TEventList OnHSMLoaded { get => FOnHSMLoaded; }
         public TEventList OnHSMClose { get => FOnHSMClose; }
         public TEventList OnHSSLoaded { get => FOnHSSLoaded; }
@@ -2344,7 +2344,7 @@ namespace Aow.Units.HSEngine
         // HXSPRITE.PAS:52
         public virtual byte GetLevel()
         {
-            throw Exception.Create((AnsiString)"No HexagonSprite Level defined");
+            throw Exception.Create("No HexagonSprite Level defined");
         }
 
         // HXSPRITE.PAS:43
@@ -2453,7 +2453,7 @@ namespace Aow.Units.HSEngine
         {
             Deactivate();
             Remove();
-            Assert(!GetVisible(), (AnsiString)"Hexagon Sprite Still Visible!", "HXSPRITE.PAS", 589);
+            Assert(!GetVisible(), "Hexagon Sprite Still Visible!", "HXSPRITE.PAS", 589);
         }
 
         // HXSPRITE.PAS:592
@@ -2554,7 +2554,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HXSPRITE.PAS:17
-        public virtual AnsiString EditName() => (AnsiString)"Hexagon Sprite";
+        public virtual string EditName() => "Hexagon Sprite";
 
         // HXSPRITE.PAS:219
         public bool PlaceOnMapEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
@@ -3271,21 +3271,21 @@ namespace Aow.Units.HSEngine
         // MAPOBJ.PAS:45
         public override sbyte GetXhx()
         {
-            Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 47);
+            Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 47);
             return ((TMapField)Owner).FXhx;
         }
 
         // MAPOBJ.PAS:51
         public override sbyte GetYhx()
         {
-            Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 53);
+            Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 53);
             return ((TMapField)Owner).FYhx;
         }
 
         // MAPOBJ.PAS:57
         public override sbyte GetLhx()
         {
-            Assert(Owner != null, (AnsiString)"Owner not set", "MAPOBJ.PAS", 59);
+            Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 59);
             return ((TMapField)Owner).FLhx;
         }
 
@@ -3537,10 +3537,10 @@ namespace Aow.Units.HSEngine
         }
 
         // MAPOBJ.PAS:21
-        public override AnsiString EditName()
+        public override string EditName()
         {
-            AnsiString Result;
-            if (FResource.FName == (AnsiString)"")
+            string Result;
+            if (IsEmpty(FResource.FName))
             {
                 Result = FResource.ResourceEditName();
             }
@@ -3622,7 +3622,7 @@ namespace Aow.Units.HSEngine
         protected internal TImageSequenceList FImageSequenceList;
         protected internal TTerrainList FTerrainList;
         protected internal byte FLevel;
-        protected internal AnsiString FName;
+        protected internal string FName = "";
         // MAPOBJ.PAS:391
         public override void Destroy()
         {
@@ -3924,10 +3924,10 @@ namespace Aow.Units.HSEngine
         public TImageSequenceList ImageSequenceList { get => FImageSequenceList; set => FImageSequenceList = value; }
         public TTerrainList TerrainList { get => FTerrainList; }
         public byte Level { get => FLevel; set => SetLevel(value); }
-        public AnsiString Name { get => FName; set => FName = value; }
+        public string Name { get => FName; set => FName = value; }
 
         // MAPOBJ.PAS:415
-        public override AnsiString ResourceEditName() => (AnsiString)"";
+        public override string ResourceEditName() => "";
 
     }
 
@@ -4035,7 +4035,7 @@ namespace Aow.Units.HSEngine
             Width = 64;
             Height = 64;
             Levels = 1;
-            HSSFileName = (AnsiString)"";
+            HSSFileName = "";
             // { THSMap.ClassID }
             HSMapClassID = 66048;
             // { TMapContainer.ClassID }
@@ -4047,7 +4047,7 @@ namespace Aow.Units.HSEngine
         public int Width;
         public int Height;
         public int Levels;
-        public AnsiString HSSFileName;
+        public string HSSFileName = "";
         public int HSMapClassID;
         public int MapContainerClassID;
         public int MapLevelClassID;
@@ -4441,7 +4441,7 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:2935
         public override void SetChild(int Index, TEObject Child)
         {
-            throw Exception.Create((AnsiString)"Cannot set child in TMapLevel");
+            throw Exception.Create("Cannot set child in TMapLevel");
         }
 
         // HSEngine.pas:2950
@@ -4450,13 +4450,13 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:2945
         public override int RemoveChild(TEObject Child)
         {
-            throw Exception.Create((AnsiString)"Cannot remove from TMapLevel");
+            throw Exception.Create("Cannot remove from TMapLevel");
         }
 
         // HSEngine.pas:2940
         public override int AddChild(TEObject Child)
         {
-            throw Exception.Create((AnsiString)"Cannot add child to TMapLevel");
+            throw Exception.Create("Cannot add child to TMapLevel");
         }
 
         // HSEngine.pas:3140
@@ -5288,7 +5288,7 @@ namespace Aow.Units.HSEngine
             }
             catch (System.Exception)
             {
-                ShowMessage((AnsiString)"Exception during MapViewer.ShowScene");
+                ShowMessage("Exception during MapViewer.ShowScene");
             }
         }
 
@@ -5526,7 +5526,7 @@ namespace Aow.Units.HSEngine
             {
                 if (((TList)FResources.List[TerrainType]).IndexOf(Resource) != -1 || Resource == null)
                 {
-                    throw Exception.Create((AnsiString)"Resource double defined (TMORTerrainControl)");
+                    throw Exception.Create("Resource double defined (TMORTerrainControl)");
                 }
 
                 ((TList)FResources.List[TerrainType]).Add(Resource);
@@ -5599,7 +5599,7 @@ namespace Aow.Units.HSEngine
         internal TImageLibraryManager FImageLibraryManager;
         internal Sound.TSFXManager FSFXManager;
         internal TPlugInControl FPlugInControl;
-        internal AnsiString FName;
+        internal string FName = "";
         internal TStringList FTerrainTypes;
         internal TStringList FOverlayTypes;
         internal TStringList FDecorationTypes;
@@ -5731,7 +5731,7 @@ namespace Aow.Units.HSEngine
         public TImageLibraryManager ImageLibraryManager { get => FImageLibraryManager; }
         public Sound.TSFXManager SFXManager { get => FSFXManager; }
         public TPlugInControl PlugInControl { get => FPlugInControl; }
-        public AnsiString Name { get => FName; set => FName = value; }
+        public string Name { get => FName; set => FName = value; }
         public TStringList TerrainTypes { get => FTerrainTypes; }
         public TStringList OverlayTypes { get => FOverlayTypes; }
         public TStringList DecorationTypes { get => FDecorationTypes; }
@@ -5768,7 +5768,7 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5399
-        public void SetHSSetSearchPath(AnsiString Value)
+        public void SetHSSetSearchPath(string Value)
         {
             if (FHSEngine != null)
             {
@@ -5777,23 +5777,23 @@ namespace Aow.Units.HSEngine
         }
 
         // HSEngine.pas:5404
-        public AnsiString GetHSSetSearchPath()
+        public string GetHSSetSearchPath()
         {
-            AnsiString Result;
+            string Result;
             if (FHSEngine != null)
             {
                 Result = FHSEngine.FHSSetSearchPath;
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
         }
 
         public THSEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
-        public AnsiString HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
+        public string HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
     }
 
     // a sprite on one hexagon. FStatus: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
@@ -5986,7 +5986,7 @@ namespace Aow.Units.HSEngine
         {
             Deactivate();
             Remove();
-            Assert(!GetVisible(), (AnsiString)"FixedVisibleHS still in VisibilityList!!!", "HXSPRITE.PAS", 795);
+            Assert(!GetVisible(), "FixedVisibleHS still in VisibilityList!!!", "HXSPRITE.PAS", 795);
         }
 
         // HXSPRITE.PAS:779
@@ -6206,7 +6206,7 @@ namespace Aow.Units.HSEngine
             {
                 if (Value == null || (FImage.Width != Value.Width || FImage.Height != Value.Height))
                 {
-                    throw Exception.Create((AnsiString)"Cannot change image when placed on map (TLibraryImageHS)");
+                    throw Exception.Create("Cannot change image when placed on map (TLibraryImageHS)");
                 }
             }
 
@@ -6237,7 +6237,7 @@ namespace Aow.Units.HSEngine
         {
             if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
             {
-                HSEngine.OriginalAssert((AnsiString)"Cannot change MapIsOwner when places on map (TLibraryImageHS)", (AnsiString)"D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
+                HSEngine.OriginalAssert("Cannot change MapIsOwner when places on map (TLibraryImageHS)", "D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
             }
 
             if (Value)
@@ -6340,7 +6340,7 @@ namespace Aow.Units.HSEngine
     public partial class EMapObjectResourceMissing : Exception
     {
         // SysUtils.pas:174
-        public EMapObjectResourceMissing(AnsiString Msg)
+        public EMapObjectResourceMissing(string Msg)
         {
     Message = Msg;
 }
@@ -7154,7 +7154,7 @@ namespace Aow.Units.HSEngine
         {
             if (Index < 0)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (Index >= FCount)
@@ -7170,7 +7170,7 @@ namespace Aow.Units.HSEngine
         {
             if (NewCapacity < FCount || NewCapacity > MaxListSize)
             {
-                Error((AnsiString)"List capacity out of bounds (%d)", NewCapacity);
+                Error("List capacity out of bounds (%d)", NewCapacity);
             }
 
             if (NewCapacity != FCapacity)
@@ -7185,7 +7185,7 @@ namespace Aow.Units.HSEngine
         {
             if (NewCount < 0 || NewCount > MaxListSize)
             {
-                Error((AnsiString)"List count out of bounds (%d)", NewCount);
+                Error("List count out of bounds (%d)", NewCount);
             }
 
             if (NewCount > FCapacity)
@@ -7299,7 +7299,7 @@ namespace Aow.Units.HSEngine
         {
             if (Index < 0 || Index >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             FCount -= 1;
@@ -7315,12 +7315,12 @@ namespace Aow.Units.HSEngine
             TXYL Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index1);
+                Error("List index out of bounds (%d)", Index1);
             }
 
             if (Index2 < 0 || Index2 >= FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index2);
+                Error("List index out of bounds (%d)", Index2);
             }
 
             Item = FList[Index1];
@@ -7401,7 +7401,7 @@ namespace Aow.Units.HSEngine
         {
             if (Index < 0 || Index > FCount)
             {
-                Error((AnsiString)"List index out of bounds (%d)", Index);
+                Error("List index out of bounds (%d)", Index);
             }
 
             if (FCount == FCapacity)
@@ -7429,7 +7429,7 @@ namespace Aow.Units.HSEngine
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
                 {
-                    Error((AnsiString)"List index out of bounds (%d)", NewIndex);
+                    Error("List index out of bounds (%d)", NewIndex);
                 }
 
                 Item = Get(CurIndex);
@@ -7547,7 +7547,7 @@ namespace Aow.Units.HSEngine
         public TXYL[] List { get => FList; }
 
         // HSEngine.pas:1640
-        protected internal static void Error(AnsiString Msg, int Data)
+        protected internal static void Error(string Msg, int Data)
         {
             throw EListError.CreateFmt(Msg, [Data]);
         }
@@ -7591,11 +7591,11 @@ namespace Aow.Units.HSEngine
         public int Size;
         [FieldOffset(4)]
         public FixedArray_byte_5 ID__image;
-        public AnsiString ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
+        public string ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
         [FieldOffset(9)]
         public FixedArray_byte_41 Name__image;
-        public AnsiString Name { get => ReadShortString(Name__image); set => WriteShortString(Name__image, value); }
+        public string Name { get => ReadShortString(Name__image); set => WriteShortString(Name__image, value); }
     }
 
     // { The header of an .hsm file (16 bytes) in front of the stored map, inside the compressed stream }
@@ -7614,23 +7614,23 @@ namespace Aow.Units.HSEngine
 
     public static partial class HSEngine
     {
-        public static readonly AnsiString TerrainStr = (AnsiString)"Terrain";
-        public static readonly AnsiString BridgeStr = (AnsiString)"Bridge";
-        public static readonly AnsiString UpperIsometricHexagonStr = (AnsiString)"Upper Isometric Hexagon";
-        public static readonly AnsiString LowerIsometricHexagonStr = (AnsiString)"Lower Isometric Hexagon";
-        public static readonly AnsiString InvalidPlaceMentStr = (AnsiString)"Invalid Placement";
-        public static readonly AnsiString HexagonStr = (AnsiString)"Hexagon";
-        public static readonly AnsiString SelectedStr = (AnsiString)"selected";
-        public static readonly AnsiString TransparentStr = (AnsiString)"Transparent";
-        public static readonly AnsiString LoadingStr = (AnsiString)"Loading";
-        public static readonly AnsiString ClosingStr = (AnsiString)"Closing";
-        public static readonly AnsiString SaveChangesToXStr = (AnsiString)"Save changes to %s";
-        public static readonly AnsiString OneMomentPleaseStr = (AnsiString)"One moment please...";
-        public static readonly AnsiString CutStr = (AnsiString)"Cu&t";
-        public static readonly AnsiString PasteStr = (AnsiString)"&Paste";
-        public static readonly AnsiString DeleteStr = (AnsiString)"&Delete";
-        public static readonly AnsiString CopyStr = (AnsiString)"&Copy";
-        public static readonly AnsiString EditStr = (AnsiString)"&Edit";
+        public static readonly string TerrainStr = "Terrain";
+        public static readonly string BridgeStr = "Bridge";
+        public static readonly string UpperIsometricHexagonStr = "Upper Isometric Hexagon";
+        public static readonly string LowerIsometricHexagonStr = "Lower Isometric Hexagon";
+        public static readonly string InvalidPlaceMentStr = "Invalid Placement";
+        public static readonly string HexagonStr = "Hexagon";
+        public static readonly string SelectedStr = "selected";
+        public static readonly string TransparentStr = "Transparent";
+        public static readonly string LoadingStr = "Loading";
+        public static readonly string ClosingStr = "Closing";
+        public static readonly string SaveChangesToXStr = "Save changes to %s";
+        public static readonly string OneMomentPleaseStr = "One moment please...";
+        public static readonly string CutStr = "Cu&t";
+        public static readonly string PasteStr = "&Paste";
+        public static readonly string DeleteStr = "&Delete";
+        public static readonly string CopyStr = "&Copy";
+        public static readonly string EditStr = "&Edit";
         // HSEngine.pas:3889
         // Group A, third part: the unit routines (code.). HXtoV, HXtoH, HVtoHX, HPtoHX, HPtoHXs and
         // WalkToNextHN are assembler in the original (hand-scheduled code, explicit RETs)
@@ -7864,7 +7864,7 @@ namespace Aow.Units.HSEngine
                                     }
                                     else
                                     {
-                                        throw Exception.Create((AnsiString)"arithemetic error!");
+                                        throw Exception.Create("arithemetic error!");
                                     }
                                 }
                             }
@@ -8383,13 +8383,13 @@ namespace Aow.Units.HSEngine
         // HSEngine.pas:5411
         public static void Register()
         {
-            RegisterComponents((AnsiString)"HS-Engine", [typeof(THexagonSpriteEngine), typeof(THSMapViewer)]);
+            RegisterComponents("HS-Engine", [typeof(THexagonSpriteEngine), typeof(THSMapViewer)]);
         }
 
         // HSEngine.pas:1390
-        public static void OriginalAssert(AnsiString Message, AnsiString Filename, int LineNumber)
+        public static void OriginalAssert(string Message, string Filename, int LineNumber)
         {
-            Assert(false, Message, Filename.ToString(), LineNumber);
+            Assert(false, Message, Filename, LineNumber);
         }
 
         // { the hexagon direction opposite to the directions 1..6 }

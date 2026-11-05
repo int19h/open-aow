@@ -236,7 +236,7 @@ namespace Aow.Units.Scanner
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -843,7 +843,7 @@ namespace Aow.Units.Scanner
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during DrawMap", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during DrawMap", "Error - " + Name, 0);
             }
         }
 
@@ -991,7 +991,7 @@ namespace Aow.Units.Scanner
         // Scanner.pas:458
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Tools", [typeof(TScanner)]);
+            RegisterComponents("AOW Tools", [typeof(TScanner)]);
         }
 
         public static void Initialize()

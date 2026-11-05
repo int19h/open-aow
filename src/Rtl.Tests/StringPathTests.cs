@@ -13,14 +13,14 @@ public sealed class StringPathTests
             "C:\\", "\\", "\\\\server\\share\\file.ext", "\\\\server\\share", "\\\\", "\\\\s",
             "C:\\a\\\u20ac.ext" })
         {
-            var ansi = AnsiString.FromBytes(Cp1252.Encode(path));
-            Assert.Equal(Rtl.ExtractFileName(ansi).ToString(), Rtl.ExtractFileName(path));
-            Assert.Equal(Rtl.ExtractFilePath(ansi).ToString(), Rtl.ExtractFilePath(path));
-            Assert.Equal(Rtl.ExtractFileDir(ansi).ToString(), Rtl.ExtractFileDir(path));
-            Assert.Equal(Rtl.ExtractFileExt(ansi).ToString(), Rtl.ExtractFileExt(path));
-            Assert.Equal(Rtl.ExtractFileDrive(ansi).ToString(), Rtl.ExtractFileDrive(path));
+            var ansi = Cp1252.Decode(Cp1252.Encode(path));
+            Assert.Equal(Rtl.ExtractFileName(ansi), Rtl.ExtractFileName(path));
+            Assert.Equal(Rtl.ExtractFilePath(ansi), Rtl.ExtractFilePath(path));
+            Assert.Equal(Rtl.ExtractFileDir(ansi), Rtl.ExtractFileDir(path));
+            Assert.Equal(Rtl.ExtractFileExt(ansi), Rtl.ExtractFileExt(path));
+            Assert.Equal(Rtl.ExtractFileDrive(ansi), Rtl.ExtractFileDrive(path));
             foreach (string extension in new[] { ".new", "", ".\u20ac" })
-                Assert.Equal(Rtl.ChangeFileExt(ansi, (AnsiString)extension).ToString(), Rtl.ChangeFileExt(path, extension));
+                Assert.Equal(Rtl.ChangeFileExt(ansi, extension), Rtl.ChangeFileExt(path, extension));
         }
     }
 
@@ -30,7 +30,7 @@ public sealed class StringPathTests
         using var mode = new StringMode(false);
         foreach (string path in new[] { "", ".", "..", "probe-files\\alpha.TXT", ".\\probe-files\\d00\\..\\Beta.txt",
             "probe-files\\..", "probe-files\\missing\\..\\new.txt", "probe-files/alpha.TXT" })
-            Assert.Equal(Rtl.ExpandFileName((AnsiString)path).ToString(), Rtl.ExpandFileName(path));
+            Assert.Equal(Rtl.ExpandFileName(path), Rtl.ExpandFileName(path));
     }
 
     [Fact]

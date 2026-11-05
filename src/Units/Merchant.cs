@@ -43,7 +43,7 @@ namespace Aow.Units.Merchant
 
 
         // Merchant.pas:50
-        public override AnsiString ResourceEditName() => TranslateRStr(MerchantRStr);
+        public override string ResourceEditName() => TranslateRStr(MerchantRStr);
 
     }
 

@@ -197,7 +197,7 @@ namespace Aow.Units.AoWHeroInfoDlg
         public static void ShowHeroInfo(THeroInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
         {
             THero Hero;
-            Assert(Dialog.FArmyInfo == null, (AnsiString)"", "AoWHeroInfoDlg.pas", 80);
+            Assert(Dialog.FArmyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
             Dialog.FDone = Done;
             Dialog.FArmyInfo = Event;
             Dialog.FArmyInfo.AddRef();
@@ -213,8 +213,8 @@ namespace Aow.Units.AoWHeroInfoDlg
             }
             else
             {
-                Dialog.HeroName.Text = (AnsiString)"";
-                Dialog.HeroLevel.Text = (AnsiString)"";
+                Dialog.HeroName.Text = "";
+                Dialog.HeroLevel.Text = "";
             }
 
             Dialog.Dlg.Visible = true;

@@ -6,22 +6,25 @@ namespace Aow.Units.ImageLib;
 public partial class TImageLibraryFont
 {
     // ImageLib.pas:6308 and 6337 store a reference index in an image variable.
-    internal int TextWidth(AnsiString text)
+    internal int TextWidth(string text)
     {
         int width = 0;
-        foreach (byte character in Rtl.Rtl.StringBytes(text))
+        // One table lookup per char, no allocation (strings.md 2.4). IsEmpty reads the null switch as Encode did.
+        if (Aow.Rtl.Rtl.IsEmpty(text)) return width;
+        foreach (char c in text)
         {
-            var image = GetSafe(character);
+            var image = GetSafe(Cp1252.Byte(c));
             width += (image?.Width ?? 5) + FCharacterDistance;
         }
         return width;
     }
 
-    internal void ShowText(int x, int y, AnsiString text, in TSurfaceDesc sd)
+    internal void ShowText(int x, int y, string text, in TSurfaceDesc sd)
     {
-        foreach (byte character in Rtl.Rtl.StringBytes(text))
+        if (Aow.Rtl.Rtl.IsEmpty(text)) return;
+        foreach (char c in text)
         {
-            var image = GetSafe(character);
+            var image = GetSafe(Cp1252.Byte(c));
             if (image != null) image.Show(x, y, sd);
             x += (image?.Width ?? 5) + FCharacterDistance;
         }

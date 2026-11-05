@@ -37,7 +37,7 @@ namespace Aow.Units.OverlayObject
         public override int ResourceUserClassID() => 131228;
 
         // OverlayObject.pas:39
-        public override AnsiString ResourceEditName() => TranslateRStr(OverlayObjectRStr);
+        public override string ResourceEditName() => TranslateRStr(OverlayObjectRStr);
 
     }
 

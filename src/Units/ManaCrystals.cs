@@ -160,7 +160,7 @@ namespace Aow.Units.ManaCrystals
 
             if (condition)
             {
-                PlaySample((AnsiString)"SFX\\EVENTS\\MANA.WAV");
+                PlaySample("SFX\\EVENTS\\MANA.WAV");
             }
 
             var player = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
@@ -194,7 +194,7 @@ namespace Aow.Units.ManaCrystals
         public override int ResourceUserClassID() => 132030;
 
         // ManaCrystals.pas:165
-        public override AnsiString ResourceEditName() => TranslateRStr(ManaCrystalsRStr);
+        public override string ResourceEditName() => TranslateRStr(ManaCrystalsRStr);
 
     }
 

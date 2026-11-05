@@ -71,7 +71,7 @@ namespace Aow.Units.AoWExeForms
         }
 
         // AoWExeForms.pas:63
-        public static void SetInfoBanner(TInfoBanner Banner, AnsiString Caption, TStrings Description)
+        public static void SetInfoBanner(TInfoBanner Banner, string Caption, TStrings Description)
         {
             Banner.HeaderLbl.Text = Caption;
             var text = Description.Text;

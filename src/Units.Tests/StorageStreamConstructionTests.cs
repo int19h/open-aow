@@ -13,8 +13,8 @@ public sealed class StorageStreamConstructionTests
 
     private sealed class StoredObject() : TEObject(null!)
     {
-        internal AnsiString Name = default;
-        internal AnsiString Detail = default;
+        internal string Name = "";
+        internal string Detail = "";
         public override void ReadWrite(TEStorageStream stream)
         {
             stream.rwString(ref Name, 7);
@@ -101,7 +101,7 @@ public sealed class StorageStreamConstructionTests
                 Assert.Equal(0, buffer.Size);
             }
             if (stream is TEWriteTextStorageStream or TEReadTextStorageStream)
-                Assert.Equal((AnsiString)"", Field<AnsiString>(stream, "FPath"));
+                Assert.Equal("", Field<string>(stream, "FPath"));
             if (stream is TEWriteTextStorageStream)
             {
                 var buffer = Field<TEBufferStream>(stream, "FBuffer");
@@ -133,7 +133,7 @@ public sealed class StorageStreamConstructionTests
     public void BinaryRoundTripKeepsBytesAndPartialState(bool partial)
     {
         using var memory = new TMemoryStream();
-        var source = new StoredObject { Name = (AnsiString)"Oak", Detail = (AnsiString)"Hill" };
+        var source = new StoredObject { Name = "Oak", Detail = "Hill" };
         var writer = new TEWriteStorageStream(memory, null!, partial);
         Assert.Equal(0, memory.Size);
         writer.rwEObject(source, 4);
@@ -167,7 +167,7 @@ public sealed class StorageStreamConstructionTests
     public void TextRoundTripKeepsText(bool export)
     {
         using var memory = new TMemoryStream();
-        var source = new StoredObject { Name = (AnsiString)"Oak", Detail = (AnsiString)"Hill" };
+        var source = new StoredObject { Name = "Oak", Detail = "Hill" };
         TEWriteTextStorageStream writer = export ? new TExportTextStream(memory, null!)
             : new TEWriteTextStorageStream(memory, null!);
         writer.rwEObject(source, 4);
@@ -181,8 +181,8 @@ public sealed class StorageStreamConstructionTests
         try
         {
             reader.rwEObject(loaded, 4);
-            Assert.Equal(export ? (AnsiString)"|Oak|" : source.Name, loaded.Name);
-            Assert.Equal(export ? (AnsiString)"|Hill|" : source.Detail, loaded.Detail);
+            Assert.Equal(export ? "|Oak|" : source.Name, loaded.Name);
+            Assert.Equal(export ? "|Hill|" : source.Detail, loaded.Detail);
         }
         finally { reader.Destroy(); }
         using var second = new TMemoryStream();
@@ -264,14 +264,14 @@ public sealed class StorageStreamConstructionTests
             : new TTranslateStorageStream(null!);
         var dictionary = new TIvDictionary();
         if (translator is TTranslateTextStream typed) typed.FDictionary = dictionary;
-        var value = new StoredObject { Name = (AnsiString)"Oak", Detail = (AnsiString)"Hill" };
+        var value = new StoredObject { Name = "Oak", Detail = "Hill" };
         translator.rwEObject(value, 4);
-        Assert.Equal((AnsiString)"Oak", value.Name);
-        Assert.Equal((AnsiString)"Hill", value.Detail);
+        Assert.Equal("Oak", value.Name);
+        Assert.Equal("Hill", value.Detail);
         Assert.Null(translator.Stream);
         Assert.Equal(0, translator.PropertyTable.Count);
         translator.Destroy();
-        Assert.Equal((AnsiString)"Oak", dictionary.Translate((AnsiString)"Oak"));
+        Assert.Equal("Oak", dictionary.Translate("Oak"));
         dictionary.Destroy();
         value.Destroy();
     }

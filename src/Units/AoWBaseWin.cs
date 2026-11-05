@@ -165,7 +165,7 @@ namespace Aow.Units.AoWBaseWin
                     catch (System.Exception)
                     {
                         Locked = false;
-                        MessageBox(0, (AnsiString)"Verify Surface Error", (AnsiString)"Error - " + Name, 0);
+                        MessageBox(0, "Verify Surface Error", "Error - " + Name, 0);
                     }
 
                     if (Locked)
@@ -208,7 +208,7 @@ namespace Aow.Units.AoWBaseWin
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Draw Error", (AnsiString)"Error - " + Name, 0);
+                            MessageBox(0, "Draw Error", "Error - " + Name, 0);
                         }
 
                         if (FDoubleBuffered)
@@ -307,7 +307,7 @@ namespace Aow.Units.AoWBaseWin
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"Blt Error", (AnsiString)"Error - " + Name, 0);
+                                MessageBox(0, "Blt Error", "Error - " + Name, 0);
                             }
                         }
                         else
@@ -346,7 +346,7 @@ namespace Aow.Units.AoWBaseWin
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"SB Draw Events Error", (AnsiString)"Error - " + Name, 0);
+                                MessageBox(0, "SB Draw Events Error", "Error - " + Name, 0);
                             }
                         }
 
@@ -356,7 +356,7 @@ namespace Aow.Units.AoWBaseWin
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during DrawSurface", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
             }
         }
 
@@ -464,7 +464,7 @@ namespace Aow.Units.AoWBaseWin
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during DrawSurfaceDesc", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during DrawSurfaceDesc", "Error - " + Name, 0);
             }
         }
 

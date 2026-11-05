@@ -163,7 +163,7 @@ namespace Aow.Units.AOWToolTip
                         FLines[I] = Copy(line4, 1, line3.Length - 1);
                         Moved = true;
                         var line5 = FLines[I];
-                        if (Copy(FLines[I], line5.Length, 1) == AnsiString.FromBytes(32))
+                        if (Copy(FLines[I], line5.Length, 1) == " ")
                         {
                             Done = true;
                         }
@@ -338,7 +338,7 @@ namespace Aow.Units.AOWToolTip
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -392,7 +392,7 @@ namespace Aow.Units.AOWToolTip
         // AOWToolTip.pas:272
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWToolTip)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWToolTip)]);
         }
     }
 }

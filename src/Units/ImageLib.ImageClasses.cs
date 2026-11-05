@@ -7,7 +7,7 @@ public interface ILibraryImageClass
 {
     static abstract int ClassID { get; }
     static abstract byte ClassVersion { get; }
-    static abstract AnsiString Name { get; }
+    static abstract string Name { get; }
     static abstract TLibraryImage Create(TCustomImageLibrary owner);
 }
 
@@ -16,7 +16,7 @@ public sealed class LibraryImageClass
     private static readonly Catalog<Type, LibraryImageClass> catalog = new("library image class");
     private readonly Func<TCustomImageLibrary, TLibraryImage> create;
 
-    private LibraryImageClass(Type type, int classID, byte classVersion, AnsiString name, Func<TCustomImageLibrary, TLibraryImage> create)
+    private LibraryImageClass(Type type, int classID, byte classVersion, string name, Func<TCustomImageLibrary, TLibraryImage> create)
     {
         Type = type;
         ClassID = classID;
@@ -29,7 +29,7 @@ public sealed class LibraryImageClass
     public string ClassName => TObject.ClassNameOf(Type);
     public int ClassID { get; }
     public byte ClassVersion { get; }
-    public AnsiString Name { get; }
+    public string Name { get; } = "";
     public TLibraryImage Create(TCustomImageLibrary owner) => create(owner);
     public static LibraryImageClass Register<T>() where T : TLibraryImage, ILibraryImageClass =>
         catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassID, T.ClassVersion, T.Name, T.Create));
@@ -43,7 +43,7 @@ public sealed class LibraryImageClass
         LibraryImageClass ImageClass;
         TLibraryImage Image = default;
         TRectangleList Rects = default;
-        void Progress(int Percent, AnsiString Msg)
+        void Progress(int Percent, string Msg)
         {
             if (OnProgress != null)
             {
@@ -51,7 +51,7 @@ public sealed class LibraryImageClass
             }
         }
 
-        Progress(10, (AnsiString)"Analyzing Image..");
+        Progress(10, "Analyzing Image..");
         ImageClass = ImageLib.FindLibraryImageClass(ClassID);
         if (GrabInfo.FindRectangles)
         {
@@ -69,11 +69,11 @@ public sealed class LibraryImageClass
             {
                 if (Rects.Count > 1)
                 {
-                    Progress(Rtl.Rtl.Round((double)(I * 90) / (Rects.Count - 1)) + 10, (AnsiString)"Grabbing Image " + Rtl.Rtl.IntToStr(I + 1));
+                    Progress(Rtl.Rtl.Round((double)(I * 90) / (Rects.Count - 1)) + 10, "Grabbing Image " + Rtl.Rtl.IntToStr(I + 1));
                 }
                 else
                 {
-                    Progress(100, (AnsiString)"Grabbing Image");
+                    Progress(100, "Grabbing Image");
                 }
 
                 Image = ImageClass.Create(null);
@@ -101,8 +101,8 @@ public sealed class LibraryImageClass
     }
 }
 
-public sealed class GrabInfoClass(AnsiString name, Func<TGrabInfo> create)
+public sealed class GrabInfoClass(string name, Func<TGrabInfo> create)
 {
-    public AnsiString Name { get; } = name;
+    public string Name { get; } = name;
     public TGrabInfo Create() => create();
 }

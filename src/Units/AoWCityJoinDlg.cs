@@ -62,7 +62,7 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:69
         public void AcceptBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (!FEvent.Accept(ref Reason))
             {
@@ -77,7 +77,7 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:78
         public void AttackBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (!FEvent.Reject(ref Reason))
             {

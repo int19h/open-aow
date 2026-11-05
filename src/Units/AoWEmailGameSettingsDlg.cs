@@ -120,7 +120,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             else
             {
                 ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
                 var pleaseFillInAllSettings = TranslateRStr(PleaseFillInAllSettingsRStr);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
@@ -189,8 +189,8 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             else
             {
                 EmailEdit.CaptureInput = false;
-                EmailEdit.Text = (AnsiString)"";
-                NameLabel.Text = (AnsiString)"";
+                EmailEdit.Text = "";
+                NameLabel.Text = "";
             }
         }
 
@@ -215,11 +215,11 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         {
             int I;
             I = FEmailAddresses.Count;
-            bool Result = LocalEmailAddressEdit.Text != (AnsiString)"" && EmailGameNameEdit.Text != (AnsiString)"";
+            bool Result = !IsEmpty(LocalEmailAddressEdit.Text) && !IsEmpty(EmailGameNameEdit.Text);
             while (Result && I != 0)
             {
                 I -= 1;
-                Result = FEmailAddresses[I] != (AnsiString)"";
+                Result = !Rtl.Rtl.IsEmpty(FEmailAddresses[I]);
             }
 
             return Result;
@@ -261,7 +261,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             else
             {
                 ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
                 var youNeed2HumanPlayersToPlayAnEmailGame = TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;

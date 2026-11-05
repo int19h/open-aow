@@ -371,10 +371,10 @@ namespace Aow.Units.AoWTBWindow
                             TimeLbl.TextColor = 0;
                         }
 
-                        TimeLbl.Text = IntToStr(Minute) + AnsiString.FromBytes(58);
+                        TimeLbl.Text = IntToStr(Minute) + ":";
                         if (Second < 10)
                         {
-                            TimeLbl.Text = TimeLbl.Text + AnsiString.FromBytes(48);
+                            TimeLbl.Text = TimeLbl.Text + "0";
                         }
 
                         TimeLbl.Text = TimeLbl.Text + IntToStr(Second);
@@ -393,10 +393,10 @@ namespace Aow.Units.AoWTBWindow
                             Hour = 12;
                         }
 
-                        TimeLbl.Text = IntToStr(Hour) + AnsiString.FromBytes(58);
+                        TimeLbl.Text = IntToStr(Hour) + ":";
                         if (Minute < 10)
                         {
-                            TimeLbl.Text = TimeLbl.Text + AnsiString.FromBytes(48);
+                            TimeLbl.Text = TimeLbl.Text + "0";
                         }
 
                         TimeLbl.Text = TimeLbl.Text + IntToStr(Minute);
@@ -429,10 +429,10 @@ namespace Aow.Units.AoWTBWindow
                         Hour = 12;
                     }
 
-                    TCTimeLbl.Text = IntToStr(Hour) + AnsiString.FromBytes(58);
+                    TCTimeLbl.Text = IntToStr(Hour) + ":";
                     if (Minute < 10)
                     {
-                        TCTimeLbl.Text = TCTimeLbl.Text + AnsiString.FromBytes(48);
+                        TCTimeLbl.Text = TCTimeLbl.Text + "0";
                     }
 
                     TCTimeLbl.Text = TCTimeLbl.Text + IntToStr(Minute);

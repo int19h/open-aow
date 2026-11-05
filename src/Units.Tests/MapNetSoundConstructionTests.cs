@@ -151,7 +151,7 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(default, sprite.FStatus);
                 break;
             case TSFX effect:
-                Assert.Equal("", effect.FileName.ToString());
+                Assert.Equal("", effect.FileName);
                 break;
             case TPlayerCommunicator player:
                 Assert.Null(player.FReceivedPackage);
@@ -226,7 +226,7 @@ public sealed class MapNetSoundConstructionTests
                 case TNewHSMapSettings map:
                     Assert.Equal((64, 64, 1, 66048, 65795, 65794),
                         (map.Width, map.Height, map.Levels, map.HSMapClassID, map.MapContainerClassID, map.MapLevelClassID));
-                    Assert.Equal("", map.HSSFileName.ToString());
+                    Assert.Equal("", map.HSSFileName);
                     break;
                 case TTerrainList terrain: Assert.Equal(0, terrain.Count); break;
                 case THSMapMouse mouse:

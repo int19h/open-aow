@@ -45,10 +45,10 @@ namespace Aow.Units.AoWUnitBanner
                 BannerPopup.FAligned = false;
                 var hitPoints = General.FSelectedUnit.GetHitPoints();
                 var hits = General.FSelectedUnit.GetHits();
-                Hits.Text = IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits);
+                Hits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
                 var movePoints = General.FSelectedUnit.GetMovePoints();
                 var moves = General.FSelectedUnit.GetMoves();
-                Moves.Text = IntToStr(movePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                Moves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
                 var attack = General.FSelectedUnit.GetAttack();
                 Attack.Text = IntToStr(attack);
                 var damage = General.FSelectedUnit.GetDamage();
@@ -105,7 +105,7 @@ namespace Aow.Units.AoWUnitBanner
         // AoWUnitBanner.pas:95
         public void AbLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (General.FSelectedUnit != null)
             {
                 if (AbLB.Selected > -1 && AbLB.Selected < General.FActiveAbilityCount)

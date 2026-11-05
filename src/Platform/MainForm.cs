@@ -106,9 +106,9 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         General.Manager.WinHeight = Display.BackSurfaceHeight;
         General.Manager.FAligned = false;
         var name = AoWEngine.FRegistry.GetString(0);
-        if (name != "") { MultiWindow.TCPName.Text = name; MultiWindow.IPXName.Text = name; }
+        if (!Rtl.Rtl.IsEmpty(name)) { MultiWindow.TCPName.Text = name; MultiWindow.IPXName.Text = name; }
         var address = AoWEngine.FRegistry.GetString(1);
-        if (address != "") MultiWindow.IPEdit.Text = address;
+        if (!Rtl.Rtl.IsEmpty(address)) MultiWindow.IPEdit.Text = address;
         Aow.Units.E2WindowLayout.E2WindowLayout.RestoreWindowLayout(General);
         Aow.Rtl.Rtl.SetCurrentDir(AoWEngine.StartupDirectory);
         AoWEngine.FCombatFont = FontModule.Age8;

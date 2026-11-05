@@ -87,7 +87,7 @@ namespace Aow.Units.BloodShrine
 
             if (condition)
             {
-                PlaySample((AnsiString)"SFX\\ATTACK\\ENCHP02.WAV");
+                PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var lhx2 = GetLhx();
@@ -133,7 +133,7 @@ namespace Aow.Units.BloodShrine
 
 
         // BloodShrine.pas:119
-        public override AnsiString ResourceEditName() => TranslateRStr(BloodShrineRStr);
+        public override string ResourceEditName() => TranslateRStr(BloodShrineRStr);
 
     }
 

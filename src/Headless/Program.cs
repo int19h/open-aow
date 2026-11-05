@@ -121,7 +121,7 @@ internal static class Program
                 if (info.Log is Aow.Units.EventLog.TMessageEventLog message)
                 {
                     bool yes = message.FButtons is Aow.Units.EventLog.TMessageEventLogButtons.mebYesNo or Aow.Units.EventLog.TMessageEventLogButtons.mebYesNoCancel;
-                    host.Show(new(message.FMessage.Text.ToString(), message.FTitle.ToString(), (int)message.FButtons, yes ? 6 : 1));
+                    host.Show(new(message.FMessage.Text, message.FTitle, (int)message.FButtons, yes ? 6 : 1));
                     if (yes) message.Yes(); else message.OK();
                 }
                 info.Done?.Invoke(info.Log);

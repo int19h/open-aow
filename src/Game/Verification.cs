@@ -169,7 +169,7 @@ internal static class Verification
                     {
                         case "integer": int number = 37; registry.rwInteger(section,name,ref number,TReadWriteMode.rwRead); Equal(37,number,"missing integer keeps getter default"); break;
                         case "boolean": bool flag = true; registry.rwBool(section,name,ref flag,TReadWriteMode.rwRead); Equal(true,flag,"missing bool keeps getter default"); break;
-                        case "string": AnsiString text = "default"; registry.rwString(section,name,ref text,TReadWriteMode.rwRead); Equal("default",text.ToString(),"missing string keeps getter default"); break;
+                        case "string": string text = "default"; registry.rwString(section,name,ref text,TReadWriteMode.rwRead); Equal("default",text,"missing string keeps getter default"); break;
                         case "rectangle": TRect rect = new(){Left=7,Top=8,Right=9,Bottom=10}; registry.rwRect(section,name,ref rect,TReadWriteMode.rwRead); Equal(7,rect.Left,"missing rectangle keeps getter default"); break;
                         case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section,name,bytes,1,TReadWriteMode.rwRead); Equal((byte)0x5A,bytes[0],"missing bytes keep getter default"); break;
                     }
@@ -200,8 +200,8 @@ internal static class Verification
                     {
                         case "integer": Equal(-123,registry.ReadInteger(name),name); break;
                         case "boolean": Equal(true,registry.ReadBool(name),name); break;
-                        case "string": Equal("é test €",registry.ReadString(name).ToString(),name); break;
-                        case "rectangle": Equal("-10,20,640,480",registry.ReadString(name).ToString(),name); break;
+                        case "string": Equal("é test €",registry.ReadString(name),name); break;
+                        case "rectangle": Equal("-10,20,640,480",registry.ReadString(name),name); break;
                         case "bytes": byte[] bytes = [0]; Equal(1,registry.ReadBinaryData(name,bytes,1),name); Equal((byte)0xA5,bytes[0],name); break;
                     }
                     registry.CloseKey();
@@ -209,10 +209,10 @@ internal static class Verification
             Equal(-10,registry.GetMainWindowPosition().Left,"transpiled rectangle getter");
             Equal(-123,registry.GetDisplayWidth(),"transpiled integer getter");
             Equal(true,registry.GetMusicEnabled(),"transpiled boolean getter");
-            Equal("é test €",registry.GetLocalEmailAddress().ToString(),"transpiled string getter");
+            Equal("é test €",registry.GetLocalEmailAddress(),"transpiled string getter");
             Equal((byte)0xA5,(byte)registry.GetMovementSpeed(),"transpiled binary getter");
             var store = (JsonSettingsStore)Aow.Rtl.Rtl.Settings;
-            store.Write("Software/Classes/AgeOfWondersMap",(AnsiString)"ignored");
+            store.Write("Software/Classes/AgeOfWondersMap","ignored");
             Check(store.Read("Software/Classes/AgeOfWondersMap") is null,"association ignored");
             byte[] original = [1,2]; store.Write("General/copy",original); original[0] = 9;
             byte[] read = (byte[])store.Read("General/copy")!; read[0] = 8;
@@ -288,16 +288,16 @@ internal static class Verification
         {
             Equal(files.VirtualDrive,Aow.Rtl.Rtl.Files.VirtualDrive,"shared virtual drive");
             Equal(@"Scenario\Campaign\x.hsm",Aow.Rtl.Rtl.ExtractRelativePath(
-                root + "\\",@"Scenario\Campaign\x.hsm").ToString(),"startup directory relative file");
+                root + "\\",@"Scenario\Campaign\x.hsm"),"startup directory relative file");
             Equal(@"..\Campaign\",Aow.Rtl.Rtl.ExtractRelativePath(
-                @"Scenario\Custom\",@"scenario\Campaign\").ToString(),"relative directory keeps separator and ignores case");
+                @"Scenario\Custom\",@"scenario\Campaign\"),"relative directory keeps separator and ignores case");
             Equal("",Aow.Rtl.Rtl.ExtractRelativePath(
-                @"Scenario\Custom\",@"scenario\CUSTOM\").ToString(),"same directory is empty");
+                @"Scenario\Custom\",@"scenario\CUSTOM\"),"same directory is empty");
             Equal(@"..\Campaign\x.hsm",Aow.Rtl.Rtl.ExtractRelativePath(
-                @"Scenario\Custom\base.hsm",@"Scenario\Campaign\x.hsm").ToString(),"shim relative path");
+                @"Scenario\Custom\base.hsm",@"Scenario\Campaign\x.hsm"),"shim relative path");
             var search = new TSearchRec();
             Equal(0,Aow.Rtl.Rtl.FindFirst(@"Images\*.ilb",0,ref search),"shim FindFirst");
-            Equal("a.ilb",search.Name.ToString(),"FindFirst order");
+            Equal("a.ilb",search.Name,"FindFirst order");
             Aow.Rtl.Rtl.FindClose(ref search);
             int missingDirectoryExceptions = 0;
             void MissingDirectoryException(object? sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs error)
@@ -364,7 +364,7 @@ internal static class Verification
                 .Where(path => Path.GetExtension(path).ToLowerInvariant() is ".pas" or ".inc")
                 .Append(Path.Combine(sourceRoot,"Engine.pas"));
             foreach (string path in sourceFiles)
-                foreach (Match match in Regex.Matches(AnsiString.FromBytes(File.ReadAllBytes(path)).ToString(),"'([^'\\r\\n]*\\\\[^'\\r\\n]*)'"))
+                foreach (Match match in Regex.Matches(Cp1252.Decode(File.ReadAllBytes(path)),"'([^'\\r\\n]*\\\\[^'\\r\\n]*)'"))
                     candidates.Add(match.Groups[1].Value);
             foreach (string literal in candidates.Order(StringComparer.Ordinal))
             {

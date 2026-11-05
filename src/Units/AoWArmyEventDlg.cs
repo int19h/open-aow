@@ -215,7 +215,7 @@ namespace Aow.Units.AoWArmyEventDlg
             TArmyEventLog Log;
             TArmyView Army;
             int Image;
-            Assert(Dialog.FEvent == null, (AnsiString)"", "AoWArmyEventDlg.pas", 92);
+            Assert(Dialog.FEvent == null, "", "AoWArmyEventDlg.pas", 92);
             Dialog.FOnClose = Done;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();

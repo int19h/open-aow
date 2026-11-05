@@ -179,7 +179,7 @@ namespace Aow.Units.Sign
 
 
         // Sign.pas:162
-        public override AnsiString ResourceEditName() => TranslateRStr(SignRStr);
+        public override string ResourceEditName() => TranslateRStr(SignRStr);
 
     }
 

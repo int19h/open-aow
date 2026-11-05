@@ -7,7 +7,7 @@ public sealed class NullSoundSystem : TSoundSystem
     private TSoundSettings settings;
     private int musicVolume, sfxVolume;
     private bool musicEnabled, sfxEnabled;
-    private AnsiString song;
+    private string song = "";
 
     public static void Install()
     {
@@ -15,7 +15,7 @@ public sealed class NullSoundSystem : TSoundSystem
         Sound.InitializeSoundSystem("Galaxy", default);
     }
 
-    public static AnsiString Name => "Galaxy";
+    public static string Name => "Galaxy";
     public static SoundSystemClass Descriptor { get; } = new("Galaxy", static () => new NullSoundSystem());
     public static SampleClass Samples { get; } = new("NullSample", NullSample.Create);
     protected internal override SampleClass SampleClass() => Samples;
@@ -29,7 +29,7 @@ public sealed class NullSoundSystem : TSoundSystem
     protected internal override int GetMusicVolume() => musicVolume;
     protected internal override int GetSFXVolume() => sfxVolume;
     protected internal override bool GetPlayingSong() => song.Length != 0;
-    protected internal override AnsiString GetPlayingSongFileName() => song;
+    protected internal override string GetPlayingSongFileName() => song;
     protected internal override bool GetSFXEnabled() => sfxEnabled;
     protected internal override bool GetMusicEnabled() => musicEnabled;
     public override bool SetSFXEnabled(bool value) { sfxEnabled = value; return true; }
@@ -40,9 +40,9 @@ public sealed class NullSoundSystem : TSoundSystem
     public override bool SetMusicVolume(int volume) { musicVolume = volume; return true; }
     public override bool FadeSFXVolume(int volume, int speed) => SetSFXVolume(volume);
     public override bool SetSFXVolume(int volume) { sfxVolume = volume; return true; }
-    public override bool PlaySong(AnsiString fileName) { song = fileName; return true; }
-    public override bool PlaySongEx(AnsiString fileName, int fadeOut, int fadeIn, bool loop) => PlaySong(fileName);
-    public override bool StopSong() { song = default; return true; }
+    public override bool PlaySong(string fileName) { song = fileName; return true; }
+    public override bool PlaySongEx(string fileName, int fadeOut, int fadeIn, bool loop) => PlaySong(fileName);
+    public override bool StopSong() { song = ""; return true; }
     public override TSongStatus BackupSongStatus() => new() { FFileName = song };
     public override bool RestoreSongStatus(TSongStatus status) { song = status.FileName; return true; }
 }

@@ -122,13 +122,13 @@ public sealed class ProbeTests(ITestOutputHelper output)
     public void StringsFixture()
     {
         var probe = new ProbeLines("strings");
-        void Bytes(string label, AnsiString value) => probe.Fact(label, Convert.ToHexString(value.AsPtr().Array!.AsSpan(0, value.Length)));
-        AnsiString s = "abcd";
+        void Bytes(string label, string value) => probe.Fact(label, Convert.ToHexString(Ptr<byte>.Unbox(value).Array!.AsSpan(0, value.Length)));
+        string s = "abcd";
         foreach (var (label, index, count) in new[] {
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-2,2),
             ("past_end",5,1), ("zero_count",1,0), ("negative_count",1,-1) })
             Bytes("copy_" + label, Copy(s, index, count));
-        Bytes("copy_empty", Copy(default(AnsiString), 1, 4));
+        Bytes("copy_empty", Copy("", 1, 4));
         foreach (var (label, index, count) in new[] {
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-1,2),
             ("past_end",5,2), ("zero_count",2,0), ("negative_count",2,-1) })
@@ -144,39 +144,39 @@ public sealed class ProbeTests(ITestOutputHelper output)
             Insert("XY", ref t, index);
             Bytes("insert_" + label, t);
         }
-        Bytes("insert_empty_source", Insert(default, s, 2));
-        Bytes("insert_empty_target", Insert("XY", default(AnsiString), 1));
+        Bytes("insert_empty_source", Insert("", s, 2));
+        Bytes("insert_empty_target", Insert("XY", "", 1));
         var self = s;
         Insert(self, ref self, 3);
         Bytes("insert_self", self);
         probe.Fact("pos_start", Pos("ab", s));
         probe.Fact("pos_end", Pos("cd", s));
         probe.Fact("pos_absent", Pos("x", s));
-        probe.Fact("pos_empty_needle", Pos(default, s));
-        probe.Fact("pos_empty_haystack", Pos("a", default(AnsiString)));
-        probe.Fact("pos_both_empty", Pos(default(AnsiString), default(AnsiString)));
+        probe.Fact("pos_empty_needle", Pos("", s));
+        probe.Fact("pos_empty_haystack", Pos("a", ""));
+        probe.Fact("pos_both_empty", Pos("", ""));
         probe.Fact("pos_first_repeat", Pos("aa", "aaaa"));
         probe.Fact("pos_long_needle", Pos("abcde", s));
-        probe.Fact("pos_embedded_zero", Pos(AnsiString.FromBytes(0, 98), AnsiString.FromBytes(97, 0, 98)));
-        probe.Fact("prefix_lt", Ord((AnsiString)"ab" < "abc"));
-        probe.Fact("prefix_gt", Ord((AnsiString)"abc" > "ab"));
-        probe.Fact("empty_lt", Ord(default(AnsiString) < "a"));
-        probe.Fact("prefix_le", Ord((AnsiString)"ab" <= "abc"));
-        probe.Fact("prefix_ge", Ord((AnsiString)"abc" >= "ab"));
+        probe.Fact("pos_embedded_zero", Pos("\0b", "a\0b"));
+        probe.Fact("prefix_lt", Ord(Cp1252.Compare("ab", "abc") < 0));
+        probe.Fact("prefix_gt", Ord(Cp1252.Compare("abc", "ab") > 0));
+        probe.Fact("empty_lt", Ord(Cp1252.Compare("", "a") < 0));
+        probe.Fact("prefix_le", Ord(Cp1252.Compare("ab", "abc") <= 0));
+        probe.Fact("prefix_ge", Ord(Cp1252.Compare("abc", "ab") >= 0));
         probe.Fact("equal", Ord(s == "abcd"));
         probe.Fact("unequal", Ord(s != "abc"));
-        probe.Fact("high_byte_lt", Ord(AnsiString.FromBytes(128) < AnsiString.FromBytes(255)));
-        probe.Fact("high_vs_ascii_gt", Ord(AnsiString.FromBytes(128) > "z"));
-        probe.Fact("embedded_zero_compare", Ord(AnsiString.FromBytes(97, 0, 98) < AnsiString.FromBytes(97, 0, 99)));
+        probe.Fact("high_byte_lt", Ord(Cp1252.Compare("\u20AC", "\u00FF") < 0));
+        probe.Fact("high_vs_ascii_gt", Ord(Cp1252.Compare("\u20AC", "z") > 0));
+        probe.Fact("embedded_zero_compare", Ord(Cp1252.Compare("a\0b", "a\0c") < 0));
         s = "abc";
         var alias = s;
-        s = s.WithChar(2, (byte)'X');
+        s = WithChar(s, 2, 'X');
         Bytes("alias_mutated", s);
         Bytes("alias_original", alias);
-        alias = alias.WithChar(1, (byte)'Z');
+        alias = WithChar(alias, 1, 'Z');
         Bytes("alias_second_write", alias);
         Bytes("alias_first_preserved", s);
-        s = AnsiString.FromBytes(97, 0, 128, 255, 122);
+        s = "a\0\u20AC\u00FFz";
         Bytes("binary_string", s);
         probe.Fact("binary_length", Length(s));
         alias = s;

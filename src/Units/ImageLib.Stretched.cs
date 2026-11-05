@@ -130,7 +130,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
+                            throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
                         GFXE.GFXE.BltStretched16(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
@@ -163,7 +163,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
+                            throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
                         GFXE.GFXE.BltStretched16(new StretchRows(Rtl.Rtl.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
@@ -305,7 +305,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
+                            throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
                         switch (SD.PixelFormatID)
@@ -354,7 +354,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create((AnsiString)"Surface pixel format not supported!");
+                            throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
                         switch (SD.PixelFormatID)

@@ -41,7 +41,7 @@ namespace Aow.Units.E3EventDialogs
             // { Original reports its source filename, independent of this checkout. }
             if (Dialog.FEvent != null)
             {
-                OriginalAssert((AnsiString)"Assertion failure", (AnsiString)"D:\\AoWDev\\AoWRelations.pas", 663);
+                OriginalAssert("Assertion failure", "D:\\AoWDev\\AoWRelations.pas", 663);
             }
 
             Dialog.FDone = Done;
@@ -267,7 +267,7 @@ namespace Aow.Units.E3EventDialogs
             {
                 var playerConnectionType = TranslateRStr(AoWE.AoWE.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
                 var hotSeat = TranslateRStr(HotSeatRStr);
-                var format = AoWE.AoWE.Format(TranslateRStr(GametypeXRStr), [playerConnectionType + AnsiString.FromBytes(47) + hotSeat]);
+                var format = AoWE.AoWE.Format(TranslateRStr(GametypeXRStr), [playerConnectionType + "/" + hotSeat]);
                 Dialog.MemoR.Items.Add(format);
             }
             else
@@ -366,7 +366,7 @@ namespace Aow.Units.E3EventDialogs
                 tmsMessage.FIncludeHeader = false;
                 tmsMessage.FHeader.FFrom = Event.FFromAddress;
                 tmsMessage.FRecipients.Clear();
-                Dialog.IMSMessage.FRecipients.AddAddress(Event.FToAddress, (AnsiString)"");
+                Dialog.IMSMessage.FRecipients.AddAddress(Event.FToAddress, "");
 
                 Dialog.IMSMessage.FSubject = Event.FSubject;
                 Dialog.IMSMessage.SetBody(Event.FMessage);
@@ -400,9 +400,9 @@ namespace Aow.Units.E3EventDialogs
         public static TNewTurnDlg NewTurnDlg;
         public static TTCFCDialog TCFCDialog;
         // E3EventDialogs.pas:33
-        public static void OriginalAssert(AnsiString Message, AnsiString Filename, int LineNumber)
+        public static void OriginalAssert(string Message, string Filename, int LineNumber)
         {
-            Assert(false, Message, Filename.ToString(), LineNumber);
+            Assert(false, Message, Filename, LineNumber);
         }
     }
 }

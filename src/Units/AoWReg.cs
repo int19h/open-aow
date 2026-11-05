@@ -10,16 +10,16 @@ namespace Aow.Units.AoWReg
     public partial class TAoWRegistry : TRegistry
     {
         // AoWReg.pas:128
-        public void AssociateAoWMap(AnsiString Executable)
+        public void AssociateAoWMap(string Executable)
         {
             /* TODO: Implement Registry.RootKey in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // AoWReg.pas:141
-        public void rwInteger(AnsiString Key, AnsiString Name, ref int Value, TReadWriteMode Mode)
+        public void rwInteger(string Key, string Name, ref int Value, TReadWriteMode Mode)
         {
-            if (OpenKey((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+            if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
             {
                 switch (Mode)
                 {
@@ -40,9 +40,9 @@ namespace Aow.Units.AoWReg
         }
 
         // AoWReg.pas:153
-        public void rwBool(AnsiString Key, AnsiString Name, ref bool Value, TReadWriteMode Mode)
+        public void rwBool(string Key, string Name, ref bool Value, TReadWriteMode Mode)
         {
-            if (OpenKey((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+            if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
             {
                 switch (Mode)
                 {
@@ -63,9 +63,9 @@ namespace Aow.Units.AoWReg
         }
 
         // AoWReg.pas:165
-        public void rwString(AnsiString Key, AnsiString Name, ref AnsiString Value, TReadWriteMode Mode)
+        public void rwString(string Key, string Name, ref string Value, TReadWriteMode Mode)
         {
-            if (OpenKey((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+            if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
             {
                 switch (Mode)
                 {
@@ -86,9 +86,9 @@ namespace Aow.Units.AoWReg
         }
 
         // AoWReg.pas:177
-        public void rwBinaryData(AnsiString Key, AnsiString Name, Span<byte> Value, int Size, TReadWriteMode Mode)
+        public void rwBinaryData(string Key, string Name, Span<byte> Value, int Size, TReadWriteMode Mode)
         {
-            if (OpenKey((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+            if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
             {
                 switch (Mode)
                 {
@@ -109,10 +109,10 @@ namespace Aow.Units.AoWReg
         }
 
         // AoWReg.pas:227
-        public void rwRect(AnsiString Key, AnsiString Name, ref TRect Value, TReadWriteMode Mode)
+        public void rwRect(string Key, string Name, ref TRect Value, TReadWriteMode Mode)
         {
-            AnsiString S;
-            if (OpenKey((AnsiString)"\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
+            string S;
+            if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
             {
                 switch (Mode)
                 {
@@ -141,7 +141,7 @@ namespace Aow.Units.AoWReg
             if (Index >= 0)
             {
                 Result = default;
-                rwRect((AnsiString)"General\\rectangles", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+                rwRect("General\\rectangles", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace Aow.Units.AoWReg
         {
             if (Index >= 0)
             {
-                rwRect((AnsiString)"General\\rectangles", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+                rwRect("General\\rectangles", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
             }
         }
 
@@ -167,7 +167,7 @@ namespace Aow.Units.AoWReg
             // { Original leaves Result uninitialized for a missing nonnegative index. }
             if (Index >= 0)
             {
-                rwBool((AnsiString)"General\\booleans", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+                rwBool("General\\booleans", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
             }
             else
             {
@@ -182,32 +182,32 @@ namespace Aow.Units.AoWReg
         {
             if (Index >= 0)
             {
-                rwBool((AnsiString)"General\\booleans", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+                rwBool("General\\booleans", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
             }
         }
 
         // AoWReg.pas:280
-        public AnsiString GetString(int Index)
+        public string GetString(int Index)
         {
-            AnsiString Result = default;
+            string Result = "";
             if (Index >= 0)
             {
-                rwString((AnsiString)"General\\strings", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+                rwString("General\\strings", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
             }
             else
             {
-                Result = (AnsiString)"";
+                Result = "";
             }
 
             return Result;
         }
 
         // AoWReg.pas:287
-        public void SetString(int Index, AnsiString Value)
+        public void SetString(int Index, string Value)
         {
             if (Index >= 0)
             {
-                rwString((AnsiString)"General\\strings", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+                rwString("General\\strings", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
             }
         }
 
@@ -218,7 +218,7 @@ namespace Aow.Units.AoWReg
             // { Original leaves Result uninitialized for a missing nonnegative index. }
             if (Index >= 0)
             {
-                rwInteger((AnsiString)"General\\integers", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+                rwInteger("General\\integers", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
             }
             else
             {
@@ -233,7 +233,7 @@ namespace Aow.Units.AoWReg
         {
             if (Index >= 0)
             {
-                rwInteger((AnsiString)"General\\integers", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+                rwInteger("General\\integers", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
             }
         }
 
@@ -252,14 +252,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"General", (AnsiString)"Skip Intro", ref Result, TReadWriteMode.rwRead);
+            rwBool("General", "Skip Intro", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:335
         public void SetSkipIntro(bool Value)
         {
-            rwBool((AnsiString)"General", (AnsiString)"Skip Intro", ref Value, TReadWriteMode.rwWrite);
+            rwBool("General", "Skip Intro", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:340
@@ -267,14 +267,14 @@ namespace Aow.Units.AoWReg
         {
             int Result;
             Result = 1;
-            rwInteger((AnsiString)"Video", (AnsiString)"Display Mode", ref Result, TReadWriteMode.rwRead);
+            rwInteger("Video", "Display Mode", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:346
         public void SetDisplayMode(int Value)
         {
-            rwInteger((AnsiString)"Video", (AnsiString)"Display Mode", ref Value, TReadWriteMode.rwWrite);
+            rwInteger("Video", "Display Mode", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:351
@@ -282,14 +282,14 @@ namespace Aow.Units.AoWReg
         {
             int Result;
             Result = 640;
-            rwInteger((AnsiString)"Video", (AnsiString)"Display Width", ref Result, TReadWriteMode.rwRead);
+            rwInteger("Video", "Display Width", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:357
         public void SetDisplayWidth(int Value)
         {
-            rwInteger((AnsiString)"Video", (AnsiString)"Display Width", ref Value, TReadWriteMode.rwWrite);
+            rwInteger("Video", "Display Width", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:362
@@ -297,14 +297,14 @@ namespace Aow.Units.AoWReg
         {
             int Result;
             Result = 480;
-            rwInteger((AnsiString)"Video", (AnsiString)"Display Height", ref Result, TReadWriteMode.rwRead);
+            rwInteger("Video", "Display Height", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:368
         public void SetDisplayHeight(int Value)
         {
-            rwInteger((AnsiString)"Video", (AnsiString)"Display Height", ref Value, TReadWriteMode.rwWrite);
+            rwInteger("Video", "Display Height", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:373
@@ -312,14 +312,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"Video", (AnsiString)"Surface In VMem", ref Result, TReadWriteMode.rwRead);
+            rwBool("Video", "Surface In VMem", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:379
         public void SetSurfaceInVMem(bool Value)
         {
-            rwBool((AnsiString)"Video", (AnsiString)"Surface In VMem", ref Value, TReadWriteMode.rwWrite);
+            rwBool("Video", "Surface In VMem", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:384
@@ -327,14 +327,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"Video", (AnsiString)"Allow Resolution Switches", ref Result, TReadWriteMode.rwRead);
+            rwBool("Video", "Allow Resolution Switches", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:390
         public void SetAllowResolutionSwitches(bool Value)
         {
-            rwBool((AnsiString)"Video", (AnsiString)"Allow Resolution Switches", ref Value, TReadWriteMode.rwWrite);
+            rwBool("Video", "Allow Resolution Switches", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:395
@@ -342,29 +342,29 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"General", (AnsiString)"Debug Mode", ref Result, TReadWriteMode.rwRead);
+            rwBool("General", "Debug Mode", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:401
         public void SetDebugMode(bool Value)
         {
-            rwBool((AnsiString)"General", (AnsiString)"Debug Mode", ref Value, TReadWriteMode.rwWrite);
+            rwBool("General", "Debug Mode", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:406
-        public AnsiString GetRootDirectory()
+        public string GetRootDirectory()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"General", (AnsiString)"Root Directory", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("General", "Root Directory", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:412
-        public void SetRootDirectory(AnsiString Value)
+        public void SetRootDirectory(string Value)
         {
-            rwString((AnsiString)"General", (AnsiString)"Root Directory", ref Value, TReadWriteMode.rwWrite);
+            rwString("General", "Root Directory", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:428
@@ -372,7 +372,7 @@ namespace Aow.Units.AoWReg
         {
             int I;
             I = (int)Value;
-            rwInteger((AnsiString)"General", (AnsiString)"Language", ref I, TReadWriteMode.rwWrite);
+            rwInteger("General", "Language", ref I, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:436
@@ -380,14 +380,14 @@ namespace Aow.Units.AoWReg
         {
             int Result;
             Result = 3;
-            rwInteger((AnsiString)"Sound", (AnsiString)"Sound Quality", ref Result, TReadWriteMode.rwRead);
+            rwInteger("Sound", "Sound Quality", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:442
         public void SetSoundQuality(int Value)
         {
-            rwInteger((AnsiString)"Sound", (AnsiString)"Sound Quality", ref Value, TReadWriteMode.rwWrite);
+            rwInteger("Sound", "Sound Quality", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:447
@@ -395,14 +395,14 @@ namespace Aow.Units.AoWReg
         {
             int Result;
             Result = 50;
-            rwInteger((AnsiString)"Sound", (AnsiString)"Music Volume", ref Result, TReadWriteMode.rwRead);
+            rwInteger("Sound", "Music Volume", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:453
         public void SetMusicVolume(int Value)
         {
-            rwInteger((AnsiString)"Sound", (AnsiString)"Music Volume", ref Value, TReadWriteMode.rwWrite);
+            rwInteger("Sound", "Music Volume", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:458
@@ -410,14 +410,14 @@ namespace Aow.Units.AoWReg
         {
             int Result;
             Result = 50;
-            rwInteger((AnsiString)"Sound", (AnsiString)"SFX Volume", ref Result, TReadWriteMode.rwRead);
+            rwInteger("Sound", "SFX Volume", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:464
         public void SetSFXVolume(int Value)
         {
-            rwInteger((AnsiString)"Sound", (AnsiString)"SFX Volume", ref Value, TReadWriteMode.rwWrite);
+            rwInteger("Sound", "SFX Volume", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:469
@@ -425,14 +425,14 @@ namespace Aow.Units.AoWReg
         {
             TRect Result;
             Result = default;
-            rwRect((AnsiString)"Workspace", (AnsiString)"Main Window Position", ref Result, TReadWriteMode.rwRead);
+            rwRect("Workspace", "Main Window Position", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:475
         public void SetMainWindowPosition(TRect Value)
         {
-            rwRect((AnsiString)"Workspace", (AnsiString)"Main Window Position", ref Value, TReadWriteMode.rwWrite);
+            rwRect("Workspace", "Main Window Position", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:480
@@ -440,7 +440,7 @@ namespace Aow.Units.AoWReg
         {
             int Value;
             Value = 0;
-            rwInteger((AnsiString)"Workspace", (AnsiString)"Main Window State", ref Value, TReadWriteMode.rwRead);
+            rwInteger("Workspace", "Main Window State", ref Value, TReadWriteMode.rwRead);
             return (TWindowState)Value;
         }
 
@@ -449,7 +449,7 @@ namespace Aow.Units.AoWReg
         {
             int I;
             I = (int)Value;
-            rwInteger((AnsiString)"Workspace", (AnsiString)"Main Window State", ref I, TReadWriteMode.rwWrite);
+            rwInteger("Workspace", "Main Window State", ref I, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:497
@@ -457,14 +457,14 @@ namespace Aow.Units.AoWReg
         {
             TRect Result;
             Result = default;
-            rwRect((AnsiString)"Workspace", (AnsiString)"Map Window Position", ref Result, TReadWriteMode.rwRead);
+            rwRect("Workspace", "Map Window Position", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:503
         public void SetMapWindowPosition(TRect Value)
         {
-            rwRect((AnsiString)"Workspace", (AnsiString)"Map Window Position", ref Value, TReadWriteMode.rwWrite);
+            rwRect("Workspace", "Map Window Position", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:508
@@ -472,14 +472,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = true;
-            rwBool((AnsiString)"Video", (AnsiString)"Shadows Enabled", ref Result, TReadWriteMode.rwRead);
+            rwBool("Video", "Shadows Enabled", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:514
         public void SetShadowsEnabled(bool Value)
         {
-            rwBool((AnsiString)"Video", (AnsiString)"Shadows Enabled", ref Value, TReadWriteMode.rwWrite);
+            rwBool("Video", "Shadows Enabled", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:519
@@ -487,14 +487,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = true;
-            rwBool((AnsiString)"Sound", (AnsiString)"Sound Effects Enabled", ref Result, TReadWriteMode.rwRead);
+            rwBool("Sound", "Sound Effects Enabled", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:525
         public void SetSFXEnabled(bool Value)
         {
-            rwBool((AnsiString)"Sound", (AnsiString)"Sound Effects Enabled", ref Value, TReadWriteMode.rwWrite);
+            rwBool("Sound", "Sound Effects Enabled", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:530
@@ -502,14 +502,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = true;
-            rwBool((AnsiString)"Sound", (AnsiString)"Music Enabled", ref Result, TReadWriteMode.rwRead);
+            rwBool("Sound", "Music Enabled", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:536
         public void SetMusicEnabled(bool Value)
         {
-            rwBool((AnsiString)"Sound", (AnsiString)"Music Enabled", ref Value, TReadWriteMode.rwWrite);
+            rwBool("Sound", "Music Enabled", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:541
@@ -517,14 +517,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"Sound", (AnsiString)"Use DirectSound", ref Result, TReadWriteMode.rwRead);
+            rwBool("Sound", "Use DirectSound", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:547
         public void SetUseDirectSound(bool Value)
         {
-            rwBool((AnsiString)"Sound", (AnsiString)"Use DirectSound", ref Value, TReadWriteMode.rwWrite);
+            rwBool("Sound", "Use DirectSound", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:552
@@ -532,7 +532,7 @@ namespace Aow.Units.AoWReg
         {
             int Value;
             Value = 2;
-            rwInteger((AnsiString)"Workspace", (AnsiString)"Detail Level", ref Value, TReadWriteMode.rwRead);
+            rwInteger("Workspace", "Detail Level", ref Value, TReadWriteMode.rwRead);
             return (TDetailLevel)Value;
         }
 
@@ -541,22 +541,22 @@ namespace Aow.Units.AoWReg
         {
             int I;
             I = (int)Value;
-            rwInteger((AnsiString)"Workspace", (AnsiString)"Detail Level", ref I, TReadWriteMode.rwWrite);
+            rwInteger("Workspace", "Detail Level", ref I, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:569
-        public AnsiString GetStartupDirectory()
+        public string GetStartupDirectory()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"General", (AnsiString)"Startup Directory", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("General", "Startup Directory", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:575
-        public void SetStartupDirectory(AnsiString Value)
+        public void SetStartupDirectory(string Value)
         {
-            rwString((AnsiString)"General", (AnsiString)"Startup Directory", ref Value, TReadWriteMode.rwWrite);
+            rwString("General", "Startup Directory", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:580
@@ -564,14 +564,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"General", (AnsiString)"Log Token Events", ref Result, TReadWriteMode.rwRead);
+            rwBool("General", "Log Token Events", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:586
         public void SetLogTokenEvents(bool Value)
         {
-            rwBool((AnsiString)"General", (AnsiString)"Log Token Events", ref Value, TReadWriteMode.rwWrite);
+            rwBool("General", "Log Token Events", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:591
@@ -579,14 +579,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = true;
-            rwBool((AnsiString)"General", (AnsiString)"Auto Save", ref Result, TReadWriteMode.rwRead);
+            rwBool("General", "Auto Save", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:597
         public void SetAutoSave(bool Value)
         {
-            rwBool((AnsiString)"General", (AnsiString)"Auto Save", ref Value, TReadWriteMode.rwWrite);
+            rwBool("General", "Auto Save", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:602
@@ -594,14 +594,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"General", (AnsiString)"Auto Debug Save", ref Result, TReadWriteMode.rwRead);
+            rwBool("General", "Auto Debug Save", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:608
         public void SetAutoDebugSave(bool Value)
         {
-            rwBool((AnsiString)"General", (AnsiString)"Auto Debug Save", ref Value, TReadWriteMode.rwWrite);
+            rwBool("General", "Auto Debug Save", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:613
@@ -609,14 +609,14 @@ namespace Aow.Units.AoWReg
         {
             bool Result;
             Result = false;
-            rwBool((AnsiString)"General", (AnsiString)"Fast Movement Enabled", ref Result, TReadWriteMode.rwRead);
+            rwBool("General", "Fast Movement Enabled", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:619
         public void SetFastMovementEnabled(bool Value)
         {
-            rwBool((AnsiString)"General", (AnsiString)"Fast Movement Enabled", ref Value, TReadWriteMode.rwWrite);
+            rwBool("General", "Fast Movement Enabled", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:646
@@ -624,14 +624,14 @@ namespace Aow.Units.AoWReg
         {
             TCombatResolveMode Result;
             Result = TCombatResolveMode.crmChoose;
-            rwBinaryData((AnsiString)"General", (AnsiString)"Combat Resolve Mode", Bytes.Of(ref Result), 1, TReadWriteMode.rwRead);
+            rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref Result), 1, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:652
         public void SetCombatResolveMode(TCombatResolveMode Value)
         {
-            rwBinaryData((AnsiString)"General", (AnsiString)"Combat Resolve Mode", Bytes.Of(ref Value), 1, TReadWriteMode.rwWrite);
+            rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref Value), 1, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:657
@@ -639,111 +639,111 @@ namespace Aow.Units.AoWReg
         {
             TMovementSpeed Result;
             Result = TMovementSpeed.mmsNormal;
-            rwBinaryData((AnsiString)"General", (AnsiString)"Movement Speed", Bytes.Of(ref Result), 1, TReadWriteMode.rwRead);
+            rwBinaryData("General", "Movement Speed", Bytes.Of(ref Result), 1, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:663
         public void SetMovementSpeed(TMovementSpeed Value)
         {
-            rwBinaryData((AnsiString)"General", (AnsiString)"Movement Speed", Bytes.Of(ref Value), 1, TReadWriteMode.rwWrite);
+            rwBinaryData("General", "Movement Speed", Bytes.Of(ref Value), 1, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:668
-        public AnsiString GetLocalEmailAddress()
+        public string GetLocalEmailAddress()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"Email", (AnsiString)"Local Email Address", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("Email", "Local Email Address", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:674
-        public void SetLocalEmailAddress(AnsiString Value)
+        public void SetLocalEmailAddress(string Value)
         {
-            rwString((AnsiString)"Email", (AnsiString)"Local Email address", ref Value, TReadWriteMode.rwWrite);
+            rwString("Email", "Local Email address", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:679
-        public AnsiString GetSMTPServer()
+        public string GetSMTPServer()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"Email", (AnsiString)"SMTP Server", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("Email", "SMTP Server", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:685
-        public void SetSMTPServer(AnsiString Value)
+        public void SetSMTPServer(string Value)
         {
-            rwString((AnsiString)"Email", (AnsiString)"SMTP Server", ref Value, TReadWriteMode.rwWrite);
+            rwString("Email", "SMTP Server", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:690
-        public AnsiString GetPOP3Server()
+        public string GetPOP3Server()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"Email", (AnsiString)"POP3 Server", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("Email", "POP3 Server", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:696
-        public void SetPOP3Server(AnsiString Value)
+        public void SetPOP3Server(string Value)
         {
-            rwString((AnsiString)"Email", (AnsiString)"POP3 Server", ref Value, TReadWriteMode.rwWrite);
+            rwString("Email", "POP3 Server", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:710
-        public AnsiString GetPOP3UserName()
+        public string GetPOP3UserName()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"Email", (AnsiString)"POP3 UserName", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("Email", "POP3 UserName", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:716
-        public void SetPOP3UserName(AnsiString Value)
+        public void SetPOP3UserName(string Value)
         {
-            rwString((AnsiString)"Email", (AnsiString)"POP3 UserName", ref Value, TReadWriteMode.rwWrite);
+            rwString("Email", "POP3 UserName", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:721
-        public AnsiString GetPOP3Password()
+        public string GetPOP3Password()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"Email", (AnsiString)"POP3 Password", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("Email", "POP3 Password", ref Result, TReadWriteMode.rwRead);
             Result = AoWReg.TransformPassword(Result, true);
             return Result;
         }
 
         // AoWReg.pas:728
-        public void SetPOP3Password(AnsiString Value)
+        public void SetPOP3Password(string Value)
         {
             Value = AoWReg.TransformPassword(Value, true);
-            rwString((AnsiString)"Email", (AnsiString)"POP3 Password", ref Value, TReadWriteMode.rwWrite);
+            rwString("Email", "POP3 Password", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:734
-        public AnsiString GetAttachmentDirectory()
+        public string GetAttachmentDirectory()
         {
-            AnsiString Result;
-            Result = (AnsiString)"";
-            rwString((AnsiString)"Email", (AnsiString)"Attachment Directory", ref Result, TReadWriteMode.rwRead);
+            string Result;
+            Result = "";
+            rwString("Email", "Attachment Directory", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:740
-        public void SetAttachmentDirectory(AnsiString Value)
+        public void SetAttachmentDirectory(string Value)
         {
-            if (Value.Length > 0 && Value[Value.Length] != 92)
+            if (Value.Length > 0 && Value[Value.Length - 1] != 92)
             {
-                Value = Value + AnsiString.FromBytes(92);
+                Value = Value + "\\";
             }
 
-            rwString((AnsiString)"Email", (AnsiString)"Attachment Directory", ref Value, TReadWriteMode.rwWrite);
+            rwString("Email", "Attachment Directory", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:747
@@ -751,35 +751,35 @@ namespace Aow.Units.AoWReg
         {
             int Result;
             Result = 1;
-            rwInteger((AnsiString)"Email", (AnsiString)"Check Email Frequency", ref Result, TReadWriteMode.rwRead);
+            rwInteger("Email", "Check Email Frequency", ref Result, TReadWriteMode.rwRead);
             return Result;
         }
 
         // AoWReg.pas:753
         public void SetCheckEmailFrequency(int Value)
         {
-            rwInteger((AnsiString)"Email", (AnsiString)"Check Email Frequency", ref Value, TReadWriteMode.rwWrite);
+            rwInteger("Email", "Check Email Frequency", ref Value, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:758
         public int GetEmailGamesCRC()
         {
-            AnsiString S = default;
+            string S = "";
             int P;
             int Result = 0;
-            rwString((AnsiString)"General", (AnsiString)"Serial number", ref S, TReadWriteMode.rwRead);
+            rwString("General", "Serial number", ref S, TReadWriteMode.rwRead);
             try
             {
-                P = Pos(AnsiString.FromBytes(45), S);
+                P = Pos("-", S);
                 // { Original tests against -1 although Pos returns 0 when absent. }
                 if (P != -1)
                 {
                     S = Copy(S, P + 1, S.Length - P);
-                    P = Pos(AnsiString.FromBytes(45), S);
+                    P = Pos("-", S);
                     if (P != -1)
                     {
                         S = Copy(S, 1, P - 1);
-                        if (S != (AnsiString)"")
+                        if (!IsEmpty(S))
                         {
                             Result = HexToInt(S);
                         }
@@ -797,9 +797,9 @@ namespace Aow.Units.AoWReg
         // AoWReg.pas:783
         public void SetEmailGamesCRC(int Value)
         {
-            AnsiString S;
-            S = (AnsiString)"4G5F6JHH-" + IntToHex(Value, 8) + (AnsiString)"-6AG66554-98LK0FG3";
-            rwString((AnsiString)"General", (AnsiString)"Serial number", ref S, TReadWriteMode.rwWrite);
+            string S;
+            S = "4G5F6JHH-" + IntToHex(Value, 8) + "-6AG66554-98LK0FG3";
+            rwString("General", "Serial number", ref S, TReadWriteMode.rwWrite);
         }
 
         // AoWReg.pas:791
@@ -862,7 +862,7 @@ namespace Aow.Units.AoWReg
     public static partial class AoWReg
     {
         // AoWReg registry settings from AoWEPACK.dpl, recovered against Delphi 3.02
-        public static TGUID ID_AOWAPP = (AnsiString)"{3205D060-4FF5-11D3-811F-0050042E6D24}";
+        public static TGUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
         // AoWReg.pas:811
         public static bool ValidAoWCD(byte Drive)
         {
@@ -875,24 +875,24 @@ namespace Aow.Units.AoWReg
 
         // AoWReg.pas:894
         // { The shipped GOG binary patches the drive scan to True followed by 54 NOPs. }
-        public static bool GuaranteeAoWCD(AnsiString FirstMessage, AnsiString RetryMessage)
+        public static bool GuaranteeAoWCD(string FirstMessage, string RetryMessage)
         {
             /* TODO: Implement Dialogs.MessageDlg in the platform or editor service. */
             throw new NotImplementedException();
         }
 
-        public static readonly AnsiString AgeOfWondersMapStr = (AnsiString)"Age Of Wonders Map";
+        public static readonly string AgeOfWondersMapStr = "Age Of Wonders Map";
         // AoWReg.pas:189
-        public static TRect StringToRect(AnsiString S)
+        public static TRect StringToRect(string S)
         {
             int P;
             int I;
             int Value;
-            AnsiString Part;
+            string Part;
             TRect Result = default;
-            P = Pos(AnsiString.FromBytes(44), S);
+            P = Pos(",", S);
             I = 0;
-            while (S != (AnsiString)"" && I != 4)
+            while (!IsEmpty(S) && I != 4)
             {
                 if (P != 0)
                 {
@@ -902,10 +902,10 @@ namespace Aow.Units.AoWReg
                 else
                 {
                     Part = S;
-                    S = (AnsiString)"";
+                    S = "";
                 }
 
-                if (Part != (AnsiString)"")
+                if (!IsEmpty(Part))
                 {
                     Value = StrToInt(Part);
                 }
@@ -930,7 +930,7 @@ namespace Aow.Units.AoWReg
                         break;
                 }
 
-                P = Pos(AnsiString.FromBytes(44), S);
+                P = Pos(",", S);
                 I += 1;
             }
 
@@ -938,15 +938,15 @@ namespace Aow.Units.AoWReg
         }
 
         // AoWReg.pas:221
-        public static AnsiString RectToString(TRect R) => IntToStr(R.Left) + AnsiString.FromBytes(44) + IntToStr(R.Top) + AnsiString.FromBytes(44) + IntToStr(R.Right) + AnsiString.FromBytes(44) + IntToStr(R.Bottom);
+        public static string RectToString(TRect R) => IntToStr(R.Left) + "," + IntToStr(R.Top) + "," + IntToStr(R.Right) + "," + IntToStr(R.Bottom);
 
         // AoWReg.pas:701
-        public static AnsiString TransformPassword(AnsiString S, bool Mode)
+        public static string TransformPassword(string S, bool Mode)
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 1; I <= S.Length; I++)
             {
-                Result = Result + AnsiString.FromBytes((byte)(((S.Length + (I + 5)) & 255) ^ S[I]));
+                Result = Result + Cp1252.Text((byte)(((S.Length + (I + 5)) & 255) ^ Cp1252.Byte(S[I - 1])));
             }
 
             return Result;

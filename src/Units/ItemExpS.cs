@@ -175,7 +175,7 @@ namespace Aow.Units.ItemExpS
 
         public TIntegerList FItemIDs;
         public TStringList FMessages;
-        public AnsiString FTitle;
+        public string FTitle = "";
         public TXYL FLocation;
         // ItemExpS.pas:194
         public override void Destroy()

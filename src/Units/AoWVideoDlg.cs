@@ -72,7 +72,7 @@ namespace Aow.Units.AoWVideoDlg
         public void UpdateModes()
         {
             TDisplayModeItem Mode;
-            AnsiString S;
+            string S;
             DisplayModesLB.Items.Clear();
             var desktopWindow = TranslateRStr(DesktopWindowRStr);
             DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
@@ -82,7 +82,7 @@ namespace Aow.Units.AoWVideoDlg
                 if (Mode.Width >= 640 && Mode.Height >= 480)
                 {
                     var fullScreen = TranslateRStr(FullScreenRStr);
-                    DisplayModesLB.Items.AddObject(fullScreen + AnsiString.FromBytes(58) + IntToStr(Mode.Width) + AnsiString.FromBytes(120) + IntToStr(Mode.Height), IntToObject(I));
+                    DisplayModesLB.Items.AddObject(fullScreen + ":" + IntToStr(Mode.Width) + "x" + IntToStr(Mode.Height), IntToObject(I));
                 }
             }
 
@@ -91,7 +91,7 @@ namespace Aow.Units.AoWVideoDlg
             if (DisplayModesLB.Selected != -1)
             {
                 S = DisplayModesLB.Items[DisplayModesLB.Selected];
-                S = S + (AnsiString)" (" + LowerCase(TranslateRStr(CurrentRStr)) + AnsiString.FromBytes(41);
+                S = S + " (" + LowerCase(TranslateRStr(CurrentRStr)) + ")";
                 DisplayModesLB.Items[DisplayModesLB.Selected] = S;
             }
         }
@@ -185,9 +185,9 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:264
         public new const int ClassID = 2248706;
 
-        public AnsiString FImageLibrary;
+        public string FImageLibrary = "";
         public int FImageIndex;
-        public AnsiString FHeading;
+        public string FHeading = "";
         public TStringList FText;
         // AoWVideoDlg.pas:257
         public override void Destroy()
@@ -231,9 +231,9 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:304
         public new const int ClassID = 2248705;
 
-        public AnsiString FImageLibrary;
-        public AnsiString FPathDescription;
-        public AnsiString FDescription;
+        public string FImageLibrary = "";
+        public string FPathDescription = "";
+        public string FDescription = "";
         public bool F_WMCampaignScenario_20;
         // rwBool
         public int FMapX;
@@ -325,23 +325,23 @@ namespace Aow.Units.AoWVideoDlg
         public override TAoWCampaignScenario CreateScenario() => new TWMCampaignScenario(null);
 
         // AoWVideoDlg.pas:353
-        public override AnsiString GetAutoSaveFileName(TCampaignAutoSaveType Auto)
+        public override string GetAutoSaveFileName(TCampaignAutoSaveType Auto)
         {
-            AnsiString Result;
+            string Result;
             if (Auto == TCampaignAutoSaveType.casScenarioFinished)
             {
                 Result = AoWHSMap.FMapName;
                 if (FFaction == 0)
                 {
-                    Result = Result + AnsiString.FromBytes(95) + TranslateRStr(WonRStr);
+                    Result = Result + "_" + TranslateRStr(WonRStr);
                 }
                 else
                 {
                     // { Original uses Won for both factions. }
-                    Result = Result + AnsiString.FromBytes(45) + TranslateRStr(WonRStr);
+                    Result = Result + "-" + TranslateRStr(WonRStr);
                 }
 
-                Result = Result + (AnsiString)".acg";
+                Result = Result + ".acg";
             }
             else
             {

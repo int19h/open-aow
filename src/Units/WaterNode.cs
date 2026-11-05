@@ -43,7 +43,7 @@ namespace Aow.Units.WaterNode
 
 
         // WaterNode.pas:52
-        public override AnsiString ResourceEditName() => TranslateRStr(WaterNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(WaterNodeRStr);
 
     }
 

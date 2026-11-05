@@ -72,7 +72,7 @@ namespace Aow.Units.AoWConstructDlg
             int Days = default;
             int Gold = default;
             TAbstractUnit U;
-            AnsiString Name = default;
+            string Name = "";
             TConstructAbility Ability;
             TConstructionControl Control;
             Dlg.FDrawn = false;
@@ -92,7 +92,7 @@ namespace Aow.Units.AoWConstructDlg
                 }
                 else
                 {
-                    ConstructionCostList.Items.Add(AnsiString.FromBytes(45));
+                    ConstructionCostList.Items.Add("-");
                 }
 
                 if (Days != 0)
@@ -101,7 +101,7 @@ namespace Aow.Units.AoWConstructDlg
                 }
                 else
                 {
-                    ConstructionTurnsList.Items.Add(AnsiString.FromBytes(45));
+                    ConstructionTurnsList.Items.Add("-");
                 }
             }
         }
@@ -151,7 +151,7 @@ namespace Aow.Units.AoWConstructDlg
         // AoWConstructDlg.pas:77
         public void ConstructBtnClick(TObject Sender)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             TConstructionControl Control;
             TAbstractUnit U;
             General.PlayButtonSound(0);

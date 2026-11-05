@@ -121,7 +121,7 @@ namespace Aow.Units.UnitGrid
         // UnitGrid.pas:207
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoWEngine", [typeof(TUnitGrid)]);
+            RegisterComponents("AoWEngine", [typeof(TUnitGrid)]);
         }
 
         public static void Initialize()

@@ -44,12 +44,12 @@ public sealed class ListsProbeTests
             p.Fact(tag + "_count", sl.Count);
             for (int i = 0; i < sl.Count; i++) { p.Fact($"{tag}_text_{i}", "[" + sl[i] + "]"); p.Fact($"{tag}_object_{i}", (sl.Objects[i] as ObjectId)?.Id ?? 0); }
         }
-        void Add(string tag, AnsiString s, int id)
+        void Add(string tag, string s, int id)
         {
             try { p.Fact(tag + "_index", sl.AddObject(s, new ObjectId(id))); } catch (EStringListError e) { p.Fact(tag + "_error", e.GetType().Name); }
             StringState(tag);
         }
-        void Lookup(string tag, AnsiString s)
+        void Lookup(string tag, string s)
         {
             int at = -99; bool hit = sl.Find(s, ref at); p.Fact(tag + "_found", Ord(hit)); p.Fact(tag + "_insertion_index", at); p.Fact(tag + "_indexof", sl.IndexOf(s));
         }

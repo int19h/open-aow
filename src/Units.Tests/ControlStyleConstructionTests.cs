@@ -61,7 +61,7 @@ public sealed class ControlStyleConstructionTests
             if (copy is TEResourceEditSettings copied)
             {
                 Assert.NotSame(((TEResourceEditSettings)direct).Editors, copied.Editors);
-                Assert.Equal((AnsiString)"Editor", copied.Editors[0]);
+                Assert.Equal("Editor", copied.Editors[0]);
                 Assert.Equal(17, Runtime.ObjectToInt(copied.Editors.Objects[0]));
             }
             if (direct is TPadControl pad)
@@ -129,10 +129,10 @@ public sealed class ControlStyleConstructionTests
         internal readonly TILManagerObject Entry;
         private readonly TAoWHSSet previous = Game.AoWHSSet;
         private readonly IFileSystem previousFiles = Runtime.Files;
-        private readonly AnsiString previousStartup = EngineFixture.Engine.StartupDirectory;
-        private readonly AnsiString previousSoundPath = Aow.Units.Sound.Sound.BaseSoundEnginePath;
-        private readonly AnsiString previousImagePath = Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath;
-        private readonly AnsiString previousExe = Runtime.Application.ExeName;
+        private readonly string previousStartup = EngineFixture.Engine.StartupDirectory;
+        private readonly string previousSoundPath = Aow.Units.Sound.Sound.BaseSoundEnginePath;
+        private readonly string previousImagePath = Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath;
+        private readonly string previousExe = Runtime.Application.ExeName;
         private readonly string root;
         private readonly bool ownsRoot;
         internal readonly FlagFiles Files;
@@ -154,7 +154,7 @@ public sealed class ControlStyleConstructionTests
             {
                 Owner = new FlagOwner();
                 Field(typeof(THSSet), "FImageLibraryManager").SetValue(Owner, Manager);
-                Field(typeof(TImageLibraryManager), "FSearchPath").SetValue(Manager, (AnsiString)"9.3b-2-missing/");
+                Field(typeof(TImageLibraryManager), "FSearchPath").SetValue(Manager, "9.3b-2-missing/");
                 var disk = (TILManagerList)Field(typeof(TImageLibraryManager), "FDiskList").GetValue(Manager)!;
                 if (directory is null) Entry = disk.AddILFile("Flags.ILB");
                 else
@@ -270,7 +270,7 @@ public sealed class ControlStyleConstructionTests
         using var fixture = new FlagFixture(loaded: false);
         Assert.Equal(0, fixture.Entry.RefCount);
         var error = Assert.Throws<Aow.Rtl.Exception>(() => CreateFlag(fixture.Owner, throughMeta));
-        Assert.Equal((AnsiString)"Error loading: 9.3b-2-missing/FLAGS.ILB", error.Message);
+        Assert.Equal("Error loading: 9.3b-2-missing/FLAGS.ILB", error.Message);
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
         Assert.NotNull(fixture.Entry.ImageLibrary);
@@ -298,7 +298,7 @@ public sealed class ControlStyleConstructionTests
             finally { library.Destroy(); }
             fixture.Files.OpenedPaths.Clear();
             var error = Assert.Throws<Aow.Rtl.Exception>(() => TFlagControl.Create(fixture.Owner));
-            Assert.Contains("Error loading:", error.Message.ToString(), StringComparison.Ordinal);
+            Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);
             Assert.Equal(path.ToUpperInvariant(), Assert.Single(fixture.Files.OpenedPaths).ToUpperInvariant());
             Assert.Contains(fixture.Files.EnumeratedDirectories, entry => entry.Equals(directory, StringComparison.OrdinalIgnoreCase));
             Assert.Equal(0, fixture.Entry.RefCount);
@@ -360,8 +360,8 @@ public sealed class ControlStyleConstructionTests
             stream.Size--;
             stream.Position = 0;
             var reader = new TEReadStorageStream(stream, engine, false);
-            AnsiString message = default;
-            reader.OnError = (TEStorageStream _, AnsiString text, ref bool proceed) =>
+            string message = "";
+            reader.OnError = (TEStorageStream _, string text, ref bool proceed) =>
             {
                 message = text;
                 proceed = !propagate;
@@ -370,10 +370,10 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 if (propagate)
-                    Assert.Equal((AnsiString)"Stream read error", Assert.Throws<EReadError>(() => reader.rwCreateEObject(ref result, owner, 7)).Message);
+                    Assert.Equal("Stream read error", Assert.Throws<EReadError>(() => reader.rwCreateEObject(ref result, owner, 7)).Message);
                 else
                     reader.rwCreateEObject(ref result, owner, 7);
-                Assert.Equal((AnsiString)"Stream read error", message);
+                Assert.Equal("Stream read error", message);
                 Assert.Null(result);
                 Assert.IsType<TEControlStyleObject>(engine.Created);
                 Assert.Null(engine.Created!.Owner);

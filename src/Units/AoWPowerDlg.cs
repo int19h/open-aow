@@ -87,10 +87,10 @@ namespace Aow.Units.AoWPowerDlg
             {
                 var none = TranslateRStr(NoneRStr);
                 SpellName.Text = none;
-                ResearchLeft.Text = AnsiString.FromBytes(45);
+                ResearchLeft.Text = "-";
             }
 
-            NetMana.Text = IntToStr(ManaPower) + AnsiString.FromBytes(45) + IntToStr(Upkeep) + AnsiString.FromBytes(61) + IntToStr(ManaPower - Upkeep);
+            NetMana.Text = IntToStr(ManaPower) + "-" + IntToStr(Upkeep) + "=" + IntToStr(ManaPower - Upkeep);
             Mana.Text = IntToStr(ManaPower);
             Research.Text = IntToStr(ResearchPower);
             Dlg.FDrawn = false;

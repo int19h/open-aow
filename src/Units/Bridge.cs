@@ -368,7 +368,7 @@ namespace Aow.Units.Bridge
 
 
         // Bridge.pas:200
-        public override AnsiString ResourceEditName() => BridgeStr;
+        public override string ResourceEditName() => BridgeStr;
 
     }
 

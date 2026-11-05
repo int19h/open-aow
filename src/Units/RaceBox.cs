@@ -81,7 +81,8 @@ namespace Aow.Units.RaceBox
     public struct TNameView
     {
         public FixedArray_byte_36 Reserved;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 21)]
@@ -98,7 +99,7 @@ namespace Aow.Units.RaceBox
         // RaceBox.pas:104
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoW", [typeof(TRaceBox)]);
+            RegisterComponents("AoW", [typeof(TRaceBox)]);
         }
 
         public static void Initialize()

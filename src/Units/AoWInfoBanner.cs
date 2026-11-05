@@ -17,7 +17,7 @@ namespace Aow.Units.AoWInfoBanner
         public TAOWMenu BannerPopup;
         public TAOWVScrollBar InfoMemoSB;
         // AoWInfoBanner.pas:35
-        public void ShowInfo(AnsiString Header, TStrings Description)
+        public void ShowInfo(string Header, TStrings Description)
         {
             HeaderLbl.Text = Header;
             var text = Description.Text;

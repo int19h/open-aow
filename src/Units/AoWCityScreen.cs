@@ -478,7 +478,7 @@ namespace Aow.Units.AoWCityScreen
                 var raceNames = TranslateRStr(RaceNamesRStr[FCity.FRace]);
                 var format = AoWE.AoWE.Format(TranslateRStr(XRelationMinusYRStr), [raceNames, -15]);
                 MigrateInfo.Text = format;
-                MigrateInfo.Text = MigrateInfo.Text + (AnsiString)"   ";
+                MigrateInfo.Text = MigrateInfo.Text + "   ";
                 var raceNames2 = TranslateRStr(RaceNamesRStr[Item.FRace]);
                 var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(XRelationPlusYRStr), [raceNames2, 10]);
                 MigrateInfo.Text = MigrateInfo.Text + aoWEFormat;
@@ -491,9 +491,9 @@ namespace Aow.Units.AoWCityScreen
                 MigrationRaceLB.Selected = -1;
                 MigrationTurnsLB.Selected = -1;
                 MigrationRelationLB.Selected = -1;
-                MigrateInfo.Text = (AnsiString)"";
-                MigrateTurns.Text = AnsiString.FromBytes(45);
-                UpgradeInfo.Text = (AnsiString)"";
+                MigrateInfo.Text = "";
+                MigrateTurns.Text = "-";
+                UpgradeInfo.Text = "";
                 CityBtn1.Visible = false;
             }
         }
@@ -512,9 +512,9 @@ namespace Aow.Units.AoWCityScreen
             UnitPnl.Visible = false;
             MigratePnl.Visible = false;
             UpgradePic.CurrentImage = 21;
-            UpgradeCost.Text = AnsiString.FromBytes(45);
-            UpgradeTurns.Text = AnsiString.FromBytes(45);
-            UpgradeInfo.Text = (AnsiString)"";
+            UpgradeCost.Text = "-";
+            UpgradeTurns.Text = "-";
+            UpgradeInfo.Text = "";
             CityBtn1.Visible = false;
             CityBtn2.Visible = false;
             switch (FAction)
@@ -585,8 +585,8 @@ namespace Aow.Units.AoWCityScreen
                     }
                     else
                     {
-                        UpgradeCost.Text = AnsiString.FromBytes(45);
-                        UpgradeTurns.Text = AnsiString.FromBytes(45);
+                        UpgradeCost.Text = "-";
+                        UpgradeTurns.Text = "-";
                     }
 
                     var fortify2 = TranslateRStr(FortifyRStr);
@@ -616,7 +616,7 @@ namespace Aow.Units.AoWCityScreen
                 case TCityAction.caRaze:
                     CityBtn1.Visible = true;
                     var raze = TranslateRStr(RazeRStr);
-                    CityBtn1.Text = raze + (AnsiString)"...";
+                    CityBtn1.Text = raze + "...";
                     var cityRaze = TranslateRStr(CityRazeRStr);
                     UpgradeMemo.Items.Text = cityRaze;
                     UpgradePnl.Visible = true;
@@ -654,11 +654,11 @@ namespace Aow.Units.AoWCityScreen
                     var format5 = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
                     var upkeep = U.GetUpkeep();
                     var format6 = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
-                    ULevel.Text = format5 + (AnsiString)" / " + format6;
+                    ULevel.Text = format5 + " / " + format6;
                     if (AoWEngine.FDebug)
                     {
                         var unitIndexAIPriority = GetUnitIndexAIPriority(U.FUnitResource.UnitResourceIndex(), FCity.FPlayer, 0);
-                        AoWHSMap.ShowMessage((AnsiString)"AI Prio:" + IntToStr(unitIndexAIPriority));
+                        AoWHSMap.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
                     }
 
                     UAbilitiesLB.Items.Clear();
@@ -709,26 +709,26 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:1099
         public void UpdateInfo()
         {
-            AnsiString Reason;
+            string Reason;
             var name = FCity.GetName();
             StructName.Text = name;
             PopulationHdr.Items.Clear();
             var population = TranslateRStr(PopulationRStr);
-            PopulationHdr.Items.Add(population + AnsiString.FromBytes(58));
+            PopulationHdr.Items.Add(population + ":");
             var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
-            PopulationHdr.Items.Add(AnsiString.FromBytes(32) + raceNamesPlural);
+            PopulationHdr.Items.Add(" " + raceNamesPlural);
             var status = TranslateRStr(StatusRStr);
-            PopulationHdr.Items.Add(status + AnsiString.FromBytes(58));
+            PopulationHdr.Items.Add(status + ":");
             var civilStatus = FCity.GetCivilStatus();
             var civilStatus2 = TranslateRStr(TCivilStatusRStr[(int)civilStatus]);
-            PopulationHdr.Items.Add(AnsiString.FromBytes(32) + civilStatus2);
+            PopulationHdr.Items.Add(" " + civilStatus2);
             PopulationMemo.Items.Clear();
             FCity.ListCivilStatusInfo(PopulationMemo.Items);
             IncomeHdr.Items.Clear();
             var income = TranslateRStr(IncomeRStr);
             IncomeHdr.Items.Add(income);
             var xGold = TranslateRStr(XGoldRStr);
-            var format = AoWE.AoWE.Format(AnsiString.FromBytes(32) + xGold, [IntToStr(FCity.FIncome)]);
+            var format = AoWE.AoWE.Format(" " + xGold, [IntToStr(FCity.FIncome)]);
             IncomeHdr.Items.Add(format);
             IncomeMemo.Items.Clear();
             IncomeGoldMemo.Items.Clear();
@@ -774,13 +774,13 @@ namespace Aow.Units.AoWCityScreen
             for (int I = 0, last = FCity.FProduction.FQueue.GetCount() - 1; I <= last; I++)
             {
                 var name2 = FCity.FProduction.FQueue.GetItem(I).GetName();
-                QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + name2);
+                QueueLB.Items.Add(IntToStr(I + 1) + ". " + name2);
             }
 
             for (int I = FCity.FProduction.FQueue.GetCount(); I <= 4; I++)
             {
                 var emptyQueue = TranslateRStr(EmptyQueueRStr);
-                QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + emptyQueue);
+                QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
             }
 
             var count = FCity.FProduction.FQueue.GetCount();
@@ -824,7 +824,7 @@ namespace Aow.Units.AoWCityScreen
                     var producingMerchandise = TranslateRStr(ProducingMerchandiseRStr);
                     ActiveAction.Text = producingMerchandise;
                     var defaultText = TranslateRStr(DefaultRStr);
-                    ActiveActionTurns.Text = AnsiString.FromBytes(40) + LowerCase(defaultText) + AnsiString.FromBytes(41);
+                    ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                     ActiveActionTurns.TextColor = 6783862;
                     ActiveActionTurnsBar.Visible = false;
                     var activityImage = ActivityImage(FCity.GetActiveAction());
@@ -832,7 +832,7 @@ namespace Aow.Units.AoWCityScreen
                 }
                 else
                 {
-                    Reason = (AnsiString)"";
+                    Reason = "";
                     var nameProgressive = FCity.FProduction.FQueue.GetItem(0).GetNameProgressive();
                     ActiveAction.Text = nameProgressive;
                     var queue = FCity.FProduction.FQueue.GetItem(0);
@@ -1010,7 +1010,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:354
         public void CityBtn1Click(TObject Sender)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             sbyte Race;
             switch (FMode)
             {
@@ -1133,7 +1133,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:437
         public void CityBtn2Click()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             switch (FMode)
             {
                 case 1:

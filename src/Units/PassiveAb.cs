@@ -22,25 +22,25 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:473
-        public override AnsiString GetLevelName(int A1)
+        public override string GetLevelName(int A1)
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (A1)
             {
                 case 0:
                     Result = TranslateRStr(VisionRStr);
                     break;
                 case 1:
-                    Result = TranslateRStr(VisionRStr) + (AnsiString)" I";
+                    Result = TranslateRStr(VisionRStr) + " I";
                     break;
                 case 2:
-                    Result = TranslateRStr(VisionRStr) + (AnsiString)" II";
+                    Result = TranslateRStr(VisionRStr) + " II";
                     break;
                 case 3:
-                    Result = TranslateRStr(VisionRStr) + (AnsiString)" III";
+                    Result = TranslateRStr(VisionRStr) + " III";
                     break;
                 case 4:
-                    Result = TranslateRStr(VisionRStr) + (AnsiString)" IV";
+                    Result = TranslateRStr(VisionRStr) + " IV";
                     break;
             }
 
@@ -405,9 +405,9 @@ namespace Aow.Units.PassiveAb
         public override sbyte GetResistance(TAbilityOwner A1) => -2;
 
         // PassiveAb.pas:991
-        public override AnsiString GetSourceName(TAbilityOwner A1)
+        public override string GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             TDurationAbilityData Data;
             Data = (TDurationAbilityData)A1.GetAbilityData(FAbilityID);
             if (Data != null && Data.FSource == 1)
@@ -440,9 +440,9 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:833
-        public override AnsiString GetSourceName(TAbilityOwner A1)
+        public override string GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             // { Original assumes the ability data exists. }
             var durationAbilityData = (TDurationAbilityData)A1.GetAbilityData(FAbilityID);
             if (durationAbilityData.FSource == 1)
@@ -574,25 +574,25 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1398
-        public override AnsiString GetLevelName(int A1)
+        public override string GetLevelName(int A1)
         {
-            AnsiString Result = default;
+            string Result = "";
             switch (A1)
             {
                 case 0:
                     Result = TranslateRStr(MarksmanshipRStr);
                     break;
                 case 1:
-                    Result = TranslateRStr(MarksmanshipRStr) + (AnsiString)" I";
+                    Result = TranslateRStr(MarksmanshipRStr) + " I";
                     break;
                 case 2:
-                    Result = TranslateRStr(MarksmanshipRStr) + (AnsiString)" II";
+                    Result = TranslateRStr(MarksmanshipRStr) + " II";
                     break;
                 case 3:
-                    Result = TranslateRStr(MarksmanshipRStr) + (AnsiString)" III";
+                    Result = TranslateRStr(MarksmanshipRStr) + " III";
                     break;
                 case 4:
-                    Result = TranslateRStr(MarksmanshipRStr) + (AnsiString)" IV";
+                    Result = TranslateRStr(MarksmanshipRStr) + " IV";
                     break;
             }
 
@@ -788,9 +788,9 @@ namespace Aow.Units.PassiveAb
         public override sbyte GetDefense(TAbilityOwner A1) => 2;
 
         // PassiveAb.pas:1037
-        public override AnsiString GetSourceName(TAbilityOwner A1)
+        public override string GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             // { Original assumes the ability data and enchantment exist. }
             var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
             if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
@@ -1170,9 +1170,9 @@ namespace Aow.Units.PassiveAb
         public override sbyte GetResistance(TAbilityOwner A1) => 1;
 
         // PassiveAb.pas:1231
-        public override AnsiString GetSourceName(TAbilityOwner A1)
+        public override string GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             // { Original assumes the ability data and enchantment exist. }
             var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
             if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
@@ -1237,9 +1237,9 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1062
-        public override AnsiString GetSourceName(TAbilityOwner A1)
+        public override string GetSourceName(TAbilityOwner A1)
         {
-            AnsiString Result;
+            string Result;
             // { Original assumes the ability data and enchantment exist. }
             var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)A1.GetAbilityData(FAbilityID);
             if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
@@ -1472,7 +1472,7 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1458
-        public static TMovementAbility CreateMovementAbility(int ID, AnsiString Name, TSet<TMoveType> MoveTypes)
+        public static TMovementAbility CreateMovementAbility(int ID, string Name, TSet<TMoveType> MoveTypes)
         {
             TMovementAbility Ability;
             Ability = new TMovementAbility(null);
@@ -1488,7 +1488,7 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1472
-        public static TImmunityAbility CreateImmunityAbility(int ID, AnsiString Name, TSet<TDamageType> DamageTypes)
+        public static TImmunityAbility CreateImmunityAbility(int ID, string Name, TSet<TDamageType> DamageTypes)
         {
             TImmunityAbility Ability;
             Ability = new TImmunityAbility(null);
@@ -1520,7 +1520,7 @@ namespace Aow.Units.PassiveAb
         }
 
         // PassiveAb.pas:1491
-        public static TProtectionAbility CreateProtectionAbility(int ID, AnsiString Name, TSet<TDamageType> DamageTypes, TSet<TAbilitySelectionType> SelectionTypes)
+        public static TProtectionAbility CreateProtectionAbility(int ID, string Name, TSet<TDamageType> DamageTypes, TSet<TAbilitySelectionType> SelectionTypes)
         {
             TProtectionAbility Ability;
             Ability = new TProtectionAbility(null);

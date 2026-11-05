@@ -39,7 +39,7 @@ namespace Aow.Units.AltLight
 
 
         // AltLight.pas:49
-        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfLightningRStr);
+        public override string ResourceEditName() => TranslateRStr(AltarOfLightningRStr);
 
     }
 

@@ -39,7 +39,7 @@ namespace Aow.Units.AowUserWindow
         // AowUserWindow.pas:38
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAoWUserWindow)]);
+            RegisterComponents("AOW Tools", [typeof(TAoWUserWindow)]);
         }
 
         public static void Initialize()

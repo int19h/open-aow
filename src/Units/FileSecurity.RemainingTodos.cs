@@ -6,12 +6,12 @@ namespace Aow.Units.FileSecurity;
 
 public static partial class FileSecurity
 {
-    public static bool ReadSecurityData(AnsiString fileName, ref TSecurityData data)
+    public static bool ReadSecurityData(string fileName, ref TSecurityData data)
     {
         data = default;
         try
         {
-            using var stream = Rtl.Rtl.Files.Open(fileName.ToString(), Rtl.Rtl.fmOpenRead | Rtl.Rtl.fmShareDenyWrite);
+            using var stream = Rtl.Rtl.Files.Open(fileName, Rtl.Rtl.fmOpenRead | Rtl.Rtl.fmShareDenyWrite);
             if (stream.Length < 12) return false;
             stream.Seek(-12, SeekOrigin.End);
             Span<byte> footer = stackalloc byte[12];

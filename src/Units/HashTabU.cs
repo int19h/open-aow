@@ -78,7 +78,7 @@ namespace Aow.Units.HashTabU
             THashItem H = default;
             if (Find(Key) != null)
             {
-                throw Exception.Create((AnsiString)"ID already in HashTable");
+                throw Exception.Create("ID already in HashTable");
             }
 
             H.Key = Key;
@@ -203,7 +203,8 @@ namespace Aow.Units.HashTabU
 
     public struct TStringHashItem
     {
-        public AnsiString Key;
+        private string key;
+        public string Key { readonly get => key ?? ""; set => key = value; }
         public object Item;
     }
 
@@ -214,14 +215,14 @@ namespace Aow.Units.HashTabU
         {
             for (int I = FCount - 1; I >= 0; I--)
             {
-                FItems[I].Key = (AnsiString)"";
+                FItems[I].Key = "";
             }
 
             base.Clear();
         }
 
         // HashTabU.pas:234
-        public object Find(AnsiString Key)
+        public object Find(string Key)
         {
             int I;
             object Result = null;
@@ -231,7 +232,7 @@ namespace Aow.Units.HashTabU
                 do
                 {
                     I -= 1;
-                    if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
+                    if (AnsiCompareStr(FItems[I].Key.As<string>(), Key) == 0)
                     {
                         return FItems[I].Item;
                     }
@@ -243,12 +244,12 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:251
-        public void Add(object Item, AnsiString Key)
+        public void Add(object Item, string Key)
         {
             THashItem H = default;
             if (Find(Key) != null)
             {
-                throw Exception.Create((AnsiString)"ID already in HashTable");
+                throw Exception.Create("ID already in HashTable");
             }
 
             H.Key = 0;
@@ -258,7 +259,7 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:262
-        public void Delete(AnsiString Key)
+        public void Delete(string Key)
         {
             int I;
             I = FCount;
@@ -267,9 +268,9 @@ namespace Aow.Units.HashTabU
                 do
                 {
                     I -= 1;
-                    if (AnsiCompareStr(FItems[I].Key.As<AnsiString>(), Key) == 0)
+                    if (AnsiCompareStr(FItems[I].Key.As<string>(), Key) == 0)
                     {
-                        FItems[I].Key = (AnsiString)"";
+                        FItems[I].Key = "";
                         base.Delete(I);
                         return;
                     }
@@ -284,19 +285,19 @@ namespace Aow.Units.HashTabU
     public partial class TStringHashTable : TObject
     {
         // HashTabU.pas:84
-        public virtual void Add(object Item, AnsiString Key)
+        public virtual void Add(object Item, string Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // HashTabU.pas:85
-        public virtual void Delete(AnsiString Key)
+        public virtual void Delete(string Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
 
         // HashTabU.pas:86
-        public virtual object Find(AnsiString Key)
+        public virtual object Find(string Key)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -343,19 +344,19 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:304
-        public override void Add(object Item, AnsiString Key)
+        public override void Add(object Item, string Key)
         {
             int H;
             H = Key.Length;
             if (H >= 2)
             {
-                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
+                H = Cp1252.Byte(Key[0]) + Cp1252.Byte(Key[H - 2]) + (H << 4) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = Key[1];
+                    H = Cp1252.Byte(Key[0]);
                 }
             }
 
@@ -363,19 +364,19 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:316
-        public override void Delete(AnsiString Key)
+        public override void Delete(string Key)
         {
             int H;
             H = Key.Length;
             if (H >= 2)
             {
-                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
+                H = Cp1252.Byte(Key[0]) + Cp1252.Byte(Key[H - 2]) + (H << 4) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = Key[1];
+                    H = Cp1252.Byte(Key[0]);
                 }
             }
 
@@ -383,19 +384,19 @@ namespace Aow.Units.HashTabU
         }
 
         // HashTabU.pas:328
-        public override object Find(AnsiString Key)
+        public override object Find(string Key)
         {
             int H;
             H = Key.Length;
             if (H >= 2)
             {
-                H = (Key[1] + Key[H - 1] + (H << 4)) & 255;
+                H = Cp1252.Byte(Key[0]) + Cp1252.Byte(Key[H - 2]) + (H << 4) & 255;
             }
             else
             {
                 if (H == 1)
                 {
-                    H = Key[1];
+                    H = Cp1252.Byte(Key[0]);
                 }
             }
 

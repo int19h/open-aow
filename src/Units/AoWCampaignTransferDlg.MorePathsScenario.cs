@@ -10,7 +10,7 @@ public partial class TCampaignTransferDlg
     {
         var campaign = AoWEngine.FCampaign;
         ResetSelection();
-        campaign.FTransferSettings.SetupSelection(AoWEngine.StartupDirectory + (AnsiString)"Scenario\\Campaign\\" +
+        campaign.FTransferSettings.SetupSelection(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" +
             campaign.FScenarios.GetScenario(campaign.FNextScenarioID).FFileName);
         if (campaign.FTransferSettings.FTransferPointsMax > 0)
         {

@@ -30,7 +30,7 @@ namespace Aow.Units.MainStructure
         public override int ResourceUserClassID() => 2229532;
 
         // MainStructure.pas:46
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Main Structure";
+        public override string ResourceEditName() => "Combat Main Structure";
 
     }
 

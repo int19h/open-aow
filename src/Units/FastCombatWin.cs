@@ -473,7 +473,7 @@ namespace Aow.Units.FastCombatWin
             }
             catch (System.Exception)
             {
-                throw Exception.Create((AnsiString)"Exception during FastCombatWin.DrawSurface");
+                throw Exception.Create("Exception during FastCombatWin.DrawSurface");
             }
         }
 
@@ -571,7 +571,7 @@ namespace Aow.Units.FastCombatWin
             }
             catch (System.Exception)
             {
-                throw Exception.Create((AnsiString)"Exception during FastCombatWin.Update");
+                throw Exception.Create("Exception during FastCombatWin.Update");
             }
         }
 
@@ -689,7 +689,7 @@ namespace Aow.Units.FastCombatWin
         // FastCombatWin.pas:124
         public static void ShowCombatEvent(TFastCombatWindow Dialog, TCombatEventLog Event, TExecuteDoneEvent Done)
         {
-            Assert(Dialog.FEvent == null, (AnsiString)"", "FastCombatWin.pas", 159);
+            Assert(Dialog.FEvent == null, "", "FastCombatWin.pas", 159);
             General.Manager.OverlayPriority = 49;
             Dialog.FEvent = Event;
             Dialog.FEvent.AddRef();

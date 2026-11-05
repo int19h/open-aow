@@ -57,13 +57,13 @@ public sealed partial class SpellConstructionTests
     {
         if (value is null) return null;
         Type type = value.GetType();
-        if (value is AnsiString text) return text.ToString();
+        if (value is string text) return text;
         if (type.IsEnum) return Convert.ToInt64(value);
         if (type.IsPrimitive || value is string || value is decimal) return value;
         if (value is TImageLibraryManager) return "$image-manager";
         if (value is Array array) return array.Cast<object?>().Select(x => State(x, depth + 1)).ToArray();
         if (depth > 8) throw new InvalidOperationException("Unexpected constructor-state cycle: " + type);
-        var fields = new SortedDictionary<string, object?> { ["$type"] = type.FullName };
+        var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
         for (Type? current = type; current is not null && current != typeof(TObject); current = current.BaseType)
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {

@@ -21,7 +21,7 @@ public partial class TUnitWindow
         {
             if (selected is not null)
             {
-                Sound.Sound.PlaySample((AnsiString)"SFX\\Events\\NewEvent.Wav");
+                Sound.Sound.PlaySample("SFX\\Events\\NewEvent.Wav");
                 if (check.Tag != -1) hero.SwapItem(selected.Tag, check.Tag);
                 else
                 {

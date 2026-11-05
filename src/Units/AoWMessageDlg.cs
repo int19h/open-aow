@@ -133,7 +133,7 @@ namespace Aow.Units.AoWMessageDlg
         public static void ShowDemoMessage()
         {
             ResetMessageDialog(MessageDlg);
-            MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+            MessageDlg.MessageMemo.Items.Add("");
             var demoVersionMessage = TranslateRStr(DemoVersionMessageRStr);
             MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
             MessageDlg.OKPnl.Visible = true;

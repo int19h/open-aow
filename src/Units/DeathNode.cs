@@ -43,7 +43,7 @@ namespace Aow.Units.DeathNode
 
 
         // DeathNode.pas:52
-        public override AnsiString ResourceEditName() => TranslateRStr(DeathNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(DeathNodeRStr);
 
     }
 

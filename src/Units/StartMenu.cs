@@ -156,7 +156,7 @@ namespace Aow.Units.StartMenu
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -182,7 +182,7 @@ namespace Aow.Units.StartMenu
         // StartMenu.pas:133
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Tools", [typeof(TStartMenu)]);
+            RegisterComponents("AOW Tools", [typeof(TStartMenu)]);
         }
 
         public static void Initialize()

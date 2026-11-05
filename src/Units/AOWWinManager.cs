@@ -94,7 +94,7 @@ namespace Aow.Units.AOWWinManager
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Update", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Update", "Error - " + Name, 0);
             }
         }
 
@@ -403,7 +403,7 @@ namespace Aow.Units.AOWWinManager
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during DrawSurface", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
             }
         }
 
@@ -744,7 +744,7 @@ namespace Aow.Units.AOWWinManager
         // AOWWinManager.pas:598
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Interface", [typeof(TAOWWinManager)]);
+            RegisterComponents("AOW Interface", [typeof(TAOWWinManager)]);
         }
     }
 }

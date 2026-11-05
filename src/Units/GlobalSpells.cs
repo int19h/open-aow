@@ -221,7 +221,7 @@ namespace Aow.Units.GlobalSpells
         public override bool GetEnabled() => AoWHSMap.FExplorationEnabled;
 
         // GlobalSpells.pas:368
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanActivate(TAbstractUnit A1, ref string A2)
         {
             bool War;
             bool Result = base.CanActivate(A1, ref A2);
@@ -248,7 +248,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TSpellTE Event;
             base.Activate(A1);
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
@@ -417,7 +417,7 @@ namespace Aow.Units.GlobalSpells
         public override bool GetEnabled() => AoWHSMap.FExplorationEnabled;
 
         // GlobalSpells.pas:518
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanActivate(TAbstractUnit A1, ref string A2)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -440,7 +440,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TSpellTE Event;
             base.Activate(A1);
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
@@ -579,7 +579,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TWarpPartyTE Event;
             base.Activate(A1);
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
@@ -828,7 +828,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TSpellTE Event;
             base.Activate(A1);
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
@@ -966,7 +966,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TSpellTE Event;
             base.Activate(A1);
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
@@ -1104,7 +1104,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TSpellTE Event;
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
             {
@@ -1285,7 +1285,7 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:868
-        public override bool CanCast(ref AnsiString Reason)
+        public override bool CanCast(ref string Reason)
         {
             THero Source;
             bool Result = base.CanCast(ref Reason);
@@ -1331,7 +1331,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Cast()
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TAbstractUnit Source;
             TDisjunctionTE Event;
             if (CanCast(ref Reason))
@@ -1467,11 +1467,11 @@ namespace Aow.Units.GlobalSpells
         }
 
         // GlobalSpells.pas:942
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanActivate(TAbstractUnit A1, ref string A2)
         {
             bool Result;
             int Count;
-            AnsiString Reason = default;
+            string Reason = "";
             Count = 0;
             for (int I = 0, last = AoWHSMap.FGlobalMagicControl.FEnchantments.Count - 1; I <= last; I++)
             {
@@ -1498,7 +1498,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TDisjunctionSpellCaster Caster;
             if (CanActivate(A1, ref Reason))
             {
@@ -1632,7 +1632,7 @@ namespace Aow.Units.GlobalSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             TSpellTE Event;
             base.Activate(A1);
             if (CanActivate(A1, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())

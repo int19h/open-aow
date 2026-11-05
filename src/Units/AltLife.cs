@@ -39,7 +39,7 @@ namespace Aow.Units.AltLife
 
 
         // AltLife.pas:49
-        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfLifeRStr);
+        public override string ResourceEditName() => TranslateRStr(AltarOfLifeRStr);
 
     }
 

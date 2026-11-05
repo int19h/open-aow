@@ -205,16 +205,16 @@ namespace Aow.Units.AoWWinMan
             switch (Kind)
             {
                 case 0:
-                    PlaySample((AnsiString)"Sfx\\Int\\Btn1.wav");
+                    PlaySample("Sfx\\Int\\Btn1.wav");
                     break;
                 case 3:
-                    PlaySample((AnsiString)"Sfx\\Int\\Btn3.wav");
+                    PlaySample("Sfx\\Int\\Btn3.wav");
                     break;
                 case 1:
-                    PlaySample((AnsiString)"Sfx\\Int\\Btn5.wav");
+                    PlaySample("Sfx\\Int\\Btn5.wav");
                     break;
                 case 2:
-                    PlaySample((AnsiString)"Sfx\\Int\\Btn6.wav");
+                    PlaySample("Sfx\\Int\\Btn6.wav");
                     break;
             }
         }
@@ -660,7 +660,7 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:336
-        public void ManagerDebugMessage(AnsiString Text)
+        public void ManagerDebugMessage(string Text)
         {
             DialogWin.AddDebugMessage(Text);
         }
@@ -669,7 +669,7 @@ namespace Aow.Units.AoWWinMan
         public void ManagerKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
             TPlayer Player;
-            AnsiString S;
+            string S;
             if (AoWEngine.FDebug)
             {
                 if (AoWHSMap != null && (AoWHSMap.FPlayMode != TPlayMode.pmSimultaneous || AoWHSMap.FPlayers.FLocalPlayers.Count == 1) && TSet<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)Key) && AoWCombatMap == null && AoWHSMap.FPlayers.GetCount() > Key - 48 && AoWEngine.FRegistry.GetDebugMode())
@@ -685,7 +685,7 @@ namespace Aow.Units.AoWWinMan
                     }
 
                     var playerType = TranslateRStr(TPlayerTypeRStr[(int)Player.FPlayerType]);
-                    S = (AnsiString)"Player " + IntToStr(Key - 48) + (AnsiString)" set to: " + playerType;
+                    S = "Player " + IntToStr(Key - 48) + " set to: " + playerType;
                     AoWHSMap.ShowMessage(S);
                     AoWHSMap.FPlayers.Update();
                     AoWHSMap.FRequestCombatType = AoWHSMap.FPlayers.FLocalHumanPlayers.Count > 1;
@@ -695,16 +695,16 @@ namespace Aow.Units.AoWWinMan
                 {
                     case 122:
                         S = ExtractFileDir(Application.ExeName);
-                        S = S + (AnsiString)"\\Scenario\\Custom";
+                        S = S + "\\Scenario\\Custom";
                         SetCurrentDir(S);
-                        AoWWinMan.LoadGame(this, (AnsiString)"Crap.hsm");
+                        AoWWinMan.LoadGame(this, "Crap.hsm");
                         AoWWinMan.StartGame(this);
                         break;
                     case 123:
                         S = ExtractFileDir(Application.ExeName);
-                        S = S + (AnsiString)"\\Scenario\\Custom";
+                        S = S + "\\Scenario\\Custom";
                         SetCurrentDir(S);
-                        AoWWinMan.LoadGame(this, (AnsiString)"demomap.hsm");
+                        AoWWinMan.LoadGame(this, "demomap.hsm");
                         AoWWinMan.StartGame(this);
                         break;
                 }
@@ -716,7 +716,7 @@ namespace Aow.Units.AoWWinMan
     {
         public static TGeneral General;
         // AoWWinMan.pas:514
-        public static void LoadGame(TGeneral Controller, AnsiString Name)
+        public static void LoadGame(TGeneral Controller, string Name)
         {
             if (AoWHSMap != null)
             {
@@ -725,8 +725,8 @@ namespace Aow.Units.AoWWinMan
 
             var e1Loading = TranslateRStr(E1LoadingRStr);
             var fileName = ExtractFileName(Name);
-            ProgressDialog.Title.Text = e1Loading + AnsiString.FromBytes(32) + fileName + (AnsiString)"...";
-            ProgressDialog.StatusLbl.Text = (AnsiString)"";
+            ProgressDialog.Title.Text = e1Loading + " " + fileName + "...";
+            ProgressDialog.StatusLbl.Text = "";
             ProgressDialog.Bar.Position = 0;
             ProgressDialog.Bar.Max = 100;
             ProgressDialog.ProgDlg.Visible = true;
@@ -749,7 +749,7 @@ namespace Aow.Units.AoWWinMan
         }
 
         // AoWWinMan.pas:532
-        public static void LoadCampaign(TGeneral Controller, AnsiString Name)
+        public static void LoadCampaign(TGeneral Controller, string Name)
         {
             if (AoWHSMap != null)
             {
@@ -763,8 +763,8 @@ namespace Aow.Units.AoWWinMan
                 {
                     var e1Loading = TranslateRStr(E1LoadingRStr);
                     var fileName = ExtractFileName(Name);
-                    ProgressDialog.Title.Text = e1Loading + AnsiString.FromBytes(32) + fileName + (AnsiString)"...";
-                    ProgressDialog.StatusLbl.Text = (AnsiString)"";
+                    ProgressDialog.Title.Text = e1Loading + " " + fileName + "...";
+                    ProgressDialog.StatusLbl.Text = "";
                     ProgressDialog.Bar.Position = 0;
                     ProgressDialog.Bar.Max = 100;
                     ProgressDialog.ProgDlg.Visible = true;

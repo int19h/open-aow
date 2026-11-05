@@ -201,7 +201,7 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:180
         public void RazeBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (General.FStructure != null)
             {
@@ -220,7 +220,7 @@ namespace Aow.Units.AoWInfoWin
         public void MainBtnClick()
         {
             TArmyHS Army;
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (General.FStructure != null)
             {
@@ -531,7 +531,7 @@ namespace Aow.Units.AoWInfoWin
             Dialog.FItemBag = Items;
             Dialog.ItemPnl.Visible = true;
             Dialog.InfoWin.Visible = true;
-            Dialog.StructNameLbl.Text = (AnsiString)"";
+            Dialog.StructNameLbl.Text = "";
             var miscArt = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[35];
             Dialog.StructLine.ImageTop = miscArt;
             var miscArt2 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[36];
@@ -551,7 +551,7 @@ namespace Aow.Units.AoWInfoWin
                 Dialog.ItembagSB.Visible = true;
                 for (int I = 0, last = Items.FItems.Count - 1; I <= last; I++)
                 {
-                    Dialog.ItembagLB.Items.Add((AnsiString)"");
+                    Dialog.ItembagLB.Items.Add("");
                 }
 
                 Dialog.ItemsInBagLbl.Visible = true;
@@ -674,7 +674,7 @@ namespace Aow.Units.AoWInfoWin
             Dialog.SingleButPnl.Visible = true;
             var description = Structure.GetDescription();
             Dialog.SBmemo.Items.Assign(description);
-            Dialog.SBmemo.Items.Add((AnsiString)"");
+            Dialog.SBmemo.Items.Add("");
             var format = AoWE.AoWE.Format(TranslateRStr(IncomeXRStr), [IntToStr(Structure.FIncome)]);
             Dialog.SBmemo.Items.Add(format);
             Dialog.RazePnl.Visible = true;
@@ -777,7 +777,7 @@ namespace Aow.Units.AoWInfoWin
             var description = General.FStructure.GetDescription();
             Dialog.ESMemo.Items.Assign(description);
             var status = TranslateRStr(StatusRStr);
-            Dialog.ESLbl.Text = status + AnsiString.FromBytes(58);
+            Dialog.ESLbl.Text = status + ":";
             if (Structure.GetExplored())
             {
                 var explored = TranslateRStr(ExploredRStr);
@@ -817,7 +817,7 @@ namespace Aow.Units.AoWInfoWin
             Dialog.Bar.Max = rechargeDays;
             Dialog.Bar.Position = Structure.FRechargeDays;
             var structureRechargeDays = Structure.GetRechargeDays();
-            Dialog.ChargePcntLbl.Text = IntToStr(Round((double)(Structure.FRechargeDays * 100) / structureRechargeDays)) + AnsiString.FromBytes(37);
+            Dialog.ChargePcntLbl.Text = IntToStr(Round((double)(Structure.FRechargeDays * 100) / structureRechargeDays)) + "%";
             var rechargeDays2 = Structure.GetRechargeDays();
             Dialog.DayLbl.Text = IntToStr(rechargeDays2 - Structure.FRechargeDays);
             var targetMana = Structure.TargetMana();
@@ -831,12 +831,12 @@ namespace Aow.Units.AoWInfoWin
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
-            Dialog.SBmemo.Items.Add((AnsiString)"");
-            Dialog.SBmemo.Items.Add((AnsiString)"");
-            Dialog.SBmemo.Items.Add((AnsiString)"");
-            Dialog.SBmemo.Items.Add((AnsiString)"");
-            Dialog.SBmemo.Items.Add((AnsiString)"");
-            Dialog.SBmemo.Items.Add((AnsiString)"");
+            Dialog.SBmemo.Items.Add("");
+            Dialog.SBmemo.Items.Add("");
+            Dialog.SBmemo.Items.Add("");
+            Dialog.SBmemo.Items.Add("");
+            Dialog.SBmemo.Items.Add("");
+            Dialog.SBmemo.Items.Add("");
             var statusWarmode = TranslateRStr(StatusWarmodeRStr);
             Dialog.SBmemo.Items.Add(statusWarmode);
         }
@@ -845,7 +845,7 @@ namespace Aow.Units.AoWInfoWin
         public static void ShowCityInfo(TIWindow Dialog, TCity Structure)
         {
             TUnit UnitObject;
-            AnsiString Reason = default;
+            string Reason = "";
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             var enter = TranslateRStr(EnterRStr);
@@ -921,7 +921,7 @@ namespace Aow.Units.AoWInfoWin
             }
             else
             {
-                Dialog.ActiveCityActionMemo.Items.Add((AnsiString)"");
+                Dialog.ActiveCityActionMemo.Items.Add("");
                 var producingMerchandise = TranslateRStr(ProducingMerchandiseRStr);
                 Dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
             }
@@ -935,7 +935,7 @@ namespace Aow.Units.AoWInfoWin
         public static void ShowProductionInfo(TIWindow Dialog, TProductionPlace Structure)
         {
             TUnit UnitObject;
-            AnsiString Reason = default;
+            string Reason = "";
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             var enter = TranslateRStr(EnterRStr);
@@ -1032,7 +1032,7 @@ namespace Aow.Units.AoWInfoWin
             {
                 if (Structure.GetMagicSphere() == TMagicSphere.msNone)
                 {
-                    Dialog.ActiveActionMemo.Items.Add((AnsiString)"");
+                    Dialog.ActiveActionMemo.Items.Add("");
                     if (Structure.GetBaseIncome() != 0)
                     {
                         var producingMerchandise = TranslateRStr(ProducingMerchandiseRStr);
@@ -1069,7 +1069,7 @@ namespace Aow.Units.AoWInfoWin
         // AoWInfoWin.pas:566
         public static void ShowRazedInfo(TIWindow Dialog, TStructure Structure)
         {
-            AnsiString Text;
+            string Text;
             ResetStructureInfo(Dialog);
             SetStructureHeader(Dialog, Structure);
             Dialog.SingleButPnl.Visible = true;
@@ -1085,8 +1085,8 @@ namespace Aow.Units.AoWInfoWin
 
             var format = AoWE.AoWE.Format(TranslateRStr(TheXliesInRuinsRStr), [Text]);
             Dialog.SBmemo.Items.Text = format;
-            Dialog.SBmemo.Items.Insert(0, (AnsiString)"");
-            Dialog.SBmemo.Items.Insert(0, (AnsiString)"");
+            Dialog.SBmemo.Items.Insert(0, "");
+            Dialog.SBmemo.Items.Insert(0, "");
         }
 
         // AoWInfoWin.pas:581

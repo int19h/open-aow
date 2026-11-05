@@ -138,7 +138,7 @@ namespace Aow.Units.TurnButton
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Exception during Draw", (AnsiString)"Error - " + Name, 0);
+                MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
             }
         }
 
@@ -250,7 +250,7 @@ namespace Aow.Units.TurnButton
         // TurnButton.pas:192
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AOW Tools", [typeof(TAOWTurnButton)]);
+            RegisterComponents("AOW Tools", [typeof(TAOWTurnButton)]);
         }
 
         public static void Initialize()

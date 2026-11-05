@@ -63,7 +63,7 @@ public sealed class MapNetSoundFailureTests
 
 
 
-    private sealed class ObservingFiles(IFileSystem inner, AnsiString name) : IFileSystem
+    private sealed class ObservingFiles(IFileSystem inner, string name) : IFileSystem
     {
         internal TSampleData? Published;
         public Stream Open(string path, int mode)

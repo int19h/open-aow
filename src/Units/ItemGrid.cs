@@ -213,7 +213,8 @@ namespace Aow.Units.ItemGrid
     public struct THeroView
     {
         public FixedArray_byte_96 Reserved00;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
         public FixedArray_byte_4 Reserved64;
         public byte Race;
         public FixedArray_byte_15 Reserved69;
@@ -223,7 +224,8 @@ namespace Aow.Units.ItemGrid
     public struct TItemView
     {
         public FixedArray_byte_24 Reserved00;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
         public FixedArray_byte_24 Reserved1C;
         public byte Kind;
         public FixedArray_byte_15 Reserved35;
@@ -235,7 +237,7 @@ namespace Aow.Units.ItemGrid
         // ItemGrid.pas:296
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoW", [typeof(TItemGrid)]);
+            RegisterComponents("AoW", [typeof(TItemGrid)]);
         }
 
         public static void Initialize()

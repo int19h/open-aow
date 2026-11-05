@@ -83,9 +83,9 @@ namespace Aow.Units.AoWSendEmailGameDlg
             if (sendEmailGameEventLog.FMode == 2)
             {
                 var smtpServer = AoWEngine.FRegistry.GetSMTPServer();
-                AutomatedChk.Checked = smtpServer != (AnsiString)"";
+                AutomatedChk.Checked = !IsEmpty(smtpServer);
                 var fRegistrySMTPServer = AoWEngine.FRegistry.GetSMTPServer();
-                ManualChk.Checked = fRegistrySMTPServer == (AnsiString)"";
+                ManualChk.Checked = IsEmpty(fRegistrySMTPServer);
             }
             else
             {

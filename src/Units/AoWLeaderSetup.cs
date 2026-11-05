@@ -325,7 +325,7 @@ namespace Aow.Units.AoWLeaderSetup
             var skillPoints = FLeader.GetSkillPoints();
             var skillPoints2 = TranslateRStr(SkillPointsRStr);
             var skillPointsMax = FLeader.GetSkillPointsMax();
-            SkillPointsLbl.Text = skillPoints2 + AnsiString.FromBytes(32) + IntToStr(skillPoints) + AnsiString.FromBytes(47) + IntToStr(skillPointsMax);
+            SkillPointsLbl.Text = skillPoints2 + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
         }
 
         // AoWLeaderSetup.pas:781
@@ -411,8 +411,8 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:852
         public void UpdateAbilities()
         {
-            AnsiString Name;
-            AnsiString Cost;
+            string Name;
+            string Cost;
             TAbility Ability;
             AvailableAbilities.Items.Clear();
             AvailableAbilitiesCost.Items.Clear();
@@ -440,8 +440,8 @@ namespace Aow.Units.AoWLeaderSetup
                     Name = AoWHSSet.FAbilityControl.GetAbility(I).GetName(FLeader);
                     if (FLeader.FHeroResource.FAbilities.GetAbSet(I) && FLeader.FHeroResource.FAbilities.GetAbLevel(I) == FLeader.GetAbilityLevel(I))
                     {
-                        Name = Name + (AnsiString)" (" + TranslateRStr(FixedRStr) + AnsiString.FromBytes(41);
-                        Cost = AnsiString.FromBytes(45);
+                        Name = Name + " (" + TranslateRStr(FixedRStr) + ")";
+                        Cost = "-";
                     }
                     else
                     {
@@ -634,7 +634,7 @@ namespace Aow.Units.AoWLeaderSetup
 
             var sphereCount = FLeader.GetSphereCount();
             var selectedSpheres = TranslateRStr(SelectedSpheresRStr);
-            SelectedSpheresLbl.Text = selectedSpheres + (AnsiString)" (" + IntToStr(sphereCount) + AnsiString.FromBytes(47) + IntToStr(FLeader.FSpherePicksMax) + AnsiString.FromBytes(41);
+            SelectedSpheresLbl.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(FLeader.FSpherePicksMax) + ")";
             if (FLeader.CanAddSphere(TMagicSphere.msLife))
             {
                 SelLife.ILIndexUp = 27;
@@ -896,7 +896,7 @@ namespace Aow.Units.AoWLeaderSetup
                     else
                     {
                         ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
                         var pleaseAssignAllSpheres = TranslateRStr(PleaseAssignAllSpheresRStr);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
@@ -1074,8 +1074,8 @@ namespace Aow.Units.AoWLeaderSetup
                 case 1:
                 {
                     var leader = FLeader;
-                    leader.SetNickname((AnsiString)"");
-                    leader.FHeroName = (AnsiString)"";
+                    leader.SetNickname("");
+                    leader.FHeroName = "";
                     UpdateLeader();
                 }
 

@@ -110,7 +110,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public static Ptr<T> Unbox(object? value) => value is PtrBox<T> box ? box.Pointer
         : throw new EInvalidCast("Object is not a box of the requested pointer type");
     public static Ptr<T> Unbox(IntOrRef value) => Unbox(value.Ref);
-    public static Ptr<T> Unbox(AnsiString value) => typeof(T) == typeof(byte) ? value.AsPtr().Reinterpret<T>()
+    public static Ptr<T> Unbox(string value) => typeof(T) == typeof(byte) ? (Ptr<T>)(object)Ptr<byte>.To([.. Cp1252.Encode(value), 0], 0)
         : throw new EInvalidCast("A string pointer requires byte elements");
     public static Ptr<T> FromBox(object? value) => value is PtrBox<T> box ? box.Pointer
         : value is IPointerBox pointer ? pointer.As<T>()

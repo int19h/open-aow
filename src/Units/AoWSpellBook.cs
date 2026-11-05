@@ -163,7 +163,7 @@ namespace Aow.Units.AoWSpellBook
         {
             TExecuteDoneEvent Done;
             TPlayerMagicEventLog Event;
-            PlaySample((AnsiString)"SFX\\INT\\BOOKCLSE.WAV");
+            PlaySample("SFX\\INT\\BOOKCLSE.WAV");
             Done = FDone;
             Event = FEvent;
             FDone = null;
@@ -444,19 +444,19 @@ namespace Aow.Units.AoWSpellBook
                 NameLbl.Text = FHero.FHeroName;
                 var player = AoWHSMap.FPlayers.GetPlayers(Player);
                 var manaPool = TranslateRStr(ManaPoolRStr);
-                ManaPoolLbl.Text = manaPool + (AnsiString)": " + IntToStr(player.FMagicControl.FMana);
+                ManaPoolLbl.Text = manaPool + ": " + IntToStr(player.FMagicControl.FMana);
                 var castingPoints = FHero.GetCastingPoints();
                 var castingPoints2 = TranslateRStr(CastingPointsRStr);
                 var castingPointsMax = FHero.GetCastingPointsMax();
-                CastingPointsLbl.Text = castingPoints2 + (AnsiString)": " + IntToStr(castingPoints) + AnsiString.FromBytes(47) + IntToStr(castingPointsMax);
+                CastingPointsLbl.Text = castingPoints2 + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
                 ResearchManaPoolLbl.Text = ManaPoolLbl.Text;
                 var netPowerToResearch = AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetNetPowerToResearch();
                 var researchPoints = TranslateRStr(ResearchPointsRStr);
-                ResearchPointsLbl.Text = researchPoints + (AnsiString)": " + IntToStr(netPowerToResearch);
+                ResearchPointsLbl.Text = researchPoints + ": " + IntToStr(netPowerToResearch);
                 if (TSet<byte>.WithBounds(0, 255).With(2).With(3).Contains(FMode))
                 {
-                    CurrentPointsLbl.Text = (AnsiString)"";
-                    CastingPointsMaxLbl.Text = (AnsiString)"";
+                    CurrentPointsLbl.Text = "";
+                    CastingPointsMaxLbl.Text = "";
                     SpellBookLbl.Visible = false;
                     ResearchBookLbl.Visible = true;
                     CastingPage.Visible = false;
@@ -467,16 +467,16 @@ namespace Aow.Units.AoWSpellBook
                         ResearchNone.Visible = false;
                         Spell = AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
                         var currentlyResearching = TranslateRStr(CurrentlyResearchingRStr);
-                        ResearchLbl.Text = currentlyResearching + AnsiString.FromBytes(58);
+                        ResearchLbl.Text = currentlyResearching + ":";
                         ResearchMemo.Items = Spell.FSpellText;
                         ResearchName.Text = Spell.FSpellName;
                         var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
                         var level = TranslateRStr(LevelRStr);
-                        ResearchClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                        ResearchClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
                         var castingMana = FHero.CastingMana(Spell);
                         var castingCost = TranslateRStr(CastingCostRStr);
                         var mana = TranslateRStr(ManaRStr);
-                        ResearchCost.Text = castingCost + (AnsiString)": " + IntToStr(castingMana) + AnsiString.FromBytes(32) + mana;
+                        ResearchCost.Text = castingCost + ": " + IntToStr(castingMana) + " " + mana;
                         if (Control.GetResearchTurnsLeft() < 999)
                         {
                             var fmtTurnsLeftStr = FmtTurnsLeftStr(Control.GetResearchTurnsLeft());
@@ -500,15 +500,15 @@ namespace Aow.Units.AoWSpellBook
                             ResearchNone.Visible = false;
                             Spell = AoWHSSet.FSpellControl.GetSpell(FResearchedSpell);
                             var researched = TranslateRStr(ResearchedRStr);
-                            ResearchLbl.Text = researched + AnsiString.FromBytes(58);
+                            ResearchLbl.Text = researched + ":";
                             ResearchMemo.Items = Spell.FSpellText;
                             ResearchName.Text = Spell.FSpellName;
                             var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
                             var level = TranslateRStr(LevelRStr);
-                            ResearchClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                            ResearchClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
                             var castingCost = TranslateRStr(CastingCostRStr);
                             var mana = TranslateRStr(ManaRStr);
-                            ResearchCost.Text = castingCost + (AnsiString)": " + IntToStr(Spell.FBaseManaCost) + AnsiString.FromBytes(32) + mana;
+                            ResearchCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
                             ResearchStatus.Visible = false;
                             var research = TranslateRStr(ResearchRStr);
                             CancelResearchBtn.Text = research;
@@ -544,13 +544,13 @@ namespace Aow.Units.AoWSpellBook
                             CastingSpell.Text = Spell.FSpellName;
                             var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
                             var level = TranslateRStr(LevelRStr);
-                            CastingClass.Text = magicSphere + (AnsiString)", " + level + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                            CastingClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
                             var castingCost = TranslateRStr(CastingCostRStr);
                             var mana = TranslateRStr(ManaRStr);
-                            CastingCost.Text = castingCost + (AnsiString)": " + IntToStr(FHero.FCastingProgress) + AnsiString.FromBytes(32) + mana;
+                            CastingCost.Text = castingCost + ": " + IntToStr(FHero.FCastingProgress) + " " + mana;
                             CastingMemo.Items = Spell.FSpellText;
                             var fmtTurnsLeftStr = FmtTurnsLeftStr(FHero.CastingTurnsLeft());
-                            CastingStatus.Text = AnsiString.FromBytes(40) + fmtTurnsLeftStr + AnsiString.FromBytes(41);
+                            CastingStatus.Text = "(" + fmtTurnsLeftStr + ")";
                             CastingPnl.Visible = true;
                             if (FHero.CastingReady())
                             {
@@ -562,7 +562,7 @@ namespace Aow.Units.AoWSpellBook
                             {
                                 CastingBtn.Visible = false;
                                 var fmtTurnsLeftStr2 = FmtTurnsLeftStr(FHero.CastingTurnsLeft());
-                                CastingStatus.Text = AnsiString.FromBytes(40) + fmtTurnsLeftStr2 + AnsiString.FromBytes(41);
+                                CastingStatus.Text = "(" + fmtTurnsLeftStr2 + ")";
                             }
                         }
                         else
@@ -583,27 +583,27 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:638
         public void ShowSpellEntry(TSpell Spell, TAOWPanel Panel, TAOWButton Button, TAOWLabel Name, TAOWLabel SpellClass, TAOWLabel Cost, TAOWMemo Memo, TAOWImage Icon)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             int Turns;
             TPlayerMagicControl Control;
             if (Spell != null)
             {
                 Panel.Visible = true;
                 Name.Text = Spell.FSpellName;
-                SpellClass.Text = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]) + (AnsiString)", " + TranslateRStr(LevelRStr) + AnsiString.FromBytes(32) + IntToStr(Spell.FSpellLevel);
+                SpellClass.Text = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]) + ", " + TranslateRStr(LevelRStr) + " " + IntToStr(Spell.FSpellLevel);
                 if (FMode == 2)
                 {
                     if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctGlobal))
                     {
                         var global = TranslateRStr(GlobalRStr);
-                        SpellClass.Text = SpellClass.Text + (AnsiString)", " + global;
+                        SpellClass.Text = SpellClass.Text + ", " + global;
                     }
                     else
                     {
                         if (Spell.FSpellControlTypes == TSet<TSpellControlTypeElement>.Of(TSpellControlTypeElement.sctCombat))
                         {
                             var combat = TranslateRStr(CombatRStr);
-                            SpellClass.Text = SpellClass.Text + (AnsiString)", " + combat;
+                            SpellClass.Text = SpellClass.Text + ", " + combat;
                         }
                         else
                         {
@@ -611,7 +611,7 @@ namespace Aow.Units.AoWSpellBook
                             {
                                 var global = TranslateRStr(GlobalRStr);
                                 var combat = TranslateRStr(CombatRStr);
-                                SpellClass.Text = SpellClass.Text + (AnsiString)", " + global + AnsiString.FromBytes(47) + combat;
+                                SpellClass.Text = SpellClass.Text + ", " + global + "/" + combat;
                             }
                         }
                     }
@@ -650,7 +650,7 @@ namespace Aow.Units.AoWSpellBook
                 if (Spell.FManaUpkeep > 0)
                 {
                     var format = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [Spell.FManaUpkeep]);
-                    Cost.Text = Cost.Text + AnsiString.FromBytes(32) + format;
+                    Cost.Text = Cost.Text + " " + format;
                 }
 
                 if (TSet<byte>.WithBounds(0, 255).With(0).With(1).Contains(FMode))
@@ -665,7 +665,7 @@ namespace Aow.Units.AoWSpellBook
                         Reason = AoWE.AoWE.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
                     }
 
-                    Cost.Text = Cost.Text + AnsiString.FromBytes(32) + Reason;
+                    Cost.Text = Cost.Text + " " + Reason;
                 }
                 else
                 {
@@ -676,12 +676,12 @@ namespace Aow.Units.AoWSpellBook
                         if (Turns < 999)
                         {
                             var format = AoWE.AoWE.Format(TranslateRStr(TurnsXRStr), [IntToStr(Turns)]);
-                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + format;
+                            Cost.Text = Cost.Text + " " + format;
                         }
                         else
                         {
                             var format = AoWE.AoWE.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
-                            Cost.Text = Cost.Text + AnsiString.FromBytes(32) + format;
+                            Cost.Text = Cost.Text + " " + format;
                         }
                     }
                 }
@@ -695,7 +695,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:455
         public void SelectSpell(TSpell Spell)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             if (ValidateHero())
             {
                 switch (FMode)
@@ -991,7 +991,7 @@ namespace Aow.Units.AoWSpellBook
             UpdateSpellPages();
             Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
             Dlg.FPageTurn.FSpeed = 25;
-            PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+            PlaySample("Sfx\\Int\\Pagef1.wav");
         }
 
         // AoWSpellBook.pas:229
@@ -1001,7 +1001,7 @@ namespace Aow.Units.AoWSpellBook
             UpdateSpellPages();
             Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
             Dlg.FPageTurn.FSpeed = 25;
-            PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+            PlaySample("Sfx\\Int\\Pagef1.wav");
         }
 
         // AoWSpellBook.pas:236
@@ -1043,7 +1043,7 @@ namespace Aow.Units.AoWSpellBook
                     Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
                 }
 
-                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                PlaySample("Sfx\\Int\\Pagef1.wav");
                 FSpellType = TSpellType.stGlobal;
                 FPage = 0;
                 UpdateSpellPages();
@@ -1065,7 +1065,7 @@ namespace Aow.Units.AoWSpellBook
                     Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
                 }
 
-                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                PlaySample("Sfx\\Int\\Pagef1.wav");
                 FSpellType = TSpellType.stUnit;
                 FPage = 0;
                 UpdateSpellPages();
@@ -1079,7 +1079,7 @@ namespace Aow.Units.AoWSpellBook
             if (FSpellType != TSpellType.stCombat || FPage != 0 || FPageKind != 1)
             {
                 Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
-                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                PlaySample("Sfx\\Int\\Pagef1.wav");
                 FSpellType = TSpellType.stCombat;
                 FPage = 0;
                 UpdateSpellPages();
@@ -1093,7 +1093,7 @@ namespace Aow.Units.AoWSpellBook
             if (FPageKind != 0)
             {
                 Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
-                PlaySample((AnsiString)"Sfx\\Int\\Pagef1.wav");
+                PlaySample("Sfx\\Int\\Pagef1.wav");
                 SetPageKind(0);
             }
         }
@@ -1101,7 +1101,7 @@ namespace Aow.Units.AoWSpellBook
         // AoWSpellBook.pas:295
         public void CastingBtnClick()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             General.PlayButtonSound(0);
             if (ValidateHero())
             {

@@ -65,7 +65,7 @@ namespace Aow.Units.AOWPyreScrn
             switch (AoWHSMap.FPlayers.GetPlayers(Event.FPlayer).FGameOverStatus)
             {
                 case TGameOverStatus.goLost:
-                    FAnimation = PlaySampleEx((AnsiString)"Sfx\\Attack\\Fireloop.wav", 64, true, 0, TSamplePanning.spCenter, null);
+                    FAnimation = PlaySampleEx("Sfx\\Attack\\Fireloop.wav", 64, true, 0, TSamplePanning.spCenter, null);
                     AoWHSMap.FTutorialControl.ShowMessage(68, true, true);
                     break;
                 case TGameOverStatus.goWon:
@@ -131,7 +131,7 @@ namespace Aow.Units.AOWPyreScrn
             int X;
             int Y;
             int Frame;
-            AnsiString Text;
+            string Text;
             X = PyreAnimation.WinWidth / 2;
             Y = PyreAnimation.WinHeight + 20 - FAnimationFrame / 2;
             if (Y < 400)
@@ -151,12 +151,12 @@ namespace Aow.Units.AOWPyreScrn
                     }
 
                     aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames[Frame].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
-                    Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + (AnsiString)", " + TranslateRStr(YourReignHasEndedRStr);
+                    Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + TranslateRStr(YourReignHasEndedRStr);
                     FontModule.AoW15BlackBrown.SetTextCentered(X, Y, Text, SD);
                     break;
                 case TGameOverStatus.goWon:
                     aowIntGfxMod.aowIntGfxMod.IntGfxMod.VictoryFrames[0].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
-                    Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + (AnsiString)", " + TranslateRStr(YouWhereVictoriousRStr);
+                    Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + TranslateRStr(YouWhereVictoriousRStr);
                     FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, Text, SD);
                     break;
             }

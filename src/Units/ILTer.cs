@@ -290,7 +290,7 @@ namespace Aow.Units.ILTer
         public override int ResourceUserClassID() => 131462;
 
         // ILTer.pas:264
-        public override AnsiString ResourceEditName() => (AnsiString)"ImageLibrary Terrain";
+        public override string ResourceEditName() => "ImageLibrary Terrain";
 
     }
 
@@ -354,7 +354,7 @@ namespace Aow.Units.ILTer
                 {
                     try
                     {
-                        throw Exception.Create((AnsiString)"TILFixedTerrain Failure");
+                        throw Exception.Create("TILFixedTerrain Failure");
                     }
                     catch (System.Exception)
                     {
@@ -382,7 +382,7 @@ namespace Aow.Units.ILTer
         public override int ResourceUserClassID() => 131464;
 
         // ILTer.pas:334
-        public override AnsiString ResourceEditName() => (AnsiString)"Fixed ImageLibrary Terrain";
+        public override string ResourceEditName() => "Fixed ImageLibrary Terrain";
 
     }
 

@@ -5,7 +5,7 @@ namespace Aow.Units.AOWMultiWin;
 
 public partial class TMultiWindow
 {
-    public void Execute(AnsiString mapName)
+    public void Execute(string mapName)
     {
         var songs = Sound.Sound.SongPlayer;
         if (songs.CurrentIndex == -1 || songs.CurrentIndex >= songs.Songs.Count || songs.Songs[songs.CurrentIndex] != "SONGS\\TITLE.IT")

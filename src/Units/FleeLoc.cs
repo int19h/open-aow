@@ -168,7 +168,7 @@ namespace Aow.Units.FleeLoc
         public override int ResourceUserClassID() => 2229544;
 
         // FleeLoc.pas:166
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Flee Location";
+        public override string ResourceEditName() => "Combat Flee Location";
 
     }
 

@@ -42,10 +42,10 @@ public static partial class Rtl
         Settings = host.Settings;
         Dialogs = host.Dialogs;
         Application.ExeName = host.ExeName;
-        MessageHandler = message => host.Dialogs.Show(new(message.ToString(), "", 0, 1));
+        MessageHandler = message => host.Dialogs.Show(new(message, "", 0, 1));
     }
 
-    public static int MessageBox(int handle, AnsiString text, AnsiString caption, int flags)
+    public static int MessageBox(int handle, string text, string caption, int flags)
     {
         int[] buttons = (flags & 15) switch
         {
@@ -53,6 +53,6 @@ public static partial class Rtl
             4 => [6, 7], 5 => [4, 2], _ => [1]
         };
         int selected = Math.Min((flags >> 8) & 3, buttons.Length - 1);
-        return (Dialogs ?? throw new EInvalidOperation(text)).Show(new(text.ToString(), caption.ToString(), flags, buttons[selected]));
+        return (Dialogs ?? throw new EInvalidOperation(text)).Show(new(text, caption, flags, buttons[selected]));
     }
 }

@@ -96,7 +96,7 @@ namespace Aow.Units.DisplayC
             }
             else
             {
-                throw Exception.Create((AnsiString)"TMatrix out of bounds (DCTypes)");
+                throw Exception.Create("TMatrix out of bounds (DCTypes)");
             }
 
             return Result;
@@ -166,7 +166,7 @@ namespace Aow.Units.DisplayC
             }
             else
             {
-                ShowError((AnsiString)"Cannot change buffering scheme when DC is activated");
+                ShowError("Cannot change buffering scheme when DC is activated");
             }
 
             switch (FBufferingScheme)
@@ -196,7 +196,7 @@ namespace Aow.Units.DisplayC
             }
             else
             {
-                ShowError((AnsiString)"Cannot change update frame loop mode when UpdateFrame loop is activated");
+                ShowError("Cannot change update frame loop mode when UpdateFrame loop is activated");
             }
         }
 
@@ -495,7 +495,7 @@ namespace Aow.Units.DisplayC
             }
             catch (System.Exception)
             {
-                ShowMessage((AnsiString)"Exception occured during ExecuteBltSurface event");
+                ShowMessage("Exception occured during ExecuteBltSurface event");
                 throw;
             }
 
@@ -667,7 +667,7 @@ namespace Aow.Units.DisplayC
         }
 
         // DisplayC.pas:85
-        public virtual void ShowError(AnsiString Msg)
+        public virtual void ShowError(string Msg)
         {
             throw EAbstractError.Create("Abstract Error");
         }
@@ -1487,7 +1487,7 @@ namespace Aow.Units.DisplayC
         bsTripple = 2
     }
 
-    public delegate void TErrorEvent(AnsiString ErrorStr, int Error);
+    public delegate void TErrorEvent(string ErrorStr, int Error);
     public delegate void TSurfaceDataLostEvent(TAbstractDC DC, int SurfaceType);
     public enum TUpdateFrameMode : byte
     {
@@ -1779,7 +1779,7 @@ namespace Aow.Units.DisplayC
             }
             else
             {
-                ShowMessage((AnsiString)"Cannot change PixelFormat when activated");
+                ShowMessage("Cannot change PixelFormat when activated");
             }
         }
 
@@ -2656,9 +2656,9 @@ namespace Aow.Units.DisplayC
         // DisplayC.pas:3184
         public static void Register()
         {
-            RegisterComponents((AnsiString)"GFX Engine", [typeof(TDisplay)]);
-            RegisterComponents((AnsiString)"GFX Engine", [typeof(TWindows08DC), typeof(TWindows16DC), typeof(TWindows24DC), typeof(TWindows32DC)]);
-            RegisterComponents((AnsiString)"GFX Engine", [typeof(TDDrawFullScr16DC), typeof(TDDrawFullScr24DC), typeof(TDDrawFullScr32DC)]);
+            RegisterComponents("GFX Engine", [typeof(TDisplay)]);
+            RegisterComponents("GFX Engine", [typeof(TWindows08DC), typeof(TWindows16DC), typeof(TWindows24DC), typeof(TWindows32DC)]);
+            RegisterComponents("GFX Engine", [typeof(TDDrawFullScr16DC), typeof(TDDrawFullScr24DC), typeof(TDDrawFullScr32DC)]);
         }
     }
 }

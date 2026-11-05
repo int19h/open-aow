@@ -43,7 +43,7 @@ namespace Aow.Units.LifeNode
 
 
         // LifeNode.pas:52
-        public override AnsiString ResourceEditName() => TranslateRStr(LifeNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(LifeNodeRStr);
 
     }
 

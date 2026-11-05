@@ -14,7 +14,7 @@ namespace Aow.Units.FileSecurity
         public byte Key;
         [FieldOffset(5)]
         public FixedArray_byte_51 ID__image;
-        public AnsiString ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
+        public string ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
         [FieldOffset(56)]
         public FixedArray_byte_50 Reserved38;
@@ -37,7 +37,7 @@ namespace Aow.Units.FileSecurity
         // { FileSecurity, from AoWEPACK.dpl. Security trailers use a $6A-byte data record
 //   and a $0C-byte footer containing CRC32, size and the SDID signature.
 //   The four unnamed helpers follow PageTurnCtrl's finalization in code order. }
-        public static bool GetFileSecurityID(AnsiString FileName, ref AnsiString ID)
+        public static bool GetFileSecurityID(string FileName, ref string ID)
         {
             bool Result;
             TSecurityData Data = default;
@@ -48,7 +48,7 @@ namespace Aow.Units.FileSecurity
             }
             else
             {
-                ID = (AnsiString)"";
+                ID = "";
                 Result = false;
             }
 
@@ -56,7 +56,7 @@ namespace Aow.Units.FileSecurity
         }
 
         // FileSecurity.pas:148
-        public static bool SetFileSecurityID(AnsiString FileName, AnsiString ID)
+        public static bool SetFileSecurityID(string FileName, string ID)
         {
             TSecurityData Data;
             byte Key;
@@ -69,29 +69,29 @@ namespace Aow.Units.FileSecurity
         }
 
         // FileSecurity.pas:160
-        public static bool RemoveFileSecurityID(AnsiString FileName) => RemoveSecurityData(FileName);
+        public static bool RemoveFileSecurityID(string FileName) => RemoveSecurityData(FileName);
 
         // FileSecurity.pas:31
-        public static AnsiString EncodeSecurityID(AnsiString Value, byte Key)
+        public static string EncodeSecurityID(string Value, byte Key)
         {
-            AnsiString Result = (AnsiString)"";
+            string Result = "";
             for (int I = 1; I <= Value.Length; I++)
             {
-                Result = Result + AnsiString.FromBytes((byte)((byte)((Value.Length + (I + 5) + (byte)(Key + 0)) & 255) ^ Value[I]));
+                Result = Result + Cp1252.Text((byte)((byte)((Value.Length + (I + 5) + (byte)(Key + 0)) & 255) ^ Cp1252.Byte(Value[I - 1])));
             }
 
             return Result;
         }
 
         // FileSecurity.pas:63
-        public static bool WriteSecurityData(AnsiString FileName, in TSecurityData Data)
+        public static bool WriteSecurityData(string FileName, in TSecurityData Data)
         {
             /* TODO: Implement Windows.CreateFile in the platform or editor service. */
             throw new NotImplementedException();
         }
 
         // FileSecurity.pas:99
-        public static bool RemoveSecurityData(AnsiString FileName)
+        public static bool RemoveSecurityData(string FileName)
         {
             /* TODO: Implement Windows.CreateFile in the platform or editor service. */
             throw new NotImplementedException();

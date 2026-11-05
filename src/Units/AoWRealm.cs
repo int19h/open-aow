@@ -214,54 +214,54 @@ namespace Aow.Units.AoWRealm
                     switch (C.FWallType)
                     {
                         case 1:
-                            T2WallLB.Items.Add(AnsiString.FromBytes(49));
+                            T2WallLB.Items.Add("1");
                             break;
                         case 2:
-                            T2WallLB.Items.Add(AnsiString.FromBytes(50));
+                            T2WallLB.Items.Add("2");
                             break;
                         default:
-                            T2WallLB.Items.Add(AnsiString.FromBytes(45));
+                            T2WallLB.Items.Add("-");
                             break;
                     }
 
                     switch (C.GetCivilStatus())
                     {
                         case TCivilStatus.csUnrest:
-                            T2MorLB.Items.Add(AnsiString.FromBytes(49));
+                            T2MorLB.Items.Add("1");
                             break;
                         case TCivilStatus.csStable:
-                            T2MorLB.Items.Add(AnsiString.FromBytes(50));
+                            T2MorLB.Items.Add("2");
                             break;
                         case TCivilStatus.csContent:
-                            T2MorLB.Items.Add(AnsiString.FromBytes(51));
+                            T2MorLB.Items.Add("3");
                             break;
                         case TCivilStatus.csCheerful:
-                            T2MorLB.Items.Add(AnsiString.FromBytes(52));
+                            T2MorLB.Items.Add("4");
                             break;
                         default:
-                            T2MorLB.Items.Add(AnsiString.FromBytes(45));
+                            T2MorLB.Items.Add("-");
                             break;
                     }
 
                     switch ((int)AoWHSMap.FRaces.GetRace(C.FRace).GetPlayerRelation(AoWHSMap.FSeatedPlayer) & 127)
                     {
                         case 0:
-                            T2RelLB.Items.Add(AnsiString.FromBytes(48));
+                            T2RelLB.Items.Add("0");
                             break;
                         case 1:
-                            T2RelLB.Items.Add(AnsiString.FromBytes(49));
+                            T2RelLB.Items.Add("1");
                             break;
                         case 2:
-                            T2RelLB.Items.Add(AnsiString.FromBytes(50));
+                            T2RelLB.Items.Add("2");
                             break;
                         case 3:
-                            T2RelLB.Items.Add(AnsiString.FromBytes(51));
+                            T2RelLB.Items.Add("3");
                             break;
                         case 4:
-                            T2RelLB.Items.Add(AnsiString.FromBytes(52));
+                            T2RelLB.Items.Add("4");
                             break;
                         default:
-                            T2RelLB.Items.Add(AnsiString.FromBytes(45));
+                            T2RelLB.Items.Add("-");
                             break;
                     }
 
@@ -270,33 +270,33 @@ namespace Aow.Units.AoWRealm
                         case 3:
                             if (C.FWallType == 1)
                             {
-                                T2ActLB.Items.Add(AnsiString.FromBytes(49));
+                                T2ActLB.Items.Add("1");
                             }
                             else
                             {
-                                T2ActLB.Items.Add(AnsiString.FromBytes(48));
+                                T2ActLB.Items.Add("0");
                             }
 
                             break;
                         case 2:
-                            T2ActLB.Items.Add(AnsiString.FromBytes(50));
+                            T2ActLB.Items.Add("2");
                             break;
                         case 5:
-                            T2ActLB.Items.Add(AnsiString.FromBytes(51));
+                            T2ActLB.Items.Add("3");
                             break;
                         case 4:
-                            T2ActLB.Items.Add(AnsiString.FromBytes(52));
+                            T2ActLB.Items.Add("4");
                             break;
                         case 7:
                         case 8:
-                            T2ActLB.Items.Add(AnsiString.FromBytes(53));
+                            T2ActLB.Items.Add("5");
                             break;
                         default:
-                            T2ActLB.Items.Add(AnsiString.FromBytes(45));
+                            T2ActLB.Items.Add("-");
                             break;
                     }
 
-                    T2EncLB.Items.Add(AnsiString.FromBytes(45));
+                    T2EncLB.Items.Add("-");
                     var size = C.GetSize();
                     T2SizeLB.Items.Add(IntToStr(size));
                 }
@@ -341,7 +341,7 @@ namespace Aow.Units.AoWRealm
                         T5Name.Items.AddObject(name, army);
                         var hitPoints = U.GetHitPoints();
                         var hits = U.GetHits();
-                        T5Health.Items.AddObject(IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits), U);
+                        T5Health.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), U);
                         var level = ((THero)U).GetLevel();
                         T5Level.Items.Add(IntToStr(level));
                     }
@@ -450,8 +450,8 @@ namespace Aow.Units.AoWRealm
         // AoWRealm.pas:388
         public void T2WallLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
-            ReadOnlySpan<byte> text = StringBytes(T2WallLB.Items[DrawItem]);
-            switch (text.IsEmpty ? (byte)0 : text[0])
+            string text = T2WallLB.Items[DrawItem];
+            switch (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]))
             {
                 case 49:
                     var lbIcon = IntGfxMod.LBIcons[7];
@@ -554,8 +554,8 @@ namespace Aow.Units.AoWRealm
         public void T2MorLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
             int Icon;
-            ReadOnlySpan<byte> text = StringBytes(T2MorLB.Items[DrawItem]);
-            Icon = (text.IsEmpty ? (byte)0 : text[0]) - 48;
+            string text = T2MorLB.Items[DrawItem];
+            Icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
             var lbIcon = IntGfxMod.LBIcons[Icon + 9];
             IntGfxMod.LBIcons[Icon + 9].ShowClipped(DrawRect.Left + (DrawRect.Right - DrawRect.Left) / 2 - lbIcon.Width / 2, DrawRect.Top, SurfDesc);
         }
@@ -711,8 +711,8 @@ namespace Aow.Units.AoWRealm
         public void T2ActLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
             byte Icon;
-            ReadOnlySpan<byte> text = StringBytes(T2ActLB.Items[DrawItem]);
-            Icon = text.IsEmpty ? (byte)0 : text[0];
+            string text = T2ActLB.Items[DrawItem];
+            Icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
             if (Icon != 45)
             {
                 var lbIcon = IntGfxMod.LBIcons[Icon - 23];
@@ -731,8 +731,8 @@ namespace Aow.Units.AoWRealm
         public void T2RelLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
             int Icon;
-            ReadOnlySpan<byte> text = StringBytes(T2RelLB.Items[DrawItem]);
-            Icon = (text.IsEmpty ? (byte)0 : text[0]) - 48;
+            string text = T2RelLB.Items[DrawItem];
+            Icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
             var lbIcon = IntGfxMod.LBIcons[Icon + 14];
             IntGfxMod.LBIcons[Icon + 14].ShowClipped(DrawRect.Left + (DrawRect.Right - DrawRect.Left) / 2 - lbIcon.Width / 2, DrawRect.Top, SurfDesc);
         }

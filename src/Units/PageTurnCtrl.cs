@@ -47,7 +47,7 @@ namespace Aow.Units.PageTurnCtrl
         public float GetInvCos(float Value)
         {
             float Result;
-            Assert((double)Value >= -1 && (double)Value <= 1, (AnsiString)"", "PageTurnCtrl.pas", 85);
+            Assert((double)Value >= -1 && (double)Value <= 1, "", "PageTurnCtrl.pas", 85);
             if ((double)Value >= 0)
             {
                 Result = FInvCos[Round((double)Value * 511)];

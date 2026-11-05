@@ -430,7 +430,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:408
-        public override bool CanExecuteProduction(TProductionItem Item, ref AnsiString Reason)
+        public override bool CanExecuteProduction(TProductionItem Item, ref string Reason)
         {
             bool Result;
             switch (City.ProductionIDToCityAction(Item.FProductionID))
@@ -483,9 +483,9 @@ namespace Aow.Units.City
         }
 
         // City.pas:615
-        public override AnsiString GetProductionName(TProductionItem Item)
+        public override string GetProductionName(TProductionItem Item)
         {
-            AnsiString Result = base.GetProductionName(Item);
+            string Result = base.GetProductionName(Item);
             switch (City.ProductionIDToCityAction(Item.FProductionID))
             {
                 case TCityAction.caTrade:
@@ -510,9 +510,9 @@ namespace Aow.Units.City
         }
 
         // City.pas:627
-        public override AnsiString GetProductionNameProgressive(TProductionItem Item)
+        public override string GetProductionNameProgressive(TProductionItem Item)
         {
-            AnsiString Result = base.GetProductionNameProgressive(Item);
+            string Result = base.GetProductionNameProgressive(Item);
             switch (City.ProductionIDToCityAction(Item.FProductionID))
             {
                 case TCityAction.caTrade:
@@ -752,7 +752,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:2762
-        public override AnsiString GetName() => TranslateRStr(City.TCityEnchantmentIDRStr[(int)FEnchantmentID]);
+        public override string GetName() => TranslateRStr(City.TCityEnchantmentIDRStr[(int)FEnchantmentID]);
 
         // City.pas:2739
         public override TXYL GetLocation()
@@ -831,7 +831,7 @@ namespace Aow.Units.City
 
         public TSet<TCityModeElement> FMode;
         public sbyte FRace;
-        public AnsiString FName;
+        public string FName = "";
         public byte FWallType;
         public byte FUpgradeLevel;
         public TCityProductionControl FProduction;
@@ -1275,7 +1275,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:2080
-        public override AnsiString GetName() => FName;
+        public override string GetName() => FName;
 
         // City.pas:1623
         public override void SetRazed(bool Value)
@@ -1538,9 +1538,9 @@ namespace Aow.Units.City
         }
 
         // City.pas:2611
-        public override AnsiString GetCurrentActivityText()
+        public override string GetCurrentActivityText()
         {
-            AnsiString Result;
+            string Result;
             if (FProduction.FQueue.Count == 0)
             {
                 Result = TranslateRStr(ProducingMerchandiseRStr);
@@ -1559,9 +1559,9 @@ namespace Aow.Units.City
         {
             bool Result = base.ValidateMap(A1);
             var noname = TranslateRStr(NonameRStr);
-            if (CompareText(FName, noname) == 0 || FName == (AnsiString)"")
+            if (CompareText(FName, noname) == 0 || IsEmpty(FName))
             {
-                A1.Add(TranslateRStr(City.CityWarningRStr) + (AnsiString)": " + TranslateRStr(NoNameSpecifiedRStr));
+                A1.Add(TranslateRStr(City.CityWarningRStr) + ": " + TranslateRStr(NoNameSpecifiedRStr));
                 Result = false;
             }
 
@@ -1765,9 +1765,9 @@ namespace Aow.Units.City
         }
 
         // City.pas:2214
-        public override AnsiString GetCombatEventText(TCombat Combat)
+        public override string GetCombatEventText(TCombat Combat)
         {
-            AnsiString Result = default;
+            string Result = "";
             if (!GetRazed())
             {
                 if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
@@ -2155,22 +2155,22 @@ namespace Aow.Units.City
 
             if (FEnchantments.Contains(TCityEnchantmentID.ceiFountainOfLife))
             {
-                List.Add(TranslateRStr(FountainOfLifeRStr) + (AnsiString)": " + TranslateRStr(EnchantmentRStr));
+                List.Add(TranslateRStr(FountainOfLifeRStr) + ": " + TranslateRStr(EnchantmentRStr));
             }
 
             if (FEnchantments.Contains(TCityEnchantmentID.ceiGoldRush))
             {
-                List.Add(TranslateRStr(GoldRushRStr) + (AnsiString)": " + TranslateRStr(EnchantmentRStr));
+                List.Add(TranslateRStr(GoldRushRStr) + ": " + TranslateRStr(EnchantmentRStr));
             }
 
             if (FEnchantments.Contains(TCityEnchantmentID.ceiAntiMagicShell))
             {
-                List.Add(TranslateRStr(AntiMagicShellRStr) + (AnsiString)": " + TranslateRStr(EnchantmentRStr));
+                List.Add(TranslateRStr(AntiMagicShellRStr) + ": " + TranslateRStr(EnchantmentRStr));
             }
 
             if (FEnchantments.Contains(TCityEnchantmentID.ceiWarmonger))
             {
-                List.Add(TranslateRStr(WarmongerRStr) + (AnsiString)": " + TranslateRStr(EnchantmentRStr));
+                List.Add(TranslateRStr(WarmongerRStr) + ": " + TranslateRStr(EnchantmentRStr));
             }
         }
 
@@ -2453,7 +2453,7 @@ namespace Aow.Units.City
         public int UpgradeTime() => 3;
 
         // City.pas:1356
-        public bool CanUpgrade(bool Queue, ref AnsiString Reason)
+        public bool CanUpgrade(bool Queue, ref string Reason)
         {
             bool Result;
             int Level;
@@ -2489,7 +2489,7 @@ namespace Aow.Units.City
         {
             bool Result;
             TProductionItem Item;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanUpgrade(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 Item = new TProductionItem(null);
@@ -2532,7 +2532,7 @@ namespace Aow.Units.City
         public int FortifyTime() => 2;
 
         // City.pas:1400
-        public bool CanFortify(bool Queue, ref AnsiString Reason)
+        public bool CanFortify(bool Queue, ref string Reason)
         {
             bool Result;
             int Level;
@@ -2568,7 +2568,7 @@ namespace Aow.Units.City
         {
             bool Result;
             TProductionItem Item;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanFortify(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 Item = new TProductionItem(null);
@@ -2592,7 +2592,7 @@ namespace Aow.Units.City
         public int ProductionTime(int Index) => FProduction.UnitProductionTime(Index);
 
         // City.pas:1440
-        public bool CanProduce(int Index, bool Queue, ref AnsiString Reason) => FProduction.CanProduceUnit(Index, Queue, ref Reason);
+        public bool CanProduce(int Index, bool Queue, ref string Reason) => FProduction.CanProduceUnit(Index, Queue, ref Reason);
 
         // City.pas:1445
         public bool Produce(int Index, bool Queue) => FProduction.ProduceUnit(Index, Queue);
@@ -2604,20 +2604,20 @@ namespace Aow.Units.City
         public int ResearchTime(int Index) => FProduction.UnitResearchTime(Index);
 
         // City.pas:1460
-        public bool CanResearch(int Index, bool Queue, ref AnsiString Reason) => FProduction.CanResearchUnit(Index, Queue, ref Reason);
+        public bool CanResearch(int Index, bool Queue, ref string Reason) => FProduction.CanResearchUnit(Index, Queue, ref Reason);
 
         // City.pas:1465
         public bool Research(int Index, bool Queue) => FProduction.ResearchUnit(Index, Queue);
 
         // City.pas:1470
-        public bool CanTrade(bool Queue, ref AnsiString Reason) => true;
+        public bool CanTrade(bool Queue, ref string Reason) => true;
 
         // City.pas:1475
         public bool Trade(bool Queue)
         {
             bool Result;
             TProductionItem Item;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanTrade(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 Item = new TProductionItem(null);
@@ -2647,14 +2647,14 @@ namespace Aow.Units.City
         public int LootTime() => GetSize();
 
         // City.pas:1496
-        public bool CanLoot(ref AnsiString Reason) => !FMode.Contains(TCityModeElement.cmRazed);
+        public bool CanLoot(ref string Reason) => !FMode.Contains(TCityModeElement.cmRazed);
 
         // City.pas:1499
         public bool Loot()
         {
             bool Result;
             TProductionItem Item;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanLoot(ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 Item = new TProductionItem(null);
@@ -2675,7 +2675,7 @@ namespace Aow.Units.City
         public int MigrationTime(sbyte Race)
         {
             int Result;
-            AnsiString Reason = default;
+            string Reason = "";
             THNWalkData Walk = default;
             TMapLevel MapLevel;
             int Radius;
@@ -2724,7 +2724,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:1544
-        public bool CanMigrate(sbyte Race, ref AnsiString Reason)
+        public bool CanMigrate(sbyte Race, ref string Reason)
         {
             bool Result;
             int I;
@@ -2753,7 +2753,7 @@ namespace Aow.Units.City
         {
             bool Result;
             TProductionItem Item;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanMigrate(Race, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 Item = new TProductionItem(null);
@@ -2775,7 +2775,7 @@ namespace Aow.Units.City
         public TMigrationItem CreateMigrationItem(sbyte Race)
         {
             TMigrationItem Result;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanMigrate(Race, ref Reason))
             {
                 Result = new TMigrationItem(null);
@@ -3258,7 +3258,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:2085
-        public void SetName(AnsiString Name)
+        public void SetName(string Name)
         {
             FName = Name;
             Update();
@@ -3846,7 +3846,7 @@ namespace Aow.Units.City
 
 
         // City.pas:2633
-        public override AnsiString ResourceEditName() => TranslateRStr(CityRStr);
+        public override string ResourceEditName() => TranslateRStr(CityRStr);
 
     }
 
@@ -3862,7 +3862,7 @@ namespace Aow.Units.City
         public int FXhx;
         public int FYhx;
         public int FLhx;
-        public AnsiString FCityName;
+        public string FCityName = "";
         // City.pas:2680
         public override void ReadWrite(TEStorageStream Stream)
         {
@@ -3874,7 +3874,7 @@ namespace Aow.Units.City
         }
 
         // City.pas:2689
-        public override AnsiString GetText() => Rtl.Rtl.Format(TranslateRStr(CityRebellionRStr), [FCityName]);
+        public override string GetText() => Rtl.Rtl.Format(TranslateRStr(CityRebellionRStr), [FCityName]);
 
         // City.pas:2699
         public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
@@ -4187,7 +4187,7 @@ namespace Aow.Units.City
         // City.pas:2909
         public bool ValidUpgradeCity(TCity City)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             int Level;
             Level = City.FProduction.GetProduceUnitLevelMax();
             bool Result = City.CanUpgrade(false, ref Reason);
@@ -4322,7 +4322,7 @@ namespace Aow.Units.City
         // City.pas:2999
         public bool ValidFortifyCity(TCity City)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             bool Result = City.CanFortify(false, ref Reason);
             Result = Result && City.FWallType == 0 || City.FWallType == 1 && City.GetSize() > 2 && City.FUpgradeLevel > 1 && AoWHSMap.FDay >= 30;
             bool result = Result;
@@ -4763,17 +4763,17 @@ namespace Aow.Units.City
             return Result;
         }
 
-        public static FixedArray_Aow_Rtl_AnsiString_9 TCityActionRStr = FixedArray_Aow_Rtl_AnsiString_9.From([(AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)"", (AnsiString)""]);
+        public static FixedArray_string_9 TCityActionRStr = FixedArray_string_9.From(["", "", "", "", "", "", "", "", ""]);
         // export
-        public static FixedArray_Aow_Rtl_AnsiString_7 TCivilStatusRStr = FixedArray_Aow_Rtl_AnsiString_7.From([(AnsiString)"Unruly", (AnsiString)"Unrest", (AnsiString)"Stable", (AnsiString)"Content", (AnsiString)"Cheerful", (AnsiString)"Oppressed", (AnsiString)"Slavery"]);
-        public static FixedArray_Aow_Rtl_AnsiString_4 TCityEnchantmentIDRStr = FixedArray_Aow_Rtl_AnsiString_4.From([(AnsiString)"Fountain Of Life", (AnsiString)"Gold Rush", (AnsiString)"Anti Magic Shell", (AnsiString)"Warmonger"]);
+        public static FixedArray_string_7 TCivilStatusRStr = FixedArray_string_7.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful", "Oppressed", "Slavery"]);
+        public static FixedArray_string_4 TCityEnchantmentIDRStr = FixedArray_string_4.From(["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"]);
         public static FixedArray_byte_4 UpgradePrices = FixedArray_byte_4.From([250, 250, 250, 250]);
         public static FixedArray_byte_4 WoodWallPrices = FixedArray_byte_4.From([20, 40, 60, 80]);
         public static FixedArray_byte_4 StoneWallPrices = FixedArray_byte_4.From([20, 40, 60, 80]);
-        public static readonly AnsiString CityNotEnoughGoldRStr = (AnsiString)"Not enough gold.";
-        public static readonly AnsiString CityWarningRStr = (AnsiString)"Warning";
-        public static readonly AnsiString CityWoodenWallRStr = (AnsiString)"Wooden Wall";
-        public static readonly AnsiString CityStoneWallRStr = (AnsiString)"Stone Wall";
+        public static readonly string CityNotEnoughGoldRStr = "Not enough gold.";
+        public static readonly string CityWarningRStr = "Warning";
+        public static readonly string CityWoodenWallRStr = "Wooden Wall";
+        public static readonly string CityStoneWallRStr = "Stone Wall";
         public static TCity SortingCity;
         // City.pas:2005
         public static int CompareCityProductions(object Item1, object Item2)

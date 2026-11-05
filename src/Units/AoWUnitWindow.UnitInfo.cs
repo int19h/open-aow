@@ -67,7 +67,7 @@ namespace Aow.Units.AoWUnitWindow
                 }
                 else
                 {
-                    AoWUnitWindow.UnitWindow.TypeV.Text = (AnsiString)"";
+                    AoWUnitWindow.UnitWindow.TypeV.Text = "";
                     AoWUnitWindow.UnitWindow.RelationIcn.Visible = false;
                     var none = TranslateRStr(AoWUnitWindow.NoneRStr);
                     AoWUnitWindow.UnitWindow.RelationV.Text = none;
@@ -89,31 +89,31 @@ namespace Aow.Units.AoWUnitWindow
                 {
                     case TUnitType.utCreature:
                         var creature = TranslateRStr(AoWUnitWindow.CreatureRStr);
-                        AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32) + creature;
+                        AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + " " + creature;
                         AoWUnitWindow.UnitWindow.TypeIcn.CurrentImage = 21;
                         break;
                     case TUnitType.utMachine:
                         var machine = TranslateRStr(AoWUnitWindow.MachineRStr);
-                        AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32) + machine;
+                        AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + " " + machine;
                         AoWUnitWindow.UnitWindow.TypeIcn.CurrentImage = 22;
                         break;
                     default:
                         if (H == null)
                         {
                             var unit = TranslateRStr(AoWUnitWindow.UnitRStr);
-                            AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32) + unit;
+                            AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + " " + unit;
                         }
                         else
                         {
                             if (H is TLeader)
                             {
                                 var leader = TranslateRStr(AoWUnitWindow.LeaderRStr);
-                                AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32) + leader;
+                                AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + " " + leader;
                             }
                             else
                             {
                                 var hero = TranslateRStr(AoWUnitWindow.HeroRStr);
-                                AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + AnsiString.FromBytes(32) + hero;
+                                AoWUnitWindow.UnitWindow.TypeV.Text = AoWUnitWindow.UnitWindow.TypeV.Text + " " + hero;
                             }
                         }
 
@@ -125,7 +125,7 @@ namespace Aow.Units.AoWUnitWindow
                 {
                     var level = TranslateRStr(AoWUnitWindow.LevelRStr);
                     var unitLevel = U.GetUnitLevel();
-                    AoWUnitWindow.UnitWindow.Level.Text = level + AnsiString.FromBytes(32) + IntToStr(unitLevel);
+                    AoWUnitWindow.UnitWindow.Level.Text = level + " " + IntToStr(unitLevel);
                     AoWUnitWindow.UnitWindow.T2Leader.Visible = false;
                     AoWUnitWindow.UnitWindow.T2Text.Visible = true;
                     var description = U.GetDescription();
@@ -244,7 +244,7 @@ namespace Aow.Units.AoWUnitWindow
                         AoWUnitWindow.UnitWindow.Mana.Visible = true;
                         var castingPoints = H.GetCastingPoints();
                         var castingPointsMax = H.GetCastingPointsMax();
-                        AoWUnitWindow.UnitWindow.Mana.Text = IntToStr(castingPoints) + AnsiString.FromBytes(47) + IntToStr(castingPointsMax);
+                        AoWUnitWindow.UnitWindow.Mana.Text = IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
                         AoWUnitWindow.UnitWindow.ManaIcon.Visible = true;
                     }
 
@@ -252,17 +252,17 @@ namespace Aow.Units.AoWUnitWindow
                     AoWUnitWindow.UnitWindow.FGroundOffset = 0;
                     var level = TranslateRStr(AoWUnitWindow.LevelRStr);
                     var hLevel = H.GetLevel();
-                    AoWUnitWindow.UnitWindow.Level.Text = level + AnsiString.FromBytes(32) + IntToStr(hLevel);
+                    AoWUnitWindow.UnitWindow.Level.Text = level + " " + IntToStr(hLevel);
                     AoWUnitWindow.UnitWindow.T2Leader.Visible = true;
                     AoWUnitWindow.UnitWindow.T2Text.Visible = false;
                     var nickname = H.GetNickname();
-                    AoWUnitWindow.UnitWindow.UnitName.Text = H.FHeroName + AnsiString.FromBytes(32) + nickname;
+                    AoWUnitWindow.UnitWindow.UnitName.Text = H.FHeroName + " " + nickname;
                 }
 
                 var exp = TranslateRStr(AoWUnitWindow.ExpRStr);
                 var experience = U.GetExperience();
                 var nextLevelExperience = U.GetNextLevelExperience();
-                AoWUnitWindow.UnitWindow.XP.Text = exp + (AnsiString)" (" + IntToStr(experience) + AnsiString.FromBytes(47) + IntToStr(nextLevelExperience) + AnsiString.FromBytes(41);
+                AoWUnitWindow.UnitWindow.XP.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
                 AoWUnitWindow.UnitWindow.UnitWin.Cursor = 0;
                 if (AoWUnitWindow.UnitWindow.UnitTab.Items.Count <= AoWUnitWindow.UnitWindow.UnitTab.Selected || AoWUnitWindow.UnitWindow.UnitTab.Selected < 0)
                 {
@@ -435,19 +435,19 @@ namespace Aow.Units.AoWUnitWindow
                 {
                     var hitPoints = U.GetHitPoints();
                     var hits = U.GetHits();
-                    AoWUnitWindow.UnitWindow.UHits.Text = IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits);
+                    AoWUnitWindow.UnitWindow.UHits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
                     if (AoWHSMap.FCombatMap == null)
                     {
                         var movePoints = U.GetMovePoints();
                         var moves = U.GetMoves();
-                        AoWUnitWindow.UnitWindow.UMoves.Text = IntToStr(movePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                        AoWUnitWindow.UnitWindow.UMoves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
                     }
                     else
                     {
                         if (General.FCombatUnit != null)
                         {
                             var moves = General.FCombatUnit.FUnit.GetMoves();
-                            AoWUnitWindow.UnitWindow.UMoves.Text = IntToStr(General.FCombatUnit.FUnit.FMovePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                            AoWUnitWindow.UnitWindow.UMoves.Text = IntToStr(General.FCombatUnit.FUnit.FMovePoints) + "/" + IntToStr(moves);
                         }
                     }
 

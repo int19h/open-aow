@@ -116,7 +116,7 @@ namespace Aow.Units.Pad
 
 
         // Pad.pas:79
-        public override AnsiString ResourceEditName() => (AnsiString)"Pad";
+        public override string ResourceEditName() => "Pad";
 
     }
 

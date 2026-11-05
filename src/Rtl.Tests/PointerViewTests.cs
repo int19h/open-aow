@@ -7,10 +7,10 @@ public sealed class PointerViewTests
     [Fact]
     public void StringPointerConversionKeepsBytesAndTerminatesAtNul()
     {
-        var text = AnsiString.FromBytes(65, 233, 0, 66);
+        var text = "A\u00E9\0B";
         var pointer = Ptr<byte>.Unbox(text);
         Assert.Equal(new byte[] { 65, 233, 0, 66, 0 }, pointer.AsSpan(5).ToArray());
-        Assert.Equal(AnsiString.FromBytes(65, 233), AnsiString.FromPChar(pointer));
+        Assert.Equal("A\u00E9", Rtl.StrPas(pointer));
         Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox(text));
     }
     [StructLayout(LayoutKind.Explicit, Size = 8)]

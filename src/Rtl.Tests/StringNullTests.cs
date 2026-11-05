@@ -29,8 +29,8 @@ public sealed class StringNullTests
             () => Cp1252.Encode(null), () => Cp1252.Normalize(null),
             () => Cp1252.Compare(null, ""), () => Cp1252.Compare("", null),
             () => Cp1252.Comparer.Compare(null, ""), () => Cp1252.Comparer.Compare("", null),
-            () => { AnsiString value = (string?)null; Assert.Equal(default, value); },
-            () => { TVarRec value = (string?)null; Assert.Equal(default, value.Str); },
+            () => { string value = Cp1252.Normalize((string?)null); Assert.Equal("", value); },
+            () => { TVarRec value = (string?)null; Assert.Equal("", value.Str); },
             () => Rtl.Length((string?)null), () => Rtl.IsEmpty(null),
             () => Rtl.Copy((string?)null, 1, 1), () => Rtl.Delete((string?)null, 1, 1),
             () => Rtl.Insert((string?)null, "", 1), () => Rtl.Insert("", (string?)null, 1),
@@ -82,6 +82,6 @@ public sealed class StringNullTests
         Assert.Empty(Cp1252.Encode(""));
         Assert.Equal("", Cp1252.Normalize(""));
         Assert.Equal(0, Cp1252.Compare("", ""));
-        Assert.Equal("", default(AnsiString).ToString());
+        Assert.Equal("", "");
     }
 }

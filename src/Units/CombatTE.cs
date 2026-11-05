@@ -235,7 +235,7 @@ namespace Aow.Units.CombatTE
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"Error during Token Start", (AnsiString)"Error - TCMoveToken", 0);
+                                MessageBox(0, "Error during Token Start", "Error - TCMoveToken", 0);
                             }
 
                             break;
@@ -261,7 +261,7 @@ namespace Aow.Units.CombatTE
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"Error during Token InitStrike", (AnsiString)"Error - TCMoveToken", 0);
+                                MessageBox(0, "Error during Token InitStrike", "Error - TCMoveToken", 0);
                             }
 
                             break;
@@ -293,7 +293,7 @@ namespace Aow.Units.CombatTE
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"Error during Token ExeStrike", (AnsiString)"Error - TCMoveToken", 0);
+                                MessageBox(0, "Error during Token ExeStrike", "Error - TCMoveToken", 0);
                             }
 
                             break;
@@ -313,7 +313,7 @@ namespace Aow.Units.CombatTE
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"Error during Token EndStrike", (AnsiString)"Error - TCMoveToken", 0);
+                                MessageBox(0, "Error during Token EndStrike", "Error - TCMoveToken", 0);
                             }
 
                             break;
@@ -353,7 +353,7 @@ namespace Aow.Units.CombatTE
                             }
                             catch (System.Exception)
                             {
-                                MessageBox(0, (AnsiString)"Error during Token End", (AnsiString)"Error - TCMoveToken", 0);
+                                MessageBox(0, "Error during Token End", "Error - TCMoveToken", 0);
                             }
 
                             break;
@@ -448,7 +448,7 @@ namespace Aow.Units.CombatTE
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error during Token", (AnsiString)"Error - TCMoveToken", 0);
+                MessageBox(0, "Error during Token", "Error - TCMoveToken", 0);
             }
 
             return Result;
@@ -639,7 +639,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token Start", (AnsiString)"Error - TCMelMoveToken", 0);
+                            MessageBox(0, "Error during Token Start", "Error - TCMelMoveToken", 0);
                         }
 
                         break;
@@ -714,7 +714,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token InitStrike", (AnsiString)"Error - TCMelMoveToken", 0);
+                            MessageBox(0, "Error during Token InitStrike", "Error - TCMelMoveToken", 0);
                         }
 
                         break;
@@ -760,7 +760,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token ExeStrike", (AnsiString)"Error - TCMelMoveToken", 0);
+                            MessageBox(0, "Error during Token ExeStrike", "Error - TCMelMoveToken", 0);
                         }
 
                         break;
@@ -805,7 +805,7 @@ namespace Aow.Units.CombatTE
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error during Token", (AnsiString)"Error - TCMelMoveToken", 0);
+                MessageBox(0, "Error during Token", "Error - TCMelMoveToken", 0);
             }
 
             return Result;
@@ -1027,7 +1027,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token Start", (AnsiString)"Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                            MessageBox(0, "Error during Token Start", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
                         }
 
                         break;
@@ -1042,7 +1042,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token StepUp", (AnsiString)"Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                            MessageBox(0, "Error during Token StepUp", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
                         }
 
                         break;
@@ -1094,7 +1094,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token InitStrike", (AnsiString)"Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                            MessageBox(0, "Error during Token InitStrike", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
                         }
 
                         break;
@@ -1309,7 +1309,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token ExeStrike", (AnsiString)"Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                            MessageBox(0, "Error during Token ExeStrike", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
                         }
 
                         break;
@@ -1341,7 +1341,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token StrikeBack", (AnsiString)"Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                            MessageBox(0, "Error during Token StrikeBack", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
                         }
 
                         break;
@@ -1368,7 +1368,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token ExeStrikeBack", (AnsiString)"Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                            MessageBox(0, "Error during Token ExeStrikeBack", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
                         }
 
                         break;
@@ -1401,7 +1401,7 @@ namespace Aow.Units.CombatTE
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error during Token", (AnsiString)"Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                MessageBox(0, "Error during Token", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
             }
 
             return Result;
@@ -1588,7 +1588,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token Start", (AnsiString)"Error - TCRangedToken " + IntToStr(FAbilityID) + AnsiString.FromBytes(47) + IntToStr(FSpellID), 0);
+                            MessageBox(0, "Error during Token Start", "Error - TCRangedToken " + IntToStr(FAbilityID) + "/" + IntToStr(FSpellID), 0);
                         }
 
                         break;
@@ -2150,7 +2150,7 @@ namespace Aow.Units.CombatTE
                         }
                         catch (System.Exception)
                         {
-                            MessageBox(0, (AnsiString)"Error during Token Execute", (AnsiString)"Error - TCRangedToken " + IntToStr(FAbilityID) + AnsiString.FromBytes(47) + IntToStr(FSpellID), 0);
+                            MessageBox(0, "Error during Token Execute", "Error - TCRangedToken " + IntToStr(FAbilityID) + "/" + IntToStr(FSpellID), 0);
                         }
 
                         break;
@@ -2180,7 +2180,7 @@ namespace Aow.Units.CombatTE
             }
             catch (System.Exception)
             {
-                MessageBox(0, (AnsiString)"Error during Token", (AnsiString)"Error - TCRangedToken " + IntToStr(FAbilityID) + AnsiString.FromBytes(47) + IntToStr(FSpellID), 0);
+                MessageBox(0, "Error during Token", "Error - TCRangedToken " + IntToStr(FAbilityID) + "/" + IntToStr(FSpellID), 0);
             }
 
             return Result;

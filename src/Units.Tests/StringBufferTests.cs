@@ -8,7 +8,7 @@ namespace Aow.Units.Tests;
 
 public sealed class StringBufferTests
 {
-    private static void Read(int shape, ref AnsiString text, TStream stream)
+    private static void Read(int shape, ref string text, TStream stream)
     {
         if (shape == 0) EngineText.StringFromStream(ref text, stream);
         else if (shape == 1) EngineText.LoadStringFromStream(ref text, stream);
@@ -33,10 +33,10 @@ public sealed class StringBufferTests
     {
         byte[] bytes = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
         using var stream = Input(shape, bytes.Length, bytes);
-        AnsiString text = "old", alias = text;
+        string text = "old", alias = text;
         Read(shape, ref text, stream);
-        Assert.Equal(bytes, Runtime.StringBytes(text).ToArray());
-        Assert.Equal((AnsiString)"old", alias);
+        Assert.Equal(bytes, Cp1252.Encode(text).ToArray());
+        Assert.Equal("old", alias);
         Assert.Equal(stream.Size, stream.Position);
     }
 
@@ -47,10 +47,10 @@ public sealed class StringBufferTests
     public void ShortReadsKeepTheResizedTail(int shape)
     {
         using var stream = Input(shape, 6, [0, 0x80, 0xFF]);
-        AnsiString text = "seedtail";
+        string text = "seedtail";
         Read(shape, ref text, stream);
         Assert.Equal(shape == 1 ? new byte[] { 0, 0x80, 0xFF, 0, 0, 0 }
-            : new byte[] { 0, 0x80, 0xFF, 100, 116, 97 }, Runtime.StringBytes(text).ToArray());
+            : new byte[] { 0, 0x80, 0xFF, 100, 116, 97 }, Cp1252.Encode(text).ToArray());
     }
 
     [Theory]
@@ -60,9 +60,9 @@ public sealed class StringBufferTests
     public void NegativeLengthsKeepTheRangeErrorAndOutput(int shape)
     {
         using var stream = Input(shape, -1, []);
-        AnsiString text = "old";
+        string text = "old";
         Assert.Throws<ERangeError>(() => Read(shape, ref text, stream));
-        Assert.Equal(shape == 1 ? (AnsiString)"" : (AnsiString)"old", text);
+        Assert.Equal(shape == 1 ? "" : "old", text);
     }
 
     private sealed class FailingBodyStream : TMemoryStream
@@ -86,9 +86,9 @@ public sealed class StringBufferTests
         using var stream = new FailingBodyStream { BodyPosition = input.Size };
         stream.Write(input.Memory.AsSpan(0, input.Size));
         stream.Position = 0;
-        AnsiString text = "seedtail";
+        string text = "seedtail";
         Assert.Throws<EReadError>(() => Read(shape, ref text, stream));
-        Assert.Equal(shape == 1 ? new byte[6] : "seedta"u8.ToArray(), Runtime.StringBytes(text).ToArray());
+        Assert.Equal(shape == 1 ? new byte[6] : "seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
     }
 
     [Theory]
@@ -97,8 +97,8 @@ public sealed class StringBufferTests
     public void StringListsKeepNulTerminationAndObjectIds(bool extended)
     {
         var source = new TStringList();
-        source.AddObject(AnsiString.FromBytes(0x80, 0xFF), Runtime.IntToObject(17));
-        source.AddObject((AnsiString)"tail\0ignored", Runtime.IntToObject(-23));
+        source.AddObject("\u20AC\u00FF", Runtime.IntToObject(17));
+        source.AddObject("tail\0ignored", Runtime.IntToObject(-23));
         using var stream = new TMemoryStream();
         if (extended) EngineText.StringsToStreamEx(source, stream);
         else EngineText.StringsToStream(source, stream);
@@ -108,8 +108,8 @@ public sealed class StringBufferTests
         if (extended) EngineText.StringsFromStreamEx(result, stream);
         else EngineText.StringsFromStream(result, stream);
         Assert.Equal(2, result.Count);
-        Assert.Equal(AnsiString.FromBytes(0x80, 0xFF), result[0]);
-        Assert.Equal((AnsiString)"tail", result[1]);
+        Assert.Equal("\u20AC\u00FF", result[0]);
+        Assert.Equal("tail", result[1]);
         if (extended)
         {
             Assert.Equal(17, Runtime.ObjectToInt(result.Objects[0]));
@@ -128,12 +128,12 @@ public sealed class StringBufferTests
             FAOWFont = font, FColorChangeChar = (byte)'#'
         };
         memo.FItems.Add("#80FF00A B\0ignored");
-        memo.FItems.Add(AnsiString.FromBytes(0x80, 32, 0xFF, 0xFF, 0xFF));
+        memo.FItems.Add("\u20AC \u00FF\u00FF\u00FF");
         memo.SetSize();
         Assert.Equal(3, memo.FLines.Count);
-        Assert.Equal((AnsiString)"A B", memo.FLines[0]);
-        Assert.Equal(AnsiString.FromBytes(0x80, 32), memo.FLines[1]);
-        Assert.Equal(AnsiString.FromBytes(0xFF, 0xFF, 0xFF), memo.FLines[2]);
+        Assert.Equal("A B", memo.FLines[0]);
+        Assert.Equal("\u20AC ", memo.FLines[1]);
+        Assert.Equal("\u00FF\u00FF\u00FF", memo.FLines[2]);
         var color = Assert.IsType<TColorChange>(memo.FColorList[0]);
         Assert.True(color.FHasColor);
         Assert.Equal(0x80FF00, color.FColor);
@@ -163,6 +163,6 @@ public sealed class StringBufferTests
             FWinWidth = 100, FWinHeight = 30, FAOWFont = new TImageLibraryFont(null!)
         };
         memo.FItems.Add("<INT>text");
-        Assert.Throws<ERangeError>(() => memo.SetSize());
+        Assert.IsType<ERangeError>(Runtime.Wrap(Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize())));
     }
 }

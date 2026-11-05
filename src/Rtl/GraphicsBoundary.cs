@@ -27,9 +27,9 @@ public struct TGUID
     public int D1;
     public ushort D2, D3;
     public byte[] D4;
-    public static implicit operator TGUID(AnsiString value)
+    public static implicit operator TGUID(string value)
     {
-        var bytes = Guid.Parse(value.ToString()).ToByteArray();
+        var bytes = Guid.Parse(value).ToByteArray();
         return new TGUID { D1 = System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(bytes), D2 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(4)), D3 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(6)), D4 = bytes[8..] };
     }
 }
@@ -122,23 +122,24 @@ public class TRegistry : TObject
 {
     private readonly ISettingsStore values = Rtl.Settings ?? new MemorySettingsStore();
     private string key = "";
-    public bool OpenKey(AnsiString name, bool create) { key = name.ToString(); return true; }
+    public bool OpenKey(string name, bool create) { key = name; return true; }
     public void CloseKey() => key = "";
-    public bool ValueExists(AnsiString name) => values.Read(key + "\\" + name.ToString()) is not null;
-    public int ReadInteger(AnsiString name) => (int)values.Read(key + "\\" + name.ToString())!;
-    public bool ReadBool(AnsiString name) => (bool)values.Read(key + "\\" + name.ToString())!;
-    public AnsiString ReadString(AnsiString name) => (AnsiString)values.Read(key + "\\" + name.ToString())!;
-    public void WriteInteger(AnsiString name, int value) => values.Write(key + "\\" + name.ToString(), value);
-    public void WriteBool(AnsiString name, bool value) => values.Write(key + "\\" + name.ToString(), value);
-    public void WriteString(AnsiString name, AnsiString value) => values.Write(key + "\\" + name.ToString(), value);
-    public int ReadBinaryData(AnsiString name, Span<byte> buffer, int size)
+    public bool ValueExists(string name) => values.Read(key + "\\" + name) is not null;
+    public int ReadInteger(string name) => (int)values.Read(key + "\\" + name)!;
+    public bool ReadBool(string name) => (bool)values.Read(key + "\\" + name)!;
+    // REGISTRY.PAS TRegistry.ReadString returns '' for a missing value (strings.md 2.2).
+    public string ReadString(string name) => (string?)values.Read(key + "\\" + name) ?? "";
+    public void WriteInteger(string name, int value) => values.Write(key + "\\" + name, value);
+    public void WriteBool(string name, bool value) => values.Write(key + "\\" + name, value);
+    public void WriteString(string name, string value) => values.Write(key + "\\" + name, value);
+    public int ReadBinaryData(string name, Span<byte> buffer, int size)
     {
-        var bytes = (byte[])values.Read(key + "\\" + name.ToString())!;
+        var bytes = (byte[])values.Read(key + "\\" + name)!;
         int count = Math.Min(size, bytes.Length);
         bytes.AsSpan(0, count).CopyTo(buffer);
         return count;
     }
-    public void WriteBinaryData(AnsiString name, ReadOnlySpan<byte> buffer, int size) => values.Write(key + "\\" + name.ToString(), buffer[..size].ToArray());
+    public void WriteBinaryData(string name, ReadOnlySpan<byte> buffer, int size) => values.Write(key + "\\" + name, buffer[..size].ToArray());
 }
 public class TIvTranslator : TIvCustomTranslator
 {
@@ -146,10 +147,10 @@ public class TIvTranslator : TIvCustomTranslator
  }
 public partial class TIvDictionary : TComponent
 {
-    public AnsiString FFileName;
+    public string FFileName = "";
     public int FLanguage;
     public void SetLanguage(int language) => SelectLanguage(language);
-    public void SetDictionaryName(AnsiString name) => NameDictionary(name);
+    public void SetDictionaryName(string name) => NameDictionary(name);
 }
 public class TIvBinaryDictionary : TIvDictionary { }
 public class Text : TObject { }
@@ -208,20 +209,20 @@ public class TListBox : TWinControl
 public class TOpenDialog : TComponent
 {
     public TOpenDialog(TComponent owner) : base(owner) { }
-    public AnsiString Filter, FileName, DefaultExt;
+    public string Filter = "", FileName = "", DefaultExt = "";
     public virtual bool Execute() => throw new NotImplementedException("VCL.OpenDialog");
 }
 public class TStringProperty : TObject
 {
     public virtual void Edit() => throw new NotImplementedException("VCL.PropertyEditor");
     public virtual TSet<TPropertyAttribute> GetAttributes() => default;
-    public virtual AnsiString GetValue() => throw new NotImplementedException("VCL.PropertyEditor");
+    public virtual string GetValue() => throw new NotImplementedException("VCL.PropertyEditor");
 }
 public class TIniFile : TObject { }
 public class TFiler : TObject { }
 public class TIToolServices : TObject
 {
-    public virtual AnsiString GetProjectName() => throw new NotImplementedException("Delphi IDE project service");
+    public virtual string GetProjectName() => throw new NotImplementedException("Delphi IDE project service");
 }
 
 public class THandleStream : TStream
@@ -245,8 +246,8 @@ public static partial class Rtl
     public static bool QueryPerformanceFrequency(ref long frequency) { frequency = System.Diagnostics.Stopwatch.Frequency; return true; }
     public static void CoUninitialize() { }
     public static void RegisterClasses(Type[] types) { foreach (var type in types) RegisterClass(type); }
-    public static AnsiString ExtractRelativePath(AnsiString baseName, AnsiString destination)
-        => Files.ExtractRelativePath(baseName.ToString(), destination.ToString());
+    public static string ExtractRelativePath(string baseName, string destination)
+        => Files.ExtractRelativePath(baseName, destination);
     public static bool EqualRect(in TRect left, in TRect right) => left.Left == right.Left && left.Top == right.Top && left.Right == right.Right && left.Bottom == right.Bottom;
     public static bool IntersectRect(ref TRect result, in TRect left, in TRect right)
     {

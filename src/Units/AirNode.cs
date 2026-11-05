@@ -43,7 +43,7 @@ namespace Aow.Units.AirNode
 
 
         // AirNode.pas:52
-        public override AnsiString ResourceEditName() => TranslateRStr(AirNodeRStr);
+        public override string ResourceEditName() => TranslateRStr(AirNodeRStr);
 
     }
 

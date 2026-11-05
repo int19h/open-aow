@@ -28,7 +28,7 @@ namespace Aow.Units.Pyramid
         public override int ResourceUserClassID() => 131982;
 
         // Pyramid.pas:37
-        public override AnsiString ResourceEditName() => TranslateRStr(PyramidRStr);
+        public override string ResourceEditName() => TranslateRStr(PyramidRStr);
 
     }
 

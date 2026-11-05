@@ -22,7 +22,7 @@ internal static class LocalizationFrameChecks
             foreach (var entry in dictionary.Entries)
                 for (int index = 1; index <= entry.Translations[1].Length; index++)
                 {
-                    byte code = entry.Translations[1][index];
+                    byte code = Cp1252.Byte(entry.Translations[1][index - 1]);
                     if (code >= 128) germanBytes.Add(code);
                 }
             dictionary.Close();
@@ -34,16 +34,16 @@ internal static class LocalizationFrameChecks
         foreach (var font in fonts)
         {
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
-            coverage.Add(new { font = font.Name.ToString(), missing = missing.Select(b => (int)b).ToArray() });
+            coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
         }
-        string undead = TranslateRStr("Undead(plural)").ToString();
+        string undead = TranslateRStr("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
-        string mapCaption = Aow.Units.AoWSWindow.AoWSWindow.SWindow.STitleLabel.Text.ToString();
+        string mapCaption = Aow.Units.AoWSWindow.AoWSWindow.SWindow.STitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
         if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
-        var dialogTitle = Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow?.Title?.Text ?? default;
+        var dialogTitle = Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow?.Title?.Text ?? "";
         var required = new SortedSet<string>(StringComparer.Ordinal);
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
@@ -55,12 +55,12 @@ internal static class LocalizationFrameChecks
             {
                 if (module.Components[index] is not Aow.Units.AoWControl.TAOWControl control ||
                     !control.Visible || control.FAOWWindow is not { Visible: true } || control.FAOWFont is not { } font) continue;
-                var texts = new List<AnsiString> { control.FText };
+                var texts = new List<string> { control.FText };
                 if (control.GetType().GetProperty("Items")?.GetValue(control) is TStrings items)
                     for (int item = 0; item < items.Count; item++) texts.Add(items[item]);
                 foreach (var text in texts)
                 {
-                    AnsiString cased = font.CharCase switch
+                    string cased = font.CharCase switch
                     {
                         TEditCharCase.ecUpperCase => Aow.Rtl.Rtl.UpperCase(text),
                         TEditCharCase.ecLowerCase => Aow.Rtl.Rtl.LowerCase(text),
@@ -68,7 +68,7 @@ internal static class LocalizationFrameChecks
                     };
                     for (int character = 1; character <= cased.Length; character++)
                     {
-                        byte code = cased[character];
+                        byte code = Cp1252.Byte(cased[character - 1]);
                         if (code < 128) continue;
                         bool missing = !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0;
                         if (missing && absentEverywhere.Contains(code))
@@ -85,7 +85,7 @@ internal static class LocalizationFrameChecks
         File.WriteAllText(Path.Combine(output, "localization.json"), JsonSerializer.Serialize(new
         {
             language, undead, undead_equal = undeadEqual, map_caption = mapCaption,
-            file_dialog_title = dialogTitle.ToString(), file_dialog_title_bytes = Aow.Rtl.Rtl.StringBytes(dialogTitle).ToArray().Select(b => (int)b).ToArray(),
+            file_dialog_title = dialogTitle, file_dialog_title_bytes = Cp1252.Encode(dialogTitle).ToArray().Select(b => (int)b).ToArray(),
             fixture_glyphs_equal = true, required_glyphs = required, absent_glyphs = absent, german_bytes = germanBytes, coverage
         }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
@@ -102,7 +102,7 @@ internal static class LocalizationFrameChecks
                 right.Lock(ref r);
                 try
                 {
-                    FontModule.Age8.SetText(0, 0, (AnsiString)undead, l);
+                    FontModule.Age8.SetText(0, 0, undead, l);
                     FontModule.Age8.SetText(0, 0, "Undead", r);
                     var pixels = Aow.Rtl.Rtl.BytePointer(l.Data).AsSpan(l.Pitch * 40);
                     if (!pixels.SequenceEqual(Aow.Rtl.Rtl.BytePointer(r.Data).AsSpan(r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))

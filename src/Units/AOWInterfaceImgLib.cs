@@ -26,7 +26,7 @@ namespace Aow.Units.AOWInterfaceImgLib
             if (Index + Count > this.Count)
             {
                 Result = null;
-                MessageBox(0, Name + (AnsiString)" must have " + IntToStr(Index + Count) + (AnsiString)" Images", (AnsiString)"Error - " + Sender.Name, 0);
+                MessageBox(0, Name + " must have " + IntToStr(Index + Count) + " Images", "Error - " + Sender.Name, 0);
             }
             else
             {
@@ -34,7 +34,7 @@ namespace Aow.Units.AOWInterfaceImgLib
                 {
                     if (!ImageExist(I))
                     {
-                        MessageBox(0, Name + AnsiString.FromBytes(32, 73, 109, 97, 103, 101, 32, 35, 32) + IntToStr(I) + (AnsiString)" is invalid", (AnsiString)"Error - " + Sender.Name, 0);
+                        MessageBox(0, Name + " Image # " + IntToStr(I) + " is invalid", "Error - " + Sender.Name, 0);
                         Result = null;
                     }
                 }
@@ -315,7 +315,7 @@ namespace Aow.Units.AOWInterfaceImgLib
         // AOWInterfaceImgLib.pas:212
         public static void Register()
         {
-            RegisterComponents((AnsiString)"ImageLibrary", [typeof(TInterfaceIL)]);
+            RegisterComponents("ImageLibrary", [typeof(TInterfaceIL)]);
         }
     }
 }

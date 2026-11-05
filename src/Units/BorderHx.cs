@@ -84,7 +84,7 @@ namespace Aow.Units.BorderHx
         public override int ResourceUserClassID() => 132439;
 
         // BorderHx.pas:107
-        public override AnsiString ResourceEditName() => (AnsiString)"Border Hexagon";
+        public override string ResourceEditName() => "Border Hexagon";
 
     }
 

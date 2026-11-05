@@ -26,7 +26,7 @@ public sealed class StormDamageQuery : TObject
 
 public sealed class CombatResultQuery : TObject
 {
-    public AnsiString Text;
+    public string Text = "";
 }
 
 public sealed class ShowMessageNotification : TObject

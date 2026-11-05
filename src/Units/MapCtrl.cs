@@ -244,7 +244,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during MapChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during MapChanged event (TAoWMapControl)");
             }
         }
 
@@ -260,7 +260,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
             }
         }
 
@@ -276,7 +276,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during MapSettingsChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during MapSettingsChanged event (TAoWMapControl)");
             }
         }
 
@@ -304,7 +304,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during SelectHS event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during SelectHS event (TAoWMapControl)");
             }
         }
 
@@ -332,7 +332,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during DeselectHS event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during DeselectHS event (TAoWMapControl)");
             }
         }
 
@@ -348,7 +348,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
             }
         }
 
@@ -364,7 +364,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ExitGame event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during ExitGame event (TAoWMapControl)");
             }
         }
 
@@ -380,7 +380,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during NewTurn event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during NewTurn event (TAoWMapControl)");
             }
         }
 
@@ -397,7 +397,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during EndTurn event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during EndTurn event (TAoWMapControl)");
             }
         }
 
@@ -413,7 +413,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during PlayerChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
             }
         }
 
@@ -429,7 +429,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Gems Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Gems Changed event (TAoWMapControl)");
             }
         }
 
@@ -445,7 +445,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Income Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Income Changed event (TAoWMapControl)");
             }
         }
 
@@ -461,7 +461,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Upkeep Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Upkeep Changed event (TAoWMapControl)");
             }
         }
 
@@ -477,7 +477,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Player Magic Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Player Magic Changed event (TAoWMapControl)");
             }
         }
 
@@ -493,7 +493,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during Magic Changed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during Magic Changed event (TAoWMapControl)");
             }
         }
 
@@ -509,7 +509,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ShowMessage event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during ShowMessage event (TAoWMapControl)");
             }
         }
 
@@ -525,7 +525,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during ChangeDay event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during ChangeDay event (TAoWMapControl)");
             }
         }
 
@@ -541,7 +541,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during on combat event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during on combat event (TAoWMapControl)");
             }
         }
 
@@ -557,7 +557,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during LogbookChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during LogbookChanged event (TAoWMapControl)");
             }
         }
 
@@ -573,7 +573,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnStructureChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnStructureChanged event (TAoWMapControl)");
             }
         }
 
@@ -589,7 +589,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
             }
         }
 
@@ -605,7 +605,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnArmyChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnArmyChanged event (TAoWMapControl)");
             }
         }
 
@@ -621,7 +621,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
             }
         }
 
@@ -637,7 +637,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnHSChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnHSChanged event (TAoWMapControl)");
             }
         }
 
@@ -653,7 +653,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnUnitChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnUnitChanged event (TAoWMapControl)");
             }
         }
 
@@ -669,7 +669,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
             }
         }
 
@@ -685,7 +685,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnGameOver event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnGameOver event (TAoWMapControl)");
             }
         }
 
@@ -701,7 +701,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnGameTerminated event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnGameTerminated event (TAoWMapControl)");
             }
         }
 
@@ -717,7 +717,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
             }
         }
 
@@ -733,7 +733,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
             }
         }
 
@@ -749,7 +749,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
             }
         }
 
@@ -765,7 +765,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
             }
         }
 
@@ -781,7 +781,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
             }
         }
 
@@ -797,7 +797,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnCastSpell event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnCastSpell event (TAoWMapControl)");
             }
         }
 
@@ -813,7 +813,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnViewPortChange event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnViewPortChange event (TAoWMapControl)");
             }
         }
 
@@ -829,7 +829,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnActivateAbility event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnActivateAbility event (TAoWMapControl)");
             }
         }
 
@@ -845,7 +845,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
             }
         }
 
@@ -861,7 +861,7 @@ namespace Aow.Units.MapCtrl
             }
             catch (System.Exception)
             {
-                Rtl.Rtl.ShowMessage((AnsiString)"Exception occurred during OnRelationsChanged event (TAoWMapControl)");
+                Rtl.Rtl.ShowMessage("Exception occurred during OnRelationsChanged event (TAoWMapControl)");
             }
         }
 
@@ -1077,7 +1077,7 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:675
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoW", [typeof(TAoWMapControl)]);
+            RegisterComponents("AoW", [typeof(TAoWMapControl)]);
         }
 
         public static void Initialize()

@@ -86,7 +86,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:569
-        public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
+        public override bool CanActivate(TAbstractUnit A1, ref string A2)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -109,7 +109,7 @@ namespace Aow.Units.GlobalTargetSpells
         public override bool Activate(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString MessageText = default;
+            string MessageText = "";
             base.Activate(A1);
             if (CanActivate(A1, ref MessageText))
             {
@@ -652,7 +652,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1129
-        public override AnsiString GetName() => AoWHSSet.FSpellControl.GetSpell(57).FSpellName;
+        public override string GetName() => AoWHSSet.FSpellControl.GetSpell(57).FSpellName;
 
     }
 
@@ -2163,7 +2163,8 @@ namespace Aow.Units.GlobalTargetSpells
     public struct TSpellNameView
     {
         public FixedArray_byte_8 Reserved;
-        public AnsiString Name;
+        private string name;
+        public string Name { readonly get => name ?? ""; set => name = value; }
     }
 
     public partial class TTargetSelectionView : TObject
@@ -2183,8 +2184,8 @@ namespace Aow.Units.GlobalTargetSpells
         public sbyte Y;
         public sbyte Layer;
         public TStrings Text;
-        public AnsiString Caption;
-        public AnsiString CancelCaption;
+        public string Caption = "";
+        public string CancelCaption = "";
         public ImageLib.TLibraryImage Preview;
         public ImageLib.TLibraryImage ValidPreview;
         public ImageLib.TLibraryImage InvalidPreview;
@@ -2211,8 +2212,10 @@ namespace Aow.Units.GlobalTargetSpells
         public sbyte Y;
         public sbyte Layer;
         public TStrings Text;
-        public AnsiString Caption;
-        public AnsiString CancelCaption;
+        private string caption;
+        public string Caption { readonly get => caption ?? ""; set => caption = value; }
+        private string cancelCaption;
+        public string CancelCaption { readonly get => cancelCaption ?? ""; set => cancelCaption = value; }
         public int Reserved48;
         public int Reserved4C;
         public ImageLib.TLibraryImage Preview;
@@ -2333,10 +2336,10 @@ namespace Aow.Units.GlobalTargetSpells
 
         // { Import cells bind to the shared globals; distinct references preserve the original reloads. }
         public static Type SpellStructureClass = typeof(TStructure);
-        public static readonly AnsiString SpellCancelRStr = (AnsiString)"Cancel";
+        public static readonly string SpellCancelRStr = "Cancel";
 
         // GlobalTargetSpells.pas:552
-        public static bool GlobalTargetCanActivate(TGlobalTargetSpell Spell, int Caster, ref AnsiString MessageText)
+        public static bool GlobalTargetCanActivate(TGlobalTargetSpell Spell, int Caster, ref string MessageText)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -2359,7 +2362,7 @@ namespace Aow.Units.GlobalTargetSpells
         public static bool GlobalTargetActivate(TGlobalTargetSpell Spell, int Caster, int A2)
         {
             bool Result;
-            AnsiString MessageText = default;
+            string MessageText = "";
             Spell.Activate__static(ReferenceFromId<TAbstractUnit>(Caster));
             if (Spell.CanActivate(ReferenceFromId<TAbstractUnit>(Caster), ref MessageText))
             {
@@ -2377,7 +2380,7 @@ namespace Aow.Units.GlobalTargetSpells
             return Result;
         }
 
-        public static readonly AnsiString SpellXCastRStr = (AnsiString)"%s cast";
+        public static readonly string SpellXCastRStr = "%s cast";
 
         public static void Initialize()
         {

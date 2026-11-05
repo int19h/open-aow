@@ -66,7 +66,7 @@ namespace Aow.Units.SingleCombatHex
         public override THexagonControl GetHexagonControl() => null;
 
         // SingleCombatHex.pas:62
-        public override AnsiString ResourceEditName() => (AnsiString)"Combat Single Hexagon";
+        public override string ResourceEditName() => "Combat Single Hexagon";
 
     }
 

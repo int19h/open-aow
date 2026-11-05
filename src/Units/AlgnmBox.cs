@@ -62,10 +62,10 @@ namespace Aow.Units.AlgnmBox
         // AlgnmBox.pas:139
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoW", [typeof(TAlignmentBox)]);
+            RegisterComponents("AoW", [typeof(TAlignmentBox)]);
         }
 
-        public static AnsiString NoneRStr = (AnsiString)"None";
+        public static string NoneRStr = "None";
 
         public static void Initialize()
         {

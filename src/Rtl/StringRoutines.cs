@@ -146,6 +146,7 @@ public static partial class Rtl
 
     public static string Trim(string? value) => TrimLeft(TrimRight(value));
     public static string QuotedStr(string? value) => "'" + RequireString(value).Replace("'", "''") + "'";
+    public static string StringOfChar(byte character, int count) => StringOfChar(Cp1252.Char(character), count);
     public static string StringOfChar(char character, int count) => new(character, Math.Max(0, count));
     public static int AnsiPos(string? needle, string? value) => Pos(needle, value);
 

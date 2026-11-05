@@ -74,7 +74,7 @@ namespace Aow.Units.aowHelpWin
                 HelpMemo.Items.Delete(0);
             }
 
-            if (HelpMemo.Items.Count > 0 && HelpMemo.Items[0] == (AnsiString)"")
+            if (HelpMemo.Items.Count > 0 && Rtl.Rtl.IsEmpty(HelpMemo.Items[0]))
             {
                 HelpMemo.Items.Delete(0);
             }
@@ -145,7 +145,7 @@ namespace Aow.Units.aowHelpWin
                 HelpWindow.HelpMemo.Items.Delete(0);
             }
 
-            if (HelpWindow.HelpMemo.Items.Count > 0 && HelpWindow.HelpMemo.Items[0] == (AnsiString)"")
+            if (HelpWindow.HelpMemo.Items.Count > 0 && Rtl.Rtl.IsEmpty(HelpWindow.HelpMemo.Items[0]))
             {
                 HelpWindow.HelpMemo.Items.Delete(0);
             }

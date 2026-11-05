@@ -157,7 +157,7 @@ namespace Aow.Units.SummonSpells
         {
             bool CanCast;
             TAICastSpellAction Action;
-            AnsiString Reason = default;
+            string Reason = "";
             if (FAIBasePriority != -1)
             {
                 var aiUpkeepPriority = GetAIUpkeepPriority();
@@ -177,7 +177,7 @@ namespace Aow.Units.SummonSpells
         public override bool AIExecuteCastSpellAction(TAbstractUnit A1)
         {
             bool Result;
-            AnsiString Reason = default;
+            string Reason = "";
             var hero = (THero)A1;
             if (hero.CanCastSpell(FSpellID, ref Reason))
             {
@@ -213,7 +213,7 @@ namespace Aow.Units.SummonSpells
         {
             bool Result;
             TSummonSpellTE Event;
-            AnsiString Reason = default;
+            string Reason = "";
             if (CanActivate(A1, ref Reason))
             {
                 Event = new TSummonSpellTE(null);

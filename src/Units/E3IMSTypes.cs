@@ -7,7 +7,7 @@ namespace Aow.Units.E3IMSTypes
     // from ims.dpl.
     public partial class TmsMessageHeader : TObject
     {
-        public AnsiString FFrom;
+        public string FFrom = "";
     }
 
     public partial class TmsAddressList : TObject
@@ -20,7 +20,7 @@ namespace Aow.Units.E3IMSTypes
         }
 
         // E3IMSTypes.pas:20
-        public void AddAddress(AnsiString Address, AnsiString Name)
+        public void AddAddress(string Address, string Name)
         {
             /* TODO: Implement TmsAddressList.AddAddress. */
             throw new NotImplementedException();
@@ -37,7 +37,7 @@ namespace Aow.Units.E3IMSTypes
         }
 
         // E3IMSTypes.pas:25
-        public void AddFile(AnsiString FileName)
+        public void AddFile(string FileName)
         {
             /* TODO: Implement TmsAttList.AddFile. */
             throw new NotImplementedException();

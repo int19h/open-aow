@@ -347,8 +347,8 @@ namespace Aow.Units.AoWProdScreen
             UnitPnl.Visible = false;
             FProductionIndex = Index;
             UpgradePic.CurrentImage = 21;
-            UpgradeCost.Text = AnsiString.FromBytes(45);
-            UpgradeTurns.Text = AnsiString.FromBytes(45);
+            UpgradeCost.Text = "-";
+            UpgradeTurns.Text = "-";
             MainBtn1.Visible = false;
             MainBtn2.Visible = false;
             PPrev.Visible = !MainBtn2.Visible;
@@ -383,7 +383,7 @@ namespace Aow.Units.AoWProdScreen
                         var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
                         var upkeep = U.GetUpkeep();
                         var format2 = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
-                        ULevel.Text = aoWEFormat + (AnsiString)" / " + format2;
+                        ULevel.Text = aoWEFormat + " / " + format2;
                         UAbilitiesLB.Items.Clear();
                         U.ListAbilities(UAbilitiesLB.Items);
                         if (FPlace.FProductionControl.FUnitProductions.GetItem(FProductionIndex).FResearched)
@@ -470,7 +470,7 @@ namespace Aow.Units.AoWProdScreen
                 case 5:
                     MainBtn1.Visible = true;
                     var raze = TranslateRStr(RazeRStr);
-                    MainBtn1.Text = raze + (AnsiString)"...";
+                    MainBtn1.Text = raze + "...";
                     PPrev.Visible = false;
                     PNext.Visible = false;
                     var fPlaceName = FPlace.GetName();
@@ -487,7 +487,7 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:832
         public void UpdateInfo()
         {
-            AnsiString Reason;
+            string Reason;
             TProductionItem Item;
             IncomeHdr.Items.Clear();
             var name = FPlace.GetName();
@@ -498,7 +498,7 @@ namespace Aow.Units.AoWProdScreen
             {
                 var power = FPlace.GetPower();
                 var xPower = TranslateRStr(XPowerRStr);
-                var format = AoWE.AoWE.Format(AnsiString.FromBytes(32) + xPower, [IntToStr(power)]);
+                var format = AoWE.AoWE.Format(" " + xPower, [IntToStr(power)]);
                 IncomeHdr.Items.Add(format);
             }
 
@@ -506,7 +506,7 @@ namespace Aow.Units.AoWProdScreen
             {
                 var fPlaceIncome = FPlace.GetIncome();
                 var xGold = TranslateRStr(XGoldRStr);
-                var format = AoWE.AoWE.Format(AnsiString.FromBytes(32) + xGold, [IntToStr(fPlaceIncome)]);
+                var format = AoWE.AoWE.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
                 IncomeHdr.Items.Add(format);
             }
 
@@ -550,13 +550,13 @@ namespace Aow.Units.AoWProdScreen
             for (int I = 0, last = FPlace.FProductionControl.FQueue.GetCount() - 1; I <= last; I++)
             {
                 var name2 = FPlace.FProductionControl.FQueue.GetItem(I).GetName();
-                QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + name2);
+                QueueLB.Items.Add(IntToStr(I + 1) + ". " + name2);
             }
 
             for (int I = FPlace.FProductionControl.FQueue.GetCount(); I <= 4; I++)
             {
                 var emptyQueue = TranslateRStr(EmptyQueueRStr);
-                QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + emptyQueue);
+                QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
             }
 
             var count = FPlace.FProductionControl.FQueue.GetCount();
@@ -600,7 +600,7 @@ namespace Aow.Units.AoWProdScreen
                     var currentActivityText = FPlace.GetCurrentActivityText();
                     ActiveAction.Text = currentActivityText;
                     var defaultText = TranslateRStr(DefaultRStr);
-                    ActiveActionTurns.Text = AnsiString.FromBytes(40) + LowerCase(defaultText) + AnsiString.FromBytes(41);
+                    ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                     ActiveActionTurns.TextColor = 6783862;
                     var none = TranslateRStr(NoneRStr);
                     if (CompareText(ActiveAction.Text, none) != 0)
@@ -624,7 +624,7 @@ namespace Aow.Units.AoWProdScreen
                 {
                     if (FPlace.FProductionControl.FStatus == TProductionControlStatus.pcsWaiting)
                     {
-                        Reason = (AnsiString)"";
+                        Reason = "";
                         var nameProgressive = FPlace.FProductionControl.FQueue.GetItem(0).GetNameProgressive();
                         ActiveAction.Text = nameProgressive;
                         var queue = FPlace.FProductionControl.FQueue.GetItem(0);
@@ -814,7 +814,7 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:299
         public void MainBtn1Click(TObject Sender)
         {
-            AnsiString Reason = default;
+            string Reason = "";
             switch (FMode)
             {
                 case 0:
@@ -891,7 +891,7 @@ namespace Aow.Units.AoWProdScreen
         // AoWProdScreen.pas:347
         public void MainBtn2Click()
         {
-            AnsiString Reason = default;
+            string Reason = "";
             switch (FMode)
             {
                 case 1:

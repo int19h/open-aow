@@ -322,7 +322,7 @@ namespace Aow.Units.AoWHex
 
 
         // AoWHex.pas:455
-        public override AnsiString ResourceEditName() => TranslateRStr(WaterHexagonRStr);
+        public override string ResourceEditName() => TranslateRStr(WaterHexagonRStr);
 
     }
 

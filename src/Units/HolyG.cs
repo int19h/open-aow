@@ -336,7 +336,7 @@ namespace Aow.Units.HolyG
         public override int ResourceUserClassID() => 131987;
 
         // HolyG.pas:273
-        public override AnsiString ResourceEditName() => TranslateRStr(HolyGroundRStr);
+        public override string ResourceEditName() => TranslateRStr(HolyGroundRStr);
 
     }
 

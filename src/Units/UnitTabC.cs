@@ -92,7 +92,7 @@ namespace Aow.Units.UnitTabC
         // UnitTabC.pas:112
         public static void Register()
         {
-            RegisterComponents((AnsiString)"AoWEngine", [typeof(TUnitTabControl)]);
+            RegisterComponents("AoWEngine", [typeof(TUnitTabControl)]);
         }
 
         public static void Initialize()
