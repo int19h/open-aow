@@ -12,134 +12,133 @@ using Aow.Units.AoWWindow;
 using static Aow.Units.AoWE.AoWE;
 using static Aow.Units.AoWExeForms.AoWExeForms;
 
-namespace Aow.Units.AoWMessageDlg
+namespace Aow.Units.AoWMessageDlg;
+
+// completion event, retained message event
+public partial class TMessageDlg : TDataModule
 {
-    // completion event, retained message event
-    public partial class TMessageDlg : TDataModule
+    public TMessageDlg(TComponent owner) : base(owner)
+    { }
+
+    public TAOWWindow Dlg;
+    public TAOWLabel TitleLbl;
+    public TAOWPanel YesNoPnl;
+    public TAOWButton YesBtn;
+    public TAOWButton NoBtn;
+    public TAoWFrame BCeltL;
+    public TAoWFrame TCeltL;
+    public TAOWImage TCeltLineL;
+    public TAOWImage AOWImage1;
+    public TAOWImage AOWImage2;
+    public TAOWButton OKBtn;
+    public TAOWPanel OKPnl;
+    public TAOWPanel OKCancelPnl;
+    public TAOWButton OKBtn2;
+    public TAOWButton CancelBtn;
+    public TAOWMemo MessageMemo;
+    public TAOWVScrollBar MessageMemoSB;
+    public TAOWPanel YesNoCancelPnl;
+    public TAOWButton YesBtn2;
+    public TAOWButton NoBtn2;
+    public TAOWButton CancelBtn2;
+    public TAOWPanel MemoPnl;
+    public TAOWPanel HeaderMemoPnl;
+    public TAOWMemo HeaderMemo;
+    public TAOWVScrollBar HeaderMemoSB;
+    public TAOWLabel HeaderLbl;
+    public TIvTranslator Translator;
+    public TExecuteDoneEvent FDone;
+    public TMessageEventLog FEvent;
+    // AoWMessageDlg.pas:68
+    public void FinishDialog()
     {
-        public TMessageDlg(TComponent owner) : base(owner)
-        { }
-
-        public TAOWWindow Dlg;
-        public TAOWLabel TitleLbl;
-        public TAOWPanel YesNoPnl;
-        public TAOWButton YesBtn;
-        public TAOWButton NoBtn;
-        public TAoWFrame BCeltL;
-        public TAoWFrame TCeltL;
-        public TAOWImage TCeltLineL;
-        public TAOWImage AOWImage1;
-        public TAOWImage AOWImage2;
-        public TAOWButton OKBtn;
-        public TAOWPanel OKPnl;
-        public TAOWPanel OKCancelPnl;
-        public TAOWButton OKBtn2;
-        public TAOWButton CancelBtn;
-        public TAOWMemo MessageMemo;
-        public TAOWVScrollBar MessageMemoSB;
-        public TAOWPanel YesNoCancelPnl;
-        public TAOWButton YesBtn2;
-        public TAOWButton NoBtn2;
-        public TAOWButton CancelBtn2;
-        public TAOWPanel MemoPnl;
-        public TAOWPanel HeaderMemoPnl;
-        public TAOWMemo HeaderMemo;
-        public TAOWVScrollBar HeaderMemoSB;
-        public TAOWLabel HeaderLbl;
-        public TIvTranslator Translator;
-        public TExecuteDoneEvent FDone;
-        public TMessageEventLog FEvent;
-        // AoWMessageDlg.pas:68
-        public void FinishDialog()
+        TExecuteDoneEvent Done;
+        TMessageEventLog Log;
+        Dlg.Visible = false;
+        Done = FDone;
+        Log = FEvent;
+        FDone = null;
+        FEvent = null;
+        if (Done != null)
         {
-            TExecuteDoneEvent Done;
-            TMessageEventLog Log;
-            Dlg.Visible = false;
-            Done = FDone;
-            Log = FEvent;
-            FDone = null;
-            FEvent = null;
-            if (Done != null)
-            {
-                Done(Log);
-            }
-
-            if (Log != null)
-            {
-                Log.Release();
-            }
+            Done(Log);
         }
 
-        // AoWMessageDlg.pas:83
-        public void DlgHide()
+        if (Log != null)
         {
-            FinishDialog();
-        }
-
-        // AoWMessageDlg.pas:88
-        public void YesBtnClick()
-        {
-            if (FEvent.Yes())
-            {
-                Dlg.Visible = false;
-            }
-        }
-
-        // AoWMessageDlg.pas:93
-        public void NoBtnClick()
-        {
-            if (FEvent.No())
-            {
-                Dlg.Visible = false;
-            }
-        }
-
-        // AoWMessageDlg.pas:98
-        public void OKBtnClick()
-        {
-            if (FEvent != null)
-            {
-                if (!FEvent.OK())
-                {
-                    return;
-                }
-            }
-
-            Dlg.Visible = false;
-        }
-
-        // AoWMessageDlg.pas:105
-        public void OKBtn2Click()
-        {
-            if (FEvent.OK())
-            {
-                Dlg.Visible = false;
-            }
-        }
-
-        // AoWMessageDlg.pas:110
-        public void CancelBtnClick()
-        {
-            if (FEvent.Cancel())
-            {
-                Dlg.Visible = false;
-            }
+            Log.Release();
         }
     }
 
-    public static partial class AoWMessageDlg
+    // AoWMessageDlg.pas:83
+    public void DlgHide()
     {
-        // AoWMessageDlg.pas:116
-        public static void ShowDemoMessage()
+        FinishDialog();
+    }
+
+    // AoWMessageDlg.pas:88
+    public void YesBtnClick()
+    {
+        if (FEvent.Yes())
         {
-            ResetMessageDialog(MessageDlg);
-            MessageDlg.MessageMemo.Items.Add("");
-            var demoVersionMessage = TranslateRStr(DemoVersionMessageRStr);
-            MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
-            MessageDlg.OKPnl.Visible = true;
-            MessageDlg.Dlg.Visible = true;
+            Dlg.Visible = false;
+        }
+    }
+
+    // AoWMessageDlg.pas:93
+    public void NoBtnClick()
+    {
+        if (FEvent.No())
+        {
+            Dlg.Visible = false;
+        }
+    }
+
+    // AoWMessageDlg.pas:98
+    public void OKBtnClick()
+    {
+        if (FEvent != null)
+        {
+            if (!FEvent.OK())
+            {
+                return;
+            }
         }
 
-        public static TMessageDlg MessageDlg;
+        Dlg.Visible = false;
     }
+
+    // AoWMessageDlg.pas:105
+    public void OKBtn2Click()
+    {
+        if (FEvent.OK())
+        {
+            Dlg.Visible = false;
+        }
+    }
+
+    // AoWMessageDlg.pas:110
+    public void CancelBtnClick()
+    {
+        if (FEvent.Cancel())
+        {
+            Dlg.Visible = false;
+        }
+    }
+}
+
+public static partial class AoWMessageDlg
+{
+    // AoWMessageDlg.pas:116
+    public static void ShowDemoMessage()
+    {
+        ResetMessageDialog(MessageDlg);
+        MessageDlg.MessageMemo.Items.Add("");
+        var demoVersionMessage = TranslateRStr(DemoVersionMessageRStr);
+        MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
+        MessageDlg.OKPnl.Visible = true;
+        MessageDlg.Dlg.Visible = true;
+    }
+
+    public static TMessageDlg MessageDlg;
 }

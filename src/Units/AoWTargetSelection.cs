@@ -11,44 +11,43 @@ using Aow.Units.AoWWindow;
 using static Aow.Units.AoWWinMan.AoWWinMan;
 using static Aow.Units.AoWE.AoWE;
 
-namespace Aow.Units.AoWTargetSelection
+namespace Aow.Units.AoWTargetSelection;
+
+public partial class TTargetSelectionDlg : TDataModule
 {
-    public partial class TTargetSelectionDlg : TDataModule
+    public TTargetSelectionDlg(TComponent owner) : base(owner)
+    { }
+
+    public TAOWWindow Dlg;
+    public TAoWFrame CeltFrame;
+    public TAOWButton Close;
+    public TAOWLabel Title;
+    public TAOWImage SIcon;
+    public TAOWButton MainBtn;
+    public TAOWMemo DefaultMemo;
+    public TAOWPanel DefaultPnl;
+    public TAOWLabel HeaderLbl;
+    public TAOWPanel HeaderPnl;
+    public TAoWArnoLine BorderImage;
+    public TAOWPanel SpellPnl;
+    public TAOWMemo SpellMemo;
+    public TAOWLabel TargetRangeLabel;
+    public TAOWLabel TargetLbl;
+    public TIvTranslator Translator;
+    // AoWTargetSelection.pas:45
+    public void CloseClick()
     {
-        public TTargetSelectionDlg(TComponent owner) : base(owner)
-        { }
-
-        public TAOWWindow Dlg;
-        public TAoWFrame CeltFrame;
-        public TAOWButton Close;
-        public TAOWLabel Title;
-        public TAOWImage SIcon;
-        public TAOWButton MainBtn;
-        public TAOWMemo DefaultMemo;
-        public TAOWPanel DefaultPnl;
-        public TAOWLabel HeaderLbl;
-        public TAOWPanel HeaderPnl;
-        public TAoWArnoLine BorderImage;
-        public TAOWPanel SpellPnl;
-        public TAOWMemo SpellMemo;
-        public TAOWLabel TargetRangeLabel;
-        public TAOWLabel TargetLbl;
-        public TIvTranslator Translator;
-        // AoWTargetSelection.pas:45
-        public void CloseClick()
-        {
-            General.PlayButtonSound(0);
-            AoWHSMap.FTargetSelection.Deactivate();
-        }
-
-        // AoWTargetSelection.pas:51
-        public void MainBtnClick()
-        {
-            CloseClick();
-        }
+        General.PlayButtonSound(0);
+        AoWHSMap.FTargetSelection.Deactivate();
     }
 
-    public static partial class AoWTargetSelection
+    // AoWTargetSelection.pas:51
+    public void MainBtnClick()
     {
+        CloseClick();
     }
+}
+
+public static partial class AoWTargetSelection
+{
 }

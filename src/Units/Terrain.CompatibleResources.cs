@@ -12,9 +12,9 @@ public partial class TTerrainMO
         var resources = GetResourceList(FResource.Engine).FChildren;
         for (int i = 0; i < resources.Count; i++)
         {
-            var item = (TEObject)resources.List[i];
-            if (item.EClass.ClassID != FResource.EClass.ClassID) continue;
-            var resource = (TTerrainMOR)item;
+            var child = (TEObject)resources.List[i];
+            if (child.EClass.ClassID != FResource.EClass.ClassID) continue;
+            var resource = (TTerrainMOR)child;
             if (resource.FDecorationType == ((TTerrainMOR)FResource).FDecorationType &&
                 resource.FTerrainType == terrainType && resource != FResource &&
                 resource.TerrainList.CompareTerrain(FResource.TerrainList,
@@ -32,9 +32,9 @@ public partial class TTerrainMO
         var resources = GetResourceList(FResource.Engine).FChildren;
         for (int i = 0; i < resources.Count; i++)
         {
-            var item = (TEObject)resources.List[i];
-            if (item.EClass.ClassID != FResource.EClass.ClassID) continue;
-            var resource = (TTerrainMOR)item;
+            var child = (TEObject)resources.List[i];
+            if (child.EClass.ClassID != FResource.EClass.ClassID) continue;
+            var resource = (TTerrainMOR)child;
             if (decorationType != -1 && resource.FDecorationType != decorationType) continue;
             if (resource.FTerrainType != terrainType || resource == FResource ||
                 !resource.TerrainList.CompareTerrain(FResource.TerrainList, default)) continue;

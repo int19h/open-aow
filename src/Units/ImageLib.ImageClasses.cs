@@ -78,8 +78,8 @@ public sealed class LibraryImageClass
 
                 Image = ImageClass.Create(null);
                 GrabInfo.FileIndex = I;
-                var item = Rects.Rectangles[I];
-                if (Image.GrabImage(SD, item.Rect, GrabInfo))
+                var rectangle = Rects.Rectangles[I];
+                if (Image.GrabImage(SD, rectangle.Rect, GrabInfo))
                 {
                     ImageLibrary.Add(Image);
                 }

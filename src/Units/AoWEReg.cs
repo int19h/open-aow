@@ -67,86 +67,85 @@ using static Aow.Units.CombatSpells.CombatSpells;
 using static Aow.Units.PassiveAb.PassiveAb;
 using static Aow.Units.AoWE.AoWE;
 
-namespace Aow.Units.AoWEReg
-{
-    public static partial class AoWEReg
-    {
-        public static void Initialize()
-        {
-            // { AoWEReg, from AoWEPACK.dpl: package initialization registers the game types. }
-            if (ValidateAoWEngine())
-            {
-                RegisterAoWHexagon(AoWEngine);
-                RegisterAoWTerrain(AoWEngine);
-                RegisterRandomHexagon(AoWEngine);
-                RegisterAoWRoad(AoWEngine);
-                RegisterHexagonBridge(AoWEngine);
-                RegisterMountain(AoWEngine);
-                RegisterBridge(AoWEngine);
-                RegisterSpringOfLife(AoWEngine);
-                RegisterBloodShrine(AoWEngine);
-                RegisterSign(AoWEngine);
-                RegisterTeleport(AoWEngine);
-                RegisterPad(AoWEngine);
-                RegisterILTerrain(AoWEngine);
-                RegisterCrops(AoWEngine);
-                RegisterFarm(AoWEngine);
-                RegisterCave(AoWEngine);
-                RegisterMine(AoWEngine);
-                RegisterTower(AoWEngine);
-                RegisterPoisonPlant(AoWEngine);
-                RegisterGems(AoWEngine);
-                RegisterProductionPlace(AoWEngine);
-                RegisterFireNode(AoWEngine);
-                RegisterWaterNode(AoWEngine);
-                RegisterDeathNode(AoWEngine);
-                RegisterLifeNode(AoWEngine);
-                RegisterEarthNode(AoWEngine);
-                RegisterAirNode(AoWEngine);
-                RegisterExplorationSite(AoWEngine);
-                RegisterMonsterlair(AoWEngine);
-                RegisterDungeon(AoWEngine);
-                RegisterCrypt(AoWEngine);
-                RegisterRuin(AoWEngine);
-                RegisterPyramid(AoWEngine);
-                RegisterShipyard(AoWEngine);
-                RegisterHolyGround(AoWEngine);
-                RegisterUnHolyGround(AoWEngine);
-                RegisterMerchant(AoWEngine);
-                RegisterAltarOfFire(AoWEngine);
-                RegisterAltarOfIce(AoWEngine);
-                RegisterAltarOfLightning(AoWEngine);
-                RegisterAltarOfLife(AoWEngine);
-                RegisterAltarOfDeath(AoWEngine);
-                RegisterAltarOfPestilence(AoWEngine);
-                RegisterBuildersGuild(AoWEngine);
-                RegisterItemExplorationSite(AoWEngine);
-                RegisterSetupClasses(AoWEngine);
-                RegisterStorms(AoWEngine);
-                RegisterPoisonCloud(AoWEngine);
-                RegisterCitySpells(AoWEngine);
-                RegisterPowerNode(AoWEngine);
-                RegisterManaCrystals(AoWEngine);
-                RegisterGlobalEnchantmentSpells(AoWEngine);
-                RegisterGlobalSpells(AoWEngine);
-                RegisterGlobalTargetSpells(AoWEngine);
-                RegisterCombatSpells(AoWEngine);
-                RegisterSummonSpells(AoWEngine);
-                RegisterPassiveAbilities(AoWEngine.FGameSet.FAbilityControl);
-                RegisterUnitSpells(AoWEngine);
-                RegisterMoveOnEvents(AoWEngine);
-                RegisterMagicSanctuary(AoWEngine);
-                RegisterArena(AoWEngine);
-                RegisterReflectingPool(AoWEngine);
-                RegisterWizardsTower(AoWEngine);
-                RegisterFlagEvents(AoWEngine);
-                RegisterOverlayObject(AoWEngine);
-                RegisterSmokeCloud(AoWEngine);
-            }
-        }
+namespace Aow.Units.AoWEReg;
 
-        public static void Finalize()
+public static partial class AoWEReg
+{
+    public static void Initialize()
+    {
+        // { AoWEReg, from AoWEPACK.dpl: package initialization registers the game types. }
+        if (ValidateAoWEngine())
         {
+            RegisterAoWHexagon(AoWEngine);
+            RegisterAoWTerrain(AoWEngine);
+            RegisterRandomHexagon(AoWEngine);
+            RegisterAoWRoad(AoWEngine);
+            RegisterHexagonBridge(AoWEngine);
+            RegisterMountain(AoWEngine);
+            RegisterBridge(AoWEngine);
+            RegisterSpringOfLife(AoWEngine);
+            RegisterBloodShrine(AoWEngine);
+            RegisterSign(AoWEngine);
+            RegisterTeleport(AoWEngine);
+            RegisterPad(AoWEngine);
+            RegisterILTerrain(AoWEngine);
+            RegisterCrops(AoWEngine);
+            RegisterFarm(AoWEngine);
+            RegisterCave(AoWEngine);
+            RegisterMine(AoWEngine);
+            RegisterTower(AoWEngine);
+            RegisterPoisonPlant(AoWEngine);
+            RegisterGems(AoWEngine);
+            RegisterProductionPlace(AoWEngine);
+            RegisterFireNode(AoWEngine);
+            RegisterWaterNode(AoWEngine);
+            RegisterDeathNode(AoWEngine);
+            RegisterLifeNode(AoWEngine);
+            RegisterEarthNode(AoWEngine);
+            RegisterAirNode(AoWEngine);
+            RegisterExplorationSite(AoWEngine);
+            RegisterMonsterlair(AoWEngine);
+            RegisterDungeon(AoWEngine);
+            RegisterCrypt(AoWEngine);
+            RegisterRuin(AoWEngine);
+            RegisterPyramid(AoWEngine);
+            RegisterShipyard(AoWEngine);
+            RegisterHolyGround(AoWEngine);
+            RegisterUnHolyGround(AoWEngine);
+            RegisterMerchant(AoWEngine);
+            RegisterAltarOfFire(AoWEngine);
+            RegisterAltarOfIce(AoWEngine);
+            RegisterAltarOfLightning(AoWEngine);
+            RegisterAltarOfLife(AoWEngine);
+            RegisterAltarOfDeath(AoWEngine);
+            RegisterAltarOfPestilence(AoWEngine);
+            RegisterBuildersGuild(AoWEngine);
+            RegisterItemExplorationSite(AoWEngine);
+            RegisterSetupClasses(AoWEngine);
+            RegisterStorms(AoWEngine);
+            RegisterPoisonCloud(AoWEngine);
+            RegisterCitySpells(AoWEngine);
+            RegisterPowerNode(AoWEngine);
+            RegisterManaCrystals(AoWEngine);
+            RegisterGlobalEnchantmentSpells(AoWEngine);
+            RegisterGlobalSpells(AoWEngine);
+            RegisterGlobalTargetSpells(AoWEngine);
+            RegisterCombatSpells(AoWEngine);
+            RegisterSummonSpells(AoWEngine);
+            RegisterPassiveAbilities(AoWEngine.FGameSet.FAbilityControl);
+            RegisterUnitSpells(AoWEngine);
+            RegisterMoveOnEvents(AoWEngine);
+            RegisterMagicSanctuary(AoWEngine);
+            RegisterArena(AoWEngine);
+            RegisterReflectingPool(AoWEngine);
+            RegisterWizardsTower(AoWEngine);
+            RegisterFlagEvents(AoWEngine);
+            RegisterOverlayObject(AoWEngine);
+            RegisterSmokeCloud(AoWEngine);
         }
+    }
+
+    public static void Finalize()
+    {
     }
 }

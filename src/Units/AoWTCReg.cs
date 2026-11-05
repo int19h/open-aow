@@ -18,39 +18,38 @@ using static Aow.Units.CityWall.CityWall;
 using static Aow.Units.CombatFire.CombatFire;
 using static Aow.Units.AoWTC.AoWTC;
 
-namespace Aow.Units.AoWTCReg
+namespace Aow.Units.AoWTCReg;
+
+public static partial class AoWTCReg
 {
-    public static partial class AoWTCReg
+    // AoWTCReg.pas:22
+    // { AoWTCReg, AoWTCPCK.dpl: register the tactical-combat classes in original order. }
+    public static void RegisterTacticalCombat(TEngine AEngine)
     {
-        // AoWTCReg.pas:22
-        // { AoWTCReg, AoWTCPCK.dpl: register the tactical-combat classes in original order. }
-        public static void RegisterTacticalCombat(TEngine AEngine)
-        {
-            RegisterAoWTCClasses(AEngine);
-            RegisterCombatILTerrain(AEngine);
-            RegisterCombatHexagon(AEngine);
-            RegisterCombatRoad(AEngine);
-            RegisterCombatTerrain(AEngine);
-            RegisterCityWall(AEngine);
-            RegisterWorkshop(AEngine);
-            RegisterTownhall(AEngine);
-            RegisterHouse(AEngine);
-            RegisterFleeLocation(AEngine);
-            RegisterSingleCombatHexagon(AEngine);
-            RegisterCombatObstacle(AEngine);
-            RegisterCombatTE(AEngine);
-            RegisterIsometricCombatHexagon(AEngine);
-            RegisterMainStructure(AEngine);
-            RegisterCenterViewLocation(AEngine);
-            RegisterCombatFire(AEngine);
-        }
+        RegisterAoWTCClasses(AEngine);
+        RegisterCombatILTerrain(AEngine);
+        RegisterCombatHexagon(AEngine);
+        RegisterCombatRoad(AEngine);
+        RegisterCombatTerrain(AEngine);
+        RegisterCityWall(AEngine);
+        RegisterWorkshop(AEngine);
+        RegisterTownhall(AEngine);
+        RegisterHouse(AEngine);
+        RegisterFleeLocation(AEngine);
+        RegisterSingleCombatHexagon(AEngine);
+        RegisterCombatObstacle(AEngine);
+        RegisterCombatTE(AEngine);
+        RegisterIsometricCombatHexagon(AEngine);
+        RegisterMainStructure(AEngine);
+        RegisterCenterViewLocation(AEngine);
+        RegisterCombatFire(AEngine);
+    }
 
-        public static void Initialize()
-        {
-        }
+    public static void Initialize()
+    {
+    }
 
-        public static void Finalize()
-        {
-        }
+    public static void Finalize()
+    {
     }
 }

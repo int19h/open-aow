@@ -7,282 +7,281 @@ using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWE;
 
-namespace Aow.Units.HeroCtrl
+namespace Aow.Units.HeroCtrl;
+
+// indices, show level, show status, stream, map, sort, unselect event
+public partial class THeroControlGrid : TCustomImageDrawGrid
 {
-    // indices, show level, show status, stream, map, sort, unselect event
-    public partial class THeroControlGrid : TCustomImageDrawGrid
+    public TIntegerList FIndices;
+    public bool FShowLevel;
+    public bool FReservedDisplay;
+    public bool FShowStatus;
+    public bool FUnplacedOnly;
+    public TMemoryStream FStream;
+    public TAoWHSMap FMap;
+    public byte FSort;
+    public TNotifyEvent FOnUnselect;
+    // HeroCtrl.pas:134
+    public override void Destroy()
     {
-        public TIntegerList FIndices;
-        public bool FShowLevel;
-        public bool FReservedDisplay;
-        public bool FShowStatus;
-        public bool FUnplacedOnly;
-        public TMemoryStream FStream;
-        public TAoWHSMap FMap;
-        public byte FSort;
-        public TNotifyEvent FOnUnselect;
-        // HeroCtrl.pas:134
-        public override void Destroy()
-        {
-            /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new NotImplementedException();
-        }
+        /* TODO: Implement Grids.Destroy in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        // HeroCtrl.pas:122
-        // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public THeroControlGrid(TComponent owner) : base(owner)
-        {
+    // HeroCtrl.pas:122
+    // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
+    public THeroControlGrid(TComponent owner) : base(owner)
+    {
 
-            DefaultColWidth = 155;
-            DefaultRowHeight = 46;
-            GrowDirection = TILGrowDirection.ilVertical;
-            ScrollBars = TScrollStyle.ssVertical;
-            FIndices = new TIntegerList();
-            FStream = new TMemoryStream();
-            FSort = 0;
-        }
+        DefaultColWidth = 155;
+        DefaultRowHeight = 46;
+        GrowDirection = TILGrowDirection.ilVertical;
+        ScrollBars = TScrollStyle.ssVertical;
+        FIndices = new TIntegerList();
+        FStream = new TMemoryStream();
+        FSort = 0;
+    }
 
-        // HeroCtrl.pas:263
-        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
-        {
-            /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new NotImplementedException();
-        }
+    // HeroCtrl.pas:263
+    protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
+    {
+        /* TODO: Implement Controls.Canvas in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        // HeroCtrl.pas:142
-        protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
-        {
-            /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
-            throw new NotImplementedException();
-        }
+    // HeroCtrl.pas:142
+    protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    {
+        /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        // HeroCtrl.pas:156
-        public void SetAoWHSMap(TAoWHSMap Value)
+    // HeroCtrl.pas:156
+    public void SetAoWHSMap(TAoWHSMap Value)
+    {
+        if (Value != FMap)
         {
-            if (Value != FMap)
+            if (FMap != null)
             {
-                if (FMap != null)
-                {
-                    FMap.FHeroControl.FOnChanged.Remove(HeroControlChanged);
-                    FMap.FHeroControl.FOnHeroChanged.Remove(HeroChanged);
-                }
-
-                FMap = Value;
-                if (FMap != null)
-                {
-                    FMap.FHeroControl.FOnChanged.Add(HeroControlChanged);
-                    FMap.FHeroControl.FOnHeroChanged.Add(HeroChanged);
-                }
-
-                UpdateHeroes();
+                FMap.FHeroControl.FOnChanged.Remove(HeroControlChanged);
+                FMap.FHeroControl.FOnHeroChanged.Remove(HeroChanged);
             }
-        }
 
-        // HeroCtrl.pas:175
-        public void HeroControlChanged(TObject Sender)
-        {
+            FMap = Value;
+            if (FMap != null)
+            {
+                FMap.FHeroControl.FOnChanged.Add(HeroControlChanged);
+                FMap.FHeroControl.FOnHeroChanged.Add(HeroChanged);
+            }
+
             UpdateHeroes();
         }
+    }
 
-        // HeroCtrl.pas:180
-        public void HeroChanged(TObject Sender)
+    // HeroCtrl.pas:175
+    public void HeroControlChanged(TObject Sender)
+    {
+        UpdateHeroes();
+    }
+
+    // HeroCtrl.pas:180
+    public void HeroChanged(TObject Sender)
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // HeroCtrl.pas:186
+    public THero GetHero(int Index)
+    {
+        THero Result;
+        // { Original checks only the upper bound. }
+        if (Index < FIndices.Count)
         {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
+            var indice = FIndices[Index];
+            Result = FMap.FHeroControl.GetHero(indice);
+        }
+        else
+        {
+            Result = null;
         }
 
-        // HeroCtrl.pas:186
-        public THero GetHero(int Index)
-        {
-            THero Result;
-            // { Original checks only the upper bound. }
-            if (Index < FIndices.Count)
-            {
-                var indice = FIndices[Index];
-                Result = FMap.FHeroControl.GetHero(indice);
-            }
-            else
-            {
-                Result = null;
-            }
+        return Result;
+    }
 
-            return Result;
-        }
+    // HeroCtrl.pas:193
+    public THero GetSelectedHero()
+    {
+        /* TODO: Implement Grids.Col in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        // HeroCtrl.pas:193
-        public THero GetSelectedHero()
+    // HeroCtrl.pas:202
+    public void SetSelectedHero(THero Value)
+    {
+        int I;
+        I = FMap.FHeroControl.IndexOf(Value);
+        if (I != -1)
         {
-            /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // HeroCtrl.pas:202
-        public void SetSelectedHero(THero Value)
-        {
-            int I;
-            I = FMap.FHeroControl.IndexOf(Value);
+            I = FIndices.IndexOf(I);
             if (I != -1)
             {
-                I = FIndices.IndexOf(I);
-                if (I != -1)
-                {
-                    SelectIndex(I);
-                }
+                SelectIndex(I);
             }
         }
-
-        // HeroCtrl.pas:214
-        public void Unselect()
-        {
-            SelectionEnabled = false;
-            if (FOnUnselect != null)
-            {
-                FOnUnselect(this);
-            }
-        }
-
-        // HeroCtrl.pas:220
-        public void UpdateHeroes()
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // HeroCtrl.pas:245
-        public void SortOnName()
-        {
-            if (FSort != 0)
-            {
-                FSort = 0;
-                UpdateHeroes();
-            }
-        }
-
-        // HeroCtrl.pas:254
-        public void SortOnLevel()
-        {
-            if (FSort != 1)
-            {
-                FSort = 1;
-                UpdateHeroes();
-            }
-        }
-
-        // HeroCtrl.pas:356
-        public void DeleteHero()
-        {
-            /* TODO: Implement Grids.Bottom in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // HeroCtrl.pas:379
-        public void RemoveFromMap()
-        {
-            /* TODO: Implement Grids.Top in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        [Published]
-        public bool EditHeroEnabled { get => FReservedDisplay; set => FReservedDisplay = value; }
-
-        [Published]
-        public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
-
-        [Published]
-        public bool OnlyFreeHeroes { get => FUnplacedOnly; set => FUnplacedOnly = value; }
-
-        [Published]
-        public TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
-
-        [Published]
-        public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
     }
 
-    public partial class TGridMapView : TObject
+    // HeroCtrl.pas:214
+    public void Unselect()
     {
-        public TItemControl ItemControl;
-        public THeroControl HeroControl;
-        public TPlayerList Players;
-        public TEventList LeaderEvent;
-    }
-
-    public struct TRawView
-    {
-        public FixedArray_object_512 Fields;
-    }
-
-    public struct TNodeView
-    {
-        public FixedArray_byte_8 Reserved;
-        public TList Children;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 49)]
-    public struct TEngineView
-    {
-        [FieldOffset(0)]
-        public FixedArray_byte_48 Reserved;
-        [FieldOffset(48)]
-        public byte Status;
-    }
-
-    public struct THeroView
-    {
-        public FixedArray_byte_96 Reserved00;
-        private string name;
-        public string Name { readonly get => name ?? ""; set => name = value; }
-        public FixedArray_byte_4 Reserved64;
-        public byte Race;
-        public FixedArray_byte_15 Reserved69;
-        public bool Hidden;
-    }
-
-    public struct TItemView
-    {
-        public FixedArray_byte_24 Reserved00;
-        private string name;
-        public string Name { readonly get => name ?? ""; set => name = value; }
-        public FixedArray_byte_24 Reserved1C;
-        public byte Kind;
-        public FixedArray_byte_15 Reserved35;
-        public bool Hidden;
-    }
-
-    public static partial class HeroCtrl
-    {
-        // HeroCtrl.pas:397
-        public static void Register()
+        SelectionEnabled = false;
+        if (FOnUnselect != null)
         {
-            RegisterComponents("AoW", [typeof(THeroControlGrid)]);
+            FOnUnselect(this);
+        }
+    }
+
+    // HeroCtrl.pas:220
+    public void UpdateHeroes()
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // HeroCtrl.pas:245
+    public void SortOnName()
+    {
+        if (FSort != 0)
+        {
+            FSort = 0;
+            UpdateHeroes();
+        }
+    }
+
+    // HeroCtrl.pas:254
+    public void SortOnLevel()
+    {
+        if (FSort != 1)
+        {
+            FSort = 1;
+            UpdateHeroes();
+        }
+    }
+
+    // HeroCtrl.pas:356
+    public void DeleteHero()
+    {
+        /* TODO: Implement Grids.Bottom in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // HeroCtrl.pas:379
+    public void RemoveFromMap()
+    {
+        /* TODO: Implement Grids.Top in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    [Published]
+    public bool EditHeroEnabled { get => FReservedDisplay; set => FReservedDisplay = value; }
+
+    [Published]
+    public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
+
+    [Published]
+    public bool OnlyFreeHeroes { get => FUnplacedOnly; set => FUnplacedOnly = value; }
+
+    [Published]
+    public TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
+
+    [Published]
+    public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
+}
+
+public partial class TGridMapView : TObject
+{
+    public TItemControl ItemControl;
+    public THeroControl HeroControl;
+    public TPlayerList Players;
+    public TEventList LeaderEvent;
+}
+
+public struct TRawView
+{
+    public FixedArray_object_512 Fields;
+}
+
+public struct TNodeView
+{
+    public FixedArray_byte_8 Reserved;
+    public TList Children;
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 49)]
+public struct TEngineView
+{
+    [FieldOffset(0)]
+    public FixedArray_byte_48 Reserved;
+    [FieldOffset(48)]
+    public byte Status;
+}
+
+public struct THeroView
+{
+    public FixedArray_byte_96 Reserved00;
+    private string name;
+    public string Name { readonly get => name ?? ""; set => name = value; }
+    public FixedArray_byte_4 Reserved64;
+    public byte Race;
+    public FixedArray_byte_15 Reserved69;
+    public bool Hidden;
+}
+
+public struct TItemView
+{
+    public FixedArray_byte_24 Reserved00;
+    private string name;
+    public string Name { readonly get => name ?? ""; set => name = value; }
+    public FixedArray_byte_24 Reserved1C;
+    public byte Kind;
+    public FixedArray_byte_15 Reserved35;
+    public bool Hidden;
+}
+
+public static partial class HeroCtrl
+{
+    // HeroCtrl.pas:397
+    public static void Register()
+    {
+        RegisterComponents("AoW", [typeof(THeroControlGrid)]);
+    }
+
+    public static readonly string GridUsedRStr = "Used";
+
+    // HeroCtrl.pas:110
+    public static int HeroControlCompareName(int A, int B)
+    {
+        var hero = AoWHSMap.FHeroControl.GetHero(B);
+        return CompareText(AoWHSMap.FHeroControl.GetHero(A).FHeroName, hero.FHeroName);
+    }
+
+    // HeroCtrl.pas:115
+    public static int HeroControlCompareLevel(int A, int B)
+    {
+        int Result = AoWHSMap.FHeroControl.GetHero(A).GetLevel() - AoWHSMap.FHeroControl.GetHero(B).GetLevel();
+        if (Result == 0)
+        {
+            Result = HeroControlCompareName(A, B);
         }
 
-        public static readonly string GridUsedRStr = "Used";
+        return Result;
+    }
 
-        // HeroCtrl.pas:110
-        public static int HeroControlCompareName(int A, int B)
-        {
-            var hero = AoWHSMap.FHeroControl.GetHero(B);
-            return CompareText(AoWHSMap.FHeroControl.GetHero(A).FHeroName, hero.FHeroName);
-        }
+    public static void Initialize()
+    {
+    }
 
-        // HeroCtrl.pas:115
-        public static int HeroControlCompareLevel(int A, int B)
-        {
-            int Result = AoWHSMap.FHeroControl.GetHero(A).GetLevel() - AoWHSMap.FHeroControl.GetHero(B).GetLevel();
-            if (Result == 0)
-            {
-                Result = HeroControlCompareName(A, B);
-            }
-
-            return Result;
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
+    public static void Finalize()
+    {
     }
 }
