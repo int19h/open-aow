@@ -319,7 +319,7 @@ internal sealed class FrameFixture
                 if (fixture.values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    GameState.AoWEngine.SaveHSM(GameState.AoWEngine.StartupDirectory + ("Save\\" + saveName), null!);
+                    GameState.AoWEngine.SaveHSM(GameState.AoWEngine.StartupDirectory + "Save\\" + saveName, null!);
                 }
                 else map.FPlayerControl.AutoSave();
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);

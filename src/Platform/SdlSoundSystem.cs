@@ -114,7 +114,7 @@ public class TSdlSoundSystem : TSoundSystem
             State = SongState.Idle;
             try
             {
-                using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name), 0);
+                using var stream = Aow.Rtl.Rtl.Files.Open(SoundApi.BaseSoundEnginePath + name, 0);
                 using var data = new MemoryStream(); stream.CopyTo(data);
                 var song = OpenMptModule.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
                 if (song is null) return false;
@@ -181,7 +181,7 @@ internal class SdlSampleData : TSampleData
 
     private protected SdlSampleData(ConstructionContext context, string name) : base(context, name)
     {
-        using var stream = Aow.Rtl.Rtl.Files.Open((SoundApi.BaseSoundEnginePath + name), 0);
+        using var stream = Aow.Rtl.Rtl.Files.Open(SoundApi.BaseSoundEnginePath + name, 0);
         Wave = WaveData.Read(stream);
     }
     private protected SdlSampleData(ConstructionContext context, in TWaveFormatEx format, object data, int size) : base(context, format, data, size)

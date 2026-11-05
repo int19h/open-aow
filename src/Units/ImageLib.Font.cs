@@ -9,9 +9,11 @@ public partial class TImageLibraryFont
     internal int TextWidth(string text)
     {
         int width = 0;
-        foreach (byte character in Cp1252.Encode(text))
+        // One table lookup per char, no allocation (strings.md 2.4). IsEmpty reads the null switch as Encode did.
+        if (Aow.Rtl.Rtl.IsEmpty(text)) return width;
+        foreach (char c in text)
         {
-            var image = GetSafe(character);
+            var image = GetSafe(Cp1252.Byte(c));
             width += (image?.Width ?? 5) + FCharacterDistance;
         }
         return width;
@@ -19,9 +21,10 @@ public partial class TImageLibraryFont
 
     internal void ShowText(int x, int y, string text, in TSurfaceDesc sd)
     {
-        foreach (byte character in Cp1252.Encode(text))
+        if (Aow.Rtl.Rtl.IsEmpty(text)) return;
+        foreach (char c in text)
         {
-            var image = GetSafe(character);
+            var image = GetSafe(Cp1252.Byte(c));
             if (image != null) image.Show(x, y, sd);
             x += (image?.Width ?? 5) + FCharacterDistance;
         }

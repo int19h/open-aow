@@ -17,7 +17,7 @@ public struct TVarRec
     public VarKind Kind;
     public long Int;
     public double Ext;
-    private string? str;
+    private string str;
     public string Str { readonly get => str ?? ""; set => str = value; }
     public object? Obj;
     public bool Bool;

@@ -76,6 +76,8 @@ public sealed class StringsTests
             list.CommaText = input; Assert.Equal(expected, Enumerable.Range(0, list.Count).Select(i => list[i])); Assert.Equal(canonical, list.CommaText);
         }
         list.Clear(); list.Add("a\tb"); list.Add("c\0d"); Assert.Equal("\"a\tb\",c\0d", list.CommaText);
+        // Both branches keep a char outside the table (strings.md 2.6).
+        list.CommaText = "\"\u0141,x\",\u03a9"; Assert.Equal(new[] { "\u0141,x", "\u03a9" }, Enumerable.Range(0, list.Count).Select(i => list[i]));
     }
 
     // A minimal TStrings descendant exercises the base implementations separately from TStringList.

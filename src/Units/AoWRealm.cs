@@ -450,8 +450,8 @@ namespace Aow.Units.AoWRealm
         // AoWRealm.pas:388
         public void T2WallLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
-            ReadOnlySpan<byte> text = Cp1252.Encode(T2WallLB.Items[DrawItem]);
-            switch (text.IsEmpty ? (byte)0 : text[0])
+            string text = T2WallLB.Items[DrawItem];
+            switch (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]))
             {
                 case 49:
                     var lbIcon = IntGfxMod.LBIcons[7];
@@ -554,8 +554,8 @@ namespace Aow.Units.AoWRealm
         public void T2MorLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
             int Icon;
-            ReadOnlySpan<byte> text = Cp1252.Encode(T2MorLB.Items[DrawItem]);
-            Icon = (text.IsEmpty ? (byte)0 : text[0]) - 48;
+            string text = T2MorLB.Items[DrawItem];
+            Icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
             var lbIcon = IntGfxMod.LBIcons[Icon + 9];
             IntGfxMod.LBIcons[Icon + 9].ShowClipped(DrawRect.Left + (DrawRect.Right - DrawRect.Left) / 2 - lbIcon.Width / 2, DrawRect.Top, SurfDesc);
         }
@@ -711,8 +711,8 @@ namespace Aow.Units.AoWRealm
         public void T2ActLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
             byte Icon;
-            ReadOnlySpan<byte> text = Cp1252.Encode(T2ActLB.Items[DrawItem]);
-            Icon = text.IsEmpty ? (byte)0 : text[0];
+            string text = T2ActLB.Items[DrawItem];
+            Icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
             if (Icon != 45)
             {
                 var lbIcon = IntGfxMod.LBIcons[Icon - 23];
@@ -731,8 +731,8 @@ namespace Aow.Units.AoWRealm
         public void T2RelLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
         {
             int Icon;
-            ReadOnlySpan<byte> text = Cp1252.Encode(T2RelLB.Items[DrawItem]);
-            Icon = (text.IsEmpty ? (byte)0 : text[0]) - 48;
+            string text = T2RelLB.Items[DrawItem];
+            Icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
             var lbIcon = IntGfxMod.LBIcons[Icon + 14];
             IntGfxMod.LBIcons[Icon + 14].ShowClipped(DrawRect.Left + (DrawRect.Right - DrawRect.Left) / 2 - lbIcon.Width / 2, DrawRect.Top, SurfDesc);
         }

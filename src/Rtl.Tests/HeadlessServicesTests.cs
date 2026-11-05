@@ -64,6 +64,15 @@ public sealed class HeadlessServicesTests
     }
 
     [Fact]
+    public void MissingStringValueReadsAsEmpty()
+    {
+        var registry = new TRegistry();
+        registry.OpenKey("General", false);
+        Assert.False(registry.ValueExists("Absent Name"));
+        Assert.Equal("", registry.ReadString("Absent Name"));
+    }
+
+    [Fact]
     public void BinarySettingsRetainTheirStoredSizeAndLeaveTheUnreadTail()
     {
         var registry = new TRegistry();

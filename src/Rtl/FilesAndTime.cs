@@ -112,7 +112,7 @@ public sealed class SystemClock : IClock
 
 public struct TSearchRec
 {
-    private string? name;
+    private string name;
     public string Name { readonly get => name ?? ""; set => name = value; }
     public int Size, Attr, Time;
     internal RtlFileEntry[]? Entries;

@@ -127,7 +127,8 @@ public class TRegistry : TObject
     public bool ValueExists(string name) => values.Read(key + "\\" + name) is not null;
     public int ReadInteger(string name) => (int)values.Read(key + "\\" + name)!;
     public bool ReadBool(string name) => (bool)values.Read(key + "\\" + name)!;
-    public string ReadString(string name) => (string)values.Read(key + "\\" + name)!;
+    // REGISTRY.PAS TRegistry.ReadString returns '' for a missing value (strings.md 2.2).
+    public string ReadString(string name) => (string?)values.Read(key + "\\" + name) ?? "";
     public void WriteInteger(string name, int value) => values.Write(key + "\\" + name, value);
     public void WriteBool(string name, bool value) => values.Write(key + "\\" + name, value);
     public void WriteString(string name, string value) => values.Write(key + "\\" + name, value);

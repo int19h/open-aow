@@ -53,7 +53,7 @@ public class TComponent : TPersistent
         {
             if (name == value) return;
             static bool Letter(byte c) => c is >= 65 and <= 90 or >= 97 and <= 122 or 95;
-            if (value.Length > 0 && (!Letter(Cp1252.Byte(value[0])) || Cp1252.Encode(value).ToArray().Skip(1).Any(c => !Letter(c) && c is not (>= 48 and <= 57))))
+            if (value.Length > 0 && (!Letter(Cp1252.Byte(value[0])) || Cp1252.Encode(value).Skip(1).Any(c => !Letter(c) && c is not (>= 48 and <= 57))))
                 throw new EComponentError($"''{value}'' is not a valid component name");
             Owner?.ValidateRename(this, name, value);
             name = value;

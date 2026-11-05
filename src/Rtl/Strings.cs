@@ -100,9 +100,10 @@ public abstract class TStrings : TPersistent
                         p++;
                         while (At() != 0)
                         {
-                            byte c = At(); p++;
+                            // The char itself, so a char outside the table stays itself (strings.md 2.6).
+                            char character = value[p - 1]; byte c = At(); p++;
                             if (c == 34) { if (At() != 34) break; p++; }
-                            s += Cp1252.Text(c);
+                            s += character;
                         }
                     }
                     else
