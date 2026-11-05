@@ -3502,7 +3502,7 @@ namespace Aow.Units.GFXE
             for (int yOrdinal = 0, last = SD.Height - 1; yOrdinal <= last; yOrdinal++)
             {
                 Y = (ushort)yOrdinal;
-                for (int xOrdinal = 0, lastOrdinal__107 = SD.Width - 1; xOrdinal <= lastOrdinal__107; xOrdinal++)
+                for (int xOrdinal = 0, lastXOrdinal = SD.Width - 1; xOrdinal <= lastXOrdinal; xOrdinal++)
                 {
                     X = (ushort)xOrdinal;
                     if (GetPixel(X, Y) == TransparentColor)
