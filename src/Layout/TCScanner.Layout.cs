@@ -1,8 +1,14 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AoWWindow;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWFrame;
+using Aow.Units.Scanner;
+using Aow.Units.AoWImage;
+using Aow.Units.AoWLabel;
+using Aow.Units.AoWButton;
 
 namespace Aow.Units.AoWTCScanner
 {
@@ -17,7 +23,7 @@ namespace Aow.Units.AoWTCScanner
         {
             session.Begin(this);
             Name = "TCScanner";
-            TCScannerWin = new Aow.Units.AoWWindow.TAOWWindow(this);
+            TCScannerWin = new TAOWWindow(this);
             session.BeginRead(TCScannerWin);
             TCScannerWin.Name = "TCScannerWin";
             TCScannerWin.Visible = false;
@@ -26,10 +32,10 @@ namespace Aow.Units.AoWTCScanner
             TCScannerWin.WinTop = 0;
             TCScannerWin.WinWidth = 150;
             TCScannerWin.Masked = false;
-            TCScannerWin.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
-            TCScannerWin.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            TCScannerWin.Alignment.HeightPercent = (byte)(0);
-            TCScannerWin.Alignment.WidthPercent = (byte)(0);
+            TCScannerWin.Alignment.AlignWidth = TAOWAlignWidth.awRight;
+            TCScannerWin.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            TCScannerWin.Alignment.HeightPercent = 0;
+            TCScannerWin.Alignment.WidthPercent = 0;
             TCScannerWin.Alignment.LeftOffPercent = 0;
             TCScannerWin.Alignment.RightOffPercent = 0;
             TCScannerWin.Alignment.TopOffPercent = 0;
@@ -62,17 +68,17 @@ namespace Aow.Units.AoWTCScanner
             TCScannerWin.WinHeight = 170;
             TCScannerWin.Dockable = false;
             session.EndRead(TCScannerWin);
-            ScannerFr = new Aow.Units.AoWFrame.TAoWFrame(this);
+            ScannerFr = new TAoWFrame(this);
             session.BeginRead(ScannerFr);
             ScannerFr.Name = "ScannerFr";
             ScannerFr.Priority = 0;
             ScannerFr.WinLeft = 6;
             ScannerFr.WinTop = 20;
             ScannerFr.CaptureInput = false;
-            ScannerFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            ScannerFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            ScannerFr.Alignment.HeightPercent = (byte)(0);
-            ScannerFr.Alignment.WidthPercent = (byte)(0);
+            ScannerFr.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            ScannerFr.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            ScannerFr.Alignment.HeightPercent = 0;
+            ScannerFr.Alignment.WidthPercent = 0;
             ScannerFr.Alignment.LeftOffPercent = 0;
             ScannerFr.Alignment.RightOffPercent = 0;
             ScannerFr.Alignment.TopOffPercent = 0;
@@ -84,22 +90,22 @@ namespace Aow.Units.AoWTCScanner
             ScannerFr.Masked = false;
             ScannerFr.WinWidth = 138;
             ScannerFr.WinHeight = 144;
-            ScannerFr.FrameType = Aow.Units.AoWFrame.TFrameType.frHollowBox;
+            ScannerFr.FrameType = TFrameType.frHollowBox;
             ScannerFr.ILIndexFrame = 40;
             ScannerFr.ILIndexLine = 0;
             ScannerFr.ILIndexTexture = 0;
             session.EndRead(ScannerFr);
-            Scanner = new Aow.Units.Scanner.TScanner(this);
+            Scanner = new TScanner(this);
             session.BeginRead(Scanner);
             Scanner.Name = "Scanner";
             Scanner.Priority = 5;
             Scanner.WinLeft = 7;
             Scanner.WinTop = 21;
             Scanner.CaptureInput = true;
-            Scanner.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            Scanner.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            Scanner.Alignment.HeightPercent = (byte)(0);
-            Scanner.Alignment.WidthPercent = (byte)(0);
+            Scanner.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            Scanner.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            Scanner.Alignment.HeightPercent = 0;
+            Scanner.Alignment.WidthPercent = 0;
             Scanner.Alignment.LeftOffPercent = 0;
             Scanner.Alignment.RightOffPercent = 0;
             Scanner.Alignment.TopOffPercent = 0;
@@ -123,17 +129,17 @@ namespace Aow.Units.AoWTCScanner
             Scanner.MapDrawSteps = 5;
             Scanner.ILIndexFrame = 20;
             session.EndRead(Scanner);
-            STitleIcon = new Aow.Units.AoWImage.TAOWImage(this);
+            STitleIcon = new TAOWImage(this);
             session.BeginRead(STitleIcon);
             STitleIcon.Name = "STitleIcon";
             STitleIcon.Priority = 0;
             STitleIcon.WinLeft = 2;
             STitleIcon.WinTop = 2;
             STitleIcon.CaptureInput = false;
-            STitleIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            STitleIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            STitleIcon.Alignment.HeightPercent = (byte)(0);
-            STitleIcon.Alignment.WidthPercent = (byte)(0);
+            STitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            STitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            STitleIcon.Alignment.HeightPercent = 0;
+            STitleIcon.Alignment.WidthPercent = 0;
             STitleIcon.Alignment.LeftOffPercent = 0;
             STitleIcon.Alignment.RightOffPercent = 0;
             STitleIcon.Alignment.TopOffPercent = 0;
@@ -151,17 +157,17 @@ namespace Aow.Units.AoWTCScanner
             STitleIcon.Animate = false;
             STitleIcon.AnimFrameDelay = 0;
             session.EndRead(STitleIcon);
-            STitleLabel = new Aow.Units.AoWLabel.TAOWLabel(this);
+            STitleLabel = new TAOWLabel(this);
             session.BeginRead(STitleLabel);
             STitleLabel.Name = "STitleLabel";
             STitleLabel.Priority = 0;
             STitleLabel.WinLeft = 25;
             STitleLabel.WinTop = 4;
             STitleLabel.CaptureInput = false;
-            STitleLabel.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            STitleLabel.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            STitleLabel.Alignment.HeightPercent = (byte)(0);
-            STitleLabel.Alignment.WidthPercent = (byte)(0);
+            STitleLabel.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            STitleLabel.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            STitleLabel.Alignment.HeightPercent = 0;
+            STitleLabel.Alignment.WidthPercent = 0;
             STitleLabel.Alignment.LeftOffPercent = 0;
             STitleLabel.Alignment.RightOffPercent = 0;
             STitleLabel.Alignment.TopOffPercent = 0;
@@ -174,7 +180,7 @@ namespace Aow.Units.AoWTCScanner
             STitleLabel.Text = "Battle Map";
             STitleLabel.TextColor = 0;
             session.EndRead(STitleLabel);
-            SMinIcon = new Aow.Units.AoWButton.TAOWButton(this);
+            SMinIcon = new TAOWButton(this);
             session.BeginRead(SMinIcon);
             SMinIcon.Name = "SMinIcon";
             SMinIcon.Priority = 1000;
@@ -185,10 +191,10 @@ namespace Aow.Units.AoWTCScanner
                 "Minimizes the window."
             };
             SMinIcon.CaptureInput = true;
-            SMinIcon.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awRight;
-            SMinIcon.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            SMinIcon.Alignment.HeightPercent = (byte)(0);
-            SMinIcon.Alignment.WidthPercent = (byte)(0);
+            SMinIcon.Alignment.AlignWidth = TAOWAlignWidth.awRight;
+            SMinIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            SMinIcon.Alignment.HeightPercent = 0;
+            SMinIcon.Alignment.WidthPercent = 0;
             SMinIcon.Alignment.LeftOffPercent = 0;
             SMinIcon.Alignment.RightOffPercent = 0;
             SMinIcon.Alignment.TopOffPercent = 0;
@@ -208,7 +214,7 @@ namespace Aow.Units.AoWTCScanner
             SMinIcon.WinWidth = 15;
             SMinIcon.OnClick = Layout_SMinIconClick_2;
             session.EndRead(SMinIcon);
-            var created__Translator = new Aow.Layout.LayoutTIvTranslator(this);
+            var created__Translator = new LayoutTIvTranslator(this);
             Translator = created__Translator;
             session.BeginRead(created__Translator);
             created__Translator.Name = "Translator";
@@ -232,19 +238,19 @@ namespace Aow.Units.AoWTCScanner
             SMinIcon.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            TCScannerWin.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            TCScannerWin.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            TCScannerWin.ILTexture = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ScannerFr.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Scanner.TilesImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanTiles;
-            Scanner.HiLightsImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanHiLites;
-            Scanner.FogImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanFog;
-            Scanner.ILObjects = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanObj;
-            Scanner.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
-            STitleIcon.ImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            STitleLabel.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            SMinIcon.ToolTip = Aow.Units.AoWWinMan.AoWWinMan.General.ToolTip;
-            SMinIcon.ILIcon = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
+            TCScannerWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            TCScannerWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            TCScannerWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
+            ScannerFr.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            Scanner.TilesImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanTiles;
+            Scanner.HiLightsImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanHiLites;
+            Scanner.FogImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanFog;
+            Scanner.ILObjects = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanObj;
+            Scanner.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.ScanWin;
+            STitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
+            STitleLabel.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            SMinIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
+            SMinIcon.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
         }
 
         private void Layout_TCScannerWinDrag_0(TObject p0)

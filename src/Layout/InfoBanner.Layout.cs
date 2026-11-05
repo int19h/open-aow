@@ -1,8 +1,11 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
-using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AoWLabel;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWMemo;
+using Aow.Units.AOWMenu;
+using Aow.Units.AoWVScroll;
 
 namespace Aow.Units.AoWInfoBanner
 {
@@ -17,17 +20,17 @@ namespace Aow.Units.AoWInfoBanner
         {
             session.Begin(this);
             Name = "InfoBanner";
-            HeaderLbl = new Aow.Units.AoWLabel.TAOWLabel(this);
+            HeaderLbl = new TAOWLabel(this);
             session.BeginRead(HeaderLbl);
             HeaderLbl.Name = "HeaderLbl";
             HeaderLbl.Priority = 0;
             HeaderLbl.WinLeft = 71;
             HeaderLbl.WinTop = 30;
             HeaderLbl.CaptureInput = true;
-            HeaderLbl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-            HeaderLbl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            HeaderLbl.Alignment.HeightPercent = (byte)(0);
-            HeaderLbl.Alignment.WidthPercent = (byte)(0);
+            HeaderLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            HeaderLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            HeaderLbl.Alignment.HeightPercent = 0;
+            HeaderLbl.Alignment.WidthPercent = 0;
             HeaderLbl.Alignment.LeftOffPercent = 0;
             HeaderLbl.Alignment.RightOffPercent = 0;
             HeaderLbl.Alignment.TopOffPercent = 0;
@@ -40,17 +43,17 @@ namespace Aow.Units.AoWInfoBanner
             HeaderLbl.Text = "######";
             HeaderLbl.TextColor = 1321830;
             session.EndRead(HeaderLbl);
-            InfoMemo = new Aow.Units.AoWMemo.TAOWMemo(this);
+            InfoMemo = new TAOWMemo(this);
             session.BeginRead(InfoMemo);
             InfoMemo.Name = "InfoMemo";
             InfoMemo.Priority = 0;
             InfoMemo.WinLeft = 30;
             InfoMemo.WinTop = 45;
             InfoMemo.CaptureInput = true;
-            InfoMemo.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awBoth;
-            InfoMemo.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahBoth;
-            InfoMemo.Alignment.HeightPercent = (byte)(0);
-            InfoMemo.Alignment.WidthPercent = (byte)(0);
+            InfoMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            InfoMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            InfoMemo.Alignment.HeightPercent = 0;
+            InfoMemo.Alignment.WidthPercent = 0;
             InfoMemo.Alignment.LeftOffPercent = 0;
             InfoMemo.Alignment.RightOffPercent = 0;
             InfoMemo.Alignment.TopOffPercent = 0;
@@ -69,16 +72,16 @@ namespace Aow.Units.AoWInfoBanner
             InfoMemo.BorderWidth = 0;
             InfoMemo.BorderHeight = 0;
             InfoMemo.TextColor = 0;
-            InfoMemo.CursorChar = (byte)124;
-            InfoMemo.BlinkDelay = (byte)(0);
+            InfoMemo.CursorChar = 124;
+            InfoMemo.BlinkDelay = 0;
             InfoMemo.Editable = false;
             InfoMemo.ILIndexFrame = 0;
             InfoMemo.ILIndexTexture = 0;
             InfoMemo.ItemHeight = 10;
-            InfoMemo.ColorChangeChar = (byte)0;
-            InfoMemo.TextAlign = Aow.Units.AoWComp.TaowTextAlign.taCenter;
+            InfoMemo.ColorChangeChar = 0;
+            InfoMemo.TextAlign = TaowTextAlign.taCenter;
             session.EndRead(InfoMemo);
-            BannerPopup = new Aow.Units.AOWMenu.TAOWMenu(this);
+            BannerPopup = new TAOWMenu(this);
             session.BeginRead(BannerPopup);
             BannerPopup.Name = "BannerPopup";
             BannerPopup.OnMouseDown = BannerPopupMouseDown;
@@ -88,10 +91,10 @@ namespace Aow.Units.AoWInfoBanner
             BannerPopup.WinTop = 0;
             BannerPopup.WinWidth = 238;
             BannerPopup.Masked = true;
-            BannerPopup.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            BannerPopup.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            BannerPopup.Alignment.HeightPercent = (byte)(0);
-            BannerPopup.Alignment.WidthPercent = (byte)(0);
+            BannerPopup.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            BannerPopup.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            BannerPopup.Alignment.HeightPercent = 0;
+            BannerPopup.Alignment.WidthPercent = 0;
             BannerPopup.Alignment.LeftOffPercent = 0;
             BannerPopup.Alignment.RightOffPercent = 0;
             BannerPopup.Alignment.TopOffPercent = 0;
@@ -118,17 +121,17 @@ namespace Aow.Units.AoWInfoBanner
             BannerPopup.SubMenuShowDelay = 0;
             BannerPopup.WinHeight = 155;
             session.EndRead(BannerPopup);
-            InfoMemoSB = new Aow.Units.AoWVScroll.TAOWVScrollBar(this);
+            InfoMemoSB = new TAOWVScrollBar(this);
             session.BeginRead(InfoMemoSB);
             InfoMemoSB.Name = "InfoMemoSB";
             InfoMemoSB.Priority = 0;
             InfoMemoSB.WinLeft = 117;
             InfoMemoSB.WinTop = 45;
             InfoMemoSB.CaptureInput = true;
-            InfoMemoSB.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awNone;
-            InfoMemoSB.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahNone;
-            InfoMemoSB.Alignment.HeightPercent = (byte)(0);
-            InfoMemoSB.Alignment.WidthPercent = (byte)(0);
+            InfoMemoSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
+            InfoMemoSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+            InfoMemoSB.Alignment.HeightPercent = 0;
+            InfoMemoSB.Alignment.WidthPercent = 0;
             InfoMemoSB.Alignment.LeftOffPercent = 0;
             InfoMemoSB.Alignment.RightOffPercent = 0;
             InfoMemoSB.Alignment.TopOffPercent = 0;
@@ -165,17 +168,17 @@ namespace Aow.Units.AoWInfoBanner
             BannerPopup.Loaded();
             InfoMemoSB.Loaded();
             session.Resolve(this);
-            HeaderLbl.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age10;
-            InfoMemo.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age8;
-            BannerPopup.WinManager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
-            BannerPopup.ILFrame = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.ILTextureNormal = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.ILTextureSelected = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.AOWFont = Aow.Units.AoWExeForms.AoWExeForms.FontModule.Age8;
-            InfoMemoSB.ILIInc = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            InfoMemoSB.ILIDec = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            InfoMemoSB.ILTBack = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            InfoMemoSB.ILLTab = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            HeaderLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
+            InfoMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
+            BannerPopup.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            BannerPopup.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            BannerPopup.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            BannerPopup.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
+            BannerPopup.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
+            InfoMemoSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            InfoMemoSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            InfoMemoSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            InfoMemoSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
         }
     }
 }

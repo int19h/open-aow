@@ -1,8 +1,6 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
-using Aow.Layout;
 using static Aow.Rtl.Rtl;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
@@ -11,9 +9,9 @@ namespace Aow.Layout
 {
     public static class ImageLibraryMethods
     {
-        public static Aow.Units.ImageLib.TImageLibrary CheckIL(this Aow.Units.ImageLib.TImageLibrary library, int Index, int Count, TComponent Sender)
+        public static TImageLibrary CheckIL(this TImageLibrary library, int Index, int Count, TComponent Sender)
         {
-            Aow.Units.ImageLib.TImageLibrary Result = library;
+            TImageLibrary Result = library;
             if (Index + Count > library.Count)
             {
                 Result = null;
@@ -34,7 +32,7 @@ namespace Aow.Layout
             return Result;
         }
 
-        public static void DrawILT(this Aow.Units.ImageLib.TImageLibrary library, int Index, in TRect R, ref TSurfaceDesc SurfDesc)
+        public static void DrawILT(this TImageLibrary library, int Index, in TRect R, ref TSurfaceDesc SurfDesc)
         {
             int ClipRight;
             int ClipBottom;

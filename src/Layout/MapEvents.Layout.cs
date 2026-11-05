@@ -1,8 +1,10 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.MapCtrl;
+using Aow.Units.AoWE;
+using Aow.Units.HSEngine;
 
 namespace Aow.Units.aowMapEvents
 {
@@ -17,7 +19,7 @@ namespace Aow.Units.aowMapEvents
         {
             session.Begin(this);
             Name = "MapEvents";
-            TheMap = new Aow.Units.MapCtrl.TAoWMapControl(this);
+            TheMap = new TAoWMapControl(this);
             session.BeginRead(TheMap);
             TheMap.Name = "TheMap";
             TheMap.OnArmySelected = Layout_TheMapArmySelected_0;
@@ -61,54 +63,54 @@ namespace Aow.Units.aowMapEvents
             session.Resolve(this);
         }
 
-        private void Layout_TheMapArmySelected_0(Aow.Rtl.TObject p0)
+        private void Layout_TheMapArmySelected_0(TObject p0)
         {
-            TheMapArmySelected((Aow.Units.AoWE.TArmy)p0);
+            TheMapArmySelected((TArmy)p0);
         }
 
-        private void Layout_TheMapArmyDeselected_1(Aow.Rtl.TObject p0)
+        private void Layout_TheMapArmyDeselected_1(TObject p0)
         {
-            TheMapArmyDeselected((Aow.Units.AoWE.TArmy)p0);
+            TheMapArmyDeselected((TArmy)p0);
         }
 
-        private void Layout_TheMapArmyChanged_2(Aow.Rtl.TObject p0)
+        private void Layout_TheMapArmyChanged_2(TObject p0)
         {
-            TheMapArmyChanged((Aow.Units.AoWE.TArmy)p0);
+            TheMapArmyChanged((TArmy)p0);
         }
 
-        private void Layout_TheMapArmyDestroyed_3(Aow.Rtl.TObject p0)
+        private void Layout_TheMapArmyDestroyed_3(TObject p0)
         {
-            TheMapArmyDestroyed((Aow.Units.AoWE.TArmy)p0);
+            TheMapArmyDestroyed((TArmy)p0);
         }
 
-        private void Layout_TheMapStructureSelected_4(Aow.Rtl.TObject p0)
+        private void Layout_TheMapStructureSelected_4(TObject p0)
         {
-            TheMapStructureSelected((Aow.Units.AoWE.TStructure)p0);
+            TheMapStructureSelected((TStructure)p0);
         }
 
-        private void Layout_TheMapStructureDeselected_5(Aow.Rtl.TObject p0)
+        private void Layout_TheMapStructureDeselected_5(TObject p0)
         {
-            TheMapStructureDeselected((Aow.Units.AoWE.TStructure)p0);
+            TheMapStructureDeselected((TStructure)p0);
         }
 
-        private void Layout_TheMapStructureDblClick_6(Aow.Rtl.TObject p0)
+        private void Layout_TheMapStructureDblClick_6(TObject p0)
         {
-            TheMapStructureDblClick((Aow.Units.AoWE.TStructure)p0);
+            TheMapStructureDblClick((TStructure)p0);
         }
 
-        private void Layout_TheMapStructureChanged_7(Aow.Rtl.TObject p0)
+        private void Layout_TheMapStructureChanged_7(TObject p0)
         {
-            TheMapStructureChanged((Aow.Units.AoWE.TStructure)p0);
+            TheMapStructureChanged((TStructure)p0);
         }
 
-        private void Layout_TheMapStructureDestroyed_8(Aow.Rtl.TObject p0)
+        private void Layout_TheMapStructureDestroyed_8(TObject p0)
         {
-            TheMapStructureDestroyed((Aow.Units.AoWE.TStructure)p0);
+            TheMapStructureDestroyed((TStructure)p0);
         }
 
-        private void Layout_TheMapUnitChanged_9(Aow.Rtl.TObject p0)
+        private void Layout_TheMapUnitChanged_9(TObject p0)
         {
-            TheMapUnitChanged((Aow.Units.AoWE.TAbstractUnit)p0);
+            TheMapUnitChanged((TAbstractUnit)p0);
         }
 
         private void Layout_TheMapDeactivateHSM_10(TObject p0)
@@ -118,32 +120,32 @@ namespace Aow.Units.aowMapEvents
 
         private void Layout_TheMapShowMessage_11(TObject p0)
         {
-            TheMapShowMessage(ref ((Aow.Units.AoWE.ShowMessageNotification)p0).Info);
+            TheMapShowMessage(ref ((ShowMessageNotification)p0).Info);
         }
 
         private void Layout_TheMapHSChanged_12(TObject p0)
         {
-            TheMapHSChanged((Aow.Units.HSEngine.THexagonSprite)p0);
+            TheMapHSChanged((THexagonSprite)p0);
         }
 
         private void Layout_TheMapMapChanged_13(TObject p0)
         {
-            TheMapMapChanged(ref ((Aow.Units.AoWE.MapChangedNotification)p0).Info);
+            TheMapMapChanged(ref ((MapChangedNotification)p0).Info);
         }
 
         private void Layout_TheMapScannerIconsChanged_14(TObject p0)
         {
-            TheMapScannerIconsChanged(ref ((Aow.Units.AoWE.MapChangedNotification)p0).Info);
+            TheMapScannerIconsChanged(ref ((MapChangedNotification)p0).Info);
         }
 
         private void Layout_TheMapCastSpell_15(TObject p0)
         {
-            TheMapCastSpell((Aow.Units.AoWE.TSpellCaster)p0);
+            TheMapCastSpell((TSpellCaster)p0);
         }
 
         private void Layout_TheMapActivateAbility_16(TObject p0)
         {
-            TheMapActivateAbility((Aow.Units.AoWE.TActivateAbilityInfo)p0);
+            TheMapActivateAbility((TActivateAbilityInfo)p0);
         }
 
         private void Layout_TheMapGlobalMagicChanged_17(TObject p0)
@@ -156,12 +158,12 @@ namespace Aow.Units.aowMapEvents
             TheMapRelationsChanged();
         }
 
-        private void Layout_TheMapItemsSelected_19(Aow.Rtl.TObject p0)
+        private void Layout_TheMapItemsSelected_19(TObject p0)
         {
-            TheMapItemsSelected((Aow.Units.AoWE.TItemHS)p0);
+            TheMapItemsSelected((TItemHS)p0);
         }
 
-        private void Layout_TheMapItemsDeselected_20(Aow.Rtl.TObject p0)
+        private void Layout_TheMapItemsDeselected_20(TObject p0)
         {
             TheMapItemsDeselected();
         }
@@ -173,7 +175,7 @@ namespace Aow.Units.aowMapEvents
 
         private void Layout_TheMapPlayerTerminated_22(TObject p0)
         {
-            TheMapPlayerTerminated((sbyte)Aow.Rtl.Rtl.ObjectToInt(p0));
+            TheMapPlayerTerminated((sbyte)Rtl.Rtl.ObjectToInt(p0));
         }
 
         private void Layout_TheMapDiplomaticChange_23(TObject p0)

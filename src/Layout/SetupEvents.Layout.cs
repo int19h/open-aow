@@ -1,8 +1,8 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AoWSetup;
 
 namespace Aow.Units.aowSetupEvents
 {
@@ -18,7 +18,7 @@ namespace Aow.Units.aowSetupEvents
             session.Begin(this);
             Name = "SetupEvents";
             LayoutOnCreate = Layout_SetupEventsCreate_0;
-            var created__DPlay = new Aow.Layout.LayoutTGDPlay(this);
+            var created__DPlay = new LayoutTGDPlay(this);
             DPlay = created__DPlay;
             session.BeginRead(created__DPlay);
             created__DPlay.Name = "DPlay";
@@ -40,7 +40,7 @@ namespace Aow.Units.aowSetupEvents
             created__DPlay.UseSetupDialogs = false;
             created__DPlay.FilePacketSize = 1000;
             session.EndRead(created__DPlay);
-            SetupControl = new Aow.Units.AoWSetup.TSetupControl(this);
+            SetupControl = new TSetupControl(this);
             session.BeginRead(SetupControl);
             SetupControl.Name = "SetupControl";
             SetupControl.OnSendMap = SetupControlSendMap;
@@ -79,22 +79,22 @@ namespace Aow.Units.aowSetupEvents
             DPlayEjected();
         }
 
-        private void Layout_SetupControlPlayerSetupDone_3(Aow.Units.AoWSetup.TSetupControl p0)
+        private void Layout_SetupControlPlayerSetupDone_3(TSetupControl p0)
         {
             SetupControlPlayerSetupDone();
         }
 
-        private void Layout_SetupControlSettingChanged_4(Aow.Units.AoWSetup.TSetupControl p0)
+        private void Layout_SetupControlSettingChanged_4(TSetupControl p0)
         {
             SetupControlSettingChanged();
         }
 
-        private void Layout_SetupControlStart_5(Aow.Units.AoWSetup.TSetupControl p0)
+        private void Layout_SetupControlStart_5(TSetupControl p0)
         {
             SetupControlStart();
         }
 
-        private void Layout_SetupControlSendingMaps_6(Aow.Units.AoWSetup.TSetupControl p0)
+        private void Layout_SetupControlSendingMaps_6(TSetupControl p0)
         {
             SetupControlSendingMaps();
         }
