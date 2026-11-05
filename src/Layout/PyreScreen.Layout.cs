@@ -1,8 +1,11 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.AoWPanel;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWImage;
+using Aow.Units.aowUserDrawBox;
 
 namespace Aow.Units.AOWPyreScrn
 {
@@ -17,7 +20,7 @@ namespace Aow.Units.AOWPyreScrn
         {
             session.Begin(this);
             Name = "PyreScreen";
-            DeadPnl = new Aow.Units.AoWPanel.TAOWPanel(this);
+            DeadPnl = new TAOWPanel(this);
             session.BeginRead(DeadPnl);
             DeadPnl.Name = "DeadPnl";
             DeadPnl.OnMouseDown = DeadPnlMouseDown;
@@ -29,10 +32,10 @@ namespace Aow.Units.AOWPyreScrn
             DeadPnl.WinTop = 0;
             DeadPnl.WinWidth = 640;
             DeadPnl.Masked = true;
-            DeadPnl.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-            DeadPnl.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahCenter;
-            DeadPnl.Alignment.HeightPercent = (byte)(0);
-            DeadPnl.Alignment.WidthPercent = (byte)(0);
+            DeadPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            DeadPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+            DeadPnl.Alignment.HeightPercent = 0;
+            DeadPnl.Alignment.WidthPercent = 0;
             DeadPnl.Alignment.LeftOffPercent = 0;
             DeadPnl.Alignment.RightOffPercent = 0;
             DeadPnl.Alignment.TopOffPercent = 43;
@@ -48,17 +51,17 @@ namespace Aow.Units.AOWPyreScrn
             DeadPnl.MinWidth = 640;
             DeadPnl.MinHeight = 480;
             session.EndRead(DeadPnl);
-            PyreTop = new Aow.Units.AoWImage.TAOWImage(this);
+            PyreTop = new TAOWImage(this);
             session.BeginRead(PyreTop);
             PyreTop.Name = "PyreTop";
             PyreTop.Priority = 0;
             PyreTop.WinLeft = 0;
             PyreTop.WinTop = 0;
             PyreTop.CaptureInput = false;
-            PyreTop.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            PyreTop.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            PyreTop.Alignment.HeightPercent = (byte)(0);
-            PyreTop.Alignment.WidthPercent = (byte)(0);
+            PyreTop.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            PyreTop.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            PyreTop.Alignment.HeightPercent = 0;
+            PyreTop.Alignment.WidthPercent = 0;
             PyreTop.Alignment.LeftOffPercent = 0;
             PyreTop.Alignment.RightOffPercent = 0;
             PyreTop.Alignment.TopOffPercent = 0;
@@ -76,7 +79,7 @@ namespace Aow.Units.AOWPyreScrn
             PyreTop.Animate = false;
             PyreTop.AnimFrameDelay = 0;
             session.EndRead(PyreTop);
-            LeaderFaceFr = new Aow.Units.AoWImage.TAOWImage(this);
+            LeaderFaceFr = new TAOWImage(this);
             session.BeginRead(LeaderFaceFr);
             LeaderFaceFr.Name = "LeaderFaceFr";
             LeaderFaceFr.OnPreDraw = LeaderFaceFrPreDraw;
@@ -84,10 +87,10 @@ namespace Aow.Units.AOWPyreScrn
             LeaderFaceFr.WinLeft = 225;
             LeaderFaceFr.WinTop = 5;
             LeaderFaceFr.CaptureInput = true;
-            LeaderFaceFr.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awCenter;
-            LeaderFaceFr.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            LeaderFaceFr.Alignment.HeightPercent = (byte)(0);
-            LeaderFaceFr.Alignment.WidthPercent = (byte)(0);
+            LeaderFaceFr.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            LeaderFaceFr.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            LeaderFaceFr.Alignment.HeightPercent = 0;
+            LeaderFaceFr.Alignment.WidthPercent = 0;
             LeaderFaceFr.Alignment.LeftOffPercent = 0;
             LeaderFaceFr.Alignment.RightOffPercent = 0;
             LeaderFaceFr.Alignment.TopOffPercent = 0;
@@ -105,7 +108,7 @@ namespace Aow.Units.AOWPyreScrn
             LeaderFaceFr.Animate = false;
             LeaderFaceFr.AnimFrameDelay = 0;
             session.EndRead(LeaderFaceFr);
-            PyreAnimation = new Aow.Units.aowUserDrawBox.TaowUserDrawBox(this);
+            PyreAnimation = new TaowUserDrawBox(this);
             session.BeginRead(PyreAnimation);
             PyreAnimation.Name = "PyreAnimation";
             PyreAnimation.OnDraw = PyreAnimationDraw;
@@ -114,10 +117,10 @@ namespace Aow.Units.AOWPyreScrn
             PyreAnimation.WinLeft = 0;
             PyreAnimation.WinTop = 0;
             PyreAnimation.CaptureInput = true;
-            PyreAnimation.Alignment.AlignWidth = Aow.Units.AoWComp.TAOWAlignWidth.awLeft;
-            PyreAnimation.Alignment.AlignHeight = Aow.Units.AoWComp.TAOWAlignHeight.ahTop;
-            PyreAnimation.Alignment.HeightPercent = (byte)(0);
-            PyreAnimation.Alignment.WidthPercent = (byte)(0);
+            PyreAnimation.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            PyreAnimation.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            PyreAnimation.Alignment.HeightPercent = 0;
+            PyreAnimation.Alignment.WidthPercent = 0;
             PyreAnimation.Alignment.LeftOffPercent = 0;
             PyreAnimation.Alignment.RightOffPercent = 0;
             PyreAnimation.Alignment.TopOffPercent = 0;
@@ -140,9 +143,9 @@ namespace Aow.Units.AOWPyreScrn
             LeaderFaceFr.Loaded();
             PyreAnimation.Loaded();
             session.Resolve(this);
-            DeadPnl.AOWWindow = Aow.Units.E2Globals.E2Globals.TitleWindow.TitleWin;
-            PyreTop.ImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames;
-            LeaderFaceFr.ImageLib = Aow.Units.aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames;
+            DeadPnl.AOWWindow = E2Globals.E2Globals.TitleWindow.TitleWin;
+            PyreTop.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames;
+            LeaderFaceFr.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames;
         }
 
         private void Layout_DeadPnlUpdate_0(TObject p0)

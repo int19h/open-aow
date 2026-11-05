@@ -4,6 +4,9 @@ namespace Aow.Rtl.Tests;
 
 public sealed class Cp1252Tests
 {
+    private static string HeldText(FormatArg argument) => argument is string text ? text : throw new InvalidOperationException("not the String case");
+    private static char HeldChar(FormatArg argument) => argument is char c ? c : throw new InvalidOperationException("not the Char case");
+
     private static char ExpectedChar(byte value) => value switch
     {
         128 => '\u20ac', 130 => '\u201a', 131 => '\u0192', 132 => '\u201e',
@@ -113,15 +116,15 @@ public sealed class Cp1252Tests
             Assert.Equal(text, Rtl.Format("%s", text));
             Assert.Equal(text, Rtl.Format("%s", text[0]));
             Assert.Equal(text, Rtl.Format("%s", (byte)b));
-            Assert.Equal(text, Rtl.Format("%s", Ptr<byte>.Unbox(text)));
+            Assert.Equal(text, Rtl.Format("%s", Rtl.StrPas(Ptr<byte>.Unbox(text))));
             Assert.Equal("[" + text + "\0" + text + "]", Rtl.Format("[%s]", text + "\0" + text));
         }
         // A char outside the table stays itself in a string or char argument. It meets the table
-        // where it becomes a byte, as in a PChar.
+        // where it becomes a byte, as in a PChar, which reaches Format through StrPas.
         Assert.Equal("\u2603", Rtl.Format("%s", '\u2603'));
         Assert.Equal("\u0080", Rtl.Format("%s", "\u0080"));
-        Assert.Equal("?", Rtl.Format("%s", Ptr<byte>.Unbox("\u2603")));
-        Assert.Equal("?", Rtl.Format("%s", Ptr<byte>.Unbox("\u0080")));
+        Assert.Equal("?", Rtl.Format("%s", Rtl.StrPas(Ptr<byte>.Unbox("\u2603"))));
+        Assert.Equal("?", Rtl.Format("%s", Rtl.StrPas(Ptr<byte>.Unbox("\u0080"))));
     }
 
     [Fact]
@@ -132,7 +135,7 @@ public sealed class Cp1252Tests
         byte[] expected = text.Select(c => inverse.GetValueOrDefault(c, (byte)63)).ToArray();
         string normalized = new(expected.Select(ExpectedChar).ToArray());
         Assert.Equal(expected, Cp1252.Encode(text));
-        Assert.Equal(expected, Cp1252.Encode(((TVarRec)text).Str));
+        Assert.Equal(expected, Cp1252.Encode(HeldText(text)));
         Assert.Equal(expected, Cp1252.Encode(normalized));
         Assert.Equal(normalized, Cp1252.Normalize(text));
         Assert.Equal(normalized, Cp1252.Decode(Cp1252.Encode(text)));
@@ -146,8 +149,8 @@ public sealed class Cp1252Tests
             Assert.Equal(inverse.ContainsKey(c), Cp1252.IsMapped(c));
             Assert.Equal(expected[i], Cp1252.Byte(c));
             Assert.Equal(expected[i], Cp1252.Encode(single)[0]);
-            Assert.Equal(expected[i], Cp1252.Byte(((TVarRec)c).Chr));
-            Assert.Equal(expected[i], Cp1252.Byte(((TVarRec)single).Str[0]));
+            Assert.Equal(expected[i], Cp1252.Byte(HeldChar(c)));
+            Assert.Equal(expected[i], Cp1252.Byte(HeldText(single)[0]));
             Assert.Equal(single, Rtl.Format("%s", c));
             Assert.Equal(normalized[i].ToString(), Cp1252.Normalize(single));
 

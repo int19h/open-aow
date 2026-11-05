@@ -79439,7 +79439,7 @@ public static partial class AoWE
     }
 
     // PlayerC.PAS:1967
-    public static string Format(string S, params TVarRec[] Args)
+    public static string Format(string S, params ReadOnlySpan<FormatArg> Args)
     {
         string Result;
         try

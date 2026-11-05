@@ -1,8 +1,10 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using System;
 using Aow.Rtl;
 using Aow.Layout;
+using Aow.Units.CMapCtrl;
+using Aow.Units.HSEngine;
+using Aow.Units.AoWTC;
 
 namespace Aow.Units.aowTCMapEvents
 {
@@ -17,7 +19,7 @@ namespace Aow.Units.aowTCMapEvents
         {
             session.Begin(this);
             Name = "TCMapEvents";
-            TCMap = new Aow.Units.CMapCtrl.TAoWCombatMapControl(this);
+            TCMap = new TAoWCombatMapControl(this);
             session.BeginRead(TCMap);
             TCMap.Name = "TCMap";
             TCMap.OnSelected = TCMapSelected;
@@ -39,9 +41,9 @@ namespace Aow.Units.aowTCMapEvents
             session.Resolve(this);
         }
 
-        private void Layout_TCMapUnitChanged_0(Aow.Units.HSEngine.THexagonSprite p0)
+        private void Layout_TCMapUnitChanged_0(THexagonSprite p0)
         {
-            TCMapUnitChanged((Aow.Units.AoWTC.TTacticalCombatUnitHS)p0);
+            TCMapUnitChanged((TTacticalCombatUnitHS)p0);
         }
 
         private void Layout_TCMapTurnChanged_1(int p0)

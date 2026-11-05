@@ -217,6 +217,8 @@ public sealed class SystemTests
         Assert.True(pointer.IsNull);
     }
 
+    private delegate DelphiException CreateFmtFactory(string format, params ReadOnlySpan<FormatArg> args);
+
     public static IEnumerable<object[]> ExceptionTypes() => typeof(DelphiException).Assembly.GetTypes()
         .Where(t => typeof(DelphiException).IsAssignableFrom(t)).Select(t => new object[] { t });
 
@@ -236,8 +238,10 @@ public sealed class SystemTests
         var created = (DelphiException)create.Invoke(null, new object[] { "created" })!;
         Assert.Equal(type, created.GetType());
         Assert.Equal("created", created.Message);
-        var createFmt = type.GetMethod("CreateFmt", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
-        var formatted = (DelphiException)createFmt.Invoke(null, new object[] { "%s %d %%", new TVarRec[] { "item", -7 } })!;
+        // A span parameter cannot go through MethodInfo.Invoke, a delegate carries it.
+        var createFmt = type.GetMethod("CreateFmt", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)!
+            .CreateDelegate<CreateFmtFactory>();
+        var formatted = createFmt("%s %d %%", ["item", -7]);
         Assert.Equal(type, formatted.GetType());
         Assert.Equal("item -7 %", formatted.Message);
     }

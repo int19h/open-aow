@@ -4,7 +4,8 @@ State: draft, 2026-10-24. The verification ladder is in `../process.md` section 
 specifies the rungs that need tooling: the probes, the round trip, the headless oracle and the
 frame comparison, and how they fit together in one command. The tooling under `tools/` and
 `tests/` lives in the private repository (`../design.md` section 8). The xUnit projects under
-`src/` live with the product.
+`src/` live with the product. Section 6, the strings checks of milestone 9.5, was added on
+2026-11-05 (brief 9.5-2).
 
 ## 1. Layers
 
@@ -15,9 +16,12 @@ frame comparison, and how they fit together in one command. The tooling under `t
 | round trip | the persistence path is byte exact | `tests/roundtrip/` | `persistence.md` section 4 |
 | headless oracle | the rules play the same game as the Delphi build | `tools/oracle/` | section 3 |
 | frame comparison | the renderer draws the same pixels | `tools/oracle/frames.py` | section 4 |
+| strings checks | text stays one code page 1252 char per byte, no game string is null, and no swallowed error goes unseen | `StringsRewrite --check`, the strict switch, the exception census, the sort dump | section 6 |
 | play | a person plays a scenario | none | `../process.md` |
 
-`python tools/check.py` runs the first four layers in that order and stops at the first failure.
+`python tools/check.py` runs all 13 layers of the gate (`check_support.LAYERS` in the private
+repository), the probes first, the others concurrently and pacing last, prints PASS or FAIL for
+each and fails unless every layer passes.
 It is the command the implementer runs before reporting, and the command the design session runs
 before committing.
 
@@ -268,3 +272,26 @@ frames of section 4, and `initialization-order.json`. These live under `tests/fi
 `README.md` that names the tool and the command that produced each file. Nothing under
 `tests/fixtures/` is game data: a save of a shipped scenario is derived data and is checked with
 the user before it is committed, because the repository ships no game files.
+
+## 6. The strings checks
+
+Milestone 9.5 (`strings.md` sections 2.2, 3.4 and 4) added these checks to the gate, and they stay
+after the pass. `python tools/check.py` in the private repository runs them.
+
+| check | what it proves | where |
+|---|---|---|
+| strings check | no `AnsiString` (the shim type 9.5-1 retired) in the tree, no explicit conversion from `char` to `byte` or to `char` from a non-constant integer or a constant of 128 and above, no `==` or relational operator between a `char` and a `byte`, no sort, search or sorted collection over strings without a comparer, no `Cp1252` call in a `ReadWrite` override, and in `src/Units`, `src/Layout` and the text routines of `src/Rtl` no .NET comparison, case, character class, trim, split, search or encoding call that differs from Delphi (`strings.md` 3.4) | `StringsRewrite --check <product>/src --allow tools/rewrite/strings/allow.txt`, a step of the `product` layer after the build. It prints `Strings check: N findings`, and the layer fails unless N is 0. The allowlist names 31 members by documentation comment id, each group with its reason |
+| strict strings | a null game string throws `NullStringException` in every routine that reads the switch, instead of reading as empty (`rtl-shim.md` 1.2) | `check.py` sets `AOW_STRICT_STRINGS=1` for every command it starts. Game, Headless, HostChecks and Localization.Tests read it at entry through `GateSwitches.Enter`. `Rtl.Tests` and `Units.Tests` turn the switch on in a module initializer |
+| exception census | a null or range error swallowed by a broad catch, `Rtl.Wrap` or `AoWE.Format` still moves a number | `ExceptionCensus` in `src/Rtl`. When `AOW_EXCEPTION_CENSUS` names a file, a host counts first-chance exceptions of six kinds, `NullReferenceException`, `IndexOutOfRangeException`, `ERangeError`, `EAccessViolation`, `EConvertError` and `NullStringException`, each under the first kind among its type and its bases, and appends one JSON line per run with the host, its arguments and the counts. Game, Headless, HostChecks, Localization.Tests and RoundTrip.Tests start it. `check.py` points the variable at one file per layer and copies the files to `census/` in the log folder |
+| sort dump | the order of the Units comparisons and of a sorted `TStringList` over the English and German names of units, items, abilities, spells and texts (`CompareItemNames`, `CompareAbilityNames`, `P4CompareSpellNames`, `P4CompareSpellLevels`, `CompareTextControlItems`) | HostChecks `--sort-dump <file>`, one child process per language, in the `product` layer. The gate copies the dump to `sorts.txt` in the log folder, and two dumps compare with a plain file comparison |
+| glyph index | for every byte `b` of every installed font, `TextWidth` and the glyph `ShowText` draws for the one-char string of `b` equal glyph `b`, so bytes 128 to 159 reach the font as their letters | `GlyphIndexTests` in `Units.Tests`, skipped with the path when the installed fonts are absent |
+| typed-name round trip | a leader name typed through `InputMapper.Text` with €, „, ä and ß keeps the bytes 0x80, 0x84, 0xE4 and 0xDF through save and load | byte mode: `TypedNameRoundTripTests` in `Units.Tests`. Model mode: `tools/oracle/typed_name.py` in the private repository, where the Headless host saves a game with that leader name and the oracle's independent model reader finds the bytes |
+| dictionary order | the sorted entries of each of the eight dictionaries are in `Cp1252.Compare` order | `tests/localization` in the `localization` layer |
+| host paths, static tables | names outside the table are found, opened, cased and told apart (`HostPathTests`), and no static string table element is null after unit initialization (`StaticStringTableTests`) | `Rtl.Tests`, `Units.Tests` |
+| culture guard | text comparisons and number formats follow the invariant culture only | Game and Headless stop at start when `System.Globalization.Invariant` is off (`GateSwitches.CultureError`), and `GateSwitchesTests` asserts the switch in the test process |
+
+Base recordings. Brief 9.5-P5 recorded two gate runs on the base of the pass (`b6a1c3d`) in the
+private repository: `data/rewrite/9.5-exceptions-base.json` holds the census of 143 runs, every
+count 0, and `data/rewrite/9.5-sorts-base.txt` the sort dump, 2,994 lines. The gate does not compare
+with them itself. After the 9.5-1 pass the gate's census holds every count at 0, and its
+`sorts.txt` equals the base dump byte for byte (`strings.md` section 8).

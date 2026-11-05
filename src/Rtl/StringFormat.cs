@@ -6,7 +6,7 @@ namespace Aow.Rtl;
 public static partial class Rtl
 {
     // SYSUTILS.PAS FormatBuf also serves exception constructors.
-    public static string Format(string? format, params TVarRec[] args)
+    public static string Format(string? format, params ReadOnlySpan<FormatArg> args)
     {
         var result = new StringBuilder();
         string text = RequireString(format);
@@ -16,25 +16,6 @@ public static partial class Rtl
             if (text[i] != '%') { result.Append(text[i]); continue; }
             if (++i >= text.Length) break;
             if (text[i] == '%') { result.Append('%'); continue; }
-            int ReadNumber(ref int position)
-            {
-                if (position < text.Length && text[position] == '*')
-                {
-                    position++;
-                    if (next < 0 || next >= args.Length) return 0;
-                    var argument = args[next++];
-                    return argument.Kind == VarKind.Integer ? unchecked((int)argument.Int) : 0;
-                }
-                int value = 0;
-                while (position < text.Length && char.IsAsciiDigit(text[position]))
-                    value = unchecked(value * 10 + text[position++] - '0');
-                return value;
-            }
-            TVarRec Take()
-            {
-                if (next < 0 || next >= args.Length) throw new EConvertError("Missing format argument");
-                return args[next++];
-            }
             int start = i;
             int width;
             bool left;
@@ -44,47 +25,61 @@ public static partial class Rtl
                 if (i >= text.Length) return result.ToString();
                 left = text[i] == '-';
                 if (left) i++;
-                width = ReadNumber(ref i);
+                width = ReadNumber(text, ref i, args, ref next);
                 if (i >= text.Length) return result.ToString();
                 if (text[i] != ':') break;
                 next = width;
                 i++;
             }
             int precision = -1;
-            if (i < text.Length && text[i] == '.') { i++; precision = ReadNumber(ref i); }
+            if (i < text.Length && text[i] == '.') { i++; precision = ReadNumber(text, ref i, args, ref next); }
             if (i >= text.Length) break;
-            var value = Take();
-            string output;
-            switch (UpCase(text[i]))
+            if (next < 0 || next >= args.Length) throw new EConvertError("Missing format argument");
+            char conversion = UpCase(text[i]);
+            string output = args[next++] switch
             {
-                case 'D':
-                case 'U':
-                case 'X':
-                    if (value.Kind != VarKind.Integer) throw new EConvertError("Integer format argument required");
-                    char kind = UpCase(text[i]);
-                    output = kind == 'D' ? ((int)value.Int).ToString(CultureInfo.InvariantCulture)
-                        : ((uint)value.Int).ToString(kind == 'X' ? "X" : "D", CultureInfo.InvariantCulture);
-                    if (precision > 0 && precision < 16)
-                        output = output.StartsWith('-') ? "-" + output[1..].PadLeft(precision, '0') : output.PadLeft(precision, '0');
-                    break;
-                case 'S':
-                    output = value.Kind switch
-                    {
-                        VarKind.String => RequireString(value.Str),
-                        VarKind.Char => value.Chr.ToString(),
-                        VarKind.PChar => FromPChar((Ptr<byte>)value.Obj!),
-                        _ => throw new EConvertError("String format argument required")
-                    };
-                    if (value.Kind != VarKind.Char && precision >= 0 && output.Length > precision) output = output[..precision];
-                    break;
-                case 'P':
-                    if (value.Kind != VarKind.Pointer) throw new EConvertError("Pointer format argument required");
-                    output = ((uint)value.Int).ToString("X8", CultureInfo.InvariantCulture);
-                    break;
-                default: throw new EConvertError($"Unsupported format at {start}");
-            }
+                int value when conversion is 'D' or 'U' or 'X' => FormatInteger(conversion, value, precision),
+                string value when conversion == 'S' => Truncate(value, precision),
+                char value when conversion == 'S' => value.ToString(),
+                PointerArg value when conversion == 'P' => value.Value.ToString("X8", CultureInfo.InvariantCulture),
+                int or bool or char or double or string or TObject or PointerArg or null => throw Mismatch(conversion, start),
+            };
             result.Append(left ? output.PadRight(Math.Max(0, width)) : output.PadLeft(Math.Max(0, width)));
         }
         return result.ToString();
     }
+
+    private static int ReadNumber(string text, ref int position, ReadOnlySpan<FormatArg> args, ref int next)
+    {
+        if (position < text.Length && text[position] == '*')
+        {
+            position++;
+            if (next < 0 || next >= args.Length) return 0;
+            return args[next++] is int value ? value : 0;
+        }
+        int number = 0;
+        while (position < text.Length && char.IsAsciiDigit(text[position]))
+            number = unchecked(number * 10 + text[position++] - '0');
+        return number;
+    }
+
+    private static string FormatInteger(char conversion, int value, int precision)
+    {
+        string output = conversion == 'D' ? value.ToString(CultureInfo.InvariantCulture)
+            : unchecked((uint)value).ToString(conversion == 'X' ? "X" : "D", CultureInfo.InvariantCulture);
+        if (precision > 0 && precision < 16)
+            output = output.StartsWith('-') ? "-" + output[1..].PadLeft(precision, '0') : output.PadLeft(precision, '0');
+        return output;
+    }
+
+    private static string Truncate(string value, int precision) =>
+        precision >= 0 && value.Length > precision ? value[..precision] : value;
+
+    private static EConvertError Mismatch(char conversion, int start) => conversion switch
+    {
+        'D' or 'U' or 'X' => new EConvertError("Integer format argument required"),
+        'S' => new EConvertError("String format argument required"),
+        'P' => new EConvertError("Pointer format argument required"),
+        _ => new EConvertError($"Unsupported format at {start}"),
+    };
 }

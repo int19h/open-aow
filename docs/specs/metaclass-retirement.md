@@ -158,7 +158,7 @@ replacing `LibraryImageCreation`), `TSoundSystem` (`Name`, `Func<TSoundSystem> C
 through `RegisterSoundSystem(SoundSystemClass)`, the SDL and Galaxy aliases are two descriptors
 over one type), `TSample` and `TSampleData` (their `Meta` already holds the delegates, the
 descriptor keeps the constructor signatures `SampleClass(Func<TSampleData, TSample>)` and
-`SampleDataClass(Func<AnsiString, TSampleData>, MemoryCreation)`). `TListObject` and
+`SampleDataClass(Func<string, TSampleData>, MemoryCreation)`). `TListObject` and
 `TAIMoveExecuterControl` are class-of targets with no class method and one creation site each,
 which becomes `new`. The four `TRegistrator.Meta.Of<T>().MapLoaded` handlers become static method
 groups, equal by method for `Remove`.
