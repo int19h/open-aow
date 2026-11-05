@@ -7,6 +7,12 @@ internal static class Program
     public static int Main(string[] args)
     {
         Aow.Rtl.ProcessSafety.Initialize();
+        if (Aow.Rtl.GateSwitches.CultureError("OpenAoW") is { } culture)
+        {
+            Console.Error.WriteLine(culture);
+            return 1;
+        }
+        Aow.Rtl.GateSwitches.Enter("Game", args);
         try
         {
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";

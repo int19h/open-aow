@@ -10,7 +10,8 @@ Each engine test restores the engine fields and services. The fixture owns the
 startup game set, the game-set factory for isolated cases and the shared owner
 membership double. Specialized observers retain their insertion timing checks.
 The startup recording uses the same host in a fresh process to isolate lazy caches.
-No fixture reads `AOW_GAME_ROOT` or the user's installation.
+No engine fixture reads `AOW_GAME_ROOT` or the user's installation. `GlyphIndexTests`
+reads the installed fonts under `AOW_GAME_ROOT\Int\Fonts` and reports a skip without them.
 
 ## Readable expectations
 

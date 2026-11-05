@@ -41,7 +41,15 @@ internal static class LocalizationFrameChecks
         string mapCaption = Aow.Units.AoWSWindow.AoWSWindow.SWindow.STitleLabel.Text.ToString();
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
         if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
+        // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
+        // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
+        var dialogTitle = Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow?.Title?.Text ?? default;
         var required = new SortedSet<string>(StringComparer.Ordinal);
+        // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
+        // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
+        var absentEverywhere = Enumerable.Range(128, 128)
+            .Where(code => fonts.All(font => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)).ToHashSet();
+        var absent = new SortedSet<string>(StringComparer.Ordinal);
         foreach (var module in layouts.Modules.Values)
             for (int index = 0; index < module.ComponentCount; index++)
             {
@@ -62,8 +70,14 @@ internal static class LocalizationFrameChecks
                     {
                         byte code = cased[character];
                         if (code < 128) continue;
+                        bool missing = !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0;
+                        if (missing && absentEverywhere.Contains(code))
+                        {
+                            absent.Add($"{font.Name}:{code}");
+                            continue;
+                        }
                         required.Add($"{font.Name}:{code}");
-                        if (!font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0)
+                        if (missing)
                             throw new InvalidOperationException($"Missing visible fixture glyph {code} in {font.Name}, component {control.Name}");
                     }
                 }
@@ -71,7 +85,8 @@ internal static class LocalizationFrameChecks
         File.WriteAllText(Path.Combine(output, "localization.json"), JsonSerializer.Serialize(new
         {
             language, undead, undead_equal = undeadEqual, map_caption = mapCaption,
-            fixture_glyphs_equal = true, required_glyphs = required, german_bytes = germanBytes, coverage
+            file_dialog_title = dialogTitle.ToString(), file_dialog_title_bytes = Aow.Rtl.Rtl.StringBytes(dialogTitle).ToArray().Select(b => (int)b).ToArray(),
+            fixture_glyphs_equal = true, required_glyphs = required, absent_glyphs = absent, german_bytes = germanBytes, coverage
         }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
         if (language == 1)

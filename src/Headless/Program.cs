@@ -14,6 +14,12 @@ internal static class Program
     private static int Main(string[] args)
     {
         Aow.Rtl.ProcessSafety.Initialize();
+        if (GateSwitches.CultureError("Headless") is { } culture)
+        {
+            Console.Error.WriteLine(culture);
+            return 1;
+        }
+        GateSwitches.Enter("Headless", args);
         string? output = null;
         var saves = new List<object>();
         var todos = new SortedSet<string>(StringComparer.Ordinal);
