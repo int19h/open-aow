@@ -32,8 +32,8 @@ namespace Aow.Units.AoWPasswordDlg
         // AoWPasswordDlg.pas:43
         public void Finish()
         {
-            TExecuteDoneEvent Done = default;
-            TPasswordEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TPasswordEventLog Event;
             Dlg.Visible = false;
             Done = FDone;
             Event = FPasswordEvent;

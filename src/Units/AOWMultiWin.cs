@@ -78,14 +78,13 @@ namespace Aow.Units.AOWMultiWin
         // AOWMultiWin.pas:385
         public bool ValidateEmail()
         {
-            bool Result = default;
-            var call__1 = AoWEngine.FRegistry.GetLocalEmailAddress();
-            if (call__1 == (AnsiString)"")
+            bool Result;
+            if (AoWEngine.FRegistry.GetLocalEmailAddress() == (AnsiString)"")
             {
                 ResetMessageDialog(MessageDlg);
                 MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                var call__2 = TranslateRStr(PleaseSetupEmailSettingsFirstRStr);
-                MessageDlg.MessageMemo.Items.Add(call__2);
+                var pleaseSetupEmailSettingsFirst = TranslateRStr(PleaseSetupEmailSettingsFirstRStr);
+                MessageDlg.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
                 MessageDlg.OKPnl.Visible = true;
                 MessageDlg.Dlg.Visible = true;
                 Result = false;

@@ -51,51 +51,42 @@ namespace Aow.Units.AoWPowerDlg
         // AoWPowerDlg.pas:70
         public void Execute()
         {
-            TPlayerMagicControl Control = default;
+            TPlayerMagicControl Control;
             Dlg.Visible = true;
-            var call__1 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            Control = call__1.FMagicControl;
+            Control = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl;
             PowerSlider.Position = Control.FResearchPercentage;
-            var call__2 = Control.GetNetPower();
-            Power.Text = IntToStr(call__2);
+            var netPower = Control.GetNetPower();
+            Power.Text = IntToStr(netPower);
             UpdatePower();
         }
 
         // AoWPowerDlg.pas:80
         public void UpdatePower()
         {
-            int Upkeep = default;
-            int Turns = default;
-            int SpellID = default;
-            int PointsLeft = default;
-            int ManaPower = default;
-            int ResearchPower = default;
-            var call__3 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__4 = call__3.FMagicControl.GetNetPower();
-            ManaPower = call__4;
-            var call__5 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            PointsLeft = call__5.FMagicControl.FResearchPointsLeft;
-            var call__6 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__7 = call__6.FMagicControl.GetManaUpkeep();
-            Upkeep = call__7;
-            var call__8 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            SpellID = call__8.FMagicControl.FResearchSpellID;
+            int Upkeep;
+            int Turns;
+            int SpellID;
+            int PointsLeft;
+            int ManaPower;
+            int ResearchPower;
+            ManaPower = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.GetNetPower();
+            PointsLeft = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
+            Upkeep = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.GetManaUpkeep();
+            SpellID = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID;
             ResearchPower = Round((double)(PowerSlider.Position * ManaPower) / 100);
             ManaPower -= ResearchPower;
             if (SpellID != 0)
             {
-                var call__9 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__10 = call__9.FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
-                Turns = call__10;
-                var call__11 = AoWHSSet.FSpellControl.GetSpell(SpellID);
-                SpellName.Text = call__11.FSpellName;
-                var call__12 = FmtTurnsStr(Turns);
-                ResearchLeft.Text = call__12;
+                Turns = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
+                var spell = AoWHSSet.FSpellControl.GetSpell(SpellID);
+                SpellName.Text = spell.FSpellName;
+                var fmtTurnsStr = FmtTurnsStr(Turns);
+                ResearchLeft.Text = fmtTurnsStr;
             }
             else
             {
-                var call__13 = TranslateRStr(NoneRStr);
-                SpellName.Text = call__13;
+                var none = TranslateRStr(NoneRStr);
+                SpellName.Text = none;
                 ResearchLeft.Text = AnsiString.FromBytes(45);
             }
 
@@ -122,9 +113,7 @@ namespace Aow.Units.AoWPowerDlg
         public void SetBtnClick()
         {
             General.PlayButtonSound(0);
-            var call__14 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__15 = call__14.FMagicControl.ChangePowerSettings(PowerSlider.Position);
-            if (call__15)
+            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
             {
                 Dlg.Visible = false;
             }
@@ -133,29 +122,27 @@ namespace Aow.Units.AoWPowerDlg
         // AoWPowerDlg.pas:115
         public void PAManaDraw(TObject Sender, TSurfaceDesc SD)
         {
-            int X = default;
-            int Y = default;
-            int Intensity = default;
+            int X;
+            int Y;
+            int Intensity;
             var image = (TAOWImage)Sender;
             X = image.AOWWindow.WinLeft;
             Y = image.AOWWindow.WinTop;
             Intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-            var call__17 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[7];
-            call__17.ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+            aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[7].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
         }
 
         // AoWPowerDlg.pas:128
         public void PAResDraw(TObject Sender, TSurfaceDesc SD)
         {
-            int X = default;
-            int Y = default;
-            int Intensity = default;
+            int X;
+            int Y;
+            int Intensity;
             var image = (TAOWImage)Sender;
             X = image.AOWWindow.WinLeft;
             Y = image.AOWWindow.WinTop;
             Intensity = Round((double)(PowerSlider.Position * 50) / 100);
-            var call__19 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[8];
-            call__19.ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+            aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[8].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
         }
 
         // AoWPowerDlg.pas:141

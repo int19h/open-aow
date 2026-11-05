@@ -54,8 +54,7 @@ namespace Aow.Units.AoWComboBox
         // AoWComboBox.pas:114
         public TAOWComboBox(TComponent owner) : base(owner)
         {
-            var call__1 = new TStringList();
-            FItems = call__1;
+            FItems = new TStringList();
             FItems.OnChange = OnChangeText;
             F13C = -1;
         }
@@ -72,26 +71,22 @@ namespace Aow.Units.AoWComboBox
         {
             if (FILEdit != null)
             {
-                var call__2 = FILEdit.CheckIL(FILEIndex, 3, this);
-                FILEdit = call__2;
+                FILEdit = FILEdit.CheckIL(FILEIndex, 3, this);
             }
 
             if (FILFrame != null)
             {
-                var call__3 = FILFrame.CheckIL(FILFIndex, 8, this);
-                FILFrame = call__3;
+                FILFrame = FILFrame.CheckIL(FILFIndex, 8, this);
             }
 
             if (FILTextureNormal != null)
             {
-                var call__4 = FILTextureNormal.CheckIL(FILTnIndex, 1, this);
-                FILTextureNormal = call__4;
+                FILTextureNormal = FILTextureNormal.CheckIL(FILTnIndex, 1, this);
             }
 
             if (FILTextureSelected != null)
             {
-                var call__5 = FILTextureSelected.CheckIL(FILTsIndex, 1, this);
-                FILTextureSelected = call__5;
+                FILTextureSelected = FILTextureSelected.CheckIL(FILTsIndex, 1, this);
             }
 
             if (FAOWFont != null && FILEdit != null && FILFrame != null && FILTextureNormal != null && FILTextureSelected != null)
@@ -108,32 +103,28 @@ namespace Aow.Units.AoWComboBox
         public override void SetSize()
         {
             FOpen = false;
-            var call__6 = FILEdit[FILEIndex];
-            var call__7 = FILEdit[FILEIndex + 2];
-            if (call__6.Width + call__7.Width > FWinWidth)
+            var ilEditWidth = FILEdit[FILEIndex];
+            var ilEdit = FILEdit[FILEIndex + 2];
+            if (ilEditWidth.Width + ilEdit.Width > FWinWidth)
             {
-                var call__8 = FILEdit[FILEIndex];
-                var call__9 = FILEdit[FILEIndex + 2];
-                FWinWidth = call__8.Width + call__9.Width;
+                var ilEdit2 = FILEdit[FILEIndex];
+                var ilEdit3 = FILEdit[FILEIndex + 2];
+                FWinWidth = ilEdit2.Width + ilEdit3.Width;
             }
 
             F124 = FNumberVisible;
-            var call__10 = FItems.Count;
-            if (F124 > call__10)
+            var count = FItems.Count;
+            if (F124 > count)
             {
-                var call__11 = FItems.Count;
-                F124 = call__11;
+                F124 = FItems.Count;
             }
 
-            var call__12 = FItems.Count;
-            if (call__12 <= FSelected)
+            if (FItems.Count <= FSelected)
             {
-                var call__13 = FItems.Count;
-                FSelected = call__13 - 1;
+                FSelected = FItems.Count - 1;
             }
 
-            var call__14 = FILEdit[FILEIndex];
-            FWinHeight = call__14.Height;
+            FWinHeight = FILEdit[FILEIndex].Height;
             if (FVScrollBar != null)
             {
                 if (FVScrollBar.FAOWWindow != FAOWWindow)
@@ -143,30 +134,23 @@ namespace Aow.Units.AoWComboBox
 
                 FVScrollBar.Priority = FPriority + 1;
                 FVScrollBar.SetFMin(0);
-                var call__15 = FItems.Count;
-                FVScrollBar.SetFMax(call__15 - 2);
+                var fItemsCount = FItems.Count;
+                FVScrollBar.SetFMax(fItemsCount - 2);
                 FVScrollBar.SetFPos(F12C);
                 FVScrollBar.SetFNum(F124 - 1);
-                var call__16 = FILFrame[FILFIndex + 6];
-                FVScrollBar.WinHeight = call__16.Height + (FItemHeight * F124 + FBorderHeight);
+                var ilFrame = FILFrame[FILFIndex + 6];
+                FVScrollBar.WinHeight = ilFrame.Height + (FItemHeight * F124 + FBorderHeight);
                 FVScrollBar.SetLarge(F124 - 1);
                 FVScrollBar.Visible = FOpen;
-                bool bool__17 = FVScrollBar.FVanishWhenFull;
-                if (bool__17)
-                {
-                    var call__18 = FItems.Count;
-                    bool__17 = call__18 - 1 < F124;
-                }
-
-                if (bool__17)
+                if (FVScrollBar.FVanishWhenFull && FItems.Count - 1 < F124)
                 {
                     FVScrollBar.Visible = false;
                 }
 
                 FVScrollBar.FSized = false;
                 FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.FWinWidth;
-                var call__19 = FILEdit[0];
-                FVScrollBar.WinTop = call__19.Height + FWinTop;
+                var ilEditHeight = FILEdit[0];
+                FVScrollBar.WinTop = ilEditHeight.Height + FWinTop;
                 F154 = FVScrollBar.FVisible;
             }
 
@@ -181,23 +165,15 @@ namespace Aow.Units.AoWComboBox
             if (FVisible)
             {
                 FRedraw = FOpen;
-                bool bool__20 = FVScrollBar != null;
-                if (bool__20)
-                {
-                    var call__21 = FItems.Count;
-                    bool__20 = call__21 > 0;
-                }
-
-                if (bool__20)
+                if (FVScrollBar != null && FItems.Count > 0)
                 {
                     if (FVScrollBar.FPosition != F12C)
                     {
                         F12C = FVScrollBar.FPosition;
-                        var call__22 = FItems.Count;
-                        if (F12C + F124 > call__22)
+                        var count = FItems.Count;
+                        if (F12C + F124 > count)
                         {
-                            var call__23 = FItems.Count;
-                            F12C = call__23 - F124;
+                            F12C = FItems.Count - F124;
                         }
 
                         FDrawn = false;
@@ -223,7 +199,6 @@ namespace Aow.Units.AoWComboBox
         public override void Draw(TSurfaceDesc SurfDesc)
         {
             TRect OldClip = default;
-            int I = default;
             try
             {
                 if (FValid && FVisible)
@@ -235,45 +210,38 @@ namespace Aow.Units.AoWComboBox
 
                     FAOWFont.Color = FColor;
                     OldClip = SurfDesc.ClipRect;
-                    var call__24 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                    FILEdit.DrawILLh(FILEIndex, call__24, ref SurfDesc);
-                    bool bool__25 = FSelected > -1;
-                    if (bool__25)
+                    var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    FILEdit.DrawILLh(FILEIndex, rect, ref SurfDesc);
+                    if (FSelected > -1 && FItems.Count > FSelected)
                     {
-                        var call__26 = FItems.Count;
-                        bool__25 = call__26 > FSelected;
-                    }
-
-                    if (bool__25)
-                    {
-                        var call__27 = FItems[FSelected];
-                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, call__27, SurfDesc);
+                        var item = FItems[FSelected];
+                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, item, SurfDesc);
                     }
 
                     SurfDesc.ClipRect = OldClip;
                     if (FOpen == true)
                     {
-                        var call__28 = FILFrame[FILFIndex + 1];
-                        var call__29 = FILFrame[FILFIndex + 6];
-                        var call__30 = FILEdit[FILEIndex];
-                        var call__31 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + call__30.Height, FWinWidth, call__28.Height + call__29.Height + FItemHeight * F124 + FListBorderHeight);
-                        FILFrame.DrawILF(FILFIndex, call__31, ref SurfDesc);
-                        var call__32 = FILFrame[FILFIndex + 3];
-                        var call__33 = FILFrame[FILFIndex + 4];
-                        var call__34 = FILEdit[FILEIndex];
-                        var call__35 = FILFrame[FILFIndex + 1];
-                        var call__36 = FILFrame[FILFIndex + 3];
-                        var call__37 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__36.Width, FAOWWindow.FWinTop + FWinTop + call__34.Height + call__35.Height, FWinWidth - call__32.Width - call__33.Width, FItemHeight * F124 + FListBorderHeight);
-                        FILTextureNormal.DrawILT(FILTnIndex, call__37, ref SurfDesc);
+                        var ilFrameHeight = FILFrame[FILFIndex + 1];
+                        var ilFrame = FILFrame[FILFIndex + 6];
+                        var ilEditHeight = FILEdit[FILEIndex];
+                        var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + ilEditHeight.Height, FWinWidth, ilFrameHeight.Height + ilFrame.Height + FItemHeight * F124 + FListBorderHeight);
+                        FILFrame.DrawILF(FILFIndex, rect2, ref SurfDesc);
+                        var ilFrameWidth = FILFrame[FILFIndex + 3];
+                        var ilFrame2 = FILFrame[FILFIndex + 4];
+                        var ilEdit = FILEdit[FILEIndex];
+                        var ilFrame3 = FILFrame[FILFIndex + 1];
+                        var ilFrame4 = FILFrame[FILFIndex + 3];
+                        var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilEdit.Height + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FItemHeight * F124 + FListBorderHeight);
+                        FILTextureNormal.DrawILT(FILTnIndex, rect3, ref SurfDesc);
                         if (F13C >= F12C && F13C < F124 + F12C)
                         {
-                            var call__38 = FILFrame[FILFIndex + 3];
-                            var call__39 = FILFrame[FILFIndex + 4];
-                            var call__40 = FILEdit[FILEIndex];
-                            var call__41 = FILFrame[FILFIndex + 1];
-                            var call__42 = FILFrame[FILFIndex + 3];
-                            var call__43 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__42.Width, FAOWWindow.FWinTop + FWinTop + call__40.Height + call__41.Height + (F13C - F12C) * FItemHeight, FWinWidth - call__38.Width - call__39.Width, FItemHeight);
-                            FILTextureSelected.DrawILT(FILTsIndex, call__43, ref SurfDesc);
+                            var ilFrame5 = FILFrame[FILFIndex + 3];
+                            var ilFrame6 = FILFrame[FILFIndex + 4];
+                            var ilEdit2 = FILEdit[FILEIndex];
+                            var ilFrame7 = FILFrame[FILFIndex + 1];
+                            var ilFrame8 = FILFrame[FILFIndex + 3];
+                            var rect4 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame7.Height + (F13C - F12C) * FItemHeight, FWinWidth - ilFrame5.Width - ilFrame6.Width, FItemHeight);
+                            FILTextureSelected.DrawILT(FILTsIndex, rect4, ref SurfDesc);
                         }
 
                         if (FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150 < OldClip.Right)
@@ -281,41 +249,35 @@ namespace Aow.Units.AoWComboBox
                             SurfDesc.ClipRect.Right = FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150;
                         }
 
+                        for (int I = 0, last = F124 - 1; I <= last; I++)
                         {
-                            I = 0;
-                            int end__44 = F124 - 1;
-                            for (; I <= end__44; I += 1)
+                            if (I < FItems.Count)
                             {
-                                var call__45 = FItems.Count;
-                                if (I < call__45)
+                                if (F12C + I == F13C)
                                 {
-                                    if (F12C + I == F13C)
-                                    {
-                                        FAOWFont.Color = FSelColor;
-                                    }
+                                    FAOWFont.Color = FSelColor;
+                                }
 
-                                    var call__46 = FILEdit[FILEIndex];
-                                    var call__47 = FILFrame[FILFIndex + 1];
-                                    var call__48 = FItems[F12C + I];
-                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FListBorderWidth, FAOWWindow.FWinTop + FWinTop + call__46.Height + call__47.Height + FListBorderHeight + FItemHeight * I, call__48, SurfDesc);
-                                    if (F12C + I == F13C)
-                                    {
-                                        FAOWFont.Color = FColor;
-                                    }
+                                var ilEdit2 = FILEdit[FILEIndex];
+                                var ilFrame5 = FILFrame[FILFIndex + 1];
+                                var item = FItems[F12C + I];
+                                FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FListBorderWidth, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame5.Height + FListBorderHeight + FItemHeight * I, item, SurfDesc);
+                                if (F12C + I == F13C)
+                                {
+                                    FAOWFont.Color = FColor;
+                                }
 
-                                    FDrawItem = F12C + I;
-                                    var call__49 = FILEdit[FILEIndex + 1];
-                                    var call__50 = FILFrame[FILFIndex + 1];
-                                    var call__51 = FILEdit[FILEIndex + 1];
-                                    var call__52 = FILFrame[FILFIndex + 1];
-                                    var call__53 = FILFrame[FILFIndex + 3];
-                                    var call__54 = FILFrame[FILFIndex + 3];
-                                    var call__55 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__54.Width, FAOWWindow.FWinTop + FWinTop + call__51.Height + call__52.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + call__53.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + call__49.Height + call__50.Height + (I + 1) * FItemHeight);
-                                    FDrawItemRect = call__55;
-                                    if (FOnDrawItem != null)
-                                    {
-                                        FOnDrawItem(this);
-                                    }
+                                FDrawItem = F12C + I;
+                                var ilEdit3 = FILEdit[FILEIndex + 1];
+                                var ilFrame6 = FILFrame[FILFIndex + 1];
+                                var ilEdit4 = FILEdit[FILEIndex + 1];
+                                var ilFrame7 = FILFrame[FILFIndex + 1];
+                                var ilFrame8 = FILFrame[FILFIndex + 3];
+                                var ilFrame9 = FILFrame[FILFIndex + 3];
+                                FDrawItemRect = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame9.Width, FAOWWindow.FWinTop + FWinTop + ilEdit4.Height + ilFrame7.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + ilEdit3.Height + ilFrame6.Height + (I + 1) * FItemHeight);
+                                if (FOnDrawItem != null)
+                                {
+                                    FOnDrawItem(this);
                                 }
                             }
                         }
@@ -342,14 +304,14 @@ namespace Aow.Units.AoWComboBox
         {
             base.CheckMouseDown(Button, Shift, X, Y);
             FHandled = false;
-            bool bool__56 = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
-            if (bool__56)
+            bool condition = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
+            if (condition)
             {
-                var call__57 = FILEdit[FILEIndex];
-                bool__56 = Y < FAOWWindow.FWinTop + FWinTop + call__57.Height;
+                var ilEdit = FILEdit[FILEIndex];
+                condition = Y < FAOWWindow.FWinTop + FWinTop + ilEdit.Height;
             }
 
-            if (bool__56)
+            if (condition)
             {
                 FHandled = true;
                 if (Button == TMouseButton.mbLeft)
@@ -366,8 +328,7 @@ namespace Aow.Units.AoWComboBox
                             }
 
                             FOpen = false;
-                            var call__58 = FILEdit[FILEIndex];
-                            FWinHeight = call__58.Height;
+                            FWinHeight = FILEdit[FILEIndex].Height;
                             if (FVScrollBar != null)
                             {
                                 FVScrollBar.Visible = false;
@@ -387,27 +348,22 @@ namespace Aow.Units.AoWComboBox
                             }
 
                             FOpen = true;
-                            var call__59 = FItems.Count;
-                            if (call__59 < F124)
+                            if (FItems.Count < F124)
                             {
-                                var call__60 = FItems.Count;
-                                F124 = call__60;
+                                F124 = FItems.Count;
                             }
 
-                            var call__61 = FILEdit[FILEIndex];
-                            var call__62 = FILFrame[FILFIndex + 1];
-                            var call__63 = FILFrame[FILFIndex + 6];
-                            FWinHeight = call__61.Height + FListBorderHeight + FItemHeight * F124 + call__62.Height + call__63.Height;
-                            var call__64 = FItems.Count;
-                            if (call__64 < F12C + F124)
+                            var ilEditHeight = FILEdit[FILEIndex];
+                            var ilFrame = FILFrame[FILFIndex + 1];
+                            var ilFrameHeight = FILFrame[FILFIndex + 6];
+                            FWinHeight = ilEditHeight.Height + FListBorderHeight + FItemHeight * F124 + ilFrame.Height + ilFrameHeight.Height;
+                            if (FItems.Count < F12C + F124)
                             {
-                                var call__65 = FItems.Count;
-                                F12C = call__65 - F124;
+                                F12C = FItems.Count - F124;
                             }
 
                             FDrawn = false;
-                            var call__66 = FILFrame[FILFIndex + 4];
-                            F150 = call__66.Width;
+                            F150 = FILFrame[FILFIndex + 4].Width;
                             F154 = false;
                             if (FVScrollBar != null && F124 > 0)
                             {
@@ -417,21 +373,14 @@ namespace Aow.Units.AoWComboBox
                                 }
 
                                 FVScrollBar.SetFMin(0);
-                                var call__67 = FItems.Count;
-                                FVScrollBar.SetFMax(call__67 - 1);
+                                var count = FItems.Count;
+                                FVScrollBar.SetFMax(count - 1);
                                 FVScrollBar.SetFPos(F12C);
                                 FVScrollBar.SetFNum(F124);
-                                var call__68 = FILFrame[FILFIndex + 6];
-                                FVScrollBar.WinHeight = call__68.Height + (FItemHeight * F124 + FBorderHeight);
+                                var ilFrame2 = FILFrame[FILFIndex + 6];
+                                FVScrollBar.WinHeight = ilFrame2.Height + (FItemHeight * F124 + FBorderHeight);
                                 FVScrollBar.Visible = true;
-                                bool bool__69 = FVScrollBar.FVanishWhenFull == true;
-                                if (bool__69)
-                                {
-                                    var call__70 = FItems.Count;
-                                    bool__69 = call__70 - 1 < F124;
-                                }
-
-                                if (bool__69)
+                                if (FVScrollBar.FVanishWhenFull == true && FItems.Count - 1 < F124)
                                 {
                                     FVScrollBar.Visible = false;
                                 }
@@ -443,8 +392,8 @@ namespace Aow.Units.AoWComboBox
                                 F154 = FVScrollBar.FVisible;
                                 FVScrollBar.FSized = false;
                                 FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.FWinWidth;
-                                var call__71 = FILEdit[FILEIndex];
-                                FVScrollBar.WinTop = call__71.Height + FWinTop;
+                                var ilEdit = FILEdit[FILEIndex];
+                                FVScrollBar.WinTop = ilEdit.Height + FWinTop;
                                 FVScrollBar.FDrawn = false;
                             }
 
@@ -464,8 +413,7 @@ namespace Aow.Units.AoWComboBox
                             }
 
                             FOpen = false;
-                            var call__72 = FILEdit[FILEIndex];
-                            FWinHeight = call__72.Height;
+                            FWinHeight = FILEdit[FILEIndex].Height;
                             if (FVScrollBar != null)
                             {
                                 FVScrollBar.Visible = false;
@@ -500,8 +448,7 @@ namespace Aow.Units.AoWComboBox
                         }
 
                         FOpen = false;
-                        var call__73 = FILEdit[FILEIndex];
-                        FWinHeight = call__73.Height;
+                        FWinHeight = FILEdit[FILEIndex].Height;
                         if (FVScrollBar != null)
                         {
                             FVScrollBar.Visible = false;
@@ -525,14 +472,14 @@ namespace Aow.Units.AoWComboBox
             FMouseDown = false;
             F114 = false;
             FRedraw = false;
-            bool bool__74 = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
-            if (bool__74)
+            bool condition = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
+            if (condition)
             {
-                var call__75 = FILEdit[FILEIndex];
-                bool__74 = Y < FAOWWindow.FWinTop + FWinTop + call__75.Height;
+                var ilEdit = FILEdit[FILEIndex];
+                condition = Y < FAOWWindow.FWinTop + FWinTop + ilEdit.Height;
             }
 
-            if (bool__74)
+            if (condition)
             {
                 FHandled = true;
                 if (FOnMouseUp != null)
@@ -544,29 +491,27 @@ namespace Aow.Units.AoWComboBox
             {
                 if (Button == TMouseButton.mbLeft && FValid == true && FVisible == true && FOpen == true)
                 {
-                    bool bool__76 = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth;
-                    if (bool__76)
+                    bool test = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth;
+                    if (test)
                     {
-                        var call__77 = FILEdit[FILEIndex];
-                        bool__76 = Y > FAOWWindow.FWinTop + FWinTop + call__77.Height - 1;
+                        var ilEdit = FILEdit[FILEIndex];
+                        test = Y > FAOWWindow.FWinTop + FWinTop + ilEdit.Height - 1;
                     }
 
-                    if (bool__76 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+                    if (test && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
                     {
                         if (X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150)
                         {
-                            var call__78 = FILEdit[FILEIndex];
-                            I = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - call__78.Height) / FItemHeight + F12C;
-                            var call__79 = FItems.Count;
-                            if (I < call__79)
+                            var ilEdit = FILEdit[FILEIndex];
+                            I = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - ilEdit.Height) / FItemHeight + F12C;
+                            if (I < FItems.Count)
                             {
                                 FSelected = I;
                             }
 
                             FOpen = false;
                             FRedraw = false;
-                            var call__80 = FILEdit[FILEIndex];
-                            FWinHeight = call__80.Height;
+                            FWinHeight = FILEdit[FILEIndex].Height;
                             if (FVScrollBar != null)
                             {
                                 FVScrollBar.Visible = false;
@@ -588,8 +533,7 @@ namespace Aow.Units.AoWComboBox
                     {
                         FOpen = false;
                         FRedraw = false;
-                        var call__81 = FILEdit[FILEIndex];
-                        FWinHeight = call__81.Height;
+                        FWinHeight = FILEdit[FILEIndex].Height;
                         if (FVScrollBar != null)
                         {
                             FVScrollBar.Visible = false;
@@ -608,7 +552,7 @@ namespace Aow.Units.AoWComboBox
         // { CheckMouseMove tracks the item under the mouse in the open list }
         public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
-            int OldItem = default;
+            int OldItem;
             base.CheckMouseMove(Shift, X, Y);
             FHandled = false;
             OldItem = F13C;
@@ -618,18 +562,18 @@ namespace Aow.Units.AoWComboBox
                 FHandled = true;
                 if (FOpen)
                 {
-                    var call__82 = FILEdit[FILEIndex];
-                    bool bool__83 = Y >= FAOWWindow.FWinTop + FWinTop + FBorderHeight + call__82.Height;
-                    if (bool__83)
+                    var ilEditHeight = FILEdit[FILEIndex];
+                    bool condition = Y >= FAOWWindow.FWinTop + FWinTop + FBorderHeight + ilEditHeight.Height;
+                    if (condition)
                     {
-                        var call__84 = FILEdit[FILEIndex];
-                        bool__83 = Y < FAOWWindow.FWinTop + FWinTop + call__84.Height + FBorderHeight + FItemHeight * F124;
+                        var ilEdit = FILEdit[FILEIndex];
+                        condition = Y < FAOWWindow.FWinTop + FWinTop + ilEdit.Height + FBorderHeight + FItemHeight * F124;
                     }
 
-                    if (bool__83)
+                    if (condition)
                     {
-                        var call__85 = FILEdit[FILEIndex];
-                        F13C = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - call__85.Height) / FItemHeight + F12C;
+                        var ilEdit = FILEdit[FILEIndex];
+                        F13C = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - ilEdit.Height) / FItemHeight + F12C;
                     }
                 }
 
@@ -732,11 +676,9 @@ namespace Aow.Units.AoWComboBox
         // AoWComboBox.pas:179
         public virtual void SetIndex(int Value)
         {
-            var call__86 = FItems.Count;
-            if (Value >= call__86)
+            if (Value >= FItems.Count)
             {
-                var call__87 = FItems.Count;
-                Value = call__87 - 1;
+                Value = FItems.Count - 1;
             }
 
             if (Value != FSelected)

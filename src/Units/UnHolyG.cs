@@ -63,13 +63,12 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:190
         public override bool PlaceOnMap()
         {
-            bool Result = default;
-            Result = base.PlaceOnMap();
+            bool Result = base.PlaceOnMap();
             if (Result)
             {
-                var call__1 = GetYhx();
-                var call__2 = GetXhx();
-                UpdateMapFields((TMapLevel)Owner.Owner, call__2, call__1);
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
             }
 
             return Result;
@@ -78,7 +77,7 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:196
         public override void RemoveFromMap()
         {
-            TMapLevel Level = default;
+            TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(Level, FXhx, FYhx);
@@ -90,8 +89,7 @@ namespace Aow.Units.UnHolyG
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4418)
             {
-                var call__3 = FResource.TerrainList.Terrain[Msg.HN];
-                if (call__3 >= 0)
+                if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
                     ArmyPlaced(Msg.Param[0].As<TArmyHS>());
                     return;
@@ -101,11 +99,9 @@ namespace Aow.Units.UnHolyG
             {
                 if (Msg.MsgID == 4384)
                 {
-                    var call__4 = FResource.TerrainList.Terrain[Msg.HN];
-                    if (call__4 >= 0)
+                    if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                     {
-                        var call__5 = CanDoDamage(Msg.Param[0].As<TArmyHS>().FArmy);
-                        if (call__5)
+                        if (CanDoDamage(Msg.Param[0].As<TArmyHS>().FArmy))
                         {
                             Msg.Result = 1;
                         }
@@ -115,8 +111,7 @@ namespace Aow.Units.UnHolyG
                 {
                     if (Msg.MsgID == 4402)
                     {
-                        var call__6 = FResource.TerrainList.Terrain[Msg.HN];
-                        if (call__6 >= 0 && FPlayer > 0 && FDuration > 0)
+                        if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && FPlayer > 0 && FDuration > 0)
                         {
                             RestoreTerrain();
                         }
@@ -128,19 +123,16 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:212
         public override int CanMoveOver(in THSSenderInfo Info)
         {
-            int Result = default;
-            var call__7 = FResource.TerrainList.Terrain[Info.HN];
-            if (call__7 >= 0)
+            int Result;
+            if (FResource.TerrainList.Terrain[Info.HN] >= 0)
             {
-                var call__8 = CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits);
-                if (!call__8)
+                if (!CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits))
                 {
                     Result = 1;
                 }
                 else
                 {
-                    Result = 0;
-                    return Result;
+                    return 0;
                 }
             }
             else
@@ -154,8 +146,7 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:184
         public override void UpdateMapField(in THSMapFieldInfo Info)
         {
-            var call__9 = FResource.TerrainList.Terrain[Info.HN];
-            if (call__9 >= 0)
+            if (FResource.TerrainList.Terrain[Info.HN] >= 0)
             {
                 ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 8192;
             }
@@ -164,79 +155,63 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:96
         public void TriggerArmyDamage(TArmyHS Army)
         {
-            TArmyEventLog Log = default;
-            int I = default;
-            int Damage = default;
-            int Damaged = default;
-            TAbstractUnit AUnit = default;
+            TArmyEventLog Log;
+            int Damage;
+            int Damaged;
+            TAbstractUnit AUnit;
             Damaged = 0;
-            var call__10 = AoWHSMap.Random(16777215);
-            RandSeed = call__10;
+            RandSeed = AoWHSMap.Random(16777215);
             Log = new TArmyEventLog(null);
-            var call__11 = TranslateRStr(UnholyGroundDamageRStr);
-            Log.FArmyText = call__11;
-            var call__12 = TranslateRStr(UnholyGroundDamageRStr);
-            Log.FArmyMessages.Add(call__12);
+            Log.FArmyText = TranslateRStr(UnholyGroundDamageRStr);
+            var unholyGroundDamage = TranslateRStr(UnholyGroundDamageRStr);
+            Log.FArmyMessages.Add(unholyGroundDamage);
             Log.FArmyIcon = 2;
             var army = Army.FArmy;
+            for (int I = 0, last = army.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__14 = army.Count - 1;
-                for (; I <= end__14; I += 1)
+                AUnit = army.GetUnit(I);
+                bool condition = AUnit.GetAlignment() != TAlignment.alNone;
+                if (condition)
                 {
-                    AUnit = army.GetUnit(I);
-                    var call__15 = AUnit.GetAlignment();
-                    bool bool__16 = call__15 != TAlignment.alNone;
-                    if (bool__16)
+                    var alignment = AUnit.GetAlignment();
+                    condition = alsPureGood.Contains(alignment);
+                }
+
+                if (condition && !AUnit.GetAbilityEnabled(1))
+                {
+                    Damage = AUnit.ExecuteDamageRole(4, 3, TSet<TDamageType>.Of(TDamageType.dtDeath));
+                    if (Damage > AUnit.GetHitPoints())
                     {
-                        var call__17 = AUnit.GetAlignment();
-                        bool__16 = alsPureGood.Contains(call__17);
+                        Damage = AUnit.GetHitPoints();
                     }
 
-                    bool bool__18 = bool__16;
-                    if (bool__18)
+                    if (Damage != 0)
                     {
-                        var call__19 = AUnit.GetAbilityEnabled(1);
-                        bool__18 = !call__19;
+                        AUnit.SetHitPoints((sbyte)(AUnit.GetHitPoints() - Damage));
+                        Damaged += 1;
                     }
 
-                    if (bool__18)
-                    {
-                        Damage = AUnit.ExecuteDamageRole(4, 3, TSet<TDamageType>.Of(TDamageType.dtDeath));
-                        if (Damage > AUnit.GetHitPoints())
-                        {
-                            Damage = AUnit.GetHitPoints();
-                        }
-
-                        if (Damage != 0)
-                        {
-                            var call__20 = AUnit.GetHitPoints();
-                            AUnit.SetHitPoints((sbyte)(call__20 - Damage));
-                            Damaged += 1;
-                        }
-
-                        Log.FDamageValues.Add((byte)Damage);
-                        Log.FDamageTypes.Add((int)TDamageType.dtDeath);
-                    }
-                    else
-                    {
-                        Log.FDamageValues.Add(0);
-                        Log.FDamageTypes.Add((int)TDamageType.dtDeath);
-                    }
+                    Log.FDamageValues.Add((byte)Damage);
+                    Log.FDamageTypes.Add((int)TDamageType.dtDeath);
+                }
+                else
+                {
+                    Log.FDamageValues.Add(0);
+                    Log.FDamageTypes.Add((int)TDamageType.dtDeath);
                 }
             }
 
             Log.FPlayer = army.FPlayer;
-            var call__21 = army.GetArmyHS();
-            Log.FArmyView.Setup(call__21.FArmy, 255);
+            var armyHS = army.GetArmyHS();
+            Log.FArmyView.Setup(armyHS.FArmy, 255);
 
             Log.ValidateGameOver();
             if (Damaged != 0)
             {
-                var call__22 = GetYhx();
-                var call__23 = GetLhx();
-                var call__24 = GetXhx();
-                DistributeLocationEventLog(Log, Log.FPlayer, call__24, call__22, call__23, true);
+                var yhx = GetYhx();
+                var lhx = GetLhx();
+                var xhx = GetXhx();
+                DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
             }
 
             Log.Release();
@@ -255,8 +230,8 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:147
         public void RestoreTerrain()
         {
-            TMapField Field = default;
-            sbyte Overlay = default;
+            TMapField Field;
+            sbyte Overlay;
             Field = (TMapField)Owner;
             Overlay = FOriginalOverlay;
             Destroy();
@@ -269,9 +244,8 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:157
         public void NewTurn(sbyte Player)
         {
-            TArmyHS Army = default;
-            var call__25 = Owner.FindOwnedChild(131607);
-            Army = (TArmyHS)call__25;
+            TArmyHS Army;
+            Army = (TArmyHS)Owner.FindOwnedChild(131607);
             if (Army != null && Player == Army.FArmy.FPlayer)
             {
                 TriggerArmyDamage(Army);
@@ -290,39 +264,22 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:169
         public bool CanDoDamage(TUnitList Units)
         {
-            bool Result = default;
-            int I = default;
-            TAbstractUnit AUnit = default;
-            Result = false;
-            var call__26 = Units.Count;
-            I = call__26;
+            int I;
+            TAbstractUnit AUnit;
+            bool Result = false;
+            I = Units.Count;
             while (!Result && I != 0)
             {
                 I -= 1;
                 AUnit = Units.GetUnit(I);
-                var call__27 = AUnit.GetImmunityTypes();
-                bool bool__28 = !call__27.Contains(TDamageType.dtDeath);
-                if (bool__28)
+                bool condition = !AUnit.GetImmunityTypes().Contains(TDamageType.dtDeath) && AUnit.GetAlignment() != TAlignment.alNone;
+                if (condition)
                 {
-                    var call__29 = AUnit.GetAlignment();
-                    bool__28 = call__29 != TAlignment.alNone;
+                    var alignment = AUnit.GetAlignment();
+                    condition = alsPureGood.Contains(alignment);
                 }
 
-                bool bool__30 = bool__28;
-                if (bool__30)
-                {
-                    var call__31 = AUnit.GetAlignment();
-                    bool__30 = alsPureGood.Contains(call__31);
-                }
-
-                bool bool__32 = bool__30;
-                if (bool__32)
-                {
-                    var call__33 = AUnit.GetAbilityEnabled(1);
-                    bool__32 = !call__33;
-                }
-
-                Result = bool__32;
+                Result = condition && !AUnit.GetAbilityEnabled(1);
             }
 
             return Result;
@@ -331,29 +288,25 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:254
         public void ShowSummonAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TMapField Field = default;
-            var call__34 = Anim.GetLhx();
-            var call__35 = Anim.GetYhx();
-            var call__36 = Anim.GetXhx();
-            var call__37 = AoWHSMap.MapContainer.GetField(call__36, call__35, call__34);
-            Field = call__37;
-            var call__38 = Field.FindOwnedChild(131985);
-            if (this == call__38 && AoWEngine.FAnimationDetail != 0 && Anim.FFrameCounter == 0)
+            TMapField Field;
+            var lhx = Anim.GetLhx();
+            var yhx = Anim.GetYhx();
+            var xhx = Anim.GetXhx();
+            Field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            if (this == Field.FindOwnedChild(131985) && AoWEngine.FAnimationDetail != 0 && Anim.FFrameCounter == 0)
             {
-                bool bool__39 = AoWHSMap.FSeatedPlayer == Anim.FTag;
-                if (!bool__39)
+                bool condition = AoWHSMap.FSeatedPlayer == Anim.FTag;
+                if (!condition)
                 {
-                    var call__40 = GetLhx();
-                    var call__41 = GetYhx();
-                    var call__42 = GetXhx();
-                    var call__43 = AoWHSMap.WatchingTerrain(call__42, call__41, call__40, 0);
-                    bool__39 = call__43;
+                    var lhx2 = GetLhx();
+                    var yhx2 = GetYhx();
+                    var xhx2 = GetXhx();
+                    condition = AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
-                if (bool__39)
+                if (condition)
                 {
-                    var call__44 = AoWHSSet.FSpellControl.GetSpell(14);
-                    call__44.FCastSounds.Play(0);
+                    AoWHSSet.FSpellControl.GetSpell(14).FCastSounds.Play(0);
                 }
             }
         }
@@ -361,12 +314,10 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:265
         public void NewFrameSummonAnimation(TAnimation Anim, int FrameCounter)
         {
-            TMapField Field = default;
-            var call__45 = Anim.GetLhx();
-            var call__46 = Anim.GetYhx();
-            var call__47 = Anim.GetXhx();
-            var call__48 = AoWHSMap.MapContainer.GetField(call__47, call__46, call__45);
-            Anim = (TAnimation)(object)call__48;
+            var lhx = Anim.GetLhx();
+            var yhx = Anim.GetYhx();
+            var xhx = Anim.GetXhx();
+            Anim = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
             if (this == ((TMapField)(object)Anim).FindOwnedChild(131985) && FrameCounter == 9)
             {
                 FMode = FMode - TSet<AnonymousEnum_hgSummoning>.Of(AnonymousEnum_hgSummoning.hgSummoning);
@@ -384,22 +335,10 @@ namespace Aow.Units.UnHolyG
         public new const int ClassID = 131986;
 
         // UnHolyG.pas:283
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131985;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131985;
 
         // UnHolyG.pas:273
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__49 = UnholyGroundRStr;
-            var call__50 = TranslateRStr(call__49);
-            Result = call__50;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(UnholyGroundRStr);
 
     }
 
@@ -414,14 +353,11 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:340
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
             base.Process(A1, A2);
             CreateUnholyGround(A1);
             AoWHSMap.ValidateTerrainObservation(A1.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-            var call__51 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__51.CastingDone(A1, FEventMana);
-            Result = false;
-            return Result;
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, FEventMana);
+            return false;
         }
 
         // UnHolyG.pas:293
@@ -435,47 +371,30 @@ namespace Aow.Units.UnHolyG
             TUnHolyGround Ground = default;
             TImageSequenceAnimation Anim = default;
             var walk = Walk;
-            var call__53 = AoWHSMap.MapContainer.MapLevels[FLocation.L];
-            Level = call__53;
+            Level = AoWHSMap.MapContainer.MapLevels[FLocation.L];
             InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-            var call__54 = AoWHSSet.MapObjectResourceList.FindChild(131986);
-            Resource = (TUnHolyGroundResource)call__54;
+            Resource = (TUnHolyGroundResource)AoWHSSet.MapObjectResourceList.FindChild(131986);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
                 {
-                    var call__55 = Level.GetField(walk.X, walk.Y);
-                    MapF = (TAoWMapField)call__55;
-                    var call__56 = AoWHSSet.FSpellControl.GetSpell(14);
-                    var call__57 = ((TGlobalTargetSpell)call__56).ValidTargetMapF(MapF);
-                    bool bool__58 = call__57;
-                    if (bool__58)
-                    {
-                        var call__59 = MapF.GetArmyHS();
-                        bool__58 = call__59 == null;
-                    }
-
-                    if (bool__58)
+                    MapF = (TAoWMapField)Level.GetField(walk.X, walk.Y);
+                    if (((TGlobalTargetSpell)AoWHSSet.FSpellControl.GetSpell(14)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
                     {
                         MapF.RestoreTerrain();
                         Ground = (TUnHolyGround)Resource.CreateResourceUser();
-                        var call__60 = AoWHSMap.Random(11);
-                        Ground.FDuration = (sbyte)(3 + (call__60 - 5) / 5);
+                        Ground.FDuration = (sbyte)(3 + (AoWHSMap.Random(11) - 5) / 5);
                         Ground.FPlayer = Source.FPlayer;
                         Ground.FOriginalOverlay = MapF.OverlayType;
                         AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
-                        var call__61 = AoWHSMap.PlaceHX(Ground, walk.X, walk.Y, FLocation.L);
-                        if (call__61)
+                        if (AoWHSMap.PlaceHX(Ground, walk.X, walk.Y, FLocation.L))
                         {
                             Ground.FMode = TSet<AnonymousEnum_hgSummoning>.Of(AnonymousEnum_hgSummoning.hgSummoning);
                             Anim = new TImageSequenceAnimation(null);
-                            var call__62 = AoWHSSet.FSpellControl.GetSpell(14);
-                            var call__63 = call__62.FCastImages.ImageSequences[0];
-                            Anim.SetImageSequence(call__63);
+                            Anim.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(14).FCastImages.ImageSequences[0]);
                             Anim.FOnShow = Ground.ShowSummonAnimation;
                             Anim.FOnNewFrame = Ground.NewFrameSummonAnimation;
-                            var call__64 = AoWHSMap.Random(15);
-                            Anim.FFrameCounter = -call__64;
+                            Anim.FFrameCounter = -AoWHSMap.Random(15);
                             Anim.FTag = Source.FPlayer;
                             AoWHSMap.PlaceHX(Anim, walk.X, walk.Y, FLocation.L);
                         }
@@ -499,9 +418,7 @@ namespace Aow.Units.UnHolyG
     {
         public TUnholyGroundSpell(TECustomNode owner) : base(owner)
         {
-            var call__65 = UnholyGroundsRStr;
-            var call__66 = TranslateRStr(call__65);
-            FSpellName = call__66;
+            FSpellName = TranslateRStr(UnholyGroundsRStr);
             FSpellID = 14;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -515,41 +432,31 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:383
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            int I = default;
             base.SetupTargetSelection(A1, A2);
             A2.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__67 = RadToHN(2) - 1;
-                for (; I <= end__67; I += 1)
-                {
-                    A2.FHNs.Add(0);
-                }
+                A2.FHNs.Add(0);
             }
         }
 
         // UnHolyG.pas:392
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TUnholyGroundSpellTE Event = default;
+            TUnholyGroundSpellTE Event;
             Event = new TUnholyGroundSpellTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__68 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__68.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // UnHolyG.pas:368
         public override bool ValidTargetSelectionMapF(TMapField A1)
         {
-            bool Result = default;
-            TArmyHS Army = default;
-            var call__69 = base.ValidTargetMapF(A1);
-            Result = call__69 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
+            TArmyHS Army;
+            bool Result = base.ValidTargetMapF(A1) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence accepts these overlays without the terrain test. }
             Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
             Result = Result && A1.FindNoneTransparentHS(typeof(TStructure)) == null;
@@ -568,27 +475,10 @@ namespace Aow.Units.UnHolyG
         // UnHolyG.pas:360
         public override bool ValidTargetMapF(TMapField A1)
         {
-            bool Result = default;
-            var call__70 = base.ValidTargetMapF(A1);
-            Result = call__70 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
+            bool Result = base.ValidTargetMapF(A1) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence accepts these overlays without the terrain test. }
             Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
-            bool bool__71 = Result;
-            if (bool__71)
-            {
-                var call__72 = A1.FindNoneTransparentHS(typeof(TStructure));
-                bool__71 = call__72 == null;
-            }
-
-            bool bool__73 = bool__71;
-            if (bool__73)
-            {
-                var call__74 = ((TAoWMapField)A1).GetArmyHS();
-                bool__73 = call__74 == null;
-            }
-
-            Result = bool__73;
-            return Result;
+            return Result && A1.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)A1).GetArmyHS() == null;
         }
 
         // UnHolyG.pas:62
@@ -601,8 +491,8 @@ namespace Aow.Units.UnHolyG
         public static void RegisterUnHolyGround(TAoWEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<TUnHolyGround>(), EClass.Of<TUnHolyGroundResource>(), EClass.Of<TUnholyGroundSpellTE>()]);
-            var call__75 = new TUnholyGroundSpell(null);
-            AEngine.FGameSet.FSpellControl.RegisterSpell(call__75);
+            var unholyGroundSpell = new TUnholyGroundSpell(null);
+            AEngine.FGameSet.FSpellControl.RegisterSpell(unholyGroundSpell);
         }
 
         // UnHolyG.pas:410

@@ -35,10 +35,8 @@ namespace Aow.Units.HeroGrid
             DefaultRowHeight = 46;
             GrowDirection = TILGrowDirection.ilVertical;
             ScrollBars = TScrollStyle.ssVertical;
-            var call__1 = new TIntegerList();
-            FIndices = call__1;
-            var call__2 = new TMemoryStream();
-            FStream = call__2;
+            FIndices = new TIntegerList();
+            FStream = new TMemoryStream();
             FSort = 1;
         }
 
@@ -70,13 +68,12 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:144
         public THero GetHero(int Index)
         {
-            THero Result = default;
+            THero Result;
             // { Original checks only the upper bound. }
             if (Index < FIndices.Count)
             {
-                var call__3 = FIndices[Index];
-                var call__4 = FHeroes.GetHero(call__3);
-                Result = call__4;
+                var indice = FIndices[Index];
+                Result = FHeroes.GetHero(indice);
             }
             else
             {
@@ -96,13 +93,11 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:160
         public void SetSelectedHero(THero Value)
         {
-            int I = default;
-            var call__5 = FHeroes.FChildren.IndexOf(Value);
-            I = call__5;
+            int I;
+            I = FHeroes.FChildren.IndexOf(Value);
             if (I != -1)
             {
-                var call__6 = FIndices.IndexOf(I);
-                I = call__6;
+                I = FIndices.IndexOf(I);
                 if (I != -1)
                 {
                     SelectIndex(I);
@@ -155,7 +150,7 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:308
         public void DeleteHero(int Index)
         {
-            THero Hero = default;
+            THero Hero;
             Hero = GetHero(Index);
             if (Hero != null)
             {
@@ -238,16 +233,14 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:102
         public static int HeroGridCompareName(int A, int B)
         {
-            int Result = default;
-            var call__7 = SortHeroList.GetHero(B);
-            var call__8 = SortHeroList.GetHero(A);
-            Result = CompareText(call__8.FHeroName, call__7.FHeroName);
+            var hero = SortHeroList.GetHero(B);
+            int Result = CompareText(SortHeroList.GetHero(A).FHeroName, hero.FHeroName);
             // { Original uses object addresses to break ties. }
             if (Result == 0)
             {
-                var call__9 = SortHeroList.GetHero(A);
-                var call__10 = SortHeroList.GetHero(B);
-                Result = ObjectToInt(call__9) - ObjectToInt(call__10);
+                var sortHeroListHero = SortHeroList.GetHero(A);
+                var hero2 = SortHeroList.GetHero(B);
+                Result = ObjectToInt(sortHeroListHero) - ObjectToInt(hero2);
             }
 
             return Result;
@@ -256,17 +249,12 @@ namespace Aow.Units.HeroGrid
         // HeroGrid.pas:108
         public static int HeroGridCompareLevel(int A, int B)
         {
-            int Result = default;
-            var call__11 = SortHeroList.GetHero(A);
-            var call__12 = call__11.GetLevel();
-            var call__13 = SortHeroList.GetHero(B);
-            var call__14 = call__13.GetLevel();
-            Result = call__12 - call__14;
+            int Result = SortHeroList.GetHero(A).GetLevel() - SortHeroList.GetHero(B).GetLevel();
             if (Result == 0)
             {
-                var call__15 = SortHeroList.GetHero(A);
-                var call__16 = SortHeroList.GetHero(B);
-                Result = ObjectToInt(call__15) - ObjectToInt(call__16);
+                var hero = SortHeroList.GetHero(A);
+                var sortHeroListHero = SortHeroList.GetHero(B);
+                Result = ObjectToInt(hero) - ObjectToInt(sortHeroListHero);
             }
 
             return Result;

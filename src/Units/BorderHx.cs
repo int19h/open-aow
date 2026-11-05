@@ -21,22 +21,20 @@ namespace Aow.Units.BorderHx
         // BorderHx.pas:39
         public override void SetOwner(TECustomNode AOwner)
         {
-            TECustomNode OldField = default;
+            TECustomNode OldField;
             if (AOwner != this.Owner)
             {
                 OldField = Owner;
                 if (OldField != null && OldField is TMapField && ((TMapField)OldField).Yhx != 0)
                 {
-                    var call__1 = ((TMapLevel)OldField.Owner).GetField(((TMapField)OldField).Xhx, ((TMapField)Owner).Yhx - 1);
-                    call__1.RemoveChild(this);
+                    ((TMapLevel)OldField.Owner).GetField(((TMapField)OldField).Xhx, ((TMapField)Owner).Yhx - 1).RemoveChild(this);
                 }
 
                 base.SetOwner(AOwner);
                 AOwner = Owner;
                 if (AOwner != null && AOwner is TMapField && ((TMapField)AOwner).Yhx != 0)
                 {
-                    var call__2 = ((TMapLevel)AOwner.Owner).GetField(((TMapField)AOwner).Xhx, ((TMapField)Owner).Yhx - 1);
-                    call__2.AddHS(this, 1);
+                    ((TMapLevel)AOwner.Owner).GetField(((TMapField)AOwner).Xhx, ((TMapField)Owner).Yhx - 1).AddHS(this, 1);
                 }
             }
             else
@@ -51,45 +49,27 @@ namespace Aow.Units.BorderHx
             int Xhp = default;
             int Yhp = default;
             HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-            var call__3 = FResource.ImageLibrary[0];
-            call__3.Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
+            FResource.ImageLibrary[0].Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
         }
 
         // BorderHx.pas:72
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => false;
 
         // BorderHx.pas:77
-        public override byte GetLevel()
-        {
-            byte Result = default;
-            Result = 11;
-            return Result;
-        }
+        public override byte GetLevel() => 11;
 
         // BorderHx.pas:82
         public override int GetShowPriority()
         {
-            int Result = default;
-            int Xhp = default;
-            int Yhp = default;
+            int Xhp;
+            int Yhp;
             Xhp = ((TMapField)Owner).Xhx * 32 + 8;
             Yhp = (((TMapField)Owner).Xhx & 1) * 16 + ((TMapField)Owner).Yhx * 32;
-            Result = ((Yhp + 32) << 13) + (11 << 26) + (Xhp + 8);
-            return Result;
+            return ((Yhp + 32) << 13) + (11 << 26) + (Xhp + 8);
         }
 
         // BorderHx.pas:95
-        public override bool CanChangeTerrain(in THSSenderInfo Info)
-        {
-            bool Result = default;
-            Result = Info.HN != 0;
-            return Result;
-        }
+        public override bool CanChangeTerrain(in THSSenderInfo Info) => Info.HN != 0;
 
     }
 
@@ -101,20 +81,10 @@ namespace Aow.Units.BorderHx
         public new const int ClassID = 132440;
 
         // BorderHx.pas:112
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132439;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132439;
 
         // BorderHx.pas:107
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Border Hexagon";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Border Hexagon";
 
     }
 

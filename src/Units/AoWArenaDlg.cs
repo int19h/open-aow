@@ -57,24 +57,21 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:104
         public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
         {
-            TRect SaveRect = default;
-            TP2UnitShowInfo Info = default;
-            ImageLib.TLibraryImage Img = default;
-            TAbstractUnit U = default;
-            TAlignment Alignment = default;
-            var call__1 = FEvent.GetCount();
-            if (Index < call__1)
+            TRect SaveRect;
+            TP2UnitShowInfo Info;
+            ImageLib.TLibraryImage Img;
+            TAbstractUnit U;
+            TAlignment Alignment;
+            if (Index < FEvent.GetCount())
             {
-                var call__2 = FEvent.GetUnit(Index);
-                U = call__2;
+                U = FEvent.GetUnit(Index);
                 SaveRect = SD.ClipRect;
-                var call__3 = Rect(X + 5, Y + 4, X + 46, Y + 56);
-                SD.ClipRect = call__3;
+                var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
+                SD.ClipRect = rect;
                 Alignment = U.GetAlignment();
                 if ((byte)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
-                    var call__4 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
-                    Img = call__4;
+                    Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
                     Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
@@ -84,8 +81,7 @@ namespace Aow.Units.AoWArenaDlg
                 U.ShowEx(X - 8, Y - 5, SD, Info);
                 if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
                 {
-                    var call__5 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
-                    Img = call__5;
+                    Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
                     Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
                 }
 
@@ -93,8 +89,8 @@ namespace Aow.Units.AoWArenaDlg
                 if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
                 {
                     AoWExeForms.AoWExeForms.FontModule.Age8.Color = 0;
-                    var call__6 = FEvent.FArena.UnitTrainCost(U);
-                    AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(call__6), SD);
+                    var unitTrainCost = FEvent.FArena.UnitTrainCost(U);
+                    AoWExeForms.AoWExeForms.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
                 }
             }
         }
@@ -102,8 +98,8 @@ namespace Aow.Units.AoWArenaDlg
         // AoWArenaDlg.pas:140
         public void ClearEvent()
         {
-            TEnterArenaEventLog Event = default;
-            TExecuteDoneEvent Notify = default;
+            TEnterArenaEventLog Event;
+            TExecuteDoneEvent Notify;
             General.Manager.OverlayPriority = 0;
             Notify = FOnClose;
             Event = FEvent;
@@ -132,8 +128,7 @@ namespace Aow.Units.AoWArenaDlg
         {
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__7 = FEvent.Train(ref Reason);
-            if (call__7)
+            if (FEvent.Train(ref Reason))
             {
                 Dlg.Visible = false;
             }
@@ -178,8 +173,7 @@ namespace Aow.Units.AoWArenaDlg
 
             if (FEvent.FSelection != 0)
             {
-                var call__8 = FEvent.CanTrain(ref Reason);
-                if (call__8)
+                if (FEvent.CanTrain(ref Reason))
                 {
                     SelectionInfoLbl.TextColor = 0;
                 }
@@ -188,8 +182,8 @@ namespace Aow.Units.AoWArenaDlg
                     SelectionInfoLbl.TextColor = 149;
                 }
 
-                var call__9 = FEvent.GetSelectionInfo();
-                SelectionInfoLbl.Text = call__9;
+                var selectionInfo = FEvent.GetSelectionInfo();
+                SelectionInfoLbl.Text = selectionInfo;
             }
             else
             {
@@ -216,16 +210,14 @@ namespace Aow.Units.AoWArenaDlg
             int X = default;
             int Y = default;
             TSurfaceDesc MapSD = default;
-            TRect R = default;
-            int W = default;
-            int H = default;
-            var call__11 = Rect(Dlg.WinLeft + ((TAOWImage)Sender).WinLeft, Dlg.WinTop + ((TAOWImage)Sender).WinTop, Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + ((TAOWImage)Sender).WinWidth, Dlg.WinTop + ((TAOWImage)Sender).WinTop + ((TAOWImage)Sender).WinHeight);
-            R = call__11;
+            TRect R;
+            int W;
+            int H;
+            R = Rect(Dlg.WinLeft + ((TAOWImage)Sender).WinLeft, Dlg.WinTop + ((TAOWImage)Sender).WinTop, Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + ((TAOWImage)Sender).WinWidth, Dlg.WinTop + ((TAOWImage)Sender).WinTop + ((TAOWImage)Sender).WinHeight);
             W = R.Right - R.Left;
             H = R.Bottom - R.Top;
-            var call__12 = FEvent.FArena.GetYhx();
-            var call__13 = FEvent.FArena.GetXhx();
-            HXtoHP(call__13, call__12, ref X, ref Y);
+            var yhx = FEvent.FArena.GetYhx();
+            HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
             X = X + 16 - (int)(((uint)W) >> 1);
             Y = Y + 16 - (int)(((uint)H) >> 1);
             if (X < 16)
@@ -239,8 +231,8 @@ namespace Aow.Units.AoWArenaDlg
             }
 
             CreateSDfromSD(SD, R, ref MapSD);
-            var call__14 = FEvent.FArena.GetLhx();
-            AoWHSMap.SetViewPort(X, Y, call__14, R.Right - R.Left, R.Bottom - R.Top);
+            var lhx = FEvent.FArena.GetLhx();
+            AoWHSMap.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
             AoWHSMap.UpdateStaticScene();
             AoWHSMap.UpdateDynamicScene();
             AoWHSMap.DrawStaticScene(ref MapSD);

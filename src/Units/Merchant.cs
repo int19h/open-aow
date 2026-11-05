@@ -37,25 +37,13 @@ namespace Aow.Units.Merchant
 
 
         // Merchant.pas:53
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131338;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131338;
 
         // Merchant.pas:25
 
 
         // Merchant.pas:50
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__1 = MerchantRStr;
-            var call__2 = TranslateRStr(call__1);
-            Result = call__2;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(MerchantRStr);
 
     }
 

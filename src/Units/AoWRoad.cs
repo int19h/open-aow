@@ -16,45 +16,40 @@ namespace Aow.Units.AoWRoad
         // AoWRoad.pas:35
         public override void UpdateTransitions()
         {
-            byte OldTransitions = default;
+            byte OldTransitions;
             int Xhx = default;
             int Yhx = default;
             TMapFieldMsg Msg = default;
-            int HN = default;
-            TMapLevel Level = default;
-            TMapField MapField = default;
-            bool HasRoad = default;
+            TMapLevel Level;
+            TMapField MapField;
+            bool HasRoad;
             OldTransitions = FTransitions;
             Level = (TMapLevel)Owner.Owner;
             FTransitions = 0;
             Msg.MsgID = 4401;
             Msg.Param[0] = Owner;
+            for (int HN = 1; HN <= 6; HN++)
             {
-                HN = 1;
-                byte end__1 = 6;
-                for (; HN <= end__1; HN += 1)
+                HNtoHX(HN, ref Xhx, ref Yhx);
+                TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+                if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
                 {
-                    HNtoHX(HN, ref Xhx, ref Yhx);
-                    TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
-                    if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
+                    MapField = Level.GetField(Xhx, Yhx);
+                    if (MapField.FindOwnedHS(typeof(TAbstractRoad)) == null)
                     {
-                        MapField = Level.GetField(Xhx, Yhx);
-                        if (MapField.FindOwnedHS(typeof(TAbstractRoad)) == null)
-                        {
-                            // { Original message stores its response in Param[1], rather than Result. }
-                            Msg.Param[1] = 0;
-                            MapField.SendMapFieldMsg(ref Msg);
-                            HasRoad = Msg.Param[1].Value != 0;
-                        }
-                        else
-                        {
-                            HasRoad = true;
-                        }
+                        // { Original message stores its response in Param[1], rather than Result. }
+                        Msg.Param[1] = 0;
+                        MapField.SendMapFieldMsg(ref Msg);
+                        HasRoad = Msg.Param[1].Value != 0;
+                    }
+                    else
+                    {
+                        HasRoad = true;
+                    }
 
-                        if (HasRoad)
-                        {
-                            FTransitions = (byte)(FTransitions + (1 << (HN - 1)));
-                        }
+                    if (HasRoad)
+                    {
+                        FTransitions = (byte)(FTransitions + (1 << (HN - 1)));
                     }
                 }
             }

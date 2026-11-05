@@ -15,8 +15,7 @@ namespace Aow.Units.IsoHex
     {
         public TIsometricHexagon(TECustomNode owner) : base(owner)
         {
-            var call__1 = Random(4);
-            FSides = (byte)(call__1 << 6);
+            FSides = (byte)(Random(4) << 6);
         }
 
 
@@ -62,34 +61,29 @@ namespace Aow.Units.IsoHex
         // IsoHex.pas:239
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TCustomImageLibrary IL = default;
+            TCustomImageLibrary IL;
             int Xhp = default;
             int Yhp = default;
             HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
-            var call__2 = FResource.ImageSequenceList.ImageSequences[0];
-            IL = call__2.ImageLibrary;
-            var call__3 = IL[(int)(((uint)FSides) >> 6) + 40];
-            call__3.Show(Xhp, Yhp, SurfaceDesc);
+            IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+            IL[(int)(((uint)FSides) >> 6) + 40].Show(Xhp, Yhp, SurfaceDesc);
             Xhp -= 6;
             Yhp -= 9;
             if ((FSides & 1) != 0)
             {
-                var call__4 = IL[31];
-                call__4.Show(Xhp, Yhp, SurfaceDesc);
+                IL[31].Show(Xhp, Yhp, SurfaceDesc);
             }
 
             if ((FSides & 2) != 0)
             {
-                var call__5 = IL[32];
-                call__5.Show(Xhp, Yhp, SurfaceDesc);
+                IL[32].Show(Xhp, Yhp, SurfaceDesc);
             }
 
             if ((FSides & 32) != 0)
             {
-                var call__6 = IL[30];
-                call__6.Show(Xhp, Yhp, SurfaceDesc);
+                IL[30].Show(Xhp, Yhp, SurfaceDesc);
             }
         }
 
@@ -112,12 +106,7 @@ namespace Aow.Units.IsoHex
         public new const int ClassID = 131439;
 
         // IsoHex.pas:136
-        public override TSet<TEControlStyleElement> GetControlStyle()
-        {
-            TSet<TEControlStyleElement> Result = default;
-            Result = TSet<TEControlStyleElement>.Of();
-            return Result;
-        }
+        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of();
 
         // IsoHex.pas:161
         public override void SetVisible(bool Value)
@@ -125,28 +114,13 @@ namespace Aow.Units.IsoHex
         }
 
         // IsoHex.pas:165
-        public override bool GetVisible()
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public override bool GetVisible() => false;
 
         // IsoHex.pas:131
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => false;
 
         // IsoHex.pas:141
-        public override TSet<TControlModeElement> ControlMode()
-        {
-            TSet<TControlModeElement> Result = default;
-            Result = TSet<TControlModeElement>.Of();
-            return Result;
-        }
+        public override TSet<TControlModeElement> ControlMode() => TSet<TControlModeElement>.Of();
 
     }
 
@@ -179,16 +153,12 @@ namespace Aow.Units.IsoHex
         // IsoHex.pas:273
         public override TMapObject PlaceResourceUser(THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            TMapObject Result = default;
-            TMapField MapField = default;
-            var call__7 = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-            MapField = call__7;
-            Result = (TMapObject)MapField.FindOwnedHS(typeof(TIsometricHexagon));
+            TMapField MapField;
+            MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
+            TMapObject Result = (TMapObject)MapField.FindOwnedHS(typeof(TIsometricHexagon));
             if (Result != null)
             {
-                var call__8 = Result.GetTerrain(0);
-                var call__9 = FTerrainList.GetTerrain(0);
-                if (call__8 != call__9)
+                if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
                 {
                     Result.SetResource(this);
                     MapField.UpdateTerrainType();
@@ -230,7 +200,7 @@ namespace Aow.Units.IsoHex
         // IsoHex.pas:355
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TCustomImageLibrary IL = default;
+            TCustomImageLibrary IL;
             int Xhp = default;
             int Yhp = default;
             if (FDynamic == null)
@@ -238,28 +208,23 @@ namespace Aow.Units.IsoHex
                 HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf;
-                var call__10 = FResource.ImageSequenceList.ImageSequences[0];
-                IL = call__10.ImageLibrary;
-                var call__11 = IL[(int)(((uint)FSides) >> 6) + 40];
-                call__11.Show(Xhp, Yhp, SurfaceDesc);
+                IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+                IL[(int)(((uint)FSides) >> 6) + 40].Show(Xhp, Yhp, SurfaceDesc);
                 Xhp -= 6;
                 Yhp -= 9;
                 if ((FSides & 1) != 0)
                 {
-                    var call__12 = IL[31];
-                    call__12.Show(Xhp, Yhp, SurfaceDesc);
+                    IL[31].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
                 if ((FSides & 2) != 0)
                 {
-                    var call__13 = IL[32];
-                    call__13.Show(Xhp, Yhp, SurfaceDesc);
+                    IL[32].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
                 if ((FSides & 32) != 0)
                 {
-                    var call__14 = IL[30];
-                    call__14.Show(Xhp, Yhp, SurfaceDesc);
+                    IL[30].Show(Xhp, Yhp, SurfaceDesc);
                 }
             }
         }
@@ -275,20 +240,10 @@ namespace Aow.Units.IsoHex
         public new const int ClassID = 131441;
 
         // IsoHex.pas:443
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131440;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131440;
 
         // IsoHex.pas:448
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = UpperIsometricHexagonStr;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => UpperIsometricHexagonStr;
 
     }
 
@@ -311,20 +266,10 @@ namespace Aow.Units.IsoHex
         public new const int ClassID = 131443;
 
         // IsoHex.pas:581
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131442;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131442;
 
         // IsoHex.pas:576
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = LowerIsometricHexagonStr;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => LowerIsometricHexagonStr;
 
     }
 

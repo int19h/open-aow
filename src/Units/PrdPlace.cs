@@ -22,8 +22,7 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:238
         public override bool ExecuteProduction(TProductionItem Item)
         {
-            bool Result = default;
-            Result = base.ExecuteProduction(Item);
+            bool Result = base.ExecuteProduction(Item);
             if (Result)
             {
                 switch (Item.FProductionID)
@@ -31,8 +30,8 @@ namespace Aow.Units.PrdPlace
                     case 10:
                         FSettings.FTurnsTotal = (sbyte)Item.FParameter;
                         FSettings.FTurnsLeft = 1;
-                        var call__1 = GetPlayer();
-                        FSettings.FPlayer = call__1;
+                        var player = GetPlayer();
+                        FSettings.FPlayer = player;
                         FStatus = TProductionControlStatus.pcsProducing;
                         break;
                 }
@@ -44,69 +43,39 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:169
         public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
-            var call__3 = this.FProductionPlace.Xhx;
-            X = call__3;
-            var call__4 = this.FProductionPlace.Yhx;
-            Y = call__4;
+            X = this.FProductionPlace.Xhx;
+            Y = this.FProductionPlace.Yhx;
             L = FProductionPlace.Lhx;
         }
 
         // PrdPlace.pas:166
-        public override sbyte GetPlayer()
-        {
-            sbyte Result = default;
-            Result = FProductionPlace.FPlayer;
-            return Result;
-        }
+        public override sbyte GetPlayer() => FProductionPlace.FPlayer;
 
         // PrdPlace.pas:179
         public override bool UnitProduced()
         {
-            bool Result = default;
-            TUnitEnchantment Enchantment = default;
-            TProductionPlaceEventLog Log = default;
+            TUnitEnchantment Enchantment;
+            TProductionPlaceEventLog Log;
             var productionPlace = FProductionPlace;
-            var call__6 = productionPlace.Yhx;
-            var call__7 = productionPlace.Xhx;
-            var call__8 = FSettings.FUnit.Place(call__7, call__6, productionPlace.Lhx, productionPlace.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
-            Result = call__8 != null;
-            bool bool__9 = Result;
-            if (bool__9)
+            var yhx = productionPlace.Yhx;
+            var xhx = productionPlace.Xhx;
+            bool Result = FSettings.FUnit.Place(xhx, yhx, productionPlace.Lhx, productionPlace.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea)) != null;
+            if (Result && FProductionPlace.GetMagicSphere() != TMagicSphere.msNone && FSettings.FUnit.ExpandAbility(155))
             {
-                var call__10 = FProductionPlace.GetMagicSphere();
-                bool__9 = call__10 != TMagicSphere.msNone;
-            }
-
-            bool bool__11 = bool__9;
-            if (bool__11)
-            {
-                var call__12 = FSettings.FUnit.ExpandAbility(155);
-                bool__11 = call__12;
-            }
-
-            if (bool__11)
-            {
-                var call__13 = FSettings.FUnit.GetAbilityData(155);
-                Enchantment = ((TUnitEnchantmentAbilityData)call__13).FEnchantment;
-                var call__14 = FSettings.FUnit.GetUnitLevel();
-                Enchantment.SetUpkeep((call__14 + 1) * 2);
+                Enchantment = ((TUnitEnchantmentAbilityData)FSettings.FUnit.GetAbilityData(155)).FEnchantment;
+                Enchantment.SetUpkeep((FSettings.FUnit.GetUnitLevel() + 1) * 2);
                 Enchantment.SetSource(FProductionPlace.FPlayer);
-                var call__15 = FSettings.FUnit.GetUnitLevel();
-                Enchantment.FDispelResistance = (sbyte)(call__15 + 3);
+                Enchantment.FDispelResistance = (sbyte)(FSettings.FUnit.GetUnitLevel() + 3);
             }
 
             Log = new TProductionPlaceEventLog(null);
             Log.FPlayer = productionPlace.FPlayer;
-            var call__16 = FSettings.FUnit.GetName();
-            var call__17 = FProductionPlace.GetName();
-            var call__18 = TranslateRStr(XProducedAtYRStr);
-            var call__19 = Rtl.Rtl.Format(call__18, [call__16, call__17]);
-            Log.FText = call__19;
-            var call__20 = productionPlace.Yhx;
-            var call__21 = productionPlace.Xhx;
-            Log.SetLocation(call__21, call__20, productionPlace.Lhx);
-            var call__22 = AoWHSMap.FPlayers.GetPlayers(Log.FPlayer);
-            call__22.FEventLogbook.AddEvent(Log);
+            var name = FSettings.FUnit.GetName();
+            var fProductionPlaceName = FProductionPlace.GetName();
+            Log.FText = Rtl.Rtl.Format(TranslateRStr(XProducedAtYRStr), [name, fProductionPlaceName]);
+            var productionPlaceYhx = productionPlace.Yhx;
+            Log.SetLocation(productionPlace.Xhx, productionPlaceYhx, productionPlace.Lhx);
+            AoWHSMap.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
             Log.Release();
 
             return Result;
@@ -115,23 +84,18 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:203
         public override void UnitResearched()
         {
-            TProductionPlaceEventLog Log = default;
+            TProductionPlaceEventLog Log;
             base.UnitResearched();
             var productionPlace = FProductionPlace;
             Log = new TProductionPlaceEventLog(null);
             Log.FPlayer = productionPlace.FPlayer;
-            var call__24 = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
-            var call__25 = AoWHSSet.FUnitResources.GetUnitResource(call__24.FUnitIndex);
-            var call__26 = call__25.GetUnitName();
-            var call__27 = FProductionPlace.GetName();
-            var call__28 = TranslateRStr(XInstalledAtYRStr);
-            var call__29 = Rtl.Rtl.Format(call__28, [call__26, call__27]);
-            Log.FText = call__29;
-            var call__30 = productionPlace.Yhx;
-            var call__31 = productionPlace.Xhx;
-            Log.SetLocation(call__31, call__30, productionPlace.Lhx);
-            var call__32 = AoWHSMap.FPlayers.GetPlayers(Log.FPlayer);
-            call__32.FEventLogbook.AddEvent(Log);
+            var unitProduction = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
+            var unitName = AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).GetUnitName();
+            var name = FProductionPlace.GetName();
+            Log.FText = Rtl.Rtl.Format(TranslateRStr(XInstalledAtYRStr), [unitName, name]);
+            var yhx = productionPlace.Yhx;
+            Log.SetLocation(productionPlace.Xhx, yhx, productionPlace.Lhx);
+            AoWHSMap.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
             Log.Release();
         }
 
@@ -151,8 +115,7 @@ namespace Aow.Units.PrdPlace
             base.NewTurn(Player);
             if (FStatus == TProductionControlStatus.pcsProducing && Player == FSettings.FPlayer && FSettings.FTurnsLeft == 0)
             {
-                var call__33 = FQueue.GetItem(0);
-                if (call__33.FProductionID == 10)
+                if (FQueue.GetItem(0).FProductionID == 10)
                 {
                     ProductionDone();
                 }
@@ -162,7 +125,7 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:225
         public override bool CanExecuteProduction(TProductionItem Item, ref AnsiString Reason)
         {
-            bool Result = default;
+            bool Result;
             if (Item.FProductionID == 10)
             {
                 Result = true;
@@ -178,15 +141,14 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:252
         public override AnsiString GetProductionName(TProductionItem Item)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (Item.FProductionID == 1 || Item.FProductionID == 2)
             {
                 Result = base.GetProductionName(Item);
             }
             else
             {
-                var call__34 = FProductionPlace.GetProductionName(Item);
-                Result = call__34;
+                Result = FProductionPlace.GetProductionName(Item);
             }
 
             return Result;
@@ -195,15 +157,14 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:258
         public override AnsiString GetProductionNameProgressive(TProductionItem Item)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (Item.FProductionID == 1 || Item.FProductionID == 2)
             {
                 Result = base.GetProductionNameProgressive(Item);
             }
             else
             {
-                var call__35 = FProductionPlace.GetProductionNameProgressive(Item);
-                Result = call__35;
+                Result = FProductionPlace.GetProductionNameProgressive(Item);
             }
 
             return Result;
@@ -212,9 +173,8 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:139
         public override int UnitProductionGold(int Index)
         {
-            int Result = default;
-            var call__36 = FProductionPlace.GetMagicSphere();
-            if (call__36 != TMagicSphere.msNone)
+            int Result;
+            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
             {
                 Result = 0;
             }
@@ -229,10 +189,9 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:145
         public override int UnitProductionMana(int Index)
         {
-            int Result = default;
+            int Result;
             // { The original uses the gold production cost as the node's mana cost. }
-            var call__37 = FProductionPlace.GetMagicSphere();
-            if (call__37 != TMagicSphere.msNone)
+            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
             {
                 Result = base.UnitProductionGold(Index);
             }
@@ -247,10 +206,9 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:152
         public override int UnitProductionGoldUpkeep(int Index)
         {
-            int Result = default;
+            int Result;
             // { The original uses the inherited mana production cost for gold upkeep. }
-            var call__38 = FProductionPlace.GetMagicSphere();
-            if (call__38 != TMagicSphere.msNone)
+            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
             {
                 Result = 0;
             }
@@ -265,13 +223,11 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:159
         public override int UnitProductionManaUpkeep(int Index)
         {
-            int Result = default;
-            var call__39 = FProductionPlace.GetMagicSphere();
-            if (call__39 != TMagicSphere.msNone)
+            int Result;
+            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
             {
-                var call__40 = FUnitProductions.GetItem(Index);
-                var call__41 = AoWHSSet.FUnitResources.GetUnitResource(call__40.FUnitIndex);
-                Result = call__41.FLevel * 5;
+                var unitProduction = FUnitProductions.GetItem(Index);
+                Result = AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).FLevel * 5;
             }
             else
             {
@@ -284,23 +240,17 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:121
         public override int UnitProductionTime(int Index)
         {
-            int Result = default;
-            sbyte Player = default;
-            int Picks = default;
-            var call__42 = FUnitProductions.GetItem(Index);
-            Index = call__42.FUnitIndex;
-            var call__43 = AoWHSSet.FUnitResources.GetUnitResource(Index);
-            Result = call__43.FLevel * 2;
-            var call__44 = FProductionPlace.GetMagicSphere();
-            if (call__44 != TMagicSphere.msNone)
+            sbyte Player;
+            int Picks;
+            Index = FUnitProductions.GetItem(Index).FUnitIndex;
+            int Result = AoWHSSet.FUnitResources.GetUnitResource(Index).FLevel * 2;
+            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
             {
                 Player = FProductionPlace.FPlayer;
                 if (Player > 0)
                 {
-                    var call__45 = FProductionPlace.GetMagicSphere();
-                    var call__46 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    var call__47 = call__46.FLeader.GetSpherePicks(call__45);
-                    Picks = call__47;
+                    var magicSphere = FProductionPlace.GetMagicSphere();
+                    Picks = AoWHSMap.FPlayers.GetPlayers(Player).FLeader.GetSpherePicks(magicSphere);
                 }
                 else
                 {
@@ -326,20 +276,17 @@ namespace Aow.Units.PrdPlace
     {
         public TProductionPlace(TECustomNode owner) : base(owner)
         {
-            var call__48 = CreateProductionControl();
-            FProductionControl = call__48;
+            FProductionControl = CreateProductionControl();
             FProductionControl.FProductionPlace = this;
             if (GetMagicSphere() == TMagicSphere.msNone)
             {
-                var call__49 = new TPlayerStructureIncomeSource(null);
-                FIncomeSource = call__49;
+                FIncomeSource = new TPlayerStructureIncomeSource(null);
                 FIncomeSource.Setup(this);
                 FDefenderLevel = 2;
             }
             else
             {
-                var call__50 = new TPlayerStructurePowerSource(null);
-                FPowerSource = call__50;
+                FPowerSource = new TPlayerStructurePowerSource(null);
                 FPowerSource.Setup(this);
                 FDefenderLevel = 3;
             }
@@ -403,20 +350,17 @@ namespace Aow.Units.PrdPlace
             {
                 if (GetMagicSphere() == TMagicSphere.msNone)
                 {
-                    var call__51 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__51.FProductionControls.Add(FProductionControl);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProductionControl);
                 }
 
                 if (FPowerSource != null)
                 {
-                    var call__52 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__52.FMagicControl.RegisterPowerSource(FPowerSource);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
                 }
 
                 if (FIncomeSource != null)
                 {
-                    var call__53 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__53.RegisterIncomeSource(FIncomeSource);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
                 }
             }
         }
@@ -428,20 +372,17 @@ namespace Aow.Units.PrdPlace
             {
                 if (GetMagicSphere() == TMagicSphere.msNone)
                 {
-                    var call__54 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__54.FProductionControls.Remove(FProductionControl);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProductionControl);
                 }
 
                 if (FPowerSource != null)
                 {
-                    var call__55 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__55.FMagicControl.UnregisterPowerSource(FPowerSource);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
                 }
 
                 if (FIncomeSource != null)
                 {
-                    var call__56 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    call__56.UnregisterIncomeSource(FIncomeSource);
+                    AoWHSMap.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
                 }
             }
 
@@ -470,17 +411,11 @@ namespace Aow.Units.PrdPlace
             }
 
             // refresh after either state change
-            var call__57 = GetTerrainTypeImage(FTerrainType);
-            FImageIndex = call__57;
+            FImageIndex = GetTerrainTypeImage(FTerrainType);
         }
 
         // PrdPlace.pas:388
-        public override bool GetRazed()
-        {
-            bool Result = default;
-            Result = FRazedState == 1;
-            return Result;
-        }
+        public override bool GetRazed() => FRazedState == 1;
 
         // PrdPlace.pas:655
         public override void NewDay()
@@ -514,9 +449,8 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:434
         public override AnsiString GetCurrentActivityText()
         {
-            AnsiString Result = default;
-            var call__58 = FProductionControl.FQueue.Count;
-            if (call__58 == 0)
+            AnsiString Result;
+            if (FProductionControl.FQueue.Count == 0)
             {
                 if (FPlayer > 0)
                 {
@@ -550,9 +484,8 @@ namespace Aow.Units.PrdPlace
             }
             else
             {
-                var call__59 = FProductionControl.FQueue.GetItem(0);
-                var call__60 = FProductionControl.GetProductionNameProgressive(call__59);
-                Result = call__60;
+                var queue = FProductionControl.FQueue.GetItem(0);
+                Result = FProductionControl.GetProductionNameProgressive(queue);
             }
 
             return Result;
@@ -575,11 +508,10 @@ namespace Aow.Units.PrdPlace
                             }
                             else
                             {
-                                var call__61 = ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0);
-                                if (call__61)
+                                if (ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                                 {
-                                    var call__62 = AoWHSMap.FPlayers.GetPlayers(Info.Player);
-                                    Data.Priority = 50 + call__62.FIncome / 2;
+                                    var player = AoWHSMap.FPlayers.GetPlayers(Info.Player);
+                                    Data.Priority = 50 + player.FIncome / 2;
                                     if (Data.Priority < 25)
                                     {
                                         Data.Priority = 25;
@@ -618,29 +550,20 @@ namespace Aow.Units.PrdPlace
             base.Update();
             if (FIncomeSource != null && FPlayer >= 0)
             {
-                var call__63 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                call__63.UpdateIncome();
+                AoWHSMap.FPlayers.GetPlayers(FPlayer).UpdateIncome();
             }
 
             if (FPowerSource != null && FPlayer >= 0)
             {
-                var call__64 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                call__64.FMagicControl.Update();
+                AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.Update();
             }
         }
 
         // PrdPlace.pas:294
         public override bool CanDblClick()
         {
-            bool Result = default;
-            bool bool__65 = AoWHSMap.FSeatedPlayer != FPlayer;
-            if (!bool__65)
-            {
-                var call__66 = GetMagicSphere();
-                bool__65 = call__66 != TMagicSphere.msNone;
-            }
-
-            if (bool__65)
+            bool Result;
+            if (AoWHSMap.FSeatedPlayer != FPlayer || GetMagicSphere() != TMagicSphere.msNone)
             {
                 Result = false;
             }
@@ -662,20 +585,17 @@ namespace Aow.Units.PrdPlace
                 {
                     if (FPowerSource != null)
                     {
-                        var call__67 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__67.FMagicControl.UnregisterPowerSource(FPowerSource);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
                     }
 
                     if (FIncomeSource != null)
                     {
-                        var call__68 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__68.UnregisterIncomeSource(FIncomeSource);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
                     }
 
                     if (GetMagicSphere() == TMagicSphere.msNone)
                     {
-                        var call__69 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__69.FProductionControls.Remove(FProductionControl);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProductionControl);
                     }
                 }
 
@@ -684,20 +604,17 @@ namespace Aow.Units.PrdPlace
                 {
                     if (FPowerSource != null)
                     {
-                        var call__70 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__70.FMagicControl.RegisterPowerSource(FPowerSource);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
                     }
 
                     if (FIncomeSource != null)
                     {
-                        var call__71 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__71.RegisterIncomeSource(FIncomeSource);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
                     }
 
                     if (GetMagicSphere() == TMagicSphere.msNone)
                     {
-                        var call__72 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        call__72.FProductionControls.Add(FProductionControl);
+                        AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProductionControl);
                     }
                 }
             }
@@ -706,60 +623,28 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:375
         public override int GetIncome()
         {
-            int Result = default;
-            int Income = default;
+            int Income;
             Income = GetBaseIncome();
             if (GetMagicSphere() == TMagicSphere.msNone)
             {
-                bool bool__73 = FProductionControl.FStatus != TProductionControlStatus.pcsProducing;
-                if (!bool__73)
-                {
-                    var call__74 = FProductionControl.FQueue.GetItem(0);
-                    bool__73 = call__74.FProductionID == 10;
-                }
-
-                if (bool__73)
+                if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).FProductionID == 10)
                 {
                     Income += Round((double)Income * 0.25);
                 }
             }
 
-            Result = Income;
-            return Result;
+            return Income;
         }
 
         // PrdPlace.pas:358
         public override int GetPower()
         {
-            int Result = default;
+            int Result;
             // { The original tests msCosmos, rather than msNone, here. }
-            bool bool__75 = FPlayer > 0;
-            if (bool__75)
+            if (FPlayer > 0 && GetMagicSphere() != TMagicSphere.msCosmos && !GetRazed() && !GetBuilding())
             {
-                var call__76 = GetMagicSphere();
-                bool__75 = call__76 != TMagicSphere.msCosmos;
-            }
-
-            bool bool__77 = bool__75;
-            if (bool__77)
-            {
-                var call__78 = GetRazed();
-                bool__77 = !call__78;
-            }
-
-            bool bool__79 = bool__77;
-            if (bool__79)
-            {
-                var call__80 = GetBuilding();
-                bool__79 = !call__80;
-            }
-
-            if (bool__79)
-            {
-                var call__81 = GetMagicSphere();
-                var call__82 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__83 = call__82.FLeader.GetSpherePicks(call__81);
-                Result = call__83;
+                var magicSphere = GetMagicSphere();
+                Result = AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere);
                 if (Result != 0)
                 {
                     Result = Result * 5 + 10;
@@ -780,93 +665,63 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:543
         public override void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
         {
-            TProductionPlaceEventLog Log = default;
-            var call__84 = GetRazed();
-            bool bool__85 = !call__84;
-            if (bool__85)
-            {
-                var call__86 = GetBuilding();
-                bool__85 = !call__86;
-            }
-
-            if (bool__85 && OldPlayer == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) && Status.Contains(TMapObjectStatusElement.moActivated) && !((TPlayerStructureResource)Resource).FClaimed)
+            TProductionPlaceEventLog Log;
+            if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) && Status.Contains(TMapObjectStatusElement.moActivated) && !((TPlayerStructureResource)Resource).FClaimed)
             {
                 Log = new TProductionPlaceEventLog(null);
                 Log.FPlayer = NewPlayer;
-                var call__87 = EditName();
-                var call__88 = TranslateRStr(StructureCapturedRStr);
-                var call__89 = Rtl.Rtl.Format(call__88, [call__87]);
-                Log.FText = call__89;
-                var call__90 = Xhx;
-                Log.FXhx = call__90;
-                var call__91 = Yhx;
-                Log.FYhx = call__91;
+                var editName = EditName();
+                Log.FText = Rtl.Rtl.Format(TranslateRStr(StructureCapturedRStr), [editName]);
+                Log.FXhx = Xhx;
+                Log.FYhx = Yhx;
                 Log.FLhx = Lhx;
-                var call__92 = Yhx;
-                var call__93 = Xhx;
-                DistributeLocationEventLog(Log, FPlayer, call__93, call__92, Lhx, false);
+                var yhx = Yhx;
+                var xhx = Xhx;
+                DistributeLocationEventLog(Log, FPlayer, xhx, yhx, Lhx, false);
                 Log.Release();
             }
         }
 
         // PrdPlace.pas:300
-        public virtual TProductionPlaceControl CreateProductionControl()
-        {
-            TProductionPlaceControl Result = default;
-            Result = new TProductionPlaceControl(null);
-            return Result;
-        }
+        public virtual TProductionPlaceControl CreateProductionControl() => new TProductionPlaceControl(null);
 
         // PrdPlace.pas:625
         public virtual void GenerateDefenders()
         {
-            TArmyHS ArmyHS = default;
-            int Budget = default;
-            int Collection = default;
-            int I = default;
-            TUnitIndexList Units = default;
+            TArmyHS ArmyHS;
+            int Budget;
+            int Collection;
+            TUnitIndexList Units;
             if (FDefenderLevel != 0)
             {
                 if (FDefenderLevel == 4)
                 {
-                    var call__94 = AoWHSMap.Random(3);
-                    FDefenderLevel = (byte)(call__94 + 1);
+                    FDefenderLevel = (byte)(AoWHSMap.Random(3) + 1);
                 }
 
                 Budget = (FDefenderLevel - 2) * 25 + 25;
-                var call__95 = FOwner.FindOwnedChild(131607);
-                ArmyHS = (TArmyHS)call__95;
+                ArmyHS = (TArmyHS)FOwner.FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
-                    var call__96 = ArmyHS.FArmy.ObtainValue(255);
-                    Budget -= call__96;
+                    Budget -= ArmyHS.FArmy.ObtainValue(255);
                 }
 
                 if (Budget > 0)
                 {
-                    var call__97 = AoWHSMap.Random(1048575);
-                    RandSeed = call__97;
-                    var call__98 = ((TStructureResource)Resource).FDefenders.GetRndCollection();
-                    Collection = call__98;
+                    RandSeed = AoWHSMap.Random(1048575);
+                    Collection = ((TStructureResource)Resource).FDefenders.GetRndCollection();
                     if (Collection != -1)
                     {
                         Units = new TUnitIndexList();
                         var unitIndexListCollection = ((TStructureResource)Resource).FDefenders;
+                        for (int I = unitIndexListCollection.GetCollectionCount(Collection) - 1; I >= 0; I--)
                         {
-                            I = unitIndexListCollection.GetCollectionCount(Collection) - 1;
-                            byte end__100 = 0;
-                            for (; I >= end__100; I -= 1)
-                            {
-                                var call__101 = unitIndexListCollection.GetU(Collection, I);
-                                Units.Add(call__101);
-                            }
+                            Units.Add(unitIndexListCollection.GetU(Collection, I));
                         }
 
-                        var call__102 = Yhx;
-                        var call__103 = Xhx;
-                        PlaceRandomUnits(call__103, call__102, Lhx, 0, Units, 4, Budget, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature));
-                        var call__104 = ((TAoWMapField)FOwner).GetArmyHS();
-                        ArmyHS = call__104;
+                        var yhx = Yhx;
+                        PlaceRandomUnits(Xhx, yhx, Lhx, 0, Units, 4, Budget, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature));
+                        ArmyHS = ((TAoWMapField)FOwner).GetArmyHS();
                         if (ArmyHS != null && ArmyHS.FArmy.FPlayer == 0)
                         {
                             ArmyHS.FArmy.SetBehavior(255, TGroupBehavior.gbGuard);
@@ -881,15 +736,8 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:369
         public virtual int GetBaseIncome()
         {
-            int Result = default;
-            bool bool__105 = FRazedState != 1;
-            if (bool__105)
-            {
-                var call__106 = GetBuilding();
-                bool__105 = !call__106;
-            }
-
-            if (bool__105)
+            int Result;
+            if (FRazedState != 1 && !GetBuilding())
             {
                 Result = 10;
             }
@@ -902,17 +750,12 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:303
-        public virtual TMagicSphere GetMagicSphere()
-        {
-            TMagicSphere Result = default;
-            Result = TMagicSphere.msNone;
-            return Result;
-        }
+        public virtual TMagicSphere GetMagicSphere() => TMagicSphere.msNone;
 
         // PrdPlace.pas:453
         public virtual AnsiString GetProductionName(TProductionItem Item)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (Item.FProductionID == 10)
             {
                 if (GetMagicSphere() != TMagicSphere.msNone)
@@ -935,7 +778,7 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:461
         public virtual AnsiString GetProductionNameProgressive(TProductionItem Item)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (Item.FProductionID == 10)
             {
                 if (GetMagicSphere() != TMagicSphere.msNone)
@@ -958,35 +801,17 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:403
         public virtual void ListIncomeInfo(TStrings Names, TStrings Values)
         {
-            int Picks = default;
+            int Picks;
             if (GetMagicSphere() == TMagicSphere.msNone)
             {
                 if (GetBaseIncome() > 0)
                 {
-                    var call__107 = TranslateRStr(BaseIncomeRStr);
-                    Names.Add(call__107);
-                    var call__108 = GetBaseIncome();
-                    Values.Add(IntToStr(call__108));
-                    bool bool__109 = FProductionControl.FStatus != TProductionControlStatus.pcsProducing;
-                    if (!bool__109)
+                    Names.Add(TranslateRStr(BaseIncomeRStr));
+                    Values.Add(IntToStr(GetBaseIncome()));
+                    if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).FProductionID == 10 && GetBaseIncome() > 0)
                     {
-                        var call__110 = FProductionControl.FQueue.GetItem(0);
-                        bool bool__111 = call__110.FProductionID == 10;
-                        if (bool__111)
-                        {
-                            var call__112 = GetBaseIncome();
-                            bool__111 = call__112 > 0;
-                        }
-
-                        bool__109 = bool__111;
-                    }
-
-                    if (bool__109)
-                    {
-                        var call__113 = TranslateRStr(ProducingMerchandiseRStr);
-                        Names.Add(call__113);
-                        var call__114 = GetBaseIncome();
-                        Values.Add(IntToStr(Round((double)call__114 * 0.25)));
+                        Names.Add(TranslateRStr(ProducingMerchandiseRStr));
+                        Values.Add(IntToStr(Round((double)GetBaseIncome() * 0.25)));
                     }
                 }
             }
@@ -994,27 +819,15 @@ namespace Aow.Units.PrdPlace
             {
                 if (FPlayer > 0)
                 {
-                    var call__115 = GetMagicSphere();
-                    var call__116 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                    var call__117 = call__116.FLeader.GetSpherePicks(call__115);
-                    Picks = call__117;
-                    var call__118 = GetMagicSphere();
-                    var call__119 = TranslateRStr(TMagicSphereRStr[(int)call__118]);
-                    var call__120 = TranslateRStr(XtimeYSphereRStr);
-                    var call__121 = Rtl.Rtl.Format(call__120, [IntToStr(Picks), LowerCase(call__119)]);
-                    Names.Add(call__121);
+                    var magicSphere = GetMagicSphere();
+                    Picks = AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere);
+                    var magicSphere2 = GetMagicSphere();
+                    var magicSphere3 = TranslateRStr(TMagicSphereRStr[(int)magicSphere2]);
+                    Names.Add(Rtl.Rtl.Format(TranslateRStr(XtimeYSphereRStr), [IntToStr(Picks), LowerCase(magicSphere3)]));
                     Values.Add(IntToStr(Picks * 5));
-                    bool bool__122 = FProductionControl.FStatus != TProductionControlStatus.pcsProducing;
-                    if (!bool__122)
+                    if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).FProductionID == 10)
                     {
-                        var call__123 = FProductionControl.FQueue.GetItem(0);
-                        bool__122 = call__123.FProductionID == 10;
-                    }
-
-                    if (bool__122)
-                    {
-                        var call__124 = TranslateRStr(ExtraPowerRStr);
-                        Names.Add(call__124);
+                        Names.Add(TranslateRStr(ExtraPowerRStr));
                         Values.Add(IntToStr(Round((double)(Picks * 5) * 0.25)));
                     }
                 }
@@ -1024,13 +837,12 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:306
         public void MasterySpellCast(sbyte Player, TMagicSphere Sphere)
         {
-            int UnitIndex = default;
-            TUnit AUnit = default;
-            TArmyHS ArmyHS = default;
-            TUnitEnchantment Enchantment = default;
-            TImageSequenceAnimation Animation = default;
-            var call__125 = GetMagicSphere();
-            if (Sphere == call__125 && FPlayer > 0)
+            int UnitIndex;
+            TUnit AUnit;
+            TArmyHS ArmyHS;
+            TUnitEnchantment Enchantment;
+            TImageSequenceAnimation Animation;
+            if (Sphere == GetMagicSphere() && FPlayer > 0)
             {
                 switch (Sphere)
                 {
@@ -1060,40 +872,29 @@ namespace Aow.Units.PrdPlace
                 if (UnitIndex != -1)
                 {
                     AUnit = new TUnit(null);
-                    var call__126 = AoWHSSet.FUnitResources.GetUnitResource(UnitIndex);
-                    AUnit.SetUnitResource(call__126);
+                    AUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(UnitIndex));
                     AUnit.SetPlayer(FPlayer);
-                    var call__127 = Yhx;
-                    var call__128 = Xhx;
-                    var call__129 = AUnit.Place(call__128, call__127, Lhx, FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
-                    ArmyHS = call__129;
+                    var yhx = Yhx;
+                    ArmyHS = AUnit.Place(Xhx, yhx, Lhx, FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
                     if (ArmyHS != null)
                     {
                         if (AUnit.ExpandAbility(155))
                         {
-                            var call__130 = AUnit.GetAbilityData(155);
-                            Enchantment = ((TUnitEnchantmentAbilityData)call__130).FEnchantment;
-                            var call__131 = AoWHSSet.FSpellControl.GetSpell(155);
-                            var call__132 = ((TSummonedAbility)(object)call__131).GetDefaultManaUpkeep(AUnit);
-                            Enchantment.SetUpkeep(call__132);
+                            Enchantment = ((TUnitEnchantmentAbilityData)AUnit.GetAbilityData(155)).FEnchantment;
+                            Enchantment.SetUpkeep(((TSummonedAbility)(object)AoWHSSet.FSpellControl.GetSpell(155)).GetDefaultManaUpkeep(AUnit));
                             Enchantment.SetSource(FPlayer);
-                            var call__133 = AoWHSSet.FSpellControl.GetSpell(155);
-                            var call__134 = ((TSummonedAbility)(object)call__133).GetDefaultDispelResistance(AUnit);
-                            Enchantment.FDispelResistance = (sbyte)call__134;
+                            Enchantment.FDispelResistance = (sbyte)((TSummonedAbility)(object)AoWHSSet.FSpellControl.GetSpell(155)).GetDefaultDispelResistance(AUnit);
                         }
 
-                        var call__135 = ArmyHS.Yhx;
-                        var call__136 = ArmyHS.Xhx;
-                        var call__137 = AoWHSMap.Visible(call__136, call__135, ArmyHS.Lhx, 0);
-                        if (call__137)
+                        var armyHSYhx = ArmyHS.Yhx;
+                        var xhx = ArmyHS.Xhx;
+                        if (AoWHSMap.Visible(xhx, armyHSYhx, ArmyHS.Lhx, 0))
                         {
                             Animation = new TImageSequenceAnimation(null);
-                            var call__138 = AoWHSSet.FSpellControl.GetSpell(29);
-                            var call__139 = call__138.FCastImages.GetImageSequence(0);
-                            Animation.SetImageSequence(call__139);
-                            var call__140 = Yhx;
-                            var call__141 = Xhx;
-                            AoWHSMap.PlaceHX(Animation, call__141, call__140, Lhx);
+                            Animation.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(29).FCastImages.GetImageSequence(0));
+                            var yhx2 = Yhx;
+                            var xhx2 = Xhx;
+                            AoWHSMap.PlaceHX(Animation, xhx2, yhx2, Lhx);
                         }
                     }
 
@@ -1103,105 +904,43 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:469
-        public bool CanProduce(int Index, bool Queue, ref AnsiString Reason)
-        {
-            bool Result = default;
-            var call__142 = FProductionControl.CanProduceUnit(Index, Queue, ref Reason);
-            Result = call__142;
-            return Result;
-        }
+        public bool CanProduce(int Index, bool Queue, ref AnsiString Reason) => FProductionControl.CanProduceUnit(Index, Queue, ref Reason);
 
         // PrdPlace.pas:472
-        public bool Produce(int Index, bool Queue)
-        {
-            bool Result = default;
-            var call__143 = FProductionControl.ProduceUnit(Index, Queue);
-            Result = call__143;
-            return Result;
-        }
+        public bool Produce(int Index, bool Queue) => FProductionControl.ProduceUnit(Index, Queue);
 
         // PrdPlace.pas:475
-        public int ProductionGold(int Index)
-        {
-            int Result = default;
-            var call__144 = FProductionControl.UnitProductionGold(Index);
-            Result = call__144;
-            return Result;
-        }
+        public int ProductionGold(int Index) => FProductionControl.UnitProductionGold(Index);
 
         // PrdPlace.pas:478
-        public int ProductionMana(int Index)
-        {
-            int Result = default;
-            var call__145 = FProductionControl.UnitProductionMana(Index);
-            Result = call__145;
-            return Result;
-        }
+        public int ProductionMana(int Index) => FProductionControl.UnitProductionMana(Index);
 
         // PrdPlace.pas:481
-        public int ProductionTime(int Index)
-        {
-            int Result = default;
-            var call__146 = FProductionControl.UnitProductionTime(Index);
-            Result = call__146;
-            return Result;
-        }
+        public int ProductionTime(int Index) => FProductionControl.UnitProductionTime(Index);
 
         // PrdPlace.pas:484
-        public bool CanResearch(int Index, bool Queue, ref AnsiString Reason)
-        {
-            bool Result = default;
-            var call__147 = FProductionControl.CanResearchUnit(Index, Queue, ref Reason);
-            Result = call__147;
-            return Result;
-        }
+        public bool CanResearch(int Index, bool Queue, ref AnsiString Reason) => FProductionControl.CanResearchUnit(Index, Queue, ref Reason);
 
         // PrdPlace.pas:487
-        public bool Research(int Index, bool Queue)
-        {
-            bool Result = default;
-            var call__148 = FProductionControl.ResearchUnit(Index, Queue);
-            Result = call__148;
-            return Result;
-        }
+        public bool Research(int Index, bool Queue) => FProductionControl.ResearchUnit(Index, Queue);
 
         // PrdPlace.pas:490
-        public int ResearchGold(int Index)
-        {
-            int Result = default;
-            var call__149 = FProductionControl.UnitResearchGold(Index);
-            Result = call__149;
-            return Result;
-        }
+        public int ResearchGold(int Index) => FProductionControl.UnitResearchGold(Index);
 
         // PrdPlace.pas:493
-        public int ResearchMana(int Index)
-        {
-            int Result = default;
-            var call__150 = FProductionControl.UnitResearchMana(Index);
-            Result = call__150;
-            return Result;
-        }
+        public int ResearchMana(int Index) => FProductionControl.UnitResearchMana(Index);
 
         // PrdPlace.pas:496
-        public int ResearchTime(int Index)
-        {
-            int Result = default;
-            var call__151 = FProductionControl.UnitResearchTime(Index);
-            Result = call__151;
-            return Result;
-        }
+        public int ResearchTime(int Index) => FProductionControl.UnitResearchTime(Index);
 
         // PrdPlace.pas:499
         public bool CanTrade(bool Queue, ref AnsiString Reason)
         {
-            bool Result = default;
+            bool Result;
             if (GetMagicSphere() != TMagicSphere.msNone)
             {
-                var call__152 = GetMagicSphere();
-                var call__153 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__154 = call__153.FLeader.GetSpherePicks(call__152);
-                if (call__154 > 0)
+                var magicSphere = GetMagicSphere();
+                if (AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere) > 0)
                 {
                     Result = true;
                 }
@@ -1222,19 +961,10 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:511
         public bool Trade(bool Queue)
         {
-            bool Result = default;
-            TProductionItem Item = default;
+            bool Result;
+            TProductionItem Item;
             AnsiString Reason = default;
-            var call__155 = CanTrade(Queue, ref Reason);
-            bool bool__156 = call__155;
-            if (bool__156)
-            {
-                var call__157 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__158 = call__157.GetBusy();
-                bool__156 = !call__158;
-            }
-
-            if (bool__156)
+            if (CanTrade(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 Item = new TProductionItem(null);
                 Item.FProductionID = 10;
@@ -1262,25 +992,19 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:671
         public void ResetProductions()
         {
-            int I = default;
-            TProductionPlaceResource R = default;
+            TProductionPlaceResource R;
             FProductionControl.FUnitProductions.Clear();
             if (GetMagicSphere() == TMagicSphere.msNone)
             {
                 R = (TProductionPlaceResource)Resource;
+                for (int I = 0, last = R.FUnits.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__159 = R.FUnits.Count - 1;
-                    for (; I <= end__159; I += 1)
-                    {
-                        var call__160 = R.FUnits[I];
-                        FProductionControl.FUnitProductions.Add(call__160, false);
-                    }
+                    var unit = R.FUnits[I];
+                    FProductionControl.FUnitProductions.Add(unit, false);
                 }
 
                 FProductionControl.FUnitProductions.SortOnLevel();
-                var call__161 = FProductionControl.FUnitProductions.GetItem(0);
-                call__161.FResearched = true;
+                FProductionControl.FUnitProductions.GetItem(0).FResearched = true;
             }
         }
 
@@ -1295,8 +1019,7 @@ namespace Aow.Units.PrdPlace
         public TProductionPlaceResource(TECustomNode owner) : base(owner)
         {
             FClaimed = false;
-            var call__162 = new TUnitIndexList();
-            FUnits = call__162;
+            FUnits = new TUnitIndexList();
             FRazeable = true;
         }
 
@@ -1324,9 +1047,7 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:724
         public override EditorClass Editor()
         {
-            EditorClass Result = default;
-            var call__163 = Engine.Editors.FindEditor(132027);
-            Result = call__163;
+            EditorClass Result = Engine.Editors.FindEditor(132027);
             if (Result == null)
             {
                 Result = base.Editor();
@@ -1336,23 +1057,13 @@ namespace Aow.Units.PrdPlace
         }
 
         // PrdPlace.pas:721
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132026;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132026;
 
         // PrdPlace.pas:100
 
 
         // PrdPlace.pas:715
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"";
 
     }
 
@@ -1367,8 +1078,7 @@ namespace Aow.Units.PrdPlace
         // PrdPlace.pas:744
         public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
         {
-            bool Result = default;
-            TProductionPlace Place = default;
+            TProductionPlace Place;
             if (Trigger == TExecuteTrigger.etUser)
             {
                 Place = GetProductionPlace();
@@ -1379,19 +1089,11 @@ namespace Aow.Units.PrdPlace
                 }
             }
 
-            Result = false;
-            return Result;
+            return false;
         }
 
         // PrdPlace.pas:739
-        public TProductionPlace GetProductionPlace()
-        {
-            TProductionPlace Result = default;
-            var call__164 = AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx);
-            var call__165 = call__164.FindNoneTransparentHS(typeof(TProductionPlace));
-            Result = (TProductionPlace)call__165;
-            return Result;
-        }
+        public TProductionPlace GetProductionPlace() => (TProductionPlace)AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx).FindNoneTransparentHS(typeof(TProductionPlace));
 
     }
 

@@ -29,7 +29,6 @@ namespace Aow.Units.PageTurnCtrl
         // PageTurnCtrl.pas:51
         public TPageTurnControl()
         {
-            ;
             FScale = (float)0.5;
             FSpeed = 2;
             FShade = (float)2;
@@ -47,7 +46,7 @@ namespace Aow.Units.PageTurnCtrl
         // PageTurnCtrl.pas:67
         public float GetInvCos(float Value)
         {
-            float Result = default;
+            float Result;
             Assert((double)Value >= -1 && (double)Value <= 1, (AnsiString)"", "PageTurnCtrl.pas", 85);
             if ((double)Value >= 0)
             {
@@ -55,8 +54,8 @@ namespace Aow.Units.PageTurnCtrl
             }
             else
             {
-                var call__1 = Math.PI;
-                Result = (float)((double)call__1 - FInvCos[Round((double)-Value * 511)]);
+                var pi = Math.PI;
+                Result = (float)((double)pi - FInvCos[Round((double)-Value * 511)]);
             }
 
             return Result;
@@ -65,10 +64,10 @@ namespace Aow.Units.PageTurnCtrl
         // PageTurnCtrl.pas:90
         public void GenerateInvCosTable()
         {
-            float CosValue = default;
-            float Angle = default;
-            float Target = default;
-            int I = default;
+            float CosValue;
+            float Angle;
+            float Target;
+            int I;
             Angle = 0;
             I = 511;
             while ((double)Angle < (double)Math.PI / 2)
@@ -91,12 +90,12 @@ namespace Aow.Units.PageTurnCtrl
         // PageTurnCtrl.pas:119
         public void BltVerticalScanLine(int SourceX, int DestX, int DestY, in TSurfaceDesc Dest, int Top, int Bottom)
         {
-            int SourceY = default;
-            int Height = default;
-            int Y = default;
-            object SourceP = default;
-            object DestP = default;
-            int SourcePitch = default;
+            int SourceY;
+            int Height;
+            int Y;
+            object SourceP;
+            object DestP;
+            int SourcePitch;
             if (Dest.ClipRect.Left <= DestX && DestX < Dest.ClipRect.Right)
             {
                 SourceY = Top;
@@ -161,7 +160,7 @@ namespace Aow.Units.PageTurnCtrl
         // PageTurnCtrl.pas:164
         public bool UpdateScene()
         {
-            bool Result = default;
+            bool Result;
             switch (FMode)
             {
                 case TPageTurnMode.ptLeft:
@@ -178,8 +177,8 @@ namespace Aow.Units.PageTurnCtrl
                     {
                         if ((double)FRadius > 0)
                         {
-                            var call__2 = Math.PI;
-                            FRadius = (float)((double)FRadius - (double)((double)((double)FSpeed * 1.25) * 2) / call__2);
+                            var pi = Math.PI;
+                            FRadius = (float)((double)FRadius - (double)((double)((double)FSpeed * 1.25) * 2) / pi);
                             if ((double)FRadius < 1)
                             {
                                 FRadius = 0;
@@ -195,8 +194,8 @@ namespace Aow.Units.PageTurnCtrl
                     FShade = (float)2;
                     if ((double)FRadius < FHalfWidth)
                     {
-                        var call__3 = Math.PI;
-                        FRadius = (float)((double)FRadius + (double)((double)((double)FSpeed * 1.5) * 2) / call__3);
+                        var pi = Math.PI;
+                        FRadius = (float)((double)FRadius + (double)((double)((double)FSpeed * 1.5) * 2) / pi);
                         if ((double)FRadius > FHalfWidth)
                         {
                             FRadius = FHalfWidth;
@@ -244,22 +243,22 @@ namespace Aow.Units.PageTurnCtrl
         // PageTurnCtrl.pas:215
         public void RenderLeftRightScene(int X, int Y, in TSurfaceDesc Dest)
         {
-            int OriginalLength = default;
-            int Offset = default;
-            int BaseX = default;
-            int Span = default;
-            float Step = default;
-            float Angle = default;
-            float CosValue = default;
-            float Height = default;
-            float Width = default;
-            float RadiusFactor = default;
-            int ArcLength = default;
-            int SourceBase = default;
-            int Limit = default;
+            int OriginalLength;
+            int Offset;
+            int BaseX;
+            int Span;
+            float Step;
+            float Angle;
+            float CosValue;
+            float Height;
+            float Width;
+            float RadiusFactor;
+            int ArcLength;
+            int SourceBase;
+            int Limit;
             TRect R = default;
-            int SourceOffset = default;
-            int I = default;
+            int SourceOffset;
+            int I;
             if ((double)FRadius >= 1)
             {
                 Height = (float)((double)FShadow * FScale);
@@ -274,10 +273,10 @@ namespace Aow.Units.PageTurnCtrl
                 R.Right = FWidth * 2 + FSourceX2;
                 R.Bottom = FSourceY2 + FHeight;
                 BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
-                var call__4 = Math.PI;
-                OriginalLength = Round((double)((double)call__4 * FRadius) * 0.25);
-                var call__5 = Math.PI;
-                ArcLength = Round((double)((double)call__5 * FRadius) * 0.25);
+                var pi = Math.PI;
+                OriginalLength = Round((double)((double)pi * FRadius) * 0.25);
+                var mathPI = Math.PI;
+                ArcLength = Round((double)((double)mathPI * FRadius) * 0.25);
                 SourceBase = FWidth + FPosition;
                 RadiusFactor = (float)((double)((double)2 / Math.PI) * ArcLength);
                 BaseX = X + FWidth + FPosition;
@@ -308,8 +307,8 @@ namespace Aow.Units.PageTurnCtrl
                     I += 1;
                 }
 
-                var call__6 = Math.PI;
-                ArcLength = Round((double)((double)call__6 * FRadius) * 0.25);
+                var pi2 = Math.PI;
+                ArcLength = Round((double)((double)pi2 * FRadius) * 0.25);
                 SourceBase = FWidth * 3 - FPosition - ArcLength;
                 RadiusFactor = (float)((double)((double)2 / Math.PI) * ArcLength);
                 BaseX = X + FWidth + FPosition;
@@ -331,8 +330,8 @@ namespace Aow.Units.PageTurnCtrl
                     I -= 1;
                 }
 
-                var call__7 = Math.PI;
-                ArcLength = Round((double)((double)((double)call__7 * FRadius) * 0.25) * FShade);
+                var pi3 = Math.PI;
+                ArcLength = Round((double)((double)((double)pi3 * FRadius) * 0.25) * FShade);
                 SourceBase = FWidth * 3 - FPosition - OriginalLength * 2 - ArcLength;
                 Span = Round((double)FShadow * FShade);
                 BaseX = X + FWidth + FPosition - Span;
@@ -351,9 +350,9 @@ namespace Aow.Units.PageTurnCtrl
                 while (SourceOffset >= Limit && I >= 0)
                 {
                     Angle = GetInvCos(CosValue);
-                    var call__8 = Math.PI;
-                    var call__9 = Math.PI;
-                    SourceOffset = Round((double)((double)ArcLength * ((double)Angle - (double)call__8 / 4)) * ((double)4 / call__9));
+                    var pi4 = Math.PI;
+                    var pi5 = Math.PI;
+                    SourceOffset = Round((double)((double)ArcLength * ((double)Angle - (double)pi4 / 4)) * ((double)4 / pi5));
                     Offset = Round((double)((double)Math.Sin(Angle) * Height) - Width);
                     if (SourceOffset >= Limit)
                     {
@@ -371,9 +370,9 @@ namespace Aow.Units.PageTurnCtrl
                 {
                     CosValue = (float)((double)CosValue - Step);
                     Angle = GetInvCos(CosValue);
-                    var call__10 = Math.PI;
-                    var call__11 = Math.PI;
-                    SourceOffset = -Round((double)((double)ArcLength * ((double)4 / call__10)) * ((double)Angle - (double)call__11 / 4));
+                    var pi4 = Math.PI;
+                    var pi5 = Math.PI;
+                    SourceOffset = -Round((double)((double)ArcLength * ((double)4 / pi4)) * ((double)Angle - (double)pi5 / 4));
                     Offset = Round((double)((double)1 - Math.Sin(Angle)) * Height);
                     if (SourceOffset >= Limit)
                     {
@@ -397,41 +396,34 @@ namespace Aow.Units.PageTurnCtrl
         // PageTurnCtrl.pas:324
         public void RenderOpenCloseScene(int X, int Y, in TSurfaceDesc Dest)
         {
-            int BaseX = default;
-            int Height = default;
-            int Width = default;
-            float Step = default;
-            float SourceX = default;
-            int Offset = default;
+            int BaseX;
+            int Height;
+            int Width;
+            float Step;
+            float SourceX;
+            int Offset;
             TRect R = default;
-            int I = default;
-            int PageWidth = default;
+            int PageWidth;
             R.Left = FSourceX2 + FWidth;
             R.Top = FSourceY2;
             R.Right = FSourceX2 + FWidth * 2;
             R.Bottom = FSourceY2 + FHeight;
             BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
-            var call__12 = Math.PI;
-            var call__13 = Math.Sin((double)((double)FPosition * call__12) / 180);
-            Height = Round((double)call__13 * FWidth);
-            var call__14 = Math.PI;
-            var call__15 = Math.Cos((double)((double)FPosition * call__14) / 180);
-            Width = Round((double)call__15 * FWidth);
+            var pi = Math.PI;
+            Height = Round((double)Math.Sin((double)((double)FPosition * pi) / 180) * FWidth);
+            var mathPI = Math.PI;
+            Width = Round((double)Math.Cos((double)((double)FPosition * mathPI) / 180) * FWidth);
             if (Width > 0)
             {
                 Step = (float)((double)FWidth / Width);
                 BaseX = X + FWidth;
                 PageWidth = FWidth;
                 SourceX = PageWidth;
+                for (int I = 0; I <= Width - 1; I++)
                 {
-                    I = 0;
-                    int end__16 = Width - 1;
-                    for (; I <= end__16; I += 1)
-                    {
-                        Offset = Round((double)((double)((double)I / Width) * Height) * FScale);
-                        BltVerticalScanLine(Round(SourceX), BaseX + I, Y - Offset, Dest, 0, FHeight);
-                        SourceX = (float)((double)SourceX + Step);
-                    }
+                    Offset = Round((double)((double)((double)I / Width) * Height) * FScale);
+                    BltVerticalScanLine(Round(SourceX), BaseX + I, Y - Offset, Dest, 0, FHeight);
+                    SourceX = (float)((double)SourceX + Step);
                 }
             }
             else
@@ -442,15 +434,11 @@ namespace Aow.Units.PageTurnCtrl
                     Step = (float)((double)FWidth / Width);
                     BaseX = X + FWidth;
                     SourceX = FWidth * 3;
+                    for (int I = 0; I <= Width - 1; I++)
                     {
-                        I = 0;
-                        int end__17 = Width - 1;
-                        for (; I <= end__17; I += 1)
-                        {
-                            Offset = Round((double)((double)((double)I / Width) * Height) * FScale);
-                            BltVerticalScanLine(Round(SourceX), BaseX - I, Y - Offset, Dest, 0, FHeight);
-                            SourceX = (float)((double)SourceX - Step);
-                        }
+                        Offset = Round((double)((double)((double)I / Width) * Height) * FScale);
+                        BltVerticalScanLine(Round(SourceX), BaseX - I, Y - Offset, Dest, 0, FHeight);
+                        SourceX = (float)((double)SourceX - Step);
                     }
                 }
             }
@@ -497,9 +485,9 @@ namespace Aow.Units.PageTurnCtrl
                     RenderOpenCloseScene(X, Y, Dest);
                     R.Left = X;
                     R.Right = X + FWidth * 2;
-                    var call__18 = Math.PI;
-                    var call__19 = Math.Sin((double)((double)FPosition * call__18) / 180);
-                    R.Top = Y - Round((double)((double)((double)call__19 * FScale) * FWidth) + 1);
+                    var pi = Math.PI;
+                    var sin = Math.Sin((double)((double)FPosition * pi) / 180);
+                    R.Top = Y - Round((double)((double)((double)sin * FScale) * FWidth) + 1);
                     R.Bottom = Y + FHeight;
                     break;
                 case TPageTurnMode.ptClose:
@@ -512,9 +500,9 @@ namespace Aow.Units.PageTurnCtrl
                     RenderOpenCloseScene(X, Y, Dest);
                     R.Left = X;
                     R.Right = X + FWidth * 2;
-                    var call__20 = Math.PI;
-                    var call__21 = Math.Sin((double)((double)FPosition * call__20) / 180);
-                    R.Top = Y - Round((double)((double)((double)call__21 * FScale) * FWidth) + 1);
+                    var mathPI = Math.PI;
+                    var mathSin = Math.Sin((double)((double)FPosition * mathPI) / 180);
+                    R.Top = Y - Round((double)((double)((double)mathSin * FScale) * FWidth) + 1);
                     R.Bottom = Y + FHeight;
                     break;
             }
@@ -537,10 +525,8 @@ namespace Aow.Units.PageTurnCtrl
         {
             while (Height > 0)
             {
-                {
-                    ushort value__22 = MemoryMarshal.Read<ushort>(BytePointer(Source).AsSpan(2));
-                    MemoryMarshal.Write(BytePointer(Dest).AsSpan(2), in value__22);
-                }
+                ushort value__22 = MemoryMarshal.Read<ushort>(BytePointer(Source).AsSpan(2));
+                MemoryMarshal.Write(BytePointer(Dest).AsSpan(2), in value__22);
 
                 Source = (BytePointer(Source) + SourcePitch).Box();
                 Dest = (BytePointer(Dest) + DestPitch).Box();

@@ -66,8 +66,7 @@ namespace Aow.Units.FMemStr
         {
             if (Buffer.IsEmpty) return 0;
             int Count = Buffer.Length;
-            int Result = default;
-            Result = FSize - FPosition;
+            int Result = FSize - FPosition;
             if (Result > 0)
             {
                 if (Result > Count)
@@ -77,28 +76,22 @@ namespace Aow.Units.FMemStr
 
                 if (Count == 4)
                 {
-                    {
-                        int value__3 = MemoryMarshal.Read<int>(FMemory.AsSpan(FPosition, 4));
-                        MemoryMarshal.Write(Buffer, in value__3);
-                    }
+                    int value__3 = MemoryMarshal.Read<int>(FMemory.AsSpan(FPosition, 4));
+                    MemoryMarshal.Write(Buffer, in value__3);
                 }
                 else
                 {
                     if (Count == 1)
                     {
-                        {
-                            byte value__4 = MemoryMarshal.Read<byte>(FMemory.AsSpan(FPosition, 1));
-                            MemoryMarshal.Write(Buffer, in value__4);
-                        }
+                        byte value__4 = MemoryMarshal.Read<byte>(FMemory.AsSpan(FPosition, 1));
+                        MemoryMarshal.Write(Buffer, in value__4);
                     }
                     else
                     {
                         if (Count == 2)
                         {
-                            {
-                                ushort value__5 = MemoryMarshal.Read<ushort>(FMemory.AsSpan(FPosition, 2));
-                                MemoryMarshal.Write(Buffer, in value__5);
-                            }
+                            ushort value__5 = MemoryMarshal.Read<ushort>(FMemory.AsSpan(FPosition, 2));
+                            MemoryMarshal.Write(Buffer, in value__5);
                         }
                         else
                         {
@@ -111,16 +104,14 @@ namespace Aow.Units.FMemStr
                 return Result;
             }
 
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         // FMemStr.pas:159
         public override int Write(ReadOnlySpan<byte> Buffer)
         {
             int Count = Buffer.Length;
-            int Result = default;
-            int Pos = default;
+            int Pos;
             if (FPosition >= 0 && Count >= 0)
             {
                 Pos = FPosition + Count;
@@ -138,28 +129,22 @@ namespace Aow.Units.FMemStr
 
                     if (Count == 4)
                     {
-                        {
-                            int value__6 = MemoryMarshal.Read<int>(Buffer);
-                            MemoryMarshal.Write(FMemory.AsSpan(FPosition, 4), in value__6);
-                        }
+                        int value__6 = MemoryMarshal.Read<int>(Buffer);
+                        MemoryMarshal.Write(FMemory.AsSpan(FPosition, 4), in value__6);
                     }
                     else
                     {
                         if (Count == 1)
                         {
-                            {
-                                byte value__7 = MemoryMarshal.Read<byte>(Buffer);
-                                MemoryMarshal.Write(FMemory.AsSpan(FPosition, 1), in value__7);
-                            }
+                            byte value__7 = MemoryMarshal.Read<byte>(Buffer);
+                            MemoryMarshal.Write(FMemory.AsSpan(FPosition, 1), in value__7);
                         }
                         else
                         {
                             if (Count == 2)
                             {
-                                {
-                                    ushort value__8 = MemoryMarshal.Read<ushort>(Buffer);
-                                    MemoryMarshal.Write(FMemory.AsSpan(FPosition, 2), in value__8);
-                                }
+                                ushort value__8 = MemoryMarshal.Read<ushort>(Buffer);
+                                MemoryMarshal.Write(FMemory.AsSpan(FPosition, 2), in value__8);
                             }
                             else
                             {
@@ -170,19 +155,16 @@ namespace Aow.Units.FMemStr
                     }
 
                     FPosition = Pos;
-                    Result = Count;
-                    return Result;
+                    return Count;
                 }
             }
 
-            Result = 0;
-            return Result;
+            return 0;
         }
 
         // FMemStr.pas:63
         public override int Seek(int Offset, int Origin)
         {
-            int Result = default;
             switch (Origin)
             {
                 case 0:
@@ -196,8 +178,7 @@ namespace Aow.Units.FMemStr
                     break;
             }
 
-            Result = FPosition;
-            return Result;
+            return FPosition;
         }
 
         // FMemStr.pas:96
@@ -211,10 +192,9 @@ namespace Aow.Units.FMemStr
         // FMemStr.pas:103
         public void LoadFromStream(TStream Stream)
         {
-            int Count = default;
+            int Count;
             Stream.Position = 0;
-            var call__9 = Stream.Size;
-            Count = call__9;
+            Count = Stream.Size;
             SetSize(Count);
             if (Count != 0)
             {
@@ -225,7 +205,7 @@ namespace Aow.Units.FMemStr
         // FMemStr.pas:113
         public void LoadFromFile(AnsiString FileName)
         {
-            TStream Stream = default;
+            TStream Stream;
             Stream = new TFileStream(FileName, 0);
             try
             {
@@ -249,7 +229,7 @@ namespace Aow.Units.FMemStr
         // FMemStr.pas:78
         public void SaveToFile(AnsiString FileName)
         {
-            TStream Stream = default;
+            TStream Stream;
             Stream = new TFileStream(FileName, 65535);
             try
             {

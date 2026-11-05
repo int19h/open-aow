@@ -48,8 +48,7 @@ namespace Aow.Units.OverviewUnit
             if (FUnit != null)
             {
                 FUnit.AddRef();
-                var call__1 = FUnit.GetUnitGFXResourceIndex();
-                SetUnitGFXResourceIndex(call__1);
+                SetUnitGFXResourceIndex(FUnit.GetUnitGFXResourceIndex());
             }
         }
 
@@ -62,32 +61,26 @@ namespace Aow.Units.OverviewUnit
         // OverviewUnit.pas:57
         public static void PlaceOverviewUnit(TAoWCombatMap Map, TAbstractUnit U, int Position, int Index)
         {
-            TOverviewUnitHS HS = default;
-            sbyte Overlay = default;
-            TTacticalCombatUnitHS Occupant = default;
-            int X0 = default;
-            int Y0 = default;
+            TOverviewUnitHS HS;
+            sbyte Overlay;
+            TTacticalCombatUnitHS Occupant;
+            int X0;
+            int Y0;
             int X = default;
             int Y = default;
-            int I = default;
-            TXYL P = default;
+            int I;
+            TXYL P;
             HS = new TOverviewUnitHS(null);
             HS.SetU(U);
-            var call__2 = Map.FUnitPositions.GetUnitPosition(Position, Index);
-            P = call__2;
+            P = Map.FUnitPositions.GetUnitPosition(Position, Index);
             X0 = P.X;
             Y0 = P.Y;
             I = 0;
             do
             {
                 CenterHNtoHX(X0, Y0, I, ref X, ref Y);
-                var call__3 = AoWCombatMap.MapContainer.MapLevels[0];
-                var call__4 = call__3.Field[X, Y];
-                Overlay = call__4.OverlayType;
-                var call__5 = AoWCombatMap.MapContainer.MapLevels[0];
-                var call__6 = call__5.Field[X, Y];
-                var call__7 = call__6.FindOwnedChild(2228484);
-                Occupant = (TTacticalCombatUnitHS)call__7;
+                Overlay = AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].OverlayType;
+                Occupant = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                 I += 1;
             }
             while (!(Overlay != 8 && Occupant == null));

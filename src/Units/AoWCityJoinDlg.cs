@@ -42,8 +42,8 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:55
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TNegotiateRequestEventLog Log = default;
+            TExecuteDoneEvent Done;
+            TNegotiateRequestEventLog Log;
             Done = FDone;
             Log = FEvent;
             FDone = null;
@@ -64,8 +64,7 @@ namespace Aow.Units.AoWCityJoinDlg
         {
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__1 = FEvent.Accept(ref Reason);
-            if (!call__1)
+            if (!FEvent.Accept(ref Reason))
             {
                 AoWHSMap.ShowWarning(Reason);
             }
@@ -80,8 +79,7 @@ namespace Aow.Units.AoWCityJoinDlg
         {
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__2 = FEvent.Reject(ref Reason);
-            if (!call__2)
+            if (!FEvent.Reject(ref Reason))
             {
                 AoWHSMap.ShowWarning(Reason);
             }
@@ -101,10 +99,8 @@ namespace Aow.Units.AoWCityJoinDlg
         // AoWCityJoinDlg.pas:93
         public void DlgDrawBack(TObject Sender, TSurfaceDesc Surface)
         {
-            ImageLib.TLibraryImage Face = default;
-            var call__3 = AoWHSSet.FRaceResources.GetRaceResource(FRace);
-            var call__4 = call__3.GetFace();
-            Face = call__4;
+            ImageLib.TLibraryImage Face;
+            Face = AoWHSSet.FRaceResources.GetRaceResource(FRace).GetFace();
             if (Face != null)
             {
                 Face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, Surface);

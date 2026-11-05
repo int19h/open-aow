@@ -26,7 +26,6 @@ namespace Aow.Units.MainAG
         // MainAG.pas:138
         public override int GetLoc()
         {
-            int Result = default;
             TXYL Location = default;
             if (FTargetMode == (byte)TGroupDefendMode.gdmCustom)
             {
@@ -37,38 +36,28 @@ namespace Aow.Units.MainAG
                 Location.XYL = base.GetLoc();
             }
 
-            Result = Location.XYL;
-            return Result;
+            return Location.XYL;
         }
 
         // MainAG.pas:147
         public override bool GetRecruitableUnits(int Phase, TUnitList Units, TUnitList Recruitable)
         {
-            bool Result = default;
             TXYL Location = default;
-            TGroupDefenseSelector Selector = default;
-            int I = default;
-            TAbstractUnit AUnit = default;
-            var call__1 = GetLoc();
-            Location.XYL = call__1;
-            Result = false;
+            TGroupDefenseSelector Selector;
+            TAbstractUnit AUnit;
+            Location.XYL = GetLoc();
+            bool Result = false;
             Selector = new TGroupDefenseSelector();
             Selector.Execute(this, Location.X, Location.Y, Location.L, Units);
-            var call__2 = Selector.FDefenders.Count;
-            if (call__2 != 0)
+            if (Selector.FDefenders.Count != 0)
             {
+                for (int I = Units.Count - 1; I >= 0; I--)
                 {
-                    I = Units.Count - 1;
-                    byte end__3 = 0;
-                    for (; I >= end__3; I -= 1)
+                    AUnit = Units.GetUnit(I);
+                    if (Selector.FDefenders.IndexOf(AUnit) == -1)
                     {
-                        AUnit = Units.GetUnit(I);
-                        var call__4 = Selector.FDefenders.IndexOf(AUnit);
-                        if (call__4 == -1)
-                        {
-                            Recruitable.AddUnit(AUnit);
-                            Result = true;
-                        }
+                        Recruitable.AddUnit(AUnit);
+                        Result = true;
                     }
                 }
             }
@@ -83,12 +72,7 @@ namespace Aow.Units.MainAG
         }
 
         // MainAG.pas:135
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TPassiveAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TPassiveAGC>();
 
         // MainAG.pas:132
         public static new TGroupBehavior Behavior => TGroupBehavior.gbPassive;
@@ -104,38 +88,26 @@ namespace Aow.Units.MainAG
         public override void ProcessStates()
         {
             TXYL Location = default;
-            TGroupDefenseSelector Selector = default;
-            TAIGroup Group = default;
-            int I = default;
-            TAbstractUnit AUnit = default;
+            TGroupDefenseSelector Selector;
+            TAIGroup Group;
+            TAbstractUnit AUnit;
             switch (FState)
             {
                 case 0:
                     CombinePassiveGroups();
-                    var call__5 = FGroup.GetLoc();
-                    Location.XYL = call__5;
+                    Location.XYL = FGroup.GetLoc();
                     Selector = new TGroupDefenseSelector();
                     Selector.Execute(FGroup, Location.X, Location.Y, Location.L, null);
-                    var call__6 = Selector.FDefenders.Count;
-                    var call__7 = FGroup.Count;
-                    if (call__6 != call__7 && FGroup.FPlayer != 0)
+                    if (Selector.FDefenders.Count != FGroup.Count && FGroup.FPlayer != 0)
                     {
-                        var call__8 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                        var call__9 = call__8.FAIControl.GetRandomGroupBehavior();
-                        var call__10 = AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, call__9);
-                        Group = call__10;
+                        var randomGroupBehavior = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
+                        Group = AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, randomGroupBehavior);
+                        for (int I = FGroup.Count - 1; I >= 0; I--)
                         {
-                            I = FGroup.Count - 1;
-                            byte end__11 = 0;
-                            for (; I >= end__11; I -= 1)
+                            AUnit = FGroup.GetUnit(I);
+                            if (Selector.FDefenders.IndexOf(AUnit) == -1)
                             {
-                                var call__12 = FGroup.GetUnit(I);
-                                AUnit = call__12;
-                                var call__13 = Selector.FDefenders.IndexOf(AUnit);
-                                if (call__13 == -1)
-                                {
-                                    Group.AddUnit(AUnit);
-                                }
+                                Group.AddUnit(AUnit);
                             }
                         }
 
@@ -164,44 +136,21 @@ namespace Aow.Units.MainAG
         // MainAG.pas:176
         public void CombinePassiveGroups()
         {
-            TPlayer Player = default;
+            TPlayer Player;
             TXYL Location = default;
             TXYL OtherLocation = default;
-            int I = default;
-            TAIGroup Group = default;
-            var call__14 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-            Player = call__14;
-            var call__15 = FGroup.GetLoc();
-            Location.XYL = call__15;
+            TAIGroup Group;
+            Player = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
+            Location.XYL = FGroup.GetLoc();
+            for (int I = Player.FAIGroups.Count - 1; I >= 0; I--)
             {
-                I = Player.FAIGroups.Count - 1;
-                byte end__16 = 0;
-                for (; I >= end__16; I -= 1)
+                Group = Player.FAIGroups.GetGroups(I);
+                if (FGroup.FGroupID != Group.FGroupID && Group.EClass.ClassID == 136280 && FGroup.FIndependentRelation == Group.FIndependentRelation)
                 {
-                    var call__17 = Player.FAIGroups.GetGroups(I);
-                    Group = call__17;
-                    bool bool__18 = FGroup.FGroupID != Group.FGroupID;
-                    if (bool__18)
+                    OtherLocation.XYL = Group.GetLoc();
+                    if (Location.L == OtherLocation.L && dHXtoRad(Location.X, Location.Y, OtherLocation.X, OtherLocation.Y) <= 1)
                     {
-                        var call__19 = Group.EClass.ClassID;
-                        bool__18 = call__19 == 136280;
-                    }
-
-                    if (bool__18 && FGroup.FIndependentRelation == Group.FIndependentRelation)
-                    {
-                        var call__20 = Group.GetLoc();
-                        OtherLocation.XYL = call__20;
-                        bool bool__21 = Location.L == OtherLocation.L;
-                        if (bool__21)
-                        {
-                            var call__22 = dHXtoRad(Location.X, Location.Y, OtherLocation.X, OtherLocation.Y);
-                            bool__21 = call__22 <= 1;
-                        }
-
-                        if (bool__21)
-                        {
-                            FGroup.AddUnits(Group);
-                        }
+                        FGroup.AddUnits(Group);
                     }
                 }
             }
@@ -221,12 +170,7 @@ namespace Aow.Units.MainAG
         }
 
         // MainAG.pas:253
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TFortifyAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TFortifyAGC>();
 
         // MainAG.pas:250
         public static new TGroupBehavior Behavior => TGroupBehavior.gbFortify;
@@ -250,8 +194,7 @@ namespace Aow.Units.MainAG
         // MainAG.pas:256
         public TFortifyAGC(TECustomNode owner) : base(owner)
         {
-            var call__23 = new TAIGroupTargetSelector(null);
-            FTargetSelector = call__23;
+            FTargetSelector = new TAIGroupTargetSelector(null);
         }
 
         // MainAG.pas:278
@@ -274,18 +217,18 @@ namespace Aow.Units.MainAG
         // MainAG.pas:407
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder = default;
-            TAIRecruitmentGroupFinder Recruitment = default;
-            TAIProductionLocationFinder ProductionFinder = default;
-            TAIGroupRecruitControl Recruit = default;
-            TAIGroupProductionControl Produce = default;
-            TAIGroupDefenseControl Defense = default;
-            TAIGroupControlTarget CurrentTarget = default;
-            TAIGroupControlTarget NewTarget = default;
-            int I = default;
-            int Excess = default;
-            TArmyHS Army = default;
-            TCity ACity = default;
+            TAIGroupTargetFinder Finder;
+            TAIRecruitmentGroupFinder Recruitment;
+            TAIProductionLocationFinder ProductionFinder;
+            TAIGroupRecruitControl Recruit;
+            TAIGroupProductionControl Produce;
+            TAIGroupDefenseControl Defense;
+            TAIGroupControlTarget CurrentTarget;
+            TAIGroupControlTarget NewTarget;
+            int I;
+            int Excess;
+            TArmyHS Army;
+            TCity ACity;
             switch (FState)
             {
                 case 0:
@@ -300,33 +243,17 @@ namespace Aow.Units.MainAG
                     break;
                 case 1:
                     I = 0;
-                    while (true)
+                    while (I < FTargets.Count && FTargets.GetTargets(I).FStatus.Contains(TAIGroupControlTargetStatusElement.gtsDone))
                     {
-                        var call__24 = FTargets.Count;
-                        bool bool__25 = I < call__24;
-                        if (bool__25)
-                        {
-                            var call__26 = FTargets.GetTargets(I);
-                            bool__25 = call__26.FStatus.Contains(TAIGroupControlTargetStatusElement.gtsDone);
-                        }
-
-                        if (!bool__25)
-                            break;
-                        {
-                            I += 1;
-                        }
+                        I += 1;
                     }
 
-                    var call__27 = FTargets.Count;
-                    if (I < call__27)
+                    if (I < FTargets.Count)
                     {
-                        var call__28 = FTargets.GetTargets(I);
-                        var call__29 = GetSurroundingEnemyStrength(call__28.FLocation, 70);
-                        var call__30 = FTargets.GetTargets(I);
-                        call__30.FDataA = call__29;
-                        var call__31 = FTargets.GetTargets(I);
-                        var call__32 = FTargets.GetTargets(I);
-                        call__32.FStatus = call__31.FStatus + TSet<TAIGroupControlTargetStatusElement>.Of(TAIGroupControlTargetStatusElement.gtsDone);
+                        var surroundingEnemyStrength = GetSurroundingEnemyStrength(FTargets.GetTargets(I).FLocation, 70);
+                        FTargets.GetTargets(I).FDataA = surroundingEnemyStrength;
+                        var target = FTargets.GetTargets(I);
+                        FTargets.GetTargets(I).FStatus = target.FStatus + TSet<TAIGroupControlTargetStatusElement>.Of(TAIGroupControlTargetStatusElement.gtsDone);
                     }
                     else
                     {
@@ -337,83 +264,66 @@ namespace Aow.Units.MainAG
                 case 2:
                     FTargets.Validate();
                     NewTarget = null;
-                    var call__33 = FTargets.IndexOfXYL(FLocation.XYL);
-                    I = call__33;
+                    I = FTargets.IndexOfXYL(FLocation.XYL);
                     if (I == -1)
                     {
                         CurrentTarget = null;
                     }
                     else
                     {
-                        var call__34 = FTargets.GetTargets(I);
-                        CurrentTarget = call__34;
+                        CurrentTarget = FTargets.GetTargets(I);
                     }
 
                 {
                     I = 0;
-                    int end__35 = FTargets.Count - 1;
-                    for (; I <= end__35; I += 1)
+                    int last = FTargets.Count - 1;
+                    for (; I <= last; I += 1)
                     {
-                        var call__36 = FTargets.GetTargets(I);
-                        var call__37 = FTargets.GetTargets(I);
-                        var call__38 = FTargets.GetTargets(I);
-                        call__38.FDataB = call__36.FData.Priority * 10 + call__37.FMovePoints * -2;
-                        var call__39 = FTargets.GetTargets(I);
-                        Excess = call__39.FDataA - FStrengthMax;
+                        var targetData = FTargets.GetTargets(I);
+                        var targetMovePoints = FTargets.GetTargets(I);
+                        FTargets.GetTargets(I).FDataB = targetData.FData.Priority * 10 + targetMovePoints.FMovePoints * -2;
+                        Excess = FTargets.GetTargets(I).FDataA - FStrengthMax;
                         if (Excess > 0)
                         {
-                            var call__40 = FTargets.GetTargets(I);
-                            call__40.FDataB -= (int)(((uint)Excess) >> 4);
+                            var target = FTargets.GetTargets(I);
+                            target.FDataB -= (int)(((uint)Excess) >> 4);
                         }
 
-                        var call__41 = FTargets.GetTargets(I);
-                        Excess = call__41.FPathStrength;
+                        Excess = FTargets.GetTargets(I).FPathStrength;
                         if (Excess > 0)
                         {
-                            var call__42 = FTargets.GetTargets(I);
-                            call__42.FDataB -= (int)(((uint)Excess) >> 3);
+                            var target = FTargets.GetTargets(I);
+                            target.FDataB -= (int)(((uint)Excess) >> 3);
                         }
 
-                        var call__43 = FTargets.GetTargets(I);
-                        if (call__43.FLocation.XYL != FLocation.XYL)
+                        if (FTargets.GetTargets(I).FLocation.XYL != FLocation.XYL)
                         {
-                            var call__44 = FTargets.GetTargets(I);
-                            var call__45 = AoWHSMap.MapContainer.GetFieldXYL(call__44.FLocation.XYL);
-                            var call__46 = ((TAoWMapField)call__45).GetArmyHS();
-                            Army = call__46;
+                            var targetLocation = FTargets.GetTargets(I);
+                            Army = ((TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(targetLocation.FLocation.XYL)).GetArmyHS();
                             if (Army != null)
                             {
-                                var call__47 = Army.FArmy.Count;
-                                var call__48 = FTargets.GetTargets(I);
-                                call__48.FDataB -= call__47 << 2;
+                                var count = Army.FArmy.Count;
+                                var target = FTargets.GetTargets(I);
+                                target.FDataB -= count << 2;
                             }
                         }
                     }
                 }
 
                     FTargets.SortOnPriority();
-                    var call__49 = FTargets.Count;
-                    bool bool__50 = call__49 != 0;
-                    if (bool__50)
-                    {
-                        var call__51 = FTargets.GetTargets(0);
-                        bool__50 = call__51 != CurrentTarget;
-                    }
-
-                    if (bool__50)
+                    if (FTargets.Count != 0 && FTargets.GetTargets(0) != CurrentTarget)
                     {
                         FTargets.SortOnDataB();
-                        bool bool__52 = CurrentTarget == null;
-                        if (!bool__52)
+                        bool condition = CurrentTarget == null;
+                        if (!condition)
                         {
-                            var call__53 = FTargets.GetTargets(0);
-                            bool__52 = CurrentTarget.FData.Priority < call__53.FData.Priority;
+                            var target = FTargets.GetTargets(0);
+                            condition = CurrentTarget.FData.Priority < target.FData.Priority;
                         }
 
-                        if (bool__52)
+                        if (condition)
                         {
-                            var call__54 = FTargets.GetTargets(0);
-                            NewTarget = call__54;
+                            NewTarget = FTargets.GetTargets(0);
                         }
                         else
                         {
@@ -442,13 +352,11 @@ namespace Aow.Units.MainAG
                 case 3:
                     if (FFortifyLocation.XYL == 16777215)
                     {
-                        var call__55 = GetSurroundingEnemyStrength(FLocation, 70);
-                        FEnemyStrength = call__55;
+                        FEnemyStrength = GetSurroundingEnemyStrength(FLocation, 70);
                     }
                     else
                     {
-                        var call__56 = GetSurroundingEnemyStrength(FFortifyLocation, 70);
-                        FEnemyStrength = call__56;
+                        FEnemyStrength = GetSurroundingEnemyStrength(FFortifyLocation, 70);
                     }
 
                     UpdateRequiredStrength();
@@ -471,13 +379,12 @@ namespace Aow.Units.MainAG
                     FState += 1;
                     break;
                 case 6:
-                    var call__57 = FRecruitmentGroups.Count;
-                    if (call__57 != 0 && FRequiredStrength > FStrengthMax)
+                    if (FRecruitmentGroups.Count != 0 && FRequiredStrength > FStrengthMax)
                     {
                         Recruit = new TAIGroupRecruitControl(null);
                         Recruit.Setup(this);
-                        var call__58 = FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
-                        Recruit.FRecruitStrength = FRequiredStrength - (call__58 + FStrengthMax);
+                        var strengthMax = FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
+                        Recruit.FRecruitStrength = FRequiredStrength - (strengthMax + FStrengthMax);
                         Recruit.FMode = TAIGroupRecruitControlMode.rcmAutoRecruit;
                         ActivatePlugin(Recruit);
                         Recruit.Release();
@@ -491,19 +398,12 @@ namespace Aow.Units.MainAG
                     break;
                 case 7:
                     FRecruitmentGroups.Validate(this);
-                    bool bool__59 = FStrengthMax < FRequiredStrength;
-                    if (bool__59)
-                    {
-                        var call__60 = FRecruitmentGroups.Count;
-                        bool__59 = call__60 != 0;
-                    }
-
-                    if (bool__59)
+                    if (FStrengthMax < FRequiredStrength && FRecruitmentGroups.Count != 0)
                     {
                         Recruit = new TAIGroupRecruitControl(null);
                         Recruit.Setup(this);
-                        var call__61 = FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
-                        Recruit.FRecruitStrength = FRequiredStrength - (call__61 + FStrengthMax);
+                        var strengthMax = FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
+                        Recruit.FRecruitStrength = FRequiredStrength - (strengthMax + FStrengthMax);
                         Recruit.FMode = TAIGroupRecruitControlMode.rcmForceRecruit;
                         ActivatePlugin(Recruit);
                         Recruit.Release();
@@ -512,14 +412,7 @@ namespace Aow.Units.MainAG
                     FState = 10;
                     break;
                 case 10:
-                    bool bool__62 = FStrengthMax >= FEnemyStrength;
-                    if (bool__62)
-                    {
-                        var call__63 = FGroup.GetAdjacent();
-                        bool__62 = call__63;
-                    }
-
-                    if (bool__62)
+                    if (FStrengthMax >= FEnemyStrength && FGroup.GetAdjacent())
                     {
                         FTargets.Clear();
                         Finder = new TAIGroupTargetFinder(null);
@@ -555,25 +448,9 @@ namespace Aow.Units.MainAG
 
                     break;
                 case 11:
-                    var call__64 = FTargets.Count;
-                    if (call__64 >= 1)
+                    if (FTargets.Count >= 1)
                     {
-                        var call__65 = FTargets.Count;
-                        bool bool__66 = call__65 == 1;
-                        if (!bool__66)
-                        {
-                            var call__67 = FortifyCity();
-                            bool__66 = call__67 == null;
-                        }
-
-                        bool bool__68 = bool__66;
-                        if (!bool__68)
-                        {
-                            var call__69 = CanBreachWall();
-                            bool__68 = call__69;
-                        }
-
-                        if (bool__68)
+                        if (FTargets.Count == 1 || FortifyCity() == null || CanBreachWall())
                         {
                             FTargetSelector.Setup(this);
                             FTargetSelector.FPathStrengthFactor = (float)1.5;
@@ -613,9 +490,7 @@ namespace Aow.Units.MainAG
 
                     break;
                 case 13:
-                    var call__70 = AoWHSMap.MapContainer.GetFieldXYL(FLocation.XYL);
-                    var call__71 = call__70.FindNoneTransparentHS(typeof(TCity));
-                    ACity = (TCity)call__71;
+                    ACity = (TCity)AoWHSMap.MapContainer.GetFieldXYL(FLocation.XYL).FindNoneTransparentHS(typeof(TCity));
                     if (ACity != null && ACity.GetActiveAction() == TCityAction.caMigrate)
                     {
                         Defense = new TAIGroupDefenseControl(null);
@@ -649,8 +524,7 @@ namespace Aow.Units.MainAG
                     FState += 1;
                     break;
                 case 15:
-                    var call__72 = FTargets.Count;
-                    if (call__72 >= 1)
+                    if (FTargets.Count >= 1)
                     {
                         FTargetSelector.Setup(this);
                         FTargetSelector.FPathStrengthFactor = (float)1.5;
@@ -687,9 +561,7 @@ namespace Aow.Units.MainAG
                 case 17:
                     if (FStrengthMax >= FEnemyStrength)
                     {
-                        var call__73 = AoWHSMap.MapContainer.GetFieldXYL(FLocation.XYL);
-                        var call__74 = call__73.FindNoneTransparentHS(typeof(TCity));
-                        ACity = (TCity)call__74;
+                        ACity = (TCity)AoWHSMap.MapContainer.GetFieldXYL(FLocation.XYL).FindNoneTransparentHS(typeof(TCity));
                         if (ACity != null && ACity.GetActiveAction() == TCityAction.caMigrate)
                         {
                             Defense = new TAIGroupDefenseControl(null);
@@ -738,16 +610,13 @@ namespace Aow.Units.MainAG
                     {
                         if (ACity.FWallType == 0)
                         {
-                            var call__75 = ACity.FortifyCost();
-                            var call__76 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                            var call__77 = call__76.FAIBudget.RequestExpense(call__75, 0);
-                            if (call__77)
+                            var fortifyCost = ACity.FortifyCost();
+                            if (AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
                             {
                                 if (ACity.Fortify(false))
                                 {
-                                    var call__78 = ACity.FortifyCost();
-                                    var call__79 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                                    call__79.FAIBudget.ExpenseMade(call__78, 0);
+                                    var aCityFortifyCost = ACity.FortifyCost();
+                                    AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
                                 }
                             }
                         }
@@ -755,16 +624,13 @@ namespace Aow.Units.MainAG
                         {
                             if (ACity.FWallType == 1 && AoWHSMap.FDay > 29)
                             {
-                                var call__80 = ACity.FortifyCost();
-                                var call__81 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                                var call__82 = call__81.FAIBudget.RequestExpense(call__80, 0);
-                                if (call__82)
+                                var fortifyCost = ACity.FortifyCost();
+                                if (AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
                                 {
                                     if (ACity.Fortify(false))
                                     {
-                                        var call__83 = ACity.FortifyCost();
-                                        var call__84 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-                                        call__84.FAIBudget.ExpenseMade(call__83, 0);
+                                        var aCityFortifyCost = ACity.FortifyCost();
+                                        AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
                                     }
                                 }
                             }
@@ -774,8 +640,7 @@ namespace Aow.Units.MainAG
                     FState += 1;
                     break;
                 case 22:
-                    var call__85 = FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
-                    if (call__85 + FStrengthMax < FRequiredStrength)
+                    if (FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall)) + FStrengthMax < FRequiredStrength)
                     {
                         FProductionLocations.Clear();
                         ProductionFinder = new TAIProductionLocationFinder(null);
@@ -792,13 +657,12 @@ namespace Aow.Units.MainAG
 
                     break;
                 case 23:
-                    var call__86 = FProductionLocations.Count;
-                    if (call__86 > 0)
+                    if (FProductionLocations.Count > 0)
                     {
                         Produce = new TAIGroupProductionControl(null);
                         Produce.Setup(this);
-                        var call__87 = FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
-                        Produce.FProduceStrength = FRequiredStrength - (call__87 + FStrengthMax);
+                        var strengthMax = FGroup.FProductions.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
+                        Produce.FProduceStrength = FRequiredStrength - (strengthMax + FStrengthMax);
                         Produce.FMode = TAIGroupProductionControlMode.pcmAutoProduce;
                         ActivatePlugin(Produce);
                         Produce.Release();
@@ -824,22 +688,15 @@ namespace Aow.Units.MainAG
         }
 
         // MainAG.pas:275
-        public override bool Split()
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public override bool Split() => false;
 
         // MainAG.pas:268
         public TCity FortifyCity()
         {
-            TCity Result = default;
+            TCity Result;
             if (FFortifyLocation.XYL != 16777215)
             {
-                var call__88 = AoWHSMap.MapContainer.GetFieldXYL(FFortifyLocation.XYL);
-                var call__89 = call__88.FindNoneTransparentHS(typeof(TCity));
-                Result = (TCity)call__89;
+                Result = (TCity)AoWHSMap.MapContainer.GetFieldXYL(FFortifyLocation.XYL).FindNoneTransparentHS(typeof(TCity));
             }
             else
             {
@@ -852,12 +709,10 @@ namespace Aow.Units.MainAG
         // MainAG.pas:287
         public int GetSurroundingEnemyStrength(TXYL Location, int Radius)
         {
-            int Result = default;
-            TMoveControlSettings Settings = default;
+            TMoveControlSettings Settings;
             TMapFieldMsg Msg = default;
             var query = new BattleFieldQuery();
             ref var Info = ref query.Info;
-            int I = default;
             Settings = new TMoveControlSettings(null);
             Settings.FPlayer = FGroup.FPlayer;
             Settings.FMode = Settings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmLogProcessedMapFields, TMoveModeElement.mmAI);
@@ -865,27 +720,23 @@ namespace Aow.Units.MainAG
             Settings.FMovePointsMax = Radius;
             Settings.FArmyHS = null;
             Settings.FSelection = 0;
-            var call__90 = MoveTypesToInt(TSet<TMoveType>.Of(TMoveType.mtFlying));
-            Settings.FMovePointTable = MovePointTables[call__90];
+            var moveTypesToInt = MoveTypesToInt(TSet<TMoveType>.Of(TMoveType.mtFlying));
+            Settings.FMovePointTable = MovePointTables[moveTypesToInt];
             AoWHSMap.FMoveControl.ProcessMove(Settings);
             SetupBattleFieldInfo(ref Info, FGroup.FPlayer, FGroup.FIndependentRelation, TSet<TBattleFieldInfoRequestsElement>.Of(TBattleFieldInfoRequestsElement.bfrIgnorePassiveIndependents), dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
             Info.FriendlyRelations = TSet<byte>.WithBounds(0, 7);
             Msg.MsgID = 4360;
             Msg.Param[0] = query;
+            for (int I = Settings.FProcessedMapFields.Count - 1; I >= 0; I--)
             {
-                I = Settings.FProcessedMapFields.Count - 1;
-                byte end__91 = 0;
-                for (; I >= end__91; I -= 1)
+                var mapField = (TAoWMapField)Settings.FProcessedMapFields[I];
+                if ((mapField.FFieldFlags & 67108864) != 0)
                 {
-                    var mapField = (TAoWMapField)Settings.FProcessedMapFields[I];
-                    if ((mapField.FFieldFlags & 67108864) != 0)
-                    {
-                        mapField.SendMapFieldMsg(ref Msg);
-                    }
+                    mapField.SendMapFieldMsg(ref Msg);
                 }
             }
 
-            Result = Info.Strength;
+            int Result = Info.Strength;
             Settings.Release();
             return Result;
         }
@@ -893,8 +744,8 @@ namespace Aow.Units.MainAG
         // MainAG.pas:315
         public void UpdateRequiredStrength()
         {
-            int Strength = default;
-            TPlayerStatistics Statistics = default;
+            int Strength;
+            TPlayerStatistics Statistics;
             FRequiredStrength = FEnemyStrength;
             if (AoWHSMap.FDay > 5)
             {
@@ -915,22 +766,18 @@ namespace Aow.Units.MainAG
                 FRequiredStrength = Round((double)(FRequiredStrength * AoWHSMap.FDay) * 0.1);
             }
 
-            var call__93 = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-            Statistics = call__93.FStatistics;
-            var call__94 = Statistics.FTurnInfo.Count;
-            if (call__94 > 0)
+            Statistics = AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FStatistics;
+            if (Statistics.FTurnInfo.Count > 0)
             {
-                var call__95 = Statistics.FTurnInfo.Count;
-                var call__96 = Statistics.FTurnInfo.GetTurnInfo(call__95 - 1);
-                Strength = (int)(((uint)call__96.FArmyStrength) >> 1);
+                var count = Statistics.FTurnInfo.Count;
+                Strength = (int)(((uint)Statistics.FTurnInfo.GetTurnInfo(count - 1).FArmyStrength) >> 1);
                 if (Strength < FRequiredStrength)
                 {
                     FRequiredStrength = Strength;
                 }
 
-                var call__97 = Statistics.FTurnInfo.Count;
-                var call__98 = Statistics.FTurnInfo.GetTurnInfo(call__97 - 1);
-                Strength = Round((double)call__98.FArmyStrength * 0.1);
+                var fTurnInfoCount = Statistics.FTurnInfo.Count;
+                Strength = Round((double)Statistics.FTurnInfo.GetTurnInfo(fTurnInfoCount - 1).FArmyStrength * 0.1);
                 if (Strength > 50000)
                 {
                     Strength = 50000;
@@ -963,31 +810,24 @@ namespace Aow.Units.MainAG
                 Passive = new TUnitUserList(null);
                 Units.AddUnits(FGroup);
                 Units.FChildren.Sort(MainAG.CompareFortifyUnits);
-                var call__99 = Units.Count;
-                I = call__99;
+                I = Units.Count;
                 while (I != 0 && Excess > 0)
                 {
                     I -= 1;
                     if (!(Units.GetUnit(I) is TLeader))
                     {
-                        var call__100 = Units.GetUnit(I);
-                        var call__101 = call__100.GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
-                        Excess -= call__101;
+                        Excess -= Units.GetUnit(I).GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
                         if (Excess >= 0)
                         {
-                            var call__102 = Units.GetUnit(I);
-                            Passive.AddUnit(call__102);
-                            var call__103 = Units.GetUnit(I);
-                            Units.DeleteUnit(call__103);
+                            Passive.AddUnit(Units.GetUnit(I));
+                            Units.DeleteUnit(Units.GetUnit(I));
                         }
                     }
                 }
 
-                var call__104 = Passive.Count;
-                if (call__104 != 0)
+                if (Passive.Count != 0)
                 {
-                    var call__105 = AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, TGroupBehavior.gbPassive);
-                    Group = call__105;
+                    Group = AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, TGroupBehavior.gbPassive);
                     Group.AddUnits(Passive);
                     Group.Release();
                 }
@@ -1000,28 +840,15 @@ namespace Aow.Units.MainAG
         // MainAG.pas:391
         public bool CanBreachWall()
         {
-            bool Result = default;
-            int I = default;
-            TAbstractUnit AUnit = default;
-            var call__106 = FGroup.Count;
-            I = call__106;
-            var call__107 = FGroup.GetStrength(TDamageType.dtWall);
-            Result = call__107 != 0;
+            int I;
+            TAbstractUnit AUnit;
+            I = FGroup.Count;
+            bool Result = FGroup.GetStrength(TDamageType.dtWall) != 0;
             while (!Result && I != 0)
             {
                 I -= 1;
-                var call__108 = FGroup.GetUnit(I);
-                AUnit = call__108;
-                var call__109 = AUnit.GetAbilityEnabled(52);
-                bool bool__110 = call__109;
-                if (bool__110)
-                {
-                    var call__111 = AoWHSSet.FAbilityControl.GetAbility(52);
-                    var call__112 = ((TSpellCastingAbility)call__111).CanCastBreachWallSpell(AUnit);
-                    bool__110 = call__112;
-                }
-
-                Result = bool__110;
+                AUnit = FGroup.GetUnit(I);
+                Result = AUnit.GetAbilityEnabled(52) && ((TSpellCastingAbility)AoWHSSet.FAbilityControl.GetAbility(52)).CanCastBreachWallSpell(AUnit);
             }
 
             return Result;
@@ -1042,12 +869,7 @@ namespace Aow.Units.MainAG
         }
 
         // MainAG.pas:735
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TSuicidalAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TSuicidalAGC>();
 
         // MainAG.pas:732
         public static new TGroupBehavior Behavior => TGroupBehavior.gbSuicidal;
@@ -1085,14 +907,13 @@ namespace Aow.Units.MainAG
         public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
         {
             SetupCP(Target);
-            var call__113 = FCombatPredictor.Execute();
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(call__113))
+            var execute = FCombatPredictor.Execute();
+            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(execute))
             {
-                var call__114 = FCombatPredictor.GetEfficiency();
-                if (call__114 > 0)
+                if (FCombatPredictor.GetEfficiency() > 0)
                 {
-                    var call__115 = FCombatPredictor.GetEfficiency();
-                    Target.FData.Priority = call__115 + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
+                    var efficiency = FCombatPredictor.GetEfficiency();
+                    Target.FData.Priority = efficiency + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                 }
             }
@@ -1101,7 +922,7 @@ namespace Aow.Units.MainAG
         // MainAG.pas:759
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder = default;
+            TAIGroupTargetFinder Finder;
             switch (FState)
             {
                 case 0:
@@ -1114,15 +935,13 @@ namespace Aow.Units.MainAG
                     break;
                 case 1:
                     FTargets.Validate();
-                    var call__116 = FTargets.Count;
-                    if (call__116 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargets.SortOnPriority();
                         SetupME();
-                        var call__117 = FTargets.GetTargets(0);
-                        var call__118 = FTargets.GetTargets(0);
-                        var call__119 = FTargets.GetTargets(0);
-                        ExecuteME(call__119.FLocation.X, call__118.FLocation.Y, call__117.FLocation.L);
+                        var targetLocation = FTargets.GetTargets(0);
+                        var target = FTargets.GetTargets(0);
+                        ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
                         FTargets.Delete(0);
                     }
                     else
@@ -1154,12 +973,7 @@ namespace Aow.Units.MainAG
         }
 
         // MainAG.pas:807
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TTransportAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TTransportAGC>();
 
         // MainAG.pas:804
         public static new TGroupBehavior Behavior => TGroupBehavior.gbTransport;
@@ -1197,14 +1011,13 @@ namespace Aow.Units.MainAG
         public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
         {
             SetupCP(Target);
-            var call__120 = FCombatPredictor.Execute();
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(call__120))
+            var execute = FCombatPredictor.Execute();
+            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(execute))
             {
-                var call__121 = FCombatPredictor.GetEfficiency();
-                if (call__121 > 75)
+                if (FCombatPredictor.GetEfficiency() > 75)
                 {
-                    var call__122 = FCombatPredictor.GetEfficiency();
-                    Target.FData.Priority = call__122 + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
+                    var efficiency = FCombatPredictor.GetEfficiency();
+                    Target.FData.Priority = efficiency + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                 }
             }
@@ -1213,8 +1026,8 @@ namespace Aow.Units.MainAG
         // MainAG.pas:849
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder = default;
-            TAIGroupWanderControl Wander = default;
+            TAIGroupTargetFinder Finder;
+            TAIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
@@ -1227,15 +1040,13 @@ namespace Aow.Units.MainAG
                     break;
                 case 1:
                     FTargets.Validate();
-                    var call__123 = FTargets.Count;
-                    if (call__123 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargets.SortOnPriority();
                         SetupME();
-                        var call__124 = FTargets.GetTargets(0);
-                        var call__125 = FTargets.GetTargets(0);
-                        var call__126 = FTargets.GetTargets(0);
-                        ExecuteME(call__126.FLocation.X, call__125.FLocation.Y, call__124.FLocation.L);
+                        var targetLocation = FTargets.GetTargets(0);
+                        var target = FTargets.GetTargets(0);
+                        ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
                         FTargets.Delete(0);
                     }
                     else
@@ -1261,33 +1072,26 @@ namespace Aow.Units.MainAG
         // MainAG.pas:831
         public override void SetupME()
         {
-            TAbstractUnit Transporter = default;
-            TArmy Army = default;
-            int I = default;
+            TAbstractUnit Transporter;
+            TArmy Army;
             base.SetupME();
             Transporter = FGroup.FLeader;
             if (Transporter != null && Transporter.Owner is TArmy)
             {
                 Army = (TArmy)Transporter.Owner;
+                for (int I = 0, last = Army.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__127 = Army.Count - 1;
-                    for (; I <= end__127; I += 1)
+                    bool condition = Transporter != Army.GetUnit(I);
+                    if (condition)
                     {
-                        var call__128 = Army.GetUnit(I);
-                        bool bool__129 = Transporter != call__128;
-                        if (bool__129)
-                        {
-                            var call__130 = Army.GetUnit(I);
-                            var call__131 = FMoveExecuter.FUnits.IndexOfUnit(call__130);
-                            bool__129 = call__131 == -1;
-                        }
+                        var unit = Army.GetUnit(I);
+                        condition = FMoveExecuter.FUnits.IndexOfUnit(unit) == -1;
+                    }
 
-                        if (bool__129)
-                        {
-                            var call__132 = Army.GetUnit(I);
-                            FMoveExecuter.AddUnit(call__132);
-                        }
+                    if (condition)
+                    {
+                        var unit = Army.GetUnit(I);
+                        FMoveExecuter.AddUnit(unit);
                     }
                 }
             }
@@ -1313,9 +1117,8 @@ namespace Aow.Units.MainAG
         // MainAG.pas:341
         public static int CompareFortifyUnits(object Item1, object Item2)
         {
-            int Result = default;
-            int Strength1 = default;
-            int Strength2 = default;
+            int Strength1;
+            int Strength2;
             Strength1 = ((TAbstractUnit)Item1).GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
             Strength2 = ((TAbstractUnit)Item2).GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
             if ((TObject)Item1 is TLeader)
@@ -1329,8 +1132,7 @@ namespace Aow.Units.MainAG
                 Strength2 += 16777215;
             }
 
-            Result = Strength2 - Strength1;
-            return Result;
+            return Strength2 - Strength1;
         }
 
         public static void Initialize()

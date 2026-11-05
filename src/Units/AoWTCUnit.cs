@@ -116,31 +116,22 @@ namespace Aow.Units.AoWTCUnit
         {
             if (General.FCombatUnit != null)
             {
-                var call__2 = General.FCombatUnit.FUnit.GetPlayer();
-                bool bool__3 = call__2 == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints > 0 && DrawItem < General.FCombatUnit.FCombatAbilityCount;
-                if (bool__3)
+                bool condition = General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints > 0 && DrawItem < General.FCombatUnit.FCombatAbilityCount;
+                if (condition)
                 {
-                    var call__4 = General.FCombatUnit.FAbilities[DrawItem];
-                    var call__5 = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)call__4).Ability);
-                    var call__6 = call__5.GetCombatMode(General.FCombatUnit.FUnit.FUnit);
-                    bool bool__7 = !TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(call__6);
-                    if (bool__7)
+                    var ability = General.FCombatUnit.FAbilities[DrawItem];
+                    var combatMode = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).GetCombatMode(General.FCombatUnit.FUnit.FUnit);
+                    bool test = !TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(combatMode) && ((TTCAbility)General.FCombatUnit.FAbilities[DrawItem]).Ability != 52;
+                    if (!test)
                     {
-                        var call__8 = General.FCombatUnit.FAbilities[DrawItem];
-                        bool__7 = ((TTCAbility)call__8).Ability != 52;
+                        var moves = General.FCombatUnit.FUnit.FUnit.GetMoves();
+                        test = General.FCombatUnit.FUnit.FMovePoints == moves;
                     }
 
-                    bool bool__9 = bool__7;
-                    if (!bool__9)
-                    {
-                        var call__10 = General.FCombatUnit.FUnit.FUnit.GetMoves();
-                        bool__9 = General.FCombatUnit.FUnit.FMovePoints == call__10;
-                    }
-
-                    bool__3 = bool__9;
+                    condition = test;
                 }
 
-                if (bool__3)
+                if (condition)
                 {
                     UAbilLB.TextColor = 16777215;
                 }
@@ -172,26 +163,25 @@ namespace Aow.Units.AoWTCUnit
         // AoWTCUnit.pas:152
         public void UAbilLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbility Ability = default;
+            TAbility Ability;
             if (UAbilLB.Selected > -1)
             {
                 if (Button == TMouseButton.mbLeft)
                 {
-                    var call__11 = UAbilLB.Items.Objects[UAbilLB.Selected];
-                    var call__12 = General.FCombatUnit.SelectAbility(ObjectToInt(call__11));
-                    UAbilLB.Selected = call__12;
+                    var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
+                    var selectAbility = General.FCombatUnit.SelectAbility(ObjectToInt(objectValue));
+                    UAbilLB.Selected = selectAbility;
                 }
                 else
                 {
                     if (Button == TMouseButton.mbRight && General.FCombatUnit != null)
                     {
-                        var call__13 = UAbilLB.Items.Objects[UAbilLB.Selected];
-                        var call__14 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__13));
-                        Ability = call__14;
+                        var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
+                        Ability = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                         if (Ability != null)
                         {
-                            var call__15 = Ability.GetName(General.FCombatUnit.FUnit.FUnit);
-                            SetInfoBanner(InfoBanner, call__15, Ability.FDescription);
+                            var name = Ability.GetName(General.FCombatUnit.FUnit.FUnit);
+                            SetInfoBanner(InfoBanner, name, Ability.FDescription);
                         }
                     }
                 }
@@ -203,27 +193,17 @@ namespace Aow.Units.AoWTCUnit
         {
             if (General.FCombatUnit != null)
             {
-                var call__16 = General.FCombatUnit.FUnit.GetPlayer();
-                if (call__16 == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints != 0 && UAbilLB.F188 < General.FCombatUnit.FCombatAbilityCount)
+                if (General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints != 0 && UAbilLB.F188 < General.FCombatUnit.FCombatAbilityCount)
                 {
-                    var call__17 = General.FCombatUnit.FAbilities[UAbilLB.F188];
-                    var call__18 = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)call__17).Ability);
-                    var call__19 = call__18.GetCombatMode(General.FCombatUnit.FUnit.FUnit);
-                    bool bool__20 = !TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(call__19);
-                    if (bool__20)
-                    {
-                        var call__21 = General.FCombatUnit.FAbilities[UAbilLB.F188];
-                        bool__20 = ((TTCAbility)call__21).Ability != 52;
-                    }
-
-                    if (bool__20)
+                    var ability = General.FCombatUnit.FAbilities[UAbilLB.F188];
+                    var combatMode = AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).GetCombatMode(General.FCombatUnit.FUnit.FUnit);
+                    if (!TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(combatMode) && ((TTCAbility)General.FCombatUnit.FAbilities[UAbilLB.F188]).Ability != 52)
                     {
                         return;
                     }
 
                     var tacticalCombatUnit = General.FCombatUnit.FUnit;
-                    var call__23 = tacticalCombatUnit.FUnit.GetMoves();
-                    if (call__23 <= tacticalCombatUnit.FMovePoints)
+                    if (tacticalCombatUnit.FUnit.GetMoves() <= tacticalCombatUnit.FMovePoints)
                     {
                         return;
                     }
@@ -244,14 +224,14 @@ namespace Aow.Units.AoWTCUnit
         public void CenterClick()
         {
             General.PlayButtonSound(0);
-            var call__24 = General.FCombatUnit.GetLhx();
-            var call__25 = General.FCombatUnit.GetYhx();
-            var call__26 = General.FCombatUnit.GetXhx();
-            AoWCombatMap.CenterViewTo(call__26, call__25, call__24);
-            var call__27 = General.FCombatUnit.GetLhx();
-            var call__28 = General.FCombatUnit.GetYhx();
-            var call__29 = General.FCombatUnit.GetXhx();
-            AoWCombatMap.PlayCenterAnimation(call__29, call__28, call__27);
+            var lhx = General.FCombatUnit.GetLhx();
+            var yhx = General.FCombatUnit.GetYhx();
+            var xhx = General.FCombatUnit.GetXhx();
+            AoWCombatMap.CenterViewTo(xhx, yhx, lhx);
+            var fCombatUnitLhx = General.FCombatUnit.GetLhx();
+            var fCombatUnitYhx = General.FCombatUnit.GetYhx();
+            var fCombatUnitXhx = General.FCombatUnit.GetXhx();
+            AoWCombatMap.PlayCenterAnimation(fCombatUnitXhx, fCombatUnitYhx, fCombatUnitLhx);
         }
 
         // AoWTCUnit.pas:195
@@ -270,8 +250,8 @@ namespace Aow.Units.AoWTCUnit
         {
             TAbilityCombatInfo AbilityInfo = default;
             TSpellCombatInfo SpellInfo = default;
-            TAbstractUnit U = default;
-            THero Hero = default;
+            TAbstractUnit U;
+            THero Hero;
             if (General.FCombatUnit != null)
             {
                 U = General.FCombatUnit.FUnit.FUnit;
@@ -295,10 +275,10 @@ namespace Aow.Units.AoWTCUnit
                     if (Hero.GetCastingPointsMax() > 0)
                     {
                         Window.UnitMana.Visible = true;
-                        var call__30 = Hero.GetCastingPointsMax();
-                        Window.UnitMana.Max = call__30;
-                        var call__31 = Hero.GetCastingPoints();
-                        Window.UnitMana.Position = call__31;
+                        var castingPointsMax = Hero.GetCastingPointsMax();
+                        Window.UnitMana.Max = castingPointsMax;
+                        var castingPoints = Hero.GetCastingPoints();
+                        Window.UnitMana.Position = castingPoints;
                     }
 
                     var panel = Window.UnitFr;
@@ -320,22 +300,22 @@ namespace Aow.Units.AoWTCUnit
                         Window.TCUnitPnl.Visible = true;
                         Window.TCAbilPnl.Visible = false;
                         Window.TargetSelPnl.Visible = false;
-                        var call__34 = U.GetHitPoints();
-                        var call__35 = U.GetHits();
-                        Window.UHits.Text = IntToStr(call__34) + AnsiString.FromBytes(47) + IntToStr(call__35);
-                        var call__36 = U.GetMoves();
-                        Window.UMoves.Text = IntToStr(General.FCombatUnit.FUnit.FMovePoints) + AnsiString.FromBytes(47) + IntToStr(call__36);
-                        var call__37 = U.GetAttack();
-                        Window.UAttack.Text = IntToStr(call__37);
-                        var call__38 = U.GetDamage();
-                        Window.UDamage.Text = IntToStr(call__38);
-                        var call__39 = U.GetDefense();
-                        Window.UDefense.Text = IntToStr(call__39);
-                        var call__40 = U.GetResistance();
-                        Window.UResistance.Text = IntToStr(call__40);
-                        var call__41 = U.GetMoveTypes();
-                        var call__42 = General.MTtoInt(call__41);
-                        Window.UMovesIcon.SetCurrent(call__42);
+                        var hitPoints = U.GetHitPoints();
+                        var hits = U.GetHits();
+                        Window.UHits.Text = IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits);
+                        var moves = U.GetMoves();
+                        Window.UMoves.Text = IntToStr(General.FCombatUnit.FUnit.FMovePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                        var attack = U.GetAttack();
+                        Window.UAttack.Text = IntToStr(attack);
+                        var damage = U.GetDamage();
+                        Window.UDamage.Text = IntToStr(damage);
+                        var defense = U.GetDefense();
+                        Window.UDefense.Text = IntToStr(defense);
+                        var resistance = U.GetResistance();
+                        Window.UResistance.Text = IntToStr(resistance);
+                        var moveTypes = U.GetMoveTypes();
+                        var mTtoInt = General.MTtoInt(moveTypes);
+                        Window.UMovesIcon.SetCurrent(mTtoInt);
                         General.FCombatUnit.ListAbilities(Window.UAbilLB.Items, null, null);
                         Window.UAbilLB.Selected = -1;
                         Window.UAbilLB.F188 = -1;
@@ -348,10 +328,9 @@ namespace Aow.Units.AoWTCUnit
                             Window.TCUnitPnl.Visible = false;
                             Window.TCAbilPnl.Visible = true;
                             Window.TargetSelPnl.Visible = false;
-                            var call__43 = AoWHSSet.FSpellControl.GetSpell(General.FCombatUnit.FSelectedSpell);
-                            call__43.GetCombatInfo(General.FCombatUnit.FUnit.FUnit, ref SpellInfo);
-                            var call__44 = AoWHSSet.FSpellControl.GetSpell(General.FCombatUnit.FSelectedSpell);
-                            Window.AbilNameLbl.Text = call__44.FSpellName;
+                            AoWHSSet.FSpellControl.GetSpell(General.FCombatUnit.FSelectedSpell).GetCombatInfo(General.FCombatUnit.FUnit.FUnit, ref SpellInfo);
+                            var spell = AoWHSSet.FSpellControl.GetSpell(General.FCombatUnit.FSelectedSpell);
+                            Window.AbilNameLbl.Text = spell.FSpellName;
                             if (SpellInfo.Attack > 0)
                             {
                                 Window.AbilAttLbl.Text = IntToStr(SpellInfo.Attack);
@@ -373,65 +352,65 @@ namespace Aow.Units.AoWTCUnit
                             Window.AbilStat.Items.Clear();
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtFire))
                             {
-                                var call__45 = TranslateRStr(FireRStr);
-                                var call__46 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__45 + AnsiString.FromBytes(32) + call__46);
+                                var fire = TranslateRStr(FireRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(fire + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtCold))
                             {
-                                var call__47 = TranslateRStr(ColdRStr);
-                                var call__48 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__47 + AnsiString.FromBytes(32) + call__48);
+                                var cold = TranslateRStr(ColdRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(cold + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtLightning))
                             {
-                                var call__49 = TranslateRStr(LightningRStr);
-                                var call__50 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__49 + AnsiString.FromBytes(32) + call__50);
+                                var lightning = TranslateRStr(LightningRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(lightning + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtMagic))
                             {
-                                var call__51 = TranslateRStr(MagicRStr);
-                                var call__52 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__51 + AnsiString.FromBytes(32) + call__52);
+                                var magic = TranslateRStr(MagicRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(magic + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtPoison))
                             {
-                                var call__53 = TranslateRStr(PoisonRStr);
-                                var call__54 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__53 + AnsiString.FromBytes(32) + call__54);
+                                var poison = TranslateRStr(PoisonRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(poison + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtDeath))
                             {
-                                var call__55 = TranslateRStr(DeathRStr);
-                                var call__56 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__55 + AnsiString.FromBytes(32) + call__56);
+                                var death = TranslateRStr(DeathRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(death + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtHoly))
                             {
-                                var call__57 = TranslateRStr(HolyRStr);
-                                var call__58 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__57 + AnsiString.FromBytes(32) + call__58);
+                                var holy = TranslateRStr(HolyRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(holy + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtPhysical))
                             {
-                                var call__59 = TranslateRStr(PhysicalRStr);
-                                var call__60 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__59 + AnsiString.FromBytes(32) + call__60);
+                                var physical = TranslateRStr(PhysicalRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(physical + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (SpellInfo.DamageTypes.Contains(TDamageType.dtWall))
                             {
-                                var call__61 = TranslateRStr(WallRStr);
-                                var call__62 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__61 + AnsiString.FromBytes(32) + call__62);
+                                var wall = TranslateRStr(WallRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(wall + AnsiString.FromBytes(32) + e1Damage);
                             }
                         }
                         else
@@ -439,11 +418,9 @@ namespace Aow.Units.AoWTCUnit
                             Window.TCUnitPnl.Visible = false;
                             Window.TCAbilPnl.Visible = true;
                             Window.TargetSelPnl.Visible = false;
-                            var call__63 = AoWHSSet.FAbilityControl.GetAbility(General.FCombatUnit.FSelectedAbility);
-                            call__63.GetCombatInfo(General.FCombatUnit.FUnit.FUnit, ref AbilityInfo);
-                            var call__64 = AoWHSSet.FAbilityControl.GetAbility(General.FCombatUnit.FSelectedAbility);
-                            var call__65 = call__64.GetName(General.FCombatUnit.FUnit.FUnit);
-                            Window.AbilNameLbl.Text = call__65;
+                            AoWHSSet.FAbilityControl.GetAbility(General.FCombatUnit.FSelectedAbility).GetCombatInfo(General.FCombatUnit.FUnit.FUnit, ref AbilityInfo);
+                            var name = AoWHSSet.FAbilityControl.GetAbility(General.FCombatUnit.FSelectedAbility).GetName(General.FCombatUnit.FUnit.FUnit);
+                            Window.AbilNameLbl.Text = name;
                             if (AbilityInfo.Attack > 0)
                             {
                                 Window.AbilAttLbl.Text = IntToStr(AbilityInfo.Attack);
@@ -465,76 +442,76 @@ namespace Aow.Units.AoWTCUnit
                             Window.AbilStat.Items.Clear();
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtFire))
                             {
-                                var call__66 = TranslateRStr(FireRStr);
-                                var call__67 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__66 + AnsiString.FromBytes(32) + call__67);
+                                var fire = TranslateRStr(FireRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(fire + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtCold))
                             {
-                                var call__68 = TranslateRStr(ColdRStr);
-                                var call__69 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__68 + AnsiString.FromBytes(32) + call__69);
+                                var cold = TranslateRStr(ColdRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(cold + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtLightning))
                             {
-                                var call__70 = TranslateRStr(LightningRStr);
-                                var call__71 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__70 + AnsiString.FromBytes(32) + call__71);
+                                var lightning = TranslateRStr(LightningRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(lightning + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtMagic))
                             {
-                                var call__72 = TranslateRStr(MagicRStr);
-                                var call__73 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__72 + AnsiString.FromBytes(32) + call__73);
+                                var magic = TranslateRStr(MagicRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(magic + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtPoison))
                             {
-                                var call__74 = TranslateRStr(PoisonRStr);
-                                var call__75 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__74 + AnsiString.FromBytes(32) + call__75);
+                                var poison = TranslateRStr(PoisonRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(poison + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtDeath))
                             {
-                                var call__76 = TranslateRStr(DeathRStr);
-                                var call__77 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__76 + AnsiString.FromBytes(32) + call__77);
+                                var death = TranslateRStr(DeathRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(death + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtHoly))
                             {
-                                var call__78 = TranslateRStr(HolyRStr);
-                                var call__79 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__78 + AnsiString.FromBytes(32) + call__79);
+                                var holy = TranslateRStr(HolyRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(holy + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtPhysical))
                             {
-                                var call__80 = TranslateRStr(PhysicalRStr);
-                                var call__81 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__80 + AnsiString.FromBytes(32) + call__81);
+                                var physical = TranslateRStr(PhysicalRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(physical + AnsiString.FromBytes(32) + e1Damage);
                             }
 
                             if (AbilityInfo.DamageTypes.Contains(TDamageType.dtWall))
                             {
-                                var call__82 = TranslateRStr(WallRStr);
-                                var call__83 = TranslateRStr(E1DamageRStr);
-                                Window.AbilStat.Items.Add(call__82 + AnsiString.FromBytes(32) + call__83);
+                                var wall = TranslateRStr(WallRStr);
+                                var e1Damage = TranslateRStr(E1DamageRStr);
+                                Window.AbilStat.Items.Add(wall + AnsiString.FromBytes(32) + e1Damage);
                             }
                         }
                     }
 
                     Window.UnitName.Items.Clear();
-                    var call__84 = U.GetName();
-                    Window.UnitName.Items.Add(call__84);
-                    var call__85 = U.GetHits();
-                    Window.UnitHits.Max = call__85;
-                    var call__86 = U.GetHitPoints();
-                    Window.UnitHits.Position = call__86;
+                    var uName = U.GetName();
+                    Window.UnitName.Items.Add(uName);
+                    var uHits = U.GetHits();
+                    Window.UnitHits.Max = uHits;
+                    var uHitPoints = U.GetHitPoints();
+                    Window.UnitHits.Position = uHitPoints;
                 }
             }
 

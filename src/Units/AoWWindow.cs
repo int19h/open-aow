@@ -34,22 +34,22 @@ namespace Aow.Units.AoWWindow
                 case TWindowType.winHollow:
                     if (FILFrame != null && (FILTexture != null || FWindowType == TWindowType.winHollow))
                     {
-                        var call__1 = FILFrame[FILIndexFrame];
-                        var call__2 = FILFrame[FILIndexFrame + 2];
-                        if (call__1.Width + call__2.Width > FWinWidth)
+                        var ilFrameWidth = FILFrame[FILIndexFrame];
+                        var ilFrame = FILFrame[FILIndexFrame + 2];
+                        if (ilFrameWidth.Width + ilFrame.Width > FWinWidth)
                         {
-                            var call__3 = FILFrame[FILIndexFrame];
-                            var call__4 = FILFrame[FILIndexFrame + 2];
-                            FWinWidth = call__3.Width + call__4.Width;
+                            var ilFrame2 = FILFrame[FILIndexFrame];
+                            var ilFrame3 = FILFrame[FILIndexFrame + 2];
+                            FWinWidth = ilFrame2.Width + ilFrame3.Width;
                         }
 
-                        var call__5 = FILFrame[FILIndexFrame];
-                        var call__6 = FILFrame[FILIndexFrame + 5];
-                        if (call__5.Height + call__6.Height > FWinHeight)
+                        var ilFrameHeight = FILFrame[FILIndexFrame];
+                        var ilFrame4 = FILFrame[FILIndexFrame + 5];
+                        if (ilFrameHeight.Height + ilFrame4.Height > FWinHeight)
                         {
-                            var call__7 = FILFrame[FILIndexFrame];
-                            var call__8 = FILFrame[FILIndexFrame + 5];
-                            FWinHeight = call__7.Height + call__8.Height;
+                            var ilFrame2 = FILFrame[FILIndexFrame];
+                            var ilFrame3 = FILFrame[FILIndexFrame + 5];
+                            FWinHeight = ilFrame2.Height + ilFrame3.Height;
                         }
 
                         if (FMinWidth > 0 && FMinWidth > FWinWidth)
@@ -147,14 +147,12 @@ namespace Aow.Units.AoWWindow
                             }
                             else
                             {
-                                var call__9 = FILFrame[FILIndexFrame + 3];
-                                FFrameLeft = call__9.Width;
-                                var call__10 = FILFrame[FILIndexFrame + 4];
-                                FFrameRight = FWinWidth - call__10.Width;
-                                var call__11 = FILFrame[FILIndexFrame + 1];
-                                FFrameTop = call__11.Height;
-                                var call__12 = FILFrame[FILIndexFrame + 6];
-                                FFrameBottom = FWinHeight - call__12.Height;
+                                FFrameLeft = FILFrame[FILIndexFrame + 3].Width;
+                                var ilFrame2 = FILFrame[FILIndexFrame + 4];
+                                FFrameRight = FWinWidth - ilFrame2.Width;
+                                FFrameTop = FILFrame[FILIndexFrame + 1].Height;
+                                var ilFrame3 = FILFrame[FILIndexFrame + 6];
+                                FFrameBottom = FWinHeight - ilFrame3.Height;
                             }
                         }
                     }
@@ -307,24 +305,24 @@ namespace Aow.Units.AoWWindow
                     switch (FWindowType)
                     {
                         case TWindowType.winNormal:
-                            var call__13 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                            FILFrame.DrawILF(FILIndexFrame, call__13, ref SurfDesc);
-                            var call__14 = FILFrame[FILIndexFrame + 1];
-                            var call__15 = FILFrame[FILIndexFrame + 6];
-                            var call__16 = FILFrame[FILIndexFrame + 3];
-                            var call__17 = FILFrame[FILIndexFrame + 4];
-                            var call__18 = FILFrame[FILIndexFrame + 1];
-                            var call__19 = FILFrame[FILIndexFrame + 3];
-                            var call__20 = Rect(FWinLeft + call__19.Width, FWinTop + call__18.Height, FWinWidth - call__16.Width - call__17.Width, FWinHeight - call__14.Height - call__15.Height);
-                            FILTexture.DrawILT(FILIndexTexture, call__20, ref SurfDesc);
+                            var rect = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
+                            var ilFrameHeight = FILFrame[FILIndexFrame + 1];
+                            var ilFrame = FILFrame[FILIndexFrame + 6];
+                            var ilFrameWidth = FILFrame[FILIndexFrame + 3];
+                            var ilFrame2 = FILFrame[FILIndexFrame + 4];
+                            var ilFrame3 = FILFrame[FILIndexFrame + 1];
+                            var ilFrame4 = FILFrame[FILIndexFrame + 3];
+                            var rect2 = Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                            FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                             break;
                         case TWindowType.winHollow:
-                            var call__21 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                            FILFrame.DrawILF(FILIndexFrame, call__21, ref SurfDesc);
+                            var rect3 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                             break;
                         case TWindowType.winBorderless:
-                            var call__22 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                            FILTexture.DrawILT(FILIndexTexture, call__22, ref SurfDesc);
+                            var rect4 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            FILTexture.DrawILT(FILIndexTexture, rect4, ref SurfDesc);
                             break;
                     }
 
@@ -347,7 +345,6 @@ namespace Aow.Units.AoWWindow
 //   click in the title area starts dragging, one on a border (Resizable) starts resizing }
         public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            int I = default;
             TAoWComponent C = default;
             FHandled = false;
             FRedraw = false;
@@ -359,25 +356,20 @@ namespace Aow.Units.AoWWindow
                     SetPriority(FPriority);
                 }
 
+                for (int I = FChildren.Count - 1; I >= 0; I--)
                 {
-                    I = FChildren.Count - 1;
-                    byte end__23 = 0;
-                    for (; I >= end__23; I -= 1)
+                    C = (TAoWComponent)FChildren[I];
+                    C.FHandled = false;
+                    if ((!FHandled || C.FRedraw) && C.FVisible == true && C.FCaptureInput)
                     {
-                        var call__24 = FChildren[I];
-                        C = (TAoWComponent)call__24;
-                        C.FHandled = false;
-                        if ((!FHandled || C.FRedraw) && C.FVisible == true && C.FCaptureInput)
-                        {
-                            C.CheckMouseDown(Button, Shift, X, Y);
-                        }
+                        C.CheckMouseDown(Button, Shift, X, Y);
+                    }
 
-                        if (C.FHandled == true)
-                        {
-                            C.FRedraw = true;
-                            FHandled = true;
-                            FRedraw = true;
-                        }
+                    if (C.FHandled == true)
+                    {
+                        C.FRedraw = true;
+                        FHandled = true;
+                        FRedraw = true;
                     }
                 }
 
@@ -501,29 +493,23 @@ namespace Aow.Units.AoWWindow
         // AoWWindow.pas:376
         public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            int I = default;
             TAoWComponent C = default;
             FHandled = false;
             if (FVisible && FValid)
             {
                 FDragging = 0;
+                for (int I = FChildren.Count - 1; I >= 0; I--)
                 {
-                    I = FChildren.Count - 1;
-                    byte end__25 = 0;
-                    for (; I >= end__25; I -= 1)
+                    C = (TAoWComponent)FChildren[I];
+                    C.FHandled = false;
+                    if ((!FHandled || C.FRedraw == true) && C.FVisible == true && C.FCaptureInput)
                     {
-                        var call__26 = FChildren[I];
-                        C = (TAoWComponent)call__26;
-                        C.FHandled = false;
-                        if ((!FHandled || C.FRedraw == true) && C.FVisible == true && C.FCaptureInput)
-                        {
-                            C.CheckMouseUp(Button, Shift, X, Y);
-                        }
+                        C.CheckMouseUp(Button, Shift, X, Y);
+                    }
 
-                        if (C.FHandled == true)
-                        {
-                            FHandled = true;
-                        }
+                    if (C.FHandled == true)
+                    {
+                        FHandled = true;
                     }
                 }
 
@@ -559,7 +545,7 @@ namespace Aow.Units.AoWWindow
 //   resize cursors over the borders }
         public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
         {
-            bool Resized = default;
+            bool Resized;
             int I = default;
             TAoWComponent C = default;
             FHandled = false;
@@ -729,23 +715,19 @@ namespace Aow.Units.AoWWindow
                         break;
                 }
 
+                I = FChildren.Count - 1;
+                for (; I >= 0; I -= 1)
                 {
-                    I = FChildren.Count - 1;
-                    byte end__27 = 0;
-                    for (; I >= end__27; I -= 1)
+                    C = (TAoWComponent)FChildren[I];
+                    C.FHandled = false;
+                    if ((!FHandled || C.FRedraw == true || C.FToolTipCount > 0) && C.FVisible == true && C.FCaptureInput)
                     {
-                        var call__28 = FChildren[I];
-                        C = (TAoWComponent)call__28;
-                        C.FHandled = false;
-                        if ((!FHandled || C.FRedraw == true || C.FToolTipCount > 0) && C.FVisible == true && C.FCaptureInput)
-                        {
-                            C.CheckMouseMove(Shift, X, Y);
-                        }
+                        C.CheckMouseMove(Shift, X, Y);
+                    }
 
-                        if (C.FHandled == true)
-                        {
-                            FHandled = true;
-                        }
+                    if (C.FHandled == true)
+                    {
+                        FHandled = true;
                     }
                 }
 

@@ -91,7 +91,6 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:197
         public void LinkToHSM()
         {
-            int I = default;
             AoWHSMap.FMouse.FOnDblClick.Add(DblClick);
             AoWHSMap.FNewDayEvents.Add(ChangeDay);
             AoWHSMap.FCurrentPlayerChangedEvents.Add(PlayerChanged);
@@ -126,29 +125,19 @@ namespace Aow.Units.MapCtrl
             AoWHSMap.FExitEvents.Add(ExitGameEvent);
             AoWHSMap.FCombatMapCreatedEvents.Add(ActivateCombatMap);
             AoWHSMap.FCombatMapDestroyedEvents.Add(DeactivateCombatMap);
+            for (int I = 0, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__1 = AoWHSMap.FPlayers.Count - 1;
-                for (; I <= end__1; I += 1)
-                {
-                    var call__2 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__2).FGemsChangedEvents.Add(GemsChanged);
-                    var call__3 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__3).FIncomeChangedEvents.Add(IncomeChanged);
-                    var call__4 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__4).FUpkeepChangedEvents.Add(UpkeepChanged);
-                    var call__5 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__5).FLogbookChangedEvents.Add(LogbookChanged);
-                    var call__6 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__6).FMagicControl.FChangedEvents.Add(PlayerMagicChanged);
-                }
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FGemsChangedEvents.Add(GemsChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FIncomeChangedEvents.Add(IncomeChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FUpkeepChangedEvents.Add(UpkeepChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FLogbookChangedEvents.Add(LogbookChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents.Add(PlayerMagicChanged);
             }
         }
 
         // MapCtrl.pas:244
         public void ReleaseHSM()
         {
-            int I = default;
             AoWHSMap.FMouse.FOnDblClick.Remove(DblClick);
             AoWHSMap.FNewDayEvents.Remove(ChangeDay);
             AoWHSMap.FCurrentPlayerChangedEvents.Remove(PlayerChanged);
@@ -183,22 +172,13 @@ namespace Aow.Units.MapCtrl
             AoWHSMap.FExitEvents.Remove(ExitGameEvent);
             AoWHSMap.FCombatMapCreatedEvents.Remove(ActivateCombatMap);
             AoWHSMap.FCombatMapDestroyedEvents.Remove(DeactivateCombatMap);
+            for (int I = 0, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__7 = AoWHSMap.FPlayers.Count - 1;
-                for (; I <= end__7; I += 1)
-                {
-                    var call__8 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__8).FGemsChangedEvents.Remove(GemsChanged);
-                    var call__9 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__9).FIncomeChangedEvents.Remove(IncomeChanged);
-                    var call__10 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__10).FUpkeepChangedEvents.Remove(UpkeepChanged);
-                    var call__11 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__11).FLogbookChangedEvents.Remove(LogbookChanged);
-                    var call__12 = (TObject)AoWHSMap.FPlayers.GetPlayers(I);
-                    ((TPlayer)(object)call__12).FMagicControl.FChangedEvents.Remove(PlayerMagicChanged);
-                }
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FGemsChangedEvents.Remove(GemsChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FIncomeChangedEvents.Remove(IncomeChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FUpkeepChangedEvents.Remove(UpkeepChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FLogbookChangedEvents.Remove(LogbookChanged);
+                ((TPlayer)(object)(TObject)AoWHSMap.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents.Remove(PlayerMagicChanged);
             }
         }
 
@@ -232,11 +212,10 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:309
         public void DblClick(TObject Sender)
         {
-            THexagonSprite HS = default;
+            THexagonSprite HS;
             if (FOnDblClickArmy != null)
             {
-                var call__13 = AoWHSMap.Selection.FindClass(typeof(TArmyHS));
-                HS = call__13;
+                HS = AoWHSMap.Selection.FindClass(typeof(TArmyHS));
                 if (HS != null)
                 {
                     FOnDblClickArmy(((TArmyHS)(object)HS).FArmy);
@@ -245,8 +224,7 @@ namespace Aow.Units.MapCtrl
 
             if (FOnDblClickStructure != null)
             {
-                var call__14 = AoWHSMap.Selection.FindClass(typeof(TStructure));
-                HS = call__14;
+                HS = AoWHSMap.Selection.FindClass(typeof(TStructure));
                 if (HS != null)
                 {
                     FOnDblClickStructure(HS);
@@ -305,18 +283,11 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:324
         public void SelectHS(TObject Sender)
         {
-            THexagonSpriteSelection Selection = default;
+            THexagonSpriteSelection Selection;
             try
             {
                 Selection = AoWHSMap.Selection;
-                bool bool__15 = FOnSelectArmy != null && Selection.EventHS is TArmyHS;
-                if (bool__15)
-                {
-                    var call__16 = AoWHSMap.FSelectedArmy.GetArmyHS();
-                    bool__15 = call__16 != null;
-                }
-
-                if (bool__15)
+                if (FOnSelectArmy != null && Selection.EventHS is TArmyHS && AoWHSMap.FSelectedArmy.GetArmyHS() != null)
                 {
                     FOnSelectArmy(((TArmyHS)(object)Selection.EventHS).FArmy);
                 }
@@ -340,7 +311,7 @@ namespace Aow.Units.MapCtrl
         // MapCtrl.pas:337
         public void DeselectHS(TObject Sender)
         {
-            THexagonSpriteSelection Selection = default;
+            THexagonSpriteSelection Selection;
             try
             {
                 Selection = AoWHSMap.Selection;
@@ -420,8 +391,8 @@ namespace Aow.Units.MapCtrl
             {
                 if (FOnEndTurn != null)
                 {
-                    var call__17 = (TObject)AoWHSMap.FPlayers.GetPlayers(ObjectToInt(Player));
-                    FOnEndTurn((sbyte)ObjectToInt(Player), !((TPlayer)(object)call__17).FSingleProcessCycle);
+                    var player = (TObject)AoWHSMap.FPlayers.GetPlayers(ObjectToInt(Player));
+                    FOnEndTurn((sbyte)ObjectToInt(Player), !((TPlayer)(object)player).FSingleProcessCycle);
                 }
             }
             catch (System.Exception)

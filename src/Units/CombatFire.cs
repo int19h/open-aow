@@ -49,12 +49,7 @@ namespace Aow.Units.CombatFire
         }
 
         // CombatFire.pas:83
-        public override byte GetLevel()
-        {
-            byte Result = default;
-            Result = 27;
-            return Result;
-        }
+        public override byte GetLevel() => 27;
 
         // CombatFire.pas:70
         public override void SetVisible(bool Value)
@@ -63,28 +58,21 @@ namespace Aow.Units.CombatFire
         }
 
         // CombatFire.pas:86
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            Result = 1811939328;
-            return Result;
-        }
+        public override int GetShowPriority() => 1811939328;
 
         // CombatFire.pas:146
         public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
         {
-            int Penalty = default;
+            int Penalty;
             if (Info.HN == 0)
             {
-                var call__1 = ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(7);
-                if (call__1)
+                if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(7))
                 {
                     Penalty = 0;
                 }
                 else
                 {
-                    var call__2 = ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(71);
-                    if (call__2)
+                    if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(71))
                     {
                         Penalty = 10;
                     }
@@ -109,10 +97,8 @@ namespace Aow.Units.CombatFire
         public override void Activate()
         {
             base.Activate();
-            var call__3 = Random(10);
-            FXShift = call__3 + 11;
-            var call__4 = Random(10);
-            FYShift = call__4 + 11;
+            FXShift = Random(10) + 11;
+            FYShift = Random(10) + 11;
             FPlayer = AoWCombatMap.FCurrentCombatPlayer;
             FFirstTurn = true;
         }
@@ -132,7 +118,6 @@ namespace Aow.Units.CombatFire
         // CombatFire.pas:98
         public void NewTurn()
         {
-            int I = default;
             int Xhx = default;
             int Yhx = default;
             TMapFieldMsg Msg = default;
@@ -147,23 +132,16 @@ namespace Aow.Units.CombatFire
                     Msg.MsgID = 200711;
                     Msg.Param[0] = this;
                     Msg.Result = -1;
-                    var call__5 = GetYhx();
-                    var call__6 = GetXhx();
-                    var call__7 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                    var call__8 = call__7.GetField(call__6, call__5);
-                    call__8.SendMapFieldMsg(ref Msg);
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
+                    for (int I = 1; I <= 6; I++)
                     {
-                        I = 1;
-                        byte end__9 = 6;
-                        for (; I <= end__9; I += 1)
+                        var yhx2 = GetYhx();
+                        CenterHNtoHX(GetXhx(), yhx2, I, ref Xhx, ref Yhx);
+                        if (Xhx > 0 && Yhx > 0)
                         {
-                            var call__10 = GetYhx();
-                            var call__11 = GetXhx();
-                            CenterHNtoHX(call__11, call__10, I, ref Xhx, ref Yhx);
-                            if (Xhx > 0 && Yhx > 0)
-                            {
-                                CombatFire.CreateFire(true, 50, Xhx, Yhx);
-                            }
+                            CombatFire.CreateFire(true, 50, Xhx, Yhx);
                         }
                     }
 
@@ -186,20 +164,10 @@ namespace Aow.Units.CombatFire
         public new const int ClassID = 2229579;
 
         // CombatFire.pas:166
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229578;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229578;
 
         // CombatFire.pas:163
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat Fire";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat Fire";
 
     }
 
@@ -208,63 +176,24 @@ namespace Aow.Units.CombatFire
         // CombatFire.pas:169
         public static void CreateFire(bool Spread, int Chance, int Xhx, int Yhx)
         {
-            TCombatFire Fire = default;
-            bool CanBurn = default;
-            TCombatILTerrain Terrain = default;
-            TCityWall Wall = default;
-            var call__12 = AoWCombatMap.MapContainer.GetMapLevel(0);
-            var call__13 = call__12.GetField(Xhx, Yhx);
-            if (call__13.TerrainType != 15)
+            TCombatFire Fire;
+            bool CanBurn;
+            TCombatILTerrain Terrain;
+            TCityWall Wall;
+            if (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
             {
-                var call__14 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                var call__15 = call__14.GetField(Xhx, Yhx);
-                var call__16 = call__15.FindOwnedChild(2229578);
-                if (call__16 == null)
+                if (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
                 {
-                    var call__17 = AoWHSMap.Random(100);
-                    if (call__17 < Chance)
+                    if (AoWHSMap.Random(100) < Chance)
                     {
                         CanBurn = false;
-                        var call__18 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                        var call__19 = call__18.GetField(Xhx, Yhx);
-                        var call__20 = call__19.GetDecorationType();
-                        bool bool__21 = call__20 == 9;
-                        if (!bool__21)
-                        {
-                            var call__22 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__23 = call__22.GetField(Xhx, Yhx);
-                            var call__24 = call__23.GetDecorationType();
-                            bool__21 = call__24 == 1;
-                        }
-
-                        bool bool__25 = bool__21;
-                        if (!bool__25)
-                        {
-                            var call__26 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__27 = call__26.GetField(Xhx, Yhx);
-                            var call__28 = call__27.GetDecorationType();
-                            bool__25 = call__28 == 2;
-                        }
-
-                        bool bool__29 = bool__25;
-                        if (!bool__29)
-                        {
-                            var call__30 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__31 = call__30.GetField(Xhx, Yhx);
-                            var call__32 = call__31.GetDecorationType();
-                            bool__29 = call__32 == 3;
-                        }
-
-                        if (bool__29)
+                        if (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
                         {
                             CanBurn = true;
                         }
                         else
                         {
-                            var call__33 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__34 = call__33.GetField(Xhx, Yhx);
-                            var call__35 = call__34.FindOwnedChild(2228534);
-                            Terrain = (TCombatILTerrain)call__35;
+                            Terrain = (TCombatILTerrain)AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
                             if (Terrain != null)
                             {
                                 if (Terrain.GetBurnValue() > 0)
@@ -273,10 +202,7 @@ namespace Aow.Units.CombatFire
                                 }
                             }
 
-                            var call__36 = AoWCombatMap.MapContainer.GetMapLevel(0);
-                            var call__37 = call__36.GetField(Xhx, Yhx);
-                            var call__38 = call__37.FindOwnedChild(2229508);
-                            Wall = (TCityWall)call__38;
+                            Wall = (TCityWall)AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
                             if (Wall != null)
                             {
                                 if (Wall.FWallType == 1)
@@ -292,8 +218,7 @@ namespace Aow.Units.CombatFire
                         if (CanBurn)
                         {
                             Fire = new TCombatFire(null);
-                            var call__39 = AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0);
-                            if (!call__39)
+                            if (!AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0))
                             {
                                 Fire.Free();
                             }

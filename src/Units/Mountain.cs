@@ -31,9 +31,7 @@ namespace Aow.Units.Mountain
         // Mountain.pas:104
         public override sbyte GetOverlay(int Index)
         {
-            sbyte Result = default;
-            var call__1 = FResource.TerrainList.Overlay[Index];
-            Result = call__1;
+            sbyte Result = FResource.TerrainList.Overlay[Index];
             if (Result >= 0)
             {
                 Result = 0;
@@ -43,38 +41,24 @@ namespace Aow.Units.Mountain
         }
 
         // Mountain.pas:110
-        public override bool CanChangeTerrain(in THSSenderInfo Info)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanChangeTerrain(in THSSenderInfo Info) => true;
 
         // Mountain.pas:136
         public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            int I = default;
-            bool Valid = default;
-            TTerrainList List = default;
-            TMapField MapField = default;
+            int I;
+            bool Valid;
+            TTerrainList List;
+            TMapField MapField;
             int X = default;
             int Y = default;
-            THexagonSprite HS = default;
+            THexagonSprite HS;
             I = 0;
             Valid = true;
             List = FResource.TerrainList;
             while (Valid && I < List.Count)
             {
-                var call__2 = List.Terrain[I];
-                bool bool__3 = call__2 >= 0;
-                if (!bool__3)
-                {
-                    var call__4 = List.Overlay[I];
-                    bool__3 = call__4 >= 0;
-                }
-
-                if (bool__3)
+                if (List.Terrain[I] >= 0 || List.Overlay[I] >= 0)
                 {
                     CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
                     if (X >= 0 && Y >= 0 && X < MapContainer.Width && Y < MapContainer.Height)
@@ -83,9 +67,7 @@ namespace Aow.Units.Mountain
                         HS = MapField.GetMaxLevelNoneTransparentHS();
                         if (HS != null && HS.EClass.ClassID == 131432)
                         {
-                            var call__5 = List.Overlay[I];
-                            var call__6 = ValidMountainOverlap(MapField, call__5);
-                            Valid = call__6;
+                            Valid = ValidMountainOverlap(MapField, List.Overlay[I]);
                         }
                         else
                         {
@@ -97,49 +79,32 @@ namespace Aow.Units.Mountain
                 I += 1;
             }
 
-            bool bool__7 = Valid;
-            if (bool__7)
-            {
-                var call__8 = MapContainer.Map.CanChangeTerrain(this, Xhx, Yhx, Lhx, FResource.TerrainList);
-                bool__7 = call__8;
-            }
-
-            Valid = bool__7;
-            Result = Valid;
-            return Result;
+            return Valid && MapContainer.Map.CanChangeTerrain(this, Xhx, Yhx, Lhx, FResource.TerrainList);
         }
 
         // Mountain.pas:113
         public bool ValidMountainOverlap(TMapField MapField, sbyte Overlay)
         {
-            bool Result = default;
-            bool Valid = default;
-            int I = default;
-            TMapObject HS = default;
-            sbyte OtherOverlay = default;
+            bool Valid;
+            int I;
+            TMapObject HS;
+            sbyte OtherOverlay;
             Valid = true;
             I = 0;
-            while (true)
+            while (I != MapField.Count && Valid)
             {
-                var call__9 = MapField.Count;
-                if (!(I != call__9 && Valid))
-                    break;
+                HS = (TMapObject)MapField.HSList[I];
+                if (HS.EClass.ClassID == 131432)
                 {
-                    HS = (TMapObject)MapField.HSList[I];
-                    if (HS.EClass.ClassID == 131432)
-                    {
-                        var call__10 = MapField.GetHNofHS(HS);
-                        var call__11 = HS.Resource.TerrainList.Overlay[call__10];
-                        OtherOverlay = call__11;
-                        Valid = !((OtherOverlay == 0 && Overlay == 0) || (OtherOverlay == 1 && Overlay == 1));
-                    }
-
-                    I += 1;
+                    var hNofHS = MapField.GetHNofHS(HS);
+                    OtherOverlay = HS.Resource.TerrainList.Overlay[hNofHS];
+                    Valid = !((OtherOverlay == 0 && Overlay == 0) || (OtherOverlay == 1 && Overlay == 1));
                 }
+
+                I += 1;
             }
 
-            Result = Valid;
-            return Result;
+            return Valid;
         }
 
     }
@@ -153,22 +118,10 @@ namespace Aow.Units.Mountain
         public new const int ClassID = 131433;
 
         // Mountain.pas:175
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131432;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131432;
 
         // Mountain.pas:172
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__12 = MountainRStr;
-            var call__13 = TranslateRStr(call__12);
-            Result = call__13;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(MountainRStr);
 
     }
 
@@ -219,8 +172,7 @@ namespace Aow.Units.Mountain
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4402)
             {
-                var call__14 = FResource.TerrainList.Terrain[Msg.HN];
-                if (call__14 >= 0)
+                if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
                     RestoreTerrain();
                 }
@@ -230,8 +182,8 @@ namespace Aow.Units.Mountain
         // Mountain.pas:189
         public void RestoreTerrain()
         {
-            TMapField Field = default;
-            sbyte Overlay = default;
+            TMapField Field;
+            sbyte Overlay;
             Field = (TMapField)Owner;
             Overlay = FOriginalOverlay;
             this.Destroy();
@@ -257,30 +209,26 @@ namespace Aow.Units.Mountain
         // Mountain.pas:228
         public void ShowRaiseTerrainAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TMapField Field = default;
-            var call__15 = Anim.GetLhx();
-            var call__16 = Anim.GetYhx();
-            var call__17 = Anim.GetXhx();
-            var call__18 = AoWHSMap.MapContainer.GetField(call__17, call__16, call__15);
-            Field = call__18;
+            TMapField Field;
+            var lhx = Anim.GetLhx();
+            var yhx = Anim.GetYhx();
+            var xhx = Anim.GetXhx();
+            Field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
             // { Original tests the base mountain ID, although this object is raised terrain. }
-            var call__19 = Field.FindOwnedChild(131432);
-            if (this == call__19 && Anim.FFrameCounter == 0)
+            if (this == Field.FindOwnedChild(131432) && Anim.FFrameCounter == 0)
             {
-                bool bool__20 = AoWHSMap.FSeatedPlayer == Anim.FTag;
-                if (!bool__20)
+                bool condition = AoWHSMap.FSeatedPlayer == Anim.FTag;
+                if (!condition)
                 {
-                    var call__21 = GetLhx();
-                    var call__22 = GetYhx();
-                    var call__23 = GetXhx();
-                    var call__24 = AoWHSMap.WatchingTerrain(call__23, call__22, call__21, 0);
-                    bool__20 = call__24;
+                    var lhx2 = GetLhx();
+                    var yhx2 = GetYhx();
+                    var xhx2 = GetXhx();
+                    condition = AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
-                if (bool__20)
+                if (condition)
                 {
-                    var call__25 = AoWHSSet.FSpellControl.GetSpell(19);
-                    call__25.FCastSounds.Play(0);
+                    AoWHSSet.FSpellControl.GetSpell(19).FCastSounds.Play(0);
                 }
             }
         }
@@ -288,12 +236,10 @@ namespace Aow.Units.Mountain
         // Mountain.pas:240
         public void NewFrameRaiseTerrainAnimation(TAnimation Anim, int FrameCounter)
         {
-            TMapField Field = default;
-            var call__26 = Anim.GetLhx();
-            var call__27 = Anim.GetYhx();
-            var call__28 = Anim.GetXhx();
-            var call__29 = AoWHSMap.MapContainer.GetField(call__28, call__27, call__26);
-            Anim = (TAnimation)(object)call__29;
+            var lhx = Anim.GetLhx();
+            var yhx = Anim.GetYhx();
+            var xhx = Anim.GetXhx();
+            Anim = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
             if (((TMapField)(object)Anim).FindOwnedChild(131434) == this && FrameCounter == 9)
             {
                 FMode = FMode - TSet<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.rmRaising);
@@ -311,20 +257,10 @@ namespace Aow.Units.Mountain
         public new const int ClassID = 131435;
 
         // Mountain.pas:255
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131434;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131434;
 
         // Mountain.pas:252
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(RaisedMountainRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(RaisedMountainRStr);
 
     }
 
@@ -339,14 +275,11 @@ namespace Aow.Units.Mountain
         // Mountain.pas:317
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
             base.Process(A1, A2);
             RaiseTerrain(A1);
             AoWHSMap.ValidateTerrainObservation(A1.FPlayer, Unsafe.As<TXYL, TLocation>(ref FLocation).X, Unsafe.As<TXYL, TLocation>(ref FLocation).Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer, 1);
-            var call__30 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__30.CastingDone(A1, FEventMana);
-            Result = false;
-            return Result;
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, FEventMana);
+            return false;
         }
 
         // Mountain.pas:261
@@ -362,19 +295,15 @@ namespace Aow.Units.Mountain
             bool Found = default;
             TImageSequenceAnimation Anim = default;
             Resources = AoWHSSet.MapObjectResourceList.FChildren;
-            var call__31 = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TLocation>(ref FLocation).Layer];
-            Level = call__31;
+            Level = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TLocation>(ref FLocation).Layer];
             InitHNWalk(ref Walk, Unsafe.As<TXYL, TLocation>(ref FLocation).X, Unsafe.As<TXYL, TLocation>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    var call__32 = Level.Field[Walk.X, Walk.Y];
-                    Field = (TAoWMapField)call__32;
+                    Field = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
                     Resource = null;
-                    var call__33 = AoWHSSet.FSpellControl.GetSpell(19);
-                    var call__34 = ((TRaiseTerrain)call__33).ValidTargetMapF(Field);
-                    if (call__34)
+                    if (((TRaiseTerrain)AoWHSSet.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
                     {
                         Found = false;
                         I = Resources.Count;
@@ -382,38 +311,25 @@ namespace Aow.Units.Mountain
                         {
                             I -= 1;
                             Resource = (TMapObjectResource)Resources.List[I];
-                            var call__35 = Resource.EClass.ClassID;
-                            bool bool__36 = call__35 == 131435;
-                            if (bool__36)
-                            {
-                                var call__37 = Resource.TerrainList.UsedTerrain();
-                                bool__36 = call__37 == 1;
-                            }
-
-                            Found = bool__36;
+                            Found = Resource.EClass.ClassID == 131435 && Resource.TerrainList.UsedTerrain() == 1;
                         }
 
                         if (Found)
                         {
                             Field.RestoreTerrain();
                             Mountain = (TRaisedMountain)Resource.CreateResourceUser();
-                            var call__38 = AoWHSMap.Random(11);
-                            Mountain.FDuration = (sbyte)((call__38 - 5) / 5 + 3);
+                            Mountain.FDuration = (sbyte)((AoWHSMap.Random(11) - 5) / 5 + 3);
                             Mountain.FPlayer = Caster.FPlayer;
                             Mountain.FOriginalOverlay = Field.OverlayType;
                             AoWHSMap.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer, 0, -1);
-                            var call__39 = AoWHSMap.PlaceHX(Mountain, Walk.X, Walk.Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer);
-                            if (call__39)
+                            if (AoWHSMap.PlaceHX(Mountain, Walk.X, Walk.Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer))
                             {
                                 Mountain.FMode = Mountain.FMode + TSet<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.rmRaising);
                                 Anim = new TImageSequenceAnimation(null);
-                                var call__40 = AoWHSSet.FSpellControl.GetSpell(19);
-                                var call__41 = call__40.FCastImages.ImageSequences[0];
-                                Anim.SetImageSequence(call__41);
+                                Anim.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(19).FCastImages.ImageSequences[0]);
                                 Anim.FOnShow = Mountain.ShowRaiseTerrainAnimation;
                                 Anim.FOnNewFrame = Mountain.NewFrameRaiseTerrainAnimation;
-                                var call__42 = AoWHSMap.Random(15);
-                                Anim.FFrameCounter = -call__42;
+                                Anim.FFrameCounter = -AoWHSMap.Random(15);
                                 AoWHSMap.PlaceHX(Anim, Walk.X, Walk.Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer);
                             }
                         }
@@ -433,8 +349,7 @@ namespace Aow.Units.Mountain
     {
         public TRaiseTerrain(TECustomNode owner) : base(owner)
         {
-            var call__43 = TranslateRStr(RaiseTerrainRStr);
-            FSpellName = call__43;
+            FSpellName = TranslateRStr(RaiseTerrainRStr);
             FSpellID = 19;
             FBaseManaCost = 5;
             FSpellLevel = 4;
@@ -448,49 +363,32 @@ namespace Aow.Units.Mountain
         // Mountain.pas:364
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            int I = default;
             base.SetupTargetSelection(A1, A2);
             A2.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__44 = RadToHN(2) - 1;
-                for (; I <= end__44; I += 1)
-                {
-                    A2.FHNs.Add(0);
-                }
+                A2.FHNs.Add(0);
             }
         }
 
         // Mountain.pas:373
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TRaiseTerrainTE Event = default;
+            TRaiseTerrainTE Event;
             Event = new TRaiseTerrainTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__45 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__45.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // Mountain.pas:347
         public override bool ValidTargetSelectionMapF(TMapField A1)
         {
-            bool Result = default;
-            bool Valid = default;
-            TArmyHS Army = default;
-            var call__46 = base.ValidTargetSelectionMapF(A1);
-            bool bool__47 = call__46 && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)((TAoWMapField)A1).TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)((TAoWMapField)A1).OverlayType);
-            if (bool__47)
-            {
-                var call__48 = ((TAoWMapField)A1).FindNoneTransparentHS(typeof(TStructure));
-                bool__47 = call__48 == null;
-            }
-
-            Valid = bool__47;
+            bool Valid;
+            TArmyHS Army;
+            Valid = base.ValidTargetSelectionMapF(A1) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)((TAoWMapField)A1).TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)((TAoWMapField)A1).OverlayType) && ((TAoWMapField)A1).FindNoneTransparentHS(typeof(TStructure)) == null;
             if (Valid)
             {
                 Army = ((TAoWMapField)A1).GetArmyHS();
@@ -500,30 +398,11 @@ namespace Aow.Units.Mountain
                 }
             }
 
-            Result = Valid;
-            return Result;
+            return Valid;
         }
 
         // Mountain.pas:338
-        public override bool ValidTargetMapF(TMapField A1)
-        {
-            bool Result = default;
-            var call__49 = base.ValidTargetMapF(A1);
-            bool bool__50 = call__49 && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)((TAoWMapField)A1).TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)((TAoWMapField)A1).OverlayType);
-            if (bool__50)
-            {
-                var call__51 = ((TAoWMapField)A1).FindNoneTransparentHS(typeof(TStructure));
-                bool__50 = call__51 == null;
-            }
-
-            Result = bool__50;
-            if (Result)
-            {
-                Result = ((TAoWMapField)A1).GetArmyHS() == null;
-            }
-
-            return Result;
-        }
+        public override bool ValidTargetMapF(TMapField A1) => base.ValidTargetMapF(A1) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)((TAoWMapField)A1).TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)((TAoWMapField)A1).OverlayType) && ((TAoWMapField)A1).FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)A1).GetArmyHS() == null;
 
         // Mountain.pas:77
 
@@ -548,8 +427,8 @@ namespace Aow.Units.Mountain
         public static void RegisterMountain(TEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<TMountainMO>(), EClass.Of<TMountainMOR>(), EClass.Of<TRaiseTerrainTE>(), EClass.Of<TRaisedMountain>(), EClass.Of<TRaisedMountainResource>()]);
-            var call__52 = new TRaiseTerrain(null);
-            ((TAoWEngine)AEngine).FGameSet.FSpellControl.RegisterSpell(call__52);
+            var raiseTerrain = new TRaiseTerrain(null);
+            ((TAoWEngine)AEngine).FGameSet.FSpellControl.RegisterSpell(raiseTerrain);
         }
 
         // Mountain.pas:390

@@ -37,13 +37,7 @@ namespace Aow.Units.UnitIGrd
         }
 
         // UnitIGrd.pas:70
-        public int GetUnitIndex(int Index)
-        {
-            int Result = default;
-            var call__1 = FUnitIndexList[Index];
-            Result = call__1;
-            return Result;
-        }
+        public int GetUnitIndex(int Index) => FUnitIndexList[Index];
 
         // UnitIGrd.pas:75
         public void SetUnitIndexList(TUnitIndexList Value)
@@ -76,14 +70,13 @@ namespace Aow.Units.UnitIGrd
         // UnitIGrd.pas:159
         public int GetUnit(int ACol, int ARow)
         {
-            int Result = default;
-            int Index = default;
+            int Result;
+            int Index;
             Index = ImageIndex(ACol, ARow);
             // { Original assumes a non-nil list here and in GetSelectedUnit. }
             if (Index >= 0 && Index < FUnitIndexList.Count)
             {
-                var call__2 = FUnitIndexList[Index];
-                Result = call__2;
+                Result = FUnitIndexList[Index];
             }
             else
             {
@@ -96,15 +89,13 @@ namespace Aow.Units.UnitIGrd
         // UnitIGrd.pas:169
         public int GetSelectedUnit()
         {
-            int Result = default;
-            int Index = default;
-            var call__3 = ImageIndex(Col, Row);
-            Index = call__3;
+            int Result;
+            int Index;
+            Index = ImageIndex(Col, Row);
             // { Original also leaves negative indices unchecked here. }
             if (Index < FUnitIndexList.Count)
             {
-                var call__4 = FUnitIndexList[Index];
-                Result = call__4;
+                Result = FUnitIndexList[Index];
             }
             else
             {

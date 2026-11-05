@@ -14,9 +14,8 @@ namespace Aow.Units.E2WindowLayout
         // The original window placement loader
         public static void RestoreWindowLayout(TObject Controller)
         {
-            TRect R = default;
-            var call__1 = AoWEngine.FRegistry.GetRectangle(6);
-            R = call__1;
+            TRect R;
+            R = AoWEngine.FRegistry.GetRectangle(6);
             var window = AoWSWindow.AoWSWindow.SWindow.ScannerWindow;
             if (R.Right != 0)
             {
@@ -33,8 +32,7 @@ namespace Aow.Units.E2WindowLayout
                 window.WinHeight = window.MinHeight;
             }
 
-            var call__3 = AoWEngine.FRegistry.GetRectangle(0);
-            R = call__3;
+            R = AoWEngine.FRegistry.GetRectangle(0);
             var window2 = AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin;
             if (R.Right != 0)
             {
@@ -51,8 +49,7 @@ namespace Aow.Units.E2WindowLayout
                 window2.WinHeight = window2.MinHeight;
             }
 
-            var call__5 = AoWEngine.FRegistry.GetRectangle(2);
-            R = call__5;
+            R = AoWEngine.FRegistry.GetRectangle(2);
             var window3 = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
             if (R.Right != 0)
             {
@@ -75,12 +72,9 @@ namespace Aow.Units.E2WindowLayout
                 window3.WinHeight = window3.MinHeight;
             }
 
-            var call__9 = AoWEngine.FRegistry.GetRectangle(3);
-            R = call__9;
-            var call__10 = AoWEngine.FRegistry.GetRectangle(4);
-            R = call__10;
-            var call__11 = AoWEngine.FRegistry.GetRectangle(5);
-            R = call__11;
+            AoWEngine.FRegistry.GetRectangle(3);
+            AoWEngine.FRegistry.GetRectangle(4);
+            R = AoWEngine.FRegistry.GetRectangle(5);
             var window4 = AoWRealm.AoWRealm.RealmWin.Dlg;
             if (R.Right != 0)
             {
@@ -108,8 +102,7 @@ namespace Aow.Units.E2WindowLayout
                 window4.WinHeight = window4.MinHeight;
             }
 
-            var call__16 = AoWEngine.FRegistry.GetRectangle(13);
-            R = call__16;
+            R = AoWEngine.FRegistry.GetRectangle(13);
             var window5 = MagicWin.Dlg;
             if (R.Right != 0)
             {
@@ -137,8 +130,7 @@ namespace Aow.Units.E2WindowLayout
                 window5.WinHeight = window5.MinHeight;
             }
 
-            var call__21 = AoWEngine.FRegistry.GetRectangle(1);
-            R = call__21;
+            R = AoWEngine.FRegistry.GetRectangle(1);
             var window6 = AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
             if (R.Right != 0)
             {
@@ -155,8 +147,7 @@ namespace Aow.Units.E2WindowLayout
                 window6.WinHeight = window6.MinHeight;
             }
 
-            var call__23 = AoWEngine.FRegistry.GetRectangle(7);
-            R = call__23;
+            R = AoWEngine.FRegistry.GetRectangle(7);
             var window7 = AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
             if (R.Right != 0)
             {
@@ -173,8 +164,7 @@ namespace Aow.Units.E2WindowLayout
                 window7.WinHeight = window7.MinHeight;
             }
 
-            var call__25 = AoWEngine.FRegistry.GetRectangle(8);
-            R = call__25;
+            R = AoWEngine.FRegistry.GetRectangle(8);
             var window8 = ChatWindow.ChatWin;
             if (R.Right != 0)
             {
@@ -198,8 +188,7 @@ namespace Aow.Units.E2WindowLayout
                 window8.WinHeight = window8.MinHeight;
             }
 
-            var call__29 = AoWEngine.FRegistry.GetRectangle(12);
-            R = call__29;
+            R = AoWEngine.FRegistry.GetRectangle(12);
             var window9 = TCScanner.TCScannerWin;
             if (R.Right != 0)
             {
@@ -216,8 +205,7 @@ namespace Aow.Units.E2WindowLayout
                 window9.WinHeight = window9.MinHeight;
             }
 
-            var call__31 = AoWEngine.FRegistry.GetRectangle(10);
-            R = call__31;
+            R = AoWEngine.FRegistry.GetRectangle(10);
             var window10 = AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
             if (R.Right != 0)
             {
@@ -234,8 +222,7 @@ namespace Aow.Units.E2WindowLayout
                 window10.WinHeight = window10.MinHeight;
             }
 
-            var call__33 = AoWEngine.FRegistry.GetRectangle(11);
-            R = call__33;
+            R = AoWEngine.FRegistry.GetRectangle(11);
             if (R.Right != 0)
             {
                 MWindow.FMapRect = R;
@@ -246,12 +233,11 @@ namespace Aow.Units.E2WindowLayout
             {
                 MWindow.FMapAlignHeight = TAOWAlignHeight.ahBoth;
                 MWindow.FMapAlignWidth = TAOWAlignWidth.awBoth;
-                var call__34 = Rect(0, 0, TCScanner.TCScannerWin.MinWidth, TBWindow.TaskWindow.WinHeight);
-                MWindow.FMapRect = call__34;
+                var rect = Rect(0, 0, TCScanner.TCScannerWin.MinWidth, TBWindow.TaskWindow.WinHeight);
+                MWindow.FMapRect = rect;
             }
 
-            var call__35 = AoWEngine.FRegistry.GetRectangle(9);
-            R = call__35;
+            R = AoWEngine.FRegistry.GetRectangle(9);
             var window11 = MWindow.MapWindow;
             if (R.Right != 0)
             {

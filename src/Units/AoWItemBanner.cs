@@ -34,11 +34,10 @@ namespace Aow.Units.AoWItemBanner
         // AoWItemBanner.pas:46
         public void IBannerPopupShow(TObject Sender)
         {
-            TItem Item = default;
-            int X = default;
-            int Y = default;
-            var call__1 = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
-            Item = call__1;
+            TItem Item;
+            int X;
+            int Y;
+            Item = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
             if (Item != null)
             {
                 ItemNameLbl.Text = Item.FOwnerName;
@@ -127,22 +126,18 @@ namespace Aow.Units.AoWItemBanner
 
                 AbLB.Items.Clear();
                 AbLB.Alignment.TopOffset = Y + 10;
+                X = 1;
+                for (; X <= 169; X += 1)
                 {
-                    X = 1;
-                    byte end__2 = 169;
-                    for (; X <= end__2; X += 1)
+                    if (Item.GetAbEnabled(X))
                     {
-                        if (Item.GetAbEnabled(X))
-                        {
-                            var call__3 = AoWHSSet.FAbilityControl.GetAbility(X);
-                            var call__4 = call__3.GetName(Item);
-                            AbLB.Items.AddObject(call__4, IntToObject(X));
-                        }
+                        var name = AoWHSSet.FAbilityControl.GetAbility(X).GetName(Item);
+                        AbLB.Items.AddObject(name, IntToObject(X));
                     }
                 }
 
-                var call__5 = AbLB.Items.Count;
-                IBannerPopup.WinHeight = call__5 * AbLB.ItemHeight + (Y + 50);
+                var count = AbLB.Items.Count;
+                IBannerPopup.WinHeight = count * AbLB.ItemHeight + (Y + 50);
                 if (IBannerPopup.WinHeight > 200)
                 {
                     IBannerPopup.WinHeight = 200;
@@ -162,9 +157,8 @@ namespace Aow.Units.AoWItemBanner
         // AoWItemBanner.pas:145
         public void DrawBoxPreDraw(TObject Sender, TSurfaceDesc SurfDesc)
         {
-            TItem Item = default;
-            var call__6 = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
-            Item = call__6;
+            TItem Item;
+            Item = AoWHSMap.FItemControl.FindItem(AoWItemBanner.ItemID);
             if (Item != null)
             {
                 Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);

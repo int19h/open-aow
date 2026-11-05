@@ -75,14 +75,12 @@ namespace Aow.Units.AoWCampaignJoin
         // AoWCampaignJoin.pas:145
         public void LeaderCustomized(TObject Sender)
         {
-            TLeader Leader = default;
+            TLeader Leader;
             var leaderSetupControl = (TLeaderSetupControl)Sender;
             if (leaderSetupControl.FStatus == TLeaderSetupStatus.lssDone)
             {
-                var call__2 = leaderSetupControl.FOriginalLeader.Copy(AoWEngine);
-                Leader = (TLeader)call__2;
-                var call__3 = AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign();
-                call__3.FTransferSettings.SetLeader(Leader);
+                Leader = (TLeader)leaderSetupControl.FOriginalLeader.Copy(AoWEngine);
+                AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign().FTransferSettings.SetLeader(Leader);
                 Leader.Release();
                 FinishSelection();
             }
@@ -123,10 +121,8 @@ namespace Aow.Units.AoWCampaignJoin
         // AoWCampaignJoin.pas:57
         public void CampaignJoinDlgCreate()
         {
-            var call__4 = new TLeader(null);
-            FLeader = call__4;
-            var call__5 = new TStringList();
-            FScrollText = call__5;
+            FLeader = new TLeader(null);
+            FScrollText = new TStringList();
         }
 
         // AoWCampaignJoin.pas:64
@@ -148,9 +144,8 @@ namespace Aow.Units.AoWCampaignJoin
         // AoWCampaignJoin.pas:77
         public void DefaultFacePnlDraw(TObject Sender, TSurfaceDesc SD)
         {
-            TRect R = default;
-            var call__6 = Rect(DefaultFacePnl.WinLeft + 1, DefaultFacePnl.WinTop + 1, DefaultFacePnl.WinLeft + DefaultFacePnl.WinWidth - 2, DefaultFacePnl.WinTop + DefaultFacePnl.WinHeight - 2);
-            R = call__6;
+            TRect R;
+            R = Rect(DefaultFacePnl.WinLeft + 1, DefaultFacePnl.WinTop + 1, DefaultFacePnl.WinLeft + DefaultFacePnl.WinWidth - 2, DefaultFacePnl.WinTop + DefaultFacePnl.WinHeight - 2);
             FLeader.ShowFace(R, SD);
         }
 
@@ -163,8 +158,7 @@ namespace Aow.Units.AoWCampaignJoin
         // AoWCampaignJoin.pas:91
         public void DefaultBtnClick()
         {
-            var call__7 = AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign();
-            call__7.FTransferSettings.SetLeader(FLeader);
+            AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign().FTransferSettings.SetLeader(FLeader);
             FinishSelection();
         }
 
@@ -173,8 +167,8 @@ namespace Aow.Units.AoWCampaignJoin
         {
             if (FStage == 0)
             {
-                var call__8 = FScrollText.Count;
-                if (FScrollPosition < call__8 * 20 + ScrollTextDB.WinHeight)
+                var count = FScrollText.Count;
+                if (FScrollPosition < count * 20 + ScrollTextDB.WinHeight)
                 {
                     FScrollDelay -= 1;
                     if (FScrollDelay <= 0)
@@ -194,24 +188,19 @@ namespace Aow.Units.AoWCampaignJoin
         // AoWCampaignJoin.pas:114
         public void ScrollTextDBDraw(TObject Sender, TSurfaceDesc SD)
         {
-            int I = default;
-            int X = default;
-            int Y = default;
+            int X;
+            int Y;
             SD.ClipRect.Left = CharGenPnl.WinLeft + ScrollTextDB.WinLeft;
             SD.ClipRect.Right = SD.ClipRect.Left + ScrollTextDB.WinWidth;
             SD.ClipRect.Top = CharGenPnl.WinTop + ScrollTextDB.WinTop;
             SD.ClipRect.Bottom = SD.ClipRect.Top + ScrollTextDB.WinHeight;
             X = CharGenPnl.WinLeft + ScrollTextDB.WinLeft + ScrollTextDB.WinWidth / 2;
             Y = SD.ClipRect.Top + ScrollTextDB.WinHeight - FScrollPosition;
+            for (int I = 0, last = FScrollText.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__9 = FScrollText.Count - 1;
-                for (; I <= end__9; I += 1)
-                {
-                    var call__10 = FScrollText[I];
-                    FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, call__10, SD);
-                    Y += 20;
-                }
+                var scrollText = FScrollText[I];
+                FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, scrollText, SD);
+                Y += 20;
             }
         }
 

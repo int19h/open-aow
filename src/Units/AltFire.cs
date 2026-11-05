@@ -20,12 +20,7 @@ namespace Aow.Units.AltFire
 
 
         // AltFire.pas:45
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TFireStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TFireStorm(null);
 
         // AltFire.pas:19
 
@@ -45,23 +40,13 @@ namespace Aow.Units.AltFire
 
 
         // AltFire.pas:61
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131642;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131642;
 
         // AltFire.pas:27
 
 
         // AltFire.pas:55
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(AltarOfFireRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfFireRStr);
 
     }
 

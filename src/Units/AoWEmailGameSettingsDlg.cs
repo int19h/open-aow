@@ -70,8 +70,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         // AoWEmailGameSettingsDlg.pas:85
         public void EmailGameSettingsDlgCreate()
         {
-            var call__1 = new TStringList();
-            FEmailAddresses = call__1;
+            FEmailAddresses = new TStringList();
         }
 
         // AoWEmailGameSettingsDlg.pas:90
@@ -89,10 +88,9 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         // AoWEmailGameSettingsDlg.pas:100
         public void EmailAddressEdit1Change(TObject Sender)
         {
-            int I = default;
+            int I;
             I = ((TComponent)Sender).Tag + PlayerSB.Position;
-            var call__2 = FEmailAddresses.Count;
-            if (I < call__2)
+            if (I < FEmailAddresses.Count)
             {
                 FEmailAddresses[I] = ((TAOWEdit)Sender).Text;
             }
@@ -101,24 +99,17 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         // AoWEmailGameSettingsDlg.pas:108
         public void OKBtnClick(TObject Sender)
         {
-            int I = default;
-            int Index = default;
+            int Index;
             if (SettingsComplete())
             {
                 if (FSetupControl != null)
                 {
+                    for (int I = 0, last = FEmailAddresses.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__3 = FEmailAddresses.Count - 1;
-                        for (; I <= end__3; I += 1)
-                        {
-                            var call__4 = FEmailAddresses.Objects[I];
-                            var call__5 = FSetupControl.FSettings.IndexOfRace((byte)ObjectToInt(call__4));
-                            Index = call__5;
-                            var call__6 = FEmailAddresses[I];
-                            var call__7 = FSetupControl.FSettings.GetSettings(Index);
-                            call__7.FEmailAddress = call__6;
-                        }
+                        var objectValue = FEmailAddresses.Objects[I];
+                        Index = FSetupControl.FSettings.IndexOfRace((byte)ObjectToInt(objectValue));
+                        var emailAddress = FEmailAddresses[I];
+                        FSetupControl.FSettings.GetSettings(Index).FEmailAddress = emailAddress;
                     }
 
                     FSetupControl.FSettings.FEmailGameName = EmailGameNameEdit.Text;
@@ -130,8 +121,8 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             {
                 ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                var call__8 = TranslateRStr(PleaseFillInAllSettingsRStr);
-                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__8);
+                var pleaseFillInAllSettings = TranslateRStr(PleaseFillInAllSettingsRStr);
+                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
             }
@@ -152,30 +143,26 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         // AoWEmailGameSettingsDlg.pas:146
         public void LocalEmailAddressEditUpdate()
         {
-            var call__9 = AoWEngine.FRegistry.GetLocalEmailAddress();
-            if (call__9 != LocalEmailAddressEdit.Text)
+            if (AoWEngine.FRegistry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
             {
-                var call__10 = AoWEngine.FRegistry.GetLocalEmailAddress();
-                LocalEmailAddressEdit.Text = call__10;
+                var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+                LocalEmailAddressEdit.Text = localEmailAddress;
             }
         }
 
         // AoWEmailGameSettingsDlg.pas:152
         public void Player6PnlDrawBack(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            TRaceResource R = default;
-            int I = default;
+            TRaceResource R;
+            int I;
             var panel = (TAOWPanel)Sender;
             I = panel.Tag + PlayerSB.Position;
-            var call__12 = FEmailAddresses.Count;
-            if (I < call__12)
+            if (I < FEmailAddresses.Count)
             {
-                var call__13 = FEmailAddresses.Objects[I];
-                var call__14 = AoWHSSet.FRaceResources.GetRaceResource(ObjectToInt(call__13));
-                R = call__14;
+                var objectValue = FEmailAddresses.Objects[I];
+                R = AoWHSSet.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
                 R.AddRef();
-                var call__15 = R.FImageLibrary[38];
-                call__15.Show(panel.WinLeft, panel.WinTop, SD);
+                R.FImageLibrary[38].Show(panel.WinLeft, panel.WinTop, SD);
                 R.Release();
             }
         }
@@ -192,15 +179,12 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         // AoWEmailGameSettingsDlg.pas:173
         public void UpdatePlayer(int Index, TAOWLabel NameLabel, TAOWEdit EmailEdit)
         {
-            var call__16 = FEmailAddresses.Count;
-            if (Index < call__16)
+            if (Index < FEmailAddresses.Count)
             {
                 EmailEdit.CaptureInput = true;
-                var call__17 = FEmailAddresses[Index];
-                EmailEdit.Text = call__17;
-                var call__18 = FEmailAddresses.Objects[Index];
-                var call__19 = TranslateRStr(RaceNamesPluralRStr[ObjectToInt(call__18)]);
-                NameLabel.Text = call__19;
+                EmailEdit.Text = FEmailAddresses[Index];
+                var objectValue = FEmailAddresses.Objects[Index];
+                NameLabel.Text = TranslateRStr(RaceNamesPluralRStr[ObjectToInt(objectValue)]);
             }
             else
             {
@@ -214,8 +198,8 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         public void UpdatePlayers()
         {
             PlayerSB.Min = 0;
-            var call__20 = FEmailAddresses.Count;
-            PlayerSB.Max = call__20 - 1;
+            var count = FEmailAddresses.Count;
+            PlayerSB.Max = count - 1;
             PlayerSB.NumberVisible = 6;
             PlayerPnl.FDrawn = false;
             UpdatePlayer(PlayerSB.Position, PlayerLbl1, EmailAddressEdit1);
@@ -229,16 +213,13 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         // AoWEmailGameSettingsDlg.pas:199
         public bool SettingsComplete()
         {
-            bool Result = default;
-            int I = default;
-            var call__21 = FEmailAddresses.Count;
-            I = call__21;
-            Result = LocalEmailAddressEdit.Text != (AnsiString)"" && EmailGameNameEdit.Text != (AnsiString)"";
+            int I;
+            I = FEmailAddresses.Count;
+            bool Result = LocalEmailAddressEdit.Text != (AnsiString)"" && EmailGameNameEdit.Text != (AnsiString)"";
             while (Result && I != 0)
             {
                 I -= 1;
-                var call__22 = FEmailAddresses[I];
-                Result = call__22 != (AnsiString)"";
+                Result = FEmailAddresses[I] != (AnsiString)"";
             }
 
             return Result;
@@ -251,35 +232,28 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             FEmailAddresses.Clear();
             PlayerSB.Visible = true;
             PlayerSB.Position = 0;
-            var call__23 = AoWEngine.FRegistry.GetLocalEmailAddress();
-            LocalEmailAddressEdit.Text = call__23;
+            var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+            LocalEmailAddressEdit.Text = localEmailAddress;
         }
 
         // AoWEmailGameSettingsDlg.pas:220
         public void Execute(TSetupControl Control)
         {
-            int I = default;
-            TSetupControl C = default;
+            TSetupControl C;
             ResetSettings();
             FSetupControl = Control;
             C = FSetupControl;
+            for (int I = 0, last = C.FSettings.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__24 = C.FSettings.Count - 1;
-                for (; I <= end__24; I += 1)
+                if (C.FSettings.GetSettings(I).FBehavior.PlayerType == 0)
                 {
-                    var call__25 = C.FSettings.GetSettings(I);
-                    if (call__25.FBehavior.PlayerType == 0)
-                    {
-                        var call__26 = C.FSettings.GetSettings(I);
-                        var call__27 = AoWEngine.FRegistry.GetLocalEmailAddress();
-                        FEmailAddresses.AddObject(call__27, IntToObject(call__26.FRace));
-                    }
+                    var setting = C.FSettings.GetSettings(I);
+                    var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+                    FEmailAddresses.AddObject(localEmailAddress, IntToObject(setting.FRace));
                 }
             }
 
-            var call__28 = FEmailAddresses.Count;
-            if (call__28 > 1)
+            if (FEmailAddresses.Count > 1)
             {
                 UpdatePlayers();
                 Dlg.Visible = true;
@@ -288,8 +262,8 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             {
                 ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                var call__29 = TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
-                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__29);
+                var youNeed2HumanPlayersToPlayAnEmailGame = TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
+                AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
                 AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
             }

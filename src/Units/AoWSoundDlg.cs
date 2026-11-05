@@ -107,18 +107,17 @@ namespace Aow.Units.AoWSoundDlg
             SongPlayer.Songs.Delete(PlayLB.Selected);
             if (SongPlayer.CurrentIndex == -1)
             {
-                var call__1 = SongPlayer.Songs.Count;
-                if (PlayLB.Selected < call__1)
+                var count = SongPlayer.Songs.Count;
+                if (PlayLB.Selected < count)
                 {
                     SongPlayer.Play(PlayLB.Selected);
                 }
                 else
                 {
-                    var call__2 = SongPlayer.Songs.Count;
-                    if (call__2 != 0)
+                    if (SongPlayer.Songs.Count != 0)
                     {
-                        var call__3 = SongPlayer.Songs.Count;
-                        SongPlayer.Play(call__3 - 1);
+                        var songsCount = SongPlayer.Songs.Count;
+                        SongPlayer.Play(songsCount - 1);
                     }
                 }
             }
@@ -129,16 +128,11 @@ namespace Aow.Units.AoWSoundDlg
         // AoWSoundDlg.pas:134
         public void SoundSetup()
         {
-            int I = default;
             PlayLB.Items.Clear();
+            for (int I = 0, last = SongPlayer.SongNames.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__4 = SongPlayer.SongNames.Count - 1;
-                for (; I <= end__4; I += 1)
-                {
-                    var call__5 = SongPlayer.SongNames[I];
-                    PlayLB.Items.Add(call__5);
-                }
+                var songName = SongPlayer.SongNames[I];
+                PlayLB.Items.Add(songName);
             }
 
             PlayLB.Selected = SongPlayer.CurrentIndex;
@@ -153,8 +147,8 @@ namespace Aow.Units.AoWSoundDlg
             {
                 RemoveBtn.Visible = true;
                 PlayBtn.Visible = true;
-                var call__6 = SongPlayer.SongNames[PlayLB.Selected];
-                CurrentSongLbl.Text = call__6;
+                var songName = SongPlayer.SongNames[PlayLB.Selected];
+                CurrentSongLbl.Text = songName;
             }
 
             MainPnl.FDrawn = false;
@@ -179,8 +173,8 @@ namespace Aow.Units.AoWSoundDlg
         // AoWSoundDlg.pas:172
         public void SongChange(TObject Sender)
         {
-            var call__7 = SongPlayer.SongNames[SongPlayer.CurrentIndex];
-            CurrentSongLbl.Text = call__7;
+            var songName = SongPlayer.SongNames[SongPlayer.CurrentIndex];
+            CurrentSongLbl.Text = songName;
             MainPnl.FDrawn = false;
             PlayLB.FDrawn = false;
         }
@@ -188,7 +182,7 @@ namespace Aow.Units.AoWSoundDlg
         // AoWSoundDlg.pas:179
         public void FindFiles()
         {
-            AnsiString Directory = default;
+            AnsiString Directory;
             TSearchRec Search = default;
             SongLB.Items.Clear();
             AoWSoundDlg.SongFiles.Clear();
@@ -208,8 +202,8 @@ namespace Aow.Units.AoWSoundDlg
                         if (UpperCase(Copy(Search.Name, Search.Name.Length - 3, 4)) == (AnsiString)".S3M" || UpperCase(Copy(Search.Name, Search.Name.Length - 2, 3)) == (AnsiString)".IT")
                         {
                             AoWSoundDlg.SongFiles.Add((AnsiString)"Songs\\" + Search.Name);
-                            var call__8 = GetSongName((AnsiString)"Songs\\" + Search.Name);
-                            SongLB.Items.Add(call__8);
+                            var songName = GetSongName((AnsiString)"Songs\\" + Search.Name);
+                            SongLB.Items.Add(songName);
                         }
                     }
                 }
@@ -236,16 +230,15 @@ namespace Aow.Units.AoWSoundDlg
         public void AddBtnClick(TObject Sender)
         {
             General.PlayButtonSound(0);
-            var call__9 = AoWSoundDlg.SongFiles[SongLB.Selected];
-            SongPlayer.Songs.Add(call__9);
+            var songFile = AoWSoundDlg.SongFiles[SongLB.Selected];
+            SongPlayer.Songs.Add(songFile);
             SoundSetup();
         }
 
         // AoWSoundDlg.pas:218
         public void SoundDlgWindowCreate()
         {
-            var call__10 = new TStringList();
-            AoWSoundDlg.SongFiles = call__10;
+            AoWSoundDlg.SongFiles = new TStringList();
         }
 
         // AoWSoundDlg.pas:223
@@ -381,8 +374,7 @@ namespace Aow.Units.AoWSoundDlg
         {
             if (SongPlayer.CurrentIndex == Index)
             {
-                var call__11 = IntGfxMod.SoundWin[2];
-                call__11.ShowClipped(R.Left, R.Top, SurfDesc);
+                IntGfxMod.SoundWin[2].ShowClipped(R.Left, R.Top, SurfDesc);
             }
         }
 

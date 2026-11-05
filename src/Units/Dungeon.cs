@@ -21,24 +21,8 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:89
         public override bool CanAddUnit(TAbstractUnit AUnit)
         {
-            bool Result = default;
-            Result = base.CanAddUnit(AUnit);
-            bool bool__1 = Result;
-            if (bool__1)
-            {
-                var call__2 = AUnit.GetTransporter();
-                bool__1 = !call__2;
-            }
-
-            bool bool__3 = bool__1;
-            if (bool__3)
-            {
-                var call__4 = AUnit.ValidTerrain(1, 4);
-                bool__3 = call__4;
-            }
-
-            Result = bool__3;
-            return Result;
+            bool Result = base.CanAddUnit(AUnit);
+            return Result && !AUnit.GetTransporter() && AUnit.ValidTerrain(1, 4);
         }
 
         // intf_P2_07.inc:445
@@ -51,8 +35,7 @@ namespace Aow.Units.Dungeon
         public TDungeon(TECustomNode owner) : base(owner)
         {
             FPrisonersMode = TPrisonersMode.pmNormal;
-            var call__5 = new TPrisonersArmy(null);
-            FPrisoners = call__5;
+            FPrisoners = new TPrisonersArmy(null);
         }
 
         // Dungeon.pas:108
@@ -102,8 +85,7 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:255
         public override TExecuteResult ExecuteTE(TStructureTE A1, TTokenExecuter Executer)
         {
-            TExecuteResult Result = default;
-            Result = base.ExecuteTE(A1, Executer);
+            TExecuteResult Result = base.ExecuteTE(A1, Executer);
             if (A1.FAction == 1)
             {
                 LiberatePrisoners((sbyte)A1.FParam);
@@ -124,13 +106,7 @@ namespace Aow.Units.Dungeon
         }
 
         // Dungeon.pas:111
-        public override bool GetExplored()
-        {
-            bool Result = default;
-            var call__6 = FPrisoners.Count;
-            Result = call__6 == 0;
-            return Result;
-        }
+        public override bool GetExplored() => FPrisoners.Count == 0;
 
         // Dungeon.pas:121
         public override void SetupCombat(TCombat A1, TArmyHS A2)
@@ -142,46 +118,35 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:127
         public override void ExecuteSearchDone(TCombatType A1, TCombatResult A2)
         {
-            TArmyHS Army = default;
-            TPrisonersJoinEventLog Log = default;
-            int I = default;
+            TArmyHS Army;
+            TPrisonersJoinEventLog Log;
             if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crNoDefenders).Contains(A2))
             {
-                var call__7 = Owner.FindOwnedChild(131607);
-                Army = (TArmyHS)call__7;
+                Army = (TArmyHS)Owner.FindOwnedChild(131607);
                 Log = new TPrisonersJoinEventLog(null);
-                var call__8 = GetXhx();
-                Log.FX = call__8;
-                var call__9 = GetYhx();
-                Log.FY = call__9;
-                var call__10 = GetLhx();
-                Log.FL = call__10;
+                Log.FX = GetXhx();
+                Log.FY = GetYhx();
+                Log.FL = GetLhx();
                 Log.FPlayer = Army.FArmy.FPlayer;
                 Log.FSelection = 255;
                 Log.FGold = 0;
                 Log.FJoinMode = TJoinMode.jmDefault;
-                var call__11 = FPrisoners.GetUnit(0);
-                Log.FFirstUnitID = call__11.FUnitID;
+                Log.FFirstUnitID = FPrisoners.GetUnit(0).FUnitID;
+                for (int I = 0, last = FPrisoners.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__12 = FPrisoners.Count - 1;
-                    for (; I <= end__12; I += 1)
-                    {
-                        var call__13 = FPrisoners.GetUnit(I);
-                        Log.FUnitIDs.Add(call__13.FUnitID);
-                    }
+                    var unit = FPrisoners.GetUnit(I);
+                    Log.FUnitIDs.Add(unit.FUnitID);
                 }
 
-                var call__14 = FPrisoners.Count;
-                if (call__14 == 1)
+                if (FPrisoners.Count == 1)
                 {
-                    var call__15 = TranslateRStr(LiberatePrisonerMessageRStr);
-                    Log.FJoinMessage.Text = call__15;
+                    var liberatePrisonerMessage = TranslateRStr(LiberatePrisonerMessageRStr);
+                    Log.FJoinMessage.Text = liberatePrisonerMessage;
                 }
                 else
                 {
-                    var call__16 = TranslateRStr(LiberatePrisonersMessageRStr);
-                    Log.FJoinMessage.Text = call__16;
+                    var liberatePrisonersMessage = TranslateRStr(LiberatePrisonersMessageRStr);
+                    Log.FJoinMessage.Text = liberatePrisonersMessage;
                 }
 
                 Log.Execute(false, TExecuteTrigger.etEvent, null);
@@ -192,31 +157,23 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:156
         public void GeneratePrisoners()
         {
-            int Collection = default;
-            int I = default;
-            TUnitIndexList List = default;
-            TUnitIndexListCollection Collections = default;
+            int Collection;
+            TUnitIndexList List;
+            TUnitIndexListCollection Collections;
             RandSeed = AoWHSMap.FDefendersSeed;
             if (FPrisonersMode == TPrisonersMode.pmRandom)
             {
-                var call__17 = Random(3);
-                FPrisonersMode = (TPrisonersMode)(call__17 + 1);
+                FPrisonersMode = (TPrisonersMode)(Random(3) + 1);
             }
 
-            var call__18 = ((TDungeonResource)FResource).FPrisonerCollections.GetRndCollection();
-            Collection = call__18;
+            Collection = ((TDungeonResource)FResource).FPrisonerCollections.GetRndCollection();
             if (Collection != -1)
             {
                 List = new TUnitIndexList();
                 Collections = ((TDungeonResource)FResource).FPrisonerCollections;
+                for (int I = Collections.GetCollectionCount(Collection) - 1; I >= 0; I--)
                 {
-                    I = Collections.GetCollectionCount(Collection) - 1;
-                    byte end__19 = 0;
-                    for (; I >= end__19; I -= 1)
-                    {
-                        var call__20 = Collections.GetU(Collection, I);
-                        List.Add(call__20);
-                    }
+                    List.Add(Collections.GetU(Collection, I));
                 }
 
                 FillWithRandomUnits(List, FPrisoners, 4, (int)FPrisonersMode * 50, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature, TUnitType.utMachine));
@@ -227,94 +184,72 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:178
         public void LiberatePrisoners(sbyte Player)
         {
-            TLocationTextEventLog LocationLog = default;
-            TArmyInfoEventLog ArmyLog = default;
-            THero Hero = default;
-            TArmyHS Army = default;
+            TLocationTextEventLog LocationLog;
+            TArmyInfoEventLog ArmyLog;
+            THero Hero;
+            TArmyHS Army;
             LocationLog = new TLocationTextEventLog(null);
-            var call__21 = GetPlayer();
-            LocationLog.FPlayer = call__21;
-            var call__22 = GetName();
-            var call__23 = TranslateRStr(XExploredRStr);
-            var call__24 = Rtl.Rtl.Format(call__23, [call__22]);
-            LocationLog.FText = call__24;
-            var call__25 = GetLhx();
-            var call__26 = GetYhx();
-            var call__27 = GetXhx();
-            LocationLog.SetLocation(call__27, call__26, call__25);
-            var call__28 = GetYhx();
-            var call__29 = GetLhx();
-            var call__30 = GetXhx();
-            DistributeLocationEventLog(LocationLog, Player, call__30, call__28, call__29, false);
+            LocationLog.FPlayer = GetPlayer();
+            var name = GetName();
+            LocationLog.FText = Rtl.Rtl.Format(TranslateRStr(XExploredRStr), [name]);
+            var lhx = GetLhx();
+            var yhx = GetYhx();
+            LocationLog.SetLocation(GetXhx(), yhx, lhx);
+            var yhx2 = GetYhx();
+            var lhx2 = GetLhx();
+            DistributeLocationEventLog(LocationLog, Player, GetXhx(), yhx2, lhx2, false);
             LocationLog.Release();
             ArmyLog = new TArmyInfoEventLog(null);
             ArmyLog.FArmyView.Setup(FPrisoners, 255);
-            var call__31 = GetXhx();
-            ArmyLog.FArmyView.FX = call__31;
-            var call__32 = GetYhx();
-            ArmyLog.FArmyView.FY = call__32;
-            var call__33 = GetLhx();
-            ArmyLog.FArmyView.FL = call__33;
+            var xhx = GetXhx();
+            ArmyLog.FArmyView.FX = xhx;
+            var yhx3 = GetYhx();
+            ArmyLog.FArmyView.FY = yhx3;
+            var lhx3 = GetLhx();
+            ArmyLog.FArmyView.FL = lhx3;
             ArmyLog.FSelection = 255;
-            var call__34 = GetPlayer();
-            ArmyLog.FPlayer = call__34;
-            var call__35 = TranslateRStr(PrisonerLiberationRStr);
-            ArmyLog.FTitle = call__35;
+            ArmyLog.FPlayer = GetPlayer();
+            ArmyLog.FTitle = TranslateRStr(PrisonerLiberationRStr);
             ArmyLog.FDescription = (AnsiString)"";
-            var call__36 = FPrisoners.Hero(255, TSet<THeroType>.Of(THeroType.htHero));
-            Hero = call__36;
+            Hero = FPrisoners.Hero(255, TSet<THeroType>.Of(THeroType.htHero));
             if (Hero == null)
             {
-                var call__37 = FPrisoners.Count;
-                if (call__37 == 1)
+                if (FPrisoners.Count == 1)
                 {
-                    var call__38 = TranslateRStr(OnePrisonerLiberatedRStr);
-                    ArmyLog.FText = call__38;
-                    var call__39 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    var call__40 = call__39.GetName();
-                    var call__41 = TranslateRStr(AfterLiberationOneUnitJoinedTheForcesOfXRStr);
-                    var call__42 = Rtl.Rtl.Format(call__41, [call__40]);
-                    ArmyLog.FMessages.Text = call__42;
+                    ArmyLog.FText = TranslateRStr(OnePrisonerLiberatedRStr);
+                    var name2 = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
+                    var format = Rtl.Rtl.Format(TranslateRStr(AfterLiberationOneUnitJoinedTheForcesOfXRStr), [name2]);
+                    ArmyLog.FMessages.Text = format;
                 }
                 else
                 {
-                    var call__43 = FPrisoners.Count;
-                    var call__44 = TranslateRStr(XPrisonersLiberatedRStr);
-                    var call__45 = Rtl.Rtl.Format(call__44, [IntToStr(call__43)]);
-                    ArmyLog.FText = call__45;
-                    var call__46 = FPrisoners.Count;
-                    var call__47 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    var call__48 = call__47.GetName();
-                    var call__49 = TranslateRStr(AfterLiberationXunitsJoinedTheForcesOfYRStr);
-                    var call__50 = Rtl.Rtl.Format(call__49, [call__46, call__48]);
-                    ArmyLog.FMessages.Text = call__50;
+                    var count = FPrisoners.Count;
+                    ArmyLog.FText = Rtl.Rtl.Format(TranslateRStr(XPrisonersLiberatedRStr), [IntToStr(count)]);
+                    var fPrisonersCount = FPrisoners.Count;
+                    var name2 = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
+                    var format = Rtl.Rtl.Format(TranslateRStr(AfterLiberationXunitsJoinedTheForcesOfYRStr), [fPrisonersCount, name2]);
+                    ArmyLog.FMessages.Text = format;
                 }
             }
             else
             {
-                var call__51 = TranslateRStr(XLiberatedRStr);
-                var call__52 = Rtl.Rtl.Format(call__51, [Hero.FHeroName]);
-                ArmyLog.FText = call__52;
-                var call__53 = AoWHSMap.FPlayers.GetPlayers(Player);
-                var call__54 = call__53.GetName();
-                var call__55 = TranslateRStr(AfterLiberationXJoinedTheForcesOfYRStr);
-                var call__56 = Rtl.Rtl.Format(call__55, [Hero.FHeroName, call__54]);
-                ArmyLog.FMessages.Text = call__56;
+                ArmyLog.FText = Rtl.Rtl.Format(TranslateRStr(XLiberatedRStr), [Hero.FHeroName]);
+                var name2 = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
+                var format = Rtl.Rtl.Format(TranslateRStr(AfterLiberationXJoinedTheForcesOfYRStr), [Hero.FHeroName, name2]);
+                ArmyLog.FMessages.Text = format;
             }
 
-            var call__57 = GetYhx();
-            var call__58 = GetLhx();
-            var call__59 = GetXhx();
-            DistributeLocationEventLog(ArmyLog, -1, call__59, call__57, call__58, false);
+            var yhx4 = GetYhx();
+            var lhx4 = GetLhx();
+            DistributeLocationEventLog(ArmyLog, -1, GetXhx(), yhx4, lhx4, false);
             ArmyLog.Release();
             Army = new TArmyHS(null);
             Army.FArmy.BeginUpdate();
             Army.FArmy.SetPlayer(Player);
             Army.FArmy.AddUnits(FPrisoners);
-            var call__60 = GetLhx();
-            var call__61 = GetYhx();
-            var call__62 = GetXhx();
-            Army.PlaceEx(call__62, call__61, call__60, TSet<TArmyPlaceModeElement>.Of(TArmyPlaceModeElement.apSafe, TArmyPlaceModeElement.apScanArea));
+            var lhx5 = GetLhx();
+            var yhx5 = GetYhx();
+            Army.PlaceEx(GetXhx(), yhx5, lhx5, TSet<TArmyPlaceModeElement>.Of(TArmyPlaceModeElement.apSafe, TArmyPlaceModeElement.apScanArea));
             Army.Activate();
             Army.FArmy.EndUpdate();
         }
@@ -329,8 +264,7 @@ namespace Aow.Units.Dungeon
     {
         public TDungeonResource(TECustomNode owner) : base(owner)
         {
-            var call__63 = new TUnitIndexListCollection();
-            FPrisonerCollections = call__63;
+            FPrisonerCollections = new TUnitIndexListCollection();
         }
 
         // Dungeon.pas:280
@@ -355,23 +289,13 @@ namespace Aow.Units.Dungeon
 
 
         // Dungeon.pas:283
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131882;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131882;
 
         // Dungeon.pas:53
 
 
         // Dungeon.pas:277
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(DungeonRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(DungeonRStr);
 
     }
 
@@ -387,28 +311,17 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:292
         public override bool Accept(ref AnsiString ErrorText)
         {
-            bool Result = default;
-            TDungeon Dungeon = default;
-            TStructureTE TE = default;
-            var call__64 = AoWHSMap.MapContainer.GetField(FX, FY, FL);
-            var call__65 = call__64.FindOwnedChild(131882);
-            Dungeon = (TDungeon)call__65;
-            bool bool__66 = Dungeon != null;
-            if (bool__66)
-            {
-                var call__67 = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                var call__68 = call__67.GetBusy();
-                bool__66 = !call__68;
-            }
-
-            if (bool__66)
+            bool Result;
+            TDungeon Dungeon;
+            TStructureTE TE;
+            Dungeon = (TDungeon)AoWHSMap.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
+            if (Dungeon != null && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 TE = Dungeon.CreateTE();
                 Dungeon.SetupTE(TE);
                 TE.FParam = FPlayer;
                 TE.FAction = 1;
-                var call__69 = AoWHSMap.FTokenManager.GetTokenControl(FPlayer);
-                call__69.AddEvent(TE);
+                AoWHSMap.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -423,41 +336,28 @@ namespace Aow.Units.Dungeon
         // Dungeon.pas:311
         public override bool Cancel()
         {
-            bool Result = default;
-            TDungeon Dungeon = default;
-            int I = default;
-            int Index = default;
-            var call__70 = AoWHSMap.MapContainer.GetField(FX, FY, FL);
-            var call__71 = call__70.FindOwnedChild(131882);
-            Dungeon = (TDungeon)call__71;
+            TDungeon Dungeon;
+            int Index;
+            Dungeon = (TDungeon)AoWHSMap.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
             if (Dungeon != null)
             {
+                for (int I = 0, last = Dungeon.FPrisoners.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__72 = Dungeon.FPrisoners.Count - 1;
-                    for (; I <= end__72; I += 1)
+                    var unitType = Dungeon.FPrisoners.GetUnit(I).GetUnitType();
+                    if (TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(unitType))
                     {
-                        var call__73 = Dungeon.FPrisoners.GetUnit(I);
-                        var call__74 = call__73.GetUnitType();
-                        if (TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(call__74))
+                        Index = Dungeon.FPrisoners.GetUnit(I).GetUnitGFXResourceIndex();
+                        if (AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Index) != null)
                         {
-                            var call__75 = Dungeon.FPrisoners.GetUnit(I);
-                            var call__76 = call__75.GetUnitGFXResourceIndex();
-                            Index = call__76;
-                            var call__77 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Index);
-                            if (call__77 != null)
-                            {
-                                var call__78 = Random(15);
-                                var call__79 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Index);
-                                call__79.FSFXLibraries[3].PlayEx(0, 100, false, call__78, TSamplePanning.spCenter, null);
-                            }
+                            var random = Random(15);
+                            var unitGFXResource = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Index);
+                            unitGFXResource.FSFXLibraries[3].PlayEx(0, 100, false, random, TSamplePanning.spCenter, null);
                         }
                     }
                 }
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
     }

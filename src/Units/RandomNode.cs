@@ -29,23 +29,13 @@ namespace Aow.Units.RandomNode
 
 
         // RandomNode.pas:49
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 133154;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 133154;
 
         // RandomNode.pas:25
 
 
         // RandomNode.pas:43
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(RandomNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(RandomNodeRStr);
 
     }
 

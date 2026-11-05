@@ -16,12 +16,7 @@ namespace Aow.Units.AltLife
         public new const int ClassID = 131635;
 
         // AltLife.pas:39
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TDivineStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TDivineStorm(null);
 
     }
 
@@ -38,23 +33,13 @@ namespace Aow.Units.AltLife
 
 
         // AltLife.pas:55
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131635;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131635;
 
         // AltLife.pas:26
 
 
         // AltLife.pas:49
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(AltarOfLifeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfLifeRStr);
 
     }
 

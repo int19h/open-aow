@@ -80,8 +80,8 @@ namespace Aow.Units.aowTCMapEvents
             General.Manager.FAligned = false;
             TBWindow.TBWorld.Visible = true;
             TBWindow.TBCombat.Visible = false;
-            var call__3 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            TBWindow.TurnButton.FButtonChecked = call__3.FSingleProcessCycle;
+            var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+            TBWindow.TurnButton.FButtonChecked = player.FSingleProcessCycle;
             TCScanner.TCScannerWin.Visible = false;
             TCUnit.TCUnitWin.Visible = false;
             TCScanner.Scanner.SetMap(null);
@@ -113,7 +113,7 @@ namespace Aow.Units.aowTCMapEvents
         // aowTCMapEvents.pas:174
         public void TCMapMouseOverTarget(THexagonSprite HS)
         {
-            TAbstractUnit U = default;
+            TAbstractUnit U;
             if (TCUnit.TCUnitWin.Visible)
             {
                 TCUnit.TargetSelPnl.Visible = HS != null;
@@ -123,25 +123,25 @@ namespace Aow.Units.aowTCMapEvents
                     if (HS is TTacticalCombatUnitHS)
                     {
                         U = ((TTacticalCombatUnitHS)HS).FUnit.FUnit;
-                        var call__4 = U.GetName();
-                        TCUnit.TargetULbl.Text = call__4;
-                        var call__5 = U.GetHitPoints();
-                        var call__6 = U.GetHits();
-                        TCUnit.AHits.Text = IntToStr(call__5) + AnsiString.FromBytes(47) + IntToStr(call__6);
-                        var call__7 = U.GetMovePoints();
-                        var call__8 = U.GetMoves();
-                        TCUnit.AMoves.Text = IntToStr(call__7) + AnsiString.FromBytes(47) + IntToStr(call__8);
-                        var call__9 = U.GetAttack();
-                        TCUnit.AAttack.Text = IntToStr(call__9);
-                        var call__10 = U.GetDamage();
-                        TCUnit.ADamage.Text = IntToStr(call__10);
-                        var call__11 = U.GetDefense();
-                        TCUnit.ADefense.Text = IntToStr(call__11);
-                        var call__12 = U.GetResistance();
-                        TCUnit.AResistance.Text = IntToStr(call__12);
-                        var call__13 = U.GetMoveTypes();
-                        var call__14 = General.MTtoInt(call__13);
-                        TCUnit.AMovesIcon.SetCurrent(call__14);
+                        var name = U.GetName();
+                        TCUnit.TargetULbl.Text = name;
+                        var hitPoints = U.GetHitPoints();
+                        var hits = U.GetHits();
+                        TCUnit.AHits.Text = IntToStr(hitPoints) + AnsiString.FromBytes(47) + IntToStr(hits);
+                        var movePoints = U.GetMovePoints();
+                        var moves = U.GetMoves();
+                        TCUnit.AMoves.Text = IntToStr(movePoints) + AnsiString.FromBytes(47) + IntToStr(moves);
+                        var attack = U.GetAttack();
+                        TCUnit.AAttack.Text = IntToStr(attack);
+                        var damage = U.GetDamage();
+                        TCUnit.ADamage.Text = IntToStr(damage);
+                        var defense = U.GetDefense();
+                        TCUnit.ADefense.Text = IntToStr(defense);
+                        var resistance = U.GetResistance();
+                        TCUnit.AResistance.Text = IntToStr(resistance);
+                        var moveTypes = U.GetMoveTypes();
+                        var mTtoInt = General.MTtoInt(moveTypes);
+                        TCUnit.AMovesIcon.SetCurrent(mTtoInt);
                         U.ListAbilities(TCUnit.USelAbilLb.Items);
                     }
                 }
@@ -159,8 +159,8 @@ namespace Aow.Units.aowTCMapEvents
             }
             else
             {
-                var call__15 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedCombatPlayer);
-                TBWindow.AutoBtn.Checked = call__15.FAuto;
+                var player = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedCombatPlayer);
+                TBWindow.AutoBtn.Checked = player.FAuto;
             }
 
             MapEvents.TheMapGemsChanged(Player);
@@ -197,8 +197,8 @@ namespace Aow.Units.aowTCMapEvents
         // aowTCMapEvents.pas:230
         public void TCMapCastSpell(TCombatSpellCaster Caster)
         {
-            var call__16 = General.FCombatUnit.SelectSpell(Caster.FCombatCasterSpellID);
-            TCUnit.UAbilLB.Selected = call__16;
+            var selectSpell = General.FCombatUnit.SelectSpell(Caster.FCombatCasterSpellID);
+            TCUnit.UAbilLB.Selected = selectSpell;
         }
 
         // aowTCMapEvents.pas:235
@@ -213,8 +213,8 @@ namespace Aow.Units.aowTCMapEvents
         // aowTCMapEvents.pas:240
         public void TCMapTurnChanged()
         {
-            var call__18 = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentPlayer);
-            TBWindow.TCTurnButton.FCurPlayer = call__18.FPlayerRace;
+            var player = AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FCurrentPlayer);
+            TBWindow.TCTurnButton.FCurPlayer = player.FPlayerRace;
             if (TBWindow.TCTurnButton.FCurPlayer == -1)
             {
                 TBWindow.TCTurnButton.FCurPlayer = 12;

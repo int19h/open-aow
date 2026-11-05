@@ -48,8 +48,8 @@ namespace Aow.Units.TCFCDlg
         // TCFCDlg.pas:119
         public void Finish()
         {
-            TNotifyEvent Done = default;
-            TCombatTypeRequestEventLog Request = default;
+            TNotifyEvent Done;
+            TCombatTypeRequestEventLog Request;
             General.Manager.OverlayPriority = 0;
             Done = FOnDone;
             Request = FRequest;
@@ -125,11 +125,10 @@ namespace Aow.Units.TCFCDlg
             int X = default;
             int Y = default;
             TSurfaceDesc ViewSD = default;
-            TRect R = default;
-            int W = default;
-            int H = default;
-            var call__3 = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
-            R = call__3;
+            TRect R;
+            int W;
+            int H;
+            R = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
             W = R.Right - R.Left;
             H = R.Bottom - R.Top;
             HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);

@@ -30,24 +30,15 @@ namespace Aow.Units.Hill
         // Hill.pas:48
         public override TEObject CreateResourceUser()
         {
-            TEObject Result = default;
-            THillMO MO = default;
+            THillMO MO;
             MO = new THillMO(null);
             MO.SetResource(this);
             MO.SetResourceLinked(true);
-            Result = MO;
-            return Result;
+            return MO;
         }
 
         // Hill.pas:45
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__1 = HillRStr;
-            var call__2 = TranslateRStr(call__1);
-            Result = call__2;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(HillRStr);
 
     }
 

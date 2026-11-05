@@ -24,12 +24,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:150
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TGuardAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TGuardAGC>();
 
         // IndependentAG.pas:147
         public static new TGroupBehavior Behavior => TGroupBehavior.gbGuard;
@@ -66,12 +61,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:167
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TGuardAreaAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TGuardAreaAGC>();
 
         // IndependentAG.pas:164
         public static new TGroupBehavior Behavior => TGroupBehavior.gbGuardArea;
@@ -122,14 +112,13 @@ namespace Aow.Units.IndependentAG
         {
             SetupCP(Target);
             // { Original also accepts crDefeat when the subsequent efficiency tests pass. }
-            var call__1 = FCombatPredictor.Execute();
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(call__1))
+            var execute = FCombatPredictor.Execute();
+            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(execute))
             {
-                var call__2 = FCombatPredictor.GetEfficiency();
-                if (call__2 > 0)
+                if (FCombatPredictor.GetEfficiency() > 0)
                 {
-                    var call__3 = FCombatPredictor.GetEfficiency();
-                    Target.FData.Priority = call__3 + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
+                    var efficiency = FCombatPredictor.GetEfficiency();
+                    Target.FData.Priority = efficiency + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                 }
             }
@@ -138,10 +127,9 @@ namespace Aow.Units.IndependentAG
         // IndependentAG.pas:205
         public override void ProcessStates()
         {
-            int I = default;
-            TAoWMapField MapF = default;
-            TAIGroupTargetFinder Finder = default;
-            TMoveControlSettings Settings = default;
+            TAoWMapField MapF;
+            TAIGroupTargetFinder Finder;
+            TMoveControlSettings Settings;
             switch (FState)
             {
                 case 0:
@@ -157,57 +145,45 @@ namespace Aow.Units.IndependentAG
                     Finder.FSelector.FTargetInfo.Mode = TAITargetMode.tmGuardArea;
                 }
 
-                    var call__5 = FArmy.Moves(FSelection);
-                    Finder.FSelector.FMovePointsMax = call__5;
+                    var moves = FArmy.Moves(FSelection);
+                    Finder.FSelector.FMovePointsMax = moves;
                     ActivatePlugin(Finder);
                     Finder.Release();
                     FState += 1;
                     break;
                 case 1:
                     FTargets.Validate();
-                    var call__6 = FTargets.Count;
-                    if (call__6 != 0)
+                    if (FTargets.Count != 0)
                     {
-                        var call__7 = FArmy.Moves(FSelection);
-                        var call__8 = FArmy.MovePoints(FSelection);
-                        if (call__7 != call__8 || ((TGuardAreaAG)FGroup).FGuardLocation.XYL != FLocation.XYL)
+                        if (FArmy.Moves(FSelection) != FArmy.MovePoints(FSelection) || ((TGuardAreaAG)FGroup).FGuardLocation.XYL != FLocation.XYL)
                         {
                             Settings = new TMoveControlSettings(null);
                             Settings.FPlayer = FArmy.FPlayer;
                             Settings.FMode = Settings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmAI);
                             Settings.SetSourcePos(FArmy.FX, FArmy.FY, FArmy.FL);
-                            var call__9 = FArmy.MovePoints(FSelection);
-                            Settings.FMovePointsMax = call__9;
+                            Settings.FMovePointsMax = FArmy.MovePoints(FSelection);
                             Settings.FArmyHS = FArmyHS;
                             Settings.FSelection = FSelection;
                             Settings.FMovePointTable = FMovePointTable;
                             AoWHSMap.FMoveControl.ProcessMove(Settings);
+                            for (int I = FTargets.Count - 1; I >= 0; I--)
                             {
-                                I = FTargets.Count - 1;
-                                byte end__10 = 0;
-                                for (; I >= end__10; I -= 1)
+                                if (Settings.GetMovePointsXYL(FTargets.GetTargets(I).FLocation.XYL) == 16777215)
                                 {
-                                    var call__11 = FTargets.GetTargets(I);
-                                    var call__12 = Settings.GetMovePointsXYL(call__11.FLocation.XYL);
-                                    if (call__12 == 16777215)
-                                    {
-                                        FTargets.Delete(I);
-                                    }
+                                    FTargets.Delete(I);
                                 }
                             }
 
                             Settings.Release();
                         }
 
-                        var call__13 = FTargets.Count;
-                        if (call__13 != 0)
+                        if (FTargets.Count != 0)
                         {
                             FTargets.SortOnPriority();
                             SetupME();
-                            var call__14 = FTargets.GetTargets(0);
-                            var call__15 = FTargets.GetTargets(0);
-                            var call__16 = FTargets.GetTargets(0);
-                            ExecuteME(call__16.FLocation.X, call__15.FLocation.Y, call__14.FLocation.L);
+                            var targetLocation = FTargets.GetTargets(0);
+                            var target = FTargets.GetTargets(0);
+                            ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
                             FTargets.Delete(0);
                         }
                         else
@@ -224,17 +200,8 @@ namespace Aow.Units.IndependentAG
                 case 2:
                     if (((TGuardAreaAG)FGroup).FGuardLocation.XYL != FLocation.XYL)
                     {
-                        var call__17 = AoWHSMap.MapContainer.GetFieldXYL(((TGuardAreaAG)FGroup).FGuardLocation.XYL);
-                        MapF = (TAoWMapField)call__17;
-                        var call__18 = MapF.GetPlayer();
-                        bool bool__19 = call__18 == -1;
-                        if (!bool__19)
-                        {
-                            var call__20 = MapF.GetPlayer();
-                            bool__19 = call__20 == FGroup.FPlayer;
-                        }
-
-                        if (bool__19)
+                        MapF = (TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(((TGuardAreaAG)FGroup).FGuardLocation.XYL);
+                        if (MapF.GetPlayer() == -1 || MapF.GetPlayer() == FGroup.FPlayer)
                         {
                             SetupME();
                             var guardAreaAG = (TGuardAreaAG)FGroup;
@@ -292,12 +259,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:301
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TPatrolAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TPatrolAGC>();
 
         // IndependentAG.pas:298
         public static new TGroupBehavior Behavior => TGroupBehavior.gbPatrol;
@@ -334,24 +296,20 @@ namespace Aow.Units.IndependentAG
         // IndependentAG.pas:426
         public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
         {
-            TAoWMapField MapF = default;
-            var call__22 = AoWHSMap.MapContainer.GetFieldXYL(Target.FLocation.XYL);
-            MapF = (TAoWMapField)call__22;
-            var call__23 = MapF.GetPlayer();
-            if (call__23 != FGroup.FPlayer)
+            TAoWMapField MapF;
+            MapF = (TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(Target.FLocation.XYL);
+            if (MapF.GetPlayer() != FGroup.FPlayer)
             {
                 SetupCP(Target);
-                var call__24 = FCombatPredictor.Execute();
-                if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(call__24))
+                var execute = FCombatPredictor.Execute();
+                if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(execute))
                 {
-                    var call__25 = FCombatPredictor.GetSuperiority();
-                    if (call__25 > 80)
+                    if (FCombatPredictor.GetSuperiority() > 80)
                     {
-                        var call__26 = FCombatPredictor.GetEfficiency();
-                        if (call__26 > 50)
+                        if (FCombatPredictor.GetEfficiency() > 50)
                         {
-                            var call__27 = FCombatPredictor.GetEfficiency();
-                            Target.FData.Priority = call__27 + Target.FData.Priority * 100;
+                            var efficiency = FCombatPredictor.GetEfficiency();
+                            Target.FData.Priority = efficiency + Target.FData.Priority * 100;
                             base.TargetFoundEvent(Sender, Target, ref SearchDone);
                         }
                     }
@@ -362,11 +320,11 @@ namespace Aow.Units.IndependentAG
         // IndependentAG.pas:444
         public override void ProcessStates()
         {
-            TAIGroupDefenseControl Defense = default;
-            TAIRecruitmentGroupFinder Recruitment = default;
-            TAIGroupRecruitControl Recruit = default;
-            TAIGroupTargetFinder Finder = default;
-            TMoveControlSettings Settings = default;
+            TAIGroupDefenseControl Defense;
+            TAIRecruitmentGroupFinder Recruitment;
+            TAIGroupRecruitControl Recruit;
+            TAIGroupTargetFinder Finder;
+            TMoveControlSettings Settings;
             switch (FState)
             {
                 case 0:
@@ -382,20 +340,7 @@ namespace Aow.Units.IndependentAG
                     FState = 1;
                     break;
                 case 1:
-                    bool bool__28 = ((TPatrolAG)FGroup).FPatrolTo.X == -1;
-                    if (!bool__28)
-                    {
-                        bool bool__29 = ((TPatrolAG)FGroup).FPatrolTo.L == FLocation.L;
-                        if (bool__29)
-                        {
-                            var call__30 = dHXtoRad(((TPatrolAG)FGroup).FPatrolTo.X, ((TPatrolAG)FGroup).FPatrolTo.Y, FLocation.X, FLocation.Y);
-                            bool__29 = call__30 <= 2;
-                        }
-
-                        bool__28 = bool__29;
-                    }
-
-                    if (bool__28)
+                    if (((TPatrolAG)FGroup).FPatrolTo.X == -1 || ((TPatrolAG)FGroup).FPatrolTo.L == FLocation.L && dHXtoRad(((TPatrolAG)FGroup).FPatrolTo.X, ((TPatrolAG)FGroup).FPatrolTo.Y, FLocation.X, FLocation.Y) <= 2)
                     {
                         ResetPatrolToLocation();
                     }
@@ -418,8 +363,7 @@ namespace Aow.Units.IndependentAG
 
                     break;
                 case 3:
-                    var call__31 = FRecruitmentGroups.Count;
-                    if (call__31 != 0 && FStrengthMax < ((TPatrolAG)FGroup).FPatrolStrength)
+                    if (FRecruitmentGroups.Count != 0 && FStrengthMax < ((TPatrolAG)FGroup).FPatrolStrength)
                     {
                         Recruit = new TAIGroupRecruitControl(null);
                         Recruit.Reset();
@@ -434,22 +378,20 @@ namespace Aow.Units.IndependentAG
                 case 4:
                     Finder = new TAIGroupTargetFinder(null);
                     Finder.Setup(this);
-                    var call__32 = FArmy.Moves(FSelection);
-                    Finder.FSelector.FMovePointsMax = call__32;
+                    var moves = FArmy.Moves(FSelection);
+                    Finder.FSelector.FMovePointsMax = moves;
                     ActivatePlugin(Finder);
                     Finder.Release();
                     FState += 1;
                     break;
                 case 5:
                     FTargets.Validate();
-                    var call__33 = FTargets.Count;
-                    if (call__33 != 0)
+                    if (FTargets.Count != 0)
                     {
                         SetupME();
-                        var call__34 = FTargets.GetTargets(0);
-                        var call__35 = FTargets.GetTargets(0);
-                        var call__36 = FTargets.GetTargets(0);
-                        ExecuteME(call__36.FLocation.X, call__35.FLocation.Y, call__34.FLocation.L);
+                        var targetLocation = FTargets.GetTargets(0);
+                        var target = FTargets.GetTargets(0);
+                        ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
                         FTargets.Delete(0);
                     }
                     else
@@ -459,8 +401,7 @@ namespace Aow.Units.IndependentAG
 
                     break;
                 case 6:
-                    var call__37 = AoWHSMap.Random(3);
-                    if (call__37 != 0 && ((TPatrolAG)FGroup).FPatrolTo.X != -1)
+                    if (AoWHSMap.Random(3) != 0 && ((TPatrolAG)FGroup).FPatrolTo.X != -1)
                     {
                         FState += 1;
                         SetupME();
@@ -508,8 +449,6 @@ namespace Aow.Units.IndependentAG
             TList Fields = default;
             FixedArray_Aow_Units_Engine_TDoubleItemList_7 Lists = default;
             TMapFieldMsg Msg = default;
-            TDoubleItem Item = default;
-            int I = default;
             int J = default;
             int Heading = default;
             int LastHeading = default;
@@ -533,77 +472,59 @@ namespace Aow.Units.IndependentAG
             Settings.FMovePointTable = FMovePointTable;
             AoWHSMap.FMoveControl.ProcessMove(Settings);
             Fields = Settings.FProcessedMapFields;
+            for (int I = 0; I <= 6; I++)
             {
-                I = 0;
-                byte end__38 = 6;
-                for (; I <= end__38; I += 1)
-                {
-                    var call__39 = new TDoubleItemList();
-                    Lists[I] = call__39;
-                }
+                var doubleItemList = new TDoubleItemList();
+                Lists[I] = doubleItemList;
             }
 
             X = Group.FPatrolFrom.X;
             Y = Group.FPatrolFrom.Y;
+            for (int I = Fields.Count - 1; I >= 0; I--)
             {
-                I = Fields.Count - 1;
-                byte end__40 = 0;
-                for (; I >= end__40; I -= 1)
+                // { Original samples every fourth processed field. }
+                if ((I & 3) == 3)
                 {
-                    // { Original samples every fourth processed field. }
-                    if ((I & 3) == 3)
-                    {
-                        MapF = (TAoWMapField)Fields.List[I];
-                        var call__41 = dHXtoHT(X, Y, MapF.Xhx, MapF.Yhx);
-                        Heading = call__41;
-                        var call__42 = Settings.GetMovePoints(MapF.Xhx, MapF.Yhx, MapF.Lhx);
-                        Lists[Heading].AddAB(ObjectToInt(MapF), call__42);
-                    }
+                    MapF = (TAoWMapField)Fields.List[I];
+                    Heading = dHXtoHT(X, Y, MapF.Xhx, MapF.Yhx);
+                    var movePoints = Settings.GetMovePoints(MapF.Xhx, MapF.Yhx, MapF.Lhx);
+                    Lists[Heading].AddAB(ObjectToInt(MapF), movePoints);
                 }
             }
 
+            for (int I = 0; I <= 6; I++)
             {
-                I = 0;
-                byte end__43 = 6;
-                for (; I <= end__43; I += 1)
-                {
-                    Lists[I].Sort(IndependentAG.ComparePatrolFields);
-                }
+                Lists[I].Sort(IndependentAG.ComparePatrolFields);
             }
 
             Msg.MsgID = 4384;
             Msg.Param[0] = FArmyHS;
+            for (int I = 1; I <= 6; I++)
             {
-                I = 1;
-                byte end__44 = 6;
-                for (; I <= end__44; I += 1)
+                NewList = new TDoubleItemList();
+                J = 0;
+                while (NewList.Count != 30 && J != Lists[I].Count)
                 {
-                    NewList = new TDoubleItemList();
-                    J = 0;
-                    while (NewList.Count != 30 && J != Lists[I].Count)
+                    MapF = ReferenceFromId<TAoWMapField>(Lists[I].List[J].A);
+                    if (MapF.GetPlayer() == -1)
                     {
-                        MapF = ReferenceFromId<TAoWMapField>(Lists[I].List[J].A);
-                        if (MapF.GetPlayer() == -1)
+                        Msg.Result = 0;
+                        MapF.SendMapFieldMsg(ref Msg);
+                        if (Msg.Result.Value == 0)
                         {
-                            Msg.Result = 0;
-                            MapF.SendMapFieldMsg(ref Msg);
-                            if (Msg.Result.Value == 0)
-                            {
-                                var call__45 = Lists[I][J];
-                                NewList.Add(call__45);
-                            }
+                            var item = Lists[I][J];
+                            NewList.Add(item);
                         }
-
-                        J += 1;
                     }
 
-                    Lists[I].Free();
-                    Lists[I] = NewList;
+                    J += 1;
                 }
+
+                Lists[I].Free();
+                Lists[I] = NewList;
             }
 
-            var call__46 = AoWHSMap.MapContainer.GetFieldXYL(Group.FPatrolFrom.XYL);
-            MapF = (TAoWMapField)call__46;
+            MapF = (TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(Group.FPatrolFrom.XYL);
             if (MapF.GetPlayer() == -1)
             {
                 Lists[0].AddAB(ObjectToInt(MapF), 0);
@@ -611,8 +532,7 @@ namespace Aow.Units.IndependentAG
 
             if (Group.FPatrolTo.X != -1)
             {
-                var call__47 = dHXtoHT(Group.FPatrolFrom.X, Group.FPatrolFrom.Y, Group.FPatrolTo.X, Group.FPatrolTo.Y);
-                LastHeading = call__47;
+                LastHeading = dHXtoHT(Group.FPatrolFrom.X, Group.FPatrolFrom.Y, Group.FPatrolTo.X, Group.FPatrolTo.Y);
             }
             else
             {
@@ -621,46 +541,24 @@ namespace Aow.Units.IndependentAG
 
             PreviousHeading = Group.FPreviousHeading;
             Choices = new TByteList();
+            for (int I = 0; I <= 6; I++)
             {
-                I = 0;
-                byte end__48 = 6;
-                for (; I <= end__48; I += 1)
+                if (Lists[I].Count != 0 && LastHeading != I && I != PreviousHeading)
                 {
-                    if (Lists[I].Count != 0 && LastHeading != I && I != PreviousHeading)
+                    if (PreviousHeading == 0 || IndependentAG.PatrolHeadingDistance(I, LastHeading) > 1 || IndependentAG.PatrolHeadingDistance(I, PreviousHeading) > 1)
                     {
-                        bool bool__49 = PreviousHeading == 0;
-                        if (!bool__49)
-                        {
-                            var call__50 = IndependentAG.PatrolHeadingDistance(I, LastHeading);
-                            bool__49 = call__50 > 1;
-                        }
-
-                        bool bool__51 = bool__49;
-                        if (!bool__51)
-                        {
-                            var call__52 = IndependentAG.PatrolHeadingDistance(I, PreviousHeading);
-                            bool__51 = call__52 > 1;
-                        }
-
-                        if (bool__51)
-                        {
-                            Choices.Add((byte)I);
-                        }
+                        Choices.Add((byte)I);
                     }
                 }
             }
 
             if (Choices.Count == 0)
             {
+                for (int I = 0; I <= 6; I++)
                 {
-                    I = 0;
-                    byte end__53 = 6;
-                    for (; I <= end__53; I += 1)
+                    if (Lists[I].Count != 0 && LastHeading != I)
                     {
-                        if (Lists[I].Count != 0 && LastHeading != I)
-                        {
-                            Choices.Add((byte)I);
-                        }
+                        Choices.Add((byte)I);
                     }
                 }
             }
@@ -668,14 +566,12 @@ namespace Aow.Units.IndependentAG
             if (Choices.Count != 0)
             {
                 Group.FPreviousHeading = (sbyte)LastHeading;
-                var call__54 = AoWHSMap.Random(Choices.Count);
-                var call__55 = Choices[call__54];
-                Heading = call__55;
+                Heading = Choices[AoWHSMap.Random(Choices.Count)];
                 SelectedList = Lists[Heading];
-                var call__56 = AoWHSMap.Random(SelectedList.Count);
-                MapF = ReferenceFromId<TAoWMapField>(SelectedList.List[call__56].A);
-                var call__57 = MapF.GetXYL();
-                Group.FPatrolTo.XYL = call__57;
+                var random = AoWHSMap.Random(SelectedList.Count);
+                MapF = ReferenceFromId<TAoWMapField>(SelectedList.List[random].A);
+                var xyl = MapF.GetXYL();
+                Group.FPatrolTo.XYL = xyl;
                 Result = true;
             }
             else
@@ -683,13 +579,9 @@ namespace Aow.Units.IndependentAG
                 Result = false;
             }
 
+            for (int I = 0; I <= 6; I++)
             {
-                I = 0;
-                byte end__58 = 6;
-                for (; I <= end__58; I += 1)
-                {
-                    Lists[I].Free();
-                }
+                Lists[I].Free();
             }
 
             Choices.Free();
@@ -711,12 +603,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:557
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TRefugeAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TRefugeAGC>();
 
         // IndependentAG.pas:554
         public static new TGroupBehavior Behavior => TGroupBehavior.gbRefuge;
@@ -743,12 +630,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:573
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TRaidAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TRaidAGC>();
 
         // IndependentAG.pas:570
         public static new TGroupBehavior Behavior => TGroupBehavior.gbRaid;
@@ -787,14 +669,13 @@ namespace Aow.Units.IndependentAG
         {
             SetupCP(Target);
             // { Original also accepts crDefeat when the efficiency test passes. }
-            var call__59 = FCombatPredictor.Execute();
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(call__59))
+            var execute = FCombatPredictor.Execute();
+            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(execute))
             {
-                var call__60 = FCombatPredictor.GetEfficiency();
-                if (call__60 > 0)
+                if (FCombatPredictor.GetEfficiency() > 0)
                 {
-                    var call__61 = FCombatPredictor.GetEfficiency();
-                    Target.FData.Priority = call__61 / 10 + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
+                    var efficiency = FCombatPredictor.GetEfficiency();
+                    Target.FData.Priority = efficiency / 10 + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                 }
             }
@@ -814,12 +695,7 @@ namespace Aow.Units.IndependentAG
         }
 
         // IndependentAG.pas:656
-        public override EClass GroupControlClass()
-        {
-            EClass Result = default;
-            Result = EClass.Of<TScoutAGC>();
-            return Result;
-        }
+        public override EClass GroupControlClass() => EClass.Of<TScoutAGC>();
 
         // IndependentAG.pas:653
         public static new TGroupBehavior Behavior => TGroupBehavior.gbScout;
@@ -857,14 +733,13 @@ namespace Aow.Units.IndependentAG
         public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
         {
             SetupCP(Target);
-            var call__62 = FCombatPredictor.Execute();
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crNoDefenders).Contains(call__62))
+            var execute = FCombatPredictor.Execute();
+            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crNoDefenders).Contains(execute))
             {
-                var call__63 = FCombatPredictor.GetEfficiency();
-                if (call__63 > 50)
+                if (FCombatPredictor.GetEfficiency() > 50)
                 {
-                    var call__64 = FCombatPredictor.GetEfficiency();
-                    Target.FData.Priority = call__64 + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
+                    var efficiency = FCombatPredictor.GetEfficiency();
+                    Target.FData.Priority = efficiency + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                 }
             }
@@ -873,25 +748,24 @@ namespace Aow.Units.IndependentAG
         // IndependentAG.pas:680
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder = default;
-            TAIGroupWanderControl Wander = default;
+            TAIGroupTargetFinder Finder;
+            TAIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
-                    bool bool__65 = FGroup.FPlayer != 0;
-                    if (!bool__65)
+                    bool condition = FGroup.FPlayer != 0;
+                    if (!condition)
                     {
-                        var call__66 = AoWHSMap.GetIndependentAIMode();
-                        var call__67 = AoWHSMap.Random(3);
-                        bool__65 = call__67 < (int)call__66;
+                        var independentAIMode = AoWHSMap.GetIndependentAIMode();
+                        condition = AoWHSMap.Random(3) < (int)independentAIMode;
                     }
 
-                    if (bool__65)
+                    if (condition)
                     {
                         Finder = new TAIGroupTargetFinder(null);
                         Finder.Setup(this);
-                        var call__68 = FGroup.GetMovePointsMin();
-                        Finder.FSelector.FMovePointsMax = call__68;
+                        var movePointsMin = FGroup.GetMovePointsMin();
+                        Finder.FSelector.FMovePointsMax = movePointsMin;
                         ActivatePlugin(Finder);
                         Finder.Release();
                         FState += 1;
@@ -904,15 +778,13 @@ namespace Aow.Units.IndependentAG
                     break;
                 case 1:
                     FTargets.Validate();
-                    var call__69 = FTargets.Count;
-                    if (call__69 != 0)
+                    if (FTargets.Count != 0)
                     {
                         FTargets.SortOnPriority();
                         SetupME();
-                        var call__70 = FTargets.GetTargets(0);
-                        var call__71 = FTargets.GetTargets(0);
-                        var call__72 = FTargets.GetTargets(0);
-                        ExecuteME(call__72.FLocation.X, call__71.FLocation.Y, call__70.FLocation.L);
+                        var targetLocation = FTargets.GetTargets(0);
+                        var target = FTargets.GetTargets(0);
+                        ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
                         FTargets.Delete(0);
                     }
                     else
@@ -952,18 +824,12 @@ namespace Aow.Units.IndependentAG
     public static partial class IndependentAG
     {
         // IndependentAG.pas:313
-        public static int ComparePatrolFields(in TDoubleItem A, in TDoubleItem B)
-        {
-            int Result = default;
-            Result = B.B - A.B;
-            return Result;
-        }
+        public static int ComparePatrolFields(in TDoubleItem A, in TDoubleItem B) => B.B - A.B;
 
         // IndependentAG.pas:318
         public static int PatrolHeadingDistance(int A, int B)
         {
-            int Result = default;
-            Result = Math.Abs(B - A);
+            int Result = Math.Abs(B - A);
             if (Result > 3)
             {
                 Result = 6 - Result;

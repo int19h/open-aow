@@ -18,13 +18,7 @@ namespace Aow.Units.CombatObstacle
 
         public TCombatObstacle FObstacle;
         // CombatObstacle.pas:74
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            var call__1 = FObstacle.GetShowPriority();
-            Result = (call__1 & 67108863) - 1677721600;
-            return Result;
-        }
+        public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) - 1677721600;
 
         // CombatObstacle.pas:79
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -43,13 +37,7 @@ namespace Aow.Units.CombatObstacle
 
         public TCombatObstacle FObstacle;
         // CombatObstacle.pas:84
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            var call__2 = FObstacle.GetShowPriority();
-            Result = (call__2 & 67108863) + 393216;
-            return Result;
-        }
+        public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) + 393216;
 
         // CombatObstacle.pas:89
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -82,13 +70,12 @@ namespace Aow.Units.CombatObstacle
         // CombatObstacle.pas:110
         public override bool PlaceOnMap()
         {
-            bool Result = default;
-            Result = base.PlaceOnMap();
+            bool Result = base.PlaceOnMap();
             if (Result)
             {
-                var call__3 = Yhx;
-                var call__4 = Xhx;
-                UpdateMapFields((TMapLevel)Owner.Owner, call__4, call__3);
+                var yhx = Yhx;
+                var xhx = Xhx;
+                UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
             }
 
             return Result;
@@ -97,7 +84,7 @@ namespace Aow.Units.CombatObstacle
         // CombatObstacle.pas:116
         public override void RemoveFromMap()
         {
-            TMapLevel MapLevel = default;
+            TMapLevel MapLevel;
             MapLevel = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(MapLevel, FXhx, FYhx);
@@ -106,11 +93,9 @@ namespace Aow.Units.CombatObstacle
         // CombatObstacle.pas:229
         public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
         {
-            var call__5 = ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59);
-            if (call__5)
+            if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
             {
-                var call__6 = FResource.TerrainList.GetOverlay(Info.HN);
-                if (call__6 == 8)
+                if (FResource.TerrainList.GetOverlay(Info.HN) == 8)
                 {
                     MoveResult.Code = -1;
                     MoveResult.Done = true;
@@ -152,47 +137,31 @@ namespace Aow.Units.CombatObstacle
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
                 {
-                    var call__7 = FShadow.GetShowPriority();
-                    VisibilityList.AddSortChild(FShadow, call__7);
+                    var showPriority = FShadow.GetShowPriority();
+                    VisibilityList.AddSortChild(FShadow, showPriority);
                 }
 
                 if (FOverlay != null)
                 {
-                    var call__8 = FOverlay.GetShowPriority();
-                    VisibilityList.AddSortChild(FOverlay, call__8);
+                    var showPriority = FOverlay.GetShowPriority();
+                    VisibilityList.AddSortChild(FOverlay, showPriority);
                 }
             }
         }
 
         // CombatObstacle.pas:107
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
-        {
-            TMapObjectResourceList Result = default;
-            Result = AoWHSSet.FCombatResources;
-            return Result;
-        }
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
         // CombatObstacle.pas:104
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // CombatObstacle.pas:203
-        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
-            return Result;
-        }
+        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
 
         // CombatObstacle.pas:125
         public void CreateShadow()
         {
-            var call__9 = FResource.ImageSequenceList.GetImageSequence(40);
-            if (call__9 != null)
+            if (FResource.ImageSequenceList.GetImageSequence(40) != null)
             {
                 if (FShadow != null)
                 {
@@ -201,8 +170,7 @@ namespace Aow.Units.CombatObstacle
 
                 if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
                 {
-                    var call__10 = new TCombatObstacleShadow(null);
-                    FShadow = call__10;
+                    FShadow = new TCombatObstacleShadow(null);
                     FShadow.FObstacle = this;
                 }
             }
@@ -226,8 +194,7 @@ namespace Aow.Units.CombatObstacle
         // CombatObstacle.pas:148
         public void CreateOverlay()
         {
-            var call__11 = FResource.ImageSequenceList.GetImageSequence(41);
-            if (call__11 != null)
+            if (FResource.ImageSequenceList.GetImageSequence(41) != null)
             {
                 if (FOverlay != null)
                 {
@@ -236,8 +203,7 @@ namespace Aow.Units.CombatObstacle
 
                 if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
                 {
-                    var call__12 = new TCombatObstacleOverlay(null);
-                    FOverlay = call__12;
+                    FOverlay = new TCombatObstacleOverlay(null);
                     FOverlay.FObstacle = this;
                 }
             }
@@ -291,20 +257,10 @@ namespace Aow.Units.CombatObstacle
         public new const int ClassID = 2229547;
 
         // CombatObstacle.pas:245
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229546;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229546;
 
         // CombatObstacle.pas:242
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat " + TranslateRStr(ObstacleRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat " + TranslateRStr(ObstacleRStr);
 
     }
 

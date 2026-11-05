@@ -13,19 +13,17 @@ namespace Aow.Units.CityWall
     {
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence = default;
-            int ImageIndex = default;
+            TImageSequence Sequence;
+            int ImageIndex;
             int Xhp = default;
             int Yhp = default;
-            int TerrainOffset = default;
+            int TerrainOffset;
             HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
-            var call__1 = GetYhx();
-            var call__2 = GetXhx();
-            var call__3 = AoWCombatMap.MapContainer.GetMapLevel(0);
-            var call__4 = call__3.GetField(call__2, call__1);
-            switch (call__4.TerrainType)
+            var yhx = GetYhx();
+            var xhx = GetXhx();
+            switch (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
             {
                 case 3:
                     TerrainOffset = 10;
@@ -40,8 +38,7 @@ namespace Aow.Units.CityWall
                     break;
             }
 
-            var call__5 = FResource.ImageSequenceList.GetImageSequence(WallISIndex[FWallType - 1] + (TerrainOffset + FDamageImage));
-            Sequence = call__5;
+            Sequence = FResource.ImageSequenceList.GetImageSequence(WallISIndex[FWallType - 1] + (TerrainOffset + FDamageImage));
             if (Sequence != null)
             {
                 do
@@ -49,27 +46,24 @@ namespace Aow.Units.CityWall
                     switch (Sequence.Layer)
                     {
                         case 7:
-                            var call__6 = Sequence.GetFrameIndex(AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
-                            ImageIndex = call__6;
+                            ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                             if (ImageIndex != -1)
                             {
                                 if (!AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
                                 {
-                                    var call__7 = GetXhx();
-                                    var call__8 = GetYhx();
-                                    AoWHSSet.FFlagControl.ShowFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, call__7 + AoWHSMap.Frame + call__8 * 100, (byte)FFlagID, SurfaceDesc, false);
+                                    var xhx2 = GetXhx();
+                                    var yhx2 = GetYhx();
+                                    AoWHSSet.FFlagControl.ShowFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
                                 }
                             }
 
                             break;
                         default:
                         {
-                            var call__9 = Sequence.GetUnloopedFrameIndex(FImageIndex);
-                            ImageIndex = call__9;
+                            ImageIndex = Sequence.GetUnloopedFrameIndex(FImageIndex);
                             if (ImageIndex != -1)
                             {
-                                var call__10 = Sequence.ImageLibrary[ImageIndex];
-                                call__10.Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                                Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
                             }
                         }
 

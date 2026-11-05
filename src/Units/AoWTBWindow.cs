@@ -193,65 +193,54 @@ namespace Aow.Units.AoWTBWindow
         // AoWTBWindow.pas:188
         public void TurnButtonChange()
         {
-            var call__1 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            if (!call__1.FSingleProcessCycle)
+            if (!AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FSingleProcessCycle)
             {
-                var call__2 = AoWHSMap.EndTurn();
-                TurnButton.Checked = call__2;
+                var endTurn = AoWHSMap.EndTurn();
+                TurnButton.Checked = endTurn;
             }
             else
             {
-                var call__3 = AoWHSMap.CancelEndTurn();
-                TurnButton.Checked = !call__3;
+                var cancelEndTurn = AoWHSMap.CancelEndTurn();
+                TurnButton.Checked = !cancelEndTurn;
             }
         }
 
         // AoWTBWindow.pas:195
         public void PIndDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            int I = default;
-            int Position = default;
-            int Race = default;
+            int Position;
+            int Race;
             Position = 0;
             if (AoWHSMap != null)
             {
+                for (int I = 0, last = AoWHSMap.FPlayers.GetCount() - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__4 = AoWHSMap.FPlayers.GetCount() - 1;
-                    for (; I <= end__4; I += 1)
+                    if (AoWHSMap.FPlayers.GetPlayers(I).FStatus == TPlayerStatus.psPlaying)
                     {
-                        var call__5 = AoWHSMap.FPlayers.GetPlayers(I);
-                        if (call__5.FStatus == TPlayerStatus.psPlaying)
+                        Race = AoWHSMap.FPlayers.GetPlayers(I).FPlayerRace;
+                        if (Race == -1)
                         {
-                            var call__6 = AoWHSMap.FPlayers.GetPlayers(I);
-                            Race = call__6.FPlayerRace;
-                            if (Race == -1)
-                            {
-                                Race = 12;
-                            }
-
-                            var call__7 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
-                            call__7.ShowClipped(PInd.WinLeft + 3 + Position * 5, PInd.WinTop + 2, Surface);
-                            if (AoWHSMap.FPlayMode == TPlayMode.pmTurn)
-                            {
-                                if (I == AoWHSMap.FCurrentPlayer)
-                                {
-                                    CurP.WinLeft = PInd.WinLeft + 2 + Position * 5;
-                                    CurP.WinTop = PInd.WinTop + 11;
-                                }
-                            }
-                            else
-                            {
-                                var call__8 = AoWHSMap.FPlayers.GetPlayers(I);
-                                if (call__8.FSingleProcessCycle)
-                                {
-                                    var call__9 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[50];
-                                    call__9.ShowClipped(PInd.WinLeft + 2 + Position * 5, PInd.WinTop + 11, Surface);
-                                }
-                            }
-
-                            Position += 1;
+                            Race = 12;
                         }
+
+                        aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32].ShowClipped(PInd.WinLeft + 3 + Position * 5, PInd.WinTop + 2, Surface);
+                        if (AoWHSMap.FPlayMode == TPlayMode.pmTurn)
+                        {
+                            if (I == AoWHSMap.FCurrentPlayer)
+                            {
+                                CurP.WinLeft = PInd.WinLeft + 2 + Position * 5;
+                                CurP.WinTop = PInd.WinTop + 11;
+                            }
+                        }
+                        else
+                        {
+                            if (AoWHSMap.FPlayers.GetPlayers(I).FSingleProcessCycle)
+                            {
+                                aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[50].ShowClipped(PInd.WinLeft + 2 + Position * 5, PInd.WinTop + 11, Surface);
+                            }
+                        }
+
+                        Position += 1;
                     }
                 }
             }
@@ -280,8 +269,8 @@ namespace Aow.Units.AoWTBWindow
         {
             if (TCTurnButton.Checked)
             {
-                var call__10 = AoWCombatMap.EndTurn(false);
-                TCTurnButton.Checked = call__10;
+                var endTurn = AoWCombatMap.EndTurn(false);
+                TCTurnButton.Checked = endTurn;
             }
             else
             {
@@ -300,35 +289,27 @@ namespace Aow.Units.AoWTBWindow
         // AoWTBWindow.pas:244
         public void TCPIndDraw(TObject Sender, TSurfaceDesc Surface)
         {
-            int I = default;
-            int Position = default;
-            int Race = default;
+            int Position;
+            int Race;
             Position = 0;
+            for (int I = 0, last = AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__11 = AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count - 1;
-                for (; I <= end__11; I += 1)
+                var turnOrder = AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
+                var player = AoWCombatMap.FPlayers.GetPlayers((sbyte)turnOrder);
+                Race = AoWHSMap.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+                if (Race == -1)
                 {
-                    var call__12 = AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
-                    var call__13 = AoWCombatMap.FPlayers.GetPlayers((sbyte)call__12);
-                    var call__14 = AoWHSMap.FPlayers.GetPlayers(call__13.FPlayer);
-                    Race = call__14.FPlayerRace;
-                    if (Race == -1)
-                    {
-                        Race = 12;
-                    }
-
-                    var call__15 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32];
-                    call__15.ShowClipped(TCPInd.WinLeft + 3 + Position * 5, TCPInd.WinTop + 2, Surface);
-                    var call__16 = AoWCombatMap.FCombat.FCombatData.FTurnOrder[I];
-                    if (call__16 == AoWCombatMap.FCurrentCombatPlayer)
-                    {
-                        TCCurP.WinLeft = TCPInd.WinLeft + 2 + Position * 5;
-                        TCCurP.WinTop = TCPInd.WinTop + 11;
-                    }
-
-                    Position += 1;
+                    Race = 12;
                 }
+
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.TBWin[Race + 32].ShowClipped(TCPInd.WinLeft + 3 + Position * 5, TCPInd.WinTop + 2, Surface);
+                if (AoWCombatMap.FCombat.FCombatData.FTurnOrder[I] == AoWCombatMap.FCurrentCombatPlayer)
+                {
+                    TCCurP.WinLeft = TCPInd.WinLeft + 2 + Position * 5;
+                    TCCurP.WinTop = TCPInd.WinTop + 11;
+                }
+
+                Position += 1;
             }
         }
 
@@ -379,10 +360,8 @@ namespace Aow.Units.AoWTBWindow
                     if (AoWHSMap.FTurnTime != 0)
                     {
                         FWorldClockDelay = 10;
-                        var call__17 = AoWHSMap.GetTurnTimeLeft();
-                        Minute = (ushort)(call__17 / 60000);
-                        var call__18 = AoWHSMap.GetTurnTimeLeft();
-                        Second = (ushort)(call__18 % 60000 / 1000);
+                        Minute = (ushort)(AoWHSMap.GetTurnTimeLeft() / 60000);
+                        Second = (ushort)(AoWHSMap.GetTurnTimeLeft() % 60000 / 1000);
                         if (Minute == 0 && Second > 0 && Second <= 10)
                         {
                             TimeLbl.TextColor = 255;
@@ -403,8 +382,7 @@ namespace Aow.Units.AoWTBWindow
                     else
                     {
                         FWorldClockDelay = 900;
-                        var call__19 = Time();
-                        DecodeTime(call__19, ref Hour, ref Minute, ref Second, ref Millisecond);
+                        DecodeTime(Time(), ref Hour, ref Minute, ref Second, ref Millisecond);
                         if (Hour > 12)
                         {
                             Hour = (ushort)(Hour - 12);
@@ -440,8 +418,7 @@ namespace Aow.Units.AoWTBWindow
                 if (FCombatClockDelay < 0)
                 {
                     FCombatClockDelay = 900;
-                    var call__20 = Time();
-                    DecodeTime(call__20, ref Hour, ref Minute, ref Second, ref Millisecond);
+                    DecodeTime(Time(), ref Hour, ref Minute, ref Second, ref Millisecond);
                     if (Hour > 12)
                     {
                         Hour = (ushort)(Hour - 12);
@@ -547,8 +524,7 @@ namespace Aow.Units.AoWTBWindow
         {
             if (AoWCombatMap.FSeatedCombatPlayer > -1)
             {
-                var call__24 = AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedCombatPlayer);
-                call__24.SetAuto(AutoBtn.Checked);
+                AoWCombatMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedCombatPlayer).SetAuto(AutoBtn.Checked);
             }
         }
     }

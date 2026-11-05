@@ -72,8 +72,7 @@ namespace Aow.Units.ManaCrystals
 
             if (Msg.MsgID == 4608)
             {
-                var call__1 = FResource.TerrainList.Terrain[Msg.HN];
-                if (call__1 >= 0)
+                if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
                     var query = (AITargetQuery)Msg.Param[0].Ref;
                     var info = new TCrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
@@ -104,23 +103,19 @@ namespace Aow.Units.ManaCrystals
         {
             if (FSize == 4)
             {
-                var call__2 = AoWHSMap.Random(3);
-                FSize = (byte)(call__2 + 1);
+                FSize = (byte)(AoWHSMap.Random(3) + 1);
             }
 
             switch (FSize)
             {
                 case 1:
-                    var call__3 = AoWHSMap.Random(25);
-                    FAmount = call__3 + 25;
+                    FAmount = AoWHSMap.Random(25) + 25;
                     break;
                 case 2:
-                    var call__4 = AoWHSMap.Random(25);
-                    FAmount = call__4 + 50;
+                    FAmount = AoWHSMap.Random(25) + 50;
                     break;
                 case 3:
-                    var call__5 = AoWHSMap.Random(50);
-                    FAmount = call__5 + 100;
+                    FAmount = AoWHSMap.Random(50) + 100;
                     break;
             }
         }
@@ -128,7 +123,7 @@ namespace Aow.Units.ManaCrystals
         // ManaCrystals.pas:100
         public void UpdateAITarget(ref TCrystalAIInfo Info, ref int Priority)
         {
-            int P = default;
+            int P;
             switch (Info.Kind)
             {
                 case 0:
@@ -148,23 +143,22 @@ namespace Aow.Units.ManaCrystals
         // ManaCrystals.pas:125
         public void ArmyEntered(TArmyHS ArmyHS)
         {
-            TLocationTextEventLog Log = default;
+            TLocationTextEventLog Log;
             if ((byte)ArmyHS.FArmy.FPlayer == 0)
             {
                 return;
             }
 
-            bool bool__6 = (byte)AoWHSMap.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
-            if (!bool__6)
+            bool condition = (byte)AoWHSMap.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
+            if (!condition)
             {
-                var call__7 = GetLhx();
-                var call__8 = GetYhx();
-                var call__9 = GetXhx();
-                var call__10 = AoWHSMap.Watching(call__9, call__8, call__7, 0);
-                bool__6 = call__10;
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
             }
 
-            if (bool__6)
+            if (condition)
             {
                 PlaySample((AnsiString)"SFX\\EVENTS\\MANA.WAV");
             }
@@ -174,15 +168,11 @@ namespace Aow.Units.ManaCrystals
 
             Log = new TLocationTextEventLog(null);
             Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-            var call__12 = TranslateRStr(ManaCrystalsFoundRStr);
-            var call__13 = Rtl.Rtl.Format(call__12, [IntToStr(FAmount)]);
-            Log.FText = call__13;
-            var call__14 = GetLhx();
-            var call__15 = GetYhx();
-            var call__16 = GetXhx();
-            Log.SetLocation(call__16, call__15, call__14);
-            var call__17 = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-            call__17.FEventLogbook.AddEvent(Log);
+            Log.FText = Rtl.Rtl.Format(TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
+            var lhx2 = GetLhx();
+            var yhx2 = GetYhx();
+            Log.SetLocation(GetXhx(), yhx2, lhx2);
+            AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
             Log.Release();
             Destroy();
         }
@@ -201,20 +191,10 @@ namespace Aow.Units.ManaCrystals
         public new const int ClassID = 132031;
 
         // ManaCrystals.pas:171
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132030;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132030;
 
         // ManaCrystals.pas:165
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(ManaCrystalsRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(ManaCrystalsRStr);
 
     }
 

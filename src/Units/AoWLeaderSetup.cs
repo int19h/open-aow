@@ -201,7 +201,6 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:1050
         public void Execute(TLeaderSetupControl Control)
         {
-            int I = default;
             Reset();
             if (FSetup != null)
             {
@@ -219,24 +218,20 @@ namespace Aow.Units.AoWLeaderSetup
             if (RaceCB.Visible)
             {
                 RaceCB.Items.Clear();
+                for (int I = 0, last = FSetup.FItems.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__1 = FSetup.FItems.Count - 1;
-                    for (; I <= end__1; I += 1)
-                    {
-                        var call__2 = FSetup.FItems[I];
-                        var call__3 = TranslateRStr(RaceNamesRStr[call__2]);
-                        var call__4 = FSetup.FItems[I];
-                        RaceCB.Items.AddObject(call__3, IntToObject(call__4));
-                    }
+                    var item = FSetup.FItems[I];
+                    var raceNames = TranslateRStr(RaceNamesRStr[item]);
+                    var item2 = FSetup.FItems[I];
+                    RaceCB.Items.AddObject(raceNames, IntToObject(item2));
                 }
 
-                var call__5 = FSetup.FItems.IndexOf(FSetup.FOriginalLeader.FRace);
-                RaceCB.Selected = call__5;
+                var indexOf = FSetup.FItems.IndexOf(FSetup.FOriginalLeader.FRace);
+                RaceCB.Selected = indexOf;
             }
 
-            var call__6 = TranslateRStr(RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
-            SideNameLbl.Text = call__6;
+            var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
+            SideNameLbl.Text = raceNamesPlural;
             ShieldL.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
             ShieldR.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
             ShieldR.Visible = !FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign);
@@ -267,7 +262,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:1083
         public void Finish()
         {
-            TLeaderSetupControl Control = default;
+            TLeaderSetupControl Control;
             SaveLeader();
             Control = FSetup;
             Control.FStatus = TLeaderSetupStatus.lssDone;
@@ -281,7 +276,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:1097
         public void Cancel()
         {
-            TLeaderSetupControl Control = default;
+            TLeaderSetupControl Control;
             SaveLeader();
             Control = FSetup;
             Control.FStatus = TLeaderSetupStatus.lssCanceled;
@@ -300,26 +295,26 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:755
         public void SaveLeader()
         {
-            TLeader Leader = default;
+            TLeader Leader;
             FSetup.FOriginalLeader.Assign(FLeader, AoWEngine);
             Leader = FSetup.FOriginalLeader;
             LeaderName.Text = Leader.FHeroName;
-            var call__7 = Leader.GetInherentAttack();
-            UAttack.Text = IntToStr(call__7);
-            var call__8 = Leader.GetInherentDefense();
-            UDefense.Text = IntToStr(call__8);
-            var call__9 = Leader.GetInherentDamage();
-            UDamage.Text = IntToStr(call__9);
-            var call__10 = Leader.GetInherentResistance();
-            UResistance.Text = IntToStr(call__10);
-            var call__11 = Leader.GetHits();
-            UHits.Text = IntToStr(call__11);
-            var call__12 = Leader.GetMoves();
-            UMoves.Text = IntToStr(call__12);
+            var inherentAttack = Leader.GetInherentAttack();
+            UAttack.Text = IntToStr(inherentAttack);
+            var inherentDefense = Leader.GetInherentDefense();
+            UDefense.Text = IntToStr(inherentDefense);
+            var inherentDamage = Leader.GetInherentDamage();
+            UDamage.Text = IntToStr(inherentDamage);
+            var inherentResistance = Leader.GetInherentResistance();
+            UResistance.Text = IntToStr(inherentResistance);
+            var hits = Leader.GetHits();
+            UHits.Text = IntToStr(hits);
+            var moves = Leader.GetMoves();
+            UMoves.Text = IntToStr(moves);
             UAbilities.Items.Clear();
             Leader.ListAbilities(UAbilities.Items);
-            var call__13 = TranslateRStr(RaceNamesPluralRStr[Leader.FRace]);
-            SideNameLbl.Text = call__13;
+            var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[Leader.FRace]);
+            SideNameLbl.Text = raceNamesPlural;
             ShieldL.CurrentImage = Leader.FRace + 13;
             ShieldR.CurrentImage = Leader.FRace + 13;
         }
@@ -327,16 +322,16 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:775
         public void UpdateSkillPoints()
         {
-            var call__14 = FLeader.GetSkillPoints();
-            var call__15 = TranslateRStr(SkillPointsRStr);
-            var call__16 = FLeader.GetSkillPointsMax();
-            SkillPointsLbl.Text = call__15 + AnsiString.FromBytes(32) + IntToStr(call__14) + AnsiString.FromBytes(47) + IntToStr(call__16);
+            var skillPoints = FLeader.GetSkillPoints();
+            var skillPoints2 = TranslateRStr(SkillPointsRStr);
+            var skillPointsMax = FLeader.GetSkillPointsMax();
+            SkillPointsLbl.Text = skillPoints2 + AnsiString.FromBytes(32) + IntToStr(skillPoints) + AnsiString.FromBytes(47) + IntToStr(skillPointsMax);
         }
 
         // AoWLeaderSetup.pas:781
         public void UpdateStatistics()
         {
-            THeroResource Res = default;
+            THeroResource Res;
             Res = FLeader.FHeroResource;
             AttB.Text = IntToStr(Res.FAttack);
             DefB.Text = IntToStr(Res.FDefense);
@@ -350,18 +345,18 @@ namespace Aow.Units.AoWLeaderSetup
             ResA.Text = IntToStr(FLeader.FUnitResistance);
             HitA.Text = IntToStr(FLeader.FUnitHits);
             MovA.Text = IntToStr(FLeader.FUnitMoves);
-            var call__17 = FLeader.GetInherentAttack();
-            AttValue.Text = IntToStr(call__17);
-            var call__18 = FLeader.GetInherentDefense();
-            DefValue.Text = IntToStr(call__18);
-            var call__19 = FLeader.GetInherentDamage();
-            DamValue.Text = IntToStr(call__19);
-            var call__20 = FLeader.GetInherentResistance();
-            ResValue.Text = IntToStr(call__20);
-            var call__21 = FLeader.GetHits();
-            HitValue.Text = IntToStr(call__21);
-            var call__22 = FLeader.GetMoves();
-            MovValue.Text = IntToStr(call__22);
+            var inherentAttack = FLeader.GetInherentAttack();
+            AttValue.Text = IntToStr(inherentAttack);
+            var inherentDefense = FLeader.GetInherentDefense();
+            DefValue.Text = IntToStr(inherentDefense);
+            var inherentDamage = FLeader.GetInherentDamage();
+            DamValue.Text = IntToStr(inherentDamage);
+            var inherentResistance = FLeader.GetInherentResistance();
+            ResValue.Text = IntToStr(inherentResistance);
+            var hits = FLeader.GetHits();
+            HitValue.Text = IntToStr(hits);
+            var moves = FLeader.GetMoves();
+            MovValue.Text = IntToStr(moves);
             UpdateSkillPoints();
         }
 
@@ -416,95 +411,52 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:852
         public void UpdateAbilities()
         {
-            int I = default;
-            AnsiString Name = default;
-            AnsiString Cost = default;
-            TAbility Ability = default;
+            AnsiString Name;
+            AnsiString Cost;
+            TAbility Ability;
             AvailableAbilities.Items.Clear();
             AvailableAbilitiesCost.Items.Clear();
+            for (int I = 0, last = AoWHSSet.FAbilityControl.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__23 = AoWHSSet.FAbilityControl.GetCount() - 1;
-                for (; I <= end__23; I += 1)
+                if (AoWHSSet.FAbilityControl.GetAbility(I) != null && (AoWHSSet.FAbilityControl.GetAbility(I).FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of())
                 {
-                    var call__24 = AoWHSSet.FAbilityControl.GetAbility(I);
-                    bool bool__25 = call__24 != null;
-                    if (bool__25)
+                    if (AoWHSSet.FAbilityControl.GetAbility(I).CanExpand(FLeader))
                     {
-                        var call__26 = AoWHSSet.FAbilityControl.GetAbility(I);
-                        bool__25 = (call__26.FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of();
-                    }
-
-                    if (bool__25)
-                    {
-                        var call__27 = AoWHSSet.FAbilityControl.GetAbility(I);
-                        var call__28 = call__27.CanExpand(FLeader);
-                        if (call__28)
-                        {
-                            var call__29 = AoWHSSet.FAbilityControl.GetAbility(I);
-                            var call__30 = call__29.ExpandName(FLeader);
-                            AvailableAbilities.Items.AddObject(call__30, IntToObject(I));
-                            var call__31 = AoWHSSet.FAbilityControl.GetAbility(I);
-                            var call__32 = call__31.ExpandCost(FLeader);
-                            AvailableAbilitiesCost.Items.Add(IntToStr(call__32));
-                        }
+                        var expandName = AoWHSSet.FAbilityControl.GetAbility(I).ExpandName(FLeader);
+                        AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
+                        var expandCost = AoWHSSet.FAbilityControl.GetAbility(I).ExpandCost(FLeader);
+                        AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
                     }
                 }
             }
 
             SelectedAbilities.Items.Clear();
             SelectedAbilitiesCost.Items.Clear();
+            for (int I = 0, last = FLeader.GetAbCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__33 = FLeader.GetAbCount() - 1;
-                for (; I <= end__33; I += 1)
+                Ability = AoWHSSet.FAbilityControl.GetAbility(I);
+                if (FLeader.GetAbSet(I) && (FLeader.FHeroResource.FAbilities.GetAbSet(I) || (Ability.FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of()))
                 {
-                    var call__34 = AoWHSSet.FAbilityControl.GetAbility(I);
-                    Ability = call__34;
-                    var call__35 = FLeader.GetAbSet(I);
-                    bool bool__36 = call__35;
-                    if (bool__36)
+                    Name = AoWHSSet.FAbilityControl.GetAbility(I).GetName(FLeader);
+                    if (FLeader.FHeroResource.FAbilities.GetAbSet(I) && FLeader.FHeroResource.FAbilities.GetAbLevel(I) == FLeader.GetAbilityLevel(I))
                     {
-                        var call__37 = FLeader.FHeroResource.FAbilities.GetAbSet(I);
-                        bool__36 = call__37 || (Ability.FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of();
+                        Name = Name + (AnsiString)" (" + TranslateRStr(FixedRStr) + AnsiString.FromBytes(41);
+                        Cost = AnsiString.FromBytes(45);
+                    }
+                    else
+                    {
+                        Cost = IntToStr(Ability.GetSkillPoints(FLeader) - Ability.GetSkillPoints(FLeader.FHeroResource.FAbilities));
                     }
 
-                    if (bool__36)
-                    {
-                        var call__38 = AoWHSSet.FAbilityControl.GetAbility(I);
-                        var call__39 = call__38.GetName(FLeader);
-                        Name = call__39;
-                        var call__40 = FLeader.FHeroResource.FAbilities.GetAbSet(I);
-                        bool bool__41 = call__40;
-                        if (bool__41)
-                        {
-                            var call__42 = FLeader.FHeroResource.FAbilities.GetAbLevel(I);
-                            var call__43 = FLeader.GetAbilityLevel(I);
-                            bool__41 = call__42 == call__43;
-                        }
-
-                        if (bool__41)
-                        {
-                            Name = Name + (AnsiString)" (" + TranslateRStr(FixedRStr) + AnsiString.FromBytes(41);
-                            Cost = AnsiString.FromBytes(45);
-                        }
-                        else
-                        {
-                            var call__44 = Ability.GetSkillPoints(FLeader);
-                            var call__45 = Ability.GetSkillPoints(FLeader.FHeroResource.FAbilities);
-                            Cost = IntToStr(call__44 - call__45);
-                        }
-
-                        SelectedAbilitiesCost.Items.Add(Cost);
-                        SelectedAbilities.Items.AddObject(Name, IntToObject(I));
-                    }
+                    SelectedAbilitiesCost.Items.Add(Cost);
+                    SelectedAbilities.Items.AddObject(Name, IntToObject(I));
                 }
             }
 
-            var call__46 = AvailableAbilities.Items.Count;
-            AvailableAbilitiesLB.Max = call__46 - 1;
-            var call__47 = SelectedAbilities.Items.Count;
-            SelectedAbilitiesLB.Max = call__47 - 1;
+            var count = AvailableAbilities.Items.Count;
+            AvailableAbilitiesLB.Max = count - 1;
+            var itemsCount = SelectedAbilities.Items.Count;
+            SelectedAbilitiesLB.Max = itemsCount - 1;
             SortAvailableAbilities();
             SortSelectedAbilities();
         }
@@ -524,23 +476,7 @@ namespace Aow.Units.AoWLeaderSetup
         }
 
         // AoWLeaderSetup.pas:846
-        public bool CanAddAbility(int AbilityID)
-        {
-            bool Result = default;
-            var call__48 = AoWHSSet.FAbilityControl.GetAbility(AbilityID);
-            var call__49 = call__48.CanExpand(FLeader);
-            bool bool__50 = call__49;
-            if (bool__50)
-            {
-                var call__51 = AoWHSSet.FAbilityControl.GetAbility(AbilityID);
-                var call__52 = call__51.ExpandCost(FLeader);
-                var call__53 = FLeader.GetSkillPoints();
-                bool__50 = call__52 <= call__53;
-            }
-
-            Result = bool__50;
-            return Result;
-        }
+        public bool CanAddAbility(int AbilityID) => AoWHSSet.FAbilityControl.GetAbility(AbilityID).CanExpand(FLeader) && AoWHSSet.FAbilityControl.GetAbility(AbilityID).ExpandCost(FLeader) <= FLeader.GetSkillPoints();
 
         // AoWLeaderSetup.pas:913
         public void SetPhase(int Value)
@@ -563,13 +499,13 @@ namespace Aow.Units.AoWLeaderSetup
             MainFace.Visible = MainFaceFr.Visible;
             if (Value == 3 || (Value == 2 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of()) || (Value == 1 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSettings, TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of()))
             {
-                var call__54 = TranslateRStr(FinishRStr);
-                NextBtn.Text = call__54;
+                var finish = TranslateRStr(FinishRStr);
+                NextBtn.Text = finish;
             }
             else
             {
-                var call__55 = TranslateRStr(NextRStr);
-                NextBtn.Text = call__55;
+                var next = TranslateRStr(NextRStr);
+                NextBtn.Text = next;
             }
 
             switch (Value)
@@ -600,114 +536,106 @@ namespace Aow.Units.AoWLeaderSetup
             DefaultBtn.Visible = true;
             PrevBtn.Visible = true;
             NextBtn.Visible = true;
-            var call__56 = TranslateRStr(Step1CustomizeLeaderRStr);
-            Phase1Header.Text = call__56;
-            var call__57 = TranslateRStr(Step2AssignSkillPointsRStr);
-            Phase2Header.Text = call__57;
-            var call__58 = TranslateRStr(Step3AssignSpheresRStr);
-            Phase3Header.Text = call__58;
+            var step1CustomizeLeader = TranslateRStr(Step1CustomizeLeaderRStr);
+            Phase1Header.Text = step1CustomizeLeader;
+            var step2AssignSkillPoints = TranslateRStr(Step2AssignSkillPointsRStr);
+            Phase2Header.Text = step2AssignSkillPoints;
+            var step3AssignSpheres = TranslateRStr(Step3AssignSpheresRStr);
+            Phase3Header.Text = step3AssignSpheres;
             SetFixedSpheres(0);
         }
 
         // AoWLeaderSetup.pas:943
         public void UpdateSpheres()
         {
-            int I = default;
-            TAOWButton Btn = default;
+            TAOWButton Btn;
+            for (int I = 0; I <= 6; I++)
             {
-                I = 0;
-                byte end__59 = 6;
-                for (; I <= end__59; I += 1)
+                switch (I)
                 {
-                    switch (I)
+                    case 0:
+                        Btn = Sel1;
+                        break;
+                    case 1:
+                        Btn = Sel2;
+                        break;
+                    case 2:
+                        Btn = Sel3;
+                        break;
+                    case 3:
+                        Btn = Sel4;
+                        break;
+                    case 4:
+                        Btn = Sel5;
+                        break;
+                    case 5:
+                        Btn = Sel6;
+                        break;
+                    case 6:
+                        Btn = Sel7;
+                        break;
+                    default:
+                        Btn = null;
+                        break;
+                }
+
+                if (I < FLeader.GetSphereCount())
+                {
+                    Btn.Visible = true;
+                    switch ((int)FLeader.GetSpheres(I) & 127)
                     {
-                        case 0:
-                            Btn = Sel1;
-                            break;
                         case 1:
-                            Btn = Sel2;
-                            break;
-                        case 2:
-                            Btn = Sel3;
-                            break;
-                        case 3:
-                            Btn = Sel4;
-                            break;
-                        case 4:
-                            Btn = Sel5;
+                            Btn.ILIndexDown = 28;
+                            Btn.ILIndexLit = 29;
+                            Btn.ILIndexUp = 27;
                             break;
                         case 5:
-                            Btn = Sel6;
+                            Btn.ILIndexDown = 43;
+                            Btn.ILIndexLit = 44;
+                            Btn.ILIndexUp = 42;
+                            break;
+                        case 3:
+                            Btn.ILIndexDown = 34;
+                            Btn.ILIndexLit = 35;
+                            Btn.ILIndexUp = 33;
+                            break;
+                        case 4:
+                            Btn.ILIndexDown = 37;
+                            Btn.ILIndexLit = 38;
+                            Btn.ILIndexUp = 36;
                             break;
                         case 6:
-                            Btn = Sel7;
+                            Btn.ILIndexDown = 40;
+                            Btn.ILIndexLit = 41;
+                            Btn.ILIndexUp = 39;
                             break;
-                        default:
-                            Btn = null;
+                        case 2:
+                            Btn.ILIndexDown = 31;
+                            Btn.ILIndexLit = 32;
+                            Btn.ILIndexUp = 30;
                             break;
                     }
+                }
+                else
+                {
+                    Btn.Visible = false;
+                }
 
-                    var call__60 = FLeader.GetSphereCount();
-                    if (I < call__60)
-                    {
-                        Btn.Visible = true;
-                        var call__61 = FLeader.GetSpheres(I);
-                        switch ((int)call__61 & 127)
-                        {
-                            case 1:
-                                Btn.ILIndexDown = 28;
-                                Btn.ILIndexLit = 29;
-                                Btn.ILIndexUp = 27;
-                                break;
-                            case 5:
-                                Btn.ILIndexDown = 43;
-                                Btn.ILIndexLit = 44;
-                                Btn.ILIndexUp = 42;
-                                break;
-                            case 3:
-                                Btn.ILIndexDown = 34;
-                                Btn.ILIndexLit = 35;
-                                Btn.ILIndexUp = 33;
-                                break;
-                            case 4:
-                                Btn.ILIndexDown = 37;
-                                Btn.ILIndexLit = 38;
-                                Btn.ILIndexUp = 36;
-                                break;
-                            case 6:
-                                Btn.ILIndexDown = 40;
-                                Btn.ILIndexLit = 41;
-                                Btn.ILIndexUp = 39;
-                                break;
-                            case 2:
-                                Btn.ILIndexDown = 31;
-                                Btn.ILIndexLit = 32;
-                                Btn.ILIndexUp = 30;
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        Btn.Visible = false;
-                    }
-
-                    if (I < FFixedSpheres)
-                    {
-                        Btn.FCaptureInput = false;
-                        Btn.ILIndexUp = Btn.ILIndexUp + 1;
-                    }
-                    else
-                    {
-                        Btn.FCaptureInput = true;
-                    }
+                if (I < FFixedSpheres)
+                {
+                    Btn.FCaptureInput = false;
+                    Btn.ILIndexUp = Btn.ILIndexUp + 1;
+                }
+                else
+                {
+                    Btn.FCaptureInput = true;
                 }
             }
 
-            var call__62 = FLeader.GetSphereCount();
-            var call__63 = TranslateRStr(SelectedSpheresRStr);
-            SelectedSpheresLbl.Text = call__63 + (AnsiString)" (" + IntToStr(call__62) + AnsiString.FromBytes(47) + IntToStr(FLeader.FSpherePicksMax) + AnsiString.FromBytes(41);
-            var call__64 = FLeader.CanAddSphere(TMagicSphere.msLife);
-            if (call__64)
+            var sphereCount = FLeader.GetSphereCount();
+            var selectedSpheres = TranslateRStr(SelectedSpheresRStr);
+            SelectedSpheresLbl.Text = selectedSpheres + (AnsiString)" (" + IntToStr(sphereCount) + AnsiString.FromBytes(47) + IntToStr(FLeader.FSpherePicksMax) + AnsiString.FromBytes(41);
+            if (FLeader.CanAddSphere(TMagicSphere.msLife))
             {
                 SelLife.ILIndexUp = 27;
                 SelLife.FCaptureInput = true;
@@ -718,8 +646,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelLife.FCaptureInput = false;
             }
 
-            var call__65 = FLeader.CanAddSphere(TMagicSphere.msDeath);
-            if (call__65)
+            if (FLeader.CanAddSphere(TMagicSphere.msDeath))
             {
                 SelDeath.ILIndexUp = 30;
                 SelDeath.FCaptureInput = true;
@@ -730,8 +657,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelDeath.FCaptureInput = false;
             }
 
-            var call__66 = FLeader.CanAddSphere(TMagicSphere.msFire);
-            if (call__66)
+            if (FLeader.CanAddSphere(TMagicSphere.msFire))
             {
                 SelFire.ILIndexUp = 42;
                 SelFire.FCaptureInput = true;
@@ -742,8 +668,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelFire.FCaptureInput = false;
             }
 
-            var call__67 = FLeader.CanAddSphere(TMagicSphere.msWater);
-            if (call__67)
+            if (FLeader.CanAddSphere(TMagicSphere.msWater))
             {
                 SelWater.ILIndexUp = 39;
                 SelWater.FCaptureInput = true;
@@ -754,8 +679,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelWater.FCaptureInput = false;
             }
 
-            var call__68 = FLeader.CanAddSphere(TMagicSphere.msEarth);
-            if (call__68)
+            if (FLeader.CanAddSphere(TMagicSphere.msEarth))
             {
                 SelEarth.ILIndexUp = 33;
                 SelEarth.FCaptureInput = true;
@@ -766,8 +690,7 @@ namespace Aow.Units.AoWLeaderSetup
                 SelEarth.FCaptureInput = false;
             }
 
-            var call__69 = FLeader.CanAddSphere(TMagicSphere.msAir);
-            if (call__69)
+            if (FLeader.CanAddSphere(TMagicSphere.msAir))
             {
                 SelAir.ILIndexUp = 36;
                 SelAir.FCaptureInput = true;
@@ -789,8 +712,7 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:269
         public void LeaderSetupWinCreate()
         {
-            var call__70 = new TLeader(null);
-            FLeader = call__70;
+            FLeader = new TLeader(null);
         }
 
         // AoWLeaderSetup.pas:274
@@ -802,12 +724,11 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:279
         public void AddAbilityClick()
         {
-            int AbilityID = default;
+            int AbilityID;
             General.PlayButtonSound(0);
             if (AvailableAbilities.Selected != -1)
             {
-                var call__71 = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-                AbilityID = ObjectToInt(call__71);
+                AbilityID = ObjectToInt(AvailableAbilities.Items.Objects[AvailableAbilities.Selected]);
                 if (CanAddAbility(AbilityID))
                 {
                     FLeader.ExpandAbility(AbilityID);
@@ -820,22 +741,12 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:296
         public void RemoveAbilityClick()
         {
-            int AbilityID = default;
+            int AbilityID;
             General.PlayButtonSound(0);
             if (SelectedAbilities.Selected != -1)
             {
-                var call__72 = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-                AbilityID = ObjectToInt(call__72);
-                var call__73 = FLeader.FHeroResource.FAbilities.GetAbSet(AbilityID);
-                bool bool__74 = call__73;
-                if (bool__74)
-                {
-                    var call__75 = FLeader.FHeroResource.FAbilities.GetAbLevel(AbilityID);
-                    var call__76 = FLeader.GetAbilityLevel(AbilityID);
-                    bool__74 = call__75 == call__76;
-                }
-
-                if (bool__74)
+                AbilityID = ObjectToInt(SelectedAbilities.Items.Objects[SelectedAbilities.Selected]);
+                if (FLeader.FHeroResource.FAbilities.GetAbSet(AbilityID) && FLeader.FHeroResource.FAbilities.GetAbLevel(AbilityID) == FLeader.GetAbilityLevel(AbilityID))
                 {
                     return;
                 }
@@ -849,40 +760,34 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:312
         public void DrawSelectionFace(TObject Sender, TSurfaceDesc SD)
         {
-            TLeaderSetupControl Setup = default;
-            int Index = default;
-            int Offset = default;
-            TRect R = default;
-            TFaceResource Face = default;
+            TLeaderSetupControl Setup;
+            int Index;
+            int Offset;
+            TRect R;
+            TFaceResource Face;
             Setup = FSetup;
             Offset = ((TComponent)Sender).Tag;
             Index = FLeader.FFaceIndex;
             while (Offset < 0)
             {
                 Offset += 1;
-                var call__77 = AoWHSSet.FFaceResources.PrevFace(Index);
-                Index = call__77;
+                Index = AoWHSSet.FFaceResources.PrevFace(Index);
             }
 
             while (Offset > 0)
             {
                 Offset -= 1;
-                var call__78 = AoWHSSet.FFaceResources.NextFace(Index);
-                Index = call__78;
+                Index = AoWHSSet.FFaceResources.NextFace(Index);
             }
 
             var image = (TAOWImage)Sender;
-            var call__80 = Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
-            R = call__80;
+            R = Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
 
-            var call__81 = Setup.FOriginalLeader.GetFace();
-            if (call__81 != null)
+            if (Setup.FOriginalLeader.GetFace() != null)
             {
-                var call__82 = AoWHSSet.FFaceResources.GetFaceResource(Index);
-                Face = call__82;
+                Face = AoWHSSet.FFaceResources.GetFaceResource(Index);
                 Face.AddRef();
-                var call__83 = Face.GetFaceImage();
-                call__83.ShowStretched(R, SD);
+                Face.GetFaceImage().ShowStretched(R, SD);
                 Face.Release();
             }
         }
@@ -891,8 +796,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void FacePrevBtnClick()
         {
             General.PlayButtonSound(0);
-            var call__84 = AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
-            FLeader.SetFaceIndex(call__84);
+            var prevFace = AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
+            FLeader.SetFaceIndex(prevFace);
             TitleWindow.TitleWin.FDrawn = false;
         }
 
@@ -900,8 +805,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void FaceNextBtnClick()
         {
             General.PlayButtonSound(0);
-            var call__85 = AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
-            FLeader.SetFaceIndex(call__85);
+            var nextFace = AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
+            FLeader.SetFaceIndex(nextFace);
             TitleWindow.TitleWin.FDrawn = false;
         }
 
@@ -984,8 +889,7 @@ namespace Aow.Units.AoWLeaderSetup
                     TitleWindow.TitleWin.FDrawn = false;
                     break;
                 case 3:
-                    var call__86 = FLeader.GetSphereCount();
-                    if (call__86 == FLeader.FSpherePicksMax)
+                    if (FLeader.GetSphereCount() == FLeader.FSpherePicksMax)
                     {
                         Finish();
                     }
@@ -993,8 +897,8 @@ namespace Aow.Units.AoWLeaderSetup
                     {
                         ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-                        var call__87 = TranslateRStr(PleaseAssignAllSpheresRStr);
-                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(call__87);
+                        var pleaseAssignAllSpheres = TranslateRStr(PleaseAssignAllSpheresRStr);
+                        AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
                         AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
                     }
@@ -1006,20 +910,17 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:405
         public void MainFaceFrPreDraw(TObject Sender, TSurfaceDesc SD)
         {
-            TLeaderSetupControl Setup = default;
-            TRect R = default;
+            TLeaderSetupControl Setup;
+            TRect R;
             Setup = FSetup;
             if (FPhase > 1)
             {
                 var frame = (TAoWFrame)Sender;
-                var call__89 = Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
-                R = call__89;
+                R = Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
 
-                var call__90 = Setup.FOriginalLeader.GetFace();
-                if (call__90 != null)
+                if (Setup.FOriginalLeader.GetFace() != null)
                 {
-                    var call__91 = Setup.FOriginalLeader.GetFace();
-                    call__91.ShowStretched(R, SD);
+                    Setup.FOriginalLeader.GetFace().ShowStretched(R, SD);
                 }
             }
         }
@@ -1203,7 +1104,6 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:568
         public void DefaultBtnClick(TObject Sender)
         {
-            int I = default;
             General.PlayButtonSound(0);
             TitleWindow.TitleWin.FDrawn = false;
             switch (FPhase)
@@ -1211,8 +1111,7 @@ namespace Aow.Units.AoWLeaderSetup
                 case 1:
                 {
                     var leader = FLeader;
-                    var call__95 = FSetup.FLeader.GetNickname();
-                    leader.SetNickname(call__95);
+                    leader.SetNickname(FSetup.FLeader.GetNickname());
                     leader.FHeroName = FSetup.FLeader.FHeroName;
                     leader.SetFaceIndex(FSetup.FLeader.FFaceIndex);
                     UpdateLeader();
@@ -1237,14 +1136,9 @@ namespace Aow.Units.AoWLeaderSetup
                 {
                     var leader3 = FLeader;
                     leader3.ClearSpheres();
+                    for (int I = 0, last = FSetup.FLeader.GetSphereCount() - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__98 = FSetup.FLeader.GetSphereCount() - 1;
-                        for (; I <= end__98; I += 1)
-                        {
-                            var call__99 = FSetup.FLeader.GetSpheres(I);
-                            leader3.AddSphere(call__99);
-                        }
+                        leader3.AddSphere(FSetup.FLeader.GetSpheres(I));
                     }
 
                     UpdateLeader();
@@ -1259,8 +1153,7 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelLifeClick()
         {
             General.PlayButtonSound(0);
-            var call__100 = FLeader.CanAddSphere(TMagicSphere.msLife);
-            if (call__100)
+            if (FLeader.CanAddSphere(TMagicSphere.msLife))
             {
                 FLeader.AddSphere(TMagicSphere.msLife);
                 UpdateSpheres();
@@ -1271,8 +1164,7 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelFireClick()
         {
             General.PlayButtonSound(0);
-            var call__101 = FLeader.CanAddSphere(TMagicSphere.msFire);
-            if (call__101)
+            if (FLeader.CanAddSphere(TMagicSphere.msFire))
             {
                 FLeader.AddSphere(TMagicSphere.msFire);
                 UpdateSpheres();
@@ -1283,8 +1175,7 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelDeathClick()
         {
             General.PlayButtonSound(0);
-            var call__102 = FLeader.CanAddSphere(TMagicSphere.msDeath);
-            if (call__102)
+            if (FLeader.CanAddSphere(TMagicSphere.msDeath))
             {
                 FLeader.AddSphere(TMagicSphere.msDeath);
                 UpdateSpheres();
@@ -1295,8 +1186,7 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelWaterClick()
         {
             General.PlayButtonSound(0);
-            var call__103 = FLeader.CanAddSphere(TMagicSphere.msWater);
-            if (call__103)
+            if (FLeader.CanAddSphere(TMagicSphere.msWater))
             {
                 FLeader.AddSphere(TMagicSphere.msWater);
                 UpdateSpheres();
@@ -1307,8 +1197,7 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelAirClick()
         {
             General.PlayButtonSound(0);
-            var call__104 = FLeader.CanAddSphere(TMagicSphere.msAir);
-            if (call__104)
+            if (FLeader.CanAddSphere(TMagicSphere.msAir))
             {
                 FLeader.AddSphere(TMagicSphere.msAir);
                 UpdateSpheres();
@@ -1319,8 +1208,7 @@ namespace Aow.Units.AoWLeaderSetup
         public void SelEarthClick()
         {
             General.PlayButtonSound(0);
-            var call__105 = FLeader.CanAddSphere(TMagicSphere.msEarth);
-            if (call__105)
+            if (FLeader.CanAddSphere(TMagicSphere.msEarth))
             {
                 FLeader.AddSphere(TMagicSphere.msEarth);
                 UpdateSpheres();
@@ -1331,8 +1219,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void DeleteSphereClick(TObject Sender)
         {
             General.PlayButtonSound(0);
-            var call__106 = FLeader.GetSphereCount();
-            if (((TComponent)Sender).Tag < call__106)
+            var sphereCount = FLeader.GetSphereCount();
+            if (((TComponent)Sender).Tag < sphereCount)
             {
                 FLeader.DeleteSphereIndex(((TComponent)Sender).Tag);
             }
@@ -1344,8 +1232,8 @@ namespace Aow.Units.AoWLeaderSetup
         public void RaceCBChange()
         {
             General.PlayButtonSound(0);
-            var call__107 = RaceCB.Items.Objects[RaceCB.Selected];
-            FLeader.SetRace((sbyte)ObjectToInt(call__107));
+            var objectValue = RaceCB.Items.Objects[RaceCB.Selected];
+            FLeader.SetRace((sbyte)ObjectToInt(objectValue));
         }
 
         // AoWLeaderSetup.pas:678
@@ -1433,16 +1321,15 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:725
         public void SelectedAbilitiesCostMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbility Ability = default;
+            TAbility Ability;
             if (Button == TMouseButton.mbRight && SelectedAbilities.Selected != -1)
             {
-                var call__108 = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-                var call__109 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__108));
-                Ability = call__109;
+                var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
+                Ability = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (Ability != null)
                 {
-                    var call__110 = Ability.GetName(null);
-                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, call__110, Ability.FDescription);
+                    var name = Ability.GetName(null);
+                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, name, Ability.FDescription);
                 }
             }
         }
@@ -1450,16 +1337,15 @@ namespace Aow.Units.AoWLeaderSetup
         // AoWLeaderSetup.pas:737
         public void AvailableAbilitiesMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbility Ability = default;
+            TAbility Ability;
             if (Button == TMouseButton.mbRight && AvailableAbilities.Selected != -1)
             {
-                var call__111 = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-                var call__112 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__111));
-                Ability = call__112;
+                var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
+                Ability = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (Ability != null)
                 {
-                    var call__113 = Ability.GetName(null);
-                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, call__113, Ability.FDescription);
+                    var name = Ability.GetName(null);
+                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, name, Ability.FDescription);
                 }
             }
         }

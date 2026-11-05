@@ -62,7 +62,6 @@ namespace Aow.Units.CMapCtrl
         // CMapCtrl.pas:128
         public void LinkToHSM()
         {
-            int I = default;
             AoWCombatMap.FChangeTurnEvents.Add(ChangeTurn);
             AoWCombatMap.FPlayerChangedEvents.Add(PlayerChanged);
             AoWCombatMap.FSeatedPlayerChangedEvents.Add(SeatedPlayerChanged);
@@ -77,27 +76,18 @@ namespace Aow.Units.CMapCtrl
             AoWCombatMap.FAbilityActivatedEvents.Add(ActivateAbility);
             AoWCombatMap.FCombatStartedEvents.Add(CastSpell);
             AoWHSMap.FExecuteEventLogEvents.Add(ExecuteEventLog);
+            for (int I = 0, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__1 = AoWHSMap.FPlayers.Count - 1;
-                for (; I <= end__1; I += 1)
-                {
-                    var call__2 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__2.FGemsChangedEvents.Add(GemsChanged);
-                    var call__3 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__3.FIncomeChangedEvents.Add(IncomeChanged);
-                    var call__4 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__4.FUpkeepChangedEvents.Add(UpkeepChanged);
-                    var call__5 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__5.FLogbookChangedEvents.Add(LogbookChanged);
-                }
+                AoWHSMap.FPlayers.GetPlayers(I).FGemsChangedEvents.Add(GemsChanged);
+                AoWHSMap.FPlayers.GetPlayers(I).FIncomeChangedEvents.Add(IncomeChanged);
+                AoWHSMap.FPlayers.GetPlayers(I).FUpkeepChangedEvents.Add(UpkeepChanged);
+                AoWHSMap.FPlayers.GetPlayers(I).FLogbookChangedEvents.Add(LogbookChanged);
             }
         }
 
         // CMapCtrl.pas:154
         public void ReleaseHSM()
         {
-            int I = default;
             AoWCombatMap.FChangeTurnEvents.Remove(ChangeTurn);
             AoWCombatMap.FPlayerChangedEvents.Remove(PlayerChanged);
             AoWCombatMap.FSeatedPlayerChangedEvents.Remove(SeatedPlayerChanged);
@@ -112,20 +102,12 @@ namespace Aow.Units.CMapCtrl
             AoWCombatMap.FUnitChangedEvents.Remove(UnitChanged);
             AoWCombatMap.FAbilityActivatedEvents.Remove(ActivateAbility);
             AoWCombatMap.FCombatStartedEvents.Remove(CastSpell);
+            for (int I = 0, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__6 = AoWHSMap.FPlayers.Count - 1;
-                for (; I <= end__6; I += 1)
-                {
-                    var call__7 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__7.FGemsChangedEvents.Remove(GemsChanged);
-                    var call__8 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__8.FIncomeChangedEvents.Remove(IncomeChanged);
-                    var call__9 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__9.FUpkeepChangedEvents.Remove(UpkeepChanged);
-                    var call__10 = AoWHSMap.FPlayers.GetPlayers(I);
-                    call__10.FLogbookChangedEvents.Remove(LogbookChanged);
-                }
+                AoWHSMap.FPlayers.GetPlayers(I).FGemsChangedEvents.Remove(GemsChanged);
+                AoWHSMap.FPlayers.GetPlayers(I).FIncomeChangedEvents.Remove(IncomeChanged);
+                AoWHSMap.FPlayers.GetPlayers(I).FUpkeepChangedEvents.Remove(UpkeepChanged);
+                AoWHSMap.FPlayers.GetPlayers(I).FLogbookChangedEvents.Remove(LogbookChanged);
             }
         }
 
@@ -211,8 +193,8 @@ namespace Aow.Units.CMapCtrl
             {
                 if (FOnUnitChanged != null)
                 {
-                    var call__11 = AoWCombatMap.FUnitSelection.GetTCUnitHS();
-                    FOnUnitChanged(call__11);
+                    var tcUnitHS = AoWCombatMap.FUnitSelection.GetTCUnitHS();
+                    FOnUnitChanged(tcUnitHS);
                 }
             }
             catch (System.Exception)

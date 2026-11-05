@@ -71,13 +71,12 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:240
         public override bool PlaceOnMap()
         {
-            bool Result = default;
-            Result = base.PlaceOnMap();
+            bool Result = base.PlaceOnMap();
             if (Result)
             {
-                var call__1 = GetYhx();
-                var call__2 = GetXhx();
-                UpdateMapFields((TMapLevel)Owner.Owner, call__2, call__1);
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
             }
 
             return Result;
@@ -86,7 +85,7 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:246
         public override void RemoveFromMap()
         {
-            TMapLevel Level = default;
+            TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(Level, FXhx, FYhx);
@@ -98,8 +97,7 @@ namespace Aow.Units.PoisonP
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4418)
             {
-                var call__3 = FResource.TerrainList.GetTerrain(Msg.HN);
-                if (call__3 >= 0)
+                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
                 {
                     ArmyPlaced(Msg.Param[0].As<TArmyHS>());
                 }
@@ -108,22 +106,7 @@ namespace Aow.Units.PoisonP
             {
                 if (Msg.MsgID == 4384)
                 {
-                    var call__4 = FResource.TerrainList.GetTerrain(Msg.HN);
-                    bool bool__5 = call__4 >= 0;
-                    if (bool__5)
-                    {
-                        var call__6 = Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255);
-                        bool__5 = !call__6.Contains(TDamageType.dtPoison);
-                    }
-
-                    bool bool__7 = bool__5;
-                    if (bool__7)
-                    {
-                        var call__8 = PoisonPlantActive();
-                        bool__7 = call__8;
-                    }
-
-                    if (bool__7)
+                    if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && !Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255).Contains(TDamageType.dtPoison) && PoisonPlantActive())
                     {
                         Msg.Result = 1;
                     }
@@ -133,8 +116,7 @@ namespace Aow.Units.PoisonP
                     if (Msg.MsgID == 4402)
                     {
                         // { Original excludes player zero from early restoration. }
-                        var call__9 = FResource.TerrainList.GetTerrain(Msg.HN);
-                        if (call__9 >= 0 && FCasterPlayer > 0 && FDaysRemaining > 0)
+                        if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && FCasterPlayer > 0 && FDaysRemaining > 0)
                         {
                             RestoreTerrain();
                         }
@@ -146,19 +128,10 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:209
         public override int CanMoveOver(in THSSenderInfo Info)
         {
-            int Result = default;
-            var call__10 = FResource.TerrainList.GetTerrain(Info.HN);
-            bool bool__11 = call__10 >= 0;
-            if (bool__11)
+            int Result;
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0 && PoisonPlantActive())
             {
-                var call__12 = PoisonPlantActive();
-                bool__11 = call__12;
-            }
-
-            if (bool__11)
-            {
-                var call__13 = CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits);
-                if (!call__13)
+                if (!CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits))
                 {
                     Result = 1;
                 }
@@ -178,43 +151,27 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:203
         public override void UpdateMapField(in THSMapFieldInfo Info)
         {
-            var call__14 = FResource.TerrainList.GetTerrain(Info.HN);
-            if (call__14 >= 0)
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
                 ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 8192;
             }
         }
 
         // PoisonP.pas:92
-        public bool PoisonPlantActive()
-        {
-            bool Result = default;
-            Result = !TSet<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)FTerrainType);
-            return Result;
-        }
+        public bool PoisonPlantActive() => !TSet<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)FTerrainType);
 
         // PoisonP.pas:105
         public bool CanDoDamage(TUnitList Units)
         {
-            bool Result = default;
-            int I = default;
-            TAbstractUnit U = default;
-            Result = false;
-            var call__15 = Units.Count;
-            I = call__15;
+            int I;
+            TAbstractUnit U;
+            bool Result = false;
+            I = Units.Count;
             while (!Result && I != 0)
             {
                 I -= 1;
                 U = Units.GetUnit(I);
-                var call__16 = U.GetImmunityTypes();
-                bool bool__17 = !call__16.Contains(TDamageType.dtPoison);
-                if (bool__17)
-                {
-                    var call__18 = U.GetAbilityEnabled(1);
-                    bool__17 = !call__18;
-                }
-
-                Result = bool__17;
+                Result = !U.GetImmunityTypes().Contains(TDamageType.dtPoison) && !U.GetAbilityEnabled(1);
             }
 
             return Result;
@@ -223,79 +180,63 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:120
         public void TriggerArmyDamage(TArmyHS ArmyHS)
         {
-            int I = default;
-            int Count = default;
-            TUnitList Units = default;
-            TArmyEventLog Log = default;
-            TAbstractUnit U = default;
-            int Damage = default;
+            int Count;
+            TUnitList Units;
+            TArmyEventLog Log;
+            TAbstractUnit U;
+            int Damage;
             Count = 0;
-            var call__19 = AoWHSMap.Random(16777215);
-            RandSeed = call__19;
+            RandSeed = AoWHSMap.Random(16777215);
             Log = new TArmyEventLog(null);
-            var call__20 = TranslateRStr(PoisonPlantDamageRStr);
-            Log.FArmyText = call__20;
+            Log.FArmyText = TranslateRStr(PoisonPlantDamageRStr);
             Log.FPlayer = ArmyHS.FArmy.FPlayer;
-            var call__21 = TranslateRStr(PoisonPlantDamageRStr);
-            Log.FArmyMessages.Add(call__21);
+            var poisonPlantDamage = TranslateRStr(PoisonPlantDamageRStr);
+            Log.FArmyMessages.Add(poisonPlantDamage);
             Log.FArmyIcon = 1;
             Log.FArmyView.Setup(ArmyHS.FArmy, 255);
             Units = ArmyHS.FArmy;
+            for (int I = 0, last = Units.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__22 = Units.Count - 1;
-                for (; I <= end__22; I += 1)
+                U = Units.GetUnit(I);
+                U.AddRef();
+                if (!U.GetImmunityTypes().Contains(TDamageType.dtPoison) && !U.GetAbilityEnabled(1))
                 {
-                    U = Units.GetUnit(I);
-                    U.AddRef();
-                    var call__23 = U.GetImmunityTypes();
-                    bool bool__24 = !call__23.Contains(TDamageType.dtPoison);
-                    if (bool__24)
+                    Damage = U.ExecuteDamageRole(4, 3, TSet<TDamageType>.Of(TDamageType.dtPoison));
+                    if (Damage > U.GetHitPoints())
                     {
-                        var call__25 = U.GetAbilityEnabled(1);
-                        bool__24 = !call__25;
+                        Damage = U.GetHitPoints();
                     }
 
-                    if (bool__24)
+                    if (Damage != 0)
                     {
-                        Damage = U.ExecuteDamageRole(4, 3, TSet<TDamageType>.Of(TDamageType.dtPoison));
-                        if (Damage > U.GetHitPoints())
+                        U.SetHitPoints((sbyte)(U.GetHitPoints() - Damage));
+                        if (U.GetHitPoints() != 0)
                         {
-                            Damage = U.GetHitPoints();
+                            U.ExecuteDamageEffects(TSet<TDamageType>.Of(TDamageType.dtPoison));
                         }
 
-                        if (Damage != 0)
-                        {
-                            var call__26 = U.GetHitPoints();
-                            U.SetHitPoints((sbyte)(call__26 - Damage));
-                            if (U.GetHitPoints() != 0)
-                            {
-                                U.ExecuteDamageEffects(TSet<TDamageType>.Of(TDamageType.dtPoison));
-                            }
-
-                            Count += 1;
-                        }
-
-                        Log.FDamageValues.Add((byte)Damage);
-                        Log.FDamageTypes.Add((int)TDamageType.dtPoison);
-                    }
-                    else
-                    {
-                        Log.FDamageValues.Add(0);
-                        Log.FDamageTypes.Add((int)TDamageType.dtNone);
+                        Count += 1;
                     }
 
-                    U.Release();
+                    Log.FDamageValues.Add((byte)Damage);
+                    Log.FDamageTypes.Add((int)TDamageType.dtPoison);
                 }
+                else
+                {
+                    Log.FDamageValues.Add(0);
+                    Log.FDamageTypes.Add((int)TDamageType.dtNone);
+                }
+
+                U.Release();
             }
 
             Log.ValidateGameOver();
             if (Count != 0)
             {
-                var call__27 = GetYhx();
-                var call__28 = GetLhx();
-                var call__29 = GetXhx();
-                DistributeLocationEventLog(Log, Log.FPlayer, call__29, call__27, call__28, true);
+                var yhx = GetYhx();
+                var lhx = GetLhx();
+                var xhx = GetXhx();
+                DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
             }
 
             ArmyHS.FArmy.Validate();
@@ -305,8 +246,7 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:168
         public void ArmyPlaced(TArmyHS ArmyHS)
         {
-            var call__30 = PoisonPlantActive();
-            if (call__30 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (PoisonPlantActive() && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 TriggerArmyDamage(ArmyHS);
             }
@@ -315,8 +255,8 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:174
         public void RestoreTerrain()
         {
-            TMapField MapF = default;
-            sbyte OriginalOverlay = default;
+            TMapField MapF;
+            sbyte OriginalOverlay;
             MapF = (TMapField)Owner;
             OriginalOverlay = FOriginalOverlay;
             Destroy();
@@ -329,11 +269,10 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:186
         public void NewTurn(sbyte Player)
         {
-            TArmyHS ArmyHS = default;
+            TArmyHS ArmyHS;
             if (PoisonPlantActive())
             {
-                var call__31 = Owner.FindOwnedChild(131607);
-                ArmyHS = (TArmyHS)call__31;
+                ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
                 if (ArmyHS != null && Player == ArmyHS.FArmy.FPlayer)
                 {
                     TriggerArmyDamage(ArmyHS);
@@ -353,29 +292,25 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:267
         public void ShowSummonAnimation(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            TMapField MapF = default;
-            var call__32 = Animation.GetLhx();
-            var call__33 = Animation.GetYhx();
-            var call__34 = Animation.GetXhx();
-            var call__35 = AoWHSMap.MapContainer.GetField(call__34, call__33, call__32);
-            MapF = call__35;
-            var call__36 = MapF.FindOwnedChild(131998);
-            if (this == call__36 && AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
+            TMapField MapF;
+            var lhx = Animation.GetLhx();
+            var yhx = Animation.GetYhx();
+            var xhx = Animation.GetXhx();
+            MapF = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            if (this == MapF.FindOwnedChild(131998) && AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
             {
-                bool bool__37 = AoWHSMap.FSeatedPlayer == Animation.FTag;
-                if (!bool__37)
+                bool condition = AoWHSMap.FSeatedPlayer == Animation.FTag;
+                if (!condition)
                 {
-                    var call__38 = GetLhx();
-                    var call__39 = GetYhx();
-                    var call__40 = GetXhx();
-                    var call__41 = AoWHSMap.WatchingTerrain(call__40, call__39, call__38, 0);
-                    bool__37 = call__41;
+                    var lhx2 = GetLhx();
+                    var yhx2 = GetYhx();
+                    var xhx2 = GetXhx();
+                    condition = AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
-                if (bool__37)
+                if (condition)
                 {
-                    var call__42 = AoWHSSet.FSpellControl.GetSpell(12);
-                    call__42.FCastSounds.Play(0);
+                    AoWHSSet.FSpellControl.GetSpell(12).FCastSounds.Play(0);
                 }
             }
         }
@@ -383,12 +318,10 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:279
         public void NewFrameSummonAnimation(TAnimation Animation, int FrameCounter)
         {
-            TMapField MapF = default;
-            var call__43 = Animation.GetLhx();
-            var call__44 = Animation.GetYhx();
-            var call__45 = Animation.GetXhx();
-            var call__46 = AoWHSMap.MapContainer.GetField(call__45, call__44, call__43);
-            Animation = (TAnimation)(object)call__46;
+            var lhx = Animation.GetLhx();
+            var yhx = Animation.GetYhx();
+            var xhx = Animation.GetXhx();
+            Animation = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
             if (this == ((TMapField)(object)Animation).FindOwnedChild(131998) && FrameCounter == 9)
             {
                 FPlantStatus = FPlantStatus - TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
@@ -409,20 +342,10 @@ namespace Aow.Units.PoisonP
         public new const int ClassID = 131999;
 
         // PoisonP.pas:298
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131998;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131998;
 
         // PoisonP.pas:288
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(PoisonPlantRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(PoisonPlantRStr);
 
     }
 
@@ -437,14 +360,11 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:361
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
             base.Process(A1, A2);
             CreatePoisonPlant(A1);
             AoWHSMap.ValidateTerrainObservation(A1.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-            var call__47 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__47.CastingDone(A1, FEventMana);
-            Result = false;
-            return Result;
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, FEventMana);
+            return false;
         }
 
         // PoisonP.pas:308
@@ -458,53 +378,34 @@ namespace Aow.Units.PoisonP
             TImageSequenceAnimation Animation = default;
             TTwinkleAnimation Twinkle = default;
             ref var walk = ref Walk;
-            var call__49 = AoWHSMap.MapContainer.MapLevels[FLocation.L];
-            Level = call__49;
+            Level = AoWHSMap.MapContainer.MapLevels[FLocation.L];
             InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-            var call__50 = AoWHSSet.MapObjectResourceList.FindChild(131999);
-            Resource = (TPoisonPlantResource)call__50;
+            Resource = (TPoisonPlantResource)AoWHSSet.MapObjectResourceList.FindChild(131999);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
                 {
-                    var call__51 = Level.GetField(walk.X, walk.Y);
-                    MapF = (TAoWMapField)call__51;
-                    var call__52 = AoWHSSet.FSpellControl.GetSpell(12);
-                    var call__53 = ((TGlobalTargetSpell)call__52).ValidTargetMapF(MapF);
-                    bool bool__54 = call__53;
-                    if (bool__54)
-                    {
-                        var call__55 = MapF.GetArmyHS();
-                        bool__54 = call__55 == null;
-                    }
-
-                    if (bool__54)
+                    MapF = (TAoWMapField)Level.GetField(walk.X, walk.Y);
+                    if (((TGlobalTargetSpell)AoWHSSet.FSpellControl.GetSpell(12)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
                     {
                         MapF.RestoreTerrain();
                         Plant = (TPoisonPlant)Resource.CreateResourceUser();
-                        var call__56 = AoWHSMap.Random(11);
-                        Plant.FDaysRemaining = (sbyte)(3 + (call__56 - 5) / 5);
+                        Plant.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Random(11) - 5) / 5);
                         Plant.FCasterPlayer = Source.FPlayer;
                         Plant.FOriginalOverlay = MapF.OverlayType;
                         AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
-                        var call__57 = AoWHSMap.PlaceHX(Plant, walk.X, walk.Y, FLocation.L);
-                        if (call__57)
+                        if (AoWHSMap.PlaceHX(Plant, walk.X, walk.Y, FLocation.L))
                         {
                             Plant.FPlantStatus = TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
                             Animation = new TImageSequenceAnimation(null);
-                            var call__58 = AoWHSSet.FSpellControl.GetSpell(12);
-                            var call__59 = call__58.FCastImages.ImageSequences[0];
-                            Animation.SetImageSequence(call__59);
+                            Animation.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(12).FCastImages.ImageSequences[0]);
                             Animation.FOnShow = Plant.ShowSummonAnimation;
                             Animation.FOnNewFrame = Plant.NewFrameSummonAnimation;
-                            var call__60 = AoWHSMap.Random(15);
-                            Animation.FFrameCounter = -call__60;
+                            Animation.FFrameCounter = -AoWHSMap.Random(15);
                             Animation.FAnimationLevel = 27;
                             AoWHSMap.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
                             Twinkle = new TTwinkleAnimation(null);
-                            var call__61 = AoWHSSet.FSpellControl.GetSpell(2);
-                            var call__62 = call__61.FCastImages.ImageSequences[0];
-                            Twinkle.Setup(call__62, TSet<TTwinkleModeElement>.Of(), 2, 6, Math.Abs(Animation.FFrameCounter + 5), Math.Abs(Animation.FFrameCounter + 5) / 2);
+                            Twinkle.Setup(AoWHSSet.FSpellControl.GetSpell(2).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(), 2, 6, Math.Abs(Animation.FFrameCounter + 5), Math.Abs(Animation.FFrameCounter + 5) / 2);
                             AoWHSMap.PlaceHX(Twinkle, walk.X, walk.Y, FLocation.L);
                         }
                         else
@@ -527,8 +428,7 @@ namespace Aow.Units.PoisonP
     {
         public TPoisonPlantSpell(TECustomNode owner) : base(owner)
         {
-            var call__63 = TranslateRStr(PoisonPlantsRStr);
-            FSpellName = call__63;
+            FSpellName = TranslateRStr(PoisonPlantsRStr);
             FSpellID = 12;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -542,58 +442,34 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:405
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            int I = default;
             base.SetupTargetSelection(A1, A2);
             A2.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__64 = RadToHN(2) - 1;
-                for (; I <= end__64; I += 1)
-                {
-                    A2.FHNs.Add(0);
-                }
+                A2.FHNs.Add(0);
             }
         }
 
         // PoisonP.pas:414
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TPoisonPlantSpellTE Event = default;
+            TPoisonPlantSpellTE Event;
             Event = new TPoisonPlantSpellTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__65 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__65.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // PoisonP.pas:390
         public override bool ValidTargetSelectionMapF(TMapField A1)
         {
-            bool Result = default;
-            TArmyHS ArmyHS = default;
-            var call__66 = base.ValidTargetSelectionMapF(A1);
-            Result = call__66 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
+            TArmyHS ArmyHS;
+            bool Result = base.ValidTargetSelectionMapF(A1) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence also accepts these overlays without the terrain test. }
             Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
-            bool bool__67 = Result;
-            if (bool__67)
-            {
-                var call__68 = A1.FindNoneTransparentHS(typeof(TStructure));
-                bool__67 = call__68 == null;
-            }
-
-            bool bool__69 = bool__67;
-            if (bool__69)
-            {
-                var call__70 = ((TAoWMapField)A1).GetArmyHS();
-                bool__69 = call__70 == null;
-            }
-
-            Result = bool__69;
+            Result = Result && A1.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)A1).GetArmyHS() == null;
             if (Result)
             {
                 ArmyHS = ((TAoWMapField)A1).GetArmyHS();
@@ -609,27 +485,10 @@ namespace Aow.Units.PoisonP
         // PoisonP.pas:382
         public override bool ValidTargetMapF(TMapField A1)
         {
-            bool Result = default;
-            var call__71 = base.ValidTargetMapF(A1);
-            Result = call__71 && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
+            bool Result = base.ValidTargetMapF(A1) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)A1.TerrainType);
             // { Original precedence also accepts these overlays without the terrain test. }
             Result = (Result && A1.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)A1.OverlayType);
-            bool bool__72 = Result;
-            if (bool__72)
-            {
-                var call__73 = A1.FindNoneTransparentHS(typeof(TStructure));
-                bool__72 = call__73 == null;
-            }
-
-            bool bool__74 = bool__72;
-            if (bool__74)
-            {
-                var call__75 = ((TAoWMapField)A1).GetArmyHS();
-                bool__74 = call__75 == null;
-            }
-
-            Result = bool__74;
-            return Result;
+            return Result && A1.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)A1).GetArmyHS() == null;
         }
 
         // PoisonP.pas:66
@@ -642,8 +501,8 @@ namespace Aow.Units.PoisonP
         public static void RegisterPoisonPlant(TAoWEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<TPoisonPlant>(), EClass.Of<TPoisonPlantResource>(), EClass.Of<TPoisonPlantSpellTE>()]);
-            var call__76 = new TPoisonPlantSpell(null);
-            AEngine.FGameSet.FSpellControl.RegisterSpell(call__76);
+            var poisonPlantSpell = new TPoisonPlantSpell(null);
+            AEngine.FGameSet.FSpellControl.RegisterSpell(poisonPlantSpell);
         }
 
         // PoisonP.pas:432

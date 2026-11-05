@@ -54,15 +54,11 @@ namespace Aow.Units.Hexagon
         // Hexagon.pas:74
         public override void UpdateTransitions()
         {
-            byte Side = default;
+            byte Side;
+            for (int sideOrdinal = 0; sideOrdinal <= 2; sideOrdinal++)
             {
-                int first__3 = 0;
-                int end__1 = 2;
-                for (int ordinal__2 = first__3; ordinal__2 <= end__1; ordinal__2++)
-                {
-                    Side = (byte)ordinal__2;
-                    UpdateTransition(Side);
-                }
+                Side = (byte)sideOrdinal;
+                UpdateTransition(Side);
             }
         }
 
@@ -94,8 +90,7 @@ namespace Aow.Units.Hexagon
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                var call__4 = FEngine.HSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"HexTrans.ILB");
-                FTransitionLibrary = call__4;
+                FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), (AnsiString)"HexTrans.ILB");
             }
 
             if (Msg.MsgID == 65621)
@@ -105,28 +100,17 @@ namespace Aow.Units.Hexagon
         }
 
         // Hexagon.pas:94
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131410;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131410;
 
         // Hexagon.pas:112
         public override TMapObject PlaceResourceUser(THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            TMapObject Result = default;
-            TMapField MapField = default;
-            var call__5 = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-            MapField = call__5;
-            var call__6 = ResourceUserClassID();
-            var call__7 = MapField.FindOwnedChild(call__6);
-            Result = (TMapObject)call__7;
+            TMapField MapField;
+            MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
+            TMapObject Result = (TMapObject)MapField.FindOwnedChild(ResourceUserClassID());
             if (Result != null)
             {
-                var call__8 = Result.GetTerrain(0);
-                var call__9 = FTerrainList.GetTerrain(0);
-                if (call__8 != call__9)
+                if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
                 {
                     Result.SetResource(this);
                     MapField.UpdateTerrainType();
@@ -142,8 +126,7 @@ namespace Aow.Units.Hexagon
             else
             {
                 Result = (TMapObject)CreateResourceUser();
-                var call__10 = Result.PlaceHX(Map.MapContainer, Xhx, Yhx, Lhx);
-                if (!call__10)
+                if (!Result.PlaceHX(Map.MapContainer, Xhx, Yhx, Lhx))
                 {
                     Result.Free();
                     Result = null;
@@ -156,9 +139,8 @@ namespace Aow.Units.Hexagon
         // Hexagon.pas:141
         public void Show(int Xhp, int Yhp, in TSurfaceDesc SurfaceDesc, THexagon Hexagon)
         {
-            byte Sides = default;
-            var call__11 = FImageLibrary[0];
-            call__11.Show(Xhp, Yhp, SurfaceDesc);
+            byte Sides;
+            FImageLibrary[0].Show(Xhp, Yhp, SurfaceDesc);
             if ((Hexagon.FTransitionSides & 7) != 0)
             {
                 Sides = Hexagon.FTransitionSides;
@@ -166,13 +148,11 @@ namespace Aow.Units.Hexagon
                 {
                     if ((Sides & 16) != 0)
                     {
-                        var call__12 = FTransitionLibrary[Hexagon.FTransitions[1]];
-                        call__12.Show(Xhp - 6, Yhp - 9 - 32, SurfaceDesc);
+                        FTransitionLibrary[Hexagon.FTransitions[1]].Show(Xhp - 6, Yhp - 9 - 32, SurfaceDesc);
                     }
                     else
                     {
-                        var call__13 = FTransitionLibrary[Hexagon.FTransitions[1]];
-                        call__13.Show(Xhp - 6, Yhp - 9, SurfaceDesc);
+                        FTransitionLibrary[Hexagon.FTransitions[1]].Show(Xhp - 6, Yhp - 9, SurfaceDesc);
                     }
                 }
 
@@ -180,13 +160,11 @@ namespace Aow.Units.Hexagon
                 {
                     if ((Sides & 8) != 0)
                     {
-                        var call__14 = FTransitionLibrary[Hexagon.FTransitions[0]];
-                        call__14.Show(Xhp - 6 - 32, Yhp - 9 - 16, SurfaceDesc);
+                        FTransitionLibrary[Hexagon.FTransitions[0]].Show(Xhp - 6 - 32, Yhp - 9 - 16, SurfaceDesc);
                     }
                     else
                     {
-                        var call__15 = FTransitionLibrary[Hexagon.FTransitions[0]];
-                        call__15.Show(Xhp - 6, Yhp - 9, SurfaceDesc);
+                        FTransitionLibrary[Hexagon.FTransitions[0]].Show(Xhp - 6, Yhp - 9, SurfaceDesc);
                     }
                 }
 
@@ -194,13 +172,11 @@ namespace Aow.Units.Hexagon
                 {
                     if ((Sides & 32) != 0)
                     {
-                        var call__16 = FTransitionLibrary[Hexagon.FTransitions[2]];
-                        call__16.Show(Xhp - 6 + 32, Yhp - 9 - 16, SurfaceDesc);
+                        FTransitionLibrary[Hexagon.FTransitions[2]].Show(Xhp - 6 + 32, Yhp - 9 - 16, SurfaceDesc);
                     }
                     else
                     {
-                        var call__17 = FTransitionLibrary[Hexagon.FTransitions[2]];
-                        call__17.Show(Xhp - 6, Yhp - 9, SurfaceDesc);
+                        FTransitionLibrary[Hexagon.FTransitions[2]].Show(Xhp - 6, Yhp - 9, SurfaceDesc);
                     }
                 }
             }
@@ -210,12 +186,7 @@ namespace Aow.Units.Hexagon
 
 
         // Hexagon.pas:107
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = HexagonStr;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => HexagonStr;
 
     }
 

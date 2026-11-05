@@ -73,24 +73,16 @@ namespace Aow.Units.Teleport
             base.MapFieldMsgProc(ref Msg);
             if (Msg.HN == 0 && Msg.MsgID == 4416 && Msg.Param[1].As<TMapField>().Xhx == FDestinationX && Msg.Param[1].As<TMapField>().Yhx == FDestinationY && Msg.Param[1].As<TMapField>().Lhx == FDestinationL)
             {
-                bool bool__1 = !AoWHSMap.FFogEnabled;
-                if (!bool__1)
+                bool notFogEnabled = !AoWHSMap.FFogEnabled;
+                if (!notFogEnabled)
                 {
-                    var call__2 = GetLhx();
-                    var call__3 = GetYhx();
-                    var call__4 = GetXhx();
-                    var call__5 = AoWHSMap.VisibleForPlayer(call__4, call__3, call__2, AoWHSMap.FSeatedPlayer);
-                    bool__1 = call__5;
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    var xhx = GetXhx();
+                    notFogEnabled = AoWHSMap.VisibleForPlayer(xhx, yhx, lhx, AoWHSMap.FSeatedPlayer);
                 }
 
-                bool bool__6 = bool__1;
-                if (!bool__6)
-                {
-                    var call__7 = AoWHSMap.VisibleForPlayer(FDestinationX, FDestinationY, FDestinationL, AoWHSMap.FSeatedPlayer);
-                    bool__6 = call__7;
-                }
-
-                if (bool__6)
+                if (notFogEnabled || AoWHSMap.VisibleForPlayer(FDestinationX, FDestinationY, FDestinationL, AoWHSMap.FSeatedPlayer))
                 {
                     PlaySample((AnsiString)"SFX\\PLACES\\TELEPORT.WAV");
                 }
@@ -104,8 +96,8 @@ namespace Aow.Units.Teleport
         {
             if (Info.HN == 0 && !FState.Contains(TTeleportStateElement.tsRazed))
             {
-                var call__8 = AoWHSMap.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
-                ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)call__8, 0);
+                var fieldValue = AoWHSMap.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
+                ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)fieldValue, 0);
             }
         }
 
@@ -145,19 +137,16 @@ namespace Aow.Units.Teleport
                 FState = FState - TSet<TTeleportStateElement>.Of(TTeleportStateElement.tsRazed);
             }
 
-            var call__9 = GetTerrainTypeImage(TerrainType);
-            this.FImageIndex = call__9;
+            this.FImageIndex = GetTerrainTypeImage(TerrainType);
         }
 
         // Teleport.pas:279
         public override bool ValidateMap(TStrings A1)
         {
-            bool Result = default;
+            bool Result;
             if (FDestinationX == 0 || FDestinationY == 0)
             {
-                var call__10 = TranslateRStr(WarningRStr);
-                var call__11 = TranslateRStr(InvalidLocationSpecifiedRStr);
-                A1.Add(call__10 + (AnsiString)": " + call__11);
+                A1.Add(TranslateRStr(WarningRStr) + (AnsiString)": " + TranslateRStr(InvalidLocationSpecifiedRStr));
                 Result = false;
             }
             else
@@ -171,44 +160,32 @@ namespace Aow.Units.Teleport
         // Teleport.pas:145
         public void ShowTeleportAnimations()
         {
-            TImageSequenceAnimation Anim = default;
+            TImageSequenceAnimation Anim;
             Anim = new TImageSequenceAnimation(null);
-            var call__12 = AoWHSSet.FImageSequences.ImageSequences[13];
-            Anim.SetImageSequence(call__12);
-            var call__13 = GetLhx();
-            var call__14 = GetYhx();
-            var call__15 = GetXhx();
-            AoWHSMap.PlaceHX(Anim, call__15, call__14, call__13);
+            Anim.SetImageSequence(AoWHSSet.FImageSequences.ImageSequences[13]);
+            var lhx = GetLhx();
+            var yhx = GetYhx();
+            var xhx = GetXhx();
+            AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
             Anim = new TImageSequenceAnimation(null);
-            var call__16 = AoWHSSet.FImageSequences.ImageSequences[12];
-            Anim.SetImageSequence(call__16);
+            Anim.SetImageSequence(AoWHSSet.FImageSequences.ImageSequences[12]);
             AoWHSMap.PlaceHX(Anim, FDestinationX, FDestinationY, FDestinationL);
         }
 
         // Teleport.pas:185
         public bool CanTeleportArmy(TArmyHS ArmyHS)
         {
-            bool Result = default;
-            TAoWMapField Field = default;
-            TArmyHS OtherArmy = default;
-            Result = false;
+            TAoWMapField Field;
+            TArmyHS OtherArmy;
+            bool Result = false;
             if (FDestinationL >= 0 && FDestinationL < AoWHSMap.MapContainer.LevelCount && FDestinationX >= 0 && FDestinationX < AoWHSMap.MapContainer.Width && FDestinationY >= 0 && FDestinationY < AoWHSMap.MapContainer.Height)
             {
-                var call__17 = AoWHSMap.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
-                Field = (TAoWMapField)call__17;
-                var call__18 = ArmyHS.FArmy.ValidTerrain(Field.TerrainType, Field.OverlayType);
-                if (call__18)
+                Field = (TAoWMapField)AoWHSMap.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
+                if (ArmyHS.FArmy.ValidTerrain(Field.TerrainType, Field.OverlayType))
                 {
                     OtherArmy = Field.GetArmyHS();
                     // { Original rejects a same-player army when CanAddUnits succeeds. }
-                    bool bool__19 = OtherArmy != null && (byte)ArmyHS.FArmy.FPlayer == (byte)OtherArmy.FArmy.FPlayer;
-                    if (bool__19)
-                    {
-                        var call__20 = OtherArmy.FArmy.CanAddUnits(ArmyHS.FArmy) != 0;
-                        bool__19 = call__20;
-                    }
-
-                    if (bool__19)
+                    if (OtherArmy != null && (byte)ArmyHS.FArmy.FPlayer == (byte)OtherArmy.FArmy.FPlayer && OtherArmy.FArmy.CanAddUnits(ArmyHS.FArmy) != 0)
                     {
                         return Result;
                     }
@@ -223,77 +200,52 @@ namespace Aow.Units.Teleport
         // Teleport.pas:208
         public bool CanTeleport(sbyte Player)
         {
-            bool Result = default;
-            TArmyHS ArmyHS = default;
-            var call__21 = Owner.FindOwnedChild(131607);
-            ArmyHS = (TArmyHS)call__21;
+            TArmyHS ArmyHS;
+            ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
             // { Original only checks destination X here; X=0 is rejected. }
-            Result = ArmyHS != null && Player == ArmyHS.FArmy.FPlayer && !FState.Contains(TTeleportStateElement.tsRazed) && FDestinationX > 0;
-            return Result;
+            return ArmyHS != null && Player == ArmyHS.FArmy.FPlayer && !FState.Contains(TTeleportStateElement.tsRazed) && FDestinationX > 0;
         }
 
         // Teleport.pas:218
         public bool Teleport(sbyte Player)
         {
-            bool Result = default;
-            TArmyHS ArmyHS = default;
-            TMovepath Path = default;
-            TAoWMapField Field = default;
-            TTokenEvent Event = default;
-            AnsiString MessageText = default;
+            bool Result;
+            TArmyHS ArmyHS;
+            TMovepath Path;
+            TAoWMapField Field;
+            TTokenEvent Event;
+            AnsiString MessageText;
             if (CanTeleport(Player))
             {
-                var call__22 = Owner.FindOwnedChild(131607);
-                ArmyHS = (TArmyHS)call__22;
+                ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
                 if (CanTeleportArmy(ArmyHS))
                 {
                     ArmyHS.FArmy.ResetDestinationPos();
                     Path = new TMovepath();
                     Path.AddXYL(FDestinationX, FDestinationY, FDestinationL);
-                    var call__23 = GetLhx();
-                    var call__24 = GetYhx();
-                    var call__25 = GetXhx();
-                    Path.AddXYL(call__25, call__24, call__23);
-                    var call__26 = AoWHSMap.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
-                    Field = (TAoWMapField)call__26;
-                    var call__27 = Field.GetMoveAction(ArmyHS.FArmy.FPlayer);
-                    bool bool__28 = call__27 != TMoveAction.maAttack;
-                    if (!bool__28)
+                    var lhx = GetLhx();
+                    var yhx = GetYhx();
+                    Path.AddXYL(GetXhx(), yhx, lhx);
+                    Field = (TAoWMapField)AoWHSMap.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
+                    bool condition = Field.GetMoveAction(ArmyHS.FArmy.FPlayer) != TMoveAction.maAttack || Field.GetPlayer() <= 0;
+                    if (!condition)
                     {
-                        var call__29 = Field.GetPlayer();
-                        bool__28 = call__29 <= 0;
+                        var player = Field.GetPlayer();
+                        var diplomaticRelation = AoWHSMap.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, player);
+                        condition = TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drWar, TDiplomaticRelation.drUnknown).Contains(diplomaticRelation);
                     }
 
-                    bool bool__30 = bool__28;
-                    if (!bool__30)
+                    if (condition)
                     {
-                        var call__31 = Field.GetPlayer();
-                        var call__32 = AoWHSMap.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, call__31);
-                        bool__30 = TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drWar, TDiplomaticRelation.drUnknown).Contains(call__32);
-                    }
-
-                    if (bool__30)
-                    {
-                        var call__33 = Field.GetPlayer();
-                        bool bool__34 = call__33 > -1;
-                        if (bool__34)
+                        if (Field.GetPlayer() > -1 && Field.GetPlayer() != ArmyHS.FArmy.FPlayer)
                         {
-                            var call__35 = Field.GetPlayer();
-                            bool__34 = call__35 != ArmyHS.FArmy.FPlayer;
-                        }
-
-                        if (bool__34)
-                        {
-                            var call__36 = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-                            var call__37 = call__36.GetBusy();
-                            if (!call__37)
+                            if (!AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
                             {
                                 // { Original passes action before mode. }
                                 Event = CreateArmyMoveTE(ArmyHS, 255, Path, TMoveAction.maAttack, TSet<TArmyMoveModeElement>.Of());
                                 if (Event != null)
                                 {
-                                    var call__38 = AoWHSMap.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer);
-                                    call__38.AddEvent(Event);
+                                    AoWHSMap.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
                                     Event.Release();
                                     Result = true;
                                 }
@@ -320,13 +272,10 @@ namespace Aow.Units.Teleport
                     }
                     else
                     {
-                        var call__39 = Field.GetPlayer();
-                        var call__40 = AoWHSMap.FPlayers.GetPlayers(call__39);
-                        var call__41 = TranslateRStr(RaceNamesPluralRStr[call__40.FPlayerRace]);
-                        var call__42 = NoWarDeclaredtoXRStr;
-                        var call__43 = TranslateRStr(call__42);
-                        var call__44 = Rtl.Rtl.Format(call__43, [call__41]);
-                        MessageText = call__44;
+                        var player = Field.GetPlayer();
+                        var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player);
+                        var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
+                        MessageText = Rtl.Rtl.Format(TranslateRStr(NoWarDeclaredtoXRStr), [raceNamesPlural]);
                         AoWHSMap.ShowMessage(MessageText);
                         Result = false;
                     }
@@ -369,25 +318,13 @@ namespace Aow.Units.Teleport
 
 
         // Teleport.pas:305
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131332;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131332;
 
         // Teleport.pas:45
 
 
         // Teleport.pas:302
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__45 = TeleportRStr;
-            var call__46 = TranslateRStr(call__45);
-            Result = call__46;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(TeleportRStr);
 
     }
 

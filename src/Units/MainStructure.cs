@@ -14,12 +14,7 @@ namespace Aow.Units.MainStructure
         public new const int ClassID = 2229532;
 
         // MainStructure.pas:40
-        public override int GetTerrainTypeImage(int TerrainType)
-        {
-            int Result = default;
-            Result = TerrainType;
-            return Result;
-        }
+        public override int GetTerrainTypeImage(int TerrainType) => TerrainType;
 
     }
 
@@ -32,20 +27,10 @@ namespace Aow.Units.MainStructure
         public new const int ClassID = 2229533;
 
         // MainStructure.pas:49
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229532;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229532;
 
         // MainStructure.pas:46
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat Main Structure";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat Main Structure";
 
     }
 

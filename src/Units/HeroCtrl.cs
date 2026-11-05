@@ -37,10 +37,8 @@ namespace Aow.Units.HeroCtrl
             DefaultRowHeight = 46;
             GrowDirection = TILGrowDirection.ilVertical;
             ScrollBars = TScrollStyle.ssVertical;
-            var call__1 = new TIntegerList();
-            FIndices = call__1;
-            var call__2 = new TMemoryStream();
-            FStream = call__2;
+            FIndices = new TIntegerList();
+            FStream = new TMemoryStream();
             FSort = 0;
         }
 
@@ -96,13 +94,12 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:186
         public THero GetHero(int Index)
         {
-            THero Result = default;
+            THero Result;
             // { Original checks only the upper bound. }
             if (Index < FIndices.Count)
             {
-                var call__3 = FIndices[Index];
-                var call__4 = FMap.FHeroControl.GetHero(call__3);
-                Result = call__4;
+                var indice = FIndices[Index];
+                Result = FMap.FHeroControl.GetHero(indice);
             }
             else
             {
@@ -122,13 +119,11 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:202
         public void SetSelectedHero(THero Value)
         {
-            int I = default;
-            var call__5 = FMap.FHeroControl.IndexOf(Value);
-            I = call__5;
+            int I;
+            I = FMap.FHeroControl.IndexOf(Value);
             if (I != -1)
             {
-                var call__6 = FIndices.IndexOf(I);
-                I = call__6;
+                I = FIndices.IndexOf(I);
                 if (I != -1)
                 {
                     SelectIndex(I);
@@ -264,22 +259,14 @@ namespace Aow.Units.HeroCtrl
         // HeroCtrl.pas:110
         public static int HeroControlCompareName(int A, int B)
         {
-            int Result = default;
-            var call__7 = AoWHSMap.FHeroControl.GetHero(B);
-            var call__8 = AoWHSMap.FHeroControl.GetHero(A);
-            Result = CompareText(call__8.FHeroName, call__7.FHeroName);
-            return Result;
+            var hero = AoWHSMap.FHeroControl.GetHero(B);
+            return CompareText(AoWHSMap.FHeroControl.GetHero(A).FHeroName, hero.FHeroName);
         }
 
         // HeroCtrl.pas:115
         public static int HeroControlCompareLevel(int A, int B)
         {
-            int Result = default;
-            var call__9 = AoWHSMap.FHeroControl.GetHero(A);
-            var call__10 = call__9.GetLevel();
-            var call__11 = AoWHSMap.FHeroControl.GetHero(B);
-            var call__12 = call__11.GetLevel();
-            Result = call__10 - call__12;
+            int Result = AoWHSMap.FHeroControl.GetHero(A).GetLevel() - AoWHSMap.FHeroControl.GetHero(B).GetLevel();
             if (Result == 0)
             {
                 Result = HeroControlCompareName(A, B);

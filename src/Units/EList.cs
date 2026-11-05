@@ -25,12 +25,7 @@ namespace Aow.Units.EList
     public partial class TObjectList : TList
     {
         // EList.pas:66
-        internal TListObject GetListObject(int Index)
-        {
-            TListObject Result = default;
-            Result = (TListObject)List[Index];
-            return Result;
-        }
+        internal TListObject GetListObject(int Index) => (TListObject)List[Index];
 
         // EList.pas:71
         internal void SetListObject(int Index, TListObject Value)
@@ -58,19 +53,14 @@ namespace Aow.Units.EList
         // EList.pas:78
         public void DestroyItems()
         {
-            int I = default;
+            for (int I = Count - 1; I >= 0; I--)
             {
-                I = Count - 1;
-                byte end__1 = 0;
-                for (; I >= end__1; I -= 1)
+                if (List[I] != null)
                 {
-                    if (List[I] != null)
-                    {
-                        ((TListObject)List[I]).Destroy();
-                    }
-
-                    Delete(I);
+                    ((TListObject)List[I]).Destroy();
                 }
+
+                Delete(I);
             }
         }
 
@@ -79,26 +69,21 @@ namespace Aow.Units.EList
         {
             int N = default;
             bool IsNil = default;
-            int I = default;
-            TListObject Obj = default;
+            TListObject Obj;
             DestroyItems();
             Stream.Read(Bytes.Of(ref N, 4));
+            for (int I = 0, last = N - 1; I <= last; I++)
             {
-                I = 0;
-                int end__2 = N - 1;
-                for (; I <= end__2; I += 1)
+                Stream.Read(Bytes.Of(ref IsNil, 1));
+                if (!IsNil)
                 {
-                    Stream.Read(Bytes.Of(ref IsNil, 1));
-                    if (!IsNil)
-                    {
-                        Obj = new TListObject();
-                        Obj.LoadFromStream(Stream);
-                        Add(Obj);
-                    }
-                    else
-                    {
-                        Add(null);
-                    }
+                    Obj = new TListObject();
+                    Obj.LoadFromStream(Stream);
+                    Add(Obj);
+                }
+                else
+                {
+                    Add(null);
                 }
             }
         }
@@ -107,19 +92,14 @@ namespace Aow.Units.EList
         public void SaveToStream(TStream Stream)
         {
             bool IsNil = default;
-            int I = default;
             Stream.Write(ValueBytes(Count, 4));
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__3 = Count - 1;
-                for (; I <= end__3; I += 1)
+                IsNil = List[I] == null;
+                Stream.Write(Bytes.Of(ref IsNil, 1));
+                if (!IsNil)
                 {
-                    IsNil = List[I] == null;
-                    Stream.Write(Bytes.Of(ref IsNil, 1));
-                    if (!IsNil)
-                    {
-                        ((TListObject)List[I]).SaveToStream(Stream);
-                    }
+                    ((TListObject)List[I]).SaveToStream(Stream);
                 }
             }
         }

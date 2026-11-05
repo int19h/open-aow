@@ -71,33 +71,26 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:172
         public void UpdateModes()
         {
-            int I = default;
-            TDisplayModeItem Mode = default;
-            AnsiString S = default;
+            TDisplayModeItem Mode;
+            AnsiString S;
             DisplayModesLB.Items.Clear();
-            var call__1 = TranslateRStr(DesktopWindowRStr);
-            DisplayModesLB.Items.AddObject(call__1, IntToObject(-1));
+            var desktopWindow = TranslateRStr(DesktopWindowRStr);
+            DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
+            for (int I = 0, last = FDisplayModes.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__2 = FDisplayModes.Count - 1;
-                for (; I <= end__2; I += 1)
+                Mode = FDisplayModes.Items[I];
+                if (Mode.Width >= 640 && Mode.Height >= 480)
                 {
-                    var call__3 = FDisplayModes.Items[I];
-                    Mode = call__3;
-                    if (Mode.Width >= 640 && Mode.Height >= 480)
-                    {
-                        var call__4 = TranslateRStr(FullScreenRStr);
-                        DisplayModesLB.Items.AddObject(call__4 + AnsiString.FromBytes(58) + IntToStr(Mode.Width) + AnsiString.FromBytes(120) + IntToStr(Mode.Height), IntToObject(I));
-                    }
+                    var fullScreen = TranslateRStr(FullScreenRStr);
+                    DisplayModesLB.Items.AddObject(fullScreen + AnsiString.FromBytes(58) + IntToStr(Mode.Width) + AnsiString.FromBytes(120) + IntToStr(Mode.Height), IntToObject(I));
                 }
             }
 
-            var call__5 = CurrentMode();
-            DisplayModesLB.Selected = call__5;
+            var currentMode = CurrentMode();
+            DisplayModesLB.Selected = currentMode;
             if (DisplayModesLB.Selected != -1)
             {
-                var call__6 = DisplayModesLB.Items[DisplayModesLB.Selected];
-                S = call__6;
+                S = DisplayModesLB.Items[DisplayModesLB.Selected];
                 S = S + (AnsiString)" (" + LowerCase(TranslateRStr(CurrentRStr)) + AnsiString.FromBytes(41);
                 DisplayModesLB.Items[DisplayModesLB.Selected] = S;
             }
@@ -106,8 +99,7 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:195
         public void VideoDlgWindowCreate()
         {
-            var call__7 = new TDisplayModeList();
-            FDisplayModes = call__7;
+            FDisplayModes = new TDisplayModeList();
             ListDisplayModes(FDisplayModes, 0, 0, 16);
         }
 
@@ -127,18 +119,15 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:212
         public void ApplyBtnClick()
         {
-            int I = default;
+            int I;
             General.PlayButtonSound(0);
             if (DisplayModesLB.Selected != -1)
             {
-                var call__8 = DisplayModesLB.Items.Objects[DisplayModesLB.Selected];
-                I = ObjectToInt(call__8);
+                I = ObjectToInt(DisplayModesLB.Items.Objects[DisplayModesLB.Selected]);
                 if (I != -1)
                 {
-                    var call__9 = FDisplayModes.Items[I];
-                    FDisplayWidth = call__9.Width;
-                    var call__10 = FDisplayModes.Items[I];
-                    FDisplayHeight = call__10.Height;
+                    FDisplayWidth = FDisplayModes.Items[I].Width;
+                    FDisplayHeight = FDisplayModes.Items[I].Height;
                     ChangeResolution(FDisplayWidth, FDisplayHeight);
                     FFullScreen = TScreenMode.scmGame;
                 }
@@ -178,8 +167,8 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:245
         public void DlgShow()
         {
-            var call__11 = AoWEngine.FRegistry.GetAllowResolutionSwitches();
-            AoWVideoDlg.VideoDialog.ResCB.Checked = call__11;
+            var allowResolutionSwitches = AoWEngine.FRegistry.GetAllowResolutionSwitches();
+            AoWVideoDlg.VideoDialog.ResCB.Checked = allowResolutionSwitches;
         }
     }
 
@@ -224,8 +213,7 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:250
         public TWMCampaignScenarioPage(TECustomNode owner) : base(owner)
         {
-            var call__12 = new TStringList();
-            FText = call__12;
+            FText = new TStringList();
         }
 
     }
@@ -286,23 +274,15 @@ namespace Aow.Units.AoWVideoDlg
         // AoWVideoDlg.pas:278
         public TWMCampaignScenario(TECustomNode owner) : base(owner)
         {
-            int I = default;
-            var call__13 = new TWMCampaignScenarioPageList(null);
-            FIntroPages = call__13;
-            var call__14 = new TWMCampaignScenarioPageList(null);
-            FOutroPages = call__14;
+            FIntroPages = new TWMCampaignScenarioPageList(null);
+            FOutroPages = new TWMCampaignScenarioPageList(null);
+            for (int I = 0; I <= 9; I++)
             {
-                I = 0;
-                byte end__15 = 9;
-                for (; I <= end__15; I += 1)
-                {
-                    new TWMCampaignScenarioPage(FIntroPages);
-                    new TWMCampaignScenarioPage(FOutroPages);
-                }
+                new TWMCampaignScenarioPage(FIntroPages);
+                new TWMCampaignScenarioPage(FOutroPages);
             }
 
-            var call__16 = new TIntegerList();
-            FPaths = call__16;
+            FPaths = new TIntegerList();
             FPaths.Default = -1;
         }
 
@@ -342,17 +322,12 @@ namespace Aow.Units.AoWVideoDlg
         }
 
         // AoWVideoDlg.pas:343
-        public override TAoWCampaignScenario CreateScenario()
-        {
-            TAoWCampaignScenario Result = default;
-            Result = new TWMCampaignScenario(null);
-            return Result;
-        }
+        public override TAoWCampaignScenario CreateScenario() => new TWMCampaignScenario(null);
 
         // AoWVideoDlg.pas:353
         public override AnsiString GetAutoSaveFileName(TCampaignAutoSaveType Auto)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (Auto == TCampaignAutoSaveType.casScenarioFinished)
             {
                 Result = AoWHSMap.FMapName;

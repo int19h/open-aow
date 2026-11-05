@@ -36,9 +36,8 @@ namespace Aow.Units.Road
         // Road.pas:60
         public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            TMapField MapField = default;
-            THexagonSprite OldRoad = default;
+            TMapField MapField;
+            THexagonSprite OldRoad;
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
             OldRoad = MapField.FindOwnedHS(typeof(TAbstractRoad));
             if (OldRoad != null)
@@ -47,7 +46,7 @@ namespace Aow.Units.Road
             }
 
             Owner = MapField;
-            Result = PlaceOnMap();
+            bool Result = PlaceOnMap();
             UpdateTransitions();
             UpdateNeighbourTransitions();
             return Result;
@@ -58,27 +57,22 @@ namespace Aow.Units.Road
         {
             int Xhx = default;
             int Yhx = default;
-            TMapLevel Level = default;
-            int HN = default;
-            TMapField MapField = default;
-            bool HasRoad = default;
+            TMapLevel Level;
+            TMapField MapField;
+            bool HasRoad;
             Level = (TMapLevel)Owner.Owner;
             FTransitions = 0;
+            for (int HN = 1; HN <= 6; HN++)
             {
-                HN = 1;
-                byte end__1 = 6;
-                for (; HN <= end__1; HN += 1)
+                HNtoHX(HN, ref Xhx, ref Yhx);
+                TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+                if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
                 {
-                    HNtoHX(HN, ref Xhx, ref Yhx);
-                    TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
-                    if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
+                    MapField = Level.GetField(Xhx, Yhx);
+                    HasRoad = MapField.FindOwnedHS(typeof(TAbstractRoad)) != null;
+                    if (HasRoad)
                     {
-                        MapField = Level.GetField(Xhx, Yhx);
-                        HasRoad = MapField.FindOwnedHS(typeof(TAbstractRoad)) != null;
-                        if (HasRoad)
-                        {
-                            FTransitions = (byte)(FTransitions + (1 << (HN - 1)));
-                        }
+                        FTransitions = (byte)(FTransitions + (1 << (HN - 1)));
                     }
                 }
             }
@@ -99,26 +93,21 @@ namespace Aow.Units.Road
         {
             int Xhx = default;
             int Yhx = default;
-            TMapLevel Level = default;
-            int HN = default;
-            TMapField MapField = default;
-            TAbstractRoad Road = default;
+            TMapLevel Level;
+            TMapField MapField;
+            TAbstractRoad Road;
             Level = (TMapLevel)Owner.Owner;
+            for (int HN = 1; HN <= 6; HN++)
             {
-                HN = 1;
-                byte end__2 = 6;
-                for (; HN <= end__2; HN += 1)
+                HNtoHX(HN, ref Xhx, ref Yhx);
+                TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+                if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
                 {
-                    HNtoHX(HN, ref Xhx, ref Yhx);
-                    TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
-                    if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
+                    MapField = Level.GetField(Xhx, Yhx);
+                    Road = (TAbstractRoad)MapField.FindChild(131428);
+                    if (Road != null)
                     {
-                        MapField = Level.GetField(Xhx, Yhx);
-                        Road = (TAbstractRoad)MapField.FindChild(131428);
-                        if (Road != null)
-                        {
-                            Road.UpdateTransitions();
-                        }
+                        Road.UpdateTransitions();
                     }
                 }
             }
@@ -138,18 +127,13 @@ namespace Aow.Units.Road
         public new const int ClassID = 131429;
 
         // Road.pas:126
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131428;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131428;
 
         // Road.pas:141
         public void Show(int Xhp, int Yhp, in TSurfaceDesc SurfaceDesc, TRoad Road)
         {
-            byte Transitions = default;
-            byte Base = default;
+            byte Transitions;
+            byte Base;
             Transitions = Road.FTransitions;
             Base = 1;
             if (Transitions != 0)
@@ -158,67 +142,56 @@ namespace Aow.Units.Road
                 {
                     if ((Transitions & 16) != 0)
                     {
-                        var call__3 = FImageLibrary[Base + 4];
-                        call__3.Show(Xhp, Yhp, SurfaceDesc);
+                        FImageLibrary[Base + 4].Show(Xhp, Yhp, SurfaceDesc);
                     }
 
                     if ((Transitions & 4) != 0)
                     {
-                        var call__4 = FImageLibrary[Base + 2];
-                        call__4.Show(Xhp, Yhp, SurfaceDesc);
+                        FImageLibrary[Base + 2].Show(Xhp, Yhp, SurfaceDesc);
                     }
                 }
                 else
                 {
-                    var call__5 = FImageLibrary[Base + 6];
-                    call__5.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
                 if ((Transitions & 128) == 0)
                 {
                     if ((Transitions & 2) != 0)
                     {
-                        var call__6 = FImageLibrary[Base + 1];
-                        call__6.Show(Xhp, Yhp, SurfaceDesc);
+                        FImageLibrary[Base + 1].Show(Xhp, Yhp, SurfaceDesc);
                     }
 
                     if ((Transitions & 32) != 0)
                     {
-                        var call__7 = FImageLibrary[Base + 5];
-                        call__7.Show(Xhp, Yhp, SurfaceDesc);
+                        FImageLibrary[Base + 5].Show(Xhp, Yhp, SurfaceDesc);
                     }
                 }
                 else
                 {
-                    var call__8 = FImageLibrary[Base + 7];
-                    call__8.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 7].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
                 if ((Transitions & 1) != 0)
                 {
-                    var call__9 = FImageLibrary[Base];
-                    call__9.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
                 if ((Transitions & 8) != 0)
                 {
-                    var call__10 = FImageLibrary[Base + 3];
-                    call__10.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 3].Show(Xhp, Yhp, SurfaceDesc);
                 }
             }
             else
             {
-                var call__11 = FImageLibrary[Base + 6];
-                call__11.Show(Xhp, Yhp, SurfaceDesc);
+                FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
             }
         }
 
         // Road.pas:171
         public override EditorClass Editor()
         {
-            EditorClass Result = default;
-            var call__12 = FEngine.Editors.FindEditor(131429);
-            Result = call__12;
+            EditorClass Result = FEngine.Editors.FindEditor(131429);
             if (Result == null)
             {
                 Result = base.Editor();
@@ -228,12 +201,7 @@ namespace Aow.Units.Road
         }
 
         // Road.pas:131
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Road";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Road";
 
     }
 

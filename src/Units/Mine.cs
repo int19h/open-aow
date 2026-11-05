@@ -14,8 +14,7 @@ namespace Aow.Units.Mine
     {
         public TMine(TECustomNode owner) : base(owner)
         {
-            var call__1 = new TPlayerStructureIncomeSource(null);
-            FIncomeSource = call__1;
+            FIncomeSource = new TPlayerStructureIncomeSource(null);
             FIncomeSource.Setup(this);
         }
 
@@ -47,8 +46,7 @@ namespace Aow.Units.Mine
             base.Activate();
             if (FPlayer != -1)
             {
-                var call__2 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
-                call__2.RegisterIncomeSource(FIncomeSource);
+                AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
             }
         }
 
@@ -57,8 +55,7 @@ namespace Aow.Units.Mine
         {
             if (FPlayer != -1)
             {
-                var call__3 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
-                call__3.UnregisterIncomeSource(FIncomeSource);
+                AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
             }
 
             base.Deactivate();
@@ -77,47 +74,27 @@ namespace Aow.Units.Mine
                 FState = (byte)(TSet<byte>.FromMask(FState) - TSet<byte>.WithBounds(0, 7).With(0)).Image;
             }
 
-            var call__4 = GetTerrainTypeImage(TerrainType);
-            this.FImageIndex = call__4;
+            this.FImageIndex = GetTerrainTypeImage(TerrainType);
         }
 
         // Mine.pas:93
         public override AnsiString GetCurrentActivityText()
         {
-            AnsiString Result = default;
-            var call__5 = GetIncome();
-            var call__6 = TranslateRStr(ProducingXIncomeRStr);
-            var call__7 = Rtl.Rtl.Format(call__6, [IntToStr(call__5)]);
-            Result = call__7;
-            return Result;
+            var income = GetIncome();
+            return Rtl.Rtl.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
         }
 
         // Mine.pas:99
         public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
-            int CandidatePriority = default;
-            var call__8 = GetRazed();
-            bool bool__9 = !call__8;
-            if (!bool__9)
-            {
-                var call__10 = GetBuilding();
-                bool__9 = call__10;
-            }
-
-            if (bool__9)
+            int CandidatePriority;
+            if (!GetRazed() || GetBuilding())
             {
                 CandidatePriority = Data.Priority;
                 switch (Info.Mode)
                 {
                     case TAITargetMode.tmAttack:
-                        bool bool__11 = (byte)Info.Player != (byte)FPlayer;
-                        if (bool__11)
-                        {
-                            var call__12 = GetRazed();
-                            bool__11 = !call__12;
-                        }
-
-                        if (bool__11)
+                        if ((byte)Info.Player != (byte)FPlayer && !GetRazed())
                         {
                             if ((byte)FPlayer == 0)
                             {
@@ -125,11 +102,9 @@ namespace Aow.Units.Mine
                             }
                             else
                             {
-                                var call__13 = ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0);
-                                if (call__13)
+                                if (ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0))
                                 {
-                                    var call__14 = AoWHSMap.FPlayers.GetPlayers(Info.Player);
-                                    CandidatePriority = 50 - call__14.FIncome / 2;
+                                    CandidatePriority = 50 - AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                     if (CandidatePriority < 25)
                                     {
                                         CandidatePriority = 25;
@@ -170,15 +145,13 @@ namespace Aow.Units.Mine
                 {
                     if (FPlayer != -1)
                     {
-                        var call__15 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
-                        call__15.UnregisterIncomeSource(FIncomeSource);
+                        AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
                     }
 
                     base.SetPlayer(Player);
                     if (FPlayer != -1)
                     {
-                        var call__16 = AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer);
-                        call__16.RegisterIncomeSource(FIncomeSource);
+                        AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
                     }
                 }
                 else
@@ -191,16 +164,8 @@ namespace Aow.Units.Mine
         // Mine.pas:85
         public override int GetIncome()
         {
-            int Result = default;
-            var call__17 = GetRazed();
-            bool bool__18 = !call__17;
-            if (bool__18)
-            {
-                var call__19 = GetBuilding();
-                bool__18 = !call__19;
-            }
-
-            if (bool__18)
+            int Result;
+            if (!GetRazed() && !GetBuilding())
             {
                 Result = 10;
             }
@@ -215,7 +180,7 @@ namespace Aow.Units.Mine
         // Mine.pas:178
         public override AnsiString GetCombatEventText(TCombat Combat)
         {
-            AnsiString Result = default;
+            AnsiString Result;
             if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
             {
                 Result = TranslateRStr(MineBattleWonRStr);
@@ -252,23 +217,13 @@ namespace Aow.Units.Mine
 
 
         // Mine.pas:203
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131962;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131962;
 
         // Mine.pas:41
 
 
         // Mine.pas:197
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(MineRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(MineRStr);
 
     }
 
@@ -295,27 +250,19 @@ namespace Aow.Units.Mine
         // Mine.pas:206
         public static int MineIncome(sbyte Player)
         {
-            int Result = default;
-            TPlayer P = default;
-            TPlayerStructure S = default;
-            int I = default;
+            int Result;
+            TPlayer P;
+            TPlayerStructure S;
             if (AoWHSMap != null)
             {
-                var call__20 = AoWHSMap.FPlayers.GetPlayers(Player);
-                P = call__20;
+                P = AoWHSMap.FPlayers.GetPlayers(Player);
                 Result = 0;
+                for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__21 = P.FStructures.Count - 1;
-                    for (; I <= end__21; I += 1)
+                    S = P.FStructures.GetStructure(I);
+                    if (S.EClass.ClassID == 131962 && (sbyte)(byte)S.FPlayer == Player)
                     {
-                        var call__22 = P.FStructures.GetStructure(I);
-                        S = call__22;
-                        var call__23 = S.EClass.ClassID;
-                        if (call__23 == 131962 && (sbyte)(byte)S.FPlayer == Player)
-                        {
-                            Result += S.GetIncome();
-                        }
+                        Result += S.GetIncome();
                     }
                 }
             }

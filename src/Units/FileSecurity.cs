@@ -39,12 +39,11 @@ namespace Aow.Units.FileSecurity
 //   The four unnamed helpers follow PageTurnCtrl's finalization in code order. }
         public static bool GetFileSecurityID(AnsiString FileName, ref AnsiString ID)
         {
-            bool Result = default;
+            bool Result;
             TSecurityData Data = default;
             if (ReadSecurityData(FileName, ref Data))
             {
-                var call__1 = EncodeSecurityID(Data.ID, Data.Key);
-                ID = call__1;
+                ID = EncodeSecurityID(Data.ID, Data.Key);
                 Result = true;
             }
             else
@@ -59,39 +58,26 @@ namespace Aow.Units.FileSecurity
         // FileSecurity.pas:148
         public static bool SetFileSecurityID(AnsiString FileName, AnsiString ID)
         {
-            bool Result = default;
-            TSecurityData Data = default;
-            byte Key = default;
+            TSecurityData Data;
+            byte Key;
             Data = default;
             Key = (byte)Random(256);
             Data.Key = Key;
-            var call__2 = EncodeSecurityID(ID, Key);
-            Data.ID = call__2;
-            Result = WriteSecurityData(FileName, Data);
-            return Result;
+            var encodeSecurityID = EncodeSecurityID(ID, Key);
+            Data.ID = encodeSecurityID;
+            return WriteSecurityData(FileName, Data);
         }
 
         // FileSecurity.pas:160
-        public static bool RemoveFileSecurityID(AnsiString FileName)
-        {
-            bool Result = default;
-            Result = RemoveSecurityData(FileName);
-            return Result;
-        }
+        public static bool RemoveFileSecurityID(AnsiString FileName) => RemoveSecurityData(FileName);
 
         // FileSecurity.pas:31
         public static AnsiString EncodeSecurityID(AnsiString Value, byte Key)
         {
-            AnsiString Result = default;
-            int I = default;
-            Result = (AnsiString)"";
+            AnsiString Result = (AnsiString)"";
+            for (int I = 1; I <= Value.Length; I++)
             {
-                I = 1;
-                int end__3 = Value.Length;
-                for (; I <= end__3; I += 1)
-                {
-                    Result = Result + AnsiString.FromBytes((byte)((byte)((Value.Length + (I + 5) + (byte)(Key + 0)) & 255) ^ Value[I]));
-                }
+                Result = Result + AnsiString.FromBytes((byte)((byte)((Value.Length + (I + 5) + (byte)(Key + 0)) & 255) ^ Value[I]));
             }
 
             return Result;

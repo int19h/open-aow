@@ -52,8 +52,8 @@ namespace Aow.Units.AoWMessageDlg
         // AoWMessageDlg.pas:68
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TMessageEventLog Log = default;
+            TExecuteDoneEvent Done;
+            TMessageEventLog Log;
             Dlg.Visible = false;
             Done = FDone;
             Log = FEvent;
@@ -79,8 +79,7 @@ namespace Aow.Units.AoWMessageDlg
         // AoWMessageDlg.pas:88
         public void YesBtnClick()
         {
-            var call__1 = FEvent.Yes();
-            if (call__1)
+            if (FEvent.Yes())
             {
                 Dlg.Visible = false;
             }
@@ -89,8 +88,7 @@ namespace Aow.Units.AoWMessageDlg
         // AoWMessageDlg.pas:93
         public void NoBtnClick()
         {
-            var call__2 = FEvent.No();
-            if (call__2)
+            if (FEvent.No())
             {
                 Dlg.Visible = false;
             }
@@ -101,8 +99,7 @@ namespace Aow.Units.AoWMessageDlg
         {
             if (FEvent != null)
             {
-                var call__3 = FEvent.OK();
-                if (!call__3)
+                if (!FEvent.OK())
                 {
                     return;
                 }
@@ -114,8 +111,7 @@ namespace Aow.Units.AoWMessageDlg
         // AoWMessageDlg.pas:105
         public void OKBtn2Click()
         {
-            var call__4 = FEvent.OK();
-            if (call__4)
+            if (FEvent.OK())
             {
                 Dlg.Visible = false;
             }
@@ -124,8 +120,7 @@ namespace Aow.Units.AoWMessageDlg
         // AoWMessageDlg.pas:110
         public void CancelBtnClick()
         {
-            var call__5 = FEvent.Cancel();
-            if (call__5)
+            if (FEvent.Cancel())
             {
                 Dlg.Visible = false;
             }
@@ -139,8 +134,8 @@ namespace Aow.Units.AoWMessageDlg
         {
             ResetMessageDialog(MessageDlg);
             MessageDlg.MessageMemo.Items.Add((AnsiString)"");
-            var call__6 = TranslateRStr(DemoVersionMessageRStr);
-            MessageDlg.MessageMemo.Items.Add(call__6);
+            var demoVersionMessage = TranslateRStr(DemoVersionMessageRStr);
+            MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
             MessageDlg.OKPnl.Visible = true;
             MessageDlg.Dlg.Visible = true;
         }

@@ -16,12 +16,7 @@ namespace Aow.Units.FireNode
         public new const int ClassID = 132062;
 
         // FireNode.pas:39
-        public override TMagicSphere GetMagicSphere()
-        {
-            TMagicSphere Result = default;
-            Result = TMagicSphere.msFire;
-            return Result;
-        }
+        public override TMagicSphere GetMagicSphere() => TMagicSphere.msFire;
 
     }
 
@@ -41,23 +36,13 @@ namespace Aow.Units.FireNode
 
 
         // FireNode.pas:56
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132062;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132062;
 
         // FireNode.pas:26
 
 
         // FireNode.pas:50
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(FireNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(FireNodeRStr);
 
     }
 

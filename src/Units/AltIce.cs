@@ -16,12 +16,7 @@ namespace Aow.Units.AltIce
         public new const int ClassID = 131659;
 
         // AltIce.pas:39
-        public override TStorm CreateStorm()
-        {
-            TStorm Result = default;
-            Result = new TIceStorm(null);
-            return Result;
-        }
+        public override TStorm CreateStorm() => new TIceStorm(null);
 
     }
 
@@ -38,23 +33,13 @@ namespace Aow.Units.AltIce
 
 
         // AltIce.pas:55
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131659;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131659;
 
         // AltIce.pas:26
 
 
         // AltIce.pas:49
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(AltarOfIceRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(AltarOfIceRStr);
 
     }
 

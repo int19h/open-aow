@@ -87,24 +87,16 @@ namespace Aow.Units.AOWChatWin
         // AOWChatWin.pas:97
         public void PlayerListPreDrawItem(TObject Sender, in TRect DrawRect, int DrawItem, in TSurfaceDesc SD)
         {
-            sbyte Player = default;
+            sbyte Player;
             if (DrawItem != 0)
             {
-                var call__4 = PlayerList.Items.Objects[DrawItem];
-                var call__5 = AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(call__4));
-                Player = (sbyte)call__5;
+                var objectValue = PlayerList.Items.Objects[DrawItem];
+                Player = (sbyte)AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
                 // { Original leaves player zero without a race color. }
-                bool bool__6 = Player > 0;
-                if (bool__6)
+                if (Player > 0 && Player < AoWHSMap.FPlayers.Count)
                 {
-                    var call__7 = AoWHSMap.FPlayers.Count;
-                    bool__6 = Player < call__7;
-                }
-
-                if (bool__6)
-                {
-                    var call__8 = AoWHSMap.FPlayers.GetPlayers(Player);
-                    PlayerList.TextColor = RaceColors[call__8.FPlayerRace];
+                    var player = AoWHSMap.FPlayers.GetPlayers(Player);
+                    PlayerList.TextColor = RaceColors[player.FPlayerRace];
                 }
             }
             else

@@ -45,8 +45,8 @@ namespace Aow.Units.AoWWizardsTowerDlg
         // AoWWizardsTowerDlg.pas:54
         public void ClearEvent()
         {
-            TEnterWizardsTowerEventLog Event = default;
-            TExecuteDoneEvent Notify = default;
+            TEnterWizardsTowerEventLog Event;
+            TExecuteDoneEvent Notify;
             Dlg.Visible = false;
             Notify = FOnClose;
             Event = FEvent;
@@ -77,8 +77,7 @@ namespace Aow.Units.AoWWizardsTowerDlg
         {
             AnsiString Reason = default;
             General.PlayButtonSound(0);
-            var call__1 = FEvent.FTower.Buy(AoWHSMap.FSeatedPlayer, ref Reason);
-            if (!call__1)
+            if (!FEvent.FTower.Buy(AoWHSMap.FSeatedPlayer, ref Reason))
             {
                 AoWHSMap.ShowWarning(Reason);
             }
@@ -97,18 +96,16 @@ namespace Aow.Units.AoWWizardsTowerDlg
         // AoWWizardsTowerDlg.pas:87
         public void SpellIcnDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            TSpell S = default;
-            int X = default;
-            int Y = default;
+            TSpell S;
+            int X;
+            int Y;
             var wizardsTower = FEvent.FTower;
             if (wizardsTower.FSpellID != 0)
             {
-                var call__3 = AoWHSSet.FSpellControl.GetSpell(wizardsTower.FSpellID);
-                S = call__3;
+                S = AoWHSSet.FSpellControl.GetSpell(wizardsTower.FSpellID);
                 if (S != null)
                 {
-                    var call__4 = S.FCastImages.GetImageSequence(10);
-                    if (call__4 != null)
+                    if (S.FCastImages.GetImageSequence(10) != null)
                     {
                         var image = (TAOWImage)Sender;
                         X = image.AOWWindow.WinLeft;

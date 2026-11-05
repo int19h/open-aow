@@ -22,14 +22,11 @@ namespace Aow.Units.House
         // House.pas:45
         public override void Activate()
         {
-            TPlayerStructure Structure = default;
+            TPlayerStructure Structure;
             base.Activate();
             if (!AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
             {
-                var call__1 = AoWHSMap.MapContainer.GetMapLevel(CombatLLoc);
-                var call__2 = call__1.GetField(CombatXLoc, CombatYLoc);
-                var call__3 = call__2.FindNoneTransparentHS(typeof(TPlayerStructure));
-                Structure = (TPlayerStructure)call__3;
+                Structure = (TPlayerStructure)AoWHSMap.MapContainer.GetMapLevel(CombatLLoc).GetField(CombatXLoc, CombatYLoc).FindNoneTransparentHS(typeof(TPlayerStructure));
                 if (Structure != null)
                 {
                     if (Structure is TCity)
@@ -47,8 +44,7 @@ namespace Aow.Units.House
                     }
                     else
                     {
-                        var call__4 = AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer);
-                        FFlagID = call__4.FPlayerRace;
+                        FFlagID = AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
                     }
 
                     if (FFlagID == -1)
@@ -70,20 +66,10 @@ namespace Aow.Units.House
         public new const int ClassID = 2229523;
 
         // House.pas:151
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229522;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229522;
 
         // House.pas:148
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat House";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat House";
 
     }
 

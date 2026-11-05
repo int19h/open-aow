@@ -37,8 +37,8 @@ namespace Aow.Units.aowHelpWin
         // aowHelpWin.pas:53
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            THelpMessageEventLog Event = default;
+            TExecuteDoneEvent Done;
+            THelpMessageEventLog Event;
             Done = FDone;
             Event = FHelpEvent;
             FDone = null;
@@ -61,30 +61,20 @@ namespace Aow.Units.aowHelpWin
             FHelpEvent = Event;
             FHelpEvent.AddRef();
             HeaderMemo.Items.Clear();
-            var call__1 = Event.FMessage.Count;
-            if (call__1 > 0)
+            if (Event.FMessage.Count > 0)
             {
-                var call__2 = Event.FMessage[0];
-                HeaderMemo.Items.Add(call__2);
+                var message = Event.FMessage[0];
+                HeaderMemo.Items.Add(message);
             }
 
             HelpMemo.Items.Clear();
             HelpMemo.Items.AddStrings(Event.FMessage);
-            var call__3 = HelpMemo.Items.Count;
-            if (call__3 > 0)
+            if (HelpMemo.Items.Count > 0)
             {
                 HelpMemo.Items.Delete(0);
             }
 
-            var call__4 = HelpMemo.Items.Count;
-            bool bool__5 = call__4 > 0;
-            if (bool__5)
-            {
-                var call__6 = HelpMemo.Items[0];
-                bool__5 = call__6 == (AnsiString)"";
-            }
-
-            if (bool__5)
+            if (HelpMemo.Items.Count > 0 && HelpMemo.Items[0] == (AnsiString)"")
             {
                 HelpMemo.Items.Delete(0);
             }
@@ -132,7 +122,7 @@ namespace Aow.Units.aowHelpWin
         // aowHelpWin.pas:82
         public static void ShowHelp(int HelpID)
         {
-            TStringList Lines = default;
+            TStringList Lines;
             if (HelpWindow.HelpWin.Visible)
             {
                 HelpWindow.FinishDialog();
@@ -142,30 +132,20 @@ namespace Aow.Units.aowHelpWin
             AoWHSSet.FTextControl.RetrieveText(HelpID, Lines);
             HelpWindow.HelpSB.Position = 0;
             HelpWindow.HeaderMemo.Items.Clear();
-            var call__8 = Lines.Count;
-            if (call__8 > 0)
+            if (Lines.Count > 0)
             {
-                var call__9 = Lines[0];
-                HelpWindow.HeaderMemo.Items.Add(call__9);
+                var line = Lines[0];
+                HelpWindow.HeaderMemo.Items.Add(line);
             }
 
             HelpWindow.HelpMemo.Items.Clear();
             HelpWindow.HelpMemo.Items.AddStrings(Lines);
-            var call__10 = HelpWindow.HelpMemo.Items.Count;
-            if (call__10 > 0)
+            if (HelpWindow.HelpMemo.Items.Count > 0)
             {
                 HelpWindow.HelpMemo.Items.Delete(0);
             }
 
-            var call__11 = HelpWindow.HelpMemo.Items.Count;
-            bool bool__12 = call__11 > 0;
-            if (bool__12)
-            {
-                var call__13 = HelpWindow.HelpMemo.Items[0];
-                bool__12 = call__13 == (AnsiString)"";
-            }
-
-            if (bool__12)
+            if (HelpWindow.HelpMemo.Items.Count > 0 && HelpWindow.HelpMemo.Items[0] == (AnsiString)"")
             {
                 HelpWindow.HelpMemo.Items.Delete(0);
             }

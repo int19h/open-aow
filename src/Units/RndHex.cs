@@ -19,18 +19,15 @@ namespace Aow.Units.RndHex
         // RndHex.pas:38
         public override TEObject CreateResourceUser()
         {
-            TEObject Result = default;
-            var call__1 = FTerrainList.GetTerrain(0);
-            var call__2 = FEngine.HSSet.HexagonControl.CreateMO(call__1);
-            Result = call__2;
-            return Result;
+            var terrain = FTerrainList.GetTerrain(0);
+            return FEngine.HSSet.HexagonControl.CreateMO(terrain);
         }
 
         // RndHex.pas:43
         public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
-            int Lhx = default;
-            int Radius = default;
+            int Lhx;
+            int Radius;
             int Xhx = default;
             int Yhx = default;
             if (Msg.MsgID == 65541)
@@ -38,8 +35,8 @@ namespace Aow.Units.RndHex
                 Lhx = Msg.Data[1];
                 Radius = Msg.Param[1].Value;
                 HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
-                var call__3 = FTerrainList.GetTerrain(0);
-                FEngine.HSMap.ChangeTerrain(null, Xhx, Yhx, Lhx, Radius, call__3);
+                var terrain = FTerrainList.GetTerrain(0);
+                FEngine.HSMap.ChangeTerrain(null, Xhx, Yhx, Lhx, Radius, terrain);
                 Msg.MsgID = 0;
                 Msg.Result = 0;
             }
@@ -51,12 +48,7 @@ namespace Aow.Units.RndHex
         }
 
         // RndHex.pas:33
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Random Hexagon";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Random Hexagon";
 
     }
 

@@ -28,13 +28,7 @@ namespace Aow.Units.AOWMWindow
         public TAOWAlignHeight FWorldAlignHeight;
         public TAOWAlignHeight FMapAlignHeight;
         // AOWMWindow.pas:61
-        public bool InsideMap(int X, int Y)
-        {
-            bool Result = default;
-            Result = X > this.MapWindow.WinLeft + 12 && X < this.MapWindow.WinLeft + this.MapWindow.WinWidth - 12 && Y > this.MapWindow.WinTop + 12 && Y < this.MapWindow.WinTop + this.MapWindow.WinHeight - 12;
-
-            return Result;
-        }
+        public bool InsideMap(int X, int Y) => X > this.MapWindow.WinLeft + 12 && X < this.MapWindow.WinLeft + this.MapWindow.WinWidth - 12 && Y > this.MapWindow.WinTop + 12 && Y < this.MapWindow.WinTop + this.MapWindow.WinHeight - 12;
 
         // AOWMWindow.pas:53
         public void MWindowCreate()
@@ -97,13 +91,11 @@ namespace Aow.Units.AOWMWindow
 
             if (AoWHSMap.FCombatMap == null)
             {
-                var call__4 = AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL);
-                if (call__4 != AoWSWindow.AoWSWindow.SWindow.Scanner.FLevel)
+                if (AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL) != AoWSWindow.AoWSWindow.SWindow.Scanner.FLevel)
                 {
                     var scanner2 = AoWSWindow.AoWSWindow.SWindow.Scanner;
                     scanner2.FUpdateStep = -1;
-                    var call__6 = AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL);
-                    scanner2.SetLevel(call__6);
+                    scanner2.SetLevel(AoWHSMap.MapContainer.GetMapLevel(MapViewer.SceneL));
 
                     AoWSWindow.AoWSWindow.SWindow.ScannerTab.SetIndex(MapViewer.SceneL);
                 }
@@ -163,7 +155,7 @@ namespace Aow.Units.AOWMWindow
         // AOWMWindow.pas:163
         public void MapWindowKeyDown(TAoWComponent Sender, ref ushort Key, TSet<TShiftState> Shift)
         {
-            ushort K = default;
+            ushort K;
             if (AoWHSMap != null && AoWCombatMap == null)
             {
                 AoWHSMap.FKeyboard.KeyDown(ref Key, Shift);
@@ -350,14 +342,7 @@ namespace Aow.Units.AOWMWindow
 
                         break;
                     case 119:
-                        bool bool__10 = !AoWEngine.FDemo;
-                        if (bool__10)
-                        {
-                            var call__11 = AoWEngine.FRegistry.GetDeveloper();
-                            bool__10 = call__11;
-                        }
-
-                        if (bool__10)
+                        if (!AoWEngine.FDemo && AoWEngine.FRegistry.GetDeveloper())
                         {
                             if (AoWHSMap.FCombatMap != null)
                             {

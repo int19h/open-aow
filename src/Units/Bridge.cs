@@ -38,10 +38,9 @@ namespace Aow.Units.Bridge
 //   is updated. }
         public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            TMapField MapField = default;
-            THexagonSprite OldRoad = default;
-            TMapField OldOwner = default;
+            TMapField MapField;
+            THexagonSprite OldRoad;
+            TMapField OldOwner;
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
             OldRoad = MapField.FindHS(typeof(TAbstractRoad));
             if (OldRoad != null)
@@ -60,104 +59,79 @@ namespace Aow.Units.Bridge
             MapField.UpdateOverlayType();
             UpdateTransitions();
             MapContainer.Map.InvalidateStaticScene(Xhx, Yhx, Lhx);
-            Result = true;
-            return Result;
+            return true;
         }
 
         // Bridge.pas:82
         public override void UpdateTransitions()
         {
             FixedArray_byte_6 Sides = default;
-            int Transitions = default;
-            int MaxDistance = default;
-            int MaxSide = default;
-            bool HasRoad = default;
-            bool InShore = default;
+            int Transitions;
+            int MaxDistance;
+            int MaxSide;
+            bool HasRoad;
+            bool InShore;
             int Xhx = default;
             int Yhx = default;
-            int Shores = default;
-            sbyte TerrainType = default;
-            TMapLevel Level = default;
-            int HN = default;
-            int Start = default;
-            int Shore = default;
-            int Distance = default;
-            TMapField MapField = default;
-            bool IsShore = default;
+            int Shores;
+            sbyte TerrainType;
+            TMapLevel Level;
+            int Start;
+            int Distance;
+            TMapField MapField;
+            bool IsShore;
             Transitions = 0;
             Level = (TMapLevel)Owner.Owner;
             Shores = 0;
             InShore = false;
+            for (int HN = 1; HN <= 6; HN++)
             {
-                HN = 1;
-                byte end__1 = 6;
-                for (; HN <= end__1; HN += 1)
+                HNtoHX(HN, ref Xhx, ref Yhx);
+                TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+                if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
                 {
-                    HNtoHX(HN, ref Xhx, ref Yhx);
-                    TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
-                    if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
+                    MapField = Level.GetField(Xhx, Yhx);
+                    TerrainType = MapField.TerrainType;
+                    HasRoad = MapField.FindHS(typeof(TAbstractRoad)) != null;
+                    IsShore = TerrainType != 0 && FResource.TerrainList.GetTerrain(0) != TerrainType && MapField.FindHS(typeof(TBorderHexagon)) == null;
+                    if (HasRoad)
                     {
-                        MapField = Level.GetField(Xhx, Yhx);
-                        TerrainType = MapField.TerrainType;
-                        HasRoad = MapField.FindHS(typeof(TAbstractRoad)) != null;
-                        bool bool__2 = TerrainType != 0;
-                        if (bool__2)
-                        {
-                            var call__3 = FResource.TerrainList.GetTerrain(0);
-                            bool__2 = call__3 != TerrainType;
-                        }
-
-                        bool bool__4 = bool__2;
-                        if (bool__4)
-                        {
-                            var call__5 = MapField.FindHS(typeof(TBorderHexagon));
-                            bool__4 = call__5 == null;
-                        }
-
-                        IsShore = bool__4;
-                        if (HasRoad)
-                        {
-                            Sides[HN - 1] = 1;
-                            InShore = false;
-                        }
-                        else
-                        {
-                            if (IsShore)
-                            {
-                                if (!InShore)
-                                {
-                                    Shores += 1;
-                                }
-
-                                Sides[HN - 1] = (byte)(Shores + 2);
-                                InShore = true;
-                            }
-                            else
-                            {
-                                Sides[HN - 1] = 0;
-                                InShore = false;
-                            }
-                        }
+                        Sides[HN - 1] = 1;
+                        InShore = false;
                     }
                     else
                     {
-                        Sides[HN - 1] = 0;
+                        if (IsShore)
+                        {
+                            if (!InShore)
+                            {
+                                Shores += 1;
+                            }
+
+                            Sides[HN - 1] = (byte)(Shores + 2);
+                            InShore = true;
+                        }
+                        else
+                        {
+                            Sides[HN - 1] = 0;
+                            InShore = false;
+                        }
                     }
+                }
+                else
+                {
+                    Sides[HN - 1] = 0;
                 }
             }
 
             // { the shores on side 1 and side 6 are one shore }
             if (Sides[1 - 1] > 2 && Sides[6 - 1] > 2 && Sides[1 - 1] != Sides[6 - 1])
             {
+                for (int HN = 3; HN <= 6; HN++)
                 {
-                    HN = 3;
-                    byte end__6 = 6;
-                    for (; HN <= end__6; HN += 1)
+                    if (Sides[HN - 1] == Sides[6 - 1])
                     {
-                        if (Sides[HN - 1] == Sides[6 - 1])
-                        {
-                            Sides[HN - 1] = Sides[1 - 1];
-                        }
+                        Sides[HN - 1] = Sides[1 - 1];
                     }
                 }
 
@@ -213,70 +187,54 @@ namespace Aow.Units.Bridge
             if (Start <= 6)
             {
                 // { of every shore keep the side farthest from the start }
+                for (int Shore = 3; Shore <= Shores + 2; Shore++)
                 {
-                    Shore = 3;
-                    int end__7 = Shores + 2;
-                    for (; Shore <= end__7; Shore += 1)
+                    MaxDistance = 0;
+                    MaxSide = 0;
+                    if (Shore != Sides[Start - 1] || Shores == 1)
                     {
-                        MaxDistance = 0;
-                        MaxSide = 0;
-                        if (Shore != Sides[Start - 1] || Shores == 1)
+                        for (int HN = 1; HN <= 6; HN++)
                         {
+                            if (Shore == Sides[HN - 1])
                             {
-                                HN = 1;
-                                byte end__8 = 6;
-                                for (; HN <= end__8; HN += 1)
+                                Distance = Math.Abs(HN - Start);
+                                if (Distance > 3)
                                 {
-                                    if (Shore == Sides[HN - 1])
-                                    {
-                                        Distance = Math.Abs(HN - Start);
-                                        if (Distance > 3)
-                                        {
-                                            Distance = Math.Abs(Distance - 6);
-                                        }
+                                    Distance = Math.Abs(Distance - 6);
+                                }
 
-                                        if (Distance > MaxDistance)
-                                        {
-                                            MaxDistance = Distance;
-                                            MaxSide = HN;
-                                        }
-                                    }
+                                if (Distance > MaxDistance)
+                                {
+                                    MaxDistance = Distance;
+                                    MaxSide = HN;
                                 }
                             }
                         }
-                        else
-                        {
-                            MaxSide = Start;
-                        }
+                    }
+                    else
+                    {
+                        MaxSide = Start;
+                    }
 
+                    for (int HN = 1; HN <= 6; HN++)
+                    {
+                        if (HN != Start && Shore == Sides[HN - 1])
                         {
-                            HN = 1;
-                            byte end__9 = 6;
-                            for (; HN <= end__9; HN += 1)
+                            if (HN != MaxSide)
                             {
-                                if (HN != Start && Shore == Sides[HN - 1])
-                                {
-                                    if (HN != MaxSide)
-                                    {
-                                        Sides[HN - 1] = 0;
-                                    }
-                                    else
-                                    {
-                                        Sides[HN - 1] = 2;
-                                    }
-                                }
+                                Sides[HN - 1] = 0;
+                            }
+                            else
+                            {
+                                Sides[HN - 1] = 2;
                             }
                         }
                     }
                 }
 
+                for (int HN = 1; HN <= 6; HN++)
                 {
-                    HN = 1;
-                    byte end__10 = 6;
-                    for (; HN <= end__10; HN += 1)
-                    {
-                        Transitions += Sides[HN - 1] << ((HN - 1) * 2);
-                    }
+                    Transitions += Sides[HN - 1] << ((HN - 1) * 2);
                 }
             }
 
@@ -302,116 +260,93 @@ namespace Aow.Units.Bridge
 
 
         // Bridge.pas:195
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131444;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131444;
 
         // Bridge.pas:210
         public void Show(int Xhp, int Yhp, in TSurfaceDesc SurfaceDesc, TBridge Bridge)
         {
-            int Transitions = default;
-            int Base = default;
+            int Transitions;
+            int Base;
             Transitions = Bridge.FTransitions;
             Base = 1;
-            var call__11 = FImageLibrary[Base + 18];
-            call__11.Show(Xhp, Yhp, SurfaceDesc);
+            FImageLibrary[Base + 18].Show(Xhp, Yhp, SurfaceDesc);
             if ((Transitions & 3) != 0)
             {
                 if ((Transitions & 3) == 1)
                 {
-                    var call__12 = FImageLibrary[Base + 6];
-                    call__12.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
-                var call__13 = FImageLibrary[Base + 12];
-                call__13.Show(Xhp, Yhp, SurfaceDesc);
+                FImageLibrary[Base + 12].Show(Xhp, Yhp, SurfaceDesc);
             }
 
             if ((Transitions & 12) != 0)
             {
                 if ((Transitions & 12) == 4)
                 {
-                    var call__14 = FImageLibrary[Base + 7];
-                    call__14.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 7].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
-                var call__15 = FImageLibrary[Base + 13];
-                call__15.Show(Xhp, Yhp, SurfaceDesc);
+                FImageLibrary[Base + 13].Show(Xhp, Yhp, SurfaceDesc);
             }
 
             if ((Transitions & 48) != 0)
             {
                 if ((Transitions & 48) == 16)
                 {
-                    var call__16 = FImageLibrary[Base + 8];
-                    call__16.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 8].Show(Xhp, Yhp, SurfaceDesc);
                 }
                 else
                 {
-                    var call__17 = FImageLibrary[Base + 2];
-                    call__17.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 2].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
-                var call__18 = FImageLibrary[Base + 14];
-                call__18.Show(Xhp, Yhp, SurfaceDesc);
+                FImageLibrary[Base + 14].Show(Xhp, Yhp, SurfaceDesc);
             }
 
             if ((Transitions & 192) != 0)
             {
                 if ((Transitions & 192) == 64)
                 {
-                    var call__19 = FImageLibrary[Base + 9];
-                    call__19.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 9].Show(Xhp, Yhp, SurfaceDesc);
                 }
                 else
                 {
-                    var call__20 = FImageLibrary[Base + 3];
-                    call__20.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 3].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
-                var call__21 = FImageLibrary[Base + 15];
-                call__21.Show(Xhp, Yhp, SurfaceDesc);
+                FImageLibrary[Base + 15].Show(Xhp, Yhp, SurfaceDesc);
             }
 
             if ((Transitions & 768) != 0)
             {
                 if ((Transitions & 768) == 256)
                 {
-                    var call__22 = FImageLibrary[Base + 10];
-                    call__22.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 10].Show(Xhp, Yhp, SurfaceDesc);
                 }
                 else
                 {
-                    var call__23 = FImageLibrary[Base + 4];
-                    call__23.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 4].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
-                var call__24 = FImageLibrary[Base + 16];
-                call__24.Show(Xhp, Yhp, SurfaceDesc);
+                FImageLibrary[Base + 16].Show(Xhp, Yhp, SurfaceDesc);
             }
 
             if ((Transitions & 3072) != 0)
             {
                 if ((Transitions & 3072) == 1024)
                 {
-                    var call__25 = FImageLibrary[Base + 11];
-                    call__25.Show(Xhp, Yhp, SurfaceDesc);
+                    FImageLibrary[Base + 11].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
-                var call__26 = FImageLibrary[Base + 17];
-                call__26.Show(Xhp, Yhp, SurfaceDesc);
+                FImageLibrary[Base + 17].Show(Xhp, Yhp, SurfaceDesc);
             }
         }
 
         // Bridge.pas:253
         public override EditorClass Editor()
         {
-            EditorClass Result = default;
-            var call__27 = FEngine.Editors.FindEditor(131445);
-            Result = call__27;
+            EditorClass Result = FEngine.Editors.FindEditor(131445);
             if (Result == null)
             {
                 Result = base.Editor();
@@ -433,12 +368,7 @@ namespace Aow.Units.Bridge
 
 
         // Bridge.pas:200
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = BridgeStr;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => BridgeStr;
 
     }
 

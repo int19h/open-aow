@@ -86,13 +86,11 @@ namespace Aow.Units.AOWTitleWindow
                 Surface.Lock(ref SD);
                 if (SelFactionWin.FFadeDirection == 0)
                 {
-                    var call__1 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[SelFactionWin.FFadeImage];
-                    call__1.ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[100 - SelFactionWin.FFade]);
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[100 - SelFactionWin.FFade]);
                 }
                 else
                 {
-                    var call__2 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[SelFactionWin.FFadeImage];
-                    call__2.ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[SelFactionWin.FFade]);
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[SelFactionWin.FFade]);
                 }
 
                 Surface.Unlock();
@@ -102,8 +100,7 @@ namespace Aow.Units.AOWTitleWindow
         // AOWTitleWindow.pas:61
         public void TitlePnlDrawBack(TObject Sender, TSurfaceDesc SD)
         {
-            var call__3 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[0];
-            call__3.Show(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD);
+            aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin[0].Show(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD);
         }
 
         // AOWTitleWindow.pas:115

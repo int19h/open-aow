@@ -28,14 +28,7 @@ namespace Aow.Units.FleeLoc
 
 
         // FleeLoc.pas:82
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            var call__1 = Yhx;
-            var call__2 = Xhx;
-            Result = 1744830464 + (call__1 << 13) + call__2;
-            return Result;
-        }
+        public override int GetShowPriority() => 1744830464 + (Yhx << 13) + Xhx;
 
         // FleeLoc.pas:151
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -45,8 +38,7 @@ namespace Aow.Units.FleeLoc
             if (FAlpha > 0)
             {
                 HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
-                var call__3 = FResource.ImageLibrary.Get(0);
-                call__3.ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, AlphaBlendTable.LookupTables[FAlpha]);
+                FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, AlphaBlendTable.LookupTables[FAlpha]);
             }
         }
 
@@ -55,8 +47,7 @@ namespace Aow.Units.FleeLoc
         {
             if (Info.HN == 0)
             {
-                var call__4 = ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide();
-                if (call__4 == TCombatSideIndex.csAttacker)
+                if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == TCombatSideIndex.csAttacker)
                 {
                     MoveResult.Code = 25;
                 }
@@ -95,35 +86,19 @@ namespace Aow.Units.FleeLoc
         }
 
         // FleeLoc.pas:90
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => true;
 
         // FleeLoc.pas:79
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine)
-        {
-            TMapObjectResourceList Result = default;
-            Result = AoWHSSet.FCombatResources;
-            return Result;
-        }
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
         // FleeLoc.pas:87
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // FleeLoc.pas:93
         public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            TEObject OldHexagon = default;
-            TMapField MapField = default;
+            TEObject OldHexagon;
+            TMapField MapField;
             if (!GetEditMode())
             {
                 MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
@@ -135,14 +110,13 @@ namespace Aow.Units.FleeLoc
                 }
             }
 
-            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
-            return Result;
+            return base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
         }
 
         // FleeLoc.pas:132
         public void NewFrame(TObject Sender)
         {
-            bool Highlight = default;
+            bool Highlight;
             Highlight = false;
             if (AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
             {
@@ -150,22 +124,7 @@ namespace Aow.Units.FleeLoc
             }
             else
             {
-                var call__5 = AoWCombatMap.FUnitSelection.GetTCUnitHS();
-                bool bool__6 = call__5 != null;
-                if (bool__6)
-                {
-                    var call__7 = AoWCombatMap.FUnitSelection.GetTCUnitHS();
-                    bool__6 = call__7.FUnit.FCombatPlayer == AoWCombatMap.FSeatedCombatPlayer;
-                }
-
-                bool bool__8 = bool__6;
-                if (bool__8)
-                {
-                    var call__9 = AoWCombatMap.FUnitSelection.GetTCUnitHS();
-                    bool__8 = call__9.FUnit.FCombatPlayer != AoWCombatMap.FCombat.FCombatData.FDefenderPlayer;
-                }
-
-                if (bool__8)
+                if (AoWCombatMap.FUnitSelection.GetTCUnitHS() != null && AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == AoWCombatMap.FSeatedCombatPlayer && AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != AoWCombatMap.FCombat.FCombatData.FDefenderPlayer)
                 {
                     Highlight = true;
                 }
@@ -206,20 +165,10 @@ namespace Aow.Units.FleeLoc
         public new const int ClassID = 2229545;
 
         // FleeLoc.pas:169
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 2229544;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 2229544;
 
         // FleeLoc.pas:166
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Combat Flee Location";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Combat Flee Location";
 
     }
 
@@ -233,12 +182,7 @@ namespace Aow.Units.FleeLoc
 
         public bool FEnabled;
         // FleeLoc.pas:175
-        public override int GetShowPriority()
-        {
-            int Result = default;
-            Result = 32;
-            return Result;
-        }
+        public override int GetShowPriority() => 32;
 
         // FleeLoc.pas:187
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)

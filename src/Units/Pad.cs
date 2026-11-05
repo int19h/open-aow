@@ -23,17 +23,12 @@ namespace Aow.Units.Pad
 
 
         // Pad.pas:55
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = false;
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => false;
 
         // Pad.pas:58
         public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
         {
-            sbyte Result = default;
+            sbyte Result;
             if (MapLevel.Lhx != 0)
             {
                 Result = 12;
@@ -80,9 +75,7 @@ namespace Aow.Units.Pad
         // Pad.pas:101
         public override EditorClass Editor()
         {
-            EditorClass Result = default;
-            var call__1 = Engine.Editors.FindEditor(131335);
-            Result = call__1;
+            EditorClass Result = Engine.Editors.FindEditor(131335);
             if (Result == null)
             {
                 Result = base.Editor();
@@ -102,28 +95,17 @@ namespace Aow.Units.Pad
         }
 
         // Pad.pas:82
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131334;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131334;
 
         // Pad.pas:85
         public void ActivateMsg()
         {
-            int I = default;
             FPadSize = 0;
+            for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__2 = TerrainList.Count - 1;
-                for (; I <= end__2; I += 1)
+                if (TerrainList.GetTerrain(I) >= -1)
                 {
-                    var call__3 = TerrainList.GetTerrain(I);
-                    if (call__3 >= -1)
-                    {
-                        FPadSize = (byte)(FPadSize + 1);
-                    }
+                    FPadSize = (byte)(FPadSize + 1);
                 }
             }
 
@@ -134,12 +116,7 @@ namespace Aow.Units.Pad
 
 
         // Pad.pas:79
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = (AnsiString)"Pad";
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => (AnsiString)"Pad";
 
     }
 

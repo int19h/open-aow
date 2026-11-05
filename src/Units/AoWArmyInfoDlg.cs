@@ -49,39 +49,33 @@ namespace Aow.Units.AoWArmyInfoDlg
         // AoWArmyInfoDlg.pas:63
         public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc SD)
         {
-            TRect SaveRect = default;
-            TP2UnitShowInfo Info = default;
-            ImageLib.TLibraryImage Img = default;
-            TAlignment Alignment = default;
-            int X = default;
-            int Y = default;
-            var call__1 = FEvent.FArmyView.GetCount();
-            if (Index < call__1)
+            TRect SaveRect;
+            TP2UnitShowInfo Info;
+            ImageLib.TLibraryImage Img;
+            TAlignment Alignment;
+            int X;
+            int Y;
+            if (Index < FEvent.FArmyView.GetCount())
             {
                 SaveRect = SD.ClipRect;
                 SD.ClipRect = R;
                 X = (R.Right + R.Left) / 2;
                 Y = (R.Top + R.Bottom) / 2;
-                var call__2 = FEvent.FArmyView.GetUnit(Index);
-                var call__3 = call__2.GetAlignment();
-                Alignment = call__3;
+                Alignment = FEvent.FArmyView.GetUnit(Index).GetAlignment();
                 if ((int)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
                 {
                     // { D3 masks the enum index after the original full-byte guard. }
-                    var call__4 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
-                    Img = call__4;
+                    Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
                     Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
                 }
 
                 Info = default;
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
-                var call__5 = FEvent.FArmyView.GetUnit(Index);
-                call__5.ShowEx(X - 33, Y - 35, SD, Info);
+                FEvent.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, SD, Info);
                 if ((((int)(((uint)FEvent.FSelection) >> Index)) & 1) == 0)
                 {
-                    var call__6 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
-                    Img = call__6;
+                    Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
                     Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
                 }
 
@@ -92,8 +86,8 @@ namespace Aow.Units.AoWArmyInfoDlg
         // AoWArmyInfoDlg.pas:92
         public void ClearEvent()
         {
-            TArmyInfoEventLog Event = default;
-            TExecuteDoneEvent Notify = default;
+            TArmyInfoEventLog Event;
+            TExecuteDoneEvent Notify;
             if (FUnitInfoShown)
             {
                 FUnitInfoShown = false;
@@ -133,12 +127,11 @@ namespace Aow.Units.AoWArmyInfoDlg
         // AoWArmyInfoDlg.pas:121
         public void U1MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            ;
-            var call__7 = FEvent.FArmyView.GetCount();
-            if (((TComponent)Sender).Tag < call__7)
+            var count = FEvent.FArmyView.GetCount();
+            if (((TComponent)Sender).Tag < count)
             {
-                var call__8 = FEvent.FArmyView.GetUnit(((TComponent)Sender).Tag);
-                General.FSelectedUnit = call__8;
+                var unit = FEvent.FArmyView.GetUnit(((TComponent)Sender).Tag);
+                General.FSelectedUnit = unit;
                 if (Button == TMouseButton.mbLeft)
                 {
                     FUnitInfoShown = true;
@@ -164,35 +157,21 @@ namespace Aow.Units.AoWArmyInfoDlg
         public void FaceFramePreDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
             TRect R = default;
-            int I = default;
-            ;
+            int I;
             R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
             R.Right = this.FaceFrame.WinWidth + R.Left;
             R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
             R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
             I = 0;
-            while (true)
+            while ((FEvent.FSelection & (1 << I)) == 0 && I != FEvent.FArmyView.GetCount())
             {
-                bool bool__11 = (FEvent.FSelection & (1 << I)) == 0;
-                if (bool__11)
-                {
-                    var call__12 = FEvent.FArmyView.GetCount();
-                    bool__11 = I != call__12;
-                }
-
-                if (!bool__11)
-                    break;
-                {
-                    I += 1;
-                }
+                I += 1;
             }
 
-            var call__13 = FEvent.FArmyView.GetCount();
-            if (I < call__13)
+            if (I < FEvent.FArmyView.GetCount())
             {
-                var call__14 = FEvent.FArmyView.GetUnit(I);
-                call__14.ShowFace(R, SD);
+                FEvent.FArmyView.GetUnit(I).ShowFace(R, SD);
             }
         }
 

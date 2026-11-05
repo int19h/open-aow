@@ -56,55 +56,29 @@ namespace Aow.Units.Farm
             }
 
             UpdateCrops();
-            var call__1 = GetTerrainTypeImage(FTerrainType);
-            FImageIndex = call__1;
+            FImageIndex = GetTerrainTypeImage(FTerrainType);
         }
 
         // Farm.pas:59
-        public override bool GetRazed()
-        {
-            bool Result = default;
-            Result = FMode.Contains(TFarmModeElement.fmRazed);
-            return Result;
-        }
+        public override bool GetRazed() => FMode.Contains(TFarmModeElement.fmRazed);
 
         // Farm.pas:76
         public override AnsiString GetCurrentActivityText()
         {
-            AnsiString Result = default;
-            var call__2 = GetIncome();
-            var call__3 = ProducingXIncomeRStr;
-            var call__4 = TranslateRStr(call__3);
-            var call__5 = Rtl.Rtl.Format(call__4, [IntToStr(call__2)]);
-            Result = call__5;
-            return Result;
+            var income = GetIncome();
+            return Rtl.Rtl.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
         }
 
         // Farm.pas:111
         public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
         {
-            int Priority = default;
-            var call__6 = GetRazed();
-            bool bool__7 = !call__6;
-            if (!bool__7)
-            {
-                var call__8 = GetBuilding();
-                bool__7 = call__8;
-            }
-
-            if (bool__7)
+            int Priority;
+            if (!GetRazed() || GetBuilding())
             {
                 switch (Info.Mode)
                 {
                     case TAITargetMode.tmAttack:
-                        bool bool__9 = Info.Player != FPlayer;
-                        if (bool__9)
-                        {
-                            var call__10 = GetRazed();
-                            bool__9 = !call__10;
-                        }
-
-                        if (bool__9)
+                        if (Info.Player != FPlayer && !GetRazed())
                         {
                             Priority = Data.Priority;
                             if (FPlayer == 0)
@@ -113,11 +87,9 @@ namespace Aow.Units.Farm
                             }
                             else
                             {
-                                var call__11 = ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0);
-                                if (call__11)
+                                if (ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                                 {
-                                    var call__12 = AoWHSMap.FPlayers.GetPlayers(Info.Player);
-                                    Priority = 50 - call__12.FIncome / 2;
+                                    Priority = 50 - AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                     if (Priority < 25)
                                     {
                                         Priority = 25;
@@ -142,37 +114,18 @@ namespace Aow.Units.Farm
         }
 
         // Farm.pas:92
-        public override bool CanPlaceCrop(TMapField Field)
-        {
-            bool Result = default;
-            bool bool__13 = Field.TerrainType != 5;
-            if (bool__13)
-            {
-                var call__14 = base.CanPlaceCrop(Field);
-                bool__13 = call__14;
-            }
-
-            Result = bool__13;
-            return Result;
-        }
+        public override bool CanPlaceCrop(TMapField Field) => Field.TerrainType != 5 && base.CanPlaceCrop(Field);
 
         // Farm.pas:87
-        public override bool CropsEnabled()
-        {
-            bool Result = default;
-            Result = base.CropsEnabled() && FTerrainType != 5;
-            return Result;
-        }
+        public override bool CropsEnabled() => base.CropsEnabled() && FTerrainType != 5;
 
         // Farm.pas:97
         public override void UpdateCrops()
         {
-            int Count = default;
-            var call__15 = GetEditMode();
-            if (!call__15 && FStatus.Contains(TMapObjectStatusElement.moActivated))
+            int Count;
+            if (!GetEditMode() && FStatus.Contains(TMapObjectStatusElement.moActivated))
             {
-                var call__16 = GetRazed();
-                if (call__16 || FTerrainType == 5)
+                if (GetRazed() || FTerrainType == 5)
                 {
                     Count = 0;
                 }
@@ -218,25 +171,13 @@ namespace Aow.Units.Farm
 
 
         // Farm.pas:156
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131950;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131950;
 
         // Farm.pas:36
 
 
         // Farm.pas:146
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__17 = FarmRStr;
-            var call__18 = TranslateRStr(call__17);
-            Result = call__18;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(FarmRStr);
 
     }
 
@@ -245,27 +186,19 @@ namespace Aow.Units.Farm
         // Farm.pas:161
         public static int FarmIncome(sbyte Player)
         {
-            int Result = default;
-            TPlayer P = default;
-            int I = default;
-            TPlayerStructure Structure = default;
+            int Result;
+            TPlayer P;
+            TPlayerStructure Structure;
             if (AoWHSMap != null)
             {
-                var call__19 = AoWHSMap.FPlayers.GetPlayers(Player);
-                P = call__19;
+                P = AoWHSMap.FPlayers.GetPlayers(Player);
                 Result = 0;
+                for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__20 = P.FStructures.Count - 1;
-                    for (; I <= end__20; I += 1)
+                    Structure = P.FStructures.GetStructure(I);
+                    if (Structure.EClass.ClassID == 131950 && Structure.FPlayer == Player)
                     {
-                        var call__21 = P.FStructures.GetStructure(I);
-                        Structure = call__21;
-                        var call__22 = Structure.EClass.ClassID;
-                        if (call__22 == 131950 && Structure.FPlayer == Player)
-                        {
-                            Result += ((TFarm)Structure).FIncome;
-                        }
+                        Result += ((TFarm)Structure).FIncome;
                     }
                 }
             }

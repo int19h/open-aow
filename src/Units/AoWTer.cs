@@ -38,8 +38,7 @@ namespace Aow.Units.AoWTer
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4386)
             {
-                var call__1 = FResource.TerrainList.Terrain[Msg.HN];
-                if (call__1 >= 0)
+                if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
                     Msg.Result = ((TAoWTerrainResource)FResource).FMapFieldResponse;
                     return;
@@ -49,8 +48,7 @@ namespace Aow.Units.AoWTer
             {
                 if (Msg.MsgID == 4357)
                 {
-                    var call__2 = FResource.TerrainList.Terrain[Msg.HN];
-                    if (call__2 >= 0)
+                    if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                     {
                         ValidateDenseVegetationBurned(Msg.Param[0].Ref);
                     }
@@ -61,16 +59,13 @@ namespace Aow.Units.AoWTer
         // AoWTer.pas:67
         public void ValidateDeadTreeRegrow()
         {
-            TTerrainMOR R = default;
-            TECustomNode OldOwner = default;
-            var call__3 = Owner.FindOwnedChild(132990);
-            if (call__3 == null)
+            TTerrainMOR R;
+            TECustomNode OldOwner;
+            if (Owner.FindOwnedChild(132990) == null)
             {
-                var call__4 = AoWHSMap.Random(20);
-                if (call__4 == 0)
+                if (AoWHSMap.Random(20) == 0)
                 {
-                    var call__5 = FindCompatibleResource(((TTerrainMOR)FResource).TerrainType, 1, 0);
-                    R = call__5;
+                    R = FindCompatibleResource(((TTerrainMOR)FResource).TerrainType, 1, 0);
                     if (R != null)
                     {
                         OldOwner = Owner;

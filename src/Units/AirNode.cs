@@ -16,12 +16,7 @@ namespace Aow.Units.AirNode
         public new const int ClassID = 133454;
 
         // AirNode.pas:40
-        public override TMagicSphere GetMagicSphere()
-        {
-            TMagicSphere Result = default;
-            Result = TMagicSphere.msAir;
-            return Result;
-        }
+        public override TMagicSphere GetMagicSphere() => TMagicSphere.msAir;
 
     }
 
@@ -42,23 +37,13 @@ namespace Aow.Units.AirNode
 
 
         // AirNode.pas:58
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 133454;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 133454;
 
         // AirNode.pas:27
 
 
         // AirNode.pas:52
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(AirNodeRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(AirNodeRStr);
 
     }
 

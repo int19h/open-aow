@@ -39,12 +39,7 @@ namespace Aow.Units.Terrain
 
 
         // Terrain.pas:322
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131430;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131430;
 
         public sbyte DecorationType { get => FDecorationType; set => FDecorationType = value; }
         public byte TerrainType { get => FTerrainType; set => FTerrainType = value; }
@@ -53,12 +48,7 @@ namespace Aow.Units.Terrain
 
 
         // Terrain.pas:317
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TerrainStr;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TerrainStr;
 
     }
 
@@ -77,18 +67,15 @@ namespace Aow.Units.Terrain
         // Terrain.pas:179
         public override bool CanChangeTerrain(in THSSenderInfo Info)
         {
-            bool Result = default;
+            bool Result;
             if (this != Info.Sender)
             {
-                var call__1 = FResource.TerrainList.GetTerrain(Info.HN);
-                if (call__1 >= 0)
+                if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
                 {
-                    var call__2 = FResource.TerrainList.GetTerrain(Info.HN);
-                    var call__3 = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, call__2);
-                    if (call__3 == Info.MapField.TerrainType)
+                    var terrain = FResource.TerrainList.GetTerrain(Info.HN);
+                    if (GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType)
                     {
-                        var call__4 = CanChangeOwnTerrain(Info.HN);
-                        Result = call__4;
+                        Result = CanChangeOwnTerrain(Info.HN);
                     }
                     else
                     {
@@ -111,17 +98,15 @@ namespace Aow.Units.Terrain
         // Terrain.pas:195
         public override void ChangeTerrain(in THSTerrainInfo Info)
         {
-            sbyte TerrainType = default;
-            sbyte NewTerrainType = default;
-            TTerrainMOR R = default;
-            TECustomNode OldOwner = default;
-            var call__5 = FResource.TerrainList.GetTerrain(Info.HN);
-            TerrainType = call__5;
+            sbyte TerrainType;
+            sbyte NewTerrainType;
+            TTerrainMOR R;
+            TECustomNode OldOwner;
+            TerrainType = FResource.TerrainList.GetTerrain(Info.HN);
             if (TerrainType >= 0 && TerrainType != Info.TerrainType)
             {
-                var call__6 = FResource.TerrainList.GetTerrain(Info.HN);
-                var call__7 = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, call__6);
-                NewTerrainType = call__7;
+                var terrain = FResource.TerrainList.GetTerrain(Info.HN);
+                NewTerrainType = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain);
                 if (NewTerrainType != TerrainType)
                 {
                     R = FindTerrainResource((byte)NewTerrainType);
@@ -152,8 +137,7 @@ namespace Aow.Units.Terrain
         {
             if (Msg.MsgID == 16)
             {
-                var call__8 = FResource.TerrainList.GetTerrain(Msg.HN);
-                if (call__8 >= 0)
+                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
                 {
                     ClearTerrain(Msg.MapField, Msg.HN);
                 }
@@ -172,8 +156,7 @@ namespace Aow.Units.Terrain
 
             if (Msg.MsgID == 17)
             {
-                var call__9 = FResource.TerrainList.GetTerrain(Msg.HN);
-                if (call__9 >= 0)
+                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
                 {
                     Msg.Result = ((TTerrainMOR)FResource).FDecorationType;
                 }
@@ -183,8 +166,7 @@ namespace Aow.Units.Terrain
         // Terrain.pas:291
         public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            bool Result = default;
-            Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+            bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             if (Result && !GetEditMode())
             {
                 OverrideTerrain();
@@ -196,54 +178,28 @@ namespace Aow.Units.Terrain
         // Terrain.pas:226
         public virtual void ClearTerrain(TMapField MapField, int HN)
         {
-            int Xhx = default;
-            int Yhx = default;
-            int Lhx = default;
+            int Xhx;
+            int Yhx;
+            int Lhx;
             int X = default;
             int Y = default;
-            TTerrainList TerrainList = default;
-            THSMap Map = default;
-            TTerrainMOR R = default;
-            TEObjectList Resources = default;
-            int I = default;
-            bool Found = default;
-            var call__10 = FResource.TerrainList.UsedTerrain();
-            if (call__10 > 1)
+            TTerrainList TerrainList;
+            THSMap Map;
+            TTerrainMOR R;
+            TEObjectList Resources;
+            int I;
+            bool Found;
+            if (FResource.TerrainList.UsedTerrain() > 1)
             {
                 R = null;
-                var call__11 = GetResourceList(FResource.Engine);
-                Resources = call__11.FChildren;
+                Resources = GetResourceList(FResource.Engine).FChildren;
                 I = Resources.Count;
                 Found = false;
                 while (!Found && I != 0)
                 {
                     I -= 1;
                     R = (TTerrainMOR)Resources.List[I];
-                    var call__12 = R.EClass.ClassID;
-                    var call__13 = FResource.EClass.ClassID;
-                    bool bool__14 = call__12 == call__13 && R.FDecorationType == ((TTerrainMOR)FResource).FDecorationType && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType;
-                    if (bool__14)
-                    {
-                        var call__15 = R.TerrainList.UsedTerrain();
-                        bool__14 = call__15 == 1;
-                    }
-
-                    bool bool__16 = bool__14;
-                    if (bool__16)
-                    {
-                        var call__17 = R.TerrainList.GetTerrain(0);
-                        bool__16 = call__17 >= 0;
-                    }
-
-                    bool bool__18 = bool__16;
-                    if (bool__18)
-                    {
-                        var call__19 = GetOverlay(0);
-                        var call__20 = R.TerrainList.GetOverlay(0);
-                        bool__18 = call__19 == call__20;
-                    }
-
-                    Found = bool__18;
+                    Found = R.EClass.ClassID == FResource.EClass.ClassID && R.FDecorationType == ((TTerrainMOR)FResource).FDecorationType && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
                 }
 
                 if (Found)
@@ -254,16 +210,14 @@ namespace Aow.Units.Terrain
                     Map = ((TMapLevel)Owner.Owner).Map;
                     TerrainList = FResource.TerrainList;
                     Destroy();
+                    I = 0;
+                    int last = TerrainList.Count - 1;
+                    for (; I <= last; I += 1)
                     {
-                        I = 0;
-                        int end__21 = TerrainList.Count - 1;
-                        for (; I <= end__21; I += 1)
+                        if (TerrainList.GetTerrain(I) >= 0 && I != HN)
                         {
-                            if (TerrainList.GetTerrain(I) >= 0 && I != HN)
-                            {
-                                CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
-                                R.PlaceResourceUser(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
-                            }
+                            CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
+                            R.PlaceResourceUser(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
                         }
                     }
                 }
@@ -281,40 +235,25 @@ namespace Aow.Units.Terrain
         // Terrain.pas:70
         public virtual TTerrainMOR FindDecorationResource(byte DecorationType)
         {
-            TTerrainMOR Result = default;
-            TList Candidates = default;
-            TEObjectList Resources = default;
-            int I = default;
-            TTerrainMOR R = default;
+            TTerrainMOR Result;
+            TList Candidates;
+            TEObjectList Resources;
+            TTerrainMOR R;
             Candidates = new TList();
-            var call__22 = GetResourceList(FResource.Engine);
-            Resources = call__22.FChildren;
+            Resources = GetResourceList(FResource.Engine).FChildren;
+            for (int I = 0, last = Resources.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__23 = Resources.Count - 1;
-                for (; I <= end__23; I += 1)
+                R = (TTerrainMOR)Resources.List[I];
+                if (R.EClass.ClassID == FResource.EClass.ClassID && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.FDecorationType == DecorationType && R != FResource && R.TerrainList.CompareTerrain(FResource.TerrainList, TSet<TTerrainCompareModeElement>.Of(TTerrainCompareModeElement.cmSameOverlayType)))
                 {
-                    R = (TTerrainMOR)Resources.List[I];
-                    var call__24 = R.EClass.ClassID;
-                    var call__25 = FResource.EClass.ClassID;
-                    bool bool__26 = call__24 == call__25 && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.FDecorationType == DecorationType && R != FResource;
-                    if (bool__26)
-                    {
-                        var call__27 = R.TerrainList.CompareTerrain(FResource.TerrainList, TSet<TTerrainCompareModeElement>.Of(TTerrainCompareModeElement.cmSameOverlayType));
-                        bool__26 = call__27;
-                    }
-
-                    if (bool__26)
-                    {
-                        Candidates.Add(R);
-                    }
+                    Candidates.Add(R);
                 }
             }
 
             if (Candidates.Count != 0)
             {
-                var call__28 = Random(Candidates.Count);
-                Result = (TTerrainMOR)Candidates.List[call__28];
+                var random = Random(Candidates.Count);
+                Result = (TTerrainMOR)Candidates.List[random];
             }
             else
             {
@@ -328,28 +267,18 @@ namespace Aow.Units.Terrain
         // Terrain.pas:160
         public bool CanChangeOwnTerrain(int HN)
         {
-            bool Result = default;
-            TMapLevel Level = default;
-            int Count = default;
+            TMapLevel Level;
+            int Count;
             THNWalkData Walk = default;
-            Result = true;
+            bool Result = true;
             Level = (TMapLevel)Owner.Owner;
             Count = GetTerrainCount();
             InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count && Result)
             {
-                bool bool__29 = Walk.HN != HN;
-                if (bool__29)
+                if (Walk.HN != HN && GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    var call__30 = GetTerrain(Walk.HN);
-                    bool__29 = call__30 >= 0;
-                }
-
-                if (bool__29 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
-                {
-                    var call__31 = Level.GetField(Walk.X, Walk.Y);
-                    var call__32 = call__31.CanChangeTerrainEx(this);
-                    Result = call__32;
+                    Result = Level.GetField(Walk.X, Walk.Y).CanChangeTerrainEx(this);
                 }
 
                 WalkToNextHN(ref Walk);

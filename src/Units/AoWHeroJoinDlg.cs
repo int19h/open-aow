@@ -52,9 +52,7 @@ namespace Aow.Units.AoWHeroJoinDlg
         // AoWHeroJoinDlg.pas:68
         public bool ValidateJoin()
         {
-            bool Result = default;
-            var call__1 = FJoinEvent.Validate();
-            Result = call__1;
+            bool Result = FJoinEvent.Validate();
             if (!Result)
             {
                 Dlg.Visible = false;
@@ -66,8 +64,8 @@ namespace Aow.Units.AoWHeroJoinDlg
         // AoWHeroJoinDlg.pas:74
         public void FinishDialog()
         {
-            TEventLog Event = default;
-            TExecuteDoneEvent Done = default;
+            TEventLog Event;
+            TExecuteDoneEvent Done;
             FUnits.Clear();
             if (FDetailsOpen)
             {
@@ -94,21 +92,18 @@ namespace Aow.Units.AoWHeroJoinDlg
         // AoWHeroJoinDlg.pas:94
         public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc Surface)
         {
-            TAlignment Alignment = default;
-            int X = default;
-            int Y = default;
-            TRect OldClip = default;
-            TP2UnitShowInfo Info = default;
-            var call__2 = FUnits.GetCount();
-            if (Index < call__2)
+            TAlignment Alignment;
+            int X;
+            int Y;
+            TRect OldClip;
+            TP2UnitShowInfo Info;
+            if (Index < FUnits.GetCount())
             {
                 OldClip = Surface.ClipRect;
                 Surface.ClipRect = R;
                 X = (R.Right + R.Left) / 2;
                 Y = (R.Top + R.Bottom) / 2;
-                var call__3 = FUnits.GetUnit(Index);
-                var call__4 = call__3.GetAlignment();
-                Alignment = call__4;
+                Alignment = FUnits.GetUnit(Index).GetAlignment();
                 if ((int)Alignment < IntGfxMod.UnitBGs.Count)
                 {
                     var image = IntGfxMod.UnitBGs[(int)Alignment];
@@ -118,8 +113,7 @@ namespace Aow.Units.AoWHeroJoinDlg
                 Info = default;
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
-                var call__6 = FUnits.GetUnit(Index);
-                call__6.ShowEx(X - 33, Y - 35, Surface, Info);
+                FUnits.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
                 if ((((int)(((uint)FSelection) >> Index)) & 1) == 0)
                 {
                     var image2 = IntGfxMod.UnitBGs[7];
@@ -133,8 +127,7 @@ namespace Aow.Units.AoWHeroJoinDlg
         // AoWHeroJoinDlg.pas:122
         public void HeroJoinDlgCreate()
         {
-            var call__8 = new TUnitUserList(null);
-            FUnits = call__8;
+            FUnits = new TUnitUserList(null);
         }
 
         // AoWHeroJoinDlg.pas:127
@@ -150,8 +143,7 @@ namespace Aow.Units.AoWHeroJoinDlg
             if (ValidateJoin())
             {
                 General.PlayButtonSound(0);
-                var call__9 = FJoinEvent.Accept(ref Reason);
-                if (!call__9)
+                if (!FJoinEvent.Accept(ref Reason))
                 {
                     AoWHSMap.ShowWarning(Reason);
                 }
@@ -169,8 +161,7 @@ namespace Aow.Units.AoWHeroJoinDlg
             if (ValidateJoin())
             {
                 General.PlayButtonSound(0);
-                var call__10 = FJoinEvent.Reject(ref Reason);
-                if (!call__10)
+                if (!FJoinEvent.Reject(ref Reason))
                 {
                     AoWHSMap.ShowWarning(Reason);
                 }
@@ -201,11 +192,9 @@ namespace Aow.Units.AoWHeroJoinDlg
                 R.Right = FaceFrame.WinWidth + R.Left;
                 R.Top = FaceFrame.WinTop + Dlg.WinTop;
                 R.Bottom = FaceFrame.WinHeight + R.Top;
-                var call__11 = FFaceUnit.GetFace();
-                if (call__11 != null)
+                if (FFaceUnit.GetFace() != null)
                 {
-                    var call__12 = FFaceUnit.GetFace();
-                    call__12.ShowStretched(R, Surface);
+                    FFaceUnit.GetFace().ShowStretched(R, Surface);
                 }
             }
         }
@@ -230,11 +219,11 @@ namespace Aow.Units.AoWHeroJoinDlg
         {
             if (ValidateJoin())
             {
-                var call__14 = FUnits.GetCount();
-                if (Sender.Tag < call__14)
+                var count = FUnits.GetCount();
+                if (Sender.Tag < count)
                 {
-                    var call__15 = FUnits.GetUnit(Sender.Tag);
-                    General.FSelectedUnit = call__15;
+                    var unit = FUnits.GetUnit(Sender.Tag);
+                    General.FSelectedUnit = unit;
                     if (Button == TMouseButton.mbLeft)
                     {
                         FDetailsOpen = true;

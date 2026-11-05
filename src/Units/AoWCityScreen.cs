@@ -215,16 +215,10 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:757
         public void ReleaseImages()
         {
-            int I = default;
+            for (int I = FImages.Count - 1; I >= 0; I--)
             {
-                I = FImages.Count - 1;
-                byte end__1 = 0;
-                for (; I >= end__1; I -= 1)
-                {
-                    var call__2 = FImages[I];
-                    var call__3 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(call__2);
-                    call__3.Release();
-                }
+                var image = FImages[I];
+                AoWHSSet.FUnitGFXResources.GetUnitGFXResource(image).Release();
             }
 
             FImages.Clear();
@@ -233,11 +227,9 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:766
         public void LoadUnitImages(int Index)
         {
-            int Gfx = default;
-            var call__4 = AoWHSSet.FUnitResources.GetUnitResource(Index);
-            Gfx = call__4.FUnitGFXResourceIndex;
-            var call__5 = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Gfx);
-            call__5.AddRef();
+            int Gfx;
+            Gfx = AoWHSSet.FUnitResources.GetUnitResource(Index).FUnitGFXResourceIndex;
+            AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Gfx).AddRef();
             FImages.Add(Gfx);
         }
 
@@ -277,8 +269,8 @@ namespace Aow.Units.AoWCityScreen
             UpgradePnl.Visible = false;
             MigratePnl.Visible = false;
             CityBtn1.Visible = true;
-            var call__6 = TranslateRStr(OptionsRStr);
-            CityBtn1.Text = call__6;
+            var options = TranslateRStr(OptionsRStr);
+            CityBtn1.Text = options;
             CityBtn2.Visible = false;
             PPrev.Visible = !CityBtn2.Visible;
             PNext.Visible = !CityBtn2.Visible;
@@ -289,10 +281,10 @@ namespace Aow.Units.AoWCityScreen
             FProductionIndex = 0;
             QueueLB.Selected = -1;
             FreePreview();
-            var call__7 = TranslateRStr(QueueRStr);
-            QueueLbl.Text = call__7;
-            var call__8 = TranslateRStr(RepeatRStr);
-            RepeatLbl.Text = call__8;
+            var queue = TranslateRStr(QueueRStr);
+            QueueLbl.Text = queue;
+            var repeat = TranslateRStr(RepeatRStr);
+            RepeatLbl.Text = repeat;
             if (FMigrations != null)
             {
                 FMigrations.Free();
@@ -319,14 +311,14 @@ namespace Aow.Units.AoWCityScreen
                     InfoPnl2.Visible = true;
                     ActivityPnl.Visible = false;
                     ActivityPnl2.Visible = false;
-                    var call__9 = TranslateRStr(ChangeRStr);
-                    CityBtn1.Text = call__9;
+                    var change = TranslateRStr(ChangeRStr);
+                    CityBtn1.Text = change;
                     CityBtn1.Visible = true;
                     CityBtn2.Visible = false;
                     PPrev.Visible = !CityBtn2.Visible;
                     PNext.Visible = !CityBtn2.Visible;
-                    var call__10 = TranslateRStr(ExitRStr);
-                    CityBtn3.Text = call__10;
+                    var exit = TranslateRStr(ExitRStr);
+                    CityBtn3.Text = exit;
                     QueueLB.Selected = -1;
                     LPillar.Visible = true;
                     RPillar.Visible = true;
@@ -338,10 +330,10 @@ namespace Aow.Units.AoWCityScreen
                     InfoPnl2.Visible = false;
                     ActivityPnl.Visible = true;
                     ActivityPnl2.Visible = true;
-                    var call__11 = TranslateRStr(InfoRStr);
-                    CityBtn1.Text = call__11;
-                    var call__12 = TranslateRStr(DoneRStr);
-                    CityBtn3.Text = call__12;
+                    var info = TranslateRStr(InfoRStr);
+                    CityBtn1.Text = info;
+                    var done = TranslateRStr(DoneRStr);
+                    CityBtn3.Text = done;
                     LPillar.Visible = false;
                     RPillar.Visible = false;
                     MapView.WinHeight = ActivityPnl.WinTop - MapView.WinTop;
@@ -358,10 +350,10 @@ namespace Aow.Units.AoWCityScreen
                     ActivityPnl2.Visible = true;
                     LPillar.Visible = false;
                     RPillar.Visible = false;
-                    var call__13 = TranslateRStr(InfoRStr);
-                    CityBtn1.Text = call__13;
-                    var call__14 = TranslateRStr(DoneRStr);
-                    CityBtn3.Text = call__14;
+                    var info2 = TranslateRStr(InfoRStr);
+                    CityBtn1.Text = info2;
+                    var done2 = TranslateRStr(DoneRStr);
+                    CityBtn3.Text = done2;
                     MigrationRaceLB.CaptureInput = false;
                     MigrationTurnsLB.CaptureInput = false;
                     MigrationRelationLB.CaptureInput = false;
@@ -401,7 +393,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:904
         public int ActivityImage(TCityAction Action)
         {
-            int Result = default;
+            int Result;
             switch (Action)
             {
                 case TCityAction.caTrade:
@@ -455,9 +447,8 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:926
         public void SelectProduction(int Index)
         {
-            TUnitProduction P = default;
-            var call__15 = FCity.FProduction.FUnitProductions.GetItem(Index);
-            P = call__15;
+            TUnitProduction P;
+            P = FCity.FProduction.FUnitProductions.GetItem(Index);
             if (P != null)
             {
                 FProductionIndex = Index;
@@ -476,34 +467,24 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:943
         public void SelectMigration(int Index)
         {
-            TMigrationItem Item = default;
-            bool bool__16 = Index >= 0;
-            if (bool__16)
+            TMigrationItem Item;
+            if (Index >= 0 && Index < MigrationRaceLB.Items.Count)
             {
-                var call__17 = MigrationRaceLB.Items.Count;
-                bool__16 = Index < call__17;
-            }
-
-            if (bool__16)
-            {
-                var call__18 = MigrationRaceLB.Items.Objects[Index];
-                Item = (TMigrationItem)call__18;
+                Item = (TMigrationItem)MigrationRaceLB.Items.Objects[Index];
                 MigrationRaceLB.Selected = Index;
                 MigrationTurnsLB.Selected = Index;
                 MigrationRelationLB.Selected = Index;
                 MigrateTurns.Text = IntToStr(Item.FTime);
-                var call__19 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                var call__20 = TranslateRStr(XRelationMinusYRStr);
-                var call__21 = AoWE.AoWE.Format(call__20, [call__19, -15]);
-                MigrateInfo.Text = call__21;
+                var raceNames = TranslateRStr(RaceNamesRStr[FCity.FRace]);
+                var format = AoWE.AoWE.Format(TranslateRStr(XRelationMinusYRStr), [raceNames, -15]);
+                MigrateInfo.Text = format;
                 MigrateInfo.Text = MigrateInfo.Text + (AnsiString)"   ";
-                var call__22 = TranslateRStr(RaceNamesRStr[Item.FRace]);
-                var call__23 = TranslateRStr(XRelationPlusYRStr);
-                var call__24 = AoWE.AoWE.Format(call__23, [call__22, 10]);
-                MigrateInfo.Text = MigrateInfo.Text + call__24;
+                var raceNames2 = TranslateRStr(RaceNamesRStr[Item.FRace]);
+                var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(XRelationPlusYRStr), [raceNames2, 10]);
+                MigrateInfo.Text = MigrateInfo.Text + aoWEFormat;
                 CityBtn1.Visible = true;
-                var call__25 = TranslateRStr(MigrateRStr);
-                CityBtn1.Text = call__25;
+                var migrate = TranslateRStr(MigrateRStr);
+                CityBtn1.Text = migrate;
             }
             else
             {
@@ -520,7 +501,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:972
         public void SelectAction(TCityAction Action)
         {
-            TUnit U = default;
+            TUnit U;
             if (FMode != 1)
             {
                 SetMode(1);
@@ -540,52 +521,51 @@ namespace Aow.Units.AoWCityScreen
             {
                 case TCityAction.caTrade:
                     CityBtn1.Visible = true;
-                    var call__26 = TranslateRStr(ProduceMerchandiseRStr);
-                    CityBtn1.Text = call__26;
-                    var call__27 = FCity.FProduction.GetQueueLocked();
-                    CityBtn2.Visible = !call__27;
-                    var call__28 = TranslateRStr(QueueRStr);
-                    CityBtn2.Text = call__28;
-                    var call__29 = TranslateRStr(CityTradeRStr);
-                    UpgradeMemo.Items.Text = call__29;
+                    var produceMerchandise = TranslateRStr(ProduceMerchandiseRStr);
+                    CityBtn1.Text = produceMerchandise;
+                    var queueLocked = FCity.FProduction.GetQueueLocked();
+                    CityBtn2.Visible = !queueLocked;
+                    var queue = TranslateRStr(QueueRStr);
+                    CityBtn2.Text = queue;
+                    var cityTrade = TranslateRStr(CityTradeRStr);
+                    UpgradeMemo.Items.Text = cityTrade;
                     UpgradePnl.Visible = true;
                     UpgradePic.CurrentImage = 20;
-                    var call__30 = TranslateRStr(ProduceMerchandiseRStr);
-                    UpgradeLbl.Text = call__30;
+                    var produceMerchandise2 = TranslateRStr(ProduceMerchandiseRStr);
+                    UpgradeLbl.Text = produceMerchandise2;
                     break;
                 case TCityAction.caUpgrade:
                     CityBtn1.Visible = true;
-                    var call__31 = TranslateRStr(UpgradeRStr);
-                    CityBtn1.Text = call__31;
-                    var call__32 = FCity.FProduction.GetQueueLocked();
-                    CityBtn2.Visible = !call__32;
-                    var call__33 = TranslateRStr(QueueRStr);
-                    CityBtn2.Text = call__33;
-                    var call__34 = TranslateRStr(CityUpgradeRStr);
-                    UpgradeMemo.Items.Text = call__34;
+                    var upgrade = TranslateRStr(UpgradeRStr);
+                    CityBtn1.Text = upgrade;
+                    var fProductionQueueLocked = FCity.FProduction.GetQueueLocked();
+                    CityBtn2.Visible = !fProductionQueueLocked;
+                    var queue2 = TranslateRStr(QueueRStr);
+                    CityBtn2.Text = queue2;
+                    var cityUpgrade = TranslateRStr(CityUpgradeRStr);
+                    UpgradeMemo.Items.Text = cityUpgrade;
                     UpgradePnl.Visible = true;
                     UpgradePic.CurrentImage = 23;
-                    var call__35 = FCity.UpgradeCost();
-                    UpgradeCost.Text = IntToStr(call__35);
-                    var call__36 = FCity.UpgradeTime();
-                    UpgradeTurns.Text = IntToStr(call__36);
-                    var call__37 = TranslateRStr(UpgradeRStr);
-                    UpgradeLbl.Text = call__37;
-                    var call__38 = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
-                    var call__39 = TranslateRStr(XRelationPlusYRStr);
-                    var call__40 = AoWE.AoWE.Format(call__39, [call__38, 5]);
-                    UpgradeInfo.Text = call__40;
+                    var upgradeCost = FCity.UpgradeCost();
+                    UpgradeCost.Text = IntToStr(upgradeCost);
+                    var upgradeTime = FCity.UpgradeTime();
+                    UpgradeTurns.Text = IntToStr(upgradeTime);
+                    var upgrade2 = TranslateRStr(UpgradeRStr);
+                    UpgradeLbl.Text = upgrade2;
+                    var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
+                    var format = AoWE.AoWE.Format(TranslateRStr(XRelationPlusYRStr), [raceNamesPlural, 5]);
+                    UpgradeInfo.Text = format;
                     break;
                 case TCityAction.caFortify:
                     CityBtn1.Visible = true;
-                    var call__41 = TranslateRStr(FortifyRStr);
-                    CityBtn1.Text = call__41;
-                    var call__42 = FCity.FProduction.GetQueueLocked();
-                    CityBtn2.Visible = !call__42;
-                    var call__43 = TranslateRStr(QueueRStr);
-                    CityBtn2.Text = call__43;
-                    var call__44 = TranslateRStr(CityFortifyRStr);
-                    UpgradeMemo.Items.Text = call__44;
+                    var fortify = TranslateRStr(FortifyRStr);
+                    CityBtn1.Text = fortify;
+                    var queueLocked2 = FCity.FProduction.GetQueueLocked();
+                    CityBtn2.Visible = !queueLocked2;
+                    var queue3 = TranslateRStr(QueueRStr);
+                    CityBtn2.Text = queue3;
+                    var cityFortify = TranslateRStr(CityFortifyRStr);
+                    UpgradeMemo.Items.Text = cityFortify;
                     UpgradePnl.Visible = true;
                     if (FCity.FWallType == 0)
                     {
@@ -596,13 +576,12 @@ namespace Aow.Units.AoWCityScreen
                         UpgradePic.CurrentImage = 22;
                     }
 
-                    var call__45 = FCity.FortifyCost();
-                    if (call__45 > 0)
+                    if (FCity.FortifyCost() > 0)
                     {
-                        var call__46 = FCity.FortifyCost();
-                        UpgradeCost.Text = IntToStr(call__46);
-                        var call__47 = FCity.FortifyTime();
-                        UpgradeTurns.Text = IntToStr(call__47);
+                        var fortifyCost = FCity.FortifyCost();
+                        UpgradeCost.Text = IntToStr(fortifyCost);
+                        var fortifyTime = FCity.FortifyTime();
+                        UpgradeTurns.Text = IntToStr(fortifyTime);
                     }
                     else
                     {
@@ -610,12 +589,11 @@ namespace Aow.Units.AoWCityScreen
                         UpgradeTurns.Text = AnsiString.FromBytes(45);
                     }
 
-                    var call__48 = TranslateRStr(FortifyRStr);
-                    UpgradeLbl.Text = call__48;
-                    var call__49 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                    var call__50 = TranslateRStr(XRelationPlusYRStr);
-                    var call__51 = AoWE.AoWE.Format(call__50, [call__49, 5]);
-                    UpgradeInfo.Text = call__51;
+                    var fortify2 = TranslateRStr(FortifyRStr);
+                    UpgradeLbl.Text = fortify2;
+                    var raceNames = TranslateRStr(RaceNamesRStr[FCity.FRace]);
+                    var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(XRelationPlusYRStr), [raceNames, 5]);
+                    UpgradeInfo.Text = aoWEFormat;
                     break;
                 case TCityAction.caMigrate:
                     MigratePnl.Visible = true;
@@ -623,71 +601,64 @@ namespace Aow.Units.AoWCityScreen
                     break;
                 case TCityAction.caLoot:
                     CityBtn1.Visible = true;
-                    var call__52 = TranslateRStr(LootRStr);
-                    CityBtn1.Text = call__52;
-                    var call__53 = TranslateRStr(CityLootRStr);
-                    UpgradeMemo.Items.Text = call__53;
+                    var loot = TranslateRStr(LootRStr);
+                    CityBtn1.Text = loot;
+                    var cityLoot = TranslateRStr(CityLootRStr);
+                    UpgradeMemo.Items.Text = cityLoot;
                     UpgradePnl.Visible = true;
                     UpgradePic.CurrentImage = 25;
-                    var call__54 = TranslateRStr(LootRStr);
-                    UpgradeLbl.Text = call__54;
-                    var call__55 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                    var call__56 = TranslateRStr(XRelationMinusYRStr);
-                    var call__57 = AoWE.AoWE.Format(call__56, [call__55, -30]);
-                    UpgradeInfo.Text = call__57;
+                    var loot2 = TranslateRStr(LootRStr);
+                    UpgradeLbl.Text = loot2;
+                    var raceNames2 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
+                    var format2 = AoWE.AoWE.Format(TranslateRStr(XRelationMinusYRStr), [raceNames2, -30]);
+                    UpgradeInfo.Text = format2;
                     break;
                 case TCityAction.caRaze:
                     CityBtn1.Visible = true;
-                    var call__58 = TranslateRStr(RazeRStr);
-                    CityBtn1.Text = call__58 + (AnsiString)"...";
-                    var call__59 = TranslateRStr(CityRazeRStr);
-                    UpgradeMemo.Items.Text = call__59;
+                    var raze = TranslateRStr(RazeRStr);
+                    CityBtn1.Text = raze + (AnsiString)"...";
+                    var cityRaze = TranslateRStr(CityRazeRStr);
+                    UpgradeMemo.Items.Text = cityRaze;
                     UpgradePnl.Visible = true;
                     UpgradePic.CurrentImage = 26;
-                    var call__60 = TranslateRStr(RazeRStr);
-                    UpgradeLbl.Text = call__60;
-                    var call__61 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                    var call__62 = TranslateRStr(XRelationMinusYRStr);
-                    var call__63 = AoWE.AoWE.Format(call__62, [call__61, -30]);
-                    UpgradeInfo.Text = call__63;
+                    var raze2 = TranslateRStr(RazeRStr);
+                    UpgradeLbl.Text = raze2;
+                    var raceNames3 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
+                    var format3 = AoWE.AoWE.Format(TranslateRStr(XRelationMinusYRStr), [raceNames3, -30]);
+                    UpgradeInfo.Text = format3;
                     break;
                 case TCityAction.caResearch:
                 case TCityAction.caProduce:
-                    var call__64 = FCity.FProduction.CreateUnitProduction(FProductionIndex);
-                    U = call__64;
+                    U = FCity.FProduction.CreateUnitProduction(FProductionIndex);
                     UnitPnl.Visible = true;
-                    var call__65 = U.GetAttack();
-                    UAttack.Text = IntToStr(call__65);
-                    var call__66 = U.GetDefense();
-                    UDefense.Text = IntToStr(call__66);
-                    var call__67 = U.GetResistance();
-                    UResistance.Text = IntToStr(call__67);
-                    var call__68 = U.GetDamage();
-                    UDamage.Text = IntToStr(call__68);
-                    var call__69 = U.GetHits();
-                    UHits.Text = IntToStr(call__69);
-                    var call__70 = U.GetMoves();
-                    UMoves.Text = IntToStr(call__70);
-                    var call__71 = U.GetMoveTypes();
-                    var call__72 = General.MTtoInt(call__71);
-                    UMovesIcon.CurrentImage = call__72;
-                    var call__73 = U.GetAlignment();
-                    var call__74 = TranslateRStr(TAlignmentRStr[(int)call__73]);
-                    var call__75 = TranslateRStr(AlignmentXRStr);
-                    var call__76 = AoWE.AoWE.Format(call__75, [call__74]);
-                    UAlignment.Text = call__76;
-                    var call__77 = U.GetUnitLevel();
-                    var call__78 = TranslateRStr(LevelXRStr);
-                    var call__79 = AoWE.AoWE.Format(call__78, [IntToStr(call__77)]);
-                    var call__80 = U.GetUpkeep();
-                    var call__81 = TranslateRStr(UpkeepXRStr);
-                    var call__82 = AoWE.AoWE.Format(call__81, [(int)call__80]);
-                    ULevel.Text = call__79 + (AnsiString)" / " + call__82;
+                    var attack = U.GetAttack();
+                    UAttack.Text = IntToStr(attack);
+                    var defense = U.GetDefense();
+                    UDefense.Text = IntToStr(defense);
+                    var resistance = U.GetResistance();
+                    UResistance.Text = IntToStr(resistance);
+                    var damage = U.GetDamage();
+                    UDamage.Text = IntToStr(damage);
+                    var hits = U.GetHits();
+                    UHits.Text = IntToStr(hits);
+                    var moves = U.GetMoves();
+                    UMoves.Text = IntToStr(moves);
+                    var moveTypes = U.GetMoveTypes();
+                    var mTtoInt = General.MTtoInt(moveTypes);
+                    UMovesIcon.CurrentImage = mTtoInt;
+                    var alignment = U.GetAlignment();
+                    var alignment2 = TranslateRStr(TAlignmentRStr[(int)alignment]);
+                    var format4 = AoWE.AoWE.Format(TranslateRStr(AlignmentXRStr), [alignment2]);
+                    UAlignment.Text = format4;
+                    var unitLevel = U.GetUnitLevel();
+                    var format5 = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
+                    var upkeep = U.GetUpkeep();
+                    var format6 = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
+                    ULevel.Text = format5 + (AnsiString)" / " + format6;
                     if (AoWEngine.FDebug)
                     {
-                        var call__83 = U.FUnitResource.UnitResourceIndex();
-                        var call__84 = GetUnitIndexAIPriority(call__83, FCity.FPlayer, 0);
-                        AoWHSMap.ShowMessage((AnsiString)"AI Prio:" + IntToStr(call__84));
+                        var unitIndexAIPriority = GetUnitIndexAIPriority(U.FUnitResource.UnitResourceIndex(), FCity.FPlayer, 0);
+                        AoWHSMap.ShowMessage((AnsiString)"AI Prio:" + IntToStr(unitIndexAIPriority));
                     }
 
                     UAbilitiesLB.Items.Clear();
@@ -695,38 +666,36 @@ namespace Aow.Units.AoWCityScreen
                     if (FAction == TCityAction.caProduce)
                     {
                         CityBtn1.Visible = true;
-                        var call__85 = TranslateRStr(ProduceRStr);
-                        CityBtn1.Text = call__85;
-                        var call__86 = FCity.FProduction.GetQueueLocked();
-                        CityBtn2.Visible = !call__86;
-                        var call__87 = TranslateRStr(QueueRStr);
-                        CityBtn2.Text = call__87;
-                        var call__88 = U.GetName();
-                        var call__89 = TranslateRStr(ProduceXRStr);
-                        var call__90 = AoWE.AoWE.Format(call__89, [call__88]);
-                        UnitLbl.Text = call__90;
-                        var call__91 = FCity.FProduction.UnitProductionGold(FProductionIndex);
-                        UCost.Text = IntToStr(call__91);
-                        var call__92 = FCity.FProduction.UnitProductionTime(FProductionIndex);
-                        UTurns.Text = IntToStr(call__92);
+                        var produce = TranslateRStr(ProduceRStr);
+                        CityBtn1.Text = produce;
+                        var queueLocked3 = FCity.FProduction.GetQueueLocked();
+                        CityBtn2.Visible = !queueLocked3;
+                        var queue4 = TranslateRStr(QueueRStr);
+                        CityBtn2.Text = queue4;
+                        var name = U.GetName();
+                        var format7 = AoWE.AoWE.Format(TranslateRStr(ProduceXRStr), [name]);
+                        UnitLbl.Text = format7;
+                        var unitProductionGold = FCity.FProduction.UnitProductionGold(FProductionIndex);
+                        UCost.Text = IntToStr(unitProductionGold);
+                        var unitProductionTime = FCity.FProduction.UnitProductionTime(FProductionIndex);
+                        UTurns.Text = IntToStr(unitProductionTime);
                     }
                     else
                     {
                         CityBtn1.Visible = true;
-                        var call__93 = TranslateRStr(InstallRStr);
-                        CityBtn1.Text = call__93;
-                        var call__94 = FCity.FProduction.GetQueueLocked();
-                        CityBtn2.Visible = !call__94;
-                        var call__95 = TranslateRStr(QueueRStr);
-                        CityBtn2.Text = call__95;
-                        var call__96 = U.GetName();
-                        var call__97 = TranslateRStr(InstallXRStr);
-                        var call__98 = AoWE.AoWE.Format(call__97, [call__96]);
-                        UnitLbl.Text = call__98;
-                        var call__99 = FCity.FProduction.UnitResearchGold(FProductionIndex);
-                        UCost.Text = IntToStr(call__99);
-                        var call__100 = FCity.FProduction.UnitResearchTime(FProductionIndex);
-                        UTurns.Text = IntToStr(call__100);
+                        var install = TranslateRStr(InstallRStr);
+                        CityBtn1.Text = install;
+                        var queueLocked3 = FCity.FProduction.GetQueueLocked();
+                        CityBtn2.Visible = !queueLocked3;
+                        var queue4 = TranslateRStr(QueueRStr);
+                        CityBtn2.Text = queue4;
+                        var name = U.GetName();
+                        var format7 = AoWE.AoWE.Format(TranslateRStr(InstallXRStr), [name]);
+                        UnitLbl.Text = format7;
+                        var unitResearchGold = FCity.FProduction.UnitResearchGold(FProductionIndex);
+                        UCost.Text = IntToStr(unitResearchGold);
+                        var unitResearchTime = FCity.FProduction.UnitResearchTime(FProductionIndex);
+                        UTurns.Text = IntToStr(unitResearchTime);
                     }
 
                     U.Release();
@@ -740,35 +709,33 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:1099
         public void UpdateInfo()
         {
-            AnsiString Reason = default;
-            int I = default;
-            int J = default;
-            var call__101 = FCity.GetName();
-            StructName.Text = call__101;
+            AnsiString Reason;
+            var name = FCity.GetName();
+            StructName.Text = name;
             PopulationHdr.Items.Clear();
-            var call__102 = TranslateRStr(PopulationRStr);
-            PopulationHdr.Items.Add(call__102 + AnsiString.FromBytes(58));
-            var call__103 = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
-            PopulationHdr.Items.Add(AnsiString.FromBytes(32) + call__103);
-            var call__104 = TranslateRStr(StatusRStr);
-            PopulationHdr.Items.Add(call__104 + AnsiString.FromBytes(58));
-            var call__105 = FCity.GetCivilStatus();
-            var call__106 = TranslateRStr(TCivilStatusRStr[(int)call__105]);
-            PopulationHdr.Items.Add(AnsiString.FromBytes(32) + call__106);
+            var population = TranslateRStr(PopulationRStr);
+            PopulationHdr.Items.Add(population + AnsiString.FromBytes(58));
+            var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
+            PopulationHdr.Items.Add(AnsiString.FromBytes(32) + raceNamesPlural);
+            var status = TranslateRStr(StatusRStr);
+            PopulationHdr.Items.Add(status + AnsiString.FromBytes(58));
+            var civilStatus = FCity.GetCivilStatus();
+            var civilStatus2 = TranslateRStr(TCivilStatusRStr[(int)civilStatus]);
+            PopulationHdr.Items.Add(AnsiString.FromBytes(32) + civilStatus2);
             PopulationMemo.Items.Clear();
             FCity.ListCivilStatusInfo(PopulationMemo.Items);
             IncomeHdr.Items.Clear();
-            var call__107 = TranslateRStr(IncomeRStr);
-            IncomeHdr.Items.Add(call__107);
-            var call__108 = TranslateRStr(XGoldRStr);
-            var call__109 = AoWE.AoWE.Format(AnsiString.FromBytes(32) + call__108, [IntToStr(FCity.FIncome)]);
-            IncomeHdr.Items.Add(call__109);
+            var income = TranslateRStr(IncomeRStr);
+            IncomeHdr.Items.Add(income);
+            var xGold = TranslateRStr(XGoldRStr);
+            var format = AoWE.AoWE.Format(AnsiString.FromBytes(32) + xGold, [IntToStr(FCity.FIncome)]);
+            IncomeHdr.Items.Add(format);
             IncomeMemo.Items.Clear();
             IncomeGoldMemo.Items.Clear();
             FCity.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
             EnhancementsHdr.Items.Clear();
-            var call__110 = TranslateRStr(EnhancementsRStr);
-            EnhancementsHdr.Items.Add(call__110);
+            var enhancements = TranslateRStr(EnhancementsRStr);
+            EnhancementsHdr.Items.Add(enhancements);
             EnhancementsMemo.Items.Clear();
             FCity.ListEnhancementsInfo(EnhancementsMemo.Items);
             if (FMigrations != null)
@@ -777,79 +744,62 @@ namespace Aow.Units.AoWCityScreen
                 FMigrations = null;
             }
 
-            var call__111 = FCity.CreateMigrationSelection();
-            FMigrations = call__111;
-            var call__112 = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
-            CurrentRace.Text = call__112;
-            var call__113 = AoWHSMap.FRaces.GetRace(FCity.FRace);
-            var call__114 = call__113.GetPlayerRelation(FCity.FPlayer);
-            var call__115 = TranslateRStr(TStatusRStr[(int)call__114]);
-            CurrentRelation.Text = call__115;
+            FMigrations = FCity.CreateMigrationSelection();
+            var raceNamesPlural2 = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
+            CurrentRace.Text = raceNamesPlural2;
+            var playerRelation = AoWHSMap.FRaces.GetRace(FCity.FRace).GetPlayerRelation(FCity.FPlayer);
+            var status2 = TranslateRStr(TStatusRStr[(int)playerRelation]);
+            CurrentRelation.Text = status2;
             MigrationRaceLB.Items.Clear();
             MigrationTurnsLB.Items.Clear();
             MigrationRelationLB.Items.Clear();
             if (FMigrations != null)
             {
+                for (int I = 0, last = FMigrations.GetCount() - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__116 = FMigrations.GetCount() - 1;
-                    for (; I <= end__116; I += 1)
-                    {
-                        var call__117 = FMigrations.GetItems(I);
-                        var call__118 = TranslateRStr(RaceNamesPluralRStr[call__117.FRace]);
-                        var call__119 = FMigrations.GetItems(I);
-                        MigrationRaceLB.Items.AddObject(call__118, call__119);
-                        var call__120 = FMigrations.GetItems(I);
-                        MigrationTurnsLB.Items.Add(IntToStr(call__120.FTime));
-                        var call__121 = FMigrations.GetItems(I);
-                        var call__122 = TranslateRStr(TStatusRStr[(int)call__121.FRelation]);
-                        MigrationRelationLB.Items.Add(call__122);
-                    }
+                    var itemRace = FMigrations.GetItems(I);
+                    var raceNamesPlural3 = TranslateRStr(RaceNamesPluralRStr[itemRace.FRace]);
+                    var item = FMigrations.GetItems(I);
+                    MigrationRaceLB.Items.AddObject(raceNamesPlural3, item);
+                    var itemTime = FMigrations.GetItems(I);
+                    MigrationTurnsLB.Items.Add(IntToStr(itemTime.FTime));
+                    var itemRelation = FMigrations.GetItems(I);
+                    var status3 = TranslateRStr(TStatusRStr[(int)itemRelation.FRelation]);
+                    MigrationRelationLB.Items.Add(status3);
                 }
             }
 
             SortMigration();
             QueueLB.Items.Clear();
+            for (int I = 0, last = FCity.FProduction.FQueue.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__123 = FCity.FProduction.FQueue.GetCount() - 1;
-                for (; I <= end__123; I += 1)
-                {
-                    var call__124 = FCity.FProduction.FQueue.GetItem(I);
-                    var call__125 = call__124.GetName();
-                    QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + call__125);
-                }
+                var name2 = FCity.FProduction.FQueue.GetItem(I).GetName();
+                QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + name2);
             }
 
+            for (int I = FCity.FProduction.FQueue.GetCount(); I <= 4; I++)
             {
-                I = FCity.FProduction.FQueue.GetCount();
-                byte end__126 = 4;
-                for (; I <= end__126; I += 1)
-                {
-                    var call__127 = TranslateRStr(EmptyQueueRStr);
-                    QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + call__127);
-                }
+                var emptyQueue = TranslateRStr(EmptyQueueRStr);
+                QueueLB.Items.Add(IntToStr(I + 1) + (AnsiString)". " + emptyQueue);
             }
 
-            var call__128 = FCity.FProduction.FQueue.GetCount();
-            if (QueueLB.Selected >= call__128)
+            var count = FCity.FProduction.FQueue.GetCount();
+            if (QueueLB.Selected >= count)
             {
-                var call__129 = FCity.FProduction.FQueue.GetCount();
-                QueueLB.Selected = call__129 - 1;
+                var fQueueCount = FCity.FProduction.FQueue.GetCount();
+                QueueLB.Selected = fQueueCount - 1;
                 FQueueIndex = QueueLB.Selected;
             }
 
             LoopQueueBox.Checked = FCity.FProduction.FLoopQueue;
-            var call__130 = FCity.GetActiveAction();
-            if (call__130 != TCityAction.caNone)
+            if (FCity.GetActiveAction() != TCityAction.caNone)
             {
-                var call__131 = FCity.FProduction.FQueue.GetItem(0);
-                var call__132 = call__131.GetNameProgressive();
-                ActiveAction.Text = call__132;
+                var nameProgressive = FCity.FProduction.FQueue.GetItem(0).GetNameProgressive();
+                ActiveAction.Text = nameProgressive;
                 if (FCity.FProduction.FSettings.FTurnsLeft != -1)
                 {
-                    var call__133 = FmtTurnsLeftStr(FCity.FProduction.FSettings.FTurnsLeft);
-                    ActiveActionTurns.Text = call__133;
+                    var fmtTurnsLeftStr = FmtTurnsLeftStr(FCity.FProduction.FSettings.FTurnsLeft);
+                    ActiveActionTurns.Text = fmtTurnsLeftStr;
                     ActiveActionTurns.Visible = true;
                     ActiveActionTurns.TextColor = 6783862;
                     this.ActiveActionTurnsBar.Min = 0;
@@ -864,40 +814,34 @@ namespace Aow.Units.AoWCityScreen
                     ActiveActionTurnsBar.Visible = false;
                 }
 
-                var call__135 = FCity.GetActiveAction();
-                var call__136 = ActivityImage(call__135);
-                CurrentActionImage.CurrentImage = call__136;
+                var activityImage = ActivityImage(FCity.GetActiveAction());
+                CurrentActionImage.CurrentImage = activityImage;
             }
             else
             {
-                var call__137 = FCity.FProduction.FQueue.GetCount();
-                if (call__137 == 0)
+                if (FCity.FProduction.FQueue.GetCount() == 0)
                 {
-                    var call__138 = TranslateRStr(ProducingMerchandiseRStr);
-                    ActiveAction.Text = call__138;
-                    var call__139 = TranslateRStr(DefaultRStr);
-                    ActiveActionTurns.Text = AnsiString.FromBytes(40) + LowerCase(call__139) + AnsiString.FromBytes(41);
+                    var producingMerchandise = TranslateRStr(ProducingMerchandiseRStr);
+                    ActiveAction.Text = producingMerchandise;
+                    var defaultText = TranslateRStr(DefaultRStr);
+                    ActiveActionTurns.Text = AnsiString.FromBytes(40) + LowerCase(defaultText) + AnsiString.FromBytes(41);
                     ActiveActionTurns.TextColor = 6783862;
                     ActiveActionTurnsBar.Visible = false;
-                    var call__140 = FCity.GetActiveAction();
-                    var call__141 = ActivityImage(call__140);
-                    CurrentActionImage.CurrentImage = call__141;
+                    var activityImage = ActivityImage(FCity.GetActiveAction());
+                    CurrentActionImage.CurrentImage = activityImage;
                 }
                 else
                 {
                     Reason = (AnsiString)"";
-                    var call__142 = FCity.FProduction.FQueue.GetItem(0);
-                    var call__143 = call__142.GetNameProgressive();
-                    ActiveAction.Text = call__143;
-                    var call__144 = FCity.FProduction.FQueue.GetItem(0);
-                    FCity.FProduction.CanExecuteProduction(call__144, ref Reason);
+                    var nameProgressive = FCity.FProduction.FQueue.GetItem(0).GetNameProgressive();
+                    ActiveAction.Text = nameProgressive;
+                    var queue = FCity.FProduction.FQueue.GetItem(0);
+                    FCity.FProduction.CanExecuteProduction(queue, ref Reason);
                     ActiveActionTurns.Text = Reason;
                     ActiveActionTurns.TextColor = 255;
                     ActiveActionTurnsBar.Visible = false;
-                    var call__145 = FCity.FProduction.FQueue.GetItem(0);
-                    var call__146 = ProductionIDToCityAction(call__145.FProductionID);
-                    var call__147 = ActivityImage(call__146);
-                    CurrentActionImage.CurrentImage = call__147;
+                    var activityImage = ActivityImage(ProductionIDToCityAction(FCity.FProduction.FQueue.GetItem(0).FProductionID));
+                    CurrentActionImage.CurrentImage = activityImage;
                 }
             }
 
@@ -912,8 +856,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:1200
         public void ProductionEvent(TCityProductionEventLog Event)
         {
-            var call__148 = Event.GetCity();
-            ShowCity(call__148);
+            ShowCity(Event.GetCity());
             SetMode(1);
             SelectDefaultAction();
         }
@@ -937,57 +880,38 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:245
         public void ShowCity(TCity City)
         {
-            int I = default;
-            int J = default;
-            int Direction = default;
-            TArmyHS Army = default;
-            TArmyHSList Armies = default;
-            TRndTacHsm Generator = default;
+            int Direction;
+            TArmyHS Army;
+            TArmyHSList Armies;
+            TRndTacHsm Generator;
             Reset();
             FCity = City;
             UpdateInfo();
             SetMode(0);
             FreePreview();
+            for (int I = 0, last = FCity.FProduction.FUnitProductions.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__149 = FCity.FProduction.FUnitProductions.GetCount() - 1;
-                for (; I <= end__149; I += 1)
-                {
-                    var call__150 = FCity.FProduction.FUnitProductions.GetItem(I);
-                    LoadUnitImages(call__150.FUnitIndex);
-                }
+                LoadUnitImages(FCity.FProduction.FUnitProductions.GetItem(I).FUnitIndex);
             }
 
             Generator = new TRndTacHsm();
-            var call__151 = FCity.GetLhx();
-            var call__152 = FCity.GetYhx();
-            var call__153 = FCity.GetXhx();
-            var call__154 = Generator.RandomMap(null, call__153, call__152, call__151);
-            FPreview = call__154;
+            var lhx = FCity.GetLhx();
+            var yhx = FCity.GetYhx();
+            FPreview = Generator.RandomMap(null, FCity.GetXhx(), yhx, lhx);
             Generator.Free();
             Armies = new TArmyHSList(null);
             FCity.ListArmies(Armies);
+            for (int I = 0, last = Armies.GetCount() - 1; I <= last; I++)
             {
-                I = 0;
-                int end__155 = Armies.GetCount() - 1;
-                for (; I <= end__155; I += 1)
+                Army = Armies.GetArmyHS(I);
+                var armyYhx = Army.GetYhx();
+                var xhx = Army.GetXhx();
+                var fCityYhx = FCity.GetYhx();
+                Direction = dHXtoHN(FCity.GetXhx(), fCityYhx, xhx, armyYhx);
+                for (int J = 0, lastJ = Army.FArmy.GetCount() - 1; J <= lastJ; J++)
                 {
-                    Army = Armies.GetArmyHS(I);
-                    var call__156 = Army.GetYhx();
-                    var call__157 = Army.GetXhx();
-                    var call__158 = FCity.GetYhx();
-                    var call__159 = FCity.GetXhx();
-                    var call__160 = dHXtoHN(call__159, call__158, call__157, call__156);
-                    Direction = call__160;
-                    {
-                        J = 0;
-                        int end__161 = Army.FArmy.GetCount() - 1;
-                        for (; J <= end__161; J += 1)
-                        {
-                            var call__162 = Army.FArmy.GetUnit(J);
-                            PlaceOverviewUnit(FPreview, call__162, Direction, J);
-                        }
-                    }
+                    var unit = Army.FArmy.GetUnit(J);
+                    PlaceOverviewUnit(FPreview, unit, Direction, J);
                 }
             }
 
@@ -995,9 +919,8 @@ namespace Aow.Units.AoWCityScreen
             var mapObject = FPreview.FCenterViewLocation;
             if (FPreview.FCenterViewLocation != null)
             {
-                var call__164 = mapObject.GetYhx();
-                var call__165 = mapObject.GetXhx();
-                HXtoHP(call__165, call__164, ref FViewX, ref FViewY);
+                var mapObjectYhx = mapObject.GetYhx();
+                HXtoHP(mapObject.GetXhx(), mapObjectYhx, ref FViewX, ref FViewY);
                 FViewX = FViewX + 16 - MapView.WinWidth / 2;
                 FViewY = FViewY + 16 - MapView.WinHeight / 2;
             }
@@ -1015,8 +938,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:292
         public void CityScreenCreate()
         {
-            var call__166 = new TIntegerList();
-            FImages = call__166;
+            FImages = new TIntegerList();
         }
 
         // AoWCityScreen.pas:297
@@ -1073,25 +995,23 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:343
         public void ProductionsUpdate(TObject Sender)
         {
-            var call__167 = FCity.FProduction.FUnitProductions.GetItem(((TAOWCheckBox)Sender).Tag);
-            ((TAOWCheckBox)Sender).CaptureInput = call__167 != null;
+            var unitProduction = FCity.FProduction.FUnitProductions.GetItem(((TAOWCheckBox)Sender).Tag);
+            ((TAOWCheckBox)Sender).CaptureInput = unitProduction != null;
         }
 
         // AoWCityScreen.pas:348
         public void ActivityPreDraw(TAoWComponent Sender, TSurfaceDesc SD)
         {
-            int Image = default;
-            var call__168 = ActivityImage((TCityAction)((byte)Sender.Tag + 1));
-            Image = call__168;
-            var call__169 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[Image];
-            call__169.Show(ActivityPnl2.WinLeft + Sender.WinLeft + 2, ActivityPnl2.WinTop + Sender.WinTop + 2, SD);
+            int Image;
+            Image = ActivityImage((TCityAction)((byte)Sender.Tag + 1));
+            aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[Image].Show(ActivityPnl2.WinLeft + Sender.WinLeft + 2, ActivityPnl2.WinTop + Sender.WinTop + 2, SD);
         }
 
         // AoWCityScreen.pas:354
         public void CityBtn1Click(TObject Sender)
         {
             AnsiString Reason = default;
-            sbyte Race = default;
+            sbyte Race;
             switch (FMode)
             {
                 case 0:
@@ -1103,8 +1023,7 @@ namespace Aow.Units.AoWCityScreen
                     switch (FAction)
                     {
                         case TCityAction.caTrade:
-                            var call__170 = FCity.CanTrade(false, ref Reason);
-                            if (call__170)
+                            if (FCity.CanTrade(false, ref Reason))
                             {
                                 FCity.Trade(false);
                                 SetMode(0);
@@ -1116,8 +1035,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caLoot:
-                            var call__171 = FCity.CanLoot(ref Reason);
-                            if (call__171)
+                            if (FCity.CanLoot(ref Reason))
                             {
                                 FCity.Loot();
                                 SetMode(0);
@@ -1129,8 +1047,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caRaze:
-                            var call__172 = FCity.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason);
-                            if (call__172)
+                            if (FCity.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason))
                             {
                                 FCity.Raze(AoWHSMap.FSeatedPlayer);
                                 Dlg.Visible = false;
@@ -1142,8 +1059,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caUpgrade:
-                            var call__173 = FCity.CanUpgrade(false, ref Reason);
-                            if (call__173)
+                            if (FCity.CanUpgrade(false, ref Reason))
                             {
                                 FCity.Upgrade(false);
                                 SetMode(0);
@@ -1155,8 +1071,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caFortify:
-                            var call__174 = FCity.CanFortify(false, ref Reason);
-                            if (call__174)
+                            if (FCity.CanFortify(false, ref Reason))
                             {
                                 FCity.Fortify(false);
                                 SetMode(0);
@@ -1168,8 +1083,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caProduce:
-                            var call__175 = FCity.CanProduce(FProductionIndex, false, ref Reason);
-                            if (call__175)
+                            if (FCity.CanProduce(FProductionIndex, false, ref Reason))
                             {
                                 AoWHSMap.FTutorialControl.ShowMessage(59, true, true);
                                 FCity.Produce(FProductionIndex, false);
@@ -1182,8 +1096,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caResearch:
-                            var call__176 = FCity.CanResearch(FProductionIndex, false, ref Reason);
-                            if (call__176)
+                            if (FCity.CanResearch(FProductionIndex, false, ref Reason))
                             {
                                 FCity.Research(FProductionIndex, false);
                                 SetMode(0);
@@ -1195,10 +1108,8 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caMigrate:
-                            var call__177 = MigrationRaceLB.Items.Objects[MigrationRaceLB.Selected];
-                            Race = ((TMigrationItem)call__177).FRace;
-                            var call__178 = FCity.CanMigrate(Race, ref Reason);
-                            if (call__178)
+                            Race = ((TMigrationItem)MigrationRaceLB.Items.Objects[MigrationRaceLB.Selected]).FRace;
+                            if (FCity.CanMigrate(Race, ref Reason))
                             {
                                 AoWHSMap.FTutorialControl.ShowMessage(66, true, true);
                                 FCity.Migrate(Race);
@@ -1229,8 +1140,7 @@ namespace Aow.Units.AoWCityScreen
                     switch (FAction)
                     {
                         case TCityAction.caTrade:
-                            var call__179 = FCity.CanTrade(true, ref Reason);
-                            if (call__179)
+                            if (FCity.CanTrade(true, ref Reason))
                             {
                                 FCity.Trade(true);
                             }
@@ -1241,8 +1151,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caUpgrade:
-                            var call__180 = FCity.CanUpgrade(true, ref Reason);
-                            if (call__180)
+                            if (FCity.CanUpgrade(true, ref Reason))
                             {
                                 FCity.Upgrade(true);
                             }
@@ -1253,8 +1162,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caFortify:
-                            var call__181 = FCity.CanFortify(true, ref Reason);
-                            if (call__181)
+                            if (FCity.CanFortify(true, ref Reason))
                             {
                                 FCity.Fortify(true);
                             }
@@ -1265,8 +1173,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caProduce:
-                            var call__182 = FCity.CanProduce(FProductionIndex, true, ref Reason);
-                            if (call__182)
+                            if (FCity.CanProduce(FProductionIndex, true, ref Reason))
                             {
                                 FCity.Produce(FProductionIndex, true);
                             }
@@ -1277,8 +1184,7 @@ namespace Aow.Units.AoWCityScreen
 
                             break;
                         case TCityAction.caResearch:
-                            var call__183 = FCity.CanResearch(FProductionIndex, true, ref Reason);
-                            if (call__183)
+                            if (FCity.CanResearch(FProductionIndex, true, ref Reason))
                             {
                                 FCity.Research(FProductionIndex, true);
                             }
@@ -1294,8 +1200,7 @@ namespace Aow.Units.AoWCityScreen
                 case 2:
                     if (FQueueIndex == 0)
                     {
-                        var call__184 = FCity.FProduction.RetryProductionExecution(ref Reason);
-                        if (call__184)
+                        if (FCity.FProduction.RetryProductionExecution(ref Reason))
                         {
                             SetMode(0);
                         }
@@ -1328,19 +1233,16 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:472
         public void PreDrawProductions(TObject Sender, TSurfaceDesc SD)
         {
-            TRect R = default;
+            TRect R;
             TP2UnitShowInfo Info = default;
-            TUnit U = default;
-            TUnitProduction P = default;
-            var call__185 = Rect(ActivityPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActivityPnl2.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
-            R = call__185;
+            TUnit U;
+            TUnitProduction P;
+            R = Rect(ActivityPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActivityPnl2.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
             // { Original uses two different panels. }
-            var call__186 = FCity.FProduction.FUnitProductions.GetItem(((TAoWComponent)Sender).Tag);
-            P = call__186;
+            P = FCity.FProduction.FUnitProductions.GetItem(((TAoWComponent)Sender).Tag);
             if (P != null)
             {
-                var call__187 = FCity.FProduction.CreateUnitProduction(((TAoWComponent)Sender).Tag);
-                U = call__187;
+                U = FCity.FProduction.CreateUnitProduction(((TAoWComponent)Sender).Tag);
                 Info.Direction = 3;
                 Info.Overlays = TSet<TUnitOverlayModesElement>.Of();
                 Info.Animation = 0;
@@ -1348,22 +1250,19 @@ namespace Aow.Units.AoWCityScreen
                 Info.Looped = false;
                 if (!P.FResearched)
                 {
-                    var call__188 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5];
-                    call__188.Show(R.Left + 2, R.Top + 2, SD);
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
                     Info.Direction = 5;
                     if (U != null)
                     {
                         U.ShowEx(R.Left - 4, R.Top, SD, Info);
                     }
 
-                    var call__189 = AlphaBlendTable.GetLookupTables(45);
-                    var call__190 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5];
-                    call__190.ShowBlended(R.Left + 2, R.Top + 2, SD, call__189);
+                    var lookupTable = AlphaBlendTable.GetLookupTables(45);
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
                 }
                 else
                 {
-                    var call__191 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4];
-                    call__191.Show(R.Left + 2, R.Top + 2, SD);
+                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
                     if (U != null)
                     {
                         U.ShowEx(R.Left - 4, R.Top, SD, Info);
@@ -1377,8 +1276,7 @@ namespace Aow.Units.AoWCityScreen
             }
             else
             {
-                var call__192 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62];
-                call__192.Show(R.Left + 2, R.Top + 2, SD);
+                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
             }
         }
 
@@ -1447,14 +1345,12 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:541
         public void UFaceDraw(TObject Sender, TSurfaceDesc SD)
         {
-            TUnit U = default;
-            TRect R = default;
-            var call__193 = FCity.FProduction.CreateUnitProduction(FProductionIndex);
-            U = call__193;
+            TUnit U;
+            TRect R;
+            U = FCity.FProduction.CreateUnitProduction(FProductionIndex);
             if (U != null)
             {
-                var call__194 = Rect(UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + 2, UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 4, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
-                R = call__194;
+                R = Rect(UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + 2, UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 4, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
                 U.ShowFace(R, SD);
                 U.Release();
             }
@@ -1463,28 +1359,25 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:558
         public void QueueLBChange(TAOWListBox Sender)
         {
-            TCityAction Action = default;
-            var call__195 = FCity.FProduction.FQueue.GetCount();
-            if (QueueLB.Selected < call__195 && FMode != 0)
+            TCityAction Action;
+            var count = FCity.FProduction.FQueue.GetCount();
+            if (QueueLB.Selected < count && FMode != 0)
             {
                 if (QueueLB.Selected != -1)
                 {
                     FQueueIndex = QueueLB.Selected;
-                    var call__196 = FCity.FProduction.FQueue.GetItem(FQueueIndex);
-                    var call__197 = ProductionIDToCityAction(call__196.FProductionID);
-                    Action = call__197;
+                    Action = ProductionIDToCityAction(FCity.FProduction.FQueue.GetItem(FQueueIndex).FProductionID);
                     if (Action == TCityAction.caProduce)
                     {
-                        var call__198 = FCity.FProduction.FQueue.GetItem(FQueueIndex);
-                        FProductionIndex = call__198.FParameter;
-                        bool bool__199 = FProductionIndex < 0;
-                        if (!bool__199)
+                        FProductionIndex = FCity.FProduction.FQueue.GetItem(FQueueIndex).FParameter;
+                        bool condition = FProductionIndex < 0;
+                        if (!condition)
                         {
-                            var call__200 = FCity.FProduction.FUnitProductions.GetCount();
-                            bool__199 = FProductionIndex >= call__200;
+                            var fUnitProductionsCount = FCity.FProduction.FUnitProductions.GetCount();
+                            condition = FProductionIndex >= fUnitProductionsCount;
                         }
 
-                        if (bool__199)
+                        if (condition)
                         {
                             FProductionIndex = 0;
                         }
@@ -1494,13 +1387,13 @@ namespace Aow.Units.AoWCityScreen
                     SetMode(2);
                     QueueLB.Selected = FQueueIndex;
                     CityBtn1.Visible = true;
-                    var call__201 = TranslateRStr(DeleteRStr);
-                    CityBtn1.Text = call__201;
+                    var delete = TranslateRStr(DeleteRStr);
+                    CityBtn1.Text = delete;
                     if (FQueueIndex == 0 && FCity.FProduction.FStatus == TProductionControlStatus.pcsWaiting)
                     {
                         CityBtn2.Visible = true;
-                        var call__202 = TranslateRStr(ExecuteRStr);
-                        CityBtn2.Text = call__202;
+                        var execute = TranslateRStr(ExecuteRStr);
+                        CityBtn2.Text = execute;
                     }
                     else
                     {
@@ -1533,21 +1426,17 @@ namespace Aow.Units.AoWCityScreen
         public void CurrentActionImageDraw(TObject Sender, TSurfaceDesc SD)
         {
             TP2UnitShowInfo Info = default;
-            TRect R = default;
-            TUnit U = default;
-            var call__203 = FCity.FProduction.FQueue.GetCount();
-            if (call__203 != 0)
+            TRect R;
+            TUnit U;
+            if (FCity.FProduction.FQueue.GetCount() != 0)
             {
-                var call__204 = FCity.FProduction.FQueue.GetItem(0);
-                switch (call__204.FProductionID)
+                switch (FCity.FProduction.FQueue.GetItem(0).FProductionID)
                 {
                     case 1:
                     case 2:
-                        var call__205 = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
-                        R = call__205;
-                        var call__206 = FCity.FProduction.FQueue.GetItem(0);
-                        var call__207 = FCity.FProduction.CreateUnitProduction(call__206.FParameter);
-                        U = call__207;
+                        R = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+                        var queueParameter = FCity.FProduction.FQueue.GetItem(0);
+                        U = FCity.FProduction.CreateUnitProduction(queueParameter.FParameter);
                         if (U != null)
                         {
                             Info.Direction = 3;
@@ -1555,9 +1444,8 @@ namespace Aow.Units.AoWCityScreen
                             Info.Animation = 0;
                             Info.Frame = 0;
                             Info.Looped = false;
-                            var call__208 = FCity.FProduction.FQueue.GetItem(0);
-                            var call__209 = FCity.FProduction.FUnitProductions.GetItem(call__208.FParameter);
-                            if (!call__209.FResearched)
+                            var queue = FCity.FProduction.FQueue.GetItem(0);
+                            if (!FCity.FProduction.FUnitProductions.GetItem(queue.FParameter).FResearched)
                             {
                                 Info.Direction = 5;
                             }
@@ -1580,41 +1468,35 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:631
         public void RacePortraitDraw(TObject Sender, TSurfaceDesc SD)
         {
-            TRect R = default;
-            var call__210 = Rect(IPPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, IPPnl.WinTop + ((TAoWComponent)Sender).WinTop, IPPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, IPPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
-            R = call__210;
-            var call__211 = AoWHSSet.FRaceResources.GetRaceResource(FCity.FRace);
-            var call__212 = call__211.GetFace();
-            call__212.ShowStretched(R, SD);
+            TRect R;
+            R = Rect(IPPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, IPPnl.WinTop + ((TAoWComponent)Sender).WinTop, IPPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, IPPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+            AoWHSSet.FRaceResources.GetRaceResource(FCity.FRace).GetFace().ShowStretched(R, SD);
         }
 
         // AoWCityScreen.pas:641
         public void MapViewDraw(TObject Sender, TSurfaceDesc SD)
         {
             TSurfaceDesc ViewSD = default;
-            TRect R = default;
-            int W = default;
-            int H = default;
-            int Width = default;
+            TRect R;
+            int W;
+            int H;
+            int Width;
             if (FPreview != null)
             {
-                var call__213 = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
-                R = call__213;
+                R = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
                 Width = R.Right - R.Left;
                 W = Width;
                 H = R.Bottom - R.Top;
-                var call__214 = FPreview.GetMaxXhp();
-                if (FViewX + W + 16 > call__214)
+                var maxXhp = FPreview.GetMaxXhp();
+                if (FViewX + W + 16 > maxXhp)
                 {
-                    var call__215 = FPreview.GetMaxXhp();
-                    FViewX = call__215 - W - 16;
+                    FViewX = FPreview.GetMaxXhp() - W - 16;
                 }
 
-                var call__216 = FPreview.GetMaxYhp();
-                if (FViewY + H + 16 > call__216)
+                var maxYhp = FPreview.GetMaxYhp();
+                if (FViewY + H + 16 > maxYhp)
                 {
-                    var call__217 = FPreview.GetMaxYhp();
-                    FViewY = call__217 - H - 16;
+                    FViewY = FPreview.GetMaxYhp() - H - 16;
                 }
 
                 if (FViewX < 16)
@@ -1668,7 +1550,7 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:679
         public void MapViewUpdate()
         {
-            TAoWCombatMap Preview = default;
+            TAoWCombatMap Preview;
             Preview = FPreview;
             if (Preview != null)
             {
@@ -1687,16 +1569,15 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:693
         public void UAbilitiesLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbility A = default;
+            TAbility A;
             if (Button == TMouseButton.mbRight && UAbilitiesLB.Selected > -1)
             {
-                var call__218 = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
-                var call__219 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(call__218));
-                A = call__219;
+                var objectValue = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
+                A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (A != null)
                 {
-                    var call__220 = A.GetName(null);
-                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, call__220, A.FDescription);
+                    var name = A.GetName(null);
+                    SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, name, A.FDescription);
                 }
             }
         }
@@ -1704,26 +1585,20 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:704
         public void PPrevClick()
         {
-            int Start = default;
-            int Index = default;
-            TPlayerStructure S = default;
-            var call__221 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__222 = call__221.FStructures.FindChildIndex(FCity);
-            Start = call__222;
+            int Start;
+            int Index;
+            TPlayerStructure S;
+            Start = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.FindChildIndex(FCity);
             Index = Start;
             Index -= 1;
             if (Index < 0)
             {
-                var call__223 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__224 = call__223.FStructures.GetCount();
-                Index = call__224 - 1;
+                Index = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount() - 1;
             }
 
             while (Index != Start)
             {
-                var call__225 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__226 = call__225.FStructures.GetStructure(Index);
-                S = call__226;
+                S = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetStructure(Index);
                 if (S is TCity)
                 {
                     Index = Start + 1;
@@ -1733,9 +1608,7 @@ namespace Aow.Units.AoWCityScreen
                 Index += -1;
                 if (Index < 0)
                 {
-                    var call__227 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    var call__228 = call__227.FStructures.GetCount();
-                    Index = call__228 - 1;
+                    Index = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount() - 1;
                 }
             }
         }
@@ -1743,25 +1616,19 @@ namespace Aow.Units.AoWCityScreen
         // AoWCityScreen.pas:726
         public void PNextClick()
         {
-            int Start = default;
-            int Index = default;
-            TPlayerStructure S = default;
-            var call__229 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__230 = call__229.FStructures.FindChildIndex(FCity);
-            Start = call__230;
+            int Start;
+            int Index;
+            TPlayerStructure S;
+            Start = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.FindChildIndex(FCity);
             Index = Start + 1;
-            var call__231 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-            var call__232 = call__231.FStructures.GetCount();
-            if (Index >= call__232)
+            if (Index >= AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount())
             {
                 Index = 0;
             }
 
             while (Index != Start)
             {
-                var call__233 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__234 = call__233.FStructures.GetStructure(Index);
-                S = call__234;
+                S = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetStructure(Index);
                 if (S is TCity)
                 {
                     Index = Start - 1;
@@ -1769,9 +1636,7 @@ namespace Aow.Units.AoWCityScreen
                 }
 
                 Index += 1;
-                var call__235 = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                var call__236 = call__235.FStructures.GetCount();
-                if (Index >= call__236)
+                if (Index >= AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount())
                 {
                     Index = 0;
                 }

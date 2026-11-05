@@ -36,20 +36,17 @@ namespace Aow.Units.AoWFrame
         {
             if (FILFrame != null)
             {
-                var call__1 = FILFrame.CheckIL(FILIndexFrame, 8, this);
-                FILFrame = call__1;
+                FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
             }
 
             if (FILTexture != null)
             {
-                var call__2 = FILTexture.CheckIL(FILIndexTexture, 1, this);
-                FILTexture = call__2;
+                FILTexture = FILTexture.CheckIL(FILIndexTexture, 1, this);
             }
 
             if (FILLine != null)
             {
-                var call__3 = FILLine.CheckIL(FILIndexLine, 3, this);
-                FILLine = call__3;
+                FILLine = FILLine.CheckIL(FILIndexLine, 3, this);
             }
 
             if (FILFrame != null || FILLine != null)
@@ -88,50 +85,48 @@ namespace Aow.Units.AoWFrame
             {
                 case TFrameType.frFilledBox:
                 case TFrameType.frHollowBox:
-                    var call__4 = FILFrame[FILIndexFrame];
-                    var call__5 = FILFrame[FILIndexFrame + 5];
-                    if (call__4.Height + call__5.Height > FWinHeight)
+                    var ilFrameHeight = FILFrame[FILIndexFrame];
+                    var ilFrame = FILFrame[FILIndexFrame + 5];
+                    if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
                     {
-                        var call__6 = FILFrame[FILIndexFrame];
-                        var call__7 = FILFrame[FILIndexFrame + 5];
-                        FWinHeight = call__6.Height + call__7.Height;
+                        var ilFrame2 = FILFrame[FILIndexFrame];
+                        var ilFrame3 = FILFrame[FILIndexFrame + 5];
+                        FWinHeight = ilFrame2.Height + ilFrame3.Height;
                     }
 
-                    var call__8 = FILFrame[FILIndexFrame];
-                    var call__9 = FILFrame[FILIndexFrame + 2];
-                    if (call__8.Width + call__9.Width > FWinWidth)
+                    var ilFrameWidth = FILFrame[FILIndexFrame];
+                    var ilFrame4 = FILFrame[FILIndexFrame + 2];
+                    if (ilFrameWidth.Width + ilFrame4.Width > FWinWidth)
                     {
-                        var call__10 = FILFrame[FILIndexFrame];
-                        var call__11 = FILFrame[FILIndexFrame + 2];
-                        FWinWidth = call__10.Width + call__11.Width;
+                        var ilFrame2 = FILFrame[FILIndexFrame];
+                        var ilFrame3 = FILFrame[FILIndexFrame + 2];
+                        FWinWidth = ilFrame2.Width + ilFrame3.Width;
                     }
 
                     break;
                 case TFrameType.frHorizLine:
-                    var call__12 = FILLine[FILIndexLine];
-                    FWinHeight = call__12.Height;
-                    var call__13 = FILLine[FILIndexLine];
-                    var call__14 = FILLine[FILIndexLine + 2];
-                    if (call__13.Width + call__14.Width > FWinWidth)
+                    FWinHeight = FILLine[FILIndexLine].Height;
+                    var ilLineWidth = FILLine[FILIndexLine];
+                    var ilLine = FILLine[FILIndexLine + 2];
+                    if (ilLineWidth.Width + ilLine.Width > FWinWidth)
                     {
-                        var call__15 = FILLine[FILIndexLine];
-                        var call__16 = FILLine[FILIndexLine + 2];
-                        FWinWidth = call__15.Width + call__16.Width;
+                        var ilLine2 = FILLine[FILIndexLine];
+                        var ilLine3 = FILLine[FILIndexLine + 2];
+                        FWinWidth = ilLine2.Width + ilLine3.Width;
                     }
 
                     break;
                 case TFrameType.frVertLine:
-                    var call__17 = FILLine[FILIndexLine];
-                    var call__18 = FILLine[FILIndexLine + 2];
-                    if (call__17.Height + call__18.Height > FWinHeight)
+                    var ilLineHeight = FILLine[FILIndexLine];
+                    var ilLine4 = FILLine[FILIndexLine + 2];
+                    if (ilLineHeight.Height + ilLine4.Height > FWinHeight)
                     {
-                        var call__19 = FILLine[FILIndexLine];
-                        var call__20 = FILLine[FILIndexLine + 2];
-                        FWinHeight = call__19.Height + call__20.Height;
+                        var ilLine2 = FILLine[FILIndexLine];
+                        var ilLine3 = FILLine[FILIndexLine + 2];
+                        FWinHeight = ilLine2.Height + ilLine3.Height;
                     }
 
-                    var call__21 = FILLine[FILIndexLine];
-                    FWinWidth = call__21.Width;
+                    FWinWidth = FILLine[FILIndexLine].Width;
                     break;
             }
 
@@ -153,28 +148,28 @@ namespace Aow.Units.AoWFrame
                     switch (FFrameType)
                     {
                         case TFrameType.frVertLine:
-                            var call__22 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILLine.DrawILLv(FILIndexLine, call__22, ref SurfDesc);
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILLine.DrawILLv(FILIndexLine, rect, ref SurfDesc);
                             break;
                         case TFrameType.frHorizLine:
-                            var call__23 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILLine.DrawILLh(FILIndexLine, call__23, ref SurfDesc);
+                            var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILLine.DrawILLh(FILIndexLine, rect2, ref SurfDesc);
                             break;
                         case TFrameType.frHollowBox:
-                            var call__24 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILFrame.DrawILF(FILIndexFrame, call__24, ref SurfDesc);
+                            var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                             break;
                         case TFrameType.frFilledBox:
-                            var call__25 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILFrame.DrawILF(FILIndexFrame, call__25, ref SurfDesc);
-                            var call__26 = FILFrame[FILIndexFrame + 1];
-                            var call__27 = FILFrame[FILIndexFrame + 6];
-                            var call__28 = FILFrame[FILIndexFrame + 3];
-                            var call__29 = FILFrame[FILIndexFrame + 4];
-                            var call__30 = FILFrame[FILIndexFrame + 1];
-                            var call__31 = FILFrame[FILIndexFrame + 3];
-                            var call__32 = Rect(FAOWWindow.FWinLeft + FWinLeft + call__31.Width, FAOWWindow.FWinTop + FWinTop + call__30.Height, FWinWidth - call__28.Width - call__29.Width, FWinHeight - call__26.Height - call__27.Height);
-                            FILTexture.DrawILT(FILIndexTexture, call__32, ref SurfDesc);
+                            var rect4 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            FILFrame.DrawILF(FILIndexFrame, rect4, ref SurfDesc);
+                            var ilFrameHeight = FILFrame[FILIndexFrame + 1];
+                            var ilFrame = FILFrame[FILIndexFrame + 6];
+                            var ilFrameWidth = FILFrame[FILIndexFrame + 3];
+                            var ilFrame2 = FILFrame[FILIndexFrame + 4];
+                            var ilFrame3 = FILFrame[FILIndexFrame + 1];
+                            var ilFrame4 = FILFrame[FILIndexFrame + 3];
+                            var rect5 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                            FILTexture.DrawILT(FILIndexTexture, rect5, ref SurfDesc);
                             break;
                     }
 

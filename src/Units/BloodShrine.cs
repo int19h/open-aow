@@ -30,12 +30,7 @@ namespace Aow.Units.BloodShrine
 
 
         // BloodShrine.pas:53
-        public override TSet<TAnimationControlModeElement> AnimationControlMode()
-        {
-            TSet<TAnimationControlModeElement> Result = default;
-            Result = TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amOwnedByMap);
-            return Result;
-        }
+        public override TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amOwnedByMap);
 
     }
 
@@ -74,50 +69,41 @@ namespace Aow.Units.BloodShrine
         {
             TAbstractUnit AUnit = default;
             TRect R = default;
-            int I = default;
             TBloodShrineAnimation Anim = default;
+            for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__1 = ArmyHS.FArmy.Count - 1;
-                for (; I <= end__1; I += 1)
-                {
-                    var call__2 = ArmyHS.FArmy.GetUnit(I);
-                    AUnit = call__2;
-                    var call__3 = AoWHSSet.FAbilityControl.GetAbility(168);
-                    call__3.Expand(AUnit);
-                }
+                AUnit = ArmyHS.FArmy.GetUnit(I);
+                AoWHSSet.FAbilityControl.GetAbility(168).Expand(AUnit);
             }
 
-            bool bool__4 = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
-            if (!bool__4)
+            bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
+            if (!condition)
             {
-                var call__5 = GetLhx();
-                var call__6 = GetYhx();
-                var call__7 = GetXhx();
-                var call__8 = AoWHSMap.Watching(call__7, call__6, call__5, 0);
-                bool__4 = call__8;
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
             }
 
-            if (bool__4)
+            if (condition)
             {
                 PlaySample((AnsiString)"SFX\\ATTACK\\ENCHP02.WAV");
             }
 
-            var call__9 = GetLhx();
-            var call__10 = GetYhx();
-            var call__11 = GetXhx();
-            var call__12 = AoWHSMap.Visible(call__11, call__10, call__9, 0);
-            if (call__12)
+            var lhx2 = GetLhx();
+            var yhx2 = GetYhx();
+            var xhx2 = GetXhx();
+            if (AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new TBloodShrineAnimation(null);
                 R = Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowBlessingAnimation;
-                var call__13 = GetLhx();
-                var call__14 = GetYhx();
-                var call__15 = GetXhx();
-                AoWHSMap.PlaceHX(Anim, call__15, call__14, call__13);
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 
@@ -141,25 +127,13 @@ namespace Aow.Units.BloodShrine
 
 
         // BloodShrine.pas:122
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 131376;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 131376;
 
         // BloodShrine.pas:36
 
 
         // BloodShrine.pas:119
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            var call__16 = BloodShrineRStr;
-            var call__17 = TranslateRStr(call__16);
-            Result = call__17;
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(BloodShrineRStr);
 
     }
 

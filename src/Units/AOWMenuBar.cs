@@ -29,28 +29,20 @@ namespace Aow.Units.AOWMenuBar
         // AOWMenuBar.pas:65
         public TAOWMenuBar(TComponent owner) : base(owner)
         {
-            var call__1 = new TStringList();
-            FItems = call__1;
+            FItems = new TStringList();
             FItems.OnChange = OnChangeText;
-            var call__2 = new TList();
-            FMenus = call__2;
+            FMenus = new TList();
             FSelected = -1;
         }
 
         // AOWMenuBar.pas:74
         public override void Destroy()
         {
-            int I = default;
-            TAOWWindowControl M = default;
+            TAOWWindowControl M;
+            for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__3 = FMenus.Count - 1;
-                for (; I <= end__3; I += 1)
-                {
-                    var call__4 = FMenus[I];
-                    M = (TAOWWindowControl)call__4;
-                    M.DetachMenuBar();
-                }
+                M = (TAOWWindowControl)FMenus[I];
+                M.DetachMenuBar();
             }
 
             FMenus.Destroy();
@@ -63,14 +55,12 @@ namespace Aow.Units.AOWMenuBar
         {
             if (FILButton != null)
             {
-                var call__5 = FILButton.CheckIL(FILIndexUp, 3, this);
-                FILButton = call__5;
+                FILButton = FILButton.CheckIL(FILIndexUp, 3, this);
             }
 
             if (FILButton != null)
             {
-                var call__6 = FILButton.CheckIL(FILIndexDown, 3, this);
-                FILButton = call__6;
+                FILButton = FILButton.CheckIL(FILIndexDown, 3, this);
             }
 
             if (FILButton != null)
@@ -85,28 +75,21 @@ namespace Aow.Units.AOWMenuBar
         // { The bar is at least as wide as one up and one down button per item }
         public override void SetSize()
         {
-            int I = default;
-            var call__7 = FILButton[FILIndexUp];
-            var call__8 = FILButton[FILIndexUp + 2];
-            var call__9 = FItems.Count;
-            if ((call__7.Width + call__8.Width) * call__9 > FWinWidth)
+            var ilButtonWidth = FILButton[FILIndexUp];
+            var ilButton = FILButton[FILIndexUp + 2];
+            var count = FItems.Count;
+            if ((ilButtonWidth.Width + ilButton.Width) * count > FWinWidth)
             {
-                var call__10 = FILButton[FILIndexUp];
-                var call__11 = FILButton[FILIndexUp + 2];
-                var call__12 = FItems.Count;
-                FWinWidth = (call__10.Width + call__11.Width) * call__12;
+                var ilButton2 = FILButton[FILIndexUp];
+                var ilButton3 = FILButton[FILIndexUp + 2];
+                var fItemsCount = FItems.Count;
+                FWinWidth = (ilButton2.Width + ilButton3.Width) * fItemsCount;
             }
 
-            var call__13 = FILButton[FILIndexUp];
-            FWinHeight = call__13.Height;
+            FWinHeight = FILButton[FILIndexUp].Height;
+            for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__14 = FMenus.Count - 1;
-                for (; I <= end__14; I += 1)
-                {
-                    var call__15 = FMenus[I];
-                    ((TAoWComponent)call__15).FAligned = false;
-                }
+                ((TAoWComponent)FMenus[I]).FAligned = false;
             }
 
             base.SetSize();
@@ -115,15 +98,9 @@ namespace Aow.Units.AOWMenuBar
         // AOWMenuBar.pas:122
         public override void ReAlign()
         {
-            int I = default;
+            for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__16 = FMenus.Count - 1;
-                for (; I <= end__16; I += 1)
-                {
-                    var call__17 = FMenus[I];
-                    ((TAoWComponent)call__17).FAligned = false;
-                }
+                ((TAoWComponent)FMenus[I]).FAligned = false;
             }
 
             base.ReAlign();
@@ -134,7 +111,6 @@ namespace Aow.Units.AOWMenuBar
 //   image and the text one pixel lower }
         public override void Draw(TSurfaceDesc SurfDesc)
         {
-            int I = default;
             TRect OldClip = default;
             try
             {
@@ -146,38 +122,34 @@ namespace Aow.Units.AOWMenuBar
                     }
 
                     OldClip = SurfDesc.ClipRect;
+                    for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__18 = FItems.Count - 1;
-                        for (; I <= end__18; I += 1)
+                        if (I != FSelected)
                         {
-                            if (I != FSelected)
+                            var count = FItems.Count;
+                            var fItemsCount = FItems.Count;
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                            FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
+                            if (FAOWFont != null)
                             {
-                                var call__19 = FItems.Count;
-                                var call__20 = FItems.Count;
-                                var call__21 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__20, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__19, FWinHeight);
-                                FILButton.DrawILLh(FILIndexDown, call__21, ref SurfDesc);
-                                if (FAOWFont != null)
-                                {
-                                    FAOWFont.Color = FSelColor;
-                                    var call__22 = FItems[I];
-                                    var call__23 = FItems.Count;
-                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__23 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, call__22, SurfDesc);
-                                }
+                                FAOWFont.Color = FSelColor;
+                                var item = FItems[I];
+                                var count2 = FItems.Count;
+                                FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / count2 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, item, SurfDesc);
                             }
-                            else
+                        }
+                        else
+                        {
+                            var count = FItems.Count;
+                            var fItemsCount = FItems.Count;
+                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                            FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
+                            if (FAOWFont != null)
                             {
-                                var call__24 = FItems.Count;
-                                var call__25 = FItems.Count;
-                                var call__26 = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__25, FAOWWindow.FWinTop + FWinTop, FWinWidth / call__24, FWinHeight);
-                                FILButton.DrawILLh(FILIndexUp, call__26, ref SurfDesc);
-                                if (FAOWFont != null)
-                                {
-                                    FAOWFont.Color = FColor;
-                                    var call__27 = FItems[I];
-                                    var call__28 = FItems.Count;
-                                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / call__28 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight + 1, call__27, SurfDesc);
-                                }
+                                FAOWFont.Color = FColor;
+                                var item = FItems[I];
+                                var count2 = FItems.Count;
+                                FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / count2 + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight + 1, item, SurfDesc);
                             }
                         }
                     }
@@ -208,8 +180,8 @@ namespace Aow.Units.AOWMenuBar
                 FRedraw = true;
                 if (Button == TMouseButton.mbLeft)
                 {
-                    var call__29 = FItems.Count;
-                    I = (X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / call__29);
+                    var count = FItems.Count;
+                    I = (X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / count);
                     if (I == FSelected)
                     {
                         FSelected = -1;
@@ -226,16 +198,14 @@ namespace Aow.Units.AOWMenuBar
                         {
                             FSelected = I;
                             FLastSelected = I;
+                            I = 0;
+                            int last = FMenus.Count - 1;
+                            for (; I <= last; I += 1)
                             {
-                                I = 0;
-                                int end__30 = FMenus.Count - 1;
-                                for (; I <= end__30; I += 1)
+                                var component = (TAoWComponent)FMenus[I];
+                                if (component.FOwnerItem == this.FSelected)
                                 {
-                                    var component = (TAoWComponent)FMenus[I];
-                                    if (component.FOwnerItem == this.FSelected)
-                                    {
-                                        component.SetVisible(true);
-                                    }
+                                    component.SetVisible(true);
                                 }
                             }
 
@@ -334,16 +304,11 @@ namespace Aow.Units.AOWMenuBar
         // AOWMenuBar.pas:149
         public void SetFStrings(TStringList Value)
         {
-            int I = default;
             FItems.Clear();
+            for (int I = 0, last = Value.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__32 = Value.Count - 1;
-                for (; I <= end__32; I += 1)
-                {
-                    var call__33 = Value[I];
-                    FItems.Add(call__33);
-                }
+                var valueValue = Value[I];
+                FItems.Add(valueValue);
             }
         }
 

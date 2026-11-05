@@ -52,20 +52,15 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:419
         public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte Layer)
         {
-            TImageSequenceAnimation Animation = default;
-            var call__1 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            var call__2 = call__1.FCastImages.ImageSequences[0];
-            if (call__2 != null)
+            TImageSequenceAnimation Animation;
+            if (AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
             {
                 Animation = new TImageSequenceAnimation(null);
-                var call__3 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                var call__4 = call__3.FCastImages.ImageSequences[0];
-                Animation.SetImageSequence(call__4);
+                Animation.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
                 AoWHSMap.PlaceHX(Animation, X, Y, Layer);
             }
 
-            var call__5 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__5.FCastSounds.Play(0);
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
         }
 
         // NetworkE.pas:230
@@ -93,11 +88,10 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:569
         public override bool CanActivate(TAbstractUnit A1, ref AnsiString A2)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte Layer = default;
-            Result = base.CanActivate(A1, ref A2);
+            bool Result = base.CanActivate(A1, ref A2);
             if (Result && FAboveGroundOnly)
             {
                 A1.GetLocation(ref X, ref Y, ref Layer);
@@ -114,7 +108,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:618
         public override bool Activate(TAbstractUnit A1)
         {
-            bool Result = default;
+            bool Result;
             AnsiString MessageText = default;
             base.Activate(A1);
             if (CanActivate(A1, ref MessageText))
@@ -136,31 +130,27 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:445
         public virtual void ShowTargetSelection(TTargetSelectionControl Target, int HN, int Xs, int Ys, in TSurfaceDesc SurfaceDesc)
         {
-            TMapLevel Level = default;
-            TAoWMapField MapF = default;
+            TMapLevel Level;
+            TAoWMapField MapF;
             int X = default;
             int Y = default;
-            int Intensity = default;
-            int Radius = default;
-            var call__6 = AoWHSMap.MapContainer.MapLevels[Target.FTargetL];
-            Level = call__6;
+            int Intensity;
+            int Radius;
+            Level = AoWHSMap.MapContainer.MapLevels[Target.FTargetL];
             CenterHNtoHX(Target.FTargetX, Target.FTargetY, HN, ref X, ref Y);
             // { Original accepts Width/Height themselves (strict > bounds test). }
             if (X >= 0 && Y >= 0 && X <= Level.Width && Y <= Level.Height)
             {
-                var call__7 = Level.Field[X, Y];
-                MapF = (TAoWMapField)call__7;
+                MapF = (TAoWMapField)Level.Field[X, Y];
                 if (this.ValidTargetSelectionMapF((TMapField)(object)MapF))
                 {
                     Radius = HNtoRad(HN);
                     Intensity = Math.Abs((AoWHSMap.Frame + Radius) % 9 - 4) * 20 + 20;
-                    var call__8 = Target.FImageLibrary[0];
-                    call__8.ShowBlended(Xs - 8, Ys, SurfaceDesc, IntensityBlendTable.LookupTables[Intensity]);
+                    Target.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, IntensityBlendTable.LookupTables[Intensity]);
                 }
                 else
                 {
-                    var call__9 = Target.FImageLibrary[1];
-                    call__9.Show(Xs - 8, Ys, SurfaceDesc);
+                    Target.FImageLibrary[1].Show(Xs - 8, Ys, SurfaceDesc);
                 }
             }
         }
@@ -180,57 +170,31 @@ namespace Aow.Units.GlobalTargetSpells
             A2.FRange = 12;
             A2.FOnChange.Add(OnTargetSelectionChange);
             A2.FOnShow = ShowTargetSelection;
-            var call__11 = TranslateRStr(SelectTargetLocationForXOnMapRStr);
-            var call__12 = Rtl.Rtl.Format(call__11, [FSpellName]);
-            A2.FText.Text = call__12;
+            var format = Rtl.Rtl.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [FSpellName]);
+            A2.FText.Text = format;
             A2.FTitle = FSpellName;
-            var call__13 = TranslateRStr(CancelRStr);
-            A2.FCancelText = call__13;
-            var call__14 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-            var call__15 = call__14.FCastImages.ImageSequences[20];
-            var call__16 = call__15.GetPreviewImage();
-            A2.FSourceImage = call__16;
-            var call__17 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-            var call__18 = call__17.FCastImages.ImageSequences[21];
-            var call__19 = call__18.GetPreviewImage();
-            A2.FValidTargetImage = call__19;
-            var call__20 = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-            var call__21 = call__20.FCastImages.ImageSequences[22];
-            var call__22 = call__21.GetPreviewImage();
-            A2.FInvalidTargetImage = call__22;
+            A2.FCancelText = TranslateRStr(CancelRStr);
+            A2.FSourceImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
+            A2.FValidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
+            A2.FInvalidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
         }
 
         // GlobalTargetSpells.pas:544
         public virtual bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4) => false;
 
         // GlobalTargetSpells.pas:487
-        public virtual bool ValidTargetSelection(TTargetSelectionControl A1)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public virtual bool ValidTargetSelection(TTargetSelectionControl A1) => true;
 
         // GlobalTargetSpells.pas:475
         public virtual bool ValidTargetSelectionMapF(TMapField A1)
         {
-            bool Result = default;
-            bool bool__23 = AoWHSMap.FExplorationEnabled;
-            if (bool__23)
-            {
-                var call__24 = ((TAoWMapField)A1).GetExplored(FCasterPlayer);
-                bool__23 = !call__24;
-            }
-
-            if (bool__23)
+            if (AoWHSMap.FExplorationEnabled && !((TAoWMapField)A1).GetExplored(FCasterPlayer))
             {
                 // Preserve the result for callers.
-                Result = false;
-                return Result;
+                return false;
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
         // GlobalTargetSpells.pas:469
@@ -247,46 +211,32 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:679
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
             TTwinkleAnimation Twinkle = default;
             base.Process(A1, A2);
             AoWHSMap.ValidateTerrainObservation(A1.FPlayer, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-            var call__25 = AoWHSMap.TerrainVisible((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-            if (call__25)
+            if (AoWHSMap.TerrainVisible((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
             {
                 Twinkle = new TTwinkleAnimation(null);
-                var call__26 = AoWHSSet.FSpellControl.GetSpell(10);
-                var call__27 = call__26.FCastImages.ImageSequences[0];
-                Twinkle.Setup(call__27, TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmExpand), 100, 64, 50, 30);
+                Twinkle.Setup(AoWHSSet.FSpellControl.GetSpell(10).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmExpand), 100, 64, 50, 30);
                 AoWHSMap.PlaceHX(Twinkle, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
             }
 
             // Use the map's seated player.
-            bool bool__28 = AoWHSMap.FSeatedPlayer == A1.FPlayer;
-            if (!bool__28)
+            if (AoWHSMap.FSeatedPlayer == A1.FPlayer || AoWHSMap.WatchingTerrain((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
             {
-                var call__29 = AoWHSMap.WatchingTerrain((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                bool__28 = call__29;
-            }
-
-            if (bool__28)
-            {
-                var call__30 = AoWHSSet.FSpellControl.GetSpell(10);
-                call__30.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(10).FCastSounds.Play(0);
             }
 
             AoWHSMap.ChangeTerrainEx(null, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, TerrainChanged);
-            var call__31 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__31.CastingDone(A1, FEventMana);
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, FEventMana);
             // The original event result is zero.
-            Result = false;
-            return Result;
+            return false;
         }
 
         // GlobalTargetSpells.pas:641
         public void ChangeTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
-            TFrozenWaterHS Ice = default;
+            TFrozenWaterHS Ice;
             if (((TAoWMapField)MapF).GetArmyHS() == null)
             {
                 if (TerrainType == (int)TAoWTerrainType.ttWater)
@@ -306,8 +256,7 @@ namespace Aow.Units.GlobalTargetSpells
                             Ice = (TFrozenWaterHS)MapF.FindOwnedHS(typeof(TFrozenWaterHS));
                             if (Ice != null)
                             {
-                                var call__32 = AoWHSMap.Random(11);
-                                Ice.FDaysRemaining = (sbyte)((call__32 - 5) / 5 + 3);
+                                Ice.FDaysRemaining = (sbyte)((AoWHSMap.Random(11) - 5) / 5 + 3);
                                 Ice.FCasterPlayer = (sbyte)FEventPlayerIndex;
                             }
                         }
@@ -319,7 +268,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:661
         public void TerrainChanged(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
         {
-            TFrozenWaterHS Ice = default;
+            TFrozenWaterHS Ice;
             if (TSet<byte>.WithBounds(0, 255).With((int)TAoWTerrainType.ttIce).With((int)TAoWTerrainType.ttUndergroundIce).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With((int)TAoWTerrainType.ttIce).With((int)TAoWTerrainType.ttUndergroundIce).Contains((byte)OriginalTerrainType))
             {
                 Ice = (TFrozenWaterHS)MapF.FindOwnedHS(typeof(TFrozenWaterHS));
@@ -329,8 +278,7 @@ namespace Aow.Units.GlobalTargetSpells
                     AoWHSMap.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
                 }
 
-                var call__33 = AoWHSMap.Random(11);
-                Ice.FDaysRemaining = (sbyte)((call__33 - 5) / 5 + 3);
+                Ice.FDaysRemaining = (sbyte)((AoWHSMap.Random(11) - 5) / 5 + 3);
                 Ice.FCasterPlayer = (sbyte)FEventPlayerIndex;
             }
         }
@@ -345,8 +293,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:710
         public TFreezeWater(TECustomNode owner) : base(owner)
         {
-            var call__34 = TranslateRStr(FreezeWaterRStr);
-            this.FSpellName = call__34;
+            this.FSpellName = TranslateRStr(FreezeWaterRStr);
             FSpellID = 10;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -357,34 +304,26 @@ namespace Aow.Units.GlobalTargetSpells
         // { Original Boolean-return ABI; foreign P7 overrides remain procedures. }
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
-            int I = default;
+            TTargetSelectionControl Target;
             Target = A2;
             base.SetupTargetSelection(A1, Target);
             Target.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__35 = RadToHN(2) - 1;
-                for (; I <= end__35; I += 1)
-                {
-                    Target.FHNs.Add(0);
-                }
+                Target.FHNs.Add(0);
             }
         }
 
         // GlobalTargetSpells.pas:823
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TFreezeWaterTE Event = default;
+            TFreezeWaterTE Event;
             Event = new TFreezeWaterTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__36 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__36.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
     }
 
@@ -398,54 +337,36 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:873
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
             base.Process(A1, A2);
             CreateFireBarrier();
-            var call__37 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            var call__38 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__38.CastingDone(A1, call__37.FBaseManaCost);
-            Result = false;
-            return Result;
+            var spell = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, spell.FBaseManaCost);
+            return false;
         }
 
         // GlobalTargetSpells.pas:842
         public void CreateFireBarrier()
         {
             THNWalkData Walk = default;
-            TMapLevel Level = default;
-            TAoWMapField MapF = default;
-            TFire Fire = default;
-            var call__39 = AoWHSMap.Random(16777215);
-            RandSeed = call__39;
-            var call__40 = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
-            Level = call__40;
+            TMapLevel Level;
+            TAoWMapField MapF;
+            TFire Fire;
+            RandSeed = AoWHSMap.Random(16777215);
+            Level = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
             InitHNWalk(ref Walk, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    var call__41 = Level.Field[Walk.X, Walk.Y];
-                    MapF = (TAoWMapField)call__41;
-                    var call__42 = AoWHSSet.FSpellControl.GetSpell(11);
-                    var call__43 = ((TGlobalTargetSpell)(object)call__42).ValidTargetMapF((TMapField)(object)MapF);
-                    bool bool__44 = call__43;
-                    if (bool__44)
+                    MapF = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
+                    if (((TGlobalTargetSpell)(object)AoWHSSet.FSpellControl.GetSpell(11)).ValidTargetMapF((TMapField)(object)MapF) && MapF.GetArmyHS() == null)
                     {
-                        var call__45 = MapF.GetArmyHS();
-                        bool__44 = call__45 == null;
-                    }
-
-                    if (bool__44)
-                    {
-                        var call__46 = AoWHSSet.FFireControl.PlaceFire(Walk.X, Walk.Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, TFireType.ftLarge);
-                        Fire = call__46;
+                        Fire = AoWHSSet.FFireControl.PlaceFire(Walk.X, Walk.Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, TFireType.ftLarge);
                         if (Fire != null)
                         {
-                            var call__47 = Random(35);
-                            Fire.SetupExplosion(call__47);
+                            Fire.SetupExplosion(Random(35));
                             Fire.FTurnsLeft = 3;
-                            var call__48 = this.GetSource();
-                            Fire.FPlayer = call__48.FPlayer;
+                            Fire.FPlayer = this.GetSource().FPlayer;
                         }
                     }
                 }
@@ -464,8 +385,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:882
         public TFireBarrier(TECustomNode owner) : base(owner)
         {
-            var call__49 = TranslateRStr(FireBarrierRStr);
-            this.FSpellName = call__49;
+            this.FSpellName = TranslateRStr(FireBarrierRStr);
             FSpellID = 11;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -475,50 +395,33 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:914
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
-            int I = default;
+            TTargetSelectionControl Target;
             Target = A2;
             base.SetupTargetSelection(A1, Target);
             Target.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__50 = RadToHN(2) - 1;
-                for (; I <= end__50; I += 1)
-                {
-                    Target.FHNs.Add(0);
-                }
+                Target.FHNs.Add(0);
             }
         }
 
         // GlobalTargetSpells.pas:926
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TFireBarrierTE Event = default;
+            TFireBarrierTE Event;
             Event = new TFireBarrierTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__51 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__51.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // GlobalTargetSpells.pas:900
         public override bool ValidTargetSelectionMapF(TMapField A1)
         {
-            bool Result = default;
-            TArmyHS Army = default;
-            var call__52 = base.ValidTargetSelectionMapF(A1);
-            bool bool__53 = call__52 && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)A1.TerrainType);
-            if (bool__53)
-            {
-                var call__54 = A1.FindNoneTransparentHS(typeof(TStructure));
-                bool__53 = call__54 == null;
-            }
-
-            Result = bool__53;
+            TArmyHS Army;
+            bool Result = base.ValidTargetSelectionMapF(A1) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)A1.TerrainType) && A1.FindNoneTransparentHS(typeof(TStructure)) == null;
             if (Result)
             {
                 Army = ((TAoWMapField)A1).GetArmyHS();
@@ -532,25 +435,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:892
-        public override bool ValidTargetMapF(TMapField A1)
-        {
-            bool Result = default;
-            var call__55 = base.ValidTargetMapF(A1);
-            bool bool__56 = call__55 && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)A1.TerrainType);
-            if (bool__56)
-            {
-                var call__57 = A1.FindNoneTransparentHS(typeof(TStructure));
-                bool__56 = call__57 == null;
-            }
-
-            Result = bool__56;
-            if (Result)
-            {
-                Result = ((TAoWMapField)A1).GetArmyHS() == null;
-            }
-
-            return Result;
-        }
+        public override bool ValidTargetMapF(TMapField A1) => base.ValidTargetMapF(A1) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)A1.TerrainType) && A1.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)A1).GetArmyHS() == null;
     }
 
     public partial class TLevelTerrainTE : TGlobalTargetSpellTE
@@ -564,42 +449,28 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:968
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
             base.Process(A1, A2);
             PlayDefaultEffects(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
             LevelTerrain();
-            var call__58 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            var call__59 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__59.CastingDone(A1, call__58.FBaseManaCost);
-            Result = false;
-            return Result;
+            var spell = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, spell.FBaseManaCost);
+            return false;
         }
 
         // GlobalTargetSpells.pas:943
         public void LevelTerrain()
         {
             THNWalkData Walk = default;
-            TMapLevel Level = default;
-            TAoWMapField MapF = default;
-            var call__60 = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
-            Level = call__60;
+            TMapLevel Level;
+            TAoWMapField MapF;
+            Level = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
             InitHNWalk(ref Walk, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    var call__61 = Level.Field[Walk.X, Walk.Y];
-                    MapF = (TAoWMapField)call__61;
-                    var call__62 = AoWHSSet.FSpellControl.GetSpell(18);
-                    var call__63 = ((TGlobalTargetSpell)(object)call__62).ValidTargetMapF((TMapField)(object)MapF);
-                    bool bool__64 = call__63;
-                    if (bool__64)
-                    {
-                        var call__65 = MapF.GetArmyHS();
-                        bool__64 = call__65 == null;
-                    }
-
-                    if (bool__64)
+                    MapF = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
+                    if (((TGlobalTargetSpell)(object)AoWHSSet.FSpellControl.GetSpell(18)).ValidTargetMapF((TMapField)(object)MapF) && MapF.GetArmyHS() == null)
                     {
                         AoWHSMap.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 0, -1);
                         if (MapF.TerrainType == (int)TAoWTerrainType.ttEarth)
@@ -623,8 +494,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:978
         public TLevelTerrain(TECustomNode owner) : base(owner)
         {
-            var call__66 = TranslateRStr(LevelTerrainRStr);
-            this.FSpellName = call__66;
+            this.FSpellName = TranslateRStr(LevelTerrainRStr);
             FSpellID = 18;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -634,50 +504,33 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1010
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
-            int I = default;
+            TTargetSelectionControl Target;
             Target = A2;
             base.SetupTargetSelection(A1, Target);
             Target.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__67 = RadToHN(2) - 1;
-                for (; I <= end__67; I += 1)
-                {
-                    Target.FHNs.Add(0);
-                }
+                Target.FHNs.Add(0);
             }
         }
 
         // GlobalTargetSpells.pas:1022
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TLevelTerrainTE Event = default;
+            TLevelTerrainTE Event;
             Event = new TLevelTerrainTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__68 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__68.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // GlobalTargetSpells.pas:996
         public override bool ValidTargetSelectionMapF(TMapField A1)
         {
-            bool Result = default;
-            TArmyHS Army = default;
-            var call__69 = base.ValidTargetSelectionMapF(A1);
-            bool bool__70 = call__69 && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)A1.TerrainType);
-            if (bool__70)
-            {
-                var call__71 = A1.FindNoneTransparentHS(typeof(TStructure));
-                bool__70 = call__71 == null;
-            }
-
-            Result = bool__70;
+            TArmyHS Army;
+            bool Result = base.ValidTargetSelectionMapF(A1) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)A1.TerrainType) && A1.FindNoneTransparentHS(typeof(TStructure)) == null;
             if (Result)
             {
                 Army = ((TAoWMapField)A1).GetArmyHS();
@@ -691,25 +544,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:988
-        public override bool ValidTargetMapF(TMapField A1)
-        {
-            bool Result = default;
-            var call__72 = base.ValidTargetMapF(A1);
-            bool bool__73 = call__72 && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)A1.TerrainType);
-            if (bool__73)
-            {
-                var call__74 = A1.FindNoneTransparentHS(typeof(TStructure));
-                bool__73 = call__74 == null;
-            }
-
-            Result = bool__73;
-            if (Result)
-            {
-                Result = ((TAoWMapField)A1).GetArmyHS() == null;
-            }
-
-            return Result;
-        }
+        public override bool ValidTargetMapF(TMapField A1) => base.ValidTargetMapF(A1) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)A1.TerrainType) && A1.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)A1).GetArmyHS() == null;
     }
 
     public partial class TRejuvenateTE : TGlobalTargetSpellTE
@@ -723,41 +558,27 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1044
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
             TTwinkleAnimation Twinkle = default;
             base.Process(A1, A2);
             AoWHSMap.ValidateTerrainObservation(A1.FPlayer, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-            var call__75 = AoWHSMap.TerrainVisible((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-            if (call__75)
+            if (AoWHSMap.TerrainVisible((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
             {
                 Twinkle = new TTwinkleAnimation(null);
-                var call__76 = AoWHSSet.FSpellControl.GetSpell(41);
-                var call__77 = call__76.FCastImages.ImageSequences[0];
-                Twinkle.Setup(call__77, TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
+                Twinkle.Setup(AoWHSSet.FSpellControl.GetSpell(41).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
                 AoWHSMap.PlaceHX(Twinkle, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
             }
 
             // Use the map's seated player.
-            bool bool__78 = AoWHSMap.FSeatedPlayer == A1.FPlayer;
-            if (!bool__78)
+            if (AoWHSMap.FSeatedPlayer == A1.FPlayer || AoWHSMap.WatchingTerrain((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
             {
-                var call__79 = AoWHSMap.WatchingTerrain((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                bool__78 = call__79;
-            }
-
-            if (bool__78)
-            {
-                var call__80 = AoWHSSet.FSpellControl.GetSpell(41);
-                call__80.FCastSounds.Play(0);
+                AoWHSSet.FSpellControl.GetSpell(41).FCastSounds.Play(0);
             }
 
             AoWHSMap.ChangeTerrainEx(null, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2, RejuvenateTerrain, null);
-            var call__81 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            var call__82 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__82.CastingDone(A1, call__81.FBaseManaCost);
+            var spell = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, spell.FBaseManaCost);
             // The original event result is zero.
-            Result = false;
-            return Result;
+            return false;
         }
 
         // GlobalTargetSpells.pas:1039
@@ -779,8 +600,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1074
         public TRejuvenate(TECustomNode owner) : base(owner)
         {
-            var call__83 = TranslateRStr(RejuvenateRStr);
-            this.FSpellName = call__83;
+            this.FSpellName = TranslateRStr(RejuvenateRStr);
             FSpellID = 41;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -791,53 +611,33 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1095
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
-            int I = default;
+            TTargetSelectionControl Target;
             Target = A2;
             base.SetupTargetSelection(A1, Target);
             Target.FHNs.Clear();
+            for (int I = 0, last = RadToHN(3) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__84 = RadToHN(3) - 1;
-                for (; I <= end__84; I += 1)
-                {
-                    Target.FHNs.Add(0);
-                }
+                Target.FHNs.Add(0);
             }
         }
 
         // GlobalTargetSpells.pas:1107
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TRejuvenateTE Event = default;
+            TRejuvenateTE Event;
             Event = new TRejuvenateTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__85 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__85.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // GlobalTargetSpells.pas:1090
-        public override bool ValidTargetSelectionMapF(TMapField A1)
-        {
-            bool Result = default;
-            var call__86 = base.ValidTargetSelectionMapF(A1);
-            Result = call__86 && TSet<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)A1.TerrainType);
-            return Result;
-        }
+        public override bool ValidTargetSelectionMapF(TMapField A1) => base.ValidTargetSelectionMapF(A1) && TSet<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)A1.TerrainType);
 
         // GlobalTargetSpells.pas:1085
-        public override bool ValidTargetMapF(TMapField A1)
-        {
-            bool Result = default;
-            var call__87 = base.ValidTargetMapF(A1);
-            Result = call__87 && TSet<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)A1.TerrainType);
-            return Result;
-        }
+        public override bool ValidTargetMapF(TMapField A1) => base.ValidTargetMapF(A1) && TSet<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)A1.TerrainType);
     }
 
     // FWatcher
@@ -852,13 +652,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1129
-        public override AnsiString GetName()
-        {
-            AnsiString Result = default;
-            var call__88 = AoWHSSet.FSpellControl.GetSpell(57);
-            Result = call__88.FSpellName;
-            return Result;
-        }
+        public override AnsiString GetName() => AoWHSSet.FSpellControl.GetSpell(57).FSpellName;
 
     }
 
@@ -892,11 +686,9 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1203
         public TWatcherHS(TECustomNode owner) : base(owner)
         {
-            var call__89 = new TWatcherEnchantment(null);
-            FEnchantment = call__89;
+            FEnchantment = new TWatcherEnchantment(null);
             FEnchantment.FWatcher = this;
-            var call__90 = new TIntegerList();
-            FUnexplored = call__90;
+            FUnexplored = new TIntegerList();
             FVisibleForSeatedPlayer = false;
             FAnimationFrame = -1;
         }
@@ -904,7 +696,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1422
         public override void MsgProc(ref TEMsg Msg, TEObject Sender)
         {
-            int ID = default;
+            int ID;
             base.MsgProc(ref Msg, Sender);
             ID = Msg.MsgID;
             if (ID == 537001992)
@@ -922,12 +714,7 @@ namespace Aow.Units.GlobalTargetSpells
         }
 
         // GlobalTargetSpells.pas:1223
-        public override byte GetLevel()
-        {
-            byte Result = default;
-            Result = 27;
-            return Result;
-        }
+        public override byte GetLevel() => 27;
 
         // GlobalTargetSpells.pas:1255
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -936,34 +723,29 @@ namespace Aow.Units.GlobalTargetSpells
             int Y = default;
             int DX = default;
             int DY = default;
-            int Radius = default;
-            int Angle = default;
+            int Radius;
+            int Angle;
             int PX = default;
             int PY = default;
-            int Intensity = default;
-            int I = default;
-            int Delay = default;
-            bool bool__91 = AoWHSMap.ViewL == Lhx;
-            if (bool__91)
+            int Intensity;
+            int Delay;
+            bool condition = AoWHSMap.ViewL == Lhx;
+            if (condition)
             {
-                var call__92 = Yhx;
-                var call__93 = Xhx;
-                var call__94 = AoWHSMap.Visible(call__93, call__92, Lhx, 0);
-                bool__91 = call__94;
+                var yhx = Yhx;
+                var xhx = Xhx;
+                condition = AoWHSMap.Visible(xhx, yhx, Lhx, 0);
             }
 
-            if (bool__91)
+            if (condition)
             {
-                var call__95 = Yhx;
-                var call__96 = Xhx;
-                HXtoHP(call__96, call__95, ref X, ref Y);
+                var yhx = Yhx;
+                HXtoHP(Xhx, yhx, ref X, ref Y);
                 X = X - XhpSurf + 16;
                 Y = Y - YhpSurf + 16;
-                var call__97 = AoWHSSet.FSpellControl.GetSpell(57);
-                if (call__97.FCastImages != null)
+                if (AoWHSSet.FSpellControl.GetSpell(57).FCastImages != null)
                 {
-                    var call__98 = AoWHSSet.FSpellControl.GetSpell(57);
-                    call__98.FCastImages.ShowLooped(1, X, Y, AoWHSMap.Frame, SurfaceDesc);
+                    AoWHSSet.FSpellControl.GetSpell(57).FCastImages.ShowLooped(1, X, Y, AoWHSMap.Frame, SurfaceDesc);
                 }
 
                 if (FAnimationFrame != -1)
@@ -974,44 +756,30 @@ namespace Aow.Units.GlobalTargetSpells
                     if (AoWEngine.FAnimationDetail == 2 && AoWHSMap.ViewL == Lhx)
                     {
                         Intensity = 100 - FAnimationFrame;
-                        var call__99 = Yhx;
-                        var call__100 = Xhx;
-                        HXtoHP(call__100, call__99, ref X, ref Y);
+                        var yhx2 = Yhx;
+                        HXtoHP(Xhx, yhx2, ref X, ref Y);
                         X = X - XhpSurf - 8;
                         Y = Y - YhpSurf;
+                        for (int I = FUnexplored.Count - 1; I >= 0; I--)
                         {
-                            I = FUnexplored.Count - 1;
-                            byte end__101 = 0;
-                            for (; I >= end__101; I -= 1)
-                            {
-                                var call__102 = FUnexplored[I];
-                                HNtoHP(call__102, ref PX, ref PY);
-                                PX += X;
-                                PY += Y;
-                                var call__103 = AoWHSSet.FGeneralImages[5];
-                                call__103.ShowBlended(PX, PY, SurfaceDesc, AlphaBlendTable.LookupTables[Intensity]);
-                            }
+                            HNtoHP(FUnexplored[I], ref PX, ref PY);
+                            PX += X;
+                            PY += Y;
+                            AoWHSSet.FGeneralImages[5].ShowBlended(PX, PY, SurfaceDesc, AlphaBlendTable.LookupTables[Intensity]);
                         }
                     }
 
                     // { Original resets the shared random generator for deterministic particles. }
                     RandSeed = AoWHSMap.FInitialRandomSeed;
+                    for (int I = 0; I <= 300; I++)
                     {
-                        I = 0;
-                        short end__104 = 300;
-                        for (; I <= end__104; I += 1)
+                        Radius = Random(VisibilityRange() << 5);
+                        Angle = Random(360);
+                        Delay = Random(80);
+                        if (FAnimationFrame - Delay >= 0)
                         {
-                            var call__105 = VisibilityRange();
-                            var call__106 = Random(call__105 << 5);
-                            Radius = call__106;
-                            Angle = Random(360);
-                            Delay = Random(80);
-                            if (FAnimationFrame - Delay >= 0)
-                            {
-                                DegreesRadToCo(Angle, Radius, ref DX, ref DY);
-                                var call__107 = AoWHSSet.FSpellControl.GetSpell(57);
-                                call__107.FCastImages.Show(0, X + DX, Y + DY, FAnimationFrame - Delay, SurfaceDesc);
-                            }
+                            DegreesRadToCo(Angle, Radius, ref DX, ref DY);
+                            AoWHSSet.FSpellControl.GetSpell(57).FCastImages.Show(0, X + DX, Y + DY, FAnimationFrame - Delay, SurfaceDesc);
                         }
                     }
 
@@ -1026,8 +794,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1388
         public override bool PlaceOnMap()
         {
-            bool Result = default;
-            Result = base.PlaceOnMap();
+            bool Result = base.PlaceOnMap();
             ((TMapField)Owner).UpdateMapField();
             return Result;
         }
@@ -1035,7 +802,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1394
         public override void RemoveFromMap()
         {
-            TMapField MapF = default;
+            TMapField MapF;
             MapF = (TMapField)Owner;
             base.RemoveFromMap();
             MapF.UpdateMapField();
@@ -1044,9 +811,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1438
         public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
-            int OwnerPlayer = default;
-            int Range = default;
-            ;
+            int OwnerPlayer;
             ref var mapFieldMsg = ref Msg;
             base.MapFieldMsgProc(ref Msg);
             if (mapFieldMsg.MsgID == 4363)
@@ -1054,18 +819,10 @@ namespace Aow.Units.GlobalTargetSpells
                 if (Activated())
                 {
                     OwnerPlayer = FEnchantment.FPlayerIndex;
-                    bool bool__109 = OwnerPlayer == mapFieldMsg.Param[1].Value;
-                    if (!bool__109)
+                    if (OwnerPlayer == mapFieldMsg.Param[1].Value || (byte)AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Value) == 2)
                     {
-                        var call__110 = AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0);
-                        var call__111 = (byte)call__110.FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Value);
-                        bool__109 = call__111 == 2;
-                    }
-
-                    if (bool__109)
-                    {
-                        var call__112 = VisibilityRange();
-                        if (mapFieldMsg.Param[0].Value <= call__112)
+                        var visibilityRange = VisibilityRange();
+                        if (mapFieldMsg.Param[0].Value <= visibilityRange)
                         {
                             mapFieldMsg.Result = 1;
                         }
@@ -1078,18 +835,10 @@ namespace Aow.Units.GlobalTargetSpells
                 if (Activated())
                 {
                     OwnerPlayer = FEnchantment.FPlayerIndex;
-                    bool bool__113 = OwnerPlayer == mapFieldMsg.Param[1].Value;
-                    if (!bool__113)
+                    if (OwnerPlayer == mapFieldMsg.Param[1].Value || (byte)AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Value) == 2)
                     {
-                        var call__114 = AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0);
-                        var call__115 = (byte)call__114.FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Value);
-                        bool__113 = call__115 == 2;
-                    }
-
-                    if (bool__113)
-                    {
-                        var call__116 = VisibilityRange();
-                        if (mapFieldMsg.Param[0].Value <= call__116)
+                        var visibilityRange = VisibilityRange();
+                        if (mapFieldMsg.Param[0].Value <= visibilityRange)
                         {
                             mapFieldMsg.Result = 1;
                         }
@@ -1099,8 +848,7 @@ namespace Aow.Units.GlobalTargetSpells
 
             if (mapFieldMsg.MsgID == 4365)
             {
-                var call__117 = VisibilityRange();
-                if (call__117 >= mapFieldMsg.Param[0].Value)
+                if (VisibilityRange() >= mapFieldMsg.Param[0].Value)
                 {
                     // { Param[0] is already available. }
                     AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx, mapFieldMsg.Param[0].Value, mapFieldMsg.Param[0].Value);
@@ -1113,7 +861,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1350
         public override void Activate()
         {
-            TMapField MapF = default;
+            TMapField MapF;
             base.Activate();
             FWatcherState = (byte)(TSet<TWatcherStateElement>.FromMask(FWatcherState) + TSet<TWatcherStateElement>.Of(TWatcherStateElement.wsActive)).Image;
             FEnchantment.Activate(FEnchantment.FPlayerIndex);
@@ -1121,9 +869,9 @@ namespace Aow.Units.GlobalTargetSpells
             AoWHSMap.NotifyPlayerChanged(mapField.Xhx, mapField.Yhx, mapField.Lhx);
 
             MapF = (TMapField)Owner;
-            var call__119 = VisibilityRange();
-            var call__120 = VisibilityRange();
-            AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, MapF.Xhx, MapF.Yhx, MapF.Lhx, call__119, call__120);
+            var visibilityRange = VisibilityRange();
+            var visibilityRange2 = VisibilityRange();
+            AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, MapF.Xhx, MapF.Yhx, MapF.Lhx, visibilityRange, visibilityRange2);
             UpdateExploration();
             UpdateUnfog();
         }
@@ -1155,35 +903,29 @@ namespace Aow.Units.GlobalTargetSpells
         public void StartAnimation(sbyte X, sbyte Y, sbyte Layer)
         {
             THNWalkData Walk = default;
-            TMapLevel Level = default;
+            TMapLevel Level;
             FAnimationFrame = 0;
             AoWHSMap.DynamicFixedVisibleHS.AddChild(this);
-            var call__121 = AoWHSSet.FSpellControl.GetSpell(57);
-            call__121.FCastSounds.Play(0);
+            AoWHSSet.FSpellControl.GetSpell(57).FCastSounds.Play(0);
             FUnexplored.Clear();
             if (AoWHSMap.FExplorationEnabled)
             {
                 InitHNWalk(ref Walk, X, Y, 0);
-                var call__122 = AoWHSMap.MapContainer.MapLevels[Layer];
-                Level = call__122;
+                Level = AoWHSMap.MapContainer.MapLevels[Layer];
                 while (true)
                 {
-                    var call__123 = VisibilityRange();
-                    if (!(Walk.Radius <= call__123))
+                    var visibilityRange = VisibilityRange();
+                    if (!(Walk.Radius <= visibilityRange))
                         break;
+                    if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                     {
-                        if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                        if (!((TAoWMapField)Level.Field[Walk.X, Walk.Y]).GetExplored(AoWHSMap.FSeatedPlayer))
                         {
-                            var call__124 = Level.Field[Walk.X, Walk.Y];
-                            var call__125 = ((TAoWMapField)call__124).GetExplored(AoWHSMap.FSeatedPlayer);
-                            if (!call__125)
-                            {
-                                FUnexplored.Add(Walk.HN);
-                            }
+                            FUnexplored.Add(Walk.HN);
                         }
-
-                        WalkToNextHN(ref Walk);
                     }
+
+                    WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -1199,31 +941,18 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1305
         public void UpdateExploration()
         {
-            int I = default;
-            int OwnerPlayer = default;
+            int OwnerPlayer;
             if (Activated())
             {
+                for (int I = 1, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
                 {
-                    I = 1;
-                    int end__126 = AoWHSMap.FPlayers.Count - 1;
-                    for (; I <= end__126; I += 1)
+                    OwnerPlayer = FEnchantment.FPlayerIndex;
+                    if (OwnerPlayer == I || (byte)AoWHSMap.FPlayers.GetPlayers(OwnerPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)I) == 2)
                     {
-                        OwnerPlayer = FEnchantment.FPlayerIndex;
-                        bool bool__127 = OwnerPlayer == I;
-                        if (!bool__127)
-                        {
-                            var call__128 = AoWHSMap.FPlayers.GetPlayers(OwnerPlayer);
-                            var call__129 = (byte)call__128.FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)I);
-                            bool__127 = call__129 == 2;
-                        }
-
-                        if (bool__127)
-                        {
-                            var call__130 = VisibilityRange();
-                            var call__131 = Yhx;
-                            var call__132 = Xhx;
-                            AoWHSMap.ExploreArea(call__132, call__131, Lhx, (sbyte)I, call__130);
-                        }
+                        var visibilityRange = VisibilityRange();
+                        var yhx = Yhx;
+                        var xhx = Xhx;
+                        AoWHSMap.ExploreArea(xhx, yhx, Lhx, (sbyte)I, visibilityRange);
                     }
                 }
             }
@@ -1232,30 +961,8 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1321
         public void UpdateUnfog()
         {
-            int Radius = default;
-            sbyte OwnerPlayer = default;
-            bool bool__133 = (byte)AoWHSMap.FSeatedPlayer != 255;
-            if (bool__133)
-            {
-                bool bool__134 = FEnchantment.FPlayerIndex == AoWHSMap.FSeatedPlayer;
-                if (!bool__134)
-                {
-                    var call__135 = AoWHSMap.FPlayers.GetPlayers(FEnchantment.FPlayerIndex);
-                    var call__136 = (byte)call__135.FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)AoWHSMap.FSeatedPlayer);
-                    bool__134 = call__136 == 2;
-                }
-
-                bool__133 = bool__134;
-            }
-
-            bool bool__137 = bool__133;
-            if (bool__137)
-            {
-                var call__138 = Activated();
-                bool__137 = call__138;
-            }
-
-            if (bool__137)
+            int Radius;
+            if ((byte)AoWHSMap.FSeatedPlayer != 255 && (FEnchantment.FPlayerIndex == AoWHSMap.FSeatedPlayer || (byte)AoWHSMap.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)AoWHSMap.FSeatedPlayer) == 2) && Activated())
             {
                 Radius = VisibilityRange();
             }
@@ -1268,17 +975,17 @@ namespace Aow.Units.GlobalTargetSpells
             {
                 if (FUnfogRadius != 0)
                 {
-                    var call__139 = Yhx;
-                    var call__140 = Xhx;
-                    AoWHSMap.FogArea(call__140, call__139, Lhx, FUnfogRadius);
+                    var yhx = Yhx;
+                    var xhx = Xhx;
+                    AoWHSMap.FogArea(xhx, yhx, Lhx, FUnfogRadius);
                 }
 
                 FUnfogRadius = (byte)Radius;
                 if (FUnfogRadius != 0)
                 {
-                    var call__141 = Yhx;
-                    var call__142 = Xhx;
-                    AoWHSMap.UnFogArea(call__142, call__141, Lhx, FUnfogRadius);
+                    var yhx = Yhx;
+                    var xhx = Xhx;
+                    AoWHSMap.UnFogArea(xhx, yhx, Lhx, FUnfogRadius);
                 }
             }
         }
@@ -1286,22 +993,8 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1376
         public int VisibilityRange()
         {
-            int Result = default;
-            Result = 8;
-            bool bool__143 = Lhx != 0;
-            if (!bool__143)
-            {
-                bool bool__144 = FEnchantment.FPlayerIndex > 0;
-                if (bool__144)
-                {
-                    var call__145 = AoWHSMap.FPlayers.GetPlayers(FEnchantment.FPlayerIndex);
-                    bool__144 = call__145.FMagicControl.FEnemyEnchantments.Contains(TPlayerEnchantmentType.petWaterMastery);
-                }
-
-                bool__143 = bool__144;
-            }
-
-            if (bool__143)
+            int Result = 8;
+            if (Lhx != 0 || FEnchantment.FPlayerIndex > 0 && AoWHSMap.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FMagicControl.FEnemyEnchantments.Contains(TPlayerEnchantmentType.petWaterMastery))
             {
                 Result += 1;
                 Result = (int)(((uint)Result) >> 1);
@@ -1313,9 +1006,8 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1410
         public void UpdateVisibleForSeatedPlayer()
         {
-            bool Visible = default;
-            var call__146 = FEnchantment.VisibleForPlayer(AoWHSMap.FSeatedPlayer);
-            Visible = call__146;
+            bool Visible;
+            Visible = FEnchantment.VisibleForPlayer(AoWHSMap.FSeatedPlayer);
             if (FVisibleForSeatedPlayer ^ Visible)
             {
                 FVisibleForSeatedPlayer = Visible;
@@ -1339,25 +1031,22 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1479
         public override bool Process(TAbstractUnit A1, int A2)
         {
-            bool Result = default;
-            TWatcherHS Watcher = default;
+            TWatcherHS Watcher;
             base.Process(A1, A2);
             PlayDefaultEffects(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
             Watcher = new TWatcherHS(null);
             Watcher.FEnchantment.FPlayerIndex = A1.FPlayer;
-            var call__147 = AoWHSSet.FSpellControl.GetSpell(57);
-            Watcher.FEnchantment.FEnchantmentManaUpkeep = call__147.FManaUpkeep;
+            var spell = AoWHSSet.FSpellControl.GetSpell(57);
+            Watcher.FEnchantment.FEnchantmentManaUpkeep = spell.FManaUpkeep;
             AoWHSMap.PlaceHX(Watcher, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
             if ((byte)AoWHSMap.FSeatedPlayer == FEventPlayerIndex)
             {
                 Watcher.StartAnimation(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
             }
 
-            var call__148 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            var call__149 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            call__149.CastingDone(A1, call__148.FBaseManaCost);
-            Result = false;
-            return Result;
+            var fSpellControlSpell = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, fSpellControlSpell.FBaseManaCost);
+            return false;
         }
 
         // NetworkE.pas:230
@@ -1370,8 +1059,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1498
         public TWatcher(TECustomNode owner) : base(owner)
         {
-            var call__150 = TranslateRStr(WatcherRStr);
-            this.FSpellName = call__150;
+            this.FSpellName = TranslateRStr(WatcherRStr);
             FSpellID = 57;
             FAboveGroundOnly = false;
         }
@@ -1387,17 +1075,14 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1506
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TWatcherTE Event = default;
-            var call__151 = AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
-            var call__152 = call__151.GetBusy();
-            if (!call__152)
+            bool Result;
+            TWatcherTE Event;
+            if (!AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
             {
                 Event = new TWatcherTE(null);
                 Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
                 Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-                var call__153 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-                call__153.AddEvent(Event);
+                AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
                 // Original queues through AddEvent
                 Event.Release();
                 Result = true;
@@ -1453,7 +1138,6 @@ namespace Aow.Units.GlobalTargetSpells
             TArmyHS Army = default;
             TAbstractUnit UnitObj = default;
             TAoWMapField MapF = default;
-            int I = default;
             TArmyEventLog Log = default;
             TImageSequenceAnimation Anim = default;
             TArmyHS Placed = default;
@@ -1461,21 +1145,12 @@ namespace Aow.Units.GlobalTargetSpells
             if (A2 == 0)
             {
                 FAngle = 0;
-                var call__154 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                var call__155 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                call__155.CastingDone(A1, call__154.FBaseManaCost);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
+                AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, spell.FBaseManaCost);
                 AoWHSMap.ValidateObservation(A1.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                bool bool__156 = A1.FPlayer == AoWHSMap.FSeatedPlayer;
-                if (!bool__156)
+                if (A1.FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
                 {
-                    var call__157 = AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                    bool__156 = call__157;
-                }
-
-                if (bool__156)
-                {
-                    var call__158 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                    call__158.FCastSounds.Play(0);
+                    AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
                 }
 
                 Anim = (TImageSequenceAnimation)new TAnimation(null);
@@ -1489,73 +1164,50 @@ namespace Aow.Units.GlobalTargetSpells
 
             if (A2 == 80)
             {
-                var call__159 = AoWHSMap.MapContainer.GetField(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
-                MapF = (TAoWMapField)call__159;
-                bool bool__160 = FArmyID != null;
-                if (bool__160)
-                {
-                    var call__161 = MapF.GetMagicShieldActive();
-                    bool__160 = !call__161;
-                }
-
-                if (bool__160)
+                MapF = (TAoWMapField)AoWHSMap.MapContainer.GetField(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
+                if (FArmyID != null && !MapF.GetMagicShieldActive())
                 {
                     FArmyID.RetrieveArmy(ref Army, ref Selection);
-                    bool bool__162 = TSet<byte>.WithBounds(0, 255).With(1).Contains((byte)MapF.OverlayType);
-                    if (!bool__162)
+                    Exposed = !(TSet<byte>.WithBounds(0, 255).With(1).Contains((byte)MapF.OverlayType) || MapF.FindNoneTransparentHS(typeof(TStructure)) != null);
+                    for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
                     {
-                        var call__163 = MapF.FindNoneTransparentHS(typeof(TStructure));
-                        bool__162 = call__163 != null;
-                    }
-
-                    Exposed = !bool__162;
-                    {
-                        I = 0;
-                        int end__164 = Army.FArmy.Count - 1;
-                        for (; I <= end__164; I += 1)
+                        if ((Selection & (1 << I)) != 0)
                         {
-                            if ((Selection & (1 << I)) != 0)
+                            UnitObj = Army.FArmy.GetUnit(I);
+                            switch (UnitObj.GetUnitLevel())
                             {
-                                var call__165 = Army.FArmy.GetUnit(I);
-                                UnitObj = call__165;
-                                switch (UnitObj.GetUnitLevel())
-                                {
-                                    case 1:
-                                        Chance = 90;
-                                        break;
-                                    case 2:
-                                        Chance = 70;
-                                        break;
-                                    case 3:
-                                        Chance = 50;
-                                        break;
-                                    case 4:
-                                        Chance = 30;
-                                        break;
-                                    default:
-                                        Chance = 30;
-                                        break;
-                                }
+                                case 1:
+                                    Chance = 90;
+                                    break;
+                                case 2:
+                                    Chance = 70;
+                                    break;
+                                case 3:
+                                    Chance = 50;
+                                    break;
+                                case 4:
+                                    Chance = 30;
+                                    break;
+                                default:
+                                    Chance = 30;
+                                    break;
+                            }
 
-                                if (!Exposed)
-                                {
-                                    Chance = Chance / 2;
-                                }
+                            if (!Exposed)
+                            {
+                                Chance = Chance / 2;
+                            }
 
-                                var call__166 = AoWHSMap.Random(100);
-                                if (Chance < call__166)
-                                {
-                                    Selection = (byte)(Selection & ~(1 << I));
-                                }
+                            if (Chance < AoWHSMap.Random(100))
+                            {
+                                Selection = (byte)(Selection & ~(1 << I));
                             }
                         }
                     }
 
-                    var call__167 = Army.FArmy.Transporter(255);
-                    if (call__167 != null)
+                    if (Army.FArmy.Transporter(255) != null)
                     {
-                        var call__168 = Army.FArmy.Transporter(Selection);
-                        if (call__168 != null)
+                        if (Army.FArmy.Transporter(Selection) != null)
                         {
                             Selection = 255;
                         }
@@ -1569,101 +1221,59 @@ namespace Aow.Units.GlobalTargetSpells
                     {
                         Log = new TArmyEventLog(null);
                         Log.FPlayer = A1.FPlayer;
-                        var call__169 = TranslateRStr(TornadoRStr);
-                        var call__170 = TranslateRStr(XCastRStr);
-                        var call__171 = Rtl.Rtl.Format(call__170, [call__169]);
-                        Log.FArmyText = call__171;
-                        var call__172 = TranslateRStr(TornadoRStr);
-                        Log.FArmyMessages.Add(call__172);
+                        var tornado = TranslateRStr(TornadoRStr);
+                        Log.FArmyText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [tornado]);
+                        var tornado2 = TranslateRStr(TornadoRStr);
+                        Log.FArmyMessages.Add(tornado2);
                         Log.FArmyIcon = 2;
                         Log.FArmyView.Setup(Army.FArmy, Selection);
-                        var call__173 = Army.Yhx;
-                        var call__174 = Army.Xhx;
-                        DistributeLocationEventLog(Log, (sbyte)FEventPlayerIndex, call__174, call__173, Army.Lhx, true);
+                        var yhx = Army.Yhx;
+                        var xhx = Army.Xhx;
+                        DistributeLocationEventLog(Log, (sbyte)FEventPlayerIndex, xhx, yhx, Army.Lhx, true);
                         Log.Release();
-                        var call__175 = AoWHSSet.FSpellControl.GetSpell(68);
-                        var call__176 = ((TTornado)call__175).CalculateWarpLocation(Army, Selection);
-                        Location.XYL = call__176;
+                        Location.XYL = ((TTornado)AoWHSSet.FSpellControl.GetSpell(68)).CalculateWarpLocation(Army, Selection);
                         if (Location.XYL != 16777215)
                         {
-                            bool bool__177 = A1.FPlayer == AoWHSMap.FSeatedPlayer;
-                            if (!bool__177)
+                            if (A1.FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
                             {
-                                var call__178 = AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                                bool__177 = call__178;
+                                AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(1);
                             }
 
-                            if (bool__177)
+                            if (AoWHSMap.FSeatedPlayer == A1.FPlayer || AoWHSMap.VisibleForPlayer(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, AoWHSMap.FSeatedPlayer))
                             {
-                                var call__179 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                                call__179.FCastSounds.Play(1);
-                            }
-
-                            bool bool__180 = AoWHSMap.FSeatedPlayer == A1.FPlayer;
-                            if (!bool__180)
-                            {
-                                var call__181 = AoWHSMap.VisibleForPlayer(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, AoWHSMap.FSeatedPlayer);
-                                bool__180 = call__181;
-                            }
-
-                            if (bool__180)
-                            {
-                                var call__182 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                                var call__183 = call__182.FCastImages.ImageSequences[1];
-                                if (call__183 != null)
+                                if (AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
                                 {
                                     Anim = new TImageSequenceAnimation(null);
-                                    var call__184 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                                    var call__185 = call__184.FCastImages.ImageSequences[1];
-                                    Anim.SetImageSequence(call__185);
+                                    Anim.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
                                     AoWHSMap.PlaceHX(Anim, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
                                 }
                             }
 
-                            bool bool__186 = AoWHSMap.FSeatedPlayer == A1.FPlayer;
-                            if (!bool__186)
+                            if (AoWHSMap.FSeatedPlayer == A1.FPlayer || AoWHSMap.VisibleForPlayer(Location.X, Location.Y, Location.L, AoWHSMap.FSeatedPlayer))
                             {
-                                var call__187 = AoWHSMap.VisibleForPlayer(Location.X, Location.Y, Location.L, AoWHSMap.FSeatedPlayer);
-                                bool__186 = call__187;
-                            }
-
-                            if (bool__186)
-                            {
-                                var call__188 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                                var call__189 = call__188.FCastImages.ImageSequences[1];
-                                if (call__189 != null)
+                                if (AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
                                 {
                                     Anim = new TImageSequenceAnimation(null);
-                                    var call__190 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                                    var call__191 = call__190.FCastImages.ImageSequences[1];
-                                    Anim.SetImageSequence(call__191);
+                                    Anim.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
                                     AoWHSMap.PlaceHX(Anim, Location.X, Location.Y, Location.L);
                                 }
                             }
 
                             MovedUnits = new TUnitUserList(null);
                             Owner = (byte)Army.FArmy.FPlayer;
-                            var call__192 = AoWHSMap.MapContainer.GetFieldXYL(Location.XYL);
-                            MapF = (TAoWMapField)call__192;
-                            var call__193 = Army.FArmy.ValidateSelection(255);
-                            if (call__193 != Selection)
+                            MapF = (TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(Location.XYL);
+                            if (Army.FArmy.ValidateSelection(255) != Selection)
                             {
+                                for (int I = Army.FArmy.Count - 1; I >= 0; I--)
                                 {
-                                    I = Army.FArmy.Count - 1;
-                                    byte end__194 = 0;
-                                    for (; I >= end__194; I -= 1)
+                                    if ((Selection & (1 << I)) != 0)
                                     {
-                                        if ((Selection & (1 << I)) != 0)
+                                        UnitObj = Army.FArmy.GetUnit(I);
+                                        MovedUnits.AddUnit(UnitObj);
+                                        Placed = UnitObj.Place(Location.X, Location.Y, Location.L, (sbyte)(byte)Army.FArmy.FPlayer, TSet<TUnitPlaceModeElement>.Of());
+                                        if (Placed != null)
                                         {
-                                            var call__195 = Army.FArmy.GetUnit(I);
-                                            UnitObj = call__195;
-                                            MovedUnits.AddUnit(UnitObj);
-                                            var call__196 = UnitObj.Place(Location.X, Location.Y, Location.L, (sbyte)(byte)Army.FArmy.FPlayer, TSet<TUnitPlaceModeElement>.Of());
-                                            Placed = call__196;
-                                            if (Placed != null)
-                                            {
-                                                Placed.FArmy.UpdateExploration();
-                                            }
+                                            Placed.FArmy.UpdateExploration();
                                         }
                                     }
                                 }
@@ -1676,9 +1286,8 @@ namespace Aow.Units.GlobalTargetSpells
 
                             if (Owner == 0)
                             {
-                                var call__197 = UnitsToIndependentRelation(MovedUnits, 5);
-                                var call__198 = AoWHSMap.FAIGroupManager.CreateGroup(0, call__197, TGroupBehavior.gbHunt);
-                                Group = call__198;
+                                var unitsToIndependentRelation = UnitsToIndependentRelation(MovedUnits, 5);
+                                Group = AoWHSMap.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, TGroupBehavior.gbHunt);
                                 Group.AddUnits(MovedUnits);
                                 ((THuntAG)Group).FTargetUnitIDs.Add(A1.FUnitID);
                                 Group.Release();
@@ -1705,16 +1314,14 @@ namespace Aow.Units.GlobalTargetSpells
         {
             int Xhp = default;
             int Yhp = default;
-            int XShift = default;
-            int Height = default;
-            int X = default;
-            int Y = default;
-            float Angle = default;
-            int I = default;
-            int Direction = default;
-            int Radius = default;
-            int Count = default;
-            int Last = default;
+            int XShift;
+            int Height;
+            int X;
+            int Y;
+            float Angle;
+            int Direction;
+            int Radius;
+            int Last;
             if (AoWHSMap.ViewL == Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer)
             {
                 HXtoHP(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
@@ -1722,48 +1329,38 @@ namespace Aow.Units.GlobalTargetSpells
                 Yhp -= YhpSurf;
                 FAngle = FAngle + 20 + FAnimation.FFrameCounter / 5;
                 RandSeed = AoWHSMap.FInitialRandomSeed;
+                for (int I = 0; I <= 200; I++)
                 {
-                    I = 0;
-                    byte end__199 = 200;
-                    for (; I <= end__199; I += 1)
+                    Direction = Random(360);
+                    if (Animation.FFrameCounter >= (int)(((uint)I) >> 2) && Animation.FFrameCounter <= (int)(((uint)I) >> 4) + 68)
                     {
-                        Direction = Random(360);
-                        if (Animation.FFrameCounter >= (int)(((uint)I) >> 2) && Animation.FFrameCounter <= (int)(((uint)I) >> 4) + 68)
+                        Radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 7;
+                        Height = 200 - I - 16;
+                        XShift = Round((double)((double)Math.Sin((double)((double)FAnimation.FFrameCounter * 0.1) + (double)I * 0.02) * (200 - I)) * 0.25) + 16;
+                        var pi = Math.PI;
+                        Angle = (float)((double)((double)(Direction + FAngle) * pi) / 180);
+                        if (AoWEngine.FAnimationDetail == 0)
                         {
-                            Radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 7;
-                            Height = 200 - I - 16;
-                            var call__200 = Math.Sin((double)((double)FAnimation.FFrameCounter * 0.1) + (double)I * 0.02);
-                            XShift = Round((double)((double)call__200 * (200 - I)) * 0.25) + 16;
-                            var call__201 = Math.PI;
-                            Angle = (float)((double)((double)(Direction + FAngle) * call__201) / 180);
-                            if (AoWEngine.FAnimationDetail == 0)
+                            Last = 1;
+                        }
+                        else
+                        {
+                            if (AoWEngine.FAnimationDetail == 1)
                             {
-                                Last = 1;
+                                Last = (int)(((uint)(200 - I)) >> 5);
                             }
                             else
                             {
-                                if (AoWEngine.FAnimationDetail == 1)
-                                {
-                                    Last = (int)(((uint)(200 - I)) >> 5);
-                                }
-                                else
-                                {
-                                    Last = (int)(((uint)(200 - I)) >> 4);
-                                }
+                                Last = (int)(((uint)(200 - I)) >> 4);
                             }
+                        }
 
-                            {
-                                Count = Last;
-                                byte end__202 = 0;
-                                for (; Count >= end__202; Count -= 1)
-                                {
-                                    X = Round((double)Math.Cos(Angle) * Radius) + XShift;
-                                    Y = Round((double)((double)Math.Sin(Angle) * Radius) * 0.5) + Height;
-                                    var call__203 = AoWHSSet.FSpellControl.GetSpell(68);
-                                    call__203.FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
-                                    Angle = (float)((double)0.035 + Angle);
-                                }
-                            }
+                        for (int Count = Last; Count >= 0; Count--)
+                        {
+                            X = Round((double)Math.Cos(Angle) * Radius) + XShift;
+                            Y = Round((double)((double)Math.Sin(Angle) * Radius) * 0.5) + Height;
+                            AoWHSSet.FSpellControl.GetSpell(68).FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
+                            Angle = (float)((double)0.035 + Angle);
                         }
                     }
                 }
@@ -1780,8 +1377,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1798
         public TTornado(TECustomNode owner) : base(owner)
         {
-            var call__204 = TranslateRStr(TornadoRStr);
-            this.FSpellName = call__204;
+            this.FSpellName = TranslateRStr(TornadoRStr);
             FSpellID = 68;
             FAboveGroundOnly = true;
         }
@@ -1789,7 +1385,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1885
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
+            TTargetSelectionControl Target;
             Target = A2;
             base.SetupTargetSelection(A1, Target);
             Target.FHNs.Clear();
@@ -1798,27 +1394,21 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1865
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TTornadoTE Event = default;
-            TArmyHS Army = default;
-            var call__205 = AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
-            var call__206 = call__205.GetBusy();
-            if (!call__206)
+            bool Result;
+            TTornadoTE Event;
+            TArmyHS Army;
+            if (!AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
             {
                 Event = new TTornadoTE(null);
                 Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
                 Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-                var call__207 = AoWHSMap.MapContainer.GetField(A2, A3, A4);
-                var call__208 = ((TAoWMapField)call__207).GetArmyHS();
-                Army = call__208;
+                Army = ((TAoWMapField)AoWHSMap.MapContainer.GetField(A2, A3, A4)).GetArmyHS();
                 if (Army != null)
                 {
-                    var call__209 = Army.FArmy.CreateID(255);
-                    Event.FArmyID = call__209;
+                    Event.FArmyID = Army.FArmy.CreateID(255);
                 }
 
-                var call__210 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-                call__210.AddEvent(Event);
+                AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
                 // Original queues through AddEvent
                 Event.Release();
                 Result = true;
@@ -1834,34 +1424,17 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1806
         public bool ValidWarpLocation(TArmyHS Army, sbyte X, sbyte Y, sbyte Layer)
         {
-            bool Result = default;
-            TAoWMapField MapF = default;
+            TAoWMapField MapF;
             TMapFieldMsg Msg = default;
-            var call__211 = AoWHSMap.MapContainer.GetField(X, Y, Layer);
-            MapF = (TAoWMapField)call__211;
-            var call__212 = MapF.GetArmyHS();
-            bool bool__213 = call__212 == null;
-            if (bool__213)
-            {
-                var call__214 = MapF.GetPlayer();
-                bool__213 = call__214 == -1;
-            }
-
-            Result = bool__213;
+            MapF = (TAoWMapField)AoWHSMap.MapContainer.GetField(X, Y, Layer);
+            bool Result = MapF.GetArmyHS() == null && MapF.GetPlayer() == -1;
             if (Result)
             {
                 Msg.MsgID = 4384;
                 Msg.Param[0] = Army;
                 Msg.Result = 0;
                 MapF.SendMapFieldMsg(ref Msg);
-                bool bool__215 = Msg.Result.Value == 0;
-                if (bool__215)
-                {
-                    var call__216 = Army.FArmy.CanPlace(X, Y, Layer);
-                    bool__215 = call__216;
-                }
-
-                Result = bool__215;
+                Result = Msg.Result.Value == 0 && Army.FArmy.CanPlace(X, Y, Layer);
             }
 
             return Result;
@@ -1870,29 +1443,26 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:1823
         public int CalculateWarpLocation(TArmyHS Army, byte Selection)
         {
-            int Result = default;
             TSpellMoveTable Table = default;
             THNWalkData Walk = default;
-            TMapLevel MapLevel = default;
-            TMapField MapF = default;
-            TList Locations = default;
-            bool Found = default;
-            int Index = default;
-            int X = default;
+            TMapLevel MapLevel;
+            TMapField MapF;
+            TList Locations;
+            bool Found;
+            int Index;
+            int X;
             Locations = new TList();
             Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref Table));
-            var call__217 = Army.Yhx;
-            var call__218 = Army.Xhx;
-            InitHNWalk(ref Walk, call__218, call__217, 10);
-            var call__219 = AoWHSMap.MapContainer.MapLevels[Army.Lhx];
-            MapLevel = call__219;
+            var yhx = Army.Yhx;
+            var xhx = Army.Xhx;
+            InitHNWalk(ref Walk, xhx, yhx, 10);
+            MapLevel = AoWHSMap.MapContainer.MapLevels[Army.Lhx];
             while (Walk.Radius < 15)
             {
                 X = Walk.X;
                 if (X >= 0 && Walk.Y >= 0 && X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
-                    var call__220 = MapLevel.GetField(X, Walk.Y);
-                    MapF = call__220;
+                    MapF = MapLevel.GetField(X, Walk.Y);
                     if (Table.Cost[MapF.TerrainType][MapF.OverlayType] != -1)
                     {
                         Locations.Add(MapF);
@@ -1903,19 +1473,15 @@ namespace Aow.Units.GlobalTargetSpells
             }
 
             Found = false;
-            Result = 16777215;
+            int Result = 16777215;
             while (Locations.Count != 0 && !Found)
             {
-                var call__221 = Random(Locations.Count);
-                Index = call__221;
-                var call__222 = Locations[Index];
-                MapF = (TMapField)call__222;
-                var call__223 = ValidWarpLocation(Army, MapF.Xhx, MapF.Yhx, MapF.Lhx);
-                if (call__223)
+                Index = Random(Locations.Count);
+                MapF = (TMapField)Locations[Index];
+                if (ValidWarpLocation(Army, MapF.Xhx, MapF.Yhx, MapF.Lhx))
                 {
                     Found = true;
-                    var call__224 = MapF.XYL;
-                    Result = call__224;
+                    Result = MapF.XYL;
                 }
                 else
                 {
@@ -1966,27 +1532,17 @@ namespace Aow.Units.GlobalTargetSpells
             byte Selection = default;
             bool Damaged = default;
             int Damage = default;
-            int I = default;
             TArmyHS Army = default;
             TAbstractUnit UnitObj = default;
             if (A2 == 0)
             {
                 FAngle = 0;
-                var call__225 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                var call__226 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                call__226.CastingDone(A1, call__225.FBaseManaCost);
+                var spell = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
+                AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, spell.FBaseManaCost);
                 AoWHSMap.ValidateObservation(A1.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                bool bool__227 = A1.FPlayer == AoWHSMap.FSeatedPlayer;
-                if (!bool__227)
+                if (A1.FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
                 {
-                    var call__228 = AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                    bool__227 = call__228;
-                }
-
-                if (bool__227)
-                {
-                    var call__229 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                    call__229.FCastSounds.Play(0);
+                    AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
                 }
 
                 Anim = new TAnimation(null);
@@ -2000,79 +1556,65 @@ namespace Aow.Units.GlobalTargetSpells
 
             if (A2 == 80)
             {
-                bool bool__230 = FArmyID != null;
-                if (bool__230)
-                {
-                    var call__231 = FArmyID.RetrieveArmy(ref Army, ref Selection);
-                    bool__230 = call__231;
-                }
-
-                if (bool__230)
+                if (FArmyID != null && FArmyID.RetrieveArmy(ref Army, ref Selection))
                 {
                     Log = new TArmyEventLog(null);
-                    var call__232 = TranslateRStr(VortexDamageRStr);
-                    Log.FArmyText = call__232;
+                    Log.FArmyText = TranslateRStr(VortexDamageRStr);
                     Log.FPlayer = A1.FPlayer;
-                    var call__233 = TranslateRStr(VortexRStr);
-                    Log.FArmyMessages.Add(call__233);
+                    var vortex = TranslateRStr(VortexRStr);
+                    Log.FArmyMessages.Add(vortex);
                     Log.FArmyIcon = 2;
                     Log.FArmyView.Setup(Army.FArmy, 255);
                     Army.FArmy.BeginUpdate();
                     Damaged = false;
+                    for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
                     {
-                        I = 0;
-                        int end__234 = Army.FArmy.Count - 1;
-                        for (; I <= end__234; I += 1)
+                        UnitObj = Army.FArmy.GetUnit(I);
+                        if (!UnitObj.GetMoveTypes().Contains(TMoveType.mtFlying))
                         {
-                            var call__235 = Army.FArmy.GetUnit(I);
-                            UnitObj = call__235;
-                            if (!UnitObj.GetMoveTypes().Contains(TMoveType.mtFlying))
+                            if (UnitObj.GetAbilityEnabled(2))
                             {
-                                if (UnitObj.GetAbilityEnabled(2))
-                                {
-                                    Damage = 7;
-                                }
-                                else
-                                {
-                                    if (UnitObj.GetAbilityEnabled(23))
-                                    {
-                                        Damage = 10;
-                                    }
-                                    else
-                                    {
-                                        Damage = 0;
-                                    }
-                                }
-
-                                Damage = UnitObj.ExecuteDamageRole(8, Damage, TSet<TDamageType>.Of(TDamageType.dtPhysical));
-                                if (Damage > UnitObj.GetHitPoints())
-                                {
-                                    Damage = UnitObj.GetHitPoints();
-                                }
-
-                                if (Damage > 0)
-                                {
-                                    var call__236 = UnitObj.GetHitPoints();
-                                    UnitObj.SetHitPoints((sbyte)(call__236 - Damage));
-                                    Damaged = true;
-                                }
+                                Damage = 7;
                             }
                             else
                             {
-                                Damage = 0;
+                                if (UnitObj.GetAbilityEnabled(23))
+                                {
+                                    Damage = 10;
+                                }
+                                else
+                                {
+                                    Damage = 0;
+                                }
                             }
 
-                            Log.FDamageValues.Add((byte)Damage);
-                            Log.FDamageTypes.Add(7);
+                            Damage = UnitObj.ExecuteDamageRole(8, Damage, TSet<TDamageType>.Of(TDamageType.dtPhysical));
+                            if (Damage > UnitObj.GetHitPoints())
+                            {
+                                Damage = UnitObj.GetHitPoints();
+                            }
+
+                            if (Damage > 0)
+                            {
+                                UnitObj.SetHitPoints((sbyte)(UnitObj.GetHitPoints() - Damage));
+                                Damaged = true;
+                            }
                         }
+                        else
+                        {
+                            Damage = 0;
+                        }
+
+                        Log.FDamageValues.Add((byte)Damage);
+                        Log.FDamageTypes.Add(7);
                     }
 
                     if (Damaged)
                     {
                         Log.ValidateGameOver();
-                        var call__237 = Army.Yhx;
-                        var call__238 = Army.Xhx;
-                        DistributeLocationEventLog(Log, Army.FArmy.FPlayer, call__238, call__237, Army.Lhx, true);
+                        var yhx = Army.Yhx;
+                        var xhx = Army.Xhx;
+                        DistributeLocationEventLog(Log, Army.FArmy.FPlayer, xhx, yhx, Army.Lhx, true);
                     }
 
                     Log.Release();
@@ -2097,16 +1639,14 @@ namespace Aow.Units.GlobalTargetSpells
         {
             int Xhp = default;
             int Yhp = default;
-            int XShift = default;
-            int Height = default;
-            int X = default;
-            int Y = default;
-            float Angle = default;
-            int I = default;
-            int Direction = default;
-            int Radius = default;
-            int Count = default;
-            int J = default;
+            int XShift;
+            int Height;
+            int X;
+            int Y;
+            float Angle;
+            int Direction;
+            int Radius;
+            int Count;
             if (AoWHSMap.ViewL == Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer)
             {
                 HXtoHP(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
@@ -2114,47 +1654,38 @@ namespace Aow.Units.GlobalTargetSpells
                 Yhp -= YhpSurf;
                 FAngle = FAngle + 20 + FAnimation.FFrameCounter / 5;
                 RandSeed = AoWHSMap.FInitialRandomSeed;
+                for (int I = 0; I <= 200; I++)
                 {
-                    I = 0;
-                    byte end__239 = 200;
-                    for (; I <= end__239; I += 1)
+                    Direction = Random(360);
+                    if (Animation.FFrameCounter >= (int)(((uint)(200 - I)) >> 2) && Animation.FFrameCounter <= (int)(((uint)I) >> 4) + 68)
                     {
-                        Direction = Random(360);
-                        if (Animation.FFrameCounter >= (int)(((uint)(200 - I)) >> 2) && Animation.FFrameCounter <= (int)(((uint)I) >> 4) + 68)
+                        Radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 18;
+                        Height = -16;
+                        XShift = 16;
+                        var pi = Math.PI;
+                        Angle = (float)((double)((double)-(Direction + FAngle) * pi) / 180);
+                        if (AoWEngine.FAnimationDetail == 0)
                         {
-                            Radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 18;
-                            Height = -16;
-                            XShift = 16;
-                            var call__240 = Math.PI;
-                            Angle = (float)((double)((double)-(Direction + FAngle) * call__240) / 180);
-                            if (AoWEngine.FAnimationDetail == 0)
+                            Count = 1;
+                        }
+                        else
+                        {
+                            if (AoWEngine.FAnimationDetail == 1)
                             {
-                                Count = 1;
+                                Count = (int)(((uint)(200 - I)) >> 5);
                             }
                             else
                             {
-                                if (AoWEngine.FAnimationDetail == 1)
-                                {
-                                    Count = (int)(((uint)(200 - I)) >> 5);
-                                }
-                                else
-                                {
-                                    Count = (int)(((uint)(200 - I)) >> 4);
-                                }
+                                Count = (int)(((uint)(200 - I)) >> 4);
                             }
+                        }
 
-                            {
-                                J = Count;
-                                byte end__241 = 0;
-                                for (; J >= end__241; J -= 1)
-                                {
-                                    X = Round((double)Math.Cos(Angle) * Radius) + XShift;
-                                    Y = Round((double)((double)Math.Sin(Angle) * Radius) / 1.75) + Height;
-                                    var call__242 = AoWHSSet.FSpellControl.GetSpell(70);
-                                    call__242.FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
-                                    Angle = (float)((double)0.035 + Angle);
-                                }
-                            }
+                        for (int J = Count; J >= 0; J--)
+                        {
+                            X = Round((double)Math.Cos(Angle) * Radius) + XShift;
+                            Y = Round((double)((double)Math.Sin(Angle) * Radius) / 1.75) + Height;
+                            AoWHSSet.FSpellControl.GetSpell(70).FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
+                            Angle = (float)((double)0.035 + Angle);
                         }
                     }
                 }
@@ -2171,8 +1702,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2069
         public TVortex(TECustomNode owner) : base(owner)
         {
-            var call__243 = TranslateRStr(VortexRStr);
-            this.FSpellName = call__243;
+            this.FSpellName = TranslateRStr(VortexRStr);
             FSpellID = 70;
             FAboveGroundOnly = false;
         }
@@ -2180,7 +1710,6 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2120
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
             // { Use the incoming target. }
             base.SetupTargetSelection(A1, A2);
             A2.FHNs.Clear();
@@ -2190,27 +1719,21 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2100
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TVortexTE Event = default;
-            TArmyHS Army = default;
-            var call__244 = AoWHSMap.FPlayers.GetPlayers(A1.FPlayer);
-            var call__245 = call__244.GetBusy();
-            if (!call__245)
+            bool Result;
+            TVortexTE Event;
+            TArmyHS Army;
+            if (!AoWHSMap.FPlayers.GetPlayers(A1.FPlayer).GetBusy())
             {
                 Event = new TVortexTE(null);
                 Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
                 Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-                var call__246 = AoWHSMap.MapContainer.GetField(A2, A3, A4);
-                var call__247 = ((TAoWMapField)call__246).GetArmyHS();
-                Army = call__247;
+                Army = ((TAoWMapField)AoWHSMap.MapContainer.GetField(A2, A3, A4)).GetArmyHS();
                 if (Army != null)
                 {
-                    var call__248 = Army.FArmy.CreateID(255);
-                    Event.FArmyID = call__248;
+                    Event.FArmyID = Army.FArmy.CreateID(255);
                 }
 
-                var call__249 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-                call__249.AddEvent(Event);
+                AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
                 // Original queues through AddEvent
                 Event.Release();
                 Result = true;
@@ -2226,13 +1749,11 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2077
         public override bool ValidTargetSelection(TTargetSelectionControl A1)
         {
-            bool Result = default;
-            TMapField MapF = default;
+            bool Result;
+            TMapField MapF;
             if (A1.FTargetX != -1)
             {
-                var call__250 = AoWHSMap.MapContainer.MapLevels[A1.FTargetL];
-                var call__251 = call__250.GetField(A1.FTargetX, A1.FTargetY);
-                MapF = call__251;
+                MapF = AoWHSMap.MapContainer.MapLevels[A1.FTargetL].GetField(A1.FTargetX, A1.FTargetY);
                 Result = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)MapF.TerrainType);
             }
             else
@@ -2246,13 +1767,12 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2088
         public void ValidateTargetEvent(TTargetSelectionControl Target, sbyte X, sbyte Y, sbyte Layer, ref bool Valid)
         {
-            TMapLevel MapLevel = default;
+            TMapLevel MapLevel;
             if (X != -1)
             {
-                var call__252 = AoWHSMap.MapContainer.MapLevels[Layer];
-                MapLevel = call__252;
-                var call__253 = MapLevel.GetField(X, Y);
-                Valid = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)call__253.TerrainType);
+                MapLevel = AoWHSMap.MapContainer.MapLevels[Layer];
+                var fieldValue = MapLevel.GetField(X, Y);
+                Valid = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
             }
             else
             {
@@ -2282,23 +1802,14 @@ namespace Aow.Units.GlobalTargetSpells
             TImageSequenceAnimation Anim = default;
             bool Healed = default;
             bool PlaySound = default;
-            int I = default;
             THexagonSprite Cloud = default;
             base.Process(A1, A2);
             if (A2 == 0)
             {
                 AoWHSMap.ValidateTerrainObservation(A1.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                bool bool__254 = A1.FPlayer == AoWHSMap.FSeatedPlayer;
-                if (!bool__254)
+                if (A1.FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.WatchingTerrain(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
                 {
-                    var call__255 = AoWHSMap.WatchingTerrain(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                    bool__254 = call__255;
-                }
-
-                if (bool__254)
-                {
-                    var call__256 = AoWHSSet.FSpellControl.GetSpell(73);
-                    call__256.FCastSounds.Play(0);
+                    AoWHSSet.FSpellControl.GetSpell(73).FCastSounds.Play(0);
                 }
 
                 Anim = (TImageSequenceAnimation)new TAnimation(null);
@@ -2308,91 +1819,71 @@ namespace Aow.Units.GlobalTargetSpells
                 Anim.FAnimationMap = AoWHSMap;
                 Anim.FTag = (AoWHSMap.ViewWidth & 65535) | (AoWHSMap.ViewHeight << 16);
                 Anim.Activate();
-                var call__257 = AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                call__257.CastingDone(A1, FEventMana);
+                AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(A1, FEventMana);
             }
 
             if (A2 == 50)
             {
                 PlaySound = false;
                 AoWHSMap.ChangeTerrainEx(null, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, null);
-                var call__258 = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
-                Level = call__258;
+                Level = AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
                 InitHNWalk(ref Walk, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, 0);
                 while (Walk.Radius <= 1)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
                     {
-                        var call__259 = Level.GetField(Walk.X, Walk.Y);
-                        var call__260 = ((TAoWMapField)call__259).GetMagicShieldActive();
-                        if (!call__260)
+                        if (!((TAoWMapField)Level.GetField(Walk.X, Walk.Y)).GetMagicShieldActive())
                         {
                             Healed = false;
-                            var call__261 = Level.GetField(Walk.X, Walk.Y);
-                            var call__262 = ((TAoWMapField)call__261).GetArmyHS();
-                            Army = call__262;
+                            Army = ((TAoWMapField)Level.GetField(Walk.X, Walk.Y)).GetArmyHS();
                             if (Army != null)
                             {
+                                for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
                                 {
-                                    I = 0;
-                                    int end__263 = Army.FArmy.Count - 1;
-                                    for (; I <= end__263; I += 1)
+                                    UnitObj = Army.FArmy.GetUnit(I);
+                                    if (UnitObj.GetHitPoints() < UnitObj.GetHits())
                                     {
-                                        var call__264 = Army.FArmy.GetUnit(I);
-                                        UnitObj = call__264;
-                                        var call__265 = UnitObj.GetHitPoints();
-                                        var call__266 = UnitObj.GetHits();
-                                        if (call__265 < call__266)
-                                        {
-                                            var call__267 = UnitObj.GetHitPoints();
-                                            UnitObj.SetHitPoints((sbyte)(call__267 + 5));
-                                            Healed = true;
-                                        }
+                                        UnitObj.SetHitPoints((sbyte)(UnitObj.GetHitPoints() + 5));
+                                        Healed = true;
+                                    }
 
-                                        if (UnitObj.GetAbilityEnabled(96))
-                                        {
-                                            UnitObj.RemoveAbility(96);
-                                            Healed = true;
-                                        }
+                                    if (UnitObj.GetAbilityEnabled(96))
+                                    {
+                                        UnitObj.RemoveAbility(96);
+                                        Healed = true;
                                     }
                                 }
 
                                 Army.FArmy.Update();
-                                bool bool__268 = Healed;
-                                if (bool__268)
+                                bool healed = Healed;
+                                if (healed)
                                 {
-                                    var call__269 = Army.Yhx;
-                                    var call__270 = Army.Xhx;
-                                    var call__271 = AoWHSMap.VisibleForPlayer(call__270, call__269, Army.Lhx, AoWHSMap.FSeatedPlayer);
-                                    bool__268 = call__271;
+                                    var yhx = Army.Yhx;
+                                    var xhx = Army.Xhx;
+                                    healed = AoWHSMap.VisibleForPlayer(xhx, yhx, Army.Lhx, AoWHSMap.FSeatedPlayer);
                                 }
 
-                                if (bool__268)
+                                if (healed)
                                 {
-                                    bool bool__272 = PlaySound || (byte)Army.FArmy.FPlayer == (byte)AoWHSMap.FSeatedPlayer;
-                                    if (!bool__272)
+                                    bool condition = PlaySound || (byte)Army.FArmy.FPlayer == (byte)AoWHSMap.FSeatedPlayer;
+                                    if (!condition)
                                     {
-                                        var call__273 = Army.Yhx;
-                                        var call__274 = Army.Xhx;
-                                        var call__275 = AoWHSMap.Watching(call__274, call__273, Army.Lhx, 1);
-                                        bool__272 = call__275;
+                                        var yhx = Army.Yhx;
+                                        var xhx = Army.Xhx;
+                                        condition = AoWHSMap.Watching(xhx, yhx, Army.Lhx, 1);
                                     }
 
-                                    PlaySound = bool__272;
+                                    PlaySound = condition;
                                     Anim = new TImageSequenceAnimation(null);
-                                    var call__276 = AoWHSSet.FAbilityControl.GetAbility(47);
-                                    var call__277 = call__276.FImageSequences.ImageSequences[0];
-                                    Anim.SetImageSequence(call__277);
+                                    Anim.SetImageSequence(AoWHSSet.FAbilityControl.GetAbility(47).FImageSequences.ImageSequences[0]);
                                     Anim.FAnimationLevel = 27;
-                                    var call__278 = Army.Yhx;
-                                    var call__279 = Army.Xhx;
-                                    AoWHSMap.PlaceHX(Anim, call__279, call__278, Army.Lhx);
+                                    var armyYhx = Army.Yhx;
+                                    var armyXhx = Army.Xhx;
+                                    AoWHSMap.PlaceHX(Anim, armyXhx, armyYhx, Army.Lhx);
                                 }
                             }
 
-                            var call__280 = Level.GetField(Walk.X, Walk.Y);
-                            var call__281 = call__280.FindOwnedChild(132990);
-                            Cloud = (THexagonSprite)call__281;
+                            Cloud = (THexagonSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(132990);
                             if (Cloud != null)
                             {
                                 Cloud.Free();
@@ -2405,8 +1896,7 @@ namespace Aow.Units.GlobalTargetSpells
 
                 if (PlaySound)
                 {
-                    var call__282 = AoWHSSet.FAbilityControl.GetAbility(47);
-                    call__282.FSFXLibrary.Play(0);
+                    AoWHSSet.FAbilityControl.GetAbility(47).FSFXLibrary.Play(0);
                 }
             }
 
@@ -2426,24 +1916,21 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2141
         public void ShowAnimation(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            int X = default;
-            int Y = default;
-            int XShift = default;
-            int YShift = default;
-            int Speed = default;
+            int X;
+            int Y;
+            int XShift;
+            int YShift;
+            int Speed;
             int Xhp = default;
             int Yhp = default;
-            int Count = default;
-            int I = default;
-            int J = default;
-            int Frame = default;
+            int Count;
+            int Frame;
             if (AoWHSMap.ViewL == Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer)
             {
                 HXtoHP(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
                 Xhp -= XhpSurf;
                 Yhp -= YhpSurf;
-                var call__283 = AoWEngine.FRegistry.GetDetailLevel();
-                switch (call__283)
+                switch (AoWEngine.FRegistry.GetDetailLevel())
                 {
                     case TDetailLevel.dtlLow:
                         Count = 50;
@@ -2457,34 +1944,25 @@ namespace Aow.Units.GlobalTargetSpells
                 }
 
                 RandSeed = AoWHSMap.FInitialRandomSeed;
+                for (int I = 0; I <= Count; I++)
                 {
-                    I = 0;
-                    int end__284 = Count;
-                    for (; I <= end__284; I += 1)
+                    X = Random(100) - 50;
+                    Y = Random(100) - 50;
+                    Speed = Random(5) + 5;
+                    var random = Random(30);
+                    Frame = Animation.FFrameCounter - random;
+                    if (Frame >= 0 && Frame < 50)
                     {
-                        X = Random(100) - 50;
-                        Y = Random(100) - 50;
-                        Speed = Random(5) + 5;
-                        var call__285 = Random(30);
-                        Frame = Animation.FFrameCounter - call__285;
-                        if (Frame >= 0 && Frame < 50)
+                        Frame = Frame % 30;
+                        X -= Round((double)(Frame * 4) * ((double)Speed * 0.2));
+                        Y += Round((double)(Frame * 20) * ((double)Speed * 0.2));
+                        if (Y < 500)
                         {
-                            Frame = Frame % 30;
-                            X -= Round((double)(Frame * 4) * ((double)Speed * 0.2));
-                            Y += Round((double)(Frame * 20) * ((double)Speed * 0.2));
-                            if (Y < 500)
+                            for (int J = 0; J <= 10; J++)
                             {
-                                {
-                                    J = 0;
-                                    byte end__286 = 10;
-                                    for (; J <= end__286; J += 1)
-                                    {
-                                        XShift = X - Round((double)(J * 2) * 0.1);
-                                        YShift = Y + Round((double)(J * 10) * 0.1);
-                                        var call__287 = AoWHSSet.FSpellControl.GetSpell(73);
-                                        call__287.FCastImages.Show(0, Xhp + XShift + 120, Yhp + YShift - 500 + 30, 0, SurfaceDesc);
-                                    }
-                                }
+                                XShift = X - Round((double)(J * 2) * 0.1);
+                                YShift = Y + Round((double)(J * 10) * 0.1);
+                                AoWHSSet.FSpellControl.GetSpell(73).FCastImages.Show(0, Xhp + XShift + 120, Yhp + YShift - 500 + 30, 0, SurfaceDesc);
                             }
                         }
                     }
@@ -2519,8 +1997,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2277
         public THealingShowers(TECustomNode owner) : base(owner)
         {
-            var call__288 = TranslateRStr(HealingShowersRStr);
-            this.FSpellName = call__288;
+            this.FSpellName = TranslateRStr(HealingShowersRStr);
             FSpellID = 73;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -2530,51 +2007,33 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2295
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
-            int I = default;
+            TTargetSelectionControl Target;
             Target = A2;
             base.SetupTargetSelection(A1, Target);
             Target.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__289 = RadToHN(2) - 1;
-                for (; I <= end__289; I += 1)
-                {
-                    Target.FHNs.Add(0);
-                }
+                Target.FHNs.Add(0);
             }
         }
 
         // GlobalTargetSpells.pas:2308
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            THealingShowersTE Event = default;
+            THealingShowersTE Event;
             Event = new THealingShowersTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__290 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__290.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // GlobalTargetSpells.pas:2291
-        public override bool ValidTargetSelectionMapF(TMapField A1)
-        {
-            bool Result = default;
-            Result = base.ValidTargetSelectionMapF(A1);
-            return Result;
-        }
+        public override bool ValidTargetSelectionMapF(TMapField A1) => base.ValidTargetSelectionMapF(A1);
 
         // GlobalTargetSpells.pas:2287
-        public override bool ValidTargetMapF(TMapField A1)
-        {
-            bool Result = default;
-            Result = base.ValidTargetMapF(A1);
-            return Result;
-        }
+        public override bool ValidTargetMapF(TMapField A1) => base.ValidTargetMapF(A1);
     }
 
     public partial class TSmokeCloudSpell : TGlobalTargetSpell
@@ -2582,8 +2041,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2325
         public TSmokeCloudSpell(TECustomNode owner) : base(owner)
         {
-            var call__291 = TranslateRStr(SmokeCloudRStr);
-            this.FSpellName = call__291;
+            this.FSpellName = TranslateRStr(SmokeCloudRStr);
             FSpellID = 74;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -2593,27 +2051,16 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2373
         public override bool ExecuteTE(TSpellTE A1, TAbstractUnit A2, int A3)
         {
-            bool Result = default;
-            TEResource Resource = default;
-            TSmokeCloud Cloud = default;
-            var call__292 = ((TGlobalTargetSpellTE)A1).GetSource();
-            AoWHSMap.ValidateObservation(call__292.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Layer, 2);
-            var call__293 = ((TGlobalTargetSpellTE)A1).GetSource();
-            bool bool__294 = call__293.FPlayer == AoWHSMap.FSeatedPlayer;
-            if (!bool__294)
+            TEResource Resource;
+            TSmokeCloud Cloud;
+            var source = ((TGlobalTargetSpellTE)A1).GetSource();
+            AoWHSMap.ValidateObservation(source.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Layer, 2);
+            if (((TGlobalTargetSpellTE)A1).GetSource().FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Layer, 2))
             {
-                var call__295 = AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Layer, 2);
-                bool__294 = call__295;
+                AoWHSSet.FSpellControl.GetSpell(((TGlobalTargetSpellTE)A1).FEventSpellID).FCastSounds.Play(0);
             }
 
-            if (bool__294)
-            {
-                var call__296 = AoWHSSet.FSpellControl.GetSpell(((TGlobalTargetSpellTE)A1).FEventSpellID);
-                call__296.FCastSounds.Play(0);
-            }
-
-            var call__297 = ((TMapObjectResourceList)(TObject)AoWHSSet.MapObjectResourceList).FindChild(135747);
-            Resource = (TEResource)call__297;
+            Resource = (TEResource)((TMapObjectResourceList)(TObject)AoWHSSet.MapObjectResourceList).FindChild(135747);
             if (Resource != null)
             {
                 Cloud = (TSmokeCloud)Resource.CreateResourceUser();
@@ -2622,68 +2069,47 @@ namespace Aow.Units.GlobalTargetSpells
                 Cloud.FEnchantment.FPlayerIndex = A2.FPlayer;
                 Cloud.FEnchantment.FEnchantmentManaUpkeep = this.FManaUpkeep;
                 Cloud.FDrifting = false;
-                var call__298 = AoWHSMap.PlaceHX(Cloud, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Layer);
-                if (!call__298)
+                if (!AoWHSMap.PlaceHX(Cloud, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)A1).FLocation).Layer))
                 {
                     Cloud.Free();
                 }
 
-                var call__299 = AoWHSSet.FSpellControl.GetSpell(this.FSpellID);
-                call__299.CastingDone(A2, this.FBaseManaCost);
+                AoWHSSet.FSpellControl.GetSpell(this.FSpellID).CastingDone(A2, this.FBaseManaCost);
             }
 
-            Result = false;
-            return Result;
+            return false;
         }
 
         // GlobalTargetSpells.pas:2343
         public override void SetupTargetSelection(TAbstractUnit A1, TTargetSelectionControl A2)
         {
-            TTargetSelectionControl Target = default;
-            int I = default;
+            TTargetSelectionControl Target;
             Target = A2;
             base.SetupTargetSelection(A1, Target);
             Target.FHNs.Clear();
+            for (int I = 0, last = RadToHN(4) - 1; I <= last; I++)
             {
-                I = 0;
-                int end__300 = RadToHN(4) - 1;
-                for (; I <= end__300; I += 1)
-                {
-                    Target.FHNs.Add(0);
-                }
+                Target.FHNs.Add(0);
             }
         }
 
         // GlobalTargetSpells.pas:2356
         public override bool TargetSelected(TAbstractUnit A1, int A2, int A3, int A4)
         {
-            bool Result = default;
-            TGlobalTargetSpellTE Event = default;
+            TGlobalTargetSpellTE Event;
             Event = new TGlobalTargetSpellTE(null);
             Event.Initialize(FSpellID, (byte)A1.FPlayer, A1.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)A2, (sbyte)A3, (sbyte)A4);
-            var call__301 = AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer);
-            call__301.AddEvent(Event);
+            AoWHSMap.FTokenManager.GetTokenControl(A1.FPlayer).AddEvent(Event);
             Event.Release();
-            Result = true;
-            return Result;
+            return true;
         }
 
         // GlobalTargetSpells.pas:2339
-        public override bool ValidTargetSelectionMapF(TMapField A1)
-        {
-            bool Result = default;
-            Result = base.ValidTargetSelectionMapF(A1);
-            return Result;
-        }
+        public override bool ValidTargetSelectionMapF(TMapField A1) => base.ValidTargetSelectionMapF(A1);
 
         // GlobalTargetSpells.pas:2335
-        public override bool ValidTargetMapF(TMapField A1)
-        {
-            bool Result = default;
-            Result = base.ValidTargetMapF(A1);
-            return Result;
-        }
+        public override bool ValidTargetMapF(TMapField A1) => base.ValidTargetMapF(A1);
     }
 
     public partial class TGlobalTargetSpellCalls : TSpell
@@ -2874,33 +2300,24 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:2417
         public static void RegisterGlobalTargetSpells(TAoWEngine A1)
         {
-            TSpellControl Control = default;
+            TSpellControl Control;
             Control = A1.FGameSet.FSpellControl;
             A1.RegisterEClasses([EClass.Of<TFreezeWaterTE>(), EClass.Of<TFrozenWaterHS>(), EClass.Of<TFireBarrierTE>(), EClass.Of<TLevelTerrainTE>(), EClass.Of<TRejuvenateTE>(), EClass.Of<TWatcherTE>(), EClass.Of<TWatcherHS>(), EClass.Of<TTornadoTE>(), EClass.Of<TVortexTE>(), EClass.Of<THealingShowersTE>(), EClass.Of<TGlobalTargetSpellTE>()]);
-            var call__302 = new TFreezeWater(null);
-            Control.RegisterSpell(call__302);
-            var call__303 = new TFireBarrier(null);
-            Control.RegisterSpell(call__303);
-            var call__304 = new TLevelTerrain(null);
-            Control.RegisterSpell(call__304);
-            var call__305 = new TRejuvenate(null);
-            Control.RegisterSpell(call__305);
-            var call__306 = new TWatcher(null);
-            Control.RegisterSpell(call__306);
-            var call__307 = new TTornado(null);
-            Control.RegisterSpell(call__307);
-            var call__308 = new TVortex(null);
-            Control.RegisterSpell(call__308);
-            var call__309 = new THealingShowers(null);
-            Control.RegisterSpell(call__309);
-            var call__310 = new TSmokeCloudSpell(null);
-            Control.RegisterSpell(call__310);
+            Control.RegisterSpell(new TFreezeWater(null));
+            Control.RegisterSpell(new TFireBarrier(null));
+            Control.RegisterSpell(new TLevelTerrain(null));
+            Control.RegisterSpell(new TRejuvenate(null));
+            Control.RegisterSpell(new TWatcher(null));
+            Control.RegisterSpell(new TTornado(null));
+            Control.RegisterSpell(new TVortex(null));
+            Control.RegisterSpell(new THealingShowers(null));
+            Control.RegisterSpell(new TSmokeCloudSpell(null));
         }
 
         // GlobalTargetSpells.pas:2435
         public static void UnregisterGlobalTargetSpells(int A1)
         {
-            TSpellControl Control = default;
+            TSpellControl Control;
             Control = ((TAoWEngine)(object)A1).FGameSet.FSpellControl;
             Control.UnregisterSpellID(10);
             Control.UnregisterSpellID(11);
@@ -2921,11 +2338,10 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:552
         public static bool GlobalTargetCanActivate(TGlobalTargetSpell Spell, int Caster, ref AnsiString MessageText)
         {
-            bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte Layer = default;
-            Result = Spell.CanActivate__static(ReferenceFromId<TAbstractUnit>(Caster), ref MessageText);
+            bool Result = Spell.CanActivate__static(ReferenceFromId<TAbstractUnit>(Caster), ref MessageText);
             if (Result && Spell.FAboveGroundOnly)
             {
                 ReferenceFromId<TAbstractUnit>(Caster).GetLocation(ref X, ref Y, ref Layer);
@@ -2942,7 +2358,7 @@ namespace Aow.Units.GlobalTargetSpells
         // GlobalTargetSpells.pas:601
         public static bool GlobalTargetActivate(TGlobalTargetSpell Spell, int Caster, int A2)
         {
-            bool Result = default;
+            bool Result;
             AnsiString MessageText = default;
             Spell.Activate__static(ReferenceFromId<TAbstractUnit>(Caster));
             if (Spell.CanActivate(ReferenceFromId<TAbstractUnit>(Caster), ref MessageText))

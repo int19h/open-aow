@@ -49,8 +49,8 @@ namespace Aow.Units.AoWSendEmailGameDlg
         // AoWSendEmailGameDlg.pas:63
         public void FinishDialog()
         {
-            TExecuteDoneEvent Done = default;
-            TEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TEventLog Event;
             Dlg.Visible = false;
             Done = FDone;
             Event = FSendEvent;
@@ -71,24 +71,21 @@ namespace Aow.Units.AoWSendEmailGameDlg
         public void ShowSendDialog(TSendEmailGameEventLog Event, TExecuteDoneEvent Done)
         {
             FDone = Done;
-            ;
             FSendEvent = ReferenceFromId<TSendEmailGameEventLog>(ObjectToInt(Event) << 0);
             FSendEvent.AddRef();
             var sendEmailGameEventLog = FSendEvent;
-            var call__2 = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
-            EmailAddressEdit.Text = call__2.FPBEMSettings.FEmailGame.FEmailAddress;
+            var player = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
+            EmailAddressEdit.Text = player.FPBEMSettings.FEmailGame.FEmailAddress;
             // { Original reuses the resource-string temporary for the formatted text. }
-            var call__3 = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
-            var call__4 = call__3.GetNameEx();
-            var call__5 = TranslateRStr(NextPlayerXRStr);
-            var call__6 = AoWE.AoWE.Format(call__5, [call__4]);
-            RecipientNameLbl.Text = call__6;
+            var nameEx = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
+            var format = AoWE.AoWE.Format(TranslateRStr(NextPlayerXRStr), [nameEx]);
+            RecipientNameLbl.Text = format;
             if (sendEmailGameEventLog.FMode == 2)
             {
-                var call__7 = AoWEngine.FRegistry.GetSMTPServer();
-                AutomatedChk.Checked = call__7 != (AnsiString)"";
-                var call__8 = AoWEngine.FRegistry.GetSMTPServer();
-                ManualChk.Checked = call__8 == (AnsiString)"";
+                var smtpServer = AoWEngine.FRegistry.GetSMTPServer();
+                AutomatedChk.Checked = smtpServer != (AnsiString)"";
+                var fRegistrySMTPServer = AoWEngine.FRegistry.GetSMTPServer();
+                ManualChk.Checked = fRegistrySMTPServer == (AnsiString)"";
             }
             else
             {
@@ -131,8 +128,7 @@ namespace Aow.Units.AoWSendEmailGameDlg
         // AoWSendEmailGameDlg.pas:120
         public void EmailAddressEditChange()
         {
-            var call__9 = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
-            call__9.FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
+            AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
         }
 
         // AoWSendEmailGameDlg.pas:125

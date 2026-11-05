@@ -20,8 +20,8 @@ namespace Aow.Units.AoWInfoBanner
         public void ShowInfo(AnsiString Header, TStrings Description)
         {
             HeaderLbl.Text = Header;
-            var call__1 = Description.Text;
-            InfoMemo.Items.Text = call__1;
+            var text = Description.Text;
+            InfoMemo.Items.Text = text;
         }
 
         // AoWInfoBanner.pas:41

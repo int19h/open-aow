@@ -56,36 +56,16 @@ namespace Aow.Units.FlagEvents
         }
 
         // FlagEvents.pas:110
-        public override bool CanSelect(int Xhp, int Yhp)
-        {
-            bool Result = default;
-            Result = AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
-            return Result;
-        }
+        public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
 
         // FlagEvents.pas:105
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // FlagEvents.pas:129
-        public virtual bool Trigger(sbyte Player)
-        {
-            bool Result = default;
-            Result = true;
-            return Result;
-        }
+        public virtual bool Trigger(sbyte Player) => true;
 
         // FlagEvents.pas:115
-        public bool GetTriggerPlayer(sbyte Player)
-        {
-            bool Result = default;
-            Result = Player > 0 && (FTriggerPlayers & (1 << (Player - 1))) != 0;
-            return Result;
-        }
+        public bool GetTriggerPlayer(sbyte Player) => Player > 0 && (FTriggerPlayers & (1 << (Player - 1))) != 0;
 
         // FlagEvents.pas:120
         public void SetTriggerPlayer(sbyte Player, bool Value)
@@ -106,24 +86,9 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:134
         public void UpdateInstantTrigger()
         {
-            sbyte Player = default;
-            var call__1 = ((TAoWMapField)Owner).GetPlayer();
-            Player = call__1;
-            bool bool__2 = Player != -1;
-            if (bool__2)
-            {
-                var call__3 = GetTriggerPlayer(Player);
-                bool__2 = call__3;
-            }
-
-            bool bool__4 = bool__2;
-            if (bool__4)
-            {
-                var call__5 = Trigger(Player);
-                bool__4 = call__5;
-            }
-
-            if (bool__4)
+            sbyte Player;
+            Player = ((TAoWMapField)Owner).GetPlayer();
+            if (Player != -1 && GetTriggerPlayer(Player) && Trigger(Player))
             {
                 SetTriggerPlayer(Player, false);
             }
@@ -132,22 +97,7 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:143
         public void UpdateNewTurnTrigger(sbyte Player)
         {
-            var call__6 = ((TAoWMapField)Owner).GetPlayer();
-            bool bool__7 = Player == call__6;
-            if (bool__7)
-            {
-                var call__8 = GetTriggerPlayer(Player);
-                bool__7 = call__8;
-            }
-
-            bool bool__9 = bool__7;
-            if (bool__9)
-            {
-                var call__10 = Trigger(Player);
-                bool__9 = call__10;
-            }
-
-            if (bool__9)
+            if (Player == ((TAoWMapField)Owner).GetPlayer() && GetTriggerPlayer(Player) && Trigger(Player))
             {
                 SetTriggerPlayer(Player, false);
             }
@@ -186,8 +136,7 @@ namespace Aow.Units.FlagEvents
     {
         public TFlagMessageEvent(TECustomNode owner) : base(owner)
         {
-            var call__11 = new TStringList();
-            FMessage = call__11;
+            FMessage = new TStringList();
         }
 
         // FlagEvents.pas:192
@@ -216,20 +165,18 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:204
         public override bool Trigger(sbyte Player)
         {
-            bool Result = default;
-            TFlagMessageEventLog Log = default;
+            TFlagMessageEventLog Log;
             if (AoWHSMap.FSeatedPlayer == Player)
             {
                 Log = new TFlagMessageEventLog(null);
                 Log.FHelpFileName = FHelpFileName;
-                var call__12 = FMessage.Text;
-                Log.FMessage.Text = call__12;
+                var text = FMessage.Text;
+                Log.FMessage.Text = text;
                 AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
                 Log.Release();
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
         // FlagEvents.pas:62
@@ -246,20 +193,10 @@ namespace Aow.Units.FlagEvents
         public new const int ClassID = 132462;
 
         // FlagEvents.pas:228
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132461;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132461;
 
         // FlagEvents.pas:223
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(FlagMessageEventRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(FlagMessageEventRStr);
 
     }
 
@@ -268,8 +205,7 @@ namespace Aow.Units.FlagEvents
     {
         public TTutorialMessageEvent(TECustomNode owner) : base(owner)
         {
-            var call__13 = new TStringList();
-            FMessage = call__13;
+            FMessage = new TStringList();
         }
 
         // FlagEvents.pas:245
@@ -296,19 +232,17 @@ namespace Aow.Units.FlagEvents
         // FlagEvents.pas:256
         public override bool Trigger(sbyte Player)
         {
-            bool Result = default;
-            TTutorialMessageEventLog Log = default;
+            TTutorialMessageEventLog Log;
             if (AoWHSMap.FSeatedPlayer == Player)
             {
                 Log = new TTutorialMessageEventLog(null);
-                var call__14 = FMessage.Text;
-                Log.FMessage.Text = call__14;
+                var text = FMessage.Text;
+                Log.FMessage.Text = text;
                 AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
                 Log.Release();
             }
 
-            Result = true;
-            return Result;
+            return true;
         }
 
         // FlagEvents.pas:81
@@ -325,20 +259,10 @@ namespace Aow.Units.FlagEvents
         public new const int ClassID = 132460;
 
         // FlagEvents.pas:279
-        public override int ResourceUserClassID()
-        {
-            int Result = default;
-            Result = 132459;
-            return Result;
-        }
+        public override int ResourceUserClassID() => 132459;
 
         // FlagEvents.pas:274
-        public override AnsiString ResourceEditName()
-        {
-            AnsiString Result = default;
-            Result = TranslateRStr(TutorialMessageEventRStr);
-            return Result;
-        }
+        public override AnsiString ResourceEditName() => TranslateRStr(TutorialMessageEventRStr);
 
     }
 

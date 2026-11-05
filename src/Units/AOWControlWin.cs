@@ -108,34 +108,23 @@ namespace Aow.Units.AOWControlWin
         {
             if (General.FSelectedUnits[Index] != -1)
             {
-                var call__1 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]);
-                var call__2 = call__1.GetPreviewImage();
-                if (call__2 != null)
+                if (General.FUnitList.GetUnit(General.FSelectedUnits[Index]).GetPreviewImage() != null)
                 {
                     SD.ClipRect = R;
                     // { Original tests the unsorted index when checking the background library. }
-                    var call__3 = General.FUnitList.GetUnit(Index);
-                    var call__4 = call__3.GetAlignment();
-                    if ((int)call__4 < IntGfxMod.UnitBGs.Count)
+                    if ((int)General.FUnitList.GetUnit(Index).GetAlignment() < IntGfxMod.UnitBGs.Count)
                     {
-                        var call__5 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]);
-                        var call__6 = call__5.GetAlignment();
-                        var call__7 = IntGfxMod.UnitBGs[(int)call__6];
-                        var call__8 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]);
-                        var call__9 = call__8.GetAlignment();
-                        var call__10 = IntGfxMod.UnitBGs[(int)call__9];
-                        var call__11 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]);
-                        var call__12 = call__11.GetAlignment();
-                        var call__13 = IntGfxMod.UnitBGs[(int)call__12];
-                        call__13.ShowClipped(R.Left + (R.Right - R.Left - call__10.Width) / 2, R.Top + (R.Bottom - R.Top - call__7.Height) / 2, SD);
+                        var alignment = General.FUnitList.GetUnit(General.FSelectedUnits[Index]).GetAlignment();
+                        var unitBG = IntGfxMod.UnitBGs[(int)alignment];
+                        var alignment2 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]).GetAlignment();
+                        var unitBGWidth = IntGfxMod.UnitBGs[(int)alignment2];
+                        var alignment3 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]).GetAlignment();
+                        IntGfxMod.UnitBGs[(int)alignment3].ShowClipped(R.Left + (R.Right - R.Left - unitBGWidth.Width) / 2, R.Top + (R.Bottom - R.Top - unitBG.Height) / 2, SD);
                     }
 
-                    var call__14 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]);
-                    var call__15 = call__14.GetPreviewImage();
-                    var call__16 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]);
-                    var call__17 = call__16.GetPreviewImage();
-                    var call__18 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]);
-                    call__18.ShowEx(R.Left + (R.Right - R.Left - call__17.Width) / 2, R.Top + (R.Bottom - R.Top - call__15.Height) / 2, SD, General.FUnitShowInfo);
+                    var previewImage = General.FUnitList.GetUnit(General.FSelectedUnits[Index]).GetPreviewImage();
+                    var previewImage2 = General.FUnitList.GetUnit(General.FSelectedUnits[Index]).GetPreviewImage();
+                    General.FUnitList.GetUnit(General.FSelectedUnits[Index]).ShowEx(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, SD, General.FUnitShowInfo);
                 }
             }
         }
@@ -169,23 +158,13 @@ namespace Aow.Units.AOWControlWin
         // AOWControlWin.pas:333
         public void Unit1FrameMouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
         {
-            TAbstractUnit U = default;
-            bool bool__20 = General.FUnitList != null && General.FSelectedUnits[Sender.Tag] > -1;
-            if (bool__20)
+            if (General.FUnitList != null && General.FSelectedUnits[Sender.Tag] > -1 && General.FUnitList.GetUnit(General.FSelectedUnits[Sender.Tag]) != null)
             {
-                var call__21 = General.FUnitList.GetUnit(General.FSelectedUnits[Sender.Tag]);
-                bool__20 = call__21 != null;
-            }
-
-            if (bool__20)
-            {
+                var unit = General.FUnitList.GetUnit(General.FSelectedUnits[Sender.Tag]);
+                General.FSelectedUnit = unit;
+                if (Button == TMouseButton.mbLeft)
                 {
-                    var call__22 = General.FUnitList.GetUnit(General.FSelectedUnits[Sender.Tag]);
-                    General.FSelectedUnit = call__22;
-                    if (Button == TMouseButton.mbLeft)
-                    {
-                        AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
-                    }
+                    AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
                 }
             }
         }
@@ -254,8 +233,7 @@ namespace Aow.Units.AOWControlWin
         // AOWControlWin.pas:375
         public void CheckEnd()
         {
-            var call__23 = AoWHSMap.FSelectedArmy.GetSelection();
-            FSelection = call__23;
+            FSelection = AoWHSMap.FSelectedArmy.GetSelection();
             Unit1Chk.Checked = General.FSelectedUnits[0] != -1 && (FSelection & (1 << General.FSelectedUnits[0])) == 0;
             Unit2Chk.Checked = General.FSelectedUnits[1] != -1 && (FSelection & (1 << General.FSelectedUnits[1])) == 0;
             Unit3Chk.Checked = General.FSelectedUnits[2] != -1 && (FSelection & (1 << General.FSelectedUnits[2])) == 0;
@@ -336,18 +314,17 @@ namespace Aow.Units.AOWControlWin
                 Unit8Frame.ILIndexFrame = 12;
             }
 
-            var call__24 = AoWHSMap.FSelectedArmy.GetSelection();
-            var call__25 = General.FUnitList.GetPartyMoves(call__24);
-            var call__26 = General.MTtoInt(call__25);
-            MoveIcon.CurrentImage = call__26;
-            var call__27 = AoWHSMap.FSelectedArmy.GetSelection();
-            var call__28 = General.FUnitList.MovePoints(call__27);
-            MovesLbl.Text = IntToStr(call__28);
-            var call__29 = AoWHSMap.FSelectedArmy.GetSelection();
-            var call__30 = AoWHSMap.FSelectedArmy.GetArmyHS();
-            var call__31 = call__30.FArmy.GetPartyStatus(call__29);
-            var call__32 = TranslateRStr(TPartyStatusRStr[(int)call__31]);
-            PartyStatusLbl.Text = call__32;
+            var selection = AoWHSMap.FSelectedArmy.GetSelection();
+            var partyMove = General.FUnitList.GetPartyMoves(selection);
+            var mTtoInt = General.MTtoInt(partyMove);
+            MoveIcon.CurrentImage = mTtoInt;
+            var fSelectedArmySelection = AoWHSMap.FSelectedArmy.GetSelection();
+            var movePoints = General.FUnitList.MovePoints(fSelectedArmySelection);
+            MovesLbl.Text = IntToStr(movePoints);
+            var selection2 = AoWHSMap.FSelectedArmy.GetSelection();
+            var partyStatus = AoWHSMap.FSelectedArmy.GetArmyHS().FArmy.GetPartyStatus(selection2);
+            var partyStatus2 = TranslateRStr(TPartyStatusRStr[(int)partyStatus]);
+            PartyStatusLbl.Text = partyStatus2;
         }
 
         // AOWControlWin.pas:407
@@ -375,14 +352,14 @@ namespace Aow.Units.AOWControlWin
         // AOWControlWin.pas:422
         public void Unit1FramePreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
         {
-            TRect SaveRect = default;
-            TAoWComponent Component = default;
+            TRect SaveRect;
+            TAoWComponent Component;
             if (General.FUnitList != null)
             {
                 Component = Sender;
                 SaveRect = SurfDesc.ClipRect;
-                var call__35 = Rect(Component.AOWOwner.WinLeft + Component.WinLeft + 4, Component.AOWOwner.WinTop + Component.WinTop + 3, Component.AOWOwner.WinLeft + Component.WinLeft + Component.WinWidth - 3, Component.AOWOwner.WinTop + Component.WinTop + Component.WinHeight - 7);
-                DrawUnit(Component.Tag, call__35, ref SurfDesc);
+                var rect = Rect(Component.AOWOwner.WinLeft + Component.WinLeft + 4, Component.AOWOwner.WinTop + Component.WinTop + 3, Component.AOWOwner.WinLeft + Component.WinLeft + Component.WinWidth - 3, Component.AOWOwner.WinTop + Component.WinTop + Component.WinHeight - 7);
+                DrawUnit(Component.Tag, rect, ref SurfDesc);
                 SurfDesc.ClipRect = SaveRect;
             }
         }

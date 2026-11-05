@@ -71,45 +71,37 @@ namespace Aow.Units.AoWConstructDlg
         {
             int Days = default;
             int Gold = default;
-            TAbstractUnit U = default;
+            TAbstractUnit U;
             AnsiString Name = default;
-            int I = default;
-            TConstructAbility Ability = default;
-            TConstructionControl Control = default;
+            TConstructAbility Ability;
+            TConstructionControl Control;
             Dlg.FDrawn = false;
-            var call__1 = AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
-            U = call__1;
+            U = AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
             ConstructionList.Items.Clear();
             ConstructionCostList.Items.Clear();
             ConstructionTurnsList.Items.Clear();
-            var call__2 = AoWHSSet.FAbilityControl.GetAbility(125);
-            Ability = (TConstructAbility)call__2;
+            Ability = (TConstructAbility)AoWHSSet.FAbilityControl.GetAbility(125);
+            for (int I = 0, last = Ability.FConstructionControls.Count - 1; I <= last; I++)
             {
-                I = 0;
-                int end__3 = Ability.FConstructionControls.Count - 1;
-                for (; I <= end__3; I += 1)
+                Control = Ability.FConstructionControls.GetConstructionControl(I);
+                Control.GetInfo(U, ref Name, ref Gold, ref Days);
+                ConstructionList.Items.AddObject(Name, Control);
+                if (Gold != 0)
                 {
-                    var call__4 = Ability.FConstructionControls.GetConstructionControl(I);
-                    Control = call__4;
-                    Control.GetInfo(U, ref Name, ref Gold, ref Days);
-                    ConstructionList.Items.AddObject(Name, Control);
-                    if (Gold != 0)
-                    {
-                        ConstructionCostList.Items.Add(IntToStr(Gold));
-                    }
-                    else
-                    {
-                        ConstructionCostList.Items.Add(AnsiString.FromBytes(45));
-                    }
+                    ConstructionCostList.Items.Add(IntToStr(Gold));
+                }
+                else
+                {
+                    ConstructionCostList.Items.Add(AnsiString.FromBytes(45));
+                }
 
-                    if (Days != 0)
-                    {
-                        ConstructionTurnsList.Items.Add(IntToStr(Days));
-                    }
-                    else
-                    {
-                        ConstructionTurnsList.Items.Add(AnsiString.FromBytes(45));
-                    }
+                if (Days != 0)
+                {
+                    ConstructionTurnsList.Items.Add(IntToStr(Days));
+                }
+                else
+                {
+                    ConstructionTurnsList.Items.Add(AnsiString.FromBytes(45));
                 }
             }
         }
@@ -117,14 +109,7 @@ namespace Aow.Units.AoWConstructDlg
         // AoWConstructDlg.pas:126
         public void SelectConstruction(int Index)
         {
-            bool bool__5 = Index >= 0;
-            if (bool__5)
-            {
-                var call__6 = ConstructionList.Items.Count;
-                bool__5 = Index < call__6;
-            }
-
-            if (bool__5)
+            if (Index >= 0 && Index < ConstructionList.Items.Count)
             {
                 ConstructionList.Selected = Index;
                 ConstructionCostList.Selected = Index;
@@ -167,22 +152,20 @@ namespace Aow.Units.AoWConstructDlg
         public void ConstructBtnClick(TObject Sender)
         {
             AnsiString Reason = default;
-            TConstructionControl Control = default;
-            TAbstractUnit U = default;
+            TConstructionControl Control;
+            TAbstractUnit U;
             General.PlayButtonSound(0);
-            bool bool__7 = ConstructionList.Selected >= 0;
-            if (bool__7)
+            bool condition = ConstructionList.Selected >= 0;
+            if (condition)
             {
-                var call__8 = ConstructionList.Items.Count;
-                bool__7 = ConstructionList.Selected < call__8;
+                var count = ConstructionList.Items.Count;
+                condition = ConstructionList.Selected < count;
             }
 
-            if (bool__7)
+            if (condition)
             {
-                var call__9 = AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
-                U = call__9;
-                var call__10 = ConstructionList.Items.Objects[ConstructionList.Selected];
-                Control = (TConstructionControl)call__10;
+                U = AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
+                Control = (TConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
                 if (Control.CanConstruct(U, ref Reason))
                 {
                     if (Control.Construct(U))

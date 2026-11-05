@@ -50,8 +50,8 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:211
         public static void FinishPyre(TPyreScreen Dialog)
         {
-            TExecuteDoneEvent Done = default;
-            TGameOverEventLog Event = default;
+            TExecuteDoneEvent Done;
+            TGameOverEventLog Event;
             SetSFXVolume(SoundDlg.SFXVolume.Position);
             Dialog.ClearFire();
             if (Dialog.FSavedSongStatus != null)
@@ -90,7 +90,6 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:43
         public static void HideGameWindows(TGeneral Controller)
         {
-            int I = default;
             if (!Controller.FWindowsHidden)
             {
                 Controller.FWindowsHidden = true;
@@ -103,17 +102,11 @@ namespace Aow.Units.E1GameFlow
                 Controller.FControlVisible = AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
                 Controller.FChatVisible = ChatWindow.ChatWin.Visible;
                 Controller.FMapVisible = AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
+                for (int I = 0, last = General.Manager.FChildren.Count - 1; I <= last; I++)
                 {
-                    I = 0;
-                    int end__2 = General.Manager.FChildren.Count - 1;
-                    for (; I <= end__2; I += 1)
+                    if (General.Manager.FChildren[I] != TBWindow.TaskWindow)
                     {
-                        var call__3 = General.Manager.FChildren[I];
-                        if (call__3 != TBWindow.TaskWindow)
-                        {
-                            var call__4 = General.Manager.FChildren[I];
-                            ((TAOWWindow)call__4).Visible = false;
-                        }
+                        ((TAOWWindow)General.Manager.FChildren[I]).Visible = false;
                     }
                 }
             }
@@ -170,9 +163,8 @@ namespace Aow.Units.E1GameFlow
         // E1GameFlow.pas:110
         public static void PickScenarioMap(TScenSetup Dialog, AnsiString Name)
         {
-            var call__6 = GetCurrentDir();
-            var call__7 = ExtractRelativePath(AoWEngine.StartupDirectory, call__6 + AnsiString.FromBytes(92) + Name);
-            Name = call__7;
+            var currentDir = GetCurrentDir();
+            Name = ExtractRelativePath(AoWEngine.StartupDirectory, currentDir + AnsiString.FromBytes(92) + Name);
             FileDlgWindow.FileDialog.Visible = false;
             Dialog.FSetupControl.hPickMap(Name);
         }
@@ -199,26 +191,22 @@ namespace Aow.Units.E1GameFlow
             General.Manager.OverlayPriority = 249;
             SongPlayer.Stop(false);
             SetCurrentDir(AoWEngine.StartupDirectory);
-            var call__8 = Dialog.GetCampaign();
-            var call__9 = Dialog.GetCampaign();
-            var call__10 = GetCampaignScenario(call__9, call__8.FCurrentScenarioID);
-            if (call__10.FImageLibrary == (AnsiString)"")
+            var campaign = Dialog.GetCampaign();
+            if (GetCampaignScenario(Dialog.GetCampaign(), campaign.FCurrentScenarioID).FImageLibrary == (AnsiString)"")
             {
                 Song = (AnsiString)"Songs\\Title.IT";
             }
             else
             {
-                var call__11 = Dialog.GetCampaign();
-                var call__12 = Dialog.GetCampaign();
-                var call__13 = GetCampaignScenario(call__12, call__11.FCurrentScenarioID);
-                Song = (AnsiString)"Songs\\" + call__13.FImageLibrary;
+                var dialogCampaign = Dialog.GetCampaign();
+                Song = (AnsiString)"Songs\\" + GetCampaignScenario(Dialog.GetCampaign(), dialogCampaign.FCurrentScenarioID).FImageLibrary;
             }
 
             PlaySongEx(Song, 1, 0, true);
-            var call__14 = Dialog.GetCampaign();
-            Dialog.PPawn.CurrentImage = call__14.FFaction + 7;
-            var call__15 = Dialog.GetCampaign();
-            Dialog.EPawn.CurrentImage = 8 - call__15.FFaction;
+            var campaign2 = Dialog.GetCampaign();
+            Dialog.PPawn.CurrentImage = campaign2.FFaction + 7;
+            var campaign3 = Dialog.GetCampaign();
+            Dialog.EPawn.CurrentImage = 8 - campaign3.FFaction;
             Dialog.UpdateCampaignState();
         }
 
