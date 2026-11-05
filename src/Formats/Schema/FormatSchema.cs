@@ -15,6 +15,14 @@ public sealed class FormatSchema
 {
     private readonly Dictionary<string, SchemaClass> classes = new(StringComparer.Ordinal);
     private readonly Dictionary<string, Dictionary<int, SchemaClass>> engines = new(StringComparer.Ordinal);
+    private readonly List<string> ambiguities = [];
+    private readonly List<(string Engine, int Id)> ambiguous = [];
+
+    /// <summary>Class ids that one engine table enlists for two classes, measured at load.</summary>
+    public IReadOnlyList<string> RegistrationAmbiguities => ambiguities;
+
+    /// <summary>The engine tables, by context name.</summary>
+    public IReadOnlyCollection<string> Engines => engines.Keys;
 
     public int Version { get; }
 
@@ -70,9 +78,14 @@ public sealed class FormatSchema
                 if (c.Id is not int id) throw new InvalidOperationException($"Class {c.Name} is enlisted without an id.");
                 if (!engines.TryGetValue(engine, out var table)) engines[engine] = table = [];
                 if (!table.TryAdd(id, c))
-                    throw new InvalidOperationException($"Engine {engine} enlists class id {id} twice: {table[id].Name} and {c.Name}.");
+                {
+                    ambiguities.Add($"engine {engine} class id {id}: {table[id].Name} and {c.Name}");
+                    ambiguous.Add((engine, id));
+                }
             }
         }
+        // An ambiguous id resolves to nothing, so a stored instance of it is refused, not guessed.
+        foreach (var (engine, id) in ambiguous) engines[engine].Remove(id);
     }
 
     private readonly Dictionary<(string Context, string Class), (string Rule, SchemaClass Shape)> legacyShapes = [];
@@ -122,7 +135,6 @@ public sealed class SchemaClass
         Inherits = source["inherits"] is not JsonBool { Value: false };
         KeepsChildren = source["children"] is not JsonBool { Value: false };
         FieldClassName = (source["fieldClass"] as JsonString)?.Value;
-        LegacyShape = (source["legacyShape"] as JsonString)?.Value;
         if (source["properties"] is JsonArray props)
             foreach (var p in props.Items) own.Add(new SchemaProperty((JsonObject)p, this, schema));
     }
@@ -134,7 +146,6 @@ public sealed class SchemaClass
     public bool Inherits { get; }
     public bool KeepsChildren { get; }
     public string? FieldClassName { get; }
-    public string? LegacyShape { get; }
 
     /// <summary>The class of the fields of a map level, inherited along the chain.</summary>
     public string? FieldClass => FieldClassName ?? Parent?.FieldClass;

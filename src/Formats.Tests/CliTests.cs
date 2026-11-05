@@ -23,7 +23,7 @@ public sealed class CliTests : FormatsTest, IDisposable
 
     private string In(string name) => Path.Combine(directory, name);
 
-    [Fact]
+    [GameFact]
     public void ToOwnThenToOriginalReproducesTheFile()
     {
         Assert.Equal(Program.Success, Run("to-own", HeroList, In("a.ahl")).Code);
@@ -32,7 +32,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Equal((byte)'{', File.ReadAllBytes(In("a.ahl"))[0]);
     }
 
-    [Fact]
+    [GameFact]
     public void AnExistingDestinationNeedsOverwrite()
     {
         File.WriteAllText(In("a.ahl"), "keep");
@@ -44,7 +44,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.NotEqual("keep", File.ReadAllText(In("a.ahl")));
     }
 
-    [Fact]
+    [GameFact]
     public void TheInputIsNeverTheOutput()
     {
         File.Copy(HeroList, In("x.ahl"));
@@ -54,7 +54,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(In("x.ahl")));
     }
 
-    [Fact]
+    [GameFact]
     public void AFailedConversionWritesNothing()
     {
         File.WriteAllBytes(In("bad.ahl"), [1, 0, 0, 1, 99, 0, 5, 0, 0, 0]);
@@ -65,7 +65,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Single(Directory.GetFiles(directory));
     }
 
-    [Fact]
+    [GameFact]
     public void NormalizeWritesASeparateOutput()
     {
         Run("to-own", HeroList, In("a.ahl"));
@@ -84,7 +84,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Contains("conflicts", result.Errors);
     }
 
-    [Fact]
+    [GameFact]
     public void DirectoryTreesMayNotOverlap()
     {
         Directory.CreateDirectory(In("in"));
@@ -99,7 +99,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
     }
 
-    [Fact]
+    [GameFact]
     public void CheckReportsOwnDocuments()
     {
         Run("to-own", HeroList, In("a.ahl"));
@@ -109,7 +109,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Contains("Own: all eligible documents G-own equal", result.Output);
     }
 
-    [Fact]
+    [GameFact]
     public void InfoReportsProfileKindAndResidue()
     {
         var result = Run("info", HeroList);

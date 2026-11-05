@@ -41,6 +41,23 @@ public sealed class SchemaTests : FormatsTest
     }
 
     [Fact]
+    public void RegistrationAmbiguitiesAreMeasuredAndRefused()
+    {
+        Assert.Empty(Schema.RegistrationAmbiguities);
+        var text = """
+            {"version": 1, "classes": [
+              {"name": "TEObject", "id": 80, "properties": []},
+              {"name": "TA", "parent": "TEObject", "id": 7, "engines": ["game"], "properties": []},
+              {"name": "TB", "parent": "TEObject", "id": 7, "engines": ["game"], "properties": []},
+              {"name": "TC", "parent": "TEObject", "id": 8, "engines": ["game"], "properties": []}]}
+            """;
+        var schema = FormatSchema.Load(System.Text.Encoding.UTF8.GetBytes(text), "ambiguous.json");
+        Assert.Equal(["engine game class id 7: TA and TB"], schema.RegistrationAmbiguities);
+        Assert.Null(schema.Resolve("game", 7));
+        Assert.Equal("TC", schema.Resolve("game", 8)!.Name);
+    }
+
+    [Fact]
     public void EveryClassHasUniqueMemberNamesAndIds()
     {
         foreach (var cls in Schema.Classes)

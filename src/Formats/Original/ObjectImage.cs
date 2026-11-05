@@ -74,10 +74,8 @@ internal static class ObjectImage
         {
             var prop = cls.PropertyById(e.Id)
                 ?? throw ctx.Fail(Codes.UnknownProperty, $"Class {cls.Name} has no property {e.Id}.", db + e.Offset, path, e.Id.ToString(CultureInfo.InvariantCulture));
-            if (!prop.IsDynamic && !seen.TryAdd(e.Id, e))
-                throw ctx.Fail(Codes.Duplicate, $"Property {e.Id} of class {cls.Name} is stored twice.", start, path);
-            if (prop.IsDynamic && !seen.TryAdd(e.Id, e))
-                throw ctx.Fail(Codes.Duplicate, $"Dynamic id {e.Id} of class {cls.Name} is stored twice.", start, path);
+            if (!seen.TryAdd(e.Id, e))
+                throw ctx.Fail(Codes.Duplicate, $"{(prop.IsDynamic ? "Dynamic id" : "Property")} {e.Id} of class {cls.Name} is stored twice.", start, path);
             slots.Add(new Slot(e, prop));
         }
 

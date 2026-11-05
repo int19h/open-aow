@@ -31,10 +31,10 @@ public sealed class ValidationTests : FormatsTest
         return GameFiles.Read(GameFiles.Write(document)).Document;
     }
 
-    [Fact]
+    [GameFact]
     public void AValidDocumentHasNoFindings() => Assert.Empty(DocumentValidation.Run(Map(), [new PlayerSlotValidator()]));
 
-    [Fact]
+    [GameFact]
     public void ADanglingReferenceIsLocatedAndNamesItsDomain()
     {
         var text = GameFiles.Write(Map()).AsSpan().ToArray();
@@ -49,7 +49,7 @@ public sealed class ValidationTests : FormatsTest
         Assert.StartsWith("edited.hsm:12:22 E_REFERENCE root.CurrentPlayer\n", finding.ToString());
     }
 
-    [Fact]
+    [GameFact]
     public void RemovingAReferencedChildIsRefusedAtTheReference()
     {
         var document = Map();
@@ -61,7 +61,7 @@ public sealed class ValidationTests : FormatsTest
         Assert.Equal("root.CurrentPlayer", finding.Path);
     }
 
-    [Fact]
+    [GameFact]
     public void StructuralErrorsComeBeforeContentValidators()
     {
         var document = Map();

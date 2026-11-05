@@ -151,7 +151,7 @@ public static class GameFiles
     /// <summary>Whether the first non-whitespace character after an optional BOM is '{'.</summary>
     public static bool IsJsonCandidate(ReadOnlySpan<byte> bytes)
     {
-        int i = bytes.StartsWith("﻿"u8) ? 3 : 0;
+        int i = bytes.StartsWith("\uFEFF"u8) ? 3 : 0;
         while (i < bytes.Length && bytes[i] is (byte)' ' or (byte)'\t' or (byte)'\r' or (byte)'\n') i++;
         return i < bytes.Length && bytes[i] == (byte)'{';
     }

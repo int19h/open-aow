@@ -10,6 +10,8 @@ namespace Aow.Formats.Json;
 /// its items, a map field row, takes one line with compact nested values. Strings escape quotes,
 /// backslashes and controls with the short escapes for backspace, tab, LF, form feed and CR,
 /// and lowercase \u escapes for other controls and U+007F to U+009F. Unpaired surrogates fail.
+/// A member named Fields that holds an array of arrays is written as rows too, so a parsed
+/// document writes back canonically without its layout marks.
 /// </summary>
 public static class JsonWriter
 {
@@ -41,7 +43,11 @@ public static class JsonWriter
                     Indent(builder, depth + 1);
                     WriteString(builder, obj.Members[i].Name);
                     builder.Append(": ");
-                    Write(builder, obj.Members[i].Value, depth + 1);
+                    var member = obj.Members[i];
+                    // Map field rows take one line each, also in a parsed document without layout marks.
+                    if (member.Name == "Fields" && member.Value is JsonArray { Items.Count: > 0 } rows && rows.Items.All(r => r is JsonArray))
+                        WriteRows(builder, rows, depth + 1);
+                    else Write(builder, member.Value, depth + 1);
                     builder.Append(i + 1 < obj.Members.Count ? ",\n" : "\n");
                 }
                 Indent(builder, depth);
@@ -68,6 +74,19 @@ public static class JsonWriter
                 WriteScalar(builder, value);
                 return;
         }
+    }
+
+    private static void WriteRows(StringBuilder builder, JsonArray rows, int depth)
+    {
+        builder.Append("[\n");
+        for (int i = 0; i < rows.Items.Count; i++)
+        {
+            Indent(builder, depth + 1);
+            WriteCompact(builder, rows.Items[i]);
+            builder.Append(i + 1 < rows.Items.Count ? ",\n" : "\n");
+        }
+        Indent(builder, depth);
+        builder.Append(']');
     }
 
     /// <summary>One line, one space after colons and commas.</summary>

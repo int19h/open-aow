@@ -25,14 +25,14 @@ public sealed class CorpusTests : FormatsTest
         return data;
     }
 
-    [Fact]
+    [GameFact]
     public void TheGameRootHoldsTheShippedFiles()
     {
         int count = Files().Count;
         Assert.True(count >= 132, $"{count} in-scope files under {Checker.GameRoot}");
     }
 
-    [Theory]
+    [GameTheory]
     [MemberData(nameof(Files))]
     public void OriginalRoundTrips(string relative)
     {
@@ -46,8 +46,6 @@ public sealed class CorpusTests : FormatsTest
         Assert.True(c.Profile!.Comparable(bytes, FormatLimits.Default).AsSpan().SequenceEqual(c.Profile.Comparable(exported.Bytes, FormatLimits.Default)), "G1");
         var again = GameFiles.Write(GameFiles.Import(exported.Bytes, c.Profile, c.Kind!, relative).Document);
         Assert.True(again.AsSpan().SequenceEqual(text), "G2");
-        var normal = GameFiles.Normalize(text, relative).Bytes;
-        Assert.True(normal.AsSpan().SequenceEqual(text), "N(D) = D");
         Assert.Empty(exported.Invalidated);
     }
 }

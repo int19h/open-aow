@@ -80,10 +80,10 @@ public sealed class JsonTests : FormatsTest
             .Add("a", new JsonInteger(-5))
             .Add("e", new JsonObject())
             .Add("l", new JsonArray())
-            .Add("s", new JsonString("q\"\\\b\t\n\f\r\u0001\u007f\u0081\u009f\u00a0é\u20ac"))
+            .Add("s", new JsonString("q\"\\\b\t\n\f\r\u0001\u007f\u0081\u009f\u00a0\u00e9\u20ac"))
             .Add("n", new JsonArray().Add(new JsonBool(true)).Add(new JsonNull()));
         Assert.Equal(
-            "{\n  \"a\": -5,\n  \"e\": {},\n  \"l\": [],\n  \"s\": \"q\\\"\\\\\\b\\t\\n\\f\\r\\u0001\\u007f\\u0081\\u009f\u00a0é\u20ac\",\n  \"n\": [\n    true,\n    null\n  ]\n}\n",
+            "{\n  \"a\": -5,\n  \"e\": {},\n  \"l\": [],\n  \"s\": \"q\\\"\\\\\\b\\t\\n\\f\\r\\u0001\\u007f\\u0081\\u009f\u00a0\u00e9\u20ac\",\n  \"n\": [\n    true,\n    null\n  ]\n}\n",
             JsonWriter.ToText(value));
     }
 
@@ -100,6 +100,15 @@ public sealed class JsonTests : FormatsTest
     }
 
     [Fact]
+    public void AParsedDocumentWritesItsFieldRowsBackOnSingleLines()
+    {
+        var rows = new JsonArray { Layout = ArrayLayout.RowsOnLines };
+        rows.Add(new JsonArray().Add(new JsonObject().Add("Sprites", new JsonArray().Add(new JsonObject().Add("$class", new JsonString("T"))))));
+        var text = JsonWriter.ToText(new JsonObject().Add("Level", new JsonObject().Add("Fields", rows)));
+        Assert.Equal(text, JsonWriter.ToText(JsonReader.Parse(text)));
+    }
+
+    [Fact]
     public void WriterRefusesUnpairedSurrogates()
     {
         var error = Assert.Throws<ConversionException>(() => JsonWriter.ToText(new JsonString("\ud800")));
@@ -109,7 +118,7 @@ public sealed class JsonTests : FormatsTest
     [Fact]
     public void WriterOutputHasNoByteOrderMarkAndOneFinalLineFeed()
     {
-        var bytes = JsonWriter.ToUtf8(new JsonObject().Add("a", new JsonString("é")));
+        var bytes = JsonWriter.ToUtf8(new JsonObject().Add("a", new JsonString("\u00e9")));
         Assert.NotEqual(0xEF, bytes[0]);
         Assert.Equal((byte)'\n', bytes[^1]);
         Assert.NotEqual((byte)'\n', bytes[^2]);

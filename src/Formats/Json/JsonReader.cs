@@ -50,7 +50,7 @@ public sealed class JsonReader
     public static JsonValue Parse(string text, string? file = null, bool decompressed = false, FormatLimits? limits = null)
     {
         var reader = new JsonReader(text, file, decompressed, limits ?? FormatLimits.Default);
-        if (reader.Peek() == '﻿') reader.position++;
+        if (reader.Peek() == '\uFEFF') reader.position++;
         reader.SkipWhitespace();
         var value = reader.ReadValue(0);
         reader.SkipWhitespace();

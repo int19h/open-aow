@@ -22,7 +22,14 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 
     private readonly SortedDictionary<string, ProfileTally> tallies = new(StringComparer.Ordinal);
     private int originals, g1, g2, gOwn, ownDocuments, unknownProperties, failures, differences, layoutParts, residueFiles;
-    private readonly Dictionary<string, int> legacy = new(StringComparer.Ordinal);
+    private int caseResidues;
+    private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> legacy = new(StringComparer.Ordinal);
+    private readonly SortedDictionary<string, int> categories = new(StringComparer.Ordinal);
+    // The census corpus alone, compared with the pinned expectation.
+    private int corpusParts, corpusResidueFiles, corpusCaseResidues;
+    private readonly SortedDictionary<string, int> corpusCategories = new(StringComparer.Ordinal);
+    private readonly SortedDictionary<string, (int Parts, int Files)> corpusProfiles = new(StringComparer.Ordinal);
+    private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> corpusLegacy = new(StringComparer.Ordinal);
     private readonly List<(string Name, string Profile, long Size, long Inflated, double ImportMs, double ExportMs, long Json)> timings = [];
 
     public static string GameRoot => Environment.GetEnvironmentVariable("AOW_GAME_ROOT") is { Length: > 0 } r ? r : @"D:\Games\GOG\Age of Wonders";
@@ -31,33 +38,37 @@ public sealed class Checker(TextWriter output, TextWriter errors)
     public int Run(Options o)
     {
         int pinned = 0, expected = 0;
+        Expectation? expectation = null;
+        CensusFacts? census = null;
         if (o.Expect is not null)
         {
-            using var census = JsonDocument.Parse(File.ReadAllBytes(o.Expect), new JsonDocumentOptions { MaxDepth = 256 });
-            foreach (var row in census.RootElement.GetProperty("corpus").EnumerateArray())
+            try
             {
-                if (row.GetProperty("scope").GetString() != "convert") continue;
+                (census, expectation) = Expectation.Load(o.Expect);
+            }
+            catch (ExpectationException error)
+            {
+                errors.WriteLine($"{o.Expect}: {error.Message}");
+                return Program.Error;
+            }
+            foreach (var row in census.Rows)
+            {
                 expected++;
-                string root = row.GetProperty("sourceRoot").GetString() == "install" ? GameRoot : OracleRoot;
-                string relative = row.GetProperty("relativePath").GetString()!;
-                string path = Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar));
-                string profile = row.GetProperty("profile").GetString()!;
-                string kind = row.GetProperty("kind").GetString()!;
-                string sha = row.GetProperty("sha256").GetString()!;
-                string name = row.GetProperty("identity").GetString()!;
+                string root = row.SourceRoot == "install" ? GameRoot : OracleRoot;
+                string path = Path.Combine(root, row.RelativePath.Replace('/', Path.DirectorySeparatorChar));
                 if (!File.Exists(path))
                 {
-                    Failure(name, $"pinned file {path} is missing");
+                    Failure(row.Identity, $"pinned file {path} is missing");
                     continue;
                 }
                 var bytes = File.ReadAllBytes(path);
-                if (System.Convert.ToHexStringLower(SHA256.HashData(bytes)) != sha)
+                if (System.Convert.ToHexStringLower(SHA256.HashData(bytes)) != row.Sha256)
                 {
-                    Failure(name, "the file differs from its pinned SHA-256");
+                    Failure(row.Identity, "the file differs from its pinned SHA-256");
                     continue;
                 }
                 pinned++;
-                CheckOriginal(name, bytes, FileProfile.Find(profile), kind);
+                CheckOriginal(row.Identity, bytes, FileProfile.Find(row.Profile), row.Kind, true);
             }
         }
         foreach (var target in o.Positional)
@@ -67,6 +78,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         }
         var fixtures = Fixtures.Run(errors);
 
+        var schema = GameFiles.Schema;
         output.WriteLine($"Corpus: {originals} original files, {g1} G1 equal, {g2} imported documents G2 equal, {unknownProperties} unknown properties");
         output.WriteLine(fixtures.Failed == 0
             ? $"Fixtures: {fixtures.Cases} cases, all expected results matched"
@@ -75,17 +87,36 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         output.WriteLine(ownEqual == ownTotal
             ? $"Own: all eligible documents G-own equal ({ownTotal} documents), 0 strict export losses"
             : $"Own: {ownEqual} of {ownTotal} documents G-own equal, 0 strict export losses");
-        output.WriteLine($"Layout: {layoutParts} parts in {residueFiles} original files, 0 unexpected case residues");
-        output.WriteLine($"Schema: 0 unclassified sites, 0 registration ambiguities (census sites, {GameFiles.Schema.Classes.Count} classes, 3 engine tables checked at load, schema {GameFiles.Schema.Hash[..12]})");
-        if (o.Expect is not null) output.WriteLine($"Pinned: {pinned} of {expected} census files present with their pinned SHA-256");
+        output.WriteLine($"Layout: {layoutParts} parts in {residueFiles} original files, {caseResidues} unexpected case residues");
+        output.WriteLine((census is null
+            ? "Schema: unclassified sites not checked without a census, "
+            : $"Schema: {census.UnexplainedSites} unclassified sites (census {census.Sha256[..12]}), ") +
+            $"{schema.RegistrationAmbiguities.Count} registration ambiguities in {schema.Engines.Count} engine tables (measured at schema load, {schema.Classes.Count} classes, schema {schema.Hash[..12]})");
+        foreach (var a in schema.RegistrationAmbiguities) errors.WriteLine("registration ambiguity: " + a);
+        if (census is not null) output.WriteLine($"Pinned: {pinned} of {expected} census files present with their pinned SHA-256");
         foreach (var (profile, t) in tallies)
             output.WriteLine($"Profile {profile}: {t.Files} files, {t.G1} G1, {t.G2} G2, {t.GOwn} G-own, {t.Parts} layout parts in {t.Residue} files");
-        if (legacy.Count > 0) output.WriteLine("Legacy rules: " + string.Join(", ", legacy.Select(l => $"{l.Key} {l.Value}")));
+        if (categories.Count > 0)
+            output.WriteLine("Layout parts by category: " + string.Join(", ", categories.Select(c => $"{c.Key} {c.Value}")));
+        output.WriteLine(legacy.Count == 0 ? "Legacy rules: none fired" :
+            "Legacy rules: " + string.Join(", ", legacy.Select(l => $"{l.Key} {l.Value.Occurrences} in {l.Value.Files.Count} file(s) ({string.Join(", ", l.Value.Files)})")));
         output.WriteLine("G3: unavailable in aowconv. The independent reader is tools/oracle/asg.py ModelReader (world-hsm and tactical-hsm payloads), run by the 9.7-2 gate. Other profiles have no independent reader yet.");
         foreach (var t in timings.OrderByDescending(t => t.Inflated).Take(3))
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Measure: {t.Name} ({t.Profile}), {t.Size} bytes, {t.Inflated} payload bytes, own JSON {t.Json} bytes, import {t.ImportMs:F0} ms, export {t.ExportMs:F0} ms"));
-        if (failures > 0 || fixtures.Failed > 0 || (o.Expect is not null && pinned != expected)) return Program.Error;
+        bool drift = false;
+        if (expectation is not null)
+        {
+            var problems = expectation.Compare(corpusParts, corpusResidueFiles, corpusCategories, corpusProfiles, corpusLegacy, corpusCaseResidues);
+            foreach (var p in problems) errors.WriteLine("expectation drift: " + p);
+            drift = problems.Count > 0;
+            output.WriteLine(drift
+                ? $"Expect: {problems.Count} pinned layout counts differ from {o.Expect}"
+                : $"Expect: layout parts, residue files, categories, per-profile residue, legacy rules and case residues match {Path.GetFileName(o.Expect)} ({expectation.Sha256[..12]})");
+        }
+        else if (census is not null)
+            output.WriteLine("Expect: census only, layout counts are not pinned. Pass the 9.7-1 check expectation file to pin them.");
+        if (failures > 0 || fixtures.Failed > 0 || drift || schema.RegistrationAmbiguities.Count > 0 || (census is not null && pinned != expected)) return Program.Error;
         return differences > 0 ? Program.Difference : Program.Success;
     }
 
@@ -108,7 +139,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         switch (c.Format)
         {
             case DetectedFormat.Original:
-                CheckOriginal(path, bytes, c.Profile, c.Kind!);
+                CheckOriginal(path, bytes, c.Profile, c.Kind!, false);
                 break;
             case DetectedFormat.OwnJson or DetectedFormat.GzipOwnJson:
                 CheckOwn(path, bytes);
@@ -146,7 +177,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
     /// N(D) is the import of the export of D, which G2 already computes, so when G2 holds N(D) = D
     /// and N(N(D)) = N(D) follows from N being a function of its input bytes.
     /// </summary>
-    private void CheckOriginal(string name, byte[] bytes, FileProfile? profile, string kind)
+    private void CheckOriginal(string name, byte[] bytes, FileProfile? profile, string kind, bool inCensus)
     {
         originals++;
         if (profile is null)
@@ -169,6 +200,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             var original = profile.Comparable(bytes, FormatLimits.Default);
             var roundTrip = profile.Comparable(exported.Bytes, FormatLimits.Default);
             timings.Add((name, profile.Name, bytes.Length, original.Length, importMs, exportMs, text.Length));
+            int residues = CountCaseResidues(imported.Document);
+            caseResidues += residues;
             if (imported.Counts.Parts > 0)
             {
                 residueFiles++;
@@ -176,7 +209,21 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 tally.Residue++;
                 tally.Parts += imported.Counts.Parts;
             }
-            foreach (var (rule, count) in imported.Counts.LegacyRules) legacy[rule] = legacy.GetValueOrDefault(rule) + count;
+            foreach (var (category, count) in imported.Counts.Categories) categories[category] = categories.GetValueOrDefault(category) + count;
+            foreach (var (rule, count) in imported.Counts.LegacyRules) Add(legacy, rule, count, name);
+            if (inCensus)
+            {
+                corpusCaseResidues += residues;
+                if (imported.Counts.Parts > 0)
+                {
+                    corpusResidueFiles++;
+                    corpusParts += imported.Counts.Parts;
+                    var (parts, files) = corpusProfiles.GetValueOrDefault(profile.Name);
+                    corpusProfiles[profile.Name] = (parts + imported.Counts.Parts, files + 1);
+                }
+                foreach (var (category, count) in imported.Counts.Categories) corpusCategories[category] = corpusCategories.GetValueOrDefault(category) + count;
+                foreach (var (rule, count) in imported.Counts.LegacyRules) Add(corpusLegacy, rule, count, name);
+            }
             if (!original.AsSpan().SequenceEqual(roundTrip))
             {
                 differences++;
@@ -206,5 +253,37 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             if (error.Diagnostic.Code == Codes.UnknownProperty) unknownProperties++;
             Failure(name, error.Diagnostic.ToString());
         }
+    }
+
+    private static void Add(SortedDictionary<string, (int Occurrences, List<string> Files)> map, string rule, int count, string file)
+    {
+        if (!map.TryGetValue(rule, out var entry)) entry = (0, []);
+        entry.Files.Add(file);
+        map[rule] = (entry.Occurrences + count, entry.Files);
+    }
+
+    /// <summary>Semantic $residue members in a document: meaningful values outside a mapped case.</summary>
+    internal static int CountCaseResidues(JsonValue value)
+    {
+        int count = 0;
+        var pending = new Stack<JsonValue>();
+        pending.Push(value);
+        while (pending.Count > 0)
+        {
+            switch (pending.Pop())
+            {
+                case JsonObject obj:
+                    foreach (var m in obj.Members)
+                    {
+                        if (m.Name == "$residue") count++;
+                        else pending.Push(m.Value);
+                    }
+                    break;
+                case JsonArray array:
+                    foreach (var item in array.Items) pending.Push(item);
+                    break;
+            }
+        }
+        return count;
     }
 }

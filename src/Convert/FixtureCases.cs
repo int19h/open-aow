@@ -98,7 +98,7 @@ public static partial class Fixtures
         });
         yield return new("unknown", "unknown $class in JSON", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
+            var d = MapDocument();
             Set(Root(d), "$class", new JsonString("TNoSuchMap"));
             return Expect(Codes.UnknownClass, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
@@ -118,13 +118,13 @@ public static partial class Fixtures
         // Presence: present defaults, absent values, stored nulls.
         yield return new("presence", "a present default stays present", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
+            var d = MapDocument();
             Set(Root(d), "Day", new JsonInteger(0));
             return OwnRoundTrip(d, (n, _) => Root(n)["Day"] is JsonInteger { Value: 0 } ? null : "the present zero was dropped");
         });
         yield return new("presence", "explicit false normalizes to absence", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
+            var d = MapDocument();
             Set(Root(d), "FogEnabled", new JsonBool(false));
             var n = Import(GameFiles.Export(d).Bytes, "world-hsm", "map");
             return Root(n).Find("FogEnabled") is null ? Pass("absent after normalization") : Fail("false survived");
@@ -151,13 +151,13 @@ public static partial class Fixtures
             var bytes = Enumerable.Range(0, 256).Select(i => (byte)i).ToArray();
             var image = HeroListImage([1, 20, 0], Concat([255], I32(256), bytes));
             return RoundTrip(image, "hero-list", "hero-list",
-                d => Root(d)["LibraryName"] is JsonString s && s.Value.Length == 256 && s.Value[0x81] == '\u0081' && s.Value[0x80] == '€'
+                d => Root(d)["LibraryName"] is JsonString s && s.Value.Length == 256 && s.Value[0x81] == '\u0081' && s.Value[0x80] == '\u20ac'
                     ? null : "the code page mapping is not the frozen table");
         });
         yield return new("strings", "an unmapped character is refused with its location", () =>
         {
             var d = Import(Game(HeroList), "hero-list", "hero-list");
-            Set(Root(d), "LibraryName", new JsonString("一"));
+            Set(Root(d), "LibraryName", new JsonString("\u4e00"));
             return Expect(Codes.Text, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         foreach (var (name, value) in new (string, Func<JsonValue>)[]
@@ -171,7 +171,7 @@ public static partial class Fixtures
         })
             yield return new("strings", "rwStrings " + name, () =>
             {
-                var d = Import(Game(Map), "world-hsm", "map");
+                var d = MapDocument();
                 Set(Root(d), "Objectives", value());
                 return OwnRoundTrip(d);
             });
@@ -197,7 +197,7 @@ public static partial class Fixtures
         foreach (var bits in new[] { "00000080", "0000807f", "000080ff", "0100c07f", "ffffffff", "0000803f" })
             yield return new("floats", "$bits " + bits, () =>
             {
-                var d = Import(Game(Map), "world-hsm", "map");
+                var d = MapDocument();
                 var player = Obj(Arr(Obj(Root(d)["Players"])["Children"]).Items[1]);
                 Set(Obj(player["AIControl"]), "DefenseStrengthMultiplier", new JsonObject().Add("$bits", new JsonString(bits)));
                 return OwnRoundTrip(d, (n, _) =>
@@ -208,7 +208,7 @@ public static partial class Fixtures
         // Slots, families and dimensions.
         yield return new("identity", "deleting a child slot keeps the other slots", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
+            var d = MapDocument();
             var children = Arr(Obj(Root(d)["Players"])["Children"]);
             int count = children.Items.Count;
             children.Items.RemoveAt(1);
@@ -220,7 +220,7 @@ public static partial class Fixtures
         });
         yield return new("identity", "duplicate child slot", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
+            var d = MapDocument();
             var children = Arr(Obj(Root(d)["Players"])["Children"]);
             Set(Obj(children.Items[1]), "$slot", new JsonInteger(0));
             return Expect(Codes.Slot, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
@@ -233,20 +233,20 @@ public static partial class Fixtures
         });
         yield return new("identity", "a field row of the wrong length", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
+            var d = MapDocument();
             Arr(FirstFields(d).Items[3]).Items.RemoveAt(0);
             return Expect(Codes.Dimensions, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         yield return new("identity", "a missing field row", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
+            var d = MapDocument();
             FirstFields(d).Items.RemoveAt(0);
             return Expect(Codes.Dimensions, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         yield return new("identity", "editing one field rewrites one row line", () =>
         {
-            var d = Import(Game(Map), "world-hsm", "map");
-            var before = GameFiles.Write(d);
+            var d = MapDocument();
+            var before = MapText();
             var row = Arr(FirstFields(d).Items[5]);
             Set(Obj(row.Items[7]), "FieldFlags", new JsonInteger(7));
             var after = GameFiles.Write(Import(GameFiles.Export(Parse(GameFiles.Write(d))).Bytes, "world-hsm", "map"));
@@ -314,7 +314,7 @@ public static partial class Fixtures
         yield return new("limits", "decompressed size limit", () => Expect(Codes.Compression,
             () => GameFiles.Import(Game(Map), P("world-hsm"), "map", null, new FormatLimits { DecompressedBytes = 50_000 }), Located));
         yield return new("limits", "JSON depth limit", () => Expect(Codes.Limit,
-            () => GameFiles.Read(GameFiles.Write(Import(Game(Map), "world-hsm", "map")), null, new FormatLimits { Depth = 5 }), Located));
+            () => GameFiles.Read(GameFiles.Write(MapDocument()), null, new FormatLimits { Depth = 5 }), Located));
         yield return new("gzip", "a gzip own document reads as own JSON", () =>
         {
             var text = GameFiles.Write(Import(Game(HeroList), "hero-list", "hero-list"));
@@ -401,7 +401,7 @@ public static partial class Fixtures
     private static Outcome NonemptyItemList()
     {
         // Items of an oracle save, copied into a library as its children.
-        var save = Import(Game(Map), "world-hsm", "map");
+        var save = MapDocument();
         var items = Arr(Obj(Root(save)["ItemControl"])["Items"]);
         if (items.Items.Count == 0) return Fail("the map has no items");
         var children = new JsonArray();
@@ -497,7 +497,7 @@ public static partial class Fixtures
     /// </summary>
     private static Outcome Anchors()
     {
-        var d = Import(Game(Map), "world-hsm", "map");
+        var d = MapDocument();
         var root = Root(d);
         Set(root, "DefendersSeed", new JsonInteger(0x1234567));
         Set(root, "Day", new JsonInteger(13));
