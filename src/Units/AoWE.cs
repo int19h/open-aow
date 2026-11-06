@@ -39187,7 +39187,9 @@ public partial class TAoWHSSet : THSSet
         CRCs.Add(GetFileCRC(Path + "FACERES.PFS", false));
         CRCs.Add(GetFileCRC(Path + "COMB_RES.PFS", false));
         CRCs.Add(GetFileCRC(Path + "SPELLS.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "RELEASE.HSS", true));
+        // The scenario set's stored CRC comes from its engine image, so an own document agrees
+        // with its original (own-formats.md 4.1). The PFS files keep their original bytes.
+        CRCs.Add(FileBoundary.ImageTailInt32(Path + "RELEASE.HSS", Aow.Formats.GameProfile.ScenarioSet));
         int Result = GetCRC32(MemoryMarshal.AsBytes(CRCs.List.AsSpan()), CRCs.Count * 4);
         CRCs.Free();
         return Result;

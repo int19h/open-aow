@@ -99,6 +99,37 @@ public sealed class PreviewCacheTests : IDisposable
         Assert.All(log, r => Assert.False(r.Cached));
     }
 
+    // A Save folder of more than 32 files stays cached through a second listing.
+    [Fact]
+    public void ListingOfFortyFilesComesFromTheCacheTheSecondTime()
+    {
+        var names = Enumerable.Range(0, 40).Select(i => $"h{i:D2}.ahl").ToArray();
+        foreach (var name in names) File.WriteAllBytes(Shipped(name), HeroList("N" + name[1..3] + "xx"));
+        Install();
+        foreach (var name in names) Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
+        foreach (var name in names) Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
+        Assert.Equal(40, log.Take(40).Count(r => !r.Cached));
+        Assert.Equal(40, log.Skip(40).Count(r => r.Cached));
+        Assert.Equal(40, FileBoundary.Previews.Count);
+    }
+
+    [Fact]
+    public void CacheIsBoundedByImageBytesAndDropsTheOldestFirst()
+    {
+        var cache = new PreviewCache(100);
+        var report = new GameFileReport { Operation = "preview", Profile = GameProfile.HeroList };
+        PreviewKey Key(string name) => new("root", name, "hero-list", 1, name);
+        cache.Add(Key("a"), new PreviewEntry(new byte[40], report));
+        cache.Add(Key("b"), new PreviewEntry(new byte[40], report));
+        cache.Add(Key("c"), new PreviewEntry(new byte[40], report));
+        Assert.False(cache.TryGet(Key("a"), out _));
+        Assert.True(cache.TryGet(Key("b"), out _));
+        Assert.True(cache.TryGet(Key("c"), out _));
+        Assert.Equal(80, cache.Bytes);
+        cache.Add(Key("d"), new PreviewEntry(new byte[101], report));
+        Assert.False(cache.TryGet(Key("d"), out _));
+    }
+
     [Fact]
     public void CorruptPreviewReportsItsFileAndLeavesOthersUsable()
     {

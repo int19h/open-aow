@@ -58,7 +58,7 @@ public static class FileBoundary
     }
 
     /// <summary>The session preview cache. Only successful preflights enter it.</summary>
-    public static PreviewCache Previews { get; } = new(32);
+    public static PreviewCache Previews { get; } = new(64L << 20);
 
     /// <summary>
     /// Like Load, for the routines whose original raised on a failed open: the refusal raises
@@ -114,9 +114,38 @@ public static class FileBoundary
         {
             return [];
         }
-        if (!GameFiles.IsGzip(head) && !GameFiles.IsJsonCandidate(head)) return head.Length == count ? head : [];
+        if (!GameFiles.IsGzip(head) && !GameFiles.IsJsonCandidate(head))
+        {
+            // An original lists its leading bytes without a preflight. The open is logged like
+            // every other one.
+            Record(files, fileName, new GameFileReport
+            {
+                Operation = "list", Profile = profile, Format = DetectedFormat.Original.ToString(),
+                G1 = "not applicable: header listing", Validation = "not applicable: header listing",
+            });
+            return head.Length == count ? head : [];
+        }
         var image = Load(fileName, profile, "list");
         return image is not null && image.Length >= count ? image[..count] : [];
+    }
+
+    /// <summary>
+    /// The CRC forms of in-scope files (own-formats.md 4.1): Engine.GetCRC32 over the engine image,
+    /// so an original and its own document give one CRC. A refused file gives 0, which matches
+    /// no stored CRC, and is logged.
+    /// </summary>
+    public static int ImageCrc32(string fileName, GameProfile profile) =>
+        Load(fileName, profile, "crc") is { } image ? Engine.EngineUnit.GetCRC32(image, image.Length) : 0;
+
+    /// <summary>
+    /// The four bytes at the end of the engine image, the stored CRC of a scenario set that
+    /// TAoWHSSet.RetrieveHSSCRC reads. A refusal raises, as the original's failed open did.
+    /// </summary>
+    public static int ImageTailInt32(string fileName, GameProfile profile)
+    {
+        // A scenario set image passed its preflight, so it holds its header and trailing CRC.
+        var image = Load(fileName, profile, "crc") ?? throw new EGameFileError(LastFailure!);
+        return System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(image.Length - 4));
     }
 
     /// <summary>The temporary of a replacement: a sibling the game never opens.</summary>
@@ -135,7 +164,9 @@ public static class FileBoundary
             using (var stream = files.Open(temporary, RtlUnit.fmCreate))
             {
                 stream.Write(bytes);
-                stream.Flush();
+                // The temporary reaches the disk before it replaces the old file.
+                if (stream is FileStream file) file.Flush(true);
+                else stream.Flush();
             }
             if (!files.ReplaceFile(temporary, fileName))
                 throw new IOException("The file service did not replace " + fileName + ".");
@@ -239,26 +270,34 @@ public readonly record struct PreviewKey(string Layer, string Path, string Profi
 
 public sealed record PreviewEntry(byte[] Image, GameFileReport Report);
 
-/// <summary>A bounded session cache of validated preview images. The oldest entry leaves first.</summary>
-public sealed class PreviewCache(int capacity)
+/// <summary>
+/// A session cache of validated preview images bounded by their total bytes. The oldest entry
+/// leaves first. 64 MiB holds about eighty of the largest shipped map images.
+/// </summary>
+public sealed class PreviewCache(long capacityBytes)
 {
     private readonly Dictionary<PreviewKey, PreviewEntry> entries = [];
     private readonly Queue<PreviewKey> order = new();
 
     public int Count => entries.Count;
 
+    /// <summary>The image bytes the cache holds.</summary>
+    public long Bytes { get; private set; }
+
     public bool TryGet(PreviewKey key, out PreviewEntry entry) => entries.TryGetValue(key, out entry!);
 
     public void Add(PreviewKey key, PreviewEntry entry)
     {
-        if (!entries.TryAdd(key, entry)) return;
+        if (entry.Image.LongLength > capacityBytes || !entries.TryAdd(key, entry)) return;
         order.Enqueue(key);
-        while (entries.Count > capacity) entries.Remove(order.Dequeue());
+        Bytes += entry.Image.LongLength;
+        while (Bytes > capacityBytes && entries.Remove(order.Dequeue(), out var oldest)) Bytes -= oldest.Image.LongLength;
     }
 
     public void Clear()
     {
         entries.Clear();
         order.Clear();
+        Bytes = 0;
     }
 }

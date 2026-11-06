@@ -5,6 +5,7 @@ using System.Text.Json;
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
+using Aow.Units;
 
 namespace Aow.Convert;
 
@@ -22,7 +23,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 
     private readonly SortedDictionary<string, ProfileTally> tallies = new(StringComparer.Ordinal);
     private int originals, g1, g2, gOwn, ownDocuments, unknownProperties, failures, differences, layoutParts, residueFiles;
-    private int caseResidues;
+    private int caseResidues, validated, refused;
     private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> legacy = new(StringComparer.Ordinal);
     private readonly SortedDictionary<string, int> categories = new(StringComparer.Ordinal);
     // The census corpus alone, compared with the pinned expectation.
@@ -88,6 +89,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             ? $"Own: all eligible documents G-own equal ({ownTotal} documents), 0 strict export losses"
             : $"Own: {ownEqual} of {ownTotal} documents G-own equal, 0 strict export losses");
         output.WriteLine($"Layout: {layoutParts} parts in {residueFiles} original files, {caseResidues} unexpected case residues");
+        output.WriteLine($"Validation: {validated} imported documents pass the unit validators ({string.Join(", ", FormatMapping.Validators.Select(v => v.Name))}, {FormatMapping.All.Count} mapped classes), {refused} refused");
         output.WriteLine((census is null
             ? "Schema: unclassified sites not checked without a census, "
             : $"Schema: {census.UnexplainedSites} unclassified sites (census {census.Sha256[..12]}), ") +
@@ -201,6 +203,16 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             var roundTrip = profile.Comparable(exported.Bytes, FormatLimits.Default);
             timings.Add((name, profile.Name, bytes.Length, original.Length, importMs, exportMs, text.Length));
             int residues = CountCaseResidues(imported.Document);
+            // The unit validators the game runs before it loads (own-formats.md 2.7). A refusal of
+            // an original the game loads is a failure of the validators.
+            var context = new ValidationContext(imported.Document, profile, kind, name);
+            var findings = FormatMapping.Validators.SelectMany(v => v.Validate(context)).ToList();
+            if (findings.Count == 0) validated++;
+            else
+            {
+                refused++;
+                foreach (var finding in findings) Failure(name, "unit validation: " + finding);
+            }
             caseResidues += residues;
             if (imported.Counts.Parts > 0)
             {

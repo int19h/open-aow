@@ -1,3 +1,4 @@
+using System.Text;
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Platform;
@@ -203,6 +204,98 @@ public sealed class GameSwitchTests
         Assert.Equal(day + 1, ((JsonInteger)Root(reread)["Day"]!).Value);
     }
 
+    // own-formats.md 4.1: the CRC forms of in-scope files cover the engine image, so a user copy
+    // in the own format gives the CRC of its original.
+    private static JsonArray Groups(JsonObject document) => Children((JsonObject)Root(document)["AIGroupManager"]!);
+
+    private static GameFileResult Prepare(JsonObject document) =>
+        GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
+
+    // own-formats.md 2.7, allowed class change: the new class's inherited and own fields are
+    // validated, and an old field the new class lacks is refused by name, never read again
+    // under its numeric id.
+    [InstalledFact]
+    public void AllowedClassChangeValidatesTheNewClassFields()
+    {
+        var document = ShippedSave();
+        var groups = Groups(document);
+        int passive = groups.Items.FindIndex(g => ((JsonObject)g)["$class"] is JsonString { Value: "TPassiveAG" });
+        string before = Encoding.UTF8.GetString(JsonWriter.ToUtf8(groups.Items[passive]));
+        Replace((JsonObject)groups.Items[passive], "$class", new JsonString("TFortifyAG"));
+        var result = Prepare(document);
+        Assert.True(result.Succeeded, result.Report.Error?.ToString());
+        var reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
+        Assert.Equal(before.Replace("\"TPassiveAG\"", "\"TFortifyAG\""), Encoding.UTF8.GetString(JsonWriter.ToUtf8(reread.Items[passive])));
+
+        document = ShippedSave();
+        var area = Groups(document).Items.Cast<JsonObject>().First(g => g["$class"] is JsonString { Value: "TGuardAreaAG" } && g["GuardLocation"] is not null);
+        Replace(area, "$class", new JsonString("TPassiveAG"));
+        var refused = Prepare(document);
+        Assert.Equal(Codes.UnknownMember, refused.Report.Error!.Code);
+        Assert.EndsWith(".GuardLocation", refused.Report.Error.Path);
+    }
+
+    // own-formats.md 2.7, removed property: an absent rwData member is absent from the engine
+    // image, and the engine's read of an absent rwData id leaves the constructor's value, not 0.
+    [InstalledFact]
+    public void RemovedRwDataPropertyKeepsTheConstructorDefault()
+    {
+        var document = ShippedSave();
+        var groups = Groups(document);
+        int index = groups.Items.FindIndex(g => ((JsonObject)g)["IndependentRelation"] is not null);
+        Assert.True(index >= 0, "a stored AI group relation");
+        ((JsonObject)groups.Items[index]).Remove("IndependentRelation");
+        var result = Prepare(document);
+        Assert.True(result.Succeeded, result.Report.Error?.ToString());
+        var reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
+        Assert.Null(((JsonObject)reread.Items[index])["IndependentRelation"]);
+
+        var group = new Aow.Units.MainAG.TPassiveAG(null!);
+        try
+        {
+            Assert.Equal(-1, group.FIndependentRelation);
+            sbyte relation = group.FIndependentRelation;
+            using var memory = new TMemoryStream();
+            memory.Write(new byte[] { 0 });
+            memory.Position = 0;
+            var reader = new Aow.Units.Engine.TEReadStorageStream(memory, EngineFixture.Engine, false);
+            try { reader.rwData(Bytes.Of(ref relation, 1), 1, 26); }
+            finally { reader.Destroy(); }
+            Assert.Equal(-1, relation);
+        }
+        finally { Runtime.ForgetReference(group); }
+    }
+
+    [InstalledFact]
+    public void OriginalAndItsOwnDocumentGiveOneCrc()
+    {
+        string directory = Path.Combine(EngineFixture.Root, "Crc");
+        Directory.CreateDirectory(directory);
+        try
+        {
+            foreach (var (source, profile) in new[] { (InstalledSave.Save, GameProfile.WorldMap), (Path.Combine(InstalledSave.Root, "Release", "Release.hss"), GameProfile.ScenarioSet) })
+            {
+                byte[] original = File.ReadAllBytes(source);
+                string originalPath = Path.Combine(directory, "original" + Path.GetExtension(source));
+                string ownPath = Path.Combine(directory, "own" + Path.GetExtension(source));
+                File.WriteAllBytes(originalPath, original);
+                var imported = GameFiles.Import(original, profile.Profile, profile.Kinds.First(k => GameFiles.KindForExtension(Path.GetExtension(source)) == k), source);
+                File.WriteAllBytes(ownPath, GameFiles.Write(imported.Document));
+                Assert.NotEqual(0, FileBoundary.ImageCrc32(originalPath, profile));
+                Assert.Equal(FileBoundary.ImageCrc32(originalPath, profile), FileBoundary.ImageCrc32(ownPath, profile));
+                if (profile == GameProfile.ScenarioSet)
+                {
+                    Assert.Equal(BitConverter.ToInt32(original, original.Length - 4), FileBoundary.ImageTailInt32(ownPath, profile));
+                    Assert.Equal(BitConverter.ToInt32(original, original.Length - 4), FileBoundary.ImageTailInt32(originalPath, profile));
+                }
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
     [InstalledFact]
     public void OriginalLoadPassesUnmaskedG1()
     {
@@ -237,40 +330,26 @@ public sealed class GameSwitchTests
         Assert.Equal(Codes.Profile, result.Report.Error!.Code);
     }
 
-    public static TheoryData<string, string> InstalledFiles
+    // One shipped file per caller profile. `aowconv check` runs the unit validators over the
+    // whole corpus and reports its Validation line.
+    public static TheoryData<string, string> InstalledFiles => new()
     {
-        get
-        {
-            var data = new TheoryData<string, string>();
-            if (InstalledSave.SkipReason is not null) return data;
-            foreach (string file in Directory.EnumerateFiles(InstalledSave.Root, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
-            {
-                string relative = Path.GetRelativePath(InstalledSave.Root, file);
-                bool tactical = relative.StartsWith("TCMaps", StringComparison.OrdinalIgnoreCase);
-                string? use = Path.GetExtension(file).ToLowerInvariant() switch
-                {
-                    ".asg" or ".csm" => "world-map",
-                    ".hsm" => tactical ? "tactical-map" : "world-map",
-                    ".cam" or ".acg" => "campaign",
-                    ".hss" => "scenario-set",
-                    ".ahl" => "hero-list",
-                    ".ail" => "item-list",
-                    _ => null,
-                };
-                if (use is not null) data.Add(relative, use);
-            }
-            return data;
-        }
-    }
+        { "Scenario/Campaign/Valley01.CSM", "world-map" },
+        { "Save/After the Fall.asg", "world-map" },
+        { "TCMaps/0126c000.HSM", "tactical-map" },
+        { "Scenario/Campaign/Keepers.CAM", "campaign" },
+        { "Release/Release.hss", "scenario-set" },
+        { "Release/High Level.ahl", "hero-list" },
+    };
 
-    // Every shipped in-scope file passes the whole game preflight, the unit validators included:
-    // no validator refuses a file the original game loads.
+    // A shipped file of each profile passes the whole game preflight, the unit validators
+    // included: no validator refuses a file the original game loads.
     [InstalledTheory]
     [MemberData(nameof(InstalledFiles))]
     public void ShippedFilePassesThePreflight(string relative, string use)
     {
         var profile = new[] { GameProfile.WorldMap, GameProfile.TacticalMap, GameProfile.Campaign, GameProfile.ScenarioSet, GameProfile.HeroList, GameProfile.ItemList }.Single(p => p.Name == use);
-        string file = Path.Combine(InstalledSave.Root, relative);
+        string file = Path.Combine(InstalledSave.Root, relative.Replace('/', Path.DirectorySeparatorChar));
         var result = GameBoundary.PrepareLoad(File.ReadAllBytes(file), file, profile, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
         Assert.Equal("equal", result.Report.G1);
