@@ -104,17 +104,24 @@ public sealed class MessageSlotTests
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
         var engine = new TEngine(null!);
-        TEMsg message = default;
-        EngineUnit.InitMsg(ref message, 0x20000008, engine);
-        message.Payload = engine;
-        Assert.Same(engine, message.Payload.As<TEngine>());
-        Assert.Throws<EInvalidCast>(() => message.Payload.Int);
-        Assert.Equal(-1, message.Result);
-        EngineUnit.InitMsg(ref message, 0x20020002, engine);
-        Assert.False(message.Payload.HasValue);
-        message.Payload = 5;
-        Assert.Equal(5, (sbyte)message.Payload.Int);
-        Assert.Null(message.Payload.As<TEngine>());
+        try
+        {
+            TEMsg message = default;
+            EngineUnit.InitMsg(ref message, 0x20000008, engine);
+            message.Payload = engine;
+            Assert.Same(engine, message.Payload.As<TEngine>());
+            Assert.Throws<EInvalidCast>(() => message.Payload.Int);
+            Assert.Equal(-1, message.Result);
+            EngineUnit.InitMsg(ref message, 0x20020002, engine);
+            Assert.False(message.Payload.HasValue);
+            message.Payload = 5;
+            Assert.Equal(5, (sbyte)message.Payload.Int);
+            Assert.Null(message.Payload.As<TEngine>());
+        }
+        finally
+        {
+            engine.Destroy();
+        }
     }
 
     // TMapFieldMsg.Param[0]: 0x1102 carries the placed army, 0x110a the distance to the viewer.
