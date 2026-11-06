@@ -100,7 +100,7 @@ public partial class TAoWWaterHexagon
 
         base.ShowDynamic(XhpSurf, YhpSurf, SurfaceDesc);
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)ObjectToInt(this) >> 8)) & 3);
+        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)InstanceId >> 8)) & 3);
         if (Variant == 3)
         {
             Variant = 0;

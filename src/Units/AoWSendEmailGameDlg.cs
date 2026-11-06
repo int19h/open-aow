@@ -71,7 +71,7 @@ public partial class TSendEmailGameDlg : TDataModule
     public void ShowSendDialog(TSendEmailGameEventLog Event, TExecuteDoneEvent Done)
     {
         FDone = Done;
-        FSendEvent = ReferenceFromId<TSendEmailGameEventLog>(ObjectToInt(Event) << 0);
+        FSendEvent = Event;
         FSendEvent.AddRef();
         var sendEmailGameEventLog = FSendEvent;
         var player = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);

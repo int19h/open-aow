@@ -428,12 +428,6 @@ public struct FixedArray_Aow_Units_AoWTC_TfxType_170
     }
 }
 
-[InlineArray(7)]
-public struct FixedArray_Aow_Units_Engine_TDoubleItemList_7
-{
-    private TDoubleItemList element0;
-}
-
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_Engine_TIntegerHashList_256
 {

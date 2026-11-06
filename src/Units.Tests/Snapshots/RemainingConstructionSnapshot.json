@@ -3687,30 +3687,16 @@
             "TCombatObject.FTargetStrength": 0,
             "TCombatObject.FTargetStrengthInvalid": false,
             "TCombatObject.FTargetedBy": {
-              "$type": "Aow.Units.Engine.TQuadItemList",
-              "TQuadItemList.FCapacity": 0,
-              "TQuadItemList.FCount": 0,
-              "TQuadItemList.FDefault": {
-                "$type": "Aow.Units.Engine.TQuadInteger",
-                "TQuadInteger.A": 0,
-                "TQuadInteger.B": 0,
-                "TQuadInteger.C": 0,
-                "TQuadInteger.D": 0
-              },
-              "TQuadItemList.FList": []
+              "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TRecordList`1.FCapacity": 0,
+              "TRecordList`1.FCount": 0,
+              "TRecordList`1.FList": []
             },
             "TCombatObject.FTargets": {
-              "$type": "Aow.Units.Engine.TQuadItemList",
-              "TQuadItemList.FCapacity": 0,
-              "TQuadItemList.FCount": 0,
-              "TQuadItemList.FDefault": {
-                "$type": "Aow.Units.Engine.TQuadInteger",
-                "TQuadInteger.A": 0,
-                "TQuadInteger.B": 0,
-                "TQuadInteger.C": 0,
-                "TQuadInteger.D": 0
-              },
-              "TQuadItemList.FList": "$ref:$.TCombatObject.FTargetedBy.TQuadItemList.FList"
+              "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TRecordList`1.FCapacity": 0,
+              "TRecordList`1.FCount": 0,
+              "TRecordList`1.FList": "$ref:$.TCombatObject.FTargetedBy.TRecordList`1.FList"
             },
             "TCombatObject.FWallAttackerCount": 0,
             "TCombatObject.FWallCombatValue": 0,
@@ -3792,30 +3778,16 @@
             "TCombatObject.FTargetStrength": 0,
             "TCombatObject.FTargetStrengthInvalid": false,
             "TCombatObject.FTargetedBy": {
-              "$type": "Aow.Units.Engine.TQuadItemList",
-              "TQuadItemList.FCapacity": 0,
-              "TQuadItemList.FCount": 0,
-              "TQuadItemList.FDefault": {
-                "$type": "Aow.Units.Engine.TQuadInteger",
-                "TQuadInteger.A": 0,
-                "TQuadInteger.B": 0,
-                "TQuadInteger.C": 0,
-                "TQuadInteger.D": 0
-              },
-              "TQuadItemList.FList": []
+              "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TRecordList`1.FCapacity": 0,
+              "TRecordList`1.FCount": 0,
+              "TRecordList`1.FList": []
             },
             "TCombatObject.FTargets": {
-              "$type": "Aow.Units.Engine.TQuadItemList",
-              "TQuadItemList.FCapacity": 0,
-              "TQuadItemList.FCount": 0,
-              "TQuadItemList.FDefault": {
-                "$type": "Aow.Units.Engine.TQuadInteger",
-                "TQuadInteger.A": 0,
-                "TQuadInteger.B": 0,
-                "TQuadInteger.C": 0,
-                "TQuadInteger.D": 0
-              },
-              "TQuadItemList.FList": "$ref:$.TCombatObject.FTargetedBy.TQuadItemList.FList"
+              "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TRecordList`1.FCapacity": 0,
+              "TRecordList`1.FCount": 0,
+              "TRecordList`1.FList": "$ref:$.TCombatObject.FTargetedBy.TRecordList`1.FList"
             },
             "TCombatObject.FWallAttackerCount": 0,
             "TCombatObject.FWallCombatValue": 0,

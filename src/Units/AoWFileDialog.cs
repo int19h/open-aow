@@ -640,7 +640,7 @@ public partial class TFileDlgWindow : TDataModule
     }
 
     // AoWFileDialog.pas:516
-    public void SFileNameChange(int Sender)
+    public void SFileNameChange(TObject Sender)
     {
         FileLB.Selected = -1;
         FileLBChange(FileLB);

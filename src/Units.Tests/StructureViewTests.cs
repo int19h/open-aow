@@ -241,11 +241,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             Game.AoWHSMap = previousMap;
             Game.AoWEngine.FDebug = previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
-            foreach (var structure in created)
-            {
-                _ = Record.Exception(structure.Destroy);
-                Runtime.ForgetReference(structure);
-            }
+            foreach (var structure in created) _ = Record.Exception(structure.Destroy);
         }
     }
 

@@ -319,11 +319,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         public void Dispose()
         {
             Game.AoWHSMap = previousMap;
-            foreach (var log in created)
-            {
-                _ = Record.Exception(log.Destroy);
-                Runtime.ForgetReference(log);
-            }
+            foreach (var log in created) _ = Record.Exception(log.Destroy);
         }
     }
 

@@ -2066,7 +2066,7 @@ namespace Aow.Units.AoWTBWindow
 
         private void Layout_OVButtonClick_5(TObject p0)
         {
-            OVButtonClick(RtlUnit.ObjectToInt(p0));
+            OVButtonClick(p0);
         }
 
         private void Layout_ConButtonClick_6(TObject p0)

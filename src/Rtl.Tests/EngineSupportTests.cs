@@ -61,7 +61,7 @@ public sealed class EngineSupportTests
     }
 
     [Fact]
-    public void NumericObjectSlotsRecoverValuesAndKeepPointerIdentity()
+    public void NumericObjectSlotsRecoverValuesAndRejectObjects()
     {
         Assert.Null(R.IntToObject(0));
         foreach (int value in new[] { 1, -1, 17, int.MinValue, int.MaxValue })
@@ -70,8 +70,27 @@ public sealed class EngineSupportTests
             Assert.Equal(value, R.ObjectToInt(R.IntToObject(value)));
         }
         var instance = new TObject();
-        Assert.Equal(instance.InstanceId, R.ObjectToInt(instance));
+        Assert.Throws<EInvalidCast>(() => R.ObjectToInt(instance));
         Assert.Equal(0, R.ObjectToInt(null));
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static WeakReference OfferToIntegerSlots()
+    {
+        var instance = new TObject();
+        Assert.Throws<EInvalidCast>(() => R.ObjectToInt(instance));
+        R.IntToObject(instance.InstanceId);
+        instance.Free();
+        return new WeakReference(instance);
+    }
+
+    [Fact]
+    public void IntegerSlotsKeepNoObjectAlive()
+    {
+        var instance = OfferToIntegerSlots();
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        Assert.False(instance.IsAlive);
     }
 
     [Fact]

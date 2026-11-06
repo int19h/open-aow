@@ -19,7 +19,7 @@ public partial class TUpperIsometricHexagon
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)RtlUnit.ObjectToInt(this) >> 8)) & 3);
+        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)InstanceId >> 8)) & 3);
         if (Variant == 3)
         {
             Variant = 0;
@@ -149,7 +149,7 @@ public partial class TLowerIsometricHexagon
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)RtlUnit.ObjectToInt(this) >> 8)) & 3);
+        Variant = FrameFixtureInputs.WaterVariantPhase ?? (((int)((uint)InstanceId >> 8)) & 3);
         if (Variant == 3)
         {
             Variant = 0;

@@ -543,7 +543,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
         {
             int Brightness = default;
             var count = FPath.Count;
-            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + ObjectToInt(this)) % 20;
+            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + InstanceId) % 20;
             if (Brightness < 0)
             {
                 Brightness = 0;
@@ -562,7 +562,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
             while (Sequence != null)
             {
                 // { Original uses the instance address as the animation phase. }
-                Frame = Sequence.GetUnloopedFrameIndex(ObjectToInt(this) % 3);
+                Frame = Sequence.GetUnloopedFrameIndex(InstanceId % 3);
                 if (Frame != -1)
                 {
                     if (Shadow)
@@ -608,7 +608,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
         {
             int Brightness = default;
             var count = FPath.Count;
-            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + ObjectToInt(this)) % 20;
+            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + InstanceId) % 20;
             if (Brightness < 0)
             {
                 Brightness = 0;
@@ -626,7 +626,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
 
             while (Sequence != null)
             {
-                Frame = Sequence.GetUnloopedFrameIndex(ObjectToInt(this) % 3);
+                Frame = Sequence.GetUnloopedFrameIndex(InstanceId % 3);
                 if (Frame != -1)
                 {
                     if (Shadow)
@@ -3525,15 +3525,24 @@ public partial class TPlayerMagicControl : TEObject
     }
 
     // intf_P4_01.inc:135
-    // Spells.PAS:2400. List entries retain object identities instead of native addresses.
+    // Spells.PAS:2400. The original list held the order and upkeep with the enchantment address in
+    // column C for a player enchantment or D for a global one. An entry holds the enchantment itself.
+    private struct UpkeepCandidate
+    {
+        public int Order;
+        public int Upkeep;
+        public TEnchantment Enchantment;
+        public TGlobalEnchantment GlobalEnchantment;
+    }
+
     public int AIOverrideUpkeep(int priority, int amount)
     {
-        var list = new TQuadItemList();
+        var list = new TRecordList<UpkeepCandidate>();
         for (int i = 0; i < FEnchantments.GetCount(); i++)
         {
             var enchantment = FEnchantments.GetEnchantments(i);
             int order = enchantment.GetAIUpkeepPriority();
-            if (order <= priority) list.AddABCD(order, enchantment.FUpkeep, ObjectToInt(enchantment), 0);
+            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.FUpkeep, Enchantment = enchantment });
         }
         var global = AoWEUnit.AoWHSMap.FGlobalMagicControl;
         for (int i = global.FEnchantments.GetCount() - 1; i >= 0; i--)
@@ -3541,21 +3550,21 @@ public partial class TPlayerMagicControl : TEObject
             var enchantment = AoWEUnit.AoWHSMap.FGlobalMagicControl.FEnchantments.GetEnchantments(i);
             if (enchantment.FPlayerIndex != FPlayer.FPlayerIndex) continue;
             int order = enchantment.GetAIUpkeepPriority();
-            if (order <= priority) list.AddABCD(order, enchantment.GetUpkeep(), 0, ObjectToInt(enchantment));
+            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.GetUpkeep(), GlobalEnchantment = enchantment });
         }
         if (list.Count != 0)
         {
             int total = 0;
-            list.SortAscendingItemA();
+            list.Sort(static (in Item1, in Item2) => Item1.Order - Item2.Order);
             while (total < amount && list.Count != 0 && FPlayer.FGameOverStatus != TGameOverStatus.goLost)
             {
                 var item = list[0];
-                total += item.B;
-                if (item.C != 0)
-                    ExecuteDispelEnchantment(FEnchantments.FChildren.IndexOf(ReferenceFromId<TEnchantment>(item.C)));
+                total += item.Upkeep;
+                if (item.Enchantment != null)
+                    ExecuteDispelEnchantment(FEnchantments.FChildren.IndexOf(item.Enchantment));
                 else
                 {
-                    var enchantment = ReferenceFromId<TGlobalEnchantment>(item.D)!;
+                    var enchantment = item.GlobalEnchantment;
                     enchantment.AddRef();
                     enchantment.Remove((byte)FPlayer.FPlayerIndex);
                     enchantment.Release();
@@ -6220,14 +6229,14 @@ public partial class TPlayer : TEObject
     public void MakeHeroEmerge(THeroEmergeMode Mode)
     {
         int Chance = default;
-        TDoubleItemList Heroes;
+        TDoubleItemList<THero> Heroes;
         THeroEmergeEventLog Log;
         TXYLList Locations;
         TStructure Structure;
-        TDoubleItem Item;
+        TDoubleItem<THero> Item;
         int I;
         THero Hero;
-        Heroes = new TDoubleItemList();
+        Heroes = new TDoubleItemList<THero>();
         if (Mode == THeroEmergeMode.hemNormal)
         {
             I = AoWEUnit.AoWHSMap.FHeroControl.GetCount() - 1;
@@ -6239,7 +6248,7 @@ public partial class TPlayer : TEObject
                     Chance = GetHeroJoinChance(Hero.GetLevel());
                     if (Chance > 0 && Hero.JoinAmount(FPlayerIndex) < FGems)
                     {
-                        Heroes.AddAB(ObjectToInt(Hero), Chance * Chance);
+                        Heroes.AddAB(Hero, Chance * Chance);
                     }
                 }
             }
@@ -6258,7 +6267,7 @@ public partial class TPlayer : TEObject
                         if (TSet<TStatus>.Of(TStatus.sPolite, TStatus.sFriendly).Contains(playerRelation) && Hero.JoinAmount(FPlayerIndex) < FGems)
                         {
                             var level = Hero.GetLevel();
-                            Heroes.AddAB(ObjectToInt(Hero), (level - 2) * 1000 + 1);
+                            Heroes.AddAB(Hero, (level - 2) * 1000 + 1);
                         }
                     }
                 }
@@ -6286,7 +6295,7 @@ public partial class TPlayer : TEObject
                 RandSeed = AoWEUnit.AoWHSMap.Random(1048575);
                 I = Heroes.RandomChanceItemB(0);
                 Item = Heroes[I];
-                Hero = ReferenceFromId<THero>(Item.A);
+                Hero = Item.A;
                 I = AoWEUnit.AoWHSMap.Random(Locations.Count);
                 FEmergingHeroID = Hero.FUnitID;
                 Hero.UpdateSettings();
@@ -20463,10 +20472,10 @@ public partial class TItemControl : TEObject
     public TItem GenerateItem(TSet<TItemType> Types, int MinValue, int MaxValue)
     {
         TItem Result;
-        TDoubleItemList List;
+        TDoubleItemList<TItem> List;
         int Value;
         TItem Item;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TItem>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
             Item = (TItem)FItems.List[I];
@@ -20475,14 +20484,14 @@ public partial class TItemControl : TEObject
                 Value = Item.GetObtainValue();
                 if (Value >= MinValue && Value <= MaxValue)
                 {
-                    List.AddAB(ObjectToInt(Item), (int)Item.FAvailability);
+                    List.AddAB(Item, (int)Item.FAvailability);
                 }
             }
         }
 
         if (List.Count != 0)
         {
-            Result = ReferenceFromId<TItem>(List[List.RandomChanceItemB(1)].A);
+            Result = List[List.RandomChanceItemB(1)].A;
         }
         else
         {
@@ -20496,7 +20505,7 @@ public partial class TItemControl : TEObject
     // Army.PAS:4826
     public int GenerateItems(TSet<TItemType> Types, TECustomNode Owner, int Value)
     {
-        TDoubleItemList List;
+        TDoubleItemList<TItem> List;
         int Difference;
         int Attempts;
         int ItemValue;
@@ -20505,20 +20514,20 @@ public partial class TItemControl : TEObject
         TItem Item;
         TItem Candidate;
         int Result = 0;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TItem>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
             Item = (TItem)FItems.List[I];
             if (Types.Contains(Item.FItemType) && Item.FRefCount == 1)
             {
-                List.AddAB(ObjectToInt(Item), (int)Item.FAvailability);
+                List.AddAB(Item, (int)Item.FAvailability);
             }
         }
 
         Done = false;
         while (!Done && List.Count != 0)
         {
-            Candidate = ReferenceFromId<TItem>(List[List.RandomChanceItemB(1)].A);
+            Candidate = List[List.RandomChanceItemB(1)].A;
             ItemValue = Candidate.GetObtainValue();
             if (ItemValue > Value)
             {
@@ -20526,7 +20535,7 @@ public partial class TItemControl : TEObject
                 Difference = Math.Abs(ItemValue - Value);
                 do
                 {
-                    Item = ReferenceFromId<TItem>(List[List.RandomChanceItemB(1)].A);
+                    Item = List[List.RandomChanceItemB(1)].A;
                     Distance = Math.Abs(Item.GetObtainValue() - Value);
                     if (Distance < Difference)
                     {
@@ -20547,7 +20556,7 @@ public partial class TItemControl : TEObject
             if (Candidate != null)
             {
                 Candidate.SetOwner(Owner);
-                List.Delete(List.IndexOfItemA(ObjectToInt(Candidate)));
+                List.Delete(List.IndexOfItemA(Candidate));
                 Value -= Candidate.GetObtainValue();
                 Result += 1;
             }
@@ -36104,7 +36113,7 @@ public partial class TStructure : TFixedILTerrainMO
         Sequences = FResource.ImageSequenceList;
         if (Sequences != null)
         {
-            if (ReferenceFromId<TImageSequenceList>(ObjectToInt(Sequences) << 0).GetImageSequence(30) != null)
+            if (Sequences.GetImageSequence(30) != null)
             {
                 Result = FResource.ImageSequenceList.GetImageSequence(30).GetPreviewImage();
             }
@@ -36129,7 +36138,7 @@ public partial class TStructure : TFixedILTerrainMO
         Sequences = FResource.ImageSequenceList;
         if (Sequences != null)
         {
-            if (ReferenceFromId<TImageSequenceList>(ObjectToInt(Sequences) << 0).GetImageSequence(31) != null)
+            if (Sequences.GetImageSequence(31) != null)
             {
                 Result = FResource.ImageSequenceList.GetImageSequence(31).GetPreviewImage();
             }
@@ -36154,7 +36163,7 @@ public partial class TStructure : TFixedILTerrainMO
         Sequences = FResource.ImageSequenceList;
         if (Sequences != null)
         {
-            if (ReferenceFromId<TImageSequenceList>(ObjectToInt(Sequences) << 0).GetImageSequence(32) != null)
+            if (Sequences.GetImageSequence(32) != null)
             {
                 Result = FResource.ImageSequenceList.GetImageSequence(32).GetPreviewImage();
             }
@@ -39883,7 +39892,7 @@ public partial class TCombatPredictorUnit : TObject
     // CombatPredictor.pas:1
     public TCombatPredictorUnit()
     {
-        FRoundTargets = new TQuadItemList();
+        FRoundTargets = new TQuadItemList<TCombatPredictorUnit>();
     }
 
     public TAbstractUnit FUnit;
@@ -39894,13 +39903,13 @@ public partial class TCombatPredictorUnit : TObject
     public TCombatPredictorSide FOpponents;
     public byte FEnabled;
     public byte FBehindWall;
-    public TQuadItemList FTargets;
+    public TQuadItemList<TCombatPredictorUnit> FTargets;
     public int FCombatValue;
-    public TQuadItemList FWallTargets;
+    public TQuadItemList<TCombatPredictorUnit> FWallTargets;
     public int FWallCombatValue;
     public byte FTargetsInvalid;
     public byte FWallTargetsInvalid;
-    public TQuadItemList FRoundTargets;
+    public TQuadItemList<TCombatPredictorUnit> FRoundTargets;
     public int FCombatValueTotal;
     public int FCombatRounds;
     public int FIncomingCombatValue;
@@ -39956,7 +39965,7 @@ public partial class TCombatPredictorUnit : TObject
         TCombatPredictorUnit U;
         if (FTargets == null)
         {
-            FTargets = new TQuadItemList();
+            FTargets = new TQuadItemList<TCombatPredictorUnit>();
         }
 
         for (int I = FTargets.Count - 1; I >= 0; I--)
@@ -39985,7 +39994,7 @@ public partial class TCombatPredictorUnit : TObject
                         V = 0;
                     }
 
-                    FTargets.AddABCD(ObjectToInt(U), V, U.FCPUID, 0);
+                    FTargets.AddABCD(U, V, U.FCPUID, 0);
                     FCombatValue += V;
                 }
             }
@@ -40003,7 +40012,7 @@ public partial class TCombatPredictorUnit : TObject
                     V = 0;
                 }
 
-                FTargets.AddABCD(ObjectToInt(U), V, U.FCPUID, 0);
+                FTargets.AddABCD(U, V, U.FCPUID, 0);
                 FCombatValue += V;
             }
         }
@@ -40022,7 +40031,7 @@ public partial class TCombatPredictorUnit : TObject
         Passing = FUnit.GetWallCombatFeatures().Contains(TWallCombatFeaturesElement.wcWallPassing);
         if (FWallTargets == null)
         {
-            FWallTargets = new TQuadItemList();
+            FWallTargets = new TQuadItemList<TCombatPredictorUnit>();
         }
 
         for (int I = FWallTargets.Count - 1; I >= 0; I--)
@@ -40081,7 +40090,7 @@ public partial class TCombatPredictorUnit : TObject
                         V = 0;
                     }
 
-                    FWallTargets.AddABCD(ObjectToInt(U), V, 0, 0);
+                    FWallTargets.AddABCD(U, V, 0, 0);
                     FWallCombatValue += V;
                 }
             }
@@ -40130,7 +40139,7 @@ public partial class TCombatPredictorUnit : TObject
                 }
 
                 // { Original initializes both C and D to zero in the wall cache. }
-                FWallTargets.AddABCD(ObjectToInt(U), V, 0, 0);
+                FWallTargets.AddABCD(U, V, 0, 0);
                 FWallCombatValue += V;
             }
         }
@@ -40191,7 +40200,7 @@ public partial class TCombatPredictorUnit : TObject
             for (int I = FRoundTargets.Count - 1; I >= 0; I--)
             {
                 // { Read the round list directly. }
-                U = ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A);
+                U = FRoundTargets.List[I].A;
                 if (U.FEnabled != 0)
                 {
                     V = FRoundTargets.List[I].B;
@@ -40222,7 +40231,7 @@ public partial class TCombatPredictorUnit : TObject
             FTargetPriority = 0;
             for (int I = FRoundTargets.Count - 1; I >= 0; I--)
             {
-                FTargetPriority += ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A).FIneffectiveAttackers;
+                FTargetPriority += FRoundTargets.List[I].A.FIneffectiveAttackers;
             }
         }
         else
@@ -40239,7 +40248,7 @@ public partial class TCombatPredictorUnit : TObject
         TCombatPredictorUnit U = default;
         for (int I = FRoundTargets.Count - 1; I >= 0; I--)
         {
-            U = ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A);
+            U = FRoundTargets.List[I].A;
             V = FRoundTargets.List[I].B;
             if (U.FCombatValueTotal != 0)
             {
@@ -40271,7 +40280,7 @@ public partial class TCombatPredictorUnit : TObject
         while (I != 0 && !Result)
         {
             I -= 1;
-            U = ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A);
+            U = FRoundTargets.List[I].A;
             if (U.FHitPoints > 0)
             {
                 U.FHitPoints -= FRoundTargets.List[I].B;
@@ -40772,11 +40781,11 @@ public partial class TCombatPredictor : TObject
     }
 
     // CombatPredictor.pas:517
-    public void AddOpponents(int Units, byte BehindWall)
+    public void AddOpponents(TUnitList Units, byte BehindWall)
     {
-        for (int I = 0, last = ReferenceFromId<TUnitList>(Units).Count - 1; I <= last; I++)
+        for (int I = 0, last = Units.Count - 1; I <= last; I++)
         {
-            AddOpponent(ReferenceFromId<TUnitList>(Units).GetUnit(I), BehindWall);
+            AddOpponent(Units.GetUnit(I), BehindWall);
         }
     }
 
@@ -41110,7 +41119,7 @@ public partial class TCombatPredictor : TObject
     // CombatPredictor.pas:899
     public void ListRequiredUnitsEx(TUnitList Required, TUnitList Optional, TUnitList Useless, int Superiority)
     {
-        TDoubleItemList List = default;
+        TDoubleItemList<TCombatPredictorUnit> List = default;
         int Total = default;
         int Score = default;
         int Budget = default;
@@ -41124,7 +41133,7 @@ public partial class TCombatPredictor : TObject
         Validate();
         if (GetSuperiority() > Superiority && FSides[0].Count != 0)
         {
-            List = new TDoubleItemList();
+            List = new TDoubleItemList<TCombatPredictorUnit>();
             Total = 0;
             for (int I = FSides[0].Count - 1; I >= 0; I--)
             {
@@ -41139,7 +41148,7 @@ public partial class TCombatPredictor : TObject
                 }
 
                 Total += U.FCombatValueTotal;
-                List.AddAB(ObjectToInt(U), Score);
+                List.AddAB(U, Score);
             }
 
             List.Sort(AoWEUnit.P3CompareRequiredUnits);
@@ -41152,7 +41161,7 @@ public partial class TCombatPredictor : TObject
                 while (Count > 1 && Budget > 0)
                 {
                     Count -= 1;
-                    Budget -= ReferenceFromId<TCombatPredictorUnit>(List[Count].A).FCombatValueTotal;
+                    Budget -= List[Count].A.FCombatValueTotal;
                 }
 
                 if (Count < Minimum)
@@ -41176,12 +41185,12 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = Count - 1; I >= 0; I--)
                 {
-                    ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).SetEnabled(1);
+                    List.List[I].A.SetEnabled(1);
                 }
 
                 for (int I = List.Count - 1; I >= Count; I--)
                 {
-                    ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).SetEnabled(0);
+                    List.List[I].A.SetEnabled(0);
                 }
 
                 Execute();
@@ -41230,7 +41239,7 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = 0; I <= Minimum - 1; I++)
                 {
-                    Required.AddUnit(ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).FUnit);
+                    Required.AddUnit(List.List[I].A.FUnit);
                 }
             }
 
@@ -41238,7 +41247,7 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = List.Count - 1; I >= Minimum; I--)
                 {
-                    Optional.AddUnit(ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).FUnit);
+                    Optional.AddUnit(List.List[I].A.FUnit);
                 }
             }
 
@@ -41246,7 +41255,7 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = List.Count - 1; I >= Minimum; I--)
                 {
-                    U = ReferenceFromId<TCombatPredictorUnit>(List.List[I].A);
+                    U = List.List[I].A;
                     if (U.FCombatValueTotal <= 0)
                     {
                         Useless.AddUnit(U.FUnit);
@@ -41286,13 +41295,13 @@ public partial class TCombatPredictor : TObject
     }
 
     // CombatPredictor.pas:991
-    public void ListOptionalUnits(int Optional, int Superiority)
+    public void ListOptionalUnits(TUnitList Optional, int Superiority)
     {
-        ListRequiredUnitsEx(null, ReferenceFromId<TUnitList>(Optional), null, Superiority);
+        ListRequiredUnitsEx(null, Optional, null, Superiority);
     }
 
     // CombatPredictor.pas:994
-    public void ListUselessUnits(int Useless)
+    public void ListUselessUnits(TUnitList Useless)
     {
         TCombatPredictorUnit U;
         for (int I = FSides[0].Count - 1; I >= 0; I--)
@@ -41300,7 +41309,7 @@ public partial class TCombatPredictor : TObject
             U = (TCombatPredictorUnit)FSides[0].List[I];
             if (U.FCombatValueTotal <= 0)
             {
-                ReferenceFromId<TUnitList>(Useless).AddUnit(U.FUnit);
+                Useless.AddUnit(U.FUnit);
             }
         }
     }
@@ -41331,7 +41340,7 @@ public partial class TCombatPredictor : TObject
                 I -= 1;
                 if (U.FWallTargets.List[I].B > 0)
                 {
-                    Target = ReferenceFromId<TCombatPredictorUnit>(U.FWallTargets.List[I].A);
+                    Target = U.FWallTargets.List[I].A;
                     Useful = Target == FWall && Target.FHitPoints > 0;
                 }
             }
@@ -41360,7 +41369,7 @@ public partial class TCombatPredictor : TObject
                 I -= 1;
                 if (U.FTargets.List[I].B > 0)
                 {
-                    Target = ReferenceFromId<TCombatPredictorUnit>(U.FTargets.List[I].A);
+                    Target = U.FTargets.List[I].A;
                     Useful = Target != FWall && (Target.FHitPoints > 0 || FResult == 3 || AllDead);
                 }
             }
@@ -41388,15 +41397,15 @@ public partial class TCombatObject : TEObject
     // Combat.pas:1922
     public TCombatObject(TECustomNode owner) : base(owner)
     {
-        FTargets = new TQuadItemList();
-        FTargetedBy = new TQuadItemList();
+        FTargets = new TQuadItemList<TCombatObject>();
+        FTargetedBy = new TQuadItemList<TCombatObject>();
         FCombatPlayer = -1;
     }
 
     public TCombat FCombat;
     public byte FID;
-    public TQuadItemList FTargets;
-    public TQuadItemList FTargetedBy;
+    public TQuadItemList<TCombatObject> FTargets;
+    public TQuadItemList<TCombatObject> FTargetedBy;
     public int FCombatValue;
     public int FWallCombatValue;
     public int FIncomingCombatValue;
@@ -41483,7 +41492,7 @@ public partial class TCombatObject : TEObject
                 CV = FTargets.List[I].B;
                 if (CV != 0)
                 {
-                    Target = ReferenceFromId<TCombatObject>(FTargets.List[I].A);
+                    Target = FTargets.List[I].A;
                     CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
                     FTargetPriority += CV;
                 }
@@ -41648,11 +41657,11 @@ public partial class TCombatObject : TEObject
     public virtual TAbilityOwner GetAbilityOwner() => null;
 
     // Combat.pas:5672
-    public virtual void Activate(int ACombat)
+    public virtual void Activate(TCombat ACombat)
     {
         byte Player;
         TCombat Combat;
-        FCombat = ReferenceFromId<TCombat>(ACombat);
+        FCombat = ACombat;
         FStatus = FStatus + TSet<TCombatObjectStatusElement>.Of(TCombatObjectStatusElement.csActivated);
         Player = (byte)FCombatPlayer;
         if (Player != 255)
@@ -41716,9 +41725,9 @@ public partial class TCombatObject : TEObject
     }
 
     // Combat.pas:5697
-    public virtual void Initialize(int ACombat)
+    public virtual void Initialize(TCombat ACombat)
     {
-        FCombat = ReferenceFromId<TCombat>(ACombat);
+        FCombat = ACombat;
     }
 
     // Combat.pas:5700
@@ -41960,11 +41969,11 @@ public partial class TCombatObject : TEObject
     // Combat.pas:1941
     public void AddTarget(TCombatObject Target, int CV, int WallCV, int DV)
     {
-        Assert(FTargets.IndexOfItemA(ObjectToInt(Target)) == -1, "target already exists use update target", "Combat.pas", 5473);
+        Assert(FTargets.IndexOfItemA(Target) == -1, "target already exists use update target", "Combat.pas", 5473);
         FCombatValue += CV;
         FWallCombatValue += WallCV;
-        FTargets.AddABCD(ObjectToInt(Target), CV, WallCV, DV);
-        Target.FTargetedBy.AddABCD(ObjectToInt(this), CV, WallCV, DV);
+        FTargets.AddABCD(Target, CV, WallCV, DV);
+        Target.FTargetedBy.AddABCD(this, CV, WallCV, DV);
         Target.FIncomingCombatValue += CV;
         Target.FIncomingWallCombatValue += WallCV;
         if (CV > 0)
@@ -41991,7 +42000,7 @@ public partial class TCombatObject : TEObject
         int DV;
         if (Index != -1)
         {
-            Target = ReferenceFromId<TCombatObject>(FTargets.List[Index].A);
+            Target = FTargets.List[Index].A;
             CV = FTargets.List[Index].B;
             DV = FTargets.List[Index].C;
             FCombatValue -= CV;
@@ -42008,7 +42017,7 @@ public partial class TCombatObject : TEObject
             }
 
             TargetsChanged();
-            Index = Target.FTargetedBy.IndexOfItemA(ObjectToInt(this));
+            Index = Target.FTargetedBy.IndexOfItemA(this);
             if (Index != -1)
             {
                 Target.FIncomingCombatValue -= Target.FTargetedBy.List[Index].B;
@@ -42032,7 +42041,7 @@ public partial class TCombatObject : TEObject
     // Combat.pas:5515
     public void RemoveTarget(TCombatObject Target)
     {
-        DeleteTarget(FTargets.IndexOfItemA(ObjectToInt(Target)));
+        DeleteTarget(FTargets.IndexOfItemA(Target));
     }
 
     // Combat.pas:5518
@@ -42488,7 +42497,7 @@ public partial class TCombatUnit : TCombatObject
     public override TAbilityOwner GetAbilityOwner() => FUnit;
 
     // Combat.pas:1178
-    public override void Activate(int ACombat)
+    public override void Activate(TCombat ACombat)
     {
         base.Activate(ACombat);
         UpdateParty();
@@ -42522,12 +42531,12 @@ public partial class TCombatUnit : TCombatObject
     }
 
     // Combat.pas:1193
-    public override void Initialize(int ACombat)
+    public override void Initialize(TCombat ACombat)
     {
         base.Initialize(ACombat);
         if (FUnit is TLeader)
         {
-            ReferenceFromId<TCombat>(ACombat).FCombatData.FInvolvedLeaders.Add((byte)FCombatPlayer);
+            ACombat.FCombatData.FInvolvedLeaders.Add((byte)FCombatPlayer);
         }
     }
 
@@ -43193,10 +43202,10 @@ public partial class TCombatWall : TCombatObject
     }
 
     // Combat.pas:1712
-    public override void Activate(int ACombat)
+    public override void Activate(TCombat ACombat)
     {
         base.Activate(ACombat);
-        ReferenceFromId<TCombat>(ACombat).FCombatData.FWall = this;
+        ACombat.FCombatData.FWall = this;
     }
 
     // Combat.pas:1718
@@ -44433,14 +44442,14 @@ public partial class TCombatParty : TEObject
     }
 
     // Combat2.pas:61
-    public void Activate(int ACombat)
+    public void Activate(TCombat ACombat)
     {
-        var players = ReferenceFromId<TCombat>(ACombat).FCombatData.FPlayers.GetPlayers((sbyte)FPlayerIndex);
+        var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)FPlayerIndex);
         FArmy.SetPlayer(players.FPlayer);
     }
 
     // Combat2.pas:67
-    public void Deactivate(int ACombat)
+    public void Deactivate(TCombat ACombat)
     {
     }
 
@@ -44457,7 +44466,7 @@ public partial class TCombatPartyList : TENode
     public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(TEControlStyleElement.csSaveLoad, TEControlStyleElement.csArrayMode);
 
     // Combat2.pas:73
-    public TCombatParty CreateParty(int ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, int Army)
+    public TCombatParty CreateParty(TCombat ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, TArmy Army)
     {
         TCombatParty P;
         if (GetParty(Position) == null)
@@ -44470,11 +44479,11 @@ public partial class TCombatPartyList : TENode
             P.F_CombatParty_14 = L;
             P.SetArrayOwner(this, Position);
             P.FArmy.SetXYL((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
-            var players = ReferenceFromId<TCombat>(ACombat).FCombatData.FPlayers.GetPlayers((sbyte)CombatPlayer);
+            var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)CombatPlayer);
             P.FArmy.SetPlayer(players.FPlayer);
-            if (Army != 0)
+            if (Army != null)
             {
-                P.FArmy.AssignSettings(ReferenceFromId<TArmy>(Army));
+                P.FArmy.AssignSettings(Army);
             }
 
             P.FArmy.Activate();
@@ -44504,7 +44513,7 @@ public partial class TCombatPartyList : TENode
     }
 
     // Combat2.pas:99
-    public void Activate(int ACombat)
+    public void Activate(TCombat ACombat)
     {
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
@@ -44516,7 +44525,7 @@ public partial class TCombatPartyList : TENode
     }
 
     // Combat2.pas:107
-    public void Deactivate(int ACombat)
+    public void Deactivate(TCombat ACombat)
     {
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
@@ -45095,7 +45104,7 @@ public partial class TCombat : TEObject
 
         for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).Initialize(ObjectToInt(this));
+            FCombatData.GetObjects(I).Initialize(this);
         }
 
         FLogbook.SetInitialData(FCombatData);
@@ -45182,10 +45191,10 @@ public partial class TCombat : TEObject
     {
         Assert(!FStatus.Contains(TCombatStatusElement.cActivated), "Combat already activated", "Combat.pas", 6595);
         FStatus = FStatus + TSet<TCombatStatusElement>.Of(TCombatStatusElement.cActivated);
-        FCombatData.FParties.Activate(ObjectToInt(this));
+        FCombatData.FParties.Activate(this);
         for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).Activate(ObjectToInt(this));
+            FCombatData.GetObjects(I).Activate(this);
         }
 
         if (FStatus.Contains(TCombatStatusElement.cExecuting))
@@ -45209,7 +45218,7 @@ public partial class TCombat : TEObject
             FCombatData.GetObjects(I).Deactivate();
         }
 
-        FCombatData.FParties.Deactivate(ObjectToInt(this));
+        FCombatData.FParties.Deactivate(this);
     }
 
     // Combat.pas:6180
@@ -45458,7 +45467,7 @@ public partial class TCombat : TEObject
         }
 
         Position = GetPartyPosition(X, Y, L);
-        Party = FCombatData.FParties.CreateParty(ObjectToInt(this), Position, Player, X, Y, L, ObjectToInt(Army));
+        Party = FCombatData.FParties.CreateParty(this, Position, Player, X, Y, L, Army);
         Transporter = Army.Transporter(255);
         Transport = Transporter != null && Transporter.ValidTerrain((sbyte)FCombatData.F_CombatData_20[0], (sbyte)FCombatData.F_CombatData_20[1]);
         Index = 0;
@@ -45513,7 +45522,7 @@ public partial class TCombat : TEObject
             Player = AddCombatPlayer((byte)Army.FPlayer, (byte)Army.FIndependentRelation, Side);
         }
 
-        Party = FCombatData.FParties.CreateParty(ObjectToInt(this), (byte)(Position << 0), Player, X, Y, L, ObjectToInt(Army));
+        Party = FCombatData.FParties.CreateParty(this, (byte)(Position << 0), Player, X, Y, L, Army);
         Index = 0;
         for (int I = Army.Count - 1; I >= 0; I--)
         {
@@ -45549,7 +45558,7 @@ public partial class TCombat : TEObject
             Player = AddCombatPlayer(APlayer, IndependentRelation, Side);
         }
 
-        Party = FCombatData.FParties.CreateParty(ObjectToInt(this), Position, Player, X, Y, L, 0);
+        Party = FCombatData.FParties.CreateParty(this, Position, Player, X, Y, L, null);
         Msg.MsgID = 4387;
         var fieldValue = AoWEUnit.AoWHSMap.MapContainer.GetField(X, Y, L);
         Msg.Param[0] = fieldValue;
@@ -46314,8 +46323,8 @@ public partial class TAIPlayerControl : TEObject
         int UnitPriority;
         TAIGroup Group;
         TAbstractUnit AUnit;
-        TDoubleItemList Units;
-        TDoubleItem Item;
+        TDoubleItemList<TAbstractUnit> Units;
+        TDoubleItem<TAbstractUnit> Item;
         SkirmishCount = 0;
         for (int I = 0, last = FPlayer.FAIGroups.Count - 1; I <= last; I++)
         {
@@ -46345,7 +46354,7 @@ public partial class TAIPlayerControl : TEObject
 
         if (SkirmishCount < WantedCount)
         {
-            Units = new TDoubleItemList();
+            Units = new TDoubleItemList<TAbstractUnit>();
             for (int I = FPlayer.FAIGroups.Count - 1; I >= 0; I--)
             {
                 Group = FPlayer.FAIGroups.GetGroups(I);
@@ -46363,7 +46372,7 @@ public partial class TAIPlayerControl : TEObject
                                 UnitPriority += 15;
                             }
 
-                            Units.AddAB(ObjectToInt(AUnit), UnitPriority + GroupPriority);
+                            Units.AddAB(AUnit, UnitPriority + GroupPriority);
                         }
                     }
                 }
@@ -46374,7 +46383,7 @@ public partial class TAIPlayerControl : TEObject
             {
                 Group = AoWEUnit.AoWHSMap.FAIGroupManager.CreateGroup(FPlayer.FPlayerIndex, 0, TGroupBehavior.gbSkirmish);
                 Item = Units[0];
-                Group.AddUnit(ReferenceFromId<TAbstractUnit>(Item.A));
+                Group.AddUnit(Item.A);
                 Group.Release();
                 SkirmishCount += 1;
                 Units.Delete(0);
@@ -49751,26 +49760,26 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
         int I;
         int Index;
         TAIMoveExecuterArmyList Armies;
-        TDoubleItemList Sorted;
+        TDoubleItemList<TAdjacentArmy> Sorted;
         TAIMoveExecuterArmy Army;
         byte MoveResult = default;
         bool Result = true;
         Armies = FExecuter.CreateArmies(TSet<TAIMoveExecuterUnitStatus>.Of(TAIMoveExecuterUnitStatus.esReady, TAIMoveExecuterUnitStatus.esDone));
-        Sorted = new TDoubleItemList();
+        Sorted = new TDoubleItemList<TAdjacentArmy>();
         I = 0;
         int last = FAdjacentArmies.Count - 1;
         for (; I <= last; I += 1)
         {
             var movementDays = FAdjacentArmies.GetAdjacentArmies(I).GetMovementDays();
-            Sorted.AddAB(ObjectToInt(FAdjacentArmies.GetAdjacentArmies(I)), Round((double)movementDays * 100));
+            Sorted.AddAB(FAdjacentArmies.GetAdjacentArmies(I), Round((double)movementDays * 100));
         }
 
         Sorted.SortDescendingItemB();
-        _ = ReferenceFromId<TAdjacentArmy>(Sorted[0].A).FPath[1];
+        _ = Sorted[0].A.FPath[1];
         I = 0;
         while (Result && I < Sorted.Count)
         {
-            Index = Armies.IndexOfLoc(ReferenceFromId<TAdjacentArmy>(Sorted[I].A).FLocation);
+            Index = Armies.IndexOfLoc(Sorted[I].A.FLocation);
             if (Index != -1)
             {
                 Army = Armies.GetArmies(Index);
@@ -49864,7 +49873,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
     {
         int Index;
         TAIMoveExecuterArmyList Armies;
-        TDoubleItemList Sorted;
+        TDoubleItemList<TAdjacentArmy> Sorted;
         byte MoveResult = default;
         TXYL Location = default;
         bool Result = true;
@@ -49876,17 +49885,17 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
         }
 
         Armies = FExecuter.CreateArmies(TSet<TAIMoveExecuterUnitStatus>.Of(TAIMoveExecuterUnitStatus.esReady));
-        Sorted = new TDoubleItemList();
+        Sorted = new TDoubleItemList<TAdjacentArmy>();
         for (int I = 0, last = FAdjacentArmies.Count - 1; I <= last; I++)
         {
             var movementDays = FAdjacentArmies.GetAdjacentArmies(I).GetMovementDays();
-            Sorted.AddAB(ObjectToInt(FAdjacentArmies.GetAdjacentArmies(I)), Round((double)movementDays * 100));
+            Sorted.AddAB(FAdjacentArmies.GetAdjacentArmies(I), Round((double)movementDays * 100));
         }
 
         Sorted.SortDescendingItemB();
         for (int I = 0, last = Sorted.Count - 1; I <= last; I++)
         {
-            Index = Armies.IndexOfLoc(ReferenceFromId<TAdjacentArmy>(Sorted[I].A).FLocation);
+            Index = Armies.IndexOfLoc(Sorted[I].A.FLocation);
             if (Index != -1)
             {
                 CreateMove(Armies.GetArmies(Index), 255, Location.X, Location.Y, Location.L, TSet<TCreateMoveModeElement>.Of(), ref MoveResult);
@@ -52421,14 +52430,14 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     // AI.pas:1202
     public TAutoProduceAIPA(TECustomNode owner) : base(owner)
     {
-        FProductions = new TQuadItemList();
+        FProductions = new TQuadItemList<TProductionControl>();
     }
 
     public int FProductionIndex;
     public int FState;
     public int FGoldUpkeep;
     public int FManaUpkeep;
-    public TQuadItemList FProductions;
+    public TQuadItemList<TProductionControl> FProductions;
     // AI.pas:1208
     public override void Destroy()
     {
@@ -52511,7 +52520,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                     Controls = FControl.FPlayer.FProductionControls;
                     if (FProductionIndex < Controls.Count)
                     {
-                        UpdateProductions(ReferenceFromId<TProductionControlList>(ObjectToInt(Controls) << 0).GetPC(FProductionIndex));
+                        UpdateProductions(Controls.GetPC(FProductionIndex));
                     }
                     else
                     {
@@ -52540,7 +52549,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
 
                     I = AoWEUnit.AoWHSMap.Random(I + 1);
                     var item = FProductions[I];
-                    ExecuteProduce(ReferenceFromId<TProductionControl>(FProductions[I].A), item.B);
+                    ExecuteProduce(FProductions[I].A, item.B);
                     FProductions.Delete(I);
                     if (!(FProductions.Count != 0 && (FGoldUpkeep > 2 || FManaUpkeep > 2) && (FControl.FPlayer.FAIBudget.FGold > 25 || FControl.FPlayer.FAIBudget.FMana > 25)))
                     {
@@ -52573,7 +52582,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                         Priority = FControl.UnitIndexToPriority(UnitIndex);
                         if (Priority != -1)
                         {
-                            FProductions.AddABCD(ObjectToInt(Control), I, 0, Priority + Bonus);
+                            FProductions.AddABCD(Control, I, 0, Priority + Bonus);
                         }
                     }
                 }
@@ -52673,7 +52682,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     // AI.pas:1308
     public bool ResearchTransporter(TAIBudget Budget)
     {
-        TQuadItemList Candidates = default;
+        TQuadItemList<TProductionControl> Candidates = default;
         TPlayerStructure Structure = default;
         int I = default;
         sbyte X = default;
@@ -52686,7 +52695,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
         Player = FControl.FPlayer;
         if (Budget.FGold > 50)
         {
-            Candidates = new TQuadItemList();
+            Candidates = new TQuadItemList<TProductionControl>();
             I = Player.FProductionControls.Count;
             while (I != 0)
             {
@@ -52723,7 +52732,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                                             }
                                         }
 
-                                        Candidates.AddABCD(ObjectToInt(Control), J, 0, Priority);
+                                        Candidates.AddABCD(Control, J, 0, Priority);
                                     }
                                 }
                             }
@@ -52737,7 +52746,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                 Candidates.Sort(AoWEUnit.CompareAutoProductions);
                 Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
                 var item = Candidates[0];
-                if (ExecuteResearch(ReferenceFromId<TProductionControl>(Candidates[0].A), item.B))
+                if (ExecuteResearch(Candidates[0].A, item.B))
                 {
                     Budget.FGold = 0;
                     Budget.FMana = 0;
@@ -52760,7 +52769,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     // AI.pas:1374
     public bool ProduceTransporter(TAIBudget Budget)
     {
-        TQuadItemList Candidates = default;
+        TQuadItemList<TProductionControl> Candidates = default;
         TPlayerStructure Structure = default;
         int I = default;
         sbyte X = default;
@@ -52773,7 +52782,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
         Player = FControl.FPlayer;
         if (Budget.FGold > 50)
         {
-            Candidates = new TQuadItemList();
+            Candidates = new TQuadItemList<TProductionControl>();
             I = Player.FProductionControls.Count;
             while (I != 0)
             {
@@ -52816,7 +52825,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                                                 }
                                             }
 
-                                            Candidates.AddABCD(ObjectToInt(Control), J, 0, Priority);
+                                            Candidates.AddABCD(Control, J, 0, Priority);
                                         }
                                     }
                                 }
@@ -52831,7 +52840,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                 Candidates.Sort(AoWEUnit.CompareAutoProductions);
                 Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
                 var item = Candidates[0];
-                if (ExecuteProduce(ReferenceFromId<TProductionControl>(Candidates[0].A), item.B))
+                if (ExecuteProduce(Candidates[0].A, item.B))
                 {
                     Budget.FGold = 0;
                     Budget.FMana = 0;
@@ -53543,7 +53552,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
     public virtual bool CooperateWithGroup(TAIGroup Group, TAIGroupControlTarget Target) => Group.GroupClass.Behavior == GroupClass.Behavior;
 
     // AIGroup.pas:473
-    public virtual bool GetRecruitableUnits(int Phase, TUnitList Units, TUnitList Recruitable) => false;
+    public virtual bool GetRecruitableUnits(TAIGroup Recruiter, TUnitList Units, TUnitList Recruitable) => false;
 
     // AIGroup.pas:144
     public int GetProcessPriority() => Count + (FProcessPriority << 16);
@@ -55064,10 +55073,10 @@ public partial class TAIGroupControl : TEObject
         TAbstractUnit Result;
         int Distance;
         TAbstractUnit AUnit;
-        TDoubleItemList List;
+        TDoubleItemList<TAbstractUnit> List;
         TXYL Location = default;
         TPlayer Player;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TAbstractUnit>();
         Player = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
         for (int I = 0, last = Player.FArmies.Count - 1; I <= last; I++)
         {
@@ -55078,7 +55087,7 @@ public partial class TAIGroupControl : TEObject
                 Distance = dHXtoRad(Location.X, Location.Y, FLocation.X, FLocation.Y);
                 if (FLocation.L == Location.L && Distance < 30)
                 {
-                    List.AddAB(ObjectToInt(AUnit), Distance);
+                    List.AddAB(AUnit, Distance);
                 }
             }
         }
@@ -55086,7 +55095,7 @@ public partial class TAIGroupControl : TEObject
         if (List.Count != 0)
         {
             List.SortAscendingItemB();
-            Result = ReferenceFromId<TAbstractUnit>(List[0].A);
+            Result = List[0].A;
         }
         else
         {
@@ -55928,7 +55937,7 @@ public partial class TAIGroupRecruitControl : TAIGroupControlPlugin
             Recruitable = new TUnitUserList(null);
             if (FMode != TAIGroupRecruitControlMode.rcmForceRecruit)
             {
-                Group.FGroup.GetRecruitableUnits(ObjectToInt(FControl.FGroup), Units, Recruitable);
+                Group.FGroup.GetRecruitableUnits(FControl.FGroup, Units, Recruitable);
             }
             else
             {
@@ -61386,7 +61395,7 @@ public partial class TFastCombatUnit : TCombatUnit
                         CV = FTargets.List[I].B;
                         if (CV != 0)
                         {
-                            Target = ReferenceFromId<TCombatObject>(FTargets.List[I].A);
+                            Target = FTargets.List[I].A;
                             CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
                             FTargetPriority += CV;
                         }
@@ -61423,7 +61432,7 @@ public partial class TFastCombatUnit : TCombatUnit
                         CV = FTargets.List[I].C;
                         if (CV != 0)
                         {
-                            Target = ReferenceFromId<TCombatObject>(FTargets.List[I].A);
+                            Target = FTargets.List[I].A;
                             CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
                             FTargetPriority += CV;
                         }
@@ -61461,10 +61470,10 @@ public partial class TFastCombatUnit : TCombatUnit
     }
 
     // AIGroup.pas:7011
-    public override void Activate(int ACombat)
+    public override void Activate(TCombat ACombat)
     {
         base.Activate(ACombat);
-        if (ReferenceFromId<TObject>(ACombat) is TFastCombat)
+        if (ACombat is TFastCombat)
         {
             UpdateWallSiegeObjectRegistration();
         }
@@ -61481,7 +61490,7 @@ public partial class TFastCombatUnit : TCombatUnit
     }
 
     // AIGroup.pas:7002
-    public override void Initialize(int ACombat)
+    public override void Initialize(TCombat ACombat)
     {
         TAbstractUnit AUnit;
         base.Initialize(ACombat);
@@ -69540,7 +69549,7 @@ public partial class TSpell : TEObject
         Manager = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
         if (!AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
         {
-            Result = Manager.RequestBudgetExpenseEx(0, Budget, 0, Mana, ReferenceFromId<TAIBudget>(ObjectToInt(Manager.FDefaultBudget)), 1 != 0);
+            Result = Manager.RequestBudgetExpenseEx(0, Budget, 0, Mana, Manager.FDefaultBudget, 1 != 0);
         }
         else
         {
@@ -69560,7 +69569,7 @@ public partial class TSpell : TEObject
             Manager = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
             if (!AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
             {
-                Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, ReferenceFromId<TAIBudget>(ObjectToInt(Manager.FDefaultBudget)), (TBudgetExpenseMode)2);
+                Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Manager.FDefaultBudget, (TBudgetExpenseMode)2);
             }
             else
             {
@@ -70681,22 +70690,22 @@ public partial class TUnitSpell : TSpell
     public virtual bool AIRetrieveOptimalTargetUnit(TAbstractUnit Source, TUnitList Targets, ref TAbstractUnit Target, ref int Priority)
     {
         bool Result;
-        TDoubleItemList List;
+        TDoubleItemList<TAbstractUnit> List;
         int Value;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TAbstractUnit>();
         for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
         {
             if (ValidTargetUnit(Source, Targets.GetUnit(I)) && Targets.GetUnit(I).GetUnitType() != TUnitType.utMachine)
             {
                 Value = Targets.GetUnit(I).GetUnitLevel() + FAIValue;
-                List.AddAB(ObjectToInt(Targets.GetUnit(I)), Value);
+                List.AddAB(Targets.GetUnit(I), Value);
             }
         }
 
         if (List.Count != 0)
         {
             List.SortDescendingItemB();
-            Target = ReferenceFromId<TAbstractUnit>(List[0].A);
+            Target = List[0].A;
             Priority = List[0].B;
             Result = true;
         }
@@ -82296,10 +82305,10 @@ public static partial class AoWEUnit
     }
 
     // CombatPredictor.pas:213
-    public static int P3CompareRoundTargets(in TQuadInteger A, in TQuadInteger B) => A.D - B.D;
+    public static int P3CompareRoundTargets(in TQuadItem<TCombatPredictorUnit> A, in TQuadItem<TCombatPredictorUnit> B) => A.D - B.D;
 
     // CombatPredictor.pas:896
-    public static int P3CompareRequiredUnits(in TDoubleItem A, in TDoubleItem B) => B.B - A.B;
+    public static int P3CompareRequiredUnits(in TDoubleItem<TCombatPredictorUnit> A, in TDoubleItem<TCombatPredictorUnit> B) => B.B - A.B;
 
     // Diplomacy.pas:2060
     public static int CompareCampaignTransfer(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.C - Item1.C;
@@ -82308,7 +82317,7 @@ public static partial class AoWEUnit
     public static int CompareAIPlayerActionClasses(object Item1, object Item2) => ((AIPlayerActionClass)Item2).Priority - ((AIPlayerActionClass)Item1).Priority;
 
     // AI.pas:1217
-    public static int CompareAutoProductions(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.D - Item1.D;
+    public static int CompareAutoProductions(in TQuadItem<TProductionControl> Item1, in TQuadItem<TProductionControl> Item2) => Item2.D - Item1.D;
 
     // AIGroup.pas:553
     public static int CompareAIGroupProcessPriority(object Item1, object Item2)

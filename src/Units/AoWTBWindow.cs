@@ -120,9 +120,9 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:134
-    public void OVButtonClick(int Sender)
+    public void OVButtonClick(TObject Sender)
     {
-        if (Sender != 0)
+        if (Sender != null)
         {
             General.PlayButtonSound(0);
         }

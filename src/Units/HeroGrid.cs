@@ -242,7 +242,7 @@ public static partial class HeroGridUnit
         {
             var sortHeroListHero = SortHeroList.GetHero(A);
             var hero2 = SortHeroList.GetHero(B);
-            Result = ObjectToInt(sortHeroListHero) - ObjectToInt(hero2);
+            Result = sortHeroListHero.InstanceId - hero2.InstanceId;
         }
 
         return Result;
@@ -256,7 +256,7 @@ public static partial class HeroGridUnit
         {
             var hero = SortHeroList.GetHero(A);
             var sortHeroListHero = SortHeroList.GetHero(B);
-            Result = ObjectToInt(hero) - ObjectToInt(sortHeroListHero);
+            Result = hero.InstanceId - sortHeroListHero.InstanceId;
         }
 
         return Result;
