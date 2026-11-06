@@ -420,7 +420,7 @@ public partial class TWorldMap : TDataModule
                 case 4:
                     var campaign27 = GetCampaign();
                     var campaignScenario11 = GetCampaignScenario(GetCampaign(), campaign27.FNextScenarioID);
-                    Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName);
+                    Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName, Aow.Formats.GameProfile.WorldMap);
                     if (Preview != null)
                     {
                         Index = Preview.FPlayers.IndexOfPlayerType(TPlayerType.ptHuman);

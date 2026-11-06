@@ -1216,5 +1216,7 @@ internal static class ClassRegistry
         TMapEvents.EventRenderers.Add(EventView.ItemsFound, static (events, log, mode, done) => aowMapEventsUnit.ShowItemsFound(E3EventDialogsUnit.ItemsFoundDlg, (TItemExplorationSiteEventLog)log, done));
         TMapEvents.EventRenderers.Add(EventView.CityProduction, static (events, log, mode, done) => AoWCityScreenUnit.CityScreen.ProductionEvent((TCityProductionEventLog)log));
         TMapEvents.EventRenderers.Add(EventView.ProductionPlace, static (events, log, mode, done) => AoWProdScreenUnit.ProductionScreen.ProductionEvent((TProductionPlaceEventLog)log));
+        FormatMapping.Register("TAoWHSMap", new Reference("CurrentPlayer", PlayerSlots.Instance), new ReferenceList("TurnOrder", PlayerSlots.Instance), new RequiredChild("TMapContainer"));
+        FormatMapping.Register("TMapContainer", new CountedChildren("TMapLevel", "LevelCount"));
     }
 }

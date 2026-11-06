@@ -23,6 +23,12 @@ public interface IFileSystem
     bool DirectoryExists(string path);
     bool DeleteFile(string path);
     bool RenameFile(string source, string target);
+    // The replacement primitive of the game's file boundary (own-formats.md 4.2): moves a
+    // finished, closed sibling temporary over the target in one step. A file service without it
+    // refuses, so a save never truncates the old file first.
+    bool ReplaceFile(string source, string target) => false;
+    // The layer a path resolves to, for file logs only.
+    string Layer(string path) => "file";
     bool CreateDirectory(string path);
     bool RemoveDirectory(string path) => false;
     int GetAttributes(string path) => -1;
@@ -63,6 +69,7 @@ public sealed class SystemIoFileSystem : IFileSystem
     private static bool Attempt(Action action) { try { action(); return true; } catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; } }
     public bool DeleteFile(string path) => FileExists(path) && Attempt(() => File.Delete(Resolve(path)));
     public bool RenameFile(string source, string target) => Attempt(() => File.Move(Resolve(source), Resolve(target)));
+    public bool ReplaceFile(string source, string target) => FileExists(source) && Attempt(() => File.Move(Resolve(source), Resolve(target), true));
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Directory.Exists(Path.GetDirectoryName(Resolve(path))) && Attempt(() => Directory.CreateDirectory(Resolve(path)));
     public bool RemoveDirectory(string path) => DirectoryExists(path) && Attempt(() => Directory.Delete(Resolve(path)));
     public int GetAttributes(string path)

@@ -1780,10 +1780,18 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5210
-    public virtual void LoadHSM(string FileName, bool Edit, Engine.TProgressEvent AProgress)
+    // The preflight of the file boundary finishes before the current map is freed. A refused
+    // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1).
+    public virtual void LoadHSM(string FileName, bool Edit, Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
         TCompressStream Stream;
         THSMHeader Header = default;
+        byte[] Image = FileBoundary.Load(FileName, Profile);
+        if (Image == null)
+        {
+            return;
+        }
+
         if (FHSMap != null)
         {
             FHSMap.Free();
@@ -1795,7 +1803,7 @@ public partial class THSEngine : TEngine
             Stream = new TCompressStream();
             try
             {
-                Stream.LoadFromFile(FileName);
+                Stream.LoadImage(Image);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
@@ -1837,19 +1845,26 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5137
-    public virtual THSMap CreatePreviewHSM(string FileName)
+    public virtual THSMap CreatePreviewHSM(string FileName, Aow.Formats.GameProfile Profile)
     {
         TCompressStream Stream;
         string FullName;
         THSMHeader Header = default;
         THSMap Result = null;
+        byte[] Image;
         FullName = ExpandFileName(FileName);
+        Image = FileBoundary.Load(FullName, Profile, "preview");
+        if (Image == null)
+        {
+            return null;
+        }
+
         try
         {
             Stream = new TCompressStream();
             try
             {
-                Stream.LoadFromFile(FullName);
+                Stream.LoadImage(Image);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
@@ -1883,7 +1898,9 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5291
-    public virtual void SaveHSM(string FileName, Engine.TProgressEvent AProgress)
+    // The engine writes the image in memory and the file boundary writes the document, so a
+    // failed conversion or write keeps the old file (own-formats.md 4.2).
+    public virtual void SaveHSM(string FileName, Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
         TCompressStream Stream;
         THSMHeader Header;
@@ -1901,7 +1918,7 @@ public partial class THSEngine : TEngine
             {
                 Stream.Write(Bytes.Of(ref Header, 16));
                 WriteEObject(Stream, FHSMap, AProgress);
-                Stream.SaveToFile(FileName);
+                FileBoundary.Save(FileName, Profile, Stream.Memory.AsSpan(0, Stream.Size).ToArray());
             }
             finally
             {
@@ -1938,7 +1955,6 @@ public partial class THSEngine : TEngine
         void Search(string Dir)
         {
             TStringList Dirs;
-            TFileStream Stream = default;
             THSSHeader Header = default;
             TSearchRec SR = default;
             bool Found;
@@ -1946,20 +1962,11 @@ public partial class THSEngine : TEngine
             while (Found)
             {
                 Header = default;
-                Stream = new TFileStream(Dir + SR.Name, 0);
-                try
+                // An own scenario set lists the header of its validated image (own-formats.md 4.1).
+                var head = FileBoundary.ListingHeader(Dir + SR.Name, Aow.Formats.GameProfile.ScenarioSet, 52);
+                if (head.Length == 52)
                 {
-                    try
-                    {
-                        Stream.Read(Bytes.Of(ref Header, 52));
-                    }
-                    finally
-                    {
-                        Stream.Free();
-                    }
-                }
-                catch
-                {
+                    Header = MemoryMarshal.Read<THSSHeader>(head);
                 }
 
                 if (Header.ID == "HSS\0")
@@ -1998,29 +2005,20 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5024
-    public void LoadHSS(string FileName, bool Edit, Engine.TProgressEvent AProgress)
+    // The preflight raises before the current set is cleared (own-formats.md 2.7).
+    public void LoadHSS(string FileName, bool Edit, Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
         TMemoryStream Mem;
-        TFileStream F;
         THSSHeader Header = default;
         TEMsg Msg = default;
         int CRC;
+        byte[] Image = FileBoundary.LoadOrRaise(ExpandFileName(FileName), Profile);
         FHSSet.Clear();
         FHSSFileName = ExpandFileName(FileName);
         FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSS);
-        Mem = new TMemoryStream();
+        Mem = TEngine.ImageStream(Image);
         try
         {
-            F = new TFileStream(FHSSFileName, 32);
-            try
-            {
-                Mem.LoadFromStream(F);
-            }
-            finally
-            {
-                F.Destroy();
-            }
-
             Mem.Read(Bytes.Of(ref Header, 52));
             Mem.Position = Header.Size;
             var size = Mem.Size;
@@ -2052,10 +2050,9 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5060
-    public void SaveHSS(string FileName, Engine.TProgressEvent AProgress)
+    public void SaveHSS(string FileName, Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
         TMemoryStream Mem;
-        TFileStream F = default;
         int CRC = default;
         THSSHeader Header = default;
         if (FHSSet != null)
@@ -2073,15 +2070,7 @@ public partial class THSEngine : TEngine
                 var size = Mem.Size;
                 CRC = GetCRC32(Mem.Memory, size);
                 Mem.Write(Bytes.Of(ref CRC, 4));
-                F = new TFileStream(FHSSFileName, 65535);
-                try
-                {
-                    Mem.SaveToStream(F);
-                }
-                finally
-                {
-                    F.Free();
-                }
+                FileBoundary.Save(FHSSFileName, Profile, Mem.Memory.AsSpan(0, Mem.Size).ToArray());
             }
             finally
             {
@@ -2092,10 +2081,16 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5100
-    public void LoadPreviewHSM(string FileName)
+    public void LoadPreviewHSM(string FileName, Aow.Formats.GameProfile Profile)
     {
         TCompressStream Stream;
         THSMHeader Header = default;
+        byte[] Image = FileBoundary.Load(FileName, Profile, "preview");
+        if (Image == null)
+        {
+            return;
+        }
+
         if (FHSMap != null)
         {
             FHSMap.Free();
@@ -2107,7 +2102,7 @@ public partial class THSEngine : TEngine
             Stream = new TCompressStream();
             try
             {
-                Stream.LoadFromFile(FileName);
+                Stream.LoadImage(Image);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
@@ -2141,19 +2136,26 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5171
-    public THSMap LoadHSMEx(string FileName, bool Edit, Engine.TProgressEvent AProgress)
+    public THSMap LoadHSMEx(string FileName, bool Edit, Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
         TCompressStream Stream;
         string FullName;
         THSMHeader Header = default;
         THSMap Result = null;
+        byte[] Image;
         FullName = ExpandFileName(FileName);
+        Image = FileBoundary.Load(FullName, Profile);
+        if (Image == null)
+        {
+            return null;
+        }
+
         try
         {
             Stream = new TCompressStream();
             try
             {
-                Stream.LoadFromFile(FullName);
+                Stream.LoadImage(Image);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
@@ -2285,7 +2287,7 @@ public partial class THSEngine : TEngine
         TEMsg Msg = default;
         if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
         {
-            LoadHSS(FileName, false, AProgress);
+            LoadHSS(FileName, false, AProgress, Aow.Formats.GameProfile.ScenarioSet);
         }
         else
         {

@@ -184,6 +184,23 @@ public sealed class LayeredFileSystem : IFileSystem
         EnsureDirectory(Path.GetDirectoryName(destination)!);
         File.Move(WriteLocation(Relative(source)), destination);
     });
+    // Both paths resolve in the user layer, so the move stays on one volume and replaces the
+    // user copy in one step. A shipped file is shadowed, never written.
+    public bool ReplaceFile(string source, string target) => Mutate(() =>
+    {
+        string from = WriteLocation(Relative(source));
+        if (!File.Exists(from)) throw new FileNotFoundException(source);
+        string destination = WriteLocation(Relative(target));
+        EnsureDirectory(Path.GetDirectoryName(destination)!);
+        File.Move(from, destination, true);
+    });
+    public string Layer(string path)
+    {
+        string relative = Relative(path);
+        string? found = ReadLocation(relative);
+        if (found is null) return "none";
+        return Same(root, user) ? "single" : Within(user, found) || Same(user, found) ? "user" : "root";
+    }
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Mutate(() => EnsureDirectory(WriteLocation(Relative(path))));
     public bool RemoveDirectory(string path) => Mutate(() =>
     {

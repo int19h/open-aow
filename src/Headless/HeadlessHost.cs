@@ -81,19 +81,27 @@ internal sealed class RunFiles : IFileSystem
     public string ExtractRelativePath(string baseFile, string destination) => files.ExtractRelativePath(baseFile, destination);
     public bool SetCurrentDirectory(string path) => files.SetCurrentDirectory(path);
     public string ExpandPath(string path) => files.ExpandPath(path);
+    // The autosave and its replacement temporary go to the day file of the run.
+    private string Target(string path)
+    {
+        if (AutoSaveTarget is null) return path;
+        string name = RtlUnit.ExtractFileName(path).ToString();
+        if (name.Equals("autosave.asg", StringComparison.OrdinalIgnoreCase)) return AutoSaveTarget;
+        string temporary = Aow.Units.FileBoundary.TemporaryFor("autosave.asg");
+        return name.Equals(temporary, StringComparison.OrdinalIgnoreCase) ? Aow.Units.FileBoundary.TemporaryFor(AutoSaveTarget) : path;
+    }
     public Stream Open(string path, int mode)
     {
         bool writing = mode == RtlUnit.fmCreate || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
         if (!writing && IsInput(path)) return File.Open(input!, FileMode.Open, FileAccess.Read, FileShare.Read);
-        string target = writing && AutoSaveTarget is not null &&
-            RtlUnit.ExtractFileName(path).ToString().Equals("autosave.asg", StringComparison.OrdinalIgnoreCase)
-            ? AutoSaveTarget : path;
-        return files.Open(target, mode);
+        return files.Open(writing ? Target(path) : path, mode);
     }
-    public bool FileExists(string path) => IsInput(path) ? File.Exists(input) : files.FileExists(path);
+    public bool ReplaceFile(string source, string target) => files.ReplaceFile(Target(source), Target(target));
+    public string Layer(string path) => IsInput(path) ? "input" : files.Layer(Target(path));
+    public bool FileExists(string path) => IsInput(path) ? File.Exists(input) : files.FileExists(Target(path));
     public bool DirectoryExists(string path) => files.DirectoryExists(path);
-    public bool DeleteFile(string path) => files.DeleteFile(path);
+    public bool DeleteFile(string path) => files.DeleteFile(Target(path));
     public bool RenameFile(string source, string target) => files.RenameFile(source, target);
     public bool CreateDirectory(string path) => files.CreateDirectory(path);
     public bool RemoveDirectory(string path) => files.RemoveDirectory(path);

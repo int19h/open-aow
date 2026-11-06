@@ -8978,7 +8978,7 @@ public partial class TPlayerConnectionEventLog : TMessageEventLog
             }
             else
             {
-                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null);
+                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
             }
         }
         else
@@ -9154,12 +9154,12 @@ public partial class TPlayerControl : TEObject
                 {
                     if (Player == 0)
                     {
-                        AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + ".asg", null);
+                        AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + ".asg", null, Aow.Formats.GameProfile.WorldMap);
                     }
                 }
                 else
                 {
-                    AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + ".asg", null);
+                    AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + ".asg", null, Aow.Formats.GameProfile.WorldMap);
                 }
             }
             catch
@@ -9190,7 +9190,7 @@ public partial class TPlayerControl : TEObject
             try
             {
                 FileName = "autosave.asg";
-                AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "Save\\" + FileName, null);
+                AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
             }
             catch
             {
@@ -9596,7 +9596,7 @@ public partial class TPlayerControl : TEObject
             }
             else
             {
-                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null);
+                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
             }
 
             AoWEUnit.AoWHSMap.ExecuteExitGame();
@@ -9651,7 +9651,7 @@ public partial class TPlayerControl : TEObject
                 }
                 else
                 {
-                    aoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null);
+                    aoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null, Aow.Formats.GameProfile.WorldMap);
                 }
 
                 AoWEUnit.AoWHSMap.ExecuteExitGame();
@@ -10476,7 +10476,7 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
             }
             else
             {
-                AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null);
+                AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null, Aow.Formats.GameProfile.WorldMap);
                 AoWEUnit.AoWHSMap.ExecuteExitGame();
             }
         }
@@ -10513,7 +10513,7 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
                 AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + TSet<TPBEMPlayerStatusElement>.Of(TPBEMPlayerStatusElement.pbsTurnDone) - TSet<TPBEMPlayerStatusElement>.Of(TPBEMPlayerStatusElement.pbsPlaying);
                 try
                 {
-                    AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null);
+                    AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null, Aow.Formats.GameProfile.WorldMap);
                     Saved = true;
                 }
                 catch
@@ -10582,7 +10582,7 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
         {
             try
             {
-                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null);
+                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
                 var format = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.GameSavedRStr), [((TSaveGameEventLog)Log).FFileName]);
                 AoWEUnit.AoWHSMap.ShowMessage(format);
                 Failed = false;
@@ -10647,7 +10647,7 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
             {
                 var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(AoWEUnit.AoWHSMap.FCurrentPlayer);
                 AoWEUnit.AoWHSMap.FPlayers.GetPlayers(AoWEUnit.AoWHSMap.FCurrentPlayer).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + TSet<TPBEMPlayerStatusElement>.Of(TPBEMPlayerStatusElement.pbsTurnDone) - TSet<TPBEMPlayerStatusElement>.Of(TPBEMPlayerStatusElement.pbsPlaying);
-                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null);
+                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
                 var format = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.GameSavedRStr), [((TSaveGameEventLog)Log).FFileName]);
                 AoWEUnit.AoWHSMap.ShowMessage(format);
                 AoWEUnit.AoWHSMap.SynchroniseBegin();
@@ -10798,7 +10798,7 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
         {
             try
             {
-                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null);
+                AoWEUnit.AoWEngine.SaveHSM(((TSaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
                 AoWEUnit.AoWHSMap.ExecuteExitGame();
             }
             catch
@@ -13160,7 +13160,7 @@ public partial class TAoWHSMapKeyboard : TEObject
         string FileName;
         FileName = "autosave.asg";
         // { Original saves the autosave file. }
-        AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "Save\\" + FileName, null);
+        AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
     }
 
     // Engine.pas:524
@@ -16449,7 +16449,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                 Player.FViewL = (byte)L;
             }
 
-            FCombatMap = (TAbstractAoWCombatMap)AoWEUnit.AoWEngine.LoadHSMEx(AoWEUnit.AoWEngine.StartupDirectory + FileName, false, null);
+            FCombatMap = (TAbstractAoWCombatMap)AoWEUnit.AoWEngine.LoadHSMEx(AoWEUnit.AoWEngine.StartupDirectory + FileName, false, null, Aow.Formats.GameProfile.TacticalMap);
             FCombatMapCreatedEvents.TriggerNotifyEvents(this);
         }
     }
@@ -20266,13 +20266,13 @@ public partial class TItemLibrary : TItemList
     // Army.PAS:4957
     public void LoadFromFile(string FileName)
     {
-        AoWEUnit.AoWEngine.ReadFromFile(FileName, this, null);
+        AoWEUnit.AoWEngine.ReadFromFile(FileName, this, null, Aow.Formats.GameProfile.ItemList);
     }
 
     // Army.PAS:4962
     public void SaveToFile(string FileName)
     {
-        AoWEUnit.AoWEngine.WriteToFile(FileName, this, null);
+        AoWEUnit.AoWEngine.WriteToFile(FileName, this, null, Aow.Formats.GameProfile.ItemList);
     }
 
     // intf_P2_04.inc:118
@@ -30115,13 +30115,13 @@ public partial class THeroLibrary : THeroList
     // Hero.PAS:2633
     public void LoadFromFile(string FileName)
     {
-        AoWEUnit.AoWEngine.ReadFromFile(FileName, this, null);
+        AoWEUnit.AoWEngine.ReadFromFile(FileName, this, null, Aow.Formats.GameProfile.HeroList);
     }
 
     // Hero.PAS:2636
     public void SaveToFile(string FileName)
     {
-        AoWEUnit.AoWEngine.WriteToFile(FileName, this, null);
+        AoWEUnit.AoWEngine.WriteToFile(FileName, this, null, Aow.Formats.GameProfile.HeroList);
     }
 
     // Engine.pas:631
@@ -39408,7 +39408,7 @@ public partial class TEmailGameControl : TEObject
         {
             Destination = "";
             Overwrite = false;
-            Map = (TAoWHSMap)AoWEUnit.AoWEngine.CreatePreviewHSM(FileName);
+            Map = (TAoWHSMap)AoWEUnit.AoWEngine.CreatePreviewHSM(FileName, Aow.Formats.GameProfile.WorldMap);
             bool condition = Map != null && Map.FConnectionType == TPlayerConnectionType.pcEmail && Map.FCurrentPlayer > 0;
             if (condition)
             {
@@ -39429,7 +39429,7 @@ public partial class TEmailGameControl : TEObject
                             Name = Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FName;
                             if (FileExists(AoWEUnit.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg"))
                             {
-                                PreviousMap = (TAoWHSMap)AoWEUnit.AoWEngine.CreatePreviewHSM(AoWEUnit.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg");
+                                PreviousMap = (TAoWHSMap)AoWEUnit.AoWEngine.CreatePreviewHSM(AoWEUnit.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg", Aow.Formats.GameProfile.WorldMap);
                                 if (PreviousMap != null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }
@@ -61020,7 +61020,7 @@ public partial class TSaveGameTE : TTokenEvent
                     }
                     else
                     {
-                        AoWEUnit.AoWEngine.SaveHSM(FFileName, null);
+                        AoWEUnit.AoWEngine.SaveHSM(FFileName, null, Aow.Formats.GameProfile.WorldMap);
                         AoWEUnit.AoWHSMap.FileName = FFileName;
                     }
 
@@ -71834,7 +71834,7 @@ public partial class TAoWCampaignTransferSettings : TEObject
     {
         TAoWHSMap Map;
         ClearSelection();
-        Map = (TAoWHSMap)AoWEUnit.AoWEngine.CreatePreviewHSM(FileName);
+        Map = (TAoWHSMap)AoWEUnit.AoWEngine.CreatePreviewHSM(FileName, Aow.Formats.GameProfile.WorldMap);
         FTransferPointsMax = Map.FCampaignSettings.FTransferPointsMax;
         if (AoWEUnit.AoWEngine.FCampaign.FDifficultyLevel == TCampaignDifficultyLevel.cdlEasy)
         {
@@ -74815,10 +74815,17 @@ public partial class TAoWEngine : THSEngine
     }
 
     // Army.PAS:6068
+    // The preflight raises before the current campaign closes (own-formats.md 2.7).
     public void LoadCampaign(string FileName)
     {
+        LoadCampaign(FileName, FileBoundary.LoadOrRaise(FileName, Aow.Formats.GameProfile.Campaign));
+    }
+
+    // Loads a campaign file whose preflight has passed, from its engine image.
+    public void LoadCampaign(string FileName, byte[] Image)
+    {
         CloseCampaign();
-        FCampaign = (TAoWCampaign)RetrieveFromFile(FileName, null);
+        FCampaign = (TAoWCampaign)RetrieveFromImage(Image, null);
         TranslateEObjectFromFile(FCampaign, AoWEUnit.AoWEngine.StartupDirectory + "Dict\\" + "Campaign" + ".mld");
         FCampaign.FFileName = FileName;
     }
@@ -74834,7 +74841,7 @@ public partial class TAoWEngine : THSEngine
                 SaveHSMtoStream(FCampaign.FStream, null);
             }
 
-            StoreInFile(FileName, FCampaign, null);
+            StoreInFile(FileName, FCampaign, null, Aow.Formats.GameProfile.Campaign);
         }
     }
 

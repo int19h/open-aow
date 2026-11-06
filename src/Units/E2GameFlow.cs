@@ -430,7 +430,7 @@ public static partial class E2GameFlowUnit
         var path = GetCampaignScenario(Campaign, 0).FPaths[0];
         Index = Campaign.FScenarios.IndexOfID(path);
         var campaignScenario = GetCampaignScenario(WorldMap.GetCampaign(), Index);
-        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName);
+        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName, Aow.Formats.GameProfile.WorldMap);
         I = 0;
         // { Original uses the preview map child count as the player-search bound. }
         while (I < Preview.Count && (int)Preview.FPlayers.GetPlayers(I).FPlayerType != 0)
@@ -467,7 +467,7 @@ public static partial class E2GameFlowUnit
         SongPlayer.Stop(false);
         SongPlayer.Songs.Clear();
         FadeMusicVolume(0, 1);
-        AoWEngine.LoadHSM(FileName, false, Controller.MapProgress);
+        AoWEngine.LoadHSM(FileName, false, Controller.MapProgress, Aow.Formats.GameProfile.WorldMap);
         if (AoWEngine.FDemo && AoWHSMap != null && !AoWHSMap.FShowAllPlayers)
         {
             CloseGame(Controller);

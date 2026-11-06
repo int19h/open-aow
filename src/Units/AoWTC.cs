@@ -9372,7 +9372,7 @@ public partial class TRndTacHsm : TObject
         FileName = FileName + ".HSM";
         if (Combat == null)
         {
-            AoWEngine.LoadHSMEx(AoWEngine.StartupDirectory + FileName, false, null);
+            AoWEngine.LoadHSMEx(AoWEngine.StartupDirectory + FileName, false, null, Aow.Formats.GameProfile.TacticalMap);
         }
         else
         {

@@ -29,6 +29,30 @@ public sealed class ClassRegistryTests
         CheckFamily(typeof(IImageFileClass), types, ImageFileClass.All.Select(c => c.Type));
     }
 
+    // own-formats.md 3.1: the third block registers one format mapping per persisted class that
+    // needs unit code, exactly the classes versions.json names for the current version. Every
+    // rule names members of its schema class. The kind classes keep their flat mapping until
+    // 9.6-6 and 9.6-7 map their cases.
+    [Fact]
+    public void EverySchemaClassRequiringAUnitMappingHasItsLine()
+    {
+        var schema = Aow.Formats.GameFiles.Schema;
+        Assert.Equal(Aow.Formats.Schema.FormatVersions.UnitMappings.Order(StringComparer.Ordinal), FormatMapping.All.Keys.Order(StringComparer.Ordinal));
+        foreach (var (name, rules) in FormatMapping.All)
+        {
+            var cls = schema.Find(name);
+            Assert.True(cls is not null, "The format mapping names no schema class: " + name);
+            Assert.NotEmpty(rules);
+            foreach (var member in rules.SelectMany(r => r.Members))
+                Assert.True(member == "Children" ? cls.KeepsChildren : cls.PropertyByName(member) is not null, $"{name} has no member {member}.");
+        }
+        foreach (var name in Aow.Formats.Schema.FormatVersions.FlatMappings)
+        {
+            Assert.NotNull(schema.Find(name));
+            Assert.False(FormatMapping.All.ContainsKey(name), name + " keeps its flat mapping in version 1.");
+        }
+    }
+
     public static IEnumerable<object?[]> Classes => EClass.All
         .Where(c => c.Type.Assembly == typeof(TEObject).Assembly).Select(c => new object?[] { c.Type, IncompleteCleanup.GetValueOrDefault(c.Type) });
 

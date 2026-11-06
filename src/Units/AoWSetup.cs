@@ -1865,7 +1865,7 @@ public partial class TSetupControl : TComponent
         bool FirstHuman = default;
         TPlayerSetupSettings Settings = default;
         TAoWHSMap Preview;
-        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + FileName);
+        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
         if (GetHost() && Preview != null && (!AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != TPlayerConnectionType.pcEmail)
         {
             AoWEngine.InitializeHSSet(AoWEngine.StartupDirectory + Preview.HSSFileName, null);

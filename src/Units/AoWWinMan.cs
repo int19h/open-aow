@@ -754,7 +754,7 @@ public static partial class AoWWinManUnit
         SongPlayer.Stop(false);
         SongPlayer.Songs.Clear();
         FadeMusicVolume(0, 1);
-        AoWEngine.LoadHSM(Name, false, Controller.MapProgress);
+        AoWEngine.LoadHSM(Name, false, Controller.MapProgress, Aow.Formats.GameProfile.WorldMap);
         if (AoWEngine.FDemo && AoWHSMap != null && !AoWHSMap.FShowAllPlayers)
         {
             Controller.ReturnToTitle();
@@ -765,14 +765,21 @@ public static partial class AoWWinManUnit
     }
 
     // AoWWinMan.pas:532
+    // The preflight finishes before the current game closes. A refused file keeps it (own-formats.md 2.7).
     public static void LoadCampaign(TGeneral Controller, string Name)
     {
+        byte[] Image = FileBoundary.Load(Name, Aow.Formats.GameProfile.Campaign);
+        if (Image == null)
+        {
+            return;
+        }
+
         if (AoWHSMap != null)
         {
             AoWEngine.CloseHSM(null);
         }
 
-        AoWEngine.LoadCampaign(Name);
+        AoWEngine.LoadCampaign(Name, Image);
         if (AoWEngine.FCampaign != null)
         {
             if (AoWEngine.FCampaign.FScenarioStarted)

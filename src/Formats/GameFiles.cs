@@ -96,13 +96,7 @@ public static class GameFiles
         if (file.LongLength > session.Limits.DecompressedBytes)
             throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The file is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
         var (container, root) = profile.Import(file, session);
-        var document = new JsonObject()
-            .Add("$format", new JsonString(OwnFormat.FormatName))
-            .Add("$version", new JsonInteger(OwnFormat.CurrentVersion))
-            .Add("$kind", new JsonString(kind))
-            .Add("$container", container)
-            .Add("root", root);
-        return new ImportResult { Document = document, Counts = counts };
+        return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
     }
 
     /// <summary>Strict export: refuses unrepresentable state, writes nothing partial.</summary>
@@ -113,6 +107,51 @@ public static class GameFiles
         var bytes = profile.Export(container, root, ctx);
         return new ExportResult { Bytes = bytes, Profile = profile, Invalidated = ctx.Invalidated };
     }
+
+    /// <summary>
+    /// The engine image of a current-version document (own-formats.md 4.1). It runs the same strict
+    /// encoding as the export, so it refuses whatever the export refuses, but it never compresses:
+    /// the image is what the engine's stream code reads.
+    /// </summary>
+    public static byte[] ExportImage(JsonObject document, string? fileName = null, FormatLimits? limits = null)
+    {
+        var (profile, _, container, root) = Envelope(document, fileName);
+        var ctx = new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, ExportOptions.Default);
+        return profile.ExportImage(container, root, ctx);
+    }
+
+    /// <summary>Imports an image the engine wrote, in the profile's game container.</summary>
+    public static ImportResult ImportImage(byte[] image, FileProfile profile, string kind, string? fileName = null, FormatLimits? limits = null)
+    {
+        if (!profile.Kinds.Contains(kind))
+            throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"Profile {profile.Name} does not hold kind {kind}.") { File = fileName, Profile = profile.Name });
+        var counts = new LayoutCounts();
+        var session = new ImportSession { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
+        if (image.LongLength > session.Limits.DecompressedBytes)
+            throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The image is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
+        var (container, root) = profile.ImportImage(image, session);
+        return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
+    }
+
+    /// <summary>
+    /// Unmasked G1 for one original file (own-formats.md 3.3): B of the file against B of the
+    /// export, built from the export's engine image without recompressing. It returns the first
+    /// differing offset in B, or null when the two are equal.
+    /// </summary>
+    public static long? FirstG1Difference(byte[] file, FileProfile profile, JsonObject container, byte[] image, FormatLimits? limits = null)
+    {
+        var expected = profile.Comparable(file, limits ?? FormatLimits.Default);
+        var actual = profile.ComparableImage(container, image);
+        int common = expected.AsSpan().CommonPrefixLength(actual);
+        return common == expected.Length && common == actual.Length ? null : common;
+    }
+
+    private static JsonObject NewDocument(string kind, JsonObject container, JsonObject root) => new JsonObject()
+        .Add("$format", new JsonString(OwnFormat.FormatName))
+        .Add("$version", new JsonInteger(OwnFormat.CurrentVersion))
+        .Add("$kind", new JsonString(kind))
+        .Add("$container", container)
+        .Add("root", root);
 
     /// <summary>Validates the envelope of a current-version document.</summary>
     public static (FileProfile Profile, string Kind, JsonObject Container, JsonValue Root) Envelope(JsonObject document, string? fileName)

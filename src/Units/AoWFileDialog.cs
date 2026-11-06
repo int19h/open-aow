@@ -149,7 +149,7 @@ public partial class TFileDlgWindow : TDataModule
         else
         {
             AoWEngine.CloseCampaign();
-            Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(Name);
+            Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(Name, Aow.Formats.GameProfile.WorldMap);
             if (Map != null)
             {
                 try
@@ -479,7 +479,7 @@ public partial class TFileDlgWindow : TDataModule
             SFileName.Text = item;
             if (LowerCase(ExtractFileExt(SFileName.Text)) != ".acg")
             {
-                Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(SFileName.Text);
+                Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(SFileName.Text, Aow.Formats.GameProfile.WorldMap);
                 if (Map != null)
                 {
                     var count = Map.FPlayers.GetCount();

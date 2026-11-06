@@ -190,7 +190,7 @@ public partial class TSetupEvents : TDataModule
         }
         else
         {
-            AoWEngine.LoadHSM(FileName, false, General.MapProgress);
+            AoWEngine.LoadHSM(FileName, false, General.MapProgress, Aow.Formats.GameProfile.WorldMap);
         }
 
         General.Manager.OverlayPriority = 0;

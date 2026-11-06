@@ -106,6 +106,31 @@ public sealed class FormatSchema
     public IReadOnlyDictionary<int, SchemaClass> EngineTable(string engine) => engines[engine];
 }
 
+/// <summary>
+/// The current version's pins in versions.json (own-formats.md 2.6 and 3.1): the persisted
+/// classes whose game load needs a unit mapping registered by Aow.Units, and the kind classes
+/// that keep their accepted flat mapping until the briefs that map their cases.
+/// </summary>
+public static class FormatVersions
+{
+    private static readonly Lazy<JsonObject> current = new(() =>
+    {
+        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")
+            ?? throw new InvalidOperationException("The embedded versions.json is missing.");
+        using var memory = new MemoryStream();
+        stream.CopyTo(memory);
+        var versions = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
+        return ((JsonArray)versions["versions"]!).Items.Cast<JsonObject>().Single(v => ((JsonInteger)v["version"]!).Value == OwnFormat.CurrentVersion);
+    });
+
+    public static IReadOnlyList<string> UnitMappings => Names("unitMappings");
+
+    public static IReadOnlyList<string> FlatMappings => Names("flatMappings");
+
+    private static string[] Names(string member) =>
+        current.Value[member] is JsonArray names ? names.Items.Select(n => ((JsonString)n).Value).ToArray() : [];
+}
+
 public sealed class SchemaClass
 {
     private readonly JsonObject source;
