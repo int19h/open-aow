@@ -61,7 +61,7 @@ public sealed class EngineSupportTests
     }
 
     [Fact]
-    public void NumericObjectSlotsRecoverValuesAndRejectObjects()
+    public void NumericObjectSlotsRecoverValuesAndObjectIds()
     {
         Assert.Null(R.IntToObject(0));
         foreach (int value in new[] { 1, -1, 17, int.MinValue, int.MaxValue })
@@ -70,27 +70,31 @@ public sealed class EngineSupportTests
             Assert.Equal(value, R.ObjectToInt(R.IntToObject(value)));
         }
         var instance = new TObject();
-        Assert.Throws<EInvalidCast>(() => R.ObjectToInt(instance));
+        Assert.Equal(instance.InstanceId, R.ObjectToInt(instance));
+        Assert.Same(instance, R.ReferenceFromId<TObject>(instance.InstanceId));
         Assert.Equal(0, R.ObjectToInt(null));
+        Assert.Null(R.ReferenceFromId<TObject>(0));
+        Assert.Null(R.ReferenceFromId<TObject>(new TObject().InstanceId));
     }
 
+    // Integer(obj) and back while the object lives, then the only reference goes.
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static WeakReference OfferToIntegerSlots()
+    private static (WeakReference Instance, int Id) MapThroughAnInteger()
     {
         var instance = new TObject();
-        Assert.Throws<EInvalidCast>(() => R.ObjectToInt(instance));
-        R.IntToObject(instance.InstanceId);
-        instance.Free();
-        return new WeakReference(instance);
+        int id = R.ObjectToInt(instance);
+        Assert.Same(instance, R.ReferenceFromId<TObject>(id));
+        return (new WeakReference(instance), id);
     }
 
     [Fact]
-    public void IntegerSlotsKeepNoObjectAlive()
+    public void MappedObjectsStayCollectibleAndTheirIdsGoNull()
     {
-        var instance = OfferToIntegerSlots();
+        var (instance, id) = MapThroughAnInteger();
         GC.Collect();
         GC.WaitForPendingFinalizers();
         Assert.False(instance.IsAlive);
+        Assert.Null(R.ReferenceFromId<TObject>(id));
     }
 
     [Fact]
