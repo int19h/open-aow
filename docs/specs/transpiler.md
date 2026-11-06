@@ -130,7 +130,10 @@ C# records, so that a test can build one by hand.
 A Delphi unit becomes one C# file with one namespace, `Aow.Units.<Unit>`. The unit's types become
 types in that namespace. The unit's routines, variables, typed constants and true constants become
 members of `public static partial class <Unit>Unit` in the same namespace, so the namespace and the
-class have names of their own (`Aow.Units.AoWE.AoWEUnit`). The RTL's class is `Aow.Rtl.RtlUnit`. A
+class have names of their own (`Aow.Units.AoWE.AoWEUnit`). The RTL's class is `Aow.Rtl.RtlUnit`. One
+name collides: the unit `AoWTC` has the class `AoWTCUnit`, which is also the name of the unit
+`AoWTCUnit`, whose class is therefore `AoWTCUnitUnit`. Inside `Aow.Units.AoWTC` the bare `AoWTCUnit`
+is the class, everywhere else the namespace. The rule stays one rule, and this is its one cost. A
 file that uses another unit gets `using Aow.Units.<Other>;` and
 `using static Aow.Units.<Other>.<Other>Unit;`.
 
