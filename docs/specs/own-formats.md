@@ -36,8 +36,8 @@ G1 compares CFS headers and inflated payloads, or exact non-CFS files, as sectio
 container, engine class table, allowed root family, header and checksum rules,
 and document kind. An extension alone does not establish a profile.
 
-Six original profiles exist (`FileProfile.All` in `src/Formats/Original/FileProfile.cs`), one
-virtual class each, so a new profile joins without a switch. The kinds are the eight of the
+Six original profiles exist (`FileProfile.All` in `src/Formats/Original/FileProfile.cs`), six instances of four
+virtual profile classes, so a new profile joins without a switch. The kinds are the eight of the
 table. A `.hsm` file names its profile through the root class id of its HSM header
 (`GameFiles.ProfileFor`): a `TAoWHSMap` root is `world-hsm`, a `TAoWCombatMap` root is
 `tactical-hsm`.
@@ -387,7 +387,7 @@ behavior too, since unchanged mapping names do not prove unchanged code. Mapping
 implementation changes receive format-change review.
 
 Version 1 is the only version, so `MigrationChain.Default` holds no step and
-`src/Formats/Migrations` holds the chain type only. `MigrationTests` run a test chain from
+`src/Formats/Migrations` holds the step and chain types only. `MigrationTests` run a test chain from
 version 1 to 3 over the golden hero lists of `src/Formats.Tests/Golden`, check that every step
 runs and names the values it synthesizes, and that a newer version fails with both numbers. The
 production order and diplomatic proposal mappings landed inside 9.7-3, before any game wrote a
@@ -747,7 +747,7 @@ never documents. Failed preflight operations are logged too.
 
 `OpenAoW` (`src/Game`) and the Headless host take `--file-log <path>` and write one JSON line per
 open, preview, listing, CRC read and write (`FileLogRecord.ToJson`): `operation`, `path` (as the
-engine names the file), `layer` (`root`, `user` or `single` in the layered file service), `profile`, `use` (the caller
+engine names the file), `layer` (`root`, `user`, `single` or `none` in the layered file service, `input` in the Headless host), `profile`, `use` (the caller
 profile), `kind`, `format`, `version`, `g1` (`equal`, `different at 0x...` or `not applicable:`
 and the reason), `validation` (`passed`, `refused`, `not reached` or not applicable), `error`,
 `diagnostic` and `cached`. A header listing of an original logs its open with G1 and validation
@@ -998,7 +998,7 @@ paths before editing them.
 
 | document | resolution | recorded by 9.7-4 in |
 | --- | --- | --- |
-| 9.6 specification | Current brief numbers, stable case names, lossless unknown cases, meaningful unused values in the model, numeric knowledge in the transitional adapter as well as converter | private `data/rewrite/9.6-spec-draft.md` 4 and 6, product `unions-and-kinds.md` 4 |
+| 9.6 specification | Current brief numbers, stable case names, lossless unknown cases, meaningful unused values in the model, numeric knowledge in the transitional adapter as well as converter | private `data/rewrite/9.6-spec-draft.md` 4, product `unions-and-kinds.md` 4 |
 | Construction form | Third `ClassRegistry` block and completeness checks. Descriptors before kinds before mappings. The mod facade owns allocation rather than mod module initializers | private `data/rewrite/construction-form.md` 2.4 and 2.6 |
 | 9.5 specification | P1b supplies frozen `Cp1252` and `IsMapped`. Engine byte boundaries remain during transition. Strict JSON refusal does not change font/input normalization | private `data/rewrite/9.5-spec-draft.md` 2.7, product `strings.md` 2.7 |
 | Mods design | PFS stays milestone 10 work. Reference annotations, qualified names, declared rules dependencies, strict export and the API exit prerequisite apply | private `data/rewrite/mods-design.md` 1, 4.3, 5.1 to 5.3 and 7 |
@@ -1219,7 +1219,7 @@ pins the rule to exactly one occurrence in that file.
 - The transition cost (6.1). Every own load and save passes through the Delphi image:
   property numbers, widths, call order, record layouts and the stream code stay the engine's
   protocol, every `rwData` record stays exact hex, and conversion adds the time and memory of
-section 9.3.
+  section 9.3.
   A persisted array keeps its original size until an adapter of X28 gives its extra entries a
   port-features property.
 - The exit (6.3). A typed persistence tree with a direct document backend, the legacy codecs as
