@@ -1216,5 +1216,12 @@ internal static class ClassRegistry
         TMapEvents.EventRenderers.Add(EventView.ItemsFound, static (events, log, mode, done) => aowMapEventsUnit.ShowItemsFound(E3EventDialogsUnit.ItemsFoundDlg, (TItemExplorationSiteEventLog)log, done));
         TMapEvents.EventRenderers.Add(EventView.CityProduction, static (events, log, mode, done) => AoWCityScreenUnit.CityScreen.ProductionEvent((TCityProductionEventLog)log));
         TMapEvents.EventRenderers.Add(EventView.ProductionPlace, static (events, log, mode, done) => AoWProdScreenUnit.ProductionScreen.ProductionEvent((TProductionPlaceEventLog)log));
+        ProductionOrder.Register(ProduceUnit.Kind, static (id, parameter, groupId) => new ProduceUnit(parameter, groupId));
+        ProductionOrder.Register(ResearchSpell.Kind, static (id, parameter, groupId) => new ResearchSpell(parameter));
+        ProductionOrder.Register(Trade.Kind, static (id, parameter, groupId) => new Trade(parameter));
+        ProductionOrder.Register(Upgrade.Kind, static (id, parameter, groupId) => new Upgrade());
+        ProductionOrder.Register(Fortify.Kind, static (id, parameter, groupId) => new Fortify());
+        ProductionOrder.Register(Migrate.Kind, static (id, parameter, groupId) => new Migrate(parameter));
+        ProductionOrder.Register(Loot.Kind, static (id, parameter, groupId) => new Loot());
     }
 }

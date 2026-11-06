@@ -816,7 +816,7 @@ public partial class TCityScreen : TDataModule
                 ActiveActionTurnsBar.Visible = false;
             }
 
-            var activityImage = ActivityImage(FCity.GetActiveAction());
+            var activityImage = FCity.GetActiveOrder().ActivityImage(FCity);
             CurrentActionImage.CurrentImage = activityImage;
         }
         else
@@ -829,7 +829,7 @@ public partial class TCityScreen : TDataModule
                 ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurns.TextColor = 6783862;
                 ActiveActionTurnsBar.Visible = false;
-                var activityImage = ActivityImage(FCity.GetActiveAction());
+                var activityImage = ActivityImage(TCityAction.caNone);
                 CurrentActionImage.CurrentImage = activityImage;
             }
             else
@@ -842,7 +842,7 @@ public partial class TCityScreen : TDataModule
                 ActiveActionTurns.Text = Reason;
                 ActiveActionTurns.TextColor = 255;
                 ActiveActionTurnsBar.Visible = false;
-                var activityImage = ActivityImage(ProductionIDToCityAction(FCity.FProduction.FQueue.GetItem(0).FProductionID));
+                var activityImage = FCity.FProduction.FQueue.GetItem(0).Order.ActivityImage(FCity);
                 CurrentActionImage.CurrentImage = activityImage;
             }
         }
@@ -1368,10 +1368,11 @@ public partial class TCityScreen : TDataModule
             if (QueueLB.Selected != -1)
             {
                 FQueueIndex = QueueLB.Selected;
-                Action = ProductionIDToCityAction(FCity.FProduction.FQueue.GetItem(FQueueIndex).FProductionID);
-                if (Action == TCityAction.caProduce)
+                var order = FCity.FProduction.FQueue.GetItem(FQueueIndex).Order;
+                Action = order.CityAction;
+                if (order is ProduceUnit produce)
                 {
-                    FProductionIndex = FCity.FProduction.FQueue.GetItem(FQueueIndex).FParameter;
+                    FProductionIndex = produce.Index;
                     bool condition = FProductionIndex < 0;
                     if (!condition)
                     {
@@ -1432,31 +1433,25 @@ public partial class TCityScreen : TDataModule
         TUnit U;
         if (FCity.FProduction.FQueue.GetCount() != 0)
         {
-            switch (FCity.FProduction.FQueue.GetItem(0).FProductionID)
+            if (FCity.FProduction.FQueue.GetItem(0).Order.UnitProductionIndex is int Index)
             {
-                case 1:
-                case 2:
-                    R = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
-                    var queueParameter = FCity.FProduction.FQueue.GetItem(0);
-                    U = FCity.FProduction.CreateUnitProduction(queueParameter.FParameter);
-                    if (U != null)
+                R = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+                U = FCity.FProduction.CreateUnitProduction(Index);
+                if (U != null)
+                {
+                    Info.Direction = 3;
+                    Info.Overlays = TSet<TUnitOverlayModesElement>.Of();
+                    Info.Animation = 0;
+                    Info.Frame = 0;
+                    Info.Looped = false;
+                    if (!FCity.FProduction.FUnitProductions.GetItem(Index).FResearched)
                     {
-                        Info.Direction = 3;
-                        Info.Overlays = TSet<TUnitOverlayModesElement>.Of();
-                        Info.Animation = 0;
-                        Info.Frame = 0;
-                        Info.Looped = false;
-                        var queue = FCity.FProduction.FQueue.GetItem(0);
-                        if (!FCity.FProduction.FUnitProductions.GetItem(queue.FParameter).FResearched)
-                        {
-                            Info.Direction = 5;
-                        }
-
-                        U.ShowEx(R.Left - 8, R.Top - 5, SD, Info);
-                        U.Release();
+                        Info.Direction = 5;
                     }
 
-                    break;
+                    U.ShowEx(R.Left - 8, R.Top - 5, SD, Info);
+                    U.Release();
+                }
             }
         }
     }
