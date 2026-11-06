@@ -26568,6 +26568,9 @@ public partial class THeroJoinEventLog : TJoinEventLog
     }
 
     // Hero.PAS:132
+    // The AI reaches this through THeroEmergeEventLog.ExecuteAI(), not through the virtual
+    // ExecuteAI(sbyte) of 9.6-3, which this class leaves as the no-op (AI.pas:1626 never
+    // dispatched on it).
     public bool ExecuteAI()
     {
         THero Hero;

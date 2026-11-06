@@ -77,7 +77,9 @@ public partial class TMapEvents : TDataModule
     // the original renderers.
     public static readonly Catalog<StructureView, Action<TMapEvents, TStructure>> StructureScreens = new("map structure screen");
     // Renderers of the event log views (EventLog.Views.cs), called with the screen, the event, the
-    // immediate mode and the done callback. ClassRegistry adds the original renderers.
+    // immediate mode and the done callback. The original renderers ignore the mode (the three that
+    // take it name it Unused), it is there for a renderer that wants it. ClassRegistry adds the
+    // original renderers.
     public static readonly Catalog<EventView, Action<TMapEvents, TEventLog, bool, TExecuteDoneEvent>> EventRenderers = new("map event view");
     // aowMapEvents.pas:93
     public void TheMapActivateAbility(TActivateAbilityInfo Request)
