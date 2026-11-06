@@ -56,6 +56,8 @@ public sealed class GraphicsConstructionTests
                 Assert.False(image.ReloadingEnabled);
                 Assert.Equal(TLoadMode.lmLoadOnDemand, image.LoadMode);
                 Assert.Equal(TBlendMode.bmAlpha, image.ShowInfo.BlendMode);
+                Assert.False(image.ShowInfo.Blend.HasValue);
+                Assert.Equal(0, image.ShowInfo.Blend.Percentage);
                 Assert.Equal(type.Name.StartsWith("TTransparent", StringComparison.Ordinal) ? TShowMode.smTransparent : TShowMode.smOpaque, image.ShowInfo.ShowMode);
                 Assert.Equal(0, image.Width);
                 Assert.Equal(0, image.Height);
