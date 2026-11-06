@@ -41,14 +41,13 @@ public partial class TCombatPredictorUnit
 
 public partial class TWallCrushingAbility
 {
+    // AoWAb.PAS:2081
     public override bool fcExecuteCombatCommand(TCombatObject source, TFastCombatCommand command)
     {
         var target = command.FTarget;
         if (target.GetEnabled())
         {
-            // The Boolean argument holds byte six. Generate receives that same signed byte.
-            var action = new TDamageCA(null);
-            action.Generate(source, target, 6, 6, TSet<TDamageType>.Of(TDamageType.dtWall));
+            var action = AoWEUnit.CreateDamageCA(source, target, 6, 6, TSet<TDamageType>.Of(TDamageType.dtWall));
             source.FCombat.ExecuteCombatAction(action);
             action.Release();
         }

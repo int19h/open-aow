@@ -78922,11 +78922,11 @@ public static partial class AoWEUnit
     }
 
     // Combat2.pas:867
-    public static TDamageCA CreateDamageCA(TCombatObject Source, TCombatObject Target, int Damage, bool Defensive, TSet<TDamageType> DamageTypes)
+    public static TDamageCA CreateDamageCA(TCombatObject Source, TCombatObject Target, int Attack, int Damage, TSet<TDamageType> DamageTypes)
     {
         TDamageCA Action;
         Action = new TDamageCA(null);
-        Action.Generate(Source, Target, (sbyte)Damage, (sbyte)(Defensive ? 1 : 0), DamageTypes);
+        Action.Generate(Source, Target, (sbyte)Attack, (sbyte)Damage, DamageTypes);
         return Action;
     }
 

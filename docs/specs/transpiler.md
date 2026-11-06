@@ -981,10 +981,13 @@ Each entry names the rule and the probe (section 11) that proves it.
    width for zero. The mapping: `Boolean(n)` becomes `(byte)(n) != 0`, `LongBool(n)` becomes
    `(n) != 0`, and `Ord(True)` is 1. Where the value a cast produces can reach a comparison with
    `True` or `False` or a `not`, the C# `bool` loses the byte: the source has 4 integer casts to a
-   Boolean type in the transpile set, and two of them are of that kind. `Boolean(6)` passed to
-   `CreateDamageCA` (`AoWAb.PAS:2089`) and `Boolean(PChar(Self)[$158]) = True` (`AoWMemo.pas:546`)
-   get overrides that keep Delphi's comparison (`== 1` on the byte), and the report lists every
-   cast to a Boolean type with the uses of its value.
+   Boolean type in the transpile set, and two of them carry a byte the `bool` loses. `Boolean(6)`
+   passed to `CreateDamageCA` (`AoWAb.PAS:2089`) is the damage byte 6 under a mislabeled recovered
+   parameter. The port declares that parameter `int Damage`, and the
+   `TWallCrushingAbility.fcExecuteCombatCommand` override passes 6 directly to `CreateDamageCA`.
+   `Boolean(PChar(Self)[$158]) = True` (`AoWMemo.pas:546`) gets an override that keeps Delphi's
+   comparison (`== 1` on the byte). The report lists every cast to a Boolean type with the uses of
+   its value.
 10. A hard cast between classes checks nothing in Delphi. Section 5.7.
 11. Enumerations are one byte, and a set is a bit per ordinal. `Byte(Set)` reads the mask. Probe
     `sets`.
