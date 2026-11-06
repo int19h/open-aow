@@ -384,7 +384,7 @@ for the converter boundary.
 | instance id sequence | `MsgArg` allocates no id and `THashItem.Key` keeps `IntOrRef`. `oracle`, and `frames` through the animation phase that reads `InstanceId` |
 | which dialog, panel or action a kind gets | tests that the view virtuals return, for every concrete kind and every state the cascades test, the view of a table reviewed against today's cascades, and that `CombatMapName` equals the old switch, copied into the test, for every structure class in the `EClass` table |
 | message delivery, `Format` argument order | code paths unchanged. `oracle`, `scenarios`, probes `format` and `strings` |
-| frame pixels | `frames` 100 of 100, `language-frames` 6 of 6, `scenarios` 92 frames |
+| frame pixels | `frames` 100 of 100, `language-frames` 7 of 7, `scenarios` 92 frames |
 | allocation profile | `pacing` (300 frames at 33 ms) |
 
 The 13 layers of `tools/check.py` keep their counts. A count that moves is a finding, not a pass.
