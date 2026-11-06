@@ -327,12 +327,13 @@ draws white, a `TShadow` darkens (section 5.2).
 
 ### 6.5 Show dispatch
 
-`TLibraryImage.Show(X, Y, SD)` dispatches on the image's `ShowInfo`: `smOpaque` calls
-`ShowOpaque`, `smTransparent` calls `ShowTransparent`, `smBlended` calls `ShowBlended` with the
-table selected by `BlendMode` and `BlendPercentage` (section 4), or the user table. `ShowEx` takes
-the show info as a parameter but reads the blend mode from the image's own `FShowInfo`, a quirk
-of the original kept by transpilation. `ShowStretched` exists for pictures only. `ShowClipped` is
-`Show`: every blitter clips. Per class:
+`TLibraryImage.Show(X, Y, SD)` dispatches on the image's `ShowInfo`: `smOpaque` calls `ShowOpaque`,
+`smTransparent` calls `ShowTransparent`, `smBlended` calls `ShowBlended` with the table selected by
+`BlendMode` and `BlendPercentage` (section 4), or the user table. In the port the percentage and the
+user table are the two cases of the union `TShowInfo.Blend` (`unions-and-kinds.md` 3.3). `ShowEx`
+takes the show info as a parameter but reads the blend mode from the image's own `FShowInfo`, a
+quirk of the original kept by transpilation. `ShowStretched` exists for pictures only. `ShowClipped`
+is `Show`: every blitter clips. Per class:
 
 | class | opaque | transparent | blended |
 |---|---|---|---|

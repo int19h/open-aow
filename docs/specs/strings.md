@@ -15,7 +15,10 @@ Brief 9.5-2 read this document against the code the same day and corrected what 
 section 1 stays the survey before the pass, sections 2 to 4 name the code after it, and section 8
 holds the result. The pass's record (the rule counts, every hand fix by member, the Layout
 comparison, the test mapping and every `Cp1252` call site by boundary of 2.4) is
-`data/rewrite/strings.md` in the private repository.
+`data/rewrite/strings.md` in the private repository. Milestone 9.6 then replaced `TVarRec` with the
+union `FormatArg` (`rtl-shim.md` 1.6) and moved the message and blend slots off `IntOrRef`
+(`unions-and-kinds.md`), so where this document names `TVarRec` or those slots it names the code as
+9.5 left it.
 
 ## 1. Where the tree stands
 

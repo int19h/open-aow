@@ -1223,5 +1223,15 @@ internal static class ClassRegistry
         ProductionOrder.Register(Fortify.Kind, static (id, parameter, groupId) => new Fortify());
         ProductionOrder.Register(Migrate.Kind, static (id, parameter, groupId) => new Migrate(parameter));
         ProductionOrder.Register(Loot.Kind, static (id, parameter, groupId) => new Loot());
+        DiplomaticProposal.Register(DeclareWar.Kind, static (gold, mana) => new DeclareWar());
+        DiplomaticProposal.Register(OfferPeace.Kind, static (gold, mana) => new OfferPeace(gold, mana));
+        DiplomaticProposal.Register(ProposeAlliance.Kind, static (gold, mana) => new ProposeAlliance(gold, mana));
+        DiplomaticProposal.Register(SendMessage.Kind, static (gold, mana) => new SendMessage());
+        DiplomaticProposal.Register(ThreatenToAttack.Kind, static (gold, mana) => new ThreatenToAttack());
+        DiplomaticProposal.Register(MakeTribute.Kind, static (gold, mana) => new MakeTribute(gold, mana));
+        DiplomaticProposal.Register(BreakAlliance.Kind, static (gold, mana) => new BreakAlliance());
+        DiplomaticProposal.Register(SendMessageAsY.Kind, static (gold, mana) => new SendMessageAsY());
+        DiplomaticProposal.Register(BreakAllianceWithY.Kind, static (gold, mana) => new BreakAllianceWithY(gold, mana));
+        DiplomaticProposal.Register(DeclareWarToY.Kind, static (gold, mana) => new DeclareWarToY(gold, mana));
     }
 }

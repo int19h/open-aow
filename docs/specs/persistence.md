@@ -226,6 +226,35 @@ shipped maps and campaigns load through them, and nothing requires that the orig
 the port wrote. The explicit-layout records of `transpiler.md` 4.3 exist for `rwData` in the first
 stage and become plain `record struct` types with explicit serialization when the format moves.
 
+Milestone 9.6 (`unions-and-kinds.md` section 4) changed the model of two persisted classes and no
+byte of a file:
+
+- The engine's message slots (`MsgArg`, `rtl-shim.md` 1.5) and the arguments of `Format`
+  (`FormatArg`, 1.6) are not persisted. No message record reaches a stream or a packet.
+- `TProductionItem` holds a `ProductionOrder` in place of its production id, parameter and group id,
+  and `TDiplomaticAction` holds a `DiplomaticProposal` in place of its action type, gold, mana and
+  message. Each `ReadWrite` writes the same bytes as before, with the same calls, property ids and
+  order (20 to 22 for the production item, 20 to 31 for the diplomatic action, the action type as
+  the one-byte `rwData` at 25) and the zero rule of 1.4: it takes the stored values from the record
+  (`ToFields`, and the proposal's message) before the calls and, when reading, builds the record
+  with the registry's `FromFields` after them. Saves, maps, `TProductionTE` and
+  `TDiplomaticActionTE` reach both classes through the same `ReadWrite`.
+- An id that no kind registered reads as `UnknownOrder` or `UnknownProposal`, which writes the
+  stored values back unchanged.
+- A registered kind holds only its own fields and drops a value that a file holds in a field the
+  kind does not use, so that value writes back as 0 and the zero rule omits it (decision X20 of
+  `data/rewrite/roadmap.md`). The 9.6-0 census (`data/rewrite/9.6-census.md`) found no such value
+  in the 401 files it read. Two values outside the kinds' own fields stay in the common part:
+  `FOtherPlayer`, which the census finds written for every kind (255 for the kinds that name no
+  other player), stays a field of `TDiplomaticAction`, and the message is a member of the
+  `DiplomaticProposal` base.
+- `TShowInfo` keeps its 8-byte ILB image (`unions-and-kinds.md` 3.3). ILB files are game data,
+  outside the save and map formats.
+- The converter's mappings for `TProductionItem` and `TDiplomaticAction` (`own-formats.md` 3.1),
+  which call `ToFields` and the registries' `FromFields`, arrive with brief 9.7-3, which adds them.
+  The 9.6 briefs ran before it merged and left the converter's schema-driven reading of these
+  properties as it was.
+
 ## 6. Open points
 
 1. Whether the AoWModel units can be transpiled as they are or need a small adapter for the
