@@ -131,6 +131,23 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         SDL_GetMouseState(&x, &y);
         return Map(x, y);
     }
+    /// <summary>Waits for the vertical blank in `Present`, so a frame never tears. The game's own
+    /// limiter keeps its 33 ms target (graphics.md 7.2). A driver without vsync leaves it off.</summary>
+    public bool VSync
+    {
+        get
+        {
+            OnThread();
+            int interval;
+            Check(SDL_GetRenderVSync(renderer, &interval));
+            return interval != 0;
+        }
+        set
+        {
+            OnThread();
+            if (!SDL_SetRenderVSync(renderer, value ? 1 : 0)) Console.Error.WriteLine("SDL: vsync unavailable: " + SDL_GetError());
+        }
+    }
     public void ShowSystemCursor(bool show)
     {
         OnThread();

@@ -36,7 +36,7 @@ internal static class Program
                     Value(args, "--out") ?? throw new ArgumentException("--fixture requires --out PATH"));
             if (args.Contains("--help"))
             {
-                Console.WriteLine("OpenAoW [--game-root PATH] [--user-data PATH | --single-directory PATH] [--scale N] [--fullscreen] [--mute] [--smoke-test] [--frames N] [--file-log PATH]");
+                Console.WriteLine("OpenAoW [--game-root PATH] [--user-data PATH | --single-directory PATH] [--scale N] [--fullscreen] [--no-vsync] [--mute] [--smoke-test] [--frames N] [--file-log PATH]");
                 Console.WriteLine("OpenAoW --verify [--game-root PATH] [--source-root RECOVERED_DELPHI_DIRECTORY]");
                 Console.WriteLine("OpenAoW --verify-sdl");
                 Console.WriteLine("OpenAoW --fixture NAME --fixtures PATH --out PATH [--game-root PATH]");
@@ -49,7 +49,7 @@ internal static class Program
             int scale = int.Parse(Value(args, "--scale") ?? "1");
             int frames = int.Parse(Value(args, "--frames") ?? "0");
             if (frames < 0) throw new ArgumentOutOfRangeException(nameof(frames));
-            using var host = new SdlHost(root, single ?? Value(args, "--user-data"), scale, args.Contains("--fullscreen") ? true : null);
+            using var host = new SdlHost(root, single ?? Value(args, "--user-data"), scale, args.Contains("--fullscreen") ? true : null, vsync: args.Contains("--no-vsync") ? false : null);
             Rtl.RtlUnit.InstallHost(host);
             using var form = TMainForm.Create(host.Display, args.FirstOrDefault(a => Path.GetExtension(a).ToLowerInvariant() is ".asg" or ".acg") ?? "", args.Contains("--mute"), audioOutput: true);
             form.Run(frames);

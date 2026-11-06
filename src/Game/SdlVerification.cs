@@ -14,6 +14,9 @@ internal static unsafe class SdlVerification
         for (int iteration = 0; iteration < 2; iteration++)
         {
             using var display = new SdlDisplayHost("OpenAoW verification",hidden:true);
+            display.VSync = true;
+            display.VSync = false;
+            if (display.VSync) throw new InvalidOperationException("Vsync stayed on.");
             var sink = new Sink();
             display.PumpEvents(sink);
             sink.Reset();
@@ -53,7 +56,7 @@ internal static unsafe class SdlVerification
             }).GetAwaiter().GetResult();
             if (!rejected) throw new InvalidOperationException("The display accepted a call from another thread.");
         }
-        Console.WriteLine("SDL PASS: two window lifecycles, positive and negative pitch, texture resize, key repeat, focus, close refusal and acceptance, thread ownership");
+        Console.WriteLine("SDL PASS: two window lifecycles, vsync switch, positive and negative pitch, texture resize, key repeat, focus, close refusal and acceptance, thread ownership");
         return 0;
     }
     private static void Push(SDL_Event ev)
