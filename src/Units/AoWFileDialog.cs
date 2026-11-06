@@ -130,17 +130,20 @@ public partial class TFileDlgWindow : TDataModule
     }
 
     // AoWFileDialog.pas:137
+    // The current game closes only after the file passes its preflight, so a refused file leaves
+    // it intact (own-formats.md 2.7). AoWWinMan.LoadCampaign closes the map after its preflight and
+    // TAoWEngine.LoadCampaign closes the campaign. The original closed both first.
     public void LoadSelectedGame(string Name)
     {
         TAoWHSMap Map = default;
-        AoWEngine.CloseCampaign();
-        AoWEngine.CloseHSM(null);
         if (LowerCase(ExtractFileExt(Name)) == ".acg")
         {
             if (!AoWEngine.FDemo)
             {
+                // A refused campaign keeps the current map, which is not started again.
+                var Previous = AoWHSMap;
                 LoadCampaign(General, Name);
-                if (AoWHSMap != null)
+                if (AoWHSMap != null && AoWHSMap != Previous)
                 {
                     StartGame(General);
                 }
@@ -148,10 +151,11 @@ public partial class TFileDlgWindow : TDataModule
         }
         else
         {
-            AoWEngine.CloseCampaign();
-            Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(Name);
+            Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(Name, Aow.Formats.GameProfile.WorldMap);
             if (Map != null)
             {
+                AoWEngine.CloseCampaign();
+                AoWEngine.CloseHSM(null);
                 try
                 {
                     if (Map.FConnectionType != TPlayerConnectionType.pcNetwork)
@@ -479,7 +483,7 @@ public partial class TFileDlgWindow : TDataModule
             SFileName.Text = item;
             if (LowerCase(ExtractFileExt(SFileName.Text)) != ".acg")
             {
-                Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(SFileName.Text);
+                Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(SFileName.Text, Aow.Formats.GameProfile.WorldMap);
                 if (Map != null)
                 {
                     var count = Map.FPlayers.GetCount();

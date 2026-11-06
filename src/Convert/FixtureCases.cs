@@ -363,6 +363,9 @@ public static partial class Fixtures
         yield return new("legacy", "Valley01 sprite keeps its legacy shape", () =>
             RoundTrip(Game("Scenario/Campaign/Valley01.CSM"), "world-hsm", "campaign-map",
                 d => GameFiles.Write(d).AsSpan().IndexOf("LegacyProperty12"u8) >= 0 ? null : "the legacy shape is missing"));
+
+        // Case mappings of the production and diplomatic kinds.
+        foreach (var kindCase in KindCases()) yield return kindCase;
     }
 
     private static JsonArray FirstFields(JsonObject document)

@@ -626,7 +626,7 @@ public partial class TSetupControl : TComponent
                 FileName = AoWEngine.StartupDirectory + FSettings.FMapName;
                 if (FileExists(FileName))
                 {
-                    if (GetFileCRC32(FileName) == FSettings.FMapCRC)
+                    if (FileBoundary.ImageCrc32(FileName, Aow.Formats.GameProfile.WorldMap) == FSettings.FMapCRC)
                     {
                         Validation = TMapValidationInfo.mviValid;
                     }
@@ -832,8 +832,9 @@ public partial class TSetupControl : TComponent
 
         if (RemoteID != 0)
         {
-            Stream = new TMemoryStream();
-            Stream.LoadFromFile(AoWEngine.StartupDirectory + FSettings.FMapName);
+            // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
+            // reads, for an own document as for an original (own-formats.md 4.1).
+            Stream = Aow.Units.Engine.TEngine.ImageStream(FileBoundary.LoadOrRaise(AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
             if (FOnSendMap != null)
             {
                 var size = Stream.Size;
@@ -1865,7 +1866,7 @@ public partial class TSetupControl : TComponent
         bool FirstHuman = default;
         TPlayerSetupSettings Settings = default;
         TAoWHSMap Preview;
-        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + FileName);
+        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
         if (GetHost() && Preview != null && (!AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != TPlayerConnectionType.pcEmail)
         {
             AoWEngine.InitializeHSSet(AoWEngine.StartupDirectory + Preview.HSSFileName, null);
@@ -1874,7 +1875,8 @@ public partial class TSetupControl : TComponent
             FSettings.FMapName = FileName;
             FSettings.FMapDay = Preview.FDay;
             FSettings.FFileName = Preview.FMapName;
-            var fileCRC = GetFileCRC32(AoWEngine.StartupDirectory + FileName);
+            // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
+            var fileCRC = FileBoundary.ImageCrc32(AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
             FSettings.FMapCRC = fileCRC;
             FSettings.FSetCRC = AoWHSSet.FHSSCRC;
             FSettings.FRandomSeed = RandSeed;

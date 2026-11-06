@@ -29,6 +29,70 @@ public sealed class ClassRegistryTests
         CheckFamily(typeof(IImageFileClass), types, ImageFileClass.All.Select(c => c.Type));
     }
 
+    // own-formats.md 3.1: the third block registers one format mapping per persisted class that
+    // needs unit code, exactly the classes versions.json names for the current version. Every
+    // rule names members of its schema class. The kind classes keep their flat mapping until
+    // 9.6-6 and 9.6-7 map their cases.
+    [Fact]
+    public void EverySchemaClassRequiringAUnitMappingHasItsLine()
+    {
+        var schema = Aow.Formats.GameFiles.Schema;
+        Assert.Equal(Aow.Formats.Schema.FormatVersions.UnitMappings.Order(StringComparer.Ordinal), FormatMapping.All.Keys.Order(StringComparer.Ordinal));
+        foreach (var (name, rules) in FormatMapping.All)
+        {
+            var cls = schema.Find(name);
+            Assert.True(cls is not null, "The format mapping names no schema class: " + name);
+            Assert.NotEmpty(rules);
+            foreach (var member in rules.SelectMany(r => r.Members))
+                Assert.True(member == "Children" ? cls.KeepsChildren : cls.PropertyByName(member) is not null, $"{name} has no member {member}.");
+        }
+        foreach (var name in Aow.Formats.Schema.FormatVersions.FlatMappings)
+        {
+            Assert.NotNull(schema.Find(name));
+            Assert.False(FormatMapping.All.ContainsKey(name), name + " keeps its flat mapping in version 1.");
+        }
+        // A schema class with a case table has its line, and its line gives the converter the
+        // kind family's FromFields and ToFields.
+        foreach (var cls in schema.Classes.Where(c => c.Mapping is not null))
+        {
+            Assert.Contains(cls.Name, Aow.Formats.Schema.FormatVersions.UnitMappings);
+            Assert.Contains(FormatMapping.All[cls.Name], r => r is KindCases);
+            Assert.Same(FormatMapping.All[cls.Name].OfType<KindCases>().Single(), Aow.Formats.CaseMappings.Find(cls.Name));
+        }
+    }
+
+    // own-formats.md 2.2: the case tables name the cases by the keys the 9.6-6 and 9.6-7 kinds
+    // register, and every case field is a value its kind writes back.
+    [Fact]
+    public void CaseTablesMatchTheRegisteredKinds()
+    {
+        var schema = Aow.Formats.GameFiles.Schema;
+        var production = schema.Get("TProductionItem").Mapping!;
+        Assert.Equal(Enumerable.Range(0, 256).Where(ProductionOrder.IsRegistered).Select(k => (long)k), production.Cases.Select(c => c.Key!.Value));
+        foreach (var c in production.Cases)
+        {
+            var order = ProductionOrder.FromFields((int)c.Key!.Value, 7, 3);
+            Assert.Equal(c.Name, order.GetType().Name);
+            var (id, parameter, groupId) = order.ToFields();
+            Assert.Equal(c.Key, id);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), parameter == 7);
+            Assert.Equal(c.Fields.Any(f => f.Member == "GroupID"), groupId == 3);
+        }
+        var diplomacy = schema.Get("TDiplomaticAction").Mapping!;
+        Assert.Equal(Enumerable.Range(0, 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
+        foreach (var c in diplomacy.Cases)
+        {
+            var proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, 70, 30);
+            Assert.Equal(c.Name, proposal.GetType().Name);
+            var (kind, gold, mana) = proposal.ToFields();
+            Assert.Equal(c.Key, kind);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Gold"), gold == 70);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Mana"), mana == 30);
+        }
+        Assert.IsType<UnknownOrder>(ProductionOrder.FromFields(99, 0, 0));
+        Assert.IsType<UnknownProposal>(DiplomaticProposal.FromFields(12, 0, 0));
+    }
+
     public static IEnumerable<object?[]> Classes => EClass.All
         .Where(c => c.Type.Assembly == typeof(TEObject).Assembly).Select(c => new object?[] { c.Type, IncompleteCleanup.GetValueOrDefault(c.Type) });
 

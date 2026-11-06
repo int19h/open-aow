@@ -44,6 +44,19 @@ public abstract class FileProfile
     /// <summary>Exports a document's $container and root to the original file.</summary>
     internal abstract byte[] Export(JsonObject container, JsonValue root, EncodeContext ctx);
 
+    /// <summary>
+    /// The engine image of a document (own-formats.md 3.1 and 4.1): the bytes the engine's stream
+    /// code reads once the container is undone. It is a separate operation from the original
+    /// export. For an unwrapped profile the image is the original file.
+    /// </summary>
+    internal virtual byte[] ExportImage(JsonObject container, JsonValue root, EncodeContext ctx) => Export(container, root, ctx);
+
+    /// <summary>Imports an engine-written image. The game writes new images in the profile's game container.</summary>
+    internal virtual (JsonObject Container, JsonObject Root) ImportImage(byte[] image, ImportSession session) => Import(image, session);
+
+    /// <summary>The bytes G1 compares for the export of a document, built from its engine image and container.</summary>
+    internal virtual byte[] ComparableImage(JsonObject container, byte[] image) => image;
+
     internal DecodeContext Context(byte[] data, ImportSession session, bool inflated) =>
         new(data, session.Schema, Engine, Name, session.File, session.Limits, session.Counts) { Nested = session.Nested, Inflated = inflated };
 
@@ -213,6 +226,29 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             container = NewContainer("none", null);
             payload = file;
         }
+        return ImportPayload(payload, container, inflated, session);
+    }
+
+    /// <summary>The game writes its map and save images in CFS level 2 (TCompressStream.SaveToFile).</summary>
+    public const int GameLevel = 2;
+
+    internal override (JsonObject Container, JsonObject Root) ImportImage(byte[] image, ImportSession session) =>
+        ImportPayload(image, NewContainer("cfs", GameLevel), true, session);
+
+    internal override byte[] ComparableImage(JsonObject container, byte[] image)
+    {
+        if (container["compression"] is not JsonString { Value: "cfs" } || container["level"] is not JsonInteger level) return image;
+        var result = new byte[5 + image.Length];
+        Cfs.Magic.CopyTo(result);
+        result[4] = (byte)level.Value;
+        image.CopyTo(result, 5);
+        return result;
+    }
+
+    internal override byte[] ExportImage(JsonObject container, JsonValue root, EncodeContext ctx) => ExportPayload(container, root, ctx, out _, out _);
+
+    private (JsonObject Container, JsonObject Root) ImportPayload(byte[] payload, JsonObject container, bool inflated, ImportSession session)
+    {
         var ctx = Context(payload, session, inflated);
         if (payload.Length < 16) throw ctx.Fail(Codes.Truncated, "The HSM header is truncated.", 0);
         int size = ctx.Int32(0);

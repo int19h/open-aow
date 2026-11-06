@@ -38,12 +38,14 @@ internal static class Program
         string? error = null, input = null;
         string movementSpeed = "normal";
         StreamWriter? trace = null;
+        StreamWriter? fileLog = null;
         RandomTrace? randomTrace = null;
         try
         {
             string root = Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders";
             string? settings = null;
             string? randomTracePath = null;
+            string? fileLogPath = null;
             for (int i = 0; i < args.Length; i++)
             {
                 string Value() => ++i < args.Length ? args[i] : throw new ArgumentException("missing option value");
@@ -69,6 +71,7 @@ internal static class Program
                     case "--global-spell": globalSpell = int.Parse(Value()); break;
                     case "--trace-random": randomTracePath = Path.GetFullPath(Value()); break;
                     case "--trace-movement": traceMovement = true; break;
+                    case "--file-log": fileLogPath = Path.GetFullPath(Value()); break;
                     case "--animation-fps": animationFps = int.Parse(Value()); break;
                     case "--viewport":
                         var dimensions = Value().Split('x');
@@ -78,7 +81,7 @@ internal static class Program
                     default: throw new ArgumentException("unknown option: " + args[i]);
                 }
             }
-            if (input is null || output is null || turns < 0) throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical]");
+            if (input is null || output is null || turns < 0) throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical] [--file-log <path>]");
             Directory.CreateDirectory(output);
             if (Directory.EnumerateFiles(output, "day-*.asg").Any()) throw new IOException("output already contains day saves");
             writeManifest = true;
@@ -92,6 +95,12 @@ internal static class Program
             };
             var host = new HeadlessHost(root, output, settings, movementSpeed, input);
             Shim.InstallHost(host);
+            if (fileLogPath is not null)
+            {
+                // own-formats.md 4.2: every open and write at the file boundary, refusals included.
+                var log = fileLog = new StreamWriter(fileLogPath, false, new System.Text.UTF8Encoding(false)) { NewLine = "\n" };
+                FileBoundary.Log = record => { log.WriteLine(record.ToJson()); log.Flush(); };
+            }
             if (randomTracePath is not null)
             {
                 randomTrace = new(randomTracePath, () => frames);
@@ -106,8 +115,9 @@ internal static class Program
             Aow.Units.Sound.NullSoundSystem.Install();
             AoWTCRegUnit.RegisterTacticalCombat(Game.AoWEngine);
             gameplay = true;
-            Game.AoWEngine.LoadHSM(input, false, null!);
-            if (Game.AoWEngine.HSMap is not TAoWHSMap map) throw new InvalidDataException("engine load failed");
+            Game.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
+            if (Game.AoWEngine.HSMap is not TAoWHSMap map)
+                throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 0, 0);
             Shim.RandSeed = seed;
             Shim.SuppressRandomize = true;
@@ -200,6 +210,8 @@ internal static class Program
                     first_day = firstDay, last_day = day, frames, saves, reached_todos = todos, gameplay_exceptions = runtimeErrors, error
                 }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
             trace?.Flush();
+            FileBoundary.Log = null;
+            fileLog?.Dispose();
             Shim.RandomTrace = null;
             Shim.TraceRound = null;
             HeadlessHooks.BeforeMove = null;

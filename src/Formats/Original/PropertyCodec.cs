@@ -323,6 +323,9 @@ internal sealed class StringsExCodec : StringsCodec
 /// <summary>rwData and opaque callback payloads: exact lowercase hexadecimal bytes.</summary>
 internal sealed class DataCodec(int? size) : PropertyCodec
 {
+    /// <summary>The fixed record size, or null.</summary>
+    internal int? Size => size;
+
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
         if (size is int n && end - start != n) throw Mismatch(ctx, start, site, $"A record of {n} bytes is stored in {end - start} bytes.");

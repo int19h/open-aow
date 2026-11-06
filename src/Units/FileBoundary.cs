@@ -1,0 +1,303 @@
+#nullable enable
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using Aow.Formats;
+using Aow.Rtl;
+
+namespace Aow.Units;
+
+/// <summary>
+/// The game's file boundary for the in-scope profiles (own-formats.md 4.1 and 4.2). Every
+/// in-scope engine routine reads and writes through it with an explicit profile. Reads go
+/// through the host's file service and run the whole preflight before the engine touches the
+/// current game. Writes convert the engine-written image, validate and serialize it, write a
+/// sibling temporary through the file service and replace the old file atomically.
+/// </summary>
+public static class FileBoundary
+{
+    /// <summary>The host's file log (--file-log). Null records nothing.</summary>
+    public static Action<FileLogRecord>? Log { get; set; }
+
+    /// <summary>The last refused open or write, for the caller that reports it.</summary>
+    public static FileLogRecord? LastFailure { get; private set; }
+
+    /// <summary>
+    /// Reads a file and prepares its engine image. A refusal returns null, is logged and leaves
+    /// the current game and the file untouched.
+    /// </summary>
+    public static byte[]? Load(string fileName, GameProfile profile, string operation = "open")
+    {
+        var files = RtlUnit.Files;
+        byte[] bytes;
+        try
+        {
+            bytes = ReadAll(files, fileName);
+        }
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or EStreamError)
+        {
+            var report = new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, "The file cannot be read: " + e.Message) { File = fileName } };
+            Record(files, fileName, report);
+            return null;
+        }
+        string layer = LayerOf(files, fileName);
+        // Previews and listings reuse a validated image of the same bytes (own-formats.md 4.3).
+        // A final open always validates the actual bytes.
+        bool preview = operation != "open";
+        var key = preview ? new PreviewKey(layer, fileName, profile.Name, OwnFormat.CurrentVersion, Convert.ToHexStringLower(SHA256.HashData(bytes))) : default;
+        if (preview && Previews.TryGet(key, out var cached))
+        {
+            Record(new FileLogRecord(fileName, layer, cached.Report, cached: true));
+            return cached.Image;
+        }
+        var result = GameBoundary.PrepareLoad(bytes, fileName, profile, FormatMapping.Validators, operation);
+        Record(new FileLogRecord(fileName, layer, result.Report));
+        if (preview && result.Bytes is not null) Previews.Add(key, new PreviewEntry(result.Bytes, result.Report));
+        return result.Bytes;
+    }
+
+    /// <summary>The session preview cache. Only successful preflights enter it.</summary>
+    public static PreviewCache Previews { get; } = new(64L << 20);
+
+    /// <summary>
+    /// Like Load, for the routines whose original raised on a failed open: the refusal raises
+    /// EGameFileError after it is logged, before the caller changes anything.
+    /// </summary>
+    public static byte[] LoadOrRaise(string fileName, GameProfile profile) =>
+        Load(fileName, profile) ?? throw new EGameFileError(LastFailure!);
+
+    /// <summary>
+    /// Converts and writes an engine-written image. Serialization and validation finish before
+    /// anything is written. A failure raises EGameFileError and keeps the old file.
+    /// </summary>
+    public static void Save(string fileName, GameProfile profile, byte[] image)
+    {
+        var files = RtlUnit.Files;
+        var result = GameBoundary.PrepareSave(image, fileName, profile, FormatMapping.Validators);
+        if (result.Bytes is null)
+        {
+            Record(files, fileName, result.Report);
+            throw new EGameFileError(LastFailure!);
+        }
+        try
+        {
+            Replace(files, fileName, result.Bytes);
+        }
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or EStreamError)
+        {
+            result.Report.Error = new FormatDiagnostic(Codes.Output, "The file cannot be written: " + e.Message) { File = fileName };
+            Record(files, fileName, result.Report);
+            throw new EGameFileError(LastFailure!);
+        }
+        Record(files, fileName, result.Report);
+    }
+
+    /// <summary>
+    /// The leading bytes of a listed file's engine image, for header listings such as
+    /// THSEngine.GetHSSetFiles. An original lists its own leading bytes as before. An own
+    /// document lists the header of its validated image. A file that fails lists nothing.
+    /// </summary>
+    public static byte[] ListingHeader(string fileName, GameProfile profile, int count)
+    {
+        var files = RtlUnit.Files;
+        byte[] head;
+        try
+        {
+            using var stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+            head = new byte[count];
+            int total = 0, read;
+            while (total < count && (read = stream.Read(head, total, count - total)) > 0) total += read;
+            head = head[..total];
+        }
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or EStreamError)
+        {
+            return [];
+        }
+        if (!GameFiles.IsGzip(head) && !GameFiles.IsJsonCandidate(head))
+        {
+            // An original lists its leading bytes without a preflight. The open is logged like
+            // every other one.
+            Record(files, fileName, new GameFileReport
+            {
+                Operation = "list", Profile = profile, Format = DetectedFormat.Original.ToString(),
+                G1 = "not applicable: header listing", Validation = "not applicable: header listing",
+            });
+            return head.Length == count ? head : [];
+        }
+        var image = Load(fileName, profile, "list");
+        return image is not null && image.Length >= count ? image[..count] : [];
+    }
+
+    /// <summary>
+    /// The CRC forms of in-scope files (own-formats.md 4.1): Engine.GetCRC32 over the engine image,
+    /// so an original and its own document give one CRC. A refused file gives 0, which matches
+    /// no stored CRC, and is logged.
+    /// </summary>
+    public static int ImageCrc32(string fileName, GameProfile profile) =>
+        Load(fileName, profile, "crc") is { } image ? Engine.EngineUnit.GetCRC32(image, image.Length) : 0;
+
+    /// <summary>
+    /// The four bytes at the end of the engine image, the stored CRC of a scenario set that
+    /// TAoWHSSet.RetrieveHSSCRC reads. A refusal raises, as the original's failed open did.
+    /// </summary>
+    public static int ImageTailInt32(string fileName, GameProfile profile)
+    {
+        // A scenario set image passed its preflight, so it holds its header and trailing CRC.
+        var image = Load(fileName, profile, "crc") ?? throw new EGameFileError(LastFailure!);
+        return System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(image.Length - 4));
+    }
+
+    /// <summary>The temporary of a replacement: a sibling the game never opens.</summary>
+    public static string TemporaryFor(string fileName) => fileName + ".openaow-tmp";
+
+    /// <summary>
+    /// Writes a sibling temporary, closes it and replaces the target atomically. The target is
+    /// never truncated. A failure removes the temporary and keeps the old target.
+    /// </summary>
+    public static void Replace(IFileSystem files, string fileName, byte[] bytes)
+    {
+        string temporary = TemporaryFor(fileName);
+        bool replaced = false;
+        try
+        {
+            using (var stream = files.Open(temporary, RtlUnit.fmCreate))
+            {
+                stream.Write(bytes);
+                // The temporary reaches the disk before it replaces the old file.
+                if (stream is FileStream file) file.Flush(true);
+                else stream.Flush();
+            }
+            if (!files.ReplaceFile(temporary, fileName))
+                throw new IOException("The file service did not replace " + fileName + ".");
+            replaced = true;
+        }
+        finally
+        {
+            if (!replaced && files.FileExists(temporary)) files.DeleteFile(temporary);
+        }
+    }
+
+    private static byte[] ReadAll(IFileSystem files, string fileName)
+    {
+        using var stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+        using var memory = new MemoryStream();
+        stream.CopyTo(memory);
+        return memory.ToArray();
+    }
+
+    private static string LayerOf(IFileSystem files, string fileName)
+    {
+        try
+        {
+            return files.Layer(fileName);
+        }
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        {
+            return "unresolved";
+        }
+    }
+
+    private static void Record(IFileSystem files, string fileName, GameFileReport report) =>
+        Record(new FileLogRecord(fileName, LayerOf(files, fileName), report));
+
+    private static void Record(FileLogRecord record)
+    {
+        if (!record.Succeeded) LastFailure = record;
+        Log?.Invoke(record);
+    }
+}
+
+/// <summary>One line of a host's file log (own-formats.md 4.2). Physical paths appear only here.</summary>
+public sealed class FileLogRecord(string path, string layer, GameFileReport report, bool cached = false)
+{
+    public string Path { get; } = path;
+    public string Layer { get; } = layer;
+    public GameFileReport Report { get; } = report;
+
+    /// <summary>A preview served from the session cache after the bytes hashed equal.</summary>
+    public bool Cached { get; } = cached;
+    public bool Succeeded => Report.Error is null;
+
+    /// <summary>One JSON line: operation, logical path, layer, profile, kind, format, version, G1, validation and error.</summary>
+    public string ToJson()
+    {
+        using var buffer = new MemoryStream();
+        using (var json = new Utf8JsonWriter(buffer))
+        {
+            json.WriteStartObject();
+            json.WriteString("operation", Report.Operation);
+            json.WriteString("path", Path);
+            json.WriteString("layer", Layer);
+            json.WriteString("profile", Report.Profile.Profile.Name);
+            json.WriteString("use", Report.Profile.Name);
+            WriteOptional(json, "kind", Report.Kind);
+            WriteOptional(json, "format", Report.Format);
+            if (Report.Version is int version) json.WriteNumber("version", version);
+            else json.WriteNull("version");
+            json.WriteString("g1", Report.G1);
+            json.WriteString("validation", Report.Validation);
+            WriteOptional(json, "error", Report.Error?.Code);
+            WriteOptional(json, "diagnostic", Report.Error?.ToString());
+            json.WriteBoolean("cached", Cached);
+            json.WriteEndObject();
+        }
+        return Encoding.UTF8.GetString(buffer.ToArray());
+    }
+
+    private static void WriteOptional(Utf8JsonWriter json, string name, string? value)
+    {
+        if (value is null) json.WriteNull(name);
+        else json.WriteString(name, value);
+    }
+
+    public override string ToString() => Report.Error?.ToString() ?? string.Create(CultureInfo.InvariantCulture, $"{Report.Operation} {Path}");
+}
+
+/// <summary>A refused open or write at the file boundary. It carries the shared diagnostic.</summary>
+public sealed class EGameFileError(FileLogRecord record) : Rtl.Exception(record.ToString())
+{
+    public FileLogRecord Record { get; } = record;
+}
+
+/// <summary>
+/// The identity of a cached preview (own-formats.md 4.3): the resolved layer, the logical path,
+/// the profile, the schema version and the SHA-256 of the bytes just read. No change token is
+/// trusted, so every lookup reads and hashes the file first. A same-length hand edit changes the
+/// hash and a new shadowing file changes the layer.
+/// </summary>
+public readonly record struct PreviewKey(string Layer, string Path, string Profile, int Version, string Sha256);
+
+public sealed record PreviewEntry(byte[] Image, GameFileReport Report);
+
+/// <summary>
+/// A session cache of validated preview images bounded by their total bytes. The oldest entry
+/// leaves first. 64 MiB holds about eighty of the largest shipped map images.
+/// </summary>
+public sealed class PreviewCache(long capacityBytes)
+{
+    private readonly Dictionary<PreviewKey, PreviewEntry> entries = [];
+    private readonly Queue<PreviewKey> order = new();
+
+    public int Count => entries.Count;
+
+    /// <summary>The image bytes the cache holds.</summary>
+    public long Bytes { get; private set; }
+
+    public bool TryGet(PreviewKey key, out PreviewEntry entry) => entries.TryGetValue(key, out entry!);
+
+    public void Add(PreviewKey key, PreviewEntry entry)
+    {
+        if (entry.Image.LongLength > capacityBytes || !entries.TryAdd(key, entry)) return;
+        order.Enqueue(key);
+        Bytes += entry.Image.LongLength;
+        while (Bytes > capacityBytes && entries.Remove(order.Dequeue(), out var oldest)) Bytes -= oldest.Image.LongLength;
+    }
+
+    public void Clear()
+    {
+        entries.Clear();
+        order.Clear();
+        Bytes = 0;
+    }
+}

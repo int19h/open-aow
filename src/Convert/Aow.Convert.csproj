@@ -12,5 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Rtl\Aow.Rtl.csproj" />
     <ProjectReference Include="..\Formats\Aow.Formats.csproj" />
+    <!-- The built-in unit mappings and game validators (own-formats.md 3.1). -->
+    <ProjectReference Include="..\Units\Aow.Units.csproj" />
   </ItemGroup>
 </Project>

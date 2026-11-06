@@ -5137,35 +5137,87 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8973
-    public TEObject RetrieveFromFile(string FileName, TProgressEvent AProgress)
+    // The file goes through the game's file boundary with the caller's profile. A refused
+    // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
+    public TEObject RetrieveFromFile(string FileName, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+    {
+        return RetrieveFromImage(FileBoundary.LoadOrRaise(FileName, Profile), AProgress);
+    }
+
+    // Retrieves the object of an engine image whose preflight has passed.
+    public TEObject RetrieveFromImage(byte[] Image, TProgressEvent AProgress)
     {
         TEObject Result = default;
-        TFileStream F;
-        F = new TFileStream(FileName, 0 | 32);
+        TMemoryStream M;
+        M = ImageStream(Image);
         try
         {
-            Result = RetrieveEObject(F, AProgress);
+            Result = RetrieveEObject(M, AProgress);
         }
         finally
         {
-            F.Free();
+            M.Free();
         }
 
         return Result;
     }
 
     // Engine.pas:8985
-    public void StoreInFile(string FileName, TEObject Obj, TProgressEvent AProgress)
+    // The engine writes the image in memory. The boundary converts, validates and replaces the
+    // file only after the whole document is serialized.
+    public void StoreInFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
-        TFileStream F;
-        F = new TFileStream(FileName, 65535);
+        TMemoryStream M;
+        M = new TMemoryStream();
         try
         {
-            StoreEObject(F, Obj, AProgress);
+            StoreEObject(M, Obj, AProgress);
+            FileBoundary.Save(FileName, Profile, M.Memory.AsSpan(0, M.Size).ToArray());
         }
         finally
         {
-            F.Free();
+            M.Free();
+        }
+    }
+
+    // An engine image in a memory stream at position 0, for the routines that read it.
+    public static TMemoryStream ImageStream(byte[] Image)
+    {
+        TMemoryStream M = new TMemoryStream();
+        M.WriteBuffer(Image);
+        M.Position = 0;
+        return M;
+    }
+
+    // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
+    // three-argument form below stays the original byte path of the excluded PFS callers.
+    public void WriteToFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+    {
+        TMemoryStream M;
+        M = new TMemoryStream();
+        try
+        {
+            WriteEObject(M, Obj, AProgress);
+            FileBoundary.Save(FileName, Profile, M.Memory.AsSpan(0, M.Size).ToArray());
+        }
+        finally
+        {
+            M.Free();
+        }
+    }
+
+    // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
+    public void ReadFromFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+    {
+        TMemoryStream M;
+        M = ImageStream(FileBoundary.LoadOrRaise(FileName, Profile));
+        try
+        {
+            ReadEObject(M, Obj, AProgress);
+        }
+        finally
+        {
+            M.Free();
         }
     }
 
@@ -5811,6 +5863,13 @@ public partial class TCompressStream : TMemoryStream
         {
             F.Free();
         }
+    }
+
+    // An engine image the file boundary prepared: the inflated payload, at position 0.
+    public void LoadImage(byte[] Image)
+    {
+        this.WriteBuffer(Image);
+        Position = 0;
     }
 
     // Engine.pas:1805

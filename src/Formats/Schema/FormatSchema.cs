@@ -106,6 +106,31 @@ public sealed class FormatSchema
     public IReadOnlyDictionary<int, SchemaClass> EngineTable(string engine) => engines[engine];
 }
 
+/// <summary>
+/// The current version's pins in versions.json (own-formats.md 2.6 and 3.1): the persisted
+/// classes whose game load needs a unit mapping registered by Aow.Units, and the kind classes
+/// that keep their accepted flat mapping until the briefs that map their cases.
+/// </summary>
+public static class FormatVersions
+{
+    private static readonly Lazy<JsonObject> current = new(() =>
+    {
+        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")
+            ?? throw new InvalidOperationException("The embedded versions.json is missing.");
+        using var memory = new MemoryStream();
+        stream.CopyTo(memory);
+        var versions = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
+        return ((JsonArray)versions["versions"]!).Items.Cast<JsonObject>().Single(v => ((JsonInteger)v["version"]!).Value == OwnFormat.CurrentVersion);
+    });
+
+    public static IReadOnlyList<string> UnitMappings => Names("unitMappings");
+
+    public static IReadOnlyList<string> FlatMappings => Names("flatMappings");
+
+    private static string[] Names(string member) =>
+        current.Value[member] is JsonArray names ? names.Items.Select(n => ((JsonString)n).Value).ToArray() : [];
+}
+
 public sealed class SchemaClass
 {
     private readonly JsonObject source;
@@ -135,6 +160,7 @@ public sealed class SchemaClass
         Inherits = source["inherits"] is not JsonBool { Value: false };
         KeepsChildren = source["children"] is not JsonBool { Value: false };
         FieldClassName = (source["fieldClass"] as JsonString)?.Value;
+        Mapping = source["mapping"] is JsonObject mapping ? new SchemaMapping(mapping) : null;
         if (source["properties"] is JsonArray props)
             foreach (var p in props.Items) own.Add(new SchemaProperty((JsonObject)p, this, schema));
     }
@@ -146,6 +172,9 @@ public sealed class SchemaClass
     public bool Inherits { get; }
     public bool KeepsChildren { get; }
     public string? FieldClassName { get; }
+
+    /// <summary>The case table of a class whose document form is a unit mapping, or null.</summary>
+    public SchemaMapping? Mapping { get; }
 
     /// <summary>The class of the fields of a map level, inherited along the chain.</summary>
     public string? FieldClass => FieldClassName ?? Parent?.FieldClass;
@@ -279,3 +308,40 @@ public sealed class SchemaProperty
 
     public override string ToString() => Owner.Name + "." + Name;
 }
+
+/// <summary>
+/// The case table of a unit mapping (own-formats.md 2.2 and 2.3): the stored discriminator,
+/// the cases by their registration key, and the unknown case that keeps every stored value.
+/// Each case field names the stored member it holds.
+/// </summary>
+public sealed class SchemaMapping
+{
+    internal SchemaMapping(JsonObject source)
+    {
+        Name = ((JsonString)source["name"]!).Value;
+        Discriminator = ((JsonString)source["discriminator"]!).Value;
+        Cases = ((JsonArray)source["cases"]!).Items.Cast<JsonObject>()
+            .Select(c => new SchemaCase(((JsonInteger)c["key"]!).Value, ((JsonString)c["case"]!).Value, Fields(c))).ToArray();
+        var unknown = (JsonObject)source["unknown"]!;
+        Unknown = new SchemaCase(null, ((JsonString)unknown["case"]!).Value, Fields(unknown));
+        StoredMembers = [.. Cases.Append(Unknown).SelectMany(c => c.Fields.Select(f => f.Member)).Append(Discriminator).Distinct()];
+    }
+
+    private static (string Field, string Member)[] Fields(JsonObject c) =>
+        ((JsonArray)c["fields"]!).Items.Cast<JsonArray>().Select(f => (((JsonString)f.Items[0]).Value, ((JsonString)f.Items[1]).Value)).ToArray();
+
+    /// <summary>The name of the unit mapping, such as ProductionOrder.</summary>
+    public string Name { get; }
+
+    public string Discriminator { get; }
+
+    public IReadOnlyList<SchemaCase> Cases { get; }
+
+    public SchemaCase Unknown { get; }
+
+    /// <summary>The stored members the mapping owns.</summary>
+    public IReadOnlyList<string> StoredMembers { get; }
+}
+
+/// <summary>One case: its key (null for the unknown case), its name and its fields.</summary>
+public sealed record SchemaCase(long? Key, string Name, IReadOnlyList<(string Field, string Member)> Fields);

@@ -13,8 +13,15 @@ internal static class Program
             return 1;
         }
         Aow.Rtl.GateSwitches.Enter("Game", args);
+        StreamWriter? fileLog = null;
         try
         {
+            if (Value(args, "--file-log") is { } fileLogPath)
+            {
+                // own-formats.md 4.2: every open and write at the file boundary, refusals included.
+                var log = fileLog = new StreamWriter(Path.GetFullPath(fileLogPath), false, new System.Text.UTF8Encoding(false));
+                Aow.Units.FileBoundary.Log = record => { log.Write(record.ToJson() + "\n"); log.Flush(); };
+            }
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (args.Contains("--verify")) return Verification.Run(root, Value(args, "--source-root"));
             if (args.Contains("--verify-frame-inputs")) return FrameFixtureChecks.Run(root);
@@ -29,7 +36,7 @@ internal static class Program
                     Value(args, "--out") ?? throw new ArgumentException("--fixture requires --out PATH"));
             if (args.Contains("--help"))
             {
-                Console.WriteLine("OpenAoW [--game-root PATH] [--user-data PATH | --single-directory PATH] [--scale N] [--fullscreen] [--mute] [--smoke-test] [--frames N]");
+                Console.WriteLine("OpenAoW [--game-root PATH] [--user-data PATH | --single-directory PATH] [--scale N] [--fullscreen] [--mute] [--smoke-test] [--frames N] [--file-log PATH]");
                 Console.WriteLine("OpenAoW --verify [--game-root PATH] [--source-root RECOVERED_DELPHI_DIRECTORY]");
                 Console.WriteLine("OpenAoW --verify-sdl");
                 Console.WriteLine("OpenAoW --fixture NAME --fixtures PATH --out PATH [--game-root PATH]");
@@ -50,6 +57,11 @@ internal static class Program
             return 0;
         }
         catch (System.Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
+        finally
+        {
+            Aow.Units.FileBoundary.Log = null;
+            fileLog?.Dispose();
+        }
     }
     private static string? Value(string[] args, string name)
     {

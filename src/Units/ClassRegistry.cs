@@ -1233,5 +1233,9 @@ internal static class ClassRegistry
         DiplomaticProposal.Register(SendMessageAsY.Kind, static (gold, mana) => new SendMessageAsY());
         DiplomaticProposal.Register(BreakAllianceWithY.Kind, static (gold, mana) => new BreakAllianceWithY(gold, mana));
         DiplomaticProposal.Register(DeclareWarToY.Kind, static (gold, mana) => new DeclareWarToY(gold, mana));
+        FormatMapping.Register("TAoWHSMap", new Reference("CurrentPlayer", PlayerSlots.Instance), new ReferenceList("TurnOrder", PlayerSlots.Instance), new RequiredChild("TMapContainer"));
+        FormatMapping.Register("TMapContainer", new CountedChildren("TMapLevel", "LevelCount"));
+        FormatMapping.Register("TProductionItem", new ProductionOrderCases());
+        FormatMapping.Register("TDiplomaticAction", new DiplomaticProposalCases());
     }
 }
