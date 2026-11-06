@@ -99,7 +99,7 @@ public partial class TMoveOnEvent : TMapObject
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4354)
         {
-            ArmyPlaced(Msg.Param[0].Ref);
+            ArmyPlaced(Msg.Param[0].As<TArmyHS>());
         }
     }
 
@@ -171,9 +171,9 @@ public partial class TMoveOnEvent : TMapObject
         }
     }
 
-    public virtual void ArmyPlaced(object army)
+    public virtual void ArmyPlaced(TArmyHS army)
     {
-        sbyte player = ((TArmyHS)army).FArmy.FPlayer;
+        sbyte player = army.FArmy.FPlayer;
         if (!GetTriggerPlayer(player)) return;
         MovedOnTrigger(player);
         if (FTriggerPlayers == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) Destroy();

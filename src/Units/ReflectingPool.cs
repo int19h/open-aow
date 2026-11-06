@@ -34,7 +34,7 @@ public partial class TReflectingPool : TPlayerStructure
     {
         if (Msg.MsgID == 4362 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
         {
-            if (VisibilityRange() >= Msg.Param[0].Value && PoolVisionPlayer((sbyte)Msg.Param[1].Value))
+            if (VisibilityRange() >= Msg.Param[0].Int && PoolVisionPlayer((sbyte)Msg.Param[1].Int))
             {
                 Msg.Result = 1;
             }
@@ -43,9 +43,9 @@ public partial class TReflectingPool : TPlayerStructure
         {
             if (Msg.MsgID == 4365 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
             {
-                if (VisibilityRange() >= Msg.Param[0].Value)
+                if (VisibilityRange() >= Msg.Param[0].Int)
                 {
-                    NotifyPlayerChanged(Msg.MapField, Msg.Param[0].Value);
+                    NotifyPlayerChanged(Msg.MapField, Msg.Param[0].Int);
                 }
             }
             else

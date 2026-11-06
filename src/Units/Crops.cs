@@ -523,7 +523,7 @@ public partial class TCrop : TILTerrainMO
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001991)
         {
-            EndTurn((sbyte)Msg.Payload.Value);
+            EndTurn((sbyte)Msg.Payload.Int);
         }
     }
 

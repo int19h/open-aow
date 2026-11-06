@@ -140,7 +140,7 @@ public partial class TCityWall : TCombatILTerrain
 
                     break;
                 case 200708:
-                    FPlaySound = Msg.Param[1].Value == 0;
+                    FPlaySound = Msg.Param[1].Int == 0;
                     AoWHSSet.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
                     RandSeed = AoWHSMap.Random(16777215);
                     var defense8 = GetDefense();

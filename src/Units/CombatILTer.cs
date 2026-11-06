@@ -54,7 +54,7 @@ public partial class TCombatILTerrain : TILTerrainMO
         {
             if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
             {
-                if (Msg.Param[0].Value < ((TCombatILTerrainResource)FResource).FDefense)
+                if (Msg.Param[0].Int < ((TCombatILTerrainResource)FResource).FDefense)
                 {
                     Msg.Param[0] = ((TCombatILTerrainResource)FResource).FDefense;
                 }

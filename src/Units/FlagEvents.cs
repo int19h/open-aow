@@ -32,7 +32,7 @@ public partial class TFlagEvent : TMapObject
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001987 && FTriggerMode == TFlagEventTriggerMode.etmNewTurn)
         {
-            UpdateNewTurnTrigger((sbyte)Msg.Payload.Value);
+            UpdateNewTurnTrigger((sbyte)Msg.Payload.Int);
         }
     }
 

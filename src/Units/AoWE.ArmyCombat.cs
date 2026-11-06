@@ -89,7 +89,7 @@ public partial class TArmyCombatMoveTE
         Msg.Param[1] = FArmyHS;
         Msg.Result = 0;
         Field.SendMapFieldMsg(ref Msg);
-        if (Msg.Result.Value == 0)
+        if (Msg.Result.Int == 0)
         {
             var fArmyHSLhx = FArmyHS.GetLhx();
             var fArmyHSYhx = FArmyHS.GetYhx();

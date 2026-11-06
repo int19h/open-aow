@@ -59,8 +59,8 @@ public partial class TGems : TILTerrainMO
 
         if (Msg.MsgID == 4608 && Msg.HN == 0)
         {
-            UpdateAITarget(ref ((AITargetQuery)Msg.Param[0].Ref).Info, ref ((AITargetQuery)Msg.Param[0].Ref).Data.Priority);
-            if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
+            UpdateAITarget(ref Msg.Param[0].As<AITargetQuery>().Info, ref Msg.Param[0].As<AITargetQuery>().Data.Priority);
+            if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
             {
                 Msg.Result = 1;
             }

@@ -670,18 +670,6 @@ public struct FixedArray_Aow_Units_Sound_TSFXLibrary_5
     private TSFXLibrary element0;
 }
 
-[InlineArray(3)]
-public struct FixedArray_IntOrRef_3
-{
-    private IntOrRef element0;
-}
-
-[InlineArray(4)]
-public struct FixedArray_IntOrRef_4
-{
-    private IntOrRef element0;
-}
-
 [InlineArray(8)]
 public struct FixedArray_bool_8
 {

@@ -1,7 +1,6 @@
 // Translated from AoWTC.pas.
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using static Aow.Units.Engine.EngineUnit;
@@ -26,42 +25,6 @@ using Aow.Units.CityWall;
 using static Aow.Units.CombatFire.CombatFireUnit;
 
 namespace Aow.Units.AoWTC;
-
-[StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct Record_TCombatUnitSelectionControl_UpdateMoveCursor_AbilityInfo_3187_3
-{
-    [FieldOffset(0)]
-    public TAbilityCombatInfo Data;
-    [FieldOffset(0)]
-    public FixedArray_int_2 Align;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct Record_TTacticalCombatUnitHS_CanMoveOn_AbilityInfo_3374_3
-{
-    [FieldOffset(0)]
-    public TAbilityCombatInfo Data;
-    [FieldOffset(0)]
-    public FixedArray_int_2 Align;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct Record_TTacticalCombatUnitHS_CanMoveOn_EnemyInfo_3374_16
-{
-    [FieldOffset(0)]
-    public TAbilityCombatInfo Data;
-    [FieldOffset(0)]
-    public FixedArray_int_2 Align;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct Record_TTacticalCombatUnitHS_AbTouchMoveTC_Buffer_3936_22
-{
-    [FieldOffset(0)]
-    public TAbilityCombatInfo Info;
-    [FieldOffset(0)]
-    public FixedArray_int_2 Storage;
-}
 
 public enum TCombatMoveModeElement : byte
 {
@@ -3194,7 +3157,7 @@ public partial class TAoWCombatMapField : TAoWMapField
         Msg.Result = -1;
         Msg.Param[0] = 0;
         SendMapFieldMsg(ref Msg);
-        return (sbyte)Msg.Param[0].Value;
+        return (sbyte)Msg.Param[0].Int;
     }
 
 }
@@ -5488,7 +5451,7 @@ public partial class TCCorpseHS : TSingleHS
                         {
                             Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                             Effect.FAbilityIndex = 52;
-                            Effect.FSpellIndex = Msg.Param[1].Value;
+                            Effect.FSpellIndex = Msg.Param[1].Int;
                             DX = -DX;
                             switch (I)
                             {
@@ -5529,7 +5492,7 @@ public partial class TCCorpseHS : TSingleHS
                     {
                         Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
                         Effect.FAbilityIndex = 52;
-                        Effect.FSpellIndex = Msg.Param[1].Value;
+                        Effect.FSpellIndex = Msg.Param[1].Int;
                         // { Original uses this smaller value for horizontal speed. }
                         Speed = (float)((double)(Random(10) + 10) * 0.05);
                         Gravity = (float)0.5;
@@ -5538,7 +5501,7 @@ public partial class TCCorpseHS : TSingleHS
                         MakeArcPath(X + 16, Y + 16, I * 360 / N, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
                     }
 
-                    switch (Msg.Param[1].Value)
+                    switch (Msg.Param[1].Int)
                     {
                         case 130:
                             RandSeed = AoWHSMap.Random(16777215);
@@ -5708,7 +5671,7 @@ public partial class TUnitPositionControl : TEObject
         if (Msg.MsgID == 65541)
         {
             L = Msg.Data[1];
-            HPtoHX(Msg.Value, Msg.Data[0], ref X, ref Y);
+            HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
             if (AoWTCUnit.AoWCombatMap.MapContainer.GetField(X, Y, L).TerrainType != 15)
             {
                 HS = (TUnitPositionHS)AoWTCUnit.AoWCombatMap.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
@@ -6118,11 +6081,11 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 {
                     var player = FUnit.GetPlayer();
                     var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player);
-                    Msg.Param[0] = Msg.Param[0].Value | (playerPlayerRace.FPlayerRace + 1);
+                    Msg.Param[0] = Msg.Param[0].Int | (playerPlayerRace.FPlayerRace + 1);
                 }
                 else
                 {
-                    Msg.Param[0] = Msg.Param[0].Value | 13;
+                    Msg.Param[0] = Msg.Param[0].Int | 13;
                 }
             }
         }
@@ -6194,7 +6157,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                 if (Msg.MsgID == 200723 && Msg.HN == 0)
                                 {
                                     RandSeed = AoWHSMap.Random(16777215);
-                                    SpellDamage = (TDamageCA)AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Value).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                    SpellDamage = (TDamageCA)AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Int).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
                                     if (SpellDamage.FDamage > 0)
                                     {
                                         SetAction(TTCAction.caHit);
@@ -6208,7 +6171,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                     if (Msg.MsgID == 200722 && Msg.HN == 0)
                                     {
                                         RandSeed = AoWHSMap.Random(16777215);
-                                        RangedDamage = ((TRangedAttackAbility)AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Value)).CreateRangedAttackCA(Msg.Param[0].As<TCombatObject>(), FUnit, 0);
+                                        RangedDamage = ((TRangedAttackAbility)AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Int)).CreateRangedAttackCA(Msg.Param[0].As<TCombatObject>(), FUnit, 0);
                                         if (RangedDamage.FDamage > 0)
                                         {
                                             SetAction(TTCAction.caHit);
@@ -6301,8 +6264,8 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                                                             {
                                                                 if (Msg.MsgID == 200720 && Msg.HN == 0)
                                                                 {
-                                                                    FOffsetX = Random(Msg.Param[0].Value * 2 + 1) - Msg.Param[0].Value;
-                                                                    FOffsetY = Random(Msg.Param[0].Value * 2 + 1) - Msg.Param[0].Value;
+                                                                    FOffsetX = Random(Msg.Param[0].Int * 2 + 1) - Msg.Param[0].Int;
+                                                                    FOffsetY = Random(Msg.Param[0].Int * 2 + 1) - Msg.Param[0].Int;
                                                                 }
                                                                 else
                                                                 {
@@ -6352,8 +6315,8 @@ public partial class TTacticalCombatUnitHS : TUnitHS
         int X = default;
         int Y = default;
         TMovementHS Movement;
-        Record_TTacticalCombatUnitHS_CanMoveOn_AbilityInfo_3374_3 AbilityInfo = default;
-        Record_TTacticalCombatUnitHS_CanMoveOn_EnemyInfo_3374_16 EnemyInfo = default;
+        TAbilityCombatInfo AbilityInfo = default;
+        TAbilityCombatInfo EnemyInfo = default;
         if (Info.HN == 0)
         {
             MoveResult.Code = -1;
@@ -6405,14 +6368,14 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 return;
             }
 
-            AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref AbilityInfo.Data);
-            if (AbilityInfo.Data.TargetTypes.Contains(TCombatTargetTypeElement.cttFriend) && FUnit.GetSide() == ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+            AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref AbilityInfo);
+            if (AbilityInfo.TargetTypes.Contains(TCombatTargetTypeElement.cttFriend) && FUnit.GetSide() == ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
             {
                 goto Touch;
             }
 
-            AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref EnemyInfo.Data);
-            if (!EnemyInfo.Data.TargetTypes.Contains(TCombatTargetTypeElement.cttEnemy))
+            AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref EnemyInfo);
+            if (!EnemyInfo.TargetTypes.Contains(TCombatTargetTypeElement.cttEnemy))
             {
                 return;
             }
@@ -6855,7 +6818,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
     public bool AbTouchMoveTC(TMovepath Path)
     {
         TTokenEvent TE;
-        Record_TTacticalCombatUnitHS_AbTouchMoveTC_Buffer_3936_22 Buffer = default;
+        TAbilityCombatInfo Buffer = default;
         bool Result = false;
         var player = FUnit.GetPlayer();
         if (AoWHSMap.FTokenManager.PlayerReady(player) && Path.Count > 0)
@@ -6873,8 +6836,8 @@ public partial class TTacticalCombatUnitHS : TUnitHS
             }
             else
             {
-                AoWHSSet.FAbilityControl.GetAbility(FSelectedAbility).GetCombatInfo(FUnit.FUnit, ref Buffer.Info);
-                if (Buffer.Info.TargetTypes.Contains(TCombatTargetTypeElement.cttFriend))
+                AoWHSSet.FAbilityControl.GetAbility(FSelectedAbility).GetCombatInfo(FUnit.FUnit, ref Buffer);
+                if (Buffer.TargetTypes.Contains(TCombatTargetTypeElement.cttFriend))
                 {
                     var path = Path[0];
                     AbRangedTC((ushort)Path[0].X, (ushort)path.Y);
@@ -7290,7 +7253,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         TSet<TCombatTargetTypeElement> Targets;
         TCityWall Wall;
         TSpellCombatInfo SpellInfo = default;
-        Record_TCombatUnitSelectionControl_UpdateMoveCursor_AbilityInfo_3187_3 AbilityInfo = default;
+        TAbilityCombatInfo AbilityInfo = default;
         if (AoWTCUnit.AoWCombatMap == null)
         {
             return;
@@ -7344,8 +7307,8 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             }
             else
             {
-                AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatInfo(UnitHS.FUnit.FUnit, ref AbilityInfo.Data);
-                Targets = AbilityInfo.Data.TargetTypes;
+                AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatInfo(UnitHS.FUnit.FUnit, ref AbilityInfo);
+                Targets = AbilityInfo.TargetTypes;
             }
 
             if (TargetHS == null || (TargetHS == UnitHS && !Targets.Contains(TCombatTargetTypeElement.cttFriend)))

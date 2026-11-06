@@ -107,9 +107,9 @@ public partial class TCombatStructure : TCombatFixedILTerrain
                     SetHitPoints(FHitPoints - executeDamageRole6);
                     break;
                 case 200722:
-                    if (Msg.Param[1].Value == 30 || Msg.Param[1].Value == 86)
+                    if (Msg.Param[1].Int == 30 || Msg.Param[1].Int == 86)
                     {
-                        AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Value).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                        AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
                         RandSeed = AoWHSMap.Random(16777215);
                         var defense7 = GetDefense();
                         var executeDamageRole7 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense7);
@@ -118,9 +118,9 @@ public partial class TCombatStructure : TCombatFixedILTerrain
 
                     break;
                 case 200723:
-                    if (Msg.Param[1].Value == 114)
+                    if (Msg.Param[1].Int == 114)
                     {
-                        AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Value).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
                         RandSeed = AoWHSMap.Random(16777215);
                         var defense7 = GetDefense();
                         var executeDamageRole7 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense7);
@@ -150,7 +150,7 @@ public partial class TCombatStructure : TCombatFixedILTerrain
                     SetHitPoints(FHitPoints - executeDamageRole10);
                     break;
                 case 200708:
-                    FPlaySound = Msg.Param[1].Value == 0;
+                    FPlaySound = Msg.Param[1].Int == 0;
                     AoWHSSet.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
                     RandSeed = AoWHSMap.Random(16777215);
                     var defense11 = GetDefense();

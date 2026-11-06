@@ -442,7 +442,7 @@ public partial class TMapField : TECustomNode
         Msg.MsgID = 17;
         Msg.Result = -1;
         SendMapFieldMsg(ref Msg);
-        return (sbyte)Msg.Result.Value;
+        return (sbyte)Msg.Result.Int;
     }
 
     // HSEngine.pas:2591
@@ -588,7 +588,7 @@ public partial class TMapContainer : TENode
     {
         if (Msg.MsgID == 536870920)
         {
-            FEngine = Msg.Engine;
+            FEngine = Msg.Payload.As<TEngine>();
         }
 
         base.MsgProc(ref Msg, Sender);
@@ -896,7 +896,7 @@ public partial class THSMap : TENode
     {
         if (Msg.MsgID == 536870920)
         {
-            FEngine = (THSEngine)Msg.Engine;
+            FEngine = (THSEngine)Msg.Payload.As<TEngine>();
         }
 
         base.MsgProc(ref Msg, Sender);
@@ -3718,7 +3718,7 @@ public partial class TMapObjectResource : TEResource
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
         {
-            FEngine = (THSEngine)Msg.Engine;
+            FEngine = (THSEngine)Msg.Payload.As<TEngine>();
             if (FImageSequenceList != null)
             {
                 FImageSequenceList.FILManager = FEngine.FHSSet.FImageLibraryManager;
@@ -3914,9 +3914,9 @@ public partial class TMapObjectResource : TEResource
         Placed = true;
         MapLevel = Msg.Param[0].As<TMapLevel>();
         Lhx = Msg.Data[1];
-        Rad = Msg.Param[1].Value;
-        HSEngineUnit.HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
-        Clear = Msg.Param[2].Value == 1;
+        Rad = Msg.Param[1].Int;
+        HSEngineUnit.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
+        Clear = Msg.Param[2].Int == 1;
         HSEngineUnit.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.Radius <= Rad)
         {
@@ -4410,9 +4410,19 @@ public struct TMapFieldMsg
 {
     public int MsgID;
     public TMapField MapField;
-    public FixedArray_IntOrRef_4 Param;
+    public TMapFieldMsgParams Param;
     public int HN;
-    public IntOrRef Result;
+    public MsgArg Result;
+}
+
+// The parameter slots of a map field message. The count is the arity of the message protocol
+// (HSEngine.pas TMapFieldMsg.Param), not a count of content.
+[InlineArray(Arity)]
+public struct TMapFieldMsgParams
+{
+    public const int Arity = 4;
+
+    private MsgArg element0;
 }
 
 // A map level owns its fields in row order. The fields are its children.
@@ -4446,7 +4456,7 @@ public partial class TMapLevel : TECustomNode
     {
         if (Msg.MsgID == 536870920)
         {
-            FEngine = Msg.Engine;
+            FEngine = Msg.Payload.As<TEngine>();
             FMapContainer = (TMapContainer)Owner;
             FMap = FMapContainer.FMap;
         }
@@ -5391,7 +5401,7 @@ public partial class TMORTerrainControl : TEObject
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
         {
-            FHSEngine = (THSEngine)Msg.Engine;
+            FHSEngine = (THSEngine)Msg.Payload.As<TEngine>();
             Initialize();
         }
     }
@@ -5684,7 +5694,7 @@ public partial class THSSet : TECustomOwner
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
         {
-            FActivatedEngine = Msg.Engine;
+            FActivatedEngine = Msg.Payload.As<TEngine>();
         }
     }
 

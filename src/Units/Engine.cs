@@ -4645,7 +4645,7 @@ public partial class TEngine : TENode
     {
         TEMsg Msg = default;
         EngineUnit.InitMsg(ref Msg, 536870920, this);
-        Msg.Engine = this;
+        Msg.Payload = this;
         Obj.MsgProc(ref Msg, this);
     }
 
@@ -5260,14 +5260,21 @@ public struct TEMsg
     public int MsgID;
     public int Seq;
     public TEObject Sender;
-    public FixedArray_IntOrRef_3 Param;
-    public IntOrRef Payload;
-    public TEngine Engine { get => Payload.As<TEngine>(); set => Payload = value; }
+    public TEMsgParams Param;
+    public MsgArg Payload;
 
     public FixedArray_int_4 Data;
     public int Result;
-    public TEObject Obj { get => Payload.As<TEObject>(); set => Payload = value; }
-    public int Value { get => Payload.Value; set => Payload = value; }
+}
+
+// The parameter slots of an engine message. The count is the arity of the message protocol
+// (Engine.pas TEMsg.Param), not a count of content.
+[InlineArray(Arity)]
+public struct TEMsgParams
+{
+    public const int Arity = 3;
+
+    private MsgArg element0;
 }
 
 public delegate void TStorageStreamError(TEStorageStream StorageStream, string Message, ref bool Handled);
@@ -7925,7 +7932,7 @@ public partial class TECustomOwner : TENode
     {
         if (Msg.MsgID == 536870920)
         {
-            FEngine = Msg.Engine;
+            FEngine = Msg.Payload.As<TEngine>();
         }
 
         base.MsgProc(ref Msg, Sender);

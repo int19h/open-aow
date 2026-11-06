@@ -861,10 +861,10 @@ public partial class TWatcherHS : TSingleHS
             if (Activated())
             {
                 OwnerPlayer = FEnchantment.FPlayerIndex;
-                if (OwnerPlayer == mapFieldMsg.Param[1].Value || (byte)AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Value) == 2)
+                if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
                 {
                     var visibilityRange = VisibilityRange();
-                    if (mapFieldMsg.Param[0].Value <= visibilityRange)
+                    if (mapFieldMsg.Param[0].Int <= visibilityRange)
                     {
                         mapFieldMsg.Result = 1;
                     }
@@ -877,10 +877,10 @@ public partial class TWatcherHS : TSingleHS
             if (Activated())
             {
                 OwnerPlayer = FEnchantment.FPlayerIndex;
-                if (OwnerPlayer == mapFieldMsg.Param[1].Value || (byte)AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Value) == 2)
+                if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
                 {
                     var visibilityRange = VisibilityRange();
-                    if (mapFieldMsg.Param[0].Value <= visibilityRange)
+                    if (mapFieldMsg.Param[0].Int <= visibilityRange)
                     {
                         mapFieldMsg.Result = 1;
                     }
@@ -890,10 +890,10 @@ public partial class TWatcherHS : TSingleHS
 
         if (mapFieldMsg.MsgID == 4365)
         {
-            if (VisibilityRange() >= mapFieldMsg.Param[0].Value)
+            if (VisibilityRange() >= mapFieldMsg.Param[0].Int)
             {
                 // { Param[0] is already available. }
-                AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx, mapFieldMsg.Param[0].Value, mapFieldMsg.Param[0].Value);
+                AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx, mapFieldMsg.Param[0].Int, mapFieldMsg.Param[0].Int);
             }
 
             UpdateVisibleForSeatedPlayer();
@@ -1475,7 +1475,7 @@ public partial class TTornado : TGlobalTargetSpell
             Msg.Param[0] = Army;
             Msg.Result = 0;
             MapF.SendMapFieldMsg(ref Msg);
-            Result = Msg.Result.Value == 0 && Army.FArmy.CanPlace(X, Y, Layer);
+            Result = Msg.Result.Int == 0 && Army.FArmy.CanPlace(X, Y, Layer);
         }
 
         return Result;

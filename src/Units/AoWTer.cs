@@ -51,7 +51,7 @@ public partial class TAoWTerrain : TTerrainMO
             {
                 if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
-                    ValidateDenseVegetationBurned(Msg.Param[0].Ref);
+                    ValidateDenseVegetationBurned(Msg.Param[0].As<TFire>());
                 }
             }
         }
@@ -86,9 +86,9 @@ public partial class TAoWTerrain : TTerrainMO
     }
 
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
-    public void ValidateDenseVegetationBurned(object info)
+    public void ValidateDenseVegetationBurned(TFire info)
     {
-        if (((TFire)info).FAge < 2 || FResource.TerrainList.Overlay[0] != 1) return;
+        if (info.FAge < 2 || FResource.TerrainList.Overlay[0] != 1) return;
         var resource = FindCompatibleResource(((TTerrainMOR)FResource).TerrainType, 3, 3);
         if (resource == null) return;
         UpdateTerrain((TMapLevel)Owner.Owner, GetXhx(), GetYhx());

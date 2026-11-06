@@ -40,7 +40,7 @@ public partial class TAoWRoad : TRoad
                     // { Original message stores its response in Param[1], rather than Result. }
                     Msg.Param[1] = 0;
                     MapField.SendMapFieldMsg(ref Msg);
-                    HasRoad = Msg.Param[1].Value != 0;
+                    HasRoad = Msg.Param[1].Int != 0;
                 }
                 else
                 {

@@ -2996,7 +2996,7 @@ public partial class TPlayerMagicControl : TEObject
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Value == FPlayer.FPlayerIndex)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer.FPlayerIndex)
         {
             NewTurn();
         }
@@ -5823,12 +5823,12 @@ public partial class TPlayer : TEObject
             }
         }
 
-        if (Msg.MsgID == 537001986 && Msg.Value == FPlayerIndex)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
         {
             UpdateAlliedPlayersSeen();
         }
 
-        if (Msg.MsgID == 537001987 && Msg.Value == FPlayerIndex)
+        if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayerIndex)
         {
             UpdateTurnInfo();
             if (FPlayerIndex != 0)
@@ -7701,7 +7701,7 @@ public partial class TAoWMapField : TMapField
             Msg.MsgID = 4352;
             Msg.Result = -1;
             SendMapFieldMsg(ref Msg);
-            Result = (sbyte)Msg.Result.Value;
+            Result = (sbyte)Msg.Result.Int;
         }
         else
         {
@@ -7719,7 +7719,7 @@ public partial class TAoWMapField : TMapField
         Msg.Param[0] = 0;
         Msg.Result = 0;
         SendMapFieldMsg(ref Msg);
-        return Msg.Param[0].Value;
+        return Msg.Param[0].Int;
     }
 
     // AoWHSMap.PAS:113
@@ -7729,7 +7729,7 @@ public partial class TAoWMapField : TMapField
         Msg.MsgID = 4386;
         Msg.Result = 0;
         SendMapFieldMsg(ref Msg);
-        return Msg.Result.Value;
+        return Msg.Result.Int;
     }
 
     // AoWHSMap.PAS:122
@@ -7740,7 +7740,7 @@ public partial class TAoWMapField : TMapField
         Msg.Result = 0;
         Msg.Param[0] = 0;
         SendMapFieldMsg(ref Msg);
-        return Msg.Param[0].Value != 0;
+        return Msg.Param[0].Int != 0;
     }
 
     // AoWHSMap.PAS:132
@@ -7751,7 +7751,7 @@ public partial class TAoWMapField : TMapField
         Msg.Result = 0;
         Msg.Param[0] = 0;
         SendMapFieldMsg(ref Msg);
-        return Msg.Param[0].Value != 0;
+        return Msg.Param[0].Int != 0;
     }
 
     // AoWHSMap.PAS:142
@@ -7772,7 +7772,7 @@ public partial class TAoWMapField : TMapField
         Msg.Param[0] = Player;
         Msg.Param[1] = 0;
         SendMapFieldMsg(ref Msg);
-        return (TMoveAction)Msg.Param[1].Value;
+        return (TMoveAction)Msg.Param[1].Int;
     }
 
     // AoWHSMap.PAS:175
@@ -7782,7 +7782,7 @@ public partial class TAoWMapField : TMapField
         Msg.MsgID = 4389;
         Msg.Result = -1;
         SendMapFieldMsg(ref Msg);
-        return (byte)Msg.Result.Value;
+        return (byte)Msg.Result.Int;
     }
 
     // AoWHSMap.PAS:184
@@ -7792,7 +7792,7 @@ public partial class TAoWMapField : TMapField
         Msg.MsgID = 4390;
         Msg.Result = 0;
         SendMapFieldMsg(ref Msg);
-        return (byte)Msg.Result.Value;
+        return (byte)Msg.Result.Int;
     }
 
     // AoWHSMap.PAS:204
@@ -7803,7 +7803,7 @@ public partial class TAoWMapField : TMapField
         Msg.Param[0] = this;
         Msg.Result = 0;
         SendMapFieldMsg(ref Msg);
-        return (TWallType)Msg.Result.Value;
+        return (TWallType)Msg.Result.Int;
     }
 
     // AoWHSMap.PAS:214
@@ -9139,11 +9139,11 @@ public partial class TPlayerControl : TEObject
         players3.FDay += 1;
         AoWEUnit.AoWHSMap.LockUpdateVisibility();
         InitMsg(ref Msg, 537001986, this);
-        Msg.Value = Player;
+        Msg.Payload = Player;
         AoWEUnit.AoWHSMap.SendMsg(ref Msg, this);
         AoWEUnit.AoWHSMap.FNewTurnEvents.TriggerNotifyEvents(IntToObject(Player));
         InitMsg(ref Msg, 537001987, this);
-        Msg.Value = Player;
+        Msg.Payload = Player;
         AoWEUnit.AoWHSMap.SendMsg(ref Msg, this);
         AoWEUnit.AoWHSMap.UnLockUpdateVisibility();
         if (AoWEUnit.AoWHSMap.FDebugSave)
@@ -9464,7 +9464,7 @@ public partial class TPlayerControl : TEObject
         }
 
         InitMsg(ref Msg, 537001991, this);
-        Msg.Value = Player;
+        Msg.Payload = Player;
         AoWEUnit.AoWHSMap.SendMsg(ref Msg, this);
         AoWEUnit.AoWHSMap.UnlockRelationsChanged();
         AoWEUnit.AoWHSMap.TriggerRelationsChanged();
@@ -11039,7 +11039,7 @@ public partial class TSimultaniousPlayerControl : TPlayerControl
                 }
 
                 InitMsg(ref Msg, 537001991, this);
-                Msg.Value = I;
+                Msg.Payload = I;
                 AoWEUnit.AoWHSMap.SendMsg(ref Msg, this);
             }
 
@@ -14776,7 +14776,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FItemControl.MsgProc(ref Msg, Sender);
         FHeroControl.MsgProc(ref Msg, Sender);
         FAIGroupManager.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Value == AoWEUnit.AoWHSMap.FSeatedPlayer)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == AoWEUnit.AoWHSMap.FSeatedPlayer)
         {
             if (FSelectedArmy.GetArmyHS() != null)
             {
@@ -15981,14 +15981,14 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                     }
 
                     Field.SendMapFieldMsg(ref Msg);
-                    if (Msg.Result.Value != -1 && Msg.Result.Value != Player)
+                    if (Msg.Result.Int != -1 && Msg.Result.Int != Player)
                     {
-                        AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).PlayerSeen((sbyte)Msg.Result.Value);
+                        AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).PlayerSeen((sbyte)Msg.Result.Int);
                         for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
                         {
                             if (I != Player && FPlayers.GetDiplomaticRelation((sbyte)Player, (sbyte)I) == TDiplomaticRelation.drAlliance)
                             {
-                                AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).PlayerSeen((sbyte)Msg.Result.Value);
+                                AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).PlayerSeen((sbyte)Msg.Result.Int);
                             }
                         }
                     }
@@ -16020,7 +16020,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
             Msg.Result = 0;
             Msg.Param[1] = Player;
             InitHNWalk(ref Walk, X, Y, 0);
-            while (Msg.Result.Value == 0 && Walk.Radius <= 12)
+            while (Msg.Result.Int == 0 && Walk.Radius <= 12)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
@@ -16035,7 +16035,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                 WalkToNextHN(ref Walk);
             }
 
-            Result = Msg.Result.Value != 0;
+            Result = Msg.Result.Int != 0;
         }
         else
         {
@@ -16064,7 +16064,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                     Msg.Result = 0;
                     Msg.Param[1] = Player;
                     InitHNWalk(ref Walk, X, Y, 0);
-                    while (Msg.Result.Value == 0 && Walk.Radius <= 12)
+                    while (Msg.Result.Int == 0 && Walk.Radius <= 12)
                     {
                         if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                         {
@@ -16079,7 +16079,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                         WalkToNextHN(ref Walk);
                     }
 
-                    Result = Msg.Result.Value == 0;
+                    Result = Msg.Result.Int == 0;
                 }
                 else
                 {
@@ -16916,7 +16916,7 @@ public partial class TUnitGFXResource : TEResource
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
         {
-            FSequences.FILManager = ((THSEngine)Msg.Engine).HSSet.ImageLibraryManager;
+            FSequences.FILManager = ((THSEngine)Msg.Payload.As<TEngine>()).HSSet.ImageLibraryManager;
         }
     }
 
@@ -18516,7 +18516,7 @@ public partial class TAbilityOwner : TCustomAbilityList
         {
             if (Msg.MsgID == 537001986)
             {
-                TriggerNewTurn((sbyte)Msg.Payload.Value);
+                TriggerNewTurn((sbyte)Msg.Payload.Int);
             }
         }
     }
@@ -21443,14 +21443,14 @@ public partial class TAbstractUnit : TAbilityOwner
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
         {
-            NewTurn((sbyte)Msg.Payload.Value);
+            NewTurn((sbyte)Msg.Payload.Int);
             return;
         }
         else
         {
             if (Msg.MsgID == 537001987)
             {
-                NewTurnDone((sbyte)Msg.Payload.Value);
+                NewTurnDone((sbyte)Msg.Payload.Int);
             }
             else
             {
@@ -23848,7 +23848,7 @@ public partial class TAbstractUnitResource : TEResource
         int Yhx = default;
         Map = Msg.Param[0].As<TMapContainer>();
         Lhx = Msg.Data[1];
-        HPtoHX(Msg.Payload.Value, Msg.Data[0], ref Xhx, ref Yhx);
+        HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
         if (Xhx >= 0 && Yhx >= 0 && Xhx < Map.Width && Yhx < Map.Height && DropUnit(Xhx, Yhx, Lhx))
         {
             Msg.Result = 0;
@@ -27765,7 +27765,7 @@ public partial class THero : TAbstractUnit
         bool Placed;
         Level = Msg.Param[0].As<TMapLevel>();
         L = Msg.Data[1];
-        HPtoHX(Msg.Value, Msg.Data[0], ref X, ref Y);
+        HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
         {
             if (AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
@@ -29483,7 +29483,7 @@ public partial class TLeader : THero
         bool Placed;
         Level = Msg.Param[0].As<TMapLevel>();
         L = Msg.Data[1];
-        HPtoHX(Msg.Value, Msg.Data[0], ref X, ref Y);
+        HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
         {
             Placed = Place(X, Y, L, FPlayer, TSet<TUnitPlaceModeElement>.Of()) != null;
@@ -30799,7 +30799,7 @@ public partial class TArmy : TUnitList
     {
         if (Msg.MsgID == 537001987)
         {
-            NewTurnDone((sbyte)Msg.Value);
+            NewTurnDone((sbyte)Msg.Payload.Int);
         }
 
         if (Msg.MsgID == 537001986)
@@ -30840,7 +30840,7 @@ public partial class TArmy : TUnitList
                 {
                     if (Msg.MsgID == 537001986)
                     {
-                        NewTurn((sbyte)Msg.Value);
+                        NewTurn((sbyte)Msg.Payload.Int);
                     }
                     else
                     {
@@ -30850,7 +30850,7 @@ public partial class TArmy : TUnitList
                         }
                         else
                         {
-                            if (Msg.MsgID == 537001987 && Msg.Value == FPlayer)
+                            if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayer)
                             {
                                 ValidateCrusaders();
                             }
@@ -31030,7 +31030,7 @@ public partial class TArmy : TUnitList
                     {
                         Msg.Param[0] = Walk.Radius;
                         Field.SendMapFieldMsg(ref Msg);
-                        Result = Msg.Result.Value == 0;
+                        Result = Msg.Result.Int == 0;
                     }
                 }
 
@@ -34472,11 +34472,11 @@ public partial class TArmyHS : TUnitHS
                     if (FArmy.FPlayer != 0)
                     {
                         var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FArmy.FPlayer);
-                        Msg.Param[0] = Msg.Param[0].Value | (players.FPlayerRace + 1);
+                        Msg.Param[0] = Msg.Param[0].Int | (players.FPlayerRace + 1);
                     }
                     else
                     {
-                        Msg.Param[0] = Msg.Param[0].Value | 13;
+                        Msg.Param[0] = Msg.Param[0].Int | 13;
                     }
                 }
             }
@@ -34484,8 +34484,8 @@ public partial class TArmyHS : TUnitHS
             {
                 if (Msg.MsgID == 4608)
                 {
-                    FArmy.UpdateAITarget(((AITargetQuery)Msg.Param[0].Ref).Info, ref ((AITargetQuery)Msg.Param[0].Ref).Data);
-                    if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
+                    FArmy.UpdateAITarget(Msg.Param[0].As<AITargetQuery>().Info, ref Msg.Param[0].As<AITargetQuery>().Data);
+                    if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
                     {
                         Msg.Result = 1;
                     }
@@ -34494,13 +34494,13 @@ public partial class TArmyHS : TUnitHS
                 {
                     if (Msg.MsgID == 4360)
                     {
-                        FArmy.ReturnBattleFieldInfo(ref ((BattleFieldQuery)Msg.Param[0].Ref).Info);
+                        FArmy.ReturnBattleFieldInfo(ref Msg.Param[0].As<BattleFieldQuery>().Info);
                     }
                     else
                     {
                         if (Msg.MsgID == 4353)
                         {
-                            var moveAction = FArmy.GetMoveAction((sbyte)Msg.Param[0].Value);
+                            var moveAction = FArmy.GetMoveAction((sbyte)Msg.Param[0].Int);
                             Msg.Param[1] = (int)moveAction;
                         }
                         else
@@ -34522,7 +34522,7 @@ public partial class TArmyHS : TUnitHS
                                 {
                                     if (Msg.MsgID == 4400)
                                     {
-                                        if (Msg.Param[1].Value == 1)
+                                        if (Msg.Param[1].Int == 1)
                                         {
                                             Msg.Result = FArmy.FPlayer;
                                         }
@@ -34538,10 +34538,10 @@ public partial class TArmyHS : TUnitHS
                                     {
                                         if (Msg.MsgID == 4362)
                                         {
-                                            if (FArmy.FPlayer == Msg.Param[1].Value || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FArmy.FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Value) == TDiplomaticRelation.drAlliance)
+                                            if (FArmy.FPlayer == Msg.Param[1].Int || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FArmy.FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Int) == TDiplomaticRelation.drAlliance)
                                             {
                                                 var visibilityRange = FArmy.VisibilityRange();
-                                                if (Msg.Param[0].Value <= visibilityRange)
+                                                if (Msg.Param[0].Int <= visibilityRange)
                                                 {
                                                     Msg.Result = 1;
                                                 }
@@ -34551,10 +34551,10 @@ public partial class TArmyHS : TUnitHS
                                         {
                                             if (Msg.MsgID == 4363)
                                             {
-                                                if (FArmy.FPlayer == Msg.Param[1].Value || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FArmy.FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Value) == TDiplomaticRelation.drAlliance)
+                                                if (FArmy.FPlayer == Msg.Param[1].Int || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FArmy.FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Int) == TDiplomaticRelation.drAlliance)
                                                 {
                                                     var trueVisionRange = FArmy.TrueVisionRange();
-                                                    if (Msg.Param[0].Value <= trueVisionRange)
+                                                    if (Msg.Param[0].Int <= trueVisionRange)
                                                     {
                                                         Msg.Result = 1;
                                                     }
@@ -34564,7 +34564,7 @@ public partial class TArmyHS : TUnitHS
                                             {
                                                 if (Msg.MsgID == 4365)
                                                 {
-                                                    if (Msg.Param[0].Value <= 8)
+                                                    if (Msg.Param[0].Int <= 8)
                                                     {
                                                         FArmy.UpdateConcealment();
                                                     }
@@ -34573,13 +34573,13 @@ public partial class TArmyHS : TUnitHS
                                                     if (condition)
                                                     {
                                                         var visibilityRange = FArmy.VisibilityRange();
-                                                        condition = Msg.Param[0].Value <= visibilityRange;
+                                                        condition = Msg.Param[0].Int <= visibilityRange;
                                                     }
 
                                                     if (condition)
                                                     {
                                                         var trueVisionRange = FArmy.TrueVisionRange();
-                                                        AoWEUnit.AoWHSMap.UpdatePlayerSeen(FArmy.FPlayer, Msg.MapField.Xhx, Msg.MapField.Yhx, Msg.MapField.Lhx, Msg.Param[0].Value, trueVisionRange);
+                                                        AoWEUnit.AoWHSMap.UpdatePlayerSeen(FArmy.FPlayer, Msg.MapField.Xhx, Msg.MapField.Yhx, Msg.MapField.Lhx, Msg.Param[0].Int, trueVisionRange);
                                                     }
                                                 }
                                                 else
@@ -34604,14 +34604,14 @@ public partial class TArmyHS : TUnitHS
                                                         {
                                                             if (Msg.MsgID == 4432 && !((TAoWMapField)Msg.MapField).GetMagicShieldActive())
                                                             {
-                                                                FArmy.IncommingStorm((TStormType)Msg.Param[0].Value, Msg.Param[1].Value, (sbyte)Msg.Param[2].Value);
+                                                                FArmy.IncommingStorm((TStormType)Msg.Param[0].Int, Msg.Param[1].Int, (sbyte)Msg.Param[2].Int);
                                                                 return;
                                                             }
                                                             else
                                                             {
                                                                 if (Msg.MsgID == 4433 && !((TAoWMapField)Msg.MapField).GetMagicShieldActive())
                                                                 {
-                                                                    FArmy.RetrieveStormDamageInfo((TStormType)Msg.Param[0].Value, Msg.Param[1].Value, ref ((StormDamageQuery)Msg.Param[2].Ref).Info);
+                                                                    FArmy.RetrieveStormDamageInfo((TStormType)Msg.Param[0].Int, Msg.Param[1].Int, ref Msg.Param[2].As<StormDamageQuery>().Info);
                                                                     return;
                                                                 }
                                                                 else
@@ -34850,14 +34850,14 @@ public partial class TArmyHS : TUnitHS
             OldField.SendMapFieldMsg(ref Msg);
         }
 
-        if (OldField == null || Msg.Result.Value == 0)
+        if (OldField == null || Msg.Result.Int == 0)
         {
             Msg.MsgID = 4417;
             Msg.Param[0] = this;
             Msg.Param[1] = OldField;
             Msg.Result = 0;
             Field.SendMapFieldMsg(ref Msg);
-            if (Msg.Result.Value == 0)
+            if (Msg.Result.Int == 0)
             {
                 base.MoveTo(Field, MoveCost);
                 if (OldField != null && (Field.Lhx != OldField.Lhx || !ConnectingHX(OldField.Xhx, OldField.Yhx, Field.Xhx, Field.Yhx)))
@@ -35154,7 +35154,7 @@ public partial class TArmyHS : TUnitHS
                         Msg.Param[0] = this;
                         Msg.Result = 0;
                         Field.SendMapFieldMsg(ref Msg);
-                        if (Msg.Result.Value == 0)
+                        if (Msg.Result.Int == 0)
                         {
                             if (FArmy.CanPlace((sbyte)Walk.X, (sbyte)Walk.Y, L))
                             {
@@ -35921,7 +35921,7 @@ public partial class TStructure : TFixedILTerrainMO
         {
             if (Msg.MsgID == 537001986)
             {
-                NewTurn((sbyte)Msg.Payload.Value);
+                NewTurn((sbyte)Msg.Payload.Int);
             }
             else
             {
@@ -36034,8 +36034,8 @@ public partial class TStructure : TFixedILTerrainMO
             {
                 if (Msg.MsgID == 4608)
                 {
-                    UpdateAITarget(((AITargetQuery)Msg.Param[0].Ref).Info, ref ((AITargetQuery)Msg.Param[0].Ref).Data);
-                    if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
+                    UpdateAITarget(Msg.Param[0].As<AITargetQuery>().Info, ref Msg.Param[0].As<AITargetQuery>().Data);
+                    if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
                     {
                         Msg.Result = 1;
                     }
@@ -36084,7 +36084,7 @@ public partial class TStructure : TFixedILTerrainMO
                                         {
                                             if (Msg.MsgID == 4391)
                                             {
-                                                if (GetDefenseRequirements((sbyte)Msg.Param[0].Value, ref ((DefenseRequirementsQuery)Msg.Param[1].Ref).Requirements))
+                                                if (GetDefenseRequirements((sbyte)Msg.Param[0].Int, ref Msg.Param[1].As<DefenseRequirementsQuery>().Requirements))
                                                 {
                                                     Msg.Result = 1;
                                                 }
@@ -36095,7 +36095,7 @@ public partial class TStructure : TFixedILTerrainMO
                                                 {
                                                     if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && (!AoWEUnit.AoWHSMap.FFogEnabled || !FFogged))
                                                     {
-                                                        Msg.Param[0] = Msg.Param[0].Value + 3584;
+                                                        Msg.Param[0] = Msg.Param[0].Int + 3584;
                                                     }
                                                 }
                                             }
@@ -37720,26 +37720,26 @@ public partial class TPlayerStructure : TStructure
                     if (FPlayer > 0)
                     {
                         var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        Msg.Param[0] = Msg.Param[0].Value + (players.FPlayerRace + 1) * 256;
+                        Msg.Param[0] = Msg.Param[0].Int + (players.FPlayerRace + 1) * 256;
                     }
                     else
                     {
-                        Msg.Param[0] = Msg.Param[0].Value + 3328;
+                        Msg.Param[0] = Msg.Param[0].Int + 3328;
                     }
                 }
                 else
                 {
-                    Msg.Param[0] = Msg.Param[0].Value + 3584;
+                    Msg.Param[0] = Msg.Param[0].Int + 3584;
                 }
 
                 if (AoWEUnit.AoWHSMap.FVictoryCondition == TVictoryCondition.vcCaptureLocations && FVictoryLocations[AoWEUnit.AoWHSMap.FSeatedPlayer])
                 {
-                    Msg.Param[0] = Msg.Param[0].Value | 16777216;
+                    Msg.Param[0] = Msg.Param[0].Int | 16777216;
                 }
             }
             else
             {
-                Msg.Param[0] = Msg.Param[0].Value + 3584;
+                Msg.Param[0] = Msg.Param[0].Int + 3584;
             }
         }
         else
@@ -37776,13 +37776,13 @@ public partial class TPlayerStructure : TStructure
                 if (condition)
                 {
                     var visibilityRange = VisibilityRange();
-                    condition = Msg.Param[0].Value <= visibilityRange;
+                    condition = Msg.Param[0].Int <= visibilityRange;
                 }
 
                 if (condition)
                 {
                     var trueVisionRange = TrueVisionRange();
-                    AoWEUnit.AoWHSMap.UpdatePlayerSeen(FPlayer, Msg.MapField.Xhx, Msg.MapField.Yhx, Msg.MapField.Lhx, Msg.Param[0].Value, trueVisionRange);
+                    AoWEUnit.AoWHSMap.UpdatePlayerSeen(FPlayer, Msg.MapField.Xhx, Msg.MapField.Yhx, Msg.MapField.Lhx, Msg.Param[0].Int, trueVisionRange);
                 }
             }
             else
@@ -37795,17 +37795,17 @@ public partial class TPlayerStructure : TStructure
                 {
                     if (Msg.MsgID == 4353 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
                     {
-                        var moveAction = GetMoveAction((sbyte)Msg.Param[0].Value, (TMoveAction)Msg.Param[1].Value);
+                        var moveAction = GetMoveAction((sbyte)Msg.Param[0].Int, (TMoveAction)Msg.Param[1].Int);
                         Msg.Param[1] = (int)moveAction;
                     }
                     else
                     {
                         if (Msg.MsgID == 4362 && FPlayer > 0)
                         {
-                            if (FPlayer == Msg.Param[1].Value || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Value) == TDiplomaticRelation.drAlliance)
+                            if (FPlayer == Msg.Param[1].Int || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Int) == TDiplomaticRelation.drAlliance)
                             {
                                 var visibilityRange = VisibilityRange();
-                                if (Msg.Param[0].Value <= visibilityRange)
+                                if (Msg.Param[0].Int <= visibilityRange)
                                 {
                                     Msg.Result = 1;
                                 }
@@ -37818,10 +37818,10 @@ public partial class TPlayerStructure : TStructure
 
         if (Msg.MsgID == 4363 && FPlayer > 0)
         {
-            if (FPlayer == Msg.Param[1].Value || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Value) == TDiplomaticRelation.drAlliance)
+            if (FPlayer == Msg.Param[1].Int || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Msg.Param[1].Int) == TDiplomaticRelation.drAlliance)
             {
                 var trueVisionRange = TrueVisionRange();
-                if (Msg.Param[0].Value <= trueVisionRange)
+                if (Msg.Param[0].Int <= trueVisionRange)
                 {
                     Msg.Result = 1;
                 }
@@ -37838,7 +37838,7 @@ public partial class TPlayerStructure : TStructure
                 if (Msg.MsgID == 4361 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
                     var combatEventText = GetCombatEventText(Msg.Param[0].As<TCombat>());
-                    ((CombatResultQuery)Msg.Result.Ref).Text = combatEventText;
+                    Msg.Result.As<CombatResultQuery>().Text = combatEventText;
                 }
             }
         }
@@ -38629,7 +38629,7 @@ public partial class TFrozenWaterHS : TSingleHS
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
         {
-            NewTurn((sbyte)Msg.Value);
+            NewTurn((sbyte)Msg.Payload.Int);
         }
     }
 
@@ -39585,19 +39585,19 @@ public partial class TFire : TILTerrainMO
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Value == FPlayer)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer)
         {
             NewTurn();
             return;
         }
 
-        if (Msg.MsgID == 537001987 && Msg.Value == FPlayer)
+        if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayer)
         {
             NewTurnDone();
         }
         else
         {
-            if (Msg.MsgID == 537002242 && (byte)Msg.Param[1].Value == 6)
+            if (Msg.MsgID == 537002242 && (byte)Msg.Param[1].Int == 6)
             {
                 WaterMasteryCast();
             }
@@ -41082,9 +41082,9 @@ public partial class TCombatPredictor : TObject
             Msg.Param[0] = fieldValue;
             Msg.Result = 0;
             Level.GetField(X, Y).SendMapFieldMsg(ref Msg);
-            if ((TWallType)Msg.Result.Value != TWallType.wtNone)
+            if ((TWallType)Msg.Result.Int != TWallType.wtNone)
             {
-                AddWall((TWallType)Msg.Result.Value);
+                AddWall((TWallType)Msg.Result.Int);
             }
 
             InitHNWalk(ref Walk, X, Y, 0);
@@ -41109,7 +41109,7 @@ public partial class TCombatPredictor : TObject
                                 U = ArmyHS.FArmy.GetUnit(I);
                                 if (U.ValidTerrain(Field.TerrainType, Field.OverlayType))
                                 {
-                                    AddUnitEx(U, (byte)(int)Side, (byte)((TWallType)Msg.Result.Value != TWallType.wtNone ? 1 : 0));
+                                    AddUnitEx(U, (byte)(int)Side, (byte)((TWallType)Msg.Result.Int != TWallType.wtNone ? 1 : 0));
                                 }
                             }
                         }
@@ -41143,9 +41143,9 @@ public partial class TCombatPredictor : TObject
             Msg.Param[0] = fieldValue;
             Msg.Result = 0;
             Level.GetField(X, Y).SendMapFieldMsg(ref Msg);
-            if ((TWallType)Msg.Result.Value != TWallType.wtNone)
+            if ((TWallType)Msg.Result.Int != TWallType.wtNone)
             {
-                AddWall((TWallType)Msg.Result.Value);
+                AddWall((TWallType)Msg.Result.Int);
             }
 
             InitHNWalk(ref Walk, X, Y, 0);
@@ -41170,7 +41170,7 @@ public partial class TCombatPredictor : TObject
                                 U = ArmyHS.FArmy.GetUnit(I);
                                 if (U.ValidTerrain(Field.TerrainType, Field.OverlayType))
                                 {
-                                    AddUnitEx(U, (byte)(int)Side, (byte)((TWallType)Msg.Result.Value != TWallType.wtNone ? 1 : 0));
+                                    AddUnitEx(U, (byte)(int)Side, (byte)((TWallType)Msg.Result.Int != TWallType.wtNone ? 1 : 0));
                                 }
                             }
                         }
@@ -45705,9 +45705,9 @@ public partial class TCombat : TEObject
             Msg.Result = 0;
             Data = FCombatData;
             AoWEUnit.AoWHSMap.MapContainer.GetField(Data.FX, Data.FY, Data.FL).SendMapFieldMsg(ref Msg);
-            if (Msg.Result.Value != 0)
+            if (Msg.Result.Int != 0)
             {
-                Party.FWall = (byte)Msg.Result.Value;
+                Party.FWall = (byte)Msg.Result.Int;
             }
         }
 
@@ -45771,9 +45771,9 @@ public partial class TCombat : TEObject
         Msg.Param[0] = fieldValue;
         Msg.Result = 0;
         AoWEUnit.AoWHSMap.MapContainer.GetField(X, Y, L).SendMapFieldMsg(ref Msg);
-        if (Msg.Result.Value != 0)
+        if (Msg.Result.Int != 0)
         {
-            Party.FWall = (byte)Msg.Result.Value;
+            Party.FWall = (byte)Msg.Result.Int;
         }
     }
 
@@ -53553,7 +53553,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
         {
-            NewTurn((sbyte)Msg.Payload.Value);
+            NewTurn((sbyte)Msg.Payload.Int);
         }
         else
         {
@@ -60396,7 +60396,7 @@ public partial class TArmyCombatMoveTE : TMoveArmyTE
             Msg.Param[1] = FArmyHS;
             Msg.Result = 0;
             Field.SendMapFieldMsg(ref Msg);
-            if (Msg.Result.Value == 0)
+            if (Msg.Result.Int == 0)
             {
                 var fArmyHSLhx = FArmyHS.GetLhx();
                 var fArmyHSYhx = FArmyHS.GetYhx();
@@ -72546,7 +72546,7 @@ public partial class TDiplomaticAction : TEObject
         bool Ignore;
         TEventLog Log;
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Value == FSource && FReaction == TDiplomaticActionReaction.darNone)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FSource && FReaction == TDiplomaticActionReaction.darNone)
         {
             Ignore = FActionType == TDiplomaticActionType.daOfferPeace && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drPeace;
             Ignore = Ignore || FActionType == TDiplomaticActionType.daBreakAllianceWithY && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) != TDiplomaticRelation.drAlliance;
@@ -82118,7 +82118,7 @@ public static partial class AoWEUnit
                 Msg.Param[1] = 0;
                 Msg.Result = 0;
                 AoWHSMap.MapContainer.GetField(X, Y, L).SendMapFieldMsg(ref Msg);
-                if (Msg.Param[1].Value != 0)
+                if (Msg.Param[1].Int != 0)
                 {
                     Log.Execute(true, TExecuteTrigger.etEvent, null);
                 }
@@ -82142,7 +82142,7 @@ public static partial class AoWEUnit
                 Msg.Param[1] = 0;
                 Msg.Result = 0;
                 AoWHSMap.MapContainer.GetField(X, Y, L).SendMapFieldMsg(ref Msg);
-                if (Msg.Param[1].Value != 0 && AoWHSMap.FPlayers.GetPlayers(Player).FGems >= Log.FGold)
+                if (Msg.Param[1].Int != 0 && AoWHSMap.FPlayers.GetPlayers(Player).FGems >= Log.FGold)
                 {
                     Log.Accept(ref ErrorText);
                 }
