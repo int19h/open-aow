@@ -268,6 +268,9 @@ public partial class TPatrolAG : TAIGroup, IAIGroupClass
 
 public partial class TPatrolAGC : TAIGroupControl
 {
+    // Heading 0 is the centre, 1 to 6 the hex sides (fixed-arrays.md, named constant).
+    public const int HexDirectionSlotCount = 7;
+
     public TPatrolAGC(TECustomNode owner) : base(owner)
     { }
 
@@ -447,7 +450,7 @@ public partial class TPatrolAGC : TAIGroupControl
         TPatrolAG Group = default;
         TMoveControlSettings Settings = default;
         TList Fields = default;
-        var Lists = new TDoubleItemList<TAoWMapField>[7];
+        var Lists = new TDoubleItemList<TAoWMapField>[HexDirectionSlotCount];
         TMapFieldMsg Msg = default;
         int J = default;
         int Heading = default;
@@ -472,7 +475,7 @@ public partial class TPatrolAGC : TAIGroupControl
         Settings.FMovePointTable = FMovePointTable;
         AoWHSMap.FMoveControl.ProcessMove(Settings);
         Fields = Settings.FProcessedMapFields;
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             var doubleItemList = new TDoubleItemList<TAoWMapField>();
             Lists[I] = doubleItemList;
@@ -492,14 +495,14 @@ public partial class TPatrolAGC : TAIGroupControl
             }
         }
 
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             Lists[I].Sort(IndependentAGUnit.ComparePatrolFields);
         }
 
         Msg.MsgID = 4384;
         Msg.Param[0] = FArmyHS;
-        for (int I = 1; I <= 6; I++)
+        for (int I = 1; I < HexDirectionSlotCount; I++)
         {
             NewList = new TDoubleItemList<TAoWMapField>();
             J = 0;
@@ -541,7 +544,7 @@ public partial class TPatrolAGC : TAIGroupControl
 
         PreviousHeading = Group.FPreviousHeading;
         Choices = new TByteList();
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             if (Lists[I].Count != 0 && LastHeading != I && I != PreviousHeading)
             {
@@ -554,7 +557,7 @@ public partial class TPatrolAGC : TAIGroupControl
 
         if (Choices.Count == 0)
         {
-            for (int I = 0; I <= 6; I++)
+            for (int I = 0; I < HexDirectionSlotCount; I++)
             {
                 if (Lists[I].Count != 0 && LastHeading != I)
                 {
@@ -579,7 +582,7 @@ public partial class TPatrolAGC : TAIGroupControl
             Result = false;
         }
 
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             Lists[I].Free();
         }
