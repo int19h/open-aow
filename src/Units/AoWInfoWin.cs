@@ -647,7 +647,6 @@ public static partial class AoWInfoWinUnit
     // AoWInfoWin.pas:439
     public static void ShowCityInfo(TIWindow Dialog, TCity Structure)
     {
-        TUnit UnitObject;
         string Reason = "";
         ResetStructureInfo(Dialog);
         SetStructureHeader(Dialog, Structure);
@@ -671,32 +670,7 @@ public static partial class AoWInfoWinUnit
         Dialog.CivilStatusLbl.Text = aoWEFormat;
         if (Structure.FProduction.FQueue.GetCount() != 0)
         {
-            switch (Structure.FProduction.FQueue.GetItem(0).FProductionID)
-            {
-                case 2:
-                    var queueParameter = Structure.FProduction.FQueue.GetItem(0);
-                    UnitObject = Structure.FProduction.CreateUnitProduction(queueParameter.FParameter);
-                    var installing = TranslateRStr(InstallingRStr);
-                    Dialog.ActiveCityActionMemo.Items.Add(installing);
-                    var unitObjectName = UnitObject.GetName();
-                    Dialog.ActiveCityActionMemo.Items.Add(unitObjectName);
-                    UnitObject.Release();
-                    break;
-                case 1:
-                    var queue = Structure.FProduction.FQueue.GetItem(0);
-                    UnitObject = Structure.FProduction.CreateUnitProduction(queue.FParameter);
-                    Dialog.ActiveCityActionMemo.Items.Clear();
-                    var producing = TranslateRStr(ProducingRStr);
-                    Dialog.ActiveCityActionMemo.Items.Add(producing);
-                    var name2 = UnitObject.GetName();
-                    Dialog.ActiveCityActionMemo.Items.Add(name2);
-                    UnitObject.Release();
-                    break;
-                default:
-                    var nameProgressive = Structure.FProduction.FQueue.GetItem(0).GetNameProgressive();
-                    Dialog.ActiveCityActionMemo.Items.Text = nameProgressive;
-                    break;
-            }
+            Structure.FProduction.FQueue.GetItem(0).Order.ActivityLines(Structure.FProduction, Dialog.ActiveCityActionMemo.Items);
 
             if (Structure.FProduction.FStatus == TProductionControlStatus.pcsProducing)
             {
@@ -737,7 +711,6 @@ public static partial class AoWInfoWinUnit
     // AoWInfoWin.pas:496
     public static void ShowProductionInfo(TIWindow Dialog, TProductionPlace Structure)
     {
-        TUnit UnitObject;
         string Reason = "";
         ResetStructureInfo(Dialog);
         SetStructureHeader(Dialog, Structure);
@@ -779,32 +752,7 @@ public static partial class AoWInfoWinUnit
         Dialog.StructNameLbl.Text = name;
         if (Structure.FProductionControl.FQueue.GetCount() != 0)
         {
-            switch (Structure.FProductionControl.FQueue.GetItem(0).FProductionID)
-            {
-                case 2:
-                    var queueParameter = Structure.FProductionControl.FQueue.GetItem(0);
-                    UnitObject = Structure.FProductionControl.CreateUnitProduction(queueParameter.FParameter);
-                    var installing = TranslateRStr(InstallingRStr);
-                    Dialog.ActiveActionMemo.Items.Add(installing);
-                    var unitObjectName = UnitObject.GetName();
-                    Dialog.ActiveActionMemo.Items.Add(unitObjectName);
-                    UnitObject.Release();
-                    break;
-                case 1:
-                    var queue = Structure.FProductionControl.FQueue.GetItem(0);
-                    UnitObject = Structure.FProductionControl.CreateUnitProduction(queue.FParameter);
-                    Dialog.ActiveActionMemo.Items.Clear();
-                    var producing = TranslateRStr(ProducingRStr);
-                    Dialog.ActiveActionMemo.Items.Add(producing);
-                    var name2 = UnitObject.GetName();
-                    Dialog.ActiveActionMemo.Items.Add(name2);
-                    UnitObject.Release();
-                    break;
-                default:
-                    var nameProgressive = Structure.FProductionControl.FQueue.GetItem(0).GetNameProgressive();
-                    Dialog.ActiveActionMemo.Items.Text = nameProgressive;
-                    break;
-            }
+            Structure.FProductionControl.FQueue.GetItem(0).Order.ActivityLines(Structure.FProductionControl, Dialog.ActiveActionMemo.Items);
 
             if (Structure.FProductionControl.FStatus == TProductionControlStatus.pcsProducing)
             {
