@@ -18397,9 +18397,12 @@
       "$jsonText": {
         "$type": "Aow.Units.AoWE.TProductionItem",
         "TEObject.FOwner": "$owner",
-        "TProductionItem.FGroupID": 0,
-        "TProductionItem.FParameter": 0,
-        "TProductionItem.FProductionID": 0
+        "TProductionItem.Order": {
+          "$type": "Aow.Units.AoWE.UnknownOrder",
+          "UnknownOrder.<GroupId>k__BackingField": 0,
+          "UnknownOrder.<Id>k__BackingField": 0,
+          "UnknownOrder.<Parameter>k__BackingField": 0
+        }
       }
     }
   },

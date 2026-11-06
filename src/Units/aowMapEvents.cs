@@ -778,11 +778,11 @@ public static partial class aowMapEventsUnit
         Dialog.ApproachLbl.Text = Log.FText;
         Town = (TCity)AoWHSMap.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(TCity));
         Dialog.FRace = Town.FRace;
-        var topCityActionImage = Town.GetTopCityActionImage(TCityAction.caNone);
+        var topCityActionImage = Town.GetTopCityActionImage(null);
         Dialog.CityPicLine.ImageTop = topCityActionImage;
-        var middleCityActionImage = Town.GetMiddleCityActionImage(TCityAction.caNone);
+        var middleCityActionImage = Town.GetMiddleCityActionImage(null);
         Dialog.CityPicLine.ImageMiddle = middleCityActionImage;
-        var bottomCityActionImage = Town.GetBottomCityActionImage(TCityAction.caNone);
+        var bottomCityActionImage = Town.GetBottomCityActionImage(null);
         Dialog.CityPicLine.ImageBottom = bottomCityActionImage;
         Dialog.Dlg.Visible = true;
         AoWHSMap.FTutorialControl.ShowMessage(62, true, true);

@@ -307,39 +307,10 @@ public partial class TProductionScreen : TDataModule
         }
     }
 
-    // AoWProdScreen.pas:719
-    public int ActivityImage(TProductionItem Item)
-    {
-        int Result;
-        switch (Item.FProductionID)
-        {
-            case 1:
-                Result = 4;
-                break;
-            case 10:
-                if (FPlace.GetMagicSphere() != TMagicSphere.msNone)
-                {
-                    Result = 48;
-                }
-                else
-                {
-                    Result = 47;
-                }
-
-                break;
-            default:
-                Result = 4;
-                break;
-        }
-
-        return Result;
-    }
-
     // AoWProdScreen.pas:729
     public void SelectProduction(int Index)
     {
         TUnit U;
-        TProductionItem Item;
         if (FMode != 1)
         {
             SetMode(1);
@@ -435,11 +406,8 @@ public partial class TProductionScreen : TDataModule
                 break;
             case 4:
                 MainBtn1.Visible = true;
-                Item = new TProductionItem(null);
-                Item.FProductionID = 10;
-                var productionName = FPlace.GetProductionName(Item);
+                var productionName = new Trade(0).Name(FPlace.FProductionControl);
                 MainBtn1.Text = productionName;
-                Item.Free();
                 var fProductionControlQueueLocked = FPlace.FProductionControl.GetQueueLocked();
                 MainBtn2.Visible = !fProductionControlQueueLocked;
                 var queueText = TranslateRStr(QueueRStr);
@@ -490,7 +458,6 @@ public partial class TProductionScreen : TDataModule
     public void UpdateInfo()
     {
         string Reason;
-        TProductionItem Item;
         IncomeHdr.Items.Clear();
         var name = FPlace.GetName();
         StructName.Text = name;
@@ -592,7 +559,7 @@ public partial class TProductionScreen : TDataModule
                 ActiveActionTurnsBar.Visible = false;
             }
 
-            var activityImage = ActivityImage(FPlace.FProductionControl.FQueue.GetItem(0));
+            var activityImage = FPlace.FProductionControl.FQueue.GetItem(0).Order.ActivityImage(FPlace);
             CurrentActionImage.CurrentImage = activityImage;
         }
         else
@@ -608,11 +575,8 @@ public partial class TProductionScreen : TDataModule
                 if (CompareText(ActiveAction.Text, none) != 0)
                 {
                     ActiveActionTurns.Visible = true;
-                    Item = new TProductionItem(null);
-                    Item.FProductionID = 10;
-                    var activityImage = ActivityImage(Item);
+                    var activityImage = new Trade(0).ActivityImage(FPlace);
                     CurrentActionImage.CurrentImage = activityImage;
-                    Item.Free();
                 }
                 else
                 {
@@ -635,7 +599,7 @@ public partial class TProductionScreen : TDataModule
                     ActiveActionTurns.TextColor = 255;
                     ActiveActionTurns.Visible = true;
                     ActiveActionTurnsBar.Visible = false;
-                    var activityImage = ActivityImage(FPlace.FProductionControl.FQueue.GetItem(0));
+                    var activityImage = FPlace.FProductionControl.FQueue.GetItem(0).Order.ActivityImage(FPlace);
                     CurrentActionImage.CurrentImage = activityImage;
                 }
             }
@@ -750,7 +714,6 @@ public partial class TProductionScreen : TDataModule
         TP2UnitShowInfo Info = default;
         TRect R;
         TUnit U;
-        TProductionItem Item;
         R = Rect(ActivityPnl2.WinLeft + Sender.WinLeft, ActivityPnl2.WinTop + Sender.WinTop, ActivityPnl2.WinLeft + Sender.WinLeft + Sender.WinWidth, ActivityPnl2.WinTop + Sender.WinTop + Sender.WinHeight);
         switch (Sender.Tag)
         {
@@ -795,11 +758,8 @@ public partial class TProductionScreen : TDataModule
             case 4:
                 if (FPlace.GetBaseIncome() != 0)
                 {
-                    Item = new TProductionItem(null);
-                    Item.FProductionID = 10;
-                    var activityImage = ActivityImage(Item);
+                    var activityImage = new Trade(0).ActivityImage(FPlace);
                     aowIntGfxModUnit.IntGfxMod.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, SD);
-                    Item.Free();
                 }
                 else
                 {
@@ -992,9 +952,9 @@ public partial class TProductionScreen : TDataModule
             if (QueueLB.Selected != -1)
             {
                 FQueueIndex = QueueLB.Selected;
-                if (FPlace.FProductionControl.FQueue.GetItem(FQueueIndex).FProductionID == 1)
+                if (FPlace.FProductionControl.FQueue.GetItem(FQueueIndex).Order is ProduceUnit produce)
                 {
-                    SelectProduction(FPlace.FProductionControl.FQueue.GetItem(FQueueIndex).FParameter);
+                    SelectProduction(produce.Index);
                 }
                 else
                 {
@@ -1063,7 +1023,7 @@ public partial class TProductionScreen : TDataModule
         TUnit U;
         if (FPlace.FProductionControl.FQueue.GetCount() != 0)
         {
-            if (FPlace.FProductionControl.FQueue.GetItem(0).FProductionID == 1 || FPlace.FProductionControl.FQueue.GetItem(0).FProductionID == 2)
+            if (FPlace.FProductionControl.FQueue.GetItem(0).Order.UnitProductionIndex != null)
             {
                 R = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
                 var productionPlaceControl = FPlace.FProductionControl;

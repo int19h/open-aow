@@ -265,36 +265,8 @@ public partial class TRealmWin : TDataModule
                         break;
                 }
 
-                switch ((int)C.GetActiveAction() & 127)
-                {
-                    case 3:
-                        if (C.FWallType == 1)
-                        {
-                            T2ActLB.Items.Add("1");
-                        }
-                        else
-                        {
-                            T2ActLB.Items.Add("0");
-                        }
-
-                        break;
-                    case 2:
-                        T2ActLB.Items.Add("2");
-                        break;
-                    case 5:
-                        T2ActLB.Items.Add("3");
-                        break;
-                    case 4:
-                        T2ActLB.Items.Add("4");
-                        break;
-                    case 7:
-                    case 8:
-                        T2ActLB.Items.Add("5");
-                        break;
-                    default:
-                        T2ActLB.Items.Add("-");
-                        break;
-                }
+                var activeOrder = C.GetActiveOrder();
+                T2ActLB.Items.Add(activeOrder != null ? activeOrder.RealmActivity(C) : "-");
 
                 T2EncLB.Items.Add("-");
                 var size = C.GetSize();

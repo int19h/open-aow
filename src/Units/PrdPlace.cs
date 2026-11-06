@@ -19,27 +19,6 @@ public partial class TProductionPlaceControl : TProductionControl
     { }
 
     public TProductionPlace FProductionPlace;
-    // PrdPlace.pas:238
-    public override bool ExecuteProduction(TProductionItem Item)
-    {
-        bool Result = base.ExecuteProduction(Item);
-        if (Result)
-        {
-            switch (Item.FProductionID)
-            {
-                case 10:
-                    FSettings.FTurnsTotal = (sbyte)Item.FParameter;
-                    FSettings.FTurnsLeft = 1;
-                    var player = GetPlayer();
-                    FSettings.FPlayer = player;
-                    FStatus = TProductionControlStatus.pcsProducing;
-                    break;
-            }
-        }
-
-        return Result;
-    }
-
     // PrdPlace.pas:169
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
@@ -107,67 +86,6 @@ public partial class TProductionPlaceControl : TProductionControl
         {
             FProductionPlace.Update();
         }
-    }
-
-    // PrdPlace.pas:231
-    public override void NewTurn(sbyte Player)
-    {
-        base.NewTurn(Player);
-        if (FStatus == TProductionControlStatus.pcsProducing && Player == FSettings.FPlayer && FSettings.FTurnsLeft == 0)
-        {
-            if (FQueue.GetItem(0).FProductionID == 10)
-            {
-                ProductionDone();
-            }
-        }
-    }
-
-    // PrdPlace.pas:225
-    public override bool CanExecuteProduction(TProductionItem Item, ref string Reason)
-    {
-        bool Result;
-        if (Item.FProductionID == 10)
-        {
-            Result = true;
-        }
-        else
-        {
-            Result = base.CanExecuteProduction(Item, ref Reason);
-        }
-
-        return Result;
-    }
-
-    // PrdPlace.pas:252
-    public override string GetProductionName(TProductionItem Item)
-    {
-        string Result;
-        if (Item.FProductionID == 1 || Item.FProductionID == 2)
-        {
-            Result = base.GetProductionName(Item);
-        }
-        else
-        {
-            Result = FProductionPlace.GetProductionName(Item);
-        }
-
-        return Result;
-    }
-
-    // PrdPlace.pas:258
-    public override string GetProductionNameProgressive(TProductionItem Item)
-    {
-        string Result;
-        if (Item.FProductionID == 1 || Item.FProductionID == 2)
-        {
-            Result = base.GetProductionNameProgressive(Item);
-        }
-        else
-        {
-            Result = FProductionPlace.GetProductionNameProgressive(Item);
-        }
-
-        return Result;
     }
 
     // PrdPlace.pas:139
@@ -627,7 +545,7 @@ public partial class TProductionPlace : TPlayerStructure
         Income = GetBaseIncome();
         if (GetMagicSphere() == TMagicSphere.msNone)
         {
-            if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).FProductionID == 10)
+            if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).Order is AoWE.Trade)
             {
                 Income += Round((double)Income * 0.25);
             }
@@ -752,52 +670,6 @@ public partial class TProductionPlace : TPlayerStructure
     // PrdPlace.pas:303
     public virtual TMagicSphere GetMagicSphere() => TMagicSphere.msNone;
 
-    // PrdPlace.pas:453
-    public virtual string GetProductionName(TProductionItem Item)
-    {
-        string Result;
-        if (Item.FProductionID == 10)
-        {
-            if (GetMagicSphere() != TMagicSphere.msNone)
-            {
-                Result = TranslateRStr(GenerateExtraPowerRStr);
-            }
-            else
-            {
-                Result = TranslateRStr(ProduceMerchandiseRStr);
-            }
-        }
-        else
-        {
-            Result = TranslateRStr(UnknownRStr);
-        }
-
-        return Result;
-    }
-
-    // PrdPlace.pas:461
-    public virtual string GetProductionNameProgressive(TProductionItem Item)
-    {
-        string Result;
-        if (Item.FProductionID == 10)
-        {
-            if (GetMagicSphere() != TMagicSphere.msNone)
-            {
-                Result = TranslateRStr(GeneratingExtraPowerRStr);
-            }
-            else
-            {
-                Result = TranslateRStr(ProducingMerchandiseRStr);
-            }
-        }
-        else
-        {
-            Result = TranslateRStr(UnknownRStr);
-        }
-
-        return Result;
-    }
-
     // PrdPlace.pas:403
     public virtual void ListIncomeInfo(TStrings Names, TStrings Values)
     {
@@ -808,7 +680,7 @@ public partial class TProductionPlace : TPlayerStructure
             {
                 Names.Add(TranslateRStr(BaseIncomeRStr));
                 Values.Add(IntToStr(GetBaseIncome()));
-                if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).FProductionID == 10 && GetBaseIncome() > 0)
+                if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).Order is AoWE.Trade && GetBaseIncome() > 0)
                 {
                     Names.Add(TranslateRStr(ProducingMerchandiseRStr));
                     Values.Add(IntToStr(Round((double)GetBaseIncome() * 0.25)));
@@ -825,7 +697,7 @@ public partial class TProductionPlace : TPlayerStructure
                 var magicSphereText = TranslateRStr(TMagicSphereRStr[(int)magicSphere2]);
                 Names.Add(RtlUnit.Format(TranslateRStr(XtimeYSphereRStr), [IntToStr(Picks), LowerCase(magicSphereText)]));
                 Values.Add(IntToStr(Picks * 5));
-                if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).FProductionID == 10)
+                if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).Order is AoWE.Trade)
                 {
                     Names.Add(TranslateRStr(ExtraPowerRStr));
                     Values.Add(IntToStr(Round((double)(Picks * 5) * 0.25)));
@@ -967,14 +839,13 @@ public partial class TProductionPlace : TPlayerStructure
         if (CanTrade(Queue, ref Reason) && !AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Item = new TProductionItem(null);
-            Item.FProductionID = 10;
             if (Queue)
             {
-                Item.FParameter = 1;
+                Item.Order = new AoWE.Trade(1);
             }
             else
             {
-                Item.FParameter = -1;
+                Item.Order = new AoWE.Trade(-1);
             }
 
             FProductionControl.Produce(Item, Queue);

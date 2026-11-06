@@ -1092,7 +1092,7 @@ public partial class TUnitProductionList : TENode
 
 }
 
-// production ID, parameter, group ID
+// the order (AoWE.ProductionOrders.cs), stored as production ID, parameter and group ID
 public partial class TProductionItem : TEObject
 {
     public new const int ClassID = 131735;
@@ -1100,16 +1100,19 @@ public partial class TProductionItem : TEObject
     public TProductionItem(TECustomNode owner) : base(owner)
     {}
 
-    public int FProductionID;
-    public int FParameter;
-    public int FGroupID;
+    public ProductionOrder Order = new UnknownOrder(0, 0, 0);
     // Structur.PAS:63
     public override void ReadWrite(TEStorageStream Stream)
     {
         base.ReadWrite(Stream);
-        Stream.rwInteger(ref FProductionID, 20);
-        Stream.rwInteger(ref FParameter, 21);
-        Stream.rwInteger(ref FGroupID, 22);
+        var (id, parameter, groupId) = Order.ToFields();
+        Stream.rwInteger(ref id, 20);
+        Stream.rwInteger(ref parameter, 21);
+        Stream.rwInteger(ref groupId, 22);
+        if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+        {
+            Order = ProductionOrder.FromFields(id, parameter, groupId);
+        }
     }
 
     // Structur.PAS:71
@@ -1178,7 +1181,7 @@ public partial class TProductionQueue : TENode
         while (Result != 0)
         {
             Result -= 1;
-            if (ID == ((TProductionItem)FChildren.List[Result]).FProductionID)
+            if (ID == ((TProductionItem)FChildren.List[Result]).Order.ToFields().Id)
             {
                 return Result;
             }
@@ -1188,7 +1191,7 @@ public partial class TProductionQueue : TENode
     }
 
     // Structur.PAS:100
-    public int IndexOf(int ID, int Parameter, int GroupID)
+    public int IndexOf(ProductionOrder Order)
     {
         TProductionItem Item;
         int Result = FChildren.Count;
@@ -1196,7 +1199,7 @@ public partial class TProductionQueue : TENode
         {
             Result -= 1;
             Item = (TProductionItem)FChildren.List[Result];
-            if (ID == Item.FProductionID && Parameter == Item.FParameter && Item.FGroupID == GroupID)
+            if (Item.Order == Order)
             {
                 return Result;
             }
@@ -1442,6 +1445,7 @@ public partial class TProductionControl : TEObject
         sbyte Player;
         if (FStatus == TProductionControlStatus.pcsProducing)
         {
+            FQueue.GetItem(0).Order.Cancel(this);
             if (FSettings.FGroupID != 0)
             {
                 UnregisterGroupProduction();
@@ -1470,9 +1474,7 @@ public partial class TProductionControl : TEObject
         TProductionItem Item;
         ExecuteDeleteProductions();
         Item = new TProductionItem(null);
-        Item.FProductionID = 1;
-        Item.FParameter = Index;
-        Item.FGroupID = GroupID;
+        Item.Order = new ProduceUnit(Index, GroupID);
         ExecuteAddProduction(Item);
         Item.Free();
         return true;
@@ -1487,8 +1489,7 @@ public partial class TProductionControl : TEObject
         {
             ExecuteDeleteProductions();
             Item = new TProductionItem(null);
-            Item.FProductionID = 2;
-            Item.FParameter = Index;
+            Item.Order = new ResearchSpell(Index);
             ExecuteAddProduction(Item);
             Item.Free();
             Result = true;
@@ -1511,62 +1512,9 @@ public partial class TProductionControl : TEObject
             BeginUpdate();
             ExecuteCancelProduction();
             FStatus = TProductionControlStatus.pcsWaiting;
-            switch (Item.FProductionID)
-            {
-                case 1:
-                    FSettings.Clear();
-                    FSettings.FUnitProductionIndex = Item.FParameter;
-                    var unitProduction = CreateUnitProduction(Item.FParameter);
-                    FSettings.FUnit = unitProduction;
-                    var unitProductionGold = UnitProductionGold(Item.FParameter);
-                    FSettings.FGold = unitProductionGold;
-                    var unitProductionMana = UnitProductionMana(Item.FParameter);
-                    FSettings.FMana = unitProductionMana;
-                    var unitProductionGoldUpkeep = UnitProductionGoldUpkeep(Item.FParameter);
-                    FSettings.FGoldUpkeep = unitProductionGoldUpkeep;
-                    var unitProductionManaUpkeep = UnitProductionManaUpkeep(Item.FParameter);
-                    FSettings.FManaUpkeep = unitProductionManaUpkeep;
-                    FSettings.FGroupID = Item.FGroupID;
-                    var unitProductionTime = UnitProductionTime(Item.FParameter);
-                    FSettings.FTurnsTotal = (sbyte)unitProductionTime;
-                    var player3 = GetPlayer();
-                    FSettings.FPlayer = player3;
-                    FSettings.FTurnsLeft = FSettings.FTurnsTotal;
-                {
-                    var player = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
-                    player.SetGems(player.FGems - this.FSettings.FGold);
-                    player.FMagicControl.SetMana(player.FMagicControl.FMana - this.FSettings.FMana);
-                }
-
-                    FStatus = TProductionControlStatus.pcsProducing;
-                    if (FSettings.FGroupID != 0)
-                    {
-                        RegisterGroupProduction();
-                    }
-
-                    break;
-                case 2:
-                    FSettings.Clear();
-                    FSettings.FUnitProductionIndex = Item.FParameter;
-                    var unitResearchGold = UnitResearchGold(Item.FParameter);
-                    FSettings.FGold = unitResearchGold;
-                    FSettings.FMana = 0;
-                    var unitResearchTime = UnitResearchTime(Item.FParameter);
-                    FSettings.FTurnsTotal = (sbyte)unitResearchTime;
-                    var player4 = GetPlayer();
-                    FSettings.FPlayer = player4;
-                    FSettings.FTurnsLeft = FSettings.FTurnsTotal;
-                {
-                    var player = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
-                    player.SetGems(player.FGems - this.FSettings.FGold);
-                    player.FMagicControl.SetMana(player.FMagicControl.FMana - this.FSettings.FMana);
-                }
-
-                    FStatus = TProductionControlStatus.pcsProducing;
-                    break;
-            }
-
+            Item.Order.Execute(this);
             EndUpdate();
+            Item.Order.Executed(this);
             Result = true;
         }
         else
@@ -1716,10 +1664,10 @@ public partial class TProductionControl : TEObject
     }
 
     // Structur.PAS:837
-    public virtual bool LoopableProduction(TProductionItem Item) => Item.FProductionID != 2;
+    public virtual bool LoopableProduction(TProductionItem Item) => Item.Order.Loopable(this);
 
     // Structur.PAS:834
-    public virtual bool LockQueueProduction(TProductionItem Item) => false;
+    public virtual bool LockQueueProduction(TProductionItem Item) => Item.Order.LocksQueue(this);
 
     // Structur.PAS:561
     public virtual bool UnitProduced() => false;
@@ -1799,29 +1747,15 @@ public partial class TProductionControl : TEObject
 
                 if (FSettings.FTurnsLeft == 0)
                 {
-                    switch (FQueue.GetItem(0).FProductionID)
-                    {
-                        case 1:
-                            if (UnitProduced())
-                            {
-                                if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman && FSettings.FGroupID != 0)
-                                {
-                                    GroupProductionProduced(FSettings.FUnit, FSettings.FGroupID);
-                                }
-
-                                FSettings.Clear();
-                                ProductionDone();
-                            }
-
-                            break;
-                        case 2:
-                            UnitResearched();
-                            FSettings.Clear();
-                            ProductionDone();
-                            break;
-                    }
+                    FQueue.GetItem(0).Order.Complete(this, Player);
                 }
             }
+        }
+
+        // City.pas:496, PrdPlace.pas:231
+        if (FStatus == TProductionControlStatus.pcsProducing && Player == FSettings.FPlayer && FSettings.FTurnsLeft == 0)
+        {
+            FQueue.GetItem(0).Order.Completed(this);
         }
     }
 
@@ -1843,62 +1777,7 @@ public partial class TProductionControl : TEObject
     }
 
     // Structur.PAS:361
-    public virtual bool CanExecuteProduction(TProductionItem Item, ref string Reason)
-    {
-        bool Result;
-        if (FStatus == TProductionControlStatus.pcsWaiting)
-        {
-            Reason = "(" + LowerCase(AoWEUnit.TranslateRStr(AoWEUnit.WaitingRStr)) + ")";
-        }
-
-        // { Original continues checking costs after assigning the waiting text. }
-        switch (Item.FProductionID)
-        {
-            case 1:
-                var player = GetPlayer();
-                var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(player);
-                if (UnitProductionGold(Item.FParameter) <= players.FGems)
-                {
-                    var player2 = GetPlayer();
-                    var fPlayersPlayers = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(player2);
-                    if (UnitProductionMana(Item.FParameter) <= fPlayersPlayers.FMagicControl.FMana)
-                    {
-                        Result = true;
-                    }
-                    else
-                    {
-                        Result = false;
-                        Reason = AoWEUnit.TranslateRStr(AoWEUnit.NotEnoughManaRStr);
-                    }
-                }
-                else
-                {
-                    Result = false;
-                    Reason = AoWEUnit.TranslateRStr(AoWEUnit.NotEnoughGoldRStr);
-                }
-
-                break;
-            case 2:
-                var player3 = GetPlayer();
-                var players2 = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(player3);
-                if (UnitResearchGold(Item.FParameter) <= players2.FGems)
-                {
-                    Result = true;
-                }
-                else
-                {
-                    Result = false;
-                    Reason = AoWEUnit.TranslateRStr(AoWEUnit.NotEnoughGoldRStr);
-                }
-
-                break;
-            default:
-                Result = false;
-                break;
-        }
-
-        return Result;
-    }
+    public virtual bool CanExecuteProduction(TProductionItem Item, ref string Reason) => Item.Order.CanExecute(this, ref Reason);
 
     // Structur.PAS:710
     public virtual bool DeleteProduction(int Index)
@@ -1960,102 +1839,10 @@ public partial class TProductionControl : TEObject
     }
 
     // Structur.PAS:840
-    public virtual string GetProductionName(TProductionItem Item)
-    {
-        string Result;
-        TUnitProduction Production;
-        switch (Item.FProductionID)
-        {
-            case 1:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    if (UnitProductionGold(Item.FParameter) != 0)
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.ProduceXRStr), [unitName]);
-                    }
-                    else
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SummonXRStr), [unitName]);
-                    }
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            case 2:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                    Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.InstallXRStr), [unitName]);
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            default:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                break;
-        }
-
-        return Result;
-    }
+    public virtual string GetProductionName(TProductionItem Item) => Item.Order.Name(this);
 
     // Structur.PAS:865
-    public virtual string GetProductionNameProgressive(TProductionItem Item)
-    {
-        string Result;
-        TUnitProduction Production;
-        switch (Item.FProductionID)
-        {
-            case 1:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    if (UnitProductionGold(Item.FParameter) != 0)
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.ProducingXRStr), [unitName]);
-                    }
-                    else
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SummoningXRStr), [unitName]);
-                    }
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            case 2:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                    Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.InstallingXRStr), [unitName]);
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            default:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                break;
-        }
-
-        return Result;
-    }
+    public virtual string GetProductionNameProgressive(TProductionItem Item) => Item.Order.NameProgressive(this);
 
     // Structur.PAS:577
     public virtual int UnitProductionGold(int Index)
@@ -2109,9 +1896,7 @@ public partial class TProductionControl : TEObject
             Event.FQueue = Queue;
             Event.FItem = new TProductionItem(null);
             // { explicit item receiver }
-            Event.FItem.FProductionID = 1;
-            Event.FItem.FParameter = Index;
-            Event.FItem.FGroupID = GroupID;
+            Event.FItem.Order = new ProduceUnit(Index, GroupID);
 
             var player = GetPlayer();
             AoWEUnit.AoWHSMap.FTokenManager.GetTokenControl(player).AddEvent(Event);
@@ -2152,7 +1937,7 @@ public partial class TProductionControl : TEObject
     public virtual bool CanResearchUnit(int Index, bool Queue, ref string Reason)
     {
         bool Result;
-        if (!Queue || FQueue.IndexOf(2, Index, 0) == -1)
+        if (!Queue || FQueue.IndexOf(new ResearchSpell(Index)) == -1)
         {
             Result = true;
         }
@@ -2185,8 +1970,7 @@ public partial class TProductionControl : TEObject
             Event.FQueue = Queue;
             Event.FItem = new TProductionItem(null);
             // { explicit item receiver }
-            Event.FItem.FProductionID = 2;
-            Event.FItem.FParameter = Index;
+            Event.FItem.Order = new ResearchSpell(Index);
 
             var player = GetPlayer();
             AoWEUnit.AoWHSMap.FTokenManager.GetTokenControl(player).AddEvent(Event);
@@ -52049,7 +51833,7 @@ public partial class TAIBudgetManager : TEObject
         for (int I = this.FPlayer.FProductionControls.Count - 1; I >= 0; I--)
         {
             Control = this.FPlayer.FProductionControls.GetPC(I);
-            if (Control.FStatus == TProductionControlStatus.pcsProducing && Control.FQueue.GetItem(0).FProductionID == 1 && Control.FSettings.FUnit != null)
+            if (Control.FStatus == TProductionControlStatus.pcsProducing && Control.FQueue.GetItem(0).Order is ProduceUnit && Control.FSettings.FUnit != null)
             {
                 FProductionGoldUpkeep += Control.FSettings.FGoldUpkeep;
                 FProductionManaUpkeep += Control.FSettings.FManaUpkeep;
@@ -53136,7 +52920,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
             Control = player.FProductionControls.GetPC(I);
             if (Control.FStatus == TProductionControlStatus.pcsProducing)
             {
-                if (Control.FQueue.GetItem(0).FProductionID == 1)
+                if (Control.FQueue.GetItem(0).Order is ProduceUnit)
                 {
                     Result = Control.FSettings.FUnit.GetTransportCapacity() != 0;
                 }
@@ -53161,7 +52945,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
             Control = player.FProductionControls.GetPC(I);
             if (Control.FStatus == TProductionControlStatus.pcsProducing)
             {
-                if (Control.FQueue.GetItem(0).FProductionID == 2)
+                if (Control.FQueue.GetItem(0).Order is ResearchSpell)
                 {
                     var unitProduction = Control.FUnitProductions.GetItem(Control.FSettings.FUnitProductionIndex);
                     Resource = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
