@@ -11,7 +11,7 @@ public static partial class Blit
     private static void Rle16(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, int key, bool blend, bool rgb565)
     {
         if (w <= 0 || h <= 0 || x >= sd.ClipRect.Right || x + w <= sd.ClipRect.Left || y >= sd.ClipRect.Bottom || y + h <= sd.ClipRect.Top) return;
-        var dst = Rtl.Rtl.BytePointer(sd.Data);
+        var dst = RtlUnit.BytePointer(sd.Data);
         bool fast = x >= sd.ClipRect.Left && x + w <= sd.ClipRect.Right;
         int row = 0;
         for (int ry = 0; ry < h; ry++)
@@ -100,7 +100,7 @@ public static partial class Blit
     private static void Rle08(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, byte key, Ptr<byte> palette, bool paletteMode)
     {
         int p = 0;
-        var dst = Rtl.Rtl.BytePointer(sd.Data);
+        var dst = RtlUnit.BytePointer(sd.Data);
         for (int ry = 0; ry < h; ry++)
         {
             p += 4;
@@ -139,7 +139,7 @@ public static partial class Blit
             if (right >= 0) { limit -= right * 2; words -= (right >> 5) + 1; }
         }
         if (clipped && words == 0 && left == 0) throw new EAccessViolation("Original clipped mask loop underflows its word count");
-        var dst = Rtl.Rtl.BytePointer(sd.Data);
+        var dst = RtlUnit.BytePointer(sd.Data);
         int m1 = rgb565 ? 0x7BEF : 0x3DEF, m2 = rgb565 ? 0xE79C : 0x739C;
         uint pair1 = rgb565 ? 0x7BEF7BEFu : 0x3DEF3DEFu, pair2 = rgb565 ? 0xE79CE79Cu : 0x739C739Cu;
         int Dark(int at) { int p = Word(dst, at); return ((p >> 1) & m1) + ((p & m2) >> 2); }

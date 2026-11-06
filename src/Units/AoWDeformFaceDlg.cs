@@ -1,9 +1,9 @@
 // Translated from AoWDeformFaceDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.UnitSpells;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -11,7 +11,7 @@ using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWDeformFaceDlg;
 
@@ -154,6 +154,6 @@ public partial class TDeformFaceDlg : TDataModule
     }
 }
 
-public static partial class AoWDeformFaceDlg
+public static partial class AoWDeformFaceDlgUnit
 {
 }

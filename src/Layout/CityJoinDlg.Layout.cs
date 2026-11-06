@@ -10,6 +10,9 @@ using Aow.Units.AoWFrame;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWArnoLine;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWCityJoinDlg
 {
@@ -474,27 +477,27 @@ namespace Aow.Units.AoWCityJoinDlg
             CloseBtn.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ApproachLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            TCeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            CeltFrame.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            Memo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            Memo.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            CancelBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CancelBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            AttackBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            AttackBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            AcceptBtn.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            AcceptBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            AcceptBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            WhatLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            CloseBtn.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            CloseBtn.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ApproachLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            CeltFrame.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            Memo.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            Memo.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            AttackBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            AttackBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            AcceptBtn.ToolTip = AoWWinManUnit.General.ToolTip;
+            AcceptBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            AcceptBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            WhatLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            CloseBtn.ToolTip = AoWWinManUnit.General.ToolTip;
+            CloseBtn.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
         }
 
         private void Layout_DlgHide_0(TObject p0)

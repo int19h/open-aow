@@ -1,9 +1,9 @@
 // Translated from AoWInfoWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AOWGauge;
 using Aow.Units.AoWArnoLine;
 using Aow.Units.AoWButton;
@@ -20,12 +20,12 @@ using Aow.Units.PowerNode;
 using Aow.Units.Farm;
 using Aow.Units.Tower;
 using Aow.Units.Sign;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWCityScreen.AoWCityScreen;
-using static Aow.Units.AoWProdScreen.AoWProdScreen;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
+using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
 using Aow.Units.City;
-using static Aow.Units.City.City;
+using static Aow.Units.City.CityUnit;
 using Aow.Units.PrdPlace;
 using Aow.Units.Cave;
 using Aow.Units.Teleport;
@@ -33,8 +33,11 @@ using Aow.Units.ExploreS;
 using Aow.Units.WizardsTower;
 using Aow.Units.Arena;
 using Aow.Units.Altar;
-using static Aow.Units.aowHelpWin.aowHelpWin;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.E3Globals;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWInfoWin;
 
@@ -303,8 +306,8 @@ public partial class TIWindow : TDataModule
                     {
                         var hero = Army.FArmy.Hero(255, AllHeroTypes);
                         General.FSelectedUnit = hero;
-                        AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
-                        AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected = 2;
+                        AoWUnitWindowUnit.UnitWindow.ShowUnit();
+                        AoWUnitWindowUnit.UnitWindow.UnitTab.Selected = 2;
                     }
                 }
             }
@@ -338,7 +341,7 @@ public partial class TIWindow : TDataModule
     }
 }
 
-public static partial class AoWInfoWin
+public static partial class AoWInfoWinUnit
 {
     public static TIWindow IWindow;
     // AoWInfoWin.pas:616
@@ -526,17 +529,17 @@ public static partial class AoWInfoWin
     {
         TArmyHS Army;
         ResetStructureInfo(Dialog);
-        var itemBag = TranslateRStr(E3Globals.E3Globals.ItemBagRStr);
+        var itemBag = TranslateRStr(E3GlobalsUnit.ItemBagRStr);
         Dialog.Title.Text = itemBag;
         Dialog.FItemBag = Items;
         Dialog.ItemPnl.Visible = true;
         Dialog.InfoWin.Visible = true;
         Dialog.StructNameLbl.Text = "";
-        var miscArt = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[35];
+        var miscArt = aowIntGfxModUnit.IntGfxMod.MiscArt[35];
         Dialog.StructLine.ImageTop = miscArt;
-        var miscArt2 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[36];
+        var miscArt2 = aowIntGfxModUnit.IntGfxMod.MiscArt[36];
         Dialog.StructLine.ImageMiddle = miscArt2;
-        var miscArt3 = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt[37];
+        var miscArt3 = aowIntGfxModUnit.IntGfxMod.MiscArt[37];
         Dialog.StructLine.ImageBottom = miscArt3;
         Army = ((TAoWMapField)Items.Owner).GetArmyHS();
         if (Army != null && Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
@@ -675,7 +678,7 @@ public static partial class AoWInfoWin
         var description = Structure.GetDescription();
         Dialog.SBmemo.Items.Assign(description);
         Dialog.SBmemo.Items.Add("");
-        var format = AoWE.AoWE.Format(TranslateRStr(IncomeXRStr), [IntToStr(Structure.FIncome)]);
+        var format = AoWEUnit.Format(TranslateRStr(IncomeXRStr), [IntToStr(Structure.FIncome)]);
         Dialog.SBmemo.Items.Add(format);
         Dialog.RazePnl.Visible = true;
     }
@@ -858,13 +861,13 @@ public static partial class AoWInfoWin
         var name = General.FCity.GetName();
         Dialog.StructNameLbl.Text = name;
         var raceNames = TranslateRStr(RaceNamesRStr[General.FCity.FRace]);
-        var format = AoWE.AoWE.Format(TranslateRStr(RaceXRStr), [raceNames]);
+        var format = AoWEUnit.Format(TranslateRStr(RaceXRStr), [raceNames]);
         Dialog.CityRaceLbl.Text = format;
         Dialog.CityLevelLbl.Text = IntToStr(Structure.FUpgradeLevel);
         Dialog.CityIncomeLbl.Text = IntToStr(Structure.FIncome);
         var civilStatus = Structure.GetCivilStatus();
         var civilStatusText = TranslateRStr(TCivilStatusRStr[(int)civilStatus]);
-        var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(StatusXRStr), [civilStatusText]);
+        var aoWEFormat = AoWEUnit.Format(TranslateRStr(StatusXRStr), [civilStatusText]);
         Dialog.CivilStatusLbl.Text = aoWEFormat;
         if (Structure.FProduction.FQueue.GetCount() != 0)
         {
@@ -1076,14 +1079,14 @@ public static partial class AoWInfoWin
         if (Structure is TCity)
         {
             var name = Structure.GetName();
-            Text = AoWE.AoWE.Format(TranslateRStr(CityOfXRStr), [name]);
+            Text = AoWEUnit.Format(TranslateRStr(CityOfXRStr), [name]);
         }
         else
         {
             Text = Structure.GetName();
         }
 
-        var format = AoWE.AoWE.Format(TranslateRStr(TheXliesInRuinsRStr), [Text]);
+        var format = AoWEUnit.Format(TranslateRStr(TheXliesInRuinsRStr), [Text]);
         Dialog.SBmemo.Items.Text = format;
         Dialog.SBmemo.Items.Insert(0, "");
         Dialog.SBmemo.Items.Insert(0, "");

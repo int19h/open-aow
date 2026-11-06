@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Units.AoWReg;
+using Aow.Units.GFXE;
 using SDL;
 
 namespace Aow.Game;
@@ -80,11 +81,11 @@ internal static class Verification
         Equal((-1,-1,false),viewport.Map(1400,500),"right of the output is outside");
         Equal((-1,-1,false),viewport.Map(-1,500),"left of the output is outside");
         Equal((-1,-1,false),viewport.Map(500,1000),"below the output is outside");
-        var sizes = Aow.Units.GFXE.GFXE.IntegerScaleSizes(3840,2160);
+        var sizes = GFXEUnit.IntegerScaleSizes(3840,2160);
         Check(sizes.SequenceEqual(new[] {(960,540),(1280,720),(1920,1080),(3840,2160)}), "integer scale sizes of 3840x2160");
-        Check(Aow.Units.GFXE.GFXE.IntegerScaleSizes(1920,1200).SequenceEqual(new[] {(960,600),(1920,1200)}), "integer scale sizes of 1920x1200");
-        Check(Aow.Units.GFXE.GFXE.IntegerScaleSizes(2560,1440).SequenceEqual(new[] {(853,480),(1280,720),(2560,1440)}), "uneven division rounds down");
-        Check(Aow.Units.GFXE.GFXE.IntegerScaleSizes(640,480).SequenceEqual(new[] {(640,480)}), "smallest desktop");
+        Check(GFXEUnit.IntegerScaleSizes(1920,1200).SequenceEqual(new[] {(960,600),(1920,1200)}), "integer scale sizes of 1920x1200");
+        Check(GFXEUnit.IntegerScaleSizes(2560,1440).SequenceEqual(new[] {(853,480),(1280,720),(2560,1440)}), "uneven division rounds down");
+        Check(GFXEUnit.IntegerScaleSizes(640,480).SequenceEqual(new[] {(640,480)}), "smallest desktop");
         var fullscreen = DisplayViewport.Fit(1280,720,2560,1440);
         Equal((2,0,0),(fullscreen.Scale,fullscreen.Left,fullscreen.Top),"a listed size fills the desktop at its scale");
         mapper.Motion(60,20,1,viewport,sink);
@@ -124,22 +125,22 @@ internal static class Verification
     private static void SettingsTests()
     {
         string directory = Path.Combine(scratch,"settings");
-        var oldSettings = Aow.Rtl.Rtl.Settings;
+        var oldSettings = RtlUnit.Settings;
         try
         {
-            Aow.Rtl.Rtl.Settings = new JsonSettingsStore(directory);
+            RtlUnit.Settings = new JsonSettingsStore(directory);
             var registry = new TAoWRegistry();
             Equal(0xffUL,registry.GetClassicWindowPopupEvents().Mask,"classic popup default");
             Equal(0xefUL,registry.GetSimultaneousWindowPopupEvents().Mask,"simultaneous popup default");
             registry.SetClassicWindowPopupEvents(TSet<TWindowPopupEvent>.FromMask(0x81));
             registry.SetSimultaneousWindowPopupEvents(TSet<TWindowPopupEvent>.FromMask(0x42));
-            Aow.Rtl.Rtl.Settings = new JsonSettingsStore(directory);
+            RtlUnit.Settings = new JsonSettingsStore(directory);
             registry = new TAoWRegistry();
             Equal(0x81UL,registry.GetClassicWindowPopupEvents().Mask,"classic popup persisted byte");
             Equal(0x42UL,registry.GetSimultaneousWindowPopupEvents().Mask,"simultaneous popup persisted byte");
             // Use a fresh store for the complete missing-value battery.
             directory = Path.Combine(scratch,"settings-defaults");
-            Aow.Rtl.Rtl.Settings = new JsonSettingsStore(directory);
+            RtlUnit.Settings = new JsonSettingsStore(directory);
             registry = new TAoWRegistry();
             Equal(640,registry.GetDisplayWidth(),"missing width default");
             Equal(480,registry.GetDisplayHeight(),"missing height default");
@@ -189,7 +190,7 @@ internal static class Verification
                     registry.CloseKey();
                     count++;
                 }
-            Aow.Rtl.Rtl.Settings = new JsonSettingsStore(directory);
+            RtlUnit.Settings = new JsonSettingsStore(directory);
             registry = new TAoWRegistry();
             foreach (var (section,kind,names) in schemas)
                 foreach (string name in names)
@@ -211,7 +212,7 @@ internal static class Verification
             Equal(true,registry.GetMusicEnabled(),"transpiled boolean getter");
             Equal("é test €",registry.GetLocalEmailAddress(),"transpiled string getter");
             Equal((byte)0xA5,(byte)registry.GetMovementSpeed(),"transpiled binary getter");
-            var store = (JsonSettingsStore)Aow.Rtl.Rtl.Settings;
+            var store = (JsonSettingsStore)RtlUnit.Settings;
             store.Write("Software/Classes/AgeOfWondersMap","ignored");
             Check(store.Read("Software/Classes/AgeOfWondersMap") is null,"association ignored");
             byte[] original = [1,2]; store.Write("General/copy",original); original[0] = 9;
@@ -221,9 +222,9 @@ internal static class Verification
             Check(json.Contains("rectangle") && json.Contains("boolean") && json.Contains("bytes"),"typed JSON kinds");
             Console.WriteLine($"P3 PASS: {count} settings round-trip through TRegistry, typed JSON, defaults and representative transpiled getters");
         }
-        finally { Aow.Rtl.Rtl.Settings = oldSettings; }
+        finally { RtlUnit.Settings = oldSettings; }
     }
-    private static void Write(IFileSystem files,string name,string value,int mode = Aow.Rtl.Rtl.fmCreate)
+    private static void Write(IFileSystem files,string name,string value,int mode = RtlUnit.fmCreate)
     {
         using var stream = files.Open(name,mode);
         using var writer = new StreamWriter(stream);
@@ -231,7 +232,7 @@ internal static class Verification
     }
     private static string Read(IFileSystem files,string name)
     {
-        using var stream = files.Open(name,Aow.Rtl.Rtl.fmOpenRead);
+        using var stream = files.Open(name,RtlUnit.fmOpenRead);
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
     }
@@ -253,7 +254,7 @@ internal static class Verification
         Equal("overlay",Read(files,@"Images/Scenes/Intro.avi"),"overlay wins");
         Equal("root",File.ReadAllText(Path.Combine(root,"Images","Scenes","Intro.avi")),"root unchanged");
         Equal(1,files.Enumerate(@"Images\Scenes").Count(),"shadow merged once");
-        Write(files,@"IMAGES\copy.dat","x",Aow.Rtl.Rtl.fmOpenReadWrite);
+        Write(files,@"IMAGES\copy.dat","x",RtlUnit.fmOpenReadWrite);
         Equal("x2345",Read(files,"images/copy.dat"),"copy on write keeps tail");
         Equal("12345",File.ReadAllText(Path.Combine(root,"Images","Copy.dat")),"copy on write protects install");
         Check(files.DeleteFile(@"Images\Scenes\Intro.avi"),"delete overlay");
@@ -271,7 +272,7 @@ internal static class Verification
         Equal(processDirectory,Directory.GetCurrentDirectory(),"process directory unchanged");
         Equal(root,files.CurrentDirectory,"browse returns to virtual root");
         Check(files.SetCurrentDirectory(files.VirtualDrive + @"\"),"virtual drive");
-        Equal(files.VirtualDrive,Aow.Rtl.Rtl.ExtractFileDrive(files.CurrentDirectory).ToString(),"Delphi drive extraction");
+        Equal(files.VirtualDrive,RtlUnit.ExtractFileDrive(files.CurrentDirectory).ToString(),"Delphi drive extraction");
         Check(files.SetCurrentDirectory(@"..\.."),"parent at drive root");
         Equal(root,files.CurrentDirectory,"drive root clamp");
         Equal(@"..\Campaign\x.hsm",files.ExtractRelativePath(Path.Combine(root,"Scenario","Custom","base.hsm"),Path.Combine(root,"Scenario","Campaign","x.hsm")),"relative path across siblings");
@@ -279,26 +280,26 @@ internal static class Verification
         Check(!files.RemoveDirectory(files.VirtualDrive + @"\"),"virtual drive deletion refused");
         Check(files.CreateDirectory("EmailIn"),"create user directory");
         Check(files.RemoveDirectory("EMAILIN"),"remove user directory");
-        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat",Aow.Rtl.Rtl.fmCreate),"unknown drive refused");
+        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat",RtlUnit.fmCreate),"unknown drive refused");
         Write(files,"../../escape.txt","contained");
         Check(File.Exists(Path.Combine(user,"escape.txt")),"parent traversal contained");
-        var old = Aow.Rtl.Rtl.Files;
-        Aow.Rtl.Rtl.Files = files;
+        var old = RtlUnit.Files;
+        RtlUnit.Files = files;
         try
         {
-            Equal(files.VirtualDrive,Aow.Rtl.Rtl.Files.VirtualDrive,"shared virtual drive");
-            Equal(@"Scenario\Campaign\x.hsm",Aow.Rtl.Rtl.ExtractRelativePath(
+            Equal(files.VirtualDrive,RtlUnit.Files.VirtualDrive,"shared virtual drive");
+            Equal(@"Scenario\Campaign\x.hsm",RtlUnit.ExtractRelativePath(
                 root + "\\",@"Scenario\Campaign\x.hsm"),"startup directory relative file");
-            Equal(@"..\Campaign\",Aow.Rtl.Rtl.ExtractRelativePath(
+            Equal(@"..\Campaign\",RtlUnit.ExtractRelativePath(
                 @"Scenario\Custom\",@"scenario\Campaign\"),"relative directory keeps separator and ignores case");
-            Equal("",Aow.Rtl.Rtl.ExtractRelativePath(
+            Equal("",RtlUnit.ExtractRelativePath(
                 @"Scenario\Custom\",@"scenario\CUSTOM\"),"same directory is empty");
-            Equal(@"..\Campaign\x.hsm",Aow.Rtl.Rtl.ExtractRelativePath(
+            Equal(@"..\Campaign\x.hsm",RtlUnit.ExtractRelativePath(
                 @"Scenario\Custom\base.hsm",@"Scenario\Campaign\x.hsm"),"shim relative path");
             var search = new TSearchRec();
-            Equal(0,Aow.Rtl.Rtl.FindFirst(@"Images\*.ilb",0,ref search),"shim FindFirst");
+            Equal(0,RtlUnit.FindFirst(@"Images\*.ilb",0,ref search),"shim FindFirst");
             Equal("a.ilb",search.Name,"FindFirst order");
-            Aow.Rtl.Rtl.FindClose(ref search);
+            RtlUnit.FindClose(ref search);
             int missingDirectoryExceptions = 0;
             void MissingDirectoryException(object? sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs error)
             {
@@ -308,16 +309,16 @@ internal static class Verification
             try
             {
                 Equal(0,files.Enumerate("PLUGINS").Count(),"missing directory enumerates no entries");
-                Equal(3,Aow.Rtl.Rtl.FindFirst(@"PLUGINS\*.dll",0,ref search),"missing plugin directory returns path not found");
-                Equal(6,Aow.Rtl.Rtl.FindNext(ref search),"missing directory leaves no search handle");
-                Equal(3,Aow.Rtl.Rtl.FindFirst(@"PLUGINS\*",Aow.Rtl.Rtl.faDirectory,ref search),"missing directory has no synthetic dot entries");
+                Equal(3,RtlUnit.FindFirst(@"PLUGINS\*.dll",0,ref search),"missing plugin directory returns path not found");
+                Equal(6,RtlUnit.FindNext(ref search),"missing directory leaves no search handle");
+                Equal(3,RtlUnit.FindFirst(@"PLUGINS\*",RtlUnit.faDirectory,ref search),"missing directory has no synthetic dot entries");
                 Equal(0,missingDirectoryExceptions,"missing directory emits no first chance exception");
             }
             finally { AppDomain.CurrentDomain.FirstChanceException -= MissingDirectoryException; }
-            Check(Aow.Rtl.Rtl.SetCurrentDir(@"Scenario\Custom"),"shim current directory");
-            Equal(Path.Combine(root,"Scenario","Campaign","x.hsm"),Aow.Rtl.Rtl.ExpandFileName(@"..\Campaign\x.hsm").ToString(),"shim expansion");
+            Check(RtlUnit.SetCurrentDir(@"Scenario\Custom"),"shim current directory");
+            Equal(Path.Combine(root,"Scenario","Campaign","x.hsm"),RtlUnit.ExpandFileName(@"..\Campaign\x.hsm").ToString(),"shim expansion");
         }
-        finally { Aow.Rtl.Rtl.Files = old; }
+        finally { RtlUnit.Files = old; }
         var single = new LayeredFileSystem(root,root);
         Write(single,"temp.txt","same");
         Check(single.DeleteFile("TEMP.TXT"),"single directory delete");
@@ -351,7 +352,7 @@ internal static class Verification
             Check(Directory.Exists(path) ? files.DirectoryExists(alternate) : files.FileExists(alternate),"install lookup " + relative);
             if (!Directory.Exists(path))
             {
-                using var stream = files.Open(alternate,Aow.Rtl.Rtl.fmOpenRead);
+                using var stream = files.Open(alternate,RtlUnit.fmOpenRead);
                 Equal(new FileInfo(path).Length,stream.Length,"install open " + relative);
             }
         }

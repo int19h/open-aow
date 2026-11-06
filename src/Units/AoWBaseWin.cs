@@ -1,8 +1,8 @@
 // Translated from AoWBaseWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AOWWinManager;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
@@ -526,6 +526,6 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     public TNotifyEvent OnShow { get => FOnShow; set => FOnShow = value; }
 }
 
-public static partial class AoWBaseWin
+public static partial class AoWBaseWinUnit
 {
 }

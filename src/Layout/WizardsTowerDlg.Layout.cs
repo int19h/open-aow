@@ -10,6 +10,9 @@ using Aow.Units.AoWFrame;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWMemo;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWWinMan;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWWizardsTowerDlg
 {
@@ -519,29 +522,29 @@ namespace Aow.Units.AoWWizardsTowerDlg
             PicPnl.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            CancelBtn.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            CancelBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CancelBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            BuyBtn.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            BuyBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            BuyBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            SpellName.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            SpellIcn.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin;
-            SpellClass.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8s;
-            SpellCost.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8s;
-            ResearchMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8s;
-            PriceLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            OfferText.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            PicPnl.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            PicPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            CancelBtn.ToolTip = AoWWinManUnit.General.ToolTip;
+            CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            BuyBtn.ToolTip = AoWWinManUnit.General.ToolTip;
+            BuyBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            BuyBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            SpellName.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            SpellIcn.ImageLib = aowIntGfxModUnit.IntGfxMod.RelWin;
+            SpellClass.AOWFont = AoWExeFormsUnit.FontModule.Age8s;
+            SpellCost.AOWFont = AoWExeFormsUnit.FontModule.Age8s;
+            ResearchMemo.AOWFont = AoWExeFormsUnit.FontModule.Age8s;
+            PriceLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            OfferText.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            PicPnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            PicPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.MiscArt;
         }
 
         private void Layout_CancelBtnClick_0(TObject p0)

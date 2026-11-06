@@ -1,6 +1,6 @@
 // Translated from EList.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.EList;
 
@@ -107,6 +107,6 @@ public partial class TObjectList : TList
     public new TListObject this[int Index] { get => GetListObject(Index); set => SetListObject(Index, value); }
 }
 
-public static partial class EList
+public static partial class EListUnit
 {
 }

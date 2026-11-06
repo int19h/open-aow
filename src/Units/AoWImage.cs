@@ -1,6 +1,6 @@
 // Translated from AoWImage.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWControl;
 
 namespace Aow.Units.AoWImage;
@@ -181,7 +181,7 @@ public partial class TAOWImage : TAOWControl
     public int AnimFrameDelay { get => FAnimFrameDelay; set => FAnimFrameDelay = value; }
 }
 
-public static partial class AoWImage
+public static partial class AoWImageUnit
 {
     // AoWImage.pas:208
     public static void Register()

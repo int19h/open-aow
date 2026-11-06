@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Merchant;
 
@@ -47,7 +47,7 @@ public partial class TMerchantResource : TStructureResource
 
 }
 
-public static partial class Merchant
+public static partial class MerchantUnit
 {
     // Merchant.pas:56
     public static void RegisterMerchant(TEngine AEngine)

@@ -1,16 +1,17 @@
 // Translated from AoWNewTurnDialog.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.AoWPInfoWin;
 
 namespace Aow.Units.AoWNewTurnDialog;
 
@@ -46,7 +47,7 @@ public partial class TNewTurnDlg : TDataModule
             AoWHSMap.SetSeatedPlayer(AoWHSMap.FCurrentPlayer);
             if (AoWHSMap.FSeatedPlayer > -1)
             {
-                AoWPInfoWin.AoWPInfoWin.PInfoW.UpdateEvents();
+                AoWPInfoWinUnit.PInfoW.UpdateEvents();
             }
         }
 
@@ -182,6 +183,6 @@ public partial class TNewTurnDlg : TDataModule
     }
 }
 
-public static partial class AoWNewTurnDialog
+public static partial class AoWNewTurnDialogUnit
 {
 }

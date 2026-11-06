@@ -5,7 +5,7 @@ using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.IsoHex;
 using Aow.Units.ItemGrid;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -157,7 +157,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+        if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
         try
         {

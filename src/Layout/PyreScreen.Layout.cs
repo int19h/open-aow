@@ -6,6 +6,8 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWImage;
 using Aow.Units.aowUserDrawBox;
+using Aow.Units.E2Globals;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AOWPyreScrn
 {
@@ -143,9 +145,9 @@ namespace Aow.Units.AOWPyreScrn
             LeaderFaceFr.Loaded();
             PyreAnimation.Loaded();
             session.Resolve(this);
-            DeadPnl.AOWWindow = E2Globals.E2Globals.TitleWindow.TitleWin;
-            PyreTop.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames;
-            LeaderFaceFr.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames;
+            DeadPnl.AOWWindow = E2GlobalsUnit.TitleWindow.TitleWin;
+            PyreTop.ImageLib = aowIntGfxModUnit.IntGfxMod.PyreFrames;
+            LeaderFaceFr.ImageLib = aowIntGfxModUnit.IntGfxMod.PyreFrames;
         }
 
         private void Layout_DeadPnlUpdate_0(TObject p0)

@@ -1,6 +1,6 @@
 // Translated from AoWPanel.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWComp;
@@ -810,7 +810,7 @@ public partial class TAOWPanel : TAOWBaseWindow
     public int MinHeight { get => FMinHeight; set => FMinHeight = value; }
 }
 
-public static partial class AoWPanel
+public static partial class AoWPanelUnit
 {
     // AoWPanel.pas:643
     public static void Register()

@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.BorderHx;
 
 namespace Aow.Units.Bridge;
@@ -372,7 +372,7 @@ public partial class TBridgeResource : TAbstractRoadResource
 
 }
 
-public static partial class Bridge
+public static partial class BridgeUnit
 {
     // Bridge.pas:264
     public static void RegisterBridge(TEngine Engine)

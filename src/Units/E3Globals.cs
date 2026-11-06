@@ -1,8 +1,8 @@
 // Translated from E3Globals.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWUnitSelDlg;
 using Aow.Units.AoWArmyInfoDlg;
 using Aow.Units.AoWDisjunctionDlg;
@@ -12,18 +12,18 @@ using Aow.Units.AoWEmailSettingsDlg;
 using Aow.Units.AoWEmailGameSettingsDlg;
 using Aow.Units.AoWTitleScene;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Units.AoWPOP3Dlg;
 using Aow.Units.AoWCastUnitSpellDlg;
 using Aow.Units.AoWDeformFaceDlg;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Platform;
 
 namespace Aow.Units.E3Globals;
 
-public static partial class E3Globals
+public static partial class E3GlobalsUnit
 {
     public static TUnitSelectionDlg UnitSelectionDlg;
     public static TArmyInfoDlg ArmyInfoDlg;
@@ -104,7 +104,7 @@ public static partial class E3Globals
                 }
                 else
                 {
-                    var format = AoWE.AoWE.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
+                    var format = AoWEUnit.Format(TranslateRStr(XTurnsRStr), [(byte)63]);
                     Window.ResearchTurnsLeft.Text = format;
                 }
 

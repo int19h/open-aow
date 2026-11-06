@@ -1,11 +1,11 @@
 // Translated from AoWUnitWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
@@ -18,11 +18,14 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWInfoBanner.AoWInfoBanner;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWInfoBanner.AoWInfoBannerUnit;
+using Aow.Units.AoWItemBanner;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AoWUnitWindow;
 
@@ -318,7 +321,7 @@ public partial class TUnitWindow : TDataModule
                     if (T1UseBut.Visible)
                     {
                         var name = A.GetName(General.FSelectedUnit);
-                        var format = AoWE.AoWE.Format(TranslateRStr(UseXRStr), [name]);
+                        var format = AoWEUnit.Format(TranslateRStr(UseXRStr), [name]);
                         T1UseBut.Text = format;
                     }
                 }
@@ -354,7 +357,7 @@ public partial class TUnitWindow : TDataModule
                 T1UseBut.Visible = true;
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
                 var name = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(General.FCombatUnit.FUnit.FUnit);
-                var format = AoWE.AoWE.Format(TranslateRStr(UseXRStr), [name]);
+                var format = AoWEUnit.Format(TranslateRStr(UseXRStr), [name]);
                 T1UseBut.Text = format;
             }
             else
@@ -376,7 +379,7 @@ public partial class TUnitWindow : TDataModule
     {
         TAOWCheckBox Check;
         Check = (TAOWCheckBox)Sender;
-        AoWItemBanner.AoWItemBanner.ItemID = Check.Tag;
+        AoWItemBannerUnit.ItemID = Check.Tag;
     }
 
     // AoWUnitWindow.pas:575
@@ -426,7 +429,7 @@ public partial class TUnitWindow : TDataModule
                     break;
             }
 
-            if (AoWUnitWindow.SelectedItem != null)
+            if (AoWUnitWindowUnit.SelectedItem != null)
             {
                 FBlinkDelay -= 1;
                 if (FBlinkDelay < 0)
@@ -523,11 +526,11 @@ public partial class TUnitWindow : TDataModule
     {
         string Reason = "";
         General.PlayButtonSound(0);
-        if (AoWUnitWindow.SelectedItem != null && General.FSelectedUnit is THero)
+        if (AoWUnitWindowUnit.SelectedItem != null && General.FSelectedUnit is THero)
         {
-            if (((THero)General.FSelectedUnit).CanUseItem(AoWUnitWindow.SelectedItem.Tag, ref Reason))
+            if (((THero)General.FSelectedUnit).CanUseItem(AoWUnitWindowUnit.SelectedItem.Tag, ref Reason))
             {
-                ((THero)General.FSelectedUnit).UseItem(AoWUnitWindow.SelectedItem.Tag);
+                ((THero)General.FSelectedUnit).UseItem(AoWUnitWindowUnit.SelectedItem.Tag);
             }
             else
             {
@@ -545,9 +548,9 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:693
     public void UnitWinMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight && AoWUnitWindow.SelectedItem != null)
+        if (Button == TMouseButton.mbRight && AoWUnitWindowUnit.SelectedItem != null)
         {
-            Gnd1Change(AoWUnitWindow.SelectedItem);
+            Gnd1Change(AoWUnitWindowUnit.SelectedItem);
         }
     }
 
@@ -656,16 +659,16 @@ public partial class TUnitWindow : TDataModule
                     }
                     else
                     {
-                        ((TAOWCheckBox)Sender).PopupMenu = AoWItemBanner.AoWItemBanner.ItemBanner.IBannerPopup;
+                        ((TAOWCheckBox)Sender).PopupMenu = AoWItemBannerUnit.ItemBanner.IBannerPopup;
                     }
 
-                    AoWItemBanner.AoWItemBanner.ItemID = ((TAOWCheckBox)Sender).Tag;
+                    AoWItemBannerUnit.ItemID = ((TAOWCheckBox)Sender).Tag;
                 }
                 else
                 {
-                    if (Sender == AoWUnitWindow.SelectedItem)
+                    if (Sender == AoWUnitWindowUnit.SelectedItem)
                     {
-                        AoWUnitWindow.SelectedItem.Checked = false;
+                        AoWUnitWindowUnit.SelectedItem.Checked = false;
                     }
                 }
             }
@@ -676,10 +679,10 @@ public partial class TUnitWindow : TDataModule
     public void HeadDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == 0)
+        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == 0)
         {
             var checkBox = (TAOWCheckBox)Sender;
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -687,10 +690,10 @@ public partial class TUnitWindow : TDataModule
     public void TorsoDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)1)
+        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)1)
         {
             var checkBox = (TAOWCheckBox)Sender;
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -698,10 +701,10 @@ public partial class TUnitWindow : TDataModule
     public void AttackDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)2)
+        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)2)
         {
             var checkBox = (TAOWCheckBox)Sender;
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -709,10 +712,10 @@ public partial class TUnitWindow : TDataModule
     public void DefendDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)3)
+        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)3)
         {
             var checkBox = (TAOWCheckBox)Sender;
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -720,10 +723,10 @@ public partial class TUnitWindow : TDataModule
     public void RingLDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindow.SelectedItem != null && Sender != AoWUnitWindow.SelectedItem && FItemType == (TItemType)4)
+        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)4)
         {
             var checkBox = (TAOWCheckBox)Sender;
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -731,7 +734,7 @@ public partial class TUnitWindow : TDataModule
     public void DisbandBtnClick()
     {
         var disbandUnit = TranslateRStr(DisbandUnitRStr);
-        var confirm = TranslateRStr(E2Globals.E2Globals.ConfirmRStr);
+        var confirm = TranslateRStr(E2GlobalsUnit.ConfirmRStr);
         DialogWin.Confirm(confirm, disbandUnit, 7);
     }
 
@@ -818,7 +821,7 @@ public partial class TUnitWindow : TDataModule
     }
 }
 
-public static partial class AoWUnitWindow
+public static partial class AoWUnitWindowUnit
 {
     public static TUnitWindow UnitWindow;
     public static TAOWCheckBox SelectedItem;

@@ -1,20 +1,22 @@
 // Translated from AOWPyreScrn.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.Sound;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWPanel;
 using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
-using static Aow.Units.AoWResultsWin.AoWResultsWin;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWResultsWin.AoWResultsWinUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AOWPyreScrn;
 
@@ -47,8 +49,8 @@ public partial class TPyreScreen : TDataModule
     public void FinishScreen()
     {
         ClearFire();
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames.ReleaseDiscardableImageData();
-        AOWPyreScrn.PyreScreen.DeadPnl.Visible = false;
+        aowIntGfxModUnit.IntGfxMod.PyreFrames.ReleaseDiscardableImageData();
+        AOWPyreScrnUnit.PyreScreen.DeadPnl.Visible = false;
         ShowResults(ResultsWin);
     }
 
@@ -73,13 +75,13 @@ public partial class TPyreScreen : TDataModule
                 break;
         }
 
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames.LoadDiscardableImageData();
-        E2Globals.E2Globals.TitleWindow.TitlePnl.Visible = false;
-        AOWPyreScrn.PyreScreen.DeadPnl.Visible = true;
+        aowIntGfxModUnit.IntGfxMod.PyreFrames.LoadDiscardableImageData();
+        E2GlobalsUnit.TitleWindow.TitlePnl.Visible = false;
+        AOWPyreScrnUnit.PyreScreen.DeadPnl.Visible = true;
         VideoDialog.SetSceneSize(640, 480);
         SetVideoMode(VideoDialog, TScreenMode.scmTitle);
         VideoDialog.ApplyMode();
-        E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
+        E2GlobalsUnit.TitleWindow.TitleWin.Visible = true;
         SetCurrentDir(ExtractFileDir(Application.ExeName));
     }
 
@@ -150,12 +152,12 @@ public partial class TPyreScreen : TDataModule
                     Frame = 0;
                 }
 
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.PyreFrames[Frame].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
+                aowIntGfxModUnit.IntGfxMod.PyreFrames[Frame].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
                 Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + TranslateRStr(YourReignHasEndedRStr);
                 FontModule.AoW15BlackBrown.SetTextCentered(X, Y, Text, SD);
                 break;
             case TGameOverStatus.goWon:
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.VictoryFrames[0].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
+                aowIntGfxModUnit.IntGfxMod.VictoryFrames[0].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
                 Text = AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + TranslateRStr(YouWhereVictoriousRStr);
                 FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, Text, SD);
                 break;
@@ -175,7 +177,7 @@ public partial class TPyreScreen : TDataModule
     }
 }
 
-public static partial class AOWPyreScrn
+public static partial class AOWPyreScrnUnit
 {
     public static TPyreScreen PyreScreen;
 }

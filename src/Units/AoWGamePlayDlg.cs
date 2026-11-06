@@ -1,8 +1,8 @@
 // Translated from AoWGamePlayDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWReg;
 using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
@@ -16,8 +16,9 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using Aow.Units.AoWMessageDlg;
 
 namespace Aow.Units.AoWGamePlayDlg;
 
@@ -119,12 +120,12 @@ public partial class TGamePlayDlg : TDataModule
         }
         else
         {
-            ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
+            ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
+            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
             var confirmationFailed = TranslateRStr(ConfirmationFailedRStr);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(confirmationFailed);
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
-            AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
+            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(confirmationFailed);
+            AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
+            AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
         }
     }
 
@@ -212,12 +213,12 @@ public partial class TGamePlayDlg : TDataModule
             {
                 if (!AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref Error))
                 {
-                    ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
+                    ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
+                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
                     var couldntChangePassword = TranslateRStr(CouldntChangePasswordRStr);
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(couldntChangePassword);
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
+                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(couldntChangePassword);
+                    AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
+                    AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
                 }
             }
         }
@@ -322,6 +323,6 @@ public partial class TGamePlayDlg : TDataModule
     }
 }
 
-public static partial class AoWGamePlayDlg
+public static partial class AoWGamePlayDlgUnit
 {
 }

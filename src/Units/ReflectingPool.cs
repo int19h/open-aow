@@ -2,9 +2,9 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.ReflectingPool;
 
@@ -220,7 +220,7 @@ public partial class TReflectingPool : TPlayerStructure
                 List = new TPlayerStructureList(null);
                 ListReflectingPools(ref List);
                 List.RemoveChild(this);
-                List.Sort(ReflectingPool.ComparePools);
+                List.Sort(ReflectingPoolUnit.ComparePools);
                 var count = List.Count;
                 if (FCenterFrame / 8 < count)
                 {
@@ -344,7 +344,7 @@ public partial class TReflectingPoolResource : TPlayerStructureResource
 
 }
 
-public static partial class ReflectingPool
+public static partial class ReflectingPoolUnit
 {
     // ReflectingPool.pas:272
     public static void RegisterReflectingPool(TEngine AEngine)

@@ -56,7 +56,7 @@ public partial class TCustomDisplay
         if (FOptions.Contains(doAutoResizeBackSurface)) ResizeBackSurfaces(screen.Width, screen.Height);
         FOnResize?.Invoke(this);
     }
-    public virtual void ShowError(string message) => Rtl.Rtl.ShowMessage(message);
+    public virtual void ShowError(string message) => RtlUnit.ShowMessage(message);
     public virtual void StopUpdateFrameLoop() => FStatus = FStatus.Without(dsFrameLoopActive);
     public virtual void PauseFrameUpdateLoop() { FPauseCount++; FStatus = FStatus.With(dsFrameLoopPaused); }
     public virtual void ResumeFrameUpdateLoop()
@@ -74,7 +74,7 @@ public partial class TCustomDisplay
             while (FStatus.Contains(dsFrameLoopActive) && !Terminated())
             {
                 if (!FStatus.Contains(dsFrameLoopPaused)) UpdateFrame();
-                else Rtl.Rtl.Clock.WaitMilliseconds(1);
+                else RtlUnit.Clock.WaitMilliseconds(1);
                 Host.PumpEvents(EventSink);
             }
         }
@@ -116,13 +116,13 @@ public partial class TCustomDisplay
             if (result < 0)
             {
                 if (previous is not null && previous.Activate(this) >= 0) FActiveDC = previous;
-                result = DisplayC.DCERR_ACTIVATEFAILED;
+                result = DisplayCUnit.DCERR_ACTIVATEFAILED;
             }
             else FActiveDC = dc;
             if (FActiveDC is null) return result;
             Resize();
             for (int i = 1; i <= (int)FBufferingScheme; i++)
-                if (saved[i] is not null) GFXE.GFXE.RemapSurface(saved[i], FActiveDC.GetSurface(i));
+                if (saved[i] is not null) GFXEUnit.RemapSurface(saved[i], FActiveDC.GetSurface(i));
             FOnActivateDC?.Invoke(this, FActiveDC);
             return result;
         }
@@ -137,7 +137,7 @@ public partial class TCustomDisplay
         PauseFrameUpdateLoop();
         try
         {
-            if (Host is null) return DisplayC.DCERR_NOTACTIVATED;
+            if (Host is null) return DisplayCUnit.DCERR_NOTACTIVATED;
             Host.Fullscreen = !Host.Fullscreen;
             FOnSwapDC?.Invoke(FActiveDC);
             Resize();
@@ -152,7 +152,7 @@ public partial class TDisplayCtrl
     private double lastVerticalBlank;
     public override int WaitForVerticalBlank()
     {
-        var clock = Rtl.Rtl.Clock;
+        var clock = RtlUnit.Clock;
         double target = lastVerticalBlank + FDisplay.FFrameTime;
         clock.WaitUntil(target);
         lastVerticalBlank = clock.ElapsedMilliseconds;
@@ -161,5 +161,5 @@ public partial class TDisplayCtrl
     }
     public override int Handle() => 0;
     public override TWinControl OutputWnd() => FDisplay;
-    public override void ShowError(string message) => Rtl.Rtl.ShowMessage(message);
+    public override void ShowError(string message) => RtlUnit.ShowMessage(message);
 }

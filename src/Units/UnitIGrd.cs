@@ -1,6 +1,6 @@
 // Translated from UnitIGrd.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
 
@@ -122,7 +122,7 @@ public partial class TUnitIndexGrid : TCustomImageDrawGrid
     public bool Sorted { get => FSorted; set => FSorted = value; }
 }
 
-public static partial class UnitIGrd
+public static partial class UnitIGrdUnit
 {
     // UnitIGrd.pas:190
     public static void Register()

@@ -1,14 +1,14 @@
 // Translated from AoWProdScreen.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWGauge;
@@ -23,10 +23,12 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.OverviewUnit.OverviewUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.OverviewUnit.OverviewUnitUnit;
 using Aow.Units.Shipyard;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWInfoBanner;
 
 namespace Aow.Units.AoWProdScreen;
 
@@ -377,12 +379,12 @@ public partial class TProductionScreen : TDataModule
                     UMovesIcon.CurrentImage = mTtoInt;
                     var alignment = U.GetAlignment();
                     var alignmentText = TranslateRStr(TAlignmentRStr[(int)alignment]);
-                    var format = AoWE.AoWE.Format(TranslateRStr(AlignmentXRStr), [alignmentText]);
+                    var format = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [alignmentText]);
                     UAlignment.Text = format;
                     var unitLevel = U.GetUnitLevel();
-                    var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
+                    var aoWEFormat = AoWEUnit.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
                     var upkeep = U.GetUpkeep();
-                    var format2 = AoWE.AoWE.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
+                    var format2 = AoWEUnit.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
                     ULevel.Text = aoWEFormat + " / " + format2;
                     UAbilitiesLB.Items.Clear();
                     U.ListAbilities(UAbilitiesLB.Items);
@@ -396,7 +398,7 @@ public partial class TProductionScreen : TDataModule
                         var queue = TranslateRStr(QueueRStr);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AoWE.AoWE.Format(TranslateRStr(ProduceXRStr), [name]);
+                        var format3 = AoWEUnit.Format(TranslateRStr(ProduceXRStr), [name]);
                         UnitLbl.Text = format3;
                         var unitProductionGold = FPlace.FProductionControl.UnitProductionGold(FProductionIndex);
                         UCost.Text = IntToStr(unitProductionGold);
@@ -413,7 +415,7 @@ public partial class TProductionScreen : TDataModule
                         var queue = TranslateRStr(QueueRStr);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AoWE.AoWE.Format(TranslateRStr(InstallXRStr), [name]);
+                        var format3 = AoWEUnit.Format(TranslateRStr(InstallXRStr), [name]);
                         UnitLbl.Text = format3;
                         var unitResearchGold = FPlace.FProductionControl.UnitResearchGold(FProductionIndex);
                         UCost.Text = IntToStr(unitResearchGold);
@@ -474,7 +476,7 @@ public partial class TProductionScreen : TDataModule
                 PPrev.Visible = false;
                 PNext.Visible = false;
                 var fPlaceName = FPlace.GetName();
-                var format4 = AoWE.AoWE.Format(TranslateRStr(ProductionPlaceXRazeRStr), [fPlaceName]);
+                var format4 = AoWEUnit.Format(TranslateRStr(ProductionPlaceXRazeRStr), [fPlaceName]);
                 UpgradeMemo.Items.Text = format4;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 26;
@@ -498,7 +500,7 @@ public partial class TProductionScreen : TDataModule
         {
             var power = FPlace.GetPower();
             var xPower = TranslateRStr(XPowerRStr);
-            var format = AoWE.AoWE.Format(" " + xPower, [IntToStr(power)]);
+            var format = AoWEUnit.Format(" " + xPower, [IntToStr(power)]);
             IncomeHdr.Items.Add(format);
         }
 
@@ -506,7 +508,7 @@ public partial class TProductionScreen : TDataModule
         {
             var fPlaceIncome = FPlace.GetIncome();
             var xGold = TranslateRStr(XGoldRStr);
-            var format = AoWE.AoWE.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
+            var format = AoWEUnit.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
             IncomeHdr.Items.Add(format);
         }
 
@@ -514,7 +516,7 @@ public partial class TProductionScreen : TDataModule
         {
             IncomePicture.ILIndexTexture = 64;
             IPPicFr.ILTexture = null;
-            var sphereImage = AoWProdScreen.SphereImage(FPlace.GetMagicSphere());
+            var sphereImage = AoWProdScreenUnit.SphereImage(FPlace.GetMagicSphere());
             Sphere.SetILUIndex(sphereImage);
             Sphere.Visible = true;
         }
@@ -530,7 +532,7 @@ public partial class TProductionScreen : TDataModule
                 IncomePicture.ILIndexTexture = 65;
             }
 
-            IPPicFr.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin;
+            IPPicFr.ILTexture = aowIntGfxModUnit.IntGfxMod.CityWin;
             if (FPlace is TShipyard)
             {
                 IPPicFr.ILIndexTexture = 67;
@@ -763,7 +765,7 @@ public partial class TProductionScreen : TDataModule
                     Info.Looped = false;
                     if (!FPlace.FProductionControl.FUnitProductions.GetItem(Sender.Tag).FResearched)
                     {
-                        aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
+                        aowIntGfxModUnit.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
                         Info.Direction = 5;
                         if (U != null)
                         {
@@ -771,11 +773,11 @@ public partial class TProductionScreen : TDataModule
                         }
 
                         var lookupTable = AlphaBlendTable.GetLookupTables(45);
-                        aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
+                        aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
                     }
                     else
                     {
-                        aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
+                        aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
                         if (U != null)
                         {
                             U.ShowEx(R.Left - 4, R.Top, SD, Info);
@@ -786,7 +788,7 @@ public partial class TProductionScreen : TDataModule
                 }
                 else
                 {
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+                    aowIntGfxModUnit.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
                 }
 
                 break;
@@ -796,17 +798,17 @@ public partial class TProductionScreen : TDataModule
                     Item = new TProductionItem(null);
                     Item.FProductionID = 10;
                     var activityImage = ActivityImage(Item);
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, SD);
+                    aowIntGfxModUnit.IntGfxMod.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, SD);
                     Item.Free();
                 }
                 else
                 {
-                    aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+                    aowIntGfxModUnit.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
                 }
 
                 break;
             case 5:
-                aowIntGfxMod.aowIntGfxMod.IntGfxMod.CityWin[46].Show(R.Left + 2, R.Top + 2, SD);
+                aowIntGfxModUnit.IntGfxMod.CityWin[46].Show(R.Left + 2, R.Top + 2, SD);
                 break;
         }
     }
@@ -1187,7 +1189,7 @@ public partial class TProductionScreen : TDataModule
             if (A != null)
             {
                 var name = A.GetName(null);
-                SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, name, A.FDescription);
+                SetInfoBanner(AoWInfoBannerUnit.InfoBanner, name, A.FDescription);
             }
         }
     }
@@ -1254,7 +1256,7 @@ public partial class TProductionScreen : TDataModule
     }
 }
 
-public static partial class AoWProdScreen
+public static partial class AoWProdScreenUnit
 {
     public static TProductionScreen ProductionScreen;
     // AoWProdScreen.pas:819

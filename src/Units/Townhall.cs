@@ -31,7 +31,7 @@ public partial class TTownhallResource : TCombatStructureResource
 
 }
 
-public static partial class Townhall
+public static partial class TownhallUnit
 {
     // Townhall.pas:48
     public static void RegisterTownhall(TEngine AEngine)

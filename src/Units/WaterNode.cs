@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.WaterNode;
 
@@ -47,7 +47,7 @@ public partial class TWaterNodeResource : TProductionPlaceResource
 
 }
 
-public static partial class WaterNode
+public static partial class WaterNodeUnit
 {
     // WaterNode.pas:61
     public static void RegisterWaterNode(TEngine AEngine)

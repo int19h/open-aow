@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AGCPlugins;
 
 namespace Aow.Units.BehaviorAG;
@@ -996,7 +996,7 @@ public partial class TRegistrator : TObject
 
 }
 
-public static partial class BehaviorAG
+public static partial class BehaviorAGUnit
 {
     public static void Initialize()
     {

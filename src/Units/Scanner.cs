@@ -1,15 +1,15 @@
 // Translated from Scanner.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Scanner;
 
@@ -986,7 +986,7 @@ public enum TOType : byte
     otNatural = 2
 }
 
-public static partial class Scanner
+public static partial class ScannerUnit
 {
     // Scanner.pas:458
     public static void Register()

@@ -1,15 +1,17 @@
 // Translated from AoWTitleScene.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AowUserWindow;
-using static Aow.Units.AoWFileDialog.AoWFileDialog;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using Aow.Units.AoWE;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AoWTitleScene;
 
@@ -357,7 +359,7 @@ public partial class TTitleScene : TDataModule
             if (I == HitTest())
             {
                 FFont.Color = 16777215;
-                var translateRStr = TranslateRStr(AoWTitleScene.TitleButtons[I]);
+                var translateRStr = TranslateRStr(AoWTitleSceneUnit.TitleButtons[I]);
                 var titleSceneIL = TitleSceneIL[10];
                 FFont.SetTextCentered(X + Spacing * I + titleSceneIL.Width / 2, Y + 445, translateRStr, Surface);
             }
@@ -484,7 +486,7 @@ public partial class TTitleScene : TDataModule
         var registeredTo = AoWEngine.RegisteredTo();
         NameLbl.Text = registeredTo;
         var versionStr = AoWEngine.GetVersionStr();
-        var format = AoWE.AoWE.Format(TranslateRStr(VersionXRStr), [versionStr]);
+        var format = AoWEUnit.Format(TranslateRStr(VersionXRStr), [versionStr]);
         Version.Text = format;
         FCredits = new TList();
         Lines = new TStringList();
@@ -604,7 +606,7 @@ public partial class TTitleScene : TDataModule
     public void WindowUpdate()
     {
         Window.FSurfaceValid = false;
-        if (!FileDlgWindow.FileDialog.Visible && !E2Globals.E2Globals.ProgressDialog.ProgDlg.Visible)
+        if (!FileDlgWindow.FileDialog.Visible && !E2GlobalsUnit.ProgressDialog.ProgDlg.Visible)
         {
             AdvanceFrame();
         }
@@ -633,7 +635,7 @@ public partial class TTitleScene : TDataModule
     }
 }
 
-public static partial class AoWTitleScene
+public static partial class AoWTitleSceneUnit
 {
     public static readonly string TitleNewGameRStr = "New Game";
     public static readonly string TitleCampaignRStr = "Campaign";

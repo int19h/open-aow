@@ -1,6 +1,6 @@
 // Translated from AoWTCUnit.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
@@ -13,13 +13,14 @@ using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.E1Resources.E1Resources;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWInfoBanner.AoWInfoBanner;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.E1Resources.E1ResourcesUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWInfoBanner.AoWInfoBannerUnit;
+using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.AoWTCUnit;
 
@@ -217,7 +218,7 @@ public partial class TTCUnit : TDataModule
     public void HeroSMapMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         General.FSelectedUnit = General.FCombatUnit.FUnit.FUnit;
-        AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
+        AoWUnitWindowUnit.UnitWindow.ShowUnit();
     }
 
     // AoWTCUnit.pas:194
@@ -242,7 +243,7 @@ public partial class TTCUnit : TDataModule
     }
 }
 
-public static partial class AoWTCUnit
+public static partial class AoWTCUnitUnit
 {
     public static TTCUnit TCUnit;
     // AoWTCUnit.pas:197

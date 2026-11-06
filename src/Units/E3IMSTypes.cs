@@ -44,6 +44,6 @@ public partial class TmsAttList : TObject
     }
 }
 
-public static partial class E3IMSTypes
+public static partial class E3IMSTypesUnit
 {
 }

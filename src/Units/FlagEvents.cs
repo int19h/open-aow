@@ -5,7 +5,7 @@ using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.FlagEvents;
 
@@ -272,7 +272,7 @@ public enum TFlagEventTriggerMode : byte
     etmNewTurn = 1
 }
 
-public static partial class FlagEvents
+public static partial class FlagEventsUnit
 {
     // FlagEvents.pas:284
     public static void RegisterFlagEvents(TEngine AEngine)

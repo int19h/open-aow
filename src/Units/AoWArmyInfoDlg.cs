@@ -11,7 +11,10 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AOWControlWin;
 
 namespace Aow.Units.AoWArmyInfoDlg;
 
@@ -62,10 +65,10 @@ public partial class TArmyInfoDlg : TDataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             Alignment = FEvent.FArmyView.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < aowIntGfxModUnit.IntGfxMod.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
             }
 
@@ -75,7 +78,7 @@ public partial class TArmyInfoDlg : TDataModule
             FEvent.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, SD, Info);
             if ((((int)(((uint)FEvent.FSelection) >> Index)) & 1) == 0)
             {
-                Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
             }
 
@@ -91,8 +94,8 @@ public partial class TArmyInfoDlg : TDataModule
         if (FUnitInfoShown)
         {
             FUnitInfoShown = false;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Priority = AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Priority;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = AOWControlWinUnit.ControlWin.ControlWindow.Priority;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
         }
 
         Notify = FOnClose;
@@ -135,8 +138,8 @@ public partial class TArmyInfoDlg : TDataModule
             if (Button == TMouseButton.mbLeft)
             {
                 FUnitInfoShown = true;
-                AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
-                AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                AoWUnitWindowUnit.UnitWindow.ShowUnit();
+                AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }
     }
@@ -191,6 +194,6 @@ public partial class TArmyInfoDlg : TDataModule
     }
 }
 
-public static partial class AoWArmyInfoDlg
+public static partial class AoWArmyInfoDlgUnit
 {
 }

@@ -6,7 +6,7 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
 using Aow.Units.EventLog;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWMsgReceiveDlg;
 
@@ -60,6 +60,6 @@ public partial class TMsgReceiveDlg : TDataModule
     }
 }
 
-public static partial class AoWMsgReceiveDlg
+public static partial class AoWMsgReceiveDlgUnit
 {
 }

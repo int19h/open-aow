@@ -1,8 +1,8 @@
 // Translated from AoWConstructDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
@@ -11,7 +11,7 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWConstructDlg;
 
@@ -214,6 +214,6 @@ public partial class TConstructDlg : TDataModule
     }
 }
 
-public static partial class AoWConstructDlg
+public static partial class AoWConstructDlgUnit
 {
 }

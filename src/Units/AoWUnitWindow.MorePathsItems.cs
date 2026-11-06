@@ -2,8 +2,9 @@
 using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.AoWCheckBox;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Platform;
+using Aow.Units.Sound;
 
 namespace Aow.Units.AoWUnitWindow;
 
@@ -14,14 +15,14 @@ public partial class TUnitWindow
     {
         var check = (TAOWCheckBox)sender;
         var hero = (THero)General.FSelectedUnit;
-        if (hero is null || AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
+        if (hero is null || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
         FCursorImage = null;
-        var selected = AoWUnitWindow.SelectedItem;
+        var selected = AoWUnitWindowUnit.SelectedItem;
         if (check != selected)
         {
             if (selected is not null)
             {
-                Sound.Sound.PlaySample("SFX\\Events\\NewEvent.Wav");
+                SoundUnit.PlaySample("SFX\\Events\\NewEvent.Wav");
                 if (check.Tag != -1) hero.SwapItem(selected.Tag, check.Tag);
                 else
                 {
@@ -47,7 +48,7 @@ public partial class TUnitWindow
             }
             else if (check.Tag != -1)
             {
-                AoWUnitWindow.SelectedItem = check;
+                AoWUnitWindowUnit.SelectedItem = check;
                 FHighlight = 50;
                 FHighlightStep = 10;
                 var item = hero.FInventory.FindItem(check.Tag) ?? hero.FHeroItems.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
@@ -77,7 +78,7 @@ public partial class TUnitWindow
 
     private void ClearItemSelection()
     {
-        AoWUnitWindow.SelectedItem = null;
+        AoWUnitWindowUnit.SelectedItem = null;
         UnitWin.Cursor = 0;
         FItemType = TItemType.itUse;
         ItemUseBtn.Visible = false;

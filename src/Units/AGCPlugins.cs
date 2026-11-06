@@ -1,12 +1,12 @@
 // Translated from AGCPlugins.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.City;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AGCPlugins;
 
@@ -88,7 +88,7 @@ public partial class TAIGroupRazeControl : TAIGroupControlPlugin
     // AGCPlugins.pas:90
     public void Reset()
     {
-        FDamageTypes = AGCPlugins.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
+        FDamageTypes = AGCPluginsUnit.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
         FMode = TSet<TAIGroupRazeControlModeElement>.Of(TAIGroupRazeControlModeElement.rcmCannotDefend);
         FCityStrengthFactor = 2;
         FStructureStrengthFactor = 2;
@@ -268,7 +268,7 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
         this.FSelector.FTargetInfo.Mode = TAITargetMode.tmDefend;
 
         FPathStep = 7;
-        FDamageTypes = AGCPlugins.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
+        FDamageTypes = AGCPluginsUnit.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
         FBattleFieldRadius = 10;
         FMovePointsFactor = -1;
         FMode = TSet<TAIGroupDefendTargetSelectorModeElement>.Of();
@@ -478,7 +478,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
 
                 if (Fields.Count > 0)
                 {
-                    Fields.Sort(AGCPlugins.CompareWanderFields);
+                    Fields.Sort(AGCPluginsUnit.CompareWanderFields);
                     Field = null;
                     I = 0;
                     while (Fields.Count != 0 && Field == null)
@@ -554,7 +554,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
 
 }
 
-public static partial class AGCPlugins
+public static partial class AGCPluginsUnit
 {
     public static TSet<TDamageType> AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
     // AGCPlugins.pas:326

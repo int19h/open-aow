@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     private static int randomSeed;
     public static Action<RandomTraceEvent>? RandomTrace { get; set; }

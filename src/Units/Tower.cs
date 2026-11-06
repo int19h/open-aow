@@ -1,10 +1,10 @@
 // Translated from Tower.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tower;
 
@@ -141,7 +141,7 @@ public partial class TTowerConstructionControl : TStructureConstructionControl
     public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
     {
         var tower = TranslateRStr(TowerRStr);
-        Text = Rtl.Rtl.Format(TranslateRStr(BuildXRStr), [tower]);
+        Text = RtlUnit.Format(TranslateRStr(BuildXRStr), [tower]);
         Gold = 50;
         Days = 2;
     }
@@ -162,7 +162,7 @@ public partial class TTowerConstructionControl : TStructureConstructionControl
         {
             Result = false;
             var tower = TranslateRStr(TowerRStr);
-            Reason = Rtl.Rtl.Format(TranslateRStr(CannotBuildXInUndergroundRStr), [tower]);
+            Reason = RtlUnit.Format(TranslateRStr(CannotBuildXInUndergroundRStr), [tower]);
         }
 
         return Result;
@@ -176,7 +176,7 @@ public partial class TTowerConstructionControl : TStructureConstructionControl
 
 }
 
-public static partial class Tower
+public static partial class TowerUnit
 {
     // Tower.pas:159
     public static void RegisterTower(TEngine AEngine)

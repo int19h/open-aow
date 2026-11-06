@@ -1,9 +1,9 @@
 // Translated from PageTurnCtrl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.PageTurnCtrl;
 
@@ -127,7 +127,7 @@ public partial class TPageTurnControl : TObject
                 }
 
                 DestP = (BytePointer(Dest.Data) + DestX * 2 + Dest.Pitch * Y).Box();
-                PageTurnCtrl.BltColumn(SourceP, SourcePitch, DestP, Dest.Pitch, Height);
+                PageTurnCtrlUnit.BltColumn(SourceP, SourcePitch, DestP, Dest.Pitch, Height);
             }
         }
     }
@@ -518,7 +518,7 @@ public enum TPageTurnMode : byte
     ptClose = 3
 }
 
-public static partial class PageTurnCtrl
+public static partial class PageTurnCtrlUnit
 {
     // PageTurnCtrl.pas:108
     public static void BltColumn(object Source, int SourcePitch, object Dest, int DestPitch, int Height)

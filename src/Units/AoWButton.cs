@@ -1,6 +1,6 @@
 // Translated from AoWButton.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AOWMenu;
@@ -395,7 +395,7 @@ public partial class TAOWButton : TAOWBaseButton
     public TNotifyEvent OnClick { get => FOnClick; set => FOnClick = value; }
 }
 
-public static partial class AoWButton
+public static partial class AoWButtonUnit
 {
     // AoWButton.pas:313
     public static void Register()

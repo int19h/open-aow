@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.ItemExpS;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Crypt;
 
@@ -32,7 +32,7 @@ public partial class TCryptResource : TItemExplorationSiteResource
 
 }
 
-public static partial class Crypt
+public static partial class CryptUnit
 {
     // Crypt.pas:46
     public static void RegisterCrypt(TEngine AEngine)

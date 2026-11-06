@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Units.Engine;
 
-public static partial class Engine
+public static partial class EngineUnit
 {
     // Engine.pas:3200, REP STOSD uses an unsigned count. Invalid negative counts fault.
     public static void FillInteger(Span<int> buffer, int count, int value) => Fill(buffer, count, value);

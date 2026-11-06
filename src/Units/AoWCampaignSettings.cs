@@ -1,8 +1,8 @@
 // Translated from AoWCampaignSettings.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWComboBox;
 using Aow.Units.AoWFrame;
@@ -74,6 +74,6 @@ public partial class TCampaignSettingsDlg : TDataModule
     }
 }
 
-public static partial class AoWCampaignSettings
+public static partial class AoWCampaignSettingsUnit
 {
 }

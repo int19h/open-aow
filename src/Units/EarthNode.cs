@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.EarthNode;
 
@@ -46,7 +46,7 @@ public partial class TEarthNodeResource : TProductionPlaceResource
 
 }
 
-public static partial class EarthNode
+public static partial class EarthNodeUnit
 {
     // EarthNode.pas:59
     public static void RegisterEarthNode(TEngine AEngine)

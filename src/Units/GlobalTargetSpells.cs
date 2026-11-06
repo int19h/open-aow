@@ -1,18 +1,18 @@
 // Translated from GlobalTargetSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.SmokeCloud;
 using Aow.Units.AoWReg;
 
@@ -170,7 +170,7 @@ public partial class TGlobalTargetSpell : TSpell
         TargetSelection.FRange = 12;
         TargetSelection.FOnChange.Add(OnTargetSelectionChange);
         TargetSelection.FOnShow = ShowTargetSelection;
-        var format = Rtl.Rtl.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [FSpellName]);
+        var format = RtlUnit.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [FSpellName]);
         TargetSelection.FText.Text = format;
         TargetSelection.FTitle = FSpellName;
         TargetSelection.FCancelText = TranslateRStr(CancelRStr);
@@ -204,7 +204,7 @@ public partial class TGlobalTargetSpell : TSpell
     public virtual void OnTargetSelectionChange(TObject sender)
     {
         var target = (TTargetSelectionControl)sender;
-        var caster = AoWE.AoWE.AoWHSMap.FUnitControl.FindUnit(FCasterID);
+        var caster = AoWHSMap.FUnitControl.FindUnit(FCasterID);
         if (caster is null || target.FChange == TTargetSelectionChange.tscDeactivated)
         {
             target.FOnChange.Remove(OnTargetSelectionChange);
@@ -1264,7 +1264,7 @@ public partial class TTornadoTE : TGlobalTargetSpellTE
                     Log = new TArmyEventLog(null);
                     Log.FPlayer = source.FPlayer;
                     var tornado = TranslateRStr(TornadoRStr);
-                    Log.FArmyText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [tornado]);
+                    Log.FArmyText = RtlUnit.Format(TranslateRStr(XCastRStr), [tornado]);
                     var tornadoText = TranslateRStr(TornadoRStr);
                     Log.FArmyMessages.Add(tornadoText);
                     Log.FArmyIcon = 2;
@@ -2338,7 +2338,7 @@ public struct TSpellEngineSetFields
     public TAoWHSSet HSSet;
 }
 
-public static partial class GlobalTargetSpells
+public static partial class GlobalTargetSpellsUnit
 {
     // GlobalTargetSpells.pas:2417
     public static void RegisterGlobalTargetSpells(TAoWEngine Engine)

@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.BldGuild;
 
@@ -45,7 +45,7 @@ public partial class TBuildersGuildResource : TProductionPlaceResource
 
 }
 
-public static partial class BldGuild
+public static partial class BldGuildUnit
 {
     // BldGuild.pas:59
     public static int BuildersGuildIncome(sbyte Player)

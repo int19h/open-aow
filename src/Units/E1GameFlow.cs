@@ -1,29 +1,36 @@
 // Translated from E1GameFlow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWWinMan;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Units.AoWScenSetup;
 using Aow.Units.AoWWorldMap;
-using static Aow.Units.AoWWorldMap.AoWWorldMap;
+using static Aow.Units.AoWWorldMap.AoWWorldMapUnit;
 using Aow.Units.AOWMultiWin;
 using Aow.Units.AOWTitleWindow;
 using Aow.Units.AOWPyreScrn;
 using Aow.Units.AoWMagic;
 using Aow.Units.EventLog;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWWindow;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWFileDialog.AoWFileDialog;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using Aow.Units.AoWPInfoWin;
+using Aow.Units.AoWRealm;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AoWSWindow;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AOWMWindow;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.E1GameFlow;
 
-public static partial class E1GameFlow
+public static partial class E1GameFlowUnit
 {
     // E1GameFlow.pas:28
     // { Unnamed executable game-flow routines used by E1. }
@@ -93,15 +100,15 @@ public static partial class E1GameFlow
         if (!Controller.FWindowsHidden)
         {
             Controller.FWindowsHidden = true;
-            Controller.FInfoVisible = AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible;
-            Controller.FRealmVisible = AoWRealm.AoWRealm.RealmWin.Dlg.Visible;
+            Controller.FInfoVisible = AoWPInfoWinUnit.PInfoW.PInfoWin.Visible;
+            Controller.FRealmVisible = AoWRealmUnit.RealmWin.Dlg.Visible;
             Controller.FMagicVisible = MagicWin.Dlg.Visible;
-            Controller.FUnitVisible = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible;
+            Controller.FUnitVisible = AoWUnitWindowUnit.UnitWindow.UnitWin.Visible;
             Controller.FTargetVisible = TargetSelectionDlg.Dlg.Visible;
-            Controller.FScannerVisible = AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible;
-            Controller.FControlVisible = AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
+            Controller.FScannerVisible = AoWSWindowUnit.SWindow.ScannerWindow.Visible;
+            Controller.FControlVisible = AOWControlWinUnit.ControlWin.ControlWindow.Visible;
             Controller.FChatVisible = ChatWindow.ChatWin.Visible;
-            Controller.FMapVisible = AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible;
+            Controller.FMapVisible = AOWMWindowUnit.MWindow.MapWindow.Visible;
             for (int I = 0, last = General.Manager.FChildren.Count - 1; I <= last; I++)
             {
                 if (General.Manager.FChildren[I] != TBWindow.TaskWindow)
@@ -118,13 +125,13 @@ public static partial class E1GameFlow
         if (Controller.FWindowsHidden)
         {
             Controller.FWindowsHidden = false;
-            AoWPInfoWin.AoWPInfoWin.PInfoW.PInfoWin.Visible = Controller.FInfoVisible;
-            AoWRealm.AoWRealm.RealmWin.Dlg.Visible = Controller.FRealmVisible;
+            AoWPInfoWinUnit.PInfoW.PInfoWin.Visible = Controller.FInfoVisible;
+            AoWRealmUnit.RealmWin.Dlg.Visible = Controller.FRealmVisible;
             MagicWin.Dlg.Visible = Controller.FMagicVisible;
-            AoWSWindow.AoWSWindow.SWindow.ScannerWindow.Visible = Controller.FScannerVisible;
-            AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = Controller.FControlVisible;
-            AOWMWindow.AOWMWindow.MWindow.MapWindow.Visible = Controller.FMapVisible;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = Controller.FUnitVisible;
+            AoWSWindowUnit.SWindow.ScannerWindow.Visible = Controller.FScannerVisible;
+            AOWControlWinUnit.ControlWin.ControlWindow.Visible = Controller.FControlVisible;
+            AOWMWindowUnit.MWindow.MapWindow.Visible = Controller.FMapVisible;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = Controller.FUnitVisible;
             TargetSelectionDlg.Dlg.Visible = Controller.FTargetVisible;
             ChatWindow.ChatWin.Visible = Controller.FChatVisible;
         }
@@ -135,16 +142,16 @@ public static partial class E1GameFlow
     {
         AoWEngine.CloseHSM(null);
         AoWEngine.CloseCampaign();
-        AoWSWindow.AoWSWindow.SWindow.Scanner.SetMap(null);
+        AoWSWindowUnit.SWindow.Scanner.SetMap(null);
         TCScanner.Scanner.SetMap(null);
         SongPlayer.Stop(false);
         SongPlayer.Songs.Clear();
         SetCurrentDir(AoWEngine.StartupDirectory);
         HideGameWindows(General);
         TBWindow.TaskWindow.Visible = false;
-        E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
-        E2Globals.E2Globals.TitleScene.ResetScene();
-        E2Globals.E2Globals.TitleScene.ShowScene(true);
+        E2GlobalsUnit.TitleWindow.TitleWin.Visible = false;
+        E2GlobalsUnit.TitleScene.ResetScene();
+        E2GlobalsUnit.TitleScene.ShowScene(true);
     }
 
     // E1GameFlow.pas:100
@@ -182,8 +189,8 @@ public static partial class E1GameFlow
         string Song = "";
         Dialog.ResetCampaign();
         AoWEngine.CloseHSM(null);
-        E2Globals.E2Globals.TitleWindow.TitleWin.Visible = true;
-        E2Globals.E2Globals.TitleWindow.TitlePnl.Visible = false;
+        E2GlobalsUnit.TitleWindow.TitleWin.Visible = true;
+        E2GlobalsUnit.TitleWindow.TitlePnl.Visible = false;
         Dialog.WorldPnl.Visible = true;
         Dialog.FPathFrame = 0;
         Dialog.FPathDelay = 5;

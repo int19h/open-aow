@@ -6,7 +6,7 @@ using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -59,9 +59,9 @@ internal static class OrderingRecording
             Game.AoWHSMap = null!;
             if (type != typeof(TArmyHS)) Game.AoWHSSet.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
-            if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+            if (EngineUnit.Engines is null) EngineUnit.Initialize();
             Engine = new TEngine(null!);
-            Engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
+            Engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
             foreach (var descriptor in EClass.All.Where(x => x.Type == type))
             {
                 try { Engine.UnregisterEClasses([Engine.GetEClass(descriptor.ClassID)]); }

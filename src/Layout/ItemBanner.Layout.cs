@@ -9,6 +9,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWVScroll;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWItemBanner
 {
@@ -408,29 +411,29 @@ namespace Aow.Units.AoWItemBanner
             AbLB.Loaded();
             AbVSB.Loaded();
             session.Resolve(this);
-            ItemNameLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            IBannerPopup.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            IBannerPopup.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            IBannerPopup.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            IBannerPopup.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            IBannerPopup.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            AttackIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            AttackIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            DefenseIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            DefenseIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            DamageIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            DamageIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            ResistanceIcon.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            ResistanceIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitIcons;
-            Attack.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Defense.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Damage.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Resistance.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            AbLB.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            AbVSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            AbVSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            ItemNameLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            IBannerPopup.WinManager = AoWWinManUnit.General.Manager;
+            IBannerPopup.ILFrame = aowIntGfxModUnit.IntGfxMod.Menus;
+            IBannerPopup.ILTextureNormal = aowIntGfxModUnit.IntGfxMod.Menus;
+            IBannerPopup.ILTextureSelected = aowIntGfxModUnit.IntGfxMod.Menus;
+            IBannerPopup.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            AttackIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            AttackIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            DefenseIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            DefenseIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            DamageIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            DamageIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            ResistanceIcon.ToolTip = AoWWinManUnit.General.ToolTip;
+            ResistanceIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.UnitIcons;
+            Attack.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Defense.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Damage.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Resistance.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            AbLB.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            AbVSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            AbVSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
         }
 
         private void Layout_IBannerPopupMouseDown_0(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)

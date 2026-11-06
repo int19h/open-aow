@@ -1,8 +1,8 @@
 // Translated from AoWBookWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWWindow;
 
 namespace Aow.Units.AoWBookWindow;
@@ -159,7 +159,7 @@ public partial class TAoWBookWindow : TAOWWindow
     public TNotifyEvent OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
 }
 
-public static partial class AoWBookWindow
+public static partial class AoWBookWindowUnit
 {
     // AoWBookWindow.pas:211
     public static void Register()

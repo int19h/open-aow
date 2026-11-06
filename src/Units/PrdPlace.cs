@@ -1,12 +1,12 @@
 // Translated from PrdPlace.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.Animation;
 using Aow.Units.PassiveAb;
 
@@ -72,7 +72,7 @@ public partial class TProductionPlaceControl : TProductionControl
         Log.FPlayer = productionPlace.FPlayer;
         var name = FSettings.FUnit.GetName();
         var fProductionPlaceName = FProductionPlace.GetName();
-        Log.FText = Rtl.Rtl.Format(TranslateRStr(XProducedAtYRStr), [name, fProductionPlaceName]);
+        Log.FText = RtlUnit.Format(TranslateRStr(XProducedAtYRStr), [name, fProductionPlaceName]);
         var productionPlaceYhx = productionPlace.Yhx;
         Log.SetLocation(productionPlace.Xhx, productionPlaceYhx, productionPlace.Lhx);
         AoWHSMap.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
@@ -92,7 +92,7 @@ public partial class TProductionPlaceControl : TProductionControl
         var unitProduction = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
         var unitName = AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).GetUnitName();
         var name = FProductionPlace.GetName();
-        Log.FText = Rtl.Rtl.Format(TranslateRStr(XInstalledAtYRStr), [unitName, name]);
+        Log.FText = RtlUnit.Format(TranslateRStr(XInstalledAtYRStr), [unitName, name]);
         var yhx = productionPlace.Yhx;
         Log.SetLocation(productionPlace.Xhx, yhx, productionPlace.Lhx);
         AoWHSMap.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
@@ -671,7 +671,7 @@ public partial class TProductionPlace : TPlayerStructure
             Log = new TProductionPlaceEventLog(null);
             Log.FPlayer = NewPlayer;
             var editName = EditName();
-            Log.FText = Rtl.Rtl.Format(TranslateRStr(StructureCapturedRStr), [editName]);
+            Log.FText = RtlUnit.Format(TranslateRStr(StructureCapturedRStr), [editName]);
             Log.FXhx = Xhx;
             Log.FYhx = Yhx;
             Log.FLhx = Lhx;
@@ -823,7 +823,7 @@ public partial class TProductionPlace : TPlayerStructure
                 Picks = AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere);
                 var magicSphere2 = GetMagicSphere();
                 var magicSphereText = TranslateRStr(TMagicSphereRStr[(int)magicSphere2]);
-                Names.Add(Rtl.Rtl.Format(TranslateRStr(XtimeYSphereRStr), [IntToStr(Picks), LowerCase(magicSphereText)]));
+                Names.Add(RtlUnit.Format(TranslateRStr(XtimeYSphereRStr), [IntToStr(Picks), LowerCase(magicSphereText)]));
                 Values.Add(IntToStr(Picks * 5));
                 if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).FProductionID == 10)
                 {
@@ -1097,7 +1097,7 @@ public partial class TProductionPlaceEventLog : TProductionEventLog
 
 }
 
-public static partial class PrdPlace
+public static partial class PrdPlaceUnit
 {
     // PrdPlace.pas:760
     public static void RegisterProductionPlace(TEngine AEngine)

@@ -1,8 +1,8 @@
 // Translated from AoWSendEmailGameDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
@@ -78,7 +78,7 @@ public partial class TSendEmailGameDlg : TDataModule
         EmailAddressEdit.Text = player.FPBEMSettings.FEmailGame.FEmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
         var nameEx = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
-        var format = AoWE.AoWE.Format(TranslateRStr(NextPlayerXRStr), [nameEx]);
+        var format = AoWEUnit.Format(TranslateRStr(NextPlayerXRStr), [nameEx]);
         RecipientNameLbl.Text = format;
         if (sendEmailGameEventLog.FMode == 2)
         {
@@ -141,6 +141,6 @@ public partial class TSendEmailGameDlg : TDataModule
     }
 }
 
-public static partial class AoWSendEmailGameDlg
+public static partial class AoWSendEmailGameDlgUnit
 {
 }

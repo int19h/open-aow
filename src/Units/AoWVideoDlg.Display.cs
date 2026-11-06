@@ -1,6 +1,6 @@
 #nullable disable
 using Aow.Platform;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWVideoDlg;
 

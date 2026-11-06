@@ -6,7 +6,7 @@ using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Cave;
 
@@ -465,7 +465,7 @@ public partial class TCave : TStructure
                     var player = Field.GetPlayer();
                     var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player);
                     var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                    MessageText = Rtl.Rtl.Format(TranslateRStr(NoWarDeclaredtoXRStr), [raceNamesPlural]);
+                    MessageText = RtlUnit.Format(TranslateRStr(NoWarDeclaredtoXRStr), [raceNamesPlural]);
                     AoWHSMap.ShowMessage(MessageText);
                 }
 
@@ -608,7 +608,7 @@ public struct TCaveMoveData
     public FixedArray_Aow_Units_FixedArray_sbyte_16_16 Costs;
 }
 
-public static partial class Cave
+public static partial class CaveUnit
 {
     // Cave.pas:451
     public static void RegisterCave(TEngine AEngine)

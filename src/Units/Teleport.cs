@@ -1,15 +1,15 @@
 // Translated from Teleport.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Teleport;
 
@@ -275,7 +275,7 @@ public partial class TTeleport : TStructure
                     var player = Field.GetPlayer();
                     var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player);
                     var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                    MessageText = Rtl.Rtl.Format(TranslateRStr(NoWarDeclaredtoXRStr), [raceNamesPlural]);
+                    MessageText = RtlUnit.Format(TranslateRStr(NoWarDeclaredtoXRStr), [raceNamesPlural]);
                     AoWHSMap.ShowMessage(MessageText);
                     Result = false;
                 }
@@ -363,7 +363,7 @@ public struct TTeleportImageFields
     public int ImageIndex;
 }
 
-public static partial class Teleport
+public static partial class TeleportUnit
 {
     // Teleport.pas:308
     public static void RegisterTeleport(TEngine AEngine)

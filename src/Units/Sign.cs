@@ -8,7 +8,7 @@ using Aow.Units.ImageLib;
 using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Sign;
 
@@ -259,7 +259,7 @@ public struct TSignMapFields
     public byte StorageType;
 }
 
-public static partial class Sign
+public static partial class SignUnit
 {
     // Sign.pas:229
     public static void RegisterSign(TEngine AEngine)

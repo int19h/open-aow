@@ -5,7 +5,7 @@ using System.Text.Json;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -26,15 +26,15 @@ public sealed class UiConstructionTests
     {
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
-        private readonly Aow.Units.AoWTC.TAoWCombatMap previousCombat = Aow.Units.AoWTC.AoWTC.AoWCombatMap;
+        private readonly Aow.Units.AoWTC.TAoWCombatMap previousCombat = AoWTC.AoWTCUnit.AoWCombatMap;
         internal Fixture()
         {
-            if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+            if (EngineUnit.Engines is null) EngineUnit.Initialize();
             Game.AoWEngine = EngineFixture.Engine;
             Game.AoWEngine.FOnHSMLoaded = new TEventList();
             Game.AoWEngine.FOnHSMClose = new TEventList();
             Game.AoWHSMap = null!;
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap = null!;
+            AoWTC.AoWTCUnit.AoWCombatMap = null!;
         }
         public void Dispose()
         {
@@ -42,7 +42,7 @@ public sealed class UiConstructionTests
             Game.AoWEngine.FOnHSMClose.Free();
             Game.AoWEngine = previousEngine;
             Game.AoWHSMap = previousMap;
-            Aow.Units.AoWTC.AoWTC.AoWCombatMap = previousCombat;
+            AoWTC.AoWTCUnit.AoWCombatMap = previousCombat;
         }
     }
     private static string Snapshot(object value)

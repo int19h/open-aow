@@ -1,15 +1,15 @@
 // Translated from CombatFire.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.CombatILTer;
 using Aow.Units.CityWall;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
@@ -144,7 +144,7 @@ public partial class TCombatFire : TSingleHS
                     CenterHNtoHX(GetXhx(), yhx2, I, ref Xhx, ref Yhx);
                     if (Xhx > 0 && Yhx > 0)
                     {
-                        CombatFire.CreateFire(true, 50, Xhx, Yhx);
+                        CombatFireUnit.CreateFire(true, 50, Xhx, Yhx);
                     }
                 }
 
@@ -197,7 +197,7 @@ public partial class TCombatFireResource : TILTerrainMOR
 
 }
 
-public static partial class CombatFire
+public static partial class CombatFireUnit
 {
     // CombatFire.pas:169
     public static void CreateFire(bool Spread, int Chance, int Xhx, int Yhx)

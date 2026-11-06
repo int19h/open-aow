@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.Terrain;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWE;
 
 namespace Aow.Units.AoWTer;
@@ -126,7 +126,7 @@ public struct TBurnInfo
     public byte Severity;
 }
 
-public static partial class AoWTer
+public static partial class AoWTerUnit
 {
     // AoWTer.pas:122
     public static void RegisterAoWTerrain(TEngine AEngine)

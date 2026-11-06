@@ -4,7 +4,7 @@ using Aow.Units.MapCtrl;
 using Aow.Units.HSEngine;
 using Aow.Units.HSLib;
 using Aow.Units.AOWInterfaceImgLib;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -28,7 +28,7 @@ public sealed class UiConstructionFailureTests
         engine.FOnHSMClose = new Aow.Units.Engine.TEventList();
         Game.AoWEngine = engine;
         Game.AoWHSMap = null!;
-        Aow.Units.AoWTC.AoWTC.AoWCombatMap = null!;
+        AoWTC.AoWTCUnit.AoWCombatMap = null!;
         var owner = new TComponent(null!);
         try
         {

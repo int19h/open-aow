@@ -1,6 +1,6 @@
 // Translated from AOWMultiWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWLabel;
@@ -8,13 +8,13 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlg;
-using static Aow.Units.E3Globals.E3Globals;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowSetupEvents.aowSetupEvents;
-using static Aow.Units.AoWFileDialog.AoWFileDialog;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 
 namespace Aow.Units.AOWMultiWin;
 
@@ -291,7 +291,7 @@ public partial class TMultiWindow : TDataModule
     }
 }
 
-public static partial class AOWMultiWin
+public static partial class AOWMultiWinUnit
 {
     public static int SessionRefreshDelay;
 }

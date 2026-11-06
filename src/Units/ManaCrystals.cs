@@ -1,14 +1,14 @@
 // Translated from ManaCrystals.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
 using Aow.Units.ILTer;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.ManaCrystals;
 
@@ -168,7 +168,7 @@ public partial class TManaCrystals : TILTerrainMO
 
         Log = new TLocationTextEventLog(null);
         Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-        Log.FText = Rtl.Rtl.Format(TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
+        Log.FText = RtlUnit.Format(TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
         var lhx2 = GetLhx();
         var yhx2 = GetYhx();
         Log.SetLocation(GetXhx(), yhx2, lhx2);
@@ -224,7 +224,7 @@ public struct TCrystalFieldFlags
     public int Flags;
 }
 
-public static partial class ManaCrystals
+public static partial class ManaCrystalsUnit
 {
     // ManaCrystals.pas:174
     public static void RegisterManaCrystals(TEngine AEngine)

@@ -83,11 +83,11 @@ internal sealed class RunFiles : IFileSystem
     public string ExpandPath(string path) => files.ExpandPath(path);
     public Stream Open(string path, int mode)
     {
-        bool writing = mode == Aow.Rtl.Rtl.fmCreate || (mode & 3) != 0;
+        bool writing = mode == RtlUnit.fmCreate || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
         if (!writing && IsInput(path)) return File.Open(input!, FileMode.Open, FileAccess.Read, FileShare.Read);
         string target = writing && AutoSaveTarget is not null &&
-            Aow.Rtl.Rtl.ExtractFileName(path).ToString().Equals("autosave.asg", StringComparison.OrdinalIgnoreCase)
+            RtlUnit.ExtractFileName(path).ToString().Equals("autosave.asg", StringComparison.OrdinalIgnoreCase)
             ? AutoSaveTarget : path;
         return files.Open(target, mode);
     }

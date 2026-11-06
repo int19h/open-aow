@@ -1,3 +1,4 @@
+using Aow.Rtl;
 using Aow.Units.HSEngine;
 
 namespace Aow.Units.AoWE;
@@ -22,7 +23,7 @@ public partial class TMoveControl
 {
     public void CalculatePathEx(TMovepath path, sbyte x, sbyte y, sbyte level)
     {
-        Rtl.Rtl.Assert(FStatus.Contains(TMoveControlStatusElement.mcsActivated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
+        RtlUnit.Assert(FStatus.Contains(TMoveControlStatusElement.mcsActivated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
         path.Clear();
         if (level >= FMap.MapContainer.LevelCount) return;
         SetMapL(FMap.MapContainer.GetMapLevel(level));
@@ -66,12 +67,12 @@ public partial class TMoveControl
         }
         if (failed) path.Clear();
         else if (field != null && points == 0) path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
-        if (AoWE.AoWHSMap.FAIExecuter.FStatus.Contains(TAIExecuterStatusElement.aesExecuting)) AoWE.AoWHSMap.FAIExecuter.UseProcessTime(path.Count);
+        if (AoWEUnit.AoWHSMap.FAIExecuter.FStatus.Contains(TAIExecuterStatusElement.aesExecuting)) AoWEUnit.AoWHSMap.FAIExecuter.UseProcessTime(path.Count);
     }
 
     private TAoWMapField NeighborField(TAoWMapField field, int direction)
     {
-        var delta = HSEngine.HSEngine.HNtoXYTable[field.Xhx & 1][direction];
+        var delta = HSEngineUnit.HNtoXYTable[field.Xhx & 1][direction];
         return (TAoWMapField)((TMapLevel)field.Owner).GetField(field.Xhx + delta.X, field.Yhx + delta.Y);
     }
 
@@ -105,7 +106,7 @@ public partial class TMoveControl
     {
         FProcessedCount++;
         int over = (field.FFieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);
-        int left = AoWE.P5SideDirections[direction][0], right = AoWE.P5SideDirections[direction][1];
+        int left = AoWEUnit.P5SideDirections[direction][0], right = AoWEUnit.P5SideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, left, over);
         int rightCount = CalculateMovePointLine(field, right, over);
         if ((count & 0xff) != 0) ProcessHexagon(NeighborField(field, direction), direction, over == 2 ? count + 0xff : count - 1);
@@ -113,9 +114,9 @@ public partial class TMoveControl
         if (rightCount != 0) ProcessHexagon(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
         if ((count & 0x100) != 0)
         {
-            int opposite = AoWE.P5OppositeDirections[direction];
-            left = AoWE.P5SideDirections[opposite][0];
-            right = AoWE.P5SideDirections[opposite][1];
+            int opposite = AoWEUnit.P5OppositeDirections[direction];
+            left = AoWEUnit.P5SideDirections[opposite][0];
+            right = AoWEUnit.P5SideDirections[opposite][1];
             leftCount = CalculateMovePointLine(field, left, over);
             rightCount = CalculateMovePointLine(field, right, over);
             if (leftCount != 0) ProcessHexagon(NeighborField(field, left), left, leftCount - 1);

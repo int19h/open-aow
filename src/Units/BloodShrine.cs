@@ -1,13 +1,13 @@
 // Translated from BloodShrine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.Sound;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.Sound.SoundUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.BloodShrine;
 
@@ -137,7 +137,7 @@ public partial class TBloodShrineResource : TStructureResource
 
 }
 
-public static partial class BloodShrine
+public static partial class BloodShrineUnit
 {
     // BloodShrine.pas:125
     public static void RegisterBloodShrine(TEngine AEngine)

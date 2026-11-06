@@ -1,3 +1,4 @@
+using Aow.Units.AoWE;
 using Aow.Units.HSEngine;
 
 namespace Aow.Units.City;
@@ -10,7 +11,7 @@ public partial class TCity
         base.Activate();
         UpdateVisibleForSeatedPlayer();
         FProduction.Activate();
-        var map = AoWE.AoWE.AoWHSMap;
+        var map = AoWEUnit.AoWHSMap;
         if (FPlayer != -1) map.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProduction);
         if (map.Status.Contains(THSMapStatusElement.msEditting) && map.FDay == 0) SetUpgradeLevel(FUpgradeLevel);
         UpdateImages();
@@ -27,7 +28,7 @@ public partial class TCity
         {
             if (FRace >= 0)
             {
-                var race = AoWE.AoWE.AoWHSSet.FRaceResources.GetRaceResource(FRace);
+                var race = AoWEUnit.AoWHSSet.FRaceResources.GetRaceResource(FRace);
                 int size = ((TCityResource)FResource).FSize;
                 if (race != null) FCityImage = race.GetCityImage(size, terrain, field.Lhx);
                 if (FCityImage == null) FCityImage = images[images.ImageExist(offset) ? offset : 0];

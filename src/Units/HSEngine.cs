@@ -1,14 +1,14 @@
 // Translated from HSEngine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLib;
+using static Aow.Units.ImageLib.ImageLibUnit;
 
 namespace Aow.Units.HSEngine;
 
@@ -378,7 +378,7 @@ public partial class TMapField : TECustomNode
         bool Done;
         int I;
         int Level;
-        HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         I = FCount - 1;
         // { Preserve the original stack slot. }
         Done = false;
@@ -453,13 +453,13 @@ public partial class TMapField : TECustomNode
         Info.MapField = this;
         Info.TerrainType = FTerrainType;
         Info.OverlayType = FOverlayType;
-        HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         for (int I = 1; I <= 6; I++)
         {
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
             if (Walk.X >= 0 && Walk.X < ((TMapLevel)Owner).FWidth && Walk.Y >= 0 && ((TMapLevel)Owner).FHeight > Walk.Y)
             {
-                Info.HN = (sbyte)HSEngine.OppositeHTTable[I - 1];
+                Info.HN = (sbyte)HSEngineUnit.OppositeHTTable[I - 1];
                 ((TMapLevel)Owner).GetField(Walk.X, Walk.Y).NeighbourTerrainChanged(ref Info);
             }
         }
@@ -503,9 +503,9 @@ public partial class TMapField : TECustomNode
         else
         {
             int count = FCount;
-            for (int i = 0; i < count; i++) HSEngine.SendMsgList[i] = FHSList[i];
+            for (int i = 0; i < count; i++) HSEngineUnit.SendMsgList[i] = FHSList[i];
             for (int i = count - 1; i >= 0; i--)
-                if (HSEngine.SendMsgList[i].Owner == this) HSEngine.SendMsgList[i].MsgProc(ref message, this);
+                if (HSEngineUnit.SendMsgList[i].Owner == this) HSEngineUnit.SendMsgList[i].MsgProc(ref message, this);
         }
     }
 }
@@ -1037,7 +1037,7 @@ public partial class THSMap : TENode
     // HSMAP.PAS:579
     public virtual void GetViewCenter(ref int Xhx, ref int Yhx, ref int Lhx)
     {
-        HSEngine.HPtoHX(FViewXhp + (int)(((uint)FViewWidth) >> 1), FViewYhp + (int)(((uint)FViewHeight) >> 1), ref Xhx, ref Yhx);
+        HSEngineUnit.HPtoHX(FViewXhp + (int)(((uint)FViewWidth) >> 1), FViewYhp + (int)(((uint)FViewHeight) >> 1), ref Xhx, ref Yhx);
         Lhx = FViewL;
     }
 
@@ -1090,7 +1090,7 @@ public partial class THSMap : TENode
         List = new TShortIntList();
         MapLevel = FMapContainer.GetMapLevel(L);
         Count = 0;
-        HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1100,10 +1100,10 @@ public partial class THSMap : TENode
                 MapF.FTerrainType = (sbyte)TerrainType;
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
-        HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1116,10 +1116,10 @@ public partial class THSMap : TENode
                 }
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
-        HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius)
         {
             if (List[Walk.HN] != -127 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1129,7 +1129,7 @@ public partial class THSMap : TENode
                 Count += 1;
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
         UnlockTerrainChangedEvent();
@@ -1188,7 +1188,7 @@ public partial class THSMap : TENode
             Changed = new TBitList();
             MapLevel = FMapContainer.GetMapLevel(L);
             Count = 0;
-            HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+            HSEngineUnit.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1205,10 +1205,10 @@ public partial class THSMap : TENode
                     NewList[Walk.HN * 2 + 1] = OverlayType;
                 }
 
-                HSEngine.WalkToNextHN(ref Walk);
+                HSEngineUnit.WalkToNextHN(ref Walk);
             }
 
-            HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+            HSEngineUnit.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1226,10 +1226,10 @@ public partial class THSMap : TENode
                     }
                 }
 
-                HSEngine.WalkToNextHN(ref Walk);
+                HSEngineUnit.WalkToNextHN(ref Walk);
             }
 
-            HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+            HSEngineUnit.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1252,7 +1252,7 @@ public partial class THSMap : TENode
                     }
                 }
 
-                HSEngine.WalkToNextHN(ref Walk);
+                HSEngineUnit.WalkToNextHN(ref Walk);
             }
 
             UnlockTerrainChangedEvent();
@@ -1437,7 +1437,7 @@ public partial class THSMap : TENode
     {
         if (FTerrainChangedLockCounter == 0)
         {
-            HSEngine.OriginalAssert("Invalid TerrainChangedLockCounter", "D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
+            HSEngineUnit.OriginalAssert("Invalid TerrainChangedLockCounter", "D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
         }
 
         FTerrainChangedLockCounter -= 1;
@@ -1460,7 +1460,7 @@ public partial class THSMap : TENode
     {
         int X = default;
         int Y = default;
-        HSEngine.HXtoHP(this.FMapContainer.FWidth - 1, this.FMapContainer.FHeight - 1, ref X, ref Y);
+        HSEngineUnit.HXtoHP(this.FMapContainer.FWidth - 1, this.FMapContainer.FHeight - 1, ref X, ref Y);
 
         X += 40;
         return X;
@@ -1473,11 +1473,11 @@ public partial class THSMap : TENode
         int X = default;
         if (this.FMapContainer.FHeight > 1)
         {
-            HSEngine.HXtoHP(1, this.FMapContainer.FHeight - 1, ref X, ref Y);
+            HSEngineUnit.HXtoHP(1, this.FMapContainer.FHeight - 1, ref X, ref Y);
         }
         else
         {
-            HSEngine.HXtoHP(0, this.FMapContainer.FHeight - 1, ref X, ref Y);
+            HSEngineUnit.HXtoHP(0, this.FMapContainer.FHeight - 1, ref X, ref Y);
         }
 
         Y += 32;
@@ -1500,7 +1500,7 @@ public partial class THSMap : TENode
         TRect R = default;
         LockTerrainChangedEvent();
         MapLevel = FMapContainer.GetMapLevel(L);
-        HSEngine.InitHNWalk(ref Walk, X, Y, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, X, Y, 0);
         Msg.MsgID = 16;
         while (Walk.Radius <= Radius)
         {
@@ -1509,7 +1509,7 @@ public partial class THSMap : TENode
                 MapLevel.GetField(Walk.X, Walk.Y).SendMapFieldMsg(ref Msg);
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
         if (TerrainType != -1)
@@ -1550,7 +1550,7 @@ public partial class THSMap : TENode
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         return HS.MainPlace(FMapContainer, Xhp, Yhp, L);
     }
 
@@ -1579,8 +1579,8 @@ public partial class THSMap : TENode
             FViewWidth = Width;
             FViewYhp = Yhp;
             FViewHeight = Height;
-            HSEngine.HPtoHX(FViewXhp - 8, FViewYhp - 16, ref X1, ref Y1);
-            HSEngine.HPtoHX(FViewXhp + Width - 1 + 8, FViewYhp + Height - 1 + 16, ref X2, ref Y2);
+            HSEngineUnit.HPtoHX(FViewXhp - 8, FViewYhp - 16, ref X1, ref Y1);
+            HSEngineUnit.HPtoHX(FViewXhp + Width - 1 + 8, FViewYhp + Height - 1 + 16, ref X2, ref Y2);
             if (X2 >= FMapContainer.FWidth)
             {
                 X2 = FMapContainer.FWidth - 1;
@@ -1762,7 +1762,7 @@ public partial class THSEngine : TEngine
         RegisterEClasses([EClass.Of<TMapContainer>(), EClass.Of<TMapLevel>(), EClass.Of<THSMap>(), EClass.Of<THSSet>()]);
         RegisterEClasses([EClass.Of<TMapObjectResource>(), EClass.Of<TMultiHexMOR>()]);
         RegisterEClasses([EClass.Of<TAbstractHexagon>(), EClass.Of<TAbstractBorderHexagon>(), EClass.Of<TAbstractRoad>()]);
-        HSEngine.HSEngineDID = RegisterDebugID("HS-Engine");
+        HSEngineUnit.HSEngineDID = RegisterDebugID("HS-Engine");
         FHSSFileName = "noname.hss";
         CreateHSSet();
     }
@@ -1798,7 +1798,7 @@ public partial class THSEngine : TEngine
                 Stream.LoadFromFile(FileName);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
+                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
                     SetHSMap((THSMap)CreateEObject(Header.ClassID, this));
                     var expandFileName = ExpandFileName(FileName);
@@ -1852,7 +1852,7 @@ public partial class THSEngine : TEngine
                 Stream.LoadFromFile(FullName);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
+                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
                     Result = (THSMap)CreateEObject(Header.ClassID, this);
                     Result.FFileName = ExpandFileName(FileName);
@@ -1894,7 +1894,7 @@ public partial class THSEngine : TEngine
             var classID = FHSMap.EClass.ClassID;
             Header.ClassID = classID;
             Header.Reserved = 0;
-            Header.ID = HSEngine.HSMID;
+            Header.ID = HSEngineUnit.HSMID;
             Stream = new TCompressStream();
             FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
             try
@@ -2110,7 +2110,7 @@ public partial class THSEngine : TEngine
                 Stream.LoadFromFile(FileName);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
+                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
                     SetHSMap((THSMap)CreateEObject(Header.ClassID, this));
                     FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msPreviewMode);
@@ -2156,7 +2156,7 @@ public partial class THSEngine : TEngine
                 Stream.LoadFromFile(FullName);
                 Stream.Read(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
+                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
                     Result = (THSMap)CreateEObject(Header.ClassID, null);
                     Result.FFileName = FullName;
@@ -2214,7 +2214,7 @@ public partial class THSEngine : TEngine
                 CStream.LoadFromStream(Stream);
                 CStream.Read(Bytes.Of(ref Header, 16));
                 CStream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngine.HSMID))
+                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
                     SetHSMap((THSMap)CreateEObject(Header.ClassID, this));
                     FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
@@ -2262,7 +2262,7 @@ public partial class THSEngine : TEngine
             var classID = FHSMap.EClass.ClassID;
             Header.ClassID = classID;
             Header.Reserved = 0;
-            Header.ID = HSEngine.HSMID;
+            Header.ID = HSEngineUnit.HSMID;
             CStream = new TCompressStream();
             FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
             try
@@ -2594,8 +2594,8 @@ public partial class THexagonSprite : TEObject
         int YmaxOdd = default;
         int YmaxEven;
         TMapLevel MapL;
-        HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+        HSEngineUnit.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
         if (!((Xmin & 1) != 0))
         {
             YminEven = YminOdd;
@@ -2607,8 +2607,8 @@ public partial class THexagonSprite : TEObject
         }
 
         Y = Yhp + Height - 1;
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
         if (!((Xmax & 1) != 0))
         {
             YmaxEven = YmaxOdd;
@@ -2726,8 +2726,8 @@ public partial class THexagonSprite : TEObject
         int YmaxEven;
         TMapLevel MapL;
         MapL = (TMapLevel)FOwner.Owner;
-        HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+        HSEngineUnit.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
         if (!((Xmin & 1) != 0))
         {
             YminEven = YminOdd;
@@ -2739,8 +2739,8 @@ public partial class THexagonSprite : TEObject
         }
 
         Y = Yhp + Height - 1;
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
         if (!((Xmax & 1) != 0))
         {
             YmaxEven = YmaxOdd;
@@ -2839,8 +2839,8 @@ public partial class THexagonSprite : TEObject
         int YmaxOdd = default;
         int YmaxEven;
         TMapLevel MapL;
-        HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+        HSEngineUnit.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
         if (!((Xmin & 1) != 0))
         {
             YminEven = YminOdd;
@@ -2852,8 +2852,8 @@ public partial class THexagonSprite : TEObject
         }
 
         Y = Yhp + Height - 1;
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
         if (!((Xmax & 1) != 0))
         {
             YmaxEven = YmaxOdd;
@@ -2959,8 +2959,8 @@ public partial class THexagonSprite : TEObject
         int YmaxEven;
         TMapLevel MapL;
         MapL = Map.GetMapLevel(Lhx);
-        HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+        HSEngineUnit.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
         if (!((Xmin & 1) != 0))
         {
             YminEven = YminOdd;
@@ -2972,8 +2972,8 @@ public partial class THexagonSprite : TEObject
         }
 
         Y = Yhp + Height - 1;
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
         if (!((Xmax & 1) != 0))
         {
             YmaxEven = YmaxOdd;
@@ -3070,8 +3070,8 @@ public partial class THexagonSprite : TEObject
         int YmaxEven;
         TMapLevel MapL;
         MapL = Map.GetMapLevel(Lhx);
-        HSEngine.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HSEngine.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+        HSEngineUnit.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
         if (!((Xmin & 1) != 0))
         {
             YminEven = YminOdd;
@@ -3083,8 +3083,8 @@ public partial class THexagonSprite : TEObject
         }
 
         Y = Yhp + Height - 1;
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HSEngine.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+        HSEngineUnit.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
         if (!((Xmax & 1) != 0))
         {
             YmaxEven = YmaxOdd;
@@ -3329,7 +3329,7 @@ public partial class TMapObject : THexagonSprite
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
         return FResource.FShowPriorityOffset + (Yhp << 13) + Xhp;
     }
 
@@ -3351,7 +3351,7 @@ public partial class TMapObject : THexagonSprite
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
         if (FResource.FImageSequenceList == null)
         {
             FResource.FImageLibrary.Get(0).Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
@@ -3427,7 +3427,7 @@ public partial class TMapObject : THexagonSprite
         int Yhx = default;
         if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
         {
-            HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            HSEngineUnit.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             if (GetEditMode() || CanPlace(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx))
             {
                 Result = PlaceHX(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
@@ -3477,7 +3477,7 @@ public partial class TMapObject : THexagonSprite
     {
         int Xhx = default;
         int Yhx = default;
-        HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+        HSEngineUnit.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
         return PlaceHX(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
     }
 
@@ -3839,7 +3839,7 @@ public partial class TMapObjectResource : TEResource
         int Xhp = default;
         int Yhp = default;
         TMapObject Result = (TMapObject)CreateResourceUser();
-        HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         Xhp += 16;
         Yhp += 16;
         if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
@@ -3892,7 +3892,7 @@ public partial class TMapObjectResource : TEResource
         {
             if (FTerrainList.GetTerrain(I) >= 0)
             {
-                HSEngine.CenterHNtoHX(X, Y, I, ref Xhx, ref Yhx);
+                HSEngineUnit.CenterHNtoHX(X, Y, I, ref Xhx, ref Yhx);
                 FEngine.FHSMap.ClearTerrain(Xhx, Yhx, Lhx, 0, -1);
             }
         }
@@ -3915,9 +3915,9 @@ public partial class TMapObjectResource : TEResource
         MapLevel = Msg.Param[0].As<TMapLevel>();
         Lhx = Msg.Data[1];
         Rad = Msg.Param[1].Value;
-        HSEngine.HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
+        HSEngineUnit.HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
         Clear = Msg.Param[2].Value == 1;
-        HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.Radius <= Rad)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -3930,7 +3930,7 @@ public partial class TMapObjectResource : TEResource
                 Placed = Placed && PlaceResourceUser(FEngine.FHSMap, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)Lhx) != null;
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
         if (Placed)
@@ -4262,11 +4262,11 @@ public partial class TTerrainList : TObject
         {
             if (GetTerrain(I) >= 0)
             {
-                HSEngine.HNtoHX(I, ref Xhx, ref Yhx);
-                HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 1);
+                HSEngineUnit.HNtoHX(I, ref Xhx, ref Yhx);
+                HSEngineUnit.InitHNWalk(ref Walk, Xhx, Yhx, 1);
                 while (Walk.HN != 7)
                 {
-                    HN = HSEngine.HXtoHN(Walk.X, Walk.Y);
+                    HN = HSEngineUnit.HXtoHN(Walk.X, Walk.Y);
                     if (HN >= FCount || HN < FCount && GetTerrain(HN) < 0)
                     {
                         if (Result.IndexOf((ushort)HN) == -1)
@@ -4275,7 +4275,7 @@ public partial class TTerrainList : TObject
                         }
                     }
 
-                    HSEngine.WalkToNextHN(ref Walk);
+                    HSEngineUnit.WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -4644,7 +4644,7 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         SelectLocation(Xhp, Yhp, Lhx);
     }
 
@@ -4903,7 +4903,7 @@ public partial class THSMapMouse : TObject
         int Y = default;
         if (FX != -2147483648)
         {
-            HSEngine.HPtoHX(FHSMap.FViewXhp + FX, 0, ref Result, ref Y);
+            HSEngineUnit.HPtoHX(FHSMap.FViewXhp + FX, 0, ref Result, ref Y);
             if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
             {
                 Result = -1;
@@ -4924,7 +4924,7 @@ public partial class THSMapMouse : TObject
         int X = default;
         if (FY != -2147483648)
         {
-            HSEngine.HPtoHX(FHSMap.FViewXhp + FX, FHSMap.FViewYhp + FY, ref X, ref Result);
+            HSEngineUnit.HPtoHX(FHSMap.FViewXhp + FX, FHSMap.FViewYhp + FY, ref X, ref Result);
             if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
             {
                 Result = -1;
@@ -5137,7 +5137,7 @@ public partial class THSMapViewer : TComponent
         int Yhp = default;
         if (FHSMap != null)
         {
-            HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HSEngineUnit.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             SetSceneX(Xhp + 16 - (int)(((uint)FSceneWidth) >> 1));
             SetSceneY(Yhp + 16 - (int)(((uint)FSceneHeight) >> 1));
             SetSceneL(Lhx);
@@ -5869,7 +5869,7 @@ public partial class TSingleHS : THexagonSprite
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
         return (GetLevel() << 26) + ((Yhp + 32) << 13) + (Xhp + 16);
     }
 
@@ -5889,7 +5889,7 @@ public partial class TSingleHS : THexagonSprite
     {
         int Xhx = default;
         int Yhx = default;
-        HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+        HSEngineUnit.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
         return PlaceHX(Map, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
     }
 
@@ -6250,7 +6250,7 @@ public partial class TLibraryImageHS : THexagonSprite
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         return Place(Map, (int)(((uint)FImage.Width) >> 2) + Xhp + 16, (int)(((uint)FImage.Height) >> 2) + Yhp + 16, Lhx);
     }
 
@@ -6262,7 +6262,7 @@ public partial class TLibraryImageHS : THexagonSprite
     {
         if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
         {
-            HSEngine.OriginalAssert("Cannot change MapIsOwner when places on map (TLibraryImageHS)", "D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
+            HSEngineUnit.OriginalAssert("Cannot change MapIsOwner when places on map (TLibraryImageHS)", "D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
         }
 
         if (Value)
@@ -6403,7 +6403,7 @@ public partial class TMultiHexMO : TMapObject
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         return FResource.FShowPriorityOffset + (Yhp << 13) + Xhp;
     }
 
@@ -6420,7 +6420,7 @@ public partial class TMultiHexMO : TMapObject
             FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
             Count = GetTerrainCount();
             MapLevel = (TMapLevel)Owner.Owner;
-            HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
                 if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6434,7 +6434,7 @@ public partial class TMultiHexMO : TMapObject
                     MapField.AddHS(this, Walk.HN);
                 }
 
-                HSEngine.WalkToNextHN(ref Walk);
+                HSEngineUnit.WalkToNextHN(ref Walk);
             }
         }
     }
@@ -6450,7 +6450,7 @@ public partial class TMultiHexMO : TMapObject
             Count = GetTerrainCount();
             MapLevel = (TMapLevel)Owner.Owner;
             FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
-            HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
                 if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6458,7 +6458,7 @@ public partial class TMultiHexMO : TMapObject
                     MapLevel.GetField(Walk.X, Walk.Y).RemoveHS(this);
                 }
 
-                HSEngine.WalkToNextHN(ref Walk);
+                HSEngineUnit.WalkToNextHN(ref Walk);
             }
 
             Owner = null;
@@ -6470,7 +6470,7 @@ public partial class TMultiHexMO : TMapObject
     {
         int Xhp = default;
         int Yhp = default;
-        HSEngine.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         if (FResource.FImageSequenceList == null)
         {
             FResource.FImageLibrary.Get(0).Show(Xhp - XhpSurf + ((TMultiHexMOR)FResource).FdXImage, Yhp - YhpSurf + ((TMultiHexMOR)FResource).FdYImage, SurfaceDesc);
@@ -6494,7 +6494,7 @@ public partial class TMultiHexMO : TMapObject
             MapLevel = (TMapLevel)Owner.Owner;
             if (GetLevel() <= 15)
             {
-                HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6502,13 +6502,13 @@ public partial class TMultiHexMO : TMapObject
                         MapLevel.FMap.InvalidateStaticScene(Walk.X, Walk.Y, ((TMapField)Owner).FLhx);
                     }
 
-                    HSEngine.WalkToNextHN(ref Walk);
+                    HSEngineUnit.WalkToNextHN(ref Walk);
                 }
             }
 
             if (!GetEditMode())
             {
-                var hNtoRad = HSEngine.HNtoRad(Count);
+                var hNtoRad = HSEngineUnit.HNtoRad(Count);
                 MapLevel.FMap.TerrainChangedRad(FXhx, FYhx, (sbyte)MapLevel.FLhx, hNtoRad);
             }
         }
@@ -6532,7 +6532,7 @@ public partial class TMultiHexMO : TMapObject
             if (!MapLevel.FMap.FStatus.Contains(THSMapStatusElement.msDestroying))
             {
                 Count = GetTerrainCount();
-                HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     TerrainType = GetTerrain(Walk.HN);
@@ -6551,10 +6551,10 @@ public partial class TMultiHexMO : TMapObject
                         }
                     }
 
-                    HSEngine.WalkToNextHN(ref Walk);
+                    HSEngineUnit.WalkToNextHN(ref Walk);
                 }
 
-                var hNtoRad = HSEngine.HNtoRad(Count);
+                var hNtoRad = HSEngineUnit.HNtoRad(Count);
                 MapLevel.FMap.TerrainChangedRad(FXhx, FYhx, (sbyte)MapLevel.FLhx, hNtoRad);
             }
         }
@@ -6569,8 +6569,8 @@ public partial class TMultiHexMO : TMapObject
         int HN;
         if (FResource.FEngine.FHSMap.FStatus.Contains(THSMapStatusElement.msEditting))
         {
-            HSEngine.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            HN = HSEngine.dHXtoHN(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, Xhx, Yhx);
+            HSEngineUnit.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            HN = HSEngineUnit.dHXtoHN(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, Xhx, Yhx);
             Result = HN < FResource.FTerrainList.FCount && (FResource.FTerrainList.GetTerrain(HN) >= 0 || FResource.FTerrainList.GetOverlay(HN) >= 0);
         }
         else
@@ -6591,7 +6591,7 @@ public partial class TMultiHexMO : TMapObject
         THNWalkData Walk = default;
         bool Result = true;
         Count = FResource.FTerrainList.FCount;
-        HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Result && Walk.HN < Count)
         {
             TerrainType = GetTerrain(Walk.HN);
@@ -6602,7 +6602,7 @@ public partial class TMultiHexMO : TMapObject
                 Result = HS == null || CanPlaceOnHS(HS);
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
         return Result && MapContainer.FMap.CanChangeTerrain(this, Xhx, Yhx, Lhx, FResource.FTerrainList);
@@ -6622,7 +6622,7 @@ public partial class TMultiHexMO : TMapObject
         TMapLevel MapLevel;
         THNWalkData Walk = default;
         MapLevel = (TMapLevel)Owner.Owner;
-        HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (true)
         {
             var terrainCount = GetTerrainCount();
@@ -6634,7 +6634,7 @@ public partial class TMultiHexMO : TMapObject
                 MapLevel.GetField(Walk.X, Walk.Y).Sort();
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
     }
 
@@ -6657,7 +6657,7 @@ public partial class TMultiHexMO : TMapObject
         }
 
         Counts = default;
-        HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.HN < TerrainList.FCount)
         {
             if ((TerrainList.GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6673,7 +6673,7 @@ public partial class TMultiHexMO : TMapObject
                 }
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
         if (Default >= 0 && Counts[Result] == Counts[Default])
@@ -6690,7 +6690,7 @@ public partial class TMultiHexMO : TMapObject
         int Count;
         THNWalkData Walk = default;
         Count = FResource.FTerrainList.FCount;
-        HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.HN != Count)
         {
             if ((GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6698,7 +6698,7 @@ public partial class TMultiHexMO : TMapObject
                 MapLevel.GetField(Walk.X, Walk.Y).UpdateTerrain();
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
     }
 
@@ -6708,7 +6708,7 @@ public partial class TMultiHexMO : TMapObject
         int Count;
         THNWalkData Walk = default;
         Count = FResource.FTerrainList.FCount;
-        HSEngine.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.HN != Count)
         {
             if ((GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6716,7 +6716,7 @@ public partial class TMultiHexMO : TMapObject
                 MapLevel.GetField(Walk.X, Walk.Y).UpdateMapField();
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
     }
 
@@ -6730,7 +6730,7 @@ public partial class TMultiHexMO : TMapObject
         THNWalkData Walk = default;
         MapLevel = (TMapLevel)Owner.Owner;
         Count = GetTerrainCount();
-        HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6751,10 +6751,10 @@ public partial class TMultiHexMO : TMapObject
                 }
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
 
-        HSEngine.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HSEngineUnit.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count)
         {
             if (GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6763,7 +6763,7 @@ public partial class TMultiHexMO : TMapObject
                 MapLevel.GetField(Walk.X, Walk.Y).TerrainChanged();
             }
 
-            HSEngine.WalkToNextHN(ref Walk);
+            HSEngineUnit.WalkToNextHN(ref Walk);
         }
     }
 }
@@ -7133,7 +7133,7 @@ public partial class TAbstractRoadResource : TMapObjectResource
         int Xhp = default;
         int Yhp = default;
         TMapObject Result = (TMapObject)CreateResourceUser();
-        HSEngine.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HSEngineUnit.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         Xhp += 16;
         Yhp += 16;
         if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
@@ -7330,7 +7330,7 @@ public partial class TXYLList : TPersistent
         FCount -= 1;
         if (Index < FCount)
         {
-            Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 4);
+            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 4);
         }
     }
 
@@ -7436,7 +7436,7 @@ public partial class TXYLList : TPersistent
 
         if (Index < FCount)
         {
-            Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 4);
+            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 4);
         }
 
         FList[Index] = Item;
@@ -7492,7 +7492,7 @@ public partial class TXYLList : TPersistent
     {
         if (FList.Length != 0 && Count > 0)
         {
-            HSEngine.QuickSortXYL(FList, 0, Count - 1, Compare);
+            HSEngineUnit.QuickSortXYL(FList, 0, Count - 1, Compare);
         }
     }
 
@@ -7637,7 +7637,7 @@ public struct THSMHeader
     public int ClassID;
 }
 
-public static partial class HSEngine
+public static partial class HSEngineUnit
 {
     public static readonly string TerrainStr = "Terrain";
     public static readonly string BridgeStr = "Bridge";

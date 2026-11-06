@@ -1,6 +1,6 @@
 // Translated from aowUserDrawBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 
@@ -96,7 +96,7 @@ public partial class TaowUserDrawBox : TAOWControl
     }
 }
 
-public static partial class aowUserDrawBox
+public static partial class aowUserDrawBoxUnit
 {
     // aowUserDrawBox.pas:99
     public static void Register()

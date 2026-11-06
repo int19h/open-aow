@@ -1,6 +1,6 @@
 // Translated from UnitTabC.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.UnitIGrd;
 using Aow.Units.AoWE;
 
@@ -87,7 +87,7 @@ public partial class TUnitTabControl : TTabControl
 }
 
 public delegate void TOnSelectUnitEvent(TObject Sender, int UnitIndex);
-public static partial class UnitTabC
+public static partial class UnitTabCUnit
 {
     // UnitTabC.pas:112
     public static void Register()

@@ -1,6 +1,6 @@
 // Translated from AoWArnoLine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
@@ -127,7 +127,7 @@ public partial class TAoWArnoLine : TAOWControl
     public ImageLib.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
 }
 
-public static partial class AoWArnoLine
+public static partial class AoWArnoLineUnit
 {
     // AoWArnoLine.pas:119
     public static void Register()

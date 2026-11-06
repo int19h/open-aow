@@ -7,11 +7,11 @@ using Aow.Rtl.Localize;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Game = Aow.Units.AoWE.AoWE;
-using Core = Aow.Units.Engine.Engine;
-using Hex = Aow.Units.HSEngine.HSEngine;
-using Images = Aow.Units.ImageLib.ImageLib;
-using SoundApi = Aow.Units.Sound.Sound;
+using Game = Aow.Units.AoWE.AoWEUnit;
+using Core = Aow.Units.Engine.EngineUnit;
+using Hex = Aow.Units.HSEngine.HSEngineUnit;
+using Images = Aow.Units.ImageLib.ImageLibUnit;
+using SoundApi = Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.Tests;
 

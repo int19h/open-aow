@@ -3,11 +3,11 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 
 namespace Aow.Units.CombatObstacle;
 
@@ -264,7 +264,7 @@ public partial class TCombatObstacleResource : TMultiHexMOR
 
 }
 
-public static partial class CombatObstacle
+public static partial class CombatObstacleUnit
 {
     // CombatObstacle.pas:248
     public static void RegisterCombatObstacle(TEngine AEngine)

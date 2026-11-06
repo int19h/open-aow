@@ -3,9 +3,9 @@ using Aow.Rtl;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.PoisonC;
 
@@ -377,7 +377,7 @@ public partial class TPoisonCloudResource : TMultiHexMOR
 
 }
 
-public static partial class PoisonC
+public static partial class PoisonCUnit
 {
     // PoisonC.pas:295
     public static void RegisterPoisonCloud(TEngine AEngine)

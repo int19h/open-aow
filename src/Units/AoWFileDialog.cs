@@ -1,10 +1,10 @@
 // Translated from AoWFileDialog.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Engine.Engine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -18,10 +18,12 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWWorldMap;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.E1GameFlow.E1GameFlow;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Platform;
+using Aow.Units.E2Globals;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWFileDialog;
 
@@ -162,7 +164,7 @@ public partial class TFileDlgWindow : TDataModule
                     }
                     else
                     {
-                        E2Globals.E2Globals.TitleScene.HideScene();
+                        E2GlobalsUnit.TitleScene.HideScene();
                         General.HideWindows();
                         TBWindow.TaskWindow.Visible = false;
                         var relativePath = ExtractRelativePath(AoWEngine.StartupDirectory, Name);
@@ -210,8 +212,8 @@ public partial class TFileDlgWindow : TDataModule
             }
         }
 
-        AoWFileDialog.Directories.Clear();
-        AoWFileDialog.Files.Clear();
+        AoWFileDialogUnit.Directories.Clear();
+        AoWFileDialogUnit.Files.Clear();
         SPlayers.Text = "";
         SSize.Text = "";
         STowns.Text = "";
@@ -233,7 +235,7 @@ public partial class TFileDlgWindow : TDataModule
                 {
                     if ((Search.Attr & 16) == 16)
                     {
-                        AoWFileDialog.Directories.Add(Search.Name);
+                        AoWFileDialogUnit.Directories.Add(Search.Name);
                     }
                     else
                     {
@@ -248,7 +250,7 @@ public partial class TFileDlgWindow : TDataModule
                         {
                             Stamp = new TFileTime();
                             Stamp.FTime = FileDateToDateTime(Search.Time);
-                            AoWFileDialog.Files.AddObject(Search.Name, Stamp);
+                            AoWFileDialogUnit.Files.AddObject(Search.Name, Stamp);
                         }
                     }
                 }
@@ -266,21 +268,21 @@ public partial class TFileDlgWindow : TDataModule
         FileLB.Items.Clear();
         SaveLB.Items.Clear();
         DateLB.Items.Clear();
-        AoWFileDialog.Directories.Sort();
-        AoWFileDialog.Files.Sort();
-        FileLB.Items.AddStrings(AoWFileDialog.Directories);
-        FileLB.Items.AddStrings(AoWFileDialog.Files);
+        AoWFileDialogUnit.Directories.Sort();
+        AoWFileDialogUnit.Files.Sort();
+        FileLB.Items.AddStrings(AoWFileDialogUnit.Directories);
+        FileLB.Items.AddStrings(AoWFileDialogUnit.Files);
         SaveLB.Items.AddStrings(FileLB.Items);
         PathEdit.Text = Directory + "\\";
-        for (int I = 0, last = AoWFileDialog.Directories.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWFileDialogUnit.Directories.Count - 1; I <= last; I++)
         {
             DateLB.Items.Add("");
         }
 
-        for (int I = 0, last = AoWFileDialog.Files.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWFileDialogUnit.Files.Count - 1; I <= last; I++)
         {
-            var dateTimeToStr = DateTimeToStr(((TFileTime)AoWFileDialog.Files.Objects[I]).FTime);
-            var objectValue = AoWFileDialog.Files.Objects[I];
+            var dateTimeToStr = DateTimeToStr(((TFileTime)AoWFileDialogUnit.Files.Objects[I]).FTime);
+            var objectValue = AoWFileDialogUnit.Files.Objects[I];
             DateLB.Items.AddObject(dateTimeToStr, objectValue);
         }
     }
@@ -288,9 +290,9 @@ public partial class TFileDlgWindow : TDataModule
     // AoWFileDialog.pas:296
     public void FileDlgWindowCreate()
     {
-        AoWFileDialog.Drives = new TStringList();
-        AoWFileDialog.Directories = new TStringList();
-        AoWFileDialog.Files = new TStringList();
+        AoWFileDialogUnit.Drives = new TStringList();
+        AoWFileDialogUnit.Directories = new TStringList();
+        AoWFileDialogUnit.Files = new TStringList();
         FDirectory = AoWEngine.StartupDirectory + "Save\\";
         FLastFileName = "";
     }
@@ -306,9 +308,9 @@ public partial class TFileDlgWindow : TDataModule
             }
         }
 
-        AoWFileDialog.Drives.Free();
-        AoWFileDialog.Directories.Free();
-        AoWFileDialog.Files.Free();
+        AoWFileDialogUnit.Drives.Free();
+        AoWFileDialogUnit.Directories.Free();
+        AoWFileDialogUnit.Files.Free();
     }
 
     // AoWFileDialog.pas:316
@@ -317,7 +319,7 @@ public partial class TFileDlgWindow : TDataModule
         string Path = "";
         string Directory = "";
         General.PlayButtonSound(0);
-        var count = AoWFileDialog.Directories.Count;
+        var count = AoWFileDialogUnit.Directories.Count;
         if (FileLB.Selected < count && FileLB.Selected > -1)
         {
             Directory = GetCurrentDir();
@@ -471,7 +473,7 @@ public partial class TFileDlgWindow : TDataModule
         FileLB.Selected = List.Selected;
         SaveLB.Selected = List.Selected;
         DateLB.Selected = List.Selected;
-        if (AoWFileDialog.Directories.Count - 1 < this.FileLB.Selected)
+        if (AoWFileDialogUnit.Directories.Count - 1 < this.FileLB.Selected)
         {
             var item = FileLB.Items[FileLB.Selected];
             SFileName.Text = item;
@@ -543,9 +545,9 @@ public partial class TFileDlgWindow : TDataModule
     // AoWFileDialog.pas:586
     public void FileLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
     {
-        if (AoWFileDialog.Directories.Count > DrawItem)
+        if (AoWFileDialogUnit.Directories.Count > DrawItem)
         {
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.LBIcons[0].ShowClipped(DrawRect.Left + 2, DrawRect.Top + 1, SurfDesc);
+            aowIntGfxModUnit.IntGfxMod.LBIcons[0].ShowClipped(DrawRect.Left + 2, DrawRect.Top + 1, SurfDesc);
         }
     }
 
@@ -560,10 +562,10 @@ public partial class TFileDlgWindow : TDataModule
                 SFileName.Text = fileName;
                 FileName.Text = SFileName.Text;
                 var selectAFileToLoad = TranslateRStr(SelectAFileToLoadRStr);
-                AoWFileDialog.FileDlgWindow.Title.Text = selectAFileToLoad;
-                AoWFileDialog.FileDlgWindow.SFileName.Editable = false;
+                AoWFileDialogUnit.FileDlgWindow.Title.Text = selectAFileToLoad;
+                AoWFileDialogUnit.FileDlgWindow.SFileName.Editable = false;
                 var open = TranslateRStr(OpenRStr);
-                AoWFileDialog.FileDlgWindow.Openbut.Text = open;
+                AoWFileDialogUnit.FileDlgWindow.Openbut.Text = open;
                 SavePnl.Visible = true;
                 NewPnl.Visible = false;
                 break;
@@ -590,10 +592,10 @@ public partial class TFileDlgWindow : TDataModule
 
                 FileName.Text = SFileName.Text;
                 var saveGameAs = TranslateRStr(SaveGameAsRStr);
-                AoWFileDialog.FileDlgWindow.Title.Text = saveGameAs;
-                AoWFileDialog.FileDlgWindow.SFileName.Editable = true;
+                AoWFileDialogUnit.FileDlgWindow.Title.Text = saveGameAs;
+                AoWFileDialogUnit.FileDlgWindow.SFileName.Editable = true;
                 var save = TranslateRStr(SaveRStr);
-                AoWFileDialog.FileDlgWindow.Openbut.Text = save;
+                AoWFileDialogUnit.FileDlgWindow.Openbut.Text = save;
                 SavePnl.Visible = true;
                 NewPnl.Visible = false;
                 break;
@@ -610,15 +612,15 @@ public partial class TFileDlgWindow : TDataModule
 
                 SetCurrentDir(AoWEngine.StartupDirectory + "Scenario\\Custom\\");
                 var selectAMap = TranslateRStr(SelectAMapRStr);
-                AoWFileDialog.FileDlgWindow.Title.Text = selectAMap;
+                AoWFileDialogUnit.FileDlgWindow.Title.Text = selectAMap;
                 var select = TranslateRStr(SelectRStr);
-                AoWFileDialog.FileDlgWindow.Openbut.Text = select;
+                AoWFileDialogUnit.FileDlgWindow.Openbut.Text = select;
                 SavePnl.Visible = false;
                 NewPnl.Visible = true;
                 break;
         }
 
-        AoWFileDialog.FileDlgWindow.FindDrives();
+        AoWFileDialogUnit.FileDlgWindow.FindDrives();
     }
 
     // AoWFileDialog.pas:502
@@ -654,7 +656,7 @@ public partial class TFileDlgWindow : TDataModule
             Selected = FileLB.Items[FileLB.Selected];
         }
 
-        for (int I = 0, last = AoWFileDialog.Directories.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWFileDialogUnit.Directories.Count - 1; I <= last; I++)
         {
             SaveLB.Items.Delete(0);
             DateLB.Items.Delete(0);
@@ -673,9 +675,9 @@ public partial class TFileDlgWindow : TDataModule
             }
         }
 
-        for (int I = 0, last = AoWFileDialog.Directories.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWFileDialogUnit.Directories.Count - 1; I <= last; I++)
         {
-            var directory = AoWFileDialog.Directories[I];
+            var directory = AoWFileDialogUnit.Directories[I];
             SaveLB.Items.Insert(I, directory);
             DateLB.Items.Insert(I, "");
         }
@@ -707,7 +709,7 @@ public partial class TFileDlgWindow : TDataModule
                 SaveLB.Items.Objects[I] = objectValue;
             }
 
-            SortStringsEx(SaveLB.Items, AoWFileDialog.CompareFileDates, [DateLB.Items, FileLB.Items]);
+            SortStringsEx(SaveLB.Items, AoWFileDialogUnit.CompareFileDates, [DateLB.Items, FileLB.Items]);
         }
         else
         {
@@ -719,7 +721,7 @@ public partial class TFileDlgWindow : TDataModule
                     FileLB.Items.Objects[I] = objectValue;
                 }
 
-                SortStringsEx(FileLB.Items, AoWFileDialog.CompareFileDates, [DateLB.Items, SaveLB.Items]);
+                SortStringsEx(FileLB.Items, AoWFileDialogUnit.CompareFileDates, [DateLB.Items, SaveLB.Items]);
             }
         }
 
@@ -755,18 +757,18 @@ public partial class TFileDlgWindow : TDataModule
 
     public void FindDrives()
     {
-        AoWFileDialog.Drives.Clear();
-        string drive = Rtl.Rtl.Files.VirtualDrive + "\\";
+        AoWFileDialogUnit.Drives.Clear();
+        string drive = Files.VirtualDrive + "\\";
         string label = OperatingSystem.IsWindows() ? new DriveInfo(drive).VolumeLabel + " " : "";
-        AoWFileDialog.Drives.Add($"{label}({drive})");
+        AoWFileDialogUnit.Drives.Add($"{label}({drive})");
         DriveCmb.Items.Clear();
-        DriveCmb.Items.AddStrings(AoWFileDialog.Drives);
+        DriveCmb.Items.AddStrings(AoWFileDialogUnit.Drives);
         DriveCmb.Selected = 0;
         FindFiles();
     }
 }
 
-public static partial class AoWFileDialog
+public static partial class AoWFileDialogUnit
 {
     public static TFileDlgWindow FileDlgWindow;
     public static TStringList Drives;

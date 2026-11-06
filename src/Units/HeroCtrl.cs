@@ -1,11 +1,11 @@
 // Translated from HeroCtrl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.HeroCtrl;
 
@@ -248,7 +248,7 @@ public struct TItemView
     public bool Hidden;
 }
 
-public static partial class HeroCtrl
+public static partial class HeroCtrlUnit
 {
     // HeroCtrl.pas:397
     public static void Register()

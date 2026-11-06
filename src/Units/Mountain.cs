@@ -5,13 +5,13 @@ using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
 using Aow.Units.AoWTer;
 using Aow.Units.GlobalTargetSpells;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Mountain;
 
@@ -421,7 +421,7 @@ public struct TLocation
     public sbyte Reserved;
 }
 
-public static partial class Mountain
+public static partial class MountainUnit
 {
     // Mountain.pas:384
     public static void RegisterMountain(TEngine AEngine)

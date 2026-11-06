@@ -98,6 +98,6 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
     public bool FreeSurfaceOnHide { get => FFreeSurfaceOnHide; set => FFreeSurfaceOnHide = value; }
 }
 
-public static partial class AoWWinGeneric
+public static partial class AoWWinGenericUnit
 {
 }

@@ -9,8 +9,8 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 
 namespace Aow.Units.AoWMessageDlg;
 
@@ -127,7 +127,7 @@ public partial class TMessageDlg : TDataModule
     }
 }
 
-public static partial class AoWMessageDlg
+public static partial class AoWMessageDlgUnit
 {
     // AoWMessageDlg.pas:116
     public static void ShowDemoMessage()

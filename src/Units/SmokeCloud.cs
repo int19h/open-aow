@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.SmokeCloud;
 
@@ -433,7 +433,7 @@ public struct TCloudMapFields
     public byte SeatedPlayer;
 }
 
-public static partial class SmokeCloud
+public static partial class SmokeCloudUnit
 {
     // SmokeCloud.pas:394
     public static void RegisterSmokeCloud(TEngine AEngine)

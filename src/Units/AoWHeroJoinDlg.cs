@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -12,8 +12,10 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AOWControlWin;
 
 namespace Aow.Units.AoWHeroJoinDlg;
 
@@ -70,8 +72,8 @@ public partial class THeroJoinDlg : TDataModule
         if (FDetailsOpen)
         {
             FDetailsOpen = false;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Priority = AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Priority;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = AOWControlWinUnit.ControlWin.ControlWindow.Priority;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
         }
 
         Done = FDone;
@@ -227,8 +229,8 @@ public partial class THeroJoinDlg : TDataModule
                 if (Button == TMouseButton.mbLeft)
                 {
                     FDetailsOpen = true;
-                    AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
-                    AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                    AoWUnitWindowUnit.UnitWindow.ShowUnit();
+                    AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
                 }
             }
         }
@@ -250,6 +252,6 @@ public partial class THeroJoinDlg : TDataModule
     }
 }
 
-public static partial class AoWHeroJoinDlg
+public static partial class AoWHeroJoinDlgUnit
 {
 }

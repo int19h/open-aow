@@ -1,11 +1,11 @@
 // Translated from ItemCtrl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.ItemCtrl;
 
@@ -242,7 +242,7 @@ public struct TItemView
     public bool Hidden;
 }
 
-public static partial class ItemCtrl
+public static partial class ItemCtrlUnit
 {
     // ItemCtrl.pas:406
     public static void Register()

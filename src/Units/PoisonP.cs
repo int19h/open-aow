@@ -1,16 +1,16 @@
 // Translated from PoisonP.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.GlobalTargetSpells;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.PoisonP;
 
@@ -495,7 +495,7 @@ public partial class TPoisonPlantSpell : TGlobalTargetSpell
 
 }
 
-public static partial class PoisonP
+public static partial class PoisonPUnit
 {
     // PoisonP.pas:426
     public static void RegisterPoisonPlant(TAoWEngine AEngine)

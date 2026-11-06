@@ -1,9 +1,9 @@
 // Translated from AoWHeroInfoDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -13,9 +13,11 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AOWControlWin;
 
 namespace Aow.Units.AoWHeroInfoDlg;
 
@@ -54,8 +56,8 @@ public partial class THeroInfoDlg : TDataModule
         if (FDetailsOpen)
         {
             FDetailsOpen = false;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Priority = AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Priority;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible = false;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = AOWControlWinUnit.ControlWin.ControlWindow.Priority;
+            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
         }
 
         Done = FDone;
@@ -169,8 +171,8 @@ public partial class THeroInfoDlg : TDataModule
             if (Button == TMouseButton.mbLeft)
             {
                 FDetailsOpen = true;
-                AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
-                AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                AoWUnitWindowUnit.UnitWindow.ShowUnit();
+                AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }
     }
@@ -191,7 +193,7 @@ public partial class THeroInfoDlg : TDataModule
     }
 }
 
-public static partial class AoWHeroInfoDlg
+public static partial class AoWHeroInfoDlgUnit
 {
     // AoWHeroInfoDlg.pas:61
     public static void ShowHeroInfo(THeroInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
@@ -208,7 +210,7 @@ public static partial class AoWHeroInfoDlg
         {
             Dialog.HeroName.Text = Hero.FHeroName;
             var level = Hero.GetLevel();
-            var format = AoWE.AoWE.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
+            var format = AoWEUnit.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
             Dialog.HeroLevel.Text = format;
         }
         else

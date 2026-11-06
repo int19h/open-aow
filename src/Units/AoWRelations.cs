@@ -1,11 +1,11 @@
 // Translated from AoWRelations.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
@@ -19,8 +19,10 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using Aow.Units.AoWPInfoWin;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWRelations;
 
@@ -361,7 +363,7 @@ public partial class TRelWindow : TDataModule
 
         var name = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
         APlayer.Text = name;
-        OfTheLbl.Text = AoWPInfoWin.AoWPInfoWin.PInfoW.LeadL.Text;
+        OfTheLbl.Text = AoWPInfoWinUnit.PInfoW.LeadL.Text;
         var player = AoWHSMap.FPlayers.GetPlayers(Player);
         var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[player.FPlayerRace]);
         PRaceLbl.Text = raceNamesPlural;
@@ -534,19 +536,19 @@ public partial class TRelWindow : TDataModule
         {
             case >= 0 and <= 3:
                 var neutral = TranslateRStr(NeutralRStr);
-                var format = AoWE.AoWE.Format(TranslateRStr(AlignmentXRStr), [neutral]);
+                var format = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [neutral]);
                 AAlignmentLbl.Text = format;
                 AAlignment.CurrentImage = 33;
                 break;
             case >= 4 and <= 7:
                 var good = TranslateRStr(GoodRStr);
-                var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(AlignmentXRStr), [good]);
+                var aoWEFormat = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [good]);
                 AAlignmentLbl.Text = aoWEFormat;
                 AAlignment.CurrentImage = 31;
                 break;
             case >= 8 and <= 11:
                 var evil = TranslateRStr(EvilRStr);
-                var format2 = AoWE.AoWE.Format(TranslateRStr(AlignmentXRStr), [evil]);
+                var format2 = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [evil]);
                 AAlignmentLbl.Text = format2;
                 AAlignment.CurrentImage = 35;
                 break;
@@ -857,8 +859,8 @@ public partial class TRelWindow : TDataModule
                 Modifier = Action.GetRelationModifier(AoWHSMap.FSeatedPlayer, Race);
                 if (Modifier != 0)
                 {
-                    AoWExeForms.AoWExeForms.FontModule.Age10.Color = 16777215;
-                    AoWExeForms.AoWExeForms.FontModule.Age10.SetTextCentered(R.Left + (R.Right - R.Left) / 2, R.Top + 50, IntToStr(Modifier), Surface);
+                    AoWExeFormsUnit.FontModule.Age10.Color = 16777215;
+                    AoWExeFormsUnit.FontModule.Age10.SetTextCentered(R.Left + (R.Right - R.Left) / 2, R.Top + 50, IntToStr(Modifier), Surface);
                 }
             }
         }
@@ -1257,6 +1259,6 @@ public partial class TRelWindow : TDataModule
     }
 }
 
-public static partial class AoWRelations
+public static partial class AoWRelationsUnit
 {
 }

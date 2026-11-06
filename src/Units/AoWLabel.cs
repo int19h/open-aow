@@ -1,6 +1,6 @@
 // Translated from AoWLabel.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWControl;
@@ -139,7 +139,7 @@ public partial class TAOWLabel : TAOWControl
     public string Text { get => FText; set => SetGText(value); }
 }
 
-public static partial class AoWLabel
+public static partial class AoWLabelUnit
 {
     // AoWLabel.pas:133
     public static void Register()

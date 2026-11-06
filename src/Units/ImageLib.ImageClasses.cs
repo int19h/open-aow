@@ -52,10 +52,10 @@ public sealed class LibraryImageClass
         }
 
         Progress(10, "Analyzing Image..");
-        ImageClass = ImageLib.FindLibraryImageClass(ClassID);
+        ImageClass = ImageLibUnit.FindLibraryImageClass(ClassID);
         if (GrabInfo.FindRectangles)
         {
-            Rects = GFXE.GFXE.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
+            Rects = GFXEUnit.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
         }
         else
         {
@@ -69,7 +69,7 @@ public sealed class LibraryImageClass
             {
                 if (Rects.Count > 1)
                 {
-                    Progress(Rtl.Rtl.Round((double)(I * 90) / (Rects.Count - 1)) + 10, "Grabbing Image " + Rtl.Rtl.IntToStr(I + 1));
+                    Progress(RtlUnit.Round((double)(I * 90) / (Rects.Count - 1)) + 10, "Grabbing Image " + RtlUnit.IntToStr(I + 1));
                 }
                 else
                 {
@@ -93,7 +93,7 @@ public sealed class LibraryImageClass
         }
         else
         {
-            Result = GFXE.GFXE.GFXE_ERROR;
+            Result = GFXEUnit.GFXE_ERROR;
         }
 
         Rects.Free();

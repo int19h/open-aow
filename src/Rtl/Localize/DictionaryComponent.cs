@@ -11,7 +11,7 @@ public partial class TIvDictionary
     internal void SelectLanguage(int language)
     {
         if (language == 1 && DictionaryName == "ResourceStringDictionary")
-            language = LocalizationRuntime.ReadLanguage(Rtl.Settings);
+            language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
         dictionary.SetLanguage(language);
         FLanguage = dictionary.Language;
     }
@@ -25,7 +25,7 @@ public partial class TIvDictionary
         dictionary.Open(FFileName);
         if (DictionaryName == "ResourceStringDictionary")
         {
-            string path = Rtl.Files.ExpandPath(FFileName);
+            string path = RtlUnit.Files.ExpandPath(FFileName);
             LocalizationRuntime.StartupDirectory = Path.GetDirectoryName(Path.GetDirectoryName(path)) ?? "";
         }
     }

@@ -8,6 +8,9 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWImage;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWMsgReceiveDlg
 {
@@ -303,23 +306,23 @@ namespace Aow.Units.AoWMsgReceiveDlg
             HeaderMemo.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            MsgReceiveWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            MsgReceiveWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            MsgReceiveWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            MessageMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
-            MessageMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Close.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
-            Close.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CampaignTrans;
-            MessageSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            MessageSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            MessageSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            MessageSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            LShield.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            LShield.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
-            RShield.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            RShield.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Shields;
-            HeaderMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15BlackBrown;
-            HeaderMemo.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
+            MsgReceiveWin.WinManager = AoWWinManUnit.General.Manager;
+            MsgReceiveWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            MsgReceiveWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            MessageMemo.AOWFont = AoWExeFormsUnit.FontModule.AoW15BlackBrown;
+            MessageMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Close.AOWFont = AoWExeFormsUnit.FontModule.Age10b;
+            Close.ILButton = aowIntGfxModUnit.IntGfxMod.CampaignTrans;
+            MessageSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            MessageSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            MessageSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            MessageSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
+            LShield.ToolTip = AoWWinManUnit.General.ToolTip;
+            LShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
+            RShield.ToolTip = AoWWinManUnit.General.ToolTip;
+            RShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
+            HeaderMemo.AOWFont = AoWExeFormsUnit.FontModule.AoW15BlackBrown;
+            HeaderMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
         }
 
         private void Layout_MsgReceiveWinHide_0(TObject p0)

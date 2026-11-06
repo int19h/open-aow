@@ -1,11 +1,11 @@
 // Translated from Engine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.FMemStr;
-using static Aow.Units.ImageLib.ImageLib;
+using static Aow.Units.ImageLib.ImageLibUnit;
 
 namespace Aow.Units.Engine;
 
@@ -92,7 +92,7 @@ public partial class TIntegerList : TPersistent
     // Engine.pas:3417
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -107,7 +107,7 @@ public partial class TIntegerList : TPersistent
     // Engine.pas:3428
     internal void SetCount(int NewCount)
     {
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -119,7 +119,7 @@ public partial class TIntegerList : TPersistent
 
         if (NewCount > FCount)
         {
-            Engine.FillInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+            EngineUnit.FillInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
         }
 
         FCount = NewCount;
@@ -155,7 +155,7 @@ public partial class TIntegerList : TPersistent
             if (P != 0)
             {
                 Item = Copy(S, 1, P - 1);
-                S = Rtl.Rtl.Delete(S, 1, P);
+                S = RtlUnit.Delete(S, 1, P);
             }
             else
             {
@@ -380,7 +380,7 @@ public partial class TIntegerList : TPersistent
     {
         if (FList.Length != 0 && Count > 0)
         {
-            Engine.QuickSortInteger(FList, 0, Count - 1, Compare);
+            EngineUnit.QuickSortInteger(FList, 0, Count - 1, Compare);
         }
     }
 
@@ -555,7 +555,7 @@ public partial class TByteList : TPersistent
     // Engine.pas:3752
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -570,7 +570,7 @@ public partial class TByteList : TPersistent
     // Engine.pas:3763
     internal void SetCount(int NewCount)
     {
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -618,7 +618,7 @@ public partial class TByteList : TPersistent
             if (P != 0)
             {
                 Item = Copy(S, 1, P - 1);
-                S = Rtl.Rtl.Delete(S, 1, P);
+                S = RtlUnit.Delete(S, 1, P);
             }
             else
             {
@@ -848,7 +848,7 @@ public partial class TByteList : TPersistent
     {
         if (FList.Length != 0 && Count > 0)
         {
-            Engine.QuickSortByte(FList, 0, Count - 1, Compare);
+            EngineUnit.QuickSortByte(FList, 0, Count - 1, Compare);
         }
     }
 
@@ -1034,7 +1034,7 @@ public partial class TShortIntList : TPersistent
     // Engine.pas:4099
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -1049,7 +1049,7 @@ public partial class TShortIntList : TPersistent
     // Engine.pas:4110
     internal void SetCount(int NewCount)
     {
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -1270,7 +1270,7 @@ public partial class TShortIntList : TPersistent
     {
         if (FList.Length != 0 && Count > 0)
         {
-            Engine.QuickSortShortInt(FList, 0, Count - 1, Compare);
+            EngineUnit.QuickSortShortInt(FList, 0, Count - 1, Compare);
         }
     }
 
@@ -1455,7 +1455,7 @@ public partial class TWordList : TPersistent
     // Engine.pas:4410
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -1470,7 +1470,7 @@ public partial class TWordList : TPersistent
     // Engine.pas:4421
     internal void SetCount(int NewCount)
     {
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -1482,7 +1482,7 @@ public partial class TWordList : TPersistent
 
         if (NewCount > FCount)
         {
-            Engine.FillWord(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+            EngineUnit.FillWord(FList.AsSpan(FCount), NewCount - FCount, FDefault);
         }
 
         FCount = NewCount;
@@ -1691,7 +1691,7 @@ public partial class TWordList : TPersistent
     {
         if (FList.Length != 0 && Count > 0)
         {
-            Engine.QuickSortWord(FList, 0, Count - 1, Compare);
+            EngineUnit.QuickSortWord(FList, 0, Count - 1, Compare);
         }
     }
 
@@ -1844,7 +1844,7 @@ public partial class TBitList : TPersistent
     // Engine.pas:4743
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -1871,7 +1871,7 @@ public partial class TBitList : TPersistent
     internal void SetCount(int NewCount)
     {
         int OldCount;
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -1928,7 +1928,7 @@ public partial class TBitList : TPersistent
             if (P != 0)
             {
                 Item = Copy(S, 1, P - 1);
-                S = Rtl.Rtl.Delete(S, 1, P);
+                S = RtlUnit.Delete(S, 1, P);
             }
             else
             {
@@ -1997,7 +1997,7 @@ public partial class TBitList : TPersistent
             var bitList = (TBitList)Source;
             this.FCount = bitList.FCount;
             this.SetCapacity(bitList.FCount);
-            Rtl.Rtl.Move(bitList.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), this.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), (int)(((uint)(this.FCount + 31)) >> 5) * 4);
+            RtlUnit.Move(bitList.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), this.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), (int)(((uint)(this.FCount + 31)) >> 5) * 4);
             this.FDefault = bitList.FDefault;
         }
         else
@@ -2249,7 +2249,7 @@ public partial class TEventList : TPersistent
     // Engine.pas:5011
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -2265,7 +2265,7 @@ public partial class TEventList : TPersistent
     internal void SetCount(int NewCount)
     {
         int OldCount;
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -2577,7 +2577,7 @@ public partial class TDoubleItemList : TPersistent
     // Engine.pas:5233
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -2592,7 +2592,7 @@ public partial class TDoubleItemList : TPersistent
     // Engine.pas:5244
     internal void SetCount(int NewCount)
     {
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -2604,7 +2604,7 @@ public partial class TDoubleItemList : TPersistent
 
         if (NewCount > FCount)
         {
-            Engine.FillLargeInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+            EngineUnit.FillLargeInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
         }
 
         FCount = NewCount;
@@ -2703,7 +2703,7 @@ public partial class TDoubleItemList : TPersistent
         FCount -= 1;
         if (Index < FCount)
         {
-            Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 8);
+            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 8);
         }
     }
 
@@ -2806,7 +2806,7 @@ public partial class TDoubleItemList : TPersistent
 
         if (Index < FCount)
         {
-            Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 8);
+            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 8);
         }
 
         FList[Index] = Item;
@@ -2864,32 +2864,32 @@ public partial class TDoubleItemList : TPersistent
     {
         if (FList.Length != 0 && Count > 0)
         {
-            Engine.QuickSortDoubleItem(FList, 0, Count - 1, Compare);
+            EngineUnit.QuickSortDoubleItem(FList, 0, Count - 1, Compare);
         }
     }
 
     // Engine.pas:5307
     public void SortAscendingItemA()
     {
-        Sort(Engine.CompareDoubleItemAAscending);
+        Sort(EngineUnit.CompareDoubleItemAAscending);
     }
 
     // Engine.pas:5312
     public void SortAscendingItemB()
     {
-        Sort(Engine.CompareDoubleItemBAscending);
+        Sort(EngineUnit.CompareDoubleItemBAscending);
     }
 
     // Engine.pas:5317
     public void SortDescendingItemA()
     {
-        Sort(Engine.CompareDoubleItemADescending);
+        Sort(EngineUnit.CompareDoubleItemADescending);
     }
 
     // Engine.pas:5322
     public void SortDescendingItemB()
     {
-        Sort(Engine.CompareDoubleItemBDescending);
+        Sort(EngineUnit.CompareDoubleItemBDescending);
     }
 
     // Engine.pas:5327
@@ -3121,7 +3121,7 @@ public partial class TQuadItemList : TPersistent
     // Engine.pas:5643
     internal void SetCapacity(int NewCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > Engine.MaxListSize)
+        if (NewCapacity < FCount || NewCapacity > EngineUnit.MaxListSize)
         {
             Error("List capacity out of bounds (%d)", NewCapacity);
         }
@@ -3136,7 +3136,7 @@ public partial class TQuadItemList : TPersistent
     // Engine.pas:5654
     internal void SetCount(int NewCount)
     {
-        if (NewCount < 0 || NewCount > Engine.MaxListSize)
+        if (NewCount < 0 || NewCount > EngineUnit.MaxListSize)
         {
             Error("List count out of bounds (%d)", NewCount);
         }
@@ -3148,7 +3148,7 @@ public partial class TQuadItemList : TPersistent
 
         if (NewCount > FCount)
         {
-            Engine.FillQuadInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+            EngineUnit.FillQuadInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
         }
 
         FCount = NewCount;
@@ -3249,7 +3249,7 @@ public partial class TQuadItemList : TPersistent
         FCount -= 1;
         if (Index < FCount)
         {
-            Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 16);
+            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 16);
         }
     }
 
@@ -3386,7 +3386,7 @@ public partial class TQuadItemList : TPersistent
 
         if (Index < FCount)
         {
-            Rtl.Rtl.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 16);
+            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 16);
         }
 
         FList[Index] = Item;
@@ -3442,56 +3442,56 @@ public partial class TQuadItemList : TPersistent
     {
         if (FList.Length != 0 && Count > 0)
         {
-            Engine.QuickSortQuadItem(FList, 0, Count - 1, Compare);
+            EngineUnit.QuickSortQuadItem(FList, 0, Count - 1, Compare);
         }
     }
 
     // Engine.pas:5737
     public void SortAscendingItemA()
     {
-        Sort(Engine.CompareQuadItemAAscending);
+        Sort(EngineUnit.CompareQuadItemAAscending);
     }
 
     // Engine.pas:5742
     public void SortAscendingItemB()
     {
-        Sort(Engine.CompareQuadItemBAscending);
+        Sort(EngineUnit.CompareQuadItemBAscending);
     }
 
     // Engine.pas:5747
     public void SortAscendingItemC()
     {
-        Sort(Engine.CompareQuadItemCAscending);
+        Sort(EngineUnit.CompareQuadItemCAscending);
     }
 
     // Engine.pas:5752
     public void SortAscendingItemD()
     {
-        Sort(Engine.CompareQuadItemDAscending);
+        Sort(EngineUnit.CompareQuadItemDAscending);
     }
 
     // Engine.pas:5757
     public void SortDescendingItemA()
     {
-        Sort(Engine.CompareQuadItemADescending);
+        Sort(EngineUnit.CompareQuadItemADescending);
     }
 
     // Engine.pas:5762
     public void SortDescendingItemB()
     {
-        Sort(Engine.CompareQuadItemBDescending);
+        Sort(EngineUnit.CompareQuadItemBDescending);
     }
 
     // Engine.pas:5767
     public void SortDescendingItemC()
     {
-        Sort(Engine.CompareQuadItemCDescending);
+        Sort(EngineUnit.CompareQuadItemCDescending);
     }
 
     // Engine.pas:5772
     public void SortDescendingItemD()
     {
-        Sort(Engine.CompareQuadItemDDescending);
+        Sort(EngineUnit.CompareQuadItemDDescending);
     }
 
     // Engine.pas:5777
@@ -3889,7 +3889,7 @@ public partial class TEObject : TObject
     public virtual int ClassVersion() => 0;
 
     // Engine.pas:2563
-    public virtual TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Engine.csStored);
+    public virtual TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(EngineUnit.csStored);
 
     // Engine.pas:2568
     public virtual void SetOwner(TECustomNode AOwner)
@@ -3928,7 +3928,7 @@ public partial class TEObject : TObject
     // Engine.pas:2594
     public virtual void MainReadWrite(TEStorageStream Stream)
     {
-        if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Engine.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+        if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
         {
             Clear();
         }
@@ -4107,7 +4107,7 @@ public partial class TECustomNode : TEObject
     {
         if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
         {
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(Engine.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of())
+            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(EngineUnit.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of())
             {
                 Clear();
             }
@@ -4128,7 +4128,7 @@ public partial class TECustomNode : TEObject
                 C = Children[I];
                 if (C != null && C.Owner == this)
                 {
-                    if (!C.GetControlStyle().Contains(Engine.csShared))
+                    if (!C.GetControlStyle().Contains(EngineUnit.csShared))
                     {
                         C.Destroy();
                     }
@@ -4144,7 +4144,7 @@ public partial class TECustomNode : TEObject
                 C = Children[I];
                 if (C != null)
                 {
-                    if (!(C.Owner == this && C.GetControlStyle().Contains(Engine.csShared)))
+                    if (!(C.Owner == this && C.GetControlStyle().Contains(EngineUnit.csShared)))
                     {
                         RemoveChild(C);
                     }
@@ -4469,24 +4469,24 @@ public partial class TEngine : TENode
     private protected TEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
     {
         UpdateStartupDirectory();
-        FOptions = TSet<TEngineModeElement>.Of(Engine.eoVerifyClasses);
+        FOptions = TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
         FDebugEvents = new TEventList();
         FEClasses = new TEObjectClassList();
         FClassTable = new TIntegerHashTable256();
         FEditors = new TEObjectEditorList();
         FControlNode = new TEControlStyleNode(this);
-        FControlNode.SetControlStyle(TSet<TEControlStyleElement>.Of(Engine.csShared));
+        FControlNode.SetControlStyle(TSet<TEControlStyleElement>.Of(EngineUnit.csShared));
         FDebugIDs = new TStringList();
-        FDebugIDs.AddObject(Engine.UserStr, IntToObject(-1));
+        FDebugIDs.AddObject(EngineUnit.UserStr, IntToObject(-1));
         RegisterEClasses([EClass.Of<TEControlStyleObject>(), EClass.Of<TEControlStyleNode>(), EClass.Of<TECustomOwner>(), EClass.Of<TEResourceEditSettings>()]);
-        Engine.Engines.Add(this);
+        EngineUnit.Engines.Add(this);
     }
 
     // Engine.pas:8745
     public override void Destroy()
     {
         FEditors.Free();
-        Engine.Engines.Remove(this);
+        EngineUnit.Engines.Remove(this);
         FDebugEvents.Free();
         FDebugIDs.Free();
         base.Destroy();
@@ -4574,7 +4574,7 @@ public partial class TEngine : TENode
     public void ResetMsgCount()
     {
         TEMsg Msg = default;
-        Engine.InitMsgEx(ref Msg, 1, this, FMsgCount + 1);
+        EngineUnit.InitMsgEx(ref Msg, 1, this, FMsgCount + 1);
         MsgProc(ref Msg, this);
         FMsgCount = 0;
     }
@@ -4596,7 +4596,7 @@ public partial class TEngine : TENode
     {
         for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
         {
-            if (FOptions.Contains(Engine.eoVerifyClasses))
+            if (FOptions.Contains(EngineUnit.eoVerifyClasses))
             {
                 VerifyEObjectClass(AClasses[I]);
             }
@@ -4644,7 +4644,7 @@ public partial class TEngine : TENode
     public void ActivateEObject(TEObject Obj)
     {
         TEMsg Msg = default;
-        Engine.InitMsg(ref Msg, 536870920, this);
+        EngineUnit.InitMsg(ref Msg, 536870920, this);
         Msg.Engine = this;
         Obj.MsgProc(ref Msg, this);
     }
@@ -4846,10 +4846,10 @@ public partial class TEngine : TENode
         {
             WriteEObject(M, Obj, AProgress);
             var size = M.Size;
-            CRC1 = Engine.GetCRC32(M.Memory, size);
+            CRC1 = EngineUnit.GetCRC32(M.Memory, size);
             M.Write(Bytes.Of(ref CRC1, 4));
             var mSize = M.Size;
-            CRC2 = Engine.GetCRC32(M.Memory, mSize);
+            CRC2 = EngineUnit.GetCRC32(M.Memory, mSize);
             F = new TFileStream(FileName, 65535);
             try
             {
@@ -4888,11 +4888,11 @@ public partial class TEngine : TENode
                 var size = M.Size;
                 CRC2 = MemoryMarshal.Read<int>(M.Memory.AsSpan(size - 4, 4));
                 var mSize = M.Size;
-                bool condition = CRC1 == Engine.GetCRC32(M.Memory.AsSpan(4), mSize - 4);
+                bool condition = CRC1 == EngineUnit.GetCRC32(M.Memory.AsSpan(4), mSize - 4);
                 if (condition)
                 {
                     var size2 = M.Size;
-                    condition = CRC2 == Engine.GetCRC32(M.Memory.AsSpan(4), size2 - 8);
+                    condition = CRC2 == EngineUnit.GetCRC32(M.Memory.AsSpan(4), size2 - 8);
                 }
 
                 if (condition)
@@ -5309,7 +5309,7 @@ public partial class TCompressStream : TMemoryStream
         int Count;
         Stream.Read(((Span<byte>)Magic).Slice(0, 4));
         Stream.Read(Bytes.Of(ref Compressed, 1));
-        if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, Engine.CompressMagic))
+        if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, EngineUnit.CompressMagic))
         {
             Compressed = false;
             Stream.Seek(0, 0);
@@ -5355,7 +5355,7 @@ public partial class TCompressStream : TMemoryStream
         Position = 0;
         int Result = 100;
         StartSize = Stream.Size;
-        Stream.Write(((ReadOnlySpan<byte>)Engine.CompressMagic).Slice(0, 4));
+        Stream.Write(((ReadOnlySpan<byte>)EngineUnit.CompressMagic).Slice(0, 4));
         Stream.Write(Bytes.Of(ref Level, 1));
         if (Level != TCompressLevel.cpNone)
         {
@@ -5446,7 +5446,7 @@ public partial class TPlugIn : TObject
     {
         FEngines = new TList();
         FCounts = new TIntegerList();
-        Engine.RegisterPlugIn(this);
+        EngineUnit.RegisterPlugIn(this);
         FRefCount = 1;
     }
 
@@ -5460,7 +5460,7 @@ public partial class TPlugIn : TObject
 
         FEngines.Free();
         FCounts.Free();
-        Engine.UnregisterPlugIn(this);
+        EngineUnit.UnregisterPlugIn(this);
         base.Destroy();
     }
 
@@ -5593,7 +5593,7 @@ public partial class TPlugInControl : TEObject
         int last = FUsedPlugIns.Count - 1;
         for (; I <= last; I += 1)
         {
-            P = Units.Engine.Engine.FindPlugIn(FUsedPlugIns[I]);
+            P = EngineUnit.FindPlugIn(FUsedPlugIns[I]);
             if (P != null)
             {
                 P.Initialize(FEngine);
@@ -5611,7 +5611,7 @@ public partial class TPlugInControl : TEObject
         TPlugIn P;
         for (int I = 0, last = FUsedPlugIns.Count - 1; I <= last; I++)
         {
-            P = Units.Engine.Engine.FindPlugIn(FUsedPlugIns[I]);
+            P = EngineUnit.FindPlugIn(FUsedPlugIns[I]);
             if (P != null)
             {
                 P.Finalize(FEngine);
@@ -5641,7 +5641,7 @@ public partial class TPlugInControl : TEObject
     public override TEngine GetEngine() => FEngine;
 
     // Engine.pas:9274
-    public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Units.Engine.Engine.csStored, Units.Engine.Engine.csShared);
+    public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(EngineUnit.csStored, EngineUnit.csShared);
 
     // Engine.pas:9331
     public override void ReadWrite(TEStorageStream Stream)
@@ -5787,7 +5787,7 @@ public partial class TENode : TECustomNode
             C = (TEObject)FChildren.List[I];
             if (C != null && C.Owner == this)
             {
-                if (!C.GetControlStyle().Contains(Engine.csShared))
+                if (!C.GetControlStyle().Contains(EngineUnit.csShared))
                 {
                     C.Destroy();
                 }
@@ -5806,7 +5806,7 @@ public partial class TENode : TECustomNode
                 C = (TEObject)FChildren.List[I];
                 if (C != null)
                 {
-                    if (!(C.Owner == this && C.GetControlStyle().Contains(Engine.csShared)))
+                    if (!(C.Owner == this && C.GetControlStyle().Contains(EngineUnit.csShared)))
                     {
                         RemoveChild(C);
                     }
@@ -5866,7 +5866,7 @@ public partial class TENode : TECustomNode
     public override void SendMsg(ref TEMsg Msg, TEObject Sender)
     {
         var children = FChildren;
-        if (GetControlStyle().Contains(Engine.csKeepIndex))
+        if (GetControlStyle().Contains(EngineUnit.csKeepIndex))
         {
             if ((Msg.MsgID & 268435456) != 0)
             {
@@ -5988,7 +5988,7 @@ public partial class TENode : TECustomNode
     public override int RemoveChild(TEObject Child)
     {
         int Result;
-        if (GetControlStyle().Contains(Engine.csKeepIndex))
+        if (GetControlStyle().Contains(EngineUnit.csKeepIndex))
         {
             Result = FChildren.IndexOf(Child);
             if (Result != -1)
@@ -6133,7 +6133,7 @@ public partial class TETimerNode : TECustomNode
     }
 
     // Engine.pas:1841
-    public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Engine.csStored, Engine.csShared, Engine.csReserved2);
+    public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(EngineUnit.csStored, EngineUnit.csShared, EngineUnit.csReserved2);
 
     // Engine.pas:1846
     public override int GetCount() => FCount;
@@ -6322,7 +6322,7 @@ public partial class TEChangeNotifyNode : TECustomNode
             C = (TEObject)FChildren.List[I];
             if (C != null && C.Owner == this)
             {
-                if (!C.GetControlStyle().Contains(Engine.csShared))
+                if (!C.GetControlStyle().Contains(EngineUnit.csShared))
                 {
                     C.Destroy();
                 }
@@ -6339,7 +6339,7 @@ public partial class TEChangeNotifyNode : TECustomNode
             C = (TEObject)FChildren.List[I];
             if (C != null)
             {
-                if (!(C.Owner == this && C.GetControlStyle().Contains(Engine.csShared)))
+                if (!(C.Owner == this && C.GetControlStyle().Contains(EngineUnit.csShared)))
                 {
                     RemoveChild(C);
                 }
@@ -7098,13 +7098,13 @@ public partial class TEChangeNotifyNode : TECustomNode
     // Engine.pas:7971
     public override void MainReadWrite(TEStorageStream Stream)
     {
-        if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Engine.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+        if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
         {
             BeginUpdate();
         }
 
         base.MainReadWrite(Stream);
-        if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Engine.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+        if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
         {
             EndUpdate();
         }
@@ -7117,7 +7117,7 @@ public partial class TEChangeNotifyNode : TECustomNode
     public override void SendMsg(ref TEMsg Msg, TEObject Sender)
     {
         var children = FChildren;
-        if (GetControlStyle().Contains(Engine.csKeepIndex))
+        if (GetControlStyle().Contains(EngineUnit.csKeepIndex))
         {
             if ((Msg.MsgID & 268435456) != 0)
             {
@@ -7239,7 +7239,7 @@ public partial class TEChangeNotifyNode : TECustomNode
     public override int RemoveChild(TEObject Child)
     {
         int Result;
-        if (GetControlStyle().Contains(Engine.csKeepIndex))
+        if (GetControlStyle().Contains(EngineUnit.csKeepIndex))
         {
             Result = FChildren.IndexOf(Child);
             if (Result != -1)
@@ -8129,7 +8129,7 @@ public partial class TEResourceEditSettings : TEControlStyleObject
     public override void ReadWrite(TEStorageStream Stream)
     {
         base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(Engine.smText))
+        if (!Stream.StorageMode().Contains(EngineUnit.smText))
         {
             Stream.rwStringsEx(FEditors, 3);
         }
@@ -8283,7 +8283,7 @@ public partial class TESortNode : TECustomNode
     {
         if (!FSorted && FCount > 0)
         {
-            Engine.SortItems(FItems, 0, FCount - 1);
+            EngineUnit.SortItems(FItems, 0, FCount - 1);
         }
 
         FSorted = true;
@@ -8353,7 +8353,7 @@ public partial class TEInverseSortNode : TESortNode
     {
         if (!FSorted && FCount > 0)
         {
-            Engine.InverseSortItems(FItems, 0, FCount - 1);
+            EngineUnit.InverseSortItems(FItems, 0, FCount - 1);
         }
 
         FSorted = true;
@@ -8456,7 +8456,7 @@ public partial class TEReferenceNode : TENode
         else
         {
             base.ReadWriteChildren(Stream);
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Engine.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
             {
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
@@ -10057,7 +10057,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
             Value = "";
             while (I <= Last)
             {
-                NewID = Units.Engine.Engine.GetLineID(FText[I]);
+                NewID = EngineUnit.GetLineID(FText[I]);
                 if (ID != -1)
                 {
                     if (NewID != ID && NewID != -1)
@@ -10066,7 +10066,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
                         FPropertyTable.Add(ID, count);
                         FValues.Add(Value);
                         ID = NewID;
-                        Value = Units.Engine.Engine.GetLineValue(FText[I]);
+                        Value = EngineUnit.GetLineValue(FText[I]);
                     }
                     else
                     {
@@ -10083,7 +10083,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
                             ID = NewID;
                         }
 
-                        Value = Units.Engine.Engine.GetLineValue(FText[I]);
+                        Value = EngineUnit.GetLineValue(FText[I]);
                     }
                 }
 
@@ -10130,7 +10130,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
     }
 
     // Engine.pas:10669
-    public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smText);
+    public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smText);
 
     // Engine.pas:10741
     public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
@@ -10250,7 +10250,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
         for (int I = 0, last = Node.Count - 1; I <= last; I++)
         {
             C = Node.Children[I];
-            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
+            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineUnit.csShared) && C.GetControlStyle().Contains(EngineUnit.csStored))
             {
                 rwEObject(C, I);
             }
@@ -10299,7 +10299,7 @@ public partial class TEWriteTextStorageStream : TEStorageStream
     }
 
     // Engine.pas:10350
-    public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, Units.Engine.Engine.smText);
+    public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, EngineUnit.smText);
 
     // Engine.pas:10368
     public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
@@ -10448,7 +10448,7 @@ public partial class TEWriteTextStorageStream : TEStorageStream
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
                 C = Node.Children[I];
-                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineUnit.csShared) && C.GetControlStyle().Contains(EngineUnit.csStored))
                 {
                     rwEObject(C, I);
                 }
@@ -10493,7 +10493,7 @@ public partial class TEReadStorageStream : TEStorageStream
         TSet<TStorageModeElement> Result;
         if (FPartial)
         {
-            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smPartial);
+            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smPartial);
         }
         else
         {
@@ -10675,7 +10675,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            Units.Engine.Engine.LoadStringFromStream(ref S, FStream);
+            EngineUnit.LoadStringFromStream(ref S, FStream);
         }
         else
         {
@@ -10695,7 +10695,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            Units.Engine.Engine.StringsFromStream(Strings, FStream);
+            EngineUnit.StringsFromStream(Strings, FStream);
         }
         else
         {
@@ -10715,7 +10715,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            Units.Engine.Engine.StringsFromStreamEx(Strings, FStream);
+            EngineUnit.StringsFromStreamEx(Strings, FStream);
         }
         else
         {
@@ -10801,9 +10801,9 @@ public partial class TEReadStorageStream : TEStorageStream
             Continue = true;
             if (FOnError != null)
             {
-                if (Rtl.Rtl.IsEmpty(E.Message))
+                if (IsEmpty(E.Message))
                 {
-                    FOnError(this, Units.Engine.Engine.EStreamReadErrorStr, ref Continue);
+                    FOnError(this, EngineUnit.EStreamReadErrorStr, ref Continue);
                 }
                 else
                 {
@@ -10887,7 +10887,7 @@ public partial class TEReadStorageStream : TEStorageStream
 
             FPropertyTable.LoadFromStream(FStream);
             FDataBase = FStream.Position;
-            if (Node.GetControlStyle().Contains(Units.Engine.Engine.csKeepIndex))
+            if (Node.GetControlStyle().Contains(EngineUnit.csKeepIndex))
             {
                 for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                 {
@@ -11037,7 +11037,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         TSet<TStorageModeElement> Result;
         if (FPartial)
         {
-            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, Units.Engine.Engine.smPartial);
+            Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, EngineUnit.smPartial);
         }
         else
         {
@@ -11191,7 +11191,7 @@ public partial class TEWriteStorageStream : TEStorageStream
             if (!IsEmpty(S))
             {
                 FPropertyTable.Add(ID, FBuffer.Position);
-                Units.Engine.Engine.SaveStringToStream(S, FBuffer);
+                EngineUnit.SaveStringToStream(S, FBuffer);
             }
         }
         else
@@ -11208,7 +11208,7 @@ public partial class TEWriteStorageStream : TEStorageStream
             if (Strings.Count != 0)
             {
                 FPropertyTable.Add(ID, FBuffer.Position);
-                Units.Engine.Engine.StringsToStream(Strings, FBuffer);
+                EngineUnit.StringsToStream(Strings, FBuffer);
             }
         }
         else
@@ -11225,7 +11225,7 @@ public partial class TEWriteStorageStream : TEStorageStream
             if (Strings.Count != 0)
             {
                 FPropertyTable.Add(ID, FBuffer.Position);
-                Units.Engine.Engine.StringsToStreamEx(Strings, FBuffer);
+                EngineUnit.StringsToStreamEx(Strings, FBuffer);
             }
         }
         else
@@ -11314,9 +11314,9 @@ public partial class TEWriteStorageStream : TEStorageStream
             Continue = true;
             if (FOnError != null)
             {
-                if (Rtl.Rtl.IsEmpty(E.Message))
+                if (IsEmpty(E.Message))
                 {
-                    FOnError(this, Units.Engine.Engine.EStreamWriteErrorStr, ref Continue);
+                    FOnError(this, EngineUnit.EStreamWriteErrorStr, ref Continue);
                 }
                 else
                 {
@@ -11409,7 +11409,7 @@ public partial class TEWriteStorageStream : TEStorageStream
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
                 C = Node.Children[I];
-                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineUnit.csShared) && C.GetControlStyle().Contains(EngineUnit.csStored))
                 {
                     rwCreateEObject(ref C, Node, I);
                 }
@@ -11587,7 +11587,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
                 C = Node.Children[I];
-                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineUnit.csShared) && C.GetControlStyle().Contains(EngineUnit.csStored))
                 {
                     rwCreateEObject(ref C, Node, I);
                 }
@@ -11677,7 +11677,7 @@ public partial class TTranslateStorageStream : TEStorageStream
     }
 
     // Engine.pas:10837
-    public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Units.Engine.Engine.smText, TStorageModeElement.smTranslate);
+    public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smText, TStorageModeElement.smTranslate);
 
     // Engine.pas:10842
     public override void rwString(ref string S, int ID)
@@ -11748,7 +11748,7 @@ public partial class TTranslateStorageStream : TEStorageStream
         for (int I = 0, last = Node.Count - 1; I <= last; I++)
         {
             C = Node.Children[I];
-            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Units.Engine.Engine.csShared) && C.GetControlStyle().Contains(Units.Engine.Engine.csStored))
+            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineUnit.csShared) && C.GetControlStyle().Contains(EngineUnit.csStored))
             {
                 rwEObject(C, I);
             }
@@ -11870,7 +11870,7 @@ public partial class TCompareStorageStream : TEReadStorageStream
 
             FPropertyTable.LoadFromStream(FStream);
             FDataBase = FStream.Position;
-            if (Node.GetControlStyle().Contains(Units.Engine.Engine.csKeepIndex))
+            if (Node.GetControlStyle().Contains(EngineUnit.csKeepIndex))
             {
                 for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                 {
@@ -11885,7 +11885,7 @@ public partial class TCompareStorageStream : TEReadStorageStream
             else
             {
                 Start = 0;
-                while (Start < Node.Count && Node.Children[Start] != null && (Node.Children[Start].GetControlStyle() & TSet<TEControlStyleElement>.Of(Units.Engine.Engine.csShared)) != TSet<TEControlStyleElement>.Of())
+                while (Start < Node.Count && Node.Children[Start] != null && (Node.Children[Start].GetControlStyle() & TSet<TEControlStyleElement>.Of(EngineUnit.csShared)) != TSet<TEControlStyleElement>.Of())
                 {
                     Start += 1;
                 }
@@ -12080,7 +12080,7 @@ public partial class TListFields : TObject
     public int FCount;
 }
 
-public static partial class Engine
+public static partial class EngineUnit
 {
     // The Engine unit of Enginep.dpl. The hash classes come from inc\HashTab.PAS as in the
     // original

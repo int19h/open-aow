@@ -1,6 +1,6 @@
 // Translated from AoWFrame.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AOWMenu;
 using Aow.Units.AoWControl;
@@ -353,7 +353,7 @@ public partial class TAoWFrame : TAOWControl
     public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
 }
 
-public static partial class AoWFrame
+public static partial class AoWFrameUnit
 {
     // AoWFrame.pas:260
     public static void Register()

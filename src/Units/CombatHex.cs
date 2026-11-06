@@ -1,15 +1,15 @@
 // Translated from CombatHex.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWHex;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 
 namespace Aow.Units.CombatHex;
 
@@ -117,7 +117,7 @@ public partial class TCombatHexagon : TAbstractHexagon
         int X = default;
         int Y = default;
         MapLevel = (TMapLevel)Owner.Owner;
-        CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, CombatHex.TransitionNeighbours[Side - 1], ref X, ref Y);
+        CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, CombatHexUnit.TransitionNeighbours[Side - 1], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
         {
             NeighbourTerrain = MapLevel.GetField(X, Y).TerrainType;
@@ -340,7 +340,7 @@ public partial class TWaterCombatHexagonResource : TAoWWaterHexagonResource
 
 }
 
-public static partial class CombatHex
+public static partial class CombatHexUnit
 {
     // CombatHex.pas:234
     public static void RegisterCombatHexagon(TEngine AEngine)

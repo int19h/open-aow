@@ -1,13 +1,13 @@
 // Translated from MainAG.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.City;
 using Aow.Units.AGCPlugins;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.MainAG;
 
@@ -809,7 +809,7 @@ public partial class TFortifyAGC : TAIGroupControl
             Units = new TUnitUserList(null);
             Passive = new TUnitUserList(null);
             Units.AddUnits(FGroup);
-            Units.FChildren.Sort(MainAG.CompareFortifyUnits);
+            Units.FChildren.Sort(MainAGUnit.CompareFortifyUnits);
             I = Units.Count;
             while (I != 0 && Excess > 0)
             {
@@ -1112,7 +1112,7 @@ public partial class TRegistrator : TObject
 
 }
 
-public static partial class MainAG
+public static partial class MainAGUnit
 {
     // MainAG.pas:341
     public static int CompareFortifyUnits(object Item1, object Item2)

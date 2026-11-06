@@ -1,6 +1,6 @@
 // Translated from AOWGauge.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
@@ -345,7 +345,7 @@ public partial class TAoWGauge : TAOWControl
     public int ILIndexTSelected { get => FILIndexTSelected; set => SetILTsIndex(value); }
 }
 
-public static partial class AOWGauge
+public static partial class AOWGaugeUnit
 {
     // AOWGauge.pas:279
     public static void Register()

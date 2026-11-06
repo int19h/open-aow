@@ -28,7 +28,7 @@ public partial class TCombatData
         stream.rwInteger(ref FX, 0x0a);
         stream.rwInteger(ref FY, 0x0b);
         stream.rwInteger(ref FL, 0x0c);
-        Rtl.Rtl.RwSet(ref F_CombatData_22, 2, 0x0d, stream.rwData, 0);
+        RtlUnit.RwSet(ref F_CombatData_22, 2, 0x0d, stream.rwData, 0);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FAttackerPlayer), 0x0e);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefenderPlayer), 0x0f);
         stream.rwData(Bytes.Of(ref F_CombatData_30, 1), 1, 0x10);

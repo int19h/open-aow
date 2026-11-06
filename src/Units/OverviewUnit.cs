@@ -1,11 +1,11 @@
 // Translated from OverviewUnit.pas.
 using Aow.Rtl;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTC;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
 
 namespace Aow.Units.OverviewUnit;
@@ -56,7 +56,7 @@ public partial class TOverviewUnitHS : TUnitHS
 
 }
 
-public static partial class OverviewUnit
+public static partial class OverviewUnitUnit
 {
     // OverviewUnit.pas:57
     public static void PlaceOverviewUnit(TAoWCombatMap Map, TAbstractUnit U, int Position, int Index)

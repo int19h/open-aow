@@ -1,6 +1,6 @@
 // Translated from AoWControl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AOWToolTip;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWBaseWin;
@@ -253,6 +253,6 @@ public partial class TAOWControl : TAoWComponent
     public TStringList ToolTipText { get => FToolTipText; set => SetToolStrings(value); }
 }
 
-public static partial class AoWControl
+public static partial class AoWControlUnit
 {
 }

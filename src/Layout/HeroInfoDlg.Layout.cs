@@ -10,6 +10,9 @@ using Aow.Units.AoWWindow;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWMemo;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWWinMan;
 
 namespace Aow.Units.AoWHeroInfoDlg
 {
@@ -575,26 +578,26 @@ namespace Aow.Units.AoWHeroInfoDlg
             Message.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            U1.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U2.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U4.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U5.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U3.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U6.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U7.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U8.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            CloseBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CloseBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            HeroName.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            HeroLevel.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            FaceFrame.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            DetailsLbl.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            DetailsLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            Message.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
+            U1.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U2.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U4.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U5.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U3.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U6.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U7.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U8.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            CloseBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CloseBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            HeroName.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            HeroLevel.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            FaceFrame.ImageLib = aowIntGfxModUnit.IntGfxMod.GenericF;
+            DetailsLbl.ToolTip = AoWWinManUnit.General.ToolTip;
+            DetailsLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            Message.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
         }
 
         private void Layout_CloseBtnClick_0(TObject p0)

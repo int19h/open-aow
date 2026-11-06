@@ -3,8 +3,8 @@ using System.Text.Json;
 using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.HSEngine;
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using GameState = Aow.Units.AoWE.AoWE;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using GameState = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Game;
 
@@ -19,9 +19,9 @@ internal sealed class FrameDiagnostics : IDisposable
     {
         this.output = output;
         writer = new(Path.Combine(output, "diagnostic-trace.jsonl")) { NewLine = "\n", AutoFlush = true };
-        previousRandom = Aow.Rtl.Rtl.RandomTrace;
+        previousRandom = RtlUnit.RandomTrace;
         previousCost = HeadlessHooks.ProcessCost;
-        Aow.Rtl.Rtl.RandomTrace = Random;
+        RtlUnit.RandomTrace = Random;
         HeadlessHooks.ProcessCost = Cost;
     }
 
@@ -94,7 +94,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Dispose()
     {
-        Aow.Rtl.Rtl.RandomTrace = previousRandom;
+        RtlUnit.RandomTrace = previousRandom;
         HeadlessHooks.ProcessCost = previousCost;
         writer.Dispose();
     }

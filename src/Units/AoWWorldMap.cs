@@ -1,14 +1,14 @@
 // Translated from AoWWorldMap.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWBookWindow;
 using Aow.Units.AoWButton;
@@ -19,12 +19,15 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWTargetSelection;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.E2GameFlow.E2GameFlow;
-using static Aow.Units.AoWLeaderSetup.AoWLeaderSetup;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using static Aow.Units.AoWLeaderSetup.AoWLeaderSetupUnit;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWWinMan;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AoWWorldMap;
 
@@ -122,11 +125,11 @@ public partial class TWorldMap : TDataModule
             {
                 case 0:
                     var campaign = GetCampaign();
-                    bool condition = !IsEmpty(AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FOutroPages, 0).FImageLibrary);
+                    bool condition = !IsEmpty(AoWWorldMapUnit.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FOutroPages, 0).FImageLibrary);
                     if (!condition)
                     {
                         var campaign2 = GetCampaign();
-                        condition = AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID).FOutroPages, 0).FText.Count > 0;
+                        condition = AoWWorldMapUnit.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID).FOutroPages, 0).FText.Count > 0;
                     }
 
                     if (condition)
@@ -135,22 +138,22 @@ public partial class TWorldMap : TDataModule
                         var campaign2 = GetCampaign();
                         var campaignScenario = GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID);
                         var campaign3 = GetCampaign();
-                        var campaignPage = AoWWorldMap.GetCampaignPage(campaignScenario.FOutroPages, campaign3.FPage);
+                        var campaignPage = AoWWorldMapUnit.GetCampaignPage(campaignScenario.FOutroPages, campaign3.FPage);
                         LabelL.Text = campaignPage.FHeading;
                         var campaign4 = GetCampaign();
                         var campaignScenario2 = GetCampaignScenario(GetCampaign(), campaign4.FCurrentScenarioID);
                         var campaign5 = GetCampaign();
-                        var aoWWorldMapCampaignPage = AoWWorldMap.GetCampaignPage(campaignScenario2.FOutroPages, campaign5.FPage + 1);
+                        var aoWWorldMapCampaignPage = AoWWorldMapUnit.GetCampaignPage(campaignScenario2.FOutroPages, campaign5.FPage + 1);
                         LabelR.Text = aoWWorldMapCampaignPage.FHeading;
                         var campaign6 = GetCampaign();
                         var campaignScenario3 = GetCampaignScenario(GetCampaign(), campaign6.FCurrentScenarioID);
                         var campaign7 = GetCampaign();
-                        var campaignPage2 = AoWWorldMap.GetCampaignPage(campaignScenario3.FOutroPages, campaign7.FPage);
+                        var campaignPage2 = AoWWorldMapUnit.GetCampaignPage(campaignScenario3.FOutroPages, campaign7.FPage);
                         MemoL.Items.Assign(campaignPage2.FText);
                         var campaign8 = GetCampaign();
                         var campaignScenario4 = GetCampaignScenario(GetCampaign(), campaign8.FCurrentScenarioID);
                         var campaign9 = GetCampaign();
-                        var campaignPage3 = AoWWorldMap.GetCampaignPage(campaignScenario4.FOutroPages, campaign9.FPage + 1);
+                        var campaignPage3 = AoWWorldMapUnit.GetCampaignPage(campaignScenario4.FOutroPages, campaign9.FPage + 1);
                         MemoR.Items.Assign(campaignPage3.FText);
                         FStarIntensity = 50;
                         FStarStep = 1;
@@ -174,7 +177,7 @@ public partial class TWorldMap : TDataModule
                         var campaign11 = GetCampaign();
                         var campaignScenario5 = GetCampaignScenario(GetCampaign(), campaign11.FCurrentScenarioID);
                         var campaign12 = GetCampaign();
-                        if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario5.FOutroPages, campaign12.FPage).FImageLibrary))
+                        if (IsEmpty(AoWWorldMapUnit.GetCampaignPage(campaignScenario5.FOutroPages, campaign12.FPage).FImageLibrary))
                         {
                             PicL.ImageLib = null;
                         }
@@ -183,13 +186,13 @@ public partial class TWorldMap : TDataModule
                             var campaign13 = GetCampaign();
                             var campaignScenario6 = GetCampaignScenario(GetCampaign(), campaign13.FCurrentScenarioID);
                             var campaign14 = GetCampaign();
-                            var campaignPage4 = AoWWorldMap.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage);
-                            aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
-                            PicL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPL;
+                            var campaignPage4 = AoWWorldMapUnit.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage);
+                            aowIntGfxModUnit.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
+                            PicL.ImageLib = aowIntGfxModUnit.IntGfxMod.BookPL;
                             var campaign15 = GetCampaign();
                             var campaignScenario7 = GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
                             var campaign16 = GetCampaign();
-                            var campaignPage5 = AoWWorldMap.GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage);
+                            var campaignPage5 = AoWWorldMapUnit.GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage);
                             PicL.CurrentImage = campaignPage5.FImageIndex;
                             PicL.WinWidth = 0;
                             PicL.WinHeight = 0;
@@ -199,7 +202,7 @@ public partial class TWorldMap : TDataModule
                         var campaign17 = GetCampaign();
                         var campaignScenario8 = GetCampaignScenario(GetCampaign(), campaign17.FCurrentScenarioID);
                         var campaign18 = GetCampaign();
-                        if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario8.FOutroPages, campaign18.FPage + 1).FImageLibrary))
+                        if (IsEmpty(AoWWorldMapUnit.GetCampaignPage(campaignScenario8.FOutroPages, campaign18.FPage + 1).FImageLibrary))
                         {
                             PicR.ImageLib = null;
                         }
@@ -208,13 +211,13 @@ public partial class TWorldMap : TDataModule
                             var campaign13 = GetCampaign();
                             var campaignScenario6 = GetCampaignScenario(GetCampaign(), campaign13.FCurrentScenarioID);
                             var campaign14 = GetCampaign();
-                            var campaignPage4 = AoWWorldMap.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 1);
-                            aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
-                            PicR.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPR;
+                            var campaignPage4 = AoWWorldMapUnit.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 1);
+                            aowIntGfxModUnit.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
+                            PicR.ImageLib = aowIntGfxModUnit.IntGfxMod.BookPR;
                             var campaign15 = GetCampaign();
                             var campaignScenario7 = GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
                             var campaign16 = GetCampaign();
-                            var campaignPage5 = AoWWorldMap.GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage + 1);
+                            var campaignPage5 = AoWWorldMapUnit.GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage + 1);
                             PicR.CurrentImage = campaignPage5.FImageIndex;
                             PicR.WinWidth = 0;
                             PicR.WinHeight = 0;
@@ -232,13 +235,13 @@ public partial class TWorldMap : TDataModule
                             var campaign13 = GetCampaign();
                             var campaignScenario6 = GetCampaignScenario(GetCampaign(), campaign13.FCurrentScenarioID);
                             var campaign14 = GetCampaign();
-                            bool test = !IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 2).FImageLibrary);
+                            bool test = !IsEmpty(AoWWorldMapUnit.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 2).FImageLibrary);
                             if (!test)
                             {
                                 var campaign15 = GetCampaign();
                                 var campaignScenario7 = GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
                                 var campaign16 = GetCampaign();
-                                test = AoWWorldMap.GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage + 2).FText.Count > 0;
+                                test = AoWWorldMapUnit.GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage + 2).FText.Count > 0;
                             }
 
                             Next.Visible = test;
@@ -381,11 +384,11 @@ public partial class TWorldMap : TDataModule
                     break;
                 case 2:
                     var campaign26 = GetCampaign();
-                    bool passed = !IsEmpty(AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign26.FNextScenarioID).FIntroPages, 0).FImageLibrary);
+                    bool passed = !IsEmpty(AoWWorldMapUnit.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign26.FNextScenarioID).FIntroPages, 0).FImageLibrary);
                     if (!passed)
                     {
                         var campaign2 = GetCampaign();
-                        passed = AoWWorldMap.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign2.FNextScenarioID).FIntroPages, 0).FText.Count > 0;
+                        passed = AoWWorldMapUnit.GetCampaignPage(GetCampaignScenario(GetCampaign(), campaign2.FNextScenarioID).FIntroPages, 0).FText.Count > 0;
                     }
 
                     if (passed)
@@ -453,16 +456,16 @@ public partial class TWorldMap : TDataModule
                         SetCurrentDir(AoWEngine.StartupDirectory + "Scenario\\Campaign\\");
                         var campaign4 = GetCampaign();
                         var campaignScenario = GetCampaignScenario(GetCampaign(), campaign4.FCurrentScenarioID);
-                        AoWWinMan.AoWWinMan.LoadGame(General, campaignScenario.FFileName);
+                        AoWWinManUnit.LoadGame(General, campaignScenario.FFileName);
                         TitleWindow.TitlePnl.Visible = true;
                         WorldPnl.Visible = false;
                         GetCampaign().SetupScenario();
-                        AoWWinMan.AoWWinMan.StartGame(General);
-                        AoWWorldMap.WorldMap.DescLbl.Text = "";
+                        AoWWinManUnit.StartGame(General);
+                        AoWWorldMapUnit.WorldMap.DescLbl.Text = "";
                     }
                     else
                     {
-                        AoWWorldMap.WorldMap.DescLbl.Text = "";
+                        AoWWorldMapUnit.WorldMap.DescLbl.Text = "";
                         GetCampaign().FState = 0;
                         UpdateCampaignState();
                     }
@@ -481,25 +484,25 @@ public partial class TWorldMap : TDataModule
         SetCurrentDir(AoWEngine.StartupDirectory + "Int\\Scenes");
         var campaignScenario = GetCampaignScenario(GetCampaign(), Index);
         var campaign = GetCampaign();
-        var campaignPage = AoWWorldMap.GetCampaignPage(campaignScenario.FIntroPages, campaign.FPage);
+        var campaignPage = AoWWorldMapUnit.GetCampaignPage(campaignScenario.FIntroPages, campaign.FPage);
         LabelL.Text = campaignPage.FHeading;
         var campaignScenario2 = GetCampaignScenario(GetCampaign(), Index);
         var campaign2 = GetCampaign();
-        var aoWWorldMapCampaignPage = AoWWorldMap.GetCampaignPage(campaignScenario2.FIntroPages, campaign2.FPage + 1);
+        var aoWWorldMapCampaignPage = AoWWorldMapUnit.GetCampaignPage(campaignScenario2.FIntroPages, campaign2.FPage + 1);
         LabelR.Text = aoWWorldMapCampaignPage.FHeading;
         var campaignScenario3 = GetCampaignScenario(GetCampaign(), Index);
         var campaign3 = GetCampaign();
-        var campaignPage2 = AoWWorldMap.GetCampaignPage(campaignScenario3.FIntroPages, campaign3.FPage);
+        var campaignPage2 = AoWWorldMapUnit.GetCampaignPage(campaignScenario3.FIntroPages, campaign3.FPage);
         MemoL.Items.Assign(campaignPage2.FText);
         var campaignScenario4 = GetCampaignScenario(GetCampaign(), Index);
         var campaign4 = GetCampaign();
-        var campaignPage3 = AoWWorldMap.GetCampaignPage(campaignScenario4.FIntroPages, campaign4.FPage + 1);
+        var campaignPage3 = AoWWorldMapUnit.GetCampaignPage(campaignScenario4.FIntroPages, campaign4.FPage + 1);
         MemoR.Items.Assign(campaignPage3.FText);
         leftSB.Position = 0;
         rightSB.Position = 0;
         var campaignScenario5 = GetCampaignScenario(GetCampaign(), Index);
         var campaign5 = GetCampaign();
-        if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario5.FIntroPages, campaign5.FPage).FImageLibrary))
+        if (IsEmpty(AoWWorldMapUnit.GetCampaignPage(campaignScenario5.FIntroPages, campaign5.FPage).FImageLibrary))
         {
             PicL.ImageLib = null;
         }
@@ -507,12 +510,12 @@ public partial class TWorldMap : TDataModule
         {
             var campaignScenario6 = GetCampaignScenario(GetCampaign(), Index);
             var campaign6 = GetCampaign();
-            var campaignPage4 = AoWWorldMap.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage);
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
-            PicL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPL;
+            var campaignPage4 = AoWWorldMapUnit.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage);
+            aowIntGfxModUnit.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
+            PicL.ImageLib = aowIntGfxModUnit.IntGfxMod.BookPL;
             var campaignScenario7 = GetCampaignScenario(GetCampaign(), Index);
             var campaign7 = GetCampaign();
-            var campaignPage5 = AoWWorldMap.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage);
+            var campaignPage5 = AoWWorldMapUnit.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage);
             PicL.CurrentImage = campaignPage5.FImageIndex;
             PicL.WinWidth = 0;
             PicL.WinHeight = 0;
@@ -521,7 +524,7 @@ public partial class TWorldMap : TDataModule
 
         var campaignScenario8 = GetCampaignScenario(GetCampaign(), Index);
         var campaign8 = GetCampaign();
-        if (IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario8.FIntroPages, campaign8.FPage + 1).FImageLibrary))
+        if (IsEmpty(AoWWorldMapUnit.GetCampaignPage(campaignScenario8.FIntroPages, campaign8.FPage + 1).FImageLibrary))
         {
             PicR.ImageLib = null;
         }
@@ -529,12 +532,12 @@ public partial class TWorldMap : TDataModule
         {
             var campaignScenario6 = GetCampaignScenario(GetCampaign(), Index);
             var campaign6 = GetCampaign();
-            var campaignPage4 = AoWWorldMap.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 1);
-            aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
-            PicR.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.BookPR;
+            var campaignPage4 = AoWWorldMapUnit.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 1);
+            aowIntGfxModUnit.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
+            PicR.ImageLib = aowIntGfxModUnit.IntGfxMod.BookPR;
             var campaignScenario7 = GetCampaignScenario(GetCampaign(), Index);
             var campaign7 = GetCampaign();
-            var campaignPage5 = AoWWorldMap.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage + 1);
+            var campaignPage5 = AoWWorldMapUnit.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage + 1);
             PicR.CurrentImage = campaignPage5.FImageIndex;
             PicR.WinWidth = 0;
             PicR.WinHeight = 0;
@@ -551,12 +554,12 @@ public partial class TWorldMap : TDataModule
         {
             var campaignScenario6 = GetCampaignScenario(GetCampaign(), Index);
             var campaign6 = GetCampaign();
-            bool condition = !IsEmpty(AoWWorldMap.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 2).FImageLibrary);
+            bool condition = !IsEmpty(AoWWorldMapUnit.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 2).FImageLibrary);
             if (!condition)
             {
                 var campaignScenario7 = GetCampaignScenario(GetCampaign(), Index);
                 var campaign7 = GetCampaign();
-                condition = AoWWorldMap.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage + 2).FText.Count > 0;
+                condition = AoWWorldMapUnit.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage + 2).FText.Count > 0;
             }
 
             Next.Visible = condition;
@@ -598,11 +601,11 @@ public partial class TWorldMap : TDataModule
         LeaderSetupWin.DefaultBtn.Visible = false;
         LeaderSetupWin.PrevBtn.Visible = false;
         LeaderSetupWin.SetFixedSpheres(Picks);
-        var format = AoWE.AoWE.Format(TranslateRStr(AssignXNewSpheresRStr), [IntToStr(2)]);
+        var format = AoWEUnit.Format(TranslateRStr(AssignXNewSpheresRStr), [IntToStr(2)]);
         LeaderSetupWin.Phase3Header.Text = format;
         Control.FOnDone = SpheresDone;
         Control.Release();
-        LeaderSetupWin.LeaderPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.WorldMap;
+        LeaderSetupWin.LeaderPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.WorldMap;
         LeaderSetupWin.LeaderPnl.ILIndexTexture = 0;
     }
 
@@ -674,11 +677,11 @@ public partial class TWorldMap : TDataModule
             if (condition)
             {
                 var campaign2 = GetCampaign();
-                bool test = !IsEmpty(AoWWorldMap.GetCampaignPage(Scenario.FIntroPages, campaign2.FPage + 2).FImageLibrary);
+                bool test = !IsEmpty(AoWWorldMapUnit.GetCampaignPage(Scenario.FIntroPages, campaign2.FPage + 2).FImageLibrary);
                 if (!test)
                 {
                     var campaign3 = GetCampaign();
-                    test = AoWWorldMap.GetCampaignPage(Scenario.FIntroPages, campaign3.FPage + 2).FText.Count > 0;
+                    test = AoWWorldMapUnit.GetCampaignPage(Scenario.FIntroPages, campaign3.FPage + 2).FText.Count > 0;
                 }
 
                 condition = test;
@@ -1109,11 +1112,11 @@ public partial class TWorldMap : TDataModule
                 break;
         }
 
-        if (BookStart.Visible != AoWWorldMap.BookStartVisible)
+        if (BookStart.Visible != AoWWorldMapUnit.BookStartVisible)
         {
             R = Rect(BookWin.WinLeft + BookStart.WinLeft, BookWin.WinTop + BookStart.WinTop, BookWin.WinLeft + BookStart.WinLeft + BookStart.WinWidth, BookWin.WinTop + BookStart.WinTop + BookStart.WinHeight);
             General.Manager.AddDrawRect(ref R, BookWin);
-            AoWWorldMap.BookStartVisible = BookStart.Visible;
+            AoWWorldMapUnit.BookStartVisible = BookStart.Visible;
         }
     }
 
@@ -1146,7 +1149,7 @@ public partial class TWorldMap : TDataModule
     public void QuitBtnClick()
     {
         var quitCampaign = TranslateRStr(QuitCampaignRStr);
-        var confirm = TranslateRStr(E2Globals.E2Globals.ConfirmRStr);
+        var confirm = TranslateRStr(E2GlobalsUnit.ConfirmRStr);
         DialogWin.Confirm(confirm, quitCampaign, 5);
     }
 
@@ -1170,7 +1173,7 @@ public partial class TWorldMap : TDataModule
     // AoWWorldMap.pas:800
     public void StarImgDraw(TObject Sender, TSurfaceDesc Surface)
     {
-        aowIntGfxMod.aowIntGfxMod.IntGfxMod.WorldMap[FStarImage].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, Surface, IntensityBlendTable.LookupTables[FStarIntensity]);
+        aowIntGfxModUnit.IntGfxMod.WorldMap[FStarImage].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, Surface, IntensityBlendTable.LookupTables[FStarIntensity]);
     }
 
     // AoWWorldMap.pas:806
@@ -1238,7 +1241,7 @@ public partial class TFileTime : TObject
     public double FTime;
 }
 
-public static partial class AoWWorldMap
+public static partial class AoWWorldMapUnit
 {
     // AoWWorldMap.pas:147
     public static TWMCampaignScenarioPage GetCampaignPage(TWMCampaignScenarioPageList Pages, int Index) => (TWMCampaignScenarioPage)Pages.FChildren.List[Index];

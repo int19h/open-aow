@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.CombatILTer;
 
@@ -256,7 +256,7 @@ public partial class TCombatFixedILTerrainResource : TCombatILTerrainResource
 
 }
 
-public static partial class CombatILTer
+public static partial class CombatILTerUnit
 {
     // CombatILTer.pas:236
     public static void RegisterCombatILTerrain(TEngine AEngine)

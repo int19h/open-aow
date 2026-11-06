@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Road;
 
@@ -205,7 +205,7 @@ public partial class TRoadResource : TAbstractRoadResource
 
 }
 
-public static partial class Road
+public static partial class RoadUnit
 {
     // Road.pas:177
     public static void RegisterRoad(TEngine Engine)

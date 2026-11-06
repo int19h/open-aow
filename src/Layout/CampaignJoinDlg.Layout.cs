@@ -7,6 +7,9 @@ using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWMemo;
 using Aow.Units.aowUserDrawBox;
+using Aow.Units.E2Globals;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWCampaignJoin
 {
@@ -289,19 +292,19 @@ namespace Aow.Units.AoWCampaignJoin
             ScrollTextDB.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            CharGenPnl.AOWWindow = E2Globals.E2Globals.TitleWindow.TitleWin;
-            CharGenPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin;
-            LeaderTypePnl.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            LeaderTypePnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            CustomBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CustomBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            DefaultBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            DefaultBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            LeaderTypeMsg.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            DefaultFacePnl.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            DefaultFacePnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            CustomFacePnl.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            CustomFacePnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin;
+            CharGenPnl.AOWWindow = E2GlobalsUnit.TitleWindow.TitleWin;
+            CharGenPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.FactionWin;
+            LeaderTypePnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            LeaderTypePnl.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            CustomBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CustomBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            DefaultBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            DefaultBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            LeaderTypeMsg.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            DefaultFacePnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            DefaultFacePnl.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            CustomFacePnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            CustomFacePnl.ILTexture = aowIntGfxModUnit.IntGfxMod.FactionWin;
             if (session.FireCreateEvents)
                 LayoutOnCreate?.Invoke(this);
         }

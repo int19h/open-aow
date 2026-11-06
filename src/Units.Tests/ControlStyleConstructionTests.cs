@@ -3,8 +3,9 @@ using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWE;
-using EngineUnit = Aow.Units.Engine.Engine;
+using Game = Aow.Units.AoWE.AoWEUnit;
+using EngineUnit = Aow.Units.Engine.EngineUnit;
+using Aow.Units.Sound;
 
 namespace Aow.Units.Tests;
 
@@ -130,8 +131,8 @@ public sealed class ControlStyleConstructionTests
         private readonly TAoWHSSet previous = Game.AoWHSSet;
         private readonly IFileSystem previousFiles = Runtime.Files;
         private readonly string previousStartup = EngineFixture.Engine.StartupDirectory;
-        private readonly string previousSoundPath = Aow.Units.Sound.Sound.BaseSoundEnginePath;
-        private readonly string previousImagePath = Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath;
+        private readonly string previousSoundPath = SoundUnit.BaseSoundEnginePath;
+        private readonly string previousImagePath = ImageLibUnit.BaseImageLibraryPath;
         private readonly string previousExe = Runtime.Application.ExeName;
         private readonly string root;
         private readonly bool ownsRoot;
@@ -147,8 +148,8 @@ public sealed class ControlStyleConstructionTests
             Files = new FlagFiles(root);
             Runtime.Files = Files;
             EngineFixture.Engine.SetStartupDirectory(root + Path.DirectorySeparatorChar);
-            Aow.Units.Sound.Sound.BaseSoundEnginePath = root + Path.DirectorySeparatorChar;
-            Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath = root + Path.DirectorySeparatorChar;
+            SoundUnit.BaseSoundEnginePath = root + Path.DirectorySeparatorChar;
+            ImageLibUnit.BaseImageLibraryPath = root + Path.DirectorySeparatorChar;
             Runtime.Application.ExeName = Path.Combine(root, "fixture.exe");
             try
             {
@@ -188,8 +189,8 @@ public sealed class ControlStyleConstructionTests
         private void RestoreFiles()
         {
             EngineFixture.Engine.SetStartupDirectory(previousStartup);
-            Aow.Units.Sound.Sound.BaseSoundEnginePath = previousSoundPath;
-            Aow.Units.ImageLib.ImageLib.BaseImageLibraryPath = previousImagePath;
+            SoundUnit.BaseSoundEnginePath = previousSoundPath;
+            ImageLibUnit.BaseImageLibraryPath = previousImagePath;
             Runtime.Application.ExeName = previousExe;
             Runtime.Files = previousFiles;
             if (ownsRoot) Directory.Delete(root, recursive: true);
@@ -282,7 +283,7 @@ public sealed class ControlStyleConstructionTests
     public void CorruptFlagFileDiscoveredByImageSearchRestoresPublication(bool imageClassesInitialized)
     {
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
-        var previousClasses = Aow.Units.ImageLib.ImageLib.LibraryImageClasses;
+        var previousClasses = ImageLibUnit.LibraryImageClasses;
         var classes = imageClassesInitialized ? new TList() : null;
         Directory.CreateDirectory(directory);
         try
@@ -291,7 +292,7 @@ public sealed class ControlStyleConstructionTests
             TILBHeader header = new() { ID = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
             string path = Path.Combine(directory, "FLAGS.ILB");
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
-            Aow.Units.ImageLib.ImageLib.LibraryImageClasses = classes!;
+            ImageLibUnit.LibraryImageClasses = classes!;
             using var fixture = new FlagFixture(loaded: false, directory);
             var library = new TImageLibrary(null!);
             try { Assert.Throws<EReadError>(() => library.LoadFromFile(path)); }
@@ -306,7 +307,7 @@ public sealed class ControlStyleConstructionTests
         }
         finally
         {
-            Aow.Units.ImageLib.ImageLib.LibraryImageClasses = previousClasses;
+            ImageLibUnit.LibraryImageClasses = previousClasses;
             classes?.Destroy();
             Directory.Delete(directory, recursive: true);
         }

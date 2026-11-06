@@ -9,10 +9,10 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.E3IMSTypes;
-using static Aow.Units.E3Globals.E3Globals;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
 
 namespace Aow.Units.AoWSMTPDlg;
 
@@ -70,7 +70,7 @@ public partial class TIMSSendThread : TThread
     {
         try
         {
-            AoWSMTPDlg.SMTPDlg.IMSSMTP.Send();
+            AoWSMTPDlgUnit.SMTPDlg.IMSSMTP.Send();
             FSuccess = true;
         }
         catch
@@ -230,7 +230,7 @@ public partial class TSMTPDlg : TDataModule
     }
 }
 
-public static partial class AoWSMTPDlg
+public static partial class AoWSMTPDlgUnit
 {
     public static TSMTPDlg SMTPDlg;
 }

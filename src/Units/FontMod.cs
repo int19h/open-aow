@@ -23,6 +23,6 @@ public partial class TFontModule : TDataModule
     public TImageLibraryFont TBarNumber;
 }
 
-public static partial class FontMod
+public static partial class FontModUnit
 {
 }

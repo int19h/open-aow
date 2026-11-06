@@ -1,6 +1,6 @@
 namespace Aow.Units.GFXE;
 
-public static partial class GFXE
+public static partial class GFXEUnit
 {
     public static Func<(int Width, int Height)> DesktopSize { get; set; } = () => (1280, 1024);
     /// <summary>The full screen sizes the display host offers, or null for the fixed list of the headless host.</summary>

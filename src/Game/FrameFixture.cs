@@ -3,9 +3,15 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using Aow.Units.AoWE;
-using GameState = Aow.Units.AoWE.AoWE;
+using GameState = Aow.Units.AoWE.AoWEUnit;
 using Aow.Platform;
 using Aow.Rtl;
+using Aow.Units.AoWFileDialog;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWWinMan;
+using Aow.Units.AOWMWindow;
+using Aow.Units.HSEngine;
+using Aow.Units.AOWControlWin;
 
 namespace Aow.Game;
 
@@ -72,11 +78,11 @@ internal sealed class FrameFixture
                 }
         }
         var host = new FixtureHost(gameRoot, Path.Combine(output, "user"), fixture.settings, new FixtureClock(now), saveDirectory);
-        Aow.Rtl.Rtl.InstallHost(host);
-        Aow.Rtl.Rtl.SuppressRandomize = true;
+        RtlUnit.InstallHost(host);
+        RtlUnit.SuppressRandomize = true;
         // Native startup resource sequences load with seed zero, before the fixed Randomize seed.
-        Aow.Rtl.Rtl.RandSeed = 0;
-        Aow.Rtl.Rtl.RandomizeSeed = int.Parse(fixture.Get("seed"), CultureInfo.InvariantCulture);
+        RtlUnit.RandSeed = 0;
+        RtlUnit.RandomizeSeed = int.Parse(fixture.Get("seed"), CultureInfo.InvariantCulture);
         FrameFixtureInputs.AddressAnimationPhase = int.Parse(fixture.Get("address_animation_phase"), CultureInfo.InvariantCulture);
         FrameFixtureInputs.WaterVariantPhase = fixture.values.TryGetValue("water_variant_phase", out string? waterPhase) ? int.Parse(waterPhase, CultureInfo.InvariantCulture) : null;
         FrameFixtureInputs.Tactical = tactical;
@@ -134,13 +140,13 @@ internal sealed class FrameFixture
         {
             using var form = Aow.Platform.TMainForm.Create(display, argument);
             if (saveDirectory is not null)
-                Aow.Units.AoWFileDialog.AoWFileDialog.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
+                AoWFileDialogUnit.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
             {
                 if (GameState.AoWHSMap?.FCombatMap is not Aow.Units.AoWTC.TAoWCombatMap combat) return;
                 combat.FPlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
-                Aow.Units.AoWExeForms.AoWExeForms.ChatWindow.MinClick();
+                AoWExeFormsUnit.ChatWindow.MinClick();
                 tacticalReady = true;
             };
             bool AtTarget()
@@ -209,12 +215,12 @@ internal sealed class FrameFixture
                             foreach (string saved in Directory.EnumerateFiles(Path.Combine(output, "user", saveDirectory)))
                                 if (fileStampUtc is DateTime stamp) File.SetLastWriteTimeUtc(saved, stamp);
                                 else File.SetLastWriteTime(saved, now);
-                        var manager = Aow.Units.AoWWinMan.AoWWinMan.General.Manager;
+                        var manager = AoWWinManUnit.General.Manager;
                         int inputX = click.X, inputY = click.Y;
                         if (click.Hx is int hx && click.Hy is int hy)
                         {
-                            var mapWindow = Aow.Units.AOWMWindow.AOWMWindow.MWindow;
-                            Aow.Units.HSEngine.HSEngine.HXtoHP(hx, hy, ref inputX, ref inputY);
+                            var mapWindow = AOWMWindowUnit.MWindow;
+                            HSEngineUnit.HXtoHP(hx, hy, ref inputX, ref inputY);
                             inputX += 28 + mapWindow.MapWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MapWindow.WinTop - mapWindow.MapViewer.SceneY;
                             if (!mapWindow.InsideMap(inputX, inputY)) throw new InvalidOperationException($"Script hex {hx},{hy} is outside the map view at {inputX},{inputY}");
@@ -234,7 +240,7 @@ internal sealed class FrameFixture
                         }
                         if (click.Double || click.DoubleUi) form.DoubleClick();
                         script.WriteLine(JsonSerializer.Serialize(new { script_frame = scriptFrame, X = inputX, Y = inputY, click.Hx, click.Hy, click.Button, click.Double, click.DoubleUi, click.Key, click.KeyDown, click.Repeat, click.Clock, click.Day,
-                            selected_combat_unit = Aow.Units.AoWWinMan.AoWWinMan.General.FCombatUnit?.FUnit.FID }));
+                            selected_combat_unit = AoWWinManUnit.General.FCombatUnit?.FUnit.FID }));
                         applied++;
                     }
                 }
@@ -246,8 +252,8 @@ internal sealed class FrameFixture
             if (!capturedCheckpoints.SetEquals(checkpoints)) throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
             if (!capturedSnapshots.SetEquals(snapshots.Select(s => s.Name))) throw new InvalidOperationException("Fixture missed a state snapshot");
             if (fixture.values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts);
-            var taskbar = Aow.Units.AoWExeForms.AoWExeForms.TBWindow;
-            var controls = Aow.Units.AOWControlWin.AOWControlWin.ControlWin;
+            var taskbar = AoWExeFormsUnit.TBWindow;
+            var controls = AOWControlWinUnit.ControlWin;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text, controls.Unit2Chk.Text, controls.MovesLbl.Text }) + "\n");
             var selected = GameState.AoWHSMap?.FSelectedArmy?.GetArmyHS();
             if (GameState.AoWHSMap is { } world)
@@ -288,14 +294,14 @@ internal sealed class FrameFixture
             }
             if (GameState.AoWHSMap?.FCombatMap is Aow.Units.AoWTC.TAoWCombatMap combatMap)
             {
-                var viewer = Aow.Units.AOWMWindow.AOWMWindow.MWindow.MapViewer;
+                var viewer = AOWMWindowUnit.MWindow.MapViewer;
                 var units = new List<object>();
                 var data = combatMap.FCombat.FCombatData;
                 for (int i = 0; i < data.GetCount(); i++)
                     if (data.GetObjects(i) is Aow.Units.AoWTC.TTacticalCombatUnit unit && unit.FUnitHS is { } sprite)
                     {
                         int x = 0, y = 0;
-                        Aow.Units.HSEngine.HSEngine.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
+                        HSEngineUnit.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
                         units.Add(new { unit.FID, unit.FCombatPlayer, unit.FMovePoints, status = unit.FStatus.Image,
                             hits = unit.FUnit.GetHits(), hit_points = unit.FUnit.GetHitPoints(),
                             hx = sprite.GetXhx(), hy = sprite.GetYhx(),
@@ -353,7 +359,7 @@ internal sealed class FrameFixture
             FrameFixtureInputs.Tactical = false;
             FrameFixtureInputs.MeasuredFrameRate = null;
             FrameFixtureInputs.TacticalInitialized = null;
-            Aow.Rtl.Rtl.RandomizeSeed = null;
+            RtlUnit.RandomizeSeed = null;
             AppDomain.CurrentDomain.FirstChanceException -= Record;
         }
         return 0;

@@ -1,16 +1,16 @@
 // Translated from HolyG.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.GlobalTargetSpells;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.HolyG;
 
@@ -484,7 +484,7 @@ public partial class THolyGroundSpell : TGlobalTargetSpell
 
 }
 
-public static partial class HolyG
+public static partial class HolyGUnit
 {
     // HolyG.pas:395
     public static void RegisterHolyGround(TEngine Engine)

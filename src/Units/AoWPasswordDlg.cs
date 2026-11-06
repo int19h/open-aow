@@ -87,6 +87,6 @@ public partial class TPasswordDlg : TDataModule
     }
 }
 
-public static partial class AoWPasswordDlg
+public static partial class AoWPasswordDlgUnit
 {
 }

@@ -11,6 +11,9 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AOWGauge;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWMemo;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWSMTPDlg
 {
@@ -652,32 +655,32 @@ namespace Aow.Units.AoWSMTPDlg
             IMSSMTP.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage1.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage2.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            ExitBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            ExitBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            SendingGameLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            ProgressBar.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            ProgressBar.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            ProgressBar.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            RecipientLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
-            FailedMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            SettingsBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            SettingsBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            RetryBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            RetryBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            ExitBtn2.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            ExitBtn2.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            TitleLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage1.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage2.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            ExitBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            ExitBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            SendingGameLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            ProgressBar.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            ProgressBar.ILTextureNormal = aowIntGfxModUnit.IntGfxMod.GenericT;
+            ProgressBar.ILTextureSelected = aowIntGfxModUnit.IntGfxMod.GenericT;
+            RecipientLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10b;
+            FailedMemo.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            SettingsBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            SettingsBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            RetryBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            RetryBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            ExitBtn2.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            ExitBtn2.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            TitleLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
         }
 
         private void Layout_DlgUpdate_0(TObject p0)

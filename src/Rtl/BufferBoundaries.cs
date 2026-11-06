@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     public static ReadOnlySpan<byte> BufferBytes(object? value) => value switch
     {

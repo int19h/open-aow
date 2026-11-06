@@ -120,7 +120,7 @@ public class TTabControl : TWinControl
 }
 public class TRegistry : TObject
 {
-    private readonly ISettingsStore values = Rtl.Settings ?? new MemorySettingsStore();
+    private readonly ISettingsStore values = RtlUnit.Settings ?? new MemorySettingsStore();
     private string key = "";
     public bool OpenKey(string name, bool create) { key = name; return true; }
     public void CloseKey() => key = "";
@@ -235,7 +235,7 @@ public class THandleStream : TStream
     public override int Seek(int offset, int origin) => throw new NotImplementedException("HandleStream.Seek");
 }
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     public static TIToolServices? ToolServices => null;
     public static TRect Rect(int left, int top, int right, int bottom) => new() { Left = left, Top = top, Right = right, Bottom = bottom };

@@ -1,13 +1,13 @@
 // Translated from Gems.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
 using Aow.Units.ILTer;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Gems;
 
@@ -143,7 +143,7 @@ public partial class TGems : TILTerrainMO
 
             Event = new TLocationTextEventLog(null);
             Event.FPlayer = ArmyHS.FArmy.FPlayer;
-            Event.FText = Rtl.Rtl.Format(TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
+            Event.FText = RtlUnit.Format(TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             Event.SetLocation(GetXhx(), yhx2, lhx2);
@@ -183,7 +183,7 @@ public enum TGemsGenerateMode : byte
     gmRandom = 4
 }
 
-public static partial class Gems
+public static partial class GemsUnit
 {
     // Gems.pas:143
     public static void RegisterGems(TEngine AEngine)

@@ -119,12 +119,12 @@ public class TIvCustomTranslator : TComponent
         var result = new List<string>();
         do
         {
-            int marker = Rtl.Pos("<eol>", value), lineFeed = Rtl.Pos("\n", value);
+            int marker = RtlUnit.Pos("<eol>", value), lineFeed = RtlUnit.Pos("\n", value);
             int end = marker != 0 && (lineFeed == 0 || marker < lineFeed) ? marker : lineFeed;
             if (end == 0) { result.Add(value); break; }
-            result.Add(Rtl.Copy(value, 1, end - 1));
+            result.Add(RtlUnit.Copy(value, 1, end - 1));
             int skip = end == marker ? 5 : 1;
-            value = Rtl.Copy(value, end + skip, value.Length - end - skip + 1);
+            value = RtlUnit.Copy(value, end + skip, value.Length - end - skip + 1);
         } while (value.Length > 0);
         return result.ToArray();
     }

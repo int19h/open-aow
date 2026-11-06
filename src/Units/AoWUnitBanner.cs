@@ -1,14 +1,14 @@
 // Translated from AoWUnitBanner.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWTC;
 using Aow.Units.AOWMenu;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWUnitBanner;
 
@@ -98,7 +98,7 @@ public partial class TUnitBanner : TDataModule
     {
         if (Button == 1)
         {
-            AoWUnitBanner.UnitBanner.BannerPopup.Visible = false;
+            AoWUnitBannerUnit.UnitBanner.BannerPopup.Visible = false;
         }
     }
 
@@ -122,7 +122,7 @@ public partial class TUnitBanner : TDataModule
     }
 }
 
-public static partial class AoWUnitBanner
+public static partial class AoWUnitBannerUnit
 {
     public static TUnitBanner UnitBanner;
 }

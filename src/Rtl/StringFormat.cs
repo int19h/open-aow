@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Aow.Rtl;
 
-public static partial class Rtl
+public static partial class RtlUnit
 {
     // SYSUTILS.PAS FormatBuf also serves exception constructors.
     public static string Format(string? format, params ReadOnlySpan<FormatArg> args)

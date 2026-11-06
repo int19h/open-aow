@@ -1,14 +1,14 @@
 // Translated from AoWSetup.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkE;
+using static Aow.Units.NetworkE.NetworkEUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWSetup;
 
@@ -172,8 +172,8 @@ public partial class TPlayerSetupSettings : TEObject
     public TPlayerSetupSettings(TECustomNode owner) : base(owner)
     {
         FStatus = TSet<TPlayerSetupStatusElement>.Of();
-        FBehavior = AoWSetup.DefaultBehavior;
-        FOriginalBehavior = AoWSetup.DefaultOriginalBehavior;
+        FBehavior = AoWSetupUnit.DefaultBehavior;
+        FOriginalBehavior = AoWSetupUnit.DefaultOriginalBehavior;
         FLeader = new TLeader(null);
     }
 
@@ -1373,12 +1373,12 @@ public partial class TSetupControl : TComponent
             }
             else
             {
-                FSettings.GetSettings(Index).FBehavior = AoWSetup.CPUBehavior;
+                FSettings.GetSettings(Index).FBehavior = AoWSetupUnit.CPUBehavior;
             }
         }
         else
         {
-            FSettings.GetSettings(Index).FBehavior = AoWSetup.FreeBehavior;
+            FSettings.GetSettings(Index).FBehavior = AoWSetupUnit.FreeBehavior;
         }
 
         var settingStatus = FSettings.GetSettings(Index);
@@ -2108,7 +2108,7 @@ public partial class TSetupHeroView : TObject
     public string Name = "";
 }
 
-public static partial class AoWSetup
+public static partial class AoWSetupUnit
 {
     // AoWSetup.pas:1334
     public static void RegisterSetupClasses(TEngine AEngine)

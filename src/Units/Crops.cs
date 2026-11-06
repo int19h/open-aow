@@ -3,10 +3,10 @@ using Aow.Rtl;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Crops;
 
@@ -730,7 +730,7 @@ public struct TCropILFields
     public sbyte TerrainType;
 }
 
-public static partial class Crops
+public static partial class CropsUnit
 {
     // Crops.pas:615
     public static void RegisterCrops(TEngine AEngine)

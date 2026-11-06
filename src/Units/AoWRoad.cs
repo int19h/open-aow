@@ -2,9 +2,9 @@
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Road;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWRoad;
 
@@ -80,7 +80,7 @@ public struct TRoadFields
     public byte Transitions;
 }
 
-public static partial class AoWRoad
+public static partial class AoWRoadUnit
 {
     // AoWRoad.pas:76
     public static void RegisterAoWRoad(TEngine AEngine)

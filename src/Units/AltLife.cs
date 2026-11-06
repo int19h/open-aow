@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.Altar;
 using Aow.Units.Storms;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AltLife;
 
@@ -43,7 +43,7 @@ public partial class TAltarOfLifeResource : TAltarResource
 
 }
 
-public static partial class AltLife
+public static partial class AltLifeUnit
 {
     // AltLife.pas:58
     public static void RegisterAltarOfLife(TEngine AEngine)

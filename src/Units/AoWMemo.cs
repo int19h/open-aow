@@ -1,6 +1,6 @@
 // Translated from AoWMemo.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWVScroll;
@@ -1054,7 +1054,7 @@ public partial class TAOWMemo : TAOWControl
     public TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
 }
 
-public static partial class AoWMemo
+public static partial class AoWMemoUnit
 {
     // AoWMemo.pas:864
     public static void Register()

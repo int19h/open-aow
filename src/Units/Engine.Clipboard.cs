@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Units.Engine;
 
-public static partial class Engine
+public static partial class EngineUnit
 {
     public static int CopyStreamToClipboard(TStream stream, string format) => 0;
     public static int PasteStreamFromClipboard(TStream stream, string format) => 0;

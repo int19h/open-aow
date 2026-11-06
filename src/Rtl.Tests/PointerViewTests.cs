@@ -10,7 +10,7 @@ public sealed class PointerViewTests
         var text = "A\u00E9\0B";
         var pointer = Ptr<byte>.Unbox(text);
         Assert.Equal(new byte[] { 65, 233, 0, 66, 0 }, pointer.AsSpan(5).ToArray());
-        Assert.Equal("A\u00E9", Rtl.StrPas(pointer));
+        Assert.Equal("A\u00E9", RtlUnit.StrPas(pointer));
         Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox(text));
     }
     [StructLayout(LayoutKind.Explicit, Size = 8)]

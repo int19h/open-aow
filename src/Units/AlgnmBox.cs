@@ -1,6 +1,6 @@
 // Translated from AlgnmBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
 
 namespace Aow.Units.AlgnmBox;
@@ -57,7 +57,7 @@ public partial class TAlignmentBox : TComboBox
     public bool UseSets { get => FSetMode; set => FSetMode = value; }
 }
 
-public static partial class AlgnmBox
+public static partial class AlgnmBoxUnit
 {
     // AlgnmBox.pas:139
     public static void Register()

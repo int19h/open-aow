@@ -11,8 +11,8 @@ internal static class FrameVerification
     public static void Run(string directory)
     {
         var clock = new FixtureClock(new(2000, 1, 1));
-        var savedClock = Aow.Rtl.Rtl.Clock;
-        Aow.Rtl.Rtl.Clock = clock;
+        var savedClock = RtlUnit.Clock;
+        RtlUnit.Clock = clock;
         var host = new TestHost();
         var display = new TestDisplay();
         var controller = new TSdlDC(host);
@@ -33,9 +33,9 @@ internal static class FrameVerification
             Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, "screen and back sizes");
             Check(controller.GetSurfaceCount() == 1 && controller.GetSurface(2) is null, "double buffering");
             TSurfaceDesc sd = default;
-            Check(back.Lock(ref sd) == 0 && sd.PixelFormatID == GFXE.pfRGB555, "555 back surface");
+            Check(back.Lock(ref sd) == 0 && sd.PixelFormatID == GFXEUnit.pfRGB555, "555 back surface");
             back.Unlock();
-            Check(controller.FlipSurface(1) == DisplayC.DCERR_NOFLIP && host.Presents == 1, "flip presents and reports fallback");
+            Check(controller.FlipSurface(1) == DisplayCUnit.DCERR_NOFLIP && host.Presents == 1, "flip presents and reports fallback");
             display.PresentInitialFrame();
             display.PresentInitialFrame();
             Check(display.PresentedFrames == 1 && host.Presents == 2, "initial paint counts once");
@@ -65,7 +65,7 @@ internal static class FrameVerification
 
             var recorder = new HeadlessDisplayHost(directory);
             byte[] pixels = [1, 0, 2, 0, 99, 99, 3, 0, 4, 0, 99, 99];
-            sd = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatID = GFXE.pfRGB555, Data = Ptr<byte>.To(pixels, 6).Box() };
+            sd = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatID = GFXEUnit.pfRGB555, Data = Ptr<byte>.To(pixels, 6).Box() };
             recorder.Present(sd);
             Check(File.ReadAllBytes(Path.Combine(directory, "frame-1.raw")).SequenceEqual(new byte[] { 3, 0, 4, 0, 1, 0, 2, 0 }), "top-down recording excludes padding and handles negative pitch");
             using var metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "frame-1.json")));
@@ -75,7 +75,7 @@ internal static class FrameVerification
         {
             display.Free();
             controller.Free();
-            Aow.Rtl.Rtl.Clock = savedClock;
+            RtlUnit.Clock = savedClock;
         }
         Console.WriteLine($"Frame display PASS: {checks} checks, memory surfaces, focus, fullscreen, limiter, headless rows, no window");
     }

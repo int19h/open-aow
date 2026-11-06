@@ -18,14 +18,14 @@ public partial class TTacticalCombat
         for (int i = 0; i < FCombatData.FPlayers.GetCount(); i++)
         {
             int player = FCombatData.FPlayers.GetPlayers((sbyte)i).FPlayer;
-            if (AoWE.AoWE.AoWHSMap.FPlayers.GetPlayers((sbyte)player).FPlayerType != TPlayerType.ptHuman)
-                RestorePlayerConnection(AoWE.AoWE.AoWHSMap.FPlayerCommunicator.PCC, player);
+            if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers((sbyte)player).FPlayerType != TPlayerType.ptHuman)
+                RestorePlayerConnection(AoWEUnit.AoWHSMap.FPlayerCommunicator.PCC, player);
         }
-        if (AoWTC.AoWCombatMap != null)
+        if (AoWTCUnit.AoWCombatMap != null)
         {
-            AoWTC.AoWCombatMap.FUnitSelection.Clear();
-            AoWTC.AoWCombatMap.FSelectEvents.TriggerNotifyEvents(this);
-            AoWE.AoWE.AoWHSMap.ReleaseCombatMap();
+            AoWTCUnit.AoWCombatMap.FUnitSelection.Clear();
+            AoWTCUnit.AoWCombatMap.FSelectEvents.TriggerNotifyEvents(this);
+            AoWEUnit.AoWHSMap.ReleaseCombatMap();
         }
         base.Finalize();
     }

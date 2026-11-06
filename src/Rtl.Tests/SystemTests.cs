@@ -1,6 +1,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
 using DelphiException = Aow.Rtl.Exception;
 
@@ -275,10 +275,10 @@ public sealed class SystemTests
         Assert.Throws<EAbort>(Abort);
         Assert.Equal(0, Assert.Throws<EHalt>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<EHalt>(() => Halt(-1)).ExitCode);
-        Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, "broken", "unit.pas", 42)).Message);
+        Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, "broken", "unit.pas", 42)).Message);
         // SYSUTILS.PAS:5380 substitutes SAssertionFailed for an empty message.
-        Assert.Equal("Assertion failed (unit.pas, line 1)", Assert.Throws<EAssertionFailed>(() => Rtl.Assert(false, "", "unit.pas", 1)).Message);
-        Rtl.Assert(true, "", "unit.pas", 1);
+        Assert.Equal("Assertion failed (unit.pas, line 1)", Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, "", "unit.pas", 1)).Message);
+        RtlUnit.Assert(true, "", "unit.pas", 1);
     }
 
     [Fact]

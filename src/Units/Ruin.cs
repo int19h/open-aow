@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.ItemExpS;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Ruin;
 
@@ -32,7 +32,7 @@ public partial class TRuinResource : TItemExplorationSiteResource
 
 }
 
-public static partial class Ruin
+public static partial class RuinUnit
 {
     // Ruin.pas:46
     public static void RegisterRuin(TEngine AEngine)

@@ -10,7 +10,7 @@ public static partial class Blit
         int dx = x2 - x1, dy = Math.Abs(y2 - y1), sign = y2 >= y1 ? 1 : -1;
         bool steep = dy >= dx;
         int major = steep ? dy : dx, minor = steep ? dx : dy, error = 2 * minor - major, count = 0, x = x1, y = y1;
-        var data = Rtl.Rtl.BytePointer(sd.Data);
+        var data = RtlUnit.BytePointer(sd.Data);
         for (int step = 0; step <= major; step++)
         {
             if (count == 0)

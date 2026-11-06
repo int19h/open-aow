@@ -6,6 +6,9 @@ using Aow.Units.AoWComp;
 using Aow.Units.AoWMemo;
 using Aow.Units.AOWMenu;
 using Aow.Units.AoWVScroll;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWInfoBanner
 {
@@ -168,17 +171,17 @@ namespace Aow.Units.AoWInfoBanner
             BannerPopup.Loaded();
             InfoMemoSB.Loaded();
             session.Resolve(this);
-            HeaderLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            InfoMemo.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            BannerPopup.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            BannerPopup.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.Menus;
-            BannerPopup.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age8;
-            InfoMemoSB.ILIInc = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            InfoMemoSB.ILIDec = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            InfoMemoSB.ILTBack = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
-            InfoMemoSB.ILLTab = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericS;
+            HeaderLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            InfoMemo.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            BannerPopup.WinManager = AoWWinManUnit.General.Manager;
+            BannerPopup.ILFrame = aowIntGfxModUnit.IntGfxMod.Menus;
+            BannerPopup.ILTextureNormal = aowIntGfxModUnit.IntGfxMod.Menus;
+            BannerPopup.ILTextureSelected = aowIntGfxModUnit.IntGfxMod.Menus;
+            BannerPopup.AOWFont = AoWExeFormsUnit.FontModule.Age8;
+            InfoMemoSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
+            InfoMemoSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
+            InfoMemoSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
+            InfoMemoSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
         }
     }
 }

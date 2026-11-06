@@ -1,18 +1,18 @@
 // Translated from Storms.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.ImageLib;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.PoisonC;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Storms;
 
@@ -954,7 +954,7 @@ public partial class TStormSpell : TSpell
             Selection.FSourceL = L;
             AoWHSMap.MakeVisible(X, Y, L, 5);
             var name = FTargetStorm.Name();
-            var format = Rtl.Rtl.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [name]);
+            var format = RtlUnit.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [name]);
             Selection.FText.Text = format;
             Selection.FTitle = FSpellName;
             Selection.FCancelText = TranslateRStr(CancelRStr);
@@ -1166,7 +1166,7 @@ public partial class TPestilenceStormSpell : TStormSpell
     public override TStorm CreateStorm() => new TPestilenceStorm(null);
 }
 
-public static partial class Storms
+public static partial class StormsUnit
 {
     // Storms.pas:1029
     public static void RegisterStorms(TEngine AEngine)

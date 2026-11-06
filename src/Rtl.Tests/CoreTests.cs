@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using DelphiException = Aow.Rtl.Exception;
 using Assert = Xunit.Assert;
 

@@ -7,7 +7,7 @@ public sealed class EngineDebugNotification : TObject
     public TEngineDebugInfo Info;
 }
 
-public static partial class Engine
+public static partial class EngineUnit
 {
     internal static int CStringLength(ReadOnlySpan<byte> text)
     {

@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.Altar;
 using Aow.Units.Storms;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AltPest;
 
@@ -43,7 +43,7 @@ public partial class TAltarOfPestilenceResource : TAltarResource
 
 }
 
-public static partial class AltPest
+public static partial class AltPestUnit
 {
     // AltPest.pas:58
     public static void RegisterAltarOfPestilence(TEngine AEngine)

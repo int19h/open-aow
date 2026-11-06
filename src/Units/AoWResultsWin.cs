@@ -1,12 +1,12 @@
 // Translated from AoWResultsWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.ImageLib.ImageLib;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.ImageLib.ImageLibUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
@@ -14,13 +14,15 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.E1GameFlow.E1GameFlow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.AOWPyreScrn.AOWPyreScrn;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AOWPyreScrn.AOWPyreScrnUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using Aow.Units.AoWWorldMap;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AoWResultsWin;
 
@@ -381,7 +383,7 @@ public partial class TResultsWin : TDataModule
     {
         FinishPyre(PyreScreen);
         General.PlayButtonSound(0);
-        AoWResultsWin.ResultsWin.ResultsPnl.Visible = false;
+        AoWResultsWinUnit.ResultsWin.ResultsPnl.Visible = false;
         FadeMusicVolume(SoundDlg.MusicVolume.Position, 2);
         if (AoWHSMap.FGameStatus == TGameStatus.gsTerminated)
         {
@@ -391,12 +393,12 @@ public partial class TResultsWin : TDataModule
             }
             else
             {
-                ShowCampaignMap(AoWWorldMap.AoWWorldMap.WorldMap);
+                ShowCampaignMap(AoWWorldMapUnit.WorldMap);
             }
         }
         else
         {
-            E2Globals.E2Globals.TitleWindow.TitleWin.Visible = false;
+            E2GlobalsUnit.TitleWindow.TitleWin.Visible = false;
             SetVideoMode(VideoDialog, TScreenMode.scmGame);
             VideoDialog.ApplyMode();
         }
@@ -477,7 +479,7 @@ public partial class TResultsWin : TDataModule
     }
 }
 
-public static partial class AoWResultsWin
+public static partial class AoWResultsWinUnit
 {
     public static TResultsWin ResultsWin;
     // AoWResultsWin.pas:368

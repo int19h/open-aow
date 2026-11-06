@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.HxBridge;
 
@@ -425,7 +425,7 @@ public struct TBridgeMoveData
     public FixedArray_Aow_Units_FixedArray_sbyte_16_16 Costs;
 }
 
-public static partial class HxBridge
+public static partial class HxBridgeUnit
 {
     // HxBridge.pas:353
     public static void RegisterHexagonBridge(TEngine AEngine)

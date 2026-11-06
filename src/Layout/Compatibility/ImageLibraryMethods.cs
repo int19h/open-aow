@@ -1,7 +1,7 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 

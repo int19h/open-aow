@@ -1,12 +1,12 @@
 // Translated from E3EventDialogs.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
 using Aow.Units.FastCombatWin;
 using Aow.Units.AoWRelations;
-using static Aow.Units.E2Globals.E2Globals;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 using Aow.Units.AoWWorldMap;
 using Aow.Units.AoWSMTPDlg;
 using Aow.Units.TCFCDlg;
@@ -24,13 +24,13 @@ using Aow.Units.AoWHeroInfoDlg;
 using Aow.Units.AoWWizardsTowerDlg;
 using Aow.Units.AoWArenaDlg;
 using Aow.Units.AoWItemsFoundDlg;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.E3Globals.E3Globals;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
 using Aow.Units.AoWComp;
 
 namespace Aow.Units.E3EventDialogs;
 
-public static partial class E3EventDialogs
+public static partial class E3EventDialogsUnit
 {
     // E3EventDialogs.pas:194
     // { Event-log dialog routines called by TMapEvents in AoW.exe. }
@@ -62,7 +62,7 @@ public static partial class E3EventDialogs
                     var text = Dialog.FAction.FMessage.Text;
                     Dialog.RMMemo.Items.Text = text;
                     var name = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FSource).GetName();
-                    var format = AoWE.AoWE.Format(TranslateRStr(MessageFromXRStr), [name]);
+                    var format = AoWEUnit.Format(TranslateRStr(MessageFromXRStr), [name]);
                     Dialog.RMHeaderLbl.Text = format;
                     break;
                 case TDiplomaticActionType.daSendMessageAsY:
@@ -73,7 +73,7 @@ public static partial class E3EventDialogs
                     var fMessageText = Dialog.FAction.FMessage.Text;
                     Dialog.RMMemo.Items.Text = fMessageText;
                     var name2 = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FOtherPlayer).GetName();
-                    var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(MessageFromXRStr), [name2]);
+                    var aoWEFormat = AoWEUnit.Format(TranslateRStr(MessageFromXRStr), [name2]);
                     Dialog.RMHeaderLbl.Text = aoWEFormat;
                     break;
                 case TDiplomaticActionType.daOfferPeace:
@@ -227,58 +227,58 @@ public static partial class E3EventDialogs
         if (AoWHSMap.FVictoryCondition == 0)
         {
             var conquerTheMap = TranslateRStr(ConquerTheMapRStr);
-            var format = AoWE.AoWE.Format(TranslateRStr(ObjectiveXRStr), [conquerTheMap]);
+            var format = AoWEUnit.Format(TranslateRStr(ObjectiveXRStr), [conquerTheMap]);
             Dialog.MemoR.Items.Add(format);
         }
         else
         {
-            var victoryCondition = TranslateRStr(AoWE.AoWE.TVictoryConditionRStr[(int)AoWHSMap.FVictoryCondition]);
-            var format = AoWE.AoWE.Format(TranslateRStr(ObjectiveXRStr), [victoryCondition]);
+            var victoryCondition = TranslateRStr(AoWEUnit.TVictoryConditionRStr[(int)AoWHSMap.FVictoryCondition]);
+            var format = AoWEUnit.Format(TranslateRStr(ObjectiveXRStr), [victoryCondition]);
             Dialog.MemoR.Items.Add(format);
         }
 
         if (AoWHSMap.FDayLimit > 0)
         {
-            var format = AoWE.AoWE.Format(TranslateRStr(DayLimitXRStr), [IntToStr(AoWHSMap.FDayLimit)]);
+            var format = AoWEUnit.Format(TranslateRStr(DayLimitXRStr), [IntToStr(AoWHSMap.FDayLimit)]);
             Dialog.MemoR.Items.Add(format);
         }
 
         if (AoWHSMap.FAlliedVictory)
         {
             var enabled = TranslateRStr(EnabledRStr);
-            var format = AoWE.AoWE.Format(TranslateRStr(AlliedVictoryXRStr), [enabled]);
+            var format = AoWEUnit.Format(TranslateRStr(AlliedVictoryXRStr), [enabled]);
             Dialog.MemoR.Items.Add(format);
         }
         else
         {
             var disabled = TranslateRStr(DisabledRStr);
-            var format = AoWE.AoWE.Format(TranslateRStr(AlliedVictoryXRStr), [disabled]);
+            var format = AoWEUnit.Format(TranslateRStr(AlliedVictoryXRStr), [disabled]);
             Dialog.MemoR.Items.Add(format);
         }
 
         var count = AoWHSMap.FPlayers.GetCount();
-        var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(PlayersOnMapXRStr), [IntToStr(count - 1)]);
+        var aoWEFormat = AoWEUnit.Format(TranslateRStr(PlayersOnMapXRStr), [IntToStr(count - 1)]);
         Dialog.MemoR.Items.Add(aoWEFormat);
-        var format2 = AoWE.AoWE.Format(TranslateRStr(MaximumSphereLevelXRStr), [IntToStr(AoWHSMap.FSphereCount)]);
+        var format2 = AoWEUnit.Format(TranslateRStr(MaximumSphereLevelXRStr), [IntToStr(AoWHSMap.FSphereCount)]);
         Dialog.MemoR.Items.Add(format2);
-        var format3 = AoWE.AoWE.Format(TranslateRStr(MaximumPlayerHeroesXRStr), [IntToStr(AoWHSMap.FHeroCountMax)]);
+        var format3 = AoWEUnit.Format(TranslateRStr(MaximumPlayerHeroesXRStr), [IntToStr(AoWHSMap.FHeroCountMax)]);
         Dialog.MemoR.Items.Add(format3);
         if (AoWHSMap.FConnectionType == 0 && AoWHSMap.FRequestCombatType)
         {
-            var playerConnectionType = TranslateRStr(AoWE.AoWE.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
+            var playerConnectionType = TranslateRStr(AoWEUnit.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
             var hotSeat = TranslateRStr(HotSeatRStr);
-            var format = AoWE.AoWE.Format(TranslateRStr(GametypeXRStr), [playerConnectionType + "/" + hotSeat]);
+            var format = AoWEUnit.Format(TranslateRStr(GametypeXRStr), [playerConnectionType + "/" + hotSeat]);
             Dialog.MemoR.Items.Add(format);
         }
         else
         {
-            var playerConnectionType = TranslateRStr(AoWE.AoWE.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
-            var format = AoWE.AoWE.Format(TranslateRStr(GametypeXRStr), [playerConnectionType]);
+            var playerConnectionType = TranslateRStr(AoWEUnit.TPlayerConnectionTypeRStr[(int)AoWHSMap.FConnectionType]);
+            var format = AoWEUnit.Format(TranslateRStr(GametypeXRStr), [playerConnectionType]);
             Dialog.MemoR.Items.Add(format);
         }
 
         var playMode = TranslateRStr(TPlayModeRStr[(int)AoWHSMap.FPlayMode]);
-        var format4 = AoWE.AoWE.Format(TranslateRStr(TurnModeXRStr), [playMode]);
+        var format4 = AoWEUnit.Format(TranslateRStr(TurnModeXRStr), [playMode]);
         Dialog.MemoR.Items.Add(format4);
         Dialog.PicL.Visible = false;
         Dialog.PicR.Visible = false;
@@ -353,7 +353,7 @@ public static partial class E3EventDialogs
         var smtpEventLog = Dialog.FEvent;
         smtpEventLog.AddRef();
 
-        var format = AoWE.AoWE.Format(TranslateRStr(RecipientXRStr), [Event.FToAddress]);
+        var format = AoWEUnit.Format(TranslateRStr(RecipientXRStr), [Event.FToAddress]);
         Dialog.RecipientLbl.Text = format;
         try
         {

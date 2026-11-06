@@ -9,6 +9,9 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWArmyEventDlg
 {
@@ -416,23 +419,23 @@ namespace Aow.Units.AoWArmyEventDlg
             DecoR.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            ArmyEventWin.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            ArmyEventWin.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            ArmyEventWin.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            BGoldSq.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            UnitPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.RelWin;
-            EventText.AOWFont = AoWExeForms.AoWExeForms.FontModule.Sessis14G;
-            DamagePic.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.MiscArt;
-            CloseBut.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            CloseBut.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CloseBut.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            DecoL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            DecoR.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
+            ArmyEventWin.WinManager = AoWWinManUnit.General.Manager;
+            ArmyEventWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            ArmyEventWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            BGoldSq.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            UnitPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.RelWin;
+            EventText.AOWFont = AoWExeFormsUnit.FontModule.Sessis14G;
+            DamagePic.ImageLib = aowIntGfxModUnit.IntGfxMod.MiscArt;
+            CloseBut.ToolTip = AoWWinManUnit.General.ToolTip;
+            CloseBut.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CloseBut.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            DecoL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            DecoR.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
             if (session.FireCreateEvents)
                 LayoutOnCreate?.Invoke(this);
         }

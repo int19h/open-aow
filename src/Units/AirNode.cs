@@ -3,7 +3,7 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AirNode;
 
@@ -47,7 +47,7 @@ public partial class TAirNodeResource : TProductionPlaceResource
 
 }
 
-public static partial class AirNode
+public static partial class AirNodeUnit
 {
     // AirNode.pas:61
     public static void RegisterAirNode(TEngine AEngine)

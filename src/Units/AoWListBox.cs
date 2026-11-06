@@ -1,6 +1,6 @@
 // Translated from AoWListBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AOWMenu;
@@ -681,7 +681,7 @@ public partial class TAOWListBox : TAOWControl
     public TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
 }
 
-public static partial class AoWListBox
+public static partial class AoWListBoxUnit
 {
     // AoWListBox.pas:502
     public static void Register()

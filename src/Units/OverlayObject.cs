@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.ILTer;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.OverlayObject;
 
@@ -41,7 +41,7 @@ public partial class TOverlayObjectResource : TFixedILTerrainMOR
 
 }
 
-public static partial class OverlayObject
+public static partial class OverlayObjectUnit
 {
     // OverlayObject.pas:54
     public static void RegisterOverlayObject(TEngine AEngine)

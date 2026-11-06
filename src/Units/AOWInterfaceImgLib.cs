@@ -1,6 +1,6 @@
 // Translated from AOWInterfaceImgLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 
@@ -310,7 +310,7 @@ public partial class TInterfaceIL : TImageLibrary
     }
 }
 
-public static partial class AOWInterfaceImgLib
+public static partial class AOWInterfaceImgLibUnit
 {
     // AOWInterfaceImgLib.pas:212
     public static void Register()

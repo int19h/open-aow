@@ -1,6 +1,6 @@
 // Translated from AoWLenLine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
@@ -127,7 +127,7 @@ public partial class TAoWLenLine : TAOWControl
     public TInterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
 }
 
-public static partial class AoWLenLine
+public static partial class AoWLenLineUnit
 {
     // AoWLenLine.pas:100
     public static void Register()

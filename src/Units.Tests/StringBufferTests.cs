@@ -1,8 +1,8 @@
 using Aow.Units.AoWHTMLMemo;
 using Aow.Units.AoWMemo;
 using Aow.Units.ImageLib;
-using EngineText = Aow.Units.Engine.Engine;
-using Images = Aow.Units.ImageLib.ImageLib;
+using EngineText = Aow.Units.Engine.EngineUnit;
+using Images = Aow.Units.ImageLib.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 

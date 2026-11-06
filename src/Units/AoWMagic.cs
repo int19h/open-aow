@@ -1,9 +1,9 @@
 // Translated from AoWMagic.pas.
 using Aow.Rtl;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
@@ -14,11 +14,11 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.E1GameFlow.E1GameFlow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.aowHelpWin.aowHelpWin;
-using static Aow.Units.E2Globals.E2Globals;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 
 namespace Aow.Units.AoWMagic;
 
@@ -619,6 +619,6 @@ public partial class TMagicWin : TDataModule
     }
 }
 
-public static partial class AoWMagic
+public static partial class AoWMagicUnit
 {
 }

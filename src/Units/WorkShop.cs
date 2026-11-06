@@ -31,7 +31,7 @@ public partial class TWorkshopResource : TCombatStructureResource
 
 }
 
-public static partial class WorkShop
+public static partial class WorkShopUnit
 {
     // WorkShop.pas:48
     public static void RegisterWorkshop(TEngine AEngine)

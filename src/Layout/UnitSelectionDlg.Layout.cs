@@ -10,6 +10,9 @@ using Aow.Units.AoWWindow;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWFrame;
+using Aow.Units.AoWExeForms;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWWinMan;
 
 namespace Aow.Units.AoWUnitSelDlg
 {
@@ -808,33 +811,33 @@ namespace Aow.Units.AoWUnitSelDlg
             SelectionLbl.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            SelectBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            SelectBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10b;
-            CancelBtn.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            CancelBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CancelBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            SourceNameLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            U1.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            U2.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            U3.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            U4.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            U5.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            U6.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            U7.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            U8.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            DecoL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            DecoR.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            SourceFace.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AoWFrame1.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            SelectionInfoLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            SelectionLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
+            SelectBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            SelectBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10b;
+            CancelBtn.ToolTip = AoWWinManUnit.General.ToolTip;
+            CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            SourceNameLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            U1.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            U2.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            U3.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            U4.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            U5.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            U6.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            U7.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            U8.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            DecoL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            DecoR.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            SourceFace.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AoWFrame1.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            SelectionInfoLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            SelectionLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
         }
 
         private void Layout_SelectBtnClick_0(TObject p0)

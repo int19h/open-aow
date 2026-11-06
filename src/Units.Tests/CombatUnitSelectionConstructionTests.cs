@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Text.Json;
 using Aow.Units.AoWTC;
 using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 

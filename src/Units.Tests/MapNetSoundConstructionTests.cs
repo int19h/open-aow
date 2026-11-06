@@ -4,7 +4,7 @@ using Aow.Units.NetworkE;
 using Aow.Units.Sound;
 using UnitSfxManager = Aow.Units.Sound.TSFXManager;
 using MovePath = Aow.Units.AoWE.TMovepath;
-using EngineApi = Aow.Units.Engine.Engine;
+using EngineApi = Aow.Units.Engine.EngineUnit;
 
 namespace Aow.Units.Tests;
 

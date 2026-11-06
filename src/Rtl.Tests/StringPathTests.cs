@@ -14,13 +14,13 @@ public sealed class StringPathTests
             "C:\\a\\\u20ac.ext" })
         {
             var ansi = Cp1252.Decode(Cp1252.Encode(path));
-            Assert.Equal(Rtl.ExtractFileName(ansi), Rtl.ExtractFileName(path));
-            Assert.Equal(Rtl.ExtractFilePath(ansi), Rtl.ExtractFilePath(path));
-            Assert.Equal(Rtl.ExtractFileDir(ansi), Rtl.ExtractFileDir(path));
-            Assert.Equal(Rtl.ExtractFileExt(ansi), Rtl.ExtractFileExt(path));
-            Assert.Equal(Rtl.ExtractFileDrive(ansi), Rtl.ExtractFileDrive(path));
+            Assert.Equal(RtlUnit.ExtractFileName(ansi), RtlUnit.ExtractFileName(path));
+            Assert.Equal(RtlUnit.ExtractFilePath(ansi), RtlUnit.ExtractFilePath(path));
+            Assert.Equal(RtlUnit.ExtractFileDir(ansi), RtlUnit.ExtractFileDir(path));
+            Assert.Equal(RtlUnit.ExtractFileExt(ansi), RtlUnit.ExtractFileExt(path));
+            Assert.Equal(RtlUnit.ExtractFileDrive(ansi), RtlUnit.ExtractFileDrive(path));
             foreach (string extension in new[] { ".new", "", ".\u20ac" })
-                Assert.Equal(Rtl.ChangeFileExt(ansi, extension), Rtl.ChangeFileExt(path, extension));
+                Assert.Equal(RtlUnit.ChangeFileExt(ansi, extension), RtlUnit.ChangeFileExt(path, extension));
         }
     }
 
@@ -30,7 +30,7 @@ public sealed class StringPathTests
         using var mode = new StringMode(false);
         foreach (string path in new[] { "", ".", "..", "probe-files\\alpha.TXT", ".\\probe-files\\d00\\..\\Beta.txt",
             "probe-files\\..", "probe-files\\missing\\..\\new.txt", "probe-files/alpha.TXT" })
-            Assert.Equal(Rtl.ExpandFileName(path), Rtl.ExpandFileName(path));
+            Assert.Equal(RtlUnit.ExpandFileName(path), RtlUnit.ExpandFileName(path));
     }
 
     [Fact]
@@ -38,11 +38,11 @@ public sealed class StringPathTests
     {
         using var mode = new StringMode(false);
         foreach (Func<string?, string> function in new Func<string?, string>[] {
-            Rtl.ExtractFileName, Rtl.ExtractFilePath, Rtl.ExtractFileDir, Rtl.ExtractFileExt,
-            Rtl.ExtractFileDrive, Rtl.ExpandFileName }) Assert.Equal("", function(null));
-        Assert.Equal("", Rtl.ChangeFileExt((string?)null, null));
-        Assert.Equal("file", Rtl.ChangeFileExt("file.ext", (string?)null));
-        Assert.Equal("\u2603.ext", Rtl.ExtractFileName("C:\\folder\\\u2603.ext"));
-        Assert.Equal("C:\\folder\\\u2603.new", Rtl.ChangeFileExt("C:\\folder\\\u2603.ext", ".new"));
+            RtlUnit.ExtractFileName, RtlUnit.ExtractFilePath, RtlUnit.ExtractFileDir, RtlUnit.ExtractFileExt,
+            RtlUnit.ExtractFileDrive, RtlUnit.ExpandFileName }) Assert.Equal("", function(null));
+        Assert.Equal("", RtlUnit.ChangeFileExt((string?)null, null));
+        Assert.Equal("file", RtlUnit.ChangeFileExt("file.ext", (string?)null));
+        Assert.Equal("\u2603.ext", RtlUnit.ExtractFileName("C:\\folder\\\u2603.ext"));
+        Assert.Equal("C:\\folder\\\u2603.new", RtlUnit.ChangeFileExt("C:\\folder\\\u2603.ext", ".new"));
     }
 }

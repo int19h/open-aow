@@ -1,6 +1,6 @@
 // Translated from PlugInM.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.PlugInM;
 
@@ -145,7 +145,7 @@ public partial class TPlugInManager : TComponent
     public TLoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
 }
 
-public static partial class PlugInM
+public static partial class PlugInMUnit
 {
     // PlugInM.pas:141
     public static void Register()

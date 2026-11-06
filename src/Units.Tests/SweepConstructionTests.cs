@@ -6,7 +6,7 @@ using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWE;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -413,12 +413,12 @@ public sealed class SweepConstructionTests
     }
     private static TEObject Saved(Type type, TECustomNode owner)
     {
-        if (Aow.Units.Engine.Engine.Engines is null) Aow.Units.Engine.Engine.Initialize();
+        if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
         try
         {
             var descriptor = EClass.Of(type);
-            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Units.Engine.Engine.eoVerifyClasses);
+            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
             catch (Aow.Rtl.Exception) { }
             engine.RegisterEClasses([descriptor]);

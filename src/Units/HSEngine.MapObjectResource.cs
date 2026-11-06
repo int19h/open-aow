@@ -1,6 +1,6 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.Engine;
+using static Aow.Units.Engine.EngineUnit;
 
 namespace Aow.Units.HSEngine;
 

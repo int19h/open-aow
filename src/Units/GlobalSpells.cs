@@ -1,16 +1,16 @@
 // Translated from GlobalSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLog;
+using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.Animation;
 
 namespace Aow.Units.GlobalSpells;
@@ -187,7 +187,7 @@ public partial class TConcealArea : TSpell
                                 Log.FLhx = Layer;
                                 Log.FPlayer = Source.FPlayer;
                                 var concealArea = TranslateRStr(ConcealAreaRStr);
-                                Log.FText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [concealArea]);
+                                Log.FText = RtlUnit.Format(TranslateRStr(XCastRStr), [concealArea]);
                                 AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Log);
                                 Log.Release();
                             }
@@ -207,7 +207,7 @@ public partial class TConcealArea : TSpell
                     Log.FLhx = Layer;
                     Log.FPlayer = Source.FPlayer;
                     var concealArea = TranslateRStr(ConcealAreaRStr);
-                    Log.FText = Rtl.Rtl.Format(TranslateRStr(XCastRStr), [concealArea]);
+                    Log.FText = RtlUnit.Format(TranslateRStr(XCastRStr), [concealArea]);
                     AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Log);
                     Log.Release();
                 }
@@ -236,7 +236,7 @@ public partial class TConcealArea : TSpell
             if (!War)
             {
                 var concealArea = TranslateRStr(ConcealAreaRStr);
-                MessageText = Rtl.Rtl.Format(TranslateRStr(AWarRelationIsRequiredForXRStr), [concealArea]);
+                MessageText = RtlUnit.Format(TranslateRStr(AWarRelationIsRequiredForXRStr), [concealArea]);
                 Result = false;
             }
         }
@@ -776,7 +776,7 @@ public partial class TResurrectHero : TSpell
                 Army = Hero.Place(X, Y, Layer, 0, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea, TUnitPlaceModeElement.pmCreateNewArmy));
                 Log = new TLocationTextEventLog(null);
                 Log.FPlayer = Source.FPlayer;
-                Log.FText = Rtl.Rtl.Format(TranslateRStr(XResurrectedRStr), [Hero.FHeroName]);
+                Log.FText = RtlUnit.Format(TranslateRStr(XResurrectedRStr), [Hero.FHeroName]);
                 var lhx = Army.GetLhx();
                 var yhx = Army.GetYhx();
                 Log.SetLocation(Army.GetXhx(), yhx, lhx);
@@ -910,7 +910,7 @@ public partial class TAnimateHero : TSpell
                 Army = Hero.Place(X, Y, Layer, 0, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea, TUnitPlaceModeElement.pmCreateNewArmy));
                 Log = new TLocationTextEventLog(null);
                 Log.FPlayer = Source.FPlayer;
-                Log.FText = Rtl.Rtl.Format(TranslateRStr(XAnimatedRStr), [Hero.FHeroName]);
+                Log.FText = RtlUnit.Format(TranslateRStr(XAnimatedRStr), [Hero.FHeroName]);
                 var lhx = Army.GetLhx();
                 var yhx = Army.GetYhx();
                 Log.SetLocation(Army.GetXhx(), yhx, lhx);
@@ -1247,7 +1247,7 @@ public partial class TDisjunctionTE : TSpellTE
             if (AoWHSMap.FSeatedPlayer == source.FPlayer)
             {
                 var name = Enchantment.GetName();
-                var format = Rtl.Rtl.Format(TranslateRStr(XSuccessfullyDispelledRStr), [name]);
+                var format = RtlUnit.Format(TranslateRStr(XSuccessfullyDispelledRStr), [name]);
                 AoWHSMap.ShowMessage(format);
             }
 
@@ -1259,7 +1259,7 @@ public partial class TDisjunctionTE : TSpellTE
             {
                 // { Original formats this message with an unused enchantment-name argument. }
                 var name = Enchantment.GetName();
-                var format = Rtl.Rtl.Format(TranslateRStr(DispelMagicFailedRStr), [name]);
+                var format = RtlUnit.Format(TranslateRStr(DispelMagicFailedRStr), [name]);
                 AoWHSMap.ShowMessage(format);
             }
         }
@@ -1563,7 +1563,7 @@ public partial class TCrusade : TSpell
                 for (int J = 0; J <= Count - 1; J++)
                 {
                     NewUnit = new TUnit(null);
-                    NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(GlobalSpells.TCrusade_ExecuteTE__LargeUnits[UnitIndex]));
+                    NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(GlobalSpellsUnit.TCrusade_ExecuteTE__LargeUnits[UnitIndex]));
                     NewUnit.ExpandAbility(101);
                     Party.FArmy.AddUnit(NewUnit);
                     NewUnit.Release();
@@ -1585,7 +1585,7 @@ public partial class TCrusade : TSpell
                     {
                         NewUnit = new TUnit(null);
                         UnitIndex = AoWHSMap.Random(2);
-                        NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(GlobalSpells.TCrusade_ExecuteTE__FootUnits[UnitIndex]));
+                        NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(GlobalSpellsUnit.TCrusade_ExecuteTE__FootUnits[UnitIndex]));
                         NewUnit.ExpandAbility(101);
                         Party.FArmy.AddUnit(NewUnit);
                         NewUnit.Release();
@@ -1609,7 +1609,7 @@ public partial class TCrusade : TSpell
                 for (int J = 0; J <= Count - 1; J++)
                 {
                     NewUnit = new TUnit(null);
-                    NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(GlobalSpells.TCrusade_ExecuteTE__MountedUnits[UnitIndex]));
+                    NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(GlobalSpellsUnit.TCrusade_ExecuteTE__MountedUnits[UnitIndex]));
                     NewUnit.ExpandAbility(101);
                     Party.FArmy.AddUnit(NewUnit);
                     NewUnit.Release();
@@ -1707,7 +1707,7 @@ public struct TGlobalSpellEngineFields
     public byte Detail;
 }
 
-public static partial class GlobalSpells
+public static partial class GlobalSpellsUnit
 {
     public static FixedArray_int_1 TCrusade_ExecuteTE__LargeUnits = FixedArray_int_1.From([133]);
     public static FixedArray_int_3 TCrusade_ExecuteTE__MountedUnits = FixedArray_int_3.From([132, 134, 128]);

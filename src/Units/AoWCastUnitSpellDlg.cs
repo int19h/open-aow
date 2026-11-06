@@ -1,9 +1,9 @@
 // Translated from AoWCastUnitSpellDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
@@ -13,8 +13,8 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
 
 namespace Aow.Units.AoWCastUnitSpellDlg;
 
@@ -202,7 +202,7 @@ public partial class TCastUnitSpellDlg : TDataModule
         var checks = new[] { U1, U2, U3, U4, U5, U6, U7, U8 };
         for (int i = 0; i < checks.Length; i++) checks[i].Checked = (FCaster.FSelectionMask & (1 << i)) != 0;
         if (FCaster.FSelectionMask != oldSelection)
-            AoWWinMan.AoWWinMan.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
+            General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
         if (FCaster.FSelectionMask == 0)
         {
             SelectionInfoLbl.Text = "";
@@ -211,8 +211,8 @@ public partial class TCastUnitSpellDlg : TDataModule
         string reason = "";
         SelectionInfoLbl.TextColor = FCaster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLbl.Text = AoWE.AoWE.TranslateRStr(AoWE.AoWE.RequiredManaRStr) +
-            ": " + Rtl.Rtl.IntToStr(FCaster.GetRequiredMana());
+        SelectionInfoLbl.Text = TranslateRStr(RequiredManaRStr) +
+            ": " + IntToStr(FCaster.GetRequiredMana());
     }
 
     // AoWCastUnitSpellDlg.pas:183. The sender is a unit checkbox.
@@ -220,6 +220,6 @@ public partial class TCastUnitSpellDlg : TDataModule
         DrawUnit(sender.Tag, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref surface);
 }
 
-public static partial class AoWCastUnitSpellDlg
+public static partial class AoWCastUnitSpellDlgUnit
 {
 }

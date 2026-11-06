@@ -1,6 +1,6 @@
 // Translated from aowFX.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.aowFX;
 
@@ -142,7 +142,7 @@ public partial class TfxParticleSystem : TfxParticleObject
     public EffectsAccessor Effects => new EffectsAccessor(this);
 }
 
-public static partial class aowFX
+public static partial class aowFXUnit
 {
     // aowFX.pas:161
     // { paths }

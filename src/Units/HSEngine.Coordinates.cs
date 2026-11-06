@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 namespace Aow.Units.HSEngine;
 
-public static partial class HSEngine
+public static partial class HSEngineUnit
 {
     // HSEngine.pas:3952. INC wraps before the arithmetic shift.
     public static int HXtoV(int x, int y) => ((x + 1) >> 1) + y;

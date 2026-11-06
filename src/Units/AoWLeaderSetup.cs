@@ -1,10 +1,10 @@
 // Translated from AoWLeaderSetup.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
-using static Aow.Units.Engine.Engine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Engine.EngineUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWComboBox;
 using Aow.Units.AoWEdit;
@@ -14,10 +14,13 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWExeForms.AoWExeForms;
-using static Aow.Units.aowSetupEvents.aowSetupEvents;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.E2Globals.E2Globals;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWMessageDlg;
+using Aow.Units.AoWInfoBanner;
 
 namespace Aow.Units.AoWLeaderSetup;
 
@@ -211,7 +214,7 @@ public partial class TLeaderSetupWin : TDataModule
         FSetup.AddRef();
         FSelectedSort = 0;
         FAvailableSort = 0;
-        LeaderPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleScreen;
+        LeaderPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.TitleScreen;
         LeaderPnl.ILIndexTexture = 4;
         RaceCB.Visible = FSetup.FItems.Count != 0 && FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign);
         RaceLbl.Visible = RaceCB.Visible;
@@ -895,12 +898,12 @@ public partial class TLeaderSetupWin : TDataModule
                 }
                 else
                 {
-                    ResetMessageDialog(AoWMessageDlg.AoWMessageDlg.MessageDlg);
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add("");
+                    ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
+                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
                     var pleaseAssignAllSpheres = TranslateRStr(PleaseAssignAllSpheresRStr);
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.OKPnl.Visible = true;
-                    AoWMessageDlg.AoWMessageDlg.MessageDlg.Dlg.Visible = true;
+                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
+                    AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
+                    AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
                 }
 
                 break;
@@ -1329,7 +1332,7 @@ public partial class TLeaderSetupWin : TDataModule
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, name, Ability.FDescription);
+                SetInfoBanner(AoWInfoBannerUnit.InfoBanner, name, Ability.FDescription);
             }
         }
     }
@@ -1345,13 +1348,13 @@ public partial class TLeaderSetupWin : TDataModule
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                SetInfoBanner(AoWInfoBanner.AoWInfoBanner.InfoBanner, name, Ability.FDescription);
+                SetInfoBanner(AoWInfoBannerUnit.InfoBanner, name, Ability.FDescription);
             }
         }
     }
 }
 
-public static partial class AoWLeaderSetup
+public static partial class AoWLeaderSetupUnit
 {
     public static TLeaderSetupWin LeaderSetupWin;
 }

@@ -1,10 +1,17 @@
 #nullable disable
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Units.AoWVideoDlg;
 using Aow.Platform;
 using Aow.Rtl;
+using Aow.Units.Sound;
+using Aow.Units.AoWE;
+using Aow.Units.AoWSelFactionWin;
+using Aow.Units.AoWMessageDlg;
+using Aow.Units.E2GameFlow;
+using Aow.Units.AoWFileDialog;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AoWTitleScene;
 
@@ -12,7 +19,7 @@ public partial class TTitleScene
 {
     public void ShowScene(bool playMusic)
     {
-        var player = Sound.Sound.SongPlayer;
+        var player = SoundUnit.SongPlayer;
         if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             player.Songs.Clear();
@@ -56,32 +63,32 @@ public partial class TTitleScene
                     MultiWindow.Execute("");
                     break;
                 case 1:
-                    if (!AoWE.AoWE.AoWEngine.FDemo)
+                    if (!AoWEUnit.AoWEngine.FDemo)
                     {
                         Window.Visible = false;
                         General.PlayButtonSound(0);
-                        AoWSelFactionWin.AoWSelFactionWin.ShowFactionSelection(AoWSelFactionWin.AoWSelFactionWin.SelFactionWin);
+                        AoWSelFactionWinUnit.ShowFactionSelection(AoWSelFactionWinUnit.SelFactionWin);
                     }
-                    else AoWMessageDlg.AoWMessageDlg.ShowDemoMessage();
+                    else AoWMessageDlgUnit.ShowDemoMessage();
                     break;
                 case 2:
-                    E2GameFlow.E2GameFlow.LoadGame(General, AoWE.AoWE.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM");
-                    if (AoWE.AoWE.AoWHSMap is { } map)
+                    E2GameFlowUnit.LoadGame(General, AoWEUnit.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM");
+                    if (AoWEUnit.AoWHSMap is { } map)
                     {
                         map.FFixedLeaders = true;
-                        E2GameFlow.E2GameFlow.StartGame(General);
+                        E2GameFlowUnit.StartGame(General);
                         Window.Visible = false;
                     }
                     break;
                 case 3:
                     General.PlayButtonSound(0);
-                    AoWFileDialog.AoWFileDialog.FileDlgWindow.FMode = 0;
-                    AoWFileDialog.AoWFileDialog.FileDlgWindow.FileDialog.Visible = true;
+                    AoWFileDialogUnit.FileDlgWindow.FMode = 0;
+                    AoWFileDialogUnit.FileDlgWindow.FileDialog.Visible = true;
                     break;
                 case 4:
                     Window.Visible = false;
                     General.PlayButtonSound(0);
-                    if (AoWE.AoWE.AoWEngine.FDemo) E2Globals.E2Globals.TitleWindow.ShowExitSplash();
+                    if (AoWEUnit.AoWEngine.FDemo) E2GlobalsUnit.TitleWindow.ShowExitSplash();
                     else GameHost.MainForm.CloseRequested();
                     break;
             }

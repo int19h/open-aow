@@ -175,7 +175,7 @@ namespace Aow.Units.aowMapEvents
 
         private void Layout_TheMapPlayerTerminated_22(TObject p0)
         {
-            TheMapPlayerTerminated((sbyte)Rtl.Rtl.ObjectToInt(p0));
+            TheMapPlayerTerminated((sbyte)RtlUnit.ObjectToInt(p0));
         }
 
         private void Layout_TheMapDiplomaticChange_23(TObject p0)

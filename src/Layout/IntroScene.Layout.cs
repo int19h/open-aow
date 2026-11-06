@@ -4,6 +4,7 @@ using Aow.Rtl;
 using Aow.Layout;
 using Aow.Units.AowUserWindow;
 using Aow.Units.AoWComp;
+using Aow.Units.AoWWinMan;
 
 namespace Aow.Units.AoWIntroScene
 {
@@ -79,7 +80,7 @@ namespace Aow.Units.AoWIntroScene
             Window.Loaded();
             VideoPlayer.Loaded();
             session.Resolve(this);
-            Window.WinManager = AoWWinMan.AoWWinMan.General.Manager;
+            Window.WinManager = AoWWinManUnit.General.Manager;
         }
 
         private void Layout_WindowUpdate_0(TObject p0)

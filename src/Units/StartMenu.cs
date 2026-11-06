@@ -1,6 +1,6 @@
 // Translated from StartMenu.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AOWMenu;
@@ -177,7 +177,7 @@ public partial class TStartMenu : TAOWMenu
     public TImageLibrary ILWholeMenu { get => FILWholeMenu; set => FILWholeMenu = value; }
 }
 
-public static partial class StartMenu
+public static partial class StartMenuUnit
 {
     // StartMenu.pas:133
     public static void Register()

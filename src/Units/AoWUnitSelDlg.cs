@@ -1,9 +1,9 @@
 // Translated from AoWUnitSelDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
@@ -12,7 +12,8 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWUnitSelDlg;
 
@@ -62,10 +63,10 @@ public partial class TUnitSelectionDlg : TDataModule
             var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = FEvent.FUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < aowIntGfxModUnit.IntGfxMod.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -75,7 +76,7 @@ public partial class TUnitSelectionDlg : TDataModule
             FEvent.FUnits.GetUnit(Index).ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FSelectable) >> Index)) & 1) == 0)
             {
-                Img = aowIntGfxMod.aowIntGfxMod.IntGfxMod.UnitBGs[7];
+                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -267,6 +268,6 @@ public partial class TUnitSelectionDlg : TDataModule
     }
 }
 
-public static partial class AoWUnitSelDlg
+public static partial class AoWUnitSelDlgUnit
 {
 }

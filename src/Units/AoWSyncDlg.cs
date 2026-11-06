@@ -1,15 +1,15 @@
 // Translated from AoWSyncDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWSetup;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.aowSetupEvents.aowSetupEvents;
+using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
 
 namespace Aow.Units.AoWSyncDlg;
 
@@ -107,6 +107,6 @@ public partial class TSynchronizeDlg : TDataModule
     }
 }
 
-public static partial class AoWSyncDlg
+public static partial class AoWSyncDlgUnit
 {
 }

@@ -1,41 +1,48 @@
 // Translated from E2GameFlow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWTutorialWin;
 using Aow.Units.AoWCampaignJoin;
 using Aow.Units.AoWScenSetup;
 using Aow.Units.aowSetupEvents;
-using static Aow.Units.aowSetupEvents.aowSetupEvents;
+using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlg;
-using static Aow.Units.E2Globals.E2Globals;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 using Aow.Units.AOWDialogWin;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWWinMan;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Units.AoWFileDialog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Units.AoWComp;
-using static Aow.Units.AoWSWindow.AoWSWindow;
-using static Aow.Units.AOWMWindow.AOWMWindow;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWin;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.AoWSWindow.AoWSWindowUnit;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWSetup;
 using Aow.Units.AoWComboBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWWorldMap;
-using static Aow.Units.AoWWorldMap.AoWWorldMap;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
-using static Aow.Units.ImageLib.ImageLib;
+using static Aow.Units.AoWWorldMap.AoWWorldMapUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using static Aow.Units.ImageLib.ImageLibUnit;
+using Aow.Units.AoWRealm;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AoWInfoWin;
+using Aow.Units.AoWTCUnit;
+using Aow.Units.E2Globals;
+using Aow.Units.aowMapEvents;
 
 namespace Aow.Units.E2GameFlow;
 
-public static partial class E2GameFlow
+public static partial class E2GameFlowUnit
 {
     // E2GameFlow.pas:594
     // { Unnamed executable flow routines called by E2. Original addresses are in E2.json. }
@@ -45,13 +52,13 @@ public static partial class E2GameFlow
         {
             Controller.FWindowsHidden = true;
             Controller.FInfoVisible = PInfoW.PInfoWin.Visible;
-            Controller.FRealmVisible = AoWRealm.AoWRealm.RealmWin.Dlg.Visible;
+            Controller.FRealmVisible = AoWRealmUnit.RealmWin.Dlg.Visible;
             Controller.FMagicVisible = MagicWin.Dlg.Visible;
-            Controller.FUnitVisible = AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible;
+            Controller.FUnitVisible = AOWControlWinUnit.ControlWin.ControlWindow.Visible;
             Controller.FTargetVisible = ChatWindow.ChatWin.Visible;
             Controller.FScannerVisible = SWindow.ScannerWindow.Visible;
-            Controller.FControlVisible = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin.Visible;
-            Controller.FChatVisible = AoWInfoWin.AoWInfoWin.IWindow.InfoWin.Visible;
+            Controller.FControlVisible = AoWUnitWindowUnit.UnitWindow.UnitWin.Visible;
+            Controller.FChatVisible = AoWInfoWinUnit.IWindow.InfoWin.Visible;
             Controller.FMapVisible = MWindow.MapWindow.Visible;
             for (int I = 0, last = General.Manager.FChildren.Count - 1; I <= last; I++)
             {
@@ -94,11 +101,11 @@ public static partial class E2GameFlow
         var rect = Rect(playerInfo.Alignment.RightOffset, playerInfo.Alignment.BottomOffset, playerInfo.WinWidth, playerInfo.WinHeight);
         AoWEngine.FRegistry.SetRectangle(0, rect);
 
-        var controls = AOWControlWin.AOWControlWin.ControlWin.ControlWindow;
+        var controls = AOWControlWinUnit.ControlWin.ControlWindow;
         var rect2 = Rect(controls.Alignment.RightOffset, controls.Alignment.TopOffset, controls.WinWidth, controls.WinHeight);
         AoWEngine.FRegistry.SetRectangle(1, rect2);
 
-        var unitWindow = AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitWin;
+        var unitWindow = AoWUnitWindowUnit.UnitWindow.UnitWin;
         if (unitWindow.Alignment.AlignWidth != TAOWAlignWidth.awCenter)
         {
             var rect3 = Rect(unitWindow.Alignment.LeftOffset, unitWindow.Alignment.TopOffset, unitWindow.WinWidth, unitWindow.WinHeight);
@@ -110,7 +117,7 @@ public static partial class E2GameFlow
             AoWEngine.FRegistry.SetRectangle(2, rect3);
         }
 
-        var realm = AoWRealm.AoWRealm.RealmWin.Dlg;
+        var realm = AoWRealmUnit.RealmWin.Dlg;
         if (realm.Alignment.AlignWidth != TAOWAlignWidth.awBoth)
         {
             var rect3 = Rect(realm.Alignment.LeftOffset, realm.Alignment.TopOffset, realm.WinWidth, realm.WinHeight);
@@ -138,7 +145,7 @@ public static partial class E2GameFlow
         var rect4 = Rect(scanner.Alignment.RightOffset, scanner.Alignment.TopOffset, scanner.WinWidth, scanner.WinHeight);
         AoWEngine.FRegistry.SetRectangle(6, rect4);
 
-        var info = AoWInfoWin.AoWInfoWin.IWindow.InfoWin;
+        var info = AoWInfoWinUnit.IWindow.InfoWin;
         var rect5 = Rect(info.Alignment.RightOffset, info.Alignment.TopOffset, info.WinWidth, info.WinHeight);
         AoWEngine.FRegistry.SetRectangle(7, rect5);
 
@@ -166,7 +173,7 @@ public static partial class E2GameFlow
             AoWEngine.FRegistry.SetRectangle(9, rect3);
         }
 
-        var tcUnit = AoWTCUnit.AoWTCUnit.TCUnit.TCUnitWin;
+        var tcUnit = AoWTCUnitUnit.TCUnit.TCUnitWin;
         var rect6 = Rect(tcUnit.Alignment.RightOffset, tcUnit.Alignment.TopOffset, tcUnit.WinWidth, tcUnit.WinHeight);
         AoWEngine.FRegistry.SetRectangle(12, rect6);
 
@@ -364,11 +371,11 @@ public static partial class E2GameFlow
                 Setup.HostNameLbl.Visible = true;
                 Setup.FileNameLbl.Visible = true;
                 Setup.PlayerNameLbl.Visible = true;
-                var format = AoWE.AoWE.Format(TranslateRStr(XHostYRStr), [Connection, HostName]);
+                var format = AoWEUnit.Format(TranslateRStr(XHostYRStr), [Connection, HostName]);
                 Setup.HostNameLbl.Text = format;
-                var aoWEFormat = AoWE.AoWE.Format(TranslateRStr(PlayerNameXRStr), [Setup.FSetupControl.FRemotePlayer.FName]);
+                var aoWEFormat = AoWEUnit.Format(TranslateRStr(PlayerNameXRStr), [Setup.FSetupControl.FRemotePlayer.FName]);
                 Setup.PlayerNameLbl.Text = aoWEFormat;
-                var format2 = AoWE.AoWE.Format(TranslateRStr(FileNameXRStr), [Setup.FSetupControl.FSettings.FMapName]);
+                var format2 = AoWEUnit.Format(TranslateRStr(FileNameXRStr), [Setup.FSetupControl.FSettings.FMapName]);
                 Setup.FileNameLbl.Text = format2;
                 if (Setup.FSetupControl.FRemotePlayer.FMapValidation == TMapValidationInfo.mviInvalid)
                 {
@@ -386,7 +393,7 @@ public static partial class E2GameFlow
                 Setup.PlayerNameLbl.Visible = false;
             }
 
-            var format3 = AoWE.AoWE.Format(TranslateRStr(ScenarioXRStr), [Setup.FSetupControl.FSettings.FFileName]);
+            var format3 = AoWEUnit.Format(TranslateRStr(ScenarioXRStr), [Setup.FSetupControl.FSettings.FFileName]);
             Setup.ScenarioLbl.Text = format3;
             TitleWindow.TitleWin.FDrawn = false;
         }
@@ -485,7 +492,7 @@ public static partial class E2GameFlow
             {
                 for (int I = 0, last = AoWHSMap.FStartupSongs.Songs.Count - 1; I <= last; I++)
                 {
-                    var fileNotFound = TranslateRStr(E2Globals.E2Globals.FileNotFoundRStr);
+                    var fileNotFound = TranslateRStr(E2GlobalsUnit.FileNotFoundRStr);
                     if (CompareText(AoWHSMap.FStartupSongs.SongNames[I], fileNotFound) != 0)
                     {
                         var song = AoWHSMap.FStartupSongs.Songs[I];
@@ -554,9 +561,9 @@ public static partial class E2GameFlow
         MWindow.MapViewer.SceneWidth = MWindow.MapWindow.WinWidth - 24;
         MWindow.MapViewer.SceneHeight = MWindow.MapWindow.WinHeight - 24;
         AoWHSMap.Activate();
-        AOWControlWin.AOWControlWin.ControlWin.ControlWindow.Visible = false;
-        aowMapEvents.aowMapEvents.MapEvents.TheMapArmyDeselected(null);
-        aowMapEvents.aowMapEvents.MapEvents.TheMapStructureDeselected(null);
+        AOWControlWinUnit.ControlWin.ControlWindow.Visible = false;
+        aowMapEventsUnit.MapEvents.TheMapArmyDeselected(null);
+        aowMapEventsUnit.MapEvents.TheMapStructureDeselected(null);
         TBWindow.TBWorldUpdate(null);
         PInfoW.UpdatePlayer();
         if (AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))

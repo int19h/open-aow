@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.PassiveAb;
 
@@ -1281,7 +1281,7 @@ public partial class TSlowEnchantmentAbility : TUnitEnchantmentAbility
     }
 }
 
-public static partial class PassiveAb
+public static partial class PassiveAbUnit
 {
     // PassiveAb.pas:1504
     public static void RegisterPassiveAbilities(TAbilityControl Control)

@@ -1,21 +1,21 @@
 // Translated from AoWRealm.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
-using static Aow.Units.aowIntGfxMod.aowIntGfxMod;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWUnitWindow.AoWUnitWindow;
-using static Aow.Units.AoWCityScreen.AoWCityScreen;
-using static Aow.Units.AoWProdScreen.AoWProdScreen;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWUnitWindow.AoWUnitWindowUnit;
+using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
+using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
 using Aow.Units.PrdPlace;
 using Aow.Units.City;
-using static Aow.Units.City.City;
-using static Aow.Units.aowHelpWin.aowHelpWin;
-using static Aow.Units.AoWUnitBanner.AoWUnitBanner;
+using static Aow.Units.City.CityUnit;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.AoWUnitBanner.AoWUnitBannerUnit;
 using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
@@ -27,9 +27,9 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.Farm.Farm;
-using static Aow.Units.Mine.Mine;
-using static Aow.Units.BldGuild.BldGuild;
+using static Aow.Units.Farm.FarmUnit;
+using static Aow.Units.Mine.MineUnit;
+using static Aow.Units.BldGuild.BldGuildUnit;
 
 namespace Aow.Units.AoWRealm;
 
@@ -686,22 +686,22 @@ public partial class TRealmWin : TDataModule
     // AoWRealm.pas:549
     public void T2LevelLBDoubleClick()
     {
-        AoWRealm.RealmWin.UpdateOverview();
-        AoWRealm.RealmWin.Dlg.Visible = true;
+        AoWRealmUnit.RealmWin.UpdateOverview();
+        AoWRealmUnit.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:555
     public void T2WallLBDoubleClick()
     {
-        AoWRealm.RealmWin.UpdateOverview();
-        AoWRealm.RealmWin.Dlg.Visible = true;
+        AoWRealmUnit.RealmWin.UpdateOverview();
+        AoWRealmUnit.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:561
     public void T2RaceLBDoubleClick()
     {
-        AoWRealm.RealmWin.UpdateOverview();
-        AoWRealm.RealmWin.Dlg.Visible = true;
+        AoWRealmUnit.RealmWin.UpdateOverview();
+        AoWRealmUnit.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:567
@@ -720,8 +720,8 @@ public partial class TRealmWin : TDataModule
     // AoWRealm.pas:577
     public void T2ActLBDoubleClick()
     {
-        AoWRealm.RealmWin.UpdateOverview();
-        AoWRealm.RealmWin.Dlg.Visible = true;
+        AoWRealmUnit.RealmWin.UpdateOverview();
+        AoWRealmUnit.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:583
@@ -1149,7 +1149,7 @@ public partial class TRealmWin : TDataModule
     }
 }
 
-public static partial class AoWRealm
+public static partial class AoWRealmUnit
 {
     public static TRealmWin RealmWin;
 }

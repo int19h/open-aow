@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.ItemExpS;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Pyramid;
 
@@ -32,7 +32,7 @@ public partial class TPyramidResource : TItemExplorationSiteResource
 
 }
 
-public static partial class Pyramid
+public static partial class PyramidUnit
 {
     // Pyramid.pas:46
     public static void RegisterPyramid(TEngine AEngine)

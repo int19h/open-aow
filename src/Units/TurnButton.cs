@@ -1,6 +1,6 @@
 // Translated from TurnButton.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWControl;
@@ -245,7 +245,7 @@ public enum TButtonType : byte
     btIcon = 1
 }
 
-public static partial class TurnButton
+public static partial class TurnButtonUnit
 {
     // TurnButton.pas:192
     public static void Register()

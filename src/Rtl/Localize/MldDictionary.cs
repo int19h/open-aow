@@ -37,8 +37,8 @@ public sealed class MldDictionary
     public void Open(string path)
     {
         Close();
-        if (!Rtl.Files.FileExists(path)) return;
-        using var stream = Rtl.Files.Open(path, Rtl.fmOpenRead);
+        if (!RtlUnit.Files.FileExists(path)) return;
+        using var stream = RtlUnit.Files.Open(path, RtlUnit.fmOpenRead);
         Read(stream);
         fileName = path;
     }
@@ -111,7 +111,7 @@ public sealed class MldDictionary
             var native = reader.Text();
             var form = ContextCode is 1 or 3 ? reader.Text() : "";
             var component = ContextCode is 1 or 2 ? reader.Text() : "";
-            var translations = Rtl.Strings(languageCount - 1);
+            var translations = RtlUnit.Strings(languageCount - 1);
             for (int j = 0; j < translations.Length; j++) translations[j] = reader.Text();
             entries[i] = new(i, start, native, form, component, Array.AsReadOnly(translations));
         }
@@ -122,7 +122,7 @@ public sealed class MldDictionary
             reader.Seek(infoOffset);
             var description = reader.Text();
             var owner = reader.Text();
-            var users = Rtl.Strings(reader.Word());
+            var users = RtlUnit.Strings(reader.Word());
             for (int i = 0; i < users.Length; i++) users[i] = reader.Text();
             string? timestamp = null;
             if (Version >= 3)

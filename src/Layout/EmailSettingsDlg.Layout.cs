@@ -10,6 +10,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWEdit;
+using Aow.Units.AoWWinMan;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
 
 namespace Aow.Units.AoWEmailSettingsDlg
 {
@@ -590,31 +593,31 @@ namespace Aow.Units.AoWEmailSettingsDlg
             TitleIcon.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TitleLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            TCeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage1.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage2.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            OKBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            OKBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            CancelBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CancelBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            LocalEmailAddressLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10bs;
-            LocalEmailAddressEdit.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            LocalEmailAddressEdit.ILEdit = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericE;
-            SMTPServerLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10bs;
-            SMTPServerEdit.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            SMTPServerEdit.ILEdit = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericE;
-            AttachmentDirectoryLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10bs;
-            AttachmentDirectoryEdit.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            AttachmentDirectoryEdit.ILEdit = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericE;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            TitleLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage1.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage2.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            OKBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            OKBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            LocalEmailAddressLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10bs;
+            LocalEmailAddressEdit.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            LocalEmailAddressEdit.ILEdit = aowIntGfxModUnit.IntGfxMod.GenericE;
+            SMTPServerLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10bs;
+            SMTPServerEdit.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            SMTPServerEdit.ILEdit = aowIntGfxModUnit.IntGfxMod.GenericE;
+            AttachmentDirectoryLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10bs;
+            AttachmentDirectoryEdit.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            AttachmentDirectoryEdit.ILEdit = aowIntGfxModUnit.IntGfxMod.GenericE;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
         }
     }
 }

@@ -1,11 +1,11 @@
 // Translated from Mine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Mine;
 
@@ -81,7 +81,7 @@ public partial class TMine : TPlayerStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return Rtl.Rtl.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
     }
 
     // Mine.pas:99
@@ -244,7 +244,7 @@ public struct TMineImageData
     public int ImageIndex;
 }
 
-public static partial class Mine
+public static partial class MineUnit
 {
     // Mine.pas:206
     public static int MineIncome(sbyte Player)

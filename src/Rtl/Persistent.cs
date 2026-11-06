@@ -61,7 +61,7 @@ public class TComponent : TPersistent
     }
     protected virtual void ValidateRename(TComponent component, string oldName, string newName)
     {
-        if (Rtl.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null) throw new EComponentError($"A component named {newName} already exists");
+        if (RtlUnit.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null) throw new EComponentError($"A component named {newName} already exists");
     }
     // CLASSES.PAS TComponent.GetComponentIndex and SetComponentIndex.
     public int ComponentIndex
@@ -85,7 +85,7 @@ public class TComponent : TPersistent
     // CLASSES.PAS TComponent.RemoveComponent and Remove.
     public void RemoveComponent(TComponent component) { Notification(component, TOperation.opRemove); component.Owner = null; children.Remove(component); ValidateRename(component, component.name, ""); }
     // CLASSES.PAS TComponent.FindComponent.
-    public TComponent? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => Rtl.CompareText(c.name, value) == 0);
+    public TComponent? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => RtlUnit.CompareText(c.name, value) == 0);
     // CLASSES.PAS TComponent.FreeNotification establishes reciprocal notifications.
     public void FreeNotification(TComponent component)
     {

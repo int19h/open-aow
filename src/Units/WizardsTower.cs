@@ -1,14 +1,14 @@
 // Translated from WizardsTower.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.NetworkE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.EventLog;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.WizardsTower;
 
@@ -18,7 +18,7 @@ public partial class TWizardsTower : TStructure
     public TWizardsTower(TECustomNode owner) : base(owner)
     {
         FGenerateSpell = true;
-        FMagicSpheres = WizardsTower.AllMagicSpheres;
+        FMagicSpheres = WizardsTowerUnit.AllMagicSpheres;
         FSpellLevel = 2;
     }
 
@@ -57,7 +57,7 @@ public partial class TWizardsTower : TStructure
             if (AoWHSMap.FSeatedPlayer == TE.FParam)
             {
                 var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                var format = Rtl.Rtl.Format(TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
+                var format = RtlUnit.Format(TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
                 AoWHSMap.ShowMessage(format);
             }
         }
@@ -315,7 +315,7 @@ public partial class TEnterWizardsTowerEventLog : TEventLog
 
 }
 
-public static partial class WizardsTower
+public static partial class WizardsTowerUnit
 {
     // WizardsTower.pas:269
     public static void RegisterWizardsTower(TEngine AEngine)

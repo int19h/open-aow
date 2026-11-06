@@ -1,11 +1,11 @@
 // Translated from ItemGrid.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.ItemGrid;
 
@@ -232,7 +232,7 @@ public struct TItemView
     public bool Hidden;
 }
 
-public static partial class ItemGrid
+public static partial class ItemGridUnit
 {
     // ItemGrid.pas:296
     public static void Register()

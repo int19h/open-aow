@@ -10,6 +10,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWMemo;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWWinMan;
 
 namespace Aow.Units.AoWArmyInfoDlg
 {
@@ -700,32 +703,32 @@ namespace Aow.Units.AoWArmyInfoDlg
             HeaderLbl.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            U1.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U2.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U4.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U5.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U3.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U6.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U7.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            U8.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            CloseBtn.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            CloseBtn.ILButton = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericB;
-            TitleIcon.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.TitleIcons;
-            Close.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            Close.ILIcon = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericI;
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            Dlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            Dlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            Dlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            UnitLine1.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            UnitLine2.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            Message.AOWFont = AoWExeForms.AoWExeForms.FontModule.AoW15WhiteGrey;
-            FaceFrame.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            DetailsLbl.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            DetailsLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            HeaderLbl.ToolTip = AoWWinMan.AoWWinMan.General.ToolTip;
-            HeaderLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
+            U1.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U2.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U4.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U5.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U3.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U6.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U7.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            U8.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            CloseBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            CloseBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
+            TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
+            Close.ToolTip = AoWWinManUnit.General.ToolTip;
+            Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            Dlg.WinManager = AoWWinManUnit.General.Manager;
+            Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            UnitLine1.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            UnitLine2.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            Message.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+            FaceFrame.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            DetailsLbl.ToolTip = AoWWinManUnit.General.ToolTip;
+            DetailsLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            HeaderLbl.ToolTip = AoWWinManUnit.General.ToolTip;
+            HeaderLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
         }
 
         private void Layout_CloseBtnClick_0(TObject p0)

@@ -4,10 +4,11 @@ using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
+using Aow.Units.AOWMWindow;
 using Aow.Units.AoWWindow;
 using Aow.Units.Scanner;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.AoWWinMan.AoWWinMan;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWTCScanner;
 
@@ -26,14 +27,14 @@ public partial class TTCScanner : TDataModule
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()
     {
-        AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
-        AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
+        AOWMWindowUnit.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
+        AOWMWindowUnit.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
         if (AoWHSMap.FSeatedPlayer != -1)
         {
-            Scanner.SetTWidth(AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneWidth / 32);
-            Scanner.SetTHeight(AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneHeight / 32);
-            Scanner.SetTLeft(AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneX / 32 - 6);
-            Scanner.SetTTop(AOWMWindow.AOWMWindow.MWindow.MapViewer.SceneY / 32 - 6);
+            Scanner.SetTWidth(AOWMWindowUnit.MWindow.MapViewer.SceneWidth / 32);
+            Scanner.SetTHeight(AOWMWindowUnit.MWindow.MapViewer.SceneHeight / 32);
+            Scanner.SetTLeft(AOWMWindowUnit.MWindow.MapViewer.SceneX / 32 - 6);
+            Scanner.SetTTop(AOWMWindowUnit.MWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
@@ -52,6 +53,6 @@ public partial class TTCScanner : TDataModule
     }
 }
 
-public static partial class AoWTCScanner
+public static partial class AoWTCScannerUnit
 {
 }

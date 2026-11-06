@@ -8,6 +8,9 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWWindow;
 using Aow.Units.AOWGauge;
+using Aow.Units.AoWExeForms;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWWinMan;
 
 namespace Aow.Units.AoWProgressDialog
 {
@@ -306,19 +309,19 @@ namespace Aow.Units.AoWProgressDialog
             AOWImage2.Loaded();
             Translator.Loaded();
             session.Resolve(this);
-            Title.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10;
-            TCeltLineL.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            BCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            StatusLbl.AOWFont = AoWExeForms.AoWExeForms.FontModule.Age10s;
-            ProgDlg.WinManager = AoWWinMan.AoWWinMan.General.Manager;
-            ProgDlg.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericF;
-            ProgDlg.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            Bar.ILFrame = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            Bar.ILTextureNormal = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            Bar.ILTextureSelected = aowIntGfxMod.aowIntGfxMod.IntGfxMod.GenericT;
-            TCeltL.ILLine = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage1.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
-            AOWImage2.ImageLib = aowIntGfxMod.aowIntGfxMod.IntGfxMod.CeltDeco;
+            Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
+            TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            StatusLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+            ProgDlg.WinManager = AoWWinManUnit.General.Manager;
+            ProgDlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+            ProgDlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
+            Bar.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            Bar.ILTextureNormal = aowIntGfxModUnit.IntGfxMod.GenericT;
+            Bar.ILTextureSelected = aowIntGfxModUnit.IntGfxMod.GenericT;
+            TCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage1.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+            AOWImage2.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
         }
     }
 }

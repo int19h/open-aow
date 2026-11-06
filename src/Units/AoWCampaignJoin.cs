@@ -1,16 +1,19 @@
 // Translated from AoWCampaignJoin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
-using static Aow.Units.E2Globals.E2Globals;
-using static Aow.Units.E1GameFlow.E1GameFlow;
-using static Aow.Units.AoWExeForms.AoWExeForms;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using Aow.Units.AoWLeaderSetup;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWWorldMap;
 
 namespace Aow.Units.AoWCampaignJoin;
 
@@ -65,11 +68,11 @@ public partial class TCampaignJoinDlg : TDataModule
                 break;
         }
 
-        AoWLeaderSetup.AoWLeaderSetup.LeaderSetupWin.Execute(Control);
+        AoWLeaderSetupUnit.LeaderSetupWin.Execute(Control);
         Control.FOnDone = LeaderCustomized;
         Control.Release();
-        AoWLeaderSetup.AoWLeaderSetup.LeaderSetupWin.LeaderPnl.ILTexture = aowIntGfxMod.aowIntGfxMod.IntGfxMod.FactionWin;
-        AoWLeaderSetup.AoWLeaderSetup.LeaderSetupWin.LeaderPnl.ILIndexTexture = FFaction + 10;
+        AoWLeaderSetupUnit.LeaderSetupWin.LeaderPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.FactionWin;
+        AoWLeaderSetupUnit.LeaderSetupWin.LeaderPnl.ILIndexTexture = FFaction + 10;
     }
 
     // AoWCampaignJoin.pas:145
@@ -80,7 +83,7 @@ public partial class TCampaignJoinDlg : TDataModule
         if (leaderSetupControl.FStatus == TLeaderSetupStatus.lssDone)
         {
             Leader = (TLeader)leaderSetupControl.FOriginalLeader.Copy(AoWEngine);
-            AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign().FTransferSettings.SetLeader(Leader);
+            AoWWorldMapUnit.WorldMap.GetCampaign().FTransferSettings.SetLeader(Leader);
             Leader.Release();
             FinishSelection();
         }
@@ -106,7 +109,7 @@ public partial class TCampaignJoinDlg : TDataModule
     public void FinishSelection()
     {
         CharGenPnl.Visible = false;
-        ShowCampaignMap(AoWWorldMap.AoWWorldMap.WorldMap);
+        ShowCampaignMap(AoWWorldMapUnit.WorldMap);
     }
 
     // AoWCampaignJoin.pas:137
@@ -158,7 +161,7 @@ public partial class TCampaignJoinDlg : TDataModule
     // AoWCampaignJoin.pas:91
     public void DefaultBtnClick()
     {
-        AoWWorldMap.AoWWorldMap.WorldMap.GetCampaign().FTransferSettings.SetLeader(FLeader);
+        AoWWorldMapUnit.WorldMap.GetCampaign().FTransferSettings.SetLeader(FLeader);
         FinishSelection();
     }
 
@@ -210,6 +213,6 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 }
 
-public static partial class AoWCampaignJoin
+public static partial class AoWCampaignJoinUnit
 {
 }

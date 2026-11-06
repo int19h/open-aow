@@ -1,12 +1,12 @@
 // Translated from IndependentAG.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AGCPlugins;
 
 namespace Aow.Units.IndependentAG;
@@ -494,7 +494,7 @@ public partial class TPatrolAGC : TAIGroupControl
 
         for (int I = 0; I <= 6; I++)
         {
-            Lists[I].Sort(IndependentAG.ComparePatrolFields);
+            Lists[I].Sort(IndependentAGUnit.ComparePatrolFields);
         }
 
         Msg.MsgID = 4384;
@@ -545,7 +545,7 @@ public partial class TPatrolAGC : TAIGroupControl
         {
             if (Lists[I].Count != 0 && LastHeading != I && I != PreviousHeading)
             {
-                if (PreviousHeading == 0 || IndependentAG.PatrolHeadingDistance(I, LastHeading) > 1 || IndependentAG.PatrolHeadingDistance(I, PreviousHeading) > 1)
+                if (PreviousHeading == 0 || IndependentAGUnit.PatrolHeadingDistance(I, LastHeading) > 1 || IndependentAGUnit.PatrolHeadingDistance(I, PreviousHeading) > 1)
                 {
                     Choices.Add((byte)I);
                 }
@@ -859,7 +859,7 @@ public partial class TRegistrator : TObject
 
 }
 
-public static partial class IndependentAG
+public static partial class IndependentAGUnit
 {
     // IndependentAG.pas:313
     public static int ComparePatrolFields(in TDoubleItem A, in TDoubleItem B) => B.B - A.B;

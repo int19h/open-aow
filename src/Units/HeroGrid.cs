@@ -1,6 +1,6 @@
 // Translated from HeroGrid.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
@@ -221,7 +221,7 @@ public struct TItemView
     public bool Hidden;
 }
 
-public static partial class HeroGrid
+public static partial class HeroGridUnit
 {
     // HeroGrid.pas:325
     public static void Register()

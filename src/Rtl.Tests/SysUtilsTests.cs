@@ -1,5 +1,5 @@
 using System.Globalization;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;

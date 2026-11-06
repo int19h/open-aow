@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.Terrain;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Hill;
 
@@ -42,7 +42,7 @@ public partial class THillMOR : TTerrainMOR
 
 }
 
-public static partial class Hill
+public static partial class HillUnit
 {
     // Hill.pas:58
     public static void RegisterHill(TEngine AEngine)

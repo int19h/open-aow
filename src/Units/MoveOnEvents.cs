@@ -1,13 +1,13 @@
 // Translated from MoveOnEvents.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.Sound;
+using static Aow.Units.Sound.SoundUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngine;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.EventLog;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWE;
 
 namespace Aow.Units.MoveOnEvents;
@@ -176,7 +176,7 @@ public partial class TMoveOnEvent : TMapObject
         sbyte player = ((TArmyHS)army).FArmy.FPlayer;
         if (!GetTriggerPlayer(player)) return;
         MovedOnTrigger(player);
-        if (FTriggerPlayers == 0 && !AoWE.AoWE.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) Destroy();
+        if (FTriggerPlayers == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) Destroy();
     }
 }
 
@@ -369,7 +369,7 @@ public partial class TShowMessageMoveOnEventResource : TMoveOnEventResource
 
 }
 
-public static partial class MoveOnEvents
+public static partial class MoveOnEventsUnit
 {
     // MoveOnEvents.pas:381
     public static void RegisterMoveOnEvents(TEngine AEngine)

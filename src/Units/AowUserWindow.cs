@@ -1,6 +1,6 @@
 // Translated from AowUserWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.AoWWindow;
 
@@ -34,7 +34,7 @@ public partial class TAoWUserWindow : TAOWWindow
 }
 
 public delegate void TDrawSurfaceExEvent(TSurface Surface, ref bool Handled);
-public static partial class AowUserWindow
+public static partial class AowUserWindowUnit
 {
     // AowUserWindow.pas:38
     public static void Register()

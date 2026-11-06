@@ -1,6 +1,6 @@
 // Translated from AOWMenu.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
 using Aow.Units.AOWMenuBar;
@@ -997,7 +997,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     public TNotifyEvent OnSelect { get => FOnSelect; set => FOnSelect = value; }
 }
 
-public static partial class AOWMenu
+public static partial class AOWMenuUnit
 {
     // AOWMenu.pas:748
     public static void Register()

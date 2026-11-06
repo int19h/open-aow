@@ -1,6 +1,8 @@
+using Aow.Rtl;
+
 namespace Aow.Units.GFXE;
 
-public static partial class GFXE
+public static partial class GFXEUnit
 {
     public static void RemapSurface08to555(object source, object destination, int sourcePitch,
         int destinationPitch, int width, int height, TGFXEPalette palette) =>
@@ -13,8 +15,8 @@ public static partial class GFXE
     private static void RemapIndexedSurface(object source, object destination, int sourcePitch,
         int destinationPitch, int width, int height, TGFXEPalette palette, bool rgb565)
     {
-        var input = Rtl.Rtl.BytePointer(source);
-        var output = Rtl.Rtl.BytePointer(destination);
+        var input = RtlUnit.BytePointer(source);
+        var output = RtlUnit.BytePointer(destination);
         for (int y = 0; y < height; y++)
         {
             var src = input + y * sourcePitch;

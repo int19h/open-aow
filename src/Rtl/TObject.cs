@@ -6,7 +6,7 @@ public class TObject
     internal static int AllocateId() => Interlocked.Increment(ref nextId);
     public int InstanceId { get; } = AllocateId();
     public static string ClassNameOf(Type type) => type.Name.TrimStart('@');
-    public virtual void Destroy() => Rtl.ForgetReference(this);
+    public virtual void Destroy() => RtlUnit.ForgetReference(this);
     public virtual void FreeInstance() { }
 
 }
@@ -18,6 +18,6 @@ public static class TObjectExtensions
     {
         if (value is null) return;
         try { value.Destroy(); }
-        finally { Rtl.ForgetReference(value); }
+        finally { RtlUnit.ForgetReference(value); }
     }
 }

@@ -1,8 +1,8 @@
 // Translated from AoWWinControl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.Rtl;
+using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXE;
+using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
 
@@ -317,6 +317,6 @@ public partial class TAOWWindowControl : TAoWComponent
 }
 
 public delegate void TAoWOnDrawSurface(TAOWWindowControl Sender, TSurface Surface, int Left, int Top);
-public static partial class AoWWinControl
+public static partial class AoWWinControlUnit
 {
 }

@@ -55,6 +55,6 @@ public partial class TTutorialWindow : TDataModule
     }
 }
 
-public static partial class AoWTutorialWin
+public static partial class AoWTutorialWinUnit
 {
 }

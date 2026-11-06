@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.ItemExpS;
 using Aow.Units.EventLog;
 using Aow.Units.AoWComp;
@@ -17,9 +17,10 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinMan;
-using static Aow.Units.AoWItemBanner.AoWItemBanner;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupport;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.AoWItemBanner.AoWItemBannerUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.AoWItemsFoundDlg;
 
@@ -142,8 +143,8 @@ public partial class TItemsFoundDlg : TDataModule
         if (Hero != null)
         {
             General.FSelectedUnit = Hero;
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.ShowUnit();
-            AoWUnitWindow.AoWUnitWindow.UnitWindow.UnitTab.Selected = 2;
+            AoWUnitWindowUnit.UnitWindow.ShowUnit();
+            AoWUnitWindowUnit.UnitWindow.UnitTab.Selected = 2;
             if (AoWHSMap.FGameType == TGameType.gtTutorial)
             {
                 Event = new TTutorialMessageEventLog(null);
@@ -214,6 +215,6 @@ public partial class TItemsFoundDlg : TDataModule
     }
 }
 
-public static partial class AoWItemsFoundDlg
+public static partial class AoWItemsFoundDlgUnit
 {
 }

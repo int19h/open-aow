@@ -10,7 +10,7 @@ public partial class TImageLibraryFont
     {
         int width = 0;
         // One table lookup per char, no allocation (strings.md 2.4). IsEmpty reads the null switch as Encode did.
-        if (Aow.Rtl.Rtl.IsEmpty(text)) return width;
+        if (RtlUnit.IsEmpty(text)) return width;
         foreach (char c in text)
         {
             var image = GetSafe(Cp1252.Byte(c));
@@ -21,7 +21,7 @@ public partial class TImageLibraryFont
 
     internal void ShowText(int x, int y, string text, in TSurfaceDesc sd)
     {
-        if (Aow.Rtl.Rtl.IsEmpty(text)) return;
+        if (RtlUnit.IsEmpty(text)) return;
         foreach (char c in text)
         {
             var image = GetSafe(Cp1252.Byte(c));
@@ -36,10 +36,10 @@ public partial class TImageLibraryFont
         {
             var palette = (TLibraryImagePalette)FPaletteManager.FPalettes.List[0];
             palette.FPalette.Entries[FFontColorPaletteIndex].Value =
-                GFXE.GFXE.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
+                GFXEUnit.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
             if (palette.FRemapPalette != null)
                 palette.FRemapPalette.Entries[FFontColorPaletteIndex].Value =
-                    GFXE.GFXE.Color2PixelInfo(value, palette.FRemapPalette.PixelFormatID, null);
+                    GFXEUnit.Color2PixelInfo(value, palette.FRemapPalette.PixelFormatID, null);
         }
         FColor = value;
     }
