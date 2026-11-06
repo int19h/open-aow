@@ -139,6 +139,10 @@ public partial class TIWindow : TDataModule
     public TAOWLabel PopulationLbl;
     public TIvTranslator Translator;
     public TItemHS FItemBag;
+    // Renderers of the structure views (Structure.Views.cs): the panel of each InfoPanel key and the
+    // screen of each InfoButton key. ClassRegistry adds the original renderers.
+    public static readonly Catalog<StructureView, Action<TIWindow, TStructure>> StructurePanels = new("structure info panel");
+    public static readonly Catalog<StructureView, Action<TIWindow, TStructure>> StructureButtons = new("structure info button");
     // AoWInfoWin.pas:137
     public void InfoWinResize()
     {
@@ -223,76 +227,13 @@ public partial class TIWindow : TDataModule
     public void MainBtnClick()
     {
         TArmyHS Army;
-        string Reason = "";
         General.PlayButtonSound(0);
         if (General.FStructure != null)
         {
-            if (General.FStructure is TCity)
+            var structure = General.FStructure;
+            if (StructureButtons.TryGet(structure.InfoButton(AoWHSMap.FSeatedPlayer), out var open))
             {
-                CityScreen.ShowCity((TCity)General.FStructure);
-            }
-            else
-            {
-                if (General.FStructure is TProductionPlace)
-                {
-                    ProductionScreen.ShowPlace((TProductionPlace)General.FStructure);
-                }
-                else
-                {
-                    if (General.FStructure is TCave)
-                    {
-                        ((TCave)General.FStructure).Enter(AoWHSMap.FSeatedPlayer);
-                    }
-                    else
-                    {
-                        if (General.FStructure is TTeleport)
-                        {
-                            ((TTeleport)General.FStructure).Teleport(AoWHSMap.FSeatedPlayer);
-                        }
-                        else
-                        {
-                            if (General.FStructure is TExplorationSite)
-                            {
-                                ((TExplorationSite)General.FStructure).Search();
-                            }
-                            else
-                            {
-                                if (General.FStructure is TWizardsTower)
-                                {
-                                    ((TWizardsTower)General.FStructure).Enter();
-                                }
-                                else
-                                {
-                                    if (General.FStructure is TArena)
-                                    {
-                                        ((TArena)General.FStructure).Enter();
-                                    }
-                                    else
-                                    {
-                                        if (General.FStructure is TAltar)
-                                        {
-                                            if (!((TAltar)General.FStructure).GetTargeting())
-                                            {
-                                                if (((TAltar)General.FStructure).CanTarget(ref Reason))
-                                                {
-                                                    ((TAltar)General.FStructure).Target();
-                                                }
-                                                else
-                                                {
-                                                    AoWHSMap.ShowWarning(Reason);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                ((TAltar)General.FStructure).CancelTargeting();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                open(this, structure);
             }
         }
         else
@@ -347,148 +288,7 @@ public static partial class AoWInfoWinUnit
     // AoWInfoWin.pas:616
     public static void ShowStructureInfo(TIWindow Dialog, TStructure Structure)
     {
-        if (Structure.GetBuilding())
-        {
-            ShowBuildingInfo(Dialog, Structure);
-        }
-        else
-        {
-            if (Structure.GetRazed())
-            {
-                ShowRazedInfo(Dialog, Structure);
-            }
-            else
-            {
-                if (Structure is TPlayerStructure)
-                {
-                    if (((TPlayerStructure)Structure).FPlayer == AoWHSMap.FSeatedPlayer || AoWEngine.FDebug)
-                    {
-                        if (Structure is TCity)
-                        {
-                            if (((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode))
-                            {
-                                ShowWarCityInfo(Dialog, (TCity)Structure);
-                            }
-                            else
-                            {
-                                ShowCityInfo(Dialog, (TCity)Structure);
-                            }
-                        }
-                        else
-                        {
-                            if (Structure is TProductionPlace)
-                            {
-                                if (((TProductionPlace)Structure).GetMagicSphere() == TMagicSphere.msNone)
-                                {
-                                    ShowProductionInfo(Dialog, (TProductionPlace)Structure);
-                                }
-                                else
-                                {
-                                    ShowProductionIncome(Dialog, (TProductionPlace)Structure);
-                                }
-                            }
-                            else
-                            {
-                                if (Structure is TMine)
-                                {
-                                    ShowMineInfo(Dialog, (TMine)Structure);
-                                }
-                                else
-                                {
-                                    if (Structure is TPowerNode)
-                                    {
-                                        ShowPowerNodeInfo(Dialog, (TPowerNode)Structure);
-                                    }
-                                    else
-                                    {
-                                        if (Structure is TFarm)
-                                        {
-                                            ShowFarmInfo(Dialog, (TFarm)Structure);
-                                        }
-                                        else
-                                        {
-                                            if (Structure is TTower)
-                                            {
-                                                ShowWatchTowerInfo(Dialog, (TTower)Structure);
-                                            }
-                                            else
-                                            {
-                                                if (Structure is TAltar)
-                                                {
-                                                    ShowAltarInfo(Dialog, (TAltar)Structure);
-                                                }
-                                                else
-                                                {
-                                                    ShowGenericInfo(Dialog, Structure);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (Structure is TCity && ((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode))
-                        {
-                            ShowWarCityInfo(Dialog, (TCity)Structure);
-                        }
-                        else
-                        {
-                            ShowOtherPlayerInfo(Dialog, (TPlayerStructure)Structure);
-                        }
-                    }
-                }
-                else
-                {
-                    if (Structure is TSign)
-                    {
-                        ShowSignInfo(Dialog, (TSign)Structure);
-                    }
-                    else
-                    {
-                        if (Structure is TCave)
-                        {
-                            ShowCaveInfo(Dialog, (TCave)Structure);
-                        }
-                        else
-                        {
-                            if (Structure is TTeleport)
-                            {
-                                ShowTeleportInfo(Dialog, (TTeleport)Structure);
-                            }
-                            else
-                            {
-                                if (Structure is TExplorationSite)
-                                {
-                                    ShowExplorationInfo(Dialog, (TExplorationSite)Structure);
-                                }
-                                else
-                                {
-                                    if (Structure is TWizardsTower)
-                                    {
-                                        ShowTowerInfo(Dialog, (TWizardsTower)Structure);
-                                    }
-                                    else
-                                    {
-                                        if (Structure is TArena)
-                                        {
-                                            ShowArenaInfo(Dialog, (TArena)Structure);
-                                        }
-                                        else
-                                        {
-                                            ShowGenericInfo(Dialog, Structure);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
+        TIWindow.StructurePanels[Structure.InfoPanel(AoWHSMap.FSeatedPlayer)](Dialog, Structure);
         if (!TBWindow.StructButton.Visible)
         {
             IWindow.InfoWin.Visible = true;

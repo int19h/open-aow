@@ -73,6 +73,9 @@ public partial class TMapEvents : TDataModule
     { }
 
     public TAoWMapControl TheMap;
+    // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
+    // the original renderers.
+    public static readonly Catalog<StructureView, Action<TMapEvents, TStructure>> StructureScreens = new("map structure screen");
     // aowMapEvents.pas:93
     public void TheMapActivateAbility(TActivateAbilityInfo Request)
     {
@@ -947,32 +950,11 @@ public partial class TMapEvents : TDataModule
     // aowMapEvents.pas:518
     public void TheMapStructureDblClick(TStructure Structure)
     {
-        if (Structure == General.FStructure)
+        if (Structure == General.FStructure && Structure != null)
         {
-            if (General.FStructure is TCity && ((TCity)General.FStructure).FPlayer == AoWHSMap.FSeatedPlayer)
+            if (StructureScreens.TryGet(Structure.DoubleClick(AoWHSMap.FSeatedPlayer), out var open))
             {
-                CityScreen.ShowCity((TCity)General.FStructure);
-            }
-            else
-            {
-                if (General.FStructure is TProductionPlace && ((TProductionPlace)General.FStructure).CanDblClick() && ((TPlayerStructure)General.FStructure).FPlayer == AoWHSMap.FSeatedPlayer)
-                {
-                    ProductionScreen.ShowPlace((TProductionPlace)General.FStructure);
-                }
-                else
-                {
-                    if (General.FStructure is TWizardsTower)
-                    {
-                        ((TWizardsTower)General.FStructure).Enter();
-                    }
-                    else
-                    {
-                        if (General.FStructure is TArena)
-                        {
-                            ((TArena)General.FStructure).Enter();
-                        }
-                    }
-                }
+                open(this, Structure);
             }
         }
     }

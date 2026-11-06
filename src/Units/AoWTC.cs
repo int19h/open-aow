@@ -9255,7 +9255,8 @@ public partial class TRndTacHsm : TObject
         bool SiteCombat;
         bool RandomTerrain;
         string FileName;
-        THexagonSprite Structure;
+        TStructure Structure;
+        THexagonBridge Bridge;
         FixedArray_int_20 Weights = default;
         bool Blocked(int X, int Y, int First, int Last)
         {
@@ -9328,226 +9329,72 @@ public partial class TRndTacHsm : TObject
         }
 
         FileName = "TCMaps\\";
-        Structure = AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(TStructure));
+        Structure = (TStructure)AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(TStructure));
+        Bridge = null;
         if (Structure == null)
         {
-            Structure = AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(THexagonBridge));
+            Bridge = (THexagonBridge)AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(THexagonBridge));
         }
 
         if (Structure != null)
         {
-            switch (Structure.EClass.ClassID)
+            // The kind names the map (Structure.Views.cs) and reports what the map takes from the combat.
+            var site = new CombatMapSite(SiteCombat, RandomTerrain, (Direction, Kind) =>
             {
-                case 131336:
-                    FileName = FileName + "0";
+                CenterHNtoHX(X, Y, Direction, ref J, ref K);
+                return AoWHSMap.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHS(Kind) != null;
+            });
+            FileName = FileName + Structure.CombatMapName(site);
+            RandomTerrain = site.RandomTerrain;
+            if (site.TakesCombatItems)
+            {
+                FItems = (TItemList)Combat.FItems;
+            }
+
+            for (int Direction = 1; Direction <= 6; Direction++)
+            {
+                if ((site.FixedTags & (1 << Direction)) != 0)
                 {
-                    I = 1;
-                    for (; I <= 6; I += 1)
-                    {
-                        CenterHNtoHX(X, Y, I, ref J, ref K);
-                        if (AoWHSMap.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHS(typeof(TCity)) != null)
-                        {
-                            FileName = FileName + IntToStr(I);
-                            FTags[I] = 127;
-                        }
-                    }
+                    FTags[Direction] = 127;
                 }
+            }
 
-                    while (FileName.Length < 11)
-                    {
-                        FileName = FileName + "x";
-                    }
-
-                    FileName = FileName + "C000";
+            FTags[0] = 127;
+        }
+        else if (Bridge != null)
+        {
+            RandomTerrain = false;
+            FRandomTerrain = false;
+            FileName = FileName + "Br";
+            switch (FTerrain[0])
+            {
+                case 10:
+                    FileName = FileName + "UW";
                     break;
-                case 131950:
-                    FileName = FileName + "Farmx000";
+                case 6:
+                    FileName = FileName + "Ic";
                     break;
-                case 131962:
-                    FileName = FileName + "Minex000";
+                case 9:
+                    FileName = FileName + "La";
                     break;
-                case 131328:
-                    FileName = FileName + "SLife000";
-                    break;
-                case 133454:
-                    FileName = FileName + "NodeA000";
-                    break;
-                case 132270:
-                    FileName = FileName + "NodeD000";
-                    break;
-                case 131482:
-                    FileName = FileName + "NodeC000";
-                    break;
-                case 132302:
-                    FileName = FileName + "NodeE000";
-                    break;
-                case 132062:
-                    FileName = FileName + "NodeF000";
-                    break;
-                case 131953:
-                    FileName = FileName + "NodeL000";
-                    break;
-                case 132275:
-                    FileName = FileName + "NodeW000";
-                    break;
-                case 132670:
-                    FileName = FileName + "RPool000";
-                    break;
-                case 133422:
-                    FileName = FileName + "BGuil000";
-                    break;
-                case 132286:
-                    FileName = FileName + "SYard000";
-                    break;
-                case 132158:
-                    FileName = FileName + "TFort000";
-                    break;
-                case 131966:
-                    if (RandomTerrain)
-                    {
-                        FileName = FileName + "CaveN000";
-                    }
-                    else
-                    {
-                        FileName = FileName + "CaveE000";
-                    }
-
-                    break;
-                case 131332:
-                    if (FRandomTerrain)
-                    {
-                        FileName = FileName + "TeleN000";
-                    }
-                    else
-                    {
-                        FileName = FileName + "Telep000";
-                    }
-
-                    RandomTerrain = true;
-                    break;
-                case 131886:
-                    if (SiteCombat)
-                    {
-                        FItems = (TItemList)Combat.FItems;
-                        FileName = FileName + "eMrLr00" + IntToStr(Random(4));
-                        I = 1;
-                        for (; I <= 6; I += 1)
-                        {
-                            FTags[I] = 127;
-                        }
-                    }
-                    else
-                    {
-                        FileName = FileName + "Blank000";
-                    }
-
-                    break;
-                case 131982:
-                    if (SiteCombat)
-                    {
-                        FItems = (TItemList)Combat.FItems;
-                        FileName = FileName + "eZigg00" + IntToStr(Random(2));
-                        I = 1;
-                        for (; I <= 6; I += 1)
-                        {
-                            FTags[I] = 127;
-                        }
-                    }
-                    else
-                    {
-                        FileName = FileName + "Blank000";
-                    }
-
-                    break;
-                case 131850:
-                    if (SiteCombat)
-                    {
-                        FItems = (TItemList)Combat.FItems;
-                        FileName = FileName + "eCrpt00" + IntToStr(Random(2));
-                        I = 1;
-                        for (; I <= 6; I += 1)
-                        {
-                            FTags[I] = 127;
-                        }
-                    }
-                    else
-                    {
-                        FileName = FileName + "Blank000";
-                    }
-
-                    break;
-                case 131994:
-                    if (SiteCombat)
-                    {
-                        FItems = (TItemList)Combat.FItems;
-                        FileName = FileName + "eRuin00" + IntToStr(Random(2));
-                        I = 1;
-                        for (; I <= 6; I += 1)
-                        {
-                            FTags[I] = 127;
-                        }
-                    }
-                    else
-                    {
-                        FileName = FileName + "Blank000";
-                    }
-
-                    break;
-                case 131882:
-                    if (SiteCombat)
-                    {
-                        FileName = FileName + "eDung00" + IntToStr(Random(2));
-                        I = 1;
-                        for (; I <= 6; I += 1)
-                        {
-                            FTags[I] = 127;
-                        }
-                    }
-                    else
-                    {
-                        FileName = FileName + "Blank000";
-                    }
-
-                    break;
-                case 133242:
-                    RandomTerrain = false;
-                    FRandomTerrain = false;
-                    FileName = FileName + "Br";
-                    switch (FTerrain[0])
-                    {
-                        case 10:
-                            FileName = FileName + "UW";
-                            break;
-                        case 6:
-                            FileName = FileName + "Ic";
-                            break;
-                        case 9:
-                            FileName = FileName + "La";
-                            break;
-                        case 13:
-                            FileName = FileName + "UI";
-                            break;
-                        default:
-                            FileName = FileName + "Wa";
-                            break;
-                    }
-
-                    switch (((THexagonBridge)Structure).FDirection)
-                    {
-                        case 1:
-                            FileName = FileName + "A000";
-                            break;
-                        case 2:
-                            FileName = FileName + "B000";
-                            break;
-                        default:
-                            FileName = FileName + "C000";
-                            break;
-                    }
-
+                case 13:
+                    FileName = FileName + "UI";
                     break;
                 default:
-                    FileName = FileName + "Blank000";
+                    FileName = FileName + "Wa";
+                    break;
+            }
+
+            switch (Bridge.FDirection)
+            {
+                case 1:
+                    FileName = FileName + "A000";
+                    break;
+                case 2:
+                    FileName = FileName + "B000";
+                    break;
+                default:
+                    FileName = FileName + "C000";
                     break;
             }
 
