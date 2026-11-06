@@ -250,8 +250,10 @@ from 9.5-1 on.
 into a document and back, the engine reads only images the converter wrote, and `ReadWrite`, the
 transpiled streams and the image stay as they are (9.7 draft section 4). So every boundary of 2.4
 stays in the product, and none moves into the converter. `src/Formats` takes `Cp1252` from
-`Aow.Rtl`, writes `rwString` through it, and reports a char outside the table with
-`Cp1252.IsMapped`, the predicate the input mapper and `Normalize` use too. 9.7-1 does not need the
+`Aow.Rtl`, writes `rwString` through it, and refuses a char outside the table with
+`Cp1252.IsMapped` (`E_TEXT`, with its location), the predicate the input mapper and `Normalize`
+use too. The refusal applies only to document input and changes no font or input normalization.
+9.7-1 does not need the
 table `AnsiString.ToString` uses, since `Cp1252` is on main and after P1b the shim delegates to it.
 From 9.7 on the table is a format contract and frozen (2.1). The strings that hold binary values
 (2.4) round trip through the 9.7 escape rule for U+007F to U+009F, and `strings.md` names them for

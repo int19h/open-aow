@@ -308,6 +308,45 @@ adopt its own save and map formats behind converting readers for the original on
 the first stage the persistence code is transpiled and writes the original format anyway, which
 makes the comparison cheap.
 
+Milestone 9.7 (`specs/own-formats.md`) adopted them. The decisions:
+
+- The own format is primary for the in-scope families: world saves (`.asg`), custom and tactical
+  maps (`.hsm`), campaign maps (`.csm`), campaign definitions and saves (`.cam`, `.acg`), the
+  scenario set (`.hss`) and the user hero and item lists (`.ahl`, `.ail`). Files keep the
+  original extensions, and content, never the extension, tells a document from an original.
+- A document is canonical JSON: UTF-8 without a byte order mark, LF line ends, always pretty
+  printed with two-space indentation for hand editing, members in schema order, with one
+  exception: each row of a map's `Fields` takes one line. It carries `$format`, `$version`,
+  `$kind` and `$container`, and the same state always writes the same bytes. Readers also accept a
+  document the user compressed with gzip.
+- The game writes only own documents and reads both formats. An original passes through the
+  converter on every open and must reproduce itself byte for byte (G1, unmasked) before the
+  engine sees it. A document that fails validation, or an original that fails G1, is a load
+  error that leaves the current game and the file as they were. Nothing falls back to the
+  original bytes.
+- `aowconv` (`src/Convert`, over the library `src/Formats`) converts both ways without creating
+  a game object. Its export to the original format is strict: it refuses state the original
+  format cannot hold and names it, rather than dropping it. Only an explicit `--allow-lossy`
+  drops values, and it reports each loss and stays outside every gate check. Version 1 of the
+  format defines no lossy projection.
+- User writes are safe. A save is converted, validated and serialized before anything is
+  written, then a sibling temporary is written, flushed and moved over the old file in one step
+  (`specs/platform.md` 7). A shipped file is never written: a save under its name goes to the
+  user layer and shadows it.
+- Port-only state takes property ids `0x40000000` to `0x4FFFFFFF`, mod state ids from
+  `0x50000000`. A game without mods writes neither range, so the oracle needs no mask for them.
+- Out of scope until milestone 10: the game set files (`Release\*.pfs`) and the e-mail game
+  index, which keep the original format and paths.
+
+The transition has a cost (`specs/own-formats.md` 6.1). Inside the engine every load and save
+still passes through the Delphi image: property numbers, widths, call order, record layouts and
+the stream code stay the engine's protocol, and JSON alone lifts none of these constraints.
+Conversion costs time and memory: the game loads the largest shipped map in 0.3 to 0.5 s and
+holds the file, its payload, a JSON tree and the engine image on the way (`specs/own-formats.md`
+6.1 and 9.3). The exit from the image (`specs/own-formats.md` 6.3), a typed persistence tree
+with a direct document backend and the legacy codecs as adapters over it, is a prerequisite of
+milestone 10: no persistence interface becomes stable mod API before it is done.
+
 Comparison goes through the port's own comparator (`specs/testing.md` 3.2), never through raw
 bytes. It inflates both sides, so the compression stream is free. It takes a list of masked fields
 for the floating point allowance below. It takes a list of the properties whose children are
@@ -316,6 +355,12 @@ because the hash table code is transpiled and iterates as the original did. When
 replaces a hash table, the oracle shows whether any game logic depended on its order: if it did,
 the state diverges, and the rewrite keeps the order. If only the save order changed, the property
 goes on the list.
+
+Since 9.7 the oracle keeps the native references untouched and converts only the port's side: the
+port's own documents pass once per run through the strict export, and the comparator reads the
+result with its own Python reader, independent of `src/Formats`. The corpus check is exact and
+separate: every in-scope original of the pinned corpus (556 files) must satisfy unmasked G1,
+while the behavior comparison keeps its listed timer normalization.
 
 Milestones, each with its measure:
 
@@ -488,7 +533,13 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
     `Ptr<T>.Unbox(IntOrRef)`, until the collections pass gives each hash list a typed key.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
   port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
-  requires that the original loads a file the port wrote.
+  requires that the original loads a file the port wrote. Milestone 9.7 did this
+  (`specs/own-formats.md`): the game writes versioned JSON documents and reads originals through
+  the converter, `aowconv` exports a document to the original format when the state fits it, and
+  the gate compares through that strict export. The engine still works on the original image in
+  memory, so the explicit-layout records of the persisted `rwData` properties stay until the exit
+  from the image gives each an explicit field adapter, before any persistence interface becomes
+  stable mod API (milestone 10).
 - Performance work comes after the shape is right. The first stage is allowed to be slower than the
   original (deep copies, boxed pointers, byte strings). The second stage measures before it
   optimizes, and uses `Span<T>`, `ref` and inline arrays where the measurement points.
@@ -518,6 +569,8 @@ D:\git\open-aow
 docs/                 this file, process.md, milestones.md, specs/, briefs/               (exists)
 src/Rtl/              the Delphi RTL and VCL shim                                    rtl-shim.md
 src/Units/            editable C# units and their partial class files                transpiler.md
+src/Formats/          the own save and map formats: documents, profiles, codecs      own-formats.md
+src/Convert/          aowconv, the converter's command line                          own-formats.md 3.2
 src/Layout/           hand-owned layout source compiled directly into Aow.Units      ui-layout.md
 src/Graphics/         the rewritten blitters and memory surfaces                     graphics.md
 src/Forms/            the form files as data                                         ui-layout.md

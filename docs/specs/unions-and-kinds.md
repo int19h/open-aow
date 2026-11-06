@@ -361,10 +361,17 @@ fails the gate.
 What 9.6 assumes from 9.7:
 
 1. Until 9.7 lands, the original format is the primary format and the adapters live in `ReadWrite`.
+   Since 9.7 the own format is primary on disk, and the adapters stay in `ReadWrite`, since the
+   engine image remains the engine's protocol (`own-formats.md` 6.1).
 2. The converter keeps class ids as object identity and the property numbering inside itself.
+   During the transition both the converter (its schema and case tables) and the transitional
+   adapter in `ReadWrite` own that numeric legacy knowledge, until the exit of `own-formats.md`
+   6.3 moves it into legacy codecs alone.
 3. Its per-class mapping calls `ToFields` and the registries' `FromFields` unchanged. Brief 9.7-3
    adds the mappings of `TProductionItem` and `TDiplomaticAction` (`own-formats.md` 3.1). The 9.6
-   briefs ran before it merged and left them out.
+   briefs ran before it merged and left them out. 9.7-3 added them in version 1 of the format: a
+   document names the kind as `$case` by its registration key, holds the kind's own fields, and an
+   unregistered id reads as the case `Unknown`, which keeps the id and every value.
 4. The port's own format names order and proposal types and writes only their fields. The census
    tells 9.7 which original fields carry no information.
 5. The oracle compares converter output in byte mode, and the scenarios layer loads the shipped

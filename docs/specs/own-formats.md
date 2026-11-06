@@ -1,9 +1,16 @@
 # Own save and map formats (milestone 9.7)
 
-State: ready to brief, revised 2026-10-30. Applies `9.7-second-opinion.md` F1 to F12,
-`9.7-roadmap-amendments.md` and the driver's transition decision. The review's product
-snapshot is `main` at `41dd67a7e3958181bda692c5fa50144bfa2e3e30`. Each brief records its
-actual base. The census is reconciled after C10 before the game switches.
+State: implemented, 2026-11-06. Revised 2026-10-30 with `9.7-second-opinion.md` F1 to F12,
+`9.7-roadmap-amendments.md` and the driver's transition decision (private `data/rewrite/`). The
+review's product snapshot is `main` at `41dd67a7e3958181bda692c5fa50144bfa2e3e30`. Each brief
+records its actual base. The census is reconciled after C10 before the game switches.
+
+Implemented. The private census 9.7-0 ran on 2026-10-30. Brief 9.7-1 (formats library, converter
+and `aowconv`) merged on 2026-11-05 (PR #94), the private oracle adapter 9.7-2 the same day, and
+the game switch 9.7-3 on 2026-11-06 (PR #111, main `fb52e0c`). Brief 9.7-4 read this document
+against the code of `fb52e0c` and the gate run on its tree: sections 1 to 6 name the code as it
+is, with the deviations of the briefs written in place, section 7 records the briefs, section 8
+stays the disposition of the second opinion, and section 9 holds the result and its evidence.
 
 Covers `docs/milestones.md` row 9.7, `docs/design.md` sections 5 and 9 and
 `docs/specs/persistence.md`. The user's decisions stand: canonical JSON as the
@@ -29,24 +36,32 @@ G1 compares CFS headers and inflated payloads, or exact non-CFS files, as sectio
 container, engine class table, allowed root family, header and checksum rules,
 and document kind. An extension alone does not establish a profile.
 
-| family | extension and kind | original profile and root context | 9.7 status |
-| --- | --- | --- | --- |
-| World saves | `.asg`, `save` | HSM header and world-map root, CFS or raw | Convert and write JSON |
-| Custom maps | `.hsm`, `map` | HSM header and world-map root, CFS or raw | Convert and write JSON when a caller saves |
-| Tactical maps | `.hsm` in `TCMaps`, `map` | HSM header and tactical-map root, CFS or raw | Convert with tactical registration context |
-| Campaign maps | `.csm`, `campaign-map` | HSM header and world-map root, CFS or raw | Convert |
-| Campaign definitions | `.cam`, `campaign` | Stored object with class identity | Convert |
-| Campaign saves | `.acg`, `campaign-save` | Stored campaign, with optional embedded compressed HSM image | Convert and write JSON |
-| Scenario sets | `.hss`, `scenario-set` | HSS header, object body and checksum, root fixed by profile | Convert this file, not its external resources |
-| Hero lists | `.ahl`, `hero-list` | Written object, root fixed by hero-library caller | Convert and write JSON |
-| Item lists | `.ail`, `item-list` | Written object, root fixed by item-library caller | Convert and write JSON |
-| Game-set resources | 12 shipped `.pfs` files | Written objects, CRC-wrapped objects and separate `GENERAL.PFS` flag/string layout | Inventory only, original paths retained until milestone 10 |
-| E-mail game index | `EmailIn/egames.pfs` | Written object and external CRC bookkeeping | Inventory only, original path retained |
+Six original profiles exist (`FileProfile.All` in `src/Formats/Original/FileProfile.cs`), one
+virtual class each, so a new profile joins without a switch. The kinds are the eight of the
+table. A `.hsm` file names its profile through the root class id of its HSM header
+(`GameFiles.ProfileFor`): a `TAoWHSMap` root is `world-hsm`, a `TAoWCombatMap` root is
+`tactical-hsm`.
+
+| family | extension and kind | profile | engine table and root | 9.7 status |
+| --- | --- | --- | --- | --- |
+| World saves | `.asg`, `save` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game writes JSON |
+| Custom maps | `.hsm`, `map` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
+| Tactical maps | `.hsm` in `TCMaps`, `map` | `tactical-hsm` | tactical, `TAoWCombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
+| Campaign maps | `.csm`, `campaign-map` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert |
+| Campaign definitions | `.cam`, `campaign` | `campaign` | campaign, `TAoWCampaign`, stored object with class identity | Convert |
+| Campaign saves | `.acg`, `campaign-save` | `campaign` | campaign, `TAoWCampaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
+| Scenario sets | `.hss`, `scenario-set` | `scenario-set` | game, `TAoWHSSet`, 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHSS` takes the profile and has no caller in the product |
+| Hero lists | `.ahl`, `hero-list` | `hero-list` | game, `THeroLibrary`, written object without class id | Convert. The game writes JSON |
+| Item lists | `.ail`, `item-list` | `item-list` | game, `TItemLibrary`, written object without class id | Convert. The game writes JSON |
+| Game-set resources | 12 shipped `.pfs` files | none | written objects, CRC-wrapped objects and separate `GENERAL.PFS` flag/string layout | Inventory only, original paths retained until milestone 10 |
+| E-mail game index | `EmailIn/egames.pfs` | none | written object and external CRC bookkeeping | Inventory only, original path retained |
 
 The census fixes exact root types, headers, checksums, read entries and write
 entries from code. Unclassified entries block the switch. Redirecting generic
 `ReadFromFile`, `WriteToFile` or CRC methods never implicitly converts excluded
 PFS files. Their callers retain original byte behavior and rules CRC calculations.
+In the code the game set loads through `ReadFromFileCRC` and `WriteToFileCRC`
+(`AoWE.cs`), which take no profile and never reach the file boundary of 4.1.
 
 ILB images, dictionaries, settings, network packets, localization exports and
 other assets are outside 9.7. Editor and networking features retain their own
@@ -65,7 +80,8 @@ fixed byte counts for `rwData`. Some payload readers swallow exceptions, and
 them through `SaveHSMtoStream`. Nested compressed bytes belong to the outer
 campaign's exact payload. `Engine.cs:14629-14651` and recovered
 `Engine.pas:2185-2206` store `rwStrings` as byte length plus text block. The
-count-of-prefixed-strings description in product persistence section 1.4 is stale.
+count-of-prefixed-strings description in product persistence section 1.4 was stale until 9.7-4
+corrected it.
 
 The independent comparator is `tools/oracle/asg.py` `ModelReader`, backed by
 recovery metadata rather than the product codec. Its public reader requires an
@@ -80,7 +96,7 @@ definitions, `Release/Release.hss`, 2 release hero lists, 4 saves, 59 tactical m
 inputs, not verified completion evidence. The 417 native archive saves and 177
 behavior-gate saves have separate provenance and counts.
 
-9.7-0 writes `data/rewrite/9.7-census.json` and its Markdown summary. It pins
+9.7-0 writes `data/rewrite/9.7-0/census.json` and its Markdown summary `census.md`. It pins
 source-relative identity, kind, profile, size, SHA-256 and provenance. Physical
 files, nested objects and synthetic fixtures have separate counts. Excluded PFS
 files and their callers are inventoried, not counted as conversion passes.
@@ -91,6 +107,16 @@ lists, a nonempty campaign save, nested CFS, levels 0 to 3, raw HSM, HSS headers
 and checksum failures, truncation, unknown classes and properties, present defaults,
 stored nulls and every layout case of section 2.5. Synthetic fixtures supplement
 original files with separate counts. No game data enters the product repository.
+
+The accepted census pins 766 files: the 556 in scope, equal to the baseline (delta 0), and 210
+inventory only (the 12 shipped PFS files and 198 rebuilt archive saves). By profile and kind the
+556 are `world-hsm` 492 (`save` 428, `campaign-map` 41, `map` 23), `tactical-hsm` 59,
+`campaign` 2, `hero-list` 2 and `scenario-set` 1. No original item list or campaign save exists in
+the install or the oracle, so those families and the encodings above are synthetic fixtures of
+`aowconv check` (`src/Convert/FixtureCases.cs`, 85 cases at the gate). The census was refreshed
+over the product tree of each later brief with `census.py --refresh` and reviewed against the
+accepted one. The last refresh is over tree `89a686b`, the tree of main `fb52e0c`, and its corpus
+pins are unchanged.
 
 Every persistence site has a rule or named exclusion. Inventory inheritance,
 literal/computed ids, dynamic ranges, conditional calls, storage modes,
@@ -112,7 +138,9 @@ The only formatting exception is `Fields[y][x]`. Coordinates are zero-based,
 rows increase in engine y order and elements in engine x order. There are exactly
 `Height` rows of `Width` objects. Each entire row occupies one line, including
 compact nested objects and sprite lists, with one space after colons and commas.
-No new reference mechanism is introduced.
+No new reference mechanism is introduced. The writer (`src/Formats/Json/JsonWriter.cs`) writes
+any member named `Fields` that holds an array of arrays as rows, so a parsed document writes back
+canonically without the decoder's layout marks.
 
 Integers use invariant decimal without leading plus signs or zeroes. Integer
 negative zero normalizes to `0`. Hex has lowercase digits and even length. Strings
@@ -152,6 +180,9 @@ Profiles specify further named header fields under `header`, with identical
 presence rules in both writers. Fields read by previews or logic remain visible.
 Reserved header bytes and noncanonical encodings use validated layout residue.
 Derived checksums are recomputed, not independently editable. Import verifies them.
+In version 1 an HSM header has `header.Reserved` only when its reserved integer is not 0,
+and a scenario set has `header.Name`, the set name of up to 40 bytes. The HSS CRC-32 is
+recomputed on export.
 
 `src/Formats/schema.json` is embedded source. The census proposal is reviewed
 against call sites before acceptance, then hand-owned. Classes record stable
@@ -160,6 +191,29 @@ codecs, size rules, call conditions, storage modes, absence/default/presence rul
 record fields and canonical ordinals. Objects specify allowed families. Reference
 properties and list/record elements name domains, null sentinels and missing-target
 rules.
+
+What version 1 holds: 970 classes, generated once by the private
+`tools/formats/schema-build` from the 9.7-0 census proposal, the class baseline
+`src/Units.Tests/EClassBaseline.json`, registration reachability and corpus order evidence, then
+hand-owned. `python -B tools/formats/schema-build/regenerate.py` reproduces it. A class records
+its name, class id, parent, the engine tables that enlist it (game, tactical, campaign) and,
+for three classes whose corpus order differs from inherited `ReadWrite` order (`TAoWHSMap`,
+`THero`, `TLeader`), an explicit order. A property records its name, id, codec and, where they
+apply, its size, its object class or family, its callback payload, its dynamic id range and its
+slot base. Absence needs no schema default: an absent member is an absent property in the engine
+image, and the engine's reader applies its own default, constructor-backed `rwData` defaults
+included. Version 1 annotates no reference domain in the schema. The unit validators of 2.7 name
+the one domain the game checks (`player-slot`), and the census marks the other reference
+candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds the one named
+legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
+
+`src/Formats/versions.json` pins the current version (1) with the schema's SHA-256, the codec
+contracts (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
+`written-object-1`, `cp1252-frozen-1`), the mapping contracts (`DiplomaticProposal-1`,
+`ProductionOrder-1`), `unitMappings`, the persisted classes whose game load needs a unit mapping
+(`TAoWHSMap`, `TDiplomaticAction`, `TMapContainer`, `TProductionItem`), and `flatMappings`, the
+kind classes that keep a flat mapping, empty in version 1. `SchemaTests` fails when the schema's
+hash differs from the pinned one.
 
 Initial names use fields without `F`, checked against recovery metadata for local
 arguments, with declaring-class prefixes for collisions. Persisted class, member
@@ -174,13 +228,13 @@ retain numbers where lossless conversion requires them.
 
 | original operation | document and rule |
 | --- | --- |
-| Integer, byte, word and shortint, including `Ex` | Integer with exact storage range and declared enum or reference domain |
+| Integer, byte, word and shortint, including `Ex` | Integer with exact storage range. Version 1 declares no enum or reference domain in the schema |
 | `rwBool` | `true` for presence. Explicit `false` normalizes to absence |
 | `rwString` | String through frozen `Cp1252`. `IsMapped` checks every character. Strict input refuses unmapped characters with locations |
 | `rwStrings` | Array of lines only when the block rule below reproduces exact bytes, otherwise `{ "$text": "..." }` |
 | `rwStringsEx` | `lines` and signed 32-bit `objects` arrays of equal length. Noncanonical text uses `$text` plus `objects`, with decoded line count checked |
-| `rwData` | Named fields with explicit layout and `$padding` for nonzero padding, otherwise a classified exact lowercase hex payload |
-| Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads |
+| `rwData` | Named fields with explicit layout and `$padding` for nonzero padding, otherwise a classified exact lowercase hex payload. Version 1 maps no record to named fields: every `rwData` value is exact hex, and `$padding` does not occur |
+| Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads. Version 1 has one, `TAIPlayerControl.DefenseStrengthMultiplier` |
 | Overlapping record | One authoritative schema field set. Other views derive from it. Uninterpreted bits stay exact, never independently editable aliases |
 | `rwStreamProc` | Typed arrays or codec-specific objects. Bit lists retain `default`, stored `count` and exact `bits`, without capacity rounding. Other identified payloads stay hex until a decoder exists |
 | `rwEObject` | Object with fixed class from schema context, no editable `$class` |
@@ -188,7 +242,8 @@ retain numbers where lossless conversion requires them.
 | `rwChildren` | `Children` in semantic traversal order. Every identity-bearing child slot has explicit `$slot` |
 | Map property 6 | `Fields[y][x]`, fixed field class from the level profile |
 | Dynamic sprites | `Sprites` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity |
-| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile |
+| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `TAoWCampaign` ids 5 (size) and 6 (bytes) form the one member |
+| Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Values the case does not keep go to `$residue`. An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
 | Absent property | Absent member, with documented reader default at game load. A present default value stays present through conversion |
 
 For `rwStrings`, an empty array encodes a zero-length block. A nonempty array
@@ -213,11 +268,25 @@ production or diplomatic case residues. New residue fails that expectation and
 requires mapping review. Converter residue cannot preserve a value through game
 load if the model discards it.
 
+The 9.6 census found such a value only in the other player of a diplomatic action, which the
+model keeps in the common part of `TDiplomaticAction` (`unions-and-kinds.md` 3.7), so no case
+field carries it. A registered kind drops any other stray value on read (roadmap X20), so a
+document whose `$residue` reaches the game loses it at the next save. The case tables live in
+`schema.json` (`ProductionOrder`: keys 1, 2 and 10 to 14, `DiplomaticProposal`: kinds 0 to 9).
+`CaseCodec` (`src/Formats/Original/CaseCodec.cs`) turns the stored members into the case and
+back, and asks the unit side, `ProductionOrderCases` and `DiplomaticProposalCases` in
+`src/Units/FormatMappings.cs`, what the kind writes back through `FromFields` and `ToFields`. A
+document never keeps a case field the kind drops. An unknown case name, a field the case does
+not keep and a registered key under `Unknown` are refused, and a mapped class whose unit side
+is not registered fails with `E_MAPPING`. `aowconv check` counts the `$residue` members of every
+imported document and finds 0.
+
 ### 2.4 Graph identity and canonical order
 
 The stored graph is a tree of owned children, embedded and created objects. Shared
 children retain existing skip rules. Original cross references stay integers,
-annotated with domains. Instance and class-kind identities differ. Identity-bearing
+annotated with domains (in version 1 by the unit validators of 2.7, not by the
+schema). Instance and class-kind identities differ. Identity-bearing
 slots are explicit, so deleting an item never renumbers survivors. The schema
 marks other arrays whose position is identity. Duplicate slots and ids fail.
 
@@ -248,7 +317,11 @@ declared legacy write order, data without gaps and short string prefixes below
 `codec`, `fingerprint` and `parts`. Parts have categories, bounded locations and
 exact bytes or encoding parameters. Categories cover table form/order, value
 prefixes, gaps, overlaps, header extensions and nested compression. Named record
-padding remains `$padding`, not a duplicate editable value.
+padding remains `$padding`, not a duplicate editable value. The codec is
+`property-table-1`, and the code names six categories (`src/Formats/Original/Layout.cs`):
+`table-form-order` (a stored table that the writer does not make from the data order, which
+also places overlapping values at their stored offsets), `gaps`, `value-prefixes`,
+`value-encoding`, `header-extensions` and `nested-compression`.
 
 The fingerprint is SHA-256 over the versioned decoded subtree and relevant profile
 metadata, excluding encoding residue. Parts are untrusted. Validate bounds,
@@ -278,6 +351,19 @@ Tutorial's property 57, nonzero padding, header extensions, gaps, changed length
 removed properties, class/case changes and nested compression. The census records
 categories and counts. Game-written documents are not promised to lack `$layout`.
 
+The `aowconv check` fixtures cover the long prefix of a short string, Tutorial's property 57,
+long table entries with a gap after a Boolean, a noncanonical table order, the HSM and HSS
+header extensions, an edit that invalidates the layout and an export that rebuilds it,
+`--exact-layout` refusing a stale layout, a part that does not fit, and a campaign save whose
+nested map keeps its compressed bytes until an edit recompresses it and rebuilds its size.
+Nonzero padding has no fixture, since version 1 maps no record (2.3). A class change is
+`GameSwitchTests.AllowedClassChangeValidatesTheNewClassFields`. Over the pinned corpus the
+residue is 3142 parts in 61 files: `table-form-order` 3136, `gaps` 5, `header-extensions` 1.
+`tactical-hsm` holds 2999 parts in 52 files, because 52 of the 59 tactical maps store field
+sprites with nonsequential dynamic ids that 1.36 ignores on read. `world-hsm` holds 142 parts in
+8 files (the 7 prepared oracle inputs and one install map that writes `TAoWHSMap` id 31 after
+id 30), and `scenario-set` 1 part in its one file. The check expectation file pins these counts.
+
 ### 2.6 Versioning and code page
 
 `$version` is a positive integer. Writers emit the current one. Readers retain
@@ -299,6 +385,13 @@ chains, renamed classes/cases, defaults and both residue types.
 A test checks them against the current version. Golden binary/document pairs pin
 behavior too, since unchanged mapping names do not prove unchanged code. Mapping
 implementation changes receive format-change review.
+
+Version 1 is the only version, so `MigrationChain.Default` holds no step and
+`src/Formats/Migrations` holds the chain type only. `MigrationTests` run a test chain from
+version 1 to 3 over the golden hero lists of `src/Formats.Tests/Golden`, check that every step
+runs and names the values it synthesizes, and that a newer version fails with both numbers. The
+production order and diplomatic proposal mappings landed inside 9.7-3, before any game wrote a
+document, so they are part of version 1 and no flat-field migration exists.
 
 9.7-1 uses `Aow.Rtl.Cp1252` from 9.5-P1b, including `IsMapped`, never `AnsiString`.
 It does not wait for 9.5-1. The table is frozen from 9.7-1 onward. Fixtures cover
@@ -333,6 +426,21 @@ Validation protects loading and execution invariants, not strategic sense. It
 never guesses a repair. Legacy exceptions and compatibility normalization are
 narrow named rules backed by original fixtures, not blanket integer exemptions.
 
+What runs in version 1. Structural validation is the strict image encoding of
+`GameFiles.ExportImage`: unknown members, classes and properties, incompatible families,
+duplicate slots, dimensions and row lengths, storage ranges and mistyped reserved members fail
+there. The game validators are `FormatMapping.Validators`, one `unit-content` validator over the
+rules that `ClassRegistry` registers in its third block: `TAoWHSMap.CurrentPlayer` and
+`TAoWHSMap.TurnOrder` name stored slots of the `player-slot` domain (`root.Players.Children`), a
+`TAoWHSMap` needs its `TMapContainer` child, and a `TMapContainer` holds as many `TMapLevel`
+children as its `LevelCount`. A nested document, a campaign's `Map`, validates in its own scope.
+No other reference, ownership or content rule exists yet. `GameSwitchTests` load a shipped save
+edited eleven ways (removed referenced child, unknown and incompatible class, duplicate slot,
+row length, dimensions, storage range, unknown member, mistyped reserved member, missing
+required child, dangling turn order) and check each refusal's code and location and that the
+live map and the source file stay as they were. A removed unreferenced child is accepted, and a
+removed `rwData` property keeps the constructor default.
+
 Initial limits are 256 MiB decompressed bytes per file including embedded streams,
 depth 128, 4 million decoded nodes, 1 million items per collection and 16 MiB
 decoded bytes per string. Check arithmetic for sizes, offsets and dimension
@@ -342,8 +450,15 @@ and never yield partial loads.
 
 Preflight validation and conversion errors leave the current game and source
 file intact. Preflight finishes before existing routines clear the map or set.
-Later rule-execution errors are distinct and never trigger binary fallback.
+Later rule-execution errors are distinct and never fall back to the original bytes.
 This contract does not claim rollback of arbitrary game execution.
+
+`LoadHSM`, `LoadHSMEx`, the previews, `LoadHSS`, `TAoWEngine.LoadCampaign` and
+`AoWWinMan.LoadCampaign` keep the current state on a refusal. The file dialog's
+`LoadSelectedGame` closes the current campaign and map only after the preview of the chosen
+save passed its preflight, and for a campaign save it leaves closing to the campaign loaders
+and starts only a newly loaded map. The dialog change has no unit test, since the dialog needs
+the UI data module.
 
 ### 2.8 Diagnostics
 
@@ -363,6 +478,14 @@ Leader id 17 is absent from root.Leaders. Use an existing id or the documented n
 That path illustrates the contract, not a fixed member. Game, CLI and logs share
 a diagnostic type. Fixtures pin syntax, valid-JSON semantic and migrated-field
 errors exactly.
+
+The type is `FormatDiagnostic` (`src/Formats/Diagnostics.cs`), with 35 stable codes from
+`E_SYNTAX` to `E_UNKNOWN_FORMAT`. Its text is `file:line:column CODE path` for a JSON location,
+`file:0xoffset CODE path [profile]` for a binary one, with `(decompressed)` after the location
+of an inflated or gunzipped input, then the message and the rejected value, the constraint
+and the migration where they exist. A dangling reference reads, for example,
+`The player-slot 1 is absent from root.Players.Children. Use an existing one.` The game logs
+the same text in its file log (4.2), and a refused load raises `EGameFileError` with it.
 
 ### 2.9 Content detection
 
@@ -427,7 +550,13 @@ diff after game load/save. Canonical ordering makes real changes visible.
   `ProductionOrder.ToFields` and `FromFields`. `TDiplomaticAction` uses its proposal
   twins. They arrive with 9.6-6 and 9.6-7. Registration invokes no creation delegate
   and draws no random number or instance id. `ClassRegistryTests` checks every
-  schema class requiring a unit mapping.
+  schema class requiring a unit mapping. In the code the item object itself carries
+  `$case` and the case fields (2.3), and `FormatMapping.Register` in `ClassRegistry`'s third
+  block registers four classes: `TAoWHSMap` and `TMapContainer` with content rules,
+  `TProductionItem` and `TDiplomaticAction` with their case units. The test checks that the
+  registered classes are exactly `unitMappings` of `versions.json`, that every rule names
+  members of its schema class, that no `flatMappings` class has a line, and that every class
+  with a case table has its case unit, which `CaseMappings` then holds for the converter.
 - Units supplies data-only game validation. Built-in mappings run without engine
   object construction. Future mod fragments remain declarative, and conversion
   never loads mod assemblies.
@@ -442,6 +571,12 @@ diff after game load/save. Canonical ordering makes real changes visible.
 uses its accepted flat mappings. Unit mappings and the Units project reference
 enter with integration. Later mappings bump the format version and migrate the
 earlier flat documents.
+
+9.7-3 wired the Units side. `Aow.Formats` references only `Aow.Rtl`, `Aow.Units` references
+`Aow.Formats`, and `Aow.Convert` references `Aow.Rtl`, `Aow.Formats` and `Aow.Units`. `aowconv`
+runs the `Aow.Units` module initializer before any command, so a mapped class never converts
+without its mapping, and `check` runs the unit validators over every imported document. The
+case mappings landed in version 1 with 9.7-3 (2.6).
 
 ### 3.2 CLI and safe output
 
@@ -469,6 +604,13 @@ reports encoding invalidation and retains semantic residue. It does not assert
 playability without game-content context. `info` reports profile, kind, version,
 representability, residue and validation coverage. `check` separates G1, eligible
 G2, G-own and supported G3. Unavailable checks are reported with reasons, not passes.
+
+Version 1 defines no schema projection, so `--allow-lossy` is accepted and never loses, and
+exit code 3 does not occur. `check` prints the summary lines of 5.2, a `Validation:` line for
+the unit validators, the pinned census files, per-profile counts, layout parts by category, the
+legacy rules that fired, a `G3:` line that names the independent reader and the profiles
+without one, and timed `Measure:` lines. With `--expect` and the check expectation file it
+fails on any drift of the pinned layout counts. Section 9 quotes its output at the gate.
 
 Exit codes: 0 complete success, 1 comparison difference, 2 error, 3 successful
 explicit lossy conversion. Errors outrank differences, which outrank losses in
@@ -506,6 +648,10 @@ residue. P includes kind and root context absent from headerless original files.
   Existing `asg.ModelReader` covers HSM world and tactical payloads with its
   registered schema. Other profiles explicitly report model checking unavailable
   until an independent reader exists. G1 still covers every in-scope profile.
+  `aowconv` runs no G3. The gate runs it in the model mode of the oracle and scenarios
+  comparisons (177 saves and 92 states, all `world-hsm` saves). `campaign`,
+  `scenario-set`, `hero-list` and `item-list` have no independent reader, so G3 is unavailable
+  for them (section 9).
 
 The corpus and generated documents receive every eligible check. Unknown classes,
 properties and invalid checksums fail rather than becoming untyped catch-all
@@ -540,6 +686,27 @@ profiles. Census coverage includes direct header listing such as `GetHSSetFiles`
 previews and nested campaigns. Excluded PFS callers retain their original paths.
 New direct opens of in-scope files must enter this inventory and boundary.
 
+In the code the boundary has two halves. `GameBoundary` in `src/Formats/GameBoundary.cs`
+converts: `PrepareLoad` takes the file's bytes and a caller profile and returns the engine
+image or the refusal, and `PrepareSave` imports the engine-written image, validates the
+document, checks that the document's own image equals the engine's, and returns the canonical
+bytes. `FileBoundary` in `src/Units/FileBoundary.cs` reads and writes through
+`IRtlHost.Files`, runs the unit validators, logs and caches previews. A caller profile
+(`GameProfile`) names the original profile, the kinds it accepts and the kind it writes:
+`world-map` (`world-hsm`, kinds `save`, `map` and `campaign-map`, writes `save`),
+`tactical-map`, `campaign` (writes `campaign-save`), `scenario-set`, `hero-list` and
+`item-list`. `LoadHSM`, `LoadHSMEx`, `CreatePreviewHSM`, `LoadPreviewHSM`, `SaveHSM`, `LoadHSS`,
+`SaveHSS`, `RetrieveFromFile`, `StoreInFile`, `ReadFromFile` and `WriteToFile` take a
+`GameProfile` parameter, and every product caller passes one. `FileBoundary.Load` returns null
+on a refusal and `LoadOrRaise` raises `EGameFileError` for the routines whose original raised on
+a failed open. `GetHSSetFiles` reads its 52 header bytes through `FileBoundary.ListingHeader`.
+
+The CRC forms run over the engine image, so an original and its own document give one CRC.
+`FileBoundary.ImageCrc32` serves the map CRCs of the multiplayer setup (`AoWSetup.cs`
+`ValidateMap` and `hPickMap`), and the host sends the engine image of its map, so the client's
+CRC of the received stream agrees. `FileBoundary.ImageTailInt32` reads the stored CRC of
+`RELEASE.HSS` for `TAoWHSSet.RetrieveHSSCRC`. The PFS CRCs keep their original routines.
+
 ### 4.2 User data and atomic replacement
 
 Keep existing relative paths: `Save/`, `User/`, `Scenario/Custom/`,
@@ -563,10 +730,28 @@ save and cleans up the temporary. Add the replacement primitive and host support
 to 9.7-3. Do not truncate before conversion. Inject serialization, write and replace
 failures in tests, including replacement of original-format user saves.
 
+In the code `FileBoundary.Replace` writes `<name>.openaow-tmp` through the file service,
+flushes it to the disk (`FileStream.Flush(true)`), closes it and calls
+`IFileSystem.ReplaceFile`, which moves the temporary over the target in one step. A file
+service without the primitive returns false and the save is refused. `LayeredFileSystem`
+resolves both paths in the user layer, so the move stays on one volume and a shipped file is
+shadowed, never written (`platform.md` 7). `GameSwitchTests` inject a serialization, a write
+and a replacement failure, replace an original-format user save with its document, shadow a
+shipped file and refuse a file service without replacement. The user-facing statement that a
+save under an original's name becomes JSON is not written yet (section 9).
+
 Hosts gain `--file-log <path>`. Opens and writes record logical path, resolved
 layer, profile, kind, detected format, version, G1 result or not-applicable reason,
 validation outcome and error code. Physical paths belong in diagnostics/logs,
 never documents. Failed preflight operations are logged too.
+
+`OpenAoW` (`src/Game`) and the Headless host take `--file-log <path>` and write one JSON line per
+open, preview, listing, CRC read and write (`FileLogRecord.ToJson`): `operation`, `path` (as the
+engine names the file), `layer` (`root`, `user` or `single` in the layered file service), `profile`, `use` (the caller
+profile), `kind`, `format`, `version`, `g1` (`equal`, `different at 0x...` or `not applicable:`
+and the reason), `validation` (`passed`, `refused`, `not reached` or not applicable), `error`,
+`diagnostic` and `cached`. A header listing of an original logs its open with G1 and validation
+not applicable.
 
 ### 4.3 Previews and resource use
 
@@ -582,6 +767,18 @@ suffice. Without a reliable token, re-read and hash before reuse. Final load
 validates actual bytes regardless of preview. Same-length hand edits and new
 shadowing invalidate the cache. A corrupt preview reports that file and leaves
 other entries usable.
+
+The listing of the 23 maps of `Scenario/Custom` through the preview preflight took 3.2 s for
+the originals and 3.3 to 3.5 s for their own documents on the recording machine (9.7-3, with
+another implementer run on the same machine), so the session cache is in: `FileBoundary.Previews`,
+a `PreviewCache` bounded by 64 MiB of image bytes that drops the oldest entry first. Its key is
+the resolved layer, the path, the profile, the schema version and the SHA-256 of the bytes just
+read. No change token is trusted, so every lookup reads and hashes the file. Only successful
+preflights enter it, and previews, listings and CRC reads use it, never a final open. With the cache
+the first pass took 3.8 s for originals and 2.5 s for own documents, the second 5 ms and 53 ms,
+with 23 entries and a peak of 138 to 160 MiB. `PreviewCacheTests` cover the second preview, the
+final open, a same-length hand edit, new shadowing, a forty-file listing, the byte bound and a
+corrupt preview. Section 9 records the load and save measurements.
 
 ## 5. Gate and evidence
 
@@ -619,12 +816,39 @@ skipped artifacts and incomplete runs fail. Negative checks change a seed,
 remove a required child and introduce port-only state. They fail at comparison,
 validation or strict export respectively, never vanish through normalization.
 
+The private `tools/oracle/artifacts.py` (9.7-2) does this. It detects own documents by content,
+stages them, runs one strict `aowconv to-original --dir` batch per run directory into
+`<run>.export/original` and writes `<run>.export/manifest.json` with each source and output
+SHA-256, kind, profile, version and zero losses, plus the SHA-256 of `aowconv.dll`,
+`Aow.Formats.dll` and `Aow.Rtl.dll`. A later resolution reuses outputs only when every hash
+matches. A refused batch writes `failure.json` and leaves nothing readable. `asg.inflate` and
+`ModelReader` refuse an own document, so a reader that skips the resolution fails. Since 9.7-3
+the gate passes `--require-own` in the oracle, frames, language-frames and scenarios layers.
+Two of the negative checks differ from the plan above: the removed child is a map field, refused
+at validation with `E_DIMENSIONS`, and the port-only state is refused while `aowconv` reads the
+JSON (`E_UNKNOWN_MEMBER`), before export starts, since the version 1 schema has no port-feature
+member. The mapping anchors take their ids and bytes from the engine's `ReadWrite` methods, the
+case anchors included (a `Migrate` order, an `OfferPeace` proposal and an unknown kind).
+
 Own-document resumption checks load actual own saves through the game. Compare
 subsequent states against established native reload behavior, including known
 reload effects. Where current references do not establish it, record a separate
 native reload fixture under the harness rules. An uninterrupted native run does
 not prove a reload. Keep existing resumption cases and add own cases with separate
 counts. Codec G2 is not game resumption evidence.
+
+`tools/oracle/own_resumption.py` (9.7-3) takes the native evidence the oracle already has: every
+native run loaded its prepared input, an original save, and played on. Each of the seven cases
+converts that input with `aowconv to-own`, checks that the strict export reproduces it under
+unmasked G1, loads the own document through the Headless host, plays three turns and compares
+the four day saves with the native run's in byte and model modes. A port-written own save loaded
+in the middle of a run had no native evidence, because the native runs never reload. The native
+reload fixture (`tools/oracle/README.md` in the private repository) was recorded on 2026-11-06:
+the original game loads `small50-original-a/day-05.asg` and plays three turns, with the harness's
+isolation and the registry restored. The port, loading its own day-05 document, agrees with it in
+every gameplay field of days 06 to 08 in byte and model modes. Four fields of view position
+differ (the map's scroll origin and player 0's last view location): the original moves the view
+after a load in the middle of a game and the port keeps it. Issue #112 tracks the fix.
 
 ### 5.2 Summaries and assertions
 
@@ -658,6 +882,11 @@ and unavailable families. Counts reduced by skipped inputs fail.
 and conditional sites name reviewed rules. Drift, unexplained size changes and
 unclassified readers fail. Missing G3 support never reduces G1 coverage.
 
+Section 9 gives the lines each layer printed at the gate. Two assertions of the table have no
+separate line there: G2 and G-own of the 177 game-written oracle saves (the layer exports them
+strictly and compares the exports), and the mapping anchors and negative checks, which run as
+cases of `test_compare.py` and `test_model_compare.py` inside the oracle layer's test totals.
+
 ## 6. Transition cost, exit and adjacent specifications
 
 ### 6.1 What 9.7 retains
@@ -675,6 +904,13 @@ discriminators and presence. A mapping merged after 9.7-3 adds a version and
 migration from flat fields. Amend 9.6 assumption 2 to name both the converter
 and transitional adapter as owners of numeric legacy knowledge.
 
+The mappings merged inside 9.7-3, so version 1 holds them and no migration from flat fields
+exists. 9.7-4 amended assumption 2 in `unions-and-kinds.md` 4 and the private
+`9.6-spec-draft.md` 4. The cost is measurable: a load holds the file bytes,
+the inflated payload, the JSON tree, the engine image, the engine's memory stream copy and
+then the game objects, and a save adds the engine image, its JSON tree, the re-encoded image of
+the check and the UTF-8 text (section 9).
+
 A persisted array resize before retirement requires an original-size projection,
 extra-entry storage, absence defaults, shrinking behavior and reference remapping.
 Extra entries survive own save/reload. Token events sharing images need compatible
@@ -687,6 +923,8 @@ Property ids `0x40000000` to `0x4FFFFFFF` are port features. Mod property ids st
 at `0x50000000`. Unmodded baseline gameplay writes neither range. The `rw*Ex`
 zero rule omits extension state and rules identity when empty, so the unmodded
 oracle needs no extension mask. Own documents name this state.
+No code writes either range in 9.7, and the version 1 schema has no member there, so a
+document member for one is an unknown member and refused.
 
 The stronger F5 and F10 contract overrides roadmap amendment 4 and X15: strict
 export refuses unrepresentable state rather than dropping it with a report or
@@ -748,21 +986,25 @@ mods-design's proposal to stabilize them and the roadmap's deferral of named
 persistence until after milestone 10. 9.6 is not blocked by exit implementation.
 Mod work that still uses the bridge carries the stated temporary costs.
 
+None of the five steps is implemented. The private roadmap allocates them as briefs PE-1 to
+PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md` section 10
+names them as that step's prerequisite.
+
 ### 6.4 Cross-document reconciliation
 
 9.7-4 records these resolutions in the named documents. Its brief names exact
 paths before editing them.
 
-| document | resolution |
-| --- | --- |
-| 9.6 specification | Current brief numbers, stable case names, lossless unknown cases, meaningful unused values in the model, numeric knowledge in the transitional adapter as well as converter |
-| Construction form | Third `ClassRegistry` block and completeness checks. Descriptors before kinds before mappings. The mod facade owns allocation rather than mod module initializers |
-| 9.5 specification | P1b supplies frozen `Cp1252` and `IsMapped`. Engine byte boundaries remain during transition. Strict JSON refusal does not change font/input normalization |
-| Mods design | PFS stays milestone 10 work. Reference annotations, qualified names, declared rules dependencies, strict export and the API exit prerequisite apply |
-| Roadmap | Apply X12, X19, X24, split ranges and zero rule of X15, and C10 dependency. Strengthen export over X15, limit X28 adapters to transition, move exit before stable milestone 10 persistence API |
-| Product persistence | Correct `rwStrings`, specify profiles and G1 domains, distinguish JSON disk format from retained image, defer plain persisted records until explicit adapters exist |
-| Product testing | Independent Python model reads, untouched native references, strict actual-side export, exact corpus checks versus timer-normalized behavior, own resumptions |
-| Product design, platform and milestones | Primary JSON for scoped families, PFS exclusion, safe user writes, extensions, export rules, transition cost and exit |
+| document | resolution | recorded by 9.7-4 in |
+| --- | --- | --- |
+| 9.6 specification | Current brief numbers, stable case names, lossless unknown cases, meaningful unused values in the model, numeric knowledge in the transitional adapter as well as converter | private `data/rewrite/9.6-spec-draft.md` 4 and 6, product `unions-and-kinds.md` 4 |
+| Construction form | Third `ClassRegistry` block and completeness checks. Descriptors before kinds before mappings. The mod facade owns allocation rather than mod module initializers | private `data/rewrite/construction-form.md` 2.4 and 2.6 |
+| 9.5 specification | P1b supplies frozen `Cp1252` and `IsMapped`. Engine byte boundaries remain during transition. Strict JSON refusal does not change font/input normalization | private `data/rewrite/9.5-spec-draft.md` 2.7, product `strings.md` 2.7 |
+| Mods design | PFS stays milestone 10 work. Reference annotations, qualified names, declared rules dependencies, strict export and the API exit prerequisite apply | private `data/rewrite/mods-design.md` 1, 4.3, 5.1 to 5.3 and 7 |
+| Roadmap | Apply X12, X19, X24, split ranges and zero rule of X15, and C10 dependency. Strengthen export over X15, limit X28 adapters to transition, move exit before stable milestone 10 persistence API | private `data/rewrite/roadmap.md` X12, X15, X19, X24, X28, phases 1, 6 and 8, sections 3 and 4 |
+| Product persistence | Correct `rwStrings`, specify profiles and G1 domains, distinguish JSON disk format from retained image, defer plain persisted records until explicit adapters exist | `persistence.md` 1 and 5 |
+| Product testing | Independent Python model reads, untouched native references, strict actual-side export, exact corpus checks versus timer-normalized behavior, own resumptions | `testing.md` 3.2 |
+| Product design, platform and milestones | Primary JSON for scoped families, PFS exclusion, safe user writes, extensions, export rules, transition cost and exit | `../design.md` 5 and 9, `platform.md` 7, `../milestones.md` row 9.7 and section 10 |
 
 These stronger contracts resolve conflicts. Older wording in another document
 never authorizes automatic loss, stable numeric persistence API or an oracle bypass.
@@ -804,6 +1046,16 @@ Order and proposal mappings land with whichever of 9.7-3, 9.6-6 and 9.6-7 lands
 later. A mapping added after the switch carries a version bump and migration from
 flat fields. 9.7-4 follows both 9.7-3 and 9.6-7.
 
+How the briefs ran:
+
+| brief | landed | notes |
+| --- | --- | --- |
+| 9.7-0 census | private `8a2f4d0`, 2026-10-30 | The tool is `tools/rewrite/formats/census.py` and its output `data/rewrite/9.7-0/` (`census.json`, `census.md`, `schema.json`). The corpus reproduced the 556-file baseline with delta 0. The census was refreshed with `--refresh` over the trees of 9.7-3, last over `89a686b` |
+| 9.7-1 formats and CLI | PR #94, 2026-11-05, private side `23c9501` | The gate command is `aowconv check --expect data/rewrite/9.7-1/check-expect.json` (since 9.7-3 `check-expect.9.7-3.json`), an expectation file that names the census by path and SHA-256 and pins the layout counts. The schema generator is the private `tools/formats/schema-build` |
+| 9.7-2 oracle adapter | private `0c3794c` and the review fixes `bb5b4cc`, 2026-11-05 | `artifacts.py` resolves own actuals through one strict batch per run directory (5.1). The gate kept native actuals until 9.7-3 |
+| 9.7-3 game switch | PR #111, 2026-11-06, main `fb52e0c`, private `e933328` to `351deab` | The production order and diplomatic proposal mappings landed here, in version 1, after 9.6-6 and 9.6-7 merged. Review fixes A to H: the file dialog close order (2.7), the unit validators in `aowconv check`, the CRC forms over the engine image (4.1), the preview cache bound (4.3), the flush before the replacement (4.2), the logged header listing (4.2) and two tests of 2.7 |
+| 9.7-4 documents | this revision | The report is section 9 |
+
 ## 8. Second opinion disposition
 
 | finding | disposition | reason and applied contract |
@@ -825,3 +1077,164 @@ No finding is rejected. Collected roadmap amendments apply with the stronger
 export and text-input rules above. The driver's exit deadline supersedes the
 roadmap's later named-persistence deferral. Readiness means contracts and brief
 dependencies are specified, not that implementation or gate evidence already exists.
+
+## 9. Result
+
+### 9.1 The gate
+
+`python tools/check.py` passed all 13 layers on the tree of main `fb52e0c` (tree `89a686b`,
+private gate log `tools/obj/check-3o2it0g3`, 2026-11-06, 1,260 s with 8 jobs). Its summary:
+
+```text
+product: PASS (3646 tests, 2497 platform assertions, 36 headless checks, sort dump 2994 lines, Strings check: 0 findings, zero build warnings)
+transpiler: PASS (328 tests)
+remaining-todos: PASS (remaining TODO checks: 53 passed, 0 failed, movement checks: 27 passed in 13 groups)
+forms: PASS (253 tests, reference diff 81 of 81 files in forms-reference.diff)
+localization: PASS (L1/L2: PASS, 6683 entries, 100245 lookup checks, 181410 assertions | Behavior: PASS, 1051 assertions across format variants, malformed files, context fallback, native restoration and language settings | Components: PASS, 66900 assertions for TIvDictionary, generated resource startup, object trees, shared form dictionary and reload)
+probes: PASS (46 matched)
+persistence: PASS (7200 byte fixtures, 200 resumptions, 12 structural/profile checks | Schema: 0 unclassified sites, 0 registration ambiguities (1152 sites, 980 property rules, 43 dynamic sites naming 7 reviewed rules, 110 conditional property sites with reviewed presence and absence rules) | 766 census pins | 306 oracle readers classified | Product sources: 0 of 638 pinned sources differ from D:\git\open-aow and 0 are absent, census base 89a686b | Corpus: 556 original files, 556 G1 equal, 556 imported documents G2 equal, 0 unknown properties | Fixtures: 85 cases, all expected results matched | Own: all eligible documents G-own equal (595 documents), 0 strict export losses | Layout: 3142 parts in 61 original files, 0 unexpected case residues | Validation: 556 imported documents pass the unit validators (unit-content, 4 mapped classes), 0 refused | Expect: layout parts, residue files, categories, per-profile residue, legacy rules and case residues match check-expect.9.7-3.json (b89a84c16793))
+oracle: PASS (7 scenarios, 177/177 saves equal to original in byte and model modes, export: 177 own documents, 0 strict export losses, 0 native actual states, Own resumptions: 7 scenarios, 7 own inputs loaded, 28/28 following saves equal to native reload evidence, 0 losses, oracle tests: 48 run, 0 skipped)
+frames: PASS (100/100 pixel-identical, zero masks, 61 states and 7 dialog saves equal, export: 68 own documents, 0 strict export losses, 0 native actual states)
+audio: PASS (P5 audio: PASS, 214 WAV decoded, 24 songs rendered 5 seconds each to memory, song end and loop, Galaxy fades and samples, 4 muted SDL presets, title startup, missing library, 460 assertions)
+pacing: PASS (300 frames, 32.895..33.108 ms, no catch-up after 70.218 ms)
+language-frames: PASS (L3/L4, 7/7 frames pixel-identical, German complete map state equal, English Undead rendered, German glyphs present, export: 1 own documents, 0 strict export losses, 0 native actual states)
+scenarios: PASS (Scenarios: PASS, 23 shipped maps started through menus, shipped titles and descriptions verified, human first player, 3 completed turns each, 92 complete states equal (both), 92 frames equal, zero masks | Scenarios export: 92 of 92 actual states own documents, 92 strict exports, 0 losses, 0 native actuals, 92 expected states and 23 source maps native)
+```
+
+The product layer's 3,646 tests are `Rtl.Tests` 338, `Units.Tests` 3,033 and `Formats.Tests` 275.
+The persistence layer ran `schema_check.py`:
+
+```text
+Schema: 0 unclassified sites, 0 registration ambiguities (1152 sites, 980 property rules, 43 dynamic sites naming 7 reviewed rules, 110 conditional property sites with reviewed presence and absence rules)
+Pins: 766 of 766 census files present with their pinned size and SHA-256 (556 in scope, 210 inventory only), census 22b21ce4ad56
+Oracle readers: 306 call sites in 23 files, 0 unclassified or drifted (native-only 142, not-a-reader 8, original-only 30, pinned-native-product 3, resolved 28, test 95), 9.7-0 census listed 306
+Product sources: 0 of 638 pinned sources differ from D:\git\open-aow and 0 are absent, census base 89a686b
+schema_check: PASS
+```
+
+and `aowconv check --expect data/rewrite/9.7-1/check-expect.9.7-3.json`:
+
+```text
+Corpus: 556 original files, 556 G1 equal, 556 imported documents G2 equal, 0 unknown properties
+Fixtures: 85 cases, all expected results matched
+Own: all eligible documents G-own equal (595 documents), 0 strict export losses
+Layout: 3142 parts in 61 original files, 0 unexpected case residues
+Validation: 556 imported documents pass the unit validators (unit-content, 4 mapped classes), 0 refused
+Schema: 0 unclassified sites (census 22b21ce4ad56), 0 registration ambiguities in 3 engine tables (measured at schema load, 970 classes, schema 5ecbbc56c94a)
+Pinned: 556 of 556 census files present with their pinned SHA-256
+Profile campaign: 2 files, 2 G1, 2 G2, 2 G-own, 0 layout parts in 0 files
+Profile hero-list: 2 files, 2 G1, 2 G2, 2 G-own, 0 layout parts in 0 files
+Profile scenario-set: 1 files, 1 G1, 1 G2, 1 G-own, 1 layout parts in 1 files
+Profile tactical-hsm: 59 files, 59 G1, 59 G2, 59 G-own, 2999 layout parts in 52 files
+Profile world-hsm: 492 files, 492 G1, 492 G2, 492 G-own, 142 layout parts in 8 files
+Layout parts by category: gaps 5, header-extensions 1, table-form-order 3136
+Legacy rules: LEGACY_VALLEY01_SPRITE 1 in 1 file(s) (install:Scenario/Campaign/Valley01.CSM)
+G3: unavailable in aowconv. The independent reader is tools/oracle/asg.py ModelReader (world-hsm and tactical-hsm payloads), run by the 9.7-2 gate. Other profiles have no independent reader yet.
+Measure: install:Release/Release.hss (scenario-set), 1060096 bytes, 1060096 payload bytes, own JSON 2222594 bytes, import 16 ms, export 33 ms
+Measure: oracle:original/large/large-original-a/day-20.asg (world-hsm), 116037 bytes, 908397 payload bytes, own JSON 4127313 bytes, import 404 ms, export 162 ms
+Measure: oracle:original/large/large-original-b/day-20.asg (world-hsm), 116037 bytes, 908397 payload bytes, own JSON 4127313 bytes, import 402 ms, export 163 ms
+Expect: layout parts, residue files, categories, per-profile residue, legacy rules and case residues match check-expect.9.7-3.json (b89a84c16793)
+```
+
+The oracle layer's per-scenario lines are `Oracle small: 51/51 saves equal in byte and model modes,
+list normalizations [], 51 own documents exported with 0 losses, 0 native actuals` and the same
+with 21 of 21 for `large`, `underground`, `large_igor`, `heroes`, `magic` and `water`, then
+`Oracle export: 177 of 177 actual saves own documents, 177 strict exports, 0 losses, 0 native
+actuals`. `own_resumption.py` printed `Own resumption <scenario>: 4 day saves from an own input,
+all equal to the native run in byte and model modes` for each of the seven, then `Own
+resumptions: 7 scenarios, 7 own inputs loaded, 28/28 following saves equal to native reload
+evidence, 0 losses`. `test_compare.py` ran 21 tests and `test_model_compare.py` 27, all OK.
+
+What holds. Every in-scope corpus file, 556 of 556, round trips byte for byte under unmasked G1,
+and every imported document satisfies G2. The game writes only own documents: 177 oracle saves,
+92 scenario states, 68 frame states and dialog saves and 1 language-frames state are own JSON,
+and their strict exports lose nothing and equal the native references. The boundary has no
+fallback path (4.1), and no layer found a native actual state. The own resumptions are a
+separate count: 7 own inputs loaded, 28 following saves equal.
+
+### 9.2 G3 families
+
+| profile | G3 |
+| --- | --- |
+| `world-hsm` | Supported. `ModelReader` reads the 177 oracle saves and the 92 scenario states in model mode, all equal |
+| `tactical-hsm` | `ModelReader` reads tactical payloads, but no gate layer runs G3 over the 59 tactical maps. G1 and G2 cover them |
+| `campaign` | Unavailable: no independent reader. G1, G2 and G-own cover the 2 campaign definitions and the campaign save fixtures |
+| `scenario-set` | Unavailable: no independent reader. G1, G2 and G-own cover `Release.hss` |
+| `hero-list` | Unavailable: no independent reader. G1, G2 and G-own cover the 2 release lists and the fixtures |
+| `item-list` | Unavailable: no independent reader. No original exists, the fixtures cover the family |
+
+### 9.3 Measurements
+
+9.7-1 measured `aowconv info` in Release, one process per file, cold JIT:
+
+| file | original | payload | own JSON | import | write | parse | export | peak working set |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `Scenario/Campaign/Valley Highman.csm` (largest map) | 82330 | 781077 | 3037782 | 378 ms | 35 ms | 164 ms | 158 ms | 122.2 MiB |
+| `Scenario/Custom/After the Fall.HSM` (largest custom map) | 78016 | 754710 | 2988622 | 381 ms | 36 ms | 193 ms | 131 ms | 134.1 MiB |
+| oracle `large-original-a/day-20.asg` (largest save) | 116037 | 908392 | 4126756 | 421 ms | 46 ms | 203 ms | 149 ms | 149.4 MiB |
+| `Keepers.CAM` with After the Fall as its map (`.acg` fixture) | 144292 | 144292 | 3355024 | 477 ms | 35 ms | 164 ms | 238 ms | 140.3 MiB |
+
+9.7-3 measured the game's loads and saves through the boundary with the Release scratch tools,
+on the same machine while another implementer run was active:
+
+| file | original | image | own JSON | original load | own load | save | peak |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `Valley Highman.csm` (largest map) | 82330 | 781077 | 3037782 | 502 ms | 308 ms | 539 ms | 186.3 MiB |
+| `After the Fall.HSM` | 78016 | 754710 | 2988622 | 503 ms | 265 ms | 529 ms | 176.8 MiB |
+| `large-original-a/day-20.asg` (largest oracle save) | 116037 | 908392 | 4126756 | 597 ms | 375 ms | 571 ms | 209.0 MiB |
+| `Keepers.CAM` with After the Fall (`.acg`) | 146672 | 146672 | 3359784 | 680 ms | 409 ms | 649 ms | 230.3 MiB |
+| `Release.hss` | 1060096 | 1060096 | 2222594 | 108 ms | 47 ms | 45 ms | 122.0 MiB |
+
+A world map or save as an own document is 3.9 to 4.5 times the size of its engine image and 36
+to 38 times the size of its compressed original. The listing and the preview cache are in 4.3, the live representations in
+6.1. Pacing at the gate: 300 frames at 32.895 to 33.108 ms. The last gate before the switch with
+13 layers passing (`tools/obj/check-418vf8mt`, 2026-11-05, native actuals) took 1,178 s and
+paced at 32.988 to 33.273 ms. The switch gate took 1,260 s. Both gates ran 8 jobs on a machine
+in use, so the difference is not attributed.
+
+### 9.4 The Valley01 rule
+
+Sprite 51 of the map field at x 74, y 91 on level 0 of `Scenario/Campaign/Valley01.CSM`
+(inflated offset 0x41565) stores class id 132462, `TFlagMessageEventResource` in the 1.36 engine
+table, with five short entries: id 1 (4 bytes), ids 3 and 4 (one byte each, 74 and 91, the field's
+own coordinates) and ids 10 and 12 (one byte each, 0). It is the only resource-class sprite in the
+install and oracle files. The shape is a map object image of an earlier build. 1.36 reads it
+through `TMapObjectResource.ReadWrite` and never reads ids 10 and 12. Rejecting it makes the first
+map of the shipped Valley campaign unloadable through the converter, so 9.7-1 accepted it under one
+named rule, `LEGACY_VALLEY01_SPRITE` in `schema.json` `legacyShapes`: only for a
+`TFlagMessageEventResource` stored as a `TMapField` sprite, the class decodes with the fixed legacy
+shape `ResourceID` (id 1, i32), `LegacyXhx` (id 3, u8), `LegacyYhx` (id 4, u8), `LegacyProperty10`
+(id 10, u8) and `LegacyProperty12` (id 12, u8). Any other id in that context is an unknown
+property, and the class keeps its 1.36 shape elsewhere. Export writes the legacy shape back byte
+for byte, so G1 holds and the engine reads the image the original reads. The check expectation
+pins the rule to exactly one occurrence in that file.
+
+### 9.5 What 9.7 leaves
+
+- PFS. The 12 shipped `.pfs` game set files and `EmailIn/egames.pfs` keep the original format and
+  their original paths through `ReadFromFileCRC` and `WriteToFileCRC`. They are inventoried by
+  the census and excluded from conversion and from every count above. Their conversion, CRC
+  semantics included, is milestone 10 work (step 10.1, 6.2).
+- The transition cost (6.1). Every own load and save passes through the Delphi image:
+  property numbers, widths, call order, record layouts and the stream code stay the engine's
+  protocol, every `rwData` record stays exact hex, and conversion adds the time and memory of
+section 9.3.
+  A persisted array keeps its original size until an adapter of X28 gives its extra entries a
+  port-features property.
+- The exit (6.3). A typed persistence tree with a direct document backend, the legacy codecs as
+  adapters, the serializers migrated class by class, the transport separated from disk
+  persistence, and the proof. It is not implemented. It is a prerequisite of milestone 10: no
+  persistence interface becomes stable mod API before it, and the private roadmap allocates it
+  as briefs PE-1 to PE-5 before step 10.4 publishes the API baseline.
+
+### 9.6 Open items
+
+- After a load in the middle of a game the original moves the map view and the port keeps it
+  (5.1, issue #112). Every gameplay field agrees.
+- The user-facing statement that a save under an original's name becomes JSON (4.2) is not in
+  the product's `README.md`.
+- `aowconv info` prints `Game content validation arrives with 9.7-3.` and runs no unit
+  validator. `check` and the game run them.
+- Version 1 maps no `rwData` record to named fields, annotates no reference domain in the schema
+  and defines no lossy projection (2.2, 2.3, 3.2).
+- The file dialog's close order (2.7) has no unit test.

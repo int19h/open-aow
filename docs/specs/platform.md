@@ -7,7 +7,8 @@ boxes, the `Application` stub, the networking transport hook, plug-ins, and the 
 The graphics contract the host fulfils is `graphics.md` sections 7 and 8; the loaded UI it feeds
 input to is `ui-layout.md`; the RTL services it implements are `rtl-shim.md`'s `IRtlHost`. Facts
 come from `src/delphi3` of the `aow` repository and the GOG install (`D:\Games\GOG\Age of Wonders`)
-as read on 2026-10-25.
+as read on 2026-10-25. Section 7 gained the replacement primitive and the file log of milestone
+9.7 on 2026-11-06 (brief 9.7-4).
 
 ## 1. Decisions
 
@@ -156,11 +157,16 @@ when the codec was missing.
 `IRtlHost.Files` is a virtual file system with these rules:
 
 1. Two layers: the game root (read only) and the user data directory (read and write). A read looks
-   in the user layer first, then the root. A write goes to the user layer, creating directories.
-   Directory listings merge both layers. On Windows the user layer defaults to
-   `%LOCALAPPDATA%\OpenAoW`, on Linux `$XDG_DATA_HOME/openaow`, on macOS
-   `~/Library/Application Support/OpenAoW`; a command line option puts both layers on one directory,
-   which is how the oracle runs reproduce the original's layout (`testing.md`).
+   in the user layer first, then the root, so a user file shadows a shipped one of the same
+   case-insensitive relative path. A write goes to the user layer, creating directories, and a
+   shipped file is never written. Directory listings merge both layers. Reading, listing and
+   previewing copy nothing into the user layer. On Windows the user layer defaults to
+   `%LOCALAPPDATA%\OpenAoW`, on Linux `$XDG_DATA_HOME/openaow` (`~/.local/share/openaow` when the
+   variable is unset or not absolute), on macOS `~/Library/Application Support/OpenAoW`
+   (`SdlHost.DefaultUserDirectory`). `--user-data <dir>` picks another user directory, and
+   `--single-directory <dir>` puts both layers on one directory, which is how the oracle runs
+   reproduce the original's layout (`testing.md`). The Headless host layers the game root under
+   the run directory.
 2. Case-insensitive names, both separators. The source spells `Int\`, `INT\`, `Sfx\`, `SFX\`,
    `IMAGES\SCENES\INTRO.AVI` against an install that has `Images\Scenes\Intro.avi`. The service
    resolves each path component against the directory's entries with an ordinal case-insensitive
@@ -184,8 +190,30 @@ when the codec was missing.
 6. Mobile later: the root layer is a zip the user supplies (`../design.md`), read through the same
    interface; the listing and the case-insensitive lookup come from the archive's central directory.
 
-`TFastLoadFileStream` and `TFileStream` open through the service; `DeleteFile` (4 sites: user lists,
+`TFastLoadFileStream` and `TFileStream` open through the service. `DeleteFile` (4 sites: user lists,
 e-mail attachments) acts on the user layer only.
+
+Saves, maps, campaigns, the scenario set and the user lists pass through the game's file boundary
+(`own-formats.md` 4.1 and 4.2), which layers two services on this one:
+
+- Replacement. `IFileSystem.ReplaceFile(source, target)` moves a finished, closed file over its
+  target in one step. The default implementation returns false. `LayeredFileSystem` resolves both
+  paths in the user layer, so the move stays on one volume and replaces only the user copy, and
+  `SystemIoFileSystem` moves with overwrite. A save converts, validates and serializes the
+  document first, then writes the sibling temporary `<name>.openaow-tmp` through the service,
+  flushes it to the disk, closes it and replaces the target. A failure at any step keeps the old
+  file and removes the temporary, and a service without the primitive refuses the save, so a
+  save never truncates the file it replaces. An original save in the user layer saved under its
+  own name becomes an own document. A shipped file saved under its name gets a user copy that
+  shadows it.
+- The file log. `IFileSystem.Layer(path)` names the layer a path resolves to (`root`, `user`,
+  `single` or `none` in `LayeredFileSystem`, `input` for the Headless host's command-line save),
+  for logs only. `OpenAoW --file-log <path>` and the Headless host's `--file-log <path>` write one
+  JSON line per open, preview, header listing, CRC read and write at the boundary, refusals
+  included: the operation, the path as the engine names it, the layer, the profile and the
+  caller's use, the kind, the detected format, the version, the G1 result or why it does not
+  apply, the validation outcome, the error code and diagnostic, and whether a preview came from
+  the session cache. Paths appear in the log and in diagnostics, never in a document.
 
 ## 8. Settings
 
