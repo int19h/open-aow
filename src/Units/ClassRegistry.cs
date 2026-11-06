@@ -9,8 +9,11 @@ using Aow.Units.AltLight;
 using Aow.Units.AltPest;
 using Aow.Units.Altar;
 using Aow.Units.Animation;
+using Aow.Units.AoWCityScreen;
 using Aow.Units.AoWE;
 using Aow.Units.AoWHex;
+using Aow.Units.AoWInfoWin;
+using Aow.Units.AoWProdScreen;
 using Aow.Units.AoWRoad;
 using Aow.Units.AoWSetup;
 using Aow.Units.AoWTC;
@@ -110,6 +113,7 @@ using Aow.Units.UnitSpells;
 using Aow.Units.WaterNode;
 using Aow.Units.WizardsTower;
 using Aow.Units.WorkShop;
+using Aow.Units.aowMapEvents;
 
 namespace Aow.Units;
 
@@ -1139,5 +1143,28 @@ internal static class ClassRegistry
         EditorClass.Register<TAoWMapObjectEditor>();
         ImageFileClass.Register<TImageFile>();
         ImageFileClass.Register<TBMPImageFile>();
+        TIWindow.StructurePanels.Add(StructureView.Generic, static (dialog, structure) => AoWInfoWinUnit.ShowGenericInfo(dialog, structure));
+        TIWindow.StructurePanels.Add(StructureView.Building, static (dialog, structure) => AoWInfoWinUnit.ShowBuildingInfo(dialog, structure));
+        TIWindow.StructurePanels.Add(StructureView.Razed, static (dialog, structure) => AoWInfoWinUnit.ShowRazedInfo(dialog, structure));
+        TIWindow.StructurePanels.Add(StructureView.OtherPlayer, static (dialog, structure) => AoWInfoWinUnit.ShowOtherPlayerInfo(dialog, (TPlayerStructure)structure));
+        TIWindow.StructurePanels.Add(StructureView.City, static (dialog, structure) => AoWInfoWinUnit.ShowCityInfo(dialog, (TCity)structure));
+        TIWindow.StructurePanels.Add(StructureView.WarCity, static (dialog, structure) => AoWInfoWinUnit.ShowWarCityInfo(dialog, (TCity)structure));
+        TIWindow.StructurePanels.Add(StructureView.Production, static (dialog, structure) => AoWInfoWinUnit.ShowProductionInfo(dialog, (TProductionPlace)structure));
+        TIWindow.StructurePanels.Add(StructureView.ProductionIncome, static (dialog, structure) => AoWInfoWinUnit.ShowProductionIncome(dialog, (TProductionPlace)structure));
+        TIWindow.StructurePanels.Add(StructureView.Mine, static (dialog, structure) => AoWInfoWinUnit.ShowMineInfo(dialog, (TMine)structure));
+        TIWindow.StructurePanels.Add(StructureView.PowerNode, static (dialog, structure) => AoWInfoWinUnit.ShowPowerNodeInfo(dialog, (TPowerNode)structure));
+        TIWindow.StructurePanels.Add(StructureView.Farm, static (dialog, structure) => AoWInfoWinUnit.ShowFarmInfo(dialog, (TFarm)structure));
+        TIWindow.StructurePanels.Add(StructureView.WatchTower, static (dialog, structure) => AoWInfoWinUnit.ShowWatchTowerInfo(dialog, (TTower)structure));
+        TIWindow.StructurePanels.Add(StructureView.Altar, static (dialog, structure) => AoWInfoWinUnit.ShowAltarInfo(dialog, (TAltar)structure));
+        TIWindow.StructurePanels.Add(StructureView.Sign, static (dialog, structure) => AoWInfoWinUnit.ShowSignInfo(dialog, (TSign)structure));
+        TIWindow.StructurePanels.Add(StructureView.Cave, static (dialog, structure) => AoWInfoWinUnit.ShowCaveInfo(dialog, (TCave)structure));
+        TIWindow.StructurePanels.Add(StructureView.Teleport, static (dialog, structure) => AoWInfoWinUnit.ShowTeleportInfo(dialog, (TTeleport)structure));
+        TIWindow.StructurePanels.Add(StructureView.ExplorationSite, static (dialog, structure) => AoWInfoWinUnit.ShowExplorationInfo(dialog, (TExplorationSite)structure));
+        TIWindow.StructurePanels.Add(StructureView.WizardsTower, static (dialog, structure) => AoWInfoWinUnit.ShowTowerInfo(dialog, (TWizardsTower)structure));
+        TIWindow.StructurePanels.Add(StructureView.Arena, static (dialog, structure) => AoWInfoWinUnit.ShowArenaInfo(dialog, (TArena)structure));
+        TIWindow.StructureButtons.Add(StructureView.CityScreen, static (dialog, structure) => AoWCityScreenUnit.CityScreen.ShowCity((TCity)structure));
+        TIWindow.StructureButtons.Add(StructureView.ProductionScreen, static (dialog, structure) => AoWProdScreenUnit.ProductionScreen.ShowPlace((TProductionPlace)structure));
+        TMapEvents.StructureScreens.Add(StructureView.CityScreen, static (events, structure) => AoWCityScreenUnit.CityScreen.ShowCity((TCity)structure));
+        TMapEvents.StructureScreens.Add(StructureView.ProductionScreen, static (events, structure) => AoWProdScreenUnit.ProductionScreen.ShowPlace((TProductionPlace)structure));
     }
 }

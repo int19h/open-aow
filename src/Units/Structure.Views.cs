@@ -1,0 +1,483 @@
+using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
+using static Aow.Units.AoWE.AoWEUnit;
+
+// What each structure kind shows in the info window, opens from the info window button or a double
+// click on the map, and fights on in tactical combat. The keys name views, and each screen holds
+// the renderers of its keys, so this file names no screen. A mod structure kind overrides these
+// and registers renderers for keys of its own.
+
+namespace Aow.Units.AoWE
+{
+    // A view key. Instances are the keys, the name serves the reports.
+    public sealed class StructureView(string name)
+    {
+        public string Name => name;
+
+        public override string ToString() => name;
+
+        // Nothing to open, or the kind already ran its own action.
+        public static readonly StructureView None = new("None");
+        // Screens the info window button and a double click on the map open.
+        public static readonly StructureView CityScreen = new("CityScreen");
+        public static readonly StructureView ProductionScreen = new("ProductionScreen");
+        // Info window panels (AoWInfoWin.pas:616).
+        public static readonly StructureView Generic = new("Generic");
+        public static readonly StructureView Building = new("Building");
+        public static readonly StructureView Razed = new("Razed");
+        public static readonly StructureView OtherPlayer = new("OtherPlayer");
+        public static readonly StructureView City = new("City");
+        public static readonly StructureView WarCity = new("WarCity");
+        public static readonly StructureView Production = new("Production");
+        public static readonly StructureView ProductionIncome = new("ProductionIncome");
+        public static readonly StructureView Mine = new("Mine");
+        public static readonly StructureView PowerNode = new("PowerNode");
+        public static readonly StructureView Farm = new("Farm");
+        public static readonly StructureView WatchTower = new("WatchTower");
+        public static readonly StructureView Altar = new("Altar");
+        public static readonly StructureView Sign = new("Sign");
+        public static readonly StructureView Cave = new("Cave");
+        public static readonly StructureView Teleport = new("Teleport");
+        public static readonly StructureView ExplorationSite = new("ExplorationSite");
+        public static readonly StructureView WizardsTower = new("WizardsTower");
+        public static readonly StructureView Arena = new("Arena");
+    }
+
+    // The combat hex as the tactical map generator sees it when it picks the map file
+    // (AoWTC.pas:4156). A kind reads the combat state and the neighbor fields, and reports back the
+    // terrain mode, whether the map lays out the combat's items and which neighbor tags it fixes.
+    public sealed class CombatMapSite(bool siteCombat, bool randomTerrain, Func<int, Type, bool> neighborHolds)
+    {
+        // The combat is an exploration site fight.
+        public bool SiteCombat => siteCombat;
+
+        // The generator randomizes the terrain around the map. A kind turns it on or off.
+        public bool RandomTerrain { get; set; } = randomTerrain;
+
+        // The map lays out the items of the combat.
+        public bool TakesCombatItems { get; set; }
+
+        // Bit I set: the generator fixes the terrain tag of neighbor I (1 to 6).
+        public int FixedTags { get; private set; }
+
+        // Neighbor Direction (1 to 6) of the combat hex holds a sprite of Kind that is not transparent.
+        public bool NeighborHolds(int Direction, Type Kind) => neighborHolds(Direction, Kind);
+
+        public void FixTag(int Direction) => FixedTags |= 1 << Direction;
+    }
+
+    public partial class TStructure
+    {
+        // The info window panel for the seated player Viewer (AoWInfoWin.pas:616).
+        public virtual StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Generic;
+
+        // The info window button (AoWInfoWin.pas:190): a screen to open, or None after the kind ran
+        // its own action.
+        public virtual StructureView InfoButton(sbyte Viewer) => StructureView.None;
+
+        // A double click on the selected structure on the map (aowMapEvents.pas:518).
+        public virtual StructureView DoubleClick(sbyte Viewer) => StructureView.None;
+
+        // The tactical map file stem under TCMaps (AoWTC.pas:4156). The original matched exact class
+        // ids, and every other structure fights on the blank map.
+        public virtual string CombatMapName(CombatMapSite Site) => "Blank000";
+
+        // A structure under construction or razed shows that state before its kind.
+        protected StructureView StatePanel()
+        {
+            if (GetBuilding())
+            {
+                return StructureView.Building;
+            }
+
+            if (GetRazed())
+            {
+                return StructureView.Razed;
+            }
+
+            return null;
+        }
+    }
+
+    public partial class TPlayerStructure
+    {
+        public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? (ShownToOwner(Viewer) ? OwnerPanel() : StructureView.OtherPlayer);
+
+        // The panel the owner sees, and every player in debug mode.
+        protected virtual StructureView OwnerPanel() => StructureView.Generic;
+
+        protected bool ShownToOwner(sbyte Viewer) => FPlayer == Viewer || AoWEngine.FDebug;
+    }
+}
+
+namespace Aow.Units.City
+{
+    public partial class TCity
+    {
+        // War mode shows the war panel to every player.
+        public override StructureView InfoPanel(sbyte Viewer)
+        {
+            var state = StatePanel();
+            if (state != null)
+            {
+                return state;
+            }
+
+            if (ShownToOwner(Viewer))
+            {
+                return FMode.Contains(TCityModeElement.cmWarmode) ? StructureView.WarCity : StructureView.City;
+            }
+
+            return FMode.Contains(TCityModeElement.cmWarmode) ? StructureView.WarCity : StructureView.OtherPlayer;
+        }
+
+        public override StructureView InfoButton(sbyte Viewer) => StructureView.CityScreen;
+
+        public override StructureView DoubleClick(sbyte Viewer) => FPlayer == Viewer ? StructureView.CityScreen : StructureView.None;
+
+        // "0", the directions of the neighbors that hold the city, "x" up to four characters, "C000".
+        public override string CombatMapName(CombatMapSite Site)
+        {
+            string Stem = "0";
+            for (int I = 1; I <= 6; I += 1)
+            {
+                if (Site.NeighborHolds(I, typeof(TCity)))
+                {
+                    Stem = Stem + IntToStr(I);
+                    Site.FixTag(I);
+                }
+            }
+
+            while (Stem.Length < 4)
+            {
+                Stem = Stem + "x";
+            }
+
+            return Stem + "C000";
+        }
+    }
+}
+
+namespace Aow.Units.PrdPlace
+{
+    public partial class TProductionPlace
+    {
+        protected override StructureView OwnerPanel() => GetMagicSphere() == TMagicSphere.msNone ? StructureView.Production : StructureView.ProductionIncome;
+
+        public override StructureView InfoButton(sbyte Viewer) => StructureView.ProductionScreen;
+
+        public override StructureView DoubleClick(sbyte Viewer) => CanDblClick() && FPlayer == Viewer ? StructureView.ProductionScreen : StructureView.None;
+    }
+}
+
+namespace Aow.Units.Mine
+{
+    public partial class TMine
+    {
+        protected override StructureView OwnerPanel() => StructureView.Mine;
+
+        public override string CombatMapName(CombatMapSite Site) => "Minex000";
+    }
+}
+
+namespace Aow.Units.PowerNode
+{
+    public partial class TPowerNode
+    {
+        protected override StructureView OwnerPanel() => StructureView.PowerNode;
+
+        public override string CombatMapName(CombatMapSite Site) => "NodeC000";
+    }
+}
+
+namespace Aow.Units.Farm
+{
+    public partial class TFarm
+    {
+        protected override StructureView OwnerPanel() => StructureView.Farm;
+
+        public override string CombatMapName(CombatMapSite Site) => "Farmx000";
+    }
+}
+
+namespace Aow.Units.Tower
+{
+    public partial class TTower
+    {
+        protected override StructureView OwnerPanel() => StructureView.WatchTower;
+
+        public override string CombatMapName(CombatMapSite Site) => "TFort000";
+    }
+}
+
+namespace Aow.Units.Altar
+{
+    public partial class TAltar
+    {
+        protected override StructureView OwnerPanel() => StructureView.Altar;
+
+        // Starts targeting a storm, or cancels the targeting under way.
+        public override StructureView InfoButton(sbyte Viewer)
+        {
+            string Reason = "";
+            if (!GetTargeting())
+            {
+                if (CanTarget(ref Reason))
+                {
+                    Target();
+                }
+                else
+                {
+                    AoWHSMap.ShowWarning(Reason);
+                }
+            }
+            else
+            {
+                CancelTargeting();
+            }
+
+            return StructureView.None;
+        }
+    }
+}
+
+namespace Aow.Units.Sign
+{
+    public partial class TSign
+    {
+        public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Sign;
+    }
+}
+
+namespace Aow.Units.Cave
+{
+    public partial class TCave
+    {
+        public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Cave;
+
+        public override StructureView InfoButton(sbyte Viewer)
+        {
+            Enter(Viewer);
+            return StructureView.None;
+        }
+
+        public override string CombatMapName(CombatMapSite Site) => Site.RandomTerrain ? "CaveN000" : "CaveE000";
+    }
+}
+
+namespace Aow.Units.Teleport
+{
+    public partial class TTeleport
+    {
+        public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Teleport;
+
+        public override StructureView InfoButton(sbyte Viewer)
+        {
+            Teleport(Viewer);
+            return StructureView.None;
+        }
+
+        // The original read FRandomTerrain here, which holds the value of RandomTerrain until a kind
+        // changes it.
+        public override string CombatMapName(CombatMapSite Site)
+        {
+            string Stem = Site.RandomTerrain ? "TeleN000" : "Telep000";
+            Site.RandomTerrain = true;
+            return Stem;
+        }
+    }
+}
+
+namespace Aow.Units.ExploreS
+{
+    public partial class TExplorationSite
+    {
+        public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.ExplorationSite;
+
+        public override StructureView InfoButton(sbyte Viewer)
+        {
+            Search();
+            return StructureView.None;
+        }
+
+        // A site fight takes one of Variants maps and fixes every neighbor tag. Another fight at the
+        // site takes the blank map.
+        protected static string SiteCombatMapName(CombatMapSite Site, string Prefix, int Variants, bool TakesItems)
+        {
+            if (!Site.SiteCombat)
+            {
+                return "Blank000";
+            }
+
+            Site.TakesCombatItems = TakesItems;
+            string Stem = Prefix + IntToStr(Random(Variants));
+            for (int I = 1; I <= 6; I += 1)
+            {
+                Site.FixTag(I);
+            }
+
+            return Stem;
+        }
+    }
+}
+
+namespace Aow.Units.WizardsTower
+{
+    public partial class TWizardsTower
+    {
+        public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.WizardsTower;
+
+        public override StructureView InfoButton(sbyte Viewer)
+        {
+            Enter();
+            return StructureView.None;
+        }
+
+        public override StructureView DoubleClick(sbyte Viewer)
+        {
+            Enter();
+            return StructureView.None;
+        }
+    }
+}
+
+namespace Aow.Units.Arena
+{
+    public partial class TArena
+    {
+        public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Arena;
+
+        public override StructureView InfoButton(sbyte Viewer)
+        {
+            Enter();
+            return StructureView.None;
+        }
+
+        public override StructureView DoubleClick(sbyte Viewer)
+        {
+            Enter();
+            return StructureView.None;
+        }
+    }
+}
+
+namespace Aow.Units.Spring
+{
+    public partial class TSpringOfLife
+    {
+        public override string CombatMapName(CombatMapSite Site) => "SLife000";
+    }
+}
+
+namespace Aow.Units.AirNode
+{
+    public partial class TAirNode
+    {
+        public override string CombatMapName(CombatMapSite Site) => "NodeA000";
+    }
+}
+
+namespace Aow.Units.DeathNode
+{
+    public partial class TDeathNode
+    {
+        public override string CombatMapName(CombatMapSite Site) => "NodeD000";
+    }
+}
+
+namespace Aow.Units.EarthNode
+{
+    public partial class TEarthNode
+    {
+        public override string CombatMapName(CombatMapSite Site) => "NodeE000";
+    }
+}
+
+namespace Aow.Units.FireNode
+{
+    public partial class TFireNode
+    {
+        public override string CombatMapName(CombatMapSite Site) => "NodeF000";
+    }
+}
+
+namespace Aow.Units.LifeNode
+{
+    public partial class TLifeNode
+    {
+        public override string CombatMapName(CombatMapSite Site) => "NodeL000";
+    }
+}
+
+namespace Aow.Units.WaterNode
+{
+    public partial class TWaterNode
+    {
+        public override string CombatMapName(CombatMapSite Site) => "NodeW000";
+    }
+}
+
+namespace Aow.Units.ReflectingPool
+{
+    public partial class TReflectingPool
+    {
+        public override string CombatMapName(CombatMapSite Site) => "RPool000";
+    }
+}
+
+namespace Aow.Units.BldGuild
+{
+    public partial class TBuildersGuild
+    {
+        public override string CombatMapName(CombatMapSite Site) => "BGuil000";
+    }
+}
+
+namespace Aow.Units.Shipyard
+{
+    public partial class TShipyard
+    {
+        public override string CombatMapName(CombatMapSite Site) => "SYard000";
+    }
+}
+
+namespace Aow.Units.MonsterL
+{
+    public partial class TMonsterlair
+    {
+        public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eMrLr00", 4, true);
+    }
+}
+
+namespace Aow.Units.Pyramid
+{
+    public partial class TPyramid
+    {
+        public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eZigg00", 2, true);
+    }
+}
+
+namespace Aow.Units.Crypt
+{
+    public partial class TCrypt
+    {
+        public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eCrpt00", 2, true);
+    }
+}
+
+namespace Aow.Units.Ruin
+{
+    public partial class TRuin
+    {
+        public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eRuin00", 2, true);
+    }
+}
+
+namespace Aow.Units.Dungeon
+{
+    public partial class TDungeon
+    {
+        // The dungeon fight lays out no items.
+        public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eDung00", 2, false);
+    }
+}
