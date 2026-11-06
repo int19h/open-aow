@@ -277,8 +277,8 @@ namespace Aow.Units.Teleport
             return StructureView.None;
         }
 
-        // The original read FRandomTerrain here, which holds the value of RandomTerrain until a kind
-        // changes it.
+        // The original read FRandomTerrain here. It equals RandomTerrain at this point, because the
+        // only other writer is the bridge arm of the generator, and a bridge is no structure.
         public override string CombatMapName(CombatMapSite Site)
         {
             string Stem = Site.RandomTerrain ? "TeleN000" : "Telep000";
