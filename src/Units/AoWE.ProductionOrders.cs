@@ -112,6 +112,26 @@ namespace Aow.Units.AoWE
             }
         }
 
+        // Changes the relation of City's race to the control's player by Change.
+        protected static void ChangeRelation(TProductionControl Control, TCity City, int Change)
+        {
+            var playerRelationValue = AoWHSMap.FRaces.GetRace(City.FRace).GetPlayerRelationValue(Control.GetPlayer());
+            AoWHSMap.FRaces.GetRace(City.FRace).SetPlayerRelationValue(Control.GetPlayer(), playerRelationValue + Change);
+        }
+
+        // Adds Text at City to the logbook of the control's player.
+        protected static void Log(TProductionControl Control, TCity City, string Text)
+        {
+            var Event = new TCityProductionEventLog(null);
+            Event.FPlayer = Control.GetPlayer();
+            Event.FText = Text;
+            var lhx = City.GetLhx();
+            var yhx = City.GetYhx();
+            Event.SetLocation(City.GetXhx(), yhx, lhx);
+            AoWHSMap.FPlayers.GetPlayers(Event.FPlayer).FEventLogbook.AddEvent(Event);
+            Event.Release();
+        }
+
         // Charges the settings' costs to the settings' player.
         protected static void Pay(TProductionControl Control)
         {
@@ -423,9 +443,9 @@ namespace Aow.Units.AoWE
 
             Control.BeginUpdate();
             city.SetUpgradeLevel((byte)(city.FUpgradeLevel + 1));
-            CityOrders.ChangeRelation(Control, city, 5);
+            ChangeRelation(Control, city, 5);
             Control.ProductionDone();
-            CityOrders.Log(Control, city, RtlUnit.Format(TranslateRStr(XUpgradedRStr), [city.GetName()]));
+            Log(Control, city, RtlUnit.Format(TranslateRStr(XUpgradedRStr), [city.GetName()]));
             Control.EndUpdate();
         }
 
@@ -506,9 +526,9 @@ namespace Aow.Units.AoWE
                     break;
             }
 
-            CityOrders.Log(Control, city, RtlUnit.Format(TranslateRStr(CityFortifiedRStr), [city.GetName()]));
+            Log(Control, city, RtlUnit.Format(TranslateRStr(CityFortifiedRStr), [city.GetName()]));
             city.UpdateImages();
-            CityOrders.ChangeRelation(Control, city, 5);
+            ChangeRelation(Control, city, 5);
             Control.ProductionDone();
             Control.EndUpdate();
         }
@@ -562,7 +582,7 @@ namespace Aow.Units.AoWE
             Control.FSettings.FTurnsLeft = Control.FSettings.FTurnsTotal;
             Control.FSettings.FPlayer = Control.GetPlayer();
             Control.FStatus = TProductionControlStatus.pcsProducing;
-            CityOrders.ChangeRelation(Control, city, -15);
+            ChangeRelation(Control, city, -15);
         }
 
         public override void Completed(TProductionControl Control)
@@ -575,9 +595,9 @@ namespace Aow.Units.AoWE
 
             Control.BeginUpdate();
             var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[Race]);
-            CityOrders.Log(Control, city, RtlUnit.Format(TranslateRStr(CityMigratedToRStr), [city.GetName(), raceNamesPlural]));
+            Log(Control, city, RtlUnit.Format(TranslateRStr(CityMigratedToRStr), [city.GetName(), raceNamesPlural]));
             city.SetRace((sbyte)Race);
-            CityOrders.ChangeRelation(Control, city, 10);
+            ChangeRelation(Control, city, 10);
             Control.FUnitProductions.Clear();
             city.SetUpgradeLevel(city.FUpgradeLevel);
             Control.ProductionDone();
@@ -589,7 +609,7 @@ namespace Aow.Units.AoWE
             var city = Control.ProductionCity();
             if (city != null)
             {
-                CityOrders.ChangeRelation(Control, city, Control.FSettings.FTurnsLeft == Control.FSettings.FTurnsTotal ? 15 : 10);
+                ChangeRelation(Control, city, Control.FSettings.FTurnsLeft == Control.FSettings.FTurnsTotal ? 15 : 10);
             }
         }
 
@@ -637,7 +657,7 @@ namespace Aow.Units.AoWE
             Control.FSettings.FTurnsLeft = Control.FSettings.FTurnsTotal;
             Control.FSettings.FPlayer = Control.GetPlayer();
             Control.FSettings.FGold = 0;
-            CityOrders.ChangeRelation(Control, city, -30);
+            ChangeRelation(Control, city, -30);
             var Log = new TLocationTextEventLog(null);
             Log.FPlayer = Control.GetPlayer();
             Log.FText = RtlUnit.Format(TranslateRStr(CityLootingRStr), [city.GetName()]);
@@ -662,7 +682,7 @@ namespace Aow.Units.AoWE
             }
 
             Control.BeginUpdate();
-            CityOrders.Log(Control, city, RtlUnit.Format(TranslateRStr(CityLootedRStr), [city.GetName(), IntToStr(city.FIncome * 3)]));
+            Log(Control, city, RtlUnit.Format(TranslateRStr(CityLootedRStr), [city.GetName(), IntToStr(city.FIncome * 3)]));
             var playerGems = AoWHSMap.FPlayers.GetPlayers(Control.GetPlayer());
             AoWHSMap.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems + city.FIncome * 3);
             city.FOverlay.SetMode(TCityOverlayMode.omIdle);
@@ -675,7 +695,7 @@ namespace Aow.Units.AoWE
             var city = Control.ProductionCity();
             if (city != null)
             {
-                CityOrders.ChangeRelation(Control, city, Control.FSettings.FTurnsLeft == Control.FSettings.FTurnsTotal ? 30 : 20);
+                ChangeRelation(Control, city, Control.FSettings.FTurnsLeft == Control.FSettings.FTurnsTotal ? 30 : 20);
             }
         }
 
@@ -688,30 +708,6 @@ namespace Aow.Units.AoWE
         public override int? CitySequence(TCity City, int Row) => 45 + Row;
 
         public override string RealmActivity(TCity City) => "3";
-    }
-
-    // Steps the city orders share.
-    internal static class CityOrders
-    {
-        // Changes the relation of the city's race to the control's player by Change.
-        internal static void ChangeRelation(TProductionControl Control, TCity City, int Change)
-        {
-            var playerRelationValue = AoWHSMap.FRaces.GetRace(City.FRace).GetPlayerRelationValue(Control.GetPlayer());
-            AoWHSMap.FRaces.GetRace(City.FRace).SetPlayerRelationValue(Control.GetPlayer(), playerRelationValue + Change);
-        }
-
-        // Adds Text at the city to the logbook of the control's player.
-        internal static void Log(TProductionControl Control, TCity City, string Text)
-        {
-            var Log = new TCityProductionEventLog(null);
-            Log.FPlayer = Control.GetPlayer();
-            Log.FText = Text;
-            var lhx = City.GetLhx();
-            var yhx = City.GetYhx();
-            Log.SetLocation(City.GetXhx(), yhx, lhx);
-            AoWHSMap.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
-            Log.Release();
-        }
     }
 
     public partial class TProductionControl

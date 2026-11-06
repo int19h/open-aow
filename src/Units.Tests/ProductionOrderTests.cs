@@ -274,7 +274,8 @@ public sealed class ProductionOrderTests
     public void OrdersAnswerAsTheOldSwitches()
     {
         var previousMap = Game.AoWHSMap;
-        Game.AoWHSMap = new TAoWHSMap(null!);
+        var map = new TAoWHSMap(null!);
+        Game.AoWHSMap = map;
         var owner = new EngineFixture.Owner();
         var city = (TCity)EClass.Of<TCity>().Create(owner);
         var guild = (TBuildersGuild)EClass.Of<TBuildersGuild>().Create(owner);
@@ -319,6 +320,7 @@ public sealed class ProductionOrderTests
                 Runtime.ForgetReference(structure);
             }
             Game.AoWHSMap = previousMap;
+            map.Destroy();
         }
     }
 }
