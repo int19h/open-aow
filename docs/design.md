@@ -55,8 +55,9 @@ Facts that shape the port:
   `Power`, `Sqrt`, `Ln` and `ArcTan`. `Random` is called 428 times in the rules.
 - Three third-party packages (Multilizer localization, Toolbar97, an internet suite) are out of
   scope for recovery. The port replaces them.
-- Language features in use: 30 virtual class methods, 761 `with` statements, 539 variant records,
-  27 interfaces, method pointers for events, sets, pointers and PChar in the graphics code.
+- Language features in use: 30 virtual class methods, 761 `with` statements, eight variant records
+  (`data/records/records.md`, section 2), 27 interfaces, method pointers for events, sets, pointers
+  and PChar in the graphics code.
 
 Game data on disk: `Images/` and `Int/` hold ILB image libraries. `Songs/` holds Impulse Tracker
 modules (`.IT`) that `Galaxy.dll` plays. `Sfx/` holds sound effects. `Dict/` holds Multilizer
@@ -66,10 +67,11 @@ dictionaries (`.mld`). `Release/` and `Scenario/` hold maps and campaign data. `
 
 The port is written in C# 15 on .NET 11. SDK 11.0.100-rc.3 is installed since 2026-10-25 and the
 release is weeks away. C# 15 is the default language version for `net11.0` projects, and the
-features the port uses (`union` types, `closed` hierarchies, collection expression arguments,
-labeled `break` and `continue`, extension indexers, static abstract interface members) need no
-preview flag. `tests/toolchain/cs15probe` (private repository, section 8) compiles and runs each of
-them and is the first thing to run after an SDK update. The memory safety preview is not used.
+features the port uses (`union` types, collection expression arguments, labeled `break` and
+`continue`, extension indexers, static abstract interface members) need no preview flag.
+`tests/toolchain/cs15probe` (private repository, section 8) compiles and runs each of them, and
+`closed` hierarchies besides, and is the first thing to run after an SDK update. The port declares
+no `closed` type (section 9). The memory safety preview is not used.
 
 Why C#. It maps onto Delphi 3 more closely than any other broadly supported language. Classes,
 virtual methods, properties, interfaces and `try/finally/except` map directly. Method pointers
@@ -87,8 +89,9 @@ layers of section 3, every override and every refactoring pass of section 9, use
 language: `record` and `record struct`, pattern matching and `switch` expressions, collection
 expressions and spreads, string interpolation, `List<T>` and `Dictionary<K, V>`, `Span<T>`, `ref`
 locals and returns, inline arrays and `ref struct` where performance asks for them, `union` types
-and `closed` hierarchies for tagged data, and generics with static abstract interface members where
-the Delphi code dispatched on class references.
+for data closed by nature, virtual methods on the kind for behavior that varies by kind (section
+9), and generics with static abstract interface members where the Delphi code dispatched on class
+references.
 
 Alternatives considered:
 
@@ -116,10 +119,14 @@ Two Delphi features need a design, not a mapping:
    Delphi passed by reference). The survey of 2026-10-25 (`data/records/`) found 155 record types
    and 51 address-taking sites on 20 of them: 17 are synchronous aliases that live for one call
    and become cells, the rest are array elements, allocated blocks and views, each with a
-   mechanical mapping (`specs/transpiler.md` 4.3). Of the eight variant records, six are byte unions and become
-   explicit-layout structs. `TEMsg` and `TShowInfo` overlay a reference with an integer, which the
-   survey showed is a real pun in `TEMsg`, so that slot becomes the shim's integer-or-reference
-   value. In the second stage, tagged unions become `union` types or `closed` hierarchies.
+   mechanical mapping (`specs/transpiler.md` 4.3). Of the eight variant records, six are byte
+   unions and became explicit-layout structs in the first stage. `TEMsg` and `TShowInfo` overlay a
+   reference with an integer, and the first stage gave that slot the shim's integer-or-reference
+   value, `IntOrRef`. Milestone 9.6 (`specs/unions-and-kinds.md`) settled all eight. `TXYL`,
+   `TPaletteEntry` and `TDefenseRequirements` stay explicit-layout structs, since game logic reads
+   both views. The three combat-info buffers of `AoWTC` became plain `TAbilityCombatInfo` locals,
+   because their second arm is never read. The message slots of `TEMsg` and `TMapFieldMsg` became
+   the union `MsgArg` and the blend slot of `TShowInfo` the union `BlendValue` (section 9).
 
 ## 3. Transpile strategy
 
@@ -355,6 +362,25 @@ Three tiers, in the order they arrive:
 3. Scripting. An embedded Lua interpreter for map and event scripting in the editor. It is small and
    sandboxable, and it runs on every platform.
 
+Kind families stay open for code mods. Behavior that varies by kind is a virtual method on the kind,
+so a mod adds a kind without editing a screen or a switch (section 9). Spells, abilities, tokens,
+combat actions, map events and the AI dispatched through virtual methods from the start. Milestone
+9.6 (`specs/unions-and-kinds.md`) opened the four families that screens and switches still selected
+by type or id:
+
+- Structures and event logs. Each kind returns view keys (`StructureView`, `EventView`) from
+  virtual methods declared with their overrides in `Structure.Views.cs` and `EventLog.Views.cs`,
+  and the screen looks the renderer of the key up in a static `Catalog` table, so no screen code
+  enters a rules class. The tactical map generator asks the structure for its map name.
+- Production orders and diplomatic proposals. A production item holds a `ProductionOrder` and a
+  diplomatic action a `DiplomaticProposal`, open abstract records whose kinds carry the behavior
+  (`AoWE.ProductionOrders.cs`, `AoWE.DiplomaticProposals.cs`). A `Catalog` registry turns the id
+  stored in a save into the kind, and an id that no kind registered reads and writes back
+  unchanged.
+
+`ClassRegistry.cs` registers the original kinds and renderers. Registration from another assembly,
+with the ids the mod loader assigns, is the work of milestone 10 (`milestones.md` section 10).
+
 A constraint to know about: iOS forbids just-in-time compilation, so C# code mods do not load there.
 Data mods and Lua scripts work everywhere. If mobile matters, data and Lua are the portable modding
 path, and C# assemblies stay desktop only.
@@ -437,12 +463,29 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   over the tree: `AnsiString` to `string` with bytes at the data and font boundaries (open question
   1), `Ptr<T>` to arrays and spans, the split constructors to constructors, metaclass objects to
   generics with static abstract interface members or to the engine's own class registry, `with`
-  blocks to plain code, the shim's `TList` and `TStringList` to `List<T>` and `Dictionary<K, V>`,
-  explicit-layout records to plain `record struct` types with explicit serialization.
-- Variant records that are tagged unions by convention become `closed` record hierarchies or
-  `union` types. Byte puns stay explicit-layout structs. Closed class families of the rules (the
-  spell, ability and token kinds) become `closed` hierarchies where that makes a `switch`
-  exhaustive.
+  blocks to plain code, the shim's `TVarRec` and the message and blend slots of `IntOrRef` to
+  unions (milestone 9.6), the shim's `TList` and `TStringList` to `List<T>` and
+  `Dictionary<K, V>`, explicit-layout records to plain `record struct` types with explicit
+  serialization.
+- Behavior that varies by kind goes in virtual methods on the kind, so that families stay open for
+  mods. `union` serves only data that is closed by nature, and `closed` is not used, since it bars
+  code mods. This is the user's direction of 2026-10-30. Where the behavior is presentation, the
+  virtual returns a view key that the screen renders, so no screen code enters a rules class. Byte
+  puns stay explicit-layout structs. Milestone 9.6 (`specs/unions-and-kinds.md`) applied the rule:
+  - Three unions hold data closed by nature, each a custom `[Union]` struct that stores its value
+    cases without boxing: `FormatArg` for the arguments of `Format` (`src/Rtl/FormatArg.cs`, in
+    place of `TVarRec`), `MsgArg` for the slots of the engine messages `TEMsg` and `TMapFieldMsg`
+    (`src/Rtl/MsgArg.cs`), and `BlendValue` for the percentage or table of `TShowInfo`
+    (`src/Units/GFXE.BlendValue.cs`).
+  - Four kind families became virtual dispatch (section 6): structure and event log views, whose
+    keys the screens render from `Catalog` tables, and production orders and diplomatic proposals,
+    open records with `Catalog` registries. No switch on a structure kind, an event log kind, a
+    production id or a diplomatic kind remains outside the kind classes, apart from the city
+    screen's button table, which selects a button's panel and handler and stays until milestone 10
+    gives a mod's new city action its button.
+  - `IntOrRef` remains only in `THashItem.Key` (`Engine.cs`, `HashTabU.cs`), where a hash list
+    keeps an integer key and the string hash list a string in the same slot, and in
+    `Ptr<T>.Unbox(IntOrRef)`, until the collections pass gives each hash list a typed key.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
   port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
   requires that the original loads a file the port wrote.

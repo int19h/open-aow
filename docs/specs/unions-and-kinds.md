@@ -11,6 +11,13 @@ byte. And `union` serves only data that is closed by nature: behavior that varie
 presentation included, lives in virtual methods on the kind, so that a mod adds a kind without
 touching a screen.
 
+Implemented. Briefs 9.6-1 to 9.6-7 merged on 2026-11-05 (PRs #99 and #103 to #108, main
+`a4bc2a3`), after the private census 9.6-0 (`data/rewrite/9.6-census.md`). Brief 9.6-8 read this
+document against the code the same day and recorded the decisions the briefs took (roadmap row
+42): section 1 stays the survey before the milestone, sections 3 and 4 name the code as it is,
+sections 2 and 5 to 7 stay the rule and the plan the briefs ran under, with the amendments of
+2026-11-05, and section 8 holds the result.
+
 ## 1. Where the tree stands
 
 Surveyed on main with `git grep` and a field-offset scan of every explicit-layout struct.
@@ -62,7 +69,7 @@ remains in screen code.
 |---|---|---|
 | `TXYL`, `TPaletteEntry`, the byte views | yes, byte layouts | stay explicit-layout, game logic reads both views |
 | `TDefenseRequirements` | yes | stays, `Strength` aliases element 7 of `DamageStrengths` |
-| the four combat-info buffers | | removed, the second arm is never read |
+| the four combat-info buffers | | removed, the second arm is never read. They are plain `TAbilityCombatInfo` locals |
 | `TVarRec` | yes, the cases of `Format` | custom union `FormatArg` (3.1) |
 | `TEMsg` and `TMapFieldMsg` slots | yes, int or reference | custom union `MsgArg` (3.2) |
 | `TShowInfo` blend slot | yes, percentage or table | custom union `BlendValue` (3.3) |
@@ -80,99 +87,147 @@ remains in screen code.
 ```csharp
 [Union] public readonly struct FormatArg : IUnion     // src/Rtl/FormatArg.cs
 {
-    // cases: int, bool, char, double, string, TObject?, PointerArg (record struct over uint)
-    private readonly long bits; private readonly object? reference; private readonly byte kind;
+    // cases int, bool, char, double, string, TObject, PointerArg (a record struct over uint)
+    private readonly long bits; private readonly object? reference; private readonly Case kind;
 }
-public static string Format(string format, params ReadOnlySpan<FormatArg> args);
+public static string Format(string? format, params ReadOnlySpan<FormatArg> args);
 ```
 
-The 335 `Format` lines compile unchanged, which the probe showed for collection expressions.
-`FormatBuf` reads each argument with one switch expression. The `Class` case goes with 9.4-7, and
-the `PChar` case stays only if 9.5 leaves a `Ptr<byte>` argument. Both a Delphi `Char` byte
-and a string-element `char` select the Char case. The byte overload converts through
-`Cp1252.Char`, as `TVarRec(byte)` does after 9.5-P1b.
+Brief 9.6-1 (PR #99). The `Format` calls compile unchanged. There is one implicit conversion per
+case and one from a Delphi `Char` byte through `Cp1252.Char`, because the compiler prefers a
+user-defined conversion to the union's own. With a lone `byte` operator a constant 1 turns into a
+Char, and one operator per source type keeps the case each argument had under `TVarRec`. Both a
+Delphi `Char` byte and a string-element `char` select the Char case (roadmap X23). A nil `TObject`
+is the union's null case, not an Object case holding null (9.6-1 review), since a type pattern on a
+custom union does not test for null. `Format` rejects it as it rejects any argument of the wrong
+kind. `Format`, which every `CreateFmt` calls, reads each argument with one switch expression with
+no discard arm, so a new case fails the build. The `Class` case went with CF-3, and the `PChar` case
+is dropped, since nothing passes a `Ptr<byte>` to `Format`, which the build proves. `TVarRec`,
+`VarKind` and `ExceptionText` are deleted. `rtl-shim.md` 1.6 lists the cases and conversions, 3.3
+what each conversion character takes.
 
 ### 3.2 MsgArg
 
 ```csharp
-[Union] public readonly struct MsgArg : IUnion        // src/Rtl/MsgArg.cs, cases int and TObject?
+[Union] public readonly struct MsgArg : IUnion, IEquatable<MsgArg>   // src/Rtl/MsgArg.cs, cases int and TObject
 {
-    public int Int { get; }                           // the int, 0 when empty, EInvalidCast on a reference
-    public T? As<T>() where T : class;                // the reference as T, null otherwise
+    public int Int { get; }                     // the int, 0 when empty, EInvalidCast on a reference
+    public T? As<T>() where T : class;          // the reference as T, null otherwise
+    // ==, != and Equals: the equality of the original 32-bit word
 }
+[InlineArray(Arity)] public struct TEMsgParams { public const int Arity = 3; }          // Engine.cs
+[InlineArray(Arity)] public struct TMapFieldMsgParams { public const int Arity = 4; }   // HSEngine.cs
 ```
 
-The `Param` arrays become `[InlineArray]` structs of `MsgArg`, named by their role, each with
-a named constant for the protocol arity. Never generate `FixedArray_MsgArg_N`. These are kept
-protocol layouts, not content counts. `Payload` and `TMapFieldMsg.Result`
-become `MsgArg`, and the `Engine`, `Obj` and `Value` accessors go. The new-turn pun is already an
-int read (`AoWE.cs:69539, 95636`). What changes against `IntOrRef`: a reference no longer offers
-its `InstanceId` as an integer, and `Int` on a reference throws, so a reader relying on that view
-fails in the gate. The census of 9.6-0 lists every message slot with the case written and read.
+Brief 9.6-4 (PR #105). `TEMsg.Param` is a `TEMsgParams` and `TMapFieldMsg.Param` a
+`TMapFieldMsgParams`, inline arrays of `MsgArg` named by their role with the arity of the message
+protocol as a named constant, never a generated `FixedArray_MsgArg_N` (roadmap X31). These are kept
+protocol layouts, not content counts. `TEMsg.Payload` and `TMapFieldMsg.Result` are `MsgArg`, and
+the `Engine`, `Obj` and `Value` accessors are gone. A nil reference is the union's null, as the
+original slot holds 0 for it.
+
+What changes against `IntOrRef`: a reference no longer offers its `InstanceId` as an integer, and
+`Int` on a reference throws. A compile-time scan of all 511 slot uses found no reference read as an
+integer. The census's three mixed reads, `Value` of a reference in `TMapFieldMsg.Result`, were the
+answered test of `TMapField.SendMapFieldMsg`, which compares the result before and after each
+handler. It compares with `MsgArg` equality, the equality of the original word: the same integer or
+the same object are equal, the empty slot, the integer 0 and the nil reference are all the word 0,
+and a nonzero integer never equals a reference. So an integer answer and a reference answer stop
+the loop alike, a reference the caller preset stays and every handler runs, and a handler that
+writes 0 over 0 has not answered, as in the original. `MsgArgTests` cover the union,
+`MessageSlotTests` the arity, the dispatcher and each slot's cases, and
+`NoStorageMethodTakesAMessageRecord` the absence of a message record from every `rw*` and `Read`
+method.
 
 ### 3.3 TShowInfo
 
 ```csharp
-[Union] public readonly struct BlendValue : IUnion { /* cases int (percentage) and TBlendTable? */ }
-public struct TShowInfo { public TShowMode ShowMode; public TBlendMode BlendMode; public BlendValue Blend; }
+[Union] public readonly struct BlendValue : IUnion    // src/Units/GFXE.BlendValue.cs, cases int (percentage) and TBlendTable
+{
+    public int Percentage { get; }                    // the percentage, 0 when empty, EInvalidCast on a table
+}
+public struct TShowInfo { public TShowMode ShowMode; public TBlendMode BlendMode; public BlendValue Blend; }   // ImageLib.cs
 ```
 
-`BlendMode` stays a field: it picks one of five tables for a percentage, and
-`TLibraryImage.ShowEx` reads the image's own mode with the caller's payload (`transpiler.md` 4.3).
-The `bmUser` arm matches `Blend is TBlendTable table`, the others read `Blend.Percentage`, which
-throws on a table. A `bmUser` image read from a file carries an int and draws nothing, as today.
+Brief 9.6-5 (PR #106). `BlendValue` sits beside the table type in the units, not in the shim. A
+nil table is the union's null. `BlendMode` stays a field: it picks one of five tables for a
+percentage, and `TLibraryImage.ShowEx` reads the image's own mode with the caller's value
+(`transpiler.md` 4.3). The `bmUser` arm of `Show`, `ShowStretched` and `ShowEx` matches
+`Blend is TBlendTable table`, the others read `Blend.Percentage`, which throws on a table. A
+`bmUser` image read from a file carries an int and draws nothing, as before. Only `ImageLib.cs` and
+`AoWTitleScene.cs` read or write the slot, so the 25 more files of section 6 did not exist. The
+8-byte image record keeps its layout, and a table writes 0 where the first stage wrote an instance
+id, which no written file held. The brief's round trip over the installed libraries compared 11,419
+records of 23,677 images in 538 libraries, all equal, and found no `bmUser` image in the data.
 
 ### 3.4 Event logs
 
-`TEventLog` stays open. Two virtuals replace the two cascades over it, declared with every override
-in a new `EventLog.Views.cs`:
-
 ```csharp
 public sealed class EventView(string name) { public string Name => name; /* None, Acknowledge and 34 dialog views */ }
-public partial class TEventLog
+public partial class TEventLog                             // EventLog.Views.cs
 {
     public virtual EventView View() => EventView.None;     // what the map events screen shows
-    public virtual void ExecuteAI(sbyte player) { }         // what an AI player does with it
+    public virtual void ExecuteAI(sbyte Player) { }         // what an AI player does with it
+}
+public partial class TMapEvents                            // aowMapEvents.cs
+{
+    public static readonly Catalog<EventView, Action<TMapEvents, TEventLog, bool, TExecuteDoneEvent>> EventRenderers;
 }
 ```
 
-`TMapEvents` keeps a static `Catalog<EventView, ...>` from view to renderer, filled with today's
-dialog calls. Renderers take the screen as an argument (`Action<TMapEvents, TEventLog>`), so
-registration needs no screen instance. `RegisterView` calls its `Add`, which rejects duplicate
-keys. Original renderers register in `ClassRegistry`, and the mod facade adds mod renderers.
-`TheMapExecuteEventLog` hides the transient windows as today and calls the renderer of `Event.View()`. `None` has no renderer, so nothing runs and `Done` is not called, as for
-the 11 kinds the cascade skips. `Acknowledge` calls `Done(Event)`, the `TUserEventLog` arm. The
-state the cascade consults (negotiation target, hero present in army info and prisoners, seated
-player at game over, player magic mode) is read by the overrides with the same queries at the same
-moment. `TProcessEventlogAIPA` calls `Log.ExecuteAI(player)`, overridden by `THeroEmergeEventLog`
-and `TDiplomaticActionEventLog`.
+Brief 9.6-3 (PR #104). `TEventLog` stays open. `EventLog.Views.cs` declares the two virtuals with
+every override, 28 of `View` and two of `ExecuteAI`, and names no screen. A renderer takes the
+screen, the event, the immediate mode and the done callback, so registration needs no screen
+instance. Every original renderer but the two production screens (`CityProduction`,
+`ProductionPlace`) uses the callback, and three of them (`Tutorial`, `FlagMessage`, `Help`) take
+the mode. `ClassRegistry.cs` adds the 35 original renderers with the catalog's `Add`, which
+rejects a duplicate key, and the mod facade of milestone 10 adds mod renderers. No separate
+`RegisterView` exists. `TheMapExecuteEventLog` hides the transient windows as before and calls the
+renderer of `Event.View()`. `None` has no renderer, so nothing runs and `Done` is not called, as
+for the 11 kinds the cascade skipped. `Acknowledge` calls `Done(Event)`, the old `TUserEventLog`
+arm. The overrides read the state the cascade consulted (the negotiation target and joining hero,
+the seated player at game over, the player magic mode, the army view's selection, the prisoner
+hero) with the same queries at the same moment. `TProcessEventlogAIPA` calls
+`Log.ExecuteAI(player)`, overridden by `THeroEmergeEventLog` and `TDiplomaticActionEventLog`.
 
-Arm order matters only where an earlier arm catches a subclass. No arm tests a base before one of
-its subclasses, so the first match is the nearest handled ancestor, which is what a virtual
+Arm order mattered only where an earlier arm caught a subclass. No arm tested a base before one of
+its subclasses, so the first match was the nearest handled ancestor, which is what a virtual
 resolves to. `TEnterCaveEventLog`, `TPlayerConnectionEventLog`, `TRazeStructureEventLog` and
 `TRestartGameEventLog` inherit the `TMessageEventLog` override, `TTutorialMessageEventLog` and
 `TFlagMessageEventLog` override `THelpMessageEventLog`'s, and `TJoinEventLog`,
 `TProductionEventLog` and the `TTextEventLog` line keep `None` beneath overriding subclasses.
+`EventLogViewTests` replay the old cascade over all 44 event log classes with built state.
 
 ### 3.5 Structures
 
-Four dispatch sites become virtuals on `TStructure`, declared with every override in a new
-`Structure.Views.cs`. Keys are `StructureView` values, the open pattern of `EventView`, and the
-info window and the map screen keep static `Catalog<StructureView, ...>` renderer tables.
-Renderers take their screen as an argument, registration calls `Add`, and original entries live
-in `ClassRegistry`. Both view briefs build on CF-2's `Catalog`.
+Brief 9.6-2 (PR #103). Four dispatch sites became virtuals on `TStructure`, declared with every
+override in `Structure.Views.cs`, which names no screen. Keys are `StructureView` values, the open
+pattern of `EventView`: `None`, the two screens `CityScreen` and `ProductionScreen`, and 19 panels.
+The info window keeps two static catalogs, `TIWindow.StructurePanels` and
+`TIWindow.StructureButtons` (`Action<TIWindow, TStructure>`), and the map screen one,
+`TMapEvents.StructureScreens` (`Action<TMapEvents, TStructure>`). Renderers take their screen as an
+argument, `ClassRegistry.cs` adds the 23 original renderers with `Add`, and both view briefs build
+on CF-2's `Catalog`.
 
 | virtual | replaces | returns |
 |---|---|---|
-| `InfoPanel(sbyte viewer)` | `ShowStructureInfo` | the panel key, `Generic` by default. The ownership, razed and war-mode tests move into `TPlayerStructure` and `TCity` |
-| `InfoButton(sbyte viewer)` | `MainBtnClick` | the screen to open (city, production place), or `None` after running the kind's own action (cave, teleport, exploration site, tower, arena, altar) |
-| `DoubleClick(sbyte viewer)` | `TheMapStructureDblClick` | the same, with today's ownership and `CanDblClick` gates |
-| `CombatMapName()` | the class id switch | the tactical map file stem |
+| `InfoPanel(sbyte Viewer)` | `ShowStructureInfo` | the panel key. A structure under construction or razed shows that state first (the protected `StatePanel`), else the kind's panel, `Generic` by default. `TPlayerStructure` shows its owner, and every player in debug mode, the protected virtual `OwnerPanel()`, and anyone else `OtherPlayer`. `TCity` shows the war panel to every player in war mode |
+| `InfoButton(sbyte Viewer)` | `MainBtnClick` | the screen to open (city, production place), or `None` after running the kind's own action (cave, teleport, exploration site, wizard's tower, arena, altar) |
+| `DoubleClick(sbyte Viewer)` | `TheMapStructureDblClick` | the same, with the old ownership and `CanDblClick` gates |
+| `CombatMapName(CombatMapSite Site)` | the class id switch of the tactical map generator | the tactical map file stem, `Blank000` by default |
 
-The class id switch matches exact ids: a subclass with an id of its own falls to the default arm,
-while a virtual is inherited. The brief lists from the `EClass` table every such subclass below an
-overriding class and gives it the default back. The cascades are checked for subclass capture the
-same way as the event logs.
+`CombatMapSite` carries the generator state the old arms read and wrote, so `CombatMapName` stays
+free of generator code (amended by 9.6-2 on 2026-11-05). The kind reads whether the combat is a
+site combat, the random terrain mode and its neighbours (`NeighborHolds(Direction, Kind)`), and
+reports back the random terrain mode, whether the map takes the combat's items
+(`TakesCombatItems`) and the neighbour tags it fixes (`FixTag`). The generator applies them after
+the call. The bridge, no structure, stays in the generator in the original lookup order.
+
+The class id switch matched exact ids, while a virtual is inherited. Each override sits on the
+class whose id the switch named, and `NoStructureInheritsAnotherClassMapName` checks that no
+structure class inherits a map name from a class above it. `StructureViewTests` replay copies of
+the old cascades and the old switch over all 42 structure classes of the `EClass` table and every
+state they consulted, including the random seed after the site map draw.
 
 ### 3.6 Production orders
 
@@ -180,35 +235,79 @@ same way as the event logs.
 public abstract record ProductionOrder                                   // AoWE.ProductionOrders.cs
 {
     public abstract (int Id, int Parameter, int GroupId) ToFields();
-    public static ProductionOrder FromFields(int id, int parameter, int groupId);  // registry, else UnknownOrder
-    internal static void Register(int id, Func<int, int, int, ProductionOrder> create);
-    public virtual string Name(TProductionControl control);              // also NameProgressive, CanExecute,
-    public virtual bool Execute(TProductionControl control);             // Loopable, LocksQueue, CityAction, ActivityImage
+    public static ProductionOrder FromFields(int Id, int Parameter, int GroupId);  // registry, else UnknownOrder
+    internal static void Register(int Id, Func<int, int, int, ProductionOrder> Create);
+    public virtual string Name(TProductionControl Control);              // and 16 more virtuals
+    public virtual void Execute(TProductionControl Control);             // inside the control's update bracket
+    public virtual void Executed(TProductionControl Control);            // after the bracket closed
 }
-public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder { /* overrides */ }
-// ResearchSpell (2), Trade (10), Upgrade (11), Fortify (12), Migrate (13), Loot (14), UnknownOrder
+public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder { public const int Kind = 1; /* overrides */ }
+// ResearchSpell(Index) 2, Trade(TurnsTotal) 10, Upgrade 11, Fortify 12, Migrate(Race) 13, Loot 14,
+// UnknownOrder(Id, Parameter, GroupId)
 ```
 
-The kinds are open, so the shape is an open abstract record carrying the behavior. What varies by
-control (city or production place) is already virtual on `TProductionControl`, so each arm of the
-switches over the id or its mapped `TCityAction` moves into its order class and calls the control's
-existing members. The screens take names and images from the order. The order registry uses
-`Catalog<int, ...>`, whose `Add` rejects duplicate ids and whose `TryGet` serves `FromFields`.
-`TProductionItem` keeps its node identity and holds `Order` in place of the three fields. Finding
-an equal item
-(`AoWE.cs:1406`) is record equality.
+Brief 9.6-6 (PR #107). The kinds are open, so the shape is an open abstract record carrying the
+behavior. The 17 virtuals are `CityAction`, `UnitProductionIndex`, `Name`, `NameProgressive`,
+`CanExecute`, `Execute`, `Executed`, `Complete`, `Completed`, `Cancel`, `Loopable`, `LocksQueue`,
+`ActivityImage` for a city and for a production place, `CitySequence`, `RealmActivity` and
+`ActivityLines`. Starting and finishing an order are void pairs, because the old arms ran partly
+inside the control's `BeginUpdate` and `EndUpdate` bracket and partly after it.
+`TProductionControl.ExecuteProduction` checks `CanExecute`, calls `Execute` inside the bracket and
+`Executed` after `EndUpdate`. The turn's end calls `Complete` when the order's turns run out and
+`Completed` while the order still runs with no turns left. What varies by control (city or
+production place) is virtual on `TProductionControl`, which gained `ProductionCity()` and
+`MagicSphere()` in place of the per-control arms, so each arm of the switches over the id or its
+mapped `TCityAction` moved into its order class and calls the control's members. The brief removed
+30 switches across `AoWE.cs`, `City.cs`, `PrdPlace.cs`, `AoWCityScreen.cs`, `AoWInfoWin.cs`,
+`AoWProdScreen.cs` and `AoWRealm.cs`, and the screens take names and images from the order.
+
+The city screen keeps its own button table: `SelectAction`, `CityBtn1Click`, `CityBtn2Click` and
+`ActivityImage(TCityAction)` in `AoWCityScreen.cs` select a button's panel and handler, and they
+include Raze, which is no order. The table stays for milestone 10, where a mod's new city action
+needs a button (amended 2026-11-05 after 9.6-6). `QueueLBChange` feeds an order's `CityAction`
+into `SelectAction`.
+
+The order registry is a `Catalog<int, ...>`, whose `Add` rejects a duplicate id and whose `TryGet`
+serves `FromFields`. `ClassRegistry.cs` registers the seven original kinds. `TProductionItem`
+keeps its node identity and holds `Order` in place of the three fields, `UnknownOrder(0, 0, 0)`
+until it is set or read. Finding an equal item (`TProductionQueue.IndexOf`) is record equality.
 
 ### 3.7 Diplomatic proposals
 
-`TDiplomaticAction` keeps its class id and the common part (day, source, target, reaction,
-escrow, event log id) and holds an open `DiplomaticProposal`, the pattern of 3.6 keyed by the
-one-byte kind with a `Catalog<byte, ...>`. Its internal registration takes the loader-assigned
-id for a mod and rejects duplicates. The ten kinds hold their own fields (other player, gold and
-mana, message) and override what the 14 switches do today: description text, validity before a reaction, the AI's
-acceptance chance, the effect of acceptance. No subclass of `TDiplomaticAction` per kind, because
-the original format names one class id for every kind. `E3EventDialogs` builds the proposal when
-the player confirms. A field the census finds set for a kind that does not hold it moves into the
-common part.
+```csharp
+public abstract record DiplomaticProposal                                // AoWE.DiplomaticProposals.cs
+{
+    public IReadOnlyList<string> Message { get; init; }                 // property 27, in every kind
+    public abstract (byte Kind, int Gold, int Mana) ToFields();
+    public static DiplomaticProposal FromFields(byte Kind, int Gold, int Mana);   // registry, else UnknownProposal
+    internal static void Register(byte Kind, Func<int, int, DiplomaticProposal> Create);
+    public virtual ProposalView View { get; }                           // and 16 more virtuals
+}
+public abstract record OfferProposal(int Gold, int Mana) : DiplomaticProposal;   // the five kinds with an offer
+// DeclareWar 0, OfferPeace 1, ProposeAlliance 2, SendMessage 3, ThreatenToAttack 4, MakeTribute 5,
+// BreakAlliance 6, SendMessageAsY 7, BreakAllianceWithY 8, DeclareWarToY 9, UnknownProposal(Kind, Gold, Mana)
+```
+
+Brief 9.6-7 (PR #108). `TDiplomaticAction` keeps its class id and the common part: reference
+count, day, source, target, other player, reaction, escrow gold and mana, and event log id. It
+holds a `DiplomaticProposal`, the pattern of 3.6 keyed by the one-byte kind with a
+`Catalog<byte, ...>` that rejects duplicates. `OfferProposal(Gold, Mana)` is the base of the five
+kinds that carry an offer (`OfferPeace`, `ProposeAlliance`, `MakeTribute`, `BreakAllianceWithY`,
+`DeclareWarToY`). Two fields that section 3 gave the kinds stay common, per roadmap X20 and the
+census. `FOtherPlayer` stays a field of `TDiplomaticAction`, since the census finds it written for
+every kind, 255 for the kinds that name no other player. `Message` is a member of the
+`DiplomaticProposal` base, which every kind carries. No subclass of `TDiplomaticAction` per kind
+exists, because the original format names one class id for every kind. `TDiplomaticActionType`
+is deleted.
+
+The 17 virtuals do what the 25 replaced switches and branches in `AoWE.cs`, `AoWRelations.cs` and
+`E3EventDialogs.cs` did: `WithOffer`, `View`, `Icon`, `SignedAsOtherPlayer`, `Name`, `LogText`,
+`LoggedSample`, `MiddleIcon`, `DefaultMessage`, `CanSend`, `Sent`, `LapsesUnanswered`, `Accepted`,
+`RejectReaction`, `AnswerAI`, `RefusedAI` and `RelationModifier`. The screens branch on the
+proposal's `ProposalView` (`None`, `Notice`, `Threat`, `Offer`, `Message`), one branch per view and
+none per kind, with no renderer table until milestone 10 gives a mod's proposal a view of its own.
+The relations window enters the player's offer into the proposal at send time with `WithOffer`.
+`ClassRegistry.cs` registers the ten original kinds.
 
 ## 4. Persistence and the converter boundary
 
@@ -220,11 +319,11 @@ saves, maps and gate runs.
 
 | family | boundary | adapter |
 |---|---|---|
-| `FormatArg`, `MsgArg` | none | never streamed or sent. 9.6-4 adds a check that no `rw*`, `Read` or `Write` call takes a message record |
-| `TShowInfo` | ILB image, 8 bytes | `ReadImage` and `WriteImage` stay in the struct: mode bytes at 0 and 1, padding at 2, the int at 4. Reading yields the int case. A table writes 0 where the original wrote a process address no reader uses. ILB files are game data, outside 9.7 |
+| `FormatArg`, `MsgArg` | none | never streamed or sent. `MessageSlotTests.NoStorageMethodTakesAMessageRecord` checks that no `rw*` or `Read` method takes a message record |
+| `TShowInfo` | ILB image, 8 bytes | `ReadImage` and `WriteImage` stay in the struct: mode bytes at 0 and 1, padding at 2, the percentage at 4. Reading yields the percentage case. A table writes 0 where the original wrote a process address no reader uses. ILB files are game data, outside 9.7 |
 | event logs, structures | none | virtuals add no state, class ids unchanged |
 | `ProductionOrder` | `TProductionItem.ReadWrite` ids 20 to 22, in saves, maps and `TProductionTE` | below |
-| `DiplomaticProposal` | `TDiplomaticAction.ReadWrite` ids 22 to 25 and 27, in saves and `TDiplomaticActionTE` | the same pattern, the kind as the one-byte `rwData` at id 25 |
+| `DiplomaticProposal` | `TDiplomaticAction.ReadWrite` ids 23 to 25 and 27 (gold, mana, kind, message), in saves and `TDiplomaticActionTE`. Id 22, the other player, stays in the common part (3.7) | the same pattern, the kind as the one-byte `rwData` at id 25 and the message from the proposal's `Message` |
 
 ```csharp
 public override void ReadWrite(TEStorageStream Stream)
@@ -239,17 +338,33 @@ public override void ReadWrite(TEStorageStream Stream)
 }
 ```
 
-Calls, ids, order and the zero rule stay as today. Original kinds register in `ClassRegistry`,
-not at unit initialization. An unregistered order id reads as `UnknownOrder` and writes back
-unchanged. The loader assigns mod order and proposal ids through the milestone 10.4 facade.
-Internal registries take those assigned ids. CF-3's `ClassRegistryTests` checks original kinds
-for completeness. The view and kind registries build on CF-2's `Catalog`.
+The code is `TProductionItem.ReadWrite` as it stands. `TDiplomaticAction.ReadWrite` writes
+properties 20 to 31 the same way. Calls, ids, order and the zero rule (`persistence.md` 1.4) stay as
+they were. `ProductionOrderTests` and `DiplomaticProposalTests` compare the written bytes with bytes
+recorded on main before the change, for every property set the census found per kind, for the kinds
+the census did not meet as the source builds them and for ids no kind registers, alone and inside
+`TProductionTE`, or inside `TDiplomaticActionTE` and `TDiplomaticActionEventLog`. Original kinds
+register in `ClassRegistry`, not at unit initialization, and the same tests check that every
+original kind is registered and that a second registration throws. An unregistered id reads as
+`UnknownOrder` or `UnknownProposal` and writes back unchanged. The loader assigns mod order and
+proposal ids through the milestone 10.4 facade, and the internal registries take those assigned ids.
+The view and kind registries build on CF-2's `Catalog`.
+
+A registered kind holds only its own fields (roadmap X20). It drops a value that a file holds in a
+field the kind does not use, so that value writes back as 0, which the zero rule omits. The census
+fixed each kind's fields and found no such value in the 401 files it read, apart from the other
+player, which it finds written for every kind and which stays in the common part of
+`TDiplomaticAction` (3.7). X20 makes the converter's `$residue` the net for values outside the
+census, with no residue expected on production items and diplomatic actions, so that a census miss
+fails the gate.
 
 What 9.6 assumes from 9.7:
 
 1. Until 9.7 lands, the original format is the primary format and the adapters live in `ReadWrite`.
 2. The converter keeps class ids as object identity and the property numbering inside itself.
-3. Its per-class mapping calls `ToFields` and the registries' `FromFields` unchanged.
+3. Its per-class mapping calls `ToFields` and the registries' `FromFields` unchanged. Brief 9.7-3
+   adds the mappings of `TProductionItem` and `TDiplomaticAction` (`own-formats.md` 3.1). The 9.6
+   briefs ran before it merged and left them out.
 4. The port's own format names order and proposal types and writes only their fields. The census
    tells 9.7 which original fields carry no information.
 5. The oracle compares converter output in byte mode, and the scenarios layer loads the shipped
@@ -284,9 +399,9 @@ The 13 layers of `tools/check.py` keep their counts. A count that moves is a fin
 | 9.6-3 event log views | new `EventLog.Views.cs`, `aowMapEvents.cs`, `AoWE.cs` (`TProcessEventlogAIPA`), tests | both cascades hold no type test, the view tests pass |
 | 9.6-4 `MsgArg`, buffers | `Engine.cs`, `HSEngine.cs`, `FixedArrays.cs`, new `src/Rtl/MsgArg.cs`, `CoreTests.cs`, the 59 Units message files, `AoWTC.cs` | `IntOrRef` remains only in `THashItem`, `Ptr.cs` and their tests, the overlap scan finds 3 structs |
 | 9.6-5 `TShowInfo` | `ImageLib.cs`, 25 more Units files, `GraphicsConstructionTests.cs` | no `IntOrRef` in `ImageLib.cs`, the ILB round trip test passes |
-| 9.6-6 production orders | new `AoWE.ProductionOrders.cs`, `AoWE.cs`, `City.cs`, `PrdPlace.cs`, `AoWCityScreen.cs`, `AoWInfoWin.cs`, `AoWProdScreen.cs`, tests | `FProductionID` and `FParameter` appear nowhere, no switch over a production id or its city action outside the order classes, the byte tests pass |
-| 9.6-7 diplomatic proposals | new `AoWE.DiplomaticProposals.cs`, `AoWE.cs`, `AoWRelations.cs`, `E3EventDialogs.cs`, tests | no switch on `FActionType`, the byte tests pass |
-| 9.6-8 documents | `design.md` sections 1, 2, 6 and 9, `rtl-shim.md` 1.5 and 1.6, `transpiler.md` 4.3, `persistence.md` 5, `milestones.md` row 9.6 reworded to unions for closed data and virtual dispatch for kind families | the documents name the code as it is |
+| 9.6-6 production orders | new `AoWE.ProductionOrders.cs`, `AoWE.cs`, `City.cs`, `PrdPlace.cs`, `AoWCityScreen.cs`, `AoWInfoWin.cs`, `AoWProdScreen.cs`, tests | `FProductionID` and `TProductionItem.FParameter` appear nowhere, no switch over a production id or its city action outside the order classes, apart from the city screen's button table (`SelectAction`, the two button handlers and `ActivityImage(TCityAction)` in `AoWCityScreen.cs`, which select a button's panel and handler and include Raze, no order), kept for milestone 10 where a mod's new action needs a button (amended 2026-11-05 after 9.6-6), the byte tests pass |
+| 9.6-7 diplomatic proposals | new `AoWE.DiplomaticProposals.cs`, `AoWE.cs`, `AoWE.Assembly.cs`, `AoWRelations.cs`, `E3EventDialogs.cs`, tests | no switch on `FActionType`, the byte tests pass |
+| 9.6-8 documents | this document, `design.md` sections 1, 2, 6 and 9, `rtl-shim.md` 1.5 and 1.6, `transpiler.md` 4.3, `persistence.md` 5, `milestones.md` row 9.6 reworded to unions for closed data and virtual dispatch for kind families | the documents name the code as it is |
 
 Overrides go into the new partial files, which keeps the view briefs out of the unit files 9.6-4
 rewrites. 9.6-0 runs now, beside 9.4 and 9.5, since it changes nothing in the product. 9.6-1 and
@@ -324,5 +439,30 @@ arguments, which `FormatArg` takes over. Delphi `Char` remains `byte` until a la
    each old arm with its new method.
 7. A switch over a union written as a statement escapes the check of section 2. Evidence: review.
 8. Transpiler reference diffs keep the old shapes. Evidence: the transpiler layer passes, and the
-   9.6-8 report records the divergence.
+   9.6-8 report records the divergence. `transpiler.md` 4.3 lists it, shape by shape.
 9. The SDK is a release candidate. Evidence: the extended `cs15probe` runs first in every brief.
+
+## 8. Result
+
+The seven product briefs merged on 2026-11-05, each after a review at high effort and a full run
+of the private gate:
+
+| brief | PR | what holds |
+|---|---|---|
+| 9.6-1 `FormatArg` | #99 | `git grep -n "TVarRec\|VarKind" -- src` prints nothing. 180 new tests select every case by its conversion and meet every case with every conversion character |
+| 9.6-2 structure views | #103 | no type test on a structure kind in the three screen methods, no switch on a class id. `StructureViewTests` replay the old cascades and the old switch over all 42 structure classes |
+| 9.6-3 event log views | #104 | neither cascade holds a type test. `EventLogViewTests` replay the old cascade over all 44 event log classes |
+| 9.6-4 `MsgArg`, buffers | #105 | `IntOrRef` remains only in `THashItem`, `Ptr.cs` and their tests. The overlap scan finds 3 structs (`TXYL`, `TPaletteEntry`, `TDefenseRequirements`) |
+| 9.6-5 `TShowInfo` | #106 | no `IntOrRef` in `ImageLib.cs`. The ILB round trip compares 11,419 records in 538 libraries, all equal |
+| 9.6-6 production orders | #107 | `git grep FProductionID -- src` finds only a test comment that names the old layout. The byte tests and the replayed switches pass |
+| 9.6-7 diplomatic proposals | #108 | `git grep FActionType -- src` finds only a test comment that names the old layout. The byte tests and the replayed presentation switches pass |
+
+The gate of main `a4bc2a3`, the last brief merged, passed all 13 layers: the product layer runs
+3,595 tests (`Rtl.Tests` 339, `Units.Tests` 2,986, `Formats.Tests` 270) with zero build warnings
+and `Strings check: 0 findings`, the oracle has 177 of 177 saves equal in byte and model modes,
+frames 100 of 100 are pixel-identical, and the scenarios layer has 92 states and 92 frames equal.
+The transpiler layer passes its 328 tests with the reference emitter's old shapes
+(`transpiler.md` 4.3).
+
+Two items of the plan were not needed. The 25 more Units files of 9.6-5 did not exist (3.3), and
+the PChar case of `FormatArg` went because nothing passed a `Ptr<byte>` (3.1).

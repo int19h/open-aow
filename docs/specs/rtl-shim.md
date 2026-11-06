@@ -100,8 +100,8 @@ contract (`strings.md` 2.1 and 2.7).
   switch `Rtl.StrictStrings` decides what a null argument does in the routines that read it:
   `Rtl.Length`, `Rtl.IsEmpty`, the text routines of sections 2.3 and 3.1, the file name routines of
   section 3.4 (the `Extract*` family, `ChangeFileExt`, `ExpandFileName`), `Cp1252.Encode`,
-  `Normalize` and `Compare`, and the string conversion of `TVarRec`. Off, a null reads as `""`, as
-  Delphi reads nil, and that is the game. On, it throws `NullStringException` (an
+  `Normalize` and `Compare`, and the string conversion of `FormatArg` (1.6). Off, a null reads as
+  `""`, as Delphi reads nil, and that is the game. On, it throws `NullStringException` (an
   `InvalidOperationException`). `s.Length` on a null throws `NullReferenceException` in both modes.
   `GateSwitches.Enter` turns the switch on when the environment variable `AOW_STRICT_STRINGS` is
   `1`. Game, Headless and the private gate hosts HostChecks and Localization.Tests call it at entry,
@@ -140,23 +140,71 @@ is the zero-terminated copy of section 1.2. `Bytes.Of(ref T)` is the
 `Span<byte>` over an unmanaged struct for the untyped buffer routines (`GetCRC32`, `Move`,
 `FillChar`, `CompareMem` with `SizeOf`).
 
-### 1.5 IntOrRef
+### 1.5 IntOrRef and MsgArg
 
-`struct IntOrRef { int Value; object Ref; }` with implicit conversions from `int`, from `TObject`
-(a `PtrBox<T>` among them) and from `string`, and `T As<T>()`, which reads `""` for a string slot
-that holds no string. It is the slot type wherever the
-source overlays a reference and an integer: `TEMsg.Param`, the collapsed `Engine`, `Obj` and
-`Value` arms of `TEMsg`, `TShowInfo`'s percentage or table, `THashItem.Key` under its string view,
-and `TMapFieldMsg.Param` (`transpiler.md` 4.3). `Value` of a reference is its `InstanceId`, or for
-a string an id from the same counter. `Ref` of an integer is `null`.
+`struct IntOrRef { int Value; object Ref; }` (`Values.cs`) with implicit conversions from `int`,
+from `TObject` (a `PtrBox<T>` among them) and from `string`, and `T As<T>()`, which reads `""` for
+a string slot that holds no string. `Value` of a reference is its `InstanceId`, or for a string an
+id from the same counter. `Ref` of an integer is `null`. The first stage used it wherever the
+source overlays a reference and an integer (`transpiler.md` 4.3). Since milestone 9.6 it remains
+only in `THashItem.Key` (`Engine.cs` and `HashTabU.cs`), where `THashList` keeps an integer key
+and `TStringHashItem` a string in the same slot, and in `Ptr<T>.Unbox(IntOrRef)` (1.4), until the
+collections pass gives each hash list a typed key. The message slots took `MsgArg` and the blend
+slot of `TShowInfo` took the union `BlendValue` of the units (`unions-and-kinds.md` 3.3).
 
-### 1.6 TVarRec
+`MsgArg` (`MsgArg.cs`, brief 9.6-4) is the slot of an engine message, a 32-bit word of the
+original that holds an integer or an object reference. It is a custom union, a `[Union] readonly
+struct` implementing `IUnion`, with two cases:
 
-The tagged value of `array of const`: `struct TVarRec { VarKind Kind; long Int; double Ext; string Str; object Obj; bool Bool; char Chr; }`,
-where `Str` is a property that reads a null as `""`. Implicit conversions from `int`, `byte` (a
-Delphi `Char`, stored as `Cp1252.Char` of the byte), `bool`, `double`, `string` (which reads the
-null switch of section 1.2), `char`, `TObject` and `Ptr<byte>` (the PChar kind), and
-`TVarRec.Pointer(uint)`. `Format` reads it.
+| case | conversion | read |
+|---|---|---|
+| `int` | implicit from `int`, so a `byte` or a `short` widens to it | `TryGetValue(out int)`, and `Int` |
+| `TObject` | implicit from `TObject?`, so every class derived from it converts | `TryGetValue(out TObject)`, and `As<T>()` |
+
+A nil reference is the union's null, not an object case holding null, since the original slot
+holds 0 for it, and `default(MsgArg)` is the same empty slot. `Int` reads the integer, 0 for the
+empty slot, and throws `EInvalidCast` on a reference: a reference has no integer view, where
+`IntOrRef` offered its `InstanceId`. `As<T>()` reads the reference as `T`, and `null` for an
+integer, the empty slot or another type. `Value` boxes and serves reflection only, patterns read
+the cases through `TryGetValue`. Equality (`==`, `Equals`) is the equality of the original word:
+an integer equals the same integer, a reference the same object, the empty slot, the nil
+reference and the integer 0 are all the word 0, and a nonzero integer never equals a reference.
+`TMapField.SendMapFieldMsg` compares the answer slot that way to tell whether a handler answered.
+
+The parameter arrays are inline arrays of `MsgArg` named by their role, with the arity of the
+message protocol as a named constant: `TEMsgParams` (`Engine.cs`, `Arity = 3`) for `TEMsg.Param`
+and `TMapFieldMsgParams` (`HSEngine.cs`, `Arity = 4`) for `TMapFieldMsg.Param`. `TEMsg.Payload`
+and `TMapFieldMsg.Result` are single `MsgArg` fields. The `Engine`, `Obj` and `Value` accessors of
+the first stage's `TEMsg` are gone. No message record reaches a stream or a packet.
+
+### 1.6 FormatArg
+
+The argument of `Format` and `CreateFmt`, the Delphi `array of const` element (`FormatArg.cs`,
+brief 9.6-1, in place of the first stage's `TVarRec`). `Format(string? format, params
+ReadOnlySpan<FormatArg> args)` and every `CreateFmt` of section 1.7 take the arguments as a span.
+It is a custom union, a `[Union] readonly struct` implementing `IUnion` over one `long`, one
+reference and a case byte, so a value case does not box. The cases are the Delphi `vt` kinds that
+`SysUtils.Format` reads, closed by `Format` itself:
+
+| case | Delphi kind | implicit conversions |
+|---|---|---|
+| `int` | `vtInteger` | `int`, so a `short` or a constant widens to it |
+| `bool` | `vtBoolean` | `bool` |
+| `char` | `vtChar` | `char`, and `byte`, a Delphi `Char` that enters as `Cp1252.Char` of the byte (`strings.md` 2.3) |
+| `double` | `vtExtended` | `double`, so a `uint` or a `long` widens to it |
+| `string` | `vtAnsiString` | `string`, which reads the null switch of section 1.2 |
+| `TObject` | `vtObject` | `TObject?` |
+| `PointerArg` | `vtPointer` | `PointerArg`, a `record struct` over the `uint` address that `%p` prints |
+
+A nil `TObject` is the union's null, not an object case holding null, so `default(FormatArg)` and
+`(TObject?)null` are the same empty argument, which `Format` rejects like any argument of the
+wrong kind. The conversion operators exist one per source type because the compiler prefers a
+user-defined conversion to a union conversion: one operator per case keeps the case each argument
+had under `TVarRec`, so a constant 1 stays an integer and never becomes a char. The PChar case and
+the class case of `TVarRec` are gone. No caller passes a `Ptr<byte>`, which the build proves, and
+the class case went with the metaclass (`metaclass-retirement.md`). `Format` reads each argument
+with one switch expression over the cases with no discard arm, so a new case fails the build until
+`Format` handles it (3.3).
 
 ### 1.7 Exceptions
 
@@ -306,10 +354,11 @@ type: 'd' 'u' 'x' (integers), 's' (string, char, PChar, object as ClassName is n
 Letters are case-insensitive. The transpile set uses only `%s` (95) and `%d` (6), with no width or
 precision. The shim implements the whole integer and string part and raises `EConvertError` for
 the floating point types until the demand list asks for them. `%d` with a precision pads with
-zeros. Width pads with spaces on the left, or on the right with `-`. `%s` of a `TVarRec` holding
-an integer raises `EConvertError`, as Delphi does. `%s` takes a string (`Str`), a char (`Chr`, with
-no precision cut) or a PChar, which it decodes up to the first zero byte. A string or a char
-argument keeps a char outside the table. The implementation is the shim's own `FormatBuf` port in
+zeros. Width pads with spaces on the left, or on the right with `-`. `%s` takes the string case
+or the char case (1.6), the char with no precision cut. `%p` takes the pointer case and prints its
+eight uppercase hex digits. Any other case for a conversion, the empty argument included, raises
+`EConvertError`, as Delphi does for `%s` of an integer. A string or a char argument keeps a char
+outside the table. The implementation is the shim's own `FormatBuf` port in
 `src/Rtl/StringFormat.cs`, never `string.Format`.
 
 ### 3.4 Files and paths
