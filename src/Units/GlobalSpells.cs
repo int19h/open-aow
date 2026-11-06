@@ -1127,9 +1127,9 @@ public partial class TCallHero : TSpell
     {
         THero Result;
         THero Hero;
-        TDoubleItemList Heroes;
+        TDoubleItemList<THero> Heroes;
         int Index;
-        Heroes = new TDoubleItemList();
+        Heroes = new TDoubleItemList<THero>();
         for (int I = AoWHSMap.FHeroControl.GetCount() - 1; I >= 0; I--)
         {
             Hero = AoWHSMap.FHeroControl.GetHero(I);
@@ -1137,11 +1137,11 @@ public partial class TCallHero : TSpell
             {
                 if (Hero.OfferToJoin(Source.FPlayer))
                 {
-                    Heroes.AddAB(ObjectToInt(Hero), 10);
+                    Heroes.AddAB(Hero, 10);
                 }
                 else
                 {
-                    Heroes.AddAB(ObjectToInt(Hero), 1);
+                    Heroes.AddAB(Hero, 1);
                 }
             }
         }
@@ -1155,11 +1155,11 @@ public partial class TCallHero : TSpell
                 {
                     if (Hero.OfferToJoin(Source.FPlayer))
                     {
-                        Heroes.AddAB(ObjectToInt(Hero), 10);
+                        Heroes.AddAB(Hero, 10);
                     }
                     else
                     {
-                        Heroes.AddAB(ObjectToInt(Hero), 1);
+                        Heroes.AddAB(Hero, 1);
                     }
                 }
             }
@@ -1169,7 +1169,7 @@ public partial class TCallHero : TSpell
         {
             RandSeed = AoWHSMap.Random(16777215);
             Index = Heroes.RandomChanceItemB(0);
-            Result = ReferenceFromId<THero>(Heroes[Index].A);
+            Result = Heroes[Index].A;
         }
         else
         {

@@ -303,9 +303,8 @@ fields. `TShowInfo.BlendPercentage` and `BlendTable` are the same slot the same 
 covers the one non-variant overlay, `TStringHashItem` over `THashItem` in `inc/HashTab.PAS` and
 `HashTabU.pas`, where a string lives in the integer `Key` slot: `Key` is an `IntOrRef`, and a
 reference's `Value` is its `InstanceId` as in rule N7. Any other variant record that mixes
-references and values is an error unless an override provides it. In the second stage the tagged
-unions among these become `union` types or `closed` hierarchies (`../design.md` section 9) and the
-puns stay explicit-layout structs.
+references and values is an error unless an override provides it. The emitter still writes these
+shapes, and milestone 9.6 replaced them in the product (the end of this section).
 
 Addresses of records. The 51 `@` sites on census records and the 437 record casts fall into four
 forms, and the transpiler maps each mechanically:
@@ -379,8 +378,10 @@ stream gets a generated codec that writes the Delphi image (mode bytes at 0 and 
 slot's `Value` at 4) and reads it back into `Value`. And `TLibraryImage.ShowEx` (`ImageLib.pas:2026`)
 switches on the image's own `FShowInfo.BlendMode` while reading the caller's `ShowInfo`, so an
 image in `bmUser` mode shown with a percentage tests that integer as a table pointer in the
-original. The port's `As<TBlendTable>()` returns null for an integer and skips the call, an accepted
-divergence that the report names, since the original's behavior there is undefined.
+original. The emitted `As<TBlendTable>()` returns null for an integer and skips the call, an
+accepted divergence that the report names, since the original's behavior there is undefined. The
+product's `BlendValue` keeps both consequences: the codec writes the percentage case at 4 and 0
+for a table, and the `bmUser` arm draws only for the table case (`unions-and-kinds.md` 3.3).
 
 Static arrays. `array[L..H] of T` becomes a generated struct `FixedArray_<T>_<n>` with the
 attribute `[InlineArray(n)]` (C# 12), a one-field struct that the runtime lays out as `n` elements
@@ -396,7 +397,26 @@ semantics hold. The report lists these arrays. The one address-taken global arra
 Open array parameters. `array of T` becomes `ReadOnlySpan<T>` for value and `const` parameters and
 `Span<T>` for `var` parameters. `High(A)` becomes `A.Length - 1`. A call passes an array or an
 open array constructor `[a, b]` as a collection expression. `array of const` becomes
-`params TVarRec[]`, where `TVarRec` is the shim's tagged value (section 5.6, `Format`).
+`params TVarRec[]`, where `TVarRec` was the shim's tagged value of the first stage (section 5.6,
+`Format`).
+
+The product since milestone 9.6. The emitter is a reference emitter (`../design.md` section 3), and
+the second stage changed the product's types after the hand-over, so its output keeps the first
+stage's shapes where the product moved on (`unions-and-kinds.md` section 7, risk 8). For the
+records and kinds of milestone 9.6:
+
+| the emitter writes | the product holds |
+|---|---|
+| `array of const` as `params TVarRec[]` | `params ReadOnlySpan<FormatArg>`, the union of `rtl-shim.md` 1.6. `TVarRec` is deleted from the shim |
+| `TEMsg.Param` and `TMapFieldMsg.Param` as `FixedArray_IntOrRef_3` and `FixedArray_IntOrRef_4`, `TMapFieldMsg.Result` as `IntOrRef` | `TEMsgParams` and `TMapFieldMsgParams`, inline arrays of the union `MsgArg` with the protocol arity as a named constant, and `Result` as `MsgArg` (`rtl-shim.md` 1.5) |
+| `TEMsg` and `TShowInfo` with one `IntOrRef Payload` and an accessor property per arm (`Engine`, `Obj`, `Value`, `BlendPercentage`, `BlendTable`) | `TEMsg.Payload` as `MsgArg` with no arm accessors, `TShowInfo.Blend` as the union `BlendValue` (`unions-and-kinds.md` 3.3) |
+| the three combat-info buffers of `AoWTC.pas` as explicit-layout structs | plain `TAbilityCombatInfo` locals |
+| the type cascades over structures and event logs and the class id `case` of the tactical map generator | the virtual methods of `Structure.Views.cs` and `EventLog.Views.cs` (`unions-and-kinds.md` 3.4 and 3.5) |
+| `TProductionItem` with `FProductionID`, `FParameter` and `FGroupID`, and the `case` statements over the production id | `TProductionItem.Order`, a `ProductionOrder` record (`unions-and-kinds.md` 3.6) |
+| `TDiplomaticAction` with `FActionType` of the enumeration `TDiplomaticActionType`, `FGold`, `FMana` and `FMessage`, and the `case` statements over the action type | `TDiplomaticAction.Proposal`, a `DiplomaticProposal` record (`unions-and-kinds.md` 3.7). The enumeration is deleted |
+
+`THashItem.Key` is an `IntOrRef` in both. A reference diff of an upstream change to one of these
+records or kinds is ported by hand into the product's form.
 
 ### 4.4 Classes and metaclasses
 
@@ -839,8 +859,9 @@ deleted. The emitter writes:
 The `Rtl` names come out unqualified where they bind and as `RtlUnit.X` where a member of the
 same name shadows them. The report (section 9) states the string mapping in one line.
 
-A `Format` call passes its `array of const` as `params TVarRec[]`. The shim's `Format` follows the
-Delphi 3 format string grammar (`rtl-shim.md`).
+A `Format` call passes its `array of const` as `params TVarRec[]` in the emitter's output, and as
+`params ReadOnlySpan<FormatArg>` in the product since milestone 9.6 (4.3). The shim's `Format`
+follows the Delphi 3 format string grammar (`rtl-shim.md` 3.3).
 
 `Str`, `Val`, `Write` and `WriteLn` (console only, in test hosts) are errors in generated code.
 
@@ -930,7 +951,7 @@ survives. The transpiler computes every resolution itself and compares it with t
 | N4 | An accessor class `TXAccess = class(TX);` used only in casts | the casts become plain references to the `TX` object, and the members reached become `internal`. An empty class used anywhere else than a cast stays a class |
 | N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y`, where the source compares the whole method pointer. Where it compares the two halves under separate conditions (`TEventList.Pack` tests code and data with `and`), the halves become the shim's `MethodCode` and `MethodTarget` and the condition stays as written, because whole-delegate inequality deletes other items |
 | N6 | `Integer(Pointer(@FX)^)` and other reinterpretations of a field group as one integer (11 uses) | error, override required. The report lists them |
-| N7 | `Integer(Self)`, `Integer(Owner)`, `Integer(obj)` as a value | `obj.InstanceId`, a 32-bit id the shim assigns to every object at construction from a counter. In `Msg.Param[i] := Integer(obj)` and `TFoo(Msg.Param[i])` the parameter type is the shim's `IntOrRef` and the conversions use its `Ref` and `Value` members. Address arithmetic such as `(Integer(Self) shr 8) and 3` (shore and animation variants) uses `InstanceId` and is deterministic in the port where the original depended on the heap. An integer stored in an object slot (`TStrings.Objects[i] := TObject(n)`, editor ids and section offsets in Engine) is not an object: the shim keeps it as a canonical integer box (`IntToObject`, `ObjectToInt`), and `ObjectToInt` returns the stored integer for a box and `InstanceId` for a real object |
+| N7 | `Integer(Self)`, `Integer(Owner)`, `Integer(obj)` as a value | `obj.InstanceId`, a 32-bit id the shim assigns to every object at construction from a counter. In `Msg.Param[i] := Integer(obj)` and `TFoo(Msg.Param[i])` the emitted parameter type is the shim's `IntOrRef` and the conversions use its `Ref` and `Value` members. The product's slot is the union `MsgArg` since milestone 9.6 (4.3), which gives a reference no integer view. Address arithmetic such as `(Integer(Self) shr 8) and 3` (shore and animation variants) uses `InstanceId` and is deterministic in the port where the original depended on the heap. An integer stored in an object slot (`TStrings.Objects[i] := TObject(n)`, editor ids and section offsets in Engine) is not an object: the shim keeps it as a canonical integer box (`IntToObject`, `ObjectToInt`), and `ObjectToInt` returns the stored integer for a box and `InstanceId` for a real object. Since brief C12 of milestone 9.8 no product code calls `ObjectToInt` with a real object or calls `ReferenceFromId`: an object stored in a record list column (`Integer(obj)` in a `TDoubleItemList` or `TQuadItemList`) is held by `TDoubleItemList<T>` or `TQuadItemList<T>`. The two routines remain for the reference output and the probes, over an id table that holds each object weakly, so `ReferenceFromId` gives null for an unknown id or a collected object |
 | N8 | `with PRec(P)^ do` and `with TRec(Pointer(P)^) do` | the `with` is resolved after N3 |
 | N9 | A shape cast through `Pointer`: `TFoo(Pointer(x))` on a class reference (9 [1]), and the cell view `T(Pointer(@G)^)` of a global (16), parameter (3), local (2) or field of `Self` (1) (22 [6]) | the class cast is the reference conversion of section 5.7. The cell view becomes `G` when `T` is the declared type of `G`, `(T)G` when `T` is a class related to it, and an error otherwise |
 | N10 | A unit-qualified name `Unit.Name` | kept |

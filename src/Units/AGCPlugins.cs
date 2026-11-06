@@ -402,7 +402,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
         bool Result = default;
         TAIGroupControl Control = default;
         TMoveControlSettings Settings = default;
-        TDoubleItemList Fields = default;
+        TDoubleItemList<TAoWMapField> Fields = default;
         TAoWMapField Field = default;
         int I = default;
         int TargetWeight = default;
@@ -445,7 +445,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
                 break;
             case 1:
                 Settings = FMoveSettings;
-                Fields = new TDoubleItemList();
+                Fields = new TDoubleItemList<TAoWMapField>();
                 if (Settings.FProcessedMapFields.Count > 40)
                 {
                     I = Settings.FProcessedMapFields.Count - 1;
@@ -457,7 +457,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
                             if (FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx) != 16777215)
                             {
                                 var movePoints = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                                Fields.AddAB(ObjectToInt(Field), movePoints);
+                                Fields.AddAB(Field, movePoints);
                             }
                         }
                     }
@@ -471,7 +471,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
                         if (FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx) != 16777215)
                         {
                             var movePoints = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                            Fields.AddAB(ObjectToInt(Field), movePoints);
+                            Fields.AddAB(Field, movePoints);
                         }
                     }
                 }
@@ -484,7 +484,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
                     while (Fields.Count != 0 && Field == null)
                     {
                         I = AoWHSMap.Random(Round((double)Fields.Count * 0.1) + 1);
-                        Field = ReferenceFromId<TAoWMapField>(Fields[I].A);
+                        Field = Fields[I].A;
                         if (Field.GetPlayer() != -1)
                         {
                             Fields.Delete(I);
@@ -558,7 +558,7 @@ public static partial class AGCPluginsUnit
 {
     public static TSet<TDamageType> AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
     // AGCPlugins.pas:326
-    public static int CompareWanderFields(in TDoubleItem Item1, in TDoubleItem Item2) => Item2.B - Item1.B;
+    public static int CompareWanderFields(in TDoubleItem<TAoWMapField> Item1, in TDoubleItem<TAoWMapField> Item2) => Item2.B - Item1.B;
 
     public static void Initialize()
     {

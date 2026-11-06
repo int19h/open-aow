@@ -199,7 +199,7 @@ public partial class TfxHS
                             Alpha = 25;
                             // { Original uses the object address as the animation phase. }
                             var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                            Index = Sequence.GetUnloopedFrameIndex(ObjectToInt(this) % totalSequenceFrames);
+                            Index = Sequence.GetUnloopedFrameIndex(InstanceId % totalSequenceFrames);
                             break;
                         case >= 2000 and <= 2998:
                             if (N <= FFrame - 2000)
@@ -217,7 +217,7 @@ public partial class TfxHS
 
                                 Alpha = 25;
                                 var sequenceTotalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                                Index = Sequence.GetUnloopedFrameIndex(ObjectToInt(this) % sequenceTotalSequenceFrames);
+                                Index = Sequence.GetUnloopedFrameIndex(InstanceId % sequenceTotalSequenceFrames);
                             }
 
                             break;
@@ -295,7 +295,7 @@ public partial class TfxHS
         void ShowScreenSwarm()
         {
             int Alpha = default;
-            Alpha = (100 - FPath[FFrame].Z) / 2 - (FFrame % 10 * 2 + ObjectToInt(this)) % 20;
+            Alpha = (100 - FPath[FFrame].Z) / 2 - (FFrame % 10 * 2 + InstanceId) % 20;
             if (Alpha < 0)
             {
                 Alpha = 0;
@@ -324,7 +324,7 @@ public partial class TfxHS
         {
             int Alpha = default;
             var count = FPath.Count;
-            Alpha = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + ObjectToInt(this)) % 20;
+            Alpha = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + InstanceId) % 20;
             if (Alpha < 0)
             {
                 Alpha = 0;
@@ -343,7 +343,7 @@ public partial class TfxHS
             while (Sequence != null)
             {
                 // { Original uses the object address rather than the current frame. }
-                Index = Sequence.GetUnloopedFrameIndex(ObjectToInt(this) % 3);
+                Index = Sequence.GetUnloopedFrameIndex(InstanceId % 3);
                 if (Index != -1)
                 {
                     if (Shadow)
@@ -476,7 +476,7 @@ public partial class TfxHS
 
                         break;
                     case TfxType.fxScreenNESW:
-                        SelectSequence(ObjectToInt(this) % 3);
+                        SelectSequence(InstanceId % 3);
                         Index = Sequence.GetUnloopedFrameIndex(0);
                         ShowScreen();
                         break;

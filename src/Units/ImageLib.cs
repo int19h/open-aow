@@ -472,26 +472,26 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
                 switch (FShowInfo.BlendMode)
                 {
                     case TBlendMode.bmUser:
-                        if (FShowInfo.BlendTable != null)
+                        if (FShowInfo.Blend is TBlendTable table)
                         {
-                            ShowBlended(X, Y, SD, FShowInfo.BlendTable);
+                            ShowBlended(X, Y, SD, table);
                         }
 
                         break;
                     case TBlendMode.bmAlpha:
-                        ShowBlended(X, Y, SD, AlphaBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmBrighten:
-                        ShowBlended(X, Y, SD, BrightenBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmIntensity:
-                        ShowBlended(X, Y, SD, IntensityBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmShadow:
-                        ShowBlended(X, Y, SD, ShadowBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmLinearAlpha:
-                        ShowBlended(X, Y, SD, LinearAlphaBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -511,26 +511,26 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
                 switch (FShowInfo.BlendMode)
                 {
                     case TBlendMode.bmUser:
-                        if (FShowInfo.BlendTable != null)
+                        if (FShowInfo.Blend is TBlendTable table)
                         {
-                            ShowBlendedStretched(R, SD, FShowInfo.BlendTable);
+                            ShowBlendedStretched(R, SD, table);
                         }
 
                         break;
                     case TBlendMode.bmAlpha:
-                        ShowBlendedStretched(R, SD, AlphaBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlendedStretched(R, SD, AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmBrighten:
-                        ShowBlendedStretched(R, SD, BrightenBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlendedStretched(R, SD, BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmIntensity:
-                        ShowBlendedStretched(R, SD, IntensityBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlendedStretched(R, SD, IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmShadow:
-                        ShowBlendedStretched(R, SD, ShadowBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlendedStretched(R, SD, ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmLinearAlpha:
-                        ShowBlendedStretched(R, SD, LinearAlphaBlendTable.Lookup[FShowInfo.BlendPercentage]);
+                        ShowBlendedStretched(R, SD, LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -580,23 +580,23 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
                 switch (FShowInfo.BlendMode)
                 {
                     case TBlendMode.bmUser:
-                        if (ShowInfo.BlendTable != null)
+                        if (ShowInfo.Blend is TBlendTable table)
                         {
-                            ShowBlended(X, Y, SD, ShowInfo.BlendTable);
+                            ShowBlended(X, Y, SD, table);
                         }
 
                         break;
                     case TBlendMode.bmAlpha:
-                        ShowBlended(X, Y, SD, AlphaBlendTable.Lookup[ShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, AlphaBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmBrighten:
-                        ShowBlended(X, Y, SD, BrightenBlendTable.Lookup[ShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, BrightenBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmIntensity:
-                        ShowBlended(X, Y, SD, IntensityBlendTable.Lookup[ShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, IntensityBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                     case TBlendMode.bmShadow:
-                        ShowBlended(X, Y, SD, ShadowBlendTable.Lookup[ShowInfo.BlendPercentage]);
+                        ShowBlended(X, Y, SD, ShadowBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -2247,10 +2247,11 @@ public struct TShowInfo
 {
     public TShowMode ShowMode;
     public TBlendMode BlendMode;
-    public IntOrRef Payload;
-    public int BlendPercentage { get => Payload.Value; set => Payload = value; }
-    public TBlendTable BlendTable { get => Payload.As<TBlendTable>(); set => Payload = value; }
+    public BlendValue Blend;
 
+    // The file image: the mode bytes at 0 and 1, the padding at 2 and the percentage at 4. A
+    // table writes 0 where the original wrote its address, which no reader of a file uses, and
+    // reading always yields the percentage case.
     private ushort imagePadding;
     private byte[] Image()
     {
@@ -2258,7 +2259,7 @@ public struct TShowInfo
         image[0] = (byte)ShowMode;
         image[1] = (byte)BlendMode;
         BinaryPrimitives.WriteUInt16LittleEndian(image.AsSpan(2), imagePadding);
-        BinaryPrimitives.WriteInt32LittleEndian(image.AsSpan(4), Payload.Value);
+        BinaryPrimitives.WriteInt32LittleEndian(image.AsSpan(4), Blend.TryGetValue(out int percentage) ? percentage : 0);
         return image;
     }
 
@@ -2269,7 +2270,7 @@ public struct TShowInfo
         ShowMode = (TShowMode)image[0];
         BlendMode = (TBlendMode)image[1];
         imagePadding = BinaryPrimitives.ReadUInt16LittleEndian(image.AsSpan(2));
-        Payload = BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(4));
+        Blend = BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(4));
         if (exact && count != 8)
             throw EReadError.Create("Stream read error");
         return count;

@@ -151,7 +151,6 @@ public sealed class GameSwitchTests
         finally
         {
             engine.FHSMap = previous;
-            Runtime.ForgetReference(live);
             File.Delete(file);
         }
     }
@@ -250,20 +249,17 @@ public sealed class GameSwitchTests
         var reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
         Assert.Null(((JsonObject)reread.Items[index])["IndependentRelation"]);
 
+        // The id table is weak since C12, so the unlinked group needs no teardown.
         var group = new Aow.Units.MainAG.TPassiveAG(null!);
-        try
-        {
-            Assert.Equal(-1, group.FIndependentRelation);
-            sbyte relation = group.FIndependentRelation;
-            using var memory = new TMemoryStream();
-            memory.Write(new byte[] { 0 });
-            memory.Position = 0;
-            var reader = new Aow.Units.Engine.TEReadStorageStream(memory, EngineFixture.Engine, false);
-            try { reader.rwData(Bytes.Of(ref relation, 1), 1, 26); }
-            finally { reader.Destroy(); }
-            Assert.Equal(-1, relation);
-        }
-        finally { Runtime.ForgetReference(group); }
+        Assert.Equal(-1, group.FIndependentRelation);
+        sbyte relation = group.FIndependentRelation;
+        using var memory = new TMemoryStream();
+        memory.Write(new byte[] { 0 });
+        memory.Position = 0;
+        var reader = new Aow.Units.Engine.TEReadStorageStream(memory, EngineFixture.Engine, false);
+        try { reader.rwData(Bytes.Of(ref relation, 1), 1, 26); }
+        finally { reader.Destroy(); }
+        Assert.Equal(-1, relation);
     }
 
     [InstalledFact]

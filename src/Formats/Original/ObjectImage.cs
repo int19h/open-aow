@@ -155,6 +155,9 @@ internal static class ObjectImage
             foreach (var (offset, count) in gaps) builder.Gap(offset, ctx.Data.AsSpan(db + offset, count), null);
         }
         builder.Attach(target, ctx.Profile, ctx.Counts);
+        // A mapped class shows its case. The layout fingerprint covers the stored members, which
+        // the export rebuilds from the case before it reads the layout.
+        if (cls.Mapping is { } mapping) CaseCodec.ToDocument(ctx, cls, mapping, target, path, start);
         ctx.Leave();
     }
 
@@ -222,6 +225,7 @@ internal static class ObjectImage
 
     public static void Encode(EncodeContext ctx, JsonObject obj, SchemaClass cls, ByteBuffer output, DocPath path, params string[] reserved)
     {
+        if (cls.Mapping is { } mapping) obj = CaseCodec.FromDocument(ctx, cls, mapping, obj, path);
         ctx.Enter(obj, path);
         CheckMembers(ctx, obj, cls, path, reserved);
         var layout = LayoutReader.Read(ctx, obj, path);

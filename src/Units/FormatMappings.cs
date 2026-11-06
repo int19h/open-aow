@@ -21,6 +21,7 @@ public static class FormatMapping
     {
         if (!mappings.TryAdd(persistedName, rules))
             throw new InvalidOperationException("The persisted class " + persistedName + " has two format mappings.");
+        foreach (var rule in rules) rule.Attach(persistedName);
     }
 
     /// <summary>The registered mappings by persisted class name.</summary>
@@ -37,6 +38,52 @@ public abstract class ContentRule
     public abstract IEnumerable<string> Members { get; }
 
     public abstract IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocPath path);
+
+    /// <summary>Called once when the rule is registered for its persisted class.</summary>
+    public virtual void Attach(string persistedName)
+    {
+    }
+}
+
+/// <summary>
+/// The case mapping of a kind family (own-formats.md 2.3 and 3.1). The schema's case table names
+/// the cases by their registration keys. This rule gives the converter what the game's kind of a
+/// key writes back, through the family's FromFields and ToFields, so a document never keeps a
+/// case field the kind drops. It checks nothing in a document beyond what the codec checks.
+/// </summary>
+public abstract class KindCases : ContentRule, ICaseUnit
+{
+    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocPath path) => [];
+
+    public override void Attach(string persistedName) => CaseMappings.Register(persistedName, this);
+
+    public abstract IReadOnlyDictionary<string, long> Written(long key, IReadOnlyDictionary<string, long> stored);
+}
+
+/// <summary>TProductionItem: the 9.6-6 production orders, keyed by ProductionID.</summary>
+public sealed class ProductionOrderCases : KindCases
+{
+    public override IEnumerable<string> Members => ["ProductionID", "Parameter", "GroupID"];
+
+    public override IReadOnlyDictionary<string, long> Written(long key, IReadOnlyDictionary<string, long> stored)
+    {
+        var order = Aow.Units.AoWE.ProductionOrder.FromFields((int)key, (int)stored.GetValueOrDefault("Parameter"), (int)stored.GetValueOrDefault("GroupID"));
+        var (id, parameter, groupId) = order.ToFields();
+        return new Dictionary<string, long> { ["ProductionID"] = id, ["Parameter"] = parameter, ["GroupID"] = groupId };
+    }
+}
+
+/// <summary>TDiplomaticAction: the 9.6-7 diplomatic proposals, keyed by the one-byte ActionType.</summary>
+public sealed class DiplomaticProposalCases : KindCases
+{
+    public override IEnumerable<string> Members => ["ActionType", "Gold", "Mana"];
+
+    public override IReadOnlyDictionary<string, long> Written(long key, IReadOnlyDictionary<string, long> stored)
+    {
+        var proposal = Aow.Units.AoWE.DiplomaticProposal.FromFields((byte)key, (int)stored.GetValueOrDefault("Gold"), (int)stored.GetValueOrDefault("Mana"));
+        var (kind, gold, mana) = proposal.ToFields();
+        return new Dictionary<string, long> { ["ActionType"] = kind, ["Gold"] = gold, ["Mana"] = mana };
+    }
 }
 
 /// <summary>

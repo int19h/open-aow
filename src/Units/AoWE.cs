@@ -543,7 +543,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
         {
             int Brightness = default;
             var count = FPath.Count;
-            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + ObjectToInt(this)) % 20;
+            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + InstanceId) % 20;
             if (Brightness < 0)
             {
                 Brightness = 0;
@@ -562,7 +562,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
             while (Sequence != null)
             {
                 // { Original uses the instance address as the animation phase. }
-                Frame = Sequence.GetUnloopedFrameIndex(ObjectToInt(this) % 3);
+                Frame = Sequence.GetUnloopedFrameIndex(InstanceId % 3);
                 if (Frame != -1)
                 {
                     if (Shadow)
@@ -608,7 +608,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
         {
             int Brightness = default;
             var count = FPath.Count;
-            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + ObjectToInt(this)) % 20;
+            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + InstanceId) % 20;
             if (Brightness < 0)
             {
                 Brightness = 0;
@@ -626,7 +626,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
 
             while (Sequence != null)
             {
-                Frame = Sequence.GetUnloopedFrameIndex(ObjectToInt(this) % 3);
+                Frame = Sequence.GetUnloopedFrameIndex(InstanceId % 3);
                 if (Frame != -1)
                 {
                     if (Shadow)
@@ -1092,7 +1092,7 @@ public partial class TUnitProductionList : TENode
 
 }
 
-// production ID, parameter, group ID
+// the order (AoWE.ProductionOrders.cs), stored as production ID, parameter and group ID
 public partial class TProductionItem : TEObject
 {
     public new const int ClassID = 131735;
@@ -1100,16 +1100,19 @@ public partial class TProductionItem : TEObject
     public TProductionItem(TECustomNode owner) : base(owner)
     {}
 
-    public int FProductionID;
-    public int FParameter;
-    public int FGroupID;
+    public ProductionOrder Order = new UnknownOrder(0, 0, 0);
     // Structur.PAS:63
     public override void ReadWrite(TEStorageStream Stream)
     {
         base.ReadWrite(Stream);
-        Stream.rwInteger(ref FProductionID, 20);
-        Stream.rwInteger(ref FParameter, 21);
-        Stream.rwInteger(ref FGroupID, 22);
+        var (id, parameter, groupId) = Order.ToFields();
+        Stream.rwInteger(ref id, 20);
+        Stream.rwInteger(ref parameter, 21);
+        Stream.rwInteger(ref groupId, 22);
+        if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+        {
+            Order = ProductionOrder.FromFields(id, parameter, groupId);
+        }
     }
 
     // Structur.PAS:71
@@ -1178,7 +1181,7 @@ public partial class TProductionQueue : TENode
         while (Result != 0)
         {
             Result -= 1;
-            if (ID == ((TProductionItem)FChildren.List[Result]).FProductionID)
+            if (ID == ((TProductionItem)FChildren.List[Result]).Order.ToFields().Id)
             {
                 return Result;
             }
@@ -1188,7 +1191,7 @@ public partial class TProductionQueue : TENode
     }
 
     // Structur.PAS:100
-    public int IndexOf(int ID, int Parameter, int GroupID)
+    public int IndexOf(ProductionOrder Order)
     {
         TProductionItem Item;
         int Result = FChildren.Count;
@@ -1196,7 +1199,7 @@ public partial class TProductionQueue : TENode
         {
             Result -= 1;
             Item = (TProductionItem)FChildren.List[Result];
-            if (ID == Item.FProductionID && Parameter == Item.FParameter && Item.FGroupID == GroupID)
+            if (Item.Order == Order)
             {
                 return Result;
             }
@@ -1442,6 +1445,7 @@ public partial class TProductionControl : TEObject
         sbyte Player;
         if (FStatus == TProductionControlStatus.pcsProducing)
         {
+            FQueue.GetItem(0).Order.Cancel(this);
             if (FSettings.FGroupID != 0)
             {
                 UnregisterGroupProduction();
@@ -1470,9 +1474,7 @@ public partial class TProductionControl : TEObject
         TProductionItem Item;
         ExecuteDeleteProductions();
         Item = new TProductionItem(null);
-        Item.FProductionID = 1;
-        Item.FParameter = Index;
-        Item.FGroupID = GroupID;
+        Item.Order = new ProduceUnit(Index, GroupID);
         ExecuteAddProduction(Item);
         Item.Free();
         return true;
@@ -1487,8 +1489,7 @@ public partial class TProductionControl : TEObject
         {
             ExecuteDeleteProductions();
             Item = new TProductionItem(null);
-            Item.FProductionID = 2;
-            Item.FParameter = Index;
+            Item.Order = new ResearchSpell(Index);
             ExecuteAddProduction(Item);
             Item.Free();
             Result = true;
@@ -1511,62 +1512,9 @@ public partial class TProductionControl : TEObject
             BeginUpdate();
             ExecuteCancelProduction();
             FStatus = TProductionControlStatus.pcsWaiting;
-            switch (Item.FProductionID)
-            {
-                case 1:
-                    FSettings.Clear();
-                    FSettings.FUnitProductionIndex = Item.FParameter;
-                    var unitProduction = CreateUnitProduction(Item.FParameter);
-                    FSettings.FUnit = unitProduction;
-                    var unitProductionGold = UnitProductionGold(Item.FParameter);
-                    FSettings.FGold = unitProductionGold;
-                    var unitProductionMana = UnitProductionMana(Item.FParameter);
-                    FSettings.FMana = unitProductionMana;
-                    var unitProductionGoldUpkeep = UnitProductionGoldUpkeep(Item.FParameter);
-                    FSettings.FGoldUpkeep = unitProductionGoldUpkeep;
-                    var unitProductionManaUpkeep = UnitProductionManaUpkeep(Item.FParameter);
-                    FSettings.FManaUpkeep = unitProductionManaUpkeep;
-                    FSettings.FGroupID = Item.FGroupID;
-                    var unitProductionTime = UnitProductionTime(Item.FParameter);
-                    FSettings.FTurnsTotal = (sbyte)unitProductionTime;
-                    var player3 = GetPlayer();
-                    FSettings.FPlayer = player3;
-                    FSettings.FTurnsLeft = FSettings.FTurnsTotal;
-                {
-                    var player = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
-                    player.SetGems(player.FGems - this.FSettings.FGold);
-                    player.FMagicControl.SetMana(player.FMagicControl.FMana - this.FSettings.FMana);
-                }
-
-                    FStatus = TProductionControlStatus.pcsProducing;
-                    if (FSettings.FGroupID != 0)
-                    {
-                        RegisterGroupProduction();
-                    }
-
-                    break;
-                case 2:
-                    FSettings.Clear();
-                    FSettings.FUnitProductionIndex = Item.FParameter;
-                    var unitResearchGold = UnitResearchGold(Item.FParameter);
-                    FSettings.FGold = unitResearchGold;
-                    FSettings.FMana = 0;
-                    var unitResearchTime = UnitResearchTime(Item.FParameter);
-                    FSettings.FTurnsTotal = (sbyte)unitResearchTime;
-                    var player4 = GetPlayer();
-                    FSettings.FPlayer = player4;
-                    FSettings.FTurnsLeft = FSettings.FTurnsTotal;
-                {
-                    var player = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSettings.FPlayer);
-                    player.SetGems(player.FGems - this.FSettings.FGold);
-                    player.FMagicControl.SetMana(player.FMagicControl.FMana - this.FSettings.FMana);
-                }
-
-                    FStatus = TProductionControlStatus.pcsProducing;
-                    break;
-            }
-
+            Item.Order.Execute(this);
             EndUpdate();
+            Item.Order.Executed(this);
             Result = true;
         }
         else
@@ -1716,10 +1664,10 @@ public partial class TProductionControl : TEObject
     }
 
     // Structur.PAS:837
-    public virtual bool LoopableProduction(TProductionItem Item) => Item.FProductionID != 2;
+    public virtual bool LoopableProduction(TProductionItem Item) => Item.Order.Loopable(this);
 
     // Structur.PAS:834
-    public virtual bool LockQueueProduction(TProductionItem Item) => false;
+    public virtual bool LockQueueProduction(TProductionItem Item) => Item.Order.LocksQueue(this);
 
     // Structur.PAS:561
     public virtual bool UnitProduced() => false;
@@ -1799,29 +1747,15 @@ public partial class TProductionControl : TEObject
 
                 if (FSettings.FTurnsLeft == 0)
                 {
-                    switch (FQueue.GetItem(0).FProductionID)
-                    {
-                        case 1:
-                            if (UnitProduced())
-                            {
-                                if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman && FSettings.FGroupID != 0)
-                                {
-                                    GroupProductionProduced(FSettings.FUnit, FSettings.FGroupID);
-                                }
-
-                                FSettings.Clear();
-                                ProductionDone();
-                            }
-
-                            break;
-                        case 2:
-                            UnitResearched();
-                            FSettings.Clear();
-                            ProductionDone();
-                            break;
-                    }
+                    FQueue.GetItem(0).Order.Complete(this, Player);
                 }
             }
+        }
+
+        // City.pas:496, PrdPlace.pas:231
+        if (FStatus == TProductionControlStatus.pcsProducing && Player == FSettings.FPlayer && FSettings.FTurnsLeft == 0)
+        {
+            FQueue.GetItem(0).Order.Completed(this);
         }
     }
 
@@ -1843,62 +1777,7 @@ public partial class TProductionControl : TEObject
     }
 
     // Structur.PAS:361
-    public virtual bool CanExecuteProduction(TProductionItem Item, ref string Reason)
-    {
-        bool Result;
-        if (FStatus == TProductionControlStatus.pcsWaiting)
-        {
-            Reason = "(" + LowerCase(AoWEUnit.TranslateRStr(AoWEUnit.WaitingRStr)) + ")";
-        }
-
-        // { Original continues checking costs after assigning the waiting text. }
-        switch (Item.FProductionID)
-        {
-            case 1:
-                var player = GetPlayer();
-                var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(player);
-                if (UnitProductionGold(Item.FParameter) <= players.FGems)
-                {
-                    var player2 = GetPlayer();
-                    var fPlayersPlayers = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(player2);
-                    if (UnitProductionMana(Item.FParameter) <= fPlayersPlayers.FMagicControl.FMana)
-                    {
-                        Result = true;
-                    }
-                    else
-                    {
-                        Result = false;
-                        Reason = AoWEUnit.TranslateRStr(AoWEUnit.NotEnoughManaRStr);
-                    }
-                }
-                else
-                {
-                    Result = false;
-                    Reason = AoWEUnit.TranslateRStr(AoWEUnit.NotEnoughGoldRStr);
-                }
-
-                break;
-            case 2:
-                var player3 = GetPlayer();
-                var players2 = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(player3);
-                if (UnitResearchGold(Item.FParameter) <= players2.FGems)
-                {
-                    Result = true;
-                }
-                else
-                {
-                    Result = false;
-                    Reason = AoWEUnit.TranslateRStr(AoWEUnit.NotEnoughGoldRStr);
-                }
-
-                break;
-            default:
-                Result = false;
-                break;
-        }
-
-        return Result;
-    }
+    public virtual bool CanExecuteProduction(TProductionItem Item, ref string Reason) => Item.Order.CanExecute(this, ref Reason);
 
     // Structur.PAS:710
     public virtual bool DeleteProduction(int Index)
@@ -1960,102 +1839,10 @@ public partial class TProductionControl : TEObject
     }
 
     // Structur.PAS:840
-    public virtual string GetProductionName(TProductionItem Item)
-    {
-        string Result;
-        TUnitProduction Production;
-        switch (Item.FProductionID)
-        {
-            case 1:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    if (UnitProductionGold(Item.FParameter) != 0)
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.ProduceXRStr), [unitName]);
-                    }
-                    else
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SummonXRStr), [unitName]);
-                    }
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            case 2:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                    Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.InstallXRStr), [unitName]);
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            default:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                break;
-        }
-
-        return Result;
-    }
+    public virtual string GetProductionName(TProductionItem Item) => Item.Order.Name(this);
 
     // Structur.PAS:865
-    public virtual string GetProductionNameProgressive(TProductionItem Item)
-    {
-        string Result;
-        TUnitProduction Production;
-        switch (Item.FProductionID)
-        {
-            case 1:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    if (UnitProductionGold(Item.FParameter) != 0)
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.ProducingXRStr), [unitName]);
-                    }
-                    else
-                    {
-                        var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SummoningXRStr), [unitName]);
-                    }
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            case 2:
-                Production = FUnitProductions.GetItem(Item.FParameter);
-                if (Production != null)
-                {
-                    var unitName = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(Production.FUnitIndex).GetUnitName();
-                    Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.InstallingXRStr), [unitName]);
-                }
-                else
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                }
-
-                break;
-            default:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.UnknownRStr);
-                break;
-        }
-
-        return Result;
-    }
+    public virtual string GetProductionNameProgressive(TProductionItem Item) => Item.Order.NameProgressive(this);
 
     // Structur.PAS:577
     public virtual int UnitProductionGold(int Index)
@@ -2109,9 +1896,7 @@ public partial class TProductionControl : TEObject
             Event.FQueue = Queue;
             Event.FItem = new TProductionItem(null);
             // { explicit item receiver }
-            Event.FItem.FProductionID = 1;
-            Event.FItem.FParameter = Index;
-            Event.FItem.FGroupID = GroupID;
+            Event.FItem.Order = new ProduceUnit(Index, GroupID);
 
             var player = GetPlayer();
             AoWEUnit.AoWHSMap.FTokenManager.GetTokenControl(player).AddEvent(Event);
@@ -2152,7 +1937,7 @@ public partial class TProductionControl : TEObject
     public virtual bool CanResearchUnit(int Index, bool Queue, ref string Reason)
     {
         bool Result;
-        if (!Queue || FQueue.IndexOf(2, Index, 0) == -1)
+        if (!Queue || FQueue.IndexOf(new ResearchSpell(Index)) == -1)
         {
             Result = true;
         }
@@ -2185,8 +1970,7 @@ public partial class TProductionControl : TEObject
             Event.FQueue = Queue;
             Event.FItem = new TProductionItem(null);
             // { explicit item receiver }
-            Event.FItem.FProductionID = 2;
-            Event.FItem.FParameter = Index;
+            Event.FItem.Order = new ResearchSpell(Index);
 
             var player = GetPlayer();
             AoWEUnit.AoWHSMap.FTokenManager.GetTokenControl(player).AddEvent(Event);
@@ -3741,15 +3525,24 @@ public partial class TPlayerMagicControl : TEObject
     }
 
     // intf_P4_01.inc:135
-    // Spells.PAS:2400. List entries retain object identities instead of native addresses.
+    // Spells.PAS:2400. The original list held the order and upkeep with the enchantment address in
+    // column C for a player enchantment or D for a global one. An entry holds the enchantment itself.
+    private struct UpkeepCandidate
+    {
+        public int Order;
+        public int Upkeep;
+        public TEnchantment Enchantment;
+        public TGlobalEnchantment GlobalEnchantment;
+    }
+
     public int AIOverrideUpkeep(int priority, int amount)
     {
-        var list = new TQuadItemList();
+        var list = new TRecordList<UpkeepCandidate>();
         for (int i = 0; i < FEnchantments.GetCount(); i++)
         {
             var enchantment = FEnchantments.GetEnchantments(i);
             int order = enchantment.GetAIUpkeepPriority();
-            if (order <= priority) list.AddABCD(order, enchantment.FUpkeep, ObjectToInt(enchantment), 0);
+            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.FUpkeep, Enchantment = enchantment });
         }
         var global = AoWEUnit.AoWHSMap.FGlobalMagicControl;
         for (int i = global.FEnchantments.GetCount() - 1; i >= 0; i--)
@@ -3757,21 +3550,21 @@ public partial class TPlayerMagicControl : TEObject
             var enchantment = AoWEUnit.AoWHSMap.FGlobalMagicControl.FEnchantments.GetEnchantments(i);
             if (enchantment.FPlayerIndex != FPlayer.FPlayerIndex) continue;
             int order = enchantment.GetAIUpkeepPriority();
-            if (order <= priority) list.AddABCD(order, enchantment.GetUpkeep(), 0, ObjectToInt(enchantment));
+            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.GetUpkeep(), GlobalEnchantment = enchantment });
         }
         if (list.Count != 0)
         {
             int total = 0;
-            list.SortAscendingItemA();
+            list.Sort(static (in Item1, in Item2) => Item1.Order - Item2.Order);
             while (total < amount && list.Count != 0 && FPlayer.FGameOverStatus != TGameOverStatus.goLost)
             {
                 var item = list[0];
-                total += item.B;
-                if (item.C != 0)
-                    ExecuteDispelEnchantment(FEnchantments.FChildren.IndexOf(ReferenceFromId<TEnchantment>(item.C)));
+                total += item.Upkeep;
+                if (item.Enchantment != null)
+                    ExecuteDispelEnchantment(FEnchantments.FChildren.IndexOf(item.Enchantment));
                 else
                 {
-                    var enchantment = ReferenceFromId<TGlobalEnchantment>(item.D)!;
+                    var enchantment = item.GlobalEnchantment;
                     enchantment.AddRef();
                     enchantment.Remove((byte)FPlayer.FPlayerIndex);
                     enchantment.Release();
@@ -6436,14 +6229,14 @@ public partial class TPlayer : TEObject
     public void MakeHeroEmerge(THeroEmergeMode Mode)
     {
         int Chance = default;
-        TDoubleItemList Heroes;
+        TDoubleItemList<THero> Heroes;
         THeroEmergeEventLog Log;
         TXYLList Locations;
         TStructure Structure;
-        TDoubleItem Item;
+        TDoubleItem<THero> Item;
         int I;
         THero Hero;
-        Heroes = new TDoubleItemList();
+        Heroes = new TDoubleItemList<THero>();
         if (Mode == THeroEmergeMode.hemNormal)
         {
             I = AoWEUnit.AoWHSMap.FHeroControl.GetCount() - 1;
@@ -6455,7 +6248,7 @@ public partial class TPlayer : TEObject
                     Chance = GetHeroJoinChance(Hero.GetLevel());
                     if (Chance > 0 && Hero.JoinAmount(FPlayerIndex) < FGems)
                     {
-                        Heroes.AddAB(ObjectToInt(Hero), Chance * Chance);
+                        Heroes.AddAB(Hero, Chance * Chance);
                     }
                 }
             }
@@ -6474,7 +6267,7 @@ public partial class TPlayer : TEObject
                         if (TSet<TStatus>.Of(TStatus.sPolite, TStatus.sFriendly).Contains(playerRelation) && Hero.JoinAmount(FPlayerIndex) < FGems)
                         {
                             var level = Hero.GetLevel();
-                            Heroes.AddAB(ObjectToInt(Hero), (level - 2) * 1000 + 1);
+                            Heroes.AddAB(Hero, (level - 2) * 1000 + 1);
                         }
                     }
                 }
@@ -6502,7 +6295,7 @@ public partial class TPlayer : TEObject
                 RandSeed = AoWEUnit.AoWHSMap.Random(1048575);
                 I = Heroes.RandomChanceItemB(0);
                 Item = Heroes[I];
-                Hero = ReferenceFromId<THero>(Item.A);
+                Hero = Item.A;
                 I = AoWEUnit.AoWHSMap.Random(Locations.Count);
                 FEmergingHeroID = Hero.FUnitID;
                 Hero.UpdateSettings();
@@ -6921,7 +6714,7 @@ public partial class TPlayer : TEObject
     }
 
     // Player.PAS:1188
-    public TDiplomaticAction CreateDiplomaticAction(TDiplomaticActionType Action, sbyte Target, sbyte Other)
+    public TDiplomaticAction CreateDiplomaticAction(DiplomaticProposal Proposal, sbyte Target, sbyte Other)
     {
         TDiplomaticAction Result;
         if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Target).FStatus == TPlayerStatus.psPlaying)
@@ -6930,8 +6723,8 @@ public partial class TPlayer : TEObject
             Result.FSource = FPlayerIndex;
             Result.FTarget = Target;
             Result.FOtherPlayer = Other;
-            Result.FActionType = Action;
-            AoWEUnit.RetrieveDefaultDiplomaticActionMessage(FPlayerIndex, Target, Other, Action, TDiplomaticActionReaction.darNone, Result.FMessage);
+            Result.Proposal = Proposal;
+            Result.RetrieveDefaultMessage(FPlayerIndex, Target, Other, TDiplomaticActionReaction.darNone);
         }
         else
         {
@@ -6942,7 +6735,7 @@ public partial class TPlayer : TEObject
     }
 
     // Player.PAS:1203
-    public bool DiplomaticActionAleadySend(TDiplomaticActionType Action, sbyte Target, sbyte Other)
+    public bool DiplomaticActionAleadySend(byte Kind, sbyte Target, sbyte Other)
     {
         TEventLogbook Logbook;
         int I;
@@ -6958,7 +6751,7 @@ public partial class TPlayer : TEObject
                 if (Logbook.GetLogs(I) is TDiplomaticActionEventLog)
                 {
                     Item = ((TDiplomaticActionEventLog)Logbook.GetLogs(I)).FAction;
-                    Result = Item.FActionType == Action && Item.FSource == FPlayerIndex && Item.FTarget == Target && (Other == -1 || Item.FOtherPlayer == Other);
+                    Result = Item.Proposal.ToFields().Kind == Kind && Item.FSource == FPlayerIndex && Item.FTarget == Target && (Other == -1 || Item.FOtherPlayer == Other);
                 }
             }
         }
@@ -6978,7 +6771,7 @@ public partial class TPlayer : TEObject
             Relation = AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation(Player, FPlayerIndex);
             if (FPlayerType == TPlayerType.ptHuman && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
             {
-                Action = CreateDiplomaticAction(TDiplomaticActionType.daSendMessage, Player, -1);
+                Action = CreateDiplomaticAction(new SendMessage(), Player, -1);
                 if (Action != null)
                 {
                     Actions.AddChild(Action);
@@ -6986,9 +6779,9 @@ public partial class TPlayer : TEObject
                 }
             }
 
-            if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drWar, TDiplomaticRelation.drUnknown).Contains(Relation) && !DiplomaticActionAleadySend(TDiplomaticActionType.daOfferPeace, Player, -1))
+            if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drWar, TDiplomaticRelation.drUnknown).Contains(Relation) && !DiplomaticActionAleadySend(OfferPeace.Kind, Player, -1))
             {
-                Action = CreateDiplomaticAction(TDiplomaticActionType.daOfferPeace, Player, -1);
+                Action = CreateDiplomaticAction(new OfferPeace(), Player, -1);
                 if (Action != null)
                 {
                     Actions.AddChild(Action);
@@ -6998,7 +6791,7 @@ public partial class TPlayer : TEObject
 
             if (Relation != TDiplomaticRelation.drWar && Relation != TDiplomaticRelation.drAlliance)
             {
-                Action = CreateDiplomaticAction(TDiplomaticActionType.daDeclareWar, Player, -1);
+                Action = CreateDiplomaticAction(new DeclareWar(), Player, -1);
                 if (Action != null)
                 {
                     Actions.AddChild(Action);
@@ -7006,9 +6799,9 @@ public partial class TPlayer : TEObject
                 }
             }
 
-            if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drPeace).Contains(Relation) && !DiplomaticActionAleadySend(TDiplomaticActionType.daProposeAlliance, Player, -1))
+            if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drPeace).Contains(Relation) && !DiplomaticActionAleadySend(ProposeAlliance.Kind, Player, -1))
             {
-                Action = CreateDiplomaticAction(TDiplomaticActionType.daProposeAlliance, Player, -1);
+                Action = CreateDiplomaticAction(new ProposeAlliance(), Player, -1);
                 if (Action != null)
                 {
                     Actions.AddChild(Action);
@@ -7016,9 +6809,9 @@ public partial class TPlayer : TEObject
                 }
             }
 
-            if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drPeace, TDiplomaticRelation.drUnknown).Contains(Relation) && !DiplomaticActionAleadySend(TDiplomaticActionType.daThreatenToAttack, Player, -1))
+            if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drPeace, TDiplomaticRelation.drUnknown).Contains(Relation) && !DiplomaticActionAleadySend(ThreatenToAttack.Kind, Player, -1))
             {
-                Action = CreateDiplomaticAction(TDiplomaticActionType.daThreatenToAttack, Player, -1);
+                Action = CreateDiplomaticAction(new ThreatenToAttack(), Player, -1);
                 if (Action != null)
                 {
                     Actions.AddChild(Action);
@@ -7026,7 +6819,7 @@ public partial class TPlayer : TEObject
                 }
             }
 
-            Action = CreateDiplomaticAction(TDiplomaticActionType.daMakeTribute, Player, -1);
+            Action = CreateDiplomaticAction(new MakeTribute(), Player, -1);
             if (Action != null)
             {
                 Actions.AddChild(Action);
@@ -7035,7 +6828,7 @@ public partial class TPlayer : TEObject
 
             if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drAlliance).Contains(Relation))
             {
-                Action = CreateDiplomaticAction(TDiplomaticActionType.daBreakAlliance, Player, -1);
+                Action = CreateDiplomaticAction(new BreakAlliance(), Player, -1);
                 if (Action != null)
                 {
                     Actions.AddChild(Action);
@@ -7047,7 +6840,7 @@ public partial class TPlayer : TEObject
             {
                 if (I != Player && I != FPlayerIndex && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FStatus == TPlayerStatus.psPlaying)
                 {
-                    bool condition = !DiplomaticActionAleadySend(TDiplomaticActionType.daDeclareWarToY, Player, (sbyte)I) && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1;
+                    bool condition = !DiplomaticActionAleadySend(DeclareWarToY.Kind, Player, (sbyte)I) && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1;
                     if (condition)
                     {
                         var diplomaticRelation = AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation(Player, (sbyte)I);
@@ -7056,7 +6849,7 @@ public partial class TPlayer : TEObject
 
                     if (condition)
                     {
-                        Action = CreateDiplomaticAction(TDiplomaticActionType.daDeclareWarToY, Player, (sbyte)I);
+                        Action = CreateDiplomaticAction(new DeclareWarToY(), Player, (sbyte)I);
                         if (Action != null)
                         {
                             Actions.AddChild(Action);
@@ -7070,9 +6863,9 @@ public partial class TPlayer : TEObject
             {
                 if (I != Player && I != FPlayerIndex && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FStatus == TPlayerStatus.psPlaying)
                 {
-                    if (!DiplomaticActionAleadySend(TDiplomaticActionType.daBreakAllianceWithY, Player, (sbyte)I) && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == TDiplomaticRelation.drAlliance)
+                    if (!DiplomaticActionAleadySend(BreakAllianceWithY.Kind, Player, (sbyte)I) && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == TDiplomaticRelation.drAlliance)
                     {
-                        Action = CreateDiplomaticAction(TDiplomaticActionType.daBreakAllianceWithY, Player, (sbyte)I);
+                        Action = CreateDiplomaticAction(new BreakAllianceWithY(), Player, (sbyte)I);
                         if (Action != null)
                         {
                             Actions.AddChild(Action);
@@ -7090,7 +6883,7 @@ public partial class TPlayer : TEObject
                     {
                         if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).GetFirstDaySeen(Player) != -1)
                         {
-                            Action = CreateDiplomaticAction(TDiplomaticActionType.daSendMessageAsY, Player, (sbyte)I);
+                            Action = CreateDiplomaticAction(new SendMessageAsY(), Player, (sbyte)I);
                             if (Action != null)
                             {
                                 Actions.AddChild(Action);
@@ -20679,10 +20472,10 @@ public partial class TItemControl : TEObject
     public TItem GenerateItem(TSet<TItemType> Types, int MinValue, int MaxValue)
     {
         TItem Result;
-        TDoubleItemList List;
+        TDoubleItemList<TItem> List;
         int Value;
         TItem Item;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TItem>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
             Item = (TItem)FItems.List[I];
@@ -20691,14 +20484,14 @@ public partial class TItemControl : TEObject
                 Value = Item.GetObtainValue();
                 if (Value >= MinValue && Value <= MaxValue)
                 {
-                    List.AddAB(ObjectToInt(Item), (int)Item.FAvailability);
+                    List.AddAB(Item, (int)Item.FAvailability);
                 }
             }
         }
 
         if (List.Count != 0)
         {
-            Result = ReferenceFromId<TItem>(List[List.RandomChanceItemB(1)].A);
+            Result = List[List.RandomChanceItemB(1)].A;
         }
         else
         {
@@ -20712,7 +20505,7 @@ public partial class TItemControl : TEObject
     // Army.PAS:4826
     public int GenerateItems(TSet<TItemType> Types, TECustomNode Owner, int Value)
     {
-        TDoubleItemList List;
+        TDoubleItemList<TItem> List;
         int Difference;
         int Attempts;
         int ItemValue;
@@ -20721,20 +20514,20 @@ public partial class TItemControl : TEObject
         TItem Item;
         TItem Candidate;
         int Result = 0;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TItem>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
             Item = (TItem)FItems.List[I];
             if (Types.Contains(Item.FItemType) && Item.FRefCount == 1)
             {
-                List.AddAB(ObjectToInt(Item), (int)Item.FAvailability);
+                List.AddAB(Item, (int)Item.FAvailability);
             }
         }
 
         Done = false;
         while (!Done && List.Count != 0)
         {
-            Candidate = ReferenceFromId<TItem>(List[List.RandomChanceItemB(1)].A);
+            Candidate = List[List.RandomChanceItemB(1)].A;
             ItemValue = Candidate.GetObtainValue();
             if (ItemValue > Value)
             {
@@ -20742,7 +20535,7 @@ public partial class TItemControl : TEObject
                 Difference = Math.Abs(ItemValue - Value);
                 do
                 {
-                    Item = ReferenceFromId<TItem>(List[List.RandomChanceItemB(1)].A);
+                    Item = List[List.RandomChanceItemB(1)].A;
                     Distance = Math.Abs(Item.GetObtainValue() - Value);
                     if (Distance < Difference)
                     {
@@ -20763,7 +20556,7 @@ public partial class TItemControl : TEObject
             if (Candidate != null)
             {
                 Candidate.SetOwner(Owner);
-                List.Delete(List.IndexOfItemA(ObjectToInt(Candidate)));
+                List.Delete(List.IndexOfItemA(Candidate));
                 Value -= Candidate.GetObtainValue();
                 Result += 1;
             }
@@ -36320,7 +36113,7 @@ public partial class TStructure : TFixedILTerrainMO
         Sequences = FResource.ImageSequenceList;
         if (Sequences != null)
         {
-            if (ReferenceFromId<TImageSequenceList>(ObjectToInt(Sequences) << 0).GetImageSequence(30) != null)
+            if (Sequences.GetImageSequence(30) != null)
             {
                 Result = FResource.ImageSequenceList.GetImageSequence(30).GetPreviewImage();
             }
@@ -36345,7 +36138,7 @@ public partial class TStructure : TFixedILTerrainMO
         Sequences = FResource.ImageSequenceList;
         if (Sequences != null)
         {
-            if (ReferenceFromId<TImageSequenceList>(ObjectToInt(Sequences) << 0).GetImageSequence(31) != null)
+            if (Sequences.GetImageSequence(31) != null)
             {
                 Result = FResource.ImageSequenceList.GetImageSequence(31).GetPreviewImage();
             }
@@ -36370,7 +36163,7 @@ public partial class TStructure : TFixedILTerrainMO
         Sequences = FResource.ImageSequenceList;
         if (Sequences != null)
         {
-            if (ReferenceFromId<TImageSequenceList>(ObjectToInt(Sequences) << 0).GetImageSequence(32) != null)
+            if (Sequences.GetImageSequence(32) != null)
             {
                 Result = FResource.ImageSequenceList.GetImageSequence(32).GetPreviewImage();
             }
@@ -40101,7 +39894,7 @@ public partial class TCombatPredictorUnit : TObject
     // CombatPredictor.pas:1
     public TCombatPredictorUnit()
     {
-        FRoundTargets = new TQuadItemList();
+        FRoundTargets = new TQuadItemList<TCombatPredictorUnit>();
     }
 
     public TAbstractUnit FUnit;
@@ -40112,13 +39905,13 @@ public partial class TCombatPredictorUnit : TObject
     public TCombatPredictorSide FOpponents;
     public byte FEnabled;
     public byte FBehindWall;
-    public TQuadItemList FTargets;
+    public TQuadItemList<TCombatPredictorUnit> FTargets;
     public int FCombatValue;
-    public TQuadItemList FWallTargets;
+    public TQuadItemList<TCombatPredictorUnit> FWallTargets;
     public int FWallCombatValue;
     public byte FTargetsInvalid;
     public byte FWallTargetsInvalid;
-    public TQuadItemList FRoundTargets;
+    public TQuadItemList<TCombatPredictorUnit> FRoundTargets;
     public int FCombatValueTotal;
     public int FCombatRounds;
     public int FIncomingCombatValue;
@@ -40174,7 +39967,7 @@ public partial class TCombatPredictorUnit : TObject
         TCombatPredictorUnit U;
         if (FTargets == null)
         {
-            FTargets = new TQuadItemList();
+            FTargets = new TQuadItemList<TCombatPredictorUnit>();
         }
 
         for (int I = FTargets.Count - 1; I >= 0; I--)
@@ -40203,7 +39996,7 @@ public partial class TCombatPredictorUnit : TObject
                         V = 0;
                     }
 
-                    FTargets.AddABCD(ObjectToInt(U), V, U.FCPUID, 0);
+                    FTargets.AddABCD(U, V, U.FCPUID, 0);
                     FCombatValue += V;
                 }
             }
@@ -40221,7 +40014,7 @@ public partial class TCombatPredictorUnit : TObject
                     V = 0;
                 }
 
-                FTargets.AddABCD(ObjectToInt(U), V, U.FCPUID, 0);
+                FTargets.AddABCD(U, V, U.FCPUID, 0);
                 FCombatValue += V;
             }
         }
@@ -40240,7 +40033,7 @@ public partial class TCombatPredictorUnit : TObject
         Passing = FUnit.GetWallCombatFeatures().Contains(TWallCombatFeaturesElement.wcWallPassing);
         if (FWallTargets == null)
         {
-            FWallTargets = new TQuadItemList();
+            FWallTargets = new TQuadItemList<TCombatPredictorUnit>();
         }
 
         for (int I = FWallTargets.Count - 1; I >= 0; I--)
@@ -40299,7 +40092,7 @@ public partial class TCombatPredictorUnit : TObject
                         V = 0;
                     }
 
-                    FWallTargets.AddABCD(ObjectToInt(U), V, 0, 0);
+                    FWallTargets.AddABCD(U, V, 0, 0);
                     FWallCombatValue += V;
                 }
             }
@@ -40348,7 +40141,7 @@ public partial class TCombatPredictorUnit : TObject
                 }
 
                 // { Original initializes both C and D to zero in the wall cache. }
-                FWallTargets.AddABCD(ObjectToInt(U), V, 0, 0);
+                FWallTargets.AddABCD(U, V, 0, 0);
                 FWallCombatValue += V;
             }
         }
@@ -40409,7 +40202,7 @@ public partial class TCombatPredictorUnit : TObject
             for (int I = FRoundTargets.Count - 1; I >= 0; I--)
             {
                 // { Read the round list directly. }
-                U = ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A);
+                U = FRoundTargets.List[I].A;
                 if (U.FEnabled != 0)
                 {
                     V = FRoundTargets.List[I].B;
@@ -40440,7 +40233,7 @@ public partial class TCombatPredictorUnit : TObject
             FTargetPriority = 0;
             for (int I = FRoundTargets.Count - 1; I >= 0; I--)
             {
-                FTargetPriority += ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A).FIneffectiveAttackers;
+                FTargetPriority += FRoundTargets.List[I].A.FIneffectiveAttackers;
             }
         }
         else
@@ -40457,7 +40250,7 @@ public partial class TCombatPredictorUnit : TObject
         TCombatPredictorUnit U = default;
         for (int I = FRoundTargets.Count - 1; I >= 0; I--)
         {
-            U = ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A);
+            U = FRoundTargets.List[I].A;
             V = FRoundTargets.List[I].B;
             if (U.FCombatValueTotal != 0)
             {
@@ -40489,7 +40282,7 @@ public partial class TCombatPredictorUnit : TObject
         while (I != 0 && !Result)
         {
             I -= 1;
-            U = ReferenceFromId<TCombatPredictorUnit>(FRoundTargets.List[I].A);
+            U = FRoundTargets.List[I].A;
             if (U.FHitPoints > 0)
             {
                 U.FHitPoints -= FRoundTargets.List[I].B;
@@ -40990,11 +40783,11 @@ public partial class TCombatPredictor : TObject
     }
 
     // CombatPredictor.pas:517
-    public void AddOpponents(int Units, byte BehindWall)
+    public void AddOpponents(TUnitList Units, byte BehindWall)
     {
-        for (int I = 0, last = ReferenceFromId<TUnitList>(Units).Count - 1; I <= last; I++)
+        for (int I = 0, last = Units.Count - 1; I <= last; I++)
         {
-            AddOpponent(ReferenceFromId<TUnitList>(Units).GetUnit(I), BehindWall);
+            AddOpponent(Units.GetUnit(I), BehindWall);
         }
     }
 
@@ -41328,7 +41121,7 @@ public partial class TCombatPredictor : TObject
     // CombatPredictor.pas:899
     public void ListRequiredUnitsEx(TUnitList Required, TUnitList Optional, TUnitList Useless, int Superiority)
     {
-        TDoubleItemList List = default;
+        TDoubleItemList<TCombatPredictorUnit> List = default;
         int Total = default;
         int Score = default;
         int Budget = default;
@@ -41342,7 +41135,7 @@ public partial class TCombatPredictor : TObject
         Validate();
         if (GetSuperiority() > Superiority && FSides[0].Count != 0)
         {
-            List = new TDoubleItemList();
+            List = new TDoubleItemList<TCombatPredictorUnit>();
             Total = 0;
             for (int I = FSides[0].Count - 1; I >= 0; I--)
             {
@@ -41357,7 +41150,7 @@ public partial class TCombatPredictor : TObject
                 }
 
                 Total += U.FCombatValueTotal;
-                List.AddAB(ObjectToInt(U), Score);
+                List.AddAB(U, Score);
             }
 
             List.Sort(AoWEUnit.P3CompareRequiredUnits);
@@ -41370,7 +41163,7 @@ public partial class TCombatPredictor : TObject
                 while (Count > 1 && Budget > 0)
                 {
                     Count -= 1;
-                    Budget -= ReferenceFromId<TCombatPredictorUnit>(List[Count].A).FCombatValueTotal;
+                    Budget -= List[Count].A.FCombatValueTotal;
                 }
 
                 if (Count < Minimum)
@@ -41394,12 +41187,12 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = Count - 1; I >= 0; I--)
                 {
-                    ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).SetEnabled(1);
+                    List.List[I].A.SetEnabled(1);
                 }
 
                 for (int I = List.Count - 1; I >= Count; I--)
                 {
-                    ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).SetEnabled(0);
+                    List.List[I].A.SetEnabled(0);
                 }
 
                 Execute();
@@ -41448,7 +41241,7 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = 0; I <= Minimum - 1; I++)
                 {
-                    Required.AddUnit(ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).FUnit);
+                    Required.AddUnit(List.List[I].A.FUnit);
                 }
             }
 
@@ -41456,7 +41249,7 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = List.Count - 1; I >= Minimum; I--)
                 {
-                    Optional.AddUnit(ReferenceFromId<TCombatPredictorUnit>(List.List[I].A).FUnit);
+                    Optional.AddUnit(List.List[I].A.FUnit);
                 }
             }
 
@@ -41464,7 +41257,7 @@ public partial class TCombatPredictor : TObject
             {
                 for (int I = List.Count - 1; I >= Minimum; I--)
                 {
-                    U = ReferenceFromId<TCombatPredictorUnit>(List.List[I].A);
+                    U = List.List[I].A;
                     if (U.FCombatValueTotal <= 0)
                     {
                         Useless.AddUnit(U.FUnit);
@@ -41504,13 +41297,13 @@ public partial class TCombatPredictor : TObject
     }
 
     // CombatPredictor.pas:991
-    public void ListOptionalUnits(int Optional, int Superiority)
+    public void ListOptionalUnits(TUnitList Optional, int Superiority)
     {
-        ListRequiredUnitsEx(null, ReferenceFromId<TUnitList>(Optional), null, Superiority);
+        ListRequiredUnitsEx(null, Optional, null, Superiority);
     }
 
     // CombatPredictor.pas:994
-    public void ListUselessUnits(int Useless)
+    public void ListUselessUnits(TUnitList Useless)
     {
         TCombatPredictorUnit U;
         for (int I = FSides[0].Count - 1; I >= 0; I--)
@@ -41518,7 +41311,7 @@ public partial class TCombatPredictor : TObject
             U = (TCombatPredictorUnit)FSides[0].List[I];
             if (U.FCombatValueTotal <= 0)
             {
-                ReferenceFromId<TUnitList>(Useless).AddUnit(U.FUnit);
+                Useless.AddUnit(U.FUnit);
             }
         }
     }
@@ -41549,7 +41342,7 @@ public partial class TCombatPredictor : TObject
                 I -= 1;
                 if (U.FWallTargets.List[I].B > 0)
                 {
-                    Target = ReferenceFromId<TCombatPredictorUnit>(U.FWallTargets.List[I].A);
+                    Target = U.FWallTargets.List[I].A;
                     Useful = Target == FWall && Target.FHitPoints > 0;
                 }
             }
@@ -41578,7 +41371,7 @@ public partial class TCombatPredictor : TObject
                 I -= 1;
                 if (U.FTargets.List[I].B > 0)
                 {
-                    Target = ReferenceFromId<TCombatPredictorUnit>(U.FTargets.List[I].A);
+                    Target = U.FTargets.List[I].A;
                     Useful = Target != FWall && (Target.FHitPoints > 0 || FResult == 3 || AllDead);
                 }
             }
@@ -41606,15 +41399,15 @@ public partial class TCombatObject : TEObject
     // Combat.pas:1922
     public TCombatObject(TECustomNode owner) : base(owner)
     {
-        FTargets = new TQuadItemList();
-        FTargetedBy = new TQuadItemList();
+        FTargets = new TQuadItemList<TCombatObject>();
+        FTargetedBy = new TQuadItemList<TCombatObject>();
         FCombatPlayer = -1;
     }
 
     public TCombat FCombat;
     public byte FID;
-    public TQuadItemList FTargets;
-    public TQuadItemList FTargetedBy;
+    public TQuadItemList<TCombatObject> FTargets;
+    public TQuadItemList<TCombatObject> FTargetedBy;
     public int FCombatValue;
     public int FWallCombatValue;
     public int FIncomingCombatValue;
@@ -41701,7 +41494,7 @@ public partial class TCombatObject : TEObject
                 CV = FTargets.List[I].B;
                 if (CV != 0)
                 {
-                    Target = ReferenceFromId<TCombatObject>(FTargets.List[I].A);
+                    Target = FTargets.List[I].A;
                     CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
                     FTargetPriority += CV;
                 }
@@ -41866,11 +41659,11 @@ public partial class TCombatObject : TEObject
     public virtual TAbilityOwner GetAbilityOwner() => null;
 
     // Combat.pas:5672
-    public virtual void Activate(int ACombat)
+    public virtual void Activate(TCombat ACombat)
     {
         byte Player;
         TCombat Combat;
-        FCombat = ReferenceFromId<TCombat>(ACombat);
+        FCombat = ACombat;
         FStatus = FStatus + TSet<TCombatObjectStatusElement>.Of(TCombatObjectStatusElement.csActivated);
         Player = (byte)FCombatPlayer;
         if (Player != 255)
@@ -41934,9 +41727,9 @@ public partial class TCombatObject : TEObject
     }
 
     // Combat.pas:5697
-    public virtual void Initialize(int ACombat)
+    public virtual void Initialize(TCombat ACombat)
     {
-        FCombat = ReferenceFromId<TCombat>(ACombat);
+        FCombat = ACombat;
     }
 
     // Combat.pas:5700
@@ -42178,11 +41971,11 @@ public partial class TCombatObject : TEObject
     // Combat.pas:1941
     public void AddTarget(TCombatObject Target, int CV, int WallCV, int DV)
     {
-        Assert(FTargets.IndexOfItemA(ObjectToInt(Target)) == -1, "target already exists use update target", "Combat.pas", 5473);
+        Assert(FTargets.IndexOfItemA(Target) == -1, "target already exists use update target", "Combat.pas", 5473);
         FCombatValue += CV;
         FWallCombatValue += WallCV;
-        FTargets.AddABCD(ObjectToInt(Target), CV, WallCV, DV);
-        Target.FTargetedBy.AddABCD(ObjectToInt(this), CV, WallCV, DV);
+        FTargets.AddABCD(Target, CV, WallCV, DV);
+        Target.FTargetedBy.AddABCD(this, CV, WallCV, DV);
         Target.FIncomingCombatValue += CV;
         Target.FIncomingWallCombatValue += WallCV;
         if (CV > 0)
@@ -42209,7 +42002,7 @@ public partial class TCombatObject : TEObject
         int DV;
         if (Index != -1)
         {
-            Target = ReferenceFromId<TCombatObject>(FTargets.List[Index].A);
+            Target = FTargets.List[Index].A;
             CV = FTargets.List[Index].B;
             DV = FTargets.List[Index].C;
             FCombatValue -= CV;
@@ -42226,7 +42019,7 @@ public partial class TCombatObject : TEObject
             }
 
             TargetsChanged();
-            Index = Target.FTargetedBy.IndexOfItemA(ObjectToInt(this));
+            Index = Target.FTargetedBy.IndexOfItemA(this);
             if (Index != -1)
             {
                 Target.FIncomingCombatValue -= Target.FTargetedBy.List[Index].B;
@@ -42250,7 +42043,7 @@ public partial class TCombatObject : TEObject
     // Combat.pas:5515
     public void RemoveTarget(TCombatObject Target)
     {
-        DeleteTarget(FTargets.IndexOfItemA(ObjectToInt(Target)));
+        DeleteTarget(FTargets.IndexOfItemA(Target));
     }
 
     // Combat.pas:5518
@@ -42706,7 +42499,7 @@ public partial class TCombatUnit : TCombatObject
     public override TAbilityOwner GetAbilityOwner() => FUnit;
 
     // Combat.pas:1178
-    public override void Activate(int ACombat)
+    public override void Activate(TCombat ACombat)
     {
         base.Activate(ACombat);
         UpdateParty();
@@ -42740,12 +42533,12 @@ public partial class TCombatUnit : TCombatObject
     }
 
     // Combat.pas:1193
-    public override void Initialize(int ACombat)
+    public override void Initialize(TCombat ACombat)
     {
         base.Initialize(ACombat);
         if (FUnit is TLeader)
         {
-            ReferenceFromId<TCombat>(ACombat).FCombatData.FInvolvedLeaders.Add((byte)FCombatPlayer);
+            ACombat.FCombatData.FInvolvedLeaders.Add((byte)FCombatPlayer);
         }
     }
 
@@ -43411,10 +43204,10 @@ public partial class TCombatWall : TCombatObject
     }
 
     // Combat.pas:1712
-    public override void Activate(int ACombat)
+    public override void Activate(TCombat ACombat)
     {
         base.Activate(ACombat);
-        ReferenceFromId<TCombat>(ACombat).FCombatData.FWall = this;
+        ACombat.FCombatData.FWall = this;
     }
 
     // Combat.pas:1718
@@ -44651,14 +44444,14 @@ public partial class TCombatParty : TEObject
     }
 
     // Combat2.pas:61
-    public void Activate(int ACombat)
+    public void Activate(TCombat ACombat)
     {
-        var players = ReferenceFromId<TCombat>(ACombat).FCombatData.FPlayers.GetPlayers((sbyte)FPlayerIndex);
+        var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)FPlayerIndex);
         FArmy.SetPlayer(players.FPlayer);
     }
 
     // Combat2.pas:67
-    public void Deactivate(int ACombat)
+    public void Deactivate(TCombat ACombat)
     {
     }
 
@@ -44675,7 +44468,7 @@ public partial class TCombatPartyList : TENode
     public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(TEControlStyleElement.csSaveLoad, TEControlStyleElement.csArrayMode);
 
     // Combat2.pas:73
-    public TCombatParty CreateParty(int ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, int Army)
+    public TCombatParty CreateParty(TCombat ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, TArmy Army)
     {
         TCombatParty P;
         if (GetParty(Position) == null)
@@ -44688,11 +44481,11 @@ public partial class TCombatPartyList : TENode
             P.F_CombatParty_14 = L;
             P.SetArrayOwner(this, Position);
             P.FArmy.SetXYL((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
-            var players = ReferenceFromId<TCombat>(ACombat).FCombatData.FPlayers.GetPlayers((sbyte)CombatPlayer);
+            var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)CombatPlayer);
             P.FArmy.SetPlayer(players.FPlayer);
-            if (Army != 0)
+            if (Army != null)
             {
-                P.FArmy.AssignSettings(ReferenceFromId<TArmy>(Army));
+                P.FArmy.AssignSettings(Army);
             }
 
             P.FArmy.Activate();
@@ -44722,7 +44515,7 @@ public partial class TCombatPartyList : TENode
     }
 
     // Combat2.pas:99
-    public void Activate(int ACombat)
+    public void Activate(TCombat ACombat)
     {
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
@@ -44734,7 +44527,7 @@ public partial class TCombatPartyList : TENode
     }
 
     // Combat2.pas:107
-    public void Deactivate(int ACombat)
+    public void Deactivate(TCombat ACombat)
     {
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
@@ -45313,7 +45106,7 @@ public partial class TCombat : TEObject
 
         for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).Initialize(ObjectToInt(this));
+            FCombatData.GetObjects(I).Initialize(this);
         }
 
         FLogbook.SetInitialData(FCombatData);
@@ -45400,10 +45193,10 @@ public partial class TCombat : TEObject
     {
         Assert(!FStatus.Contains(TCombatStatusElement.cActivated), "Combat already activated", "Combat.pas", 6595);
         FStatus = FStatus + TSet<TCombatStatusElement>.Of(TCombatStatusElement.cActivated);
-        FCombatData.FParties.Activate(ObjectToInt(this));
+        FCombatData.FParties.Activate(this);
         for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).Activate(ObjectToInt(this));
+            FCombatData.GetObjects(I).Activate(this);
         }
 
         if (FStatus.Contains(TCombatStatusElement.cExecuting))
@@ -45427,7 +45220,7 @@ public partial class TCombat : TEObject
             FCombatData.GetObjects(I).Deactivate();
         }
 
-        FCombatData.FParties.Deactivate(ObjectToInt(this));
+        FCombatData.FParties.Deactivate(this);
     }
 
     // Combat.pas:6180
@@ -45676,7 +45469,7 @@ public partial class TCombat : TEObject
         }
 
         Position = GetPartyPosition(X, Y, L);
-        Party = FCombatData.FParties.CreateParty(ObjectToInt(this), Position, Player, X, Y, L, ObjectToInt(Army));
+        Party = FCombatData.FParties.CreateParty(this, Position, Player, X, Y, L, Army);
         Transporter = Army.Transporter(255);
         Transport = Transporter != null && Transporter.ValidTerrain((sbyte)FCombatData.F_CombatData_20[0], (sbyte)FCombatData.F_CombatData_20[1]);
         Index = 0;
@@ -45731,7 +45524,7 @@ public partial class TCombat : TEObject
             Player = AddCombatPlayer((byte)Army.FPlayer, (byte)Army.FIndependentRelation, Side);
         }
 
-        Party = FCombatData.FParties.CreateParty(ObjectToInt(this), (byte)(Position << 0), Player, X, Y, L, ObjectToInt(Army));
+        Party = FCombatData.FParties.CreateParty(this, (byte)(Position << 0), Player, X, Y, L, Army);
         Index = 0;
         for (int I = Army.Count - 1; I >= 0; I--)
         {
@@ -45767,7 +45560,7 @@ public partial class TCombat : TEObject
             Player = AddCombatPlayer(APlayer, IndependentRelation, Side);
         }
 
-        Party = FCombatData.FParties.CreateParty(ObjectToInt(this), Position, Player, X, Y, L, 0);
+        Party = FCombatData.FParties.CreateParty(this, Position, Player, X, Y, L, null);
         Msg.MsgID = 4387;
         var fieldValue = AoWEUnit.AoWHSMap.MapContainer.GetField(X, Y, L);
         Msg.Param[0] = fieldValue;
@@ -46532,8 +46325,8 @@ public partial class TAIPlayerControl : TEObject
         int UnitPriority;
         TAIGroup Group;
         TAbstractUnit AUnit;
-        TDoubleItemList Units;
-        TDoubleItem Item;
+        TDoubleItemList<TAbstractUnit> Units;
+        TDoubleItem<TAbstractUnit> Item;
         SkirmishCount = 0;
         for (int I = 0, last = FPlayer.FAIGroups.Count - 1; I <= last; I++)
         {
@@ -46563,7 +46356,7 @@ public partial class TAIPlayerControl : TEObject
 
         if (SkirmishCount < WantedCount)
         {
-            Units = new TDoubleItemList();
+            Units = new TDoubleItemList<TAbstractUnit>();
             for (int I = FPlayer.FAIGroups.Count - 1; I >= 0; I--)
             {
                 Group = FPlayer.FAIGroups.GetGroups(I);
@@ -46581,7 +46374,7 @@ public partial class TAIPlayerControl : TEObject
                                 UnitPriority += 15;
                             }
 
-                            Units.AddAB(ObjectToInt(AUnit), UnitPriority + GroupPriority);
+                            Units.AddAB(AUnit, UnitPriority + GroupPriority);
                         }
                     }
                 }
@@ -46592,7 +46385,7 @@ public partial class TAIPlayerControl : TEObject
             {
                 Group = AoWEUnit.AoWHSMap.FAIGroupManager.CreateGroup(FPlayer.FPlayerIndex, 0, TGroupBehavior.gbSkirmish);
                 Item = Units[0];
-                Group.AddUnit(ReferenceFromId<TAbstractUnit>(Item.A));
+                Group.AddUnit(Item.A);
                 Group.Release();
                 SkirmishCount += 1;
                 Units.Delete(0);
@@ -46693,7 +46486,7 @@ public partial class TAIPlayerControl : TEObject
                 var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I);
                 var fPlayersPlayers = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer.FPlayerIndex);
                 RaceRelation = AoWEUnit.AoWHSMap.FRaces.GetRace(fPlayersPlayers.FPlayerRace).GetDefaultRaceRelation(players.FPlayerRace);
-                Action = FPlayer.FDiplomaticActions.FindLastAction(TDiplomaticActionType.daDeclareWar, TDiplomaticActionReaction.darNone, (sbyte)I, FPlayer.FPlayerIndex, -1);
+                Action = FPlayer.FDiplomaticActions.FindLastAction(DeclareWar.Kind, TDiplomaticActionReaction.darNone, (sbyte)I, FPlayer.FPlayerIndex, -1);
                 if (Action != null)
                 {
                     Days = AoWEUnit.AoWHSMap.FDay - Action.FDay;
@@ -49969,26 +49762,26 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
         int I;
         int Index;
         TAIMoveExecuterArmyList Armies;
-        TDoubleItemList Sorted;
+        TDoubleItemList<TAdjacentArmy> Sorted;
         TAIMoveExecuterArmy Army;
         byte MoveResult = default;
         bool Result = true;
         Armies = FExecuter.CreateArmies(TSet<TAIMoveExecuterUnitStatus>.Of(TAIMoveExecuterUnitStatus.esReady, TAIMoveExecuterUnitStatus.esDone));
-        Sorted = new TDoubleItemList();
+        Sorted = new TDoubleItemList<TAdjacentArmy>();
         I = 0;
         int last = FAdjacentArmies.Count - 1;
         for (; I <= last; I += 1)
         {
             var movementDays = FAdjacentArmies.GetAdjacentArmies(I).GetMovementDays();
-            Sorted.AddAB(ObjectToInt(FAdjacentArmies.GetAdjacentArmies(I)), Round((double)movementDays * 100));
+            Sorted.AddAB(FAdjacentArmies.GetAdjacentArmies(I), Round((double)movementDays * 100));
         }
 
         Sorted.SortDescendingItemB();
-        _ = ReferenceFromId<TAdjacentArmy>(Sorted[0].A).FPath[1];
+        _ = Sorted[0].A.FPath[1];
         I = 0;
         while (Result && I < Sorted.Count)
         {
-            Index = Armies.IndexOfLoc(ReferenceFromId<TAdjacentArmy>(Sorted[I].A).FLocation);
+            Index = Armies.IndexOfLoc(Sorted[I].A.FLocation);
             if (Index != -1)
             {
                 Army = Armies.GetArmies(Index);
@@ -50082,7 +49875,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
     {
         int Index;
         TAIMoveExecuterArmyList Armies;
-        TDoubleItemList Sorted;
+        TDoubleItemList<TAdjacentArmy> Sorted;
         byte MoveResult = default;
         TXYL Location = default;
         bool Result = true;
@@ -50094,17 +49887,17 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
         }
 
         Armies = FExecuter.CreateArmies(TSet<TAIMoveExecuterUnitStatus>.Of(TAIMoveExecuterUnitStatus.esReady));
-        Sorted = new TDoubleItemList();
+        Sorted = new TDoubleItemList<TAdjacentArmy>();
         for (int I = 0, last = FAdjacentArmies.Count - 1; I <= last; I++)
         {
             var movementDays = FAdjacentArmies.GetAdjacentArmies(I).GetMovementDays();
-            Sorted.AddAB(ObjectToInt(FAdjacentArmies.GetAdjacentArmies(I)), Round((double)movementDays * 100));
+            Sorted.AddAB(FAdjacentArmies.GetAdjacentArmies(I), Round((double)movementDays * 100));
         }
 
         Sorted.SortDescendingItemB();
         for (int I = 0, last = Sorted.Count - 1; I <= last; I++)
         {
-            Index = Armies.IndexOfLoc(ReferenceFromId<TAdjacentArmy>(Sorted[I].A).FLocation);
+            Index = Armies.IndexOfLoc(Sorted[I].A.FLocation);
             if (Index != -1)
             {
                 CreateMove(Armies.GetArmies(Index), 255, Location.X, Location.Y, Location.L, TSet<TCreateMoveModeElement>.Of(), ref MoveResult);
@@ -52051,7 +51844,7 @@ public partial class TAIBudgetManager : TEObject
         for (int I = this.FPlayer.FProductionControls.Count - 1; I >= 0; I--)
         {
             Control = this.FPlayer.FProductionControls.GetPC(I);
-            if (Control.FStatus == TProductionControlStatus.pcsProducing && Control.FQueue.GetItem(0).FProductionID == 1 && Control.FSettings.FUnit != null)
+            if (Control.FStatus == TProductionControlStatus.pcsProducing && Control.FQueue.GetItem(0).Order is ProduceUnit && Control.FSettings.FUnit != null)
             {
                 FProductionGoldUpkeep += Control.FSettings.FGoldUpkeep;
                 FProductionManaUpkeep += Control.FSettings.FManaUpkeep;
@@ -52639,14 +52432,14 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     // AI.pas:1202
     public TAutoProduceAIPA(TECustomNode owner) : base(owner)
     {
-        FProductions = new TQuadItemList();
+        FProductions = new TQuadItemList<TProductionControl>();
     }
 
     public int FProductionIndex;
     public int FState;
     public int FGoldUpkeep;
     public int FManaUpkeep;
-    public TQuadItemList FProductions;
+    public TQuadItemList<TProductionControl> FProductions;
     // AI.pas:1208
     public override void Destroy()
     {
@@ -52729,7 +52522,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                     Controls = FControl.FPlayer.FProductionControls;
                     if (FProductionIndex < Controls.Count)
                     {
-                        UpdateProductions(ReferenceFromId<TProductionControlList>(ObjectToInt(Controls) << 0).GetPC(FProductionIndex));
+                        UpdateProductions(Controls.GetPC(FProductionIndex));
                     }
                     else
                     {
@@ -52758,7 +52551,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
 
                     I = AoWEUnit.AoWHSMap.Random(I + 1);
                     var item = FProductions[I];
-                    ExecuteProduce(ReferenceFromId<TProductionControl>(FProductions[I].A), item.B);
+                    ExecuteProduce(FProductions[I].A, item.B);
                     FProductions.Delete(I);
                     if (!(FProductions.Count != 0 && (FGoldUpkeep > 2 || FManaUpkeep > 2) && (FControl.FPlayer.FAIBudget.FGold > 25 || FControl.FPlayer.FAIBudget.FMana > 25)))
                     {
@@ -52791,7 +52584,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                         Priority = FControl.UnitIndexToPriority(UnitIndex);
                         if (Priority != -1)
                         {
-                            FProductions.AddABCD(ObjectToInt(Control), I, 0, Priority + Bonus);
+                            FProductions.AddABCD(Control, I, 0, Priority + Bonus);
                         }
                     }
                 }
@@ -52891,7 +52684,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     // AI.pas:1308
     public bool ResearchTransporter(TAIBudget Budget)
     {
-        TQuadItemList Candidates = default;
+        TQuadItemList<TProductionControl> Candidates = default;
         TPlayerStructure Structure = default;
         int I = default;
         sbyte X = default;
@@ -52904,7 +52697,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
         Player = FControl.FPlayer;
         if (Budget.FGold > 50)
         {
-            Candidates = new TQuadItemList();
+            Candidates = new TQuadItemList<TProductionControl>();
             I = Player.FProductionControls.Count;
             while (I != 0)
             {
@@ -52941,7 +52734,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                                             }
                                         }
 
-                                        Candidates.AddABCD(ObjectToInt(Control), J, 0, Priority);
+                                        Candidates.AddABCD(Control, J, 0, Priority);
                                     }
                                 }
                             }
@@ -52955,7 +52748,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                 Candidates.Sort(AoWEUnit.CompareAutoProductions);
                 Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
                 var item = Candidates[0];
-                if (ExecuteResearch(ReferenceFromId<TProductionControl>(Candidates[0].A), item.B))
+                if (ExecuteResearch(Candidates[0].A, item.B))
                 {
                     Budget.FGold = 0;
                     Budget.FMana = 0;
@@ -52978,7 +52771,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     // AI.pas:1374
     public bool ProduceTransporter(TAIBudget Budget)
     {
-        TQuadItemList Candidates = default;
+        TQuadItemList<TProductionControl> Candidates = default;
         TPlayerStructure Structure = default;
         int I = default;
         sbyte X = default;
@@ -52991,7 +52784,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
         Player = FControl.FPlayer;
         if (Budget.FGold > 50)
         {
-            Candidates = new TQuadItemList();
+            Candidates = new TQuadItemList<TProductionControl>();
             I = Player.FProductionControls.Count;
             while (I != 0)
             {
@@ -53034,7 +52827,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                                                 }
                                             }
 
-                                            Candidates.AddABCD(ObjectToInt(Control), J, 0, Priority);
+                                            Candidates.AddABCD(Control, J, 0, Priority);
                                         }
                                     }
                                 }
@@ -53049,7 +52842,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                 Candidates.Sort(AoWEUnit.CompareAutoProductions);
                 Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
                 var item = Candidates[0];
-                if (ExecuteProduce(ReferenceFromId<TProductionControl>(Candidates[0].A), item.B))
+                if (ExecuteProduce(Candidates[0].A, item.B))
                 {
                     Budget.FGold = 0;
                     Budget.FMana = 0;
@@ -53138,7 +52931,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
             Control = player.FProductionControls.GetPC(I);
             if (Control.FStatus == TProductionControlStatus.pcsProducing)
             {
-                if (Control.FQueue.GetItem(0).FProductionID == 1)
+                if (Control.FQueue.GetItem(0).Order is ProduceUnit)
                 {
                     Result = Control.FSettings.FUnit.GetTransportCapacity() != 0;
                 }
@@ -53163,7 +52956,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
             Control = player.FProductionControls.GetPC(I);
             if (Control.FStatus == TProductionControlStatus.pcsProducing)
             {
-                if (Control.FQueue.GetItem(0).FProductionID == 2)
+                if (Control.FQueue.GetItem(0).Order is ResearchSpell)
                 {
                     var unitProduction = Control.FUnitProductions.GetItem(Control.FSettings.FUnitProductionIndex);
                     Resource = AoWEUnit.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
@@ -53761,7 +53554,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
     public virtual bool CooperateWithGroup(TAIGroup Group, TAIGroupControlTarget Target) => Group.GroupClass.Behavior == GroupClass.Behavior;
 
     // AIGroup.pas:473
-    public virtual bool GetRecruitableUnits(int Phase, TUnitList Units, TUnitList Recruitable) => false;
+    public virtual bool GetRecruitableUnits(TAIGroup Recruiter, TUnitList Units, TUnitList Recruitable) => false;
 
     // AIGroup.pas:144
     public int GetProcessPriority() => Count + (FProcessPriority << 16);
@@ -55282,10 +55075,10 @@ public partial class TAIGroupControl : TEObject
         TAbstractUnit Result;
         int Distance;
         TAbstractUnit AUnit;
-        TDoubleItemList List;
+        TDoubleItemList<TAbstractUnit> List;
         TXYL Location = default;
         TPlayer Player;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TAbstractUnit>();
         Player = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
         for (int I = 0, last = Player.FArmies.Count - 1; I <= last; I++)
         {
@@ -55296,7 +55089,7 @@ public partial class TAIGroupControl : TEObject
                 Distance = dHXtoRad(Location.X, Location.Y, FLocation.X, FLocation.Y);
                 if (FLocation.L == Location.L && Distance < 30)
                 {
-                    List.AddAB(ObjectToInt(AUnit), Distance);
+                    List.AddAB(AUnit, Distance);
                 }
             }
         }
@@ -55304,7 +55097,7 @@ public partial class TAIGroupControl : TEObject
         if (List.Count != 0)
         {
             List.SortAscendingItemB();
-            Result = ReferenceFromId<TAbstractUnit>(List[0].A);
+            Result = List[0].A;
         }
         else
         {
@@ -56146,7 +55939,7 @@ public partial class TAIGroupRecruitControl : TAIGroupControlPlugin
             Recruitable = new TUnitUserList(null);
             if (FMode != TAIGroupRecruitControlMode.rcmForceRecruit)
             {
-                Group.FGroup.GetRecruitableUnits(ObjectToInt(FControl.FGroup), Units, Recruitable);
+                Group.FGroup.GetRecruitableUnits(FControl.FGroup, Units, Recruitable);
             }
             else
             {
@@ -61604,7 +61397,7 @@ public partial class TFastCombatUnit : TCombatUnit
                         CV = FTargets.List[I].B;
                         if (CV != 0)
                         {
-                            Target = ReferenceFromId<TCombatObject>(FTargets.List[I].A);
+                            Target = FTargets.List[I].A;
                             CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
                             FTargetPriority += CV;
                         }
@@ -61641,7 +61434,7 @@ public partial class TFastCombatUnit : TCombatUnit
                         CV = FTargets.List[I].C;
                         if (CV != 0)
                         {
-                            Target = ReferenceFromId<TCombatObject>(FTargets.List[I].A);
+                            Target = FTargets.List[I].A;
                             CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
                             FTargetPriority += CV;
                         }
@@ -61679,10 +61472,10 @@ public partial class TFastCombatUnit : TCombatUnit
     }
 
     // AIGroup.pas:7011
-    public override void Activate(int ACombat)
+    public override void Activate(TCombat ACombat)
     {
         base.Activate(ACombat);
-        if (ReferenceFromId<TObject>(ACombat) is TFastCombat)
+        if (ACombat is TFastCombat)
         {
             UpdateWallSiegeObjectRegistration();
         }
@@ -61699,7 +61492,7 @@ public partial class TFastCombatUnit : TCombatUnit
     }
 
     // AIGroup.pas:7002
-    public override void Initialize(int ACombat)
+    public override void Initialize(TCombat ACombat)
     {
         TAbstractUnit AUnit;
         base.Initialize(ACombat);
@@ -69758,7 +69551,7 @@ public partial class TSpell : TEObject
         Manager = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
         if (!AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
         {
-            Result = Manager.RequestBudgetExpenseEx(0, Budget, 0, Mana, ReferenceFromId<TAIBudget>(ObjectToInt(Manager.FDefaultBudget)), 1 != 0);
+            Result = Manager.RequestBudgetExpenseEx(0, Budget, 0, Mana, Manager.FDefaultBudget, 1 != 0);
         }
         else
         {
@@ -69778,7 +69571,7 @@ public partial class TSpell : TEObject
             Manager = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
             if (!AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
             {
-                Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, ReferenceFromId<TAIBudget>(ObjectToInt(Manager.FDefaultBudget)), (TBudgetExpenseMode)2);
+                Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Manager.FDefaultBudget, (TBudgetExpenseMode)2);
             }
             else
             {
@@ -70899,22 +70692,22 @@ public partial class TUnitSpell : TSpell
     public virtual bool AIRetrieveOptimalTargetUnit(TAbstractUnit Source, TUnitList Targets, ref TAbstractUnit Target, ref int Priority)
     {
         bool Result;
-        TDoubleItemList List;
+        TDoubleItemList<TAbstractUnit> List;
         int Value;
-        List = new TDoubleItemList();
+        List = new TDoubleItemList<TAbstractUnit>();
         for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
         {
             if (ValidTargetUnit(Source, Targets.GetUnit(I)) && Targets.GetUnit(I).GetUnitType() != TUnitType.utMachine)
             {
                 Value = Targets.GetUnit(I).GetUnitLevel() + FAIValue;
-                List.AddAB(ObjectToInt(Targets.GetUnit(I)), Value);
+                List.AddAB(Targets.GetUnit(I), Value);
             }
         }
 
         if (List.Count != 0)
         {
             List.SortDescendingItemB();
-            Target = ReferenceFromId<TAbstractUnit>(List[0].A);
+            Target = List[0].A;
             Priority = List[0].B;
             Result = true;
         }
@@ -72470,8 +72263,8 @@ public partial class TAoWCampaign : TEObject
 
 }
 
-// RefCount, Day, Source, Target, OtherPlayer, ActionType, Reaction, Gold, Mana, Message,
-// EscrowGold, EscrowMana, EventLogID
+// RefCount, Day, Source, Target, OtherPlayer, Reaction, EscrowGold, EscrowMana, EventLogID and the
+// proposal (AoWE.DiplomaticProposals.cs), stored as ActionType, Gold, Mana and Message
 public partial class TDiplomaticAction : TEObject
 {
     // Diplomacy.pas:495
@@ -72481,41 +72274,44 @@ public partial class TDiplomaticAction : TEObject
     public TDiplomaticAction(TECustomNode owner) : base(owner)
     {
         FRefCount = 1;
-        FMessage = new TStringList();
     }
 
     public int FRefCount;
     public int FDay;
     public sbyte FSource;
     public sbyte FTarget;
+    // The census finds it written for every kind, 255 for the kinds that name no other player.
     public sbyte FOtherPlayer;
-    public TDiplomaticActionType FActionType;
     public TDiplomaticActionReaction FReaction;
-    public int FGold;
-    public int FMana;
-    public TStringList FMessage;
+    public DiplomaticProposal Proposal = new DeclareWar();
     public int FEscrowGold;
     public int FEscrowMana;
     public int FEventLogID;
-    // Diplomacy.pas:489
-    public override void Destroy()
-    {
-        FMessage.Free();
-        base.Destroy();
-    }
-
     // Diplomacy.pas:596
     public override void ReadWrite(TEStorageStream Stream)
     {
         base.ReadWrite(Stream);
+        var (kind, gold, mana) = Proposal.ToFields();
+        var message = new TStringList();
+        foreach (var line in Proposal.Message)
+        {
+            message.Add(line);
+        }
+
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FSource), 20);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTarget), 21);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FOtherPlayer), 22);
-        Stream.rwInteger(ref FGold, 23);
-        Stream.rwInteger(ref FMana, 24);
-        Stream.rwData(Bytes.Of(ref FActionType, 1), 1, 25);
+        Stream.rwInteger(ref gold, 23);
+        Stream.rwInteger(ref mana, 24);
+        Stream.rwData(Bytes.Of(ref kind, 1), 1, 25);
         Stream.rwData(Bytes.Of(ref FReaction, 1), 1, 26);
-        Stream.rwStrings(FMessage, 27);
+        Stream.rwStrings(message, 27);
+        if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+        {
+            Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
+        }
+
+        message.Free();
         Stream.rwInteger(ref FEscrowGold, 28);
         Stream.rwInteger(ref FEscrowMana, 29);
         Stream.rwInteger(ref FEventLogID, 30);
@@ -72550,11 +72346,7 @@ public partial class TDiplomaticAction : TEObject
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986 && Msg.Payload.Int == FSource && FReaction == TDiplomaticActionReaction.darNone)
         {
-            Ignore = FActionType == TDiplomaticActionType.daOfferPeace && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drPeace;
-            Ignore = Ignore || FActionType == TDiplomaticActionType.daBreakAllianceWithY && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) != TDiplomaticRelation.drAlliance;
-            Ignore = Ignore || FActionType == TDiplomaticActionType.daDeclareWarToY && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) != TDiplomaticRelation.drWar;
-            Ignore = Ignore || FActionType == TDiplomaticActionType.daProposeAlliance && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drAlliance;
-            Ignore = Ignore || FActionType == TDiplomaticActionType.daMakeTribute;
+            Ignore = Proposal.LapsesUnanswered(this);
             if (Ignore && (AoWEUnit.AoWHSMap.FPlayMode != TPlayMode.pmSimultaneous || AoWEUnit.AoWHSMap.FDay > FDay + 1))
             {
                 FReaction = TDiplomaticActionReaction.darIgnore;
@@ -72574,296 +72366,46 @@ public partial class TDiplomaticAction : TEObject
     // Diplomacy.pas:992
     public virtual void ExecuteSend(TDiplomaticActionTE TE)
     {
-        TDiplomaticActionEventLog Log;
         if (FReaction == TDiplomaticActionReaction.darNone)
         {
-            FEscrowGold = FGold;
+            var (_, gold, mana) = Proposal.ToFields();
+            FEscrowGold = gold;
             var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource);
-            AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).SetGems(players.FGems - FGold);
-            FEscrowMana = FMana;
+            AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).SetGems(players.FGems - gold);
+            FEscrowMana = mana;
             var fPlayersPlayers = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource);
-            AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FMana - FMana);
-            switch (FActionType)
-            {
-                case >= TDiplomaticActionType.daOfferPeace and <= TDiplomaticActionType.daMakeTribute:
-                case >= TDiplomaticActionType.daSendMessageAsY and <= TDiplomaticActionType.daDeclareWarToY:
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).PlayerSeen((sbyte)(byte)FSource);
-                    if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                    {
-                        var p5MessageSent = AoWEUnit.TranslateRStr(AoWEUnit.P5MessageSentRStr);
-                        AoWEUnit.AoWHSMap.ShowMessage(p5MessageSent);
-                    }
-
-                    Log = CreateEventLog();
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.AddEvent(Log);
-                    if (FTarget == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                    {
-                        Log.Execute(false, false ? 1 : 0, null);
-                    }
-
-                    Log.Release();
-                    AoWEUnit.AoWHSMap.FDiplomaticRelationsChangedEvents.TriggerNotifyEvents(this);
-                    break;
-                case TDiplomaticActionType.daBreakAlliance:
-                    AoWEUnit.AoWHSMap.LockRelationsChanged();
-                {
-                    for (int I = 0, last = AoWEUnit.AoWHSMap.FRaces.Count - 1; I <= last; I++)
-                    {
-                        var playerRelationValue = AoWEUnit.AoWHSMap.FRaces.GetRace(I).GetPlayerRelationValue(FSource);
-                        var relationModifier = GetRelationModifier(FSource, (sbyte)I);
-                        AoWEUnit.AoWHSMap.FRaces.GetRace(I).SetPlayerRelationValue(FSource, relationModifier + playerRelationValue);
-                        var playerRelationValue2 = AoWEUnit.AoWHSMap.FRaces.GetRace(I).GetPlayerRelationValue(FTarget);
-                        var relationModifier2 = GetRelationModifier(FTarget, (sbyte)I);
-                        AoWEUnit.AoWHSMap.FRaces.GetRace(I).SetPlayerRelationValue(FTarget, relationModifier2 + playerRelationValue2);
-                    }
-                }
-
-                    AoWEUnit.AoWHSMap.UnlockRelationsChanged();
-                    AoWEUnit.AoWHSMap.FPlayers.SetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget, TDiplomaticRelation.drPeace);
-                    if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                    {
-                        var p5AllianceBroken = AoWEUnit.TranslateRStr(AoWEUnit.P5AllianceBrokenRStr);
-                        AoWEUnit.AoWHSMap.ShowMessage(p5AllianceBroken);
-                    }
-
-                    Log = CreateEventLog();
-                    AoWEUnit.BroadcastDiplomaticEvent(Log, -1);
-                    if (FTarget == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                    {
-                        Log.Execute(false, false ? 1 : 0, null);
-                    }
-
-                    Log.Release();
-                    break;
-                case TDiplomaticActionType.daDeclareWar:
-                    AoWEUnit.AoWHSMap.LockRelationsChanged();
-                {
-                    for (int I = 0, last = AoWEUnit.AoWHSMap.FRaces.Count - 1; I <= last; I++)
-                    {
-                        var playerRelationValue = AoWEUnit.AoWHSMap.FRaces.GetRace(I).GetPlayerRelationValue(FSource);
-                        var relationModifier = GetRelationModifier(FSource, (sbyte)I);
-                        AoWEUnit.AoWHSMap.FRaces.GetRace(I).SetPlayerRelationValue(FSource, relationModifier + playerRelationValue);
-                        var playerRelationValue2 = AoWEUnit.AoWHSMap.FRaces.GetRace(I).GetPlayerRelationValue(FTarget);
-                        var relationModifier2 = GetRelationModifier(FTarget, (sbyte)I);
-                        AoWEUnit.AoWHSMap.FRaces.GetRace(I).SetPlayerRelationValue(FTarget, relationModifier2 + playerRelationValue2);
-                    }
-                }
-
-                    AoWEUnit.AoWHSMap.UnlockRelationsChanged();
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).PlayerSeen((sbyte)(byte)FSource);
-                    AoWEUnit.AoWHSMap.FPlayers.SetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget, TDiplomaticRelation.drWar);
-                    if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                    {
-                        var p5WarDeclared = AoWEUnit.TranslateRStr(AoWEUnit.P5WarDeclaredRStr);
-                        AoWEUnit.AoWHSMap.ShowMessage(p5WarDeclared);
-                    }
-
-                    Log = CreateEventLog();
-                    AoWEUnit.BroadcastDiplomaticEvent(Log, -1);
-                    if (FTarget == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                    {
-                        Log.Execute(false, false ? 1 : 0, null);
-                    }
-
-                    Log.Release();
-                    break;
-            }
+            AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FMana - mana);
+            Proposal.Sent(this);
         }
     }
 
     // Diplomacy.pas:826
     public virtual void ExecuteAccept(TDiplomaticActionTE TE)
     {
-        TDiplomaticActionEventLog Log;
-        TDiplomaticAction Action = default;
         FReaction = TDiplomaticActionReaction.darAccept;
-        AoWEUnit.RetrieveDefaultDiplomaticActionMessage(FSource, FTarget, FOtherPlayer, FActionType, FReaction, FMessage);
+        RetrieveDefaultMessage(FSource, FTarget, FOtherPlayer, FReaction);
         var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget);
         AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).SetGems(players.FGems + FEscrowGold);
         FEscrowGold = 0;
         var fPlayersPlayers = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget);
         AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FMana + FEscrowMana);
         FEscrowMana = 0;
-        AoWEUnit.AoWHSMap.LockRelationsChanged();
-        for (int I = 0, last = AoWEUnit.AoWHSMap.FRaces.Count - 1; I <= last; I++)
-        {
-            var playerRelationValue = AoWEUnit.AoWHSMap.FRaces.GetRace(I).GetPlayerRelationValue(FSource);
-            var relationModifier = GetRelationModifier(FSource, (sbyte)I);
-            AoWEUnit.AoWHSMap.FRaces.GetRace(I).SetPlayerRelationValue(FSource, relationModifier + playerRelationValue);
-            var playerRelationValue2 = AoWEUnit.AoWHSMap.FRaces.GetRace(I).GetPlayerRelationValue(FTarget);
-            var relationModifier2 = GetRelationModifier(FTarget, (sbyte)I);
-            AoWEUnit.AoWHSMap.FRaces.GetRace(I).SetPlayerRelationValue(FTarget, relationModifier2 + playerRelationValue2);
-        }
-
-        AoWEUnit.AoWHSMap.UnlockRelationsChanged();
-        switch (FActionType)
-        {
-            case TDiplomaticActionType.daOfferPeace:
-                AoWEUnit.AoWHSMap.FPlayers.SetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget, TDiplomaticRelation.drPeace);
-                Log = CreateEventLog();
-                AoWEUnit.BroadcastDiplomaticEvent(Log, -1);
-                if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                {
-                    Log.Execute(false, false ? 1 : 0, null);
-                }
-
-                Log.Release();
-                Log = (TDiplomaticActionEventLog)AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
-                if (Log != null)
-                {
-                    Log.SetOwner(null);
-                }
-
-                break;
-            case TDiplomaticActionType.daProposeAlliance:
-                AoWEUnit.AoWHSMap.FPlayers.SetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget, TDiplomaticRelation.drAlliance);
-                Log = CreateEventLog();
-                AoWEUnit.BroadcastDiplomaticEvent(Log, -1);
-                if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                {
-                    Log.Execute(false, false ? 1 : 0, null);
-                }
-
-                Log.Release();
-                Log = (TDiplomaticActionEventLog)AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
-                if (Log != null)
-                {
-                    Log.SetOwner(null);
-                }
-
-                break;
-            case TDiplomaticActionType.daDeclareWarToY:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) != TDiplomaticRelation.drWar)
-                {
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer).PlayerSeen((sbyte)(byte)FTarget);
-                    AoWEUnit.AoWHSMap.FPlayers.SetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer, TDiplomaticRelation.drWar);
-                    Action = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).CreateDiplomaticAction(TDiplomaticActionType.daDeclareWar, FOtherPlayer, -1);
-                    if (Action != null)
-                    {
-                        Log = Action.CreateEventLog();
-                        AoWEUnit.BroadcastDiplomaticEvent(Log, FSource);
-                        if (FOtherPlayer == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                        {
-                            Log.Execute(false, false ? 1 : 0, null);
-                        }
-
-                        Log.Release();
-                        Action.Release();
-                    }
-                }
-
-                Log = (TDiplomaticActionEventLog)AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
-                Log.SetDiplomaticAction(this);
-                AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FEventLogbook.AddEvent(Log);
-                if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                {
-                    Log.Execute(false, false ? 1 : 0, null);
-                }
-
-                break;
-            case TDiplomaticActionType.daMakeTribute:
-                Log = (TDiplomaticActionEventLog)AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
-                Log.SetDiplomaticAction(this);
-                AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FEventLogbook.AddEvent(Log);
-                if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                {
-                    Log.Execute(false, false ? 1 : 0, null);
-                }
-
-                break;
-            case TDiplomaticActionType.daBreakAllianceWithY:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) == TDiplomaticRelation.drAlliance)
-                {
-                    AoWEUnit.AoWHSMap.FPlayers.SetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer, TDiplomaticRelation.drPeace);
-                    Action = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).CreateDiplomaticAction(TDiplomaticActionType.daBreakAlliance, FOtherPlayer, -1);
-                    if (Action != null)
-                    {
-                        Log = Action.CreateEventLog();
-                        AoWEUnit.BroadcastDiplomaticEvent(Log, FSource);
-                        if (FOtherPlayer == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                        {
-                            Log.Execute(false, false ? 1 : 0, null);
-                        }
-
-                        Log.Release();
-                        Action.Release();
-                    }
-                }
-
-                Log = (TDiplomaticActionEventLog)AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
-                Log.SetDiplomaticAction(this);
-                AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FEventLogbook.AddEvent(Log);
-                if (FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                {
-                    Log.Execute(false, false ? 1 : 0, null);
-                }
-
-                break;
-        }
+        ApplyRelationModifiers();
+        Proposal.Accepted(this);
     }
 
     // Diplomacy.pas:950
     public virtual void ExecuteReject(TDiplomaticActionTE TE)
     {
         TDiplomaticActionEventLog Log;
-        switch (FActionType)
-        {
-            case TDiplomaticActionType.daOfferPeace:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drPeace)
-                {
-                    FReaction = TDiplomaticActionReaction.darReject;
-                }
-                else
-                {
-                    FReaction = TDiplomaticActionReaction.darIgnore;
-                }
-
-                break;
-            case TDiplomaticActionType.daProposeAlliance:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drAlliance)
-                {
-                    FReaction = TDiplomaticActionReaction.darReject;
-                }
-                else
-                {
-                    FReaction = TDiplomaticActionReaction.darIgnore;
-                }
-
-                break;
-            case TDiplomaticActionType.daDeclareWarToY:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) != TDiplomaticRelation.drWar)
-                {
-                    FReaction = TDiplomaticActionReaction.darReject;
-                }
-                else
-                {
-                    FReaction = TDiplomaticActionReaction.darIgnore;
-                }
-
-                break;
-            case TDiplomaticActionType.daBreakAllianceWithY:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) == TDiplomaticRelation.drAlliance)
-                {
-                    FReaction = TDiplomaticActionReaction.darReject;
-                }
-                else
-                {
-                    FReaction = TDiplomaticActionReaction.darIgnore;
-                }
-
-                break;
-            default:
-                FReaction = TDiplomaticActionReaction.darReject;
-                break;
-        }
-
+        FReaction = Proposal.RejectReaction(this);
         var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource);
         AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).SetGems(players.FGems + FEscrowGold);
         FEscrowGold = 0;
         var fPlayersPlayers = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource);
         AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FMana + FEscrowMana);
         FEscrowMana = 0;
-        AoWEUnit.RetrieveDefaultDiplomaticActionMessage(FSource, FTarget, FOtherPlayer, FActionType, FReaction, FMessage);
+        RetrieveDefaultMessage(FSource, FTarget, FOtherPlayer, FReaction);
         Log = (TDiplomaticActionEventLog)AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
         Log.SetDiplomaticAction(this);
         AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FEventLogbook.AddEvent(Log);
@@ -72879,9 +72421,6 @@ public partial class TDiplomaticAction : TEObject
         TByteList IdealWar;
         TDiplomaticRelation Relation;
         TDiplomaticActionReaction Reaction;
-        TDiplomaticAction Last;
-        int Chance;
-        string ErrorText = "";
         Reaction = FReaction;
         if (Reaction == TDiplomaticActionReaction.darNone)
         {
@@ -72893,148 +72432,7 @@ public partial class TDiplomaticAction : TEObject
             Unknown = new TByteList();
             AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.ListPeaceWarUnknownPlayers(Peace, War, Unknown);
             AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
-            switch (FActionType)
-            {
-                case TDiplomaticActionType.daOfferPeace:
-                    Last = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FDiplomaticActions.FindLastAction(TDiplomaticActionType.daOfferPeace, TDiplomaticActionReaction.darNone, FTarget, FSource, -1);
-                    if (IdealPeace.IndexOf((byte)FSource) != -1 || (Last != null && AoWEUnit.AoWHSMap.FDay - Last.FDay <= 1))
-                    {
-                        if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.CanOfferPeace((byte)FSource))
-                        {
-                            Accept(ref ErrorText);
-                        }
-                        else
-                        {
-                            Reject(ref ErrorText);
-                        }
-                    }
-                    else
-                    {
-                        if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.CanOfferPeace((byte)FSource))
-                        {
-                            if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)FSource, TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drPeace, TDiplomaticRelation.drAlliance)) + 1 < AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)FSource, TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drWar)))
-                            {
-                                Last = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FDiplomaticActions.FindLastAction(TDiplomaticActionType.daOfferPeace, TDiplomaticActionReaction.darReject, FSource, FTarget, -1);
-                                if (Last == null || AoWEUnit.AoWHSMap.FDay - Last.FDay > 8)
-                                {
-                                    // { Original bug: escrow gold is counted twice. }
-                                    if (AoWEUnit.AoWHSMap.Random(3) == 1 && AoWEUnit.AoWHSMap.Random(250) + 100 < FEscrowGold + FEscrowGold)
-                                    {
-                                        Accept(ref ErrorText);
-                                    }
-                                    else
-                                    {
-                                        Reject(ref ErrorText);
-                                    }
-                                }
-                                else
-                                {
-                                    Reject(ref ErrorText);
-                                }
-                            }
-                            else
-                            {
-                                Reject(ref ErrorText);
-                            }
-                        }
-                        else
-                        {
-                            Reject(ref ErrorText);
-                        }
-                    }
-
-                    break;
-                case TDiplomaticActionType.daProposeAlliance:
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.CanProposeAlliance((byte)FSource))
-                    {
-                        RandSeed = (int)(((uint)(AoWEUnit.AoWHSMap.FInitialRandomSeed + AoWEUnit.AoWHSMap.FDay + FSource + FTarget)) >> 2);
-                        Chance = (FEscrowGold + FEscrowMana) / 25 + 30;
-                        if (Chance > 60)
-                        {
-                            Chance = 60;
-                        }
-
-                        if (Random(100) < Chance)
-                        {
-                            Accept(ref ErrorText);
-                        }
-                        else
-                        {
-                            Reject(ref ErrorText);
-                        }
-                    }
-                    else
-                    {
-                        Reject(ref ErrorText);
-                    }
-
-                    break;
-                case TDiplomaticActionType.daDeclareWarToY:
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) == TDiplomaticRelation.drWar)
-                    {
-                        Accept(ref ErrorText);
-                    }
-                    else
-                    {
-                        if (IdealWar.IndexOf((byte)FOtherPlayer) != -1)
-                        {
-                            if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.CanDeclareWar((byte)FOtherPlayer))
-                            {
-                                if (AoWEUnit.AoWHSMap.Random(5) == 1 && AoWEUnit.AoWHSMap.Random(550) + 250 < FEscrowGold + FEscrowMana)
-                                {
-                                    Accept(ref ErrorText);
-                                }
-                                else
-                                {
-                                    Reject(ref ErrorText);
-                                }
-                            }
-                            else
-                            {
-                                Reject(ref ErrorText);
-                            }
-                        }
-                        else
-                        {
-                            Reject(ref ErrorText);
-                        }
-                    }
-
-                    break;
-                case TDiplomaticActionType.daMakeTribute:
-                    if (TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drPeace, TDiplomaticRelation.drAlliance).Contains(Relation))
-                    {
-                        Accept(ref ErrorText);
-                    }
-                    else
-                    {
-                        if (AoWEUnit.AoWHSMap.Random(200) + 50 < FGold + FMana)
-                        {
-                            Accept(ref ErrorText);
-                        }
-                        else
-                        {
-                            Reject(ref ErrorText);
-                        }
-                    }
-
-                    break;
-                case TDiplomaticActionType.daBreakAllianceWithY:
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) != TDiplomaticRelation.drAlliance)
-                    {
-                        Accept(ref ErrorText);
-                    }
-                    else
-                    {
-                        Reject(ref ErrorText);
-                    }
-
-                    break;
-                case TDiplomaticActionType.daDeclareWar:
-                    UpdateAIDiplomaticActionsLog(Player);
-                    break;
-            }
-
+            Proposal.AnswerAI(this, Player, Relation, IdealPeace, IdealWar);
             Peace.Free();
             War.Free();
             Unknown.Free();
@@ -73045,22 +72443,7 @@ public partial class TDiplomaticAction : TEObject
         {
             if (TSet<TDiplomaticActionReaction>.Of(TDiplomaticActionReaction.darReject, TDiplomaticActionReaction.darIgnore).Contains(Reaction))
             {
-                switch (FActionType)
-                {
-                    case TDiplomaticActionType.daOfferPeace:
-                        var diplomaticRelation = AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget);
-                        if (!TSet<TDiplomaticRelation>.Of(TDiplomaticRelation.drPeace, TDiplomaticRelation.drWar).Contains(diplomaticRelation))
-                        {
-                            Last = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).CreateDiplomaticAction(TDiplomaticActionType.daDeclareWar, FTarget, -1);
-                            if (Last != null)
-                            {
-                                Last.Send(ref ErrorText);
-                                Last.Release();
-                            }
-                        }
-
-                        break;
-                }
+                Proposal.RefusedAI(this);
             }
         }
     }
@@ -73069,16 +72452,12 @@ public partial class TDiplomaticAction : TEObject
     public virtual bool CanSend(ref string ErrorText)
     {
         bool Result;
-        if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FGems >= FGold)
+        var (_, gold, mana) = Proposal.ToFields();
+        if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FGems >= gold)
         {
-            if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FMagicControl.FMana >= FMana)
+            if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FMagicControl.FMana >= mana)
             {
-                Result = true;
-                if (FActionType == TDiplomaticActionType.daMakeTribute && FGold == 0 && FMana == 0)
-                {
-                    ErrorText = AoWEUnit.TranslateRStr(AoWEUnit.P5NoGoldManaSpecifiedRStr);
-                    Result = false;
-                }
+                Result = Proposal.CanSend(this, ref ErrorText);
             }
             else
             {
@@ -73169,223 +72548,10 @@ public partial class TDiplomaticAction : TEObject
     }
 
     // Diplomacy.pas:505
-    public string GetName(sbyte Player)
-    {
-        string Result;
-        switch (FActionType)
-        {
-            case TDiplomaticActionType.daDeclareWar:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5DeclareWarRStr);
-                break;
-            case TDiplomaticActionType.daOfferPeace:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5OfferPeaceRStr);
-                break;
-            case TDiplomaticActionType.daProposeAlliance:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5ProposeAllianceRStr);
-                break;
-            case TDiplomaticActionType.daSendMessage:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5SendMessageRStr);
-                break;
-            case TDiplomaticActionType.daThreatenToAttack:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5ThreatenToAttackRStr);
-                break;
-            case TDiplomaticActionType.daMakeTribute:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5MakeTributeRStr);
-                break;
-            case TDiplomaticActionType.daBreakAlliance:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5BreakAllianceRStr);
-                break;
-            case TDiplomaticActionType.daBreakAllianceWithY:
-                var name = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer).GetName();
-                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5SuggestAllianceBreakWithYRStr), [name]);
-                break;
-            case TDiplomaticActionType.daDeclareWarToY:
-                var name2 = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer).GetName();
-                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5SuggestWarWithYRStr), [name2]);
-                break;
-            case TDiplomaticActionType.daSendMessageAsY:
-                var name3 = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer).GetName();
-                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5SendMessageAsXRStr), [name3]);
-                break;
-            default:
-                Result = "";
-                break;
-        }
-
-        return Result;
-    }
+    public string GetName(sbyte Player) => Proposal.Name(this);
 
     // Diplomacy.pas:527
-    public int GetRelationModifier(sbyte Player, sbyte Race)
-    {
-        int Modifier;
-        int Result = 0;
-        switch (FActionType)
-        {
-            case TDiplomaticActionType.daBreakAlliance:
-                if (Player == FSource && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) == TDiplomaticRelation.drAlliance)
-                {
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FPlayerRace != Race)
-                    {
-                        var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget);
-                        Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * -40) * 0.01);
-                    }
-                    else
-                    {
-                        Result = -40;
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daBreakAllianceWithY:
-                if (Player == FTarget && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) == TDiplomaticRelation.drAlliance)
-                {
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer).FPlayerRace != Race)
-                    {
-                        var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer);
-                        Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * -40) * 0.01);
-                    }
-                    else
-                    {
-                        Result = -40;
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daDeclareWar:
-                if (Player == FSource && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drWar)
-                {
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) == TDiplomaticRelation.drAlliance)
-                    {
-                        Modifier = -60;
-                    }
-                    else
-                    {
-                        Modifier = -20;
-                    }
-
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FPlayerRace != Race)
-                    {
-                        var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget);
-                        Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * Modifier) * 0.01);
-                    }
-                    else
-                    {
-                        Result = Modifier;
-                    }
-                }
-                else
-                {
-                    if (Player == FTarget && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drWar && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FPlayerRace == Race)
-                    {
-                        Result = -20;
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daDeclareWarToY:
-                if (Player == FTarget && AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) != TDiplomaticRelation.drWar)
-                {
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FTarget, (sbyte)(byte)FOtherPlayer) == TDiplomaticRelation.drAlliance)
-                    {
-                        Modifier = -60;
-                    }
-                    else
-                    {
-                        Modifier = -20;
-                    }
-
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer).FPlayerRace != Race)
-                    {
-                        var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FOtherPlayer);
-                        Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * Modifier) * 0.01);
-                    }
-                    else
-                    {
-                        Result = Modifier;
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daProposeAlliance:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drAlliance)
-                {
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) == TDiplomaticRelation.drWar)
-                    {
-                        Modifier = 30;
-                    }
-                    else
-                    {
-                        Modifier = 20;
-                    }
-
-                    if (Player == FSource)
-                    {
-                        if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FPlayerRace != Race)
-                        {
-                            var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget);
-                            Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * Modifier) * 0.01);
-                        }
-                        else
-                        {
-                            Result = Modifier;
-                        }
-                    }
-                    else
-                    {
-                        if (Player == FTarget)
-                        {
-                            if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FPlayerRace != Race)
-                            {
-                                var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource);
-                                Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * Modifier) * 0.01);
-                            }
-                            else
-                            {
-                                Result = Modifier;
-                            }
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daOfferPeace:
-                if (AoWEUnit.AoWHSMap.FPlayers.GetDiplomaticRelation((sbyte)(byte)FSource, (sbyte)(byte)FTarget) != TDiplomaticRelation.drPeace)
-                {
-                    if (Player == FSource)
-                    {
-                        if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FPlayerRace != Race)
-                        {
-                            var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget);
-                            Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * 10) * 0.01);
-                        }
-                        else
-                        {
-                            Result = 10;
-                        }
-                    }
-                    else
-                    {
-                        if (Player == FTarget)
-                        {
-                            if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource).FPlayerRace != Race)
-                            {
-                                var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FSource);
-                                Result = Round((double)((AoWEUnit.AoWHSMap.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * 10) * 0.01);
-                            }
-                            else
-                            {
-                                Result = 10;
-                            }
-                        }
-                    }
-                }
-
-                break;
-        }
-
-        return Result;
-    }
+    public int GetRelationModifier(sbyte Player, sbyte Race) => Proposal.RelationModifier(this, Player, Race);
 
     // Diplomacy.pas:707
     public TDiplomaticActionEventLog CreateEventLog()
@@ -73405,7 +72571,7 @@ public partial class TDiplomaticAction : TEObject
         if (TSet<TPlayerType>.Of().WithRange(TPlayerType.ptCPU1, TPlayerType.ptCPU3).WithRange(TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(players.FPlayerType))
         {
             Action = (TDiplomaticAction)Copy(AoWEUnit.AoWEngine);
-            Action.FMessage.Clear();
+            Action.Proposal = Action.Proposal with { Message = [] };
             AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FDiplomaticActions.AddChild(Action);
             Action.Release();
         }
@@ -73424,7 +72590,7 @@ public partial class TDiplomaticActionList : TEReferenceNode
     public TDiplomaticAction GetDiplomaticActions(int Index) => (TDiplomaticAction)FChildren.List[Index];
 
     // Diplomacy.pas:1100
-    public TDiplomaticAction FindLastAction(TDiplomaticActionType Action, TDiplomaticActionReaction Reaction, sbyte Source, sbyte Target, sbyte Other)
+    public TDiplomaticAction FindLastAction(byte Kind, TDiplomaticActionReaction Reaction, sbyte Source, sbyte Target, sbyte Other)
     {
         int I;
         TDiplomaticAction Candidate;
@@ -73434,7 +72600,7 @@ public partial class TDiplomaticActionList : TEReferenceNode
         {
             I -= 1;
             Candidate = (TDiplomaticAction)FChildren.List[I];
-            if (Candidate.FActionType == Action && Candidate.FReaction == Reaction && (Source == Candidate.FSource || Source == -1) && (Candidate.FTarget == Target || Target == -1) && (Candidate.FOtherPlayer == Other || Other == -1))
+            if (Candidate.Proposal.ToFields().Kind == Kind && Candidate.FReaction == Reaction && (Source == Candidate.FSource || Source == -1) && (Candidate.FTarget == Target || Target == -1) && (Candidate.FOtherPlayer == Other || Other == -1))
             {
                 Result = Candidate;
             }
@@ -73577,205 +72743,14 @@ public partial class TDiplomaticActionEventLog : TEventLog
     }
 
     // Diplomacy.pas:1265
-    public override string GetText()
-    {
-        string Result = "";
-        TDiplomaticAction Action;
-        Action = FAction;
-        switch (Action.FActionType)
-        {
-            case TDiplomaticActionType.daDeclareWar:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5WarRStr);
-                break;
-            case TDiplomaticActionType.daProposeAlliance:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5AllianceProposalRStr);
-                if (Action.FReaction == TDiplomaticActionReaction.darReject)
-                {
-                    var p5AllianceProposal = AoWEUnit.TranslateRStr(AoWEUnit.P5AllianceProposalRStr);
-                    Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XRejectedRStr), [p5AllianceProposal]);
-                }
-                else
-                {
-                    if (Action.FReaction == TDiplomaticActionReaction.darAccept)
-                    {
-                        if (Action.FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                        {
-                            var p5AllianceProposalText = AoWEUnit.TranslateRStr(AoWEUnit.P5AllianceProposalRStr);
-                            Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XAcceptedRStr), [p5AllianceProposalText]);
-                        }
-                        else
-                        {
-                            Result = AoWEUnit.TranslateRStr(AoWEUnit.P5MadeAllianceRStr);
-                        }
-                    }
-                    else
-                    {
-                        if (Action.FReaction == TDiplomaticActionReaction.darIgnore)
-                        {
-                            var translateRStr = AoWEUnit.TranslateRStr(AoWEUnit.P5AllianceProposalRStr);
-                            Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XIgnoredRStr), [translateRStr]);
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daOfferPeace:
-                if (Action.FReaction == TDiplomaticActionReaction.darNone)
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.P5PeaceOfferRStr);
-                }
-                else
-                {
-                    if (Action.FReaction == TDiplomaticActionReaction.darReject)
-                    {
-                        var p5PeaceOffer = AoWEUnit.TranslateRStr(AoWEUnit.P5PeaceOfferRStr);
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XRejectedRStr), [p5PeaceOffer]);
-                    }
-                    else
-                    {
-                        if (Action.FReaction == TDiplomaticActionReaction.darAccept)
-                        {
-                            if (Action.FSource == AoWEUnit.AoWHSMap.FSeatedPlayer)
-                            {
-                                var p5PeaceOfferText = AoWEUnit.TranslateRStr(AoWEUnit.P5PeaceOfferRStr);
-                                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XAcceptedRStr), [p5PeaceOfferText]);
-                            }
-                            else
-                            {
-                                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5PeaceRStr);
-                            }
-                        }
-                        else
-                        {
-                            if (Action.FReaction == TDiplomaticActionReaction.darIgnore)
-                            {
-                                var translateRStr = AoWEUnit.TranslateRStr(AoWEUnit.P5PeaceOfferRStr);
-                                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XIgnoredRStr), [translateRStr]);
-                            }
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daMakeTribute:
-                if (Action.FReaction == TDiplomaticActionReaction.darNone)
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.P5TributeRStr);
-                }
-                else
-                {
-                    if (Action.FReaction == TDiplomaticActionReaction.darReject)
-                    {
-                        var p5Tribute = AoWEUnit.TranslateRStr(AoWEUnit.P5TributeRStr);
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XRejectedRStr), [p5Tribute]);
-                    }
-                    else
-                    {
-                        if (Action.FReaction == TDiplomaticActionReaction.darAccept)
-                        {
-                            var p5TributeText = AoWEUnit.TranslateRStr(AoWEUnit.P5TributeRStr);
-                            Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XAcceptedRStr), [p5TributeText]);
-                        }
-                        else
-                        {
-                            if (Action.FReaction == TDiplomaticActionReaction.darIgnore)
-                            {
-                                var translateRStr = AoWEUnit.TranslateRStr(AoWEUnit.P5TributeRStr);
-                                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XIgnoredRStr), [translateRStr]);
-                            }
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daDeclareWarToY:
-                if (Action.FReaction == TDiplomaticActionReaction.darNone)
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.P5DeclareWarSuggestionRStr);
-                }
-                else
-                {
-                    if (Action.FReaction == TDiplomaticActionReaction.darReject)
-                    {
-                        var p5DeclareWar = AoWEUnit.TranslateRStr(AoWEUnit.P5DeclareWarRStr);
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XRejectedRStr), [p5DeclareWar]);
-                    }
-                    else
-                    {
-                        if (Action.FReaction == TDiplomaticActionReaction.darAccept)
-                        {
-                            var p5DeclareWarText = AoWEUnit.TranslateRStr(AoWEUnit.P5DeclareWarRStr);
-                            Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XAcceptedRStr), [p5DeclareWarText]);
-                        }
-                        else
-                        {
-                            if (Action.FReaction == TDiplomaticActionReaction.darIgnore)
-                            {
-                                var translateRStr = AoWEUnit.TranslateRStr(AoWEUnit.P5DeclareWarRStr);
-                                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XIgnoredRStr), [translateRStr]);
-                            }
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daBreakAllianceWithY:
-                if (Action.FReaction == TDiplomaticActionReaction.darNone)
-                {
-                    Result = AoWEUnit.TranslateRStr(AoWEUnit.P5BreakAllianceSuggestionRStr);
-                }
-                else
-                {
-                    if (Action.FReaction == TDiplomaticActionReaction.darReject)
-                    {
-                        var p5BreakAlliance = AoWEUnit.TranslateRStr(AoWEUnit.P5BreakAllianceRStr);
-                        Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XRejectedRStr), [p5BreakAlliance]);
-                    }
-                    else
-                    {
-                        if (Action.FReaction == TDiplomaticActionReaction.darAccept)
-                        {
-                            var p5BreakAllianceText = AoWEUnit.TranslateRStr(AoWEUnit.P5BreakAllianceRStr);
-                            Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XAcceptedRStr), [p5BreakAllianceText]);
-                        }
-                        else
-                        {
-                            if (Action.FReaction == TDiplomaticActionReaction.darIgnore)
-                            {
-                                var translateRStr = AoWEUnit.TranslateRStr(AoWEUnit.P5BreakAllianceRStr);
-                                Result = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P5XIgnoredRStr), [translateRStr]);
-                            }
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daBreakAlliance:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5AllianceBrokenRStr);
-                break;
-            case TDiplomaticActionType.daSendMessage:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5MessageRStr);
-                break;
-            case TDiplomaticActionType.daSendMessageAsY:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5MessageRStr);
-                break;
-            case TDiplomaticActionType.daThreatenToAttack:
-                Result = AoWEUnit.TranslateRStr(AoWEUnit.P5ThreatRStr);
-                break;
-            default:
-                Result = "TDiplomaticActionEventLog";
-                break;
-        }
-
-        return Result;
-    }
+    public override string GetText() => FAction.Proposal.LogText(FAction);
 
     // Diplomacy.pas:1228
     public override int GetTextColor()
     {
         int Result;
         int Race;
-        if (FAction.FActionType == TDiplomaticActionType.daSendMessageAsY)
+        if (FAction.Proposal.SignedAsOtherPlayer)
         {
             bool condition = FAction.FOtherPlayer > 0;
             if (condition)
@@ -73871,7 +72846,7 @@ public partial class TDiplomaticActionEventLog : TEventLog
         int Result;
         TDiplomaticAction Action;
         Action = FAction;
-        if (Action.FActionType != TDiplomaticActionType.daSendMessageAsY)
+        if (!Action.Proposal.SignedAsOtherPlayer)
         {
             bool condition = Action.FSource > 0;
             if (condition)
@@ -73941,25 +72916,7 @@ public partial class TDiplomaticActionEventLog : TEventLog
     public override bool GetVisible() => true;
 
     // Diplomacy.pas:1208
-    public override void PlayLoggedSFX(TEventLogbook Logbook)
-    {
-        switch (FAction.FActionType)
-        {
-            case TDiplomaticActionType.daDeclareWar:
-            case TDiplomaticActionType.daThreatenToAttack:
-            case TDiplomaticActionType.daBreakAlliance:
-                PlaySample("SFX\\EVENTS\\MESSAGE.WAV");
-                break;
-            case TDiplomaticActionType.daOfferPeace:
-            case TDiplomaticActionType.daProposeAlliance:
-            case TDiplomaticActionType.daMakeTribute:
-                PlaySample("SFX\\EVENTS\\MESSAGE2.WAV");
-                break;
-            default:
-                PlaySample("SFX\\EVENTS\\MESSAGE.WAV");
-                break;
-        }
-    }
+    public override void PlayLoggedSFX(TEventLogbook Logbook) => PlaySample(FAction.Proposal.LoggedSample);
 
     // Diplomacy.pas:1217
     public override void NotifyLogged(TEventLogbook Logbook)
@@ -74022,7 +72979,7 @@ public partial class TDiplomaticActionEventLog : TEventLog
         }
     }
 
-    public override int GetMiddleIcon() => FAction.FActionType == 0 || (byte)FAction.FActionType == 9 && (byte)FAction.FReaction == 1 ? 0x15 : 0x16;
+    public override int GetMiddleIcon() => FAction.Proposal.MiddleIcon(FAction);
 }
 
 public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
@@ -74087,13 +73044,13 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
     }
 
     // Diplomacy.pas:1552
-    public TDiplomaticAction CreateDA(TDiplomaticActionType Action, sbyte Target, sbyte Other, int MinDays)
+    public TDiplomaticAction CreateDA(DiplomaticProposal Action, sbyte Target, sbyte Other, int MinDays)
     {
         TDiplomaticAction Result;
         sbyte Player;
         TDiplomaticAction Last;
         Player = FControl.FPlayer.FPlayerIndex;
-        Last = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FDiplomaticActions.FindLastAction(Action, TDiplomaticActionReaction.darNone, Player, Target, Other);
+        Last = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FDiplomaticActions.FindLastAction(Action.ToFields().Kind, TDiplomaticActionReaction.darNone, Player, Target, Other);
         if (Last == null || AoWEUnit.AoWHSMap.FDay - Last.FDay >= MinDays)
         {
             Result = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).CreateDiplomaticAction(Action, Target, Other);
@@ -74139,11 +73096,11 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                 {
                     if (FControl.CanOfferPeace((byte)Player))
                     {
-                        Action = CreateDA(TDiplomaticActionType.daOfferPeace, Player, -1, 10);
+                        Action = CreateDA(new OfferPeace(), Player, -1, 10);
                     }
                     else
                     {
-                        Action = CreateDA(TDiplomaticActionType.daDeclareWar, Player, -1, -1);
+                        Action = CreateDA(new DeclareWar(), Player, -1, -1);
                     }
                 }
 
@@ -74151,11 +73108,11 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                 {
                     if (FControl.CanDeclareWar((byte)Player))
                     {
-                        Action = CreateDA(TDiplomaticActionType.daDeclareWar, Player, -1, -1);
+                        Action = CreateDA(new DeclareWar(), Player, -1, -1);
                     }
                     else
                     {
-                        Action = CreateDA(TDiplomaticActionType.daOfferPeace, Player, -1, 10);
+                        Action = CreateDA(new OfferPeace(), Player, -1, 10);
                     }
                 }
 
@@ -74167,7 +73124,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                     Index = Random(IdealWar.Count);
                     if (IdealWar[Index] == Player)
                     {
-                        Action = CreateDA(TDiplomaticActionType.daDeclareWar, Player, -1, -1);
+                        Action = CreateDA(new DeclareWar(), Player, -1, -1);
                     }
                 }
                 else
@@ -74177,7 +73134,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                         RandSeed = (int)(((uint)(AoWEUnit.AoWHSMap.FInitialRandomSeed + AoWEUnit.AoWHSMap.FDay + Source)) >> 2);
                         if (Random(100) < 30)
                         {
-                            Action = CreateDA(TDiplomaticActionType.daProposeAlliance, Player, -1, 10);
+                            Action = CreateDA(new ProposeAlliance(), Player, -1, 10);
                         }
                     }
                 }
@@ -74190,7 +73147,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                     Index = Random(IdealWar.Count);
                     if (IdealWar[Index] == Player)
                     {
-                        Action = CreateDA(TDiplomaticActionType.daBreakAlliance, Player, -1, -1);
+                        Action = CreateDA(new BreakAlliance(), Player, -1, -1);
                     }
                 }
 
@@ -74204,7 +73161,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                         Candidate = (sbyte)IdealPeace[I];
                         if (War.IndexOf((byte)Candidate) != -1 && FControl.CanOfferPeace((byte)Candidate))
                         {
-                            Action = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(TDiplomaticActionType.daOfferPeace, TDiplomaticActionReaction.darNone, Source, Candidate, -1);
+                            Action = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(OfferPeace.Kind, TDiplomaticActionReaction.darNone, Source, Candidate, -1);
                             if (Action == null || AoWEUnit.AoWHSMap.FDay - Action.FDay > 12)
                             {
                                 Score = -I;
@@ -74224,7 +73181,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                             Candidate = (sbyte)IdealWar[J];
                             if (War.IndexOf((byte)Candidate) != -1)
                             {
-                                Action = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(TDiplomaticActionType.daOfferPeace, TDiplomaticActionReaction.darNone, Source, Candidate, -1);
+                                Action = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(OfferPeace.Kind, TDiplomaticActionReaction.darNone, Source, Candidate, -1);
                                 if (Action == null || AoWEUnit.AoWHSMap.FDay - Action.FDay > 12)
                                 {
                                     Score = J;
@@ -74243,7 +73200,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                         Candidates.SortDescendingItemB();
                         if (Candidates[0].A == Player)
                         {
-                            Action = CreateDA(TDiplomaticActionType.daOfferPeace, (sbyte)Candidates[0].A, -1, -1);
+                            Action = CreateDA(new OfferPeace(), (sbyte)Candidates[0].A, -1, -1);
                         }
                     }
 
@@ -75715,20 +74672,6 @@ public enum TDiplomaticRelation : byte
     drWar = 1,
     drAlliance = 2,
     drUnknown = 3
-}
-
-public enum TDiplomaticActionType : byte
-{
-    daDeclareWar = 0,
-    daOfferPeace = 1,
-    daProposeAlliance = 2,
-    daSendMessage = 3,
-    daThreatenToAttack = 4,
-    daMakeTribute = 5,
-    daBreakAlliance = 6,
-    daSendMessageAsY = 7,
-    daBreakAllianceWithY = 8,
-    daDeclareWarToY = 9
 }
 
 public enum TDiplomaticActionReaction : byte
@@ -78933,7 +77876,7 @@ public static partial class AoWEUnit
     }
 
     // Diplomacy.pas:1420
-    public static void RetrieveDefaultDiplomaticActionMessage(sbyte Source, sbyte Target, sbyte Other, TDiplomaticActionType Action, TDiplomaticActionReaction Reaction, TStrings Text)
+    public static void RetrieveDefaultDiplomaticActionMessage(sbyte Source, sbyte Target, sbyte Other, DiplomaticProposal Proposal, TDiplomaticActionReaction Reaction, TStrings Text)
     {
         string SourceRace;
         string TargetRace;
@@ -78976,157 +77919,7 @@ public static partial class AoWEUnit
             }
         }
 
-        switch (Action)
-        {
-            case TDiplomaticActionType.daDeclareWar:
-                if (Relation == TDiplomaticRelation.drUnknown)
-                {
-                    TextControl.RetrieveText(Alignment + 151, Text);
-                }
-                else
-                {
-                    TextControl.RetrieveText(Alignment + 100, Text);
-                }
-
-                Text.Text = Format(Text.Text, [SourceRace, TargetRace]);
-                break;
-            case TDiplomaticActionType.daOfferPeace:
-                if (Reaction == TDiplomaticActionReaction.darNone)
-                {
-                    if (Relation == TDiplomaticRelation.drUnknown)
-                    {
-                        TextControl.RetrieveText(Alignment + 103, Text);
-                    }
-                    else
-                    {
-                        TextControl.RetrieveText(Alignment + 154, Text);
-                    }
-
-                    Text.Text = Format(Text.Text, [SourceRace, TargetRace]);
-                }
-                else
-                {
-                    if (Reaction == TDiplomaticActionReaction.darAccept)
-                    {
-                        TextControl.RetrieveText(Alignment + 127, Text);
-                        Text.Text = Format(Text.Text, [TargetRace, SourceRace]);
-                    }
-                    else
-                    {
-                        if (Reaction == TDiplomaticActionReaction.darReject)
-                        {
-                            TextControl.RetrieveText(Alignment + 130, Text);
-                            Text.Text = Format(Text.Text, [TargetRace, SourceRace]);
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daProposeAlliance:
-                if (Reaction == TDiplomaticActionReaction.darNone)
-                {
-                    TextControl.RetrieveText(Alignment + 106, Text);
-                    Text.Text = Format(Text.Text, [SourceRace, TargetRace]);
-                }
-                else
-                {
-                    if (Reaction == TDiplomaticActionReaction.darAccept)
-                    {
-                        TextControl.RetrieveText(Alignment + 121, Text);
-                        Text.Text = Format(Text.Text, [TargetRace, SourceRace]);
-                    }
-                    else
-                    {
-                        if (Reaction == TDiplomaticActionReaction.darReject)
-                        {
-                            TextControl.RetrieveText(Alignment + 124, Text);
-                            Text.Text = Format(Text.Text, [TargetRace, SourceRace]);
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daBreakAlliance:
-                TextControl.RetrieveText(Alignment + 109, Text);
-                Text.Text = Format(Text.Text, [SourceRace, TargetRace]);
-                break;
-            case TDiplomaticActionType.daThreatenToAttack:
-                TextControl.RetrieveText(Alignment + 112, Text);
-                Text.Text = Format(Text.Text, [SourceRace, TargetRace]);
-                break;
-            case TDiplomaticActionType.daMakeTribute:
-                if (Reaction == TDiplomaticActionReaction.darNone)
-                {
-                    TextControl.RetrieveText(Alignment + 118, Text);
-                    Text.Text = Format(Text.Text, [SourceRace, TargetRace]);
-                }
-                else
-                {
-                    if (Reaction == TDiplomaticActionReaction.darAccept)
-                    {
-                        TextControl.RetrieveText(Alignment + 133, Text);
-                        Text.Text = Format(Text.Text, [TargetRace, SourceRace]);
-                    }
-                    else
-                    {
-                        if (Reaction == TDiplomaticActionReaction.darReject)
-                        {
-                            TextControl.RetrieveText(Alignment + 136, Text);
-                            Text.Text = Format(Text.Text, [TargetRace, SourceRace]);
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daBreakAllianceWithY:
-                if (Reaction == TDiplomaticActionReaction.darNone)
-                {
-                    TextControl.RetrieveText(Alignment + 160, Text);
-                    Text.Text = Format(Text.Text, [SourceRace, TargetRace, OtherRace]);
-                }
-                else
-                {
-                    if (Reaction == TDiplomaticActionReaction.darAccept)
-                    {
-                        TextControl.RetrieveText(Alignment + 139, Text);
-                        Text.Text = Format(Text.Text, [TargetRace, SourceRace, OtherRace]);
-                    }
-                    else
-                    {
-                        if (Reaction == TDiplomaticActionReaction.darReject)
-                        {
-                            TextControl.RetrieveText(Alignment + 142, Text);
-                            Text.Text = Format(Text.Text, [TargetRace, SourceRace, OtherRace]);
-                        }
-                    }
-                }
-
-                break;
-            case TDiplomaticActionType.daDeclareWarToY:
-                if (Reaction == TDiplomaticActionReaction.darNone)
-                {
-                    TextControl.RetrieveText(Alignment + 157, Text);
-                    Text.Text = Format(Text.Text, [SourceRace, TargetRace, OtherRace]);
-                }
-                else
-                {
-                    if (Reaction == TDiplomaticActionReaction.darAccept)
-                    {
-                        TextControl.RetrieveText(Alignment + 145, Text);
-                        Text.Text = Format(Text.Text, [TargetRace, SourceRace, OtherRace]);
-                    }
-                    else
-                    {
-                        if (Reaction == TDiplomaticActionReaction.darReject)
-                        {
-                            TextControl.RetrieveText(Alignment + 148, Text);
-                            Text.Text = Format(Text.Text, [TargetRace, SourceRace, OtherRace]);
-                        }
-                    }
-                }
-
-                break;
-        }
+        Proposal.DefaultMessage(new DiplomaticMessageText(TextControl, Alignment, SourceRace, TargetRace, OtherRace, Text), Reaction, Relation);
     }
 
     // MoveT.PAS:1
@@ -82521,10 +81314,10 @@ public static partial class AoWEUnit
     }
 
     // CombatPredictor.pas:213
-    public static int P3CompareRoundTargets(in TQuadInteger A, in TQuadInteger B) => A.D - B.D;
+    public static int P3CompareRoundTargets(in TQuadItem<TCombatPredictorUnit> A, in TQuadItem<TCombatPredictorUnit> B) => A.D - B.D;
 
     // CombatPredictor.pas:896
-    public static int P3CompareRequiredUnits(in TDoubleItem A, in TDoubleItem B) => B.B - A.B;
+    public static int P3CompareRequiredUnits(in TDoubleItem<TCombatPredictorUnit> A, in TDoubleItem<TCombatPredictorUnit> B) => B.B - A.B;
 
     // Diplomacy.pas:2060
     public static int CompareCampaignTransfer(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.C - Item1.C;
@@ -82533,7 +81326,7 @@ public static partial class AoWEUnit
     public static int CompareAIPlayerActionClasses(object Item1, object Item2) => ((AIPlayerActionClass)Item2).Priority - ((AIPlayerActionClass)Item1).Priority;
 
     // AI.pas:1217
-    public static int CompareAutoProductions(in TQuadInteger Item1, in TQuadInteger Item2) => Item2.D - Item1.D;
+    public static int CompareAutoProductions(in TQuadItem<TProductionControl> Item1, in TQuadItem<TProductionControl> Item2) => Item2.D - Item1.D;
 
     // AIGroup.pas:553
     public static int CompareAIGroupProcessPriority(object Item1, object Item2)

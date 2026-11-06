@@ -3828,17 +3828,10 @@
         "TAutoProduceAIPA.FManaUpkeep": 0,
         "TAutoProduceAIPA.FProductionIndex": 0,
         "TAutoProduceAIPA.FProductions": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": []
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TProductionControl, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": []
         },
         "TAutoProduceAIPA.FState": 0,
         "TEObject.FOwner": "$owner"
@@ -5228,30 +5221,16 @@
         "TCombatObject.FTargetStrength": 0,
         "TCombatObject.FTargetStrengthInvalid": false,
         "TCombatObject.FTargetedBy": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": []
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": []
         },
         "TCombatObject.FTargets": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": "$ref:$.TCombatObject.FTargetedBy.TQuadItemList.FList"
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": "$ref:$.TCombatObject.FTargetedBy.TRecordList`1.FList"
         },
         "TCombatObject.FWallAttackerCount": 0,
         "TCombatObject.FWallCombatValue": 0,
@@ -5468,17 +5447,10 @@
         "TCombatPredictorUnit.FOpponents": null,
         "TCombatPredictorUnit.FPredictor": null,
         "TCombatPredictorUnit.FRoundTargets": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": []
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatPredictorUnit, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": []
         },
         "TCombatPredictorUnit.FSide": 0,
         "TCombatPredictorUnit.FStatus": {
@@ -5580,30 +5552,16 @@
         "TCombatObject.FTargetStrength": 0,
         "TCombatObject.FTargetStrengthInvalid": false,
         "TCombatObject.FTargetedBy": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": []
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": []
         },
         "TCombatObject.FTargets": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": "$ref:$.TCombatObject.FTargetedBy.TQuadItemList.FList"
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": "$ref:$.TCombatObject.FTargetedBy.TRecordList`1.FList"
         },
         "TCombatObject.FWallAttackerCount": 0,
         "TCombatObject.FWallCombatValue": 0,
@@ -6004,30 +5962,16 @@
         "TCombatObject.FTargetStrength": 0,
         "TCombatObject.FTargetStrengthInvalid": false,
         "TCombatObject.FTargetedBy": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": []
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": []
         },
         "TCombatObject.FTargets": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": "$ref:$.TCombatObject.FTargetedBy.TQuadItemList.FList"
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": "$ref:$.TCombatObject.FTargetedBy.TRecordList`1.FList"
         },
         "TCombatObject.FWallAttackerCount": 0,
         "TCombatObject.FWallCombatValue": 0,
@@ -6883,28 +6827,19 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Units.AoWE.TDiplomaticAction",
-        "TDiplomaticAction.FActionType": 0,
         "TDiplomaticAction.FDay": 0,
         "TDiplomaticAction.FEscrowGold": 0,
         "TDiplomaticAction.FEscrowMana": 0,
         "TDiplomaticAction.FEventLogID": 0,
-        "TDiplomaticAction.FGold": 0,
-        "TDiplomaticAction.FMana": 0,
-        "TDiplomaticAction.FMessage": {
-          "$type": "Aow.Rtl.TStringList",
-          "TStringList.<Duplicates>k__BackingField": 0,
-          "TStringList.<OnChange>k__BackingField": null,
-          "TStringList.<OnChanging>k__BackingField": null,
-          "TStringList.count": 0,
-          "TStringList.items": [],
-          "TStringList.sorted": false,
-          "TStrings.UpdateCount": 0
-        },
         "TDiplomaticAction.FOtherPlayer": 0,
         "TDiplomaticAction.FReaction": 0,
         "TDiplomaticAction.FRefCount": 1,
         "TDiplomaticAction.FSource": 0,
         "TDiplomaticAction.FTarget": 0,
+        "TDiplomaticAction.Proposal": {
+          "$type": "Aow.Units.AoWE.DeclareWar",
+          "DiplomaticProposal.<Message>k__BackingField": []
+        },
         "TEObject.FOwner": "$owner"
       }
     }
@@ -8958,30 +8893,16 @@
         "TCombatObject.FTargetStrength": 0,
         "TCombatObject.FTargetStrengthInvalid": false,
         "TCombatObject.FTargetedBy": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": []
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": []
         },
         "TCombatObject.FTargets": {
-          "$type": "Aow.Units.Engine.TQuadItemList",
-          "TQuadItemList.FCapacity": 0,
-          "TQuadItemList.FCount": 0,
-          "TQuadItemList.FDefault": {
-            "$type": "Aow.Units.Engine.TQuadInteger",
-            "TQuadInteger.A": 0,
-            "TQuadInteger.B": 0,
-            "TQuadInteger.C": 0,
-            "TQuadInteger.D": 0
-          },
-          "TQuadItemList.FList": "$ref:$.TCombatObject.FTargetedBy.TQuadItemList.FList"
+          "$type": "Aow.Units.Engine.TQuadItemList`1[[Aow.Units.AoWE.TCombatObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "TRecordList`1.FCapacity": 0,
+          "TRecordList`1.FCount": 0,
+          "TRecordList`1.FList": "$ref:$.TCombatObject.FTargetedBy.TRecordList`1.FList"
         },
         "TCombatObject.FWallAttackerCount": 0,
         "TCombatObject.FWallCombatValue": 0,
@@ -18406,9 +18327,12 @@
       "$jsonText": {
         "$type": "Aow.Units.AoWE.TProductionItem",
         "TEObject.FOwner": "$owner",
-        "TProductionItem.FGroupID": 0,
-        "TProductionItem.FParameter": 0,
-        "TProductionItem.FProductionID": 0
+        "TProductionItem.Order": {
+          "$type": "Aow.Units.AoWE.UnknownOrder",
+          "UnknownOrder.<GroupId>k__BackingField": 0,
+          "UnknownOrder.<Id>k__BackingField": 0,
+          "UnknownOrder.<Parameter>k__BackingField": 0
+        }
       }
     }
   },

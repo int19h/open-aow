@@ -2302,7 +2302,24 @@
         {"name": "EscrowMana", "id": 29, "codec": "i32"},
         {"name": "EventLogID", "id": 30, "codec": "i32"},
         {"name": "Day", "id": 31, "codec": "i32"}
-      ]
+      ],
+      "mapping": {
+        "name": "DiplomaticProposal",
+        "discriminator": "ActionType",
+        "cases": [
+          {"key": 0, "case": "DeclareWar", "fields": []},
+          {"key": 1, "case": "OfferPeace", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
+          {"key": 2, "case": "ProposeAlliance", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
+          {"key": 3, "case": "SendMessage", "fields": []},
+          {"key": 4, "case": "ThreatenToAttack", "fields": []},
+          {"key": 5, "case": "MakeTribute", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
+          {"key": 6, "case": "BreakAlliance", "fields": []},
+          {"key": 7, "case": "SendMessageAsY", "fields": []},
+          {"key": 8, "case": "BreakAllianceWithY", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
+          {"key": 9, "case": "DeclareWarToY", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]}
+        ],
+        "unknown": {"case": "Unknown", "fields": [["Kind", "ActionType"], ["Gold", "Gold"], ["Mana", "Mana"]]}
+      }
     },
     {
       "name": "TDiplomaticActionEventLog",
@@ -5406,7 +5423,21 @@
         {"name": "ProductionID", "id": 20, "codec": "i32"},
         {"name": "Parameter", "id": 21, "codec": "i32"},
         {"name": "GroupID", "id": 22, "codec": "i32"}
-      ]
+      ],
+      "mapping": {
+        "name": "ProductionOrder",
+        "discriminator": "ProductionID",
+        "cases": [
+          {"key": 1, "case": "ProduceUnit", "fields": [["Index", "Parameter"], ["GroupId", "GroupID"]]},
+          {"key": 2, "case": "ResearchSpell", "fields": [["Index", "Parameter"]]},
+          {"key": 10, "case": "Trade", "fields": [["TurnsTotal", "Parameter"]]},
+          {"key": 11, "case": "Upgrade", "fields": []},
+          {"key": 12, "case": "Fortify", "fields": []},
+          {"key": 13, "case": "Migrate", "fields": [["Race", "Parameter"]]},
+          {"key": 14, "case": "Loot", "fields": []}
+        ],
+        "unknown": {"case": "Unknown", "fields": [["Kind", "ProductionID"], ["Parameter", "Parameter"], ["GroupId", "GroupID"]]}
+      }
     },
     {
       "name": "TProductionPlace",

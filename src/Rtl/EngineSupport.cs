@@ -98,6 +98,10 @@ public static partial class RtlUnit
         if (exact && read != count) throw new EReadError("Stream read error");
         return read;
     }
+    // Delphi code stored small integers in TObject slots (TStrings.Objects, a TNotifyEvent sender)
+    // with TObject(I) and read them back with Integer(Obj). IntToObject gives one cached box per
+    // value, so IndexOfObject finds it again, and ObjectToInt reads the box back. The values are
+    // enum values, indices and small ids, so the cache stays bounded and holds no game object.
     private sealed class IntegerObject(int value) : TObject { public int Value { get; } = value; }
     private static readonly Dictionary<int, TObject> integerObjects = [];
     public static TObject? IntToObject(int value)
@@ -109,25 +113,60 @@ public static partial class RtlUnit
             return box;
         }
     }
-    private static readonly Dictionary<int, TObject> referenceIds = [];
+
+    // The ids of objects that went through Integer(obj). The table holds each object weakly, so an
+    // object its owner drops stays collectible (review-9x.md finding 22). Entries of collected
+    // objects go on lookup and when the table reaches the prune threshold.
+    private static readonly Dictionary<int, WeakReference<TObject>> referenceIds = [];
+    private static int pruneThreshold = 1024;
+
+    /// <summary>
+    /// Integer(Obj): the value of an integer box, 0 for nil, and the InstanceId of any other object,
+    /// recorded weakly for <see cref="ReferenceFromId{T}"/>. No product code under src turns an
+    /// object into a number. The routine serves the transpiler's reference output and the probes.
+    /// </summary>
     public static int ObjectToInt(TObject? value)
     {
-        if (value is IntegerObject box) return box.Value;
-        if (value is null) return 0;
+        switch (value)
+        {
+            case null: return 0;
+            case IntegerObject box: return box.Value;
+        }
         int id = value.InstanceId;
-        lock (referenceIds) referenceIds[id] = value;
+        lock (referenceIds)
+        {
+            if (referenceIds.TryGetValue(id, out var entry)) entry.SetTarget(value);
+            else
+            {
+                if (referenceIds.Count >= pruneThreshold) PruneReferenceIds();
+                referenceIds.Add(id, new WeakReference<TObject>(value));
+            }
+        }
         return id;
     }
+
+    /// <summary>
+    /// TFoo(Integer): the object whose InstanceId is <paramref name="id"/>, or null for 0, an unknown
+    /// id or a collected object. No product code under src calls it. The routine serves the
+    /// transpiler's reference output and the probes.
+    /// </summary>
     public static T? ReferenceFromId<T>(int id) where T : TObject
     {
         if (id == 0) return null;
         lock (referenceIds)
-            if (referenceIds.TryGetValue(id, out var value)) return (T)value;
-        throw new EAccessViolation("Object reference id is no longer available");
+        {
+            if (!referenceIds.TryGetValue(id, out var entry)) return null;
+            if (entry.TryGetTarget(out var value)) return (T)value;
+            referenceIds.Remove(id);
+            return null;
+        }
     }
-    public static void ForgetReference(TObject value)
+
+    private static void PruneReferenceIds()
     {
-        lock (referenceIds) referenceIds.Remove(value.InstanceId);
+        foreach (var (id, entry) in referenceIds)
+            if (!entry.TryGetTarget(out _)) referenceIds.Remove(id);
+        pruneThreshold = Math.Max(1024, referenceIds.Count * 2);
     }
 }
 

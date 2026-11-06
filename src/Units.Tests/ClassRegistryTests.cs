@@ -51,6 +51,46 @@ public sealed class ClassRegistryTests
             Assert.NotNull(schema.Find(name));
             Assert.False(FormatMapping.All.ContainsKey(name), name + " keeps its flat mapping in version 1.");
         }
+        // A schema class with a case table has its line, and its line gives the converter the
+        // kind family's FromFields and ToFields.
+        foreach (var cls in schema.Classes.Where(c => c.Mapping is not null))
+        {
+            Assert.Contains(cls.Name, Aow.Formats.Schema.FormatVersions.UnitMappings);
+            Assert.Contains(FormatMapping.All[cls.Name], r => r is KindCases);
+            Assert.Same(FormatMapping.All[cls.Name].OfType<KindCases>().Single(), Aow.Formats.CaseMappings.Find(cls.Name));
+        }
+    }
+
+    // own-formats.md 2.2: the case tables name the cases by the keys the 9.6-6 and 9.6-7 kinds
+    // register, and every case field is a value its kind writes back.
+    [Fact]
+    public void CaseTablesMatchTheRegisteredKinds()
+    {
+        var schema = Aow.Formats.GameFiles.Schema;
+        var production = schema.Get("TProductionItem").Mapping!;
+        Assert.Equal(Enumerable.Range(0, 256).Where(ProductionOrder.IsRegistered).Select(k => (long)k), production.Cases.Select(c => c.Key!.Value));
+        foreach (var c in production.Cases)
+        {
+            var order = ProductionOrder.FromFields((int)c.Key!.Value, 7, 3);
+            Assert.Equal(c.Name, order.GetType().Name);
+            var (id, parameter, groupId) = order.ToFields();
+            Assert.Equal(c.Key, id);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), parameter == 7);
+            Assert.Equal(c.Fields.Any(f => f.Member == "GroupID"), groupId == 3);
+        }
+        var diplomacy = schema.Get("TDiplomaticAction").Mapping!;
+        Assert.Equal(Enumerable.Range(0, 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
+        foreach (var c in diplomacy.Cases)
+        {
+            var proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, 70, 30);
+            Assert.Equal(c.Name, proposal.GetType().Name);
+            var (kind, gold, mana) = proposal.ToFields();
+            Assert.Equal(c.Key, kind);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Gold"), gold == 70);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Mana"), mana == 30);
+        }
+        Assert.IsType<UnknownOrder>(ProductionOrder.FromFields(99, 0, 0));
+        Assert.IsType<UnknownProposal>(DiplomaticProposal.FromFields(12, 0, 0));
     }
 
     public static IEnumerable<object?[]> Classes => EClass.All
@@ -73,12 +113,8 @@ public sealed class ClassRegistryTests
             // Construction alone leaves abstract nodes and world-linked objects incomplete.
             // Keep those existing teardown outcomes explicit, separate from factory identity.
             var error = Record.Exception(instance.Destroy);
-            try
-            {
-                if (cleanupError is null) Assert.Null(error);
-                else Assert.IsType(cleanupError, error);
-            }
-            finally { Runtime.ForgetReference(instance); }
+            if (cleanupError is null) Assert.Null(error);
+            else Assert.IsType(cleanupError, error);
         }
     }
 

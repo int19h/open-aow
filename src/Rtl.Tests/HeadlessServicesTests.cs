@@ -4,21 +4,6 @@ namespace Aow.Rtl.Tests;
 
 public sealed class HeadlessServicesTests
 {
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-    private static int RetainObject() => RtlUnit.ObjectToInt(new TObject());
-
-    [Fact]
-    public void IntegerReferenceSlotsRetainObjectsUntilFree()
-    {
-        int id = RetainObject();
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-        var value = RtlUnit.ReferenceFromId<TObject>(id);
-        Assert.NotNull(value);
-        value.Free();
-        Assert.Throws<EAccessViolation>(() => RtlUnit.ReferenceFromId<TObject>(id));
-    }
-
     [Theory]
     [InlineData("C:\\file", "C:")]
     [InlineData("\\\\server\\share\\file", "\\\\server\\share")]
