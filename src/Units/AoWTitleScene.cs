@@ -77,7 +77,7 @@ public partial class TTitleScene : TDataModule
                 Alpha = Alpha * 10;
             }
 
-            Info.BlendPercentage = Alpha;
+            Info.Blend = Alpha;
             if (Alpha > 0)
             {
                 if (Alpha < 100)
@@ -105,7 +105,7 @@ public partial class TTitleScene : TDataModule
 
                 if (Alpha > 0)
                 {
-                    Info.BlendPercentage = Alpha;
+                    Info.Blend = Alpha;
                     if (Alpha < 100)
                     {
                         var line = Lines[I];
@@ -185,7 +185,7 @@ public partial class TTitleScene : TDataModule
             {
                 Info.ShowMode = TShowMode.smBlended;
                 Info.BlendMode = TBlendMode.bmAlpha;
-                Info.BlendPercentage = Opacity;
+                Info.Blend = Opacity;
                 FCreditsFont.SetTextEx(X, Y - FCreditsFont.Height / 2, Text, Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
             }
             else
@@ -254,7 +254,7 @@ public partial class TTitleScene : TDataModule
                     {
                         Info.ShowMode = TShowMode.smBlended;
                         Info.BlendMode = TBlendMode.bmAlpha;
-                        Info.BlendPercentage = Opacity;
+                        Info.Blend = Opacity;
                         FCreditsFont.SetTextEx(X, Y - FCreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", Surface, TSet<TSetTextModeElement>.Of(TSetTextModeElement.stmCenter), Info);
                     }
                     else
