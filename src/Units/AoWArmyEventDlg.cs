@@ -65,7 +65,7 @@ public partial class TArmyEventDlg : TDataModule
             // { The original staggers animation by bits of the unit object's address. }
             var unit2 = FUnits[Index];
             var fArmyViewUnit = Event.FArmyView.GetUnit(unit2);
-            Frame = FFrame - (((int)(((uint)ObjectToInt(fArmyViewUnit)) >> 3)) & 7);
+            Frame = FFrame - (((int)(((uint)(fArmyViewUnit?.InstanceId ?? 0)) >> 3)) & 7);
             Info = default;
             Info.Frame = (int)(((uint)Frame) >> 1) - 1;
             Info.Direction = 3;

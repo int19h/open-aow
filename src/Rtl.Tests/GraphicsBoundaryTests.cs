@@ -35,16 +35,6 @@ public sealed class GraphicsBoundaryTests
         Assert.Equal("X", RtlUnit.ReadShortString(image));
     }
 
-    [Fact]
-    public void ThunkReferenceIdsRecoverTheOriginalObject()
-    {
-        var value = new TObject();
-        int id = RtlUnit.ObjectToInt(value);
-        Assert.Same(value, RtlUnit.ReferenceFromId<TObject>(id));
-        Assert.Null(RtlUnit.ReferenceFromId<TObject>(0));
-        Assert.Equal(-7, RtlUnit.ObjectToInt(RtlUnit.IntToObject(-7)));
-    }
-
     private delegate void OtherNotify(TObject sender);
 
     [Fact]

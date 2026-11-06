@@ -3539,7 +3539,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
     // City.pas:2842
     public bool ResearchProduction(TAIBudget ResearchBudget, TAIBudget UpgradeBudget)
     {
-        TDoubleItemList Cities;
+        TDoubleItemList<TCity> Cities;
         bool Valid;
         TPlayer Player;
         int UnitIndex;
@@ -3551,7 +3551,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
         TProductionItem Production;
         bool Result = false;
         Player = FControl.FPlayer;
-        Cities = new TDoubleItemList();
+        Cities = new TDoubleItemList<TCity>();
         for (int I = Player.FStructures.Count - 1; I >= 0; I--)
         {
             Structure = Player.FStructures.GetStructure(I);
@@ -3571,7 +3571,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
                 if (Valid)
                 {
                     Priority = City.GetSize() * 2 + (City.FProductionPriority + City.FWallType * 3);
-                    Cities.AddAB(ObjectToInt(City), Priority);
+                    Cities.AddAB(City, Priority);
                 }
             }
         }
@@ -3587,9 +3587,9 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             }
 
             Index = AoWHSMap.Random(Index + 1);
-            City = ReferenceFromId<TCity>(Cities[Index].A);
+            City = Cities[Index].A;
             RandSeed = AoWHSMap.Random(16777215);
-            Index = ReferenceFromId<TCity>(Cities[Index].A).FProduction.FindOptimalResearchProduction(null, ResearchBudget.FGold + UpgradeBudget.FGold);
+            Index = Cities[Index].A.FProduction.FindOptimalResearchProduction(null, ResearchBudget.FGold + UpgradeBudget.FGold);
             if (Index != -1)
             {
                 City.FProduction.ExecuteDeleteProductions();
@@ -3665,13 +3665,13 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
     {
         bool Result;
         TPlayer Player;
-        TDoubleItemList Cities;
+        TDoubleItemList<TCity> Cities;
         int Priority;
         TPlayerStructure Structure;
         TCity City;
         TProductionItem Production;
         Player = FControl.FPlayer;
-        Cities = new TDoubleItemList();
+        Cities = new TDoubleItemList<TCity>();
         for (int I = Player.FStructures.Count - 1; I >= 0; I--)
         {
             // { Preserve the original runtime class check. }
@@ -3680,14 +3680,14 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             {
                 City = (TCity)Structure;
                 Priority = City.GetSize() * 2 + (City.FProductionPriority + City.FWallType * 3);
-                Cities.AddAB(ObjectToInt(City), Priority);
+                Cities.AddAB(City, Priority);
             }
         }
 
         Cities.SortDescendingItemB();
         if (Cities.Count != 0)
         {
-            City = ReferenceFromId<TCity>(Cities[0].A);
+            City = Cities[0].A;
             City.FProduction.ExecuteDeleteProductions();
             Production = new TProductionItem(null);
             Production.Order = new AoWE.Upgrade();
@@ -3783,13 +3783,13 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
     {
         bool Result;
         TPlayer Player;
-        TDoubleItemList Cities;
+        TDoubleItemList<TCity> Cities;
         int Priority;
         TPlayerStructure Structure;
         TCity City;
         TProductionItem Production;
         Player = FControl.FPlayer;
-        Cities = new TDoubleItemList();
+        Cities = new TDoubleItemList<TCity>();
         for (int I = Player.FStructures.Count - 1; I >= 0; I--)
         {
             // { Preserve the original runtime class check. }
@@ -3803,14 +3803,14 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
                     Priority += 3;
                 }
 
-                Cities.AddAB(ObjectToInt(City), Priority);
+                Cities.AddAB(City, Priority);
             }
         }
 
         Cities.SortDescendingItemB();
         if (Cities.Count != 0)
         {
-            City = ReferenceFromId<TCity>(Cities[0].A);
+            City = Cities[0].A;
             City.FProduction.ExecuteDeleteProductions();
             var fortifyCost = City.FortifyCost();
             Player.FAIBudget.BudgetExpenseMade(fortifyCost, 0, Budget, TBudgetExpenseMode.bemBudget);

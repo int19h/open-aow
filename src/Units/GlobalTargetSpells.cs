@@ -2358,10 +2358,10 @@ public static partial class GlobalTargetSpellsUnit
     }
 
     // GlobalTargetSpells.pas:2435
-    public static void UnregisterGlobalTargetSpells(int Engine)
+    public static void UnregisterGlobalTargetSpells(TAoWEngine Engine)
     {
         TSpellControl Control;
-        Control = ((TAoWEngine)(object)Engine).FGameSet.FSpellControl;
+        Control = Engine.FGameSet.FSpellControl;
         Control.UnregisterSpellID(10);
         Control.UnregisterSpellID(11);
         Control.UnregisterSpellID(18);
@@ -2371,7 +2371,7 @@ public static partial class GlobalTargetSpellsUnit
         Control.UnregisterSpellID(70);
         Control.UnregisterSpellID(73);
         Control.UnregisterSpellID(74);
-        ReferenceFromId<TEngine>(Engine).UnregisterEClasses([EClass.Of<TFreezeWaterTE>(), EClass.Of<TFrozenWaterHS>(), EClass.Of<TFireBarrierTE>(), EClass.Of<TLevelTerrainTE>(), EClass.Of<TRejuvenateTE>(), EClass.Of<TWatcherTE>(), EClass.Of<TWatcherHS>(), EClass.Of<TTornadoTE>(), EClass.Of<TVortexTE>(), EClass.Of<THealingShowersTE>(), EClass.Of<TGlobalTargetSpellTE>()]);
+        Engine.UnregisterEClasses([EClass.Of<TFreezeWaterTE>(), EClass.Of<TFrozenWaterHS>(), EClass.Of<TFireBarrierTE>(), EClass.Of<TLevelTerrainTE>(), EClass.Of<TRejuvenateTE>(), EClass.Of<TWatcherTE>(), EClass.Of<TWatcherHS>(), EClass.Of<TTornadoTE>(), EClass.Of<TVortexTE>(), EClass.Of<THealingShowersTE>(), EClass.Of<TGlobalTargetSpellTE>()]);
     }
 
     // { Import cells bind to the shared globals; distinct references preserve the original reloads. }
@@ -2379,15 +2379,15 @@ public static partial class GlobalTargetSpellsUnit
     public static readonly string SpellCancelRStr = "Cancel";
 
     // GlobalTargetSpells.pas:552
-    public static bool GlobalTargetCanActivate(TGlobalTargetSpell Spell, int Caster, ref string MessageText)
+    public static bool GlobalTargetCanActivate(TGlobalTargetSpell Spell, TAbstractUnit Caster, ref string MessageText)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte Layer = default;
-        bool Result = Spell.CanActivate__static(ReferenceFromId<TAbstractUnit>(Caster), ref MessageText);
+        bool Result = Spell.CanActivate__static(Caster, ref MessageText);
         if (Result && Spell.FAboveGroundOnly)
         {
-            ReferenceFromId<TAbstractUnit>(Caster).GetLocation(ref X, ref Y, ref Layer);
+            Caster.GetLocation(ref X, ref Y, ref Layer);
             if (Layer != 0)
             {
                 Result = false;
@@ -2399,16 +2399,16 @@ public static partial class GlobalTargetSpellsUnit
     }
 
     // GlobalTargetSpells.pas:601
-    public static bool GlobalTargetActivate(TGlobalTargetSpell Spell, int Caster, int Unused)
+    public static bool GlobalTargetActivate(TGlobalTargetSpell Spell, TAbstractUnit Caster, int Unused)
     {
         bool Result;
         string MessageText = "";
-        Spell.Activate__static(ReferenceFromId<TAbstractUnit>(Caster));
-        if (Spell.CanActivate(ReferenceFromId<TAbstractUnit>(Caster), ref MessageText))
+        Spell.Activate__static(Caster);
+        if (Spell.CanActivate(Caster, ref MessageText))
         {
-            Spell.FCasterID = ReferenceFromId<TAbstractUnit>(Caster).FUnitID;
-            Spell.FCasterPlayer = ReferenceFromId<TAbstractUnit>(Caster).FPlayer;
-            Spell.SetupTargetSelection(ReferenceFromId<TAbstractUnit>(Caster), AoWHSMap.FTargetSelection);
+            Spell.FCasterID = Caster.FUnitID;
+            Spell.FCasterPlayer = Caster.FPlayer;
+            Spell.SetupTargetSelection(Caster, AoWHSMap.FTargetSelection);
             AoWHSMap.FTargetSelection.Activate();
             Result = true;
         }

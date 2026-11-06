@@ -2005,7 +2005,7 @@ public partial class TEarthMastery : TGlobalEnchantmentSpell
             {
                 if (MapF.OverlayType == 4)
                 {
-                    FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - (((int)(((uint)ObjectToInt(MapF)) >> 8)) & 15), SurfaceDesc);
+                    FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - (((int)(((uint)MapF.InstanceId) >> 8)) & 15), SurfaceDesc);
                 }
 
                 // { Original uses the field address. }

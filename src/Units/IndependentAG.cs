@@ -268,6 +268,9 @@ public partial class TPatrolAG : TAIGroup, IAIGroupClass
 
 public partial class TPatrolAGC : TAIGroupControl
 {
+    // Heading 0 is the centre, 1 to 6 the hex sides (fixed-arrays.md, named constant).
+    public const int HexDirectionSlotCount = 7;
+
     public TPatrolAGC(TECustomNode owner) : base(owner)
     { }
 
@@ -443,18 +446,18 @@ public partial class TPatrolAGC : TAIGroupControl
         int PreviousHeading = default;
         int X = default;
         int Y = default;
-        TDoubleItemList NewList = default;
+        TDoubleItemList<TAoWMapField> NewList = default;
         TPatrolAG Group = default;
         TMoveControlSettings Settings = default;
         TList Fields = default;
-        FixedArray_Aow_Units_Engine_TDoubleItemList_7 Lists = default;
+        var Lists = new TDoubleItemList<TAoWMapField>[HexDirectionSlotCount];
         TMapFieldMsg Msg = default;
         int J = default;
         int Heading = default;
         int LastHeading = default;
         TAoWMapField MapF = default;
         TByteList Choices = default;
-        TDoubleItemList SelectedList = default;
+        TDoubleItemList<TAoWMapField> SelectedList = default;
         Group = (TPatrolAG)FGroup;
         if (Group.FPatrolFrom.X == -1)
         {
@@ -472,9 +475,9 @@ public partial class TPatrolAGC : TAIGroupControl
         Settings.FMovePointTable = FMovePointTable;
         AoWHSMap.FMoveControl.ProcessMove(Settings);
         Fields = Settings.FProcessedMapFields;
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
-            var doubleItemList = new TDoubleItemList();
+            var doubleItemList = new TDoubleItemList<TAoWMapField>();
             Lists[I] = doubleItemList;
         }
 
@@ -488,24 +491,24 @@ public partial class TPatrolAGC : TAIGroupControl
                 MapF = (TAoWMapField)Fields.List[I];
                 Heading = dHXtoHT(X, Y, MapF.Xhx, MapF.Yhx);
                 var movePoints = Settings.GetMovePoints(MapF.Xhx, MapF.Yhx, MapF.Lhx);
-                Lists[Heading].AddAB(ObjectToInt(MapF), movePoints);
+                Lists[Heading].AddAB(MapF, movePoints);
             }
         }
 
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             Lists[I].Sort(IndependentAGUnit.ComparePatrolFields);
         }
 
         Msg.MsgID = 4384;
         Msg.Param[0] = FArmyHS;
-        for (int I = 1; I <= 6; I++)
+        for (int I = 1; I < HexDirectionSlotCount; I++)
         {
-            NewList = new TDoubleItemList();
+            NewList = new TDoubleItemList<TAoWMapField>();
             J = 0;
             while (NewList.Count != 30 && J != Lists[I].Count)
             {
-                MapF = ReferenceFromId<TAoWMapField>(Lists[I].List[J].A);
+                MapF = Lists[I].List[J].A;
                 if (MapF.GetPlayer() == -1)
                 {
                     Msg.Result = 0;
@@ -527,7 +530,7 @@ public partial class TPatrolAGC : TAIGroupControl
         MapF = (TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(Group.FPatrolFrom.XYL);
         if (MapF.GetPlayer() == -1)
         {
-            Lists[0].AddAB(ObjectToInt(MapF), 0);
+            Lists[0].AddAB(MapF, 0);
         }
 
         if (Group.FPatrolTo.X != -1)
@@ -541,7 +544,7 @@ public partial class TPatrolAGC : TAIGroupControl
 
         PreviousHeading = Group.FPreviousHeading;
         Choices = new TByteList();
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             if (Lists[I].Count != 0 && LastHeading != I && I != PreviousHeading)
             {
@@ -554,7 +557,7 @@ public partial class TPatrolAGC : TAIGroupControl
 
         if (Choices.Count == 0)
         {
-            for (int I = 0; I <= 6; I++)
+            for (int I = 0; I < HexDirectionSlotCount; I++)
             {
                 if (Lists[I].Count != 0 && LastHeading != I)
                 {
@@ -569,7 +572,7 @@ public partial class TPatrolAGC : TAIGroupControl
             Heading = Choices[AoWHSMap.Random(Choices.Count)];
             SelectedList = Lists[Heading];
             var random = AoWHSMap.Random(SelectedList.Count);
-            MapF = ReferenceFromId<TAoWMapField>(SelectedList.List[random].A);
+            MapF = SelectedList.List[random].A;
             var xyl = MapF.GetXYL();
             Group.FPatrolTo.XYL = xyl;
             Result = true;
@@ -579,7 +582,7 @@ public partial class TPatrolAGC : TAIGroupControl
             Result = false;
         }
 
-        for (int I = 0; I <= 6; I++)
+        for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             Lists[I].Free();
         }
@@ -862,7 +865,7 @@ public partial class TRegistrator : TObject
 public static partial class IndependentAGUnit
 {
     // IndependentAG.pas:313
-    public static int ComparePatrolFields(in TDoubleItem A, in TDoubleItem B) => B.B - A.B;
+    public static int ComparePatrolFields(in TDoubleItem<TAoWMapField> A, in TDoubleItem<TAoWMapField> B) => B.B - A.B;
 
     // IndependentAG.pas:318
     public static int PatrolHeadingDistance(int A, int B)

@@ -2079,7 +2079,7 @@ namespace Aow.Units.AoWFileDialog
 
         private void Layout_SFileNameChange_8(TObject p0)
         {
-            SFileNameChange(RtlUnit.ObjectToInt(p0));
+            SFileNameChange(p0);
         }
 
         private void Layout_SFileNameReturn_9(TObject p0)

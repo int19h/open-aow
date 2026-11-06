@@ -314,11 +314,7 @@ public sealed class ProductionOrderTests
         }
         finally
         {
-            foreach (TStructure structure in new TStructure[] { city, guild, node })
-            {
-                _ = Record.Exception(structure.Destroy);
-                Runtime.ForgetReference(structure);
-            }
+            foreach (TStructure structure in new TStructure[] { city, guild, node }) _ = Record.Exception(structure.Destroy);
             Game.AoWHSMap = previousMap;
             map.Destroy();
         }

@@ -40,7 +40,7 @@ public partial class TPassiveAG : TAIGroup, IAIGroupClass
     }
 
     // MainAG.pas:147
-    public override bool GetRecruitableUnits(int Phase, TUnitList Units, TUnitList Recruitable)
+    public override bool GetRecruitableUnits(TAIGroup Recruiter, TUnitList Units, TUnitList Recruitable)
     {
         TXYL Location = default;
         TGroupDefenseSelector Selector;
