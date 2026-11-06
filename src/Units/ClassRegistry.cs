@@ -1216,5 +1216,15 @@ internal static class ClassRegistry
         TMapEvents.EventRenderers.Add(EventView.ItemsFound, static (events, log, mode, done) => aowMapEventsUnit.ShowItemsFound(E3EventDialogsUnit.ItemsFoundDlg, (TItemExplorationSiteEventLog)log, done));
         TMapEvents.EventRenderers.Add(EventView.CityProduction, static (events, log, mode, done) => AoWCityScreenUnit.CityScreen.ProductionEvent((TCityProductionEventLog)log));
         TMapEvents.EventRenderers.Add(EventView.ProductionPlace, static (events, log, mode, done) => AoWProdScreenUnit.ProductionScreen.ProductionEvent((TProductionPlaceEventLog)log));
+        DiplomaticProposal.Register(DeclareWar.Kind, static (gold, mana) => new DeclareWar());
+        DiplomaticProposal.Register(OfferPeace.Kind, static (gold, mana) => new OfferPeace(gold, mana));
+        DiplomaticProposal.Register(ProposeAlliance.Kind, static (gold, mana) => new ProposeAlliance(gold, mana));
+        DiplomaticProposal.Register(SendMessage.Kind, static (gold, mana) => new SendMessage());
+        DiplomaticProposal.Register(ThreatenToAttack.Kind, static (gold, mana) => new ThreatenToAttack());
+        DiplomaticProposal.Register(MakeTribute.Kind, static (gold, mana) => new MakeTribute(gold, mana));
+        DiplomaticProposal.Register(BreakAlliance.Kind, static (gold, mana) => new BreakAlliance());
+        DiplomaticProposal.Register(SendMessageAsY.Kind, static (gold, mana) => new SendMessageAsY());
+        DiplomaticProposal.Register(BreakAllianceWithY.Kind, static (gold, mana) => new BreakAllianceWithY(gold, mana));
+        DiplomaticProposal.Register(DeclareWarToY.Kind, static (gold, mana) => new DeclareWarToY(gold, mana));
     }
 }
