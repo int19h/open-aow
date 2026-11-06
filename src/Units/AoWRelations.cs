@@ -1023,7 +1023,7 @@ public partial class TRelWindow : TDataModule
         }
         else
         {
-            if (FEvent != null && FEvent.FAction.FActionType == TDiplomaticActionType.daSendMessageAsY)
+            if (FEvent != null && FEvent.FAction.Proposal.SignedAsOtherPlayer)
             {
                 AoWHSMap.FPlayers.GetPlayers(FEvent.FAction.FOtherPlayer).FLeader.ShowFace(R, Surface);
             }
@@ -1048,25 +1048,15 @@ public partial class TRelWindow : TDataModule
         }
     }
 
-    // AoWRelations.pas:794
+    // AoWRelations.pas:794. The offer enters the proposal when the player sends it (MsgSendActionBtn).
     public void SBGoldSlidChange(TObject Sender)
     {
-        if (FAction != null)
-        {
-            FAction.FGold = SBGoldSlid.Position;
-        }
-
         SBGoldV.Text = IntToStr(SBGoldSlid.Position);
     }
 
     // AoWRelations.pas:800
     public void SBManaSlidChange(TObject Sender)
     {
-        if (FAction != null)
-        {
-            FAction.FMana = SBManaSlid.Position;
-        }
-
         SBManaV.Text = IntToStr(SBManaSlid.Position);
     }
 
@@ -1083,63 +1073,42 @@ public partial class TRelWindow : TDataModule
         if (ActionsLB.Selected != -1)
         {
             SetAction((TDiplomaticAction)ActionsLB.Items.Objects[ActionsLB.Selected]);
-            switch (FAction.FActionType)
+            var view = FAction.Proposal.View;
+            if (view == ProposalView.Notice || view == ProposalView.Threat)
             {
-                case TDiplomaticActionType.daDeclareWar:
-                case TDiplomaticActionType.daThreatenToAttack:
-                case TDiplomaticActionType.daBreakAlliance:
-                    if (!FAction.Send(ref Reason))
-                    {
-                        AoWHSMap.ShowMessage(Reason);
-                    }
-
-                    break;
-                case TDiplomaticActionType.daOfferPeace:
-                case TDiplomaticActionType.daProposeAlliance:
-                case TDiplomaticActionType.daMakeTribute:
-                case TDiplomaticActionType.daBreakAllianceWithY:
-                case TDiplomaticActionType.daDeclareWarToY:
-                    RNewActionPnl.Visible = false;
-                    SBIcon.Visible = true;
-                    RSBribePnl.Visible = true;
-                    SBGoldSlid.Position = 0;
-                    SBManaSlid.Position = 0;
-                    var playerGems = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    SBGoldSlid.Max = playerGems.FGems;
-                    var playerMagicControl = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                    SBManaSlid.Max = playerMagicControl.FMagicControl.FMana;
-                    SBManaSlidChange(null);
-                    SBGoldSlidChange(null);
-                    var name = FAction.GetName(AoWHSMap.FSeatedPlayer);
-                    BribeHeaderLbl.Text = name;
-                    switch (FAction.FActionType)
-                    {
-                        case TDiplomaticActionType.daOfferPeace:
-                            SBIcon.CurrentImage = 8;
-                            break;
-                        case TDiplomaticActionType.daProposeAlliance:
-                            SBIcon.CurrentImage = 10;
-                            break;
-                        case TDiplomaticActionType.daMakeTribute:
-                            SBIcon.CurrentImage = 48;
-                            break;
-                        case TDiplomaticActionType.daDeclareWarToY:
-                            SBIcon.CurrentImage = 47;
-                            break;
-                        case TDiplomaticActionType.daBreakAllianceWithY:
-                            SBIcon.CurrentImage = 47;
-                            break;
-                        default:
-                            SBIcon.Visible = false;
-                            break;
-                    }
-
-                    break;
-                case TDiplomaticActionType.daSendMessage:
-                case TDiplomaticActionType.daSendMessageAsY:
-                    RNewActionPnl.Visible = false;
-                    RMsgEditPnl.Visible = true;
-                    break;
+                if (!FAction.Send(ref Reason))
+                {
+                    AoWHSMap.ShowMessage(Reason);
+                }
+            }
+            else if (view == ProposalView.Offer)
+            {
+                RNewActionPnl.Visible = false;
+                SBIcon.Visible = true;
+                RSBribePnl.Visible = true;
+                SBGoldSlid.Position = 0;
+                SBManaSlid.Position = 0;
+                var playerGems = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                SBGoldSlid.Max = playerGems.FGems;
+                var playerMagicControl = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                SBManaSlid.Max = playerMagicControl.FMagicControl.FMana;
+                SBManaSlidChange(null);
+                SBGoldSlidChange(null);
+                var name = FAction.GetName(AoWHSMap.FSeatedPlayer);
+                BribeHeaderLbl.Text = name;
+                if (FAction.Proposal.Icon >= 0)
+                {
+                    SBIcon.CurrentImage = FAction.Proposal.Icon;
+                }
+                else
+                {
+                    SBIcon.Visible = false;
+                }
+            }
+            else if (view == ProposalView.Message)
+            {
+                RNewActionPnl.Visible = false;
+                RMsgEditPnl.Visible = true;
             }
         }
     }
@@ -1182,7 +1151,7 @@ public partial class TRelWindow : TDataModule
         if (FAction != null)
         {
             var text = Sender.Items.Text;
-            FAction.FMessage.Text = text;
+            FAction.Proposal = FAction.Proposal with { Message = DiplomaticProposal.Lines(text) };
         }
     }
 
@@ -1195,10 +1164,11 @@ public partial class TRelWindow : TDataModule
         Action = FAction;
         if (Action != null)
         {
+            Action.Proposal = Action.Proposal.WithOffer(SBGoldSlid.Position, SBManaSlid.Position);
             if (Action.Send(ref Reason))
             {
                 Player = FAction.FTarget;
-                if (FEvent != null && FEvent.FAction.FActionType == TDiplomaticActionType.daSendMessageAsY)
+                if (FEvent != null && FEvent.FAction.Proposal.SignedAsOtherPlayer)
                 {
                     Player = FEvent.FAction.FOtherPlayer;
                 }
@@ -1217,7 +1187,7 @@ public partial class TRelWindow : TDataModule
     public void ReplyBtnClick()
     {
         TDiplomaticAction Action;
-        Action = AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).CreateDiplomaticAction(TDiplomaticActionType.daSendMessage, FAction.FSource, -1);
+        Action = AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).CreateDiplomaticAction(new SendMessage(), FAction.FSource, -1);
         ClearActions();
         SetAction(Action);
         RNewActionPnl.Visible = false;

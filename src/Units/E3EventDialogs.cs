@@ -52,154 +52,109 @@ public static partial class E3EventDialogsUnit
         {
             Dialog.ShowRelations(Event.FAction.FTarget);
             Dialog.SetAction(Event.FAction);
-            switch (Dialog.FAction.FActionType)
+            var proposal = Dialog.FAction.Proposal;
+            var view = proposal.View;
+            if (view == ProposalView.Message)
             {
-                case TDiplomaticActionType.daSendMessage:
+                var from = proposal.SignedAsOtherPlayer ? Dialog.FAction.FOtherPlayer : Dialog.FAction.FSource;
+                Dialog.HighlightPlayer(from);
+                Dialog.ShowPlayerInformation(from);
+                Dialog.RNewActionPnl.Visible = false;
+                Dialog.RMsgRecPnl.Visible = true;
+                var text = proposal.MessageText;
+                Dialog.RMMemo.Items.Text = text;
+                var name = AoWHSMap.FPlayers.GetPlayers(from).GetName();
+                var format = AoWEUnit.Format(TranslateRStr(MessageFromXRStr), [name]);
+                Dialog.RMHeaderLbl.Text = format;
+            }
+            else if (view == ProposalView.Offer)
+            {
+                Dialog.RNewActionPnl.Visible = false;
+                if (Dialog.FAction.FReaction == TDiplomaticActionReaction.darNone)
+                {
                     Dialog.HighlightPlayer(Dialog.FAction.FSource);
                     Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
-                    Dialog.RNewActionPnl.Visible = false;
-                    Dialog.RMsgRecPnl.Visible = true;
-                    var text = Dialog.FAction.FMessage.Text;
-                    Dialog.RMMemo.Items.Text = text;
-                    var name = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FSource).GetName();
-                    var format = AoWEUnit.Format(TranslateRStr(MessageFromXRStr), [name]);
-                    Dialog.RMHeaderLbl.Text = format;
-                    break;
-                case TDiplomaticActionType.daSendMessageAsY:
-                    Dialog.HighlightPlayer(Dialog.FAction.FOtherPlayer);
-                    Dialog.ShowPlayerInformation(Dialog.FAction.FOtherPlayer);
-                    Dialog.RNewActionPnl.Visible = false;
-                    Dialog.RMsgRecPnl.Visible = true;
-                    var fMessageText = Dialog.FAction.FMessage.Text;
-                    Dialog.RMMemo.Items.Text = fMessageText;
-                    var name2 = AoWHSMap.FPlayers.GetPlayers(Dialog.FAction.FOtherPlayer).GetName();
-                    var aoWEFormat = AoWEUnit.Format(TranslateRStr(MessageFromXRStr), [name2]);
-                    Dialog.RMHeaderLbl.Text = aoWEFormat;
-                    break;
-                case TDiplomaticActionType.daOfferPeace:
-                case TDiplomaticActionType.daProposeAlliance:
-                case TDiplomaticActionType.daMakeTribute:
-                case TDiplomaticActionType.daBreakAllianceWithY:
-                case TDiplomaticActionType.daDeclareWarToY:
-                    Dialog.RNewActionPnl.Visible = false;
-                    if (Dialog.FAction.FReaction == TDiplomaticActionReaction.darNone)
+                    Dialog.RIncomingPnl.Visible = true;
+                    var (_, gold, mana) = proposal.ToFields();
+                    Dialog.MBGoldBribeV.Text = IntToStr(gold);
+                    Dialog.MBManaBribeV.Text = IntToStr(mana);
+                    var text2 = proposal.MessageText;
+                    Dialog.MMemo.Items.Text = text2;
+                    if (proposal.Icon >= 0)
                     {
-                        Dialog.HighlightPlayer(Dialog.FAction.FSource);
-                        Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
-                        Dialog.RIncomingPnl.Visible = true;
-                        Dialog.MBGoldBribeV.Text = IntToStr(Dialog.FAction.FGold);
-                        Dialog.MBManaBribeV.Text = IntToStr(Dialog.FAction.FMana);
-                        var text2 = Dialog.FAction.FMessage.Text;
-                        Dialog.MMemo.Items.Text = text2;
-                        switch (Dialog.FAction.FActionType)
+                        Dialog.MIcon.CurrentImage = proposal.Icon;
+                    }
+                }
+                else
+                {
+                    if (AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource && Dialog.FAction.FReaction != (TDiplomaticActionReaction)3)
+                    {
+                        Dialog.HighlightPlayer(Dialog.FAction.FTarget);
+                        Dialog.ShowPlayerInformation(Dialog.FAction.FTarget);
+                        Dialog.RNewActionPnl.Visible = false;
+                        Dialog.IncommingInfoPnl.Visible = true;
+                        var text2 = proposal.MessageText;
+                        Dialog.IIMemo.Items.Text = text2;
+                        if (proposal.Icon >= 0)
                         {
-                            case TDiplomaticActionType.daOfferPeace:
-                                Dialog.MIcon.CurrentImage = 8;
-                                break;
-                            case TDiplomaticActionType.daProposeAlliance:
-                                Dialog.MIcon.CurrentImage = 10;
-                                break;
-                            case TDiplomaticActionType.daDeclareWarToY:
-                                Dialog.MIcon.CurrentImage = 47;
-                                break;
-                            case TDiplomaticActionType.daBreakAllianceWithY:
-                                Dialog.MIcon.CurrentImage = 47;
-                                break;
-                            case TDiplomaticActionType.daMakeTribute:
-                                Dialog.MIcon.CurrentImage = 48;
-                                break;
+                            Dialog.IIIcon.CurrentImage = proposal.Icon;
                         }
                     }
                     else
-                    {
-                        if (AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource && Dialog.FAction.FReaction != (TDiplomaticActionReaction)3)
-                        {
-                            Dialog.HighlightPlayer(Dialog.FAction.FTarget);
-                            Dialog.ShowPlayerInformation(Dialog.FAction.FTarget);
-                            Dialog.RNewActionPnl.Visible = false;
-                            Dialog.IncommingInfoPnl.Visible = true;
-                            var text2 = Dialog.FAction.FMessage.Text;
-                            Dialog.IIMemo.Items.Text = text2;
-                            switch (Dialog.FAction.FActionType)
-                            {
-                                case TDiplomaticActionType.daOfferPeace:
-                                    Dialog.IIIcon.CurrentImage = 8;
-                                    break;
-                                case TDiplomaticActionType.daProposeAlliance:
-                                    Dialog.IIIcon.CurrentImage = 10;
-                                    break;
-                                case TDiplomaticActionType.daDeclareWarToY:
-                                    Dialog.IIIcon.CurrentImage = 47;
-                                    break;
-                                case TDiplomaticActionType.daBreakAllianceWithY:
-                                    Dialog.IIIcon.CurrentImage = 47;
-                                    break;
-                                case TDiplomaticActionType.daMakeTribute:
-                                    Dialog.IIIcon.CurrentImage = 48;
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Dialog.FinishEvent();
-                            if (Dialog.FAction.FReaction == (TDiplomaticActionReaction)3)
-                            {
-                                Dialog.ShowPlayerActions(Dialog.FAction.FTarget);
-                            }
-                            else
-                            {
-                                Dialog.ShowPlayerActions(Dialog.FAction.FSource);
-                            }
-                        }
-                    }
-
-                    break;
-                case TDiplomaticActionType.daDeclareWar:
-                case TDiplomaticActionType.daBreakAlliance:
-                    if (AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource)
                     {
                         Dialog.FinishEvent();
-                        Dialog.ShowPlayerActions(Dialog.FAction.FTarget);
-                    }
-                    else
-                    {
-                        if (AoWHSMap.FSeatedPlayer == Dialog.FAction.FTarget)
+                        if (Dialog.FAction.FReaction == (TDiplomaticActionReaction)3)
                         {
-                            Dialog.HighlightPlayer(Dialog.FAction.FSource);
-                            Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
-                            Dialog.RNewActionPnl.Visible = false;
-                            Dialog.IncommingInfoPnl.Visible = true;
-                            var text2 = Dialog.FAction.FMessage.Text;
-                            Dialog.IIMemo.Items.Text = text2;
-                            if (Dialog.FAction.FActionType == TDiplomaticActionType.daDeclareWar)
-                            {
-                                Dialog.IIIcon.CurrentImage = 9;
-                            }
-                            else
-                            {
-                                if (Dialog.FAction.FActionType == TDiplomaticActionType.daBreakAlliance)
-                                {
-                                    Dialog.IIIcon.CurrentImage = 8;
-                                }
-                            }
+                            Dialog.ShowPlayerActions(Dialog.FAction.FTarget);
                         }
                         else
                         {
-                            Dialog.FinishEvent();
                             Dialog.ShowPlayerActions(Dialog.FAction.FSource);
                         }
                     }
-
-                    break;
-                case TDiplomaticActionType.daThreatenToAttack:
-                    Dialog.HighlightPlayer(Dialog.FAction.FSource);
-                    Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
-                    Dialog.RNewActionPnl.Visible = false;
-                    Dialog.IncommingInfoPnl.Visible = true;
-                    var text3 = Dialog.FAction.FMessage.Text;
-                    Dialog.IIMemo.Items.Text = text3;
-                    Dialog.IIIcon.CurrentImage = 46;
-                    break;
+                }
+            }
+            else if (view == ProposalView.Notice)
+            {
+                if (AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource)
+                {
+                    Dialog.FinishEvent();
+                    Dialog.ShowPlayerActions(Dialog.FAction.FTarget);
+                }
+                else
+                {
+                    if (AoWHSMap.FSeatedPlayer == Dialog.FAction.FTarget)
+                    {
+                        Dialog.HighlightPlayer(Dialog.FAction.FSource);
+                        Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
+                        Dialog.RNewActionPnl.Visible = false;
+                        Dialog.IncommingInfoPnl.Visible = true;
+                        var text2 = proposal.MessageText;
+                        Dialog.IIMemo.Items.Text = text2;
+                        if (proposal.Icon >= 0)
+                        {
+                            Dialog.IIIcon.CurrentImage = proposal.Icon;
+                        }
+                    }
+                    else
+                    {
+                        Dialog.FinishEvent();
+                        Dialog.ShowPlayerActions(Dialog.FAction.FSource);
+                    }
+                }
+            }
+            else if (view == ProposalView.Threat)
+            {
+                Dialog.HighlightPlayer(Dialog.FAction.FSource);
+                Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
+                Dialog.RNewActionPnl.Visible = false;
+                Dialog.IncommingInfoPnl.Visible = true;
+                var text3 = proposal.MessageText;
+                Dialog.IIMemo.Items.Text = text3;
+                if (proposal.Icon >= 0)
+                {
+                    Dialog.IIIcon.CurrentImage = proposal.Icon;
+                }
             }
         }
         else

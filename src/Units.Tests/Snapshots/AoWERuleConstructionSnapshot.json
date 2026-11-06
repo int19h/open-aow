@@ -6883,28 +6883,19 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Units.AoWE.TDiplomaticAction",
-        "TDiplomaticAction.FActionType": 0,
         "TDiplomaticAction.FDay": 0,
         "TDiplomaticAction.FEscrowGold": 0,
         "TDiplomaticAction.FEscrowMana": 0,
         "TDiplomaticAction.FEventLogID": 0,
-        "TDiplomaticAction.FGold": 0,
-        "TDiplomaticAction.FMana": 0,
-        "TDiplomaticAction.FMessage": {
-          "$type": "Aow.Rtl.TStringList",
-          "TStringList.<Duplicates>k__BackingField": 0,
-          "TStringList.<OnChange>k__BackingField": null,
-          "TStringList.<OnChanging>k__BackingField": null,
-          "TStringList.count": 0,
-          "TStringList.items": [],
-          "TStringList.sorted": false,
-          "TStrings.UpdateCount": 0
-        },
         "TDiplomaticAction.FOtherPlayer": 0,
         "TDiplomaticAction.FReaction": 0,
         "TDiplomaticAction.FRefCount": 1,
         "TDiplomaticAction.FSource": 0,
         "TDiplomaticAction.FTarget": 0,
+        "TDiplomaticAction.Proposal": {
+          "$type": "Aow.Units.AoWE.DeclareWar",
+          "DiplomaticProposal.<Message>k__BackingField": []
+        },
         "TEObject.FOwner": "$owner"
       }
     }
