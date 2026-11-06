@@ -845,10 +845,11 @@ the four day saves with the native run's in byte and model modes. A port-written
 in the middle of a run had no native evidence, because the native runs never reload. The native
 reload fixture (`tools/oracle/README.md` in the private repository) was recorded on 2026-11-06:
 the original game loads `small50-original-a/day-05.asg` and plays three turns, with the harness's
-isolation and the registry restored. The port, loading its own day-05 document, agrees with it in
-every gameplay field of days 06 to 08 in byte and model modes. Four fields of view position
-differ (the map's scroll origin and player 0's last view location): the original moves the view
-after a load in the middle of a game and the port keeps it. Issue #112 tracks the fix.
+isolation and the registry restored. The port, loading its own day-05 document with the view size
+of that native run (416 by 408), writes days 06 to 08 equal to it in byte and model modes. The
+view size matters because the map view follows play and its scroll origin and player 0's last view
+location are saved. The original takes its window state from the user's settings, so the harness
+pins it for every native reference (issue #112, closed).
 
 ### 5.2 Summaries and assertions
 
@@ -1229,8 +1230,6 @@ section 9.3.
 
 ### 9.6 Open items
 
-- After a load in the middle of a game the original moves the map view and the port keeps it
-  (5.1, issue #112). Every gameplay field agrees.
 - The user-facing statement that a save under an original's name becomes JSON (4.2) is not in
   the product's `README.md`.
 - `aowconv info` prints `Game content validation arrives with 9.7-3.` and runs no unit
