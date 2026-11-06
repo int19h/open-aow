@@ -47,7 +47,7 @@ public partial class THolyGround : TILTerrainMO
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
         {
-            NewTurn((sbyte)Msg.Value);
+            NewTurn((sbyte)Msg.Payload.Int);
         }
     }
 

@@ -74,14 +74,14 @@ public partial class TManaCrystals : TILTerrainMO
         {
             if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
             {
-                var query = (AITargetQuery)Msg.Param[0].Ref;
+                var query = Msg.Param[0].As<AITargetQuery>();
                 var info = new TCrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                 UpdateAITarget(ref info, ref query.Data.Priority);
                 query.Info.Player = info.Player;
                 query.Info.IndependentRelation = info.OtherPlayer;
                 query.Info.Mode = (TAITargetMode)info.Kind;
                 // { Original marks the message only when the resulting priority is negative. }
-                if (((AITargetQuery)Msg.Param[0].Ref).Data.Priority < 0)
+                if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
                 {
                     Msg.Result = 1;
                 }

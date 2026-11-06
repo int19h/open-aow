@@ -124,9 +124,9 @@ public partial class TCombatTerrain : TTerrainMO
                         SetHitPoints(FHitPoints - executeDamageRole6);
                         break;
                     case 200722:
-                        if (Msg.Param[1].Value == 30 || Msg.Param[1].Value == 86)
+                        if (Msg.Param[1].Int == 30 || Msg.Param[1].Int == 86)
                         {
-                            AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Value).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
+                            AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref AbilityInfo);
                             RandSeed = AoWHSMap.Random(16777215);
                             var executeDamageRole7 = ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - executeDamageRole7);
@@ -134,9 +134,9 @@ public partial class TCombatTerrain : TTerrainMO
 
                         break;
                     case 200723:
-                        if (Msg.Param[1].Value == 114)
+                        if (Msg.Param[1].Int == 114)
                         {
-                            AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Value).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
+                            AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
                             RandSeed = AoWHSMap.Random(16777215);
                             var executeDamageRole7 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
                             SetHitPoints(FHitPoints - executeDamageRole7);
@@ -162,7 +162,7 @@ public partial class TCombatTerrain : TTerrainMO
                         SetHitPoints(FHitPoints - executeDamageRole10);
                         break;
                     case 200708:
-                        FDamaged = Msg.Param[1].Value == 0;
+                        FDamaged = Msg.Param[1].Int == 0;
                         AoWHSSet.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<TCombatUnit>().FUnit, ref SpellInfo);
                         RandSeed = AoWHSMap.Random(16777215);
                         var executeDamageRole11 = ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
@@ -180,7 +180,7 @@ public partial class TCombatTerrain : TTerrainMO
             switch (Msg.MsgID)
             {
                 case 135169:
-                    if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && Msg.Param[0].Value < ((TCombatTerrainResource)FResource).FDefense)
+                    if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && Msg.Param[0].Int < ((TCombatTerrainResource)FResource).FDefense)
                     {
                         Msg.Param[0] = ((TCombatTerrainResource)FResource).FDefense;
                     }

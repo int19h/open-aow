@@ -623,7 +623,7 @@ public partial class TWarpParty : TSpell
             Msg.Param[0] = Army;
             Msg.Result = 0;
             Field.SendMapFieldMsg(ref Msg);
-            Result = Msg.Result.Value == 0 && Army.FArmy.CanPlace(X, Y, Layer);
+            Result = Msg.Result.Int == 0 && Army.FArmy.CanPlace(X, Y, Layer);
         }
 
         return Result;
@@ -696,7 +696,7 @@ public partial class TWarpParty : TSpell
                 Msg.Param[0] = Army;
                 Msg.Result = 0;
                 Field.SendMapFieldMsg(ref Msg);
-                Found = Msg.Result.Value == 0 && Army.FArmy.CanPlace(Field.Xhx, Field.Yhx, Field.Lhx);
+                Found = Msg.Result.Int == 0 && Army.FArmy.CanPlace(Field.Xhx, Field.Yhx, Field.Lhx);
             }
 
             if (Found)

@@ -595,7 +595,7 @@ public partial class THatredEnchantment : TGlobalEnchantment
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Value == FPlayerIndex)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
         {
             NewDay();
         }
@@ -698,7 +698,7 @@ public partial class THarmonyEnchantment : TGlobalEnchantment
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Value == FPlayerIndex)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
         {
             NewDay();
         }
@@ -1096,12 +1096,12 @@ public partial class TFloodEnchantment : TGlobalEnchantment
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001987)
         {
-            if (Msg.Value == FPlayerIndex && !FRemoved)
+            if (Msg.Payload.Int == FPlayerIndex && !FRemoved)
             {
                 NewTurn();
             }
 
-            if (Msg.Value == FDispelPlayer && FRemoved)
+            if (Msg.Payload.Int == FDispelPlayer && FRemoved)
             {
                 FRestoreDays = (sbyte)(FRestoreDays - 1);
                 if (FRestoreDays <= 0)
@@ -1448,11 +1448,11 @@ public partial class TDeathMasteryEnchantment : TGlobalEnchantment
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
         {
-            if (Msg.Value != 0)
+            if (Msg.Payload.Int != 0)
             {
-                if (AoWHSMap.FPlayers.GetPlayers(Msg.Value).FMagicControl.FEnemyEnchantments.Contains(TPlayerEnchantmentType.petDeathMastery))
+                if (AoWHSMap.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FEnemyEnchantments.Contains(TPlayerEnchantmentType.petDeathMastery))
                 {
-                    NewTurn((sbyte)Msg.Value);
+                    NewTurn((sbyte)Msg.Payload.Int);
                 }
             }
         }
@@ -1673,9 +1673,9 @@ public partial class TFireMasteryEnchantment : TGlobalEnchantment
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001987)
         {
-            if (Msg.Value != 0)
+            if (Msg.Payload.Int != 0)
             {
-                if (AoWHSMap.FPlayers.GetPlayers(Msg.Value).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petFireMastery))
+                if (AoWHSMap.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petFireMastery))
                 {
                     UpdateFire(2, !AoWHSMap.FRequestCombatType);
                 }

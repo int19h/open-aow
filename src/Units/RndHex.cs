@@ -33,8 +33,8 @@ public partial class TRndHexagonResource : THexagonResource
         if (Msg.MsgID == 65541)
         {
             Lhx = Msg.Data[1];
-            Radius = Msg.Param[1].Value;
-            HPtoHX(Msg.Value, Msg.Data[0], ref Xhx, ref Yhx);
+            Radius = Msg.Param[1].Int;
+            HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
             var terrain = FTerrainList.GetTerrain(0);
             FEngine.HSMap.ChangeTerrain(null, Xhx, Yhx, Lhx, Radius, terrain);
             Msg.MsgID = 0;

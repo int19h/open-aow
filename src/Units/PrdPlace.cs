@@ -327,7 +327,7 @@ public partial class TProductionPlace : TPlayerStructure
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537002242)
         {
-            MasterySpellCast((sbyte)Msg.Param[0].Value, (TMagicSphere)Msg.Param[1].Value);
+            MasterySpellCast((sbyte)Msg.Param[0].Int, (TMagicSphere)Msg.Param[1].Int);
         }
     }
 

@@ -116,13 +116,13 @@ public partial class TSmokeCloud : TMultiHexMO
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Value == FPlayer && !FUpdated)
+        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer && !FUpdated)
         {
             UpdateCloud();
             return;
         }
 
-        if (Msg.MsgID == 537001987 && Msg.Value == FPlayer)
+        if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayer)
         {
             FUpdated = false;
         }

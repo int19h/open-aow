@@ -268,12 +268,16 @@ public partial class TMapField
         return result;
     }
 
+    // A handler answers by changing Result, and the first answer ends the delivery. The test
+    // compares the slot as a MsgArg, whose equality is that of the original word: an int or a
+    // reference answer stops the loop alike, and a handler that writes 0 into an empty slot has
+    // not answered.
     public void SendMapFieldMsg(ref TMapFieldMsg message)
     {
-        int oldResult = message.Result.Value;
+        MsgArg oldResult = message.Result;
         int i = FCount;
         message.MapField = this;
-        while (i != 0 && oldResult == message.Result.Value)
+        while (i != 0 && oldResult == message.Result)
         {
             i--;
             if (i >= Count) continue;

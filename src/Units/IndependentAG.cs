@@ -510,7 +510,7 @@ public partial class TPatrolAGC : TAIGroupControl
                 {
                     Msg.Result = 0;
                     MapF.SendMapFieldMsg(ref Msg);
-                    if (Msg.Result.Value == 0)
+                    if (Msg.Result.Int == 0)
                     {
                         var item = Lists[I][J];
                         NewList.Add(item);

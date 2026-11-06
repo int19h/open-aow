@@ -984,20 +984,20 @@ public partial class TCity : TPlayerCropStructure
                 {
                     if (FPlayer == 0)
                     {
-                        Msg.Param[0] = Msg.Param[0].Value + 851968;
+                        Msg.Param[0] = Msg.Param[0].Int + 851968;
                     }
                     else
                     {
                         var player = AoWHSMap.FPlayers.GetPlayers(FPlayer);
-                        Msg.Param[0] = Msg.Param[0].Value + (player.FPlayerRace + 1) * 65536;
+                        Msg.Param[0] = Msg.Param[0].Int + (player.FPlayerRace + 1) * 65536;
                     }
                 }
                 else
                 {
-                    Msg.Param[0] = Msg.Param[0].Value + 917504;
+                    Msg.Param[0] = Msg.Param[0].Int + 917504;
                 }
 
-                Msg.Param[0] = Msg.Param[0].Value + (((TCityResource)FResource).FSize - 1) * 4194304;
+                Msg.Param[0] = Msg.Param[0].Int + (((TCityResource)FResource).FSize - 1) * 4194304;
             }
             else
             {
@@ -1009,7 +1009,7 @@ public partial class TCity : TPlayerCropStructure
                 {
                     if (Msg.MsgID == 4360)
                     {
-                        ReturnBattleFieldInfo(ref ((BattleFieldQuery)Msg.Param[0].Ref).Info);
+                        ReturnBattleFieldInfo(ref Msg.Param[0].As<BattleFieldQuery>().Info);
                     }
                     else
                     {
