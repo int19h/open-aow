@@ -155,6 +155,37 @@ public sealed class GameSwitchTests
         }
     }
 
+    // A campaign autosave at the first new day of the campaign's first map (Keepers, Halfling1):
+    // the embedded map's turn order names its own players, slot 0 the independent player. The
+    // references of a nested map resolve in the nested map, never in the campaign root, which
+    // has no players (the paths-campaign-map frames fixture).
+    [InstalledFact]
+    public void CampaignSaveAtTheFirstNewDayKeepsTheNestedMapReferences()
+    {
+        string campaignDirectory = Path.Combine(InstalledSave.Root, "Scenario", "Campaign");
+        var campaign = GameFiles.Import(File.ReadAllBytes(Path.Combine(campaignDirectory, "Keepers.CAM")), GameProfile.Campaign.Profile, "campaign").Document;
+        var map = GameFiles.Import(File.ReadAllBytes(Path.Combine(campaignDirectory, "Halfling1.csm")), GameProfile.WorldMap.Profile, "campaign-map").Document;
+        var mapRoot = Root(map);
+        var items = new JsonArray().Add(new JsonInteger(0)).Add(new JsonInteger(1)).Add(new JsonInteger(2));
+        Replace(mapRoot, "TurnOrder", new JsonObject().Add("default", new JsonInteger(0)).Add("items", items));
+        Assert.Equal([0L, 1L, 2L], Children((JsonObject)mapRoot["Players"]!).Items.Cast<JsonObject>().Select(p => ((JsonInteger)p["$slot"]!).Value));
+        Root(campaign).Members.Insert(1, new JsonMember("Map", new JsonObject().Add("$container", map["$container"]!).Add("root", mapRoot)));
+        Replace(campaign, "$kind", new JsonString("campaign-save"));
+        byte[] image = GameFiles.ExportImage(GameFiles.Read(GameFiles.Write(campaign)).Document);
+
+        var saved = GameBoundary.PrepareSave(image, "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
+        Assert.True(saved.Succeeded, saved.Report.Error?.ToString());
+        var loaded = GameBoundary.PrepareLoad(saved.Bytes!, "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
+        Assert.True(loaded.Succeeded, loaded.Report.Error?.ToString());
+        Assert.Equal(image, loaded.Bytes);
+
+        items.Add(new JsonInteger(7));
+        var refused = GameBoundary.PrepareLoad(GameFiles.Write(campaign), "autosave.acg", GameProfile.Campaign, FormatMapping.Validators);
+        Assert.Equal(Codes.Reference, refused.Report.Error!.Code);
+        Assert.Equal("root.Map.root.TurnOrder.items[3]", refused.Report.Error.Path);
+        Assert.Contains("root.Map.root.Players.Children", refused.Report.Error.Message);
+    }
+
     [InstalledFact]
     public void RemovedReferencedChildNamesTheReferenceAndItsDomain()
     {

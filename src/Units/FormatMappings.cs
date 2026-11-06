@@ -90,15 +90,24 @@ public sealed class DiplomaticProposalCases : KindCases
 /// What a rule sees: the validation context and the identity domains of the document, each
 /// collected once.
 /// </summary>
-public sealed class ContentScope(ValidationContext context)
+public sealed class ContentScope(ValidationContext context, JsonObject root, DocPath rootPath)
 {
     private readonly Dictionary<ReferenceDomain, IReadOnlySet<long>> domains = [];
 
     public ValidationContext Context { get; } = context;
 
+    /// <summary>
+    /// The root of the map document the checked values belong to: the document's own root, or
+    /// the root of a nested map such as a campaign save's Map, whose references never reach the
+    /// outer document.
+    /// </summary>
+    public JsonObject Root { get; } = root;
+
+    public DocPath RootPath { get; } = rootPath;
+
     public IReadOnlySet<long> Identities(ReferenceDomain domain)
     {
-        if (!domains.TryGetValue(domain, out var identities)) domains[domain] = identities = domain.Collect(Context.Root);
+        if (!domains.TryGetValue(domain, out var identities)) domains[domain] = identities = domain.Collect(Root);
         return identities;
     }
 }
@@ -108,7 +117,7 @@ public abstract class ReferenceDomain
 {
     public abstract string Name { get; }
 
-    /// <summary>Where the identities live, for the diagnostic.</summary>
+    /// <summary>Where the identities live below the document root, for the diagnostic.</summary>
     public abstract string Owner { get; }
 
     public abstract IReadOnlySet<long> Collect(JsonObject root);
@@ -119,7 +128,7 @@ public sealed class PlayerSlots : ReferenceDomain
 {
     public static PlayerSlots Instance { get; } = new();
     public override string Name => "player-slot";
-    public override string Owner => "root.Players.Children";
+    public override string Owner => "Players.Children";
 
     public override IReadOnlySet<long> Collect(JsonObject root)
     {
@@ -144,8 +153,8 @@ public sealed class Reference(string member, ReferenceDomain domain) : ContentRu
     }
 
     internal static FormatDiagnostic Dangling(ContentScope scope, JsonInteger target, DocPath at, ReferenceDomain domain) =>
-        scope.Context.At(Codes.Reference, $"The {domain.Name} {target.Value} is absent from {domain.Owner}. Use an existing one.", target, at,
-            target.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), domain.Name + " in " + domain.Owner);
+        scope.Context.At(Codes.Reference, $"The {domain.Name} {target.Value} is absent from {scope.RootPath}.{domain.Owner}. Use an existing one.", target, at,
+            target.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), $"{domain.Name} in {scope.RootPath}.{domain.Owner}");
 }
 
 /// <summary>A list member ({ "default", "items" }) whose items name identities of a domain.</summary>
@@ -212,9 +221,9 @@ internal sealed class GameContentValidator : IDocumentValidator
 
     public IEnumerable<FormatDiagnostic> Validate(ValidationContext context)
     {
-        var scope = new ContentScope(context);
-        var findings = new List<FormatDiagnostic>();
         var root = context.Root;
+        var scope = new ContentScope(context, root, DocPath.Root);
+        var findings = new List<FormatDiagnostic>();
         var rootClass = root["$class"] is JsonString name ? GameFiles.Schema.Find(name.Value) : GameFiles.Schema.Find(context.Profile.RootFamily);
         Visit(scope, root, rootClass, DocPath.Root, findings);
         return findings;
@@ -225,6 +234,13 @@ internal sealed class GameContentValidator : IDocumentValidator
         switch (value)
         {
             case JsonObject obj:
+                // A nested document (a campaign's Map) is a map of its own: its references
+                // resolve inside its root.
+                if (obj["$container"] is JsonObject && obj["root"] is JsonObject nested && obj["$class"] is null)
+                {
+                    Visit(new ContentScope(scope.Context, nested, path.Member("root")), nested, null, path.Member("root"), findings);
+                    break;
+                }
                 if (obj["$class"] is JsonString name) cls = GameFiles.Schema.Find(name.Value);
                 for (var c = cls; c is not null; c = c.Parent)
                     if (FormatMapping.All.TryGetValue(c.Name, out var rules))
