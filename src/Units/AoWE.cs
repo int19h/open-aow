@@ -53217,17 +53217,7 @@ public partial class TProcessEventlogAIPA : TAIPlayerAction, IAIPlayerActionClas
             if (FLogIndex < count)
             {
                 Log = FControl.FPlayer.FEventLogbook.GetLogs(FLogIndex);
-                if (Log is THeroEmergeEventLog)
-                {
-                    ((THeroEmergeEventLog)Log).ExecuteAI();
-                }
-                else
-                {
-                    if (Log is TDiplomaticActionEventLog)
-                    {
-                        ((TDiplomaticActionEventLog)Log).FAction.ExecuteAI(FControl.FPlayer.FPlayerIndex);
-                    }
-                }
+                Log.ExecuteAI(FControl.FPlayer.FPlayerIndex);
             }
             else
             {
