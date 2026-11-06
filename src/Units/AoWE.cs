@@ -26568,6 +26568,9 @@ public partial class THeroJoinEventLog : TJoinEventLog
     }
 
     // Hero.PAS:132
+    // The AI reaches this through THeroEmergeEventLog.ExecuteAI(), not through the virtual
+    // ExecuteAI(sbyte) of 9.6-3, which this class leaves as the no-op (AI.pas:1626 never
+    // dispatched on it).
     public bool ExecuteAI()
     {
         THero Hero;
@@ -53217,17 +53220,7 @@ public partial class TProcessEventlogAIPA : TAIPlayerAction, IAIPlayerActionClas
             if (FLogIndex < count)
             {
                 Log = FControl.FPlayer.FEventLogbook.GetLogs(FLogIndex);
-                if (Log is THeroEmergeEventLog)
-                {
-                    ((THeroEmergeEventLog)Log).ExecuteAI();
-                }
-                else
-                {
-                    if (Log is TDiplomaticActionEventLog)
-                    {
-                        ((TDiplomaticActionEventLog)Log).FAction.ExecuteAI(FControl.FPlayer.FPlayerIndex);
-                    }
-                }
+                Log.ExecuteAI(FControl.FPlayer.FPlayerIndex);
             }
             else
             {
