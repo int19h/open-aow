@@ -5,7 +5,8 @@ specifies the rungs that need tooling: the probes, the round trip, the headless 
 frame comparison, and how they fit together in one command. The tooling under `tools/` and
 `tests/` lives in the private repository (`../design.md` section 8). The xUnit projects under
 `src/` live with the product. Section 6, the strings checks of milestone 9.5, was added on
-2026-11-05 (brief 9.5-2).
+2026-11-05 (brief 9.5-2). Section 3.2 gained the comparison through the converter of milestone
+9.7 on 2026-11-06 (brief 9.7-4).
 
 ## 1. Layers
 
@@ -188,11 +189,44 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
      those children as sets. The list is empty in the first stage, where the hash table code is
      transpiled (`../design.md` section 5 says how it grows in the second).
    - In model mode, which the second stage adds (`../milestones.md` 9.1), it reads both files
-     through the port's readers into the property tree and compares trees, so that the port's own
-     formats compare against the original's saves.
+     into the property tree and compares trees. The reader is the independent Python
+     `ModelReader` of `tools/oracle/asg.py`, built on the recovery's class schema and never on the
+     product's `src/Formats` code, so the comparison does not inherit a mistake of the converter.
 
 The result is one JSON per scenario with the first differing day, the changed fields and the diff,
 in the format `compare_runs` writes, so that the same reading habits apply.
+
+Since milestone 9.7 the port writes its own JSON documents (`own-formats.md`), and the
+comparison keeps the two sides apart (`own-formats.md` 5.1):
+
+- Native references stay untouched. The original's saves, the scenarios' expected states and
+  the shipped scenario maps go straight to the Python readers, which refuse an own document, and
+  are never imported and exported again.
+- Only the actual side is converted, once per run directory: `tools/oracle/artifacts.py` runs
+  one strict `aowconv to-original --dir` batch over the run's own documents into
+  `<run>.export/original`, with a manifest of source and output hashes, kinds, profiles and zero
+  losses that later readers reuse only while every hash and the converter's own hashes match.
+  Every reader of a day, `raw_equal` and the frame-state readers included, reads the resolved
+  file. A loss or a refusal fails the layer. `--require-own` makes a native actual state a failure
+  too, and the gate passes it in the oracle, frames, language-frames and scenarios layers.
+- Two measures stay separate. The persistence layer checks the corpus exactly: `aowconv check`
+  requires unmasked G1 for every in-scope original (the five CFS bytes and the inflated payload,
+  or the whole file) and G2 for every imported document, with no mask. The behavior comparison
+  above keeps its normalization of the root `TAoWHSMap` ids `$37` and `$3A`, the turn timer
+  fields, and lists it in its output. No mask hides converter loss or port state.
+- Own resumptions, with their own count: `tools/oracle/own_resumption.py` converts each of the
+  seven prepared inputs with `aowconv to-own`, loads the own document through the Headless host,
+  plays three turns and compares the four day saves with the native run's in byte and model
+  modes. At the gate of 2026-11-06 that is 7 own inputs loaded and 28 of 28 saves equal, beside
+  the 177 saves of the oracle runs. A mid-run reload of a port-written save has no native
+  evidence yet (`own-formats.md` 9.6).
+- The persistence layer prints the census lines of `tools/formats/schema_check.py` (`Schema:`,
+  `Pins:`, `Oracle readers:`, `Product sources:` and `schema_check: PASS`) and the output of
+  `aowconv check --expect data/rewrite/9.7-1/check-expect.9.7-3.json` (`Corpus:`, `Fixtures:`,
+  `Own:`, `Layout:`, `Validation:`, the per-profile lines, `G3:` and `Expect:`).
+  `tools/check.py` requires `schema_check: PASS`, 0 unknown properties, every fixture result
+  matched, 0 strict export losses, 0 refusals by the unit validators, every pinned census file
+  present and the matched expectation. `own-formats.md` section 9 quotes the lines.
 
 ### 3.3 Determinism requirements on the port
 

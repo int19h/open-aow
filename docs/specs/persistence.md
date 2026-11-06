@@ -4,6 +4,9 @@ State: draft, 2026-10-24. Covers the engine's object persistence (property table
 streams, the compressed container), what the port must preserve, how the transpiled persistence
 code meets the shim, and the round trip milestone that proves it. The format description comes
 from `D:\git\aow\doc\persistence.md` and from `src/delphi3/Engine.pas` as read on 2026-10-24.
+Sections 1 and 5 were revised on 2026-11-06 for milestone 9.7 (brief 9.7-4): the format is the
+engine image and the format of the original files, and the disk format is the port's own
+(`own-formats.md`).
 
 The persistence code itself is transpiled, not rewritten: `TPropertyTable`, `TEStorageStream`,
 `TEReadStorageStream`, `TEWriteStorageStream`, `TCompareStorageStream`,
@@ -14,21 +17,28 @@ precise measure.
 
 ## 1. The format
 
+This section describes the original format. Since milestone 9.7 it serves two purposes. It is
+the format of the original files the port reads and `aowconv to-original` writes, and it is the
+engine image: the bytes the transpiled stream code reads and writes inside the port. The game
+writes no original file. On disk it writes the port's own JSON documents (`own-formats.md`), and
+the file boundary converts between a document and the engine image on every open and save (1.7).
+
 ### 1.1 Containers
 
 | file | container |
 |---|---|
-| `.asg` save, `.hsm` map | `TCompressStream`: 4 bytes `CFS\0`, 1 byte level (`TCompressLevel`: 0 none, 1 fastest, 2 default, 3 max, v1.36 writes 2), then the payload. Level 0 means the payload follows uncompressed. Otherwise the payload is a zlib stream (`78 9C` for level 2). A file without the magic is read as uncompressed from byte 0 |
-| `.hss` scenario set, `.cam` campaign | an uncompressed storage stream, no container |
-| `.ahl`, `.ail` user lists (heroes, items) | storage streams written by the rules code (`Hero.PAS`, `Army.PAS`) |
+| `.asg` save, `.hsm` map, `.csm` campaign map | `TCompressStream`: 4 bytes `CFS\0`, 1 byte level (`TCompressLevel`: 0 none, 1 fastest, 2 default, 3 max, v1.36 writes 2), then the payload. Level 0 means the payload follows uncompressed. Otherwise the payload is a zlib stream (`78 9C` for level 2). A file without the magic is read as uncompressed from byte 0 |
+| `.hss` scenario set | no container: a 52-byte header (its size, the identifier `#4'HSS'#0`, the set name of up to 40 bytes), the stored root, then a CRC-32 of all preceding bytes |
+| `.cam` campaign, `.acg` campaign save | an uncompressed stored object with its class id, no container. A campaign save can hold a map as an embedded HSM file image in its CFS container (`TAoWCampaign` ids 5 and 6) |
+| `.ahl`, `.ail` user lists (heroes, items) | storage streams written by the rules code (`Hero.PAS`, `Army.PAS`), the root without class id |
 
 The game inflates with zlib 1.0.4 linked into Enginep.dpl and deflates with level 2 (zlib default).
 The port uses `System.IO.Compression.ZLibStream` for both directions. The inflated bytes are what
 the game reads, so the oracle comparison of saves is a comparison of inflated payloads plus the
 five header bytes, never of compressed bytes (`testing.md`). Any zlib encoder produces a stream the
-original game inflates, so saves written by the first stage load in the original game. That is a
-fact, not a requirement: compatibility is one way (`../design.md` section 5), the port must read
-the original's files and is free to write its own formats in the second stage.
+original game inflates, so an original written by `aowconv to-original` loads in the original
+game. That is a fact, not a requirement: compatibility is one way (`../design.md` section 5), the
+port must read the original's files and writes its own format since milestone 9.7.
 
 ### 1.2 Inflated payload of a map or save
 
@@ -74,7 +84,8 @@ stack of (`First`, `NextIndex`, `MaxID`), so one `TPropertyTable` instance serve
 | `rwByte`, `rwShortint`, `rwWord` and their `Ex` forms | 1, 1, 2 | value differs from 0 or from `Default` | 0 or `Default` |
 | `rwBool(B, id)` | none, the entry's presence is the value | `B` | `False` |
 | `rwString(S, id)` | length prefix then bytes: one byte length, or `$FF` then `Integer` length when the length is `$FF` or more | `S <> ''` | `''` |
-| `rwStrings(L, id)` | `StringsToStream`: an `Integer` count then each string with the prefix above | `Count <> 0` | `Clear` |
+| `rwStrings(L, id)` | `StringsToStream`: an `Integer` byte length, then that many bytes of `L.Text` (every line ended by CR LF), cut at its first NUL | `Count <> 0` | `Clear` |
+| `rwStringsEx(L, id)` | `StringsToStreamEx`: the block of `rwStrings`, then one `Integer` per line, the line's object value | `Count <> 0` | `Clear` |
 | `rwData(Buf, Size, id)` | `Size` raw bytes | `Size <> 0` | the buffer is left as it is |
 | `rwStreamProc(id, Load, Save)` | whatever `Save(stream)` writes | always | `Load(stream)` is called inside a `try` that swallows every exception |
 | `rwEObject(Obj, id)` | a nested property table, then the nested data | always | `Obj.MainReadWrite` runs with an empty table when the id is missing |
@@ -98,9 +109,10 @@ Every `TEObject` class has a virtual class method `ClassID` that returns a const
 keeps a `TEObjectClassList` and a hash table from class id to class, filled by `RegisterEClasses`
 from the units' initialization code, and `CreateEObject(id, owner)` looks the class up and calls
 its virtual constructor `Create(owner)`. A double class id raises at registration. The port keeps
-all of this as transpiled code: `ClassID` is a virtual method of the metaclass, the registry holds
-`TEObject.Meta` objects, and `CreateEObject` is `meta.Create(owner)` (`transpiler.md` 4.4). The
-class ids are the values in the file, so the port's class ids are the original constants, and
+the engine tables as transpiled code. Since milestone 9.4 the class side is the `EClass`
+descriptor that `ClassRegistry.cs` registers (`metaclass-retirement.md`), each engine's
+`FClassTable` maps an id to its `EClass`, and `CreateEObject` is `GetEClass(id).Create(owner)`.
+The class ids are the values in the file, so the port's class ids are the original constants, and
 `tools/asg_dump.py` in the `aow` repository already maps ids to names.
 
 ### 1.6 Save files
@@ -111,6 +123,36 @@ code: embedded objects flagged shared are kept by `Clear` and skipped by `rwChil
 remembers the slot it was read from because owners have unstored children before the stored ones.
 Shipped `.hsm` maps carry properties the 1.36 code reads but never writes, so they round trip only
 after one load and save.
+
+### 1.7 Profiles, the G1 domains and the engine image
+
+The converter reads a file only under a profile (`own-formats.md` 1.1), which fixes the
+container, the engine class table, the root family and the header and checksum rules. An
+extension alone never selects one, and a `.hsm` file names its profile through the root class id
+of its HSM header.
+
+| profile | files | engine table, root | G1 domain B | engine image |
+|---|---|---|---|---|
+| `world-hsm` | `.asg`, `.hsm` world maps, `.csm` | game, `TAoWHSMap` | the five CFS bytes and the inflated payload, or the whole file for raw HSM. CFS level 0 and raw HSM stay distinct | the payload: HSM header and root |
+| `tactical-hsm` | `.hsm` under `TCMaps` | tactical, `TAoWCombatMap` | as `world-hsm` | the payload |
+| `campaign` | `.cam`, `.acg` | campaign, `TAoWCampaign` | the whole file | the whole file |
+| `scenario-set` | `.hss` | game, `TAoWHSSet` | the whole file, header and CRC-32 included | the whole file |
+| `hero-list` | `.ahl` | game, `THeroLibrary` | the whole file | the whole file |
+| `item-list` | `.ail` | game, `TItemLibrary` | the whole file | the whole file |
+
+G1 holds when an original file imported to a document and strictly exported again gives the same
+B. B never covers the compressed bytes of a top-level CFS stream. A campaign's embedded map keeps
+its exact compressed bytes, so the outer campaign is equal byte for byte. The game set files
+(`.pfs`) and the e-mail game index have no profile and keep the original format until milestone
+10.
+
+The engine image is a separate thing from the disk format. The engine's stream code reads and
+writes images exactly as section 1 describes, and `ReadWrite` stays the engine's protocol. The
+file boundary (`own-formats.md` 4.1) gives the engine an image built from an own document or from
+an original that passed G1, and turns the image the engine wrote into an own document. Since
+milestone 9.7 the bytes of a CFS container, an HSM header, a CRC or a property table exist on disk
+only in original files. A document records what it needs to rebuild them (its `$container` and
+any `$layout` residue).
 
 ## 2. What the port must preserve
 
@@ -226,6 +268,13 @@ shipped maps and campaigns load through them, and nothing requires that the orig
 the port wrote. The explicit-layout records of `transpiler.md` 4.3 exist for `rwData` in the first
 stage and become plain `record struct` types with explicit serialization when the format moves.
 
+Milestone 9.7 (`own-formats.md`) moved the disk format and kept the engine image (1.7). Every own
+load and save still passes through the property tables, the widths and the record layouts above,
+so a persisted `rwData` record keeps its explicit layout, and the own document holds it as exact
+hex. A persisted record becomes a plain type only when step 2 of the exit from the image
+(`own-formats.md` 6.3) gives it an explicit field adapter. Until that exit, `ReadWrite`, the
+numeric `rw*` calls and raw `rwData` are transitional and no stable mod API.
+
 Milestone 9.6 (`unions-and-kinds.md` section 4) changed the model of two persisted classes and no
 byte of a file:
 
@@ -250,10 +299,13 @@ byte of a file:
   `DiplomaticProposal` base.
 - `TShowInfo` keeps its 8-byte ILB image (`unions-and-kinds.md` 3.3). ILB files are game data,
   outside the save and map formats.
-- The converter's mappings for `TProductionItem` and `TDiplomaticAction` (`own-formats.md` 3.1),
-  which call `ToFields` and the registries' `FromFields`, arrive with brief 9.7-3, which adds them.
-  The 9.6 briefs ran before it merged and left the converter's schema-driven reading of these
-  properties as it was.
+- The converter's mappings for `TProductionItem` and `TDiplomaticAction` (`own-formats.md` 2.3 and
+  3.1), which call `ToFields` and the registries' `FromFields`, arrived with brief 9.7-3 in
+  version 1 of the own format. A document names the kind as `$case` with the kind's own fields,
+  and an unregistered id reads as the case `Unknown`, which keeps the id and every value. The 9.6
+  numeric knowledge (property ids, the one-byte kind, the zero rule) lives in two places during the
+  transition: in `ReadWrite` for the engine image and in the converter's schema and case tables
+  for the files.
 
 ## 6. Open points
 
