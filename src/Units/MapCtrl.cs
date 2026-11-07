@@ -1077,12 +1077,6 @@ public delegate bool TValidateEngine();
 
 public static partial class MapCtrlUnit
 {
-    // MapCtrl.pas:675
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TAoWMapControl)]);
-    }
-
     public static void Initialize()
     {
     }

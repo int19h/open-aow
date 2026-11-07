@@ -63,4 +63,7 @@ public static partial class RtlUnit
         name = RequireString(name);
         return name.Length == 0 ? "" : Files.ExpandPath(name);
     }
+
+    public static string ExtractRelativePath(string baseName, string destination)
+        => Files.ExtractRelativePath(baseName, destination);
 }

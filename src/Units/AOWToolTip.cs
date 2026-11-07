@@ -390,9 +390,4 @@ public partial class TAOWToolTip : TAOWGenericWindow
 
 public static partial class AOWToolTipUnit
 {
-    // AOWToolTip.pas:272
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWToolTip)]);
-    }
 }

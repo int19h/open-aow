@@ -77,12 +77,6 @@ public struct TRaceView
 
 public static partial class PlayerBoxUnit
 {
-    // PlayerBox.pas:93
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TPlayerComboBox)]);
-    }
-
     public static string PlayerRStr = "Player";
 
     public static void Initialize()

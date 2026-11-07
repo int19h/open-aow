@@ -522,9 +522,9 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   virtual returns a view key that the screen renders, so no screen code enters a rules class. Byte
   puns stay explicit-layout structs. Milestone 9.6 (`specs/unions-and-kinds.md`) applied the rule:
   - Three unions hold data closed by nature, each a custom `[Union]` struct that stores its value
-    cases without boxing: `FormatArg` for the arguments of `Format` (`src/Rtl/FormatArg.cs`, in
+    cases without boxing: `FormatArg` for the arguments of `Format` (`src/Rtl/Legacy/FormatArg.cs`, in
     place of `TVarRec`), `MsgArg` for the slots of the engine messages `TEMsg` and `TMapFieldMsg`
-    (`src/Rtl/MsgArg.cs`), and `BlendValue` for the percentage or table of `TShowInfo`
+    (`src/Rtl/Legacy/MsgArg.cs`), and `BlendValue` for the percentage or table of `TShowInfo`
     (`src/Units/GFXE.BlendValue.cs`).
   - Four kind families became virtual dispatch (section 6): structure and event log views, whose
     keys the screens render from `Catalog` tables, and production orders and diplomatic proposals,

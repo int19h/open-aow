@@ -424,9 +424,4 @@ public partial class TLibraryHS : THPBasedHS
 
 public static partial class HSLibUnit
 {
-    // HSLib.pas:328
-    public static void Register()
-    {
-        RegisterComponents("HS-Engine", [typeof(THSLibrary)]);
-    }
 }

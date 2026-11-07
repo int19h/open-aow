@@ -8569,12 +8569,6 @@ public static partial class HSEngineUnit
     public static FixedArray_int_11 RadToHNTable = FixedArray_int_11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
     public static int HSEngineDID;
 
-    // HSEngine.pas:5411
-    public static void Register()
-    {
-        RegisterComponents("HS-Engine", [typeof(THexagonSpriteEngine), typeof(THSMapViewer)]);
-    }
-
     // HSEngine.pas:1390
     public static void OriginalAssert(string Message, string Filename, int LineNumber)
     {

@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Aow.Platform;
 using Aow.Rtl;
+using Aow.Rtl.Host;
 using Aow.Units.AoWReg;
 using Aow.Units.GFXE;
 using SDL;

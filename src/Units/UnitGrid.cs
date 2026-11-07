@@ -119,12 +119,6 @@ public partial class TUnitGrid : TCustomImageDrawGrid
 
 public static partial class UnitGridUnit
 {
-    // UnitGrid.pas:207
-    public static void Register()
-    {
-        RegisterComponents("AoWEngine", [typeof(TUnitGrid)]);
-    }
-
     public static void Initialize()
     {
     }

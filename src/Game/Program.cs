@@ -6,13 +6,13 @@ internal static class Program
 {
     public static int Main(string[] args)
     {
-        Aow.Rtl.ProcessSafety.Initialize();
-        if (Aow.Rtl.GateSwitches.CultureError("OpenAoW") is { } culture)
+        Aow.Rtl.Host.ProcessSafety.Initialize();
+        if (Aow.Rtl.Host.GateSwitches.CultureError("OpenAoW") is { } culture)
         {
             Console.Error.WriteLine(culture);
             return 1;
         }
-        Aow.Rtl.GateSwitches.Enter("Game", args);
+        Aow.Rtl.Host.GateSwitches.Enter("Game", args);
         StreamWriter? fileLog = null;
         try
         {

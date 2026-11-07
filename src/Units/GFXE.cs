@@ -2916,12 +2916,6 @@ public static partial class GFXEUnit
         throw new NotImplementedException();
     }
 
-    // GFXE.pas:12874
-    public static void Register()
-    {
-        RegisterComponents("GFX Engine", [typeof(TDrawPanel), typeof(TOpenImageFileDialog)]);
-    }
-
     public static int ForcedPixelFormatID;
     public static TImageFileClassList ImageFileClassList;
 

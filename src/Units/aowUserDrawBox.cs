@@ -98,9 +98,4 @@ public partial class TaowUserDrawBox : TAOWControl
 
 public static partial class aowUserDrawBoxUnit
 {
-    // aowUserDrawBox.pas:99
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TaowUserDrawBox)]);
-    }
 }

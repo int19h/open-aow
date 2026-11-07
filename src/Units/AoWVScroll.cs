@@ -974,9 +974,4 @@ public partial class TAOWVScrollBar : TAOWScrollBar
 
 public static partial class AoWVScrollUnit
 {
-    // AoWVScroll.pas:706
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWVScrollBar)]);
-    }
 }

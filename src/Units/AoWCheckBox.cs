@@ -168,9 +168,4 @@ public partial class TAOWCheckBox : TAOWBaseButton
 
 public static partial class AoWCheckBoxUnit
 {
-    // AoWCheckBox.pas:141
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWCheckBox)]);
-    }
 }

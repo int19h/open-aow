@@ -1,4 +1,4 @@
-namespace Aow.Rtl;
+namespace Aow.Rtl.Host;
 
 /// <summary>
 /// The switches a host reads at entry (strings.md sections 2.2 and 4). <c>AOW_STRICT_STRINGS=1</c> turns

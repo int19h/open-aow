@@ -8573,7 +8573,6 @@ public static partial class ImageLibUnit
     public static void Initialize()
     {
         BaseImageLibraryPath = ExtractFilePath(Application.ExeName);
-        RegisterClasses([typeof(TImageLibrary)]);
         LibraryImageClasses = new TList();
         RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>()]);
         RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(), LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(), LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>()]);

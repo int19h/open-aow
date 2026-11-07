@@ -180,12 +180,6 @@ public partial class TStartMenu : TAOWMenu
 
 public static partial class StartMenuUnit
 {
-    // StartMenu.pas:133
-    public static void Register()
-    {
-        RegisterComponents("AOW Tools", [typeof(TStartMenu)]);
-    }
-
     public static void Initialize()
     {
     }

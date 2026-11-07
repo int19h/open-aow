@@ -155,9 +155,6 @@ public sealed class EngineSupportTests
             Assert.Equal("message", shown);
         }
         finally { R.MessageHandler = saved; }
-        R.RegisterClass(typeof(TComponent));
-        R.RegisterComponents("category", new[] { typeof(TComponent) });
-        Assert.Equal(1u, R.RegisterClipboardFormat("format"));
         Assert.True(R.GetHeapStatus().TotalAllocated >= 0);
     }
 }

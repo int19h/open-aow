@@ -184,9 +184,4 @@ public partial class TAOWImage : TAOWControl
 
 public static partial class AoWImageUnit
 {
-    // AoWImage.pas:208
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWImage)]);
-    }
 }

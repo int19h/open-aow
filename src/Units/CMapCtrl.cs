@@ -487,12 +487,6 @@ public delegate void TActivateCombatAbilityEvent(TActivateAbilityInfo AAI);
 
 public static partial class CMapCtrlUnit
 {
-    // CMapCtrl.pas:361
-    public static void Register()
-    {
-        RegisterComponents("AoWEngine", [typeof(TAoWCombatMapControl)]);
-    }
-
     public static void Initialize()
     {
     }

@@ -125,12 +125,6 @@ public partial class TUnitIndexGrid : TCustomImageDrawGrid
 
 public static partial class UnitIGrdUnit
 {
-    // UnitIGrd.pas:190
-    public static void Register()
-    {
-        RegisterComponents("AoWEngine", [typeof(TUnitIndexGrid)]);
-    }
-
     public static void Initialize()
     {
     }

@@ -2126,12 +2126,6 @@ public static partial class AoWSetupUnit
         AEngine.RegisterEClasses([EClass.Of<TSetupSettings>(), EClass.Of<TPlayerSetupSettings>(), EClass.Of<TSetupPackage>(), EClass.Of<TRemotePlayer>()]);
     }
 
-    // AoWSetup.pas:1339
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TSetupControl)]);
-    }
-
     public static TSetupPlayerBehavior CPUBehavior = new TSetupPlayerBehavior
     {
         PlayerType = 1,

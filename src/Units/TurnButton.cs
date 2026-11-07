@@ -248,12 +248,6 @@ public enum TButtonType : byte
 
 public static partial class TurnButtonUnit
 {
-    // TurnButton.pas:192
-    public static void Register()
-    {
-        RegisterComponents("AOW Tools", [typeof(TAOWTurnButton)]);
-    }
-
     public static void Initialize()
     {
     }

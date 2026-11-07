@@ -872,9 +872,4 @@ public partial class TAOWWindow : TAOWGenericWindow
 
 public static partial class AoWWindowUnit
 {
-    // AoWWindow.pas:575
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWWindow)]);
-    }
 }

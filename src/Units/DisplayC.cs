@@ -2081,11 +2081,4 @@ public static partial class DisplayCUnit
     public const int DCERR_NOFLIP = -2147414007;
     // { Posted to the display: WParam 1 shows the active DC, 2 activates the primary DC }
     public const short WM_DISPLAYC = 27135;
-
-    // DisplayC.pas:3184
-    public static void Register()
-    {
-        RegisterComponents("GFX Engine", [typeof(TDisplay)]);
-        RegisterComponents("GFX Engine", [typeof(TWindows08DC), typeof(TWindows16DC), typeof(TWindows24DC), typeof(TWindows32DC)]);
-    }
 }

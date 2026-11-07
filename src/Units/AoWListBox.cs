@@ -684,9 +684,4 @@ public partial class TAOWListBox : TAOWControl
 
 public static partial class AoWListBoxUnit
 {
-    // AoWListBox.pas:502
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWListBox)]);
-    }
 }

@@ -124,7 +124,7 @@ maps it to English unless the system language is one of the four others.
 
 ## 6. What the port implements
 
-`src/Rtl/Localize/`:
+`src/Rtl/Host/Localize/`:
 
 - `MldDictionary`: the reader (header, language records, entries, trailer) with the byte-exact
   validation `mld_dump.py check` performs; `Open`, `Close`, `SetLanguage`, `Translate(S)`,

@@ -173,12 +173,6 @@ public struct TItemView
 
 public static partial class LeadrGrdUnit
 {
-    // LeadrGrd.pas:271
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TLeaderGrid)]);
-    }
-
     public static readonly string GridUsedRStr = "Used";
     public static readonly string GridPlayerRStr = "Player";
 

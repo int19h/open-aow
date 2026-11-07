@@ -228,12 +228,6 @@ public struct TItemView
 
 public static partial class HeroGridUnit
 {
-    // HeroGrid.pas:325
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(THeroGrid)]);
-    }
-
     public static readonly string GridUsedRStr = "Used";
 
     public static THeroList SortHeroList;
