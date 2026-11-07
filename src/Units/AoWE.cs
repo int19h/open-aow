@@ -80203,11 +80203,6 @@ public static partial class AoWEUnit
     }
 
     // Army.PAS:6112
-    public static void Register()
-    {
-        RegisterComponents("AoWEngine", [typeof(TAgeOfWondersEngine)]);
-    }
-
     // Army.PAS:6117
     public static bool ValidateAoWEngine()
     {

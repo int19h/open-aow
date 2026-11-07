@@ -255,12 +255,6 @@ public struct TItemView
 
 public static partial class HeroCtrlUnit
 {
-    // HeroCtrl.pas:397
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(THeroControlGrid)]);
-    }
-
     public static readonly string GridUsedRStr = "Used";
 
     // HeroCtrl.pas:110

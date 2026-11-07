@@ -2,7 +2,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
 
-namespace Aow.Rtl;
+namespace Aow.Rtl.Host;
 
 /// <summary>
 /// The exception census of the gate (strings.md section 4). A host calls <see cref="Start"/> at entry.

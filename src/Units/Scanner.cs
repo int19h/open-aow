@@ -989,12 +989,6 @@ public enum TOType : byte
 
 public static partial class ScannerUnit
 {
-    // Scanner.pas:458
-    public static void Register()
-    {
-        RegisterComponents("AOW Tools", [typeof(TScanner)]);
-    }
-
     public static void Initialize()
     {
     }

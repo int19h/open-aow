@@ -310,9 +310,4 @@ public partial class TAOWTabPanel : TAOWControl
 
 public static partial class AoWTabPanelUnit
 {
-    // AoWTabPanel.pas:257
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWTabPanel)]);
-    }
 }

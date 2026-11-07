@@ -239,12 +239,6 @@ public struct TItemView
 
 public static partial class ItemGridUnit
 {
-    // ItemGrid.pas:296
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TItemGrid)]);
-    }
-
     public static void Initialize()
     {
     }

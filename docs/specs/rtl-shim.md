@@ -14,6 +14,41 @@ Scope rule. The shim implements what the shim demand list from the transpiler na
 else. This document covers the symbols the survey of 2026-10-24 found (`transpiler.md` section 10).
 A symbol the demand list adds later gets its entry here before it is implemented.
 
+## Layout
+
+The library is three groups, each in its own folder. Groups 1 and 2 stay in the namespace
+`Aow.Rtl`. The group 3 services are in `Aow.Rtl.Host`. `RtlUnit` stays one partial static class in
+`Aow.Rtl`, and each partial file holds one topic, so `using static Aow.Rtl.RtlUnit` is unchanged.
+The `RtlUnit` members of group 3 (the console output, `Files`, `Clock`, `InstallHost`) are
+therefore in `Aow.Rtl` too. The localization runtime is under `src/Rtl/Host/Localize/`. Its
+dictionary and runtime types are in `Aow.Rtl.Localize`, and the components that forms name
+(`TIvTranslator`, `TIvDictionary`, `TIvBinaryDictionary`, `TIvCustomTranslator`,
+`TranslatorProperties`, `TranslationTarget`) stay in `Aow.Rtl`.
+
+`src/Rtl/Delphi/` (group 1) is Delphi behavior the game's results depend on. It holds `Random` and
+the seed, banker's rounding and the other arithmetic, the code page 1252 table and the string
+routines, `CompareText` and `AnsiCompareText`, `Format` and the conversions, `TSet<E>`, the
+streams, file dates and the `FindFirst` order, and the exceptions the game catches by class.
+`Catalog` and `ConstructionContext` sit here too. Both are port machinery the product keeps, outside
+the retirement backlog.
+
+`src/Rtl/Legacy/` (group 2) is what the literal translation left behind. Later passes retire it.
+The RT-2 inventory counts 88 types and 22 `RtlUnit` members in this group, after the four no-op
+registrations and their call sites went. 90 of those 110 symbols occur in product code outside
+`src/Rtl` and the test projects. The other 20 have no such occurrence and stay, because a test pins them, Rtl still calls them, or the product names them
+under another spelling. The per-symbol counts are the retirement backlog. `TStringList`
+sorting is in this group with `TStrings`. The order it sorts in is Delphi behavior, and the
+comparers that define it stay in group 1.
+
+`src/Rtl/Host/` (group 3) is host services that are not Delphi. It holds the file system, the
+clock, the installed host, process safety, the gate switches, console output, the exception census
+and the localization runtime. `Aow.Rtl.Host` is the namespace because these types are the host
+seam, and `Aow.Rtl.Localize` already names the localization subset.
+
+No implementation moved to `src/Platform`. `RtlUnit` constructs `SystemIoFileSystem` and
+`SystemClock` as its defaults, and tests construct them too. The interfaces the units call stay in
+this project, which sits below Units.
+
 ## 1. Core types for generated code
 
 ### 1.1 TObject and the metaclass
@@ -68,7 +103,7 @@ in one pass (`strings.md`). Every `char` of a game string is the code page 1252 
 one byte, so the length and the positions of a string equal those of the Delphi bytes. Host paths
 are the one kind of text outside that image (section 3.4, `strings.md` 2.5).
 
-`Cp1252` (`src/Rtl/Cp1252.cs`) owns the map. The table is frozen, and from 9.7 on it is a format
+`Cp1252` (`src/Rtl/Delphi/Cp1252.cs`) owns the map. The table is frozen, and from 9.7 on it is a format
 contract (`strings.md` 2.1 and 2.7).
 
 | member | semantics |
@@ -152,7 +187,7 @@ use `RtlUnit.ReallocArray`, `MoveElements` and `ClearElements` (section 2.4).
 
 ### 1.5 IntOrRef and MsgArg
 
-`struct IntOrRef { int Value; object Ref; }` (`Values.cs`) with implicit conversions from `int`,
+`struct IntOrRef { int Value; object Ref; }` (`src/Rtl/Legacy/IntOrRef.cs`) with implicit conversions from `int`,
 from `TObject` (a `PtrBox<T>` among them) and from `string`, and `T As<T>()`, which reads `""` for
 a string slot that holds no string. `Value` of a reference is its `InstanceId`, or for a string an
 id from the same counter. `Ref` of an integer is `null`. The first stage used it wherever the
@@ -162,7 +197,7 @@ and `TStringHashItem` a string in the same slot, until the collections pass give
 a typed key. The message slots took `MsgArg` and the blend
 slot of `TShowInfo` took the union `BlendValue` of the units (`unions-and-kinds.md` 3.3).
 
-`MsgArg` (`MsgArg.cs`, brief 9.6-4) is the slot of an engine message, a 32-bit word of the
+`MsgArg` (`src/Rtl/Legacy/MsgArg.cs`, brief 9.6-4) is the slot of an engine message, a 32-bit word of the
 original that holds an integer or an object reference. It is a custom union, a `[Union] readonly
 struct` implementing `IUnion`, with two cases:
 
@@ -189,7 +224,7 @@ the first stage's `TEMsg` are gone. No message record reaches a stream or a pack
 
 ### 1.6 FormatArg
 
-The argument of `Format` and `CreateFmt`, the Delphi `array of const` element (`FormatArg.cs`,
+The argument of `Format` and `CreateFmt`, the Delphi `array of const` element (`src/Rtl/Legacy/FormatArg.cs`,
 brief 9.6-1, in place of the first stage's `TVarRec`). `Format(string? format, params
 ReadOnlySpan<FormatArg> args)` and every `CreateFmt` of section 1.7 take the arguments as a span.
 It is a custom union, a `[Union] readonly struct` implementing `IUnion` over one `long`, one
@@ -269,7 +304,7 @@ control word). `Trunc` is a cast. `Int`, `Frac`, `Abs`, `Sqr`, `Sqrt`, `Sin`, `C
 
 ### 2.3 Strings
 
-Semantics of the string intrinsics, from `SYSTEM.PAS`, over `string` (`src/Rtl/StringRoutines.cs`).
+Semantics of the string intrinsics, from `SYSTEM.PAS`, over `string` (`src/Rtl/Delphi/StringRoutines.cs`).
 The routines keep their Delphi names and 1-based positions, so the transpiled arithmetic at their
 call sites is unchanged. Only the direct indexer is zero-based (section 1.2). Every routine is
 total over chars outside the table: such a char passes through unchanged and keeps two strings
@@ -322,7 +357,7 @@ passes through unchanged.
 | `StrToInt(S)` | `Val` semantics: leading spaces skipped, optional `+` or `-`, `$` prefix for hex (not after a sign), digits to the end or to the first `'\0'`, anything else raises `EConvertError` with the message `'%s' is not a valid integer value` |
 | `StrToIntDef(S, def)` | the same, returns `def` on error |
 | `UpperCase`, `LowerCase` | ASCII letters only. Every other char stays |
-| `AnsiUpperCase`, `AnsiLowerCase` | the code page 1252 case tables of `SysUtils.cs` and `StringRoutines.cs`, applied through `Cp1252.Byte` and `Cp1252.Char` to mapped chars, never `ToUpperInvariant`. Lower case adds 32 to 65 to 90, 192 to 214 and 216 to 222 and maps 138, 140, 142 and 159 to 154, 156, 158 and 255. Upper case is the inverse. µ (181) has no case pair in the table and stays. A char outside the table stays |
+| `AnsiUpperCase`, `AnsiLowerCase` | the code page 1252 case tables of `src/Rtl/Delphi/TextCompare.cs`, applied through `Cp1252.Byte` and `Cp1252.Char` to mapped chars, never `ToUpperInvariant`. Lower case adds 32 to 65 to 90, 192 to 214 and 216 to 222 and maps 138, 140, 142 and 159 to 154, 156, 158 and 255. Upper case is the inverse. µ (181) has no case pair in the table and stays. A char outside the table stays |
 | `CompareStr(A, B)` | `Cp1252.Compare`: the difference of the first differing bytes or of the lengths |
 | `CompareText(A, B)` | `CompareStr` after ASCII upper-casing |
 | `AnsiCompareStr`, `AnsiCompareText` | section 3.2 |
@@ -373,7 +408,7 @@ or the char case (1.6), the char with no precision cut. `%p` takes the pointer c
 eight uppercase hex digits. Any other case for a conversion, the empty argument included, raises
 `EConvertError`, as Delphi does for `%s` of an integer. A string or a char argument keeps a char
 outside the table. The implementation is the shim's own `FormatBuf` port in
-`src/Rtl/StringFormat.cs`, never `string.Format`.
+`src/Rtl/Delphi/Format.cs`, never `string.Format`.
 
 ### 3.4 Files and paths
 

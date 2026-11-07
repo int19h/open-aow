@@ -13075,7 +13075,6 @@ public static partial class EngineUnit
     public static TList PlugIns;
     public static TEngine CopyEngine;
     public static TStringList Packages;
-    public static uint ClipboardFormat;
 
     // Engine.pas:1570
     public static void SortItems(Span<TSortItem> SortList, int L, int R)
@@ -13743,8 +13742,6 @@ public static partial class EngineUnit
         Engines = new TList();
         PlugIns = new TList();
         Packages = new TStringList();
-        ClipboardFormat = RegisterClipboardFormat("ECLIPBOARD FORMAT");
-        RegisterClass(typeof(TECopyComponent));
     }
 
     public static void Finalize()

@@ -85,7 +85,7 @@ remains in screen code.
 ### 3.1 FormatArg
 
 ```csharp
-[Union] public readonly struct FormatArg : IUnion     // src/Rtl/FormatArg.cs
+[Union] public readonly struct FormatArg : IUnion     // src/Rtl/Legacy/FormatArg.cs
 {
     // cases int, bool, char, double, string, TObject, PointerArg (a record struct over uint)
     private readonly long bits; private readonly object? reference; private readonly Case kind;
@@ -109,7 +109,7 @@ what each conversion character takes.
 ### 3.2 MsgArg
 
 ```csharp
-[Union] public readonly struct MsgArg : IUnion, IEquatable<MsgArg>   // src/Rtl/MsgArg.cs, cases int and TObject
+[Union] public readonly struct MsgArg : IUnion, IEquatable<MsgArg>   // src/Rtl/Legacy/MsgArg.cs, cases int and TObject
 {
     public int Int { get; }                     // the int, 0 when empty, EInvalidCast on a reference
     public T? As<T>() where T : class;          // the reference as T, null otherwise
@@ -401,10 +401,10 @@ The 13 layers of `tools/check.py` keep their counts. A count that moves is a fin
 | brief | scope | done beyond O3 |
 |---|---|---|
 | 9.6-0 census and probe | private only. `cs15probe` gains the section 2 cases. `tools/rewrite/union-census` lists the property ids present per production and diplomacy kind in oracle saves, scenario states, shipped maps and campaigns. A throwaway instrumented build logs each message slot's case written and read through the oracle and scenario runs. Output `data/rewrite/9.6-census.json` and `.md` | the probe prints its line, the census covers every message slot and every kind |
-| 9.6-1 `FormatArg` | `src/Rtl` (six files and new `FormatArg.cs`), five `Rtl.Tests` files, `AoWE.cs:103537` | `git grep -n "TVarRec\|VarKind" -- src` is empty, `StringFormatTests` cover every case and conversion |
+| 9.6-1 `FormatArg` | `src/Rtl` (six files and new `FormatArg.cs`, now `src/Rtl/Legacy/FormatArg.cs`), five `Rtl.Tests` files, `AoWE.cs:103537` | `git grep -n "TVarRec\|VarKind" -- src` is empty, `StringFormatTests` cover every case and conversion |
 | 9.6-2 structure views | new `Structure.Views.cs`, `AoWInfoWin.cs`, `aowMapEvents.cs` (double click), `AoWTC.cs` (the id switch), tests | no type test on a structure kind in the three screen methods, no switch on `EClass.ClassID`, the view and map name tests pass |
 | 9.6-3 event log views | new `EventLog.Views.cs`, `aowMapEvents.cs`, `AoWE.cs` (`TProcessEventlogAIPA`), tests | both cascades hold no type test, the view tests pass |
-| 9.6-4 `MsgArg`, buffers | `Engine.cs`, `HSEngine.cs`, `FixedArrays.cs`, new `src/Rtl/MsgArg.cs`, `CoreTests.cs`, the 59 Units message files, `AoWTC.cs` | `IntOrRef` remains only in `THashItem`, `Ptr.cs` and their tests, the overlap scan finds 3 structs |
+| 9.6-4 `MsgArg`, buffers | `Engine.cs`, `HSEngine.cs`, `FixedArrays.cs`, new `src/Rtl/Legacy/MsgArg.cs`, `CoreTests.cs`, the 59 Units message files, `AoWTC.cs` | `IntOrRef` remains only in `THashItem`, `src/Rtl/Legacy/Pointers.cs` and their tests, the overlap scan finds 3 structs |
 | 9.6-5 `TShowInfo` | `ImageLib.cs`, 25 more Units files, `GraphicsConstructionTests.cs` | no `IntOrRef` in `ImageLib.cs`, the ILB round trip test passes |
 | 9.6-6 production orders | new `AoWE.ProductionOrders.cs`, `AoWE.cs`, `City.cs`, `PrdPlace.cs`, `AoWCityScreen.cs`, `AoWInfoWin.cs`, `AoWProdScreen.cs`, tests | `FProductionID` and `TProductionItem.FParameter` appear nowhere, no switch over a production id or its city action outside the order classes, apart from the city screen's button table (`SelectAction`, the two button handlers and `ActivityImage(TCityAction)` in `AoWCityScreen.cs`, which select a button's panel and handler and include Raze, no order), kept for milestone 10 where a mod's new action needs a button (amended 2026-11-05 after 9.6-6), the byte tests pass |
 | 9.6-7 diplomatic proposals | new `AoWE.DiplomaticProposals.cs`, `AoWE.cs`, `AoWE.Assembly.cs`, `AoWRelations.cs`, `E3EventDialogs.cs`, tests | no switch on `FActionType`, the byte tests pass |
@@ -459,7 +459,7 @@ of the private gate:
 | 9.6-1 `FormatArg` | #99 | `git grep -n "TVarRec\|VarKind" -- src` prints nothing. 180 new tests select every case by its conversion and meet every case with every conversion character |
 | 9.6-2 structure views | #103 | no type test on a structure kind in the three screen methods, no switch on a class id. `StructureViewTests` replay the old cascades and the old switch over all 42 structure classes |
 | 9.6-3 event log views | #104 | neither cascade holds a type test. `EventLogViewTests` replay the old cascade over all 44 event log classes |
-| 9.6-4 `MsgArg`, buffers | #105 | `IntOrRef` remains only in `THashItem`, `Ptr.cs` and their tests. The overlap scan finds 3 structs (`TXYL`, `TPaletteEntry`, `TDefenseRequirements`) |
+| 9.6-4 `MsgArg`, buffers | #105 | `IntOrRef` remains only in `THashItem`, `src/Rtl/Legacy/Pointers.cs` and their tests. The overlap scan finds 3 structs (`TXYL`, `TPaletteEntry`, `TDefenseRequirements`) |
 | 9.6-5 `TShowInfo` | #106 | no `IntOrRef` in `ImageLib.cs`. The ILB round trip compares 11,419 records in 538 libraries, all equal |
 | 9.6-6 production orders | #107 | `git grep FProductionID -- src` finds only a test comment that names the old layout. The byte tests and the replayed switches pass |
 | 9.6-7 diplomatic proposals | #108 | `git grep FActionType -- src` finds only a test comment that names the old layout. The byte tests and the replayed presentation switches pass |

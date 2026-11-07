@@ -356,9 +356,4 @@ public partial class TAoWFrame : TAOWControl
 
 public static partial class AoWFrameUnit
 {
-    // AoWFrame.pas:260
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAoWFrame)]);
-    }
 }

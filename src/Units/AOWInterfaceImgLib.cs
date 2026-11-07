@@ -312,9 +312,4 @@ public partial class TInterfaceIL : TImageLibrary
 
 public static partial class AOWInterfaceImgLibUnit
 {
-    // AOWInterfaceImgLib.pas:212
-    public static void Register()
-    {
-        RegisterComponents("ImageLibrary", [typeof(TInterfaceIL)]);
-    }
 }

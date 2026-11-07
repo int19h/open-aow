@@ -60,12 +60,6 @@ public partial class TAlignmentBox : TComboBox
 
 public static partial class AlgnmBoxUnit
 {
-    // AlgnmBox.pas:139
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TAlignmentBox)]);
-    }
-
     public static string NoneRStr = "None";
 
     public static void Initialize()

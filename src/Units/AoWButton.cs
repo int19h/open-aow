@@ -399,9 +399,4 @@ public partial class TAOWButton : TAOWBaseButton
 
 public static partial class AoWButtonUnit
 {
-    // AoWButton.pas:313
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWButton)]);
-    }
 }

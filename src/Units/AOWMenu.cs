@@ -1000,9 +1000,4 @@ public partial class TAOWMenu : TAOWGenericWindow
 
 public static partial class AOWMenuUnit
 {
-    // AOWMenu.pas:748
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWMenu)]);
-    }
 }

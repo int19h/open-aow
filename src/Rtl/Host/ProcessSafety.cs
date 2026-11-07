@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Aow.Rtl;
+namespace Aow.Rtl.Host;
 
 public static class ProcessSafety
 {

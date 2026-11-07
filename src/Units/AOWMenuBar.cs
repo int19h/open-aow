@@ -340,9 +340,4 @@ public partial class TAOWMenuBar : TAOWControl
 
 public static partial class AOWMenuBarUnit
 {
-    // AOWMenuBar.pas:282
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWMenuBar)]);
-    }
 }

@@ -98,12 +98,6 @@ public struct TRaceView
 
 public static partial class RaceBoxUnit
 {
-    // RaceBox.pas:104
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TRaceBox)]);
-    }
-
     public static void Initialize()
     {
     }

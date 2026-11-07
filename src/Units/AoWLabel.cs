@@ -141,9 +141,4 @@ public partial class TAOWLabel : TAOWControl
 
 public static partial class AoWLabelUnit
 {
-    // AoWLabel.pas:133
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWLabel)]);
-    }
 }

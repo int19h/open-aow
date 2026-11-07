@@ -1057,9 +1057,4 @@ public partial class TAOWMemo : TAOWControl
 
 public static partial class AoWMemoUnit
 {
-    // AoWMemo.pas:864
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWMemo)]);
-    }
 }

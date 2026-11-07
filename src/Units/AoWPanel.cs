@@ -813,9 +813,4 @@ public partial class TAOWPanel : TAOWBaseWindow
 
 public static partial class AoWPanelUnit
 {
-    // AoWPanel.pas:643
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWPanel)]);
-    }
 }

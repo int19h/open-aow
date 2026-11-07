@@ -249,12 +249,6 @@ public struct TItemView
 
 public static partial class ItemCtrlUnit
 {
-    // ItemCtrl.pas:406
-    public static void Register()
-    {
-        RegisterComponents("AoW", [typeof(TItemControlGrid)]);
-    }
-
     public static readonly string GridUsedRStr = "Used";
 
     // ItemCtrl.pas:112

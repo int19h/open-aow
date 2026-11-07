@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text.Json;
 using Aow.Rtl;
+using Aow.Rtl.Host;
 using Aow.Units;
 using Aow.Units.AoWE;
 using Aow.Units.AoWTCReg;
@@ -14,7 +15,7 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
-        Aow.Rtl.ProcessSafety.Initialize();
+        Aow.Rtl.Host.ProcessSafety.Initialize();
         if (GateSwitches.CultureError("Headless") is { } culture)
         {
             Console.Error.WriteLine(culture);

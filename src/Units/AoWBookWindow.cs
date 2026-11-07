@@ -162,12 +162,6 @@ public partial class TAoWBookWindow : TAOWWindow
 
 public static partial class AoWBookWindowUnit
 {
-    // AoWBookWindow.pas:211
-    public static void Register()
-    {
-        RegisterComponents("AOW Tools", [typeof(TAoWBookWindow)]);
-    }
-
     public static void Initialize()
     {
     }

@@ -14,5 +14,6 @@
     <ProjectReference Include="../Formats/Aow.Formats.csproj" />
     <ProjectReference Include="../Convert/Aow.Convert.csproj" />
     <Using Include="Xunit" />
+    <Using Include="Aow.Rtl.Host" />
   </ItemGroup>
 </Project>

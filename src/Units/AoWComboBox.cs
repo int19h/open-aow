@@ -777,9 +777,4 @@ public partial class TAOWComboBox : TAOWControl
 
 public static partial class AoWComboBoxUnit
 {
-    // AoWComboBox.pas:561
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWComboBox)]);
-    }
 }

@@ -91,12 +91,6 @@ public delegate void TOnSelectUnitEvent(TObject Sender, int UnitIndex);
 
 public static partial class UnitTabCUnit
 {
-    // UnitTabC.pas:112
-    public static void Register()
-    {
-        RegisterComponents("AoWEngine", [typeof(TUnitTabControl)]);
-    }
-
     public static void Initialize()
     {
     }

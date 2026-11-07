@@ -445,9 +445,4 @@ public partial class TAOWHScrollBar : TAOWScrollBar
 
 public static partial class AoWHScrollUnit
 {
-    // AoWHScroll.pas:317
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWHScrollBar)]);
-    }
 }

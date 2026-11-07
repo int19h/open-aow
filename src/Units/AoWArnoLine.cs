@@ -130,12 +130,6 @@ public partial class TAoWArnoLine : TAOWControl
 
 public static partial class AoWArnoLineUnit
 {
-    // AoWArnoLine.pas:119
-    public static void Register()
-    {
-        RegisterComponents("AOW Tools", [typeof(TAoWArnoLine)]);
-    }
-
     public static void Initialize()
     {
     }

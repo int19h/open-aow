@@ -348,9 +348,4 @@ public partial class TAoWGauge : TAOWControl
 
 public static partial class AOWGaugeUnit
 {
-    // AOWGauge.pas:279
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAoWGauge)]);
-    }
 }

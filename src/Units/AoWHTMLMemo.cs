@@ -1048,9 +1048,4 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
 
 public static partial class AoWHTMLMemoUnit
 {
-    // AoWHTMLMemo.pas:772
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TaowHTMLMemo)]);
-    }
 }

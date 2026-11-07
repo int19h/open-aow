@@ -465,9 +465,4 @@ public partial class TAOWEdit : TAOWControl
 
 public static partial class AoWEditUnit
 {
-    // AoWEdit.pas:399
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWEdit)]);
-    }
 }

@@ -130,12 +130,6 @@ public partial class TAoWLenLine : TAOWControl
 
 public static partial class AoWLenLineUnit
 {
-    // AoWLenLine.pas:100
-    public static void Register()
-    {
-        RegisterComponents("AOW Tools", [typeof(TAoWLenLine)]);
-    }
-
     public static void Initialize()
     {
     }

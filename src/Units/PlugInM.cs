@@ -149,9 +149,4 @@ public partial class TPlugInManager : TComponent
 
 public static partial class PlugInMUnit
 {
-    // PlugInM.pas:141
-    public static void Register()
-    {
-        RegisterComponents("Engine", [typeof(TPlugInManager)]);
-    }
 }

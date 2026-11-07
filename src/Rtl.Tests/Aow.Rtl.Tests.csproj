@@ -15,5 +15,6 @@
     <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
     <ProjectReference Include="../Platform/Aow.Platform.csproj" />
     <Using Include="Xunit" />
+    <Using Include="Aow.Rtl.Host" />
   </ItemGroup>
 </Project>

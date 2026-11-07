@@ -38,12 +38,6 @@ public delegate void TDrawSurfaceExEvent(TSurface Surface, ref bool Handled);
 
 public static partial class AowUserWindowUnit
 {
-    // AowUserWindow.pas:38
-    public static void Register()
-    {
-        RegisterComponents("AOW Tools", [typeof(TAoWUserWindow)]);
-    }
-
     public static void Initialize()
     {
     }

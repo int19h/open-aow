@@ -742,9 +742,4 @@ public partial class TAOWWinManager : TAoWComponent
 
 public static partial class AOWWinManagerUnit
 {
-    // AOWWinManager.pas:598
-    public static void Register()
-    {
-        RegisterComponents("AOW Interface", [typeof(TAOWWinManager)]);
-    }
 }

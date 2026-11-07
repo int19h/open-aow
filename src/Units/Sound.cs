@@ -1967,12 +1967,6 @@ public static partial class SoundUnit
         AEngine.UnregisterEClasses([EClass.Of<TSFXSequence>(), EClass.Of<TSFXLibrary>(), EClass.Of<TSFX>()]);
     }
 
-    // Sound.pas:1557
-    public static void Register()
-    {
-        RegisterComponents("Sound", [typeof(TSFXManager), typeof(TSFXManagerComboBox), typeof(TSFXManagerListBox)]);
-    }
-
     public static readonly string SFXExtension = "WAV";
     public static TSoundSystem SoundSystem = default;
     public static TSoundSystemList SoundSystems = default;

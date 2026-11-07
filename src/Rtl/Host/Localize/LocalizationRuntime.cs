@@ -1,3 +1,5 @@
+using Aow.Rtl.Host;
+
 namespace Aow.Rtl.Localize;
 
 public static class LocalizationRuntime
