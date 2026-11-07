@@ -327,7 +327,10 @@ public partial class TCAI : TObject
     }
 
     // AoWTC.pas:880
-    public int MakeTerrainPath(TCombatMoveControlSettings MCS, ref TXYLList Path, ref int Value, TTacticalCombatUnit U, TTacticalCombatUnit Ignore, bool FreeStrikes, bool FindWalls, int Cost)
+    // The tactical AI passes the wall as Ignore. The original casts that object to TTacticalCombatUnit
+    // without a check and compares the reference with the sprite's unit. Ignore is a combat object so the
+    // wall reaches the same comparison.
+    public int MakeTerrainPath(TCombatMoveControlSettings MCS, ref TXYLList Path, ref int Value, TTacticalCombatUnit U, TCombatObject Ignore, bool FreeStrikes, bool FindWalls, int Cost)
     {
         int Result;
         int J;
@@ -926,7 +929,7 @@ public partial class TCAI : TObject
         if (U.FMovePoints > 0)
         {
             AoWTCUnit.AoWCombatMap.FMoveControl.CalculatePath(Settings, (TMovepath)BasePath, (sbyte)X, (sbyte)Y, 0);
-            PathCost = MakeTerrainPath(Settings, ref BasePath, ref TerrainValue, U, (TTacticalCombatUnit)Target, true, Target is TTacticalCombatUnit && FSide == TCombatSideIndex.csAttacker, 1);
+            PathCost = MakeTerrainPath(Settings, ref BasePath, ref TerrainValue, U, Target, true, Target is TTacticalCombatUnit && FSide == TCombatSideIndex.csAttacker, 1);
             I = 0;
             int last = BasePath.Count - 1;
             for (; I <= last; I += 1)
@@ -1443,7 +1446,7 @@ public partial class TCAI : TObject
                                                             }
 
                                                             TerrainValue = 0;
-                                                            PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, (TTacticalCombatUnit)Target, true, false, 1);
+                                                            PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, Target, true, false, 1);
                                                             PathValue += BestValue;
                                                             PathCost = ((TMovepath)Path).PosToMovePoints(0);
                                                         }
@@ -1877,7 +1880,7 @@ public partial class TCAI : TObject
                                                         }
 
                                                         TerrainValue = 0;
-                                                        PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, (TTacticalCombatUnit)Target, true, false, 1);
+                                                        PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, Target, true, false, 1);
                                                         PathValue += BestValue;
                                                         PathCost = ((TMovepath)Path).PosToMovePoints(0);
                                                     }
@@ -8907,6 +8910,10 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     }
 
     // AoWTC.pas:2557
+    // The combat object list holds the wall beside the units. The original casts every object to
+    // TTacticalCombatUnit and reads FUnit. On a wall that offset is FWallType, FHitPoints and FLocked,
+    // a small integer, so the unit comparison fails and the search continues. The port skips objects
+    // that are not tactical units, which has the same result.
     public void GetUnitLocation(TAbstractUnit U, ref sbyte X, ref sbyte Y, ref sbyte L)
     {
         int I;
@@ -8914,7 +8921,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         I = 0;
         while (I < FCombat.FCombatData.GetCount())
         {
-            if (((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == U && FCombat.FCombatData.GetObjects(I).GetEnabled())
+            if (FCombat.FCombatData.GetObjects(I) is TTacticalCombatUnit && ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == U && FCombat.FCombatData.GetObjects(I).GetEnabled())
             {
                 X = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
                 Y = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
