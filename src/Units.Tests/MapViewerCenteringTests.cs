@@ -170,4 +170,21 @@ public sealed class MapViewerCenteringTests
         Assert.True(viewer.SceneToMapMouse(ref x, ref y));
         Assert.Equal((299, 199), (x, y));
     }
+
+    // The original's MaxYhp reaches past the last row, so a point at the bottom of a view scrolled
+    // to the bottom has a column hex and no row hex. Readers test both before taking a field.
+    [Fact]
+    public void TheBottomEdgeHasPointsWithAColumnAndNoRow()
+    {
+        using var fixture = new Fixture(300, 200);
+        fixture.Viewer.ChangeScene(100, 1000, 0);
+        var mouse = fixture.Map.Mouse;
+        bool found = false;
+        for (int x = 0; x < 300 && !found; x++)
+        {
+            mouse.Move(default, x, 200);
+            found = mouse.Xhx != -1 && mouse.Yhx == -1;
+        }
+        Assert.True(found);
+    }
 }
