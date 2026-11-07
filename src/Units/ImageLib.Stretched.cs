@@ -1,16 +1,17 @@
 using Aow.Graphics;
 using Aow.Rtl;
 using Aow.Units.GFXE;
+
 namespace Aow.Units.ImageLib;
 
 public partial class TPicture16
 {
     public override void ShowOpaqueStretched(in TRect R, in GFXE.TSurfaceDesc SD)
     {
-        Ptr<int> RowTable;
-        Ptr<int> ColTable;
+        Span<int> RowTable;
+        Span<int> ColTable;
         int W;
-        object Dst;
+        SurfaceView Dst;
         int XPos;
         int YPos;
         int XStep;
@@ -72,9 +73,11 @@ public partial class TPicture16
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = (SD.Data + L * 2 + SD.Pitch * T).Box();
-                RowTable = Ptr<int>.Alloc(W + H);
-                ColTable = (RowTable.Reinterpret<byte>() + H * 4).Reinterpret<int>();
+                Dst = SD.View(L * 2 + SD.Pitch * T);
+                // One table of H row offsets followed by W columns, as the original's GetMem.
+                int[] Tables = new int[W + H];
+                RowTable = Tables.AsSpan(0, H);
+                ColTable = Tables.AsSpan(H, W);
                 XStep = RtlUnit.Round((double)65535 / XScale);
                 if (SX != 0)
                 {
@@ -124,7 +127,7 @@ public partial class TPicture16
 
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H);
                     }
                     else
                     {
@@ -133,7 +136,7 @@ public partial class TPicture16
                             throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
-                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H);
                     }
 
                     if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -157,7 +160,7 @@ public partial class TPicture16
 
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H);
                     }
                     else
                     {
@@ -166,7 +169,7 @@ public partial class TPicture16
                             throw Rtl.Exception.Create("Surface pixel format not supported!");
                         }
 
-                        GFXEUnit.BltStretched16(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H);
+                        GFXEUnit.BltStretched16(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H);
                     }
                 }
             }
@@ -175,12 +178,12 @@ public partial class TPicture16
 
     public override void ShowBlendedStretched(in TRect R, in GFXE.TSurfaceDesc SD, TBlendTable Table)
     {
-        Ptr<int> RowTable;
-        Ptr<int> ColTable;
+        Span<int> RowTable;
+        Span<int> ColTable;
         int W;
         int H;
         int Rt;
-        object Dst;
+        SurfaceView Dst;
         int XPos;
         int YPos;
         int XStep;
@@ -240,9 +243,11 @@ public partial class TPicture16
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = (SD.Data + L * 2 + SD.Pitch * T).Box();
-                RowTable = Ptr<int>.Alloc(W + H);
-                ColTable = (RowTable.Reinterpret<byte>() + H * 4).Reinterpret<int>();
+                Dst = SD.View(L * 2 + SD.Pitch * T);
+                // One table of H row offsets followed by W columns, as the original's GetMem.
+                int[] Tables = new int[W + H];
+                RowTable = Tables.AsSpan(0, H);
+                ColTable = Tables.AsSpan(H, W);
                 XStep = RtlUnit.Round((double)65535 / XScale);
                 if (SX != 0)
                 {
@@ -295,10 +300,10 @@ public partial class TPicture16
                         switch (SD.PixelFormatID)
                         {
                             case GFXEUnit.pfRGB555:
-                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched555(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case GFXEUnit.pfRGB565:
-                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched565(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -312,10 +317,10 @@ public partial class TPicture16
                         switch (SD.PixelFormatID)
                         {
                             case GFXEUnit.pfRGB555:
-                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched555(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case GFXEUnit.pfRGB565:
-                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched565(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -344,10 +349,10 @@ public partial class TPicture16
                         switch (SD.PixelFormatID)
                         {
                             case GFXEUnit.pfRGB555:
-                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched555(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case GFXEUnit.pfRGB565:
-                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched565(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -361,10 +366,10 @@ public partial class TPicture16
                         switch (SD.PixelFormatID)
                         {
                             case GFXEUnit.pfRGB555:
-                                GFXEUnit.BlendStretched555(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched555(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case GFXEUnit.pfRGB565:
-                                GFXEUnit.BlendStretched565(new StretchRows(RtlUnit.BytePointer(FData), RowTable.AsSpan(H).ToArray()), ColTable.Box(), Dst, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                GFXEUnit.BlendStretched565(SurfaceView.Of(RtlUnit.BytePointer(FData), FPitch), RowTable, ColTable, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }

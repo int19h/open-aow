@@ -1,3 +1,4 @@
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Units.GFXE;
@@ -19,4 +20,9 @@ public struct TSurfaceDesc
     public int GMask;
     public int BMask;
     public int AMask;
+
+    // The view of the surface's rows for the blitters, moved by a byte offset from the first
+    // pixel of row 0 (`Pointer(Integer(SD.Data) + Offset)` with `SD.Pitch` in the original), with
+    // the descriptor's clip rectangle.
+    public readonly SurfaceView View(int offset = 0) => SurfaceView.Of(Data, Pitch, ClipRect).At(offset);
 }

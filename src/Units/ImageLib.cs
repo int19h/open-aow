@@ -1,6 +1,7 @@
 // Translated from ImageLib.pas.
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
+using Aow.Graphics;
 using Aow.Rtl;
 using Aow.Units.GFXE;
 using Aow.Units.HashTabU;
@@ -3013,19 +3014,19 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
 
         bool loadedHere = !FDataLoaded;
         if (loadedHere) LoadDiscardableImageData();
-        var source = (BytePointer(FBits) + srcX + srcY * FPitch).Box();
-        var destination = (sd.Data + destX + destY * sd.Pitch).Box();
+        var source = SurfaceView.Of(BytePointer(FBits) + srcX + srcY * FPitch, FPitch);
+        var destination = sd.View(destX + destY * sd.Pitch);
         if (sd.PixelFormatID == pfPAL8)
-            BltRect(source, destination, FPitch, sd.Pitch, width, height);
+            BltRect(source, destination, width, height);
         else
         {
             if (sd.PixelFormatID != FRemapPalette.PixelFormatID &&
                 RemapToPixelFormat(sd.PixelFormatID) != GFXE_OK)
                 throw new Rtl.Exception("Surface pixel format not supported!");
             if (sd.PixelFormatID == pfRGB555)
-                RemapSurface08to555(source, destination, FPitch, sd.Pitch, width, height, FRemapPalette);
+                RemapSurface08to555(source, destination, width, height, FRemapPalette);
             else if (sd.PixelFormatID == pfRGB565)
-                RemapSurface08to565(source, destination, FPitch, sd.Pitch, width, height, FRemapPalette);
+                RemapSurface08to565(source, destination, width, height, FRemapPalette);
         }
         if (loadedHere && FLoadMode == TLoadMode.lmLoadFreeOnDemand) ReleaseDiscardableImageData();
     }
@@ -3173,7 +3174,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == pfPAL8)
             {
-                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3186,7 +3187,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case pfRGB555:
                     case pfRGB565:
-                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
+                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw Exception.Create("PixelFormat not supported");
@@ -3202,7 +3203,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         {
             if (SD.PixelFormatID == pfPAL8)
             {
-                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3215,7 +3216,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case pfRGB555:
                     case pfRGB565:
-                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, Ptr<GFXE.TPaletteEntry>.To(FRemapPalette.Entries, 0).Reinterpret<GFXE.TPaletteEntry>().Box());
+                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw Exception.Create("PixelFormat not supported");
@@ -3645,11 +3646,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case pfRGB565:
-                    RemapSurface555to565(FData, FData, FPitch, FPitch, FDataWidth, FDataHeight);
+                    RemapSurface555to565(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FDataWidth, FDataHeight);
                     FPixelFormatID = pfRGB565;
                     break;
                 case pfRGB555:
-                    RemapSurface565to555(FData, FData, FPitch, FPitch, FDataWidth, FDataHeight);
+                    RemapSurface565to555(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FDataWidth, FDataHeight);
                     FPixelFormatID = pfRGB555;
                     break;
                 default:
@@ -3672,8 +3673,8 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
         int SY;
         int DY;
         int Bottom;
-        object Src;
-        object Dst;
+        SurfaceView Src;
+        SurfaceView Dst;
         DX = X + FXshift;
         W = FDataWidth;
         Right = FDataWidth + DX;
@@ -3719,11 +3720,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
+                        BltRect(Src, Dst, W * 2, H);
                     }
                     else
                     {
@@ -3732,7 +3733,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             throw Exception.Create("Surface pixel format not supported!");
                         }
 
-                        BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
+                        BltRect(Src, Dst, W * 2, H);
                     }
 
                     if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -3742,11 +3743,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
+                        BltRect(Src, Dst, W * 2, H);
                     }
                     else
                     {
@@ -3755,7 +3756,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             throw Exception.Create("Surface pixel format not supported!");
                         }
 
-                        BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
+                        BltRect(Src, Dst, W * 2, H);
                     }
                 }
             }
@@ -3773,8 +3774,8 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
         int SY;
         int DY;
         int Bottom;
-        object Src;
-        object Dst;
+        SurfaceView Src;
+        SurfaceView Dst;
         DX = X + FXshift;
         W = FDataWidth;
         Right = FDataWidth + DX;
@@ -3820,8 +3821,8 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (Table.Bits == 5)
@@ -3829,10 +3830,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case pfRGB565:
-                                    BlendSurface565(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface565(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                                 case pfRGB555:
-                                    BlendSurface555(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface555(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3853,10 +3854,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case pfRGB565:
-                                    BlendSurface565(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface565(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                                 case pfRGB555:
-                                    BlendSurface555(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface555(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3873,8 +3874,8 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (Table.Bits == 5)
@@ -3882,10 +3883,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case pfRGB565:
-                                    BlendSurface565(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface565(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                                 case pfRGB555:
-                                    BlendSurface555(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface555(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3906,10 +3907,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case pfRGB565:
-                                    BlendSurface565(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface565(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                                 case pfRGB555:
-                                    BlendSurface555(Src, Dst, FPitch, SD.Pitch, W, H, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                    BlendSurface555(Src, Dst, W, H, ((TBlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3934,8 +3935,8 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
         int SY;
         int DY;
         int Bottom;
-        object Src;
-        object Dst;
+        SurfaceView Src;
+        SurfaceView Dst;
         DX = X + FXshift;
         W = FDataWidth;
         Right = FDataWidth + DX;
@@ -3981,17 +3982,17 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (FPixelFormatID == pfRGB565)
                         {
-                            BltTransparent565(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            BltTransparent555(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
                     else
@@ -4003,11 +4004,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
 
                         if (FPixelFormatID == pfRGB565)
                         {
-                            BltTransparent565(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            BltTransparent555(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
 
@@ -4018,17 +4019,17 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (FPixelFormatID == pfRGB565)
                         {
-                            BltTransparent565(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            BltTransparent555(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
                     else
@@ -4040,11 +4041,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
 
                         if (FPixelFormatID == pfRGB565)
                         {
-                            BltTransparent565(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            BltTransparent555(Src, Dst, FPitch, SD.Pitch, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
                 }
@@ -4241,12 +4242,12 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case pfRGB565:
-                    RemapSurface555to565(FData, FData, FPitch, FPitch, FSpriteWidth, FSpriteHeight);
+                    RemapSurface555to565(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FSpriteWidth, FSpriteHeight);
                     FColorKey = RemapPixelInfo(FColorKey, pfRGB555, null, pfRGB565, null);
                     FPixelFormatID = pfRGB565;
                     break;
                 case pfRGB555:
-                    RemapSurface565to555(FData, FData, FPitch, FPitch, FSpriteWidth, FSpriteHeight);
+                    RemapSurface565to555(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FSpriteWidth, FSpriteHeight);
                     FColorKey = RemapPixelInfo(FColorKey, pfRGB565, null, pfRGB555, null);
                     FPixelFormatID = pfRGB555;
                     break;
@@ -4273,8 +4274,8 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
         int SY;
         int DY;
         int Bottom;
-        object Src;
-        object Dst;
+        SurfaceView Src;
+        SurfaceView Dst;
         X += FSpriteX;
         DX = FXshift + X;
         W = FSpriteWidth;
@@ -4322,11 +4323,11 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
+                        BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
                     else
                     {
@@ -4335,7 +4336,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                             throw Exception.Create("Surface pixel format not supported!");
                         }
 
-                        BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
+                        BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
 
                     if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -4345,11 +4346,11 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
+                        BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
                     else
                     {
@@ -4358,7 +4359,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                             throw Exception.Create("Surface pixel format not supported!");
                         }
 
-                        BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
+                        BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
                 }
             }
@@ -4376,8 +4377,8 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
         int SY;
         int DY;
         int Bottom;
-        object Src;
-        object Dst;
+        SurfaceView Src;
+        SurfaceView Dst;
         X += FSpriteX;
         DX = FXshift + X;
         W = FSpriteWidth;
@@ -4425,17 +4426,17 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         switch (FPixelFormatID)
                         {
                             case pfRGB555:
-                                BlendColorKey555(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case pfRGB565:
-                                BlendColorKey565(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4449,10 +4450,10 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case pfRGB555:
-                                BlendColorKey555(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case pfRGB565:
-                                BlendColorKey565(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4464,17 +4465,17 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
+                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         switch (FPixelFormatID)
                         {
                             case pfRGB555:
-                                BlendColorKey555(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case pfRGB565:
-                                BlendColorKey565(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4488,10 +4489,10 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case pfRGB555:
-                                BlendColorKey555(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                             case pfRGB565:
-                                BlendColorKey565(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey, Ptr<FixedArray_byte_32>.To(((TBlendTable5Bit)Table).Table, 0).Reinterpret<byte>().Box());
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((TBlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4747,11 +4748,11 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case pfRGB565:
-                    ImageLibUnit.RemapRLE555to565(FData, FSpriteHeight, FColorKey);
+                    ImageLibUnit.RemapRLE555to565(BytePointer(FData), FSpriteHeight, FColorKey);
                     FPixelFormatID = pfRGB565;
                     break;
                 case pfRGB555:
-                    ImageLibUnit.RemapRLE565to555(FData, FSpriteHeight, FColorKey);
+                    ImageLibUnit.RemapRLE565to555(BytePointer(FData), FSpriteHeight, FColorKey);
                     FPixelFormatID = pfRGB555;
                     break;
                 default:
@@ -4774,7 +4775,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4783,7 +4784,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw Exception.Create("Surface pixel format not supported!");
                 }
 
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
             }
 
             if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -4795,7 +4796,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         {
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4804,7 +4805,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw Exception.Create("Surface pixel format not supported!");
                 }
 
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
             }
         }
     }
@@ -4824,10 +4825,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case pfRGB565:
-                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case pfRGB555:
-                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
 
@@ -4846,10 +4847,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case pfRGB565:
-                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case pfRGB555:
-                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
         }

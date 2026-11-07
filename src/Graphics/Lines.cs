@@ -4,8 +4,9 @@ namespace Aow.Graphics;
 
 public static partial class Blit
 {
-    public static void DrawLine16(int x1, int y1, int x2, int y2, int skip, ushort color, Ptr<byte> data, int pitch, in TRect clip)
+    public static void DrawLine16(int x1, int y1, int x2, int y2, int skip, ushort color, SurfaceView dst)
     {
+        var clip = dst.Clip;
         if (x2 < x1) { (x1, x2) = (x2, x1); (y1, y2) = (y2, y1); }
         int dx = x2 - x1, dy = Math.Abs(y2 - y1), sign = y2 >= y1 ? 1 : -1;
         bool steep = dy >= dx;
@@ -14,7 +15,7 @@ public static partial class Blit
         {
             if (count == 0)
             {
-                if (Visible(x, y, clip)) Word(data, y * pitch + x * 2, color);
+                if (Visible(x, y, clip)) dst.Word(y * dst.Pitch + x * 2, color);
                 count = skip;
             }
             else count--;
