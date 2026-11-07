@@ -2,4 +2,4 @@
 # `git config blame.ignoreRevsFile .git-blame-ignore-revs` (docs/process.md section 7).
 
 # FMT-1: dotnet format under .editorconfig, and one blank line between members (MemberSpacing).
-# FMT-1 reformat commit: hash added when the commit lands
+4db4611f99d410927210ccf14e24e5040aaa7ee3
