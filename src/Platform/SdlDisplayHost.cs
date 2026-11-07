@@ -228,16 +228,8 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             ResizeImage(backSurface.Width, backSurface.Height);
         }
         int rowBytes = checked(width * 2);
-        if (backSurface.Data is byte[] bytes)
-        {
-            if (backSurface.Pitch < 0) throw new ArgumentException("Negative pitch requires an offset pointer.");
-            for (int y = 0; y < height; y++) bytes.AsSpan(checked(y * backSurface.Pitch), rowBytes).CopyTo(upload.AsSpan(y * rowBytes));
-        }
-        else
-        {
-            Ptr<byte> pointer = backSurface.Data is Ptr<byte> direct ? direct : RtlUnit.BytePointer(backSurface.Data);
-            for (int y = 0; y < height; y++) (pointer + checked(y * backSurface.Pitch)).AsSpan(rowBytes).CopyTo(upload.AsSpan(y * rowBytes));
-        }
+        Ptr<byte> pointer = backSurface.Data;
+        for (int y = 0; y < height; y++) (pointer + checked(y * backSurface.Pitch)).AsSpan(rowBytes).CopyTo(upload.AsSpan(y * rowBytes));
         fixed (byte* pixels = upload) Check(SDL_UpdateTexture(texture, null, (nint)pixels, rowBytes));
         Check(SDL_RenderClear(renderer));
         var viewport = Viewport;

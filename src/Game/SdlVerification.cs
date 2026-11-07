@@ -25,12 +25,12 @@ internal static unsafe class SdlVerification
             if (count != 1) throw new InvalidOperationException("Expected one SDL window.");
             var id = SDL_GetWindowID(windows[0]);
             SDL_free(windows);
-            var surface = new TSurfaceDesc { Width=32,Height=24,Pitch=68,BitCount=16,PixelFormatID=GFXEUnit.pfRGB555,Data=new byte[68*24] };
+            var surface = new TSurfaceDesc { Width=32,Height=24,Pitch=68,BitCount=16,PixelFormatID=GFXEUnit.pfRGB555,Data=Ptr<byte>.To(new byte[68*24],0) };
             display.Present(surface);
             surface.Pitch = -68;
-            surface.Data = Ptr<byte>.To(new byte[68*24],68*23).Box();
+            surface.Data = Ptr<byte>.To(new byte[68*24],68*23);
             display.Present(surface);
-            surface.Width = 640; surface.Height = 480; surface.Pitch = 1280; surface.Data = new byte[1280*480];
+            surface.Width = 640; surface.Height = 480; surface.Pitch = 1280; surface.Data = Ptr<byte>.To(new byte[1280*480],0);
             display.Present(surface);
             // Drain resize events from texture size changes before testing the queue.
             display.PumpEvents(sink);

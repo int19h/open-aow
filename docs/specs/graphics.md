@@ -73,8 +73,13 @@ The record (60 bytes, offsets from `GFXE.pas`):
 everything else is copied. The UI toolkit draws every window through such sub-descriptors (`AoW`
 uses it 5 times, aowInt through its own equivalents). The assembler blitters read `ClipRect`,
 `Pitch` and `Data` at their byte offsets (`[edi+$10]`, `[edi+$0C]`, `[edi+$20]`), which is why the
-record's layout is part of the contract and why the shim's `TSurfaceDesc` is an explicit-layout
-struct with the offsets above.
+record's layout is part of the original's contract. The port's `TSurfaceDesc`
+(`GFXE.SurfaceDesc.cs`) is a plain struct with the same fields in the same order, `Data` a
+`Ptr<byte>` and `Palette` a `TGFXEPalette`. No code of the port reads it as bytes: the original's
+`FillChar(SD, SizeOf(SD), 0)` is `SD = default` and its `Move(SD, FSurfaceDesc, SizeOf(SD))` an
+assignment. There is one descriptor type. It lives in the units project because `TGFXEPalette`
+does, and the rewritten routines of `Aow.Graphics`, which sit below the units, take the
+descriptor's `Data`, `Pitch` and `ClipRect` as parameters.
 
 ### 3.2 Pixel formats
 
@@ -125,9 +130,10 @@ because the frame oracle depends on them:
 | class | original | port |
 |---|---|---|
 | `TSurface` | abstract base with the VMT `GetColor, GetPixelInfo, GetWidth, GetHeight, GetPixelFormatID, Blt, BltClipped, BltColorKey, BltColorKeyClipped, BltDC, BltStretch, Lock, Unlock, LockEx, UnlockEx, UpdatePalette, Resize, Cls` | transpiled. `BltDC` raises `ENotSupported` |
-| `TDataSurface` | memory surface: `Create(W, H, pfid, Palette)`, `Resize` allocates `Pitch = (((BitCount + 7) shr 3) * W + 7) and not 7` bytes per row with the data 8-byte aligned, `Lock` fills the descriptor with `ClipRect` = whole surface, `CaptureSurface` copies a rectangle of another surface | transpiled. The memory is a `byte[]`, `Data` is a `Ptr<byte>` at offset 0 (the 8-byte alignment of the original is a performance choice with no effect on pixels, the pitch formula is kept so that `Pitch` values match) |
-| `TDIB16Surface` | a 16-bit Windows DIB section, bottom-up, used by `TWindows16DC` for the back surfaces and by `Structur.PAS:1696` for a structure preview; `Lock` gives top-down `Data` with a negative pitch | a memory surface with the same constructor `Create(W, H, pfid)`, top-down positive pitch `(W * 2 + 3) and not 3`, `Cls`, `Resize`, `Blt`, `Lock`, `PixelFormatID` read-write before the first lock. `Handle` and `BltDC` raise |
-| `TDIBSurface`, `TDIB08Surface`, `TDIB24Surface`, `TDIB32Surface` | DIB sections of other depths, used by `TWindows08DC`, `TWindows24DC`, the video player and the editor | the same memory stand-in, generic in bit count. Only the video player (rewritten) and editor code reach them |
+| `TDataSurface` | memory surface: `Create(W, H, pfid, Palette)`, `Resize` allocates `Pitch = (((BitCount + 7) shr 3) * W + 7) and not 7` bytes per row with the data 8-byte aligned, `Lock` fills the descriptor with `ClipRect` = whole surface, `CaptureSurface` copies a rectangle of another surface | transpiled. `FMem` is a `byte[]` of `Pitch * H` bytes and `FData` a `Ptr<byte>` at its first byte. The original allocates 7 bytes more and aligns `FData` to 8 for MMX, a performance choice with no effect on pixels, so the port has no alignment. The pitch formula is kept so that `Pitch` values match. `Resize` keeps the bytes the old and the new size share, as `ReallocMem` does |
+| `TDIB16Surface` | a 16-bit Windows DIB section, bottom-up, used by `TWindows16DC` for the back surfaces and by `Structur.PAS:1696` for a structure preview; `Lock` gives top-down `Data` with a negative pitch | a memory surface with the same constructor `Create(W, H, pfid)`, top-down positive pitch `(W * 2 + 3) and not 3`, `Cls`, `Resize`, `Blt`, `Lock`, `PixelFormatID` read-write before the first lock. `FBits` is a `Ptr<byte>` at the first byte of a `byte[]` of `Pitch * H` bytes. `Handle` and `BltDC` raise |
+| `TDIBSurface`, `TDIB08Surface`, `TDIB24Surface`, `TDIB32Surface` | DIB sections of other depths, used by `TWindows08DC`, `TWindows24DC`, the video player and the editor | the same memory stand-in, generic in bit count, with `FBits` as for `TDIB16Surface`. Only the video player (rewritten) and editor code reach them |
+| `TWindows08DIBSurface` (`DisplayC`) | the 8-bit bottom-up DIB of `TWindows08DC`, pitch `-((W + 7) and not 7)`, `FBits` 8-byte aligned, `Lock` gives the last row as `Data` | transpiled. `FMem` is a `byte[]` of `abs(Pitch) * H` bytes and `FBits` a `Ptr<byte>` at its first byte, without the alignment |
 | `TDDrawSurface` | a DirectDraw surface: `CreateSurface(W, H, pfid, Flags)`, `Lost`, `Restore`, `Status` (`ssVideoMemory`, `ssSystemMemory`), `AsyncCls`, `OnSurfaceLost` | a memory surface. `CreateSurface` allocates, `Status` is `[ssSystemMemory]`, `Lost` is `False`, `Restore` returns `DD_OK`, `AsyncCls` is `Cls`. The game creates these only when the back surface it draws into `is TDDrawSurface` (`HSEngine.pas:4813`, `AoWWinControl.pas:189`, `AoWBookWindow.pas:139`), which is never true in the port, so the class exists for the type checks and the editor |
 | `TGFXEPalette` | 256 entries of 4 bytes with `PixelFormatID`, `LoadFromStream`, `Remap` to 555 or 565, `GetNearestColor` | transpiled |
 
@@ -193,7 +199,9 @@ few bit tests); `transpiler.md` section 8.2 covers them.
 ### 5.2 The blitters
 
 Every routine below becomes a static C# method on `Aow.Graphics.Blit` with the same name and the
-same parameter list, pointers as `Ptr<byte>` and `const SD: TSurfaceDesc` as `in TSurfaceDesc`. The
+same parameter list, pointers as `Ptr<byte>` and `const SD: TSurfaceDesc` as the descriptor's
+`Data`, `Pitch` and `ClipRect` (section 3.1). The `GFXEUnit` and `ImageLibUnit` routines that call
+them keep `in TSurfaceDesc`. The
 semantics column is the contract. Where the semantics say "paired", the assembler processes two
 pixels per step when the destination is dword aligned and the run is long enough, with a different
 mask on the high pixel, and the result differs from the single-pixel formula in the low bit of one

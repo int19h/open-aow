@@ -30,7 +30,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
         if (CaptureWhen is not null ? !CaptureWhen() : captureFrame != 0 && Frame != captureFrame) { AfterPresent?.Invoke(); return; }
         int pitch = checked(surface.Width * 2);
         byte[] bytes = new byte[checked(pitch * surface.Height)];
-        Ptr<byte> source = surface.Data is byte[] array ? Ptr<byte>.To(array, 0) : surface.Data is Ptr<byte> pointer ? pointer : RtlUnit.BytePointer(surface.Data);
+        Ptr<byte> source = surface.Data;
         for (int y = 0; y < surface.Height; y++)
             (source + checked(y * surface.Pitch)).AsSpan(pitch).CopyTo(bytes.AsSpan(y * pitch, pitch));
         Directory.CreateDirectory(directory);

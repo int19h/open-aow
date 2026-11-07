@@ -2953,7 +2953,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
             {
                 for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                 {
-                    Move((BytePointer(SD.Data) + (R.Top + Y) * SD.Pitch + R.Left).AsSpan(FDataWidth), (BytePointer(FBits) + FPitch * Y).AsSpan(FDataWidth), FDataWidth);
+                    Move((SD.Data + (R.Top + Y) * SD.Pitch + R.Left).AsSpan(FDataWidth), (BytePointer(FBits) + FPitch * Y).AsSpan(FDataWidth), FDataWidth);
                 }
 
                 CreateLibraryImagePalette(SD.Palette);
@@ -3002,7 +3002,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
         bool loadedHere = !FDataLoaded;
         if (loadedHere) LoadDiscardableImageData();
         var source = (BytePointer(FBits) + srcX + srcY * FPitch).Box();
-        var destination = (BytePointer(sd.Data) + destX + destY * sd.Pitch).Box();
+        var destination = (sd.Data + destX + destY * sd.Pitch).Box();
         if (sd.PixelFormatID == pfPAL8)
             BltRect(source, destination, FPitch, sd.Pitch, width, height);
         else
@@ -3316,7 +3316,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                     FRLEHeight = Bottom - Top;
                     for (int Y = Top; Y <= Bottom - 1; Y++)
                     {
-                        Line = BytePointer(SD.Data).ByteIndex + SD.Pitch * Y;
+                        Line = SD.Data.ByteIndex + SD.Pitch * Y;
                         StartLine();
                         for (int X = MinRect.Left, last = MinRect.Right - 1; X <= last; X++)
                         {
@@ -3561,7 +3561,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 {
                     for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                     {
-                        S = (BytePointer(SD.Data) + (R.Top + Y) * SD.Pitch + R.Left).Reinterpret<byte>();
+                        S = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left).Reinterpret<byte>();
                         D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
                         for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
                         {
@@ -3580,7 +3580,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 {
                     for (int I = 0, last = FHeight - 1; I <= last; I++)
                     {
-                        Move((BytePointer(SD.Data) + (R.Top + I) * SD.Pitch + R.Left * 2).AsSpan(FWidth * 2), (BytePointer(FData) + FPitch * I).AsSpan(FWidth * 2), FWidth * 2);
+                        Move((SD.Data + (R.Top + I) * SD.Pitch + R.Left * 2).AsSpan(FWidth * 2), (BytePointer(FData) + FPitch * I).AsSpan(FWidth * 2), FWidth * 2);
                     }
                 }
 
@@ -3591,7 +3591,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                     {
                         D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
-                        S24 = (BytePointer(SD.Data) + (R.Top + Y) * SD.Pitch + R.Left * 3).Reinterpret<byte>();
+                        S24 = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left * 3).Reinterpret<byte>();
                         for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
                         {
                             D.Value = (ushort)(((S24[2] & 248) << 8) + ((S24[1] & 252) << 3) + (int)(((uint)S24[0]) >> 3));
@@ -3703,7 +3703,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 {
                     LoadDiscardableImageData();
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
@@ -3726,7 +3726,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 else
                 {
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         BltRect(Src, Dst, FPitch, SD.Pitch, W * 2, H);
@@ -3804,7 +3804,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 {
                     LoadDiscardableImageData();
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (Table.Bits == 5)
@@ -3857,7 +3857,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 else
                 {
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (Table.Bits == 5)
@@ -3965,7 +3965,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 {
                     LoadDiscardableImageData();
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (FPixelFormatID == pfRGB565)
@@ -4002,7 +4002,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 else
                 {
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         if (FPixelFormatID == pfRGB565)
@@ -4303,7 +4303,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 {
                     LoadDiscardableImageData();
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
@@ -4326,7 +4326,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 else
                 {
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         BltColorKey16(Src, Dst, FPitch, SD.Pitch, W, H, FColorKey);
@@ -4406,7 +4406,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 {
                     LoadDiscardableImageData();
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         switch (FPixelFormatID)
@@ -4445,7 +4445,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 else
                 {
                     Src = (BytePointer(FData) + SX * 2 + SY * FPitch).Box();
-                    Dst = (BytePointer(SD.Data) + (DX << 1) + SD.Pitch * DY).Box();
+                    Dst = (SD.Data + (DX << 1) + SD.Pitch * DY).Box();
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
                         switch (FPixelFormatID)
@@ -4560,7 +4560,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
                 for (int Y = Top; Y <= Bottom - 1; Y++)
                 {
-                    Move((BytePointer(LSD.Data) + LSD.Pitch * Y + MR.Left * 2).AsSpan(FSpriteWidth * 2), (BytePointer(FData) + (Y - MR.Top) * FPitch).AsSpan(FSpriteWidth * 2), FSpriteWidth * 2);
+                    Move((LSD.Data + LSD.Pitch * Y + MR.Left * 2).AsSpan(FSpriteWidth * 2), (BytePointer(FData) + (Y - MR.Top) * FPitch).AsSpan(FSpriteWidth * 2), FSpriteWidth * 2);
                 }
             }
             finally
@@ -4953,7 +4953,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                 FSpriteHeight = MR.Bottom - MR.Top;
                 for (int Y = MR.Top, last = MR.Bottom - 1; Y <= last; Y++)
                 {
-                    Row = (BytePointer(LSD.Data) + LSD.Pitch * Y).Box();
+                    Row = (LSD.Data + LSD.Pitch * Y).Box();
                     StartRow();
                     for (int X = MR.Left, lastX = MR.Right - 1; X <= lastX; X++)
                     {

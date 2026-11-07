@@ -220,7 +220,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(4, sd.Height);
         Assert.Equal(format, sd.PixelFormatID);
         Assert.Equal(pitch, sd.Pitch);
-        Assert.NotNull(sd.Data);
+        Assert.False(sd.Data.IsNull);
         if (sd.Palette is { } copy)
         {
             Assert.NotSame(palette, copy);
@@ -245,7 +245,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(4, surface.Height);
         TSurfaceDesc descriptor = default;
         Assert.Equal(0, surface.Lock(ref descriptor));
-        Assert.False(Runtime.BytePointer(descriptor.Data).IsNull);
+        Assert.False(descriptor.Data.IsNull);
         surface.Unlock();
         surface.Destroy();
         Assert.Equal((byte)29, palette.Entries[0].R);
@@ -348,7 +348,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
         Assert.Equal(G.pfRGB555, sd.PixelFormatID);
-        var data = Runtime.BytePointer(sd.Data);
+        var data = sd.Data;
         Assert.Equal((ushort)0x7C00, data.Reinterpret<ushort>().Value);
         copy.Unlock();
         copy.Destroy();
