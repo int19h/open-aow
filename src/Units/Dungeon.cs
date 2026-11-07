@@ -1,14 +1,14 @@
 // Translated from Dungeon.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.Sound;
-using Aow.Units.NetworkE;
-using Aow.Units.ExploreS;
-using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.ExploreS;
+using Aow.Units.NetworkE;
+using Aow.Units.Sound;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
 
 namespace Aow.Units.Dungeon;
 
@@ -43,6 +43,7 @@ public partial class TDungeon : TExplorationSite
 
     public TPrisonersArmy FPrisoners;
     public TPrisonersMode FPrisonersMode;
+
     // Dungeon.pas:102
     public override void Destroy()
     {
@@ -59,7 +60,6 @@ public partial class TDungeon : TExplorationSite
     }
 
     // Dungeon.pas:95
-
 
     // Dungeon.pas:249
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -256,7 +256,6 @@ public partial class TDungeon : TExplorationSite
 
     // Dungeon.pas:33
 
-
 }
 
 // FPrisonerCollections
@@ -271,6 +270,7 @@ public partial class TDungeonResource : TExplorationSiteResource
     public new const int ClassID = 131883;
 
     public TUnitIndexListCollection FPrisonerCollections;
+
     // Dungeon.pas:271
     public override void Destroy()
     {
@@ -287,12 +287,10 @@ public partial class TDungeonResource : TExplorationSiteResource
 
     // Dungeon.pas:265
 
-
     // Dungeon.pas:283
     public override int ResourceUserClassID() => 131882;
 
     // Dungeon.pas:53
-
 
     // Dungeon.pas:277
     public override string ResourceEditName() => TranslateRStr(DungeonRStr);
@@ -308,6 +306,7 @@ public partial class TPrisonersJoinEventLog : TJoinEventLog
     public sbyte FX;
     public sbyte FY;
     public sbyte FL;
+
     // Dungeon.pas:292
     public override bool Accept(ref string ErrorText)
     {

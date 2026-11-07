@@ -1,12 +1,12 @@
 // Translated from HxBridge.pas.
-using Aow.Rtl;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.HxBridge;
 
@@ -27,6 +27,7 @@ public partial class THexagonBridge : TAbstractRoad
     public sbyte FDirection;
     public TByteList FSideA;
     public TByteList FSideB;
+
     // HxBridge.pas:77
     public override void Destroy()
     {
@@ -36,7 +37,6 @@ public partial class THexagonBridge : TAbstractRoad
     }
 
     // HxBridge.pas:69
-
 
     // HxBridge.pas:100
     public override sbyte GetTerrain(int Index)
@@ -389,7 +389,6 @@ public partial class THexagonBridge : TAbstractRoad
 
     // HxBridge.pas:25
 
-
 }
 
 public partial class THexagonBridgeResource : TAbstractRoadResource
@@ -404,12 +403,10 @@ public partial class THexagonBridgeResource : TAbstractRoadResource
 
     // HxBridge.pas:332
 
-
     // HxBridge.pas:338
     public override int ResourceUserClassID() => 133242;
 
     // HxBridge.pas:49
-
 
     // HxBridge.pas:343
     public override string ResourceEditName() => BridgeStr;

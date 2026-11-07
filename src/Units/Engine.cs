@@ -1,11 +1,11 @@
 // Translated from Engine.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.FMemStr;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.ImageLib.ImageLibUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Engine;
 
@@ -50,12 +50,14 @@ public enum TStorageModeElement : byte
 }
 
 public delegate int TIntegerSortCompare(int Item1, int Item2);
+
 public partial class TIntegerList : TPersistent
 {
     internal int[] FList = [];
     internal int FCount;
     internal int FCapacity;
     internal int FDefault;
+
     // Engine.pas:3343
     public int Get(int Index)
     {
@@ -510,16 +512,17 @@ public partial class TIntegerList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 public delegate int TByteSortCompare(byte Item1, byte Item2);
+
 public partial class TByteList : TPersistent
 {
     internal byte[] FList = [];
     internal int FCount;
     internal int FCapacity;
     internal byte FDefault;
+
     // Engine.pas:3678
     internal byte Get(int Index)
     {
@@ -989,16 +992,17 @@ public partial class TByteList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 public delegate int TShortIntSortCompare(sbyte Item1, sbyte Item2);
+
 public partial class TShortIntList : TPersistent
 {
     internal sbyte[] FList = [];
     internal int FCount;
     internal int FCapacity;
     internal sbyte FDefault;
+
     // Engine.pas:4025
     internal sbyte Get(int Index)
     {
@@ -1410,16 +1414,17 @@ public partial class TShortIntList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 public delegate int TWordSortCompare(ushort Item1, ushort Item2);
+
 public partial class TWordList : TPersistent
 {
     internal ushort[] FList = [];
     internal int FCount;
     internal int FCapacity;
     internal ushort FDefault;
+
     // Engine.pas:4336
     internal ushort Get(int Index)
     {
@@ -1832,7 +1837,6 @@ public partial class TWordList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 public partial class TBitList : TPersistent
@@ -1841,6 +1845,7 @@ public partial class TBitList : TPersistent
     internal int FCount;
     internal int FCapacity;
     internal bool FDefault;
+
     // Engine.pas:4743
     internal void SetCapacity(int NewCapacity)
     {
@@ -2205,7 +2210,6 @@ public partial class TBitList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 public partial class TEventList : TPersistent
@@ -2214,6 +2218,7 @@ public partial class TEventList : TPersistent
     internal int FCount;
     internal int FCapacity;
     internal TNotifyEvent FDefault;
+
     // Engine.pas:4929
     internal TNotifyEvent Get(int Index)
     {
@@ -2523,7 +2528,6 @@ public partial class TEventList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 8)]
@@ -2536,12 +2540,14 @@ public struct TDoubleItem
 }
 
 public delegate int TDoubleItemSortCompare(in TDoubleItem Item1, in TDoubleItem Item2);
+
 public partial class TDoubleItemList : TPersistent
 {
     internal TDoubleItem[] FList = [];
     internal int FCount;
     internal int FCapacity;
     internal TDoubleItem FDefault;
+
     // Engine.pas:5140
     internal TDoubleItem Get(int Index)
     {
@@ -3063,7 +3069,6 @@ public partial class TDoubleItemList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 16)]
@@ -3080,12 +3085,14 @@ public struct TQuadInteger
 }
 
 public delegate int TQuadItemSortCompare(in TQuadInteger Item1, in TQuadInteger Item2);
+
 public partial class TQuadItemList : TPersistent
 {
     internal TQuadInteger[] FList = [];
     internal int FCount;
     internal int FCapacity;
     internal TQuadInteger FDefault;
+
     // Engine.pas:5538
     internal TQuadInteger Get(int Index)
     {
@@ -3575,7 +3582,6 @@ public partial class TQuadItemList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 // The record lists above with an object column. Engine.pas stored Integer(Object) in column A of a
@@ -3590,6 +3596,7 @@ public class TRecordList<TRecord> : TPersistent where TRecord : struct
     internal TRecord[] FList = [];
     internal int FCount;
     internal int FCapacity;
+
     internal TRecord Get(int Index) => Index < 0 || Index >= FCount ? default : FList[Index];
 
     internal void Put(int Index, TRecord Item)
@@ -3997,6 +4004,7 @@ public partial class TPropertyTable : TObject
     internal int FStackCount;
     internal int FStackCapacity;
     internal int FFirst;
+
     // Engine.pas:2260
     internal void SetCapacity(int NewCapacity)
     {
@@ -4241,6 +4249,7 @@ public partial class TEObject : TObject
     public const int ClassID = 80;
 
     private EClass eclass;
+
     // The engine class descriptor of the instance's exact type, read once and cached.
     public EClass EClass => eclass ??= EClass.Of(GetType());
 
@@ -4257,6 +4266,7 @@ public partial class TEObject : TObject
     }
 
     protected internal TECustomNode FOwner;
+
     // Engine.pas:2487
     internal string GetEObjectPath()
     {
@@ -4475,7 +4485,6 @@ public partial class TEObject : TObject
     public TECustomNode Owner { get => FOwner; set => SetOwner(value); }
     public string EObjectPath { get => GetEObjectPath(); }
     public int LastMsg { get => GetLastMsg(); set => SetLastMsg(value); }
-
 
 }
 
@@ -4837,6 +4846,7 @@ public partial class TEngine : TENode
     internal string FStartupDirectory = "";
     public TSet<TEngineUserElement> FUser;
     internal TSet<TEngineModeElement> FOptions;
+
     // Engine.pas:8776
     internal int CreateUniqueDebugID()
     {
@@ -5430,6 +5440,7 @@ public partial class TEStorageStream : TObject
     internal TPropertyTable FPropertyTable;
     internal TStorageStreamError FOnError;
     internal TProgressEvent FOnProgress;
+
     // Engine.pas:1184
     public virtual TSet<TStorageModeElement> StorageMode()
     {
@@ -5624,6 +5635,7 @@ public partial class TEResource : TEObject
     internal int FResourceID;
     internal int FEditID;
     internal int FEditIndex;
+
     // Engine.pas:8513
     public override void SetOwner(TECustomNode AOwner)
     {
@@ -5692,7 +5704,6 @@ public partial class TEResource : TEObject
     // Engine.pas:8508
     public virtual string ResourceEditName() => ClassNameOf(GetType());
 
-
 }
 
 public struct TEMsg
@@ -5719,13 +5730,14 @@ public struct TEMsgParams
 
 public delegate void TStorageStreamError(TEStorageStream StorageStream, string Message, ref bool Handled);
 public delegate void TProgressEvent(TEObject Sender, string Message, int Progression);
+
 public partial class EDoublePrioriyID : Exception
 {
     // SysUtils.pas:174
     public EDoublePrioriyID(string Msg)
     {
-Message = Msg;
-}
+        Message = Msg;
+    }
 }
 
 // the write stream's data buffer
@@ -5895,6 +5907,7 @@ public partial class TPlugIn : TObject
     internal int FRefCount;
     internal TList FEngines;
     internal TIntegerList FCounts;
+
     // Engine.pas:9144
     public TPlugIn()
     {
@@ -6006,8 +6019,8 @@ public partial class EPlugInMissing : Exception
     // SysUtils.pas:174
     public EPlugInMissing(string Msg)
     {
-Message = Msg;
-}
+        Message = Msg;
+    }
 }
 
 // FEngine, FUsedPlugIns. the names of the plug-ins an engine uses, initialized and finalized as
@@ -6016,6 +6029,7 @@ public partial class TPlugInControl : TEObject
 {
     internal TEngine FEngine;
     internal TStringList FUsedPlugIns;
+
     // Engine.pas:9279
     internal void SetUsedPlugIns(TStrings Value)
     {
@@ -6540,6 +6554,7 @@ public partial class TETimerNode : TECustomNode
     internal int FTick;
     internal int FCount;
     internal FixedArray_Aow_Rtl_TList_10 FTimerLists;
+
     // Engine.pas:1856
     internal int FindTimerList(TEObject Child)
     {
@@ -6864,673 +6879,673 @@ public partial class TEChangeNotifyNode : TECustomNode
 
     // Engine.pas:7957
     // { Original source line layout for EndUpdate.
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// }
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    // }
     public void EndUpdate()
     {
         Assert(FUpdateCount > 0, "Invalid UpdateCount Usage", "Engine.pas", 7959);
@@ -7771,7 +7786,6 @@ public partial class TEChangeNotifyNode : TECustomNode
 
     // Engine.pas:680
 
-
 }
 
 // FEvents, notified by Changed
@@ -7811,6 +7825,7 @@ public enum TEditResult : byte
 }
 
 public delegate void TEditDoneEvent(TEditResult EditResult, TEObject EObject);
+
 // editors are classes looked up by the class id of the object (TEObject.Editor). everything is
 // called on the class. The base editor edits nothing: Edit reports a cancel at once
 public partial class TEObjectEditor : TEObject, IEObjectEditorClass
@@ -7829,7 +7844,6 @@ public partial class TEObjectEditor : TEObject, IEObjectEditorClass
         Done(TEditResult.erCancel, Obj);
     }
 
-
 }
 
 // FCount, FCapacity, FItems. The hash classes come from an include file of the original,
@@ -7845,6 +7859,7 @@ public partial class THashList : TObject
     internal int FCount;
     internal int FCapacity;
     internal THashItem[] FItems = [];
+
     // HashTab.PAS:18
     protected internal void SetCapacity(int NewCapacity)
     {
@@ -7881,9 +7896,9 @@ public partial class THashList : TObject
 
     // HashTab.PAS:6
     // { The hash list and hash table classes of the Engine unit. The original keeps them in an include
-//   file, D:\GEngine\Engine\inc\HashTab.PAS: the Assert calls carry that file name, and line numbers
-//   counted from the start of Engine.pas (THashList.SetCapacity's Assert is at line 7127 there). The
-//   declarations are in the Engine.pas interface. }
+    //   file, D:\GEngine\Engine\inc\HashTab.PAS: the Assert calls carry that file name, and line numbers
+    //   counted from the start of Engine.pas (THashList.SetCapacity's Assert is at line 7127 there). The
+    //   declarations are in the Engine.pas interface. }
     public override void Destroy()
     {
         Clear();
@@ -7985,6 +8000,7 @@ public partial class TIntegerHashTable : TObject
 public partial class TIntegerHashTable256 : TIntegerHashTable
 {
     internal FixedArray_Aow_Units_Engine_TIntegerHashList_256 FLists;
+
     // HashTab.PAS:83
     public TIntegerHashTable256()
     {
@@ -8173,6 +8189,7 @@ public partial class TStringHashTable : TObject
 public partial class TStringHashTable256 : TStringHashTable
 {
     internal FixedArray_Aow_Units_Engine_TStringHashList_256 FLists;
+
     // HashTab.PAS:199
     public TStringHashTable256()
     {
@@ -8274,6 +8291,7 @@ public partial class TEControlStyleObject : TEObject
     public new const int ClassID = 81;
 
     internal TSet<TEControlStyleElement> FControlStyle;
+
     // Engine.pas:8222
     public TEControlStyleObject(TECustomNode owner) : this(null, owner) { }
 
@@ -8349,6 +8367,7 @@ public partial class TECustomOwner : TENode
 
     internal TEngine FEngine;
     internal TSet<TEControlStyleElement> FControlStyle;
+
     // Engine.pas:8262
     public override TEngine GetEngine() => FEngine;
 
@@ -8497,6 +8516,7 @@ public partial class TEResourceEditSettings : TEControlStyleObject
     public new const int ClassID = 1026;
 
     internal TStringList FEditors;
+
     // Engine.pas:8677
     internal int GetUniqueEditID()
     {
@@ -8613,6 +8633,7 @@ public partial class TESortNode : TECustomNode
     protected internal int FCount;
     protected internal int FCapacity;
     protected internal TSortItem[] FItems = [];
+
     // Engine.pas:1513
     protected internal void Resize(int NewCapacity)
     {
@@ -8753,7 +8774,6 @@ public partial class TESortNode : TECustomNode
 
     // Engine.pas:922
 
-
 }
 
 // { Engine.TEInverseSortNode: the same, sorted the other way }
@@ -8822,6 +8842,7 @@ public partial class TEControlStyleSortNode : TESortNode
     public new const int ClassID = 261;
 
     internal TSet<TEControlStyleElement> FControlStyle;
+
     // Engine.pas:1666
     public TEControlStyleSortNode(TECustomNode owner) : base(owner)
     {
@@ -8862,7 +8883,6 @@ public partial class TEControlStyleInverseSortNode : TEInverseSortNode
     }
 
     // Engine.pas:963
-
 
 }
 
@@ -8967,1223 +8987,1224 @@ public partial class TEUser : TEObject
     { }
 
     internal TECustomNode FNode;
+
     // Engine.pas:7112
     // { Original source line layout for the HashTab assertions.
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// }
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    // }
     public override void Destroy()
     {
         Disconnect();
@@ -10314,6 +10335,7 @@ public partial class TEComponent : TComponent
     internal TNotifyEvent FOnRegisterClasses;
     internal TNotifyEvent FOnUnRegisterClasses;
     internal TEngine FEngine;
+
     // Engine.pas:8642
     public override void Loaded()
     {
@@ -10342,7 +10364,7 @@ public partial class TEComponent : TComponent
     public TEngine Engine { get => FEngine; set => FEngine = value; }
 
     public TEComponent(TComponent owner) : base(owner)
-        { }
+    { }
 }
 
 public struct TCallBackEvent
@@ -10354,6 +10376,7 @@ public struct TCallBackEvent
 public partial class TCallBackEventList : TObject
 {
     internal List<TCallBackEvent> FList = [];
+
     // Engine.pas:5864
     internal int GetCount() => FList.Count;
 
@@ -10407,6 +10430,7 @@ public struct TEngineDebugInfo
 {
     public int ID;
     private string text;
+
     public string Text { readonly get => text ?? ""; set => text = value; }
 }
 
@@ -10421,6 +10445,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
     internal TStringList FSections;
     internal TStringList FText;
     internal TStringList FValues;
+
     // Engine.pas:10632
     internal void ReadStreamText()
     {
@@ -10719,6 +10744,7 @@ public partial class TEWriteTextStorageStream : TEStorageStream
 {
     internal string FPath = "";
     protected internal TEBufferStream FBuffer;
+
     // Engine.pas:10355
     internal void WriteTextBuffer(TStream Stream)
     {
@@ -10925,6 +10951,7 @@ public partial class TEReadStorageStream : TEStorageStream
 {
     internal bool FPartial;
     internal int FDataBase;
+
     // Engine.pas:9968
     public TEReadStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
     {
@@ -11451,6 +11478,7 @@ public partial class TEWriteStorageStream : TEStorageStream
 
     internal bool FPartial;
     internal TEBufferStream FBuffer;
+
     // Engine.pas:9592
     internal void PropertyExistError(int ID)
     {
@@ -12511,14 +12539,18 @@ public partial class TCompareStorageStream : TEReadStorageStream
 }
 
 public delegate int TStringsSortCompare(string S1, string S2, TObject O1, TObject O2);
+
 public struct TStringHashItem
 {
     private string key;
+
     public string Key { readonly get => key ?? ""; set => key = value; }
+
     public object Item;
 }
 
 public delegate void TExchangeProc(TList Data, int I, int J);
+
 public struct TSortStringsContext
 {
     public TStrings Strings;
@@ -12547,6 +12579,7 @@ public static partial class EngineUnit
     public const TEngineModeElement eoVerifyClasses = 0;
     public const TStorageModeElement smText = (TStorageModeElement)2;
     public const TStorageModeElement smPartial = (TStorageModeElement)3;
+
     // Engine.pas:1953
     // { Strings }
     public static string ReplaceText(string S, string Old, string New)
@@ -13043,6 +13076,7 @@ public static partial class EngineUnit
     public static TEngine CopyEngine;
     public static TStringList Packages;
     public static uint ClipboardFormat;
+
     // Engine.pas:1570
     public static void SortItems(Span<TSortItem> SortList, int L, int R)
     {
@@ -13132,6 +13166,7 @@ public static partial class EngineUnit
     }
 
     public static FixedArray_byte_4 CompressMagic = FixedArray_byte_4.From([67, 70, 83, 0]);
+
     // Engine.pas:1977
     public static void QuickSortStrings(ref TSortStringsContext Ctx, int L, int R)
     {
@@ -13333,6 +13368,7 @@ public static partial class EngineUnit
 
     // { CRC32 }
     public static int[] CRC32Table = [];
+
     // Engine.pas:3061
     public static void BuildCRC32Table()
     {

@@ -18,14 +18,17 @@ public sealed class RemainingConstructionTests
     {
 
         internal readonly List<string> Observations = [];
+
         public override int AddChild(TEObject child)
         {
             base.AddChild(child);
             Observations.Add(Snapshot(child));
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
     }
+
     private sealed class Fixture : IDisposable
     {
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
@@ -33,6 +36,7 @@ public sealed class RemainingConstructionTests
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
+
         internal Fixture()
         {
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
@@ -42,6 +46,7 @@ public sealed class RemainingConstructionTests
             Game.AoWHSSet.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
         }
+
         public void Dispose()
         {
             Game.AoWHSSet = previousSet;
@@ -51,6 +56,7 @@ public sealed class RemainingConstructionTests
             Manager.Destroy();
         }
     }
+
     private static string Snapshot(object value)
     {
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
@@ -85,7 +91,6 @@ public sealed class RemainingConstructionTests
         }
         return JsonSerializer.Serialize(State(value, "$"));
     }
-
 
     private static readonly string[] Names =
     [
@@ -189,8 +194,10 @@ public sealed class RemainingConstructionTests
         "Aow.Units.Tower.TTowerConstructionControl",
         "Aow.Units.UnitIDlg.TUnitView",
     ];
+
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
     public static IEnumerable<object[]> GuardedClasses => Names.Where(name => name.StartsWith("Aow.Units.Storms.", StringComparison.Ordinal)).Select(name => new object[] { name });
+
     private static object? Invoke(Func<object?> action)
     {
         try { return action(); }
@@ -200,6 +207,7 @@ public sealed class RemainingConstructionTests
             throw;
         }
     }
+
     private static TObject Create(Type type, TECustomNode owner, int route)
     {
         if (route == 1) return EClass.Of(type).Create(owner);
@@ -230,10 +238,12 @@ public sealed class RemainingConstructionTests
         if (constructor is not null) return (TObject)Invoke(() => constructor.Invoke(signature.Length == 0 ? [] : [owner]))!;
         throw new InvalidOperationException(type.FullName + " has no declared completed construction signature.");
     }
+
     private static void Check(string name, string key, string actual)
     {
         ConstructionSnapshot.Check("RemainingConstruction", name + "." + key, actual);
     }
+
     [Theory]
     [MemberData(nameof(Classes))]
     public void ConstructorStateAndCreationRoutesMatchTheBaseCommit(string name)
@@ -241,33 +251,34 @@ public sealed class RemainingConstructionTests
         Type type = typeof(TSpell).Assembly.GetType(name)!;
         bool engineObject = typeof(TEObject).IsAssignableFrom(type);
         for (int ownerMode = 0; ownerMode < (engineObject ? 2 : 1); ownerMode++)
-        for (int route = 0; route < (engineObject ? 4 : 1); route++)
-        {
-            using var fixture = new Fixture();
-            var owner = ownerMode == 0 ? null : new RemainingOwner();
-            TObject? value = null;
-            string state;
-            var states = new List<string>();
-            try
+            for (int route = 0; route < (engineObject ? 4 : 1); route++)
             {
-                value = Create(type, owner!, route);
-                Assert.IsType(type, value);
-                if (engineObject) Assert.Same(owner, ((TEObject)value).Owner);
-                state = "success:" + Snapshot(value);
+                using var fixture = new Fixture();
+                var owner = ownerMode == 0 ? null : new RemainingOwner();
+                TObject? value = null;
+                string state;
+                var states = new List<string>();
+                try
+                {
+                    value = Create(type, owner!, route);
+                    Assert.IsType(type, value);
+                    if (engineObject) Assert.Same(owner, ((TEObject)value).Owner);
+                    state = "success:" + Snapshot(value);
+                }
+                catch (System.Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
+                finally
+                {
+                    try { value?.Destroy(); }
+                    catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                }
+                states.Add(state);
+                states.Add("owner:" + (owner?.Members.Count ?? 0));
+                if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
+                Check(name, "owner" + ownerMode + "route" + route, string.Join("\n", states));
+                Assert.StartsWith("success:", state);
             }
-            catch (System.Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
-            finally
-            {
-                try { value?.Destroy(); }
-                catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
-            }
-            states.Add(state);
-            states.Add("owner:" + (owner?.Members.Count ?? 0));
-            if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            Check(name, "owner" + ownerMode + "route" + route, string.Join("\n", states));
-            Assert.StartsWith("success:", state);
-        }
     }
+
     [Fact]
     public void ListObjectMetaclassCreatesTheExactType()
     {
@@ -276,6 +287,7 @@ public sealed class RemainingConstructionTests
         Assert.Equal(Snapshot(new Aow.Units.EList.TListObject()), Snapshot(value));
         value.Destroy();
     }
+
     [Theory]
     [MemberData(nameof(GuardedClasses))]
     public void PlainStormConstructorsKeepOwnerAndSpellState(string name)

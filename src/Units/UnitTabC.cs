@@ -1,8 +1,8 @@
 // Translated from UnitTabC.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.UnitIGrd;
 using Aow.Units.AoWE;
+using Aow.Units.UnitIGrd;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.UnitTabC;
 
@@ -12,6 +12,7 @@ public partial class TUnitTabControl : TTabControl
     public TUnitSelectionControl FSelectionControl;
     public TUnitIndexGrid FUnitIndexGrid;
     public TOnSelectUnitEvent FOnSelectUnit;
+
     // UnitTabC.pas:42
     public override void Destroy()
     {
@@ -87,6 +88,7 @@ public partial class TUnitTabControl : TTabControl
 }
 
 public delegate void TOnSelectUnitEvent(TObject Sender, int UnitIndex);
+
 public static partial class UnitTabCUnit
 {
     // UnitTabC.pas:112

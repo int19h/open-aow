@@ -1,33 +1,33 @@
 // Translated from AoWWorldMap.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWBookWindow;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
-using Aow.Units.AoWVScroll;
 using Aow.Units.AoWTargetSelection;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using static Aow.Units.AoWLeaderSetup.AoWLeaderSetupUnit;
-using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWVideoDlg;
+using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWinMan;
 using Aow.Units.E2Globals;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWLeaderSetup.AoWLeaderSetupUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWWorldMap;
 
@@ -111,6 +111,7 @@ public partial class TWorldMap : TDataModule
     public TEObject FBookContext;
     public TNotifyEvent FOnBookClosed;
     public byte FBookAction;
+
     // AoWWorldMap.pas:152
     public TWMCampaign GetCampaign() => (TWMCampaign)AoWEngine.FCampaign;
 
@@ -298,18 +299,18 @@ public partial class TWorldMap : TDataModule
                         EPawn.WinTop = campaignScenario2.FMapY - 65;
                     }
 
-                {
-                    if (this.PPawn.WinTop > EPawn.WinTop)
                     {
-                        this.PPawn.Priority = 10;
-                        EPawn.Priority = 5;
+                        if (this.PPawn.WinTop > EPawn.WinTop)
+                        {
+                            this.PPawn.Priority = 10;
+                            EPawn.Priority = 5;
+                        }
+                        else
+                        {
+                            this.PPawn.Priority = 5;
+                            EPawn.Priority = 10;
+                        }
                     }
-                    else
-                    {
-                        this.PPawn.Priority = 5;
-                        EPawn.Priority = 10;
-                    }
-                }
 
                     var campaign23 = GetCampaign();
                     if (GetCampaignScenario(GetCampaign(), campaign23.FCurrentScenarioID).FPaths[0] > -1)

@@ -15,7 +15,9 @@ public partial class TItemHS
 public partial class TItemHSList
 {
     internal TItemHS Sprite;
+
     public override TEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
+
     public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level)
     {
         x = Sprite.GetXhx();

@@ -1,17 +1,17 @@
 // Translated from AoWTitleScene.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.AoWE;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AowUserWindow;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using Aow.Units.AoWE;
 using Aow.Units.E2Globals;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.AoWTitleScene;
 
@@ -48,6 +48,7 @@ public partial class TTitleScene : TDataModule
     public int FIntroFrame;
     public TImageLibraryFont FFont;
     public TImageLibraryFont FCreditsFont;
+
     // AoWTitleScene.pas:103
     public void DrawCredits(ref TSurfaceDesc Surface)
     {
@@ -643,6 +644,7 @@ public static partial class AoWTitleSceneUnit
     public static readonly string TitleLoadGameRStr = "Load Game";
     public static readonly string TitleExitRStr = "Exit";
     public static FixedArray_string_5 TitleButtons = FixedArray_string_5.From([]);
+
     public static void Initialize()
     {
         TitleButtons[0] = TitleNewGameRStr;

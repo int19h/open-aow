@@ -8,6 +8,7 @@ public sealed class StringsTests
     private sealed class TrackObject : TObject
     {
         internal bool Destroyed;
+
         public override void Destroy() => Destroyed = true;
     }
 
@@ -84,8 +85,10 @@ public sealed class StringsTests
     private sealed class PlainStrings : TStrings
     {
         private readonly List<string> items = [];
+
         public override int Count => items.Count;
         public override string this[int index] { get => items[index]; set => items[index] = value; }
+
         public override void Insert(int index, string value) => items.Insert(index, value);
         public override void Delete(int index) => items.RemoveAt(index);
         public override void Clear() => items.Clear();

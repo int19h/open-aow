@@ -1,7 +1,7 @@
 // Translated from FMemStr.pas.
+using System.Runtime.InteropServices;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 
 namespace Aow.Units.FMemStr;
 
@@ -15,6 +15,7 @@ public partial class TFastMemoryStream : TStream
     internal int FSize;
     internal int FPosition;
     internal int FCapacity;
+
     // FMemStr.pas:125
     internal void SetCapacity(int NewCapacity)
     {

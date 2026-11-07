@@ -9,7 +9,9 @@ public sealed unsafe class OpenMptModule : IDisposable
     private nint module;
     private static readonly LogCallback log = (_, _) => { };
     private static readonly ErrorCallback errorHandler = (_, _) => 2;
+
     public static string? LastError { get; private set; }
+
     private static string? reported;
 
     static OpenMptModule() => NativeLibrary.SetDllImportResolver(typeof(OpenMptModule).Assembly, Resolve);
@@ -26,6 +28,7 @@ public sealed unsafe class OpenMptModule : IDisposable
     }
 
     private OpenMptModule(nint module) => this.module = module;
+
     public static OpenMptModule? Load(ReadOnlySpan<byte> bytes, bool loop = false)
     {
         try
@@ -50,8 +53,11 @@ public sealed unsafe class OpenMptModule : IDisposable
             return null;
         }
     }
+
     public int Order { get { Check(); return GetOrder(module); } set { Check(); SetOrder(module, value, 0); } }
+
     public void SetLoop(bool loop) { Check(); SetRepeat(module, loop ? -1 : 0); }
+
     public int Render(int rate, Span<float> stereo)
     {
         Check();
@@ -61,11 +67,14 @@ public sealed unsafe class OpenMptModule : IDisposable
         if (GetError(module) != 0) throw new InvalidDataException("libopenmpt failed while rendering the song.");
         return count;
     }
+
     private void Check() => ObjectDisposedException.ThrowIf(module == 0, this);
+
     public void Dispose() { if (module != 0) { Destroy(module); module = 0; } }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate void LogCallback(nint message, nint user);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate int ErrorCallback(int error, nint user);
+
     [DllImport(Library, EntryPoint = "openmpt_module_create_from_memory2", CallingConvention = CallingConvention.Cdecl)]
     private static extern nint Create(byte* data, nuint size, LogCallback log, nint logUser, ErrorCallback error, nint errorUser, int* code, nint* message, nint controls);
     [DllImport(Library, EntryPoint = "openmpt_free_string", CallingConvention = CallingConvention.Cdecl)] private static extern void FreeString(nint value);

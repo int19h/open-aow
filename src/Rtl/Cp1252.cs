@@ -28,6 +28,7 @@ public static class Cp1252
     public static byte Byte(char value) => Bytes[value];
     public static bool IsMapped(char value) => Characters[Bytes[value]] == value;
     public static string Text(byte value) => Texts[value];
+
     public static IComparer<string> Comparer { get; } = System.Collections.Generic.Comparer<string>.Create(Compare);
 
     public static string Normalize(string? value)

@@ -1,13 +1,8 @@
 // Translated from AoWVideoDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
@@ -15,7 +10,12 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.AoWVideoDlg;
 
@@ -50,6 +50,7 @@ public partial class TVideoDialog : TDataModule
     public int FSceneHeight;
     public int FDisplayWidth;
     public int FDisplayHeight;
+
     // AoWVideoDlg.pas:366
     public void SetSceneSize(int W, int H)
     {
@@ -189,6 +190,7 @@ public partial class TWMCampaignScenarioPage : TEObject
     public int FImageIndex;
     public string FHeading = "";
     public TStringList FText;
+
     // AoWVideoDlg.pas:257
     public override void Destroy()
     {
@@ -242,6 +244,7 @@ public partial class TWMCampaignScenario : TAoWCampaignScenario
     public TWMCampaignScenarioPageList FIntroPages;
     public TWMCampaignScenarioPageList FOutroPages;
     public byte FMapKind;
+
     // AoWVideoDlg.pas:295
     public override void Destroy()
     {
@@ -297,6 +300,7 @@ public partial class TWMCampaign : TAoWCampaign
     public int FFaction;
     public int FState;
     public int FPage;
+
     // AoWVideoDlg.pas:329
     public override void Destroy()
     {
@@ -357,6 +361,7 @@ public partial class TWMCampaign : TAoWCampaign
 public static partial class AoWVideoDlgUnit
 {
     public static TVideoDialog VideoDialog;
+
     // AoWVideoDlg.pas:422
     public static void RegisterWorldMapCampaign(TEngine AEngine)
     {

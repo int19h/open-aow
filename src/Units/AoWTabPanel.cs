@@ -1,12 +1,12 @@
 // Translated from AoWTabPanel.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using Aow.Units.AoWControl;
 using Aow.Units.AoWComp;
+using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWTabPanel;
 
@@ -24,6 +24,7 @@ public partial class TAOWTabPanel : TAOWControl
     public int FILIndexUp;
     public int FILIndexDown;
     public TList FPanels;
+
     // AoWTabPanel.pas:62
     public TAOWTabPanel(TComponent owner) : base(owner)
     {
@@ -93,7 +94,7 @@ public partial class TAOWTabPanel : TAOWControl
 
     // AoWTabPanel.pas:164
     // { Draw: the tabs side by side in equal shares of the width, the text centered; the selected tab
-//   with the down image and its text BorderHeightSelected pixels down }
+    //   with the down image and its text BorderHeightSelected pixels down }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         TRect OldClip = default;

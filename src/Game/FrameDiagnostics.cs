@@ -31,29 +31,51 @@ internal sealed class FrameDiagnostics : IDisposable
     private void Random(RandomTraceEvent entry)
     {
         if (entry.Kind == "random" && (GameState.AoWHSMap is null || GameState.AoWHSMap is { FDay: 1, Frame: <= 1 }))
-            writer.WriteLine(JsonSerializer.Serialize(new { kind = "startup-random", argument = entry.Argument,
-                before = unchecked((uint)entry.Before), after = unchecked((uint)entry.After), result = entry.Result,
+            writer.WriteLine(JsonSerializer.Serialize(new
+            {
+                kind = "startup-random",
+                argument = entry.Argument,
+                before = unchecked((uint)entry.Before),
+                after = unchecked((uint)entry.After),
+                result = entry.Result,
                 stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
-                    .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}") }));
+                    .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
+            }));
         if (GameState.AoWHSMap is not { FDay: 2 } map || entry.Kind != "random") return;
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units").ToArray();
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "TAoWHSMap" })) return;
-        writer.WriteLine(JsonSerializer.Serialize(new { kind = "random", day = map.FDay, frame = map.Frame,
-            current_player = map.FCurrentPlayer, ai_player = map.FAIExecuter.FPlayer, argument = entry.Argument,
-            before = unchecked((uint)entry.Before), after = unchecked((uint)entry.After), result = entry.Result,
-            stack = stack.Select(method => $"{method!.DeclaringType!.Name}.{method.Name}") }));
+        writer.WriteLine(JsonSerializer.Serialize(new
+        {
+            kind = "random",
+            day = map.FDay,
+            frame = map.Frame,
+            current_player = map.FCurrentPlayer,
+            ai_player = map.FAIExecuter.FPlayer,
+            argument = entry.Argument,
+            before = unchecked((uint)entry.Before),
+            after = unchecked((uint)entry.After),
+            result = entry.Result,
+            stack = stack.Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
+        }));
     }
 
     private void Cost(int cost, int used)
     {
         if (GameState.AoWHSMap is not { FDay: 2 } map) return;
-        writer.WriteLine(JsonSerializer.Serialize(new { kind = "cost", day = map.FDay, frame = map.Frame,
-            ai_player = map.FAIExecuter.FPlayer, cost, used,
+        writer.WriteLine(JsonSerializer.Serialize(new
+        {
+            kind = "cost",
+            day = map.FDay,
+            frame = map.Frame,
+            ai_player = map.FAIExecuter.FPlayer,
+            cost,
+            used,
             stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
                 .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
-                .Take(10).Select(method => $"{method!.DeclaringType!.Name}.{method.Name}") }));
+                .Take(10).Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
+        }));
     }
 
     public void Snapshot(string name)
@@ -78,17 +100,37 @@ internal sealed class FrameDiagnostics : IDisposable
                     if (resource?.ImageSequenceList is { } list)
                         for (int index = 0; index < list.Count; index++)
                             for (var sequence = list.GetImageSequence(index); sequence is not null; sequence = sequence.Next)
-                                sequences.Add(new { index, name = sequence.ImageLibraryName,
-                                    mode = sequence.SequenceMode.ToString(), sequence.SpeedCount, sequence.ImageIndex,
+                                sequences.Add(new
+                                {
+                                    index,
+                                    name = sequence.ImageLibraryName,
+                                    mode = sequence.SequenceMode.ToString(),
+                                    sequence.SpeedCount,
+                                    sequence.ImageIndex,
                                     lastFrame = typeof(Aow.Units.ImageLib.TImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
-                                    counter = typeof(Aow.Units.ImageLib.TImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence) });
-                    objects.Add(new { x, y, px, py, type = child.GetType().Name,
-                        resource = resource?.GetType().Name, name = resource?.Name, sequences });
+                                    counter = typeof(Aow.Units.ImageLib.TImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
+                                });
+                    objects.Add(new
+                    {
+                        x,
+                        y,
+                        px,
+                        py,
+                        type = child.GetType().Name,
+                        resource = resource?.GetType().Name,
+                        name = resource?.Name,
+                        sequences
+                    });
                 }
             }
         File.WriteAllText(Path.Combine(output, "diagnostic-" + name + ".json"), JsonSerializer.Serialize(new
         {
-            map.FDay, map.Frame, viewer.SceneX, viewer.SceneY, viewer.SceneL, objects
+            map.FDay,
+            map.Frame,
+            viewer.SceneX,
+            viewer.SceneY,
+            viewer.SceneL,
+            objects
         }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
     }
 

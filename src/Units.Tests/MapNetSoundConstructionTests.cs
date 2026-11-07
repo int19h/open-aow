@@ -2,9 +2,9 @@ using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.NetworkE;
 using Aow.Units.Sound;
-using UnitSfxManager = Aow.Units.Sound.TSFXManager;
-using MovePath = Aow.Units.AoWE.TMovepath;
 using EngineApi = Aow.Units.Engine.EngineUnit;
+using MovePath = Aow.Units.AoWE.TMovepath;
+using UnitSfxManager = Aow.Units.Sound.TSFXManager;
 
 namespace Aow.Units.Tests;
 
@@ -211,13 +211,26 @@ public sealed class MapNetSoundConstructionTests
     {
         TObject value = kind switch
         {
-            0 => new TNewHSMapSettings(), 1 => new TTerrainList(), 2 => new THSMapMouse(),
-            3 => new TXYLList(), 4 => new TTokenControl(null!, 7), 5 => new TTokenExecuter(null!),
-            6 => new TTokenManager(null!), 7 => new TPlayerCommunicationControl(), 8 => new TPackageDataList(),
-            9 => new TRemotePCC(), 10 => new TLocalPCC(), 11 => new TTokenPackageDistributer(null!),
-            12 => new TSoundSystem(), 13 => new TSFXList(), 14 => new UnitSfxManager(null!),
-            15 => new TSongPlayer(), 16 => new TSampleList(), 17 => new TSampleDataList(),
-            18 => new TSoundSystemList(), _ => new MovePath()
+            0 => new TNewHSMapSettings(),
+            1 => new TTerrainList(),
+            2 => new THSMapMouse(),
+            3 => new TXYLList(),
+            4 => new TTokenControl(null!, 7),
+            5 => new TTokenExecuter(null!),
+            6 => new TTokenManager(null!),
+            7 => new TPlayerCommunicationControl(),
+            8 => new TPackageDataList(),
+            9 => new TRemotePCC(),
+            10 => new TLocalPCC(),
+            11 => new TTokenPackageDistributer(null!),
+            12 => new TSoundSystem(),
+            13 => new TSFXList(),
+            14 => new UnitSfxManager(null!),
+            15 => new TSongPlayer(),
+            16 => new TSampleList(),
+            17 => new TSampleDataList(),
+            18 => new TSoundSystemList(),
+            _ => new MovePath()
         };
         try
         {
@@ -310,6 +323,7 @@ public sealed class MapNetSoundConstructionTests
     private sealed class ObservingComponent : TComponent
     {
         internal bool Observed;
+
         public override void Notification(TComponent child, TOperation operation)
         {
             if (operation == TOperation.opInsert && child is UnitSfxManager manager)

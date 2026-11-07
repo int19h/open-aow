@@ -1,6 +1,5 @@
 // Translated from AoWPasswordDlg.pas.
 using Aow.Rtl;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
@@ -8,6 +7,7 @@ using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
 
 namespace Aow.Units.AoWPasswordDlg;
 
@@ -29,6 +29,7 @@ public partial class TPasswordDlg : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FDone;
     public TPasswordEventLog FPasswordEvent;
+
     // AoWPasswordDlg.pas:43
     public void Finish()
     {

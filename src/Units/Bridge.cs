@@ -1,10 +1,10 @@
 // Translated from Bridge.pas.
 using Aow.Rtl;
+using Aow.Units.BorderHx;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
 using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.BorderHx;
 
 namespace Aow.Units.Bridge;
 
@@ -21,8 +21,8 @@ public partial class TBridge : TAbstractRoad
     public new const int ClassID = 131444;
 
     internal ushort FTransitions;
-    // Bridge.pas:43
 
+    // Bridge.pas:43
 
     // Bridge.pas:53
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -35,7 +35,7 @@ public partial class TBridge : TAbstractRoad
 
     // Bridge.pas:63
     // { Original oddity: the overlay of the owner of the previous owner (a map level, not a map field)
-//   is updated. }
+    //   is updated. }
     public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         TMapField MapField;
@@ -243,7 +243,6 @@ public partial class TBridge : TAbstractRoad
 
     // Bridge.pas:18
 
-
 }
 
 public partial class TBridgeResource : TAbstractRoadResource
@@ -257,7 +256,6 @@ public partial class TBridgeResource : TAbstractRoadResource
     public new const int ClassID = 131445;
 
     // Bridge.pas:189
-
 
     // Bridge.pas:195
     public override int ResourceUserClassID() => 131444;
@@ -365,7 +363,6 @@ public partial class TBridgeResource : TAbstractRoadResource
     }
 
     // Bridge.pas:28
-
 
     // Bridge.pas:200
     public override string ResourceEditName() => BridgeStr;

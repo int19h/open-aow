@@ -1,11 +1,11 @@
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.City;
 using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLogUnit;
 using Aow.Units.PrdPlace;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
 
 // What a production item orders: produce a unit, research one, trade, or one of the city actions.
 // Each kind holds its own fields and does what the switches over the production id and its city

@@ -1,10 +1,10 @@
 // Translated from HeroGrid.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.HeroGrid;
 
@@ -19,6 +19,7 @@ public partial class THeroGrid : TCustomImageDrawGrid
     public bool FUnplacedOnly;
     public TMemoryStream FStream;
     public byte FSort;
+
     // HeroGrid.pas:126
     public override void Destroy()
     {
@@ -203,7 +204,9 @@ public struct THeroView
 {
     public FixedArray_byte_96 Reserved00;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
+
     public FixedArray_byte_4 Reserved64;
     public byte Race;
     public FixedArray_byte_15 Reserved69;
@@ -214,7 +217,9 @@ public struct TItemView
 {
     public FixedArray_byte_24 Reserved00;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
+
     public FixedArray_byte_24 Reserved1C;
     public byte Kind;
     public FixedArray_byte_15 Reserved35;
@@ -232,6 +237,7 @@ public static partial class HeroGridUnit
     public static readonly string GridUsedRStr = "Used";
 
     public static THeroList SortHeroList;
+
     // HeroGrid.pas:102
     public static int HeroGridCompareName(int A, int B)
     {

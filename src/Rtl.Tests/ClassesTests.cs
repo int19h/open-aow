@@ -38,8 +38,10 @@ public sealed class ClassesTests
     private sealed class Assigned : TPersistent
     {
         internal TPersistent? Target;
+
         protected internal override void AssignTo(TPersistent target) => Target = target;
     }
+
     private sealed class Owned(TPersistent owner) : TPersistent
     {
         public override TPersistent GetOwner() => owner;
@@ -66,11 +68,13 @@ public sealed class ClassesTests
             log.Add($"notify {Name} {component.Name} {operation} destroying={component.ComponentState.Contains(TComponentState.csDestroying)}");
             base.Notification(component, operation);
         }
+
         public override void Destroy()
         {
             log.Add($"destroy {Name} owner={Owner?.Name} state={ComponentState.Contains(TComponentState.csDestroying)}");
             base.Destroy();
         }
+
         internal void Loading() => ComponentState = ComponentState.With(TComponentState.csLoading);
     }
 
@@ -141,6 +145,7 @@ public sealed class ClassesTests
         [Published] public int ReadOnly => 1;
         public int Hidden { get; set; }
     }
+
     private sealed class PublishedChild : PublishedBase
     {
         [Published("base")] public string Caption { get; set; } = "";

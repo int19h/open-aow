@@ -4,19 +4,24 @@ namespace Aow.Platform;
 public sealed class AudioMixer : IDisposable
 {
     public object Sync { get; } = new();
+
     public sealed class Voice(WaveData wave)
     {
         public WaveData Wave { get; } = wave;
+
         public double Position;
         public float Volume = 1;
         public float Pan;
         public bool Loop, Playing = true;
     }
+
     public sealed class Ramp
     {
         public float Value { get; private set; } = 127;
+
         private float target, step;
         private int remaining;
+
         public void Set(float value, int speed)
         {
             target = value;
@@ -24,9 +29,12 @@ public sealed class AudioMixer : IDisposable
             if (remaining == 0) Value = value;
             else step = (target - Value) / remaining;
         }
+
         public void Tick() { if (remaining > 0) { Value += step; if (--remaining == 0) Value = target; } }
     }
+
     private readonly List<Voice> voices = [];
+
     public Ramp MusicGain { get; } = new();
     public Ramp SfxGain { get; } = new();
     public int Rate { get; set; } = 44100;
@@ -36,7 +44,9 @@ public sealed class AudioMixer : IDisposable
     public bool SfxEnabled { get; set; } = true;
     public OpenMptModule? Song { get; set; }
     public bool SongEnded { get; private set; }
+
     public void ReplaceSong(OpenMptModule? song) { Song?.Dispose(); Song = song; SongEnded = false; }
+
     public Voice? Play(WaveData data)
     {
         voices.RemoveAll(v => !v.Playing);
@@ -45,10 +55,12 @@ public sealed class AudioMixer : IDisposable
         voices.Add(voice);
         return voice;
     }
+
     public void StopVoices() { foreach (var voice in voices) voice.Playing = false; voices.Clear(); }
 
     // One ramp step per 50 ms mixer block, independent of SDL callback size.
     private int blockRemaining;
+
     public void Render(Span<float> output)
     {
         if (output.Length % 2 != 0) throw new ArgumentException("Expected stereo output.");
@@ -99,5 +111,6 @@ public sealed class AudioMixer : IDisposable
             }
         }
     }
+
     public void Dispose() { lock (Sync) { ReplaceSong(null); StopVoices(); } }
 }

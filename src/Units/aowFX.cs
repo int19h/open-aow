@@ -23,6 +23,7 @@ public partial class TXYZList : TObject
 {
 
     internal TList FList;
+
     // aowFX.pas:93
     public TXYZList()
     {
@@ -111,6 +112,7 @@ public partial class TfxParticleSystem : TfxParticleObject
 {
     internal TList FParticles;
     internal TList FEffects;
+
     // aowFX.pas:143
     public TfxParticle GetParticle(int Index)
     {
@@ -368,7 +370,7 @@ public static partial class aowFXUnit
 
     // aowFX.pas:245
     // { The direction of the line from (X1, Y1) to (X2, Y2) in radians, pointing backwards (the
-//   lightning path subtracts it). }
+    //   lightning path subtracts it). }
     public static float GetAngle(int X1, int Y1, int X2, int Y2)
     {
         float Result;

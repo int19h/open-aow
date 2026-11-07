@@ -2,8 +2,8 @@
 using Aow.Rtl;
 using Aow.Units.AowUserWindow;
 using Aow.Units.E2DirectSound;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
 using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 
 namespace Aow.Units.AoWIntroScene;
 
@@ -19,6 +19,7 @@ public partial class TIntroScene : TDataModule
     public int FBufferSize;
     public IDirectSound FDirectSound;
     public int FStreamPosition;
+
     // AoWIntroScene.pas:173
     public void Finish()
     {

@@ -1,7 +1,7 @@
 // Translated from PlayerBox.pas.
+using System.Runtime.InteropServices;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 
 namespace Aow.Units.PlayerBox;
 
@@ -11,6 +11,7 @@ public partial class TPlayerComboBox : TComboBox
     public bool FAllowNone;
     public bool FAllowIndependent;
     public bool FAllowRandom;
+
     // PlayerBox.pas:87
     public override void Loaded()
     {
@@ -61,6 +62,7 @@ public struct TNameView
 {
     public FixedArray_byte_36 Reserved;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
 }
 

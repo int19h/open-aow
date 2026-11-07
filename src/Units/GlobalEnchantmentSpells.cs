@@ -1,17 +1,17 @@
 // Translated from GlobalEnchantmentSpells.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
 using Aow.Units.Sound;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.Engine.EngineUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.GlobalEnchantmentSpells;
 
@@ -25,6 +25,7 @@ public partial class TGlobalEnchantmentSpellTE : TSpellTE
     public new const int ClassID = 135954;
 
     public TGlobalEnchantment FEnchantment;
+
     // GlobalEnchantmentSpells.pas:379
     public override void Destroy()
     {
@@ -57,13 +58,13 @@ public partial class TGlobalEnchantmentSpellTE : TSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 // FAIBasePriority
 public partial class TGlobalEnchantmentSpell : TSpell
 {
     public int FAIBasePriority;
+
     // GlobalEnchantmentSpells.pas:413
     public TGlobalEnchantmentSpell(TECustomNode owner) : base(owner)
     {
@@ -576,6 +577,7 @@ public partial class THatredEnchantment : TGlobalEnchantment
     public new const int ClassID = 135957;
 
     public int FDaysActive;
+
     // GlobalEnchantmentSpells.pas:851
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -679,6 +681,7 @@ public partial class THarmonyEnchantment : TGlobalEnchantment
     public new const int ClassID = 135958;
 
     public int FDaysActive;
+
     // GlobalEnchantmentSpells.pas:931
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -860,6 +863,7 @@ public partial class TFloodControl : TEObject
     public int FWidth;
     public int FHeight;
     public sbyte[] FOriginalTerrain = [];
+
     // GlobalEnchantmentSpells.pas:1072
     public override void Destroy()
     {
@@ -1062,6 +1066,7 @@ public partial class TFloodEnchantment : TGlobalEnchantment
     // alignment
     public int FTurnsActive;
     public TFloodControl FFloodControl;
+
     // GlobalEnchantmentSpells.pas:1234
     public override void Destroy()
     {

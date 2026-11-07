@@ -18,11 +18,13 @@ public sealed class WallCrushingFastCombatTests
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TImageLibraryManager manager = new TImageLibraryManager(null!);
+
         internal Fixture()
         {
             Game.AoWHSSet = EngineFixture.CreateGameSet(manager);
             Game.AoWEngine = null!;
         }
+
         public void Dispose()
         {
             Game.AoWHSSet = previousSet;
@@ -36,6 +38,7 @@ public sealed class WallCrushingFastCombatTests
     private sealed class RecordingWall(TECustomNode owner) : TCombatWall(owner)
     {
         internal readonly List<(int Attack, int Damage, TSet<TDamageType> Types)> Rolls = [];
+
         public override int ExecuteDamageRole(int AAttack, int Damage, TSet<TDamageType> DamageTypes)
         {
             Rolls.Add((AAttack, Damage, DamageTypes));

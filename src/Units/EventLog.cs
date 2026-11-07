@@ -1,13 +1,13 @@
 // Translated from EventLog.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Sound.SoundUnit;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.Sound.SoundUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.EventLog;
 
@@ -30,6 +30,7 @@ public partial class TEventLog : TEObject
     public int FID;
     public sbyte FPlayer = AoWHSMap is { } map ? map.FCurrentPlayer : (sbyte)0;
     public int FRefCount;
+
     // EventLog.pas:334
     public override void SetOwner(TECustomNode AOwner)
     {
@@ -210,6 +211,7 @@ public partial class TTextEventLog : TEventLog
     public new const int ClassID = 131809;
 
     public string FText = "";
+
     // EventLog.pas:716
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -242,6 +244,7 @@ public partial class TLocationTextEventLog : TTextEventLog
     public sbyte FXhx;
     public sbyte FYhx;
     public sbyte FLhx;
+
     // EventLog.pas:731
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -300,6 +303,7 @@ public partial class TMessageEventLog : TEventLog
     public TMessageEventLogLayout FLayout;
     public TMessageEventLogButtons FButtons;
     public TPressedEventLogButton FPressedButton;
+
     // EventLog.pas:832
     public override void Destroy()
     {
@@ -361,6 +365,7 @@ public partial class THelpMessageEventLog : TEventLog
     public TStringList FMessage;
     public string FHelpFileName = "";
     public byte FMode;
+
     // EventLog.pas:868
     public override void Destroy()
     {
@@ -374,6 +379,7 @@ public partial class THelpMessageEventLog : TEventLog
 public partial class TExecuteEventLogCallBackList : TObject
 {
     public List<TExecuteEventLogInfo> FList = [];
+
     // EventLog.pas:283
     public override void Destroy()
     {
@@ -428,6 +434,7 @@ public partial class TEventLogList : TENode
 
     public int FUpdateCount;
     public TNotifyEvent FOnChanged;
+
     // EventLog.pas:481
     public override void MainReadWrite(TEStorageStream Stream)
     {
@@ -564,10 +571,10 @@ public partial class TEventLogbook : TEObject
     // EventLog.pas:532
     public new const int ClassID = 131808;
 
-
     public TEventLogList FEvents;
     public sbyte FPlayer;
     public int FNextID;
+
     // EventLog.pas:529
     public override void Destroy()
     {
@@ -730,6 +737,7 @@ public partial class TShowMessageEventLog : TEventLog
     public new const int ClassID = 131830;
 
     public TStringList FMessage;
+
     // EventLog.pas:762
     public override void Destroy()
     {
@@ -760,6 +768,7 @@ public partial class TGameOverEventLog : TEventLog
 
     public TStringList FMessage;
     public sbyte FTargetPlayer;
+
     // EventLog.pas:774
     public override void Destroy()
     {
@@ -920,6 +929,7 @@ public partial class TPasswordEventLog : TEventLog
 }
 
 public delegate void TExecuteDoneEvent(TEventLog Log);
+
 public struct TExecuteEventLogInfo
 {
     public TEventLog Log;

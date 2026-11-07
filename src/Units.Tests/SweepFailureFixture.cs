@@ -23,6 +23,7 @@ internal static class SweepFailureFixture
     {
         internal readonly List<string> Events = [];
         internal TEObject? Last;
+
         public override int AddChild(TEObject child)
         {
             Last = child;
@@ -31,6 +32,7 @@ internal static class SweepFailureFixture
             if (reject) throw new InvalidDataException("owner rejects after insertion");
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child)
         {
             Events.Add("remove:" + ReferenceEquals(Last, child));

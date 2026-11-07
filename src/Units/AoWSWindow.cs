@@ -9,9 +9,9 @@ using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWWindow;
 using Aow.Units.Scanner;
 using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
 using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWSWindow;
 
@@ -32,6 +32,7 @@ public partial class TSWindow : TDataModule
     public TAOWButton SMinIcon;
     public TAOWButton Help;
     public TIvTranslator Translator;
+
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {

@@ -1,10 +1,10 @@
 // Translated from Mine.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Mine;
@@ -23,6 +23,7 @@ public partial class TMine : TPlayerStructure
 
     public byte FState;
     public TPlayerStructureIncomeSource FIncomeSource;
+
     // Mine.pas:76
     public override void Destroy()
     {
@@ -38,7 +39,6 @@ public partial class TMine : TPlayerStructure
     }
 
     // Mine.pas:69
-
 
     // Mine.pas:142
     public override void Activate()
@@ -214,12 +214,10 @@ public partial class TMineResource : TPlayerStructureResource
 
     // Mine.pas:186
 
-
     // Mine.pas:203
     public override int ResourceUserClassID() => 131962;
 
     // Mine.pas:41
-
 
     // Mine.pas:197
     public override string ResourceEditName() => TranslateRStr(MineRStr);

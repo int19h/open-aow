@@ -22,6 +22,7 @@ public partial class TTutorialWindow : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FDone;
     public TEventLog FEvent;
+
     // AoWTutorialWin.pas:51
     public void FinishDialog()
     {

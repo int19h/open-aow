@@ -12,12 +12,14 @@ public sealed class MapNetSoundFailureTests
     {
 
         internal readonly List<string> Events = [];
+
         public override int AddChild(TEObject child)
         {
             Events.Add("insert");
             base.AddChild(child);
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child)
         {
             Events.Add("remove");
@@ -27,8 +29,6 @@ public sealed class MapNetSoundFailureTests
         }
     }
 
-
-
     private sealed class FailingSample : Aow.Units.Sound.TSample
     {
         private FailingSample(ConstructionContext context, TSampleData data) : base(context, data)
@@ -37,6 +37,7 @@ public sealed class MapNetSoundFailureTests
             Assert.Equal(1, SoundApi.SampleList.Count);
             throw new InvalidDataException("sample");
         }
+
         internal static new FailingSample Create(TSampleData data) =>
             ConstructionContext.Create(data, static (context, value) => new FailingSample(context, value));
     }
@@ -44,16 +45,19 @@ public sealed class MapNetSoundFailureTests
     private sealed class Container(THSMap map) : TMapContainer(map)
     {
         internal readonly List<string> Events = [];
+
         public override int AddChild(TEObject child)
         {
             Events.Add("insert");
             return base.AddChild(child);
         }
+
         public override int RemoveChild(TEObject child)
         {
             Events.Add("remove");
             return base.RemoveChild(child);
         }
+
         public override void Clear()
         {
             Events.Add("clear:" + Count);
@@ -61,11 +65,10 @@ public sealed class MapNetSoundFailureTests
         }
     }
 
-
-
     private sealed class ObservingFiles(IFileSystem inner, string name) : IFileSystem
     {
         internal TSampleData? Published;
+
         public Stream Open(string path, int mode)
         {
             Published = SoundApi.SampleDataList.Find(name);
@@ -73,7 +76,9 @@ public sealed class MapNetSoundFailureTests
             Assert.Equal(1, Published.RefCount);
             return inner.Open(path, mode);
         }
+
         public string CurrentDirectory => inner.CurrentDirectory;
+
         public string ExpandPath(string path) => inner.ExpandPath(path);
         public bool FileExists(string path) => inner.FileExists(path);
         public bool DirectoryExists(string path) => inner.DirectoryExists(path);
@@ -83,8 +88,6 @@ public sealed class MapNetSoundFailureTests
         public DateTime? LastWriteTime(string path) => inner.LastWriteTime(path);
         public IEnumerable<RtlFileEntry> Enumerate(string directory) => inner.Enumerate(directory);
     }
-
-
 
     [Fact]
     public void PlainDynamicLevelRemainsPublishedUntilDestroy()

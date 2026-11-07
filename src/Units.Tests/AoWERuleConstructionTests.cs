@@ -19,6 +19,7 @@ public sealed partial class AoWERuleConstructionTests
 
         internal readonly List<string> Observations = [];
         internal bool Reject = false;
+
         public override int AddChild(TEObject child)
         {
             base.AddChild(child);
@@ -26,6 +27,7 @@ public sealed partial class AoWERuleConstructionTests
             if (Reject) throw new InvalidOperationException("owner rejects after insertion");
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
     }
 
@@ -36,6 +38,7 @@ public sealed partial class AoWERuleConstructionTests
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TAoWHSMap Map;
+
         internal Fixture()
         {
             Game.AoWEngine = EngineFixture.Engine;
@@ -49,6 +52,7 @@ public sealed partial class AoWERuleConstructionTests
             Map.FHeroControl = new THeroControl(null!);
             Game.AoWHSMap = Map;
         }
+
         public void Dispose()
         {
             Game.AoWHSSet = previousSet;
@@ -161,6 +165,7 @@ public sealed partial class AoWERuleConstructionTests
         try { return (TObject)Invoke(() => factory is not null ? factory.Invoke(null, args) : constructor!.Invoke(args))!; }
         finally { foreach (object? arg in args) if (arg is TFastCombat or TCombatSide) ((TObject)arg).Destroy(); }
     }
+
     private static object? Invoke(Func<object?> action)
     {
         try { return action(); }
@@ -228,11 +233,10 @@ public sealed partial class AoWERuleConstructionTests
         }
     }
 
-
-
     private sealed class ObservedAISettings(TECustomNode owner) : TAIMoveControlSettings(owner)
     {
         internal bool SawInitializedFields;
+
         public override void Clear()
         {
             SawInitializedFields = FTransportPath is not null && FRefCount == 1;
@@ -243,6 +247,7 @@ public sealed partial class AoWERuleConstructionTests
     private sealed class ObservedSelector : TMoveSelector
     {
         internal bool SawPreAssignmentFields;
+
         public override TMoveControlSettings CreateMCS()
         {
             SawPreAssignmentFields = FMoveControlSettings is null && FMoveSettingsList is null && FCurrentMove == 0 && FMap is null;

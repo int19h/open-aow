@@ -1,9 +1,9 @@
 // Translated from Terrain.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Terrain;
@@ -21,6 +21,7 @@ public partial class TTerrainMOR : TMultiHexMOR
 
     internal sbyte FDecorationType;
     internal byte FTerrainType;
+
     // Terrain.pas:305
     public override void Destroy()
     {
@@ -37,7 +38,6 @@ public partial class TTerrainMOR : TMultiHexMOR
 
     // Terrain.pas:299
 
-
     // Terrain.pas:322
     public override int ResourceUserClassID() => 131430;
 
@@ -45,7 +45,6 @@ public partial class TTerrainMOR : TMultiHexMOR
     public byte TerrainType { get => FTerrainType; set => FTerrainType = value; }
 
     // Terrain.pas:42
-
 
     // Terrain.pas:317
     public override string ResourceEditName() => TerrainStr;
@@ -62,7 +61,6 @@ public partial class TTerrainMO : TMultiHexMO
     public new const int ClassID = 131430;
 
     // Terrain.pas:60
-
 
     // Terrain.pas:179
     public override bool CanChangeTerrain(in THSSenderInfo Info)
@@ -288,7 +286,6 @@ public partial class TTerrainMO : TMultiHexMO
     }
 
     // Terrain.pas:19
-
 
 }
 

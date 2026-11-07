@@ -1,24 +1,10 @@
 // Translated from AoWRealm.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWUnitWindow.AoWUnitWindowUnit;
-using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
-using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
-using Aow.Units.PrdPlace;
-using Aow.Units.City;
-using static Aow.Units.City.CityUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using static Aow.Units.AoWUnitBanner.AoWUnitBannerUnit;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
@@ -27,9 +13,23 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
+using Aow.Units.City;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.PrdPlace;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
+using static Aow.Units.AoWUnitBanner.AoWUnitBannerUnit;
+using static Aow.Units.AoWUnitWindow.AoWUnitWindowUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.BldGuild.BldGuildUnit;
+using static Aow.Units.City.CityUnit;
 using static Aow.Units.Farm.FarmUnit;
 using static Aow.Units.Mine.MineUnit;
-using static Aow.Units.BldGuild.BldGuildUnit;
 
 namespace Aow.Units.AoWRealm;
 
@@ -124,6 +124,7 @@ public partial class TRealmWin : TDataModule
     public TAOWPanel PicPnl;
     public TAOWButton Help;
     public TIvTranslator Translator;
+
     // AoWRealm.pas:238
     public void UpdateIncome()
     {

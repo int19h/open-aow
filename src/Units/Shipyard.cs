@@ -1,18 +1,18 @@
 // Translated from Shipyard.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Shipyard;
 
 public partial class TShipyard : TProductionPlace
 {
     public TShipyard(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Shipyard.pas:49
     public new const int ClassID = 132286;
@@ -43,12 +43,10 @@ public partial class TShipyardResource : TProductionPlaceResource
 
     // Shipyard.pas:60
 
-
     // Shipyard.pas:75
     public override int ResourceUserClassID() => 132286;
 
     // Shipyard.pas:29
-
 
     // Shipyard.pas:69
     public override string ResourceEditName() => TranslateRStr(ShipyardRStr);

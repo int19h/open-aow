@@ -188,7 +188,9 @@ internal sealed class LayoutReader
         {
             var diagnostic = new FormatDiagnostic(Codes.Layout, "The retained layout no longer matches the edited content and is rebuilt.")
             {
-                File = ctx.File, Span = layout.Span, Path = at.ToString(),
+                File = ctx.File,
+                Span = layout.Span,
+                Path = at.ToString(),
             };
             if (ctx.Options.ExactLayout)
                 throw new ConversionException(diagnostic with { Message = "The retained exact layout is stale after an edit. --exact-layout refuses to rebuild it." });
@@ -231,28 +233,28 @@ internal sealed class LayoutReader
         switch (category)
         {
             case LayoutResidue.TableFormOrder:
-            {
-                allowed = ["category", "property", "entries", "longMarker"];
-                var list = part["entries"] as JsonArray ?? throw ctx.Fail(Codes.Layout, "A table part needs entries.", part, path);
-                var entries = new List<TableEntry>();
-                for (int i = 0; i < list.Items.Count; i++)
                 {
-                    var e = list.Items[i] as JsonArray;
-                    var ep = path.Member("entries").Item(i);
-                    if (e is null || e.Items.Count != 3) throw ctx.Fail(Codes.Layout, "A table entry is [id, offset, long].", list.Items[i], ep);
-                    entries.Add(new TableEntry(Int(ctx, e.Items[0], ep, int.MinValue, int.MaxValue), Int(ctx, e.Items[1], ep, 0, int.MaxValue),
-                        Int(ctx, e.Items[2], ep, 0, 1) == 1, i));
+                    allowed = ["category", "property", "entries", "longMarker"];
+                    var list = part["entries"] as JsonArray ?? throw ctx.Fail(Codes.Layout, "A table part needs entries.", part, path);
+                    var entries = new List<TableEntry>();
+                    for (int i = 0; i < list.Items.Count; i++)
+                    {
+                        var e = list.Items[i] as JsonArray;
+                        var ep = path.Member("entries").Item(i);
+                        if (e is null || e.Items.Count != 3) throw ctx.Fail(Codes.Layout, "A table entry is [id, offset, long].", list.Items[i], ep);
+                        entries.Add(new TableEntry(Int(ctx, e.Items[0], ep, int.MinValue, int.MaxValue), Int(ctx, e.Items[1], ep, 0, int.MaxValue),
+                            Int(ctx, e.Items[2], ep, 0, 1) == 1, i));
+                    }
+                    bool marker = part["longMarker"] switch
+                    {
+                        null => false,
+                        JsonBool { Value: true } => true,
+                        var v => throw ctx.Fail(Codes.Layout, "longMarker is true or absent.", v, path.Member("longMarker")),
+                    };
+                    if (Tables.Any(t => t.Property == property)) throw ctx.Fail(Codes.Duplicate, "Two table parts describe the same table.", part, path);
+                    Tables.Add((property, entries, marker, part));
+                    break;
                 }
-                bool marker = part["longMarker"] switch
-                {
-                    null => false,
-                    JsonBool { Value: true } => true,
-                    var v => throw ctx.Fail(Codes.Layout, "longMarker is true or absent.", v, path.Member("longMarker")),
-                };
-                if (Tables.Any(t => t.Property == property)) throw ctx.Fail(Codes.Duplicate, "Two table parts describe the same table.", part, path);
-                Tables.Add((property, entries, marker, part));
-                break;
-            }
             case LayoutResidue.Gaps:
                 allowed = ["category", "property", "offset", "bytes"];
                 Gaps.Add((property, Int(ctx, part["offset"], path.Member("offset"), 0, int.MaxValue), Bytes(ctx, part["bytes"], path.Member("bytes")), part));

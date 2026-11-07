@@ -7,8 +7,8 @@ using Aow.Rtl.Localize;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Game = Aow.Units.AoWE.AoWEUnit;
 using Core = Aow.Units.Engine.EngineUnit;
+using Game = Aow.Units.AoWE.AoWEUnit;
 using Hex = Aow.Units.HSEngine.HSEngineUnit;
 using Images = Aow.Units.ImageLib.ImageLibUnit;
 using SoundApi = Aow.Units.Sound.SoundUnit;
@@ -110,9 +110,13 @@ public sealed class EngineStartupTests
                 // after the recording without retrying virtual engine destruction.
                 result["Events"] = JsonSerializer.SerializeToNode(events.Select(x => new
                 {
-                    x.Call, x.Argument, Engine = x.Engine is null ? (int?)null : x.Engine - fixture.Origin,
+                    x.Call,
+                    x.Argument,
+                    Engine = x.Engine is null ? (int?)null : x.Engine - fixture.Origin,
                     Set = x.Set is null ? (int?)null : x.Set - fixture.Origin,
-                    Counter = x.Counter - fixture.Origin, x.Engines, x.DestroyFrames
+                    Counter = x.Counter - fixture.Origin,
+                    x.Engines,
+                    x.DestroyFrames
                 }));
                 actual.Add(route, result);
             }
@@ -126,8 +130,6 @@ public sealed class EngineStartupTests
             Assert.True(JsonNode.DeepEquals(expected[pair.Key], pair.Value), pair.Key + " startup recording differs from the base commit.");
         Assert.Equal(expected.Count, actual.Count);
     }
-
-
 
     private static JsonObject Objects(TObject root, int origin)
     {
@@ -168,10 +170,15 @@ public sealed class EngineStartupTests
 
     private static JsonObject Snapshot(TAoWEngine engine, EngineFixture.RecordingHost fixture) => new()
     {
-        ["Version"] = engine.FVersion, ["User"] = engine.FUser.Mask, ["Options"] = engine.Options.Mask,
-        ["Debug"] = engine.FDebug, ["Detail"] = engine.FAnimationDetail,
-        ["Language"] = engine.FLanguage, ["DictionaryLanguage"] = engine.FDictionary.Reader.Language,
-        ["Demo"] = engine.FDemo, ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory),
+        ["Version"] = engine.FVersion,
+        ["User"] = engine.FUser.Mask,
+        ["Options"] = engine.Options.Mask,
+        ["Debug"] = engine.FDebug,
+        ["Detail"] = engine.FAnimationDetail,
+        ["Language"] = engine.FLanguage,
+        ["DictionaryLanguage"] = engine.FDictionary.Reader.Language,
+        ["Demo"] = engine.FDemo,
+        ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory),
         ["DebugIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.DebugIDs.Count).Select(i => new { Name = engine.DebugIDs[i], Id = Runtime.ObjectToInt(engine.DebugIDs.Objects[i]) })),
         ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EClasses.Count).Select(i => ((EClass)engine.EClasses[i]!).ClassID)),
         ["Children"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.Count).Select(i => engine.Children[i].GetType().FullName)),

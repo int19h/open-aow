@@ -1,12 +1,12 @@
 // Translated from SummonSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
-using Aow.Units.PassiveAb;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.PassiveAb;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.SummonSpells;
 
@@ -17,6 +17,7 @@ public partial class TSummonSpellTE : TSpellTE
     public new const int ClassID = 135947;
 
     public TUnitIndexList FUnitIndices;
+
     // SummonSpells.pas:165
     public override void Destroy()
     {
@@ -128,7 +129,6 @@ public partial class TSummonSpellTE : TSpellTE
 
     // SummonSpells.pas:34
 
-
 }
 
 // FAIBasePriority, FUnitIndices
@@ -137,6 +137,7 @@ public partial class TSummonSpell : TSpell
 
     public int FAIBasePriority;
     public TUnitIndexList FUnitIndices;
+
     // SummonSpells.pas:249
     public override void Destroy()
     {

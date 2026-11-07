@@ -1,19 +1,19 @@
 // Translated from AoWExeForms.pas.
 using Aow.Rtl;
-using Aow.Units.AoWScenSetup;
-using Aow.Units.AoWMessageDlg;
-using Aow.Units.AoWInfoBanner;
-using Aow.Units.AoWSoundDlg;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.AOWMultiWin;
-using Aow.Units.AoWMagic;
-using Aow.Units.AoWTBWindow;
-using Aow.Units.AoWSpellBook;
 using Aow.Units.AOWChatWin;
-using Aow.Units.FontMod;
 using Aow.Units.AoWConstructDlg;
 using Aow.Units.AoWDisjunctionDlg;
+using Aow.Units.AoWInfoBanner;
+using Aow.Units.AoWMagic;
+using Aow.Units.AoWMessageDlg;
+using Aow.Units.AOWMultiWin;
+using Aow.Units.AoWScenSetup;
+using Aow.Units.AoWSoundDlg;
+using Aow.Units.AoWSpellBook;
+using Aow.Units.AoWTBWindow;
 using Aow.Units.AoWTCScanner;
+using Aow.Units.AoWVideoDlg;
+using Aow.Units.FontMod;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWExeForms;
@@ -21,7 +21,7 @@ namespace Aow.Units.AoWExeForms;
 public static partial class AoWExeFormsUnit
 {
     // { Shared executable form instances used by E2. These are the original global form
-//   references; no forms are constructed by the byte-match host. }
+    //   references; no forms are constructed by the byte-match host. }
     public static TScenSetup ScenSetup;
     public static TSoundDlg SoundDlg;
     public static TMultiWindow MultiWindow;
@@ -34,6 +34,7 @@ public static partial class AoWExeFormsUnit
     public static TTCScanner TCScanner;
     public static TConstructDlg ConstructDlg;
     public static TDisjunctionDlg DisjunctionDlg;
+
     // AoWExeForms.pas:69
     public static void SetVideoMode(TVideoDialog Dialog, TScreenMode FullScreen)
     {

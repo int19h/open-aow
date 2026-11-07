@@ -1,6 +1,5 @@
 // Translated from AOWMultiWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWLabel;
@@ -8,15 +7,16 @@ using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Units.E2GameFlow;
 using Aow.Units.E2Globals;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
+using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
 
 namespace Aow.Units.AOWMultiWin;
 
@@ -70,6 +70,7 @@ public partial class TMultiWindow : TDataModule
     public TIvTranslator Translator;
     public string FPendingMap = "";
     public int FMenuHeight;
+
     // AOWMultiWin.pas:362
     public int ConnectProvider(TConnectionType Kind)
     {

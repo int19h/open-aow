@@ -1,7 +1,7 @@
 // Translated from AlgnmBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AlgnmBox;
 
@@ -10,6 +10,7 @@ public partial class TAlignmentBox : TComboBox
     public TAlignment FAlignment;
     public TSet<TAlignment> FAlignments;
     public bool FSetMode;
+
     // AlgnmBox.pas:133
     public override void Loaded()
     {

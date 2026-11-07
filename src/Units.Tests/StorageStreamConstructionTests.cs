@@ -1,6 +1,6 @@
 using System.Reflection;
-using Aow.Units.Engine;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
 
 namespace Aow.Units.Tests;
 
@@ -15,6 +15,7 @@ public sealed class StorageStreamConstructionTests
     {
         internal string Name = "";
         internal string Detail = "";
+
         public override void ReadWrite(TEStorageStream stream)
         {
             stream.rwString(ref Name, 7);

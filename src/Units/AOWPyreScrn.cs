@@ -1,22 +1,22 @@
 // Translated from AOWPyreScrn.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.SoundUnit;
+using Aow.Units.AoWE;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWPanel;
 using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
-using static Aow.Units.AoWResultsWin.AoWResultsWinUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using Aow.Units.aowIntGfxMod;
 using Aow.Units.E2Globals;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.Sound;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWResultsWin.AoWResultsWinUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AOWPyreScrn;
 
@@ -35,6 +35,7 @@ public partial class TPyreScreen : TDataModule
     public TExecuteDoneEvent FDone;
     public TGameOverEventLog FGameOverEvent;
     public int FAnimationFrame;
+
     // AOWPyreScrn.pas:114
     public void ClearFire()
     {

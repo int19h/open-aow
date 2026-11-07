@@ -1,10 +1,10 @@
 // Translated from IsoHex.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.IsoHex;
@@ -18,13 +18,13 @@ public partial class TIsometricHexagon : TAbstractHexagon
         FSides = (byte)(Random(4) << 6);
     }
 
-
     // IsoHex.pas:214
     public new const int ClassID = 131437;
 
     protected internal TDynamicIsometricHexagon FDynamic;
     protected internal byte FOpenSides;
     protected internal byte FSides;
+
     // IsoHex.pas:204
     public override void Destroy()
     {
@@ -38,7 +38,6 @@ public partial class TIsometricHexagon : TAbstractHexagon
     }
 
     // IsoHex.pas:198
-
 
     // IsoHex.pas:224
     public override void Disconnect()
@@ -94,8 +93,6 @@ public partial class TIsometricHexagon : TAbstractHexagon
 
     // IsoHex.pas:50
 
-
-
 }
 
 // owned by its TIsometricHexagon (FOwner set directly, so it is not added as a child) and shown
@@ -132,13 +129,12 @@ public partial class TIsometricHexagonResource : TAbstractHexagonResource
         FDynamicLevel = 26;
     }
 
-
     // IsoHex.pas:268
     public new const int ClassID = 131438;
 
     protected internal byte FDynamicLevel;
-    // IsoHex.pas:262
 
+    // IsoHex.pas:262
 
     // IsoHex.pas:302
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -186,14 +182,12 @@ public partial class TIsometricHexagonResource : TAbstractHexagonResource
 
     // IsoHex.pas:64
 
-
 }
 
 public partial class TUpperIsometricHexagon : TIsometricHexagon
 {
     public TUpperIsometricHexagon(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     public new const int ClassID = 131440;
 
@@ -234,8 +228,7 @@ public partial class TUpperIsometricHexagon : TIsometricHexagon
 public partial class TUpperIsometricHexagonResource : TIsometricHexagonResource
 {
     public TUpperIsometricHexagonResource(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     public new const int ClassID = 131441;
 
@@ -250,8 +243,7 @@ public partial class TUpperIsometricHexagonResource : TIsometricHexagonResource
 public partial class TLowerIsometricHexagon : TIsometricHexagon
 {
     public TLowerIsometricHexagon(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     public new const int ClassID = 131442;
 
@@ -260,8 +252,7 @@ public partial class TLowerIsometricHexagon : TIsometricHexagon
 public partial class TLowerIsometricHexagonResource : TIsometricHexagonResource
 {
     public TLowerIsometricHexagonResource(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     public new const int ClassID = 131443;
 

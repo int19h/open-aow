@@ -1,13 +1,13 @@
 // Translated from IndependentAG.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
+using Aow.Units.AGCPlugins;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AGCPlugins;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.IndependentAG;
 
@@ -45,6 +45,7 @@ public partial class TGuardAreaAG : TAIGroup, IAIGroupClass
     public new const int ClassID = 136273;
 
     public TXYL FGuardLocation;
+
     // IndependentAG.pas:170
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -140,10 +141,10 @@ public partial class TGuardAreaAGC : TAIGroupControl
 
                 Finder = new TAIGroupTargetFinder(null);
                 Finder.Setup(this);
-            {
-                Finder.FSelector.FSourceLocation = ((TGuardAreaAG)FGroup).FGuardLocation;
-                Finder.FSelector.FTargetInfo.Mode = TAITargetMode.tmGuardArea;
-            }
+                {
+                    Finder.FSelector.FSourceLocation = ((TGuardAreaAG)FGroup).FGuardLocation;
+                    Finder.FSelector.FTargetInfo.Mode = TAITargetMode.tmGuardArea;
+                }
 
                 var moves = FArmy.Moves(FSelection);
                 Finder.FSelector.FMovePointsMax = moves;
@@ -238,6 +239,7 @@ public partial class TPatrolAG : TAIGroup, IAIGroupClass
     public TXYL FPatrolTo;
     public sbyte FPreviousHeading;
     public int FPatrolStrength;
+
     // IndependentAG.pas:304
     public override void ReadWrite(TEStorageStream Stream)
     {

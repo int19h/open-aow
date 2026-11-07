@@ -1,13 +1,13 @@
 // Translated from ExploreS.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.EventLog;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.ExploreS;
 
@@ -42,6 +42,7 @@ public partial class TExplorationSite : TStructure
 
     public TDefendersMode FDefendersMode;
     public TDefendersArmy FDefenders;
+
     // ExploreS.pas:84
     public override void Destroy()
     {
@@ -58,7 +59,6 @@ public partial class TExplorationSite : TStructure
     }
 
     // ExploreS.pas:77
-
 
     // ExploreS.pas:351
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -432,7 +432,6 @@ public partial class TExplorationSite : TStructure
 
     // ExploreS.pas:33
 
-
 }
 
 // FDefenderCollections, the available defender army compositions
@@ -448,6 +447,7 @@ public partial class TExplorationSiteResource : TStructureResource
     public new const int ClassID = 132034;
 
     public TUnitIndexListCollection FDefenderCollections;
+
     // ExploreS.pas:364
     public override void Destroy()
     {
@@ -464,12 +464,10 @@ public partial class TExplorationSiteResource : TStructureResource
 
     // ExploreS.pas:357
 
-
     // ExploreS.pas:382
     public override int ResourceUserClassID() => 132033;
 
     // ExploreS.pas:61
-
 
     // ExploreS.pas:370
     public override string ResourceEditName() => "";

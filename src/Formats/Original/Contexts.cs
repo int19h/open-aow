@@ -61,7 +61,13 @@ public sealed class DecodeContext
     public ConversionException Fail(string code, string message, long offset, DocPath? path = null, string? value = null, string? constraint = null) =>
         new(new FormatDiagnostic(code, Nested is null ? message : message + " In the nested image of " + Nested + ".")
         {
-            File = File, Offset = offset, Profile = Profile, Path = path?.ToString(), Value = value, Constraint = constraint, Decompressed = Inflated,
+            File = File,
+            Offset = offset,
+            Profile = Profile,
+            Path = path?.ToString(),
+            Value = value,
+            Constraint = constraint,
+            Decompressed = Inflated,
         });
 
     public void Need(int start, int count, int end, DocPath path, string what)
@@ -115,7 +121,12 @@ public sealed class EncodeContext
     public ConversionException Fail(string code, string message, JsonValue? at, DocPath path, string? value = null, string? constraint = null) =>
         new(new FormatDiagnostic(code, message)
         {
-            File = File, Span = at?.Span ?? default, Path = path.ToString(), Value = value, Constraint = constraint, Migration = at?.Origin,
+            File = File,
+            Span = at?.Span ?? default,
+            Path = path.ToString(),
+            Value = value,
+            Constraint = constraint,
+            Migration = at?.Origin,
         });
 
     public void Enter(JsonValue at, DocPath path)

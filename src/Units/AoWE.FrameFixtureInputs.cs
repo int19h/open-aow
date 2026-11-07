@@ -12,5 +12,6 @@ public static class FrameFixtureInputs
     public static bool Tactical { get; set; }
     public static int? MeasuredFrameRate { get; set; }
     public static Action? TacticalInitialized { get; set; }
+
     public static int AnimationOffset(TObject instance) => AddressAnimationPhase ?? (int)((uint)instance.InstanceId >> 2) & 65535;
 }

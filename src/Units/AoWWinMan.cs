@@ -1,34 +1,34 @@
 // Translated from AoWWinMan.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWComp;
-using Aow.Units.AoWWindow;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWE;
+using Aow.Units.AoWInfoWin;
+using Aow.Units.AoWListBox;
+using Aow.Units.AoWPInfoWin;
+using Aow.Units.AoWSWindow;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
+using Aow.Units.AoWTCUnit;
+using Aow.Units.AOWToolTip;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AoWWinControl;
+using Aow.Units.AoWWindow;
+using Aow.Units.AOWWinManager;
+using Aow.Units.AoWWorldMap;
 using Aow.Units.City;
+using Aow.Units.E2GameFlow;
 using Aow.Units.PrdPlace;
 using Aow.Units.Sign;
-using Aow.Units.AOWToolTip;
-using Aow.Units.AOWWinManager;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using static Aow.Units.AOWMWindow.AOWMWindowUnit;
 using static Aow.Units.AoWRealm.AoWRealmUnit;
-using static Aow.Units.E1Resources.E1ResourcesUnit;
-using Aow.Units.AoWListBox;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWSWindow;
-using Aow.Units.E2GameFlow;
-using Aow.Units.AoWPInfoWin;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.AoWTCUnit;
-using Aow.Units.AoWWorldMap;
+using static Aow.Units.E1Resources.E1ResourcesUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWWinMan;
 
@@ -65,6 +65,7 @@ public partial class TGeneral : TDataModule
     public TSign FSign;
     public TAbstractUnit FSelectedUnit;
     public TTacticalCombatUnitHS FCombatUnit;
+
     // AoWWinMan.pas:503
     public void ReturnToTitle()
     {
@@ -731,6 +732,7 @@ public partial class TGeneral : TDataModule
 public static partial class AoWWinManUnit
 {
     public static TGeneral General;
+
     // AoWWinMan.pas:514
     public static void LoadGame(TGeneral Controller, string Name)
     {

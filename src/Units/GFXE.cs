@@ -1,9 +1,9 @@
 // Translated from GFXE.pas.
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 namespace Aow.Units.GFXE;
 
@@ -131,6 +131,7 @@ public struct TDDBltFX
 }
 
 public delegate int TDDEnumModesCallback(Ptr<TDDSurfaceDesc> lpDDSurfaceDesc, object lpContext);
+
 public partial class IDirectDrawSurface : IUnknown
 {
     // GFXE.pas:212
@@ -1289,6 +1290,7 @@ public partial class TGFXEPalette : TObject
 {
     public int PixelFormatID;
     public TPaletteEntry[] Entries = new TPaletteEntry[256];
+
     // GFXE.pas:11050
     public void LoadFromStream(TStream Stream)
     {
@@ -1318,23 +1320,23 @@ public partial class TGFXEPalette : TObject
                     switch (NewPixelFormatID)
                     {
                         case GFXEUnit.pfRGB565:
-                        {
-                            for (int I = 0; I <= 255; I++)
                             {
-                                ref var paletteEntry = ref Entries[I];
-                                paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.B) >> 3));
+                                for (int I = 0; I <= 255; I++)
+                                {
+                                    ref var paletteEntry = ref Entries[I];
+                                    paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.B) >> 3));
+                                }
                             }
-                        }
 
                             break;
                         case GFXEUnit.pfRGB555:
-                        {
-                            for (int I = 0; I <= 255; I++)
                             {
-                                ref var paletteEntry = ref Entries[I];
-                                paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.B) >> 3));
+                                for (int I = 0; I <= 255; I++)
+                                {
+                                    ref var paletteEntry = ref Entries[I];
+                                    paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.B) >> 3));
+                                }
                             }
-                        }
 
                             break;
                         case GFXEUnit.pfXRGB32:
@@ -1350,23 +1352,23 @@ public partial class TGFXEPalette : TObject
                     switch (NewPixelFormatID)
                     {
                         case GFXEUnit.pfRGB565:
-                        {
-                            for (int I = 0; I <= 255; I++)
                             {
-                                ref var paletteEntry = ref Entries[I];
-                                paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.R) >> 3));
+                                for (int I = 0; I <= 255; I++)
+                                {
+                                    ref var paletteEntry = ref Entries[I];
+                                    paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.R) >> 3));
+                                }
                             }
-                        }
 
                             break;
                         case GFXEUnit.pfRGB555:
-                        {
-                            for (int I = 0; I <= 255; I++)
                             {
-                                ref var paletteEntry = ref Entries[I];
-                                paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.R) >> 3));
+                                for (int I = 0; I <= 255; I++)
+                                {
+                                    ref var paletteEntry = ref Entries[I];
+                                    paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.R) >> 3));
+                                }
                             }
-                        }
 
                             break;
                         case GFXEUnit.pfXRGB32:
@@ -1987,6 +1989,7 @@ public partial class TDataSurface : TSurface
     internal int FX;
     internal int FY;
     internal TGFXEPalette FPalette;
+
     // GFXE.pas:12387
     public TDataSurface(int AWidth, int AHeight, int APixelFormatID, TGFXEPalette APalette)
     {
@@ -2135,6 +2138,7 @@ public partial class TDIBSurface : TSurface
     internal TBitmapInfoHeader FInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
     internal TGFXEPalette FPalette;
+
     // GFXE.pas:6397
     public Ptr<TBitmapInfo> GetBITMAPINFO()
     {
@@ -2185,6 +2189,7 @@ public partial class TDIB08Surface : TSurface
     internal TBitmapInfoHeader FInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
     internal TGFXEPalette FPalette;
+
     // GFXE.pas:6805
     public override int GetPixelFormatID() => GFXEUnit.pfPAL8;
 
@@ -2210,6 +2215,7 @@ public partial class TDIB16Surface : TSurface
     internal int FPixelFormatID;
     internal TBitmapInfoHeader FInfo;
     internal FixedArray_int_3 FMasks;
+
     // GFXE.pas:6991
     public override int GetWidth() => FWidth;
 
@@ -2232,6 +2238,7 @@ public partial class TDIB24Surface : TSurface
     internal Ptr<byte> FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
+
     // GFXE.pas:7238
     public override int GetWidth() => FWidth;
 
@@ -2258,6 +2265,7 @@ public partial class TDIB32Surface : TSurface
     internal Ptr<byte> FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
+
     // GFXE.pas:7446
     public override int GetWidth() => FWidth;
 
@@ -2271,6 +2279,7 @@ public partial class TGDISurface : TSurface
 {
 
     internal int FHandle;
+
     // GFXE.pas:12293
     public TGDISurface(int AHandle)
     {
@@ -2342,6 +2351,7 @@ public partial class TDDrawSurface : TSurface
     protected internal int FLockCount;
     protected internal int FLockExCount;
     protected internal TSurfaceDesc FSurfaceDesc;
+
     // GFXE.pas:9279
     public override int GetPixelFormatID() => FPixelFormatID;
 
@@ -2361,6 +2371,7 @@ public partial class TDDrawSurface : TSurface
 public partial class TRectangle : TObject
 {
     public TRect Rect;
+
     // GFXE.pas:2432
     public TRectangle(int ALeft, int ATop, int ARight, int ABottom)
     {
@@ -2402,11 +2413,13 @@ public partial class TRectangleList : TList
 }
 
 public delegate void TOnDrawRectEvent(TObject Sender, in TRect R);
+
 // a panel that paints through OnDraw. FEraseBkgndEnabled, FOnDraw
 public partial class TDrawPanel : TCustomPanel
 {
     internal bool FEraseBkgndEnabled;
     internal TOnDrawRectEvent FOnDraw;
+
     // GFXE.pas:8730
     protected internal override void WndProc(ref TMessage Message)
     {
@@ -2466,7 +2479,6 @@ public partial class TImageFile : TObject, IImageFileClass
         throw EAbstractError.Create("Abstract Error");
     }
 
-
 }
 
 // a TOpenDialog whose filter lists the registered image file classes
@@ -2500,6 +2512,7 @@ public partial class TDisplayModeItem : TObject
 public partial class TDisplayModeList : TObject
 {
     internal TList FList;
+
     // GFXE.pas:12629
     internal TDisplayModeItem GetItems(int Index) => (TDisplayModeItem)FList.List[Index];
 
@@ -2562,6 +2575,7 @@ public partial class TBlendTable : TObject
 {
     internal int FBits;
     internal object FTable;
+
     // GFXE.pas:741
     public virtual TBlendTable Copy()
     {
@@ -2589,6 +2603,7 @@ public partial class TBlendTable : TObject
 public partial class TBlendTable5Bit : TBlendTable
 {
     public new FixedArray_byte_32[] Table = new FixedArray_byte_32[32];
+
     // GFXE.pas:9609
     public TBlendTable5Bit()
     {
@@ -2609,6 +2624,7 @@ public partial class TBlendTable5Bit : TBlendTable
 public partial class TBlendTableList : TObject
 {
     internal TList FList;
+
     // GFXE.pas:9642
     internal int GetCount() => FList.Count;
 
@@ -2664,12 +2680,14 @@ public partial class TBlendTableList : TObject
 }
 
 public delegate void TGenerateBlendTableProc(TBlendTable Table, float Value);
+
 // FTables, Lookup (101 tables, indexed by percentage)
 public partial class TLookupBlendTableCollection100 : TObject
 {
     internal TBlendTableList FTables;
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
     public FixedArray_Aow_Units_GFXE_TBlendTable_101 Lookup;
+
     // GFXE.pas:9687
     public TBlendTable GetLookupTables(int Index) => Lookup[Index];
 
@@ -2764,6 +2782,7 @@ public partial class TLookupBlendTableCollection100 : TObject
 
 public delegate void TBltRectProc(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height);
 public delegate void TProgressEvent(TObject Sender, int Percent, int Param);
+
 // { The implementation list of image file classes (TList of TImageFileClass). }
 public partial class TImageFileClassList : TList
 {
@@ -2854,6 +2873,7 @@ public partial class TBMPImageFile : TImageFile, IImageFileClass
 public delegate int Procedure_0(Ptr<TGUID> lpGUID, IDirectDraw lplpDD, IUnknown pUnkOuter);
 public delegate int Procedure_1(object lpCallback, object lpContext);
 public delegate int Procedure_2(int dwFlags, IDirectDrawClipper lplpDDClipper, IUnknown pUnkOuter);
+
 public static partial class GFXEUnit
 {
     // The GFXE unit of Gfxepack.dpl (the graphics engine of Age of Wonders: surfaces, blitters,
@@ -2871,7 +2891,7 @@ public static partial class GFXEUnit
     public const int GFXE_BITMAPFORMATNOTSUPPORTED = -2147483644;
     public const int GFXE_CANNOTLOCK = -2147483643;
     // { Pixel format IDs (MASKtoPFID): bits 0-7 the bit count, bits 8-15 the channel order, the
-//     high nibbles the bits per channel (A, B, G, R) }
+    //     high nibbles the bits per channel (A, B, G, R) }
     public const byte pfPAL8 = 8;
     public const int pfRGB555 = 1431343888;
     public const int pfARGB1555 = 1431409424;
@@ -2908,6 +2928,7 @@ public static partial class GFXEUnit
     public const byte DDGBS_CANBLT = 1;
     public const byte DDGFS_ISFLIPDONE = 2;
     public const byte DDSCL_NORMAL = 8;
+
     public static TGUID CLSID_DirectDraw = new TGUID
     {
         D1 = -675868960,
@@ -2915,6 +2936,7 @@ public static partial class GFXEUnit
         D3 = 4559,
         D4 = [176, 99, 0, 32, 175, 194, 205, 53]
     };
+
     public static TGUID CLSID_DirectDrawClipper = new TGUID
     {
         D1 = 1496848288,
@@ -2922,6 +2944,7 @@ public static partial class GFXEUnit
         D3 = 4559,
         D4 = [162, 222, 0, 170, 0, 185, 51, 86]
     };
+
     public static TGUID IID_IDirectDraw = new TGUID
     {
         D1 = 1813306240,
@@ -2929,6 +2952,7 @@ public static partial class GFXEUnit
         D3 = 4558,
         D4 = [165, 33, 0, 32, 175, 11, 229, 96]
     };
+
     public static TGUID IID_IDirectDraw2 = new TGUID
     {
         D1 = -1280904224,
@@ -2936,6 +2960,7 @@ public static partial class GFXEUnit
         D3 = 4559,
         D4 = [162, 222, 0, 170, 0, 185, 51, 86]
     };
+
     public static TGUID IID_IDirectDrawSurface = new TGUID
     {
         D1 = 1813306241,
@@ -2943,6 +2968,7 @@ public static partial class GFXEUnit
         D3 = 4558,
         D4 = [165, 33, 0, 32, 175, 11, 229, 96]
     };
+
     public static TGUID IID_IDirectDrawSurface2 = new TGUID
     {
         D1 = 1468029061,
@@ -2950,6 +2976,7 @@ public static partial class GFXEUnit
         D3 = 4559,
         D4 = [148, 65, 168, 35, 3, 193, 14, 39]
     };
+
     public static TGUID IID_IDirectDrawSurface3 = new TGUID
     {
         D1 = -637252096,
@@ -2957,6 +2984,7 @@ public static partial class GFXEUnit
         D3 = 4560,
         D4 = [161, 213, 0, 170, 0, 184, 223, 187]
     };
+
     public static TGUID IID_IDirectDrawPalette = new TGUID
     {
         D1 = 1813306244,
@@ -2964,6 +2992,7 @@ public static partial class GFXEUnit
         D3 = 4558,
         D4 = [165, 33, 0, 32, 175, 11, 229, 96]
     };
+
     public static TGUID IID_IDirectDrawClipper = new TGUID
     {
         D1 = 1813306245,
@@ -2971,6 +3000,7 @@ public static partial class GFXEUnit
         D3 = 4558,
         D4 = [165, 33, 0, 32, 175, 11, 229, 96]
     };
+
     public static TGUID IID_IDirectDrawColorControl = new TGUID
     {
         D1 = 1268715232,
@@ -2978,6 +3008,7 @@ public static partial class GFXEUnit
         D3 = 4560,
         D4 = [155, 6, 0, 160, 201, 3, 163, 184]
     };
+
     public static Procedure_0 DirectDrawCreate;
     public static Procedure_1 DirectDrawEnumerate;
     public static Procedure_2 DirectDrawCreateClipper;
@@ -2986,6 +3017,7 @@ public static partial class GFXEUnit
     public static TLookupBlendTableCollection100 BrightenBlendTable;
     public static TLookupBlendTableCollection100 ShadowBlendTable;
     public static TLookupBlendTableCollection100 LinearAlphaBlendTable;
+
     // GFXE.pas:978
     public static string GetImageFilesFilter()
     {
@@ -3307,7 +3339,7 @@ public static partial class GFXEUnit
 
     // GFXE.pas:2340
     // { The pixel format ID: bits 0-7 the bit count, bits 8-15 the position (0-3) of each channel
-//   (A, B, G, R) counted from the low end, bits 16-31 the bits per channel (A, B, G, R). }
+    //   (A, B, G, R) counted from the low end, bits 16-31 the bits per channel (A, B, G, R). }
     public static int MASKtoPFID(int BitCount, int RMask, int GMask, int BMask, int AMask)
     {
         FixedArray_byte_4 Order = default;
@@ -3418,7 +3450,7 @@ public static partial class GFXEUnit
 
     // GFXE.pas:2465
     // { The rectangles of a surface: the maximal rectangles of TransparentColor bordered by other
-//   colors, found from their top left corners. }
+    //   colors, found from their top left corners. }
     public static TRectangleList GetSurfaceRectangles(TSurfaceDesc SD, int TransparentColor, TProgressEvent OnProgress)
     {
         TRectangleList Result;
@@ -3540,7 +3572,7 @@ public static partial class GFXEUnit
 
     // GFXE.pas:2547
     // { Shrinks R to the part of the surface that is not TransparentColor (MinimizeTransparentRect)
-//   or that is TransparentColor (MinimizeInvTransparentRect). }
+    //   or that is TransparentColor (MinimizeInvTransparentRect). }
     public static void MinimizeTransparentRect(in TSurfaceDesc SD, in TRect R, int TransparentColor, ref TRect Result)
     {
         TSurfaceDesc SD__value = SD;
@@ -4210,7 +4242,7 @@ public static partial class GFXEUnit
 
     // GFXE.pas:9517
     // { The 5 bit blend tables: Table[I, J] is the blend of source intensity I over destination
-//   intensity J (0..31). }
+    //   intensity J (0..31). }
     public static void GenerateAlphaBlendTable(TBlendTable Table, float Alpha)
     {
         if (Table is TBlendTable5Bit)
@@ -4518,7 +4550,7 @@ public static partial class GFXEUnit
     public static FixedArray_Aow_Units_GFXE_TBltRectProc_21 BltProcs;
     public static FixedArray_string_21 BltProcNames = FixedArray_string_21.From([]);
     // { the blit routine indices chosen by GetOptimalGFXESettings: large and small blits, for
-//     qword, dword, word and misaligned source/destination pairs }
+    //     qword, dword, word and misaligned source/destination pairs }
     public static FixedArray_byte_8 OptimalBltProc;
     public static int BltProcCount;
     public static int ModeCount;
@@ -4528,11 +4560,12 @@ public static partial class GFXEUnit
     public static IDirectDraw2 FDirectDraw;
     public static bool PerformanceCounterAvailable;
     public static long PerformanceFrequency;
+
     // GFXE.pas:1508
     // // sic: the small misaligned entry (+7) is never used
     // { The four timing tests of GetOptimalGFXESettings: the source and destination of T are aligned
-//   to 8 bytes and the destination offset by 0, 4, 2 or 1 bytes; every registered blit routine
-//   is run Count times and the fastest one returned with its bandwidth. }
+    //   to 8 bytes and the destination offset by 0, 4, 2 or 1 bytes; every registered blit routine
+    //   is run Count times and the fastest one returned with its bandwidth. }
     public static TBltTestResult TestQWordAligned(TBltTest T, int Count)
     {
         TBltTestResult Res = default;

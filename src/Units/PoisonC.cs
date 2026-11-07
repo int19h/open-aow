@@ -1,11 +1,11 @@
 // Translated from PoisonC.pas.
-using Aow.Rtl;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.PoisonC;
 
@@ -25,6 +25,7 @@ public partial class TPoisonCloud : TMultiHexMO
     public bool FDrifting;
     public byte FDirection;
     public bool FUpdated;
+
     // PoisonC.pas:149
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -36,7 +37,6 @@ public partial class TPoisonCloud : TMultiHexMO
     }
 
     // PoisonC.pas:58
-
 
     // PoisonC.pas:275
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -358,13 +358,12 @@ public partial class TPoisonCloud : TMultiHexMO
 
     // PoisonC.pas:27
 
-
 }
 
 public partial class TPoisonCloudResource : TMultiHexMOR
 {
     public TPoisonCloudResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // PoisonC.pas:286
     public new const int ClassID = 135744;

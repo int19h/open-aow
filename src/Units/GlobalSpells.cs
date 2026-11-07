@@ -1,17 +1,17 @@
 // Translated from GlobalSpells.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLogUnit;
+using Aow.Rtl;
 using Aow.Units.Animation;
+using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.GlobalSpells;
 
@@ -23,6 +23,7 @@ public partial class TConcealAreaHS : TFixedVisibleHS
     public sbyte FLayer;
     public TIntegerList FHexagons;
     public int FFrame;
+
     // GlobalSpells.pas:205
     public override void Destroy()
     {
@@ -276,6 +277,7 @@ public partial class TBirdsViewHS : TFixedVisibleHS
     public sbyte FLayer;
     public TIntegerList FHexagons;
     public int FFrame;
+
     // GlobalSpells.pas:412
     public override void Destroy()
     {
@@ -468,6 +470,7 @@ public partial class TWarpPartyTE : TSpellTE
 
     public TArmyID FArmyID;
     public TXYL FWarpLocation;
+
     // GlobalSpells.pas:558
     public override void Destroy()
     {
@@ -557,7 +560,6 @@ public partial class TWarpPartyTE : TSpellTE
     }
 
     // GlobalSpells.pas:92
-
 
 }
 
@@ -1192,6 +1194,7 @@ public partial class TDisjunctionTE : TSpellTE
 
     public int FDispelChance;
     public int FEnchantmentID;
+
     // GlobalSpells.pas:750
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1270,7 +1273,6 @@ public partial class TDisjunctionTE : TSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 // enchantment ID, dispel chance. inherited spell ID, source unit ID, references
@@ -1278,6 +1280,7 @@ public partial class TDisjunctionSpellCaster : TSpellCaster
 {
     public int FEnchantmentID;
     public int FDispelChance;
+
     // GlobalSpells.pas:806
     public TDisjunctionSpellCaster(TECustomNode owner) : base(owner)
     {
@@ -1712,6 +1715,7 @@ public static partial class GlobalSpellsUnit
     public static FixedArray_int_1 TCrusade_ExecuteTE__LargeUnits = FixedArray_int_1.From([133]);
     public static FixedArray_int_3 TCrusade_ExecuteTE__MountedUnits = FixedArray_int_3.From([132, 134, 128]);
     public static FixedArray_int_2 TCrusade_ExecuteTE__FootUnits = FixedArray_int_2.From([129, 126]);
+
     // GlobalSpells.pas:1435
     public static void RegisterGlobalSpells(TAoWEngine Engine)
     {

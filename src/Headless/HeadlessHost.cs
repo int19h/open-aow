@@ -1,12 +1,13 @@
 using System.Text.Json;
-using Aow.Rtl;
 using Aow.Platform;
+using Aow.Rtl;
 
 namespace Aow.Headless;
 
 internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellService
 {
     private readonly string dialogFile;
+
     public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal", string? input = null)
     {
         GameRoot = Path.GetFullPath(root);
@@ -19,11 +20,14 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
                 Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Name, property.Value));
         byte speed = movementSpeed switch
         {
-            "normal" => 0, "fast" => 1, "turbo" => 2,
+            "normal" => 0,
+            "fast" => 1,
+            "turbo" => 2,
             _ => throw new ArgumentException("movement speed must be normal, fast or turbo")
         };
         Settings.Write(@"\Software\Triumph Studios\Age of Wonders\General\Movement Speed", new byte[] { speed });
     }
+
     private static object ReadSetting(string key, JsonElement value)
     {
         if (value.ValueKind == JsonValueKind.Object)
@@ -38,12 +42,14 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
         return value.ValueKind switch
         {
             JsonValueKind.Number => value.GetInt32(),
-            JsonValueKind.True => true, JsonValueKind.False => false,
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
             JsonValueKind.Array => value.EnumerateArray().Select(v => v.GetByte()).ToArray(),
             JsonValueKind.String => JsonSettingsStore.ReadText(key, value.GetString() ?? ""),
             _ => throw new InvalidDataException("unsupported setting value")
         };
     }
+
     public RunFiles FilesForRun { get; }
     public IFileSystem Files => FilesForRun;
     public IDialogService Dialogs => this;
@@ -55,14 +61,18 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     public DateTime Now => new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     public uint TickCount => 0;
     public double ElapsedMilliseconds => 0;
+
     public void WaitMilliseconds(int milliseconds) => ArgumentOutOfRangeException.ThrowIfNegative(milliseconds);
+
     public int DialogCount { get; private set; }
+
     // A headless run records the address and opens nothing.
     public void OpenUrl(string url)
     {
         File.AppendAllText(Path.Combine(Path.GetDirectoryName(dialogFile)!, "urls.jsonl"), JsonSerializer.Serialize(new { url }) + "\n");
         Console.WriteLine("open url: " + url);
     }
+
     public int Show(DialogRequest request)
     {
         DialogCount++;
@@ -76,19 +86,24 @@ internal sealed class RunFiles : IFileSystem
 {
     private readonly LayeredFileSystem files;
     private readonly string? input;
+
     public RunFiles(string gameRoot, string runDirectory, string? inputFile = null)
     {
         files = new(gameRoot, runDirectory);
         input = inputFile is null ? null : Path.GetFullPath(inputFile);
     }
+
     private bool IsInput(string path) => input is not null && Path.IsPathFullyQualified(path) &&
         string.Equals(Path.GetFullPath(path), input, StringComparison.OrdinalIgnoreCase);
+
     public string? AutoSaveTarget { get; set; }
     public string CurrentDirectory => files.CurrentDirectory;
     public string VirtualDrive => files.VirtualDrive;
+
     public string ExtractRelativePath(string baseFile, string destination) => files.ExtractRelativePath(baseFile, destination);
     public bool SetCurrentDirectory(string path) => files.SetCurrentDirectory(path);
     public string ExpandPath(string path) => files.ExpandPath(path);
+
     // The autosave and its replacement temporary go to the day file of the run.
     private string Target(string path)
     {
@@ -105,6 +120,7 @@ internal sealed class RunFiles : IFileSystem
         }
         return path;
     }
+
     public Stream Open(string path, int mode)
     {
         bool writing = mode == RtlUnit.fmCreate || (mode & 3) != 0;
@@ -112,6 +128,7 @@ internal sealed class RunFiles : IFileSystem
         if (!writing && IsInput(path)) return File.Open(input!, FileMode.Open, FileAccess.Read, FileShare.Read);
         return files.Open(writing ? Target(path) : path, mode);
     }
+
     public bool ReplaceFile(string source, string target) => files.ReplaceFile(Target(source), Target(target));
     public string Layer(string path) => IsInput(path) ? "input" : files.Layer(Target(path));
     public bool FileExists(string path) => IsInput(path) ? File.Exists(input) : files.FileExists(Target(path));

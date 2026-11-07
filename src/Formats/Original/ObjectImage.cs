@@ -26,6 +26,7 @@ internal sealed class ObjectWriter
 {
     public ByteBuffer Data { get; } = new();
     public List<EncodedItem> Items { get; } = [];
+
     private int start = -1;
     private int id;
     private SchemaProperty? property;
@@ -212,13 +213,19 @@ internal static class ObjectImage
                 throw new ConversionException(new FormatDiagnostic(Codes.ReservedMember,
                     Reserved.IsKnown(m.Name) ? $"Reserved member \"{m.Name}\" is not allowed here." : $"Unknown reserved member \"{m.Name}\".")
                 {
-                    File = ctx.File, Span = m.NameSpan, Path = path.Member(m.Name).ToString(), Value = m.Name,
+                    File = ctx.File,
+                    Span = m.NameSpan,
+                    Path = path.Member(m.Name).ToString(),
+                    Value = m.Name,
                 });
             }
             if (cls.PropertyByName(m.Name) is null)
                 throw new ConversionException(new FormatDiagnostic(Codes.UnknownMember, $"Class {cls.Name} has no member \"{m.Name}\".")
                 {
-                    File = ctx.File, Span = m.NameSpan, Path = path.Member(m.Name).ToString(), Value = m.Name,
+                    File = ctx.File,
+                    Span = m.NameSpan,
+                    Path = path.Member(m.Name).ToString(),
+                    Value = m.Name,
                 });
         }
     }

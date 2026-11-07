@@ -24,16 +24,20 @@ public sealed class JsonSettingsStore : ISettingsStore
             if (Allowed(key)) values[key] = Decode(key, property.Value);
         }
     }
+
     private static string Normalize(string key)
     {
         key = key.Replace('\\', '/').Trim('/');
         return key.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase) ? key[Prefix.Length..] : key;
     }
+
     /// <summary>A string setting read from a file: a path keeps its chars, text is normalized.</summary>
     public static string ReadText(string key, string value) => PathKeys.Contains(Normalize(key), StringComparer.OrdinalIgnoreCase) ? value : Cp1252.Normalize(value);
     private static bool Allowed(string key) => !key.StartsWith("Software/", StringComparison.OrdinalIgnoreCase) && !key.StartsWith('{');
+
     public object? Read(string key) => values.GetValueOrDefault(Normalize(key)) is { } value ? value is TRect rect
         ? $"{rect.Left},{rect.Top},{rect.Right},{rect.Bottom}" : Clone(value) : null;
+
     public void Write(string key, object value)
     {
         key = Normalize(key);
@@ -51,7 +55,9 @@ public sealed class JsonSettingsStore : ISettingsStore
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }
     }
+
     private static object Clone(object value) => value switch { byte[] bytes => bytes.ToArray(), string text => text, _ => value };
+
     private static object Encode(string key, object value)
     {
         if (value is string rectangleText && (key.StartsWith("General/rectangles/", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Main Window Position", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Map Window Position", StringComparison.OrdinalIgnoreCase)))
@@ -70,11 +76,14 @@ public sealed class JsonSettingsStore : ISettingsStore
             _ => throw new ArgumentException("Unsupported registry value type.")
         };
     }
+
     private static object Decode(string key, JsonElement item)
     {
         if (item.ValueKind != JsonValueKind.Object) return item.ValueKind switch
         {
-            JsonValueKind.Number => item.GetInt32(), JsonValueKind.True => true, JsonValueKind.False => false,
+            JsonValueKind.Number => item.GetInt32(),
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
             JsonValueKind.String => ReadText(key, item.GetString()!),
             JsonValueKind.Array => item.EnumerateArray().Select(e => e.GetByte()).ToArray(),
             _ => throw new InvalidDataException("Unsupported setting.")
@@ -82,7 +91,9 @@ public sealed class JsonSettingsStore : ISettingsStore
         var value = item.GetProperty("value");
         return item.GetProperty("kind").GetString() switch
         {
-            "integer" => value.GetInt32(), "boolean" => value.GetBoolean(), "string" => ReadText(key, value.GetString()!),
+            "integer" => value.GetInt32(),
+            "boolean" => value.GetBoolean(),
+            "string" => ReadText(key, value.GetString()!),
             "bytes" => Convert.FromBase64String(value.GetString()!),
             // TAoWRegistry.rwRect uses a comma separated string through TRegistry.ReadString.
             "rectangle" => string.Join(",", value.EnumerateArray().Select(e => e.GetInt32())),

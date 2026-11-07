@@ -35,7 +35,9 @@ internal sealed class ProbeLines(string name)
 {
     private readonly string[] lines = File.ReadAllLines(Path.Combine(ProbeFactAttribute.Root, name + ".txt"));
     private int position;
+
     internal string Current => lines[position];
+
     internal void Fact(string label, object value)
     {
         string actual = label + " " + Convert.ToString(value, CultureInfo.InvariantCulture);
@@ -44,6 +46,7 @@ internal sealed class ProbeLines(string name)
             $"{name}.txt:{position + 1} [{label}] expected <{lines[position]}> actual <{actual}>");
         position++;
     }
+
     internal void End()
     {
         Fact("end", position);

@@ -5,6 +5,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Units.PlugInM;
 
 public delegate void TLoadPlugInEvent(TObject Sender, string FileName);
+
 // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
 // FPlugInExtension ('dpl'), FOnLoadPlugIn
 public partial class TPlugInManager : TComponent
@@ -14,6 +15,7 @@ public partial class TPlugInManager : TComponent
     internal string FPlugInDirectory = "";
     internal string FPlugInExtension = "";
     internal TLoadPlugInEvent FOnLoadPlugIn;
+
     // PlugInM.pas:60
     internal void ExecutePlugInSearch(string Directory)
     {

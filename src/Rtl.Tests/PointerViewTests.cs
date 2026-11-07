@@ -14,6 +14,7 @@ public sealed class PointerViewTests
         Assert.Equal("A\u00E9", RtlUnit.StrPas(pointer));
         Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox(text));
     }
+
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     private struct Pair
     {

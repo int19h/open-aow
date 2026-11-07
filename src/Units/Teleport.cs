@@ -1,15 +1,15 @@
 // Translated from Teleport.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.Teleport;
 
@@ -54,6 +54,7 @@ public partial class TTeleport : TStructure
     public sbyte FDestinationY;
     public sbyte FDestinationL;
     public TSet<TTeleportStateElement> FState;
+
     // Teleport.pas:122
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -65,7 +66,6 @@ public partial class TTeleport : TStructure
     }
 
     // Teleport.pas:97
-
 
     // Teleport.pas:157
     public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
@@ -315,12 +315,10 @@ public partial class TTeleportResource : TStructureResource
 
     // Teleport.pas:290
 
-
     // Teleport.pas:305
     public override int ResourceUserClassID() => 131332;
 
     // Teleport.pas:45
-
 
     // Teleport.pas:302
     public override string ResourceEditName() => TranslateRStr(TeleportRStr);

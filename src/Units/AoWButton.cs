@@ -1,12 +1,12 @@
 // Translated from AoWButton.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWControl;
+using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.AOWMenu;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Aow.Units.AOWMenu;
-using Aow.Units.AoWControl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWButton;
 
@@ -33,6 +33,7 @@ public partial class TAOWBaseButton : TAOWControl
     public int FILIndexLit;
     public TAOWMenu FPopupMenu;
     public bool FLit;
+
     // AoWButton.pas:85
     public override void Validate()
     {
@@ -298,6 +299,7 @@ public partial class TAOWButton : TAOWBaseButton
     { }
 
     public TNotifyEvent FOnClick;
+
     // AoWButton.pas:239
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {

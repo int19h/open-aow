@@ -1,8 +1,8 @@
 // Translated from RaceBox.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.RaceBox;
 
@@ -14,6 +14,7 @@ public partial class TRaceBox : TComboBox
     public bool FAllowNone;
     public bool FSelectableOnly;
     public TRaceList FRaces;
+
     // RaceBox.pas:98
     public override void Loaded()
     {
@@ -82,6 +83,7 @@ public struct TNameView
 {
     public FixedArray_byte_36 Reserved;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
 }
 

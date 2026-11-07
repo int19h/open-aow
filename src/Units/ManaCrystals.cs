@@ -1,14 +1,14 @@
 // Translated from ManaCrystals.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
-using static Aow.Units.Sound.SoundUnit;
+using Aow.Units.EventLog;
 using Aow.Units.HSEngine;
 using Aow.Units.ILTer;
-using Aow.Units.EventLog;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.ManaCrystals;
 
@@ -39,6 +39,7 @@ public partial class TManaCrystals : TILTerrainMO
 
     public int FAmount;
     public byte FSize;
+
     // ManaCrystals.pas:83
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -48,7 +49,6 @@ public partial class TManaCrystals : TILTerrainMO
     }
 
     // ManaCrystals.pas:73
-
 
     // ManaCrystals.pas:118
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -179,13 +179,12 @@ public partial class TManaCrystals : TILTerrainMO
 
     // ManaCrystals.pas:28
 
-
 }
 
 public partial class TManaCrystalsResource : TILTerrainMOR
 {
     public TManaCrystalsResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // ManaCrystals.pas:168
     public new const int ClassID = 132031;

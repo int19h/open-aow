@@ -2,8 +2,8 @@ using System.Runtime.InteropServices;
 using Aow.Rtl;
 using Aow.Units.GFXE;
 using SDL;
-using static SDL.SDL3;
 using static SDL.SDL_EventType;
+using static SDL.SDL3;
 
 namespace Aow.Platform;
 
@@ -18,6 +18,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     private readonly InputMapper input = new();
     private byte[] upload = [];
     private bool disposed;
+
     public bool IsClosed { get; private set; }
 
     public SdlDisplayHost(string title, int width = 640, int height = 480, int scale = 1, bool hidden = false)
@@ -43,19 +44,24 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         }
         catch { Dispose(); throw; }
     }
+
     private static InvalidOperationException Error() => new("SDL: " + SDL_GetError());
+
     private static void Check(SDLBool result) { if (!result) throw Error(); }
+
     private void OnThread()
     {
         ObjectDisposedException.ThrowIf(disposed, this);
         if (thread != Environment.CurrentManagedThreadId) throw new InvalidOperationException("SDL calls belong to the window thread.");
     }
+
     private (int Width, int Height) WindowSize()
     {
         int w, h;
         Check(SDL_GetWindowSize(window, &w, &h));
         return (w, h);
     }
+
     private DisplayViewport Viewport
     {
         get
@@ -65,21 +71,25 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             return DisplayViewport.Fit(width, height, w, h);
         }
     }
+
     private (float X, float Y) ToOutput(float x, float y)
     {
         float rx, ry;
         Check(SDL_RenderCoordinatesFromWindow(renderer, x, y, &rx, &ry));
         return (rx, ry);
     }
+
     private (int X, int Y, bool Inside) Map(float x, float y)
     {
         var point = ToOutput(x, y);
         return Viewport.Map(point.X, point.Y);
     }
+
     public (int Width, int Height) ClientSize
     {
         get { OnThread(); return (width, height); }
     }
+
     public (int Width, int Height) DesktopSize
     {
         get
@@ -90,10 +100,12 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             return ((int)(mode->w * mode->pixel_density), (int)(mode->h * mode->pixel_density));
         }
     }
+
     public IReadOnlyList<(int Width, int Height)> FullscreenSizes
     {
         get { var desktop = DesktopSize; return GFXEUnit.IntegerScaleSizes(desktop.Width, desktop.Height); }
     }
+
     public void ResizeImage(int newWidth, int newHeight)
     {
         OnThread();
@@ -105,10 +117,12 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         Check(SDL_SetWindowMinimumSize(window, width, height));
         if (!Fullscreen) Check(SDL_SetWindowSize(window, width * windowedScale, height * windowedScale));
     }
+
     public bool HasFocus
     {
         get { OnThread(); return (SDL_GetWindowFlags(window) & SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS) != 0; }
     }
+
     public bool Fullscreen
     {
         get { OnThread(); return (SDL_GetWindowFlags(window) & SDL_WindowFlags.SDL_WINDOW_FULLSCREEN) != 0; }
@@ -123,6 +137,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             if (!value) Check(SDL_SetWindowSize(window, width * windowedScale, height * windowedScale));
         }
     }
+
     public (int X, int Y, bool Inside) PointerPosition()
     {
         OnThread();
@@ -131,6 +146,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         SDL_GetMouseState(&x, &y);
         return Map(x, y);
     }
+
     /// <summary>Waits for the vertical blank in `Present`, so a frame never tears. The game's own
     /// limiter keeps its 33 ms target (graphics.md 7.2). A driver without vsync leaves it off.</summary>
     public bool VSync
@@ -148,6 +164,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             if (!SDL_SetRenderVSync(renderer, value ? 1 : 0)) Console.Error.WriteLine("SDL: vsync unavailable: " + SDL_GetError());
         }
     }
+
     /// <summary>The VCL message box as a modal SDL message box (platform.md 9). The buttons follow
     /// `MB_*` in the low four bits of the flags and return their `ID*` value, the icon follows
     /// `MB_ICON*`. Fullscreen leaves for the box and returns after, as the original's dialogs did.</summary>
@@ -205,11 +222,13 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             if (fullscreen) Fullscreen = true;
         }
     }
+
     public void ShowSystemCursor(bool show)
     {
         OnThread();
         Check(show ? SDL_ShowCursor() : SDL_HideCursor());
     }
+
     private void CreateTexture()
     {
         if (texture is not null) SDL_DestroyTexture(texture);
@@ -218,6 +237,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         Check(SDL_SetTextureScaleMode(texture, SDL_ScaleMode.SDL_SCALEMODE_NEAREST));
         upload = new byte[checked(width * height * 2)];
     }
+
     public void Present(in TSurfaceDesc backSurface)
     {
         OnThread();
@@ -237,6 +257,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         Check(SDL_RenderTexture(renderer, texture, null, &destination));
         Check(SDL_RenderPresent(renderer));
     }
+
     public void PumpEvents(IDisplayEvents sink)
     {
         OnThread();
@@ -307,6 +328,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             }
         }
     }
+
     public void Dispose()
     {
         if (disposed) return;

@@ -61,7 +61,9 @@ public partial class TLowerIsometricHexagon
 public partial class TDynamicIsometricHexagon
 {
     private TIsometricHexagon hexagon;
+
     private TMapField Field => (TMapField)hexagon.Owner;
+
     // IsoHex.pas:109. The TEObject body runs with a null owner (the hexagon owns the sprite directly,
     // not as a child), then the sprite is attached and the field of the hexagon shows it.
     public TDynamicIsometricHexagon(TIsometricHexagon owner) : base(null)
@@ -75,13 +77,16 @@ public partial class TDynamicIsometricHexagon
     public override sbyte GetXhx() => Field.Xhx;
     public override sbyte GetYhx() => Field.Yhx;
     public override sbyte GetLhx() => Field.Lhx;
+
     public override int GetShowPriority()
     {
         int x = Field.Xhx * 32 + 8;
         int y = (Field.Xhx & 1) * 16 + Field.Yhx * 32;
         return (GetLevel() << 26) + ((y + 32) << 13) + x + 8;
     }
+
     public override void Show(int x, int y, in TSurfaceDesc surface) => hexagon.ShowDynamic(x, y, surface);
+
     public override void Destroy()
     {
         if (hexagon != null)

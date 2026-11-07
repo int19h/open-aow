@@ -1,5 +1,5 @@
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 // What each structure kind shows in the info window, opens from the info window button or a double

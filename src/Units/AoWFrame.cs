@@ -1,10 +1,10 @@
 // Translated from AoWFrame.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AOWMenu;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.AOWMenu;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWFrame;
 
@@ -31,6 +31,7 @@ public partial class TAoWFrame : TAOWControl
     public int FILIndexLine;
     public int FILIndexTexture;
     public TAOWMenu FPopupMenu;
+
     // AoWFrame.pas:63
     public override void Validate()
     {

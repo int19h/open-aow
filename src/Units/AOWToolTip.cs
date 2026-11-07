@@ -1,9 +1,9 @@
 // Translated from AOWToolTip.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWWinGeneric;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Aow.Units.AoWWinGeneric;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AOWToolTip;
 
@@ -26,6 +26,7 @@ public partial class TAOWToolTip : TAOWGenericWindow
     public int FItemIndex;
     public TRect FItemRect;
     public TStringList FLines;
+
     // AOWToolTip.pas:62
     public TAOWToolTip(TComponent owner) : base(owner)
     {
@@ -67,10 +68,10 @@ public partial class TAOWToolTip : TAOWGenericWindow
 
     // AOWToolTip.pas:95
     // { SetSize breaks the lines of Items into FLines so that each fits the width (moving the last
-//   characters of a line to the next one up to a space), sizes the tool tip to the text and keeps
-//   it on the screen. The width limit of the line breaking uses the images 3 and 4 of the frame
-//   library instead of FILIndexFrame + 3 and + 4, and the minimum width adds the width of the
-//   top left corner twice (original bugs). }
+    //   characters of a line to the next one up to a space), sizes the tool tip to the text and keeps
+    //   it on the screen. The width limit of the line breaking uses the images 3 and 4 of the frame
+    //   library instead of FILIndexFrame + 3 and + 4, and the minimum width adds the width of the
+    //   top left corner twice (original bugs). }
     public override void SetSize()
     {
         int I;

@@ -1,20 +1,20 @@
 // Translated from AOWDialogWin.pas.
 using Aow.Rtl;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
+using Aow.Units.aowMapEvents;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWUnitWindow;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.AoWE;
+using Aow.Units.AoWWorldMap;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWTC.AoWTCUnit;
-using Aow.Units.aowMapEvents;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.AoWUnitWindow;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AOWDialogWin;
 
@@ -49,6 +49,7 @@ public partial class TDWin : TDataModule
     public TIvTranslator Translator;
     public byte FAction;
     public bool FSkipCombatChoice;
+
     // AOWDialogWin.pas:121
     public void Confirm(string Title, string Text, byte Action)
     {

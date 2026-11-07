@@ -11,7 +11,9 @@ public sealed class LayoutSessionTests
     private sealed class Tracked : TComponent
     {
         public Tracked(TComponent owner) : base(owner) { }
+
         public bool Destroyed { get; private set; }
+
         public override void Destroy() { Destroyed = true; base.Destroy(); }
     }
 
@@ -22,6 +24,7 @@ public sealed class LayoutSessionTests
 
         public Tracked? First;
         public TAOWLabel? Second;
+
         public void InitializeComponent(LayoutSession session)
         {
             session.Begin(this);
@@ -48,6 +51,7 @@ public sealed class LayoutSessionTests
         public GoodModule() : base(null!) { }
 
         public Tracked? Child;
+
         public void InitializeComponent(LayoutSession session)
         {
             session.Begin(this);

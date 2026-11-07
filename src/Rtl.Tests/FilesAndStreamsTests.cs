@@ -48,15 +48,25 @@ public sealed class FilesAndStreamsTests
     {
         internal MemoryStream Opened = new();
         internal readonly List<string> Calls = [];
+
         public string CurrentDirectory => "fake";
+
         public string ExpandPath(string path) { Calls.Add("expand " + path); return "fake/" + path; }
+
         public Stream Open(string path, int mode) { Calls.Add($"open {path} {mode}"); return Opened; }
+
         public bool FileExists(string path) { Calls.Add("file " + path); return true; }
+
         public bool DirectoryExists(string path) { Calls.Add("directory " + path); return true; }
+
         public bool DeleteFile(string path) { Calls.Add("delete " + path); return true; }
+
         public bool RenameFile(string source, string target) { Calls.Add("rename " + source + " " + target); return true; }
+
         public bool CreateDirectory(string path) { Calls.Add("create " + path); return true; }
+
         public DateTime? LastWriteTime(string path) => new DateTime(2020, 1, 2);
+
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
             Calls.Add("enumerate " + directory);
@@ -93,8 +103,11 @@ public sealed class FilesAndStreamsTests
     private sealed class ShortStream : TStream
     {
         internal int Calls;
+
         public override int Read(Span<byte> buffer) { Calls++; return 0; }
+
         public override int Write(ReadOnlySpan<byte> buffer) { Calls++; return 0; }
+
         public override int Seek(int offset, int origin) => 0;
     }
 

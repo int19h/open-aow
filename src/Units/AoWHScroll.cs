@@ -1,8 +1,8 @@
 // Translated from AoWHScroll.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWVScroll;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWHScroll;
 
@@ -101,8 +101,8 @@ public partial class TAOWHScrollBar : TAOWScrollBar
 
     // AoWHScroll.pas:79
     // { Draw: as TAOWVScrollBar.Draw across. The buttons of an increment/decrement pair keep parts of
-//   the vertical code: the increment button is drawn left of the control and below it, and the
-//   decrement button is FWinWidth wide and as high as its image (original) }
+    //   the vertical code: the increment button is drawn left of the control and below it, and the
+    //   decrement button is FWinWidth wide and as high as its image (original) }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         int TabPos = default;
@@ -239,8 +239,8 @@ public partial class TAOWHScrollBar : TAOWScrollBar
 
     // AoWHScroll.pas:171
     // { CheckMouseDown: as TAOWVScrollBar.CheckMouseDown across, but OnChange is called once at the end
-//   when the position changed. The track after the tab ends at the width of the decrement button
-//   (original) }
+    //   when the position changed. The track after the tab ends at the width of the decrement button
+    //   (original) }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         int TabPos = default;

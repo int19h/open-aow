@@ -1,7 +1,7 @@
 // Translated from AltLight.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.Altar;
+using Aow.Units.Engine;
 using Aow.Units.Storms;
 using static Aow.Units.AoWE.AoWEUnit;
 
@@ -10,7 +10,7 @@ namespace Aow.Units.AltLight;
 public partial class TAltarOfLightning : TAltar
 {
     public TAltarOfLightning(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AltLight.pas:36
     public new const int ClassID = 131645;
@@ -31,12 +31,10 @@ public partial class TAltarOfLightningResource : TAltarResource
 
     // AltLight.pas:44
 
-
     // AltLight.pas:55
     public override int ResourceUserClassID() => 131645;
 
     // AltLight.pas:26
-
 
     // AltLight.pas:49
     public override string ResourceEditName() => TranslateRStr(AltarOfLightningRStr);

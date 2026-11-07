@@ -28,7 +28,8 @@ internal static class Commands
         var c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
         if (c.Format != DetectedFormat.Original || c.Profile is null || c.Kind is null)
             throw new ConversionException(new FormatDiagnostic(Codes.Unknown,
-                "The input is not a recognized original file. Give --kind and --profile for headerless or ambiguous input.") { File = path });
+                "The input is not a recognized original file. Give --kind and --profile for headerless or ambiguous input.")
+            { File = path });
         return GameFiles.Import(bytes, c.Profile, c.Kind, path);
     }
 

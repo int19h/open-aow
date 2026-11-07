@@ -44,6 +44,7 @@ public partial class TPOP3Dlg : TDataModule
     public TIvTranslator Translator;
     public bool FSearching;
     public int FCheckDelay;
+
     // AoWPOP3Dlg.pas:64
     public void ResetSearch()
     {

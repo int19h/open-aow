@@ -15,11 +15,13 @@ public struct TSampleRecord
     [FieldOffset(0)] private byte flags;
     [FieldOffset(1)] private FixedArray_byte_6 name;
     [FieldOffset(8)] public int Value;
+
     public TSet<TFlag> Flags
     {
         readonly get => TSet<TFlag>.FromMask(flags);
         set => flags = (byte)value.Image;
     }
+
     public string Name
     {
         get
@@ -40,7 +42,9 @@ public class TSample(int value) : TObject
 {
     public int Value = value;
     public bool Destroyed;
+
     public virtual int ClassID => 1;
+
     public virtual void AbstractCall() => throw EAbstractError.Create("Abstract Error");
     public override void Destroy() => Destroyed = true;
 }
@@ -53,12 +57,14 @@ public sealed class TSampleChild(int value) : TSample(value + 10)
 public sealed class TFailingSample : TSample
 {
     public static TFailingSample? LastInstance;
+
     private TFailingSample(ConstructionContext context, int value) : base(value)
     {
         context.Capture(this);
         LastInstance = this;
         throw EInvalidOperation.Create("Constructor failure");
     }
+
     public static TFailingSample Create(int value) =>
         ConstructionContext.Create(value, static (context, value) => new TFailingSample(context, value));
 }
@@ -67,6 +73,7 @@ public static class GeneratedStyleSample
 {
     public static int TypedConstant = 7;
     public static Func<int, TSample> ClassConstant = static value => new TSampleChild(value);
+
     public static TSampleRecord Run()
     {
         var instance = ClassConstant(TypedConstant);

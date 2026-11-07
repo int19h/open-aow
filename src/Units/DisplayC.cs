@@ -1,10 +1,10 @@
 // Translated from DisplayC.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.GFXE.GFXEUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.DisplayC;
 
@@ -56,6 +56,7 @@ public partial class TMatrix : TObject
     internal Ptr<byte> FData;
     internal byte FWidth;
     internal byte FHeight;
+
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }
     public TMatrix(byte AWidth, byte AHeight)
@@ -140,6 +141,7 @@ public partial class TCustomDisplay : TWinControl
     internal int FFrameRate;
     internal int FFrameTime;
     protected internal int FCurrentFrameRate;
+
     public int CurrentFrameRate { get => FCurrentFrameRate; }
 
     internal TUpdateFrameThread FUpdateFrameThread;
@@ -157,6 +159,7 @@ public partial class TCustomDisplay : TWinControl
     internal TAbstractDC FPrimaryDC;
     internal TAbstractDC FSecondaryDC;
     internal TAbstractDC FActiveDC;
+
     // DisplayC.pas:1397
     internal void SetBufferingScheme(TBufferingScheme Value)
     {
@@ -746,8 +749,8 @@ public partial class TAbstractDC : TComponent
 
     // DisplayC.pas:562
     // { Blits the invalidated blocks of back surface Index to the primary surface: every block the
-//   matrix marks is merged with its marked neighbours (GetInvBlockSize) into one rectangle, and
-//   the marks count down, so a block is blitted once per back surface. }
+    //   matrix marks is merged with its marked neighbours (GetInvBlockSize) into one rectangle, and
+    //   the marks count down, so a block is blitted once per back surface. }
     public virtual int BltInvalidatedSurface(int Index)
     {
         int Result;
@@ -1118,7 +1121,7 @@ public partial class TDisplayCtrl : TAbstractDC
 
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
-//   captured it. }
+    //   captured it. }
     public override void GetMousePos(ref int X, ref int Y)
     {
         /* TODO: Implement Windows.GetCapture in the platform or editor service. */
@@ -1170,8 +1173,8 @@ public partial class TDisplayCtrl : TAbstractDC
 
     // DisplayC.pas:894
     // { The size of the largest rectangle of marked blocks with its top left corner at X, Y, grown
-//   first downwards (rows of shrinking width) and then to the right (columns of shrinking
-//   height); BW and BH get its size in blocks, the result is its area. }
+    //   first downwards (rows of shrinking width) and then to the right (columns of shrinking
+    //   height); BW and BH get its size in blocks, the result is its area. }
     public override int GetInvBlockSize(int X, int Y, TMatrix Matrix, ref int BW, ref int BH)
     {
         int Result;
@@ -1287,7 +1290,7 @@ public partial class TDisplayCtrl : TAbstractDC
 
     // DisplayC.pas:988
     // { Marks the blocks of the pixel rectangle X, Y, W, H with Value. Bug kept from the original:
-//   the range test checks BY2 >= 0 where BX2 >= 0 was meant (and BY1 twice). }
+    //   the range test checks BY2 >= 0 where BX2 >= 0 was meant (and BY1 twice). }
     public void InvWndwithValue(int X, int Y, int W, int H, byte Value)
     {
         int BX1 = default;
@@ -1379,6 +1382,7 @@ public partial class TDisplayCtrl : TAbstractDC
 public partial class TDDrawFSWinControl : TWinControl
 {
     internal TCustomDisplay FDisplay;
+
     // DisplayC.pas:1129
     protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
@@ -1480,6 +1484,7 @@ public enum TBackSurfaceControlMode : byte
 
 public delegate void TUpdateFrameEvent(TObject Sender, TAbstractDC DC, int SurfaceType);
 public delegate void TDCNotifyEvent(TObject Sender, TAbstractDC DC);
+
 public enum TBufferingScheme : byte
 {
     bsSingle = 0,
@@ -1489,6 +1494,7 @@ public enum TBufferingScheme : byte
 
 public delegate void TErrorEvent(string ErrorStr, int Error);
 public delegate void TSurfaceDataLostEvent(TAbstractDC DC, int SurfaceType);
+
 public enum TUpdateFrameMode : byte
 {
     umAsynchrone = 0,
@@ -1497,6 +1503,7 @@ public enum TUpdateFrameMode : byte
 
 public delegate void TResizeBackSurfaceEvent(TAbstractDC DC, int Width, int Height);
 public delegate void TSwapDCEvent(TAbstractDC DC);
+
 // the asynchronous frame loop. calls TCustomDisplay.UpdateFrame through Synchronize at the
 // frame rate. FDisplay, FBusy, FLastTime
 public partial class TUpdateFrameThread : TThread
@@ -1504,6 +1511,7 @@ public partial class TUpdateFrameThread : TThread
     internal TCustomDisplay FDisplay;
     internal bool FBusy;
     internal int FLastTime;
+
     // DisplayC.pas:1069
     internal void TriggerUpdateFrame()
     {
@@ -1542,6 +1550,7 @@ public partial class TDisplay : TCustomDisplay
 public partial class TDisplayGDISurface : TGDISurface
 {
     internal TWinControl FControl;
+
     // DisplayC.pas:1878
     public TDisplayGDISurface(TWinControl AControl) : base(0)
     {
@@ -1567,6 +1576,7 @@ public partial class TWindowsDC : TDisplayCtrl
     internal int FDC;
     internal int FWnd;
     internal TDisplayGDISurface FGDISurface;
+
     // DisplayC.pas:1894
     public TWindowsDC(TComponent owner) : base(owner)
     {
@@ -1661,6 +1671,7 @@ public partial class TWindows08DC : TWindowsDC
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
     internal int FHPalette;
     internal int FOldPalette;
+
     // DisplayC.pas:2165
     public TWindows08DC(TComponent owner) : base(owner)
     {
@@ -1770,6 +1781,7 @@ public partial class TWindows16DC : TWindowsDC
     internal TWin16DCPixelFormat FPixelFormat;
     internal TDIB16Surface FBack1;
     internal TDIB16Surface FBack2;
+
     // DisplayC.pas:2343
     internal void SetPixelFormat(TWin16DCPixelFormat Value)
     {
@@ -1847,6 +1859,7 @@ public partial class TWindows24DC : TWindowsDC
 
     internal TDIB24Surface FBack1;
     internal TDIB24Surface FBack2;
+
     // DisplayC.pas:2390
     public override TSurface GetSurface(int Index)
     {
@@ -1901,6 +1914,7 @@ public partial class TWindows32DC : TWindowsDC
 
     internal TDIB32Surface FBack1;
     internal TDIB32Surface FBack2;
+
     // DisplayC.pas:2435
     public override TSurface GetSurface(int Index)
     {
@@ -2004,6 +2018,7 @@ public partial class TDDrawDC : TDisplayCtrl
     internal bool FUseVideoMemory;
     internal bool FUseVerticalBlank;
     internal bool FDebugMode;
+
     // DisplayC.pas:2514
     public void SurfaceLost(TObject Sender)
     {
@@ -2221,6 +2236,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
     internal int FBitDepth;
     internal bool FEnable3D;
     internal bool FSwitching;
+
     // DisplayC.pas:2673
     public TDDrawFullScrDC(TComponent owner) : base(owner)
     {
@@ -2240,7 +2256,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
 
     // DisplayC.pas:2691
     // { Hides the display when the application is deactivated and shows it again (through a posted
-//   message) when it is activated. }
+    //   message) when it is activated. }
     public bool MainWindowHook(ref TMessage Message)
     {
         /* TODO: Implement Windows.PostMessage in the platform or editor service. */
@@ -2263,7 +2279,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
 
     // DisplayC.pas:2723
     // { Bug kept from the original: the resolution only changes when both the width and the height
-//   differ from the current ones. }
+    //   differ from the current ones. }
     public int SwitchResolution(int AWidth, int AHeight)
     {
         /* TODO: Implement Controls.Handle in the platform or editor service. */
@@ -2306,7 +2322,7 @@ public partial class TDDrawFullScrDC : TDDrawDC
 
     // DisplayC.pas:2807
     // { Flips to surface Index when it is attached to the primary surface (ssComplex), else blits
-//   it; once more after restoring lost surfaces. }
+    //   it; once more after restoring lost surfaces. }
     public override int FlipSurface(int Index)
     {
         int Result;
@@ -2369,8 +2385,8 @@ public partial class TDDrawFullScrDC : TDDrawDC
 
     // DisplayC.pas:2844
     // { Creates the primary surface and the back surfaces: a flipping chain in video memory when the
-//   back surfaces have the size of the screen (with one back buffer less when the chain cannot be
-//   made), else a primary surface and separate back surfaces. }
+    //   back surfaces have the size of the screen (with one back buffer less when the chain cannot be
+    //   made), else a primary surface and separate back surfaces. }
     public virtual int CreateSurfaces()
     {
         /* TODO: Implement Controls.Color in the platform or editor service. */
@@ -2519,6 +2535,7 @@ public partial class TWindows08DIBSurface : TSurface
     internal Ptr<byte> FBits;
     internal int FPitch;
     internal TWindows08DC FOwner;
+
     // DisplayC.pas:2011
     public TWindows08DIBSurface(int AWidth, int AHeight, TWindows08DC owner)
     {
@@ -2542,7 +2559,7 @@ public partial class TWindows08DIBSurface : TSurface
 
     // DisplayC.pas:2036
     // { Copies SrcRect to the top left of DestRect (no stretching); a GDI surface that cannot be
-//   locked is drawn on with BltDC. }
+    //   locked is drawn on with BltDC. }
     public override int BltStretch(TSurface Dest, Ptr<TRect> SrcRect, Ptr<TRect> DestRect)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
@@ -2586,7 +2603,7 @@ public partial class TWindows08DIBSurface : TSurface
 
     // DisplayC.pas:2134
     // { Bug kept from the original: fills from the field FBits instead of the bits (with a negative
-//   count, so nothing happens). }
+    //   count, so nothing happens). }
     public override int Cls(int Color)
     {
         FOwner.FPalette.GetNearestColor(Color);
@@ -2655,6 +2672,7 @@ public static partial class DisplayCUnit
     public const byte DDSCL_ALLOWMODEX = 64;
     public const byte DDWAITVB_BLOCKBEGIN = 1;
     public const byte DDGFS_CANFLIP = 1;
+
     // DisplayC.pas:3184
     public static void Register()
     {

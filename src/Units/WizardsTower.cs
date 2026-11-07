@@ -1,14 +1,14 @@
 // Translated from WizardsTower.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.EventLog;
+using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.WizardsTower;
 
@@ -29,6 +29,7 @@ public partial class TWizardsTower : TStructure
     public TSet<TMagicSphere> FMagicSpheres;
     public byte FSpellLevel;
     public int FSpellID;
+
     // WizardsTower.pas:87
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -40,7 +41,6 @@ public partial class TWizardsTower : TStructure
     }
 
     // WizardsTower.pas:76
-
 
     // WizardsTower.pas:196
     public override TExecuteResult ExecuteTE(TStructureTE TE, TTokenExecuter Executer)
@@ -280,13 +280,12 @@ public partial class TWizardsTower : TStructure
 
     // WizardsTower.pas:24
 
-
 }
 
 public partial class TWizardsTowerResource : TStructureResource
 {
     public TWizardsTowerResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // WizardsTower.pas:263
     public new const int ClassID = 133279;
@@ -307,6 +306,7 @@ public partial class TEnterWizardsTowerEventLog : TEventLog
     { }
 
     public TWizardsTower FTower;
+
     // WizardsTower.pas:73
     public override void Destroy()
     {
@@ -324,6 +324,7 @@ public static partial class WizardsTowerUnit
     }
 
     public static TSet<TMagicSphere> AllMagicSpheres = TSet<TMagicSphere>.FromMask(255UL);
+
     public static void Initialize()
     {
     }

@@ -1,10 +1,10 @@
 // Translated from Altar.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using Aow.Units.Storms;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
+using Aow.Units.Storms;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Altar;
@@ -14,7 +14,7 @@ namespace Aow.Units.Altar;
 public partial class TAltar : TPlayerStructure
 {
     public TAltar(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Altar.pas:59
     public new const int ClassID = 132081;
@@ -22,6 +22,7 @@ public partial class TAltar : TPlayerStructure
     public TStorm FStorm;
     public TAltarMode FMode;
     public byte FRechargeDays;
+
     // Altar.pas:226
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -340,12 +341,10 @@ public partial class TAltarResource : TPlayerStructureResource
 
     // Altar.pas:294
 
-
     // Altar.pas:310
     public override int ResourceUserClassID() => 132081;
 
     // Altar.pas:49
-
 
     // Altar.pas:304
     public override string ResourceEditName() => "";

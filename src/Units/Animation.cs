@@ -1,15 +1,15 @@
 // Translated from Animation.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
 using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Animation;
 
@@ -64,6 +64,7 @@ public partial class TAnimation : THexagonSprite
     public TNewFrameAnimationEvent FOnNewFrame;
     public int FTag;
     public THSMap FAnimationMap;
+
     // Animation.pas:133
     public override void Destroy()
     {
@@ -98,7 +99,6 @@ public partial class TAnimation : THexagonSprite
     }
 
     // Animation.pas:127
-
 
     // Animation.pas:194
     public override byte GetLevel() => FAnimationLevel;
@@ -396,10 +396,8 @@ public partial class TAnimation : THexagonSprite
 
     // Animation.pas:43
 
-
     // Animation.pas:159
     public virtual TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amFixedVisible, TAnimationControlModeElement.amLinkToOnDestroy);
-
 
 }
 
@@ -407,13 +405,14 @@ public partial class TAnimation : THexagonSprite
 public partial class TAnimationTE : TTokenEvent
 {
     public TAnimationTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Animation.pas:388
     public new const int ClassID = 135433;
 
     public TAnimationTEState FState;
     public TAnimation FAnimation;
+
     // Animation.pas:399
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -489,8 +488,8 @@ public partial class TImageSequenceAnimation : TAnimation
     public int FYhpOffset;
     public int FFrameCount;
     public bool FLooped;
-    // Animation.pas:424
 
+    // Animation.pas:424
 
     // Animation.pas:493
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -633,8 +632,8 @@ public partial class TTwinkleAnimation : TAnimation
     public int FDuration;
     public int FStartDelay;
     public TSet<TTwinkleModeElement> FMode;
-    // Animation.pas:532
 
+    // Animation.pas:532
 
     // Animation.pas:538
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -722,6 +721,7 @@ public partial class TTwinkleAnimation : TAnimation
 
 public delegate void TShowAnimationEvent(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc);
 public delegate void TNewFrameAnimationEvent(TAnimation Animation, int FrameCounter);
+
 public enum TAnimationTEState : byte
 {
     atIdle = 0,

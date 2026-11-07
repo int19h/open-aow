@@ -1,14 +1,14 @@
 // Translated from HSEngine.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.GFXE;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Engine;
-using static Aow.Units.Engine.EngineUnit;
+using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.Engine.EngineUnit;
 using static Aow.Units.ImageLib.ImageLibUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.HSEngine;
 
@@ -83,6 +83,7 @@ public enum TMapObjectStatusElement : byte
 }
 
 public delegate bool TWalkAroundRouteCallBack(int X, int Y, ref bool Cancel);
+
 // FHSList, FCapacity, FCount, FStaticCount, FStatus, FXhx, FYhx, FLhx, FReserved, FTerrainType,
 // FOverlayType. A hexagon field of a map level. The original pooled all fields of a level in
 // one block and freed it with the level. The port allocates each field through the base
@@ -111,6 +112,7 @@ public partial class TMapField : TECustomNode
     internal sbyte FLhx;
     internal sbyte FTerrainType;
     internal sbyte FOverlayType;
+
     // HSEngine.pas:1919
     public override void FreeInstance()
     {
@@ -200,7 +202,6 @@ public partial class TMapField : TECustomNode
     }
 
     // HSEngine.pas:1898
-
 
     // HSEngine.pas:1943
     public override TEObject GetChild(int Index)
@@ -369,8 +370,8 @@ public partial class TMapField : TECustomNode
 
     // HSEngine.pas:2335
     // { The sprites with a level from MinLevel to MaxLevel that a map field owns are destroyed; the list
-//   is sorted, so the walk stops at the first sprite below MinLevel. The HP position is computed and
-//   never used. }
+    //   is sorted, so the walk stops at the first sprite below MinLevel. The HP position is computed and
+    //   never used. }
     public void DestroyLevelHS(int MinLevel, int MaxLevel)
     {
         int Xhp = default;
@@ -521,6 +522,7 @@ public partial class TMapContainer : TENode
     internal int FLevelCount;
     internal THSMap FMap;
     internal TEngine FEngine;
+
     // HSEngine.pas:3167
     public override void SetOwner(TECustomNode AOwner)
     {
@@ -810,6 +812,7 @@ public partial class THSMap : TENode
     protected internal int FViewYhx;
     protected internal int FViewWidthHX;
     protected internal int FViewHeightHX;
+
     // HSMAP.PAS:37
     public override void Destroy()
     {
@@ -1077,7 +1080,7 @@ public partial class THSMap : TENode
 
     // HSMAP.PAS:284
     // { ChangeTerrain, ChangeTerrainEx and ClearTerrain clip the right edge of the changed rectangle
-//   into its Left (original slip). }
+    //   into its Left (original slip). }
     public virtual int ChangeTerrain(TEObject MO, int X, int Y, int L, int Radius, int TerrainType)
     {
         TShortIntList List;
@@ -1736,6 +1739,7 @@ public partial class THSEngine : TEngine
     internal TEventList FOnHSMClose;
     internal TEventList FOnHSSLoaded;
     internal TEventList FOnHSSClose;
+
     // HSEngine.pas:4941
     public override void Destroy()
     {
@@ -2342,7 +2346,7 @@ public partial class THexagonSprite : TEObject
 
     // HXSPRITE.PAS:6
     // { HXSPRITE.PAS: THexagonSprite, THPBasedHS, TSingleHS, TFixedVisibleHS, TCustomFixedVisibleHS
-//   (include file of HSEngine.pas; the original Asserts name D:\GEngine\HSENGINE\inc\HXSPRITE.PAS) }
+    //   (include file of HSEngine.pas; the original Asserts name D:\GEngine\HSENGINE\inc\HXSPRITE.PAS) }
     public override void Destroy()
     {
         MainRemove();
@@ -3201,7 +3205,6 @@ public partial class THexagonSprite : TEObject
     // HXSPRITE.PAS:77
     public virtual TSet<TControlModeElement> ControlMode() => TSet<TControlModeElement>.Of();
 
-
 }
 
 // a hexagon sprite drawn from a resource. FResource (the resource. until the object is linked
@@ -3215,6 +3218,7 @@ public partial class TMapObject : THexagonSprite
 
     protected internal TMapObjectResource FResource;
     protected internal TSet<TMapObjectStatusElement> FStatus;
+
     // MAPOBJ.PAS:88
     protected internal bool GetResourceLinked() => FStatus.Contains(TMapObjectStatusElement.moResourceLinked);
 
@@ -3653,6 +3657,7 @@ public partial class TMapObjectResource : TEResource
     protected internal TTerrainList FTerrainList;
     protected internal byte FLevel;
     protected internal string FName = "";
+
     // MAPOBJ.PAS:391
     public override void Destroy()
     {
@@ -3715,7 +3720,6 @@ public partial class TMapObjectResource : TEResource
     }
 
     // MAPOBJ.PAS:383
-
 
     // MAPOBJ.PAS:620
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -3905,7 +3909,7 @@ public partial class TMapObjectResource : TEResource
 
     // MAPOBJ.PAS:586
     // { The resource was dropped on the map (message $10005): fill the hexagons in Param[1] rings around
-//   the drop point with its users, clearing the terrain first when Param[2] = 1 }
+    //   the drop point with its users, clearing the terrain first when Param[2] = 1 }
     public void EditDropMsg(ref TEMsg Msg)
     {
         TMapLevel MapLevel;
@@ -4083,7 +4087,6 @@ public partial class TNewHSMapSettings : TObject
     public int MapLevelClassID;
     // HSEngine.pas:2802
 
-
 }
 
 // terrain and overlay types by hexagon number, two bytes per hexagon (terrain type, overlay
@@ -4092,6 +4095,7 @@ public partial class TTerrainList : TObject
 {
     internal int FCount;
     internal byte[] FList = [];
+
     // HSEngine.pas:1411
     public override void Destroy()
     {
@@ -4453,6 +4457,7 @@ public partial class TMapLevel : TECustomNode
     protected internal int FFieldSize;
     protected internal int FFieldsSize;
     public FixedArray_Aow_Units_FixedArray_int_8_2 FHNOffsets;
+
     // HSEngine.pas:2925
     public override TEngine GetEngine() => FEngine;
 
@@ -4545,6 +4550,7 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
     internal TEventList FOnSelect;
     internal TEventList FOnDeselect;
     internal THexagonSprite FEventHS;
+
     // HSEngine.pas:3681
     public THexagonSpriteSelection(TECustomNode owner) : base(owner)
     {
@@ -4718,8 +4724,8 @@ public partial class THSMapMouse : TObject
     internal bool FIgnoreDown;
     internal TSet<TShiftState> FShift;
     internal bool FCursorVisible;
-    // HSEngine.pas:3475
 
+    // HSEngine.pas:3475
 
     // HSEngine.pas:3486
     public override void Destroy()
@@ -4997,6 +5003,7 @@ public partial class THSMapMouse : TObject
 public delegate void TCenterViewEvent(int Xhx, int Yhx, int Lhx);
 public delegate void TChangeViewEvent(int Xhp, int Yhp, int Lhp);
 public delegate void TViewLevelEvent(int Lhx);
+
 public enum TMapProgressType : byte
 {
     ptLoading = 0,
@@ -5009,6 +5016,7 @@ public enum TMapProgressType : byte
 
 public delegate void TChangeTerrainProc(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType);
 public delegate void TTerrainChangedProc(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType);
+
 // { The record of THSMap.NotifyProgress (TMapLevel.Loaded fills one): the kind, the percentage
 //     done of the level and the level index. }
 [StructLayout(LayoutKind.Explicit, Size = 12)]
@@ -5046,6 +5054,7 @@ public partial class THSMapViewer : TComponent
     internal THSMap FHSMap;
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
     internal TSurface FCenteredSurface;
+
     // HSEngine.pas:4670
     public THSMapViewer(TComponent owner) : base(owner)
     {
@@ -5486,6 +5495,7 @@ public partial class TMORTerrainControl : TEObject
     internal int FTries;
     internal TList FResources;
     internal Type FMOClass;
+
     // HSEngine.pas:4522
     internal void Initialize()
     {
@@ -5762,6 +5772,7 @@ public partial class THSSet : TECustomOwner
     internal THexagonControl FHexagonControl;
     internal TRoadControl FRoadControl;
     internal TEngine FActivatedEngine;
+
     public TEngine ActivatedEngine { get => FActivatedEngine; }
 
     internal TMapObjectResourceList FMapObjectResourceList;
@@ -5773,6 +5784,7 @@ public partial class THSSet : TECustomOwner
     internal TStringList FTerrainTypes;
     internal TStringList FOverlayTypes;
     internal TStringList FDecorationTypes;
+
     // HSEngine.pas:3368
     public override void Destroy()
     {
@@ -5914,6 +5926,7 @@ public partial class THSSet : TECustomOwner
 public partial class THexagonSpriteEngine : TEComponent
 {
     internal THSEngine FHSEngine;
+
     // HSEngine.pas:5381
     public THexagonSpriteEngine(TComponent owner) : base(owner)
     {
@@ -5971,9 +5984,10 @@ public partial class THexagonSpriteEngine : TEComponent
 public partial class TSingleHS : THexagonSprite
 {
     public TSingleHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     internal byte FStatus;
+
     // HXSPRITE.PAS:640
     public override void SetVisible(bool Value)
     {
@@ -6132,6 +6146,7 @@ public partial class TFixedVisibleHS : THexagonSprite
     { }
 
     internal byte FStatus;
+
     // HXSPRITE.PAS:770
     public override void SetVisible(bool Value)
     {
@@ -6171,6 +6186,7 @@ public partial class TFixedVisibleHS : THexagonSprite
 }
 
 public delegate void TOnShowHSEvent(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc);
+
 // FShowPriority, FOnShow (Show calls it). TAbstractAoWHSMap (AoWEPACK) creates two and sets
 // OnShow and ShowPriority
 public partial class TCustomFixedVisibleHS : TFixedVisibleHS
@@ -6180,6 +6196,7 @@ public partial class TCustomFixedVisibleHS : TFixedVisibleHS
 
     internal int FShowPriority;
     internal TOnShowHSEvent FOnShow;
+
     // HXSPRITE.PAS:800
     public override int GetShowPriority() => FShowPriority;
 
@@ -6210,6 +6227,7 @@ public partial class TLibraryImageHS : THexagonSprite
     internal int FYhp;
     internal byte FLhx;
     internal int FShowPriority;
+
     // LibImgHS.PAS:111
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -6223,7 +6241,7 @@ public partial class TLibraryImageHS : THexagonSprite
 
     // LibImgHS.PAS:6
     // { LibImgHS.PAS: TLibraryImageHS (include file of HSEngine.pas; the original Asserts name
-//   D:\GEngine\HSENGINE\inc\LibImgHS.PAS) }
+    //   D:\GEngine\HSENGINE\inc\LibImgHS.PAS) }
     public TLibraryImageHS(TECustomNode owner) : base(owner)
     {
         FStatus = TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner);
@@ -6473,6 +6491,7 @@ public partial class THPBasedHS : THexagonSprite
     protected internal int FXhp;
     protected internal int FYhp;
     protected internal sbyte FLhx;
+
     // HXSPRITE.PAS:622
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -6483,7 +6502,6 @@ public partial class THPBasedHS : THexagonSprite
     }
 
     // HXSPRITE.PAS:599
-
 
     // HXSPRITE.PAS:612
     public override void SetVisible(bool Value)
@@ -6512,8 +6530,8 @@ public partial class EMapObjectResourceMissing : Exception
     // SysUtils.pas:174
     public EMapObjectResourceMissing(string Msg)
     {
-Message = Msg;
-}
+        Message = Msg;
+    }
 }
 
 // a map object that covers the hexagons of its terrain list around its main hexagon. FXhx, FYhx
@@ -6522,10 +6540,11 @@ public partial class TMultiHexMO : TMapObject
 {
 
     public TMultiHexMO(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     protected internal sbyte FXhx;
     protected internal sbyte FYhx;
+
     // MAPOBJ.PAS:923
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -6929,6 +6948,7 @@ public partial class TMultiHexMOR : TMapObjectResource
     protected internal int FdYImage;
     protected internal int FdXmainP;
     protected internal int FdYmainP;
+
     // MAPOBJ.PAS:1256
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -6940,7 +6960,6 @@ public partial class TMultiHexMOR : TMapObjectResource
     }
 
     // MAPOBJ.PAS:1232
-
 
     // MAPOBJ.PAS:1244
     public virtual void SetdXmainP(int Value)
@@ -7110,14 +7129,12 @@ public partial class TAbstractHexagon : TMapObject
 public partial class TAbstractHexagonResource : TMapObjectResource
 {
 
-
     public TAbstractHexagonResource(TECustomNode owner) : base(owner)
     {
         SetLevel(0);
     }
 
     // MAPOBJ.PAS:770
-
 
     // MAPOBJ.PAS:781
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -7149,8 +7166,7 @@ public partial class TAbstractBorderHexagon : TAbstractHexagon
 public partial class TAbstractBorderHexagonResource : TAbstractHexagonResource
 {
     public TAbstractBorderHexagonResource(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
 }
 
@@ -7161,7 +7177,6 @@ public partial class TAbstractRoad : TMapObject
 
     public TAbstractRoad(TECustomNode owner) : base(owner)
     { }
-
 
     // MAPOBJ.PAS:803
     public override byte GetLevel() => 10;
@@ -7254,8 +7269,7 @@ public partial class TAbstractRoad : TMapObject
 public partial class TAbstractRoadResource : TMapObjectResource
 {
     public TAbstractRoadResource(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     // MAPOBJ.PAS:874
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -7295,6 +7309,7 @@ public partial class TAbstractRoadResource : TMapObjectResource
 }
 
 public delegate int TXYLSortCompare(TXYL Item1, TXYL Item2);
+
 // Engine's value list (Classes.TList adapted to a value type, with a default item for new and
 // out-of-range items and a run-length encoded stream form) for map locations
 public partial class TXYLList : TPersistent
@@ -7303,6 +7318,7 @@ public partial class TXYLList : TPersistent
     internal int FCount;
     internal int FCapacity;
     internal TXYL FDefault;
+
     // HSEngine.pas:1673
     internal TXYL Get(int Index)
     {
@@ -7722,7 +7738,6 @@ public partial class TXYLList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 // { an XYL value (TMapField.GetXYL, PackXYL) as its bytes }
@@ -7761,10 +7776,12 @@ public struct THSSHeader
     public int Size;
     [FieldOffset(4)]
     public FixedArray_byte_5 ID__image;
+
     public string ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
     [FieldOffset(9)]
     public FixedArray_byte_41 Name__image;
+
     public string Name { get => ReadShortString(Name__image); set => WriteShortString(Name__image, value); }
 }
 
@@ -7801,14 +7818,15 @@ public static partial class HSEngineUnit
     public static readonly string DeleteStr = "&Delete";
     public static readonly string CopyStr = "&Copy";
     public static readonly string EditStr = "&Edit";
+
     // HSEngine.pas:3889
     // Group A, third part: the unit routines (code.). HXtoV, HXtoH, HVtoHX, HPtoHX, HPtoHXs and
     // WalkToNextHN are assembler in the original (hand-scheduled code, explicit RETs)
     // { Hexagon coordinates }
     // { Hexagon coordinates (hx: column X, row Y; the odd columns are half a hexagon lower), hexagon
-//   numbers (HN: 0 the centre, then the rings, 6 * R numbers on ring R, clockwise from the top),
-//   hexagon directions (HT: 1..6 like the HN of ring 1), pixel coordinates (hp: 32 pixels per column
-//   and row) and the two diagonal axes (H, V). }
+    //   numbers (HN: 0 the centre, then the rings, 6 * R numbers on ring R, clockwise from the top),
+    //   hexagon directions (HT: 1..6 like the HN of ring 1), pixel coordinates (hp: 32 pixels per column
+    //   and row) and the two diagonal axes (H, V). }
     public static int dHXtoRad(int X1, int Y1, int X2, int Y2)
     {
         int Result;
@@ -8550,6 +8568,7 @@ public static partial class HSEngineUnit
     // { the number of hexagons inside the rings 0..10 (the first hexagon number of each ring) }
     public static FixedArray_int_11 RadToHNTable = FixedArray_int_11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
     public static int HSEngineDID;
+
     // HSEngine.pas:5411
     public static void Register()
     {
@@ -8566,6 +8585,7 @@ public static partial class HSEngineUnit
     public static FixedArray_byte_6 OppositeHTTable = FixedArray_byte_6.From([4, 5, 6, 1, 2, 3]);
     // { the step from side to side of a ring around a centre (WalkToNextHN), by column parity }
     public static FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNWalkTable = FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]), FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+
     // HSEngine.pas:1788
     public static void QuickSortXYL(Span<TXYL> SortList, int L, int R, TXYLSortCompare SCompare)
     {

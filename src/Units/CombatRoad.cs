@@ -1,25 +1,26 @@
 // Translated from CombatRoad.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.CombatRoad;
 
 public partial class TCombatRoad : TAbstractRoad
 {
     public TCombatRoad(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatRoad.pas:51
     public new const int ClassID = 2229506;
 
     public FixedArray_byte_7 FImages;
+
     // main image, neighbour images
     // CombatRoad.pas:108
     public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Msg)
@@ -152,7 +153,7 @@ public partial class TCombatRoad : TAbstractRoad
 public partial class TCombatRoadResource : TAbstractRoadResource
 {
     public TCombatRoadResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatRoad.pas:133
     public new const int ClassID = 2229507;

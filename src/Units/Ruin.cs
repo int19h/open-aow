@@ -9,7 +9,7 @@ namespace Aow.Units.Ruin;
 public partial class TRuin : TItemExplorationSite
 {
     public TRuin(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Ruin.pas:34
     public new const int ClassID = 131994;
@@ -19,7 +19,7 @@ public partial class TRuin : TItemExplorationSite
 public partial class TRuinResource : TItemExplorationSiteResource
 {
     public TRuinResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Ruin.pas:40
     public new const int ClassID = 131995;

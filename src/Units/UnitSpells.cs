@@ -1,8 +1,8 @@
 // Translated from UnitSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.UnitSpells;
@@ -18,6 +18,7 @@ public partial class TDispelMagicSpellCA : TDispelMagicCA
 
     public int FSpellID;
     public int FManaCost;
+
     // UnitSpells.pas:980
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -40,7 +41,6 @@ public partial class TDispelMagicSpellCA : TDispelMagicCA
             }
         }
     }
-
 
 }
 
@@ -985,6 +985,7 @@ public partial class TCosmeticSurgerySpellCaster : TSpellCaster
 
     public int FFaceIndex;
     public int FTargetUnitID;
+
     // UnitSpells.pas:870
     public override bool CanCast(ref string Reason) => base.CanCast(ref Reason);
 

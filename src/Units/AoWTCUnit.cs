@@ -1,26 +1,26 @@
 // Translated from AoWTCUnit.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWTC;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWE;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.E1Resources.E1ResourcesUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.AoWInfoBanner.AoWInfoBannerUnit;
-using Aow.Units.AoWUnitWindow;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E1Resources.E1ResourcesUnit;
 
 namespace Aow.Units.AoWTCUnit;
 
@@ -98,6 +98,7 @@ public partial class TTCUnit : TDataModule
     public TAOWPanel UnitFr;
     public TaowUserDrawBox UnitBox;
     public TIvTranslator Translator;
+
     // AoWTCUnit.pas:106
     public void TCUnitWinResize()
     {
@@ -246,6 +247,7 @@ public partial class TTCUnit : TDataModule
 public static partial class AoWTCUnitUnit
 {
     public static TTCUnit TCUnit;
+
     // AoWTCUnit.pas:197
     public static void RefreshCombatUnit(TTCUnit Window)
     {

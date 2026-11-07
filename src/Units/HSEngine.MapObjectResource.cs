@@ -7,7 +7,9 @@ namespace Aow.Units.HSEngine;
 public partial class TMapObject
 {
     private int unlinkedResourceId;
+
     protected internal int GetResourceID() => GetResourceLinked() ? FResource.ResourceID : unlinkedResourceId;
+
     protected internal void SetResourceID(int value)
     {
         if (GetResourceLinked()) throw Rtl.Exception.Create("Cannot set ResourceID when resource is linked!");

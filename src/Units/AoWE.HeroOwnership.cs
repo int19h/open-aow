@@ -27,6 +27,7 @@ public partial class THero
 public partial class THeroItems
 {
     internal THero Hero;
+
     public override TEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
     public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
 }
@@ -34,6 +35,7 @@ public partial class THeroItems
 public partial class THeroInventory
 {
     internal THero Hero;
+
     public override TEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
     public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
 }

@@ -1,16 +1,16 @@
 // Translated from AoWSelFactionWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
 using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using Aow.Units.aowIntGfxMod;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 
 namespace Aow.Units.AoWSelFactionWin;
 
@@ -38,6 +38,7 @@ public partial class TSelFactionWin : TDataModule
     public int FFadeImage;
     public int FFadeDirection;
     public FixedArray_byte_4 F_SelFactionWin_8C;
+
     // AoWSelFactionWin.pas:63
     public void CloseSelection()
     {
@@ -227,6 +228,7 @@ public partial class TSelFactionWin : TDataModule
 public static partial class AoWSelFactionWinUnit
 {
     public static TSelFactionWin SelFactionWin;
+
     // AoWSelFactionWin.pas:215
     public static void ShowFactionSelection(TSelFactionWin Dialog)
     {

@@ -130,7 +130,9 @@ public sealed class JsonTests : FormatsTest
     {
         var d = new FormatDiagnostic(Codes.Reference, "Leader id 17 is absent from root.Leaders.")
         {
-            File = "Save/edited.asg", Span = new TextSpan(0, 42, 19), Path = "root.Players[1].LeaderId",
+            File = "Save/edited.asg",
+            Span = new TextSpan(0, 42, 19),
+            Path = "root.Players[1].LeaderId",
         };
         Assert.Equal("Save/edited.asg:42:19 E_REFERENCE root.Players[1].LeaderId\nLeader id 17 is absent from root.Leaders.", d.ToString());
         var binary = new FormatDiagnostic(Codes.Corrupt, "Bad.") { File = "a.hsm", Offset = 0x41565, Profile = "world-hsm", Path = "root" };

@@ -21,6 +21,7 @@ internal static class MemorySurfaces
         GFXEUnit.PFIDtoMASK(format, ref sd.RMask, ref sd.GMask, ref sd.BMask, ref sd.AMask);
         return sd;
     }
+
     public static (int Pitch, Ptr<byte> Bits) Allocate(int w, int h, int format, int alignment)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(w);
@@ -28,6 +29,7 @@ internal static class MemorySurfaces
         int pitch = checked((checked(w * (((format & 255) + 7) / 8)) + alignment - 1) & -alignment);
         return (pitch, Ptr<byte>.To(new byte[checked(pitch * h)], 0));
     }
+
     // ReallocMem of a pixel buffer: size 0 frees it, otherwise the new array keeps the bytes the
     // two sizes share.
     public static byte[] Reallocate(byte[] memory, int size)
@@ -48,30 +50,43 @@ public partial class TDIBSurface
         { FPalette = new TGFXEPalette(); if (APalette != null) FPalette.Assign(APalette); }
         return Resize(AWidth, AHeight);
     }
+
     public void Clear() { FWidth = FHeight = FPitch = 0; FBits = default; FMem = null; FPalette = null; }
+
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && !FBits.IsNull) return GFXEUnit.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 4); FWidth = AWidth; FHeight = AHeight; return GFXEUnit.GFXE_OK; }
+
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FBits, FPalette); return GFXEUnit.GFXE_OK; }
+
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect) => throw new ENotSupported("Native device context");
+
     public override void Destroy() { FBits = default; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+
     public override int UpdatePalette() => FPalette != null && FPixelFormatID == GFXEUnit.pfPAL8 ? GFXEUnit.GFXE_OK : GFXEUnit.GFXE_NOTSUPPORTED;
+
     public int Handle => throw new ENotSupported("Native surface handle");
 }
 
 public partial class TDIB08Surface
 {
     public TDIB08Surface(int AWidth, int AHeight, TGFXEPalette APalette)
-        { SetPalette(APalette); Resize(AWidth, AHeight); }
+    { SetPalette(APalette); Resize(AWidth, AHeight); }
+
     public void SetPalette(TGFXEPalette Palette) { FPalette ??= new TGFXEPalette(); if (Palette != null && !ReferenceEquals(Palette, FPalette)) FPalette.Assign(Palette); }
+
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && !FBits.IsNull) return GFXEUnit.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, GFXEUnit.pfPAL8, 4); FWidth = AWidth; FHeight = AHeight; return GFXEUnit.GFXE_OK; }
+
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, GFXEUnit.pfPAL8, FBits, FPalette); return GFXEUnit.GFXE_OK; }
+
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect) => throw new ENotSupported("Native device context");
+
     public override void Destroy() { FBits = default; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+
     public override int UpdatePalette() => GFXEUnit.GFXE_OK;
 }
 
@@ -80,42 +95,57 @@ public partial class TDIB16Surface { private bool memoryLocked; }
 public partial class TDIB16Surface
 {
     public TDIB16Surface(int AWidth, int AHeight, int APixelFormatID)
-        { SetPixelFormatID(APixelFormatID); Resize(AWidth, AHeight); }
+    { SetPixelFormatID(APixelFormatID); Resize(AWidth, AHeight); }
+
     internal void SetPixelFormatID(int Value) { if (Value != GFXEUnit.pfRGB555 && Value != GFXEUnit.pfRGB565 && Value != GFXEUnit.pfARGB1555) throw new ENotSupported("Pixel format"); if (memoryLocked && Value != FPixelFormatID) throw new EInvalidOperation("Pixel format after Lock"); FPixelFormatID = Value; }
+
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && !FBits.IsNull) return GFXEUnit.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 4); FWidth = AWidth; FHeight = AHeight; return GFXEUnit.GFXE_OK; }
+
     public override int Lock(ref TSurfaceDesc SD) { memoryLocked = true; SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FBits, null); return GFXEUnit.GFXE_OK; }
+
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect) => throw new ENotSupported("Native device context");
+
     public override void Destroy() { FBits = default; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+
     public int Handle => throw new ENotSupported("Native surface handle");
 }
 
 public partial class TDIB24Surface
 {
     public TDIB24Surface(int AWidth, int AHeight)
-        { Resize(AWidth, AHeight); }
+    { Resize(AWidth, AHeight); }
+
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && !FBits.IsNull) return GFXEUnit.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, GFXEUnit.pfRGB24, 4); FWidth = AWidth; FHeight = AHeight; return GFXEUnit.GFXE_OK; }
+
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, GFXEUnit.pfRGB24, FBits, null); return GFXEUnit.GFXE_OK; }
+
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect) => throw new ENotSupported("Native device context");
+
     public override void Destroy() { FBits = default; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+
     public int Handle => throw new ENotSupported("Native surface handle");
 }
 
 public partial class TDIB32Surface
 {
     public TDIB32Surface(int AWidth, int AHeight)
-        { Resize(AWidth, AHeight); }
+    { Resize(AWidth, AHeight); }
+
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && !FBits.IsNull) return GFXEUnit.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, GFXEUnit.pfRGB32, 4); FWidth = AWidth; FHeight = AHeight; return GFXEUnit.GFXE_OK; }
+
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, GFXEUnit.pfRGB32, FBits, null); return GFXEUnit.GFXE_OK; }
+
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect) => throw new ENotSupported("Native device context");
+
     public override void Destroy() { FBits = default; FWidth = FHeight = FPitch = 0; base.Destroy(); }
 }
 
@@ -123,9 +153,13 @@ public partial class TDDrawSurface
 {
     private int memoryPitch;
     private Ptr<byte> memoryBits;
+
     public int CreateSurface(int AWidth, int AHeight, int APixelFormatID, TSet<TDDSCreationFlagsElement> AFlags) { if (FPixelFormatID != APixelFormatID) memoryBits = default; FPixelFormatID = APixelFormatID; FCreationFlags = AFlags; FStatus = TSet<TDDrawSurfaceStatusElement>.Of(GFXEUnit.ssSystemMemory); return Resize(AWidth, AHeight); }
+
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && !memoryBits.IsNull) return GFXEUnit.DD_OK; (memoryPitch, memoryBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 8); FWidth = AWidth; FHeight = AHeight; return GFXEUnit.DD_OK; }
+
     public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, memoryPitch, FPixelFormatID, memoryBits); return GFXEUnit.DD_OK; }
+
     public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int BltColorKey(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y, int ColorKey) => base.BltColorKey(Dest, SrcRect, X, Y, ColorKey);
     public override int Cls(int Color) => base.Cls(Color);
@@ -135,6 +169,7 @@ public partial class TDDrawSurface
     public override int Unlock() => GFXEUnit.DD_OK;
     public override int LockEx(ref TSurfaceDesc SD, in TRect R) => base.LockEx(ref SD, R);
     public override int UnlockEx(in TSurfaceDesc SD) => Unlock();
+
     public override void Destroy() { memoryBits = default; FWidth = FHeight = 0; base.Destroy(); }
 }
 
@@ -143,9 +178,11 @@ public partial class TDataSurface
     public override int Lock(ref TSurfaceDesc SD)
     { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FData, FPalette); return GFXEUnit.GFXE_OK; }
 }
+
 public partial class TSurface
 {
     public virtual int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect) => throw new ENotSupported("Native device context");
+
     public virtual int Cls(int Color)
     {
         TSurfaceDesc sd = default;
@@ -173,6 +210,7 @@ public partial class TSurface
     }
 
 }
+
 public static partial class GFXEUnit
 {
     public static int Color2PixelInfo(int Color, int PixelFormatID, TGFXEPalette Palette)
@@ -188,8 +226,10 @@ public static partial class GFXEUnit
             _ => throw new ENotSupported("Pixel format")
         };
     }
+
     public static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in TSurfaceDesc SD)
         => Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD.Data, SD.Pitch, SD.ClipRect);
+
     public static int ColorFillSD(TRect R, int Color, in TSurfaceDesc SD)
     {
         if (SD.PixelFormatID != pfRGB555 && SD.PixelFormatID != pfARGB1555 && SD.PixelFormatID != pfRGB565) return GFXE_NOTSUPPORTED;
@@ -227,14 +267,15 @@ public partial class TGFXEPalette
 {
     public void Assign(TGFXEPalette Source)
     {
-        Array.Copy(Source.Entries,Entries,256);
-        PixelFormatID=Source.PixelFormatID;
+        Array.Copy(Source.Entries, Entries, 256);
+        PixelFormatID = Source.PixelFormatID;
     }
 }
+
 public partial class TBlendTable5Bit
 {
     public override void Assign(TBlendTable Source)
     {
-        if(Source is TBlendTable5Bit table) Array.Copy(table.Table,Table,32);
+        if (Source is TBlendTable5Bit table) Array.Copy(table.Table, Table, 32);
     }
 }

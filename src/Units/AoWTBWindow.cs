@@ -1,33 +1,33 @@
 // Translated from AoWTBWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AOWMenuBar;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWE;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using Aow.Units.TurnButton;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
-using static Aow.Units.AoWRealm.AoWRealmUnit;
-using static Aow.Units.aowMapEvents.aowMapEventsUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E1Globals.E1GlobalsUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AOWControlWin;
 using Aow.Units.AoWInfoWin;
-using Aow.Units.AoWUnitWindow;
 using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWLabel;
+using Aow.Units.AOWMenuBar;
+using Aow.Units.AoWPanel;
+using Aow.Units.AoWSWindow;
+using Aow.Units.AoWUnitWindow;
+using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using Aow.Units.TurnButton;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.aowMapEvents.aowMapEventsUnit;
+using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
+using static Aow.Units.AoWRealm.AoWRealmUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using static Aow.Units.E1Globals.E1GlobalsUnit;
 
 namespace Aow.Units.AoWTBWindow;
 
@@ -102,6 +102,7 @@ public partial class TTBWindow : TDataModule
     public short FWorldClockDelay;
     public short FCombatClockDelay;
     public short FChatFlash;
+
     // AoWTBWindow.pas:122
     public void TurnButtonAnimDone()
     {
@@ -499,11 +500,11 @@ public partial class TTBWindow : TDataModule
                 case 61:
                 case 91:
                 case 121:
-                {
-                    var button = (TAOWButton)Sender;
-                    button.FDrawn = false;
-                    button.ILIndexUp = 14;
-                }
+                    {
+                        var button = (TAOWButton)Sender;
+                        button.FDrawn = false;
+                        button.ILIndexUp = 14;
+                    }
 
                     break;
                 case 16:
@@ -511,11 +512,11 @@ public partial class TTBWindow : TDataModule
                 case 76:
                 case 106:
                 case 136:
-                {
-                    var button = (TAOWButton)Sender;
-                    button.FDrawn = false;
-                    button.ILIndexUp = 20;
-                }
+                    {
+                        var button = (TAOWButton)Sender;
+                        button.FDrawn = false;
+                        button.ILIndexUp = 20;
+                    }
 
                     break;
             }

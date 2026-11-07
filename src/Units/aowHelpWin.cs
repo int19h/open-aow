@@ -1,14 +1,14 @@
 // Translated from aowHelpWin.pas.
 using Aow.Rtl;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.aowHelpWin;
 
@@ -34,6 +34,7 @@ public partial class THelpWindow : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FDone;
     public THelpMessageEventLog FHelpEvent;
+
     // aowHelpWin.pas:53
     public void FinishDialog()
     {
@@ -119,6 +120,7 @@ public partial class THelpWindow : TDataModule
 public static partial class aowHelpWinUnit
 {
     public static THelpWindow HelpWindow;
+
     // aowHelpWin.pas:82
     public static void ShowHelp(int HelpID)
     {

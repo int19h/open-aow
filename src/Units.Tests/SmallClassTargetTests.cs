@@ -1,7 +1,7 @@
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
-using ObjectList = Aow.Units.EList.TObjectList;
 using ListObject = Aow.Units.EList.TListObject;
+using ObjectList = Aow.Units.EList.TObjectList;
 
 namespace Aow.Units.Tests;
 
@@ -27,6 +27,7 @@ public sealed class SmallClassTargetTests
     private sealed class PreviousItem : ListObject
     {
         internal bool Destroyed;
+
         public override void Destroy() { Destroyed = true; base.Destroy(); }
     }
 
@@ -67,7 +68,9 @@ public sealed class SmallClassTargetTests
             log.Add("activate");
             base.Activate(executer);
         }
+
         public override void Deactivate() { log.Add("deactivate"); base.Deactivate(); }
+
         public override void Destroy() { log.Add("destroy"); base.Destroy(); }
     }
 

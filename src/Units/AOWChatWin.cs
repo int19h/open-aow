@@ -1,10 +1,7 @@
 // Translated from AOWChatWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
@@ -13,6 +10,9 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AOWChatWin;
@@ -35,6 +35,7 @@ public partial class TChatWindow : TDataModule
     public TAOWVScrollBar ChatSB;
     public TIvTranslator Translator;
     public bool FScrollPending;
+
     // AOWChatWin.pas:47
     public void MinClick()
     {

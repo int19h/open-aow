@@ -1,21 +1,21 @@
 // Translated from AoWPartyJoin.pas.
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
 using Aow.Units.AoWUnitWindow;
-using Aow.Units.AOWControlWin;
+using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWPartyJoin;
 
@@ -55,6 +55,7 @@ public partial class TPartyJoinDlg : TDataModule
     public byte FSelection;
     public TUnitUserList FUnits;
     public TAbstractUnit FFaceUnit;
+
     // AoWPartyJoin.pas:73
     public bool ValidateJoin()
     {

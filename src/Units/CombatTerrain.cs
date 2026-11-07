@@ -1,25 +1,26 @@
 // Translated from CombatTerrain.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
+using Aow.Units.AoWTC;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Terrain;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.CombatTerrain;
 
 public partial class TCombatTerrainShadow : THexagonSprite
 {
     public TCombatTerrainShadow(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TCombatTerrain FTerrain;
+
     // CombatTerrain.pas:72
     public override int GetShowPriority() => (FTerrain.GetShowPriority() & 67108863) - 134217728;
 
@@ -36,7 +37,7 @@ public partial class TCombatTerrainShadow : THexagonSprite
 public partial class TCombatTerrain : TTerrainMO
 {
     public TCombatTerrain(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTerrain.pas:82
     public new const int ClassID = 2228582;
@@ -45,6 +46,7 @@ public partial class TCombatTerrain : TTerrainMO
     public int FHitPoints;
     public bool FDamaged;
     public int FDefense;
+
     // CombatTerrain.pas:85
     public override void Destroy()
     {
@@ -313,7 +315,7 @@ public partial class TCombatTerrain : TTerrainMO
 public partial class TCombatTerrainResource : TTerrainMOR
 {
     public TCombatTerrainResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTerrain.pas:301
     public new const int ClassID = 2228583;
@@ -322,6 +324,7 @@ public partial class TCombatTerrainResource : TTerrainMOR
     public sbyte FDefense;
     public byte FHitPoints;
     public bool FMeleeTarget;
+
     // CombatTerrain.pas:310
     public override void ReadWrite(TEStorageStream Stream)
     {

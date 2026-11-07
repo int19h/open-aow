@@ -1,23 +1,23 @@
 // Translated from AoWCampaignTransferDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWBookWindow;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
+using Aow.Units.AoWExeForms;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWHScroll;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWorldMap;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWExeForms;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWCampaignTransferDlg;
 
@@ -126,6 +126,7 @@ public partial class TCampaignTransferDlg : TDataModule
     public int FLeftSelection;
     public byte FRightKind;
     public int FRightSelection;
+
     // AoWCampaignTransferDlg.pas:683
     public void UpdateControls()
     {

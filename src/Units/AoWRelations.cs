@@ -1,15 +1,10 @@
 // Translated from AoWRelations.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
+using Aow.Units.AoWExeForms;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWHScroll;
 using Aow.Units.AoWImage;
@@ -17,12 +12,17 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWPInfoWin;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using Aow.Units.AoWPInfoWin;
-using Aow.Units.AoWExeForms;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.AoWRelations;
 
@@ -187,6 +187,7 @@ public partial class TRelWindow : TDataModule
     public TDiplomaticActionEventLog FEvent;
     public int FGlowIntensity;
     public bool FGlowIncreasing;
+
     // AoWRelations.pas:221
     public void FillPlayers()
     {

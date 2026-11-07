@@ -1,10 +1,10 @@
 // Translated from Arena.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.NetworkE;
-using Aow.Units.EventLog;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.NetworkE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Arena;
@@ -21,6 +21,7 @@ public partial class TArenaTE : TStructureTE
     public new const int ClassID = 133294;
 
     public TIntegerList FUnitIDs;
+
     // Arena.pas:80
     public override void Destroy()
     {
@@ -37,16 +38,14 @@ public partial class TArenaTE : TStructureTE
 
     // Arena.pas:74
 
-
     // Arena.pas:23
-
 
 }
 
 public partial class TArena : TStructure
 {
     public TArena(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Arena.pas:95
     public new const int ClassID = 133276;
@@ -298,12 +297,10 @@ public partial class TArenaResource : TStructureResource
 
     // Arena.pas:244
 
-
     // Arena.pas:256
     public override int ResourceUserClassID() => 133276;
 
     // Arena.pas:45
-
 
     // Arena.pas:250
     public override string ResourceEditName() => TranslateRStr(ArenaRStr);
@@ -323,6 +320,7 @@ public partial class TEnterArenaEventLog : TEventLog
     public byte FSelection;
     public byte FTrainable;
     public TIntegerList FUnitIDs;
+
     // Arena.pas:265
     public override void Destroy()
     {

@@ -1,18 +1,18 @@
 // Translated from CombatFire.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.ILTer;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.CombatILTer;
-using Aow.Units.CityWall;
-using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
+using Aow.Units.AoWTC;
+using Aow.Units.CityWall;
+using Aow.Units.CombatILTer;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ILTer;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.CombatFire;
 
@@ -29,6 +29,7 @@ public partial class TCombatFire : TSingleHS
     public int FYShift;
     public int FPlayer;
     public bool FFirstTurn;
+
     // CombatFire.pas:65
     public override void Destroy()
     {
@@ -36,7 +37,6 @@ public partial class TCombatFire : TSingleHS
     }
 
     // CombatFire.pas:60
-
 
     // CombatFire.pas:119
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -184,7 +184,7 @@ public partial class TCombatFire : TSingleHS
 public partial class TCombatFireResource : TILTerrainMOR
 {
     public TCombatFireResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatFire.pas:160
     public new const int ClassID = 2229579;

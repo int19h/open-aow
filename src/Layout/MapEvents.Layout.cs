@@ -1,10 +1,10 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Rtl;
 using Aow.Layout;
-using Aow.Units.MapCtrl;
+using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.HSEngine;
+using Aow.Units.MapCtrl;
 
 namespace Aow.Units.aowMapEvents
 {

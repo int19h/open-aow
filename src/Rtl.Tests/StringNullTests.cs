@@ -6,6 +6,7 @@ namespace Aow.Rtl.Tests;
 internal sealed class StringMode : IDisposable
 {
     private readonly bool previous = RtlUnit.StrictStrings;
+
     public StringMode(bool strict) => RtlUnit.StrictStrings = strict;
     public void Dispose() => RtlUnit.StrictStrings = previous;
 

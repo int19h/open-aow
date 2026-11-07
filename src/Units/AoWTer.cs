@@ -1,17 +1,17 @@
 // Translated from AoWTer.pas.
 using System.Runtime.InteropServices;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.Terrain;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWE;
 
 namespace Aow.Units.AoWTer;
 
 public partial class TAoWTerrain : TTerrainMO
 {
     public TAoWTerrain(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWTer.pas:89
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -106,9 +106,10 @@ public partial class TAoWTerrain : TTerrainMO
 public partial class TAoWTerrainResource : TTerrainMOR
 {
     public TAoWTerrainResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FMapFieldResponse;
+
     // AoWTer.pas:116
     public override void ReadWrite(TEStorageStream Stream)
     {

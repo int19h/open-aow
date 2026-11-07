@@ -2,8 +2,8 @@ using Aow.Platform;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.Sound;
-using SoundApi = Aow.Units.Sound.SoundUnit;
 using Sample = Aow.Units.Sound.TSample;
+using SoundApi = Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.Tests;
 
@@ -12,14 +12,14 @@ public sealed class MapNetSoundDispatchTests
     private sealed class ConvertedField(TECustomNode owner) : TMapField(owner)
     {
         internal int OwnerCalls;
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
-
-
 
     private sealed class ConvertedMap(TECustomNode owner) : THSMap(owner)
     {
         internal int MouseCalls;
+
         public override THSMapMouse CreateMouse()
         {
             Assert.Null(FSelection);
@@ -30,6 +30,7 @@ public sealed class MapNetSoundDispatchTests
     }
 
     private sealed class SpecializedField(TECustomNode owner) : TMapField(owner);
+
     private sealed class SpecializedLevel(TECustomNode owner) : TMapLevel(owner)
     {
         public override EClass MapFieldClass() => EClass.Of<SpecializedField>();
@@ -40,8 +41,6 @@ public sealed class MapNetSoundDispatchTests
         EClass.Register<SpecializedField>(TMapField.ClassID, static owner => new SpecializedField(owner), 40);
         EClass.Register<SpecializedLevel>(TMapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
     }
-
-
 
     [Fact]
     public void MapConstructorKeepsVirtualMouseCreationBeforeChildren()
@@ -92,6 +91,7 @@ public sealed class MapNetSoundDispatchTests
         private readonly TSoundSystemList systems = SoundApi.SoundSystems;
         private readonly TSoundSystem system = SoundApi.SoundSystem;
         private readonly TSongPlayer songs = SoundApi.SongPlayer;
+
         internal SoundState()
         {
             SoundApi.SampleList = new TSampleList();
@@ -101,6 +101,7 @@ public sealed class MapNetSoundDispatchTests
             SoundApi.SongPlayer = null!;
             TSdlSoundSystem.Install(mute: true, audioOutput: false);
         }
+
         public void Dispose()
         {
             SoundApi.ReleaseSoundSystem();
@@ -114,7 +115,11 @@ public sealed class MapNetSoundDispatchTests
 
     private static TWaveFormatEx Format => new()
     {
-        wFormatTag = 1, nChannels = 1, nSamplesPerSec = 8000, nBlockAlign = 1, wBitsPerSample = 8
+        wFormatTag = 1,
+        nChannels = 1,
+        nSamplesPerSec = 8000,
+        nBlockAlign = 1,
+        wBitsPerSample = 8
     };
 
     [Theory]

@@ -1,13 +1,13 @@
 // Translated from AoWListBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWControl;
+using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AOWMenu;
 using Aow.Units.AoWVScroll;
-using Aow.Units.AoWControl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWListBox;
 
@@ -51,6 +51,7 @@ public partial class TAOWListBox : TAOWControl
     public int FDrawItem;
     public TRect FDrawItemRect;
     public int F188;
+
     // AoWListBox.pas:107
     public TAOWListBox(TComponent owner) : base(owner)
     {
@@ -69,7 +70,7 @@ public partial class TAOWListBox : TAOWControl
 
     // AoWListBox.pas:124
     // { Validate: a list box needs only its font; without all three image libraries it is drawn as
-//   text only }
+    //   text only }
     public override void Validate()
     {
         if (FAOWFont != null)
@@ -246,7 +247,7 @@ public partial class TAOWListBox : TAOWControl
 
     // AoWListBox.pas:304
     // { Draw draws the frame and the texture, then the visible items (one more than fit: the loop runs
-//   to F11C, original) clipped to the inside, the selected one on its highlight texture }
+    //   to F11C, original) clipped to the inside, the selected one on its highlight texture }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         int L = default;
@@ -378,8 +379,8 @@ public partial class TAOWListBox : TAOWControl
 
     // AoWListBox.pas:404
     // { CheckMouseDown selects the item under the mouse unless the owner already handled the click;
-//   a double click calls OnDoubleClick, the right button opens the popup menu at the mouse, moved
-//   back inside the window manager when it would stick out }
+    //   a double click calls OnDoubleClick, the right button opens the popup menu at the mouse, moved
+    //   back inside the window manager when it would stick out }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         int I;

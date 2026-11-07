@@ -11,7 +11,7 @@ namespace Aow.Units.CenterViewLoc;
 public partial class TCenterViewLocation : TMapObject
 {
     public TCenterViewLocation(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CenterViewLoc.pas:46
     public new const int ClassID = 2233640;
@@ -79,7 +79,6 @@ public partial class TCenterViewLocationResource : TMapObjectResource
 
     // CenterViewLoc.pas:85
 
-
     // CenterViewLoc.pas:102
     public override int ResourceUserClassID() => 2233640;
 
@@ -90,7 +89,6 @@ public partial class TCenterViewLocationResource : TMapObjectResource
     }
 
     // CenterViewLoc.pas:34
-
 
     // CenterViewLoc.pas:99
     public override string ResourceEditName() => "Center View Location";

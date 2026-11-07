@@ -871,6 +871,7 @@ public static partial class AoWRegUnit
 {
     // AoWReg registry settings from AoWEPACK.dpl, recovered against Delphi 3.02
     public static TGUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
+
     // AoWReg.pas:811
     public static bool ValidAoWCD(byte Drive)
     {
@@ -890,6 +891,7 @@ public static partial class AoWRegUnit
     }
 
     public static readonly string AgeOfWondersMapStr = "Age Of Wonders Map";
+
     // AoWReg.pas:189
     public static TRect StringToRect(string S)
     {

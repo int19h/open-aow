@@ -1,17 +1,17 @@
 // Translated from AoWHex.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
-using Aow.Units.Engine;
-using Aow.Units.ImageLib;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.IsoHex;
-using Aow.Units.Hexagon;
-using Aow.Units.BorderHx;
+using Aow.Rtl;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.BorderHx;
+using Aow.Units.Engine;
 using Aow.Units.GFXE;
+using Aow.Units.Hexagon;
+using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+using Aow.Units.IsoHex;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.AoWHex;
 
@@ -19,7 +19,7 @@ namespace Aow.Units.AoWHex;
 public partial class TAoWHexagon : THexagon
 {
     public TAoWHexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWHex.pas:119
     public override void ChangeTerrain(in THSTerrainInfo Msg)
@@ -246,7 +246,7 @@ public partial class TAoWHexagon : THexagon
 public partial class TAoWHexagonResource : THexagonResource
 {
     public TAoWHexagonResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWHex.pas:254
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -267,7 +267,7 @@ public partial class TAoWHexagonResource : THexagonResource
 public partial class TAoWBorderHexagon : TBorderHexagon
 {
     public TAoWBorderHexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWHex.pas:261
     public override void UpdateMapField(in THSMapFieldInfo Info)
@@ -295,8 +295,8 @@ public partial class TAoWWaterHexagon : TLowerIsometricHexagon
     public sbyte FAnimationFrame;
     public byte FAnimationIndex;
     public FixedArray_byte_6 FShoreTerrain;
-    // AoWHex.pas:268
 
+    // AoWHex.pas:268
 
     // AoWHex.pas:48
     // AoWHex.pas:315. The base texture includes an owner-address phase.
@@ -333,12 +333,10 @@ public partial class TAoWWaterHexagonResource : TLowerIsometricHexagonResource
 
     // AoWHex.pas:446
 
-
     // AoWHex.pas:458
     public override int ResourceUserClassID() => 132925;
 
     // AoWHex.pas:58
-
 
     // AoWHex.pas:455
     public override string ResourceEditName() => TranslateRStr(WaterHexagonRStr);
@@ -410,6 +408,7 @@ public static partial class AoWHexUnit
 
     public static FixedArray_byte_3 SideHN = FixedArray_byte_3.From([6, 1, 2]);
     public static FixedArray_byte_3 SideClear = FixedArray_byte_3.From([246, 237, 219]);
+
     public static void Initialize()
     {
     }

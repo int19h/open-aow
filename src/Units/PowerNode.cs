@@ -1,9 +1,9 @@
 // Translated from PowerNode.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.PowerNode;
@@ -27,6 +27,7 @@ public partial class TPowerNode : TPlayerStructure
 
     public TSet<TPowerNodeStateElement> FState;
     public TPlayerStructurePowerSource FPowerSource;
+
     // PowerNode.pas:58
     public override void Destroy()
     {
@@ -42,7 +43,6 @@ public partial class TPowerNode : TPlayerStructure
     }
 
     // PowerNode.pas:51
-
 
     // PowerNode.pas:131
     public override void Activate()
@@ -191,7 +191,6 @@ public partial class TPowerNode : TPlayerStructure
 
     // PowerNode.pas:25
 
-
 }
 
 public partial class TPowerNodeResource : TPlayerStructureResource
@@ -211,12 +210,10 @@ public partial class TPowerNodeResource : TPlayerStructureResource
 
     // PowerNode.pas:152
 
-
     // PowerNode.pas:169
     public override int ResourceUserClassID() => 131482;
 
     // PowerNode.pas:41
-
 
     // PowerNode.pas:163
     public override string ResourceEditName() => TranslateRStr(PowerNodeRStr);

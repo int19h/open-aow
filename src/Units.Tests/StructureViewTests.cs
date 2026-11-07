@@ -1,9 +1,8 @@
 using System.Text;
-using Xunit.Abstractions;
+using Aow.Units.Altar;
 using Aow.Units.AoWE;
 using Aow.Units.AoWInfoWin;
 using Aow.Units.aowMapEvents;
-using Aow.Units.Altar;
 using Aow.Units.Arena;
 using Aow.Units.Cave;
 using Aow.Units.City;
@@ -17,6 +16,7 @@ using Aow.Units.Sign;
 using Aow.Units.Teleport;
 using Aow.Units.Tower;
 using Aow.Units.WizardsTower;
+using Xunit.Abstractions;
 using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
@@ -40,6 +40,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private sealed class ArmyOwner : EngineFixture.Owner
     {
         internal int ArmyQueries;
+
         public override TEObject FindOwnedChild(int AClassID)
         {
             if (AClassID == TArmyHS.ClassID) ArmyQueries++;

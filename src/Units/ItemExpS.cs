@@ -1,11 +1,11 @@
 // Translated from ItemExpS.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ExploreS;
-using Aow.Units.EventLog;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.ExploreS;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.ItemExpS;
@@ -40,6 +40,7 @@ public partial class TItemExplorationSite : TExplorationSite
     public byte FItemCount;
     // 0 user-defined, 4 random
     public TExplorationSiteItemList FItems;
+
     // ItemExpS.pas:95
     public override void Destroy()
     {
@@ -57,7 +58,6 @@ public partial class TItemExplorationSite : TExplorationSite
     }
 
     // ItemExpS.pas:88
-
 
     // ItemExpS.pas:114
     public override void Activate()
@@ -157,7 +157,6 @@ public partial class TItemExplorationSite : TExplorationSite
 
     // ItemExpS.pas:32
 
-
 }
 
 // FItemIDs, FMessages, FTitle, FLocation
@@ -177,6 +176,7 @@ public partial class TItemExplorationSiteEventLog : TEventLog
     public TStringList FMessages;
     public string FTitle = "";
     public TXYL FLocation;
+
     // ItemExpS.pas:194
     public override void Destroy()
     {
@@ -199,7 +199,7 @@ public partial class TItemExplorationSiteEventLog : TEventLog
 public partial class TItemExplorationSiteResource : TExplorationSiteResource
 {
     public TItemExplorationSiteResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // ItemExpS.pas:212
     public new const int ClassID = 132084;

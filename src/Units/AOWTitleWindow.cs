@@ -1,18 +1,18 @@
 // Translated from AOWTitleWindow.pas.
 using Aow.Rtl;
+using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWPanel;
+using Aow.Units.AoWVideoDlg;
+using Aow.Units.AoWWindow;
 using Aow.Units.GFXE;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWSelFactionWin.AoWSelFactionWinUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 using static Aow.Units.GFXE.GFXEUnit;
 using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWSelFactionWin.AoWSelFactionWinUnit;
-using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AOWTitleWindow;
 
@@ -28,6 +28,7 @@ public partial class TTitleWindow : TDataModule
     public TInterfaceIL DemoIL;
     public int FSplashTimer;
     public int FSplashStage;
+
     // AOWTitleWindow.pas:66
     public void HideSplash()
     {

@@ -1,9 +1,9 @@
 // Translated from FileSecurity.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 using System.Buffers.Binary;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Engine;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.FileSecurity;
 
@@ -16,6 +16,7 @@ public struct TSecurityData
     public byte Key;
     [FieldOffset(5)]
     public FixedArray_byte_51 ID__image;
+
     public string ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
     [FieldOffset(56)]
@@ -37,8 +38,8 @@ public static partial class FileSecurityUnit
 {
     // FileSecurity.pas:132
     // { FileSecurity, from AoWEPACK.dpl. Security trailers use a $6A-byte data record
-//   and a $0C-byte footer containing CRC32, size and the SDID signature.
-//   The four unnamed helpers follow PageTurnCtrl's finalization in code order. }
+    //   and a $0C-byte footer containing CRC32, size and the SDID signature.
+    //   The four unnamed helpers follow PageTurnCtrl's finalization in code order. }
     public static bool GetFileSecurityID(string FileName, ref string ID)
     {
         bool Result;

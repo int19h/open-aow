@@ -9,7 +9,7 @@ namespace Aow.Units.RandomNode;
 public partial class TRandomNode : TProductionPlace
 {
     public TRandomNode(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // RandomNode.pas:35
     public new const int ClassID = 133154;
@@ -27,12 +27,10 @@ public partial class TRandomNodeResource : TProductionPlaceResource
 
     // RandomNode.pas:38
 
-
     // RandomNode.pas:49
     public override int ResourceUserClassID() => 133154;
 
     // RandomNode.pas:25
-
 
     // RandomNode.pas:43
     public override string ResourceEditName() => TranslateRStr(RandomNodeRStr);

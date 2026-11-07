@@ -1,13 +1,13 @@
 // Translated from AoWUnitBanner.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
-using Aow.Units.AOWMenu;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
+using Aow.Units.AOWMenu;
+using Aow.Units.AoWTC;
 using Aow.Units.AoWVScroll;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWUnitBanner;
@@ -34,6 +34,7 @@ public partial class TUnitBanner : TDataModule
     public TAOWMenu BannerPopup;
     public TAOWListBox AbLB;
     public TAOWVScrollBar AbVSB;
+
     // AoWUnitBanner.pas:53
     public void BannerPopupShow(TObject Sender)
     {

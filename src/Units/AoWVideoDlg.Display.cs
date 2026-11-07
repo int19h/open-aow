@@ -15,6 +15,7 @@ public partial class TVideoDialog
         else ChangeResolution(FDisplayWidth, FDisplayHeight);
         FModeChanged = false;
     }
+
     public void ChangeResolution(int width, int height)
     {
         var form = GameHost.MainForm;
@@ -22,6 +23,7 @@ public partial class TVideoDialog
         if (width == 0 || height == 0) (width, height) = form.Display.Host.ClientSize;
         form.Display.ResizeBackSurfaces(width, height);
     }
+
     public int CurrentMode()
     {
         if (GameHost.MainForm is not { } form || !form.Display.Host.Fullscreen) return 0;

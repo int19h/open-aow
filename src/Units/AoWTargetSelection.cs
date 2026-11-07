@@ -8,8 +8,8 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWTargetSelection;
 
@@ -34,6 +34,7 @@ public partial class TTargetSelectionDlg : TDataModule
     public TAOWLabel TargetRangeLabel;
     public TAOWLabel TargetLbl;
     public TIvTranslator Translator;
+
     // AoWTargetSelection.pas:45
     public void CloseClick()
     {

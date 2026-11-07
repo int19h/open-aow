@@ -1,16 +1,16 @@
 // Translated from AoWCityJoinDlg.pas.
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
 using Aow.Units.AoWArnoLine;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWCityJoinDlg;
@@ -39,6 +39,7 @@ public partial class TCityJoinDlg : TDataModule
     public sbyte FRace;
     public TExecuteDoneEvent FDone;
     public TNegotiateRequestEventLog FEvent;
+
     // AoWCityJoinDlg.pas:55
     public void FinishDialog()
     {

@@ -1,10 +1,10 @@
 // Translated from FlagEvents.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
+using Aow.Units.EventLog;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using Aow.Units.EventLog;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.FlagEvents;
@@ -14,10 +14,11 @@ namespace Aow.Units.FlagEvents;
 public partial class TFlagEvent : TMapObject
 {
     public TFlagEvent(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TFlagEventTriggerMode FTriggerMode;
     public int FTriggerPlayers;
+
     // FlagEvents.pas:98
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -113,7 +114,6 @@ public partial class TFlagEventResource : TMapObjectResource
 
     // FlagEvents.pas:169
 
-
     // FlagEvents.pas:175
     public override void SetLevel(byte Value)
     {
@@ -144,6 +144,7 @@ public partial class TFlagMessageEvent : TFlagEvent
 
     public string FHelpFileName = "";
     public TStringList FMessage;
+
     // FlagEvents.pas:186
     public override void Destroy()
     {
@@ -160,7 +161,6 @@ public partial class TFlagMessageEvent : TFlagEvent
     }
 
     // FlagEvents.pas:180
-
 
     // FlagEvents.pas:204
     public override bool Trigger(sbyte Player)
@@ -181,13 +181,12 @@ public partial class TFlagMessageEvent : TFlagEvent
 
     // FlagEvents.pas:62
 
-
 }
 
 public partial class TFlagMessageEventResource : TFlagEventResource
 {
     public TFlagMessageEventResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // FlagEvents.pas:218
     public new const int ClassID = 132462;
@@ -212,6 +211,7 @@ public partial class TTutorialMessageEvent : TFlagEvent
     public new const int ClassID = 132459;
 
     public TStringList FMessage;
+
     // FlagEvents.pas:239
     public override void Destroy()
     {
@@ -227,7 +227,6 @@ public partial class TTutorialMessageEvent : TFlagEvent
     }
 
     // FlagEvents.pas:233
-
 
     // FlagEvents.pas:256
     public override bool Trigger(sbyte Player)
@@ -247,13 +246,12 @@ public partial class TTutorialMessageEvent : TFlagEvent
 
     // FlagEvents.pas:81
 
-
 }
 
 public partial class TTutorialMessageEventResource : TFlagEventResource
 {
     public TTutorialMessageEventResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // FlagEvents.pas:269
     public new const int ClassID = 132460;

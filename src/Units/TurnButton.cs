@@ -1,9 +1,9 @@
 // Translated from TurnButton.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWControl;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Aow.Units.AoWControl;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.TurnButton;
 
@@ -22,6 +22,7 @@ public partial class TAOWTurnButton : TAOWControl
     public TNotifyEvent FOnPlayerChange;
     public bool FButtonChecked;
     public int FAnimationFrame;
+
     // TurnButton.pas:54
     public TAOWTurnButton(TComponent owner) : base(owner)
     {

@@ -1,9 +1,9 @@
 // Translated from Tower.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tower;
@@ -17,12 +17,13 @@ public enum TTowerStateElement : byte
 public partial class TTower : TPlayerStructure
 {
     public TTower(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Tower.pas:55
     public new const int ClassID = 132158;
 
     public TSet<TTowerStateElement> FState;
+
     // Tower.pas:96
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -120,12 +121,10 @@ public partial class TTowerResource : TPlayerStructureResource
 
     // Tower.pas:110
 
-
     // Tower.pas:127
     public override int ResourceUserClassID() => 132158;
 
     // Tower.pas:35
-
 
     // Tower.pas:121
     public override string ResourceEditName() => TranslateRStr(TowerRStr);

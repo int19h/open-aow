@@ -1,15 +1,15 @@
 // Translated from Scanner.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using Aow.Units.HSEngine;
+using Aow.Rtl;
 using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWE;
+using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.Scanner;
 
@@ -48,6 +48,7 @@ public partial class TScanner : TAOWControl
     public TSurface FObjectSurface;
     public int FUpdateStep;
     public bool FIncremental;
+
     // Scanner.pas:126
     public override void Destroy()
     {

@@ -29,6 +29,7 @@ public partial class THexagonSpriteSelection
 
         return Result;
     }
+
     public void SelectLocation(int Xhp, int Yhp, int Lhp)
     {
         int N;
@@ -72,6 +73,7 @@ public partial class THexagonSpriteSelection
             }
         }
     }
+
     public int FindLocationHSIndex(TMapField MapF)
     {
         int I;

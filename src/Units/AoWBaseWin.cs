@@ -1,12 +1,12 @@
 // Translated from AoWBaseWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.AOWWinManager;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
+using Aow.Units.AOWWinManager;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.AoWBaseWin;
 
@@ -26,6 +26,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     public TAOWWinManager FWinManager;
     public TNotifyEvent FOnShow;
     public TNotifyEvent FOnHide;
+
     // AoWBaseWin.pas:56
     public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
     {
@@ -67,8 +68,8 @@ public partial class TAOWBaseWindow : TAOWWindowControl
 
     // AoWBaseWin.pas:367
     // { SetVisible: a hidden window marks itself hidden (the window manager redraws the place it
-//   covered) and may free its back surface; a shown window is redrawn from scratch, remembers its
-//   place in FBackRect, and is put back at its place in the window order. }
+    //   covered) and may free its back surface; a shown window is redrawn from scratch, remembers its
+    //   place in FBackRect, and is put back at its place in the window order. }
     public override void SetVisible(bool Value)
     {
         if (Value != FVisible)
@@ -129,10 +130,10 @@ public partial class TAOWBaseWindow : TAOWWindowControl
 
     // AoWBaseWin.pas:102
     // { DrawSurface draws the window and its controls. A double-buffered window draws into its back
-//   surface (at 0, 0: the position is restored afterwards), redrawing everything when it is not
-//   drawn or only the rectangles of its draw list, then lets the controls draw themselves and
-//   blits the dirty rectangles of its blit list to Surface, telling the window manager about each
-//   one. A window without a back surface draws itself and its controls straight into Surface. }
+    //   surface (at 0, 0: the position is restored afterwards), redrawing everything when it is not
+    //   drawn or only the rectangles of its draw list, then lets the controls draw themselves and
+    //   blits the dirty rectangles of its blit list to Surface, telling the window manager about each
+    //   one. A window without a back surface draws itself and its controls straight into Surface. }
     public override void DrawSurface(TSurface Surface)
     {
         TAoWComponent C = default;
@@ -362,8 +363,8 @@ public partial class TAOWBaseWindow : TAOWWindowControl
 
     // AoWBaseWin.pas:263
     // { DrawSurfDesc draws the window and its controls into SurfDesc. A double-buffered window draws
-//   into its back surface instead (created, or created again when the pixel format changed) and
-//   copies it into SurfDesc, masked with FMaskColor for a masked window. }
+    //   into its back surface instead (created, or created again when the pixel format changed) and
+    //   copies it into SurfDesc, masked with FMaskColor for a masked window. }
     public override void DrawSurfDesc(TSurfaceDesc SurfDesc)
     {
         TAoWComponent C = default;

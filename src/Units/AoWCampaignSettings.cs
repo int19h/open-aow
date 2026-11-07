@@ -1,15 +1,15 @@
 // Translated from AoWCampaignSettings.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWComboBox;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWCampaignSettings;
 
@@ -34,6 +34,7 @@ public partial class TCampaignSettingsDlg : TDataModule
     public TAoWFrame AoWFrame1;
     public TAOWButton CancelBtn;
     public TAOWImage TCeltLineL;
+
     // AoWCampaignSettings.pas:45
     public void DlgShow(TObject Sender)
     {

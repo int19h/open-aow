@@ -214,3 +214,37 @@ In order of cost. A task uses the cheapest rung that proves its claim.
    turn for turn, with the floating point allowance described in `docs/design.md`.
 5. Frame comparison: a scene rendered by the port equals the Delphi build's frame.
 6. A person plays it.
+
+## 7. Code format
+
+The C# sources under `src/` follow one format, and the gate's product layer checks it.
+
+- `.editorconfig` at the repository root sets the whitespace (four spaces, braces on their own
+  lines, the spacing around operators and commas), LF line endings, UTF-8 without a byte order
+  mark, and the order of using directives (plain directives with the System namespaces first,
+  then static directives, then aliases). `dotnet format` applies these. The style preferences in the file (file-scoped
+  namespaces, `var`, expression bodies) are silent: they guide new code, and neither the build nor
+  `dotnet format` enforces them.
+- The blank lines between members are kept by MemberSpacing, a Roslyn tool in the private
+  repository (`tools/format`). Every member of a type, a namespace or a file is separated from the
+  next by exactly one blank line. Consecutive single-line members of one kind (fields, properties,
+  expression-bodied or bodiless methods, enum members, delegates) keep zero or one blank line as
+  written. The blank line goes above the comments and attributes of the member below. Everywhere
+  else a run of blank lines collapses to one. Lines inside string literals, multi-line comments and
+  inactive preprocessor regions never change.
+- The reformat that introduced this format is listed in `.git-blame-ignore-revs`. Run
+  `git config blame.ignoreRevsFile .git-blame-ignore-revs` once in a clone to have `git blame`
+  skip it.
+
+Before a pull request, format the tree and check it, from the product repository:
+
+```bash
+dotnet format OpenAow.slnx
+dotnet run --project D:\git\open-aow-private\tools\format\Format.csproj -- src
+dotnet format OpenAow.slnx --verify-no-changes
+dotnet run --project D:\git\open-aow-private\tools\format\Format.csproj -- --check src
+```
+
+The first two commands rewrite files. The last two change nothing and list the files that differ.
+The gate runs the two checks after the product tests and fails the product layer with the names of
+the files that differ.

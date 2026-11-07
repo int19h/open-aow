@@ -1,8 +1,8 @@
 // Translated from FireNode.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.FireNode;
@@ -10,7 +10,7 @@ namespace Aow.Units.FireNode;
 public partial class TFireNode : TProductionPlace
 {
     public TFireNode(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // FireNode.pas:36
     public new const int ClassID = 132062;
@@ -34,12 +34,10 @@ public partial class TFireNodeResource : TProductionPlaceResource
 
     // FireNode.pas:42
 
-
     // FireNode.pas:56
     public override int ResourceUserClassID() => 132062;
 
     // FireNode.pas:26
-
 
     // FireNode.pas:50
     public override string ResourceEditName() => TranslateRStr(FireNodeRStr);

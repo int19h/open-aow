@@ -1,9 +1,9 @@
 #nullable disable
-using Aow.Rtl;
 using Aow.Platform;
+using Aow.Rtl;
+using Aow.Units.GFXE;
 using static Aow.Units.DisplayC.TDisplayOptionsElement;
 using static Aow.Units.DisplayC.TDisplayStatusElement;
-using Aow.Units.GFXE;
 
 namespace Aow.Units.DisplayC;
 
@@ -26,7 +26,7 @@ public partial class TCustomDisplay
     }
 
     public TCustomDisplay(TComponent owner) : base(owner)
-        {
+    {
         Width = Height = 100;
         FOptions = TSet<TDisplayOptionsElement>.Of(doAutoResizeBackSurface, doAutoSwapDC,
             doAutoStartUpdateFrameLoop, doAutoActivatePrimaryDC, doRestoreSurfacesOnSwap, doBltOnWMPAINT);
@@ -47,8 +47,10 @@ public partial class TCustomDisplay
     }
 
     internal new void SetCursor(int value) { base.SetCursor(value); Host?.ShowSystemCursor(value != -1); }
+
     internal int GetCursor() => base.Cursor;
     public override void Loaded() => base.Loaded();
+
     public virtual void Resize()
     {
         if (FActiveDC is null) return;
@@ -56,14 +58,18 @@ public partial class TCustomDisplay
         if (FOptions.Contains(doAutoResizeBackSurface)) ResizeBackSurfaces(screen.Width, screen.Height);
         FOnResize?.Invoke(this);
     }
+
     public virtual void ShowError(string message) => RtlUnit.ShowMessage(message);
     public virtual void StopUpdateFrameLoop() => FStatus = FStatus.Without(dsFrameLoopActive);
+
     public virtual void PauseFrameUpdateLoop() { FPauseCount++; FStatus = FStatus.With(dsFrameLoopPaused); }
+
     public virtual void ResumeFrameUpdateLoop()
     {
         if (FPauseCount > 0) FPauseCount--;
         if (FPauseCount == 0) FStatus = FStatus.Without(dsFrameLoopPaused);
     }
+
     public virtual void StartUpdateFrameLoop()
     {
         if (FStatus.Contains(dsFrameLoopActive)) return;
@@ -80,7 +86,9 @@ public partial class TCustomDisplay
         }
         finally { StopUpdateFrameLoop(); }
     }
+
     public virtual int GetMouseButton() => MouseButtons.Contains(TShiftState.ssLeft) ? 1 : MouseButtons.Contains(TShiftState.ssRight) ? 2 : 0;
+
     public virtual void UpdateFrame()
     {
         if (FBufferingScheme == TBufferingScheme.bsTripple) FSurfaceIndex = FSurfaceIndex == 1 ? 2 : 1;
@@ -96,6 +104,7 @@ public partial class TCustomDisplay
         PresentedFrames++;
         FramePresented?.Invoke(PresentedFrames);
     }
+
     public int ActivateDC(TAbstractDC dc)
     {
         if (dc == FActiveDC) return 0;
@@ -132,6 +141,7 @@ public partial class TCustomDisplay
             ResumeFrameUpdateLoop();
         }
     }
+
     public int SwapDC()
     {
         PauseFrameUpdateLoop();
@@ -150,6 +160,7 @@ public partial class TCustomDisplay
 public partial class TDisplayCtrl
 {
     private double lastVerticalBlank;
+
     public override int WaitForVerticalBlank()
     {
         var clock = RtlUnit.Clock;
@@ -159,6 +170,7 @@ public partial class TDisplayCtrl
         FLastVBTime = (int)lastVerticalBlank;
         return 0;
     }
+
     public override int Handle() => 0;
     public override TWinControl OutputWnd() => FDisplay;
     public override void ShowError(string message) => RtlUnit.ShowMessage(message);

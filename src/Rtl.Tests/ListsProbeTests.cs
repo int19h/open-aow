@@ -6,6 +6,7 @@ namespace Aow.Rtl.Tests;
 public sealed class ListsProbeTests
 {
     private sealed class Item(int id, int key) { internal int Id = id, Key = key; }
+
     private sealed class ObjectId(int id) : TObject { internal int Id = id; }
 
     [ProbeFact("lists")]

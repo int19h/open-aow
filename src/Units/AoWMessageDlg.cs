@@ -1,6 +1,5 @@
 // Translated from AoWMessageDlg.pas.
 using Aow.Rtl;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
@@ -9,6 +8,7 @@ using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 
@@ -49,6 +49,7 @@ public partial class TMessageDlg : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FDone;
     public TMessageEventLog FEvent;
+
     // AoWMessageDlg.pas:68
     public void FinishDialog()
     {

@@ -2,12 +2,12 @@ using System.Text.Json;
 using Aow.Layout;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
-using Aow.Units.ImageLib;
+using Aow.Units.AoWFileDialog;
+using Aow.Units.AoWSWindow;
 using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AoWFileDialog;
 
 namespace Aow.Game;
 
@@ -86,9 +86,17 @@ internal static class LocalizationFrameChecks
             }
         File.WriteAllText(Path.Combine(output, "localization.json"), JsonSerializer.Serialize(new
         {
-            language, undead, undead_equal = undeadEqual, map_caption = mapCaption,
-            file_dialog_title = dialogTitle, file_dialog_title_bytes = Cp1252.Encode(dialogTitle).ToArray().Select(b => (int)b).ToArray(),
-            fixture_glyphs_equal = true, required_glyphs = required, absent_glyphs = absent, german_bytes = germanBytes, coverage
+            language,
+            undead,
+            undead_equal = undeadEqual,
+            map_caption = mapCaption,
+            file_dialog_title = dialogTitle,
+            file_dialog_title_bytes = Cp1252.Encode(dialogTitle).ToArray().Select(b => (int)b).ToArray(),
+            fixture_glyphs_equal = true,
+            required_glyphs = required,
+            absent_glyphs = absent,
+            german_bytes = germanBytes,
+            coverage
         }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
         if (language == 1)

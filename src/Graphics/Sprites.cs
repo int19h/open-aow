@@ -8,6 +8,7 @@ public static partial class Blit
     public static void BltRLE16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, dst, pitch, clip, data, w, h, key, false, false);
     public static void BlendRLE555(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, dst, pitch, clip, data, w, h, key, true, false);
     public static void BlendRLE565(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, dst, pitch, clip, data, w, h, key, true, true);
+
     private static void Rle16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key, bool blend, bool rgb565)
     {
         if (w <= 0 || h <= 0 || x >= clip.Right || x + w <= clip.Left || y >= clip.Bottom || y + h <= clip.Top) return;
@@ -38,6 +39,7 @@ public static partial class Blit
             row = (end + 3) & ~3;
         }
     }
+
     // ImageLib's fast path tests eight encoded bytes, then handles two pairs.
     // The low blue bit is cleared on the high member of each opaque pair.
     private static void FastRleBlend(Ptr<byte> data, int p, int count, Ptr<byte> dst, int d, int key, bool rgb565)
@@ -72,6 +74,7 @@ public static partial class Blit
             }
         }
     }
+
     private static void RemapRle(Ptr<byte> data, int h, int key, bool to565)
     {
         int row = 0;
@@ -92,10 +95,12 @@ public static partial class Blit
             row = (end + 3) & ~3;
         }
     }
+
     public static void RemapRLE555to565(Ptr<byte> data, int h, int key) => RemapRle(data, h, key, true);
     public static void RemapRLE565to555(Ptr<byte> data, int h, int key) => RemapRle(data, h, key, false);
     public static void ShowRLE08(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, byte key) => Rle08(x, y, dst, pitch, clip, data, w, h, key, default, false);
     public static void ShowRLE08to16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, byte key, Ptr<byte> palette) => Rle08(x, y, dst, pitch, clip, data, w, h, key, palette, true);
+
     private static void Rle08(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, byte key, Ptr<byte> palette, bool paletteMode)
     {
         int p = 0;
@@ -116,9 +121,11 @@ public static partial class Blit
             }
         }
     }
+
     public static void ShowBitMask16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h) => Mask(x, y, dst, pitch, clip, data, w, h, false, false);
     public static void ShowShadow555(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h) => Mask(x, y, dst, pitch, clip, data, w, h, true, false);
     public static void ShowShadow565(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h) => Mask(x, y, dst, pitch, clip, data, w, h, true, true);
+
     private static void Mask(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, bool shadow, bool rgb565)
     {
         int clipLeft = clip.Left, clipRight = clip.Right, clipTop = clip.Top, clipBottom = clip.Bottom;

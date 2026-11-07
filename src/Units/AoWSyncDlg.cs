@@ -1,14 +1,14 @@
 // Translated from AoWSyncDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWSetup;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWSetup;
 using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
 
 namespace Aow.Units.AoWSyncDlg;
@@ -33,6 +33,7 @@ public partial class TSynchronizeDlg : TDataModule
     public TAOWPanel NewTPnl;
     public TAOWImage FaceFrame;
     public TIvTranslator Translator;
+
     // AoWSyncDlg.pas:45
     public TPlayerSetupSettings GetPlayerSetup()
     {

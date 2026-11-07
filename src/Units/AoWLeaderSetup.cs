@@ -1,26 +1,26 @@
 // Translated from AoWLeaderSetup.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWComboBox;
+using Aow.Units.AoWE;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
+using Aow.Units.AoWInfoBanner;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
+using Aow.Units.AoWMessageDlg;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.E2Globals.E2GlobalsUnit;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWMessageDlg;
-using Aow.Units.AoWInfoBanner;
+using static Aow.Units.Engine.EngineUnit;
 
 namespace Aow.Units.AoWLeaderSetup;
 
@@ -201,6 +201,7 @@ public partial class TLeaderSetupWin : TDataModule
     public TLeader FLeader;
     public int FSelectedSort;
     public int FAvailableSort;
+
     // AoWLeaderSetup.pas:1050
     public void Execute(TLeaderSetupControl Control)
     {
@@ -1075,26 +1076,26 @@ public partial class TLeaderSetupWin : TDataModule
         switch (FPhase)
         {
             case 1:
-            {
-                var leader = FLeader;
-                leader.SetNickname("");
-                leader.FHeroName = "";
-                UpdateLeader();
-            }
+                {
+                    var leader = FLeader;
+                    leader.SetNickname("");
+                    leader.FHeroName = "";
+                    UpdateLeader();
+                }
 
                 break;
             case 2:
-            {
-                var leader = FLeader;
-                leader.AssignAb(leader.FHeroResource.FAbilities);
-                leader.SetUnitAttack(0);
-                leader.SetUnitDefense(0);
-                leader.SetUnitDamage(0);
-                leader.SetUnitHits(0);
-                leader.SetUnitMoves(0);
-                leader.SetUnitResistance(0);
-                UpdateLeader();
-            }
+                {
+                    var leader = FLeader;
+                    leader.AssignAb(leader.FHeroResource.FAbilities);
+                    leader.SetUnitAttack(0);
+                    leader.SetUnitDefense(0);
+                    leader.SetUnitDamage(0);
+                    leader.SetUnitHits(0);
+                    leader.SetUnitMoves(0);
+                    leader.SetUnitResistance(0);
+                    UpdateLeader();
+                }
 
                 break;
             case 3:
@@ -1112,41 +1113,41 @@ public partial class TLeaderSetupWin : TDataModule
         switch (FPhase)
         {
             case 1:
-            {
-                var leader = FLeader;
-                leader.SetNickname(FSetup.FLeader.GetNickname());
-                leader.FHeroName = FSetup.FLeader.FHeroName;
-                leader.SetFaceIndex(FSetup.FLeader.FFaceIndex);
-                UpdateLeader();
-            }
+                {
+                    var leader = FLeader;
+                    leader.SetNickname(FSetup.FLeader.GetNickname());
+                    leader.FHeroName = FSetup.FLeader.FHeroName;
+                    leader.SetFaceIndex(FSetup.FLeader.FFaceIndex);
+                    UpdateLeader();
+                }
 
                 break;
             case 2:
-            {
-                var leader = FLeader;
-                leader.AssignAb(FSetup.FLeader);
-                leader.SetUnitAttack(FSetup.FLeader.FUnitAttack);
-                leader.SetUnitDefense(FSetup.FLeader.FUnitDefense);
-                leader.SetUnitDamage(FSetup.FLeader.FUnitDamage);
-                leader.SetUnitHits(FSetup.FLeader.FUnitHits);
-                leader.SetUnitMoves(FSetup.FLeader.FUnitMoves);
-                leader.SetUnitResistance(FSetup.FLeader.FUnitResistance);
-                UpdateLeader();
-            }
+                {
+                    var leader = FLeader;
+                    leader.AssignAb(FSetup.FLeader);
+                    leader.SetUnitAttack(FSetup.FLeader.FUnitAttack);
+                    leader.SetUnitDefense(FSetup.FLeader.FUnitDefense);
+                    leader.SetUnitDamage(FSetup.FLeader.FUnitDamage);
+                    leader.SetUnitHits(FSetup.FLeader.FUnitHits);
+                    leader.SetUnitMoves(FSetup.FLeader.FUnitMoves);
+                    leader.SetUnitResistance(FSetup.FLeader.FUnitResistance);
+                    UpdateLeader();
+                }
 
                 break;
             case 3:
-            {
-                var leader = FLeader;
-                leader.ClearSpheres();
-                for (int I = 0, last = FSetup.FLeader.GetSphereCount() - 1; I <= last; I++)
                 {
-                    leader.AddSphere(FSetup.FLeader.GetSpheres(I));
-                }
+                    var leader = FLeader;
+                    leader.ClearSpheres();
+                    for (int I = 0, last = FSetup.FLeader.GetSphereCount() - 1; I <= last; I++)
+                    {
+                        leader.AddSphere(FSetup.FLeader.GetSpheres(I));
+                    }
 
-                UpdateLeader();
-                UpdateSpheres();
-            }
+                    UpdateLeader();
+                    UpdateSpheres();
+                }
 
                 break;
         }

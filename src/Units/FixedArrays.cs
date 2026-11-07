@@ -1,6 +1,6 @@
 // Translated from the Delphi units AGCPlugins, AOWChatWin, AOWControlWin, AOWDialogWin, AOWGauge, AOWInterfaceImgLib, AOWMWindow, AOWMenu, AOWMenuBar, AOWMultiWin, AOWPyreScrn, AOWTitleWindow, AOWToolTip, AOWWinManager, AirNode, AlgnmBox, AltDeath, AltFire, AltIce, AltLife, AltLight, AltPest, Altar, Animation, AoWArenaDlg, AoWArmyEventDlg, AoWArmyInfoDlg, AoWArnoLine, AoWBaseWin, AoWBookWindow, AoWButton, AoWCampaignJoin, AoWCampaignSettings, AoWCampaignTransferDlg, AoWCastUnitSpellDlg, AoWCheckBox, AoWCityJoinDlg, AoWCityRebelDlg, AoWCityScreen, AoWComboBox, AoWComp, AoWConstructDlg, AoWControl, AoWDeformFaceDlg, AoWDisjunctionDlg, AoWE, AoWEReg, AoWEdit, AoWEmailGameSettingsDlg, AoWEmailSettingsDlg, AoWExeForms, AoWFileDialog, AoWFrame, AoWGamePlayDlg, AoWHScroll, AoWHTMLMemo, AoWHeroInfoDlg, AoWHeroJoinDlg, AoWHeroUpgradeDlg, AoWHex, AoWImage, AoWInfoBanner, AoWInfoWin, AoWIntroScene, AoWItemBanner, AoWItemsFoundDlg, AoWLabel, AoWLeaderSetup, AoWLenLine, AoWListBox, AoWMagic, AoWMemo, AoWMessageDlg, AoWMsgReceiveDlg, AoWNewTurnDialog, AoWPInfoWin, AoWPOP3Dlg, AoWPWindows, AoWPanel, AoWPartyJoin, AoWPasswordDlg, AoWPowerDlg, AoWProdScreen, AoWProgressDialog, AoWRealm, AoWReg, AoWRelations, AoWResultsWin, AoWRoad, AoWSMTPDlg, AoWSWindow, AoWScenSetup, AoWSelFactionWin, AoWSendEmailGameDlg, AoWSetup, AoWSoundDlg, AoWSpellBook, AoWSyncDlg, AoWTBWindow, AoWTC, AoWTCReg, AoWTCScanner, AoWTCUnit, AoWTabPanel, AoWTargetSelection, AoWTer, AoWTitleScene, AoWTutorialWin, AoWUnitBanner, AoWUnitSelDlg, AoWUnitWindow, AoWVScroll, AoWVideoDlg, AoWWinControl, AoWWinGeneric, AoWWinMan, AoWWindow, AoWWizardsTowerDlg, AoWWorldMap, AowUserWindow, Arena, BehaviorAG, BldGuild, BloodShrine, BorderHx, Bridge, CMapCtrl, Cave, CenterViewLoc, City, CitySpells, CityWall, CombatFire, CombatHex, CombatILTer, CombatObstacle, CombatRoad, CombatSpells, CombatStructure, CombatTE, CombatTerrain, Crops, Crypt, DeathNode, DisplayC, Dungeon, E1GameFlow, E1Globals, E1Resources, E1TacticalSupport, E2CampaignSupport, E2DirectSound, E2GameFlow, E2Globals, E2WindowLayout, E3EventDialogs, E3Globals, E3IMSTypes, E3StructureInfo, EList, EarthNode, Engine, EventLog, ExploreS, FMemStr, Farm, FastCombatWin, FileSecurity, FireNode, FlagEvents, FleeLoc, FontMod, GFXE, Gems, GlobalEnchantmentSpells, GlobalSpells, GlobalTargetSpells, HSEngine, HSLib, HashTabU, HeroCtrl, HeroGrid, Hexagon, Hill, HolyG, House, HxBridge, ILTer, ImageLib, IndependentAG, IsoCombatHex, IsoHex, ItemCtrl, ItemExpS, ItemGrid, LeadrGrd, LicenseF, LifeNode, MagicSanctuary, MainAG, MainStructure, ManaCrystals, MapCtrl, Merchant, Mine, MonsterL, Mountain, MoveOnEvents, NetworkE, OverlayObject, OverviewUnit, Pad, PageTurnCtrl, PassiveAb, PlayerBox, PlugInM, PoisonC, PoisonP, PowerNode, PrdPlace, Pyramid, RaceBox, RandomNode, ReflectingPool, RndHex, Road, Ruin, Scanner, Shipyard, Sign, SingleCombatHex, SmokeCloud, Sound, Spring, StartMenu, Storms, SummonSpells, TCFCDlg, Teleport, Terrain, Tower, Townhall, TurnButton, UnHolyG, UnitGrid, UnitIDlg, UnitIGrd, UnitSpells, UnitTabC, WaterNode, WizardsTower, WorkShop, aowFX, aowHelpWin, aowIntGfxMod, aowMapEvents, aowSetupEvents, aowTCMapEvents, aowUserDrawBox.
-using Aow.Rtl;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.AoWTC;
 using Aow.Units.Engine;
@@ -14,6 +14,7 @@ namespace Aow.Units;
 public struct FixedArray_string_10
 {
     private string element0;
+
     public static FixedArray_string_10 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_10 result = default;
@@ -31,6 +32,7 @@ public struct FixedArray_string_10
 public struct FixedArray_string_13
 {
     private string element0;
+
     public static FixedArray_string_13 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_13 result = default;
@@ -48,6 +50,7 @@ public struct FixedArray_string_13
 public struct FixedArray_string_19
 {
     private string element0;
+
     public static FixedArray_string_19 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_19 result = default;
@@ -65,6 +68,7 @@ public struct FixedArray_string_19
 public struct FixedArray_string_2
 {
     private string element0;
+
     public static FixedArray_string_2 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_2 result = default;
@@ -82,6 +86,7 @@ public struct FixedArray_string_2
 public struct FixedArray_string_21
 {
     private string element0;
+
     public static FixedArray_string_21 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_21 result = default;
@@ -99,6 +104,7 @@ public struct FixedArray_string_21
 public struct FixedArray_string_3
 {
     private string element0;
+
     public static FixedArray_string_3 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_3 result = default;
@@ -116,6 +122,7 @@ public struct FixedArray_string_3
 public struct FixedArray_string_4
 {
     private string element0;
+
     public static FixedArray_string_4 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_4 result = default;
@@ -133,6 +140,7 @@ public struct FixedArray_string_4
 public struct FixedArray_string_5
 {
     private string element0;
+
     public static FixedArray_string_5 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_5 result = default;
@@ -150,6 +158,7 @@ public struct FixedArray_string_5
 public struct FixedArray_string_6
 {
     private string element0;
+
     public static FixedArray_string_6 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_6 result = default;
@@ -167,6 +176,7 @@ public struct FixedArray_string_6
 public struct FixedArray_string_7
 {
     private string element0;
+
     public static FixedArray_string_7 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_7 result = default;
@@ -184,6 +194,7 @@ public struct FixedArray_string_7
 public struct FixedArray_string_8
 {
     private string element0;
+
     public static FixedArray_string_8 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_8 result = default;
@@ -201,6 +212,7 @@ public struct FixedArray_string_8
 public struct FixedArray_string_9
 {
     private string element0;
+
     public static FixedArray_string_9 From(ReadOnlySpan<string> values)
     {
         FixedArray_string_9 result = default;
@@ -272,6 +284,7 @@ public struct FixedArray_Aow_Units_AoWE_TCombatSide_2
 public struct FixedArray_Aow_Units_AoWE_TDamageType_7
 {
     private TDamageType element0;
+
     public static FixedArray_Aow_Units_AoWE_TDamageType_7 From(ReadOnlySpan<TDamageType> values)
     {
         FixedArray_Aow_Units_AoWE_TDamageType_7 result = default;
@@ -288,6 +301,7 @@ public struct FixedArray_Aow_Units_AoWE_TDamageType_7
 public struct FixedArray_Aow_Units_AoWE_TGroupBehavior_10
 {
     private TGroupBehavior element0;
+
     public static FixedArray_Aow_Units_AoWE_TGroupBehavior_10 From(ReadOnlySpan<TGroupBehavior> values)
     {
         FixedArray_Aow_Units_AoWE_TGroupBehavior_10 result = default;
@@ -304,6 +318,7 @@ public struct FixedArray_Aow_Units_AoWE_TGroupBehavior_10
 public struct FixedArray_Aow_Units_AoWE_THeroItemPosition_7
 {
     private THeroItemPosition element0;
+
     public static FixedArray_Aow_Units_AoWE_THeroItemPosition_7 From(ReadOnlySpan<THeroItemPosition> values)
     {
         FixedArray_Aow_Units_AoWE_THeroItemPosition_7 result = default;
@@ -320,6 +335,7 @@ public struct FixedArray_Aow_Units_AoWE_THeroItemPosition_7
 public struct FixedArray_Aow_Units_AoWE_TItemType_6
 {
     private TItemType element0;
+
     public static FixedArray_Aow_Units_AoWE_TItemType_6 From(ReadOnlySpan<TItemType> values)
     {
         FixedArray_Aow_Units_AoWE_TItemType_6 result = default;
@@ -336,6 +352,7 @@ public struct FixedArray_Aow_Units_AoWE_TItemType_6
 public struct FixedArray_Aow_Units_AoWE_TP2HeroLevel_6
 {
     private TP2HeroLevel element0;
+
     public static FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 From(ReadOnlySpan<TP2HeroLevel> values)
     {
         FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 result = default;
@@ -352,6 +369,7 @@ public struct FixedArray_Aow_Units_AoWE_TP2HeroLevel_6
 public struct FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12
 {
     private TP2RaceTerrain element0;
+
     public static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 From(ReadOnlySpan<TP2RaceTerrain> values)
     {
         FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 result = default;
@@ -368,6 +386,7 @@ public struct FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12
 public struct FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12
 {
     private TRaceTerrainInfo element0;
+
     public static FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12 From(ReadOnlySpan<TRaceTerrainInfo> values)
     {
         FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12 result = default;
@@ -384,6 +403,7 @@ public struct FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12
 public struct FixedArray_Aow_Units_AoWE_TStatus_12
 {
     private TStatus element0;
+
     public static FixedArray_Aow_Units_AoWE_TStatus_12 From(ReadOnlySpan<TStatus> values)
     {
         FixedArray_Aow_Units_AoWE_TStatus_12 result = default;
@@ -400,6 +420,7 @@ public struct FixedArray_Aow_Units_AoWE_TStatus_12
 public struct FixedArray_Aow_Units_AoWTC_TfxType_131
 {
     private TfxType element0;
+
     public static FixedArray_Aow_Units_AoWTC_TfxType_131 From(ReadOnlySpan<TfxType> values)
     {
         FixedArray_Aow_Units_AoWTC_TfxType_131 result = default;
@@ -416,6 +437,7 @@ public struct FixedArray_Aow_Units_AoWTC_TfxType_131
 public struct FixedArray_Aow_Units_AoWTC_TfxType_170
 {
     private TfxType element0;
+
     public static FixedArray_Aow_Units_AoWTC_TfxType_170 From(ReadOnlySpan<TfxType> values)
     {
         FixedArray_Aow_Units_AoWTC_TfxType_170 result = default;
@@ -444,6 +466,7 @@ public struct FixedArray_Aow_Units_Engine_TStringHashList_256
 public struct FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4
 {
     private FixedArray_Aow_Units_AoWE_TGroupBehavior_10 element0;
+
     public static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4 From(ReadOnlySpan<FixedArray_Aow_Units_AoWE_TGroupBehavior_10> values)
     {
         FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4 result = default;
@@ -460,6 +483,7 @@ public struct FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4
 public struct FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5
 {
     private FixedArray_Aow_Units_AoWE_TGroupBehavior_10 element0;
+
     public static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5 From(ReadOnlySpan<FixedArray_Aow_Units_AoWE_TGroupBehavior_10> values)
     {
         FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5 result = default;
@@ -476,6 +500,7 @@ public struct FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5
 public struct FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12
 {
     private FixedArray_Aow_Units_AoWE_TStatus_12 element0;
+
     public static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12 From(ReadOnlySpan<FixedArray_Aow_Units_AoWE_TStatus_12> values)
     {
         FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12 result = default;
@@ -498,6 +523,7 @@ public struct FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_2
 public struct FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8
 {
     private FixedArray_Aow_Units_FixedArray_sbyte_16_16 element0;
+
     public static FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8 From(ReadOnlySpan<FixedArray_Aow_Units_FixedArray_sbyte_16_16> values)
     {
         FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8 result = default;
@@ -514,6 +540,7 @@ public struct FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8
 public struct FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2
 {
     private FixedArray_Aow_Units_HSEngine_XYTableEntry_8 element0;
+
     public static FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 From(ReadOnlySpan<FixedArray_Aow_Units_HSEngine_XYTableEntry_8> values)
     {
         FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 result = default;
@@ -530,6 +557,7 @@ public struct FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_
 public struct FixedArray_Aow_Units_FixedArray_byte_3_6
 {
     private FixedArray_byte_3 element0;
+
     public static FixedArray_Aow_Units_FixedArray_byte_3_6 From(ReadOnlySpan<FixedArray_byte_3> values)
     {
         FixedArray_Aow_Units_FixedArray_byte_3_6 result = default;
@@ -546,6 +574,7 @@ public struct FixedArray_Aow_Units_FixedArray_byte_3_6
 public struct FixedArray_Aow_Units_FixedArray_int_2_37
 {
     private FixedArray_int_2 element0;
+
     public static FixedArray_Aow_Units_FixedArray_int_2_37 From(ReadOnlySpan<FixedArray_int_2> values)
     {
         FixedArray_Aow_Units_FixedArray_int_2_37 result = default;
@@ -562,6 +591,7 @@ public struct FixedArray_Aow_Units_FixedArray_int_2_37
 public struct FixedArray_Aow_Units_FixedArray_int_2_7
 {
     private FixedArray_int_2 element0;
+
     public static FixedArray_Aow_Units_FixedArray_int_2_7 From(ReadOnlySpan<FixedArray_int_2> values)
     {
         FixedArray_Aow_Units_FixedArray_int_2_7 result = default;
@@ -584,6 +614,7 @@ public struct FixedArray_Aow_Units_FixedArray_int_8_2
 public struct FixedArray_Aow_Units_FixedArray_sbyte_16_16
 {
     private FixedArray_sbyte_16 element0;
+
     public static FixedArray_Aow_Units_FixedArray_sbyte_16_16 From(ReadOnlySpan<FixedArray_sbyte_16> values)
     {
         FixedArray_Aow_Units_FixedArray_sbyte_16_16 result = default;
@@ -600,6 +631,7 @@ public struct FixedArray_Aow_Units_FixedArray_sbyte_16_16
 public struct FixedArray_Aow_Units_FixedArray_sbyte_7_7
 {
     private FixedArray_sbyte_7 element0;
+
     public static FixedArray_Aow_Units_FixedArray_sbyte_7_7 From(ReadOnlySpan<FixedArray_sbyte_7> values)
     {
         FixedArray_Aow_Units_FixedArray_sbyte_7_7 result = default;
@@ -634,6 +666,7 @@ public struct FixedArray_Aow_Units_HSEngine_THexagonSprite_256
 public struct FixedArray_Aow_Units_HSEngine_XYTableEntry_8
 {
     private XYTableEntry element0;
+
     public static FixedArray_Aow_Units_HSEngine_XYTableEntry_8 From(ReadOnlySpan<XYTableEntry> values)
     {
         FixedArray_Aow_Units_HSEngine_XYTableEntry_8 result = default;
@@ -722,6 +755,7 @@ public struct FixedArray_byte_121
 public struct FixedArray_byte_128
 {
     private byte element0;
+
     public static FixedArray_byte_128 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_128 result = default;
@@ -840,6 +874,7 @@ public struct FixedArray_byte_28
 public struct FixedArray_byte_3
 {
     private byte element0;
+
     public static FixedArray_byte_3 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_3 result = default;
@@ -874,6 +909,7 @@ public struct FixedArray_byte_36
 public struct FixedArray_byte_37
 {
     private byte element0;
+
     public static FixedArray_byte_37 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_37 result = default;
@@ -890,6 +926,7 @@ public struct FixedArray_byte_37
 public struct FixedArray_byte_3770
 {
     private byte element0;
+
     public static FixedArray_byte_3770 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_3770 result = default;
@@ -906,6 +943,7 @@ public struct FixedArray_byte_3770
 public struct FixedArray_byte_4
 {
     private byte element0;
+
     public static FixedArray_byte_4 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_4 result = default;
@@ -1000,6 +1038,7 @@ public struct FixedArray_byte_584
 public struct FixedArray_byte_6
 {
     private byte element0;
+
     public static FixedArray_byte_6 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_6 result = default;
@@ -1028,6 +1067,7 @@ public struct FixedArray_byte_7
 public struct FixedArray_byte_8
 {
     private byte element0;
+
     public static FixedArray_byte_8 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_8 result = default;
@@ -1050,6 +1090,7 @@ public struct FixedArray_byte_80
 public struct FixedArray_byte_9
 {
     private byte element0;
+
     public static FixedArray_byte_9 From(ReadOnlySpan<byte> values)
     {
         FixedArray_byte_9 result = default;
@@ -1096,6 +1137,7 @@ public struct FixedArray_float_512
 public struct FixedArray_int_1
 {
     private int element0;
+
     public static FixedArray_int_1 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_1 result = default;
@@ -1118,6 +1160,7 @@ public struct FixedArray_int_10
 public struct FixedArray_int_11
 {
     private int element0;
+
     public static FixedArray_int_11 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_11 result = default;
@@ -1134,6 +1177,7 @@ public struct FixedArray_int_11
 public struct FixedArray_int_12
 {
     private int element0;
+
     public static FixedArray_int_12 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_12 result = default;
@@ -1150,6 +1194,7 @@ public struct FixedArray_int_12
 public struct FixedArray_int_13
 {
     private int element0;
+
     public static FixedArray_int_13 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_13 result = default;
@@ -1166,6 +1211,7 @@ public struct FixedArray_int_13
 public struct FixedArray_int_14
 {
     private int element0;
+
     public static FixedArray_int_14 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_14 result = default;
@@ -1182,6 +1228,7 @@ public struct FixedArray_int_14
 public struct FixedArray_int_18
 {
     private int element0;
+
     public static FixedArray_int_18 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_18 result = default;
@@ -1198,6 +1245,7 @@ public struct FixedArray_int_18
 public struct FixedArray_int_19
 {
     private int element0;
+
     public static FixedArray_int_19 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_19 result = default;
@@ -1214,6 +1262,7 @@ public struct FixedArray_int_19
 public struct FixedArray_int_2
 {
     private int element0;
+
     public static FixedArray_int_2 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_2 result = default;
@@ -1236,6 +1285,7 @@ public struct FixedArray_int_20
 public struct FixedArray_int_3
 {
     private int element0;
+
     public static FixedArray_int_3 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_3 result = default;
@@ -1270,6 +1320,7 @@ public struct FixedArray_int_4
 public struct FixedArray_int_48
 {
     private int element0;
+
     public static FixedArray_int_48 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_48 result = default;
@@ -1286,6 +1337,7 @@ public struct FixedArray_int_48
 public struct FixedArray_int_5
 {
     private int element0;
+
     public static FixedArray_int_5 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_5 result = default;
@@ -1302,6 +1354,7 @@ public struct FixedArray_int_5
 public struct FixedArray_int_60
 {
     private int element0;
+
     public static FixedArray_int_60 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_60 result = default;
@@ -1318,6 +1371,7 @@ public struct FixedArray_int_60
 public struct FixedArray_int_7
 {
     private int element0;
+
     public static FixedArray_int_7 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_7 result = default;
@@ -1334,6 +1388,7 @@ public struct FixedArray_int_7
 public struct FixedArray_int_72
 {
     private int element0;
+
     public static FixedArray_int_72 From(ReadOnlySpan<int> values)
     {
         FixedArray_int_72 result = default;
@@ -1368,6 +1423,7 @@ public struct FixedArray_object_512
 public struct FixedArray_sbyte_16
 {
     private sbyte element0;
+
     public static FixedArray_sbyte_16 From(ReadOnlySpan<sbyte> values)
     {
         FixedArray_sbyte_16 result = default;
@@ -1390,6 +1446,7 @@ public struct FixedArray_sbyte_2
 public struct FixedArray_sbyte_3
 {
     private sbyte element0;
+
     public static FixedArray_sbyte_3 From(ReadOnlySpan<sbyte> values)
     {
         FixedArray_sbyte_3 result = default;
@@ -1406,6 +1463,7 @@ public struct FixedArray_sbyte_3
 public struct FixedArray_sbyte_5
 {
     private sbyte element0;
+
     public static FixedArray_sbyte_5 From(ReadOnlySpan<sbyte> values)
     {
         FixedArray_sbyte_5 result = default;
@@ -1422,6 +1480,7 @@ public struct FixedArray_sbyte_5
 public struct FixedArray_sbyte_7
 {
     private sbyte element0;
+
     public static FixedArray_sbyte_7 From(ReadOnlySpan<sbyte> values)
     {
         FixedArray_sbyte_7 result = default;

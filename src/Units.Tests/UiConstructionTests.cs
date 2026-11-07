@@ -16,17 +16,20 @@ public sealed class UiConstructionTests
     private sealed class ComponentOwner : TComponent
     {
         internal readonly List<string> Observations = [];
+
         public override void Notification(TComponent child, TOperation operation)
         {
             if (operation == TOperation.opInsert) Observations.Add(Snapshot(child));
             base.Notification(child, operation);
         }
     }
+
     private sealed class Fixture : IDisposable
     {
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
         private readonly Aow.Units.AoWTC.TAoWCombatMap previousCombat = AoWTC.AoWTCUnit.AoWCombatMap;
+
         internal Fixture()
         {
             if (EngineUnit.Engines is null) EngineUnit.Initialize();
@@ -36,6 +39,7 @@ public sealed class UiConstructionTests
             Game.AoWHSMap = null!;
             AoWTC.AoWTCUnit.AoWCombatMap = null!;
         }
+
         public void Dispose()
         {
             Game.AoWEngine.FOnHSMLoaded.Free();
@@ -45,6 +49,7 @@ public sealed class UiConstructionTests
             AoWTC.AoWTCUnit.AoWCombatMap = previousCombat;
         }
     }
+
     private static string Snapshot(object value)
     {
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
@@ -78,7 +83,6 @@ public sealed class UiConstructionTests
         }
         return JsonSerializer.Serialize(State(value, "$"));
     }
-
 
     private static readonly string[] Names =
     [
@@ -206,6 +210,7 @@ public sealed class UiConstructionTests
         "Aow.Units.aowTCMapEvents.TTCMapEvents",
         "Aow.Units.aowUserDrawBox.TaowUserDrawBox",
     ];
+
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
 
     [Fact]
@@ -225,11 +230,6 @@ public sealed class UiConstructionTests
         Assert.Equal(0, owner.ComponentCount);
         owner.Destroy();
     }
-
-
-
-
-
 
     private static TComponent Direct(Type type, TComponent? owner)
     {

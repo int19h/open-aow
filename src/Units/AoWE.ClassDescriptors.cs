@@ -30,18 +30,22 @@ public sealed class AIPlayerActionClass
     // Abstract base actions register without invoking their abstract priority getter.
     public int Priority => priority();
     public TSet<TAIPlayerProcessPhase> SupportedPhases { get; }
+
     public TAIPlayerAction Create(TECustomNode AOwner) => (TAIPlayerAction)Class.Create(AOwner);
 
     public static AIPlayerActionClass Register<T>() where T : TAIPlayerAction, IAIPlayerActionClass =>
         catalog.Add(typeof(T), new AIPlayerActionClass(EClass.Of<T>(), static () => T.Priority, T.SupportedPhases));
+
     public static AIPlayerActionClass Of<T>() where T : TAIPlayerAction, IAIPlayerActionClass => catalog[typeof(T)];
     public static AIPlayerActionClass Of(Type type) => catalog[type];
+
     public static IReadOnlyList<AIPlayerActionClass> All => catalog.All;
 }
 
 public partial class TAIPlayerAction
 {
     private AIPlayerActionClass actionClass;
+
     // The action descriptor of the instance's exact type, read once and cached like EClass.
     public AIPlayerActionClass ActionClass => actionClass ??= AIPlayerActionClass.Of(GetType());
 }
@@ -67,18 +71,22 @@ public sealed class AIGroupClass
     public EClass Class { get; }
     public string ClassName => Class.ClassName;
     public TGroupBehavior Behavior { get; }
+
     public TAIGroup Create(TECustomNode AOwner) => (TAIGroup)Class.Create(AOwner);
 
     public static AIGroupClass Register<T>() where T : TAIGroup, IAIGroupClass =>
         catalog.Add(typeof(T), new AIGroupClass(EClass.Of<T>(), T.Behavior));
+
     public static AIGroupClass Of<T>() where T : TAIGroup, IAIGroupClass => catalog[typeof(T)];
     public static AIGroupClass Of(Type type) => catalog[type];
+
     public static IReadOnlyList<AIGroupClass> All => catalog.All;
 }
 
 public partial class TAIGroup
 {
     private AIGroupClass groupClass;
+
     // The group descriptor of the instance's exact type, read once and cached like EClass.
     public AIGroupClass GroupClass => groupClass ??= AIGroupClass.Of(GetType());
 }

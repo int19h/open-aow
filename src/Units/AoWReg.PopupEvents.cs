@@ -10,6 +10,7 @@ public partial class TAoWRegistry
         rwBinaryData("General", "Classic Window Popup Events", Bytes.Of(ref image), 1, TReadWriteMode.rwRead);
         return TSet<TWindowPopupEvent>.FromMask(image);
     }
+
     public void SetClassicWindowPopupEvents(TSet<TWindowPopupEvent> value)
     {
         byte image = (byte)value.Mask;

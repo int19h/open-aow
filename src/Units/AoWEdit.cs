@@ -1,10 +1,10 @@
 // Translated from AoWEdit.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWEdit;
 
@@ -34,6 +34,7 @@ public partial class TAOWEdit : TAOWControl
     public TNotifyEvent FOnReturn;
     public int FILIndex;
     public int FCursorPos;
+
     // AoWEdit.pas:79
     public TAOWEdit(TComponent owner) : base(owner)
     {

@@ -1,20 +1,20 @@
 // Translated from CombatTE.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using Aow.Units.Engine;
-using Aow.Units.Sound;
-using Aow.Units.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFXUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.aowFX;
+using Aow.Units.AoWTC;
 using Aow.Units.CityWall;
-using static Aow.Units.CombatFire.CombatFireUnit;
 using Aow.Units.CombatSpells;
+using Aow.Units.Engine;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
+using Aow.Units.Sound;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.aowFX.aowFXUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.CombatFire.CombatFireUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.CombatTE;
 
@@ -22,7 +22,7 @@ namespace Aow.Units.CombatTE;
 public partial class TCEndTurnTE : TTokenEvent
 {
     public TCEndTurnTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTE.pas:175
     public new const int ClassID = 2236420;
@@ -69,13 +69,12 @@ public partial class TCEndTurnTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TCEndCombatTE : TTokenEvent
 {
     public TCEndCombatTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTE.pas:158
     public new const int ClassID = 2236421;
@@ -97,13 +96,12 @@ public partial class TCEndCombatTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TCombatMoveTE : TMoveTE
 {
     public TCombatMoveTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTE.pas:206
     public new const int ClassID = 2236416;
@@ -116,6 +114,7 @@ public partial class TCombatMoveTE : TMoveTE
     public sbyte FNeighbour;
     public TTokenStep FStep;
     public TStrikeCA FStrike;
+
     // CombatTE.pas:214
     public override void Destroy()
     {
@@ -550,18 +549,18 @@ public partial class TCombatMoveTE : TMoveTE
 
     // intf_P5_07.inc:765
 
-
 }
 
 public partial class TCMeleeMoveTE : TCombatMoveTE
 {
     public TCMeleeMoveTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 2236417;
 
     public TMeleeRound FMeleeRound;
     public int FStrikeIndex;
+
     // CombatTE.pas:454
     public override TMoveStatus LastMove()
     {
@@ -888,13 +887,12 @@ public partial class TCMeleeMoveTE : TCombatMoveTE
 
     // intf_P5_07.inc:765
 
-
 }
 
 public partial class TCAbTouchMoveTE : TCombatMoveTE
 {
     public TCAbTouchMoveTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTE.pas:624
     public new const int ClassID = 2236418;
@@ -913,6 +911,7 @@ public partial class TCAbTouchMoveTE : TCombatMoveTE
     public bool FSuccessful;
     public int FDamage;
     public TCityWall FWall;
+
     // CombatTE.pas:627
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1409,13 +1408,12 @@ public partial class TCAbTouchMoveTE : TCombatMoveTE
 
     // intf_P5_07.inc:765
 
-
 }
 
 public partial class TCAbRangedTE : TTokenEvent
 {
     public TCAbRangedTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTE.pas:917
     public new const int ClassID = 2236419;
@@ -1433,6 +1431,7 @@ public partial class TCAbRangedTE : TTokenEvent
     public int FDelay;
     public int FStrikeIndex;
     public int FState;
+
     // CombatTE.pas:920
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1567,14 +1566,14 @@ public partial class TCAbRangedTE : TTokenEvent
                                     break;
                                 case TfxType.fxScreenSwarm:
                                     FSound = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.PlayEx(2, 64, true, 0, TSamplePanning.spCenter, null);
-                                {
-                                    I = 0;
-                                    int last = FStrikeCount - 1;
-                                    for (; I <= last; I += 1)
                                     {
-                                        NextStrike();
+                                        I = 0;
+                                        int last = FStrikeCount - 1;
+                                        for (; I <= last; I += 1)
+                                        {
+                                            NextStrike();
+                                        }
                                     }
-                                }
 
                                     break;
                                 default:
@@ -1625,15 +1624,15 @@ public partial class TCAbRangedTE : TTokenEvent
                                             Msg.Result = -1;
                                             var path = Effect.FPath[0];
                                             HPtoHX(Effect.FPath[0].X, path.Y, ref EndX, ref EndY);
-                                        {
-                                            I = 0;
-                                            for (; I <= 6; I += 1)
                                             {
-                                                CenterHNtoHX(EndX, EndY, I, ref X, ref Y);
-                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
-                                                CreateFire(false, 50, X, Y);
+                                                I = 0;
+                                                for (; I <= 6; I += 1)
+                                                {
+                                                    CenterHNtoHX(EndX, EndY, I, ref X, ref Y);
+                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                    CreateFire(false, 50, X, Y);
+                                                }
                                             }
-                                        }
 
                                             break;
                                     }
@@ -1681,17 +1680,17 @@ public partial class TCAbRangedTE : TTokenEvent
                                                 Msg.Param[0] = FUnit;
                                                 Msg.Param[1] = 0;
                                                 Msg.Result = -1;
-                                            {
-                                                I = 6;
-                                                for (; I <= 59; I += 1)
                                                 {
-                                                    X = 6;
-                                                    for (; X <= 52; X += 1)
+                                                    I = 6;
+                                                    for (; I <= 59; I += 1)
                                                     {
-                                                        AoWCombatMap.MapContainer.MapLevels[0].GetField(I, X).SendMapFieldMsg(ref Msg);
+                                                        X = 6;
+                                                        for (; X <= 52; X += 1)
+                                                        {
+                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(I, X).SendMapFieldMsg(ref Msg);
+                                                        }
                                                     }
                                                 }
-                                            }
 
                                                 break;
                                         }
@@ -1707,14 +1706,14 @@ public partial class TCAbRangedTE : TTokenEvent
                                                     Msg.Param[0] = FUnit;
                                                     Msg.Param[1] = FSpellID;
                                                     Msg.Result = -1;
-                                                {
-                                                    I = 0;
-                                                    for (; I <= 6; I += 1)
                                                     {
-                                                        CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                        AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                        I = 0;
+                                                        for (; I <= 6; I += 1)
+                                                        {
+                                                            CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                        }
                                                     }
-                                                }
 
                                                     break;
                                                 case 99:
@@ -1722,14 +1721,14 @@ public partial class TCAbRangedTE : TTokenEvent
                                                     Msg.Param[0] = FUnit;
                                                     Msg.Param[1] = FSpellID;
                                                     Msg.Result = -1;
-                                                {
-                                                    I = 0;
-                                                    for (; I <= 6; I += 1)
                                                     {
-                                                        CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                        AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                        I = 0;
+                                                        for (; I <= 6; I += 1)
+                                                        {
+                                                            CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                        }
                                                     }
-                                                }
 
                                                     break;
                                             }
@@ -1744,14 +1743,14 @@ public partial class TCAbRangedTE : TTokenEvent
                                                         Msg.MsgID = 200709;
                                                         Msg.Param[0] = FUnit;
                                                         Msg.Result = -1;
-                                                    {
-                                                        I = 0;
-                                                        for (; I <= 6; I += 1)
                                                         {
-                                                            CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                            I = 0;
+                                                            for (; I <= 6; I += 1)
+                                                            {
+                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                            }
                                                         }
-                                                    }
 
                                                         break;
                                                 }
@@ -1766,42 +1765,42 @@ public partial class TCAbRangedTE : TTokenEvent
                                                             Msg.MsgID = 200717;
                                                             Msg.Param[0] = FUnit;
                                                             Msg.Result = -1;
-                                                        {
-                                                            I = 1;
-                                                            for (; I <= 6; I += 1)
                                                             {
-                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                I = 1;
+                                                                for (; I <= 6; I += 1)
+                                                                {
+                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                }
                                                             }
-                                                        }
 
                                                             break;
                                                         case 200:
                                                             Msg.MsgID = 200717;
                                                             Msg.Param[0] = FUnit;
                                                             Msg.Result = -1;
-                                                        {
-                                                            I = 7;
-                                                            for (; I <= 18; I += 1)
                                                             {
-                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                I = 7;
+                                                                for (; I <= 18; I += 1)
+                                                                {
+                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                }
                                                             }
-                                                        }
 
                                                             break;
                                                         case 225:
                                                             Msg.MsgID = 200717;
                                                             Msg.Param[0] = FUnit;
                                                             Msg.Result = -1;
-                                                        {
-                                                            I = 19;
-                                                            for (; I <= 36; I += 1)
                                                             {
-                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                I = 19;
+                                                                for (; I <= 36; I += 1)
+                                                                {
+                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                }
                                                             }
-                                                        }
 
                                                             break;
                                                     }
@@ -1826,15 +1825,15 @@ public partial class TCAbRangedTE : TTokenEvent
                                                                 Msg.MsgID = 200718;
                                                                 Msg.Param[0] = FUnit;
                                                                 Msg.Result = -1;
-                                                            {
-                                                                I = 0;
-                                                                for (; I <= 18; I += 1)
                                                                 {
-                                                                    CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                    AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
-                                                                    CreateFire(false, 50, X, Y);
+                                                                    I = 0;
+                                                                    for (; I <= 18; I += 1)
+                                                                    {
+                                                                        CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                        AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                        CreateFire(false, 50, X, Y);
+                                                                    }
                                                                 }
-                                                            }
 
                                                                 break;
                                                         }
@@ -1874,14 +1873,14 @@ public partial class TCAbRangedTE : TTokenEvent
                                                                         Msg.MsgID = 200716;
                                                                         Msg.Param[0] = FUnit;
                                                                         Msg.Result = -1;
-                                                                    {
-                                                                        I = 0;
-                                                                        for (; I <= 6; I += 1)
                                                                         {
-                                                                            CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                            AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                            I = 0;
+                                                                            for (; I <= 6; I += 1)
+                                                                            {
+                                                                                CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
+                                                                                AoWCombatMap.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                            }
                                                                         }
-                                                                    }
 
                                                                         break;
                                                                 }
@@ -1893,24 +1892,24 @@ public partial class TCAbRangedTE : TTokenEvent
                                                                     switch (Effect.FFrame)
                                                                     {
                                                                         case 5:
-                                                                        {
-                                                                            I = 0;
-                                                                            int last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                                                                            for (; I <= last; I += 1)
                                                                             {
-                                                                                if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled())
+                                                                                I = 0;
+                                                                                int last = AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                                                                for (; I <= last; I += 1)
                                                                                 {
-                                                                                    HS = ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS;
-                                                                                    if (HS != null)
+                                                                                    if (AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled())
                                                                                     {
-                                                                                        ExtraEffect = AoWCombatMap.AddEffect(TfxType.fxSWComet);
-                                                                                        ExtraEffect.FAbilityIndex = FAbilityID;
-                                                                                        ExtraEffect.FSpellIndex = FSpellID;
-                                                                                        ExtraEffect.FTarget = HS.FUnit;
+                                                                                        HS = ((TTacticalCombatUnit)AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS;
+                                                                                        if (HS != null)
+                                                                                        {
+                                                                                            ExtraEffect = AoWCombatMap.AddEffect(TfxType.fxSWComet);
+                                                                                            ExtraEffect.FAbilityIndex = FAbilityID;
+                                                                                            ExtraEffect.FSpellIndex = FSpellID;
+                                                                                            ExtraEffect.FTarget = HS.FUnit;
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
-                                                                        }
 
                                                                             break;
                                                                     }
@@ -2491,22 +2490,22 @@ public partial class TCAbRangedTE : TTokenEvent
 
                 HXtoHP(J, K, ref DX, ref DY);
                 AoWCombatMap.CenterViewTo(FTargetX, FTargetY, 0);
-            {
-                I = 0;
-                for (; I <= 29; I += 1)
                 {
-                    var xyz = new TXYZ();
-                    Effect.FPath.Add(xyz);
-                    var pathX = Effect.FPath[0];
-                    var random = Random(30);
-                    var count = Effect.FPath.Count;
-                    Effect.FPath[count - 1].X = pathX.X + random - 15;
-                    var pathY = Effect.FPath[0];
-                    var random2 = Random(30);
-                    var fPathCount = Effect.FPath.Count;
-                    Effect.FPath[fPathCount - 1].Y = pathY.Y + random2 - 15;
+                    I = 0;
+                    for (; I <= 29; I += 1)
+                    {
+                        var xyz = new TXYZ();
+                        Effect.FPath.Add(xyz);
+                        var pathX = Effect.FPath[0];
+                        var random = Random(30);
+                        var count = Effect.FPath.Count;
+                        Effect.FPath[count - 1].X = pathX.X + random - 15;
+                        var pathY = Effect.FPath[0];
+                        var random2 = Random(30);
+                        var fPathCount = Effect.FPath.Count;
+                        Effect.FPath[fPathCount - 1].Y = pathY.Y + random2 - 15;
+                    }
                 }
-            }
 
                 J = Random(300);
                 K = Random(300);
@@ -2592,13 +2591,13 @@ public partial class TCAbRangedTE : TTokenEvent
                         Effect.FTarget = null;
                         break;
                     default:
-                    {
-                        HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(DX, DY).FindOwnedChild(2228484);
-                        if (HS != null)
                         {
-                            Effect.FTarget = HS.FUnit;
+                            HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(DX, DY).FindOwnedChild(2228484);
+                            if (HS != null)
+                            {
+                                Effect.FTarget = HS.FUnit;
+                            }
                         }
-                    }
 
                         break;
                 }
@@ -2647,21 +2646,21 @@ public partial class TCAbRangedTE : TTokenEvent
                 var random8 = Random(5);
                 MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + X1 + 6, random5 + Y1 - 10, (TSwarmDirection)random6, ref Effect.FPath);
                 K = Effect.FPath.Count - 1;
-            {
-                I = 0;
-                for (; I <= 2; I += 1)
                 {
-                    J = 0;
-                    int last = K;
-                    for (; J <= last; J += 1)
+                    I = 0;
+                    for (; I <= 2; I += 1)
                     {
-                        Point = new TXYZ();
-                        Point.X = Effect.FPath[J].X;
-                        Point.Y = Effect.FPath[J].Y;
-                        Effect.FPath.Add(Point);
+                        J = 0;
+                        int last = K;
+                        for (; J <= last; J += 1)
+                        {
+                            Point = new TXYZ();
+                            Point.X = Effect.FPath[J].X;
+                            Point.Y = Effect.FPath[J].Y;
+                            Effect.FPath.Add(Point);
+                        }
                     }
                 }
-            }
 
                 HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
                 var count21 = Effect.FPath.Count;
@@ -2685,33 +2684,33 @@ public partial class TCAbRangedTE : TTokenEvent
                 var path17 = Effect.FPath[count26 - 1];
                 var pathX2 = Path[0];
                 MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, ref Effect.FPath);
-            {
-                I = 0;
-                int last = Path.Count - 1;
-                for (; I <= last; I += 1)
                 {
-                    // { Original shares the points, then frees Path. }
-                    var path18 = Path[I];
-                    Effect.FPath.Add(path18);
-                }
-            }
-
-                K = Path.Count - 1;
-            {
-                I = 0;
-                for (; I <= 2; I += 1)
-                {
-                    J = 0;
-                    int last = K;
-                    for (; J <= last; J += 1)
+                    I = 0;
+                    int last = Path.Count - 1;
+                    for (; I <= last; I += 1)
                     {
-                        Point = new TXYZ();
-                        Point.X = Path[J].X;
-                        Point.Y = Path[J].Y;
-                        Effect.FPath.Add(Point);
+                        // { Original shares the points, then frees Path. }
+                        var path18 = Path[I];
+                        Effect.FPath.Add(path18);
                     }
                 }
-            }
+
+                K = Path.Count - 1;
+                {
+                    I = 0;
+                    for (; I <= 2; I += 1)
+                    {
+                        J = 0;
+                        int last = K;
+                        for (; J <= last; J += 1)
+                        {
+                            Point = new TXYZ();
+                            Point.X = Path[J].X;
+                            Point.Y = Path[J].Y;
+                            Effect.FPath.Add(Point);
+                        }
+                    }
+                }
 
                 Path.Free();
                 break;
@@ -2754,29 +2753,29 @@ public partial class TCAbRangedTE : TTokenEvent
                 var random18 = Random(10);
                 MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (TSwarmDirection)random16, ref Effect.FPath);
                 K = Effect.FPath.Count - 1;
-            {
-                I = 0;
-                for (; I <= 4; I += 1)
                 {
-                    J = 1;
-                    int last = K;
-                    for (; J <= last; J += 1)
+                    I = 0;
+                    for (; I <= 4; I += 1)
                     {
-                        Point = new TXYZ();
-                        Point.X = Effect.FPath[J].X;
-                        Point.Y = Effect.FPath[J].Y;
-                        Effect.FPath.Add(Point);
+                        J = 1;
+                        int last = K;
+                        for (; J <= last; J += 1)
+                        {
+                            Point = new TXYZ();
+                            Point.X = Effect.FPath[J].X;
+                            Point.Y = Effect.FPath[J].Y;
+                            Effect.FPath.Add(Point);
+                        }
                     }
                 }
-            }
 
-            {
-                I = 0;
-                for (; I <= 49; I += 1)
                 {
-                    Effect.FPath[I + 1].Z = 100 - I * 2;
+                    I = 0;
+                    for (; I <= 49; I += 1)
+                    {
+                        Effect.FPath[I + 1].Z = 100 - I * 2;
+                    }
                 }
-            }
 
                 break;
             case TfxType.fxFrostBeam:
@@ -3021,14 +3020,13 @@ public partial class TCAbRangedTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TTerminateCombatTE : TTokenEvent
 {
 
     public TTerminateCombatTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatTE.pas:149
     public new const int ClassID = 2236422;
@@ -3041,7 +3039,6 @@ public partial class TTerminateCombatTE : TTokenEvent
     }
 
     // NetworkE.pas:230
-
 
 }
 

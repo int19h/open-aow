@@ -68,6 +68,7 @@ public sealed class StringBufferTests
     private sealed class FailingBodyStream : TMemoryStream
     {
         internal int BodyPosition;
+
         public override int Read(Span<byte> buffer)
         {
             if (Position < BodyPosition) return base.Read(buffer);
@@ -124,8 +125,11 @@ public sealed class StringBufferTests
         var font = new TImageLibraryFont(null!);
         var memo = new TAOWMemo(null!)
         {
-            FNoFrame = true, FWinWidth = 28, FWinHeight = 30,
-            FAOWFont = font, FColorChangeChar = (byte)'#'
+            FNoFrame = true,
+            FWinWidth = 28,
+            FWinHeight = 30,
+            FAOWFont = font,
+            FColorChangeChar = (byte)'#'
         };
         memo.FItems.Add("#80FF00A B\0ignored");
         memo.FItems.Add("\u20AC \u00FF\u00FF\u00FF");
@@ -160,7 +164,9 @@ public sealed class StringBufferTests
     {
         var memo = new TaowHTMLMemo(null!)
         {
-            FWinWidth = 100, FWinHeight = 30, FAOWFont = new TImageLibraryFont(null!)
+            FWinWidth = 100,
+            FWinHeight = 30,
+            FAOWFont = new TImageLibraryFont(null!)
         };
         memo.FItems.Add("<INT>text");
         Assert.IsType<ERangeError>(Runtime.Wrap(Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize())));

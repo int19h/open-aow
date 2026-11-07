@@ -1,14 +1,14 @@
 // Translated from FleeLoc.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
+using Aow.Units.AoWTC;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.FleeLoc;
 
@@ -24,8 +24,8 @@ public partial class TFleeLocation : TMapObject
     public bool FHighlighted;
     public int FAlpha;
     public int FAlphaStep;
-    // FleeLoc.pas:71
 
+    // FleeLoc.pas:71
 
     // FleeLoc.pas:82
     public override int GetShowPriority() => 1744830464 + (Yhx << 13) + Xhx;
@@ -153,13 +153,12 @@ public partial class TFleeLocation : TMapObject
 
     // FleeLoc.pas:27
 
-
 }
 
 public partial class TFleeLocationResource : TMapObjectResource
 {
     public TFleeLocationResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // FleeLoc.pas:163
     public new const int ClassID = 2229545;
@@ -175,12 +174,13 @@ public partial class TFleeLocationResource : TMapObjectResource
 public partial class TMovementHS : TSingleHS
 {
     public TMovementHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // FleeLoc.pas:172
     public new const int ClassID = 2228490;
 
     public bool FEnabled;
+
     // FleeLoc.pas:175
     public override int GetShowPriority() => 32;
 
@@ -200,7 +200,6 @@ public partial class TMovementHS : TSingleHS
     }
 
     // Engine.pas:524
-
 
 }
 

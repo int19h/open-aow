@@ -1,20 +1,20 @@
 // Translated from AoWArmyInfoDlg.pas.
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using Aow.Units.AoWComp;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AOWControlWin;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWUnitWindow;
-using Aow.Units.AOWControlWin;
+using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWArmyInfoDlg;
 
@@ -49,6 +49,7 @@ public partial class TArmyInfoDlg : TDataModule
     public bool FUnitInfoShown;
     public TExecuteDoneEvent FOnClose;
     public TArmyInfoEventLog FEvent;
+
     // AoWArmyInfoDlg.pas:63
     public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc SD)
     {

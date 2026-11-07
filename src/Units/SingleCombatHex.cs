@@ -2,17 +2,17 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Units.ImageLib;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.SingleCombatHex;
 
 public partial class TSingleCombatHexagon : TAbstractHexagon
 {
     public TSingleCombatHexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // SingleCombatHex.pas:41
     public new const int ClassID = 2229534;
@@ -38,7 +38,7 @@ public partial class TSingleCombatHexagon : TAbstractHexagon
 public partial class TSingleCombatHexagonResource : TAbstractHexagonResource
 {
     public TSingleCombatHexagonResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // SingleCombatHex.pas:59
     public new const int ClassID = 2229535;

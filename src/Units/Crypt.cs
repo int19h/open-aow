@@ -9,7 +9,7 @@ namespace Aow.Units.Crypt;
 public partial class TCrypt : TItemExplorationSite
 {
     public TCrypt(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Crypt.pas:34
     public new const int ClassID = 131850;
@@ -19,7 +19,7 @@ public partial class TCrypt : TItemExplorationSite
 public partial class TCryptResource : TItemExplorationSiteResource
 {
     public TCryptResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Crypt.pas:40
     public new const int ClassID = 131851;

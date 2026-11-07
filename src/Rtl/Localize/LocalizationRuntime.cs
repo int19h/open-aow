@@ -4,6 +4,7 @@ public static class LocalizationRuntime
 {
     public const string LanguageKey = "\\Software\\Triumph Studios\\Age of Wonders\\General\\Language";
     private static readonly Dictionary<string, MldDictionary> dictionaries = new(StringComparer.OrdinalIgnoreCase);
+
     public static string StartupDirectory { get; set; } = "";
 
     public static int ReadLanguage(ISettingsStore? settings) => settings?.Read(LanguageKey) is int value && value is >= 2 and <= 5 ? value : 1;

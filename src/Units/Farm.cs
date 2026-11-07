@@ -1,10 +1,10 @@
 // Translated from Farm.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
+using Aow.Units.Crops;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Aow.Units.Crops;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Farm;
@@ -19,12 +19,13 @@ public enum TFarmModeElement : byte
 public partial class TFarm : TPlayerCropStructure
 {
     public TFarm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Farm.pas:54
     public new const int ClassID = 131950;
 
     public TSet<TFarmModeElement> FMode;
+
     // Farm.pas:81
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -169,12 +170,10 @@ public partial class TFarmResource : TPlayerCropStructureResource
 
     // Farm.pas:136
 
-
     // Farm.pas:156
     public override int ResourceUserClassID() => 131950;
 
     // Farm.pas:36
-
 
     // Farm.pas:146
     public override string ResourceEditName() => TranslateRStr(FarmRStr);

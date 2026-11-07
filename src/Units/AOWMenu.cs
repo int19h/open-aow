@@ -1,13 +1,13 @@
 // Translated from AOWMenu.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using Aow.Units.AOWMenuBar;
+using Aow.Units.AoWBaseWin;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AoWBaseWin;
+using Aow.Units.AOWMenuBar;
 using Aow.Units.AoWWinGeneric;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AOWMenu;
 
@@ -46,6 +46,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     public int FShowDelay;
     public int FDrawItem;
     public TRect FDrawItemRect;
+
     // AOWMenu.pas:102
     public TAOWMenu(TComponent owner) : base(owner)
     {
@@ -61,7 +62,7 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:117
     // { Destroy removes the menu from the lists of its owner menu and menu bar and detaches its
-//   submenus }
+    //   submenus }
     public override void Destroy()
     {
         int I;
@@ -150,8 +151,8 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:381
     // { SetSize: the height fits the items between the top and bottom frame pieces; the menu is placed
-//   under its menu bar item and inside the window manager's borders; the frame rectangle is set
-//   for masked menus }
+    //   under its menu bar item and inside the window manager's borders; the frame rectangle is set
+    //   for masked menus }
     public override void SetSize()
     {
         TAOWMenuBar MB;
@@ -257,7 +258,7 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:465
     // { Update: after the highlight rested SubMenuShowDelay updates on an item, the submenus of the
-//   previous item are hidden and those of the highlighted item are shown beside it }
+    //   previous item are hidden and those of the highlighted item are shown beside it }
     public override void Update()
     {
         TAOWMenu M;
@@ -334,7 +335,7 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:203
     // { SetVisible: a menu shown under a menu bar places itself under the bar's selected item, kept
-//   inside the window manager's screen; hiding it clears the bar's selection }
+    //   inside the window manager's screen; hiding it clears the bar's selection }
     public override void SetVisible(bool Value)
     {
         TAOWMenuBar Bar = default;
@@ -500,7 +501,7 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:555
     // { CheckMouseDown: the controls of the menu first; a click on an item selects it (OnSelect) and
-//   shows its submenus; a click outside hides the menu unless a submenu took it }
+    //   shows its submenus; a click outside hides the menu unless a submenu took it }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAoWComponent C = default;
@@ -638,7 +639,7 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:662
     // { CheckMouseMove highlights the item under the mouse; when the highlight moves, the submenus of
-//   the old item are hidden (by the item index into the submenu list: original bug) }
+    //   the old item are hidden (by the item index into the submenu list: original bug) }
     public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         TAoWComponent C = default;
@@ -790,7 +791,7 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:271
     // { SetMenu moves the menu from the submenu list of its old owner menu to the list of the new one,
-//   in priority order }
+    //   in priority order }
     public virtual void SetMenu(TAOWMenu Value)
     {
         int I;

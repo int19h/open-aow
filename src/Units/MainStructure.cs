@@ -1,14 +1,14 @@
 // Translated from MainStructure.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.CombatStructure;
+using Aow.Units.Engine;
 
 namespace Aow.Units.MainStructure;
 
 public partial class TMainStructure : TCombatStructure
 {
     public TMainStructure(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MainStructure.pas:37
     public new const int ClassID = 2229532;
@@ -21,7 +21,7 @@ public partial class TMainStructure : TCombatStructure
 public partial class TMainStructureResource : TCombatStructureResource
 {
     public TMainStructureResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MainStructure.pas:43
     public new const int ClassID = 2229533;

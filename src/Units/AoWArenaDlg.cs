@@ -1,25 +1,25 @@
 // Translated from AoWArenaDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
-using Aow.Units.Arena;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
+using Aow.Units.AoWExeForms;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
+using Aow.Units.AoWWindow;
+using Aow.Units.Arena;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWExeForms;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.AoWArenaDlg;
 
@@ -56,6 +56,7 @@ public partial class TArenaDlg : TDataModule
     public TIvTranslator Translator;
     public TEnterArenaEventLog FEvent;
     public TExecuteDoneEvent FOnClose;
+
     // AoWArenaDlg.pas:104
     public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
     {

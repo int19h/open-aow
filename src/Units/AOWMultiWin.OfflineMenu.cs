@@ -1,9 +1,9 @@
 #nullable disable
 using Aow.Rtl;
+using Aow.Units.aowSetupEvents;
 using Aow.Units.AoWVideoDlg;
 using Aow.Units.E2Globals;
 using Aow.Units.Sound;
-using Aow.Units.aowSetupEvents;
 
 namespace Aow.Units.AOWMultiWin;
 

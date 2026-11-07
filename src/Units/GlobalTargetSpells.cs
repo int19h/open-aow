@@ -1,20 +1,20 @@
 // Translated from GlobalTargetSpells.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.AoWReg;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+using Aow.Units.SmokeCloud;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.EventLog.EventLogUnit;
-using Aow.Units.SmokeCloud;
-using Aow.Units.AoWReg;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.GlobalTargetSpells;
 
@@ -27,12 +27,13 @@ public enum TWatcherStateElement : byte
 public partial class TGlobalTargetSpellTE : TSpellTE
 {
     public TGlobalTargetSpellTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // GlobalTargetSpells.pas:401
     public new const int ClassID = 135976;
 
     public TXYL FLocation;
+
     // GlobalTargetSpells.pas:406
     // packed coordinates
     public override void ReadWrite(TEStorageStream Stream)
@@ -65,7 +66,6 @@ public partial class TGlobalTargetSpellTE : TSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 // FCasterID, FCasterPlayer, FAboveGroundOnly CanActivate/Activate and the target predicates
@@ -79,6 +79,7 @@ public partial class TGlobalTargetSpell : TSpell
     public int FCasterID;
     public sbyte FCasterPlayer;
     public bool FAboveGroundOnly;
+
     // GlobalTargetSpells.pas:439
     public TGlobalTargetSpell(TECustomNode owner) : base(owner)
     {
@@ -303,7 +304,6 @@ public partial class TFreezeWaterTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TFreezeWater : TGlobalTargetSpell
@@ -350,6 +350,7 @@ public partial class TFreezeWater : TGlobalTargetSpell
         sbyte terrain = field.FTerrainType;
         return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)field).GetArmyHS() == null;
     }
+
     public override bool ValidTargetSelectionMapF(TMapField field)
     {
         if (!base.ValidTargetSelectionMapF(field)) return false;
@@ -409,7 +410,6 @@ public partial class TFireBarrierTE : TGlobalTargetSpellTE
     }
 
     // NetworkE.pas:230
-
 
 }
 
@@ -519,7 +519,6 @@ public partial class TLevelTerrainTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TLevelTerrain : TGlobalTargetSpell
@@ -625,7 +624,6 @@ public partial class TRejuvenateTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TRejuvenate : TGlobalTargetSpell
@@ -677,6 +675,7 @@ public partial class TRejuvenate : TGlobalTargetSpell
 public partial class TWatcherEnchantment : TGlobalEnchantment
 {
     public TWatcherHS FWatcher;
+
     // GlobalTargetSpells.pas:1121
     public TWatcherEnchantment(TECustomNode owner) : base(owner)
     {
@@ -689,6 +688,7 @@ public partial class TWatcherEnchantment : TGlobalEnchantment
 
     // The unused fourth byte in the original register result has no defined value.
     public override TXYL GetLocation() => new() { X = FWatcher.GetXhx(), Y = FWatcher.GetYhx(), L = FWatcher.GetLhx() };
+
     public override bool Deactivate(byte player)
     {
         if ((FEnchantmentStatus.Image & 1) == 0) return false;
@@ -710,6 +710,7 @@ public partial class TWatcherHS : TSingleHS
     public int FAnimationFrame;
     public TIntegerList FUnexplored;
     public bool FVisibleForSeatedPlayer;
+
     // GlobalTargetSpells.pas:1213
     public override void Destroy()
     {
@@ -1059,7 +1060,6 @@ public partial class TWatcherHS : TSingleHS
 
     // GlobalTargetSpells.pas:172
 
-
 }
 
 public partial class TWatcherTE : TGlobalTargetSpellTE
@@ -1092,7 +1092,6 @@ public partial class TWatcherTE : TGlobalTargetSpellTE
     }
 
     // NetworkE.pas:230
-
 
 }
 
@@ -1147,6 +1146,7 @@ public partial class TTornadoTE : TGlobalTargetSpellTE
     public int FAngle;
     public TAnimation FAnimation;
     public TArmyID FArmyID;
+
     // GlobalTargetSpells.pas:1553
     public override void Destroy()
     {
@@ -1544,6 +1544,7 @@ public partial class TVortexTE : TGlobalTargetSpellTE
     public int FAngle;
     public TAnimation FAnimation;
     public TArmyID FArmyID;
+
     // GlobalTargetSpells.pas:1899
     public override void Destroy()
     {
@@ -1831,6 +1832,7 @@ public partial class THealingShowersTE : TGlobalTargetSpellTE
     public new const int ClassID = 135975;
 
     public TAnimation FAnimation;
+
     // GlobalTargetSpells.pas:2190
     public override bool Process(TAbstractUnit source, int value)
     {
@@ -2029,7 +2031,6 @@ public partial class THealingShowersTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class THealingShowers : TGlobalTargetSpell
@@ -2204,6 +2205,7 @@ public struct TSpellNameView
 {
     public FixedArray_byte_8 Reserved;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
 }
 
@@ -2253,9 +2255,13 @@ public struct TTargetSelectionFields
     public sbyte Layer;
     public TStrings Text;
     private string caption;
+
     public string Caption { readonly get => caption ?? ""; set => caption = value; }
+
     private string cancelCaption;
+
     public string CancelCaption { readonly get => cancelCaption ?? ""; set => cancelCaption = value; }
+
     public int Reserved48;
     public int Reserved4C;
     public ImageLib.TLibraryImage Preview;

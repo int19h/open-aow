@@ -1,11 +1,11 @@
 // Translated from MapCtrl.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.EventLog;
+using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.MapCtrl;
@@ -58,6 +58,7 @@ public partial class TAoWMapControl : TComponent
     public TNotifyEvent FOnRelationsChanged;
     public TNotifyEvent FOnExitGameEvent;
     public TNotifyEvent FOnHSChanged;
+
     // MapCtrl.pas:186
     public override void Destroy()
     {
@@ -1011,6 +1012,7 @@ public delegate void TMapObjectEvent(TObject Obj);
 public delegate void TMapEndTurnEvent(sbyte Player, bool Automatic);
 public delegate void TMapExecuteLogEvent(TEventLog Log, bool Immediate, TExecuteDoneEvent Done);
 public delegate void TMapTargetEvent(TTargetSelectionControl Control, TTargetSelectionChange Change);
+
 public struct TExecuteLogInfo
 {
     public TEventLog Log;
@@ -1072,6 +1074,7 @@ public struct TTargetState
 public delegate TObject TGetPlayers(TPlayerList List, int Index);
 public delegate TArmyHS TGetArmyHS(TSelectedArmy Selection);
 public delegate bool TValidateEngine();
+
 public static partial class MapCtrlUnit
 {
     // MapCtrl.pas:675

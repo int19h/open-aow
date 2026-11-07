@@ -18,6 +18,7 @@ public sealed partial class SpellConstructionTests
 
         internal readonly List<TEObject> Removed = [];
         internal readonly List<string> Observations = [];
+
         public override int AddChild(TEObject child)
         {
             Assert.Same(this, child.Owner);
@@ -25,6 +26,7 @@ public sealed partial class SpellConstructionTests
             base.AddChild(child);
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child)
         {
             Removed.Add(child);
@@ -39,12 +41,14 @@ public sealed partial class SpellConstructionTests
         private readonly TAoWHSSet previousSet = Game.AoWHSSet;
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
+
         internal Fixture()
         {
             var set = EngineFixture.CreateGameSet(Manager);
             Game.AoWHSSet = set;
             Game.AoWEngine = null!;
         }
+
         public void Dispose()
         {
             Game.AoWHSSet = previousSet;
@@ -84,7 +88,6 @@ public sealed partial class SpellConstructionTests
         state["TEObject.FOwner"] = "$owner";
         return JsonSerializer.Serialize(state);
     }
-
 
     private static TEngine RegisteredEngine(Type type)
     {
@@ -131,8 +134,6 @@ public sealed partial class SpellConstructionTests
         }
         finally { engine.Destroy(); }
     }
-
-
 
     public static IEnumerable<object[]> Classes => ConstructionSnapshot.Keys("SpellConstruction").Select(name => new object[] { name });
 

@@ -16,6 +16,7 @@ public sealed partial class AoWERuleConstructionTests
     private sealed class UnitOwner(bool reject) : EngineFixture.Owner
     {
         internal readonly List<string> Events = [];
+
         public override int AddChild(TEObject child)
         {
             var unit = (TAbstractUnit)child;
@@ -24,6 +25,7 @@ public sealed partial class AoWERuleConstructionTests
             base.AddChild(child);
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
     }
 
@@ -145,14 +147,18 @@ public sealed partial class AoWERuleConstructionTests
     }
 
     private static UnitOwner? RefcountOwner;
+
     private sealed class ObservedUnit(TECustomNode owner) : TAbstractUnit(owner)
     {
         public override int AddRef() { int result = base.AddRef(); RefcountOwner!.Events.Add("add:" + result); return result; }
+
         public override int Release() { int result = base.Release(); RefcountOwner!.Events.Add("release:" + result); return result; }
     }
+
     private sealed class ObservedHero(TECustomNode owner) : THero(owner)
     {
         public override int AddRef() { int result = base.AddRef(); RefcountOwner!.Events.Add("add:" + result); return result; }
+
         public override int Release() { int result = base.Release(); RefcountOwner!.Events.Add("release:" + result); return result; }
     }
 

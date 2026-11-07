@@ -1,7 +1,7 @@
 // Translated from AltFire.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.Altar;
+using Aow.Units.Engine;
 using Aow.Units.Storms;
 using static Aow.Units.AoWE.AoWEUnit;
 
@@ -18,12 +18,10 @@ public partial class TAltarOfFire : TAltar
 
     // AltFire.pas:37
 
-
     // AltFire.pas:45
     public override TStorm CreateStorm() => new TFireStorm(null);
 
     // AltFire.pas:19
-
 
 }
 
@@ -38,12 +36,10 @@ public partial class TAltarOfFireResource : TAltarResource
 
     // AltFire.pas:50
 
-
     // AltFire.pas:61
     public override int ResourceUserClassID() => 131642;
 
     // AltFire.pas:27
-
 
     // AltFire.pas:55
     public override string ResourceEditName() => TranslateRStr(AltarOfFireRStr);

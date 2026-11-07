@@ -13,7 +13,7 @@ namespace Aow.Units.BorderHx;
 public partial class TBorderHexagon : TAbstractBorderHexagon
 {
     public TBorderHexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // BorderHx.pas:59
     public new const int ClassID = 132439;
@@ -76,7 +76,7 @@ public partial class TBorderHexagon : TAbstractBorderHexagon
 public partial class TBorderHexagonResource : TAbstractBorderHexagonResource
 {
     public TBorderHexagonResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 132440;
 

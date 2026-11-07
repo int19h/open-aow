@@ -1,9 +1,9 @@
 // Translated from AoWComp.pas.
+using System.ComponentModel;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using System.ComponentModel;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWComp;
 
@@ -107,6 +107,7 @@ public partial class TAoWComponent : TComponent
     public bool FHidden;
     public bool FDoubleBuffered;
     public bool FSurfaceValid;
+
     // AoWComp.pas:222
     public TAoWComponent(TComponent owner) : base(owner)
     {
@@ -244,7 +245,7 @@ public partial class TAoWComponent : TComponent
 
     // AoWComp.pas:753
     // { Setup brings the component up to date: Validate, SetSize and ReAlign when their flag is clear,
-//   then Setup of every visible child; an exception in any step is reported in a message box }
+    //   then Setup of every visible child; an exception in any step is reported in a message box }
     public virtual void Setup()
     {
         if (FVisible)
@@ -379,9 +380,9 @@ public partial class TAoWComponent : TComponent
 
     // AoWComp.pas:314
     // { AddBltRect adds ARect to the rectangles to blit, clipped against the rectangles already in the
-//   list so that no two overlap: the parts of ARect that another rectangle covers are cut off (a
-//   cut that leaves two pieces adds one of them as a new rectangle), and an old rectangle that ARect
-//   covers on one side is trimmed or emptied. }
+    //   list so that no two overlap: the parts of ARect that another rectangle covers are cut off (a
+    //   cut that leaves two pieces adds one of them as a new rectangle), and an old rectangle that ARect
+    //   covers on one side is trimmed or emptied. }
     public virtual void AddBltRect(ref TRect ARect, TAoWComponent Sender)
     {
         TaowRect N;
@@ -1049,6 +1050,7 @@ public delegate void TAoWOnDrawEvent(TAoWComponent Sender, TSurfaceDesc SurfDesc
 public delegate void TAoWOnDrawBackEvent(TAoWComponent Sender, TSurfaceDesc SurfDesc);
 public delegate void TAoWOnDrawItemEvent(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc);
 public delegate void TAoWOnDebugEvent(string Dtext);
+
 // how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,
 // FHeightPercent, FLeftOffPercent, FRightOffPercent, FTopOffPercent, FBottomOffPercent,
 // FLeftOffset, FRightOffset, FTopOffset, FBottomOffset, FAlignWidth, FAlignHeight. It does not
@@ -1067,6 +1069,7 @@ public partial class TAOWAlignment : TPersistent
     internal int FBottomOffset;
     internal TAOWAlignWidth FAlignWidth;
     internal TAOWAlignHeight FAlignHeight;
+
     [Published]
     public TAOWAlignWidth AlignWidth { get => FAlignWidth; set => FAlignWidth = value; }
 

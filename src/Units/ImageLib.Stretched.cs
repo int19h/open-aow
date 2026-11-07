@@ -172,6 +172,7 @@ public partial class TPicture16
             }
         }
     }
+
     public override void ShowBlendedStretched(in TRect R, in GFXE.TSurfaceDesc SD, TBlendTable Table)
     {
         Ptr<int> RowTable;

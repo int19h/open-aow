@@ -1,11 +1,11 @@
 // Translated from AoWPanel.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWTabPanel;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWWinControl;
 using Aow.Units.AoWBaseWin;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWTabPanel;
+using Aow.Units.AoWWinControl;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWPanel;
 
@@ -22,6 +22,7 @@ public partial class TAOWPanel : TAOWBaseWindow
     public int FOrgTop;
     public TAOWTabPanel FTabPanel;
     public TAOWBaseWindow FAOWWindow;
+
     // AoWPanel.pas:63
     public TAOWPanel(TComponent owner) : base(owner)
     {
@@ -42,7 +43,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:235
     // { SetSize: at least as large as the frame corners, kept inside the window, at least MinWidth by
-//   MinHeight; the panel uses the window's window manager }
+    //   MinHeight; the panel uses the window's window manager }
     public override void SetSize()
     {
         if (!FVisible && FTabPanel != null && FTabPanel.FSelected == FOwnerItem)
@@ -160,7 +161,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:297
     // { Setup: like TAoWComponent.Setup, with the controls set up while the panel is moved by the
-//   position of a panel it sits in }
+    //   position of a panel it sits in }
     public override void Setup()
     {
         try
@@ -214,7 +215,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:333
     // { Update: the controls are updated with the panel moved by its window's position; when the
-//   panel moved or changed size, its old rectangle is redrawn in the owner }
+    //   panel moved or changed size, its old rectangle is redrawn in the owner }
     public override void Update()
     {
         TRect R = default;
@@ -291,7 +292,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:97
     // { InvalidateRect: the controls from Index on that ARect touches are redrawn (windows are asked to
-//   invalidate the rectangle themselves), then the windows above the panel in its owner }
+    //   invalidate the rectangle themselves), then the windows above the panel in its owner }
     public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
     {
         int OldLeft;
@@ -373,7 +374,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:191
     // { SetVisible: showing sets the back rectangle and marks the panel hidden (original bug: FHidden
-//   set instead of cleared) }
+    //   set instead of cleared) }
     public override void SetVisible(bool Value)
     {
         if (Value != FVisible)
@@ -422,8 +423,8 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:391
     // { Draw: the background (redrawn only in the dirty rectangles once the surface is valid), then
-//   the controls that need it; the rectangles of redrawn controls are passed on to the controls
-//   above them and blitted }
+    //   the controls that need it; the rectangles of redrawn controls are passed on to the controls
+    //   above them and blitted }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         TRect BltRect = default;
@@ -574,7 +575,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:513
     // { CheckMouseDown: the controls first (from the top), with the panel moved by its window's
-//   position }
+    //   position }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAoWComponent C = default;
@@ -735,7 +736,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
     // AoWPanel.pas:145
     // { SetTabPanel moves the panel from the panel list of its old tab panel to the list of the new
-//   one, in priority order }
+    //   one, in priority order }
     public virtual void SetTabPanel(TAOWTabPanel Value)
     {
         int I;

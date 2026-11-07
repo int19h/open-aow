@@ -1,17 +1,17 @@
 // Translated from AoWSendEmailGameDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWE;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWSendEmailGameDlg;
 
@@ -46,6 +46,7 @@ public partial class TSendEmailGameDlg : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FDone;
     public TSendEmailGameEventLog FSendEvent;
+
     // AoWSendEmailGameDlg.pas:63
     public void FinishDialog()
     {

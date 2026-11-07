@@ -10,15 +10,20 @@ public sealed class IndexedProperty<TKey, TValue>(Func<TKey, TValue> get, Action
 public abstract class TStrings : TPersistent
 {
     protected int UpdateCount;
+
     public abstract int Count { get; }
     public virtual int Capacity { get => Count; set { } }
     public abstract string this[int index] { get; set; }
+
     protected virtual TObject? GetObject(int index) => null;
+
     protected virtual void PutObject(int index, TObject? value) { }
+
     public IndexedProperty<int, string> Strings => new(i => this[i], (i, s) => this[i] = s);
     public IndexedProperty<int, TObject?> Objects => new(GetObject, PutObject);
     // CLASSES.PAS TStrings.GetName, GetValue and SetValue.
     public IndexedProperty<int, string> Names => new(i => { var s = this[i]; return Copy(s, 1, AnsiPos("=", s) - 1); });
+
     public IndexedProperty<string, string> Values => new(name =>
     {
         int i = IndexOfName(name); return i < 0 ? "" : Copy(this[i], name.Length + 2, int.MaxValue);
@@ -28,21 +33,29 @@ public abstract class TStrings : TPersistent
         if (value.Length > 0) { if (i < 0) i = Add(""); this[i] = name + "=" + value; }
         else if (i >= 0) Delete(i);
     });
+
     // CLASSES.PAS TStrings.Add, AddObject and InsertObject.
     public virtual int Add(string value) { int i = Count; Insert(i, value); return i; }
+
     public int AddObject(string value, TObject? item) { int i = Add(value); PutObject(i, item); return i; }
+
     public void InsertObject(int index, string value, TObject? item) { Insert(index, value); PutObject(index, item); }
+
     public abstract void Insert(int index, string value);
     public abstract void Delete(int index);
     public abstract void Clear();
+
     // CLASSES.PAS TStrings.IndexOf, IndexOfName and IndexOfObject.
     public virtual int IndexOf(string value) { for (int i = 0; i < Count; i++) if (AnsiCompareText(this[i], value) == 0) return i; return -1; }
+
     public int IndexOfName(string name)
     {
         for (int i = 0; i < Count; i++) { var s = this[i]; int p = AnsiPos("=", s); if (p > 0 && AnsiCompareText(Copy(s, 1, p - 1), name) == 0) return i; }
         return -1;
     }
+
     public int IndexOfObject(TObject? item) { for (int i = 0; i < Count; i++) if (ReferenceEquals(GetObject(i), item)) return i; return -1; }
+
     // CLASSES.PAS TStrings.GetTextStr and SetTextStr. The reader stops at NUL.
     public string Text
     {
@@ -65,6 +78,7 @@ public abstract class TStrings : TPersistent
             finally { EndUpdate(); }
         }
     }
+
     // CLASSES.PAS TStrings.GetCommaText and SetCommaText.
     public string CommaText
     {
@@ -117,20 +131,26 @@ public abstract class TStrings : TPersistent
             finally { EndUpdate(); }
         }
     }
+
     // CLASSES.PAS TStrings.BeginUpdate, EndUpdate and SetUpdateState.
     public void BeginUpdate() { if (UpdateCount == 0) SetUpdateState(true); UpdateCount++; }
+
     public void EndUpdate() { UpdateCount--; if (UpdateCount == 0) SetUpdateState(false); }
+
     protected virtual void SetUpdateState(bool updating) { }
+
     // CLASSES.PAS TStrings.AddStrings and Assign.
     public void AddStrings(TStrings source)
     {
         BeginUpdate(); try { int count = source.Count; for (int i = 0; i < count; i++) AddObject(source[i], source.Objects[i]); } finally { EndUpdate(); }
     }
+
     public override void Assign(TPersistent? source)
     {
         if (source is not TStrings strings) { base.Assign(source); return; }
         BeginUpdate(); try { Clear(); AddStrings(strings); } finally { EndUpdate(); }
     }
+
     // CLASSES.PAS TStrings.Exchange and Move.
     public virtual void Exchange(int first, int second)
     {
@@ -138,11 +158,13 @@ public abstract class TStrings : TPersistent
         try { var s = this[first]; var o = GetObject(first); this[first] = this[second]; PutObject(first, GetObject(second)); this[second] = s; PutObject(second, o); }
         finally { EndUpdate(); }
     }
+
     public void Move(int current, int target)
     {
         if (current == target) return;
         BeginUpdate(); try { var s = this[current]; var o = GetObject(current); Delete(current); InsertObject(target, s, o); } finally { EndUpdate(); }
     }
+
     // CLASSES.PAS TStrings.LoadFromStream and SaveToStream.
     public virtual void LoadFromStream(TStream stream)
     {
@@ -150,10 +172,14 @@ public abstract class TStrings : TPersistent
         try { byte[] bytes = new byte[stream.Size - stream.Position]; stream.Read(bytes); Text = Cp1252.Decode(bytes); }
         finally { EndUpdate(); }
     }
+
     public virtual void SaveToStream(TStream stream) => stream.WriteBuffer(Cp1252.Encode(Text));
+
     // CLASSES.PAS TStrings.LoadFromFile and SaveToFile.
     public void LoadFromFile(string name) { using var stream = new TFileStream(name, fmOpenRead); LoadFromStream(stream); }
+
     public void SaveToFile(string name) { using var stream = new TFileStream(name, fmCreate); SaveToStream(stream); }
+
     // CLASSES.PAS TStrings.Error.
     public static void Error(string message, int data) => throw EStringListError.CreateFmt(message, data);
 }
@@ -163,38 +189,51 @@ public enum TDuplicates : byte { dupIgnore, dupAccept, dupError }
 public class TStringList : TStrings
 {
     private record struct StringItem(string Text, TObject? Object);
+
     private StringItem[] items = [];
     private int count;
     private bool sorted;
+
     public override int Count => count;
     // CLASSES.PAS TStringList.SetCapacity.
     public override int Capacity { get => items.Length; set { if (value < count) Error("List capacity out of bounds (%d)", value); Array.Resize(ref items, value); } }
     public TDuplicates Duplicates { get; set; }
     public TNotifyEvent? OnChange { get; set; }
     public TNotifyEvent? OnChanging { get; set; }
+
     // CLASSES.PAS TStringList.Changed, Changing and SetUpdateState.
     protected virtual void Changed() { if (UpdateCount == 0) OnChange?.Invoke(this); }
+
     protected virtual void Changing() { if (UpdateCount == 0) OnChanging?.Invoke(this); }
+
     protected override void SetUpdateState(bool updating) { if (updating) Changing(); else Changed(); }
+
     private void Check(int index) { if (index < 0 || index >= count) Error("List index out of bounds (%d)", index); }
+
     // CLASSES.PAS TStringList.Get and Put.
     public override string this[int index]
     {
         get { Check(index); return items[index].Text; }
         set { if (Sorted) Error("Operation not allowed on sorted string list", 0); Check(index); Changing(); items[index].Text = value; Changed(); }
     }
+
     // CLASSES.PAS TStringList.GetObject and PutObject.
     protected override TObject? GetObject(int index) { Check(index); return items[index].Object; }
+
     protected override void PutObject(int index, TObject? value) { Check(index); Changing(); items[index].Object = value; Changed(); }
+
     // CLASSES.PAS TStringList.SetSorted.
     public bool Sorted { get => sorted; set { if (sorted == value) return; if (value) Sort(); sorted = value; } }
+
     // CLASSES.PAS TStringList.Grow.
     private void Grow() => Capacity += Capacity > 64 ? Capacity / 4 : Capacity > 8 ? 16 : 4;
+
     // CLASSES.PAS TStringList.InsertItem.
     private void InsertItem(int index, string value)
     {
         Changing(); if (count == Capacity) Grow(); Array.Copy(items, index, items, index + 1, count - index); items[index] = new(value, null); count++; Changed();
     }
+
     // CLASSES.PAS TStringList.Add.
     public override int Add(string value)
     {
@@ -206,6 +245,7 @@ public class TStringList : TStrings
         }
         InsertItem(i, value); return i;
     }
+
     // CLASSES.PAS TStringList.Insert, Delete and Clear.
     public override void Insert(int index, string value)
     {
@@ -213,10 +253,14 @@ public class TStringList : TStrings
         if (index < 0 || index > count) Error("List index out of bounds (%d)", index);
         InsertItem(index, value);
     }
+
     public override void Delete(int index) { Check(index); Changing(); count--; Array.Copy(items, index + 1, items, index, count - index); items[count] = default; Changed(); }
+
     public override void Clear() { if (count == 0) return; Changing(); count = 0; Capacity = 0; Changed(); }
+
     // CLASSES.PAS TStringList.Exchange and ExchangeItems.
     public override void Exchange(int first, int second) { Check(first); Check(second); Changing(); (items[first], items[second]) = (items[second], items[first]); Changed(); }
+
     // CLASSES.PAS TStringList.Find. dupAccept keeps searching to the left.
     public bool Find(string value, ref int index)
     {
@@ -229,6 +273,7 @@ public class TStringList : TStrings
         }
         index = low; return result;
     }
+
     // CLASSES.PAS TStringList.IndexOf.
     public override int IndexOf(string value)
     {
@@ -236,8 +281,10 @@ public class TStringList : TStrings
         int index = 0;
         return Find(value, ref index) ? index : -1;
     }
+
     // CLASSES.PAS TStringList.Sort and QuickSort.
     public void Sort() { if (Sorted || count <= 1) return; Changing(); QuickSort(0, count - 1); Changed(); }
+
     private void QuickSort(int left, int right)
     {
         int i;
@@ -253,6 +300,7 @@ public class TStringList : TStrings
             if (left < j) QuickSort(left, j); left = i;
         } while (i < right);
     }
+
     // CLASSES.PAS TStringList.Destroy does not destroy associated objects.
     public override void Destroy() { OnChange = null; OnChanging = null; base.Destroy(); count = 0; Capacity = 0; }
 }

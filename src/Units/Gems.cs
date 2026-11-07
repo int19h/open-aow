@@ -1,13 +1,13 @@
 // Translated from Gems.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
-using static Aow.Units.Sound.SoundUnit;
+using Aow.Units.EventLog;
 using Aow.Units.HSEngine;
 using Aow.Units.ILTer;
-using Aow.Units.EventLog;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.Gems;
 
@@ -26,6 +26,7 @@ public partial class TGems : TILTerrainMO
 
     public int FAmount;
     public TGemsGenerateMode FGenerateMode;
+
     // Gems.pas:56
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -35,7 +36,6 @@ public partial class TGems : TILTerrainMO
     }
 
     // Gems.pas:46
-
 
     // Gems.pas:93
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -155,13 +155,12 @@ public partial class TGems : TILTerrainMO
 
     // Gems.pas:24
 
-
 }
 
 public partial class TGemsResource : TILTerrainMOR
 {
     public TGemsResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Gems.pas:137
     public new const int ClassID = 132015;

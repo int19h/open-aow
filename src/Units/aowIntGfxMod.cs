@@ -1,7 +1,7 @@
 // Translated from aowIntGfxMod.pas.
 using Aow.Rtl;
-using Aow.Units.ImageLib;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.ImageLib;
 
 namespace Aow.Units.aowIntGfxMod;
 

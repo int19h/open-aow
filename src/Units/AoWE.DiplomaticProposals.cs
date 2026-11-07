@@ -1,9 +1,9 @@
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.Engine;
 using Aow.Units.EventLog;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 
 // What a diplomatic action proposes: war, peace, an alliance, a message, a threat, a tribute, or a
 // suggestion about a third player. Each kind holds its own fields and does what the switches over

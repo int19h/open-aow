@@ -1,21 +1,21 @@
 // Translated from IsoCombatHex.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Units.ImageLib;
 using Aow.Units.IsoHex;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.IsoCombatHex;
 
 public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
 {
     public TIsometricCombatHexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // IsoCombatHex.pas:40
     public new const int ClassID = 2229514;
@@ -155,7 +155,7 @@ public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
 public partial class TIsometricCombatHexagonResource : TUpperIsometricHexagonResource
 {
     public TIsometricCombatHexagonResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // IsoCombatHex.pas:108
     public new const int ClassID = 2229515;

@@ -1,26 +1,26 @@
 // Translated from AoWItemsFoundDlg.pas.
-using Aow.Rtl;
 using System.Runtime.CompilerServices;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.ItemExpS;
-using Aow.Units.EventLog;
-using Aow.Units.AoWComp;
+using Aow.Rtl;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWUnitWindow;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ItemExpS;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWItemBanner.AoWItemBannerUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
-using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.AoWItemsFoundDlg;
 
@@ -56,6 +56,7 @@ public partial class TItemsFoundDlg : TDataModule
     public int FItemOffset;
     public TExecuteDoneEvent FOnDone;
     public TItemExplorationSiteEventLog FEvent;
+
     // AoWItemsFoundDlg.pas:80
     public THero GetHero()
     {

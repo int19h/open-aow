@@ -2,8 +2,8 @@
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
 using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Hexagon;
@@ -16,12 +16,13 @@ namespace Aow.Units.Hexagon;
 public partial class THexagon : TAbstractHexagon
 {
     public THexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 131410;
 
     protected internal FixedArray_byte_3 FTransitions;
     protected internal byte FTransitionSides;
+
     // Hexagon.pas:60
     public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
     {
@@ -81,8 +82,8 @@ public partial class THexagonResource : TAbstractHexagonResource
     public new const int ClassID = 131411;
 
     protected internal TCustomImageLibrary FTransitionLibrary;
-    // Hexagon.pas:83
 
+    // Hexagon.pas:83
 
     // Hexagon.pas:99
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -183,7 +184,6 @@ public partial class THexagonResource : TAbstractHexagonResource
     }
 
     // Hexagon.pas:32
-
 
     // Hexagon.pas:107
     public override string ResourceEditName() => HexagonStr;

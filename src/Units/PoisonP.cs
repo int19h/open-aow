@@ -1,16 +1,16 @@
 // Translated from PoisonP.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.ILTer;
-using static Aow.Units.EventLog.EventLogUnit;
-using Aow.Units.GlobalTargetSpells;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.GlobalTargetSpells;
+using Aow.Units.HSEngine;
+using Aow.Units.ILTer;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.PoisonP;
 
@@ -37,6 +37,7 @@ public partial class TPoisonPlant : TILTerrainMO
     public sbyte FCasterPlayer;
     public sbyte FDaysRemaining;
     public sbyte FOriginalOverlay;
+
     // PoisonP.pas:97
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -47,7 +48,6 @@ public partial class TPoisonPlant : TILTerrainMO
     }
 
     // PoisonP.pas:78
-
 
     // PoisonP.pas:255
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -330,13 +330,12 @@ public partial class TPoisonPlant : TILTerrainMO
 
     // PoisonP.pas:28
 
-
 }
 
 public partial class TPoisonPlantResource : TILTerrainMOR
 {
     public TPoisonPlantResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // PoisonP.pas:293
     public new const int ClassID = 131999;
@@ -352,7 +351,7 @@ public partial class TPoisonPlantResource : TILTerrainMOR
 public partial class TPoisonPlantSpellTE : TGlobalTargetSpellTE
 {
     public TPoisonPlantSpellTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // PoisonP.pas:303
     public new const int ClassID = 135941;
@@ -421,7 +420,6 @@ public partial class TPoisonPlantSpellTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TPoisonPlantSpell : TGlobalTargetSpell
@@ -437,7 +435,6 @@ public partial class TPoisonPlantSpell : TGlobalTargetSpell
     }
 
     // PoisonP.pas:371
-
 
     // PoisonP.pas:405
     public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)

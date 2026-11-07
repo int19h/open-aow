@@ -26,6 +26,7 @@ public partial class TMsgReceiveDlg : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FDone;
     public TEventLog FEvent;
+
     // AoWMsgReceiveDlg.pas:54
     public void FinishDialog()
     {

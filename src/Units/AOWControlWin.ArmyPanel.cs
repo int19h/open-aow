@@ -1,11 +1,11 @@
 #nullable disable
 using Aow.Rtl;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.E3Globals;
 using Aow.Units.AoWExeForms;
+using Aow.Units.E3Globals;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
 
 namespace Aow.Units.AOWControlWin;
 
@@ -42,9 +42,16 @@ public partial class TControlWin
             PartyActionLbl1.Text = TranslateRStr(PartyActionRStr);
             PartyActionLbl2.Text = TranslateRStr(((int)army.GetBehavior(255) & 127) switch
             {
-                1 => PatrollingRStr, 2 or 3 => GuardingRStr, 4 => ScoutingRStr,
-                5 => SeekingRefugeRStr, 6 => RaidingRStr, 7 => HuntingRStr,
-                8 => ProtectingRStr, 9 => FortifiedRStr, 10 => E3GlobalsUnit.BerserkRStr, _ => WanderingRStr
+                1 => PatrollingRStr,
+                2 or 3 => GuardingRStr,
+                4 => ScoutingRStr,
+                5 => SeekingRefugeRStr,
+                6 => RaidingRStr,
+                7 => HuntingRStr,
+                8 => ProtectingRStr,
+                9 => FortifiedRStr,
+                10 => E3GlobalsUnit.BerserkRStr,
+                _ => WanderingRStr
             });
         }
         else if (readOnly)

@@ -12,6 +12,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     private readonly Dictionary<MethodBase, string?> sources = [];
 
     public void Save(int day) => writer.WriteLine(JsonSerializer.Serialize(new { kind = "save", day, frame = frame() }));
+
     public void Line(int location, int direction, int over, int count) => writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "line", frame = frame(), location, direction, over, count }));
 
@@ -20,7 +21,8 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Path(Aow.Units.AoWE.TMoveTE move) => writer.WriteLine(JsonSerializer.Serialize(new
     {
-        kind = "path", frame = frame(),
+        kind = "path",
+        frame = frame(),
         path = Enumerable.Range(0, move.FPath.Count).Select(i => unchecked((uint)move.FPath.List[i].XYL))
     }));
 
@@ -29,13 +31,21 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
         if (compare.Method.Name is not ("CompareAIGroupTargetPriority" or "CompareTargetSetupPriority")) return;
         writer.WriteLine(JsonSerializer.Serialize(new
         {
-            kind = "targets", frame = frame(), compare = compare.Method.Name,
+            kind = "targets",
+            frame = frame(),
+            compare = compare.Method.Name,
             targets = Enumerable.Range(0, list.Count).Select(i =>
             {
                 var target = (Aow.Units.AoWE.TAIGroupControlTarget)list[i]!;
-                return new { location = target.FLocation.XYL, points = target.FMovePoints,
-                    priority = target.FData.Priority, a = target.FDataA, b = target.FDataB,
-                    status = target.FStatus.Image };
+                return new
+                {
+                    location = target.FLocation.XYL,
+                    points = target.FMovePoints,
+                    priority = target.FData.Priority,
+                    a = target.FDataA,
+                    b = target.FDataB,
+                    status = target.FStatus.Image
+                };
             })
         }));
     }
@@ -44,8 +54,16 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     {
         var caller = new StackTrace(1, true).GetFrames()
             .FirstOrDefault(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Units");
-        writer.WriteLine(JsonSerializer.Serialize(new { kind = "rounding", frame = frame(),
-            value, result, singleResult, caller = Name(caller), source = Source(caller) }));
+        writer.WriteLine(JsonSerializer.Serialize(new
+        {
+            kind = "rounding",
+            frame = frame(),
+            value,
+            result,
+            singleResult,
+            caller = Name(caller),
+            source = Source(caller)
+        }));
     }
 
     public void Record(RandomTraceEvent entry)
@@ -57,9 +75,15 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
         var caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
         writer.WriteLine(JsonSerializer.Serialize(new
         {
-            frame = frame(), kind = entry.Kind, map, argument = entry.Argument, result = entry.Result,
-            before = unchecked((uint)entry.Before), after = unchecked((uint)entry.After),
-            caller = Name(caller), source = Source(caller),
+            frame = frame(),
+            kind = entry.Kind,
+            map,
+            argument = entry.Argument,
+            result = entry.Result,
+            before = unchecked((uint)entry.Before),
+            after = unchecked((uint)entry.After),
+            caller = Name(caller),
+            source = Source(caller),
             stack = stack.Take(8).Select(f => new { method = Name(f), source = Source(f) })
         }));
     }

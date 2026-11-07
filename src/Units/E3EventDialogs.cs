@@ -1,32 +1,32 @@
 // Translated from E3EventDialogs.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWArenaDlg;
+using Aow.Units.AoWArmyEventDlg;
+using Aow.Units.AoWCityJoinDlg;
+using Aow.Units.AoWCityRebelDlg;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.AoWHeroInfoDlg;
+using Aow.Units.AoWHeroJoinDlg;
+using Aow.Units.AoWHeroUpgradeDlg;
+using Aow.Units.AoWItemsFoundDlg;
+using Aow.Units.AoWMsgReceiveDlg;
+using Aow.Units.AoWNewTurnDialog;
+using Aow.Units.AoWPartyJoin;
+using Aow.Units.AoWPasswordDlg;
+using Aow.Units.AoWRelations;
+using Aow.Units.AoWSendEmailGameDlg;
+using Aow.Units.AoWSMTPDlg;
+using Aow.Units.AoWWizardsTowerDlg;
+using Aow.Units.AoWWorldMap;
 using Aow.Units.EventLog;
 using Aow.Units.FastCombatWin;
-using Aow.Units.AoWRelations;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.AoWSMTPDlg;
 using Aow.Units.TCFCDlg;
-using Aow.Units.AoWNewTurnDialog;
-using Aow.Units.AoWSendEmailGameDlg;
-using Aow.Units.AoWPasswordDlg;
-using Aow.Units.AoWArmyEventDlg;
-using Aow.Units.AoWCityRebelDlg;
-using Aow.Units.AoWCityJoinDlg;
-using Aow.Units.AoWPartyJoin;
-using Aow.Units.AoWHeroJoinDlg;
-using Aow.Units.AoWMsgReceiveDlg;
-using Aow.Units.AoWHeroUpgradeDlg;
-using Aow.Units.AoWHeroInfoDlg;
-using Aow.Units.AoWWizardsTowerDlg;
-using Aow.Units.AoWArenaDlg;
-using Aow.Units.AoWItemsFoundDlg;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 using static Aow.Units.E3Globals.E3GlobalsUnit;
-using Aow.Units.AoWComp;
 
 namespace Aow.Units.E3EventDialogs;
 
@@ -354,6 +354,7 @@ public static partial class E3EventDialogsUnit
     public static TFastCombatWindow FastCombatWindow;
     public static TNewTurnDlg NewTurnDlg;
     public static TTCFCDialog TCFCDialog;
+
     // E3EventDialogs.pas:33
     public static void OriginalAssert(string Message, string Filename, int LineNumber)
     {

@@ -1,12 +1,12 @@
 // Translated from ImageLib.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.HashTabU;
 using System.Buffers.Binary;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.GFXE;
+using Aow.Units.HashTabU;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.ImageLib;
 
@@ -63,10 +63,13 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     static int ILibraryImageClass.ClassID => 0;
     static byte ILibraryImageClass.ClassVersion => 3;
     static string ILibraryImageClass.Name => "Abstract Library Image";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TLibraryImage(owner);
 
     private LibraryImageClass imageClass;
+
     public LibraryImageClass ImageClass => imageClass ??= LibraryImageClass.Of(GetType());
+
     public virtual byte ClassVersion() => ImageClass.ClassVersion;
     public virtual string Name() => ImageClass.Name;
 
@@ -86,6 +89,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     internal string FFileName = "";
     internal int FFileIndex;
     internal TShowInfo FShowInfo;
+
     // ImageLib.pas:1613
     public virtual void SetOwner(TCustomImageLibrary AOwner)
     {
@@ -565,7 +569,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
 
     // ImageLib.pas:2020
     // { ShowEx: the blend mode comes from the image's own show info (an original bug: ShowInfo only
-//   gives the show mode and the blend value), and bmLinearAlpha is not handled. }
+    //   gives the show mode and the blend value), and bmLinearAlpha is not handled. }
     public virtual void ShowEx(int X, int Y, in TSurfaceDesc SD, in TShowInfo ShowInfo)
     {
         switch (ShowInfo.ShowMode)
@@ -666,7 +670,6 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     public TGFXEPalette RemapPalette { get => GetRemapPalette(); }
     public bool Transparent { get => GetTransparent(); }
 
-
 }
 
 // FIndex, FPalette, FRemapPalette (the palette remapped to a pixel format, made on demand),
@@ -677,6 +680,7 @@ public partial class TLibraryImagePalette : TPersistent
     internal TGFXEPalette FPalette;
     internal TGFXEPalette FRemapPalette;
     internal int FRefCount;
+
     // ImageLib.pas:7084
     public TLibraryImagePalette()
     {
@@ -766,6 +770,7 @@ public partial class TLibraryImagePalette : TPersistent
 public partial class TPaletteManager : TObject
 {
     internal TList FPalettes;
+
     // ImageLib.pas:6984
     internal int GetCount() => FPalettes.Count;
 
@@ -912,7 +917,6 @@ public struct TImageItem
 public partial class TCustomImageLibrary : TComponent
 {
 
-
     internal TSet<TImageLibraryStatusElement> FStatus;
     internal TNotifyEvent FOnChange;
     internal byte FChangeLock;
@@ -925,6 +929,7 @@ public partial class TCustomImageLibrary : TComponent
     internal int FCount;
     internal Ptr<TImageItem> FImages;
     internal TPaletteManager FPaletteManager;
+
     // ImageLib.pas:9699
     internal void SetCapacity(int NewCapacity)
     {
@@ -1945,7 +1950,7 @@ public partial class TCustomImageLibrary : TComponent
 
     // ImageLib.pas:10414
     // { DeleteSub: the test of the node class is inverted (an original bug): a single image is treated
-//   as a node, and a node is freed whole when SubIndex is 0. }
+    //   as a node, and a node is freed whole when SubIndex is 0. }
     public void DeleteSub(int Index, int SubIndex)
     {
         TImageNode Node;
@@ -2157,7 +2162,6 @@ public partial class TImageLibrary : TCustomImageLibrary
     public TImageLibrary(TComponent owner) : base(owner)
     { }
 
-
 }
 
 public enum TLoadMode : byte
@@ -2176,6 +2180,7 @@ public partial class TGrabInfo : TObject
     public int TransparentPixel;
     public string FileName = "";
     public int FileIndex;
+
     // ImageLib.pas:9634
     public virtual void LoadFromStream(TStream Stream)
     {
@@ -2224,6 +2229,7 @@ public partial class TGrabInfo : TObject
 
 public delegate void TImagesGrabbedEvent(TCustomImageLibrary GrabbedImages, TGrabInfo UsedGrabInfo);
 public delegate void TGrabProgressEvent(TObject Sender, int Percent, string Msg);
+
 public enum TShowMode : byte
 {
     smOpaque = 0,
@@ -2253,6 +2259,7 @@ public struct TShowInfo
     // table writes 0 where the original wrote its address, which no reader of a file uses, and
     // reading always yields the percentage case.
     private ushort imagePadding;
+
     private byte[] Image()
     {
         byte[] image = new byte[8];
@@ -2290,11 +2297,13 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 256;
     static string ILibraryImageClass.Name => "";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImageNode(owner);
 
     internal Ptr<TLibraryImage> FImages;
     internal int FCapacity;
     internal int FCount;
+
     // ImageLib.pas:1313
     internal void SetCapacity(int NewCapacity)
     {
@@ -2684,6 +2693,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     internal bool FOwnPalette;
     internal TLibraryImagePalette FImagePalette;
     internal TGFXEPalette FRemapPalette;
+
     // ImageLib.pas:7152
     public override void Clear()
     {
@@ -2806,7 +2816,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
 
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque
-//   remaps the palette again when it differs). }
+    //   remaps the palette again when it differs). }
     public override void ShowDC(Ptr<TRect> SrcRect, Ptr<TRect> DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
@@ -2820,6 +2830,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 1;
     static string ILibraryImageClass.Name => "Picture (08bpp)";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture08(owner);
 
     public TPicture08(TCustomImageLibrary owner) : base(owner)
@@ -2828,6 +2839,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
     internal int FPitch;
     internal Ptr<byte> FBuffer;
     internal object FBits;
+
     // ImageLib.pas:7305
     public override void SetXshift(int Value)
     {
@@ -3028,6 +3040,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 2;
     static string ILibraryImageClass.Name => "RLE Sprite (08bpp)";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite08(owner);
 
     public TRLESprite08(TCustomImageLibrary owner) : base(owner)
@@ -3040,6 +3053,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     internal int FRLETop;
     internal int FRLEWidth;
     internal int FRLEHeight;
+
     // ImageLib.pas:7512
     public override void ReleaseDiscardableImageData()
     {
@@ -3218,10 +3232,10 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
 
     // ImageLib.pas:7659
     // { GrabImage encodes the rows of the smallest rectangle holding the opaque pixels: per row a
-//   length dword (only its low word is written), the opaque pixels, and the runs of transparent
-//   pixels as the transparent index and the run length (up to 254). The buffer grows by 4 KB
-//   whenever the position reaches FDataSize, which stays 0 until the end (an original slip: every
-//   byte reallocates). Temp is never created. }
+    //   length dword (only its low word is written), the opaque pixels, and the runs of transparent
+    //   pixels as the transparent index and the run length (up to 254). The buffer grows by 4 KB
+    //   whenever the position reaches FDataSize, which stays 0 until the end (an original slip: every
+    //   byte reallocates). Temp is never created. }
     public override bool GrabImage(in TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
     {
         bool Result;
@@ -3373,6 +3387,7 @@ public partial class TImage16 : TLibraryImage, ILibraryImageClass
 
     internal int FPixelFormatID;
     internal int FStoredPixelFormatID;
+
     // ImageLib.pas:2098
     public TImage16(TCustomImageLibrary owner) : base(owner)
     {
@@ -3422,6 +3437,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 16;
     static string ILibraryImageClass.Name => "Picture (16bpp)";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture16(owner);
 
     public TPicture16(TCustomImageLibrary owner) : base(owner)
@@ -3430,6 +3446,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     internal int FPitch;
     internal Ptr<byte> FBuffer;
     internal object FData;
+
     // ImageLib.pas:2206
     internal void AllocateDiscardableImageData(int AWidth, int AHeight)
     {
@@ -3558,48 +3575,48 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
             switch (SD.PixelFormatID)
             {
                 case pfPAL8:
-                {
-                    for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                     {
-                        S = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left).Reinterpret<byte>();
-                        D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
-                        for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
+                        for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                         {
-                            P = Ptr<GFXE.TPaletteEntry>.To(SD.Palette.Entries, S.Value);
-                            D.Value = (ushort)(((P.Value.R & 248) << 8) + ((P.Value.G & 252) << 3) + (int)(((uint)P.Value.B) >> 3));
-                            S += 1;
-                            D += 1;
+                            S = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left).Reinterpret<byte>();
+                            D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
+                            for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
+                            {
+                                P = Ptr<GFXE.TPaletteEntry>.To(SD.Palette.Entries, S.Value);
+                                D.Value = (ushort)(((P.Value.R & 248) << 8) + ((P.Value.G & 252) << 3) + (int)(((uint)P.Value.B) >> 3));
+                                S += 1;
+                                D += 1;
+                            }
                         }
                     }
-                }
 
                     FStoredPixelFormatID = pfRGB565;
                     break;
                 case pfRGB565:
                 case pfRGB555:
-                {
-                    for (int I = 0, last = FHeight - 1; I <= last; I++)
                     {
-                        Move((SD.Data + (R.Top + I) * SD.Pitch + R.Left * 2).AsSpan(FWidth * 2), (BytePointer(FData) + FPitch * I).AsSpan(FWidth * 2), FWidth * 2);
+                        for (int I = 0, last = FHeight - 1; I <= last; I++)
+                        {
+                            Move((SD.Data + (R.Top + I) * SD.Pitch + R.Left * 2).AsSpan(FWidth * 2), (BytePointer(FData) + FPitch * I).AsSpan(FWidth * 2), FWidth * 2);
+                        }
                     }
-                }
 
                     FStoredPixelFormatID = SD.PixelFormatID;
                     break;
                 case pfRGB24:
-                {
-                    for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                     {
-                        D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
-                        S24 = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left * 3).Reinterpret<byte>();
-                        for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
+                        for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                         {
-                            D.Value = (ushort)(((S24[2] & 248) << 8) + ((S24[1] & 252) << 3) + (int)(((uint)S24[0]) >> 3));
-                            S24 = S24.Reinterpret<byte>() + 3;
-                            D += 1;
+                            D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
+                            S24 = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left * 3).Reinterpret<byte>();
+                            for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
+                            {
+                                D.Value = (ushort)(((S24[2] & 248) << 8) + ((S24[1] & 252) << 3) + (int)(((uint)S24[0]) >> 3));
+                                S24 = S24.Reinterpret<byte>() + 3;
+                                D += 1;
+                            }
                         }
                     }
-                }
 
                     FStoredPixelFormatID = pfRGB565;
                     break;
@@ -4042,6 +4059,7 @@ public partial class TTransparentPicture16 : TPicture16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 21;
     static string ILibraryImageClass.Name => "Transparent Picture (16bpp)";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentPicture16(owner);
 
     // ImageLib.pas:2845
@@ -4064,6 +4082,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 22;
     static string ILibraryImageClass.Name => "Sprite (16bpp)";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TSprite16(owner);
 
     internal int FPitch;
@@ -4075,6 +4094,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     internal int FSpriteY;
     internal int FSpriteWidth;
     internal int FSpriteHeight;
+
     // ImageLib.pas:4302
     internal void AllocateDiscardableImageData(int AWidth, int AHeight)
     {
@@ -4591,6 +4611,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 17;
     static string ILibraryImageClass.Name => "RLE Sprite (16bpp)";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite16(owner);
 
     internal int FColorKey;
@@ -4599,6 +4620,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     internal int FSpriteY;
     internal int FSpriteWidth;
     internal int FSpriteHeight;
+
     // ImageLib.pas:2881
     public TRLESprite16(TCustomImageLibrary owner) : base(owner)
     {
@@ -4675,7 +4697,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
 
     // ImageLib.pas:2947
     // { The last dword of the image data is not used: ReadImageData skips it and WriteImageData
-//   writes an uninitialized local variable (an original bug). }
+    //   writes an uninitialized local variable (an original bug). }
     public override void ReadImageData(TStream Stream)
     {
         int Reserved = default;
@@ -4999,6 +5021,7 @@ public partial class TTransparentRLESprite16 : TRLESprite16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 18;
     static string ILibraryImageClass.Name => "Transparent RLE Sprite (16bpp)";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentRLESprite16(owner);
 
     // ImageLib.pas:3592
@@ -5018,6 +5041,7 @@ public partial class TBitMaskGrabInfo : TGrabInfo
     public static new GrabInfoClass Descriptor { get; } = new("TBitMaskGrabInfo", static () => new TBitMaskGrabInfo());
 
     public bool Inverse;
+
     // ImageLib.pas:4638
     public override void LoadFromStream(TStream Stream)
     {
@@ -5043,6 +5067,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 19;
     static string ILibraryImageClass.Name => "Bit Mask";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TBitMask(owner);
 
     public TBitMask(TCustomImageLibrary owner) : base(owner)
@@ -5054,6 +5079,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
     internal int FMaskTop;
     internal int FMaskWidth;
     internal int FMaskHeight;
+
     // ImageLib.pas:4662
     public override void SetXshift(int Value)
     {
@@ -5157,7 +5183,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
 
     // ImageLib.pas:4759
     // { GrabImage sets a bit for every pixel that differs from the transparent pixel value. With an
-//   inverse grab info no bit is added at all (an original bug: the mask stays empty). }
+    //   inverse grab info no bit is added at all (an original bug: the mask stays empty). }
     public override bool GrabImage(in TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
     {
         int Bits;
@@ -5279,6 +5305,7 @@ public partial class TShadow : TBitMask, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 20;
     static string ILibraryImageClass.Name => "Shadow";
+
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TShadow(owner);
 
     // ImageLib.pas:5100
@@ -5338,12 +5365,12 @@ public partial class TShadow : TBitMask, ILibraryImageClass
 public partial class TImageLibraryFont : TCustomImageLibrary
 {
 
-
     internal int FCharacterDistance;
     internal int FHeight;
     internal TEditCharCase FCharCase;
     internal int FColor;
     internal int FFontColorPaletteIndex;
+
     // ImageLib.pas:6266
     internal void SetFontColorPaletteIndex(int Value)
     {
@@ -5550,6 +5577,7 @@ public partial class TCustomImageLibraryPanel : TCustomPanel
     internal TNotifyEvent FOnUpdated;
     internal TCustomImageLibrary FImageLibrary;
     internal int FImageIndex;
+
     // ImageLib.pas:6513
     internal void SetBltMode(TBltMode Value)
     {
@@ -5644,6 +5672,7 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     internal int FMaxColCount;
     internal bool FShowGridIndex;
     internal int FCount;
+
     // ImageLib.pas:6705
     internal void SetBltMode(TBltMode Value)
     {
@@ -5885,6 +5914,7 @@ public partial class TCustomImageLibraryGrid : TCustomImageDrawGrid
     { }
 
     internal TCustomImageLibrary FImageLibrary;
+
     // ImageLib.pas:6934
     internal void SetImageLibrary(TCustomImageLibrary Value)
     {
@@ -5974,10 +6004,10 @@ public partial class TImageLibraryGrid : TCustomImageLibraryGrid
 public partial class TImageLibraryManager : TComponent
 {
 
-
     internal string FSearchPath = "";
     internal TILManagerList FDiskList;
     internal TILManagerList FOwnedList;
+
     // ImageLib.pas:8260
     public TImageLibraryManager(TComponent owner) : base(owner)
     {
@@ -6069,7 +6099,7 @@ public partial class TImageLibraryManager : TComponent
 
     // ImageLib.pas:8331
     // { A missing owned library is created empty and added. The exception for a missing library is
-//   raised and swallowed at once (it only shows in the debugger), as in the original. }
+    //   raised and swallowed at once (it only shows in the debugger), as in the original. }
     public TCustomImageLibrary LinkToIL(TSet<TILManagerCategoryElement> Category, string FileName)
     {
         TCustomImageLibrary Result = null;
@@ -6144,6 +6174,7 @@ public partial class TILManagerObject : TObject
 {
     internal int FRefCount;
     internal TCustomImageLibrary FImageLibrary;
+
     public int RefCount { get => FRefCount; }
     public TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
 }
@@ -6154,6 +6185,7 @@ public partial class TILManagerList : TStringList
 {
     internal TStringHashTable256 FHashTable;
     internal TImageLibraryManager FOwner;
+
     // ImageLib.pas:8093
     public TILManagerList(TImageLibraryManager owner)
     {
@@ -6163,7 +6195,7 @@ public partial class TILManagerList : TStringList
 
     // ImageLib.pas:8102
     // { Original bug: the inherited destructor does not call Clear, so the TILManagerObjects and
-//   their libraries are never freed. }
+    //   their libraries are never freed. }
     public override void Destroy()
     {
         base.Destroy();
@@ -6200,7 +6232,7 @@ public partial class TILManagerList : TStringList
 
     // ImageLib.pas:8139
     // { Original bug: the object is deleted from the hash table instead of added, so LinkToIL never
-//   finds the owned libraries. }
+    //   finds the owned libraries. }
     public TILManagerObject AddILManagerObject(string Name, TCustomImageLibrary ImageLibrary)
     {
         string S;
@@ -6249,7 +6281,7 @@ public partial class TILManagerList : TStringList
 
     // ImageLib.pas:8187
     // { Links to the library of FileName (relative to the search path), loading it on the first link.
-//   The original clears FileName at the end (a second @LStrClr of the parameter). }
+    //   The original clears FileName at the end (a second @LStrClr of the parameter). }
     public TCustomImageLibrary LinkToIL(string FileName)
     {
         TCustomImageLibrary Result;
@@ -6351,6 +6383,7 @@ public partial class TILManagerComboBox : TComboBox
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptyILName = "";
+
     // ImageLib.pas:8373
     internal void SetILManager(TImageLibraryManager Value)
     {
@@ -6424,6 +6457,7 @@ public partial class TILManagerListBox : TListBox
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptyILName = "";
+
     // ImageLib.pas:8463
     internal void SetILManager(TImageLibraryManager Value)
     {
@@ -6507,6 +6541,7 @@ public partial class TImageSequenceList : TList
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
     public TImageLibraryManager FILManager;
     internal TCustomImageLibrary FImageLibrary;
+
     // ImageLib.pas:8903
     public TImageSequenceList(TImageLibraryManager AILManager, TCustomImageLibrary AImageLibrary)
     {
@@ -6762,7 +6797,7 @@ public partial class TImageSequenceList : TList
 
     // ImageLib.pas:9111
     // { Inserts Sequence into the chain of Index by its layer. Original bug: an existing layer is
-//   only detected after the first link, not at the head of the chain. }
+    //   only detected after the first link, not at the head of the chain. }
     public void Add(int Index, TImageSequence Sequence)
     {
         TImageSequence S;
@@ -6944,7 +6979,7 @@ public partial class TImageSequenceList : TList
 
     // ImageLib.pas:9270
     // { Shows the layers of Index for Frame without looping; returns False when no layer has an
-//   image for Frame }
+    //   image for Frame }
     public bool Show(int Index, int X, int Y, int Frame, in TSurfaceDesc SD)
     {
         TImageSequence Sequence;
@@ -7072,6 +7107,7 @@ public partial class TFrameTableList : TPersistent
     internal int FCount;
     internal int FCapacity;
     internal int FDefaultValue;
+
     // ImageLib.pas:9434
     protected internal int Get(int Index)
     {
@@ -7386,7 +7422,7 @@ public partial class TFrameTableList : TPersistent
 
     // ImageLib.pas:9597
     // { Reads items separated by commas; other characters than digits are dropped, an empty item
-//   is 0 }
+    //   is 0 }
     public void SetItemString(string Value)
     {
         int I;
@@ -7445,7 +7481,6 @@ public partial class TFrameTableList : TPersistent
         throw EListError.CreateFmt(Msg, [Data]);
     }
 
-
 }
 
 // an animation of the images of a library, one layer of a chain sorted by layer. FOwner,
@@ -7470,6 +7505,7 @@ public partial class TImageSequence : TObject
     internal int FLastFrame;
     internal byte FSpeedCount;
     internal int FFrameCounter;
+
     // ImageLib.pas:8606
     internal void SetImageLibraryName(string Value)
     {
@@ -7583,34 +7619,34 @@ public partial class TImageSequence : TObject
             {
                 case TSequenceMode.smFrameTable:
                 case TSequenceMode.smRndFrameTable:
-                {
-                    for (int I = 0, last = FFrameTable.Count - 1; I <= last; I++)
                     {
-                        var item = FFrameTable[I];
-                        Image = FImageLibrary.GetSafe(item);
-                        if (Image != null)
+                        for (int I = 0, last = FFrameTable.Count - 1; I <= last; I++)
                         {
-                            Image.GetVisualDimensions(ref IR);
-                            UnionRect(ref R, R, IR);
+                            var item = FFrameTable[I];
+                            Image = FImageLibrary.GetSafe(item);
+                            if (Image != null)
+                            {
+                                Image.GetVisualDimensions(ref IR);
+                                UnionRect(ref R, R, IR);
+                            }
                         }
                     }
-                }
 
                     break;
                 case TSequenceMode.smUp:
                 case TSequenceMode.smUpDown:
                 case TSequenceMode.smRandom:
-                {
-                    for (int I = 0, last = FImageLibrary.Count - 1; I <= last; I++)
                     {
-                        Image = FImageLibrary.GetSafe(I);
-                        if (Image != null)
+                        for (int I = 0, last = FImageLibrary.Count - 1; I <= last; I++)
                         {
-                            Image.GetVisualDimensions(ref IR);
-                            UnionRect(ref R, R, IR);
+                            Image = FImageLibrary.GetSafe(I);
+                            if (Image != null)
+                            {
+                                Image.GetVisualDimensions(ref IR);
+                                UnionRect(ref R, R, IR);
+                            }
                         }
                     }
-                }
 
                     break;
                 case TSequenceMode.smNone:
@@ -7947,6 +7983,7 @@ public partial class TImageSequence : TObject
 }
 
 public delegate int TFrameTableSortCompare(int Item1, int Item2);
+
 // (declared in the implementation): a read-only file stream opened with
 // FILE_FLAG_SEQUENTIAL_SCAN. Destroy does not call the inherited destructor
 public partial class TFastLoadFileStream : THandleStream
@@ -7960,6 +7997,7 @@ public struct TILBHeader
 {
     [FieldOffset(0)]
     public FixedArray_byte_5 ID__image;
+
     public string ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
 
     [FieldOffset(8)]
@@ -7997,10 +8035,10 @@ public static partial class ImageLibUnit
 {
     // ImageLib.pas:5779
     // { Draws Image into Rect of Canvas: bmStretch stretches it over Rect, bmStretchToFit stretches it
-//   keeping the aspect ratio, bmCenter scales it by ScaleX and ScaleY percent and centers it,
-//   bmNone scales it and puts it at the top left. The rest of Rect is filled with BkColor, or
-//   with Color when Selected (bmStretchToFit and bmCenter); with Color when there is no image.
-//   DrawRect receives Rect, cut to the image for a selected centered image. }
+    //   keeping the aspect ratio, bmCenter scales it by ScaleX and ScaleY percent and centers it,
+    //   bmNone scales it and puts it at the top left. The rest of Rect is filled with BkColor, or
+    //   with Color when Selected (bmStretchToFit and bmCenter); with Color when there is no image.
+    //   DrawRect receives Rect, cut to the image for a selected centered image. }
     public static void BltLibraryImage(TCanvas Canvas, TLibraryImage Image, TRect Rect, TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref TRect DrawRect)
     {
         /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
@@ -8009,7 +8047,7 @@ public static partial class ImageLibUnit
 
     // ImageLib.pas:5911
     // { Draws the layers of a sequence for Frame on a 16 bit surface of the size of R, at X, Y, and
-//   blits it to R of DC }
+    //   blits it to R of DC }
     public static void BltImageSequence(TImageSequence Sequence, int DC, int X, int Y, in TRect R, int Frame, int BkColor)
     {
         TSurfaceDesc SD = default;
@@ -8037,7 +8075,7 @@ public static partial class ImageLibUnit
 
     // ImageLib.pas:5936
     // { BltLibraryImage for the layers of a sequence: they are drawn for Frame on a 16 bit surface
-//   of the size of their union first }
+    //   of the size of their union first }
     public static void BltImageSequenceEx(TCanvas Canvas, TImageSequence Sequence, int Frame, TRect Rect, TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref TRect DrawRect)
     {
         /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
@@ -8046,7 +8084,7 @@ public static partial class ImageLibUnit
 
     // ImageLib.pas:6099
     // { Replaces every sub image of the library that was grabbed from the same file and index as
-//   Image by a copy of Image with the shifts of the old one; returns the number replaced }
+    //   Image by a copy of Image with the shifts of the old one; returns the number replaced }
     public static int UpdateImage(TCustomImageLibrary ImageLibrary, TLibraryImage Image)
     {
         TLibraryImage Sub;
@@ -8457,9 +8495,10 @@ public static partial class ImageLibUnit
     // { The directory library file names are relative to at run time (the program's directory) }
     public static string BaseImageLibraryPath = "";
     // { Access to the lookup tables of a GFXE blend table collection: the original reads the
-//     array directly (GFXE.TLookupBlendTableCollection100 +8), which the GFXE source declares
-//     private. }
+    //     array directly (GFXE.TLookupBlendTableCollection100 +8), which the GFXE source declares
+    //     private. }
     public static TList LibraryImageClasses;
+
     // ImageLib.pas:1266
     // { The strings of the image sequences: a length and the characters }
     public static void WriteStringToStream(string S, TStream Stream)
@@ -8486,7 +8525,7 @@ public static partial class ImageLibUnit
 
     // ImageLib.pas:6568
     // { Draws the two-pixel frame in Color around R and, when Focused, the focus rectangles inside
-//   and outside it (TCustomImageDrawGrid.DrawCell). }
+    //   and outside it (TCustomImageDrawGrid.DrawCell). }
     public static void DrawFocusFrame(int DC, TRect R, bool Focused, int Color)
     {
         /* TODO: Implement Windows.CreateSolidBrush in the platform or editor service. */

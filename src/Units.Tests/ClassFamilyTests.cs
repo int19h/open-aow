@@ -17,7 +17,9 @@ namespace Aow.Units.Tests;
 public sealed class ClassFamilyTests
 {
     private sealed class UnregisteredAction(TECustomNode owner) : TAIPlayerAction(owner);
+
     private sealed class UnregisteredGroup(TECustomNode owner) : TAIGroup(owner);
+
     private sealed class UnregisteredEditor(TECustomNode owner) : TEObjectEditor(owner);
 
     [Fact]
@@ -199,7 +201,6 @@ public sealed class ClassFamilyTests
     {
         Assert.Throws<NotImplementedException>(() => new TItemGrid(null!));
     }
-
 
     [Fact]
     public void IsometricHexagonBuildsItsDynamicSpriteInOneConstructor()

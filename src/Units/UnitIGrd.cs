@@ -1,8 +1,8 @@
 // Translated from UnitIGrd.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.ImageLib;
 using Aow.Units.AoWE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.UnitIGrd;
 
@@ -14,6 +14,7 @@ public partial class TUnitIndexGrid : TCustomImageDrawGrid
     public bool FShowUnitLevel;
     public bool FDoubleUnitsEnabled;
     public bool FSorted;
+
     // UnitIGrd.pas:51
     // Retained: The Graphics.Color implementation is absent. Preserve the throw before semantic base initialization.
     public TUnitIndexGrid(TComponent owner) : base(owner)

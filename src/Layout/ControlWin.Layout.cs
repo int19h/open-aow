@@ -1,20 +1,20 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Rtl;
 using Aow.Layout;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWLabel;
+using Aow.Rtl;
 using Aow.Units.AoWButton;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWPanel;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWUnitBanner;
-using Aow.Units.AoWWinMan;
-using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWExeForms;
+using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
+using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWLabel;
+using Aow.Units.AoWPanel;
+using Aow.Units.AoWUnitBanner;
+using Aow.Units.AoWWindow;
+using Aow.Units.AoWWinMan;
 
 namespace Aow.Units.AOWControlWin
 {

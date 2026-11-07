@@ -1,11 +1,11 @@
 // Translated from CMapCtrl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.Engine;
 using Aow.Units.EventLog;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWTC.AoWTCUnit;
 
 namespace Aow.Units.CMapCtrl;
@@ -33,6 +33,7 @@ public partial class TAoWCombatMapControl : TComponent
     public TSelectHSEvent FOnUnitChanged;
     public TCastCombatSpellEvent FOnCastSpell;
     public TActivateCombatAbilityEvent FOnActivateAbility;
+
     // CMapCtrl.pas:117
     public override void Destroy()
     {
@@ -483,6 +484,7 @@ public delegate void TOnGameOverEvent(sbyte Player);
 public delegate void TOnExecuteEventLogEvent(TEventLog EventLog, TExecuteDoneEvent ExecuteDoneEvent);
 public delegate void TCastCombatSpellEvent(TCombatSpellCaster SC);
 public delegate void TActivateCombatAbilityEvent(TActivateAbilityInfo AAI);
+
 public static partial class CMapCtrlUnit
 {
     // CMapCtrl.pas:361

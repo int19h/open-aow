@@ -1,27 +1,27 @@
 // Translated from CityWall.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
+using Aow.Units.aowFX;
+using Aow.Units.AoWTC;
+using Aow.Units.City;
+using Aow.Units.CombatILTer;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.aowFX;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.CombatILTer;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.City;
-using Aow.Units.Tower;
-using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.ImageLib;
+using Aow.Units.Tower;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.CityWall;
 
 public partial class TCityWall : TCombatILTerrain
 {
     public TCityWall(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CityWall.pas:78
     public new const int ClassID = 2229508;
@@ -31,6 +31,7 @@ public partial class TCityWall : TCombatILTerrain
     public int FFlagID;
     public bool FPlaySound;
     public byte FWallType;
+
     // CityWall.pas:133
     public override sbyte GetOverlay(int Index)
     {
@@ -463,13 +464,13 @@ public partial class TCityWall : TCombatILTerrain
 
                         break;
                     default:
-                    {
-                        ImageIndex = Sequence.GetUnloopedFrameIndex(FImageIndex);
-                        if (ImageIndex != -1)
                         {
-                            Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                            ImageIndex = Sequence.GetUnloopedFrameIndex(FImageIndex);
+                            if (ImageIndex != -1)
+                            {
+                                Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                            }
                         }
-                    }
 
                         break;
                 }
@@ -484,12 +485,13 @@ public partial class TCityWall : TCombatILTerrain
 public partial class TCityWallResource : TCombatILTerrainResource
 {
     public TCityWallResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CityWall.pas:366
     public new const int ClassID = 2229509;
 
     public byte FDirection;
+
     // CityWall.pas:369
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -508,7 +510,7 @@ public partial class TCityWallResource : TCombatILTerrainResource
 public partial class TCityWallDoor : TCityWall
 {
     public TCityWallDoor(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CityWall.pas:381
     public new const int ClassID = 2229510;
@@ -640,7 +642,7 @@ public partial class TCityWallDoor : TCityWall
 public partial class TCityWallDoorResource : TCityWallResource
 {
     public TCityWallDoorResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CityWall.pas:451
     public new const int ClassID = 2229511;

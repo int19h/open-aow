@@ -9,7 +9,7 @@ namespace Aow.Units.Pyramid;
 public partial class TPyramid : TItemExplorationSite
 {
     public TPyramid(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Pyramid.pas:34
     public new const int ClassID = 131982;
@@ -19,7 +19,7 @@ public partial class TPyramid : TItemExplorationSite
 public partial class TPyramidResource : TItemExplorationSiteResource
 {
     public TPyramidResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Pyramid.pas:40
     public new const int ClassID = 131983;

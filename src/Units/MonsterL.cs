@@ -9,7 +9,7 @@ namespace Aow.Units.MonsterL;
 public partial class TMonsterlair : TItemExplorationSite
 {
     public TMonsterlair(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MonsterL.pas:34
     public new const int ClassID = 131886;
@@ -19,7 +19,7 @@ public partial class TMonsterlair : TItemExplorationSite
 public partial class TMonsterlairResource : TItemExplorationSiteResource
 {
     public TMonsterlairResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MonsterL.pas:40
     public new const int ClassID = 131887;

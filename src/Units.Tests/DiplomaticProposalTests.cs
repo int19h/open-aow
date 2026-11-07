@@ -157,8 +157,14 @@ public sealed class DiplomaticProposalTests
 
     private static TDiplomaticAction Action(Case c) => new(null!)
     {
-        FSource = c.Source, FTarget = c.Target, FOtherPlayer = c.Other, FReaction = (TDiplomaticActionReaction)c.Reaction,
-        FEscrowGold = c.EscrowGold, FEscrowMana = c.EscrowMana, FEventLogID = c.EventLogId, FDay = c.Day,
+        FSource = c.Source,
+        FTarget = c.Target,
+        FOtherPlayer = c.Other,
+        FReaction = (TDiplomaticActionReaction)c.Reaction,
+        FEscrowGold = c.EscrowGold,
+        FEscrowMana = c.EscrowMana,
+        FEventLogID = c.EventLogId,
+        FDay = c.Day,
         Proposal = Expected(c.Kind, c.Gold, c.Mana) with { Message = c.Message },
     };
 

@@ -1,22 +1,23 @@
 // Translated from CombatILTer.pas.
-using Aow.Rtl;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.CombatILTer;
 
 public partial class TCombatILTerrainShadow : THexagonSprite
 {
     public TCombatILTerrainShadow(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TCombatILTerrain FTerrain;
+
     // CombatILTer.pas:82
     public override int GetShowPriority() => (FTerrain.GetShowPriority() & 67108863) - 1677721600;
 
@@ -33,12 +34,13 @@ public partial class TCombatILTerrainShadow : THexagonSprite
 public partial class TCombatILTerrain : TILTerrainMO
 {
     public TCombatILTerrain(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatILTer.pas:105
     public new const int ClassID = 2228534;
 
     public TCombatILTerrainShadow FShadow;
+
     // CombatILTer.pas:99
     public override void Destroy()
     {
@@ -151,13 +153,14 @@ public partial class TCombatILTerrain : TILTerrainMO
 public partial class TCombatILTerrainResource : TILTerrainMOR
 {
     public TCombatILTerrainResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatILTer.pas:175
     public new const int ClassID = 2228535;
 
     public sbyte FBurnValue;
     public sbyte FDefense;
+
     // CombatILTer.pas:181
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -177,7 +180,7 @@ public partial class TCombatILTerrainResource : TILTerrainMOR
 public partial class TCombatFixedILTerrain : TCombatILTerrain
 {
     public TCombatFixedILTerrain(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatILTer.pas:191
     public new const int ClassID = 2228536;
@@ -243,7 +246,7 @@ public partial class TCombatFixedILTerrain : TCombatILTerrain
 public partial class TCombatFixedILTerrainResource : TCombatILTerrainResource
 {
     public TCombatFixedILTerrainResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatILTer.pas:227
     public new const int ClassID = 2228537;

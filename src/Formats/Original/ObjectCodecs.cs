@@ -284,7 +284,11 @@ internal sealed class CampaignMapCodec : PropertyCodec
         var image = ctx.Data.AsSpan(bytes.Start, length).ToArray();
         var session = new ImportSession
         {
-            Schema = ctx.Schema, Limits = ctx.Limits, Counts = ctx.Counts, File = ctx.File, Nested = site.Path.ToString(),
+            Schema = ctx.Schema,
+            Limits = ctx.Limits,
+            Counts = ctx.Counts,
+            File = ctx.File,
+            Nested = site.Path.ToString(),
         };
         var (container, root) = Nested.Import(image, session);
         var map = new JsonObject().Add("$container", container).Add("root", root);

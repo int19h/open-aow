@@ -1,10 +1,10 @@
 // Translated from HeroCtrl.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.HeroCtrl;
@@ -21,6 +21,7 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
     public TAoWHSMap FMap;
     public byte FSort;
     public TNotifyEvent FOnUnselect;
+
     // HeroCtrl.pas:134
     public override void Destroy()
     {
@@ -230,7 +231,9 @@ public struct THeroView
 {
     public FixedArray_byte_96 Reserved00;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
+
     public FixedArray_byte_4 Reserved64;
     public byte Race;
     public FixedArray_byte_15 Reserved69;
@@ -241,7 +244,9 @@ public struct TItemView
 {
     public FixedArray_byte_24 Reserved00;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
+
     public FixedArray_byte_24 Reserved1C;
     public byte Kind;
     public FixedArray_byte_15 Reserved35;

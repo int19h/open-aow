@@ -1,14 +1,14 @@
 // Translated from AoWSetup.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkEUnit;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.NetworkE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.Engine.EngineUnit;
+using static Aow.Units.NetworkE.NetworkEUnit;
 
 namespace Aow.Units.AoWSetup;
 
@@ -36,6 +36,7 @@ public partial class TSetupPackage : TEObject
     public int FParam2;
     public int FParam1;
     public TEObject FData;
+
     // AoWSetup.pas:245
     public override void Destroy()
     {
@@ -90,6 +91,7 @@ public partial class TRemotePlayer : TEObject
     public byte FPreferredRace;
     public TMapValidationInfo FMapValidation;
     public int FVersion;
+
     // AoWSetup.pas:269
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -147,6 +149,7 @@ public partial class TPlayerSetupSettings : TEObject
     public byte FPlayerID;
     public byte FBehaviorMode;
     public string FEmailAddress = "";
+
     // AoWSetup.pas:305
     public override void Destroy()
     {
@@ -207,6 +210,7 @@ public partial class TSetupSettings : TENode
     public byte FTacticalCombatAvailability;
     public bool FAlwaysViewTC;
     public string FEmailGameName = "";
+
     // AoWSetup.pas:334
     public override void Destroy()
     {
@@ -346,6 +350,7 @@ public partial class TCustomizeLeaderControl : TLeaderSetupControl
 
     public TSetupControl FSetupControl;
     public int FPlayerIndex;
+
     // intf_P1_03.inc:99
     public override bool Done() { FSetupControl.LeaderCustomized(this); return true; }
 }
@@ -371,6 +376,7 @@ public partial class TSetupControl : TComponent
     public TSendDataEvent FOnSendData;
     public TSendMapEvent FOnSendMap;
     public TSetupControlEvent FOnSendingMaps;
+
     // AoWSetup.pas:448
     public override void Destroy()
     {
@@ -2098,6 +2104,7 @@ public delegate void TLoadMapEvent(TSetupControl SetupControl, string Filename);
 public delegate void TEjectPlayerEvent(TSetupControl SetupControl, int RemoteID);
 public delegate void TIncompatibleVersionEvent(TSetupControl SetupControl, int MajorVersion, int MinorVersion);
 public delegate void TSendMapEvent(TSetupControl SetupControl, object Data, int Size, int Recipient);
+
 public partial class TLeaderSetupView : TObject
 {
     public TLeader OriginalLeader;
@@ -2131,18 +2138,21 @@ public static partial class AoWSetupUnit
         Reserved = FixedArray_byte_3.From([0, 0, 0]),
         Flags = 0
     };
+
     public static TSetupPlayerBehavior FreeBehavior = new TSetupPlayerBehavior
     {
         PlayerType = 5,
         Reserved = FixedArray_byte_3.From([0, 0, 0]),
         Flags = 0
     };
+
     public static TSetupPlayerBehavior DefaultBehavior = new TSetupPlayerBehavior
     {
         PlayerType = 0,
         Reserved = FixedArray_byte_3.From([0, 0, 0]),
         Flags = 0
     };
+
     public static TSetupPlayerBehavior DefaultOriginalBehavior = new TSetupPlayerBehavior
     {
         PlayerType = 5,

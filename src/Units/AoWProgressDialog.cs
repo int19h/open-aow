@@ -1,7 +1,7 @@
 // Translated from AoWProgressDialog.pas.
 using Aow.Rtl;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWWindow;
