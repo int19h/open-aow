@@ -112,6 +112,21 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
     }
 
+    // Import skips own documents, and two own documents that export to one name are refused.
+    [GameFact]
+    public void DirectoryModesSkipOwnInputsAndRefuseCollidingExports()
+    {
+        Directory.CreateDirectory(In("in"));
+        Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.oahl")).Code);
+        var import = Run("to-own", "--dir", In("in"), "--out", In("out"));
+        Assert.Contains("0 converted, 0 failed, 1 skipped", import.Output);
+        Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.ahl")).Code);
+        var export = Run("to-original", "--dir", In("in"), "--out", In("back"));
+        Assert.NotEqual(Program.Success, export.Code);
+        Assert.Contains("exports to the same name as", export.Errors);
+        Assert.Single(Directory.GetFiles(In("back")));
+    }
+
     // The explicit output path of the single-file forms is kept as given.
     [GameFact]
     public void AnExplicitOutputPathIsKept()

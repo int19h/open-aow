@@ -68,6 +68,9 @@ public sealed class OwnExtensionNameTests : IDisposable
         Assert.Equal(Root(@"EmailIn\Duel.asg"), FileBoundary.WriteName(Root(@"EmailIn\Duel.asg")));
         Assert.True(FileBoundary.IsEmailExchange(Root(@"emailin\Duel.asg")));
         Assert.False(FileBoundary.IsEmailExchange(Root(@"Save\Duel.asg")));
+        // A relative name decides by the directory it is given, not the current one.
+        Assert.Equal("Duel.asg", FileBoundary.WriteName("Duel.asg", Root(@"EmailIn\")));
+        Assert.Equal("Duel.oasg", FileBoundary.WriteName("Duel.asg", Root(@"Save\")));
     }
 
     [Fact]
@@ -82,6 +85,21 @@ public sealed class OwnExtensionNameTests : IDisposable
         Install();
         Assert.Equal(Root(@"User\List.oahl"), FileBoundary.ReadName(original));
         Assert.Equal(Root(@"User\notes.txt"), FileBoundary.ReadName(Root(@"User\notes.txt")));
+    }
+
+    // A derived own name whose file is gone opens the original sibling (a map name a host sent,
+    // a scenario set name a save carries).
+    [Fact]
+    public void AMissingOwnNameOpensItsOriginalSibling()
+    {
+        string own = Root(@"User\Other.oahl");
+        Assert.Equal(own, FileBoundary.ReadName(own));
+        File.WriteAllBytes(Root(@"User\Other.ahl"), HeroList("Original"));
+        Install();
+        Assert.Equal(Root(@"User\Other.ahl"), FileBoundary.ReadName(own));
+        File.WriteAllBytes(own, HeroList("Own"));
+        Install();
+        Assert.Equal(own, FileBoundary.ReadName(own));
     }
 
     // A list saved again by the port loads once, from its own document, and both forms list.

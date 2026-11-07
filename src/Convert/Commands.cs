@@ -128,7 +128,8 @@ internal static class Commands
         {
             string input = Path.Combine(o.Dir!, relative);
             manifest.TryGetValue(relative, out var entry);
-            if (entry.Kind is null && GameFiles.KindForExtension(Path.GetExtension(relative)) is null)
+            string extension = Path.GetExtension(relative);
+            if (entry.Kind is null && (DocumentKind.ForExtension(extension) is not { } byName || byName.IsOwnExtension(extension)))
             {
                 output.WriteLine($"{relative}: skipped, not an in-scope original");
                 skipped++;
@@ -164,6 +165,7 @@ internal static class Commands
         if (o.Out is null || o.Positional.Count != 0) throw new UsageException("to-original --dir needs --out and no other paths.");
         if (SafeOutput.Overlaps(o.Dir!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
         int done = 0, failed = 0, skipped = 0;
+        var sources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var relative in Enumerate(o.Dir!))
         {
             string input = Path.Combine(o.Dir!, relative);
@@ -180,6 +182,14 @@ internal static class Commands
                 var exported = GameFiles.Export(read.Document, null, input);
                 // A derived output name takes the kind's original extension (own-formats.md 3.2).
                 string target = Path.Combine(o.Out, DerivedName(relative, read.Document, own: false));
+                // Foo.asg and Foo.oasg both export to Foo.asg: the second is refused by name.
+                if (sources.TryGetValue(target, out var first))
+                {
+                    errors.WriteLine($"{relative}: exports to the same name as {first}");
+                    failed++;
+                    continue;
+                }
+                sources[target] = relative;
                 if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
                 {
                     errors.WriteLine($"{relative}: {refusal}");

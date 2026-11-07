@@ -428,7 +428,7 @@ public partial class TFileDlgWindow : TDataModule
                         {
                             if (FSaveEvent != null)
                             {
-                                FSaveEvent.FFileName = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension);
+                                FSaveEvent.FFileName = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension, FDirectory);
                                 FileDialog.Visible = false;
                             }
                             else

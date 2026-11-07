@@ -754,7 +754,8 @@ and the PFS files of 1.1.
 
 A read of a name the game derives (the tutorial, the campaign definitions and their maps by
 name, the tactical maps under `TCMaps`, the scenario set a map names and `RELEASE.HSS`, the map
-a network host names) opens the own sibling first and falls back to the original name
+a network host names) opens the own sibling first and falls back to the original name. A
+derived name with an own extension whose file is missing opens its original sibling
 (`FileBoundary.ReadName`). A name the user picks in a dialog opens as picked. The load and save
 dialogs list each family under both extensions and show the full name with its extension, so the
 two forms of a name stand side by side (`TFileDlgWindow.ListsFile`). The user hero and item lists

@@ -157,9 +157,16 @@ public static class FileBoundary
     /// </summary>
     public static string WriteName(string fileName)
     {
+        return WriteName(fileName, "");
+    }
+
+    /// <summary>WriteName for a name relative to a directory the caller knows, so the EmailIn
+    /// decision does not rest on the current directory. The result stays relative.</summary>
+    public static string WriteName(string fileName, string directory)
+    {
         if (!RtlUnit.WritesOwnExtensions) return fileName;
         var kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
-        if (kind is null || IsEmailExchange(fileName)) return fileName;
+        if (kind is null || IsEmailExchange(directory + fileName)) return fileName;
         return RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
     }
 
@@ -171,13 +178,21 @@ public static class FileBoundary
 
     /// <summary>
     /// The file a read of a name the game derives opens (own-formats.md 2.9). A name with an
-    /// original extension opens its own sibling when that exists, else the name itself. The
+    /// original extension opens its own sibling when that exists, else the name itself. A name
+    /// with an own extension that does not exist opens its original sibling when that exists. The
     /// content still decides the format.
     /// </summary>
     public static string ReadName(string fileName)
     {
-        var kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
+        string extension = RtlUnit.ExtractFileExt(fileName);
+        var kind = DocumentKind.ForExtension(extension);
         if (kind is null) return fileName;
+        if (kind.IsOwnExtension(extension))
+        {
+            if (RtlUnit.FileExists(fileName)) return fileName;
+            string original = RtlUnit.ChangeFileExt(fileName, kind.OriginalExtension);
+            return RtlUnit.FileExists(original) ? original : fileName;
+        }
         string own = RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
         return RtlUnit.FileExists(own) ? own : fileName;
     }
