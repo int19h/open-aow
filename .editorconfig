@@ -70,7 +70,7 @@ dotnet_separate_import_directive_groups = false
 
 # Style preferences. The code mixes these forms (the units keep the shape of the Delphi source),
 # so they are silent: `dotnet format` applies none of them and the build raises none.
-csharp_style_namespace_declarations = file_scoped:silent
+csharp_style_namespace_declarations = file_scoped:warning
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_braces = when_multiline:silent
 csharp_style_var_for_built_in_types = true:silent
