@@ -27,7 +27,8 @@ public partial class TMultiWindow
         MultiPnl.Visible = GamePanel.Visible = true;
         TCPPnl.Visible = LanPnl.Visible = JoinPnl.Visible = TCPBtn.Visible = IPXBtn.Visible = PBEMPnl.Visible = false;
         // A provider button shows only when DirectPlay lists that provider. The offline component
-        // lists none, so both stay hidden as on a machine without DirectPlay.
+        // lists the TCP/IP provider alone, as DirectPlay does on any current Windows, so TCP
+        // shows and IPX stays hidden.
         if (dplay.GetConnections() == 0)
             for (int i = 0; i < dplay.ConnectionItems.Count; i++)
                 switch (((TGDConnection)dplay.ConnectionItems[i]!).FType)

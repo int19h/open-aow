@@ -75,7 +75,7 @@ public sealed class OfflineStubTests
 
     private static TSetupEvents OfflineSetupEvents()
     {
-        var events = new TSetupEvents(null!) { DPlay = new TGDPlay() };
+        var events = new TSetupEvents(null!) { DPlay = new TGDPlay { PlayerName = "No Name" } };
         events.SetupControl = new TSetupControl(events);
         aowSetupEventsUnit.SetupEvents = events;
         return events;
@@ -100,7 +100,12 @@ public sealed class OfflineStubTests
         Assert.False(play.Connected);
         Assert.False(play.InSession);
         Assert.Equal(0, play.GetConnections());
-        Assert.Equal(0, play.ConnectionItems.Count);
+        Assert.Equal(1, play.Connections.Count);
+        Assert.Equal("Internet TCP/IP Connection For DirectPlay", play.Connections[0]);
+        var provider = Assert.IsType<TGDConnection>(Assert.Single(play.ConnectionItems.List.Take(play.ConnectionItems.Count)));
+        Assert.Equal(TConnectionType.conTCP, provider.FType);
+        Assert.Equal(TGDPlay.E_FAIL, play.Connect(0));
+        Assert.Equal(TGDPlay.E_FAIL, play.CreateSession());
         play.CloseSession();
         play.DisConnect();
         play.PlayerName = "Leader";
@@ -115,7 +120,6 @@ public sealed class OfflineStubTests
     {
         using var saved = new SavedGlobals();
         var events = OfflineSetupEvents();
-        events.DPlay.PlayerName = "No Name";
         var heroes = new THeroResourceList(null!);
         new THeroResource(heroes);
         Game.AoWHSSet.FHeroResources = heroes;
@@ -144,23 +148,54 @@ public sealed class OfflineStubTests
     }
 
     // Row 6: AOWMultiWin.pas Execute shows a provider button only for a provider that DirectPlay
-    // lists. The offline component lists none, so TCP and IPX stay hidden.
+    // lists. The offline component lists the TCP/IP provider alone, so TCP shows and IPX stays
+    // hidden.
     [Fact]
-    public void NewGameWindowHidesTheNetworkProviders()
+    public void NewGameWindowShowsTcpAndHidesIpx()
     {
         using var saved = new SavedGlobals();
         OfflineSetupEvents();
         var window = NewGameWindow();
-        window.TCPBtn.Visible = true;
+        window.TCPBtn.Visible = false;
         window.IPXBtn.Visible = true;
 
         window.Execute("");
 
         Assert.True(window.MultiPnl.Visible);
         Assert.True(window.GamePanel.Visible);
-        Assert.False(window.TCPBtn.Visible);
+        Assert.True(window.TCPBtn.Visible);
         Assert.False(window.IPXBtn.Visible);
         Assert.True(E2.TitleWindow.TitleWin.Visible);
+    }
+
+    // AOWMultiWin.pas:200 and 215: Find and Host connect the TCP/IP provider first. The offline
+    // connection fails, the port says so, and the TCP panel stays as it was.
+    [Fact]
+    public void TcpFindAndHostSayNetworkPlayIsNotAvailable()
+    {
+        using var saved = new SavedGlobals();
+        var events = OfflineSetupEvents();
+        var window = NewGameWindow();
+        var setup = Populate(new TScenSetup(null!));
+        Exe.ScenSetup = setup;
+        setup.ScenSetupPnl.Visible = false;
+        var messages = new List<string>();
+        Runtime.MessageHandler = messages.Add;
+        window.Execute("");
+        window.TCPBtnClick();
+        window.TCPName.Text = "Gorbag";
+
+        window.FindClick();
+        window.HostClick(null!);
+
+        Assert.Equal([AOWMultiWinUnit.NetworkPlayNotAvailableText, AOWMultiWinUnit.NetworkPlayNotAvailableText], messages);
+        Assert.Equal("Network play is not available in this version.", AOWMultiWinUnit.NetworkPlayNotAvailableText);
+        Assert.True(window.MultiPnl.Visible);
+        Assert.True(window.TCPPnl.Visible);
+        Assert.False(window.GamePanel.Visible);
+        Assert.False(window.JoinPnl.Visible);
+        Assert.False(setup.ScenSetupPnl.Visible);
+        Assert.Equal("No Name", events.DPlay.PlayerName);
     }
 
     // Row 3: AoWScenSetup.pas:257 closes the setup and returns to the New Game window.
@@ -175,14 +210,14 @@ public sealed class OfflineStubTests
         setup.FSetupControl = new TSetupControl(setup);
         setup.ScenSetupPnl.Visible = true;
         window.MultiPnl.Visible = false;
-        window.TCPBtn.Visible = true;
+        window.TCPBtn.Visible = false;
 
         setup.ExitGameClick(null!);
 
         Assert.False(setup.ScenSetupPnl.Visible);
         Assert.Null(setup.FSetupControl);
         Assert.True(window.MultiPnl.Visible);
-        Assert.False(window.TCPBtn.Visible);
+        Assert.True(window.TCPBtn.Visible);
     }
 
     // Row 1: AOWMultiWin.pas:103 hides the New Game window and hands over to the title scene.
@@ -205,8 +240,8 @@ public sealed class OfflineStubTests
         Assert.Contains(nameof(TTitleScene.ShowScene), error?.StackTrace ?? "");
     }
 
-    // Row 4: AoWPWindows.pas:107 shows help topics 507 and 500. The third item switches to a
-    // window and opens the web site, which stays a stub.
+    // Row 4: AoWPWindows.pas:107 shows help topics 507 and 500. The third item asks the host to
+    // open the web site, which the test host records.
     [Fact]
     public void HelpMenuShowsTheTwoHelpTopics()
     {
@@ -235,8 +270,11 @@ public sealed class OfflineStubTests
         Assert.Equal("Topic 500", help.HeaderMemo.Items[0]);
         Assert.Equal("Body 500", help.HelpMemo.Items[0]);
 
+        var shell = new RecordingShell();
+        Runtime.Shell = shell;
         menu.FSelectedItem = 2;
-        Assert.Throws<NotImplementedException>(() => popups.HelpMenuSelect(menu));
+        popups.HelpMenuSelect(menu);
+        Assert.Equal(["http://www.ageofwonders.com"], shell.Urls);
         text.Free();
     }
 

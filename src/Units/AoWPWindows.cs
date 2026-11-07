@@ -113,6 +113,9 @@ public partial class TPopupWindows : TDataModule
         }
     }
 
+    // AoWPWindows.pas:115
+    public const string AgeOfWondersUrl = "http://www.ageofwonders.com";
+
     // AoWPWindows.pas:107
     public void HelpMenuSelect(TAOWMenu Sender)
     {
@@ -125,9 +128,10 @@ public partial class TPopupWindows : TDataModule
                 aowHelpWinUnit.ShowHelp(500);
                 break;
             case 2:
-                // The original switches to windowed mode and opens http://www.ageofwonders.com.
-                /* TODO: Implement Forms.Handle in the platform or editor service. */
-                throw new NotImplementedException();
+                // The original switches to windowed mode first. The port runs borderless
+                // fullscreen, and the browser opens over it.
+                RtlUnit.OpenUrl(AgeOfWondersUrl);
+                break;
         }
     }
 

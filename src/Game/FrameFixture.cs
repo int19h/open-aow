@@ -438,6 +438,9 @@ internal sealed class FrameFixture
         }
         public IFileSystem Files { get; }
         public IDialogService Dialogs => this;
+        // A fixture records the address and opens nothing.
+        public RecordingShell Urls { get; } = new();
+        public IShellService Shell => Urls;
         public IClock Clock { get; }
         public ISettingsStore Settings { get; } = new MemorySettingsStore();
         public string ExeName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));

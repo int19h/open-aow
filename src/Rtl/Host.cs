@@ -8,6 +8,28 @@ public interface IRtlHost
     ISettingsStore Settings { get; }
     string ExeName { get; }
     string GameRoot { get; }
+    // A host without a desktop refuses the request.
+    IShellService Shell => RefusingShell.Instance;
+}
+
+/// <summary>The desktop around the game, where the original called ShellExecute.</summary>
+public interface IShellService
+{
+    /// <summary>Opens the address in the user's default browser.</summary>
+    void OpenUrl(string url);
+}
+
+public sealed class RefusingShell : IShellService
+{
+    public static readonly RefusingShell Instance = new();
+    public void OpenUrl(string url) => throw new EInvalidOperation("No shell service opens " + url);
+}
+
+/// <summary>Records each request and opens nothing, for headless runs, fixtures and tests.</summary>
+public sealed class RecordingShell : IShellService
+{
+    public List<string> Urls { get; } = [];
+    public void OpenUrl(string url) => Urls.Add(url);
 }
 
 public readonly record struct DialogRequest(string Text, string Caption, int Flags, int DefaultResult);
@@ -34,6 +56,7 @@ public static partial class RtlUnit
     public static bool SuppressRandomize { get; set; }
     public static ISettingsStore? Settings { get; set; }
     public static IDialogService? Dialogs { get; set; }
+    public static IShellService? Shell { get; set; }
 
     public static void InstallHost(IRtlHost host)
     {
@@ -41,9 +64,12 @@ public static partial class RtlUnit
         Clock = host.Clock;
         Settings = host.Settings;
         Dialogs = host.Dialogs;
+        Shell = host.Shell;
         Application.ExeName = host.ExeName;
         MessageHandler = message => host.Dialogs.Show(new(message, "", 0, 1));
     }
+
+    public static void OpenUrl(string url) => (Shell ?? throw new EInvalidOperation("No shell service opens " + url)).OpenUrl(url);
 
     public static int MessageBox(int handle, string text, string caption, int flags)
     {
