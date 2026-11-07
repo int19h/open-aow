@@ -48,8 +48,16 @@ public readonly ref struct SurfaceView
         return index >= Memory.Length ? Span<byte>.Empty : Memory.Slice(index, Math.Min(count, Memory.Length - index));
     }
 
-    // The byte, word and dword at a byte offset from the first pixel of row 0, little-endian.
+    // The `count` bytes at a byte offset from the first pixel of row 0. Bytes past either end of
+    // the block raise ArgumentOutOfRangeException, as the pointer's span did.
+    public Span<byte> Bytes(int offset, int count) => Memory.Slice(Start + offset, count);
+
+    // The byte, word and dword at a byte offset from the first pixel of row 0, little-endian. The
+    // indexer raises IndexOutOfRangeException outside the block, the readers and writers raise
+    // ArgumentOutOfRangeException, as the pointer's element and span did.
     public ref byte this[int offset] => ref Memory[Start + offset];
+
+    public byte Byte(int offset) => Memory.Slice(Start + offset, 1)[0];
 
     public ushort Word(int offset) => BinaryPrimitives.ReadUInt16LittleEndian(Memory.Slice(Start + offset, 2));
 

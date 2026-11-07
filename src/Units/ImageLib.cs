@@ -2826,7 +2826,8 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
 }
 
 // an opaque 8 bit picture (ClassID 1). FPitch (of the rows: a multiple of 4 below 32 pixels, of
-// 8 from 32 on), FBuffer (the allocated block), FBits (FBuffer aligned to 8 bytes)
+// 8 from 32 on), FBuffer (the rows from its first byte. The original's FBits, FBuffer aligned to
+// 8 bytes, is FBuffer itself in the port)
 public partial class TPicture08 : TImage08, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 1;
@@ -2838,8 +2839,10 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
     { }
 
     internal int FPitch;
-    internal Ptr<byte> FBuffer;
-    internal object FBits;
+    internal byte[] FBuffer;
+
+    // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
+    internal SurfaceView View => new(FBuffer, 0, FPitch);
 
     // ImageLib.pas:7305
     public override void SetXshift(int Value)
@@ -2903,9 +2906,11 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
             FPitch = (AWidth + 7) & ~7;
         }
 
+        // The original allocates 7 bytes more than the rows and aligns its pixel pointer to 8 for
+        // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the
+        // 7 bytes stay after the last row (graphics.md 6.8).
         Size = FPitch * AHeight + 7;
-        FBuffer = FBuffer.Realloc(Size);
-        FBits = AlignPointer(FBuffer + 7, ~7).Box();
+        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
     }
 
     // ImageLib.pas:7350
@@ -2913,7 +2918,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
     {
         if (FDataLoaded)
         {
-            FBuffer = FBuffer.Realloc(0);
+            FBuffer = null;
             FDataLoaded = false;
         }
     }
@@ -2925,7 +2930,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
         AllocateDiscardableImageData(FDataWidth, FDataHeight);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
         {
-            Stream.Read((BytePointer(FBits) + Y * FPitch).AsSpan(FDataWidth));
+            Stream.Read(FBuffer.AsSpan(Y * FPitch, FDataWidth));
         }
     }
 
@@ -2935,7 +2940,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
         base.WriteDiscardableImageData(Stream);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
         {
-            Stream.Write((BytePointer(FBits) + Y * FPitch).AsSpan(FDataWidth));
+            Stream.Write(FBuffer.AsSpan(Y * FPitch, FDataWidth));
         }
     }
 
@@ -2966,7 +2971,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
             {
                 for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                 {
-                    Move((SD.Data + (R.Top + Y) * SD.Pitch + R.Left).AsSpan(FDataWidth), (BytePointer(FBits) + FPitch * Y).AsSpan(FDataWidth), FDataWidth);
+                    SD.View().Bytes((R.Top + Y) * SD.Pitch + R.Left, FDataWidth).CopyTo(FBuffer.AsSpan(FPitch * Y, FDataWidth));
                 }
 
                 CreateLibraryImagePalette(SD.Palette);
@@ -3014,7 +3019,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
 
         bool loadedHere = !FDataLoaded;
         if (loadedHere) LoadDiscardableImageData();
-        var source = SurfaceView.Of(BytePointer(FBits) + srcX + srcY * FPitch, FPitch);
+        var source = View.At(srcX + srcY * FPitch);
         var destination = sd.View(destX + destY * sd.Pitch);
         if (sd.PixelFormatID == pfPAL8)
             BltRect(source, destination, width, height);
@@ -3049,7 +3054,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
 
     internal int FTransparentColor;
     internal int FReserved;
-    internal Ptr<byte> FData;
+    internal byte[] FData;
     internal int FRLELeft;
     internal int FRLETop;
     internal int FRLEWidth;
@@ -3060,7 +3065,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     {
         if (FDataLoaded)
         {
-            FData = FData.Realloc(0);
+            FData = null;
             FDataLoaded = false;
         }
     }
@@ -3152,15 +3157,15 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     public override void ReadDiscardableImageData(TStream Stream)
     {
         base.ReadDiscardableImageData(Stream);
-        FData = FData.Realloc(FDataSize);
-        Stream.Read(FData.AsSpan(FDataSize));
+        FData = MemorySurfaces.Reallocate(FData, FDataSize);
+        Stream.Read(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:7590
     public override void WriteDiscardableImageData(TStream Stream)
     {
         base.WriteDiscardableImageData(Stream);
-        Stream.Write(FData.AsSpan(FDataSize));
+        Stream.Write(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:7596
@@ -3174,7 +3179,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == pfPAL8)
             {
-                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3187,7 +3192,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case pfRGB555:
                     case pfRGB565:
-                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
+                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw Exception.Create("PixelFormat not supported");
@@ -3203,7 +3208,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         {
             if (SD.PixelFormatID == pfPAL8)
             {
-                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ImageLibUnit.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3216,7 +3221,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case pfRGB555:
                     case pfRGB565:
-                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, BytePointer(FData), FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
+                        ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw Exception.Create("PixelFormat not supported");
@@ -3252,14 +3257,12 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         int Bottom;
         void AddByte(byte B)
         {
-            Ptr<byte> P = default;
             if (FDataSize <= Pos)
             {
-                FData = FData.Realloc(Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
-            P = (FData + Pos).Reinterpret<byte>();
-            P.Value = B;
+            FData[Pos] = B;
             Pos += 1;
         }
 
@@ -3295,11 +3298,10 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
             FlushTransparent();
             if (FDataSize <= Pos)
             {
-                FData = FData.Realloc(Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
-            ushort value__100 = (ushort)(Pos - LineStart);
-            MemoryMarshal.Write((FData + LineStart).AsSpan(2), in value__100);
+            BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(LineStart, 2), (ushort)(Pos - LineStart));
         }
 
         if (SD.BitCount == 8)
@@ -3351,7 +3353,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                         EndLine();
                     }
 
-                    FData = FData.Realloc(Pos);
+                    FData = MemorySurfaces.Reallocate(FData, Pos);
                     FDataSize = Pos;
                     CreateLibraryImagePalette(SD.Palette);
                 }
@@ -3433,7 +3435,8 @@ public partial class TImage16 : TLibraryImage, ILibraryImageClass
 }
 
 // (ClassID $10): an opaque 16 bit picture. FPitch (bytes per row, a multiple of 4, or of 8 from
-// 32 pixels on), FBuffer (the allocated memory), FData (FBuffer aligned to 8 bytes)
+// 32 pixels on), FBuffer (the rows from its first byte. The original's FData, FBuffer aligned to
+// 8 bytes, is FBuffer itself in the port)
 public partial class TPicture16 : TImage16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 16;
@@ -3445,8 +3448,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     { }
 
     internal int FPitch;
-    internal Ptr<byte> FBuffer;
-    internal object FData;
+    internal byte[] FBuffer;
+
+    // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
+    internal SurfaceView View => new(FBuffer, 0, FPitch);
 
     // ImageLib.pas:2206
     internal void AllocateDiscardableImageData(int AWidth, int AHeight)
@@ -3461,9 +3466,9 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
             FPitch = ((AWidth << 1) + 7) & ~7;
         }
 
+        // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         Size = FPitch * AHeight + 7;
-        FBuffer = FBuffer.Realloc(Size);
-        FData = AlignPointer(FBuffer + 7, ~7).Box();
+        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
     }
 
     // ImageLib.pas:2174
@@ -3520,7 +3525,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     {
         if (FDataLoaded)
         {
-            FBuffer = FBuffer.Realloc(0);
+            FBuffer = null;
             FDataLoaded = false;
         }
     }
@@ -3532,7 +3537,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
         AllocateDiscardableImageData(FDataWidth, FDataHeight);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
         {
-            Stream.Read((BytePointer(FData) + Y * FPitch).AsSpan(FDataWidth * 2));
+            Stream.Read(FBuffer.AsSpan(Y * FPitch, FDataWidth * 2));
         }
     }
 
@@ -3542,7 +3547,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
         base.WriteDiscardableImageData(Stream);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
         {
-            Stream.Write((BytePointer(FData) + Y * FPitch).AsSpan(FDataWidth * 2));
+            Stream.Write(FBuffer.AsSpan(Y * FPitch, FDataWidth * 2));
         }
     }
 
@@ -3556,10 +3561,6 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     public override bool GrabImage(in TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
     {
         bool Result;
-        Ptr<byte> S;
-        Ptr<ushort> D;
-        Ptr<GFXE.TPaletteEntry> P;
-        Ptr<byte> S24;
         try
         {
             Clear();
@@ -3579,14 +3580,12 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                         {
-                            S = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left).Reinterpret<byte>();
-                            D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
+                            var S = SD.View().Bytes((R.Top + Y) * SD.Pitch + R.Left, FWidth);
+                            var D = MemoryMarshal.Cast<byte, ushort>(FBuffer.AsSpan(FPitch * Y, FWidth * 2));
                             for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
                             {
-                                P = Ptr<GFXE.TPaletteEntry>.To(SD.Palette.Entries, S.Value);
-                                D.Value = (ushort)(((P.Value.R & 248) << 8) + ((P.Value.G & 252) << 3) + (int)(((uint)P.Value.B) >> 3));
-                                S += 1;
-                                D += 1;
+                                ref readonly var P = ref SD.Palette.Entries[S[X]];
+                                D[X] = (ushort)(((P.R & 248) << 8) + ((P.G & 252) << 3) + (int)(((uint)P.B) >> 3));
                             }
                         }
                     }
@@ -3598,7 +3597,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         for (int I = 0, last = FHeight - 1; I <= last; I++)
                         {
-                            Move((SD.Data + (R.Top + I) * SD.Pitch + R.Left * 2).AsSpan(FWidth * 2), (BytePointer(FData) + FPitch * I).AsSpan(FWidth * 2), FWidth * 2);
+                            SD.View().Bytes((R.Top + I) * SD.Pitch + R.Left * 2, FWidth * 2).CopyTo(FBuffer.AsSpan(FPitch * I, FWidth * 2));
                         }
                     }
 
@@ -3608,13 +3607,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
                         {
-                            D = (BytePointer(FData) + FPitch * Y).Reinterpret<ushort>();
-                            S24 = (SD.Data + (R.Top + Y) * SD.Pitch + R.Left * 3).Reinterpret<byte>();
+                            var D = MemoryMarshal.Cast<byte, ushort>(FBuffer.AsSpan(FPitch * Y, FWidth * 2));
+                            var S24 = SD.View().Bytes((R.Top + Y) * SD.Pitch + R.Left * 3, FWidth * 3);
                             for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
                             {
-                                D.Value = (ushort)(((S24[2] & 248) << 8) + ((S24[1] & 252) << 3) + (int)(((uint)S24[0]) >> 3));
-                                S24 = S24.Reinterpret<byte>() + 3;
-                                D += 1;
+                                D[X] = (ushort)(((S24[X * 3 + 2] & 248) << 8) + ((S24[X * 3 + 1] & 252) << 3) + (int)(((uint)S24[X * 3]) >> 3));
                             }
                         }
                     }
@@ -3646,11 +3643,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case pfRGB565:
-                    RemapSurface555to565(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FDataWidth, FDataHeight);
+                    RemapSurface555to565(View, View, FDataWidth, FDataHeight);
                     FPixelFormatID = pfRGB565;
                     break;
                 case pfRGB555:
-                    RemapSurface565to555(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FDataWidth, FDataHeight);
+                    RemapSurface565to555(View, View, FDataWidth, FDataHeight);
                     FPixelFormatID = pfRGB555;
                     break;
                 default:
@@ -3720,7 +3717,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -3743,7 +3740,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -3821,7 +3818,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -3874,7 +3871,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -3982,7 +3979,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -4019,7 +4016,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -4075,7 +4072,7 @@ public partial class TTransparentPicture16 : TPicture16, ILibraryImageClass
 }
 
 // (ClassID $16): a 16 bit picture with a transparent color, cut to the smallest rectangle
-// holding its opaque pixels. FPitch, FBuffer, FData (as TPicture16), FTransparentColor (in
+// holding its opaque pixels. FPitch, FBuffer (as TPicture16), FTransparentColor (in
 // FStoredPixelFormatID), FColorKey (the transparent color in FPixelFormatID), FSpriteX,
 // FSpriteY (of the pixels in the grabbed rectangle), FSpriteWidth, FSpriteHeight (of the
 // pixels)
@@ -4087,14 +4084,16 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TSprite16(owner);
 
     internal int FPitch;
-    internal Ptr<byte> FBuffer;
-    internal object FData;
+    internal byte[] FBuffer;
     internal int FTransparentColor;
     internal int FColorKey;
     internal int FSpriteX;
     internal int FSpriteY;
     internal int FSpriteWidth;
     internal int FSpriteHeight;
+
+    // The rows of the sprite: FBuffer from its first byte, FPitch bytes apart.
+    internal SurfaceView View => new(FBuffer, 0, FPitch);
 
     // ImageLib.pas:4302
     internal void AllocateDiscardableImageData(int AWidth, int AHeight)
@@ -4109,9 +4108,9 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
             FPitch = ((AWidth << 1) + 7) & ~7;
         }
 
+        // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         Size = FPitch * AHeight + 7;
-        FBuffer = FBuffer.Realloc(Size);
-        FData = AlignPointer(FBuffer + 7, ~7).Box();
+        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
     }
 
     // ImageLib.pas:4247
@@ -4183,7 +4182,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     {
         if (FDataLoaded)
         {
-            FBuffer = FBuffer.Realloc(0);
+            FBuffer = null;
             FDataLoaded = false;
         }
     }
@@ -4217,7 +4216,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
         AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
         for (int Y = 0, last = FSpriteHeight - 1; Y <= last; Y++)
         {
-            Stream.Read((BytePointer(FData) + Y * FPitch).AsSpan(FSpriteWidth * 2));
+            Stream.Read(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
         }
 
         FColorKey = FTransparentColor;
@@ -4229,7 +4228,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
         base.WriteDiscardableImageData(Stream);
         for (int Y = 0, last = FSpriteHeight - 1; Y <= last; Y++)
         {
-            Stream.Write((BytePointer(FData) + Y * FPitch).AsSpan(FSpriteWidth * 2));
+            Stream.Write(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
         }
     }
 
@@ -4242,12 +4241,12 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case pfRGB565:
-                    RemapSurface555to565(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FSpriteWidth, FSpriteHeight);
+                    RemapSurface555to565(View, View, FSpriteWidth, FSpriteHeight);
                     FColorKey = RemapPixelInfo(FColorKey, pfRGB555, null, pfRGB565, null);
                     FPixelFormatID = pfRGB565;
                     break;
                 case pfRGB555:
-                    RemapSurface565to555(SurfaceView.Of(BytePointer(FData), FPitch), SurfaceView.Of(BytePointer(FData), FPitch), FSpriteWidth, FSpriteHeight);
+                    RemapSurface565to555(View, View, FSpriteWidth, FSpriteHeight);
                     FColorKey = RemapPixelInfo(FColorKey, pfRGB565, null, pfRGB555, null);
                     FPixelFormatID = pfRGB555;
                     break;
@@ -4323,7 +4322,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -4346,7 +4345,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -4426,7 +4425,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 if (!FDataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -4465,7 +4464,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 }
                 else
                 {
-                    Src = SurfaceView.Of(BytePointer(FData) + SX * 2 + SY * FPitch, FPitch);
+                    Src = View.At(SX * 2 + SY * FPitch);
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
@@ -4581,7 +4580,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
                 for (int Y = Top; Y <= Bottom - 1; Y++)
                 {
-                    Move((LSD.Data + LSD.Pitch * Y + MR.Left * 2).AsSpan(FSpriteWidth * 2), (BytePointer(FData) + (Y - MR.Top) * FPitch).AsSpan(FSpriteWidth * 2), FSpriteWidth * 2);
+                    LSD.View().Bytes(LSD.Pitch * Y + MR.Left * 2, FSpriteWidth * 2).CopyTo(FBuffer.AsSpan((Y - MR.Top) * FPitch, FSpriteWidth * 2));
                 }
             }
             finally
@@ -4616,7 +4615,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite16(owner);
 
     internal int FColorKey;
-    internal Ptr<byte> FData;
+    internal byte[] FData;
     internal int FSpriteX;
     internal int FSpriteY;
     internal int FSpriteWidth;
@@ -4691,7 +4690,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     {
         if (FDataLoaded)
         {
-            FData = FData.Realloc(0);
+            FData = null;
             FDataLoaded = false;
         }
     }
@@ -4728,15 +4727,15 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     public override void ReadDiscardableImageData(TStream Stream)
     {
         base.ReadDiscardableImageData(Stream);
-        FData = FData.Realloc(FDataSize);
-        Stream.Read(FData.AsSpan(FDataSize));
+        FData = MemorySurfaces.Reallocate(FData, FDataSize);
+        Stream.Read(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:2980
     public override void WriteDiscardableImageData(TStream Stream)
     {
         base.WriteDiscardableImageData(Stream);
-        Stream.Write(FData.AsSpan(FDataSize));
+        Stream.Write(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:2986
@@ -4748,11 +4747,11 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case pfRGB565:
-                    ImageLibUnit.RemapRLE555to565(BytePointer(FData), FSpriteHeight, FColorKey);
+                    ImageLibUnit.RemapRLE555to565(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = pfRGB565;
                     break;
                 case pfRGB555:
-                    ImageLibUnit.RemapRLE565to555(BytePointer(FData), FSpriteHeight, FColorKey);
+                    ImageLibUnit.RemapRLE565to555(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = pfRGB555;
                     break;
                 default:
@@ -4775,7 +4774,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4784,7 +4783,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw Exception.Create("Surface pixel format not supported!");
                 }
 
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
 
             if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -4796,7 +4795,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         {
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4805,7 +4804,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw Exception.Create("Surface pixel format not supported!");
                 }
 
-                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
         }
     }
@@ -4825,10 +4824,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case pfRGB565:
-                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case pfRGB555:
-                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
 
@@ -4847,10 +4846,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case pfRGB565:
-                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case pfRGB555:
-                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, BytePointer(FData), FSpriteWidth, FSpriteHeight, FColorKey);
+                    ImageLibUnit.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
         }
@@ -4873,7 +4872,6 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         int RowStart;
         int Skip;
         TDataSurface Surface;
-        object Row;
         TSurfaceDesc LSD = default;
         TRect GR = default;
         TRect MR = default;
@@ -4882,12 +4880,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         {
             if (FDataSize <= Pos)
             {
-                FData = FData.Realloc(Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
-            ushort value__141 = W;
-            MemoryMarshal.Write((FData + Pos).AsSpan(2), in value__141);
-
+            BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(Pos, 2), W);
             Pos += 2;
         }
 
@@ -4913,11 +4909,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             FlushSkip();
             if (FDataSize <= Pos)
             {
-                FData = FData.Realloc(Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
-            ushort value__142 = (ushort)(Pos - RowStart);
-            MemoryMarshal.Write((FData + RowStart).AsSpan(2), in value__142);
+            BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(RowStart, 2), (ushort)(Pos - RowStart));
 
             if ((Pos & 3) != 0)
             {
@@ -4976,11 +4971,11 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                 FSpriteHeight = MR.Bottom - MR.Top;
                 for (int Y = MR.Top, last = MR.Bottom - 1; Y <= last; Y++)
                 {
-                    Row = (LSD.Data + LSD.Pitch * Y).Box();
+                    int Row = LSD.Pitch * Y;
                     StartRow();
                     for (int X = MR.Left, lastX = MR.Right - 1; X <= lastX; X++)
                     {
-                        C = MemoryMarshal.Read<ushort>((BytePointer(Row) + X + X).AsSpan(2));
+                        C = LSD.View().Word(Row + X + X);
                         if (C != FColorKey)
                         {
                             FlushSkip();
@@ -4995,7 +4990,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     EndRow();
                 }
 
-                FData = FData.Realloc(Pos);
+                FData = MemorySurfaces.Reallocate(FData, Pos);
                 FDataSize = Pos;
             }
             finally
@@ -5075,7 +5070,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
     { }
 
     internal int FPitch;
-    internal Ptr<byte> FMaskData;
+    internal byte[] FMaskData;
     internal int FMaskLeft;
     internal int FMaskTop;
     internal int FMaskWidth;
@@ -5154,7 +5149,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
     // ImageLib.pas:4721
     public override void ReleaseDiscardableImageData()
     {
-        FMaskData = FMaskData.Realloc(0);
+        FMaskData = null;
         FDataLoaded = false;
     }
 
@@ -5163,14 +5158,14 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
     {
         base.ReadDiscardableImageData(Stream);
         AllocateMaskData(FMaskWidth, FMaskHeight);
-        Stream.Read(FMaskData.AsSpan(FDataSize));
+        Stream.Read(FMaskData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:4734
     public override void WriteDiscardableImageData(TStream Stream)
     {
         base.WriteDiscardableImageData(Stream);
-        Stream.Write(FMaskData.AsSpan(FDataSize));
+        Stream.Write(FMaskData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:4740
@@ -5206,8 +5201,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
             BitCount += 1;
             if (BitCount == 32)
             {
-                int value__153 = Bits;
-                MemoryMarshal.Write((FMaskData + Offset).AsSpan(4), in value__153);
+                BinaryPrimitives.WriteInt32LittleEndian(FMaskData.AsSpan(Offset, 4), Bits);
 
                 Offset += 4;
                 BitCount = 0;
@@ -5218,8 +5212,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
         void FlushBits()
         {
             Bits = Bits << (32 - BitCount);
-            int value__154 = Bits;
-            MemoryMarshal.Write((FMaskData + Offset).AsSpan(4), in value__154);
+            BinaryPrimitives.WriteInt32LittleEndian(FMaskData.AsSpan(Offset, 4), Bits);
 
             Offset += 4;
             BitCount = 0;
@@ -5297,7 +5290,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
         FPitch = checked(((AWidth + 31) >> 5) * 4);
         FDataSize = checked(FPitch * FMaskHeight);
         // GrabImage flushes one extra zero dword after a full final word.
-        FMaskData = FMaskData.Realloc(checked(FDataSize + 4));
+        FMaskData = MemorySurfaces.Reallocate(FMaskData, checked(FDataSize + 4));
     }
 }
 

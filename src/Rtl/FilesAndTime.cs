@@ -13,6 +13,8 @@ public interface IFileSystem
 
     string ExtractRelativePath(string baseFile, string destination)
     {
+        // SysUtils: an empty base has no drive and no path, so the destination comes back unchanged.
+        if (baseFile.Length == 0) return destination;
         string first = ExpandPath(baseFile), second = ExpandPath(destination);
         if (!string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase)) return destination;
         return Path.GetRelativePath(Path.GetDirectoryName(first) ?? CurrentDirectory, second).Replace(Path.DirectorySeparatorChar, '\\');

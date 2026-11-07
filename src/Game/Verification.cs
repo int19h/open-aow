@@ -306,6 +306,8 @@ internal static class Verification
                 @"Scenario\Custom\", @"scenario\CUSTOM\"), "same directory is empty");
             Equal(@"..\Campaign\x.hsm", RtlUnit.ExtractRelativePath(
                 @"Scenario\Custom\base.hsm", @"Scenario\Campaign\x.hsm"), "shim relative path");
+            Equal(Path.Combine(root, "Images", "x.ilb"), RtlUnit.ExtractRelativePath(
+                "", Path.Combine(root, "Images", "x.ilb")), "empty base keeps the destination");
             var search = new TSearchRec();
             Equal(0, RtlUnit.FindFirst(@"Images\*.ilb", 0, ref search), "shim FindFirst");
             Equal("a.ilb", search.Name, "FindFirst order");

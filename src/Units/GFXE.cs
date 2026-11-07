@@ -1463,7 +1463,6 @@ public partial class TSurface : TObject
     {
         int Result = default;
         TSurfaceDesc SD = default;
-        Ptr<byte> P;
         int V;
         ushort W;
         byte Index;
@@ -1476,25 +1475,25 @@ public partial class TSurface : TObject
                 switch (SD.PixelFormatID)
                 {
                     case GFXEUnit.pfRGB555:
-                        W = MemoryMarshal.Read<ushort>((SD.Data + (X + X) + Y * SD.Pitch).AsSpan(2));
+                        W = SD.View().Word(X + X + Y * SD.Pitch);
                         Result = (int)(((uint)(W & 31744)) >> 7) + ((W & 992) << 6) + ((W & 31) << 19);
                         break;
                     case GFXEUnit.pfRGB565:
-                        W = MemoryMarshal.Read<ushort>((SD.Data + (X + X) + Y * SD.Pitch).AsSpan(2));
+                        W = SD.View().Word(X + X + Y * SD.Pitch);
                         Result = (int)(((uint)(W & 63488)) >> 8) + ((W & 2016) << 5) + ((W & 31) << 19);
                         break;
                     case GFXEUnit.pfPAL8:
                         Assert(SD.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
-                        Index = MemoryMarshal.Read<byte>((SD.Data + X + Y * SD.Pitch).AsSpan(1));
-                        P = Ptr<TPaletteEntry>.To(SD.Palette.Entries, Index).Reinterpret<byte>();
-                        Result = P[0] + (P[1] << 8) + (P[2] << 16);
+                        Index = SD.View().Byte(X + Y * SD.Pitch);
+                        ref readonly var E = ref SD.Palette.Entries[Index];
+                        Result = E.R + (E.G << 8) + (E.B << 16);
                         break;
                     case GFXEUnit.pfRGB24:
-                        P = Ptr<byte>.Unbox((SD.Data + (X + X + X) + Y * SD.Pitch).Box());
+                        var P = SD.View(X + X + X + Y * SD.Pitch);
                         Result = P[2] + (P[1] << 8) + (P[0] << 16);
                         break;
                     case GFXEUnit.pfRGB32:
-                        V = MemoryMarshal.Read<int>((SD.Data + (X << 2) + Y * SD.Pitch).AsSpan(4));
+                        V = (int)SD.View().Dword((X << 2) + Y * SD.Pitch);
                         Result = (int)(((uint)(V & 16711680)) >> 16) + (V & 65280) + ((V & 255) << 16);
                         break;
                     default:
@@ -1523,7 +1522,7 @@ public partial class TSurface : TObject
     {
         int Result = default;
         TSurfaceDesc SD = default;
-        object P;
+        int P;
         if (Succeeded(Lock(ref SD)))
         {
             try
@@ -1532,25 +1531,25 @@ public partial class TSurface : TObject
                 switch (SD.BitCount)
                 {
                     case 8:
-                        Result = MemoryMarshal.Read<byte>((SD.Data + X + Y * SD.Pitch).AsSpan(1));
+                        Result = SD.View().Byte(X + Y * SD.Pitch);
                         break;
                     case 16:
-                        Result = MemoryMarshal.Read<ushort>((SD.Data + (X + X) + Y * SD.Pitch).AsSpan(2));
+                        Result = SD.View().Word(X + X + Y * SD.Pitch);
                         break;
                     case 24:
                         if (X + 1 < SD.Width)
                         {
-                            Result = MemoryMarshal.Read<int>((SD.Data + (X + X + X) + Y * SD.Pitch).AsSpan(4)) & 16777215;
+                            Result = (int)SD.View().Dword(X + X + X + Y * SD.Pitch) & 16777215;
                         }
                         else
                         {
-                            P = (SD.Data + (X + X + X) + Y * SD.Pitch).Box();
-                            Result = MemoryMarshal.Read<ushort>(BytePointer(P).AsSpan(2)) + (MemoryMarshal.Read<byte>((BytePointer(P) + 2).AsSpan(1)) << 16);
+                            P = X + X + X + Y * SD.Pitch;
+                            Result = SD.View().Word(P) + (SD.View().Byte(P + 2) << 16);
                         }
 
                         break;
                     case 32:
-                        Result = MemoryMarshal.Read<int>((SD.Data + (X << 2) + Y * SD.Pitch).AsSpan(4));
+                        Result = (int)SD.View().Dword((X << 2) + Y * SD.Pitch);
                         break;
                     default:
                         Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11946);
@@ -2105,8 +2104,10 @@ public partial class TDataSurface : TSurface
             FHeight = AHeight;
             FPitch = ((int)(((uint)(FBitCount + 7)) >> 3) * FWidth + 7) & ~7;
             // The original allocates 7 bytes more and aligns FData to 8 for MMX. The alignment has
-            // no effect on pixels, so the port's data starts at the first byte of the array.
-            Size = FPitch * FHeight;
+            // no effect on pixels, so the port's data starts at the first byte of the array. The 7
+            // bytes stay after the last row: the 24-bit pixel readers read 4 bytes at the last
+            // pixel, which the original's slack absorbs.
+            Size = FPitch * FHeight + 7;
             FMem = MemorySurfaces.Reallocate(FMem, Size);
             FData = Ptr<byte>.To(FMem, 0);
             Result = GFXEUnit.GFXE_OK;
@@ -2571,11 +2572,12 @@ public partial class TDisplayModeList : TObject
 
 }
 
-// FBits, FTable
+// FBits, FTable (the bytes of the table, which the original addresses with a pointer into the
+// derived class's own field)
 public partial class TBlendTable : TObject
 {
     internal int FBits;
-    internal object FTable;
+    internal byte[] FTable;
 
     // GFXE.pas:741
     public virtual TBlendTable Copy()
@@ -2590,28 +2592,34 @@ public partial class TBlendTable : TObject
     }
 
     // GFXE.pas:9601
-    public void Initialize(int ABits, object ATable)
+    public void Initialize(int ABits, byte[] ATable)
     {
         FTable = ATable;
         FBits = ABits;
     }
 
     public int Bits { get => FBits; }
-    public object Table { get => FTable; }
+    public byte[] Table { get => FTable; }
 }
 
-// Table (32 x 32 bytes)
+// Table (32 x 32 bytes, row I at byte I * 32)
 public partial class TBlendTable5Bit : TBlendTable
 {
-    public new FixedArray_byte_32[] Table = new FixedArray_byte_32[32];
+    // The rows of the table, so Table[I][J] reads and writes the byte of `Table[I, J]`.
+    public readonly struct Rows(byte[] bytes)
+    {
+        public Span<byte> this[int I] => bytes.AsSpan(I * 32, 32);
+    }
+
+    public new Rows Table => new(FTable);
 
     // The 32 by 32 bytes of the table in one span, as the blenders read it.
-    public ReadOnlySpan<byte> Bytes => MemoryMarshal.AsBytes(Table.AsSpan());
+    public ReadOnlySpan<byte> Bytes => FTable;
 
     // GFXE.pas:9609
     public TBlendTable5Bit()
     {
-        Initialize(5, Ptr<FixedArray_byte_32>.To(Table, 0).Reinterpret<byte>().Box());
+        Initialize(5, new byte[32 * 32]);
     }
 
     // GFXE.pas:9621
@@ -3323,16 +3331,18 @@ public static partial class GFXEUnit
         switch (SD.BitCount)
         {
             case 8:
-                Result = MemoryMarshal.Read<byte>((SD.Data + X + SD.Pitch * Y).AsSpan(1));
+                Result = SD.View().Byte(X + SD.Pitch * Y);
                 break;
             case 16:
-                Result = MemoryMarshal.Read<ushort>((SD.Data + X + X + SD.Pitch * Y).AsSpan(2));
+                Result = SD.View().Word(X + X + SD.Pitch * Y);
                 break;
             case 24:
-                Result = MemoryMarshal.Read<int>((SD.Data + X * 3 + SD.Pitch * Y).AsSpan(4)) & 16777215;
+                // Four bytes at the last pixel of a row too, without the width test of
+                // TSurface.GetPixelInfo (GFXE.pas:2331, graphics.md 3.6).
+                Result = (int)SD.View().Dword(X * 3 + SD.Pitch * Y) & 16777215;
                 break;
             case 32:
-                Result = MemoryMarshal.Read<int>((SD.Data + X * 4 + SD.Pitch * Y).AsSpan(4));
+                Result = (int)SD.View().Dword(X * 4 + SD.Pitch * Y);
                 break;
             default:
                 throw Exception.Create("PixelFormat is not supported");
@@ -3465,29 +3475,29 @@ public static partial class GFXEUnit
         int GetPixel(int X, int Y)
         {
             int Result;
-            object P;
+            int P;
             switch (SD.BitCount)
             {
                 case 8:
-                    Result = MemoryMarshal.Read<byte>((SD.Data + X + SD.Pitch * Y).AsSpan(1));
+                    Result = SD.View().Byte(X + SD.Pitch * Y);
                     break;
                 case 16:
-                    Result = MemoryMarshal.Read<ushort>((SD.Data + X + X + SD.Pitch * Y).AsSpan(2));
+                    Result = SD.View().Word(X + X + SD.Pitch * Y);
                     break;
                 case 24:
                     if (X + 1 < SD.Width)
                     {
-                        Result = MemoryMarshal.Read<int>((SD.Data + (X + X + X) + SD.Pitch * Y).AsSpan(4)) & 16777215;
+                        Result = (int)SD.View().Dword(X + X + X + SD.Pitch * Y) & 16777215;
                     }
                     else
                     {
-                        P = (SD.Data + (X + X + X) + SD.Pitch * Y).Box();
-                        Result = MemoryMarshal.Read<ushort>(BytePointer(P).AsSpan(2)) + (MemoryMarshal.Read<byte>((BytePointer(P) + 2).AsSpan(1)) << 16);
+                        P = X + X + X + SD.Pitch * Y;
+                        Result = SD.View().Word(P) + (SD.View().Byte(P + 2) << 16);
                     }
 
                     break;
                 case 32:
-                    Result = MemoryMarshal.Read<int>((SD.Data + (X << 2) + SD.Pitch * Y).AsSpan(4));
+                    Result = (int)SD.View().Dword((X << 2) + SD.Pitch * Y);
                     break;
                 default:
                     throw Exception.Create("PixelFormat is not supported");
@@ -3590,16 +3600,17 @@ public static partial class GFXEUnit
             switch (SD__value.BitCount)
             {
                 case 8:
-                    Result = MemoryMarshal.Read<byte>((SD__value.Data + X + SD__value.Pitch * Y).AsSpan(1));
+                    Result = SD__value.View().Byte(X + SD__value.Pitch * Y);
                     break;
                 case 16:
-                    Result = MemoryMarshal.Read<ushort>((SD__value.Data + X + X + SD__value.Pitch * Y).AsSpan(2));
+                    Result = SD__value.View().Word(X + X + SD__value.Pitch * Y);
                     break;
                 case 24:
-                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 3 + SD__value.Pitch * Y).AsSpan(4)) & 16777215;
+                    // Four bytes at the last pixel of a row too, as GFXEUnit.GetPixelInfo.
+                    Result = (int)SD__value.View().Dword(X * 3 + SD__value.Pitch * Y) & 16777215;
                     break;
                 case 32:
-                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 4 + SD__value.Pitch * Y).AsSpan(4));
+                    Result = (int)SD__value.View().Dword(X * 4 + SD__value.Pitch * Y);
                     break;
                 default:
                     throw Exception.Create("PixelFormat is not supported");
@@ -3690,16 +3701,17 @@ public static partial class GFXEUnit
             switch (SD__value.BitCount)
             {
                 case 8:
-                    Result = MemoryMarshal.Read<byte>((SD__value.Data + X + SD__value.Pitch * Y).AsSpan(1));
+                    Result = SD__value.View().Byte(X + SD__value.Pitch * Y);
                     break;
                 case 16:
-                    Result = MemoryMarshal.Read<ushort>((SD__value.Data + X + X + SD__value.Pitch * Y).AsSpan(2));
+                    Result = SD__value.View().Word(X + X + SD__value.Pitch * Y);
                     break;
                 case 24:
-                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 3 + SD__value.Pitch * Y).AsSpan(4)) & 16777215;
+                    // Four bytes at the last pixel of a row too, as GFXEUnit.GetPixelInfo.
+                    Result = (int)SD__value.View().Dword(X * 3 + SD__value.Pitch * Y) & 16777215;
                     break;
                 case 32:
-                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 4 + SD__value.Pitch * Y).AsSpan(4));
+                    Result = (int)SD__value.View().Dword(X * 4 + SD__value.Pitch * Y);
                     break;
                 default:
                     throw Exception.Create("PixelFormat is not supported");

@@ -6,6 +6,19 @@ namespace Aow.Rtl.Tests;
 
 public sealed class FilesAndStreamsTests
 {
+    // SysUtils.ExtractRelativePath compares the drives of the two paths first. An empty base has
+    // none, so the destination comes back unchanged on any drive and from any current directory.
+    [Fact]
+    public void AnEmptyBaseKeepsTheDestination()
+    {
+        IFileSystem files = new SystemIoFileSystem();
+        string current = Directory.GetCurrentDirectory();
+        string sameDrive = Path.Combine(Path.GetPathRoot(current)!, "Games", "x.ilb");
+        Assert.Equal(sameDrive, files.ExtractRelativePath("", sameDrive));
+        Assert.Equal(@"Images\x.ilb", files.ExtractRelativePath("", @"Images\x.ilb"));
+        Assert.Equal(@"Images\x.ilb", files.ExtractRelativePath(Path.Combine(current, "base") + Path.DirectorySeparatorChar, Path.Combine(current, "base", "Images", "x.ilb")));
+    }
+
     [Fact]
     public void FileOperationsUseReplaceableSystemIoDefault()
     {

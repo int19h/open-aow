@@ -43,8 +43,6 @@ public sealed class TApplication
 
 public static partial class RtlUnit
 {
-    public static object AllocMem(uint count) => Ptr<byte>.Alloc(checked((int)count)).Box();
-
     public static T? RebindDelegate<T>(Delegate? value) where T : Delegate
     {
         if (value is null) return null;
